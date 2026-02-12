@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stephen Stanwood — stanwood.dev</title>
+    <meta name="description" content="Projects I'm tinkering with. :)" />
+    <meta property="og:title" content="Stephen Stanwood — stanwood.dev" />
+    <meta property="og:description" content="Projects I'm tinkering with." />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Tailwind config tweaks (optional)
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-neutral-50 text-neutral-900 antialiased">
+    <header class="max-w-3xl mx-auto px-6 pt-12 pb-6">
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Stephen Stanwood</h1>
+      <p class="mt-2 text-neutral-600">My recent experiments 🎉</p>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 pb-20">
+      <section class="space-y-4">
+        <!-- Project card: WTWTW -->
+        <a href="/wtwtw" class="block rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-lg sm:text-xl font-semibold">WTWTW <span class="text-sm font-medium text-neutral-500">(What To Watch This Week)</span></h2>
+              <p class="mt-1 text-neutral-600">
+                Too many sports options? Let's fix that. 😎
+              </p>
+            </div>
+            <div class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-neutral-100 text-neutral-700">Web App</div>
+          </div>
+        </a>
+
+        <!-- Add more projects by duplicating the block above -->
+      </section>
+
+      <!-- Footer -->
+      <footer style="text-align: center; margin-top: 3rem; padding: 1rem; font-size: 0.9rem; color: #666;">
+  <p>
+    <a href="https://github.com/stephenstanwood" target="_blank" style="color: inherit; text-decoration: none; margin: 0 0.5rem;">
+      GitHub
+    </a>
+    |
+    <a href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" style="color: inherit; text-decoration: none; margin: 0 0.5rem;">
+      Midjourney
+    </a>
+  </p>
+</footer>
+    </main>
+</html>
