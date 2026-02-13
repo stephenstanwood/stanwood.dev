@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/wtwtw", "destination": "https://wtwtw.vercel.app" },
-    { "source": "/wtwtw/(.*)", "destination": "https://wtwtw.vercel.app/$1" }
-  ]
-}
