@@ -84,8 +84,6 @@ function SetItem({ item, unit }) {
   let timingLabel = "";
   if (item.intervalDisplay) {
     timingLabel = `@ ${item.intervalDisplay}`;
-  } else if (item.restDisplay && item.rest > 0) {
-    timingLabel = `+ ${item.restDisplay} rest`;
   }
 
   return (
@@ -209,7 +207,6 @@ function PrintSetLine({ item, unit }) {
   const dist = `${item.distance}${unit}`;
   let timing = "";
   if (item.intervalDisplay) timing = `@ ${item.intervalDisplay}`;
-  else if (item.restDisplay && item.rest > 0) timing = `+ ${item.restDisplay} rest`;
   const equip = item.equipment ? ` [${item.equipment}]` : "";
 
   return (
@@ -224,8 +221,8 @@ function PrintSetLine({ item, unit }) {
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export default function SwimWorkout() {
-  const [unit, setUnit] = useState("yards");
-  const [duration, setDuration] = useState(60);
+  const [unit, setUnit] = useState("meters");
+  const [duration, setDuration] = useState(120);
   const [pace, setPace] = useState("1:20");
   const [workout, setWorkout] = useState(null);
   const [animating, setAnimating] = useState(false);
@@ -285,7 +282,7 @@ export default function SwimWorkout() {
                     : "text-slate-500 hover:text-slate-700"
                 }`}
               >
-                {u === "yards" ? "Yards (SCY)" : "Meters (SCM)"}
+                {u === "yards" ? "Yards (SCY)" : "Meters (LCM)"}
               </button>
             ))}
           </div>
