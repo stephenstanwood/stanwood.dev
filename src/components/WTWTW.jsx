@@ -4,6 +4,7 @@ const PT_TZ = "America/Los_Angeles";
 
 const PRIORITY = [
   { key: "steelers", label: "Steelers", league: "football/nfl", color: "#FFB81C", textColor: "#FFB81C" },
+  { key: "michigan", label: "Michigan", league: "basketball/mens-college-basketball", color: "#FFCB05", textColor: "#FFCB05" },
   { key: "warriors", label: "Warriors", league: "basketball/nba", color: "#1D428A", textColor: "#6B9BFF" },
   { key: "valkyries", label: "Valkyries", league: "basketball/wnba", color: "#702F8A", textColor: "#C085E0" },
   { key: "cubs", label: "Cubs", league: "baseball/mlb", color: "#CC3433", textColor: "#FF6B6B" },
@@ -17,6 +18,8 @@ function teamMatcher(priorityKey, league) {
 
     if (priorityKey === "steelers" && league.includes("football/nfl"))
       return name.includes("steelers") || abbr === "PIT";
+    if (priorityKey === "michigan" && league.includes("basketball/mens-college-basketball"))
+      return name.includes("wolverines") || name.includes("michigan") || abbr === "MICH";
     if (priorityKey === "warriors" && league.includes("basketball/nba"))
       return name.includes("warriors") || abbr === "GS" || abbr === "GSW";
     if (priorityKey === "valkyries" && league.includes("basketball/wnba"))
