@@ -96,6 +96,17 @@ const title = "TL;DR — stanwood.dev";
       .dot-3 { animation: dotPulse 1.4s ease-in-out 0.4s infinite; }
 
       .mono { font-family: 'JetBrains Mono', monospace; }
+
+      /* typewriter title */
+      .typewriter-title {
+        display: inline;
+      }
+      .typewriter-title .char {
+        opacity: 0;
+      }
+      .typewriter-title .char.visible {
+        opacity: 1;
+      }
     </style>
   </head>
 
@@ -114,7 +125,7 @@ const title = "TL;DR — stanwood.dev";
       <!-- Header -->
       <header class="mt-10">
         <h1 class="text-5xl font-bold tracking-tight text-white mono">
-          TLDR<span class="terminal-cursor"></span>
+          <span id="typewriter" class="typewriter-title"><span class="char">T</span><span class="char">L</span><span class="char">D</span><span class="char">R</span></span><span id="cursor" class="terminal-cursor"></span>
         </h1>
         <p class="mt-4 text-[#71717A] leading-relaxed max-w-lg">
           You got a long PDF and you don't want to read it. Same.
@@ -197,6 +208,21 @@ const title = "TL;DR — stanwood.dev";
     </main>
 
     <script>
+      // Typewriter animation
+      (() => {
+        const chars = document.querySelectorAll<HTMLSpanElement>('#typewriter .char');
+        const cursor = document.getElementById('cursor')!;
+        let i = 0;
+        function typeNext() {
+          if (i < chars.length) {
+            chars[i].classList.add('visible');
+            i++;
+            setTimeout(typeNext, 150);
+          }
+        }
+        setTimeout(typeNext, 400);
+      })();
+
       const dropZone = document.getElementById("dropZone")!;
       const fileInput = document.getElementById("fileInput") as HTMLInputElement;
       const uploadPrompt = document.getElementById("uploadPrompt")!;
