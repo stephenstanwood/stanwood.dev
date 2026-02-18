@@ -71,43 +71,41 @@ const title = "Lap Lab — stanwood.dev";
   </head>
 
   <body class="bg-slate-50 text-slate-900 antialiased">
-    <!-- Dark gradient header -->
-    <div style="background: linear-gradient(to bottom, #1a1a2e 0%, #f5f5f5 35%);">
-      <div class="mx-auto max-w-2xl px-6 pt-12 pb-8">
-        <!-- Nav -->
-        <div class="flex items-center">
-          <a
-            href="/"
-            class="text-sm font-semibold text-white/60 hover:text-white transition-colors"
-          >
-            &larr; Home
-          </a>
-        </div>
+    <!-- Retro chevron band across the top -->
+    <div class="chevron-band text-teal-400"></div>
 
-        <!-- Header -->
-        <header class="mt-10">
-          <div class="flex items-center gap-3">
-            <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg shadow-teal-200/50">
-              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-              </svg>
-            </div>
-            <div>
-              <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-                Lap Lab
-              </h1>
-              <p class="text-white/50 text-sm font-medium -mt-0.5">swim workout generator</p>
-            </div>
-          </div>
-          <p class="mt-4 text-white/60 leading-relaxed">
-            Pick your duration, pace, and pool type. We'll build you a workout with a warmup, main set, and cooldown.
-            Don't love it? Shuffle until you do.
-          </p>
-        </header>
+    <main class="mx-auto max-w-2xl px-6 pt-12 pb-24 print:hidden">
+      <!-- Nav -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-sm font-semibold text-slate-400 hover:text-slate-900 transition-colors"
+        >
+          &larr; Home
+        </a>
       </div>
-    </div>
 
-    <main class="mx-auto max-w-2xl px-6 pb-24 print:hidden">
+      <!-- Header -->
+      <header class="mt-10">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg shadow-teal-200/50">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              Lap Lab
+            </h1>
+            <p class="text-slate-400 text-sm font-medium -mt-0.5">swim workout generator</p>
+          </div>
+        </div>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Pick your duration, pace, and pool type. We'll build you a workout with a warmup, main set, and cooldown.
+          Don't love it? Shuffle until you do.
+        </p>
+      </header>
+
       <!-- App -->
       <SwimWorkout client:load />
     </main>
