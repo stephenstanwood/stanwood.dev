@@ -608,7 +608,7 @@ const title = "NBA Now — stanwood.dev";
         const dayLabel = getGameDayLabel(events);
 
         if (liveGames.length === 0) {
-          content.innerHTML = renderNoGames(events) + renderRankedGames(events, dayLabel);
+          content.innerHTML = renderNoGames(events) + renderRankedGames(events, dayLabel + ", Ranked");
           return;
         }
 
