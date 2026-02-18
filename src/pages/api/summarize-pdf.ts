@@ -9,18 +9,15 @@ const client = new Anthropic({
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const formData = await request.formData();
-    const file = formData.get("pdf") as File | null;
+    const body = await request.json();
+    const base64 = body.pdf as string | undefined;
 
-    if (!file || file.type !== "application/pdf") {
+    if (!base64) {
       return new Response(JSON.stringify({ error: "Please upload a PDF file" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
-
-    const bytes = await file.arrayBuffer();
-    const base64 = Buffer.from(bytes).toString("base64");
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-5-20250929",
