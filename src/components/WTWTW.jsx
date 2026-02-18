@@ -19,7 +19,7 @@ function teamMatcher(priorityKey, league) {
     if (priorityKey === "steelers" && league.includes("football/nfl"))
       return name.includes("steelers") || abbr === "PIT";
     if (priorityKey === "michigan" && league.includes("basketball/mens-college-basketball"))
-      return name.includes("wolverines") || name.includes("michigan") || abbr === "MICH";
+      return name === "michigan wolverines" || abbr === "MICH";
     if (priorityKey === "warriors" && league.includes("basketball/nba"))
       return name.includes("warriors") || abbr === "GS" || abbr === "GSW";
     if (priorityKey === "valkyries" && league.includes("basketball/wnba"))
