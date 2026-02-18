@@ -126,53 +126,6 @@ const title = "TL;DR — stanwood.dev";
         width: 0%;
       }
 
-      /* summary text formatting */
-      .summary-content {
-        text-align: justify;
-        hyphens: auto;
-        -webkit-hyphens: auto;
-      }
-      .summary-content ul {
-        list-style: none;
-        padding: 0;
-        margin: 0.75rem 0 0 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .summary-content li {
-        position: relative;
-        padding-left: 1.25rem;
-        line-height: 1.6;
-      }
-      .summary-content li::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0.6em;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #4ADE80;
-      }
-      .summary-content strong {
-        color: #fff;
-        font-weight: 600;
-      }
-      .summary-content em {
-        color: #A1A1AA;
-        font-style: italic;
-      }
-      .summary-content p {
-        margin: 0;
-      }
-      .summary-content p + p {
-        margin-top: 0.5rem;
-      }
-      .summary-content p + ul,
-      .summary-content ul + p {
-        margin-top: 0.5rem;
-      }
     </style>
   </head>
 
@@ -253,7 +206,7 @@ const title = "TL;DR — stanwood.dev";
                 copy
               </button>
             </div>
-            <div id="summaryText" class="summary-content text-base leading-relaxed text-[#E4E4E7]"></div>
+            <p id="summaryText" class="text-base leading-relaxed text-[#E4E4E7]"></p>
           </div>
         </div>
       </section>
@@ -364,58 +317,6 @@ const title = "TL;DR — stanwood.dev";
         }
       }
 
-      /** Convert markdown-like summary text into proper HTML */
-      function inlineMarkdown(text: string): string {
-        // Bold: **text**
-        text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-        // Italic: *text* (but not inside <strong> tags — already handled)
-        text = text.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "<em>$1</em>");
-        return text;
-      }
-
-      function formatSummary(raw: string): string {
-        const lines = raw.split(/\n/);
-        const listPattern = /^\s*(?:[-•]|\d+[.)]\s)/;
-
-        let html = "";
-        let inList = false;
-        let proseParts: string[] = [];
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-
-          if (listPattern.test(trimmed)) {
-            // Flush prose
-            if (proseParts.length) {
-              html += `<p>${inlineMarkdown(proseParts.join(" "))}</p>`;
-              proseParts = [];
-            }
-            if (!inList) {
-              html += "<ul>";
-              inList = true;
-            }
-            const itemText = trimmed.replace(/^\s*(?:[-•]|\d+[.)]\s*)\s*/, "");
-            html += `<li>${inlineMarkdown(itemText)}</li>`;
-          } else {
-            if (inList) {
-              html += "</ul>";
-              inList = false;
-            }
-            proseParts.push(trimmed);
-          }
-        }
-
-        // Close any open list
-        if (inList) html += "</ul>";
-        if (proseParts.length) html += `<p>${inlineMarkdown(proseParts.join(" "))}</p>`;
-
-        // If no HTML was generated (single paragraph, no lists) just wrap in <p>
-        if (!html) html = `<p>${inlineMarkdown(raw)}</p>`;
-
-        return html;
-      }
-
       function fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -471,7 +372,7 @@ const title = "TL;DR — stanwood.dev";
           card.classList.remove("fade-in");
           void (card as HTMLElement).offsetWidth;
           card.classList.add("fade-in");
-          summaryText.innerHTML = formatSummary(data.summary);
+          summaryText.textContent = data.summary;
 
           // Move drop zone below the result and make it compact
           resultSection.after(uploadSection);
