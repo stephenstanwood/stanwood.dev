@@ -3,11 +3,12 @@ import { useEffect, useMemo, useState } from "react";
 const PT_TZ = "America/Los_Angeles";
 
 const PRIORITY = [
-  { key: "steelers", label: "Steelers (NFL)", league: "football/nfl" },
-  { key: "warriors", label: "Warriors (NBA)", league: "basketball/nba" },
-  { key: "valkyries", label: "Valkyries (WNBA)", league: "basketball/wnba" },
-  { key: "cubs", label: "Cubs (MLB)", league: "baseball/mlb" },
-  { key: "giants", label: "Giants (MLB)", league: "baseball/mlb" },
+  { key: "steelers", label: "Steelers", league: "football/nfl", color: "#FFB81C", textColor: "#FFB81C" },
+  { key: "michigan", label: "Michigan", league: "basketball/mens-college-basketball", color: "#FFCB05", textColor: "#FFCB05" },
+  { key: "warriors", label: "Warriors", league: "basketball/nba", color: "#1D428A", textColor: "#6B9BFF" },
+  { key: "valkyries", label: "Valkyries", league: "basketball/wnba", color: "#702F8A", textColor: "#C085E0" },
+  { key: "cubs", label: "Cubs", league: "baseball/mlb", color: "#CC3433", textColor: "#FF6B6B" },
+  { key: "giants", label: "Giants", league: "baseball/mlb", color: "#FD5A1E", textColor: "#FD5A1E" },
 ];
 
 function teamMatcher(priorityKey, league) {
@@ -17,6 +18,8 @@ function teamMatcher(priorityKey, league) {
 
     if (priorityKey === "steelers" && league.includes("football/nfl"))
       return name.includes("steelers") || abbr === "PIT";
+    if (priorityKey === "michigan" && league.includes("basketball/mens-college-basketball"))
+      return name === "michigan wolverines" || abbr === "MICH";
     if (priorityKey === "warriors" && league.includes("basketball/nba"))
       return name.includes("warriors") || abbr === "GS" || abbr === "GSW";
     if (priorityKey === "valkyries" && league.includes("basketball/wnba"))
@@ -155,40 +158,87 @@ export default function WTWTW() {
   }, [days]);
 
   return (
-    <div className="mt-6 grid gap-4">
+    <div className="mt-8 grid gap-4">
       {loading && (
-        <div className="animate-pulse rounded-2xl border border-neutral-200 bg-white p-5 text-neutral-500">
+        <div
+          className="animate-pulse rounded-2xl p-5 text-white/40"
+          style={{
+            background: "#111D32",
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: "0.875rem",
+          }}
+        >
           Loading schedules...
         </div>
       )}
       {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-700">
+        <div
+          className="rounded-2xl p-5 text-sm"
+          style={{ background: "rgba(204, 52, 51, 0.15)", color: "#FF6B6B", borderLeft: "4px solid #CC3433" }}
+        >
           {error}
         </div>
       )}
       {picks.map(({ day, pick }) => (
         <div
           key={day.yyyymmdd}
-          className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"
+          className="rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px]"
+          style={{
+            background: pick ? "#111D32" : "#0f1a2e",
+            borderLeft: pick ? `4px solid ${pick.pri.color}` : "4px solid #1a2744",
+            boxShadow: pick ? `0 4px 20px ${pick.pri.color}10` : "none",
+          }}
         >
-          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-400">
+          <div
+            className="text-sm font-bold uppercase tracking-widest"
+            style={{
+              fontFamily: "'Oswald', sans-serif",
+              color: pick ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.25)",
+              fontSize: "0.8rem",
+              letterSpacing: "0.15em",
+            }}
+          >
             {day.label}
           </div>
           {pick ? (
-            <div className="mt-2">
-              <div className="text-lg font-semibold text-neutral-900">
+            <div className="mt-3">
+              <div
+                className="text-xl font-bold text-white"
+                style={{ fontFamily: "'Oswald', sans-serif" }}
+              >
                 {pick.event?.name || "Game"}
               </div>
-              <div className="mt-1 text-sm text-neutral-600">
-                {formatPT(pick.event?.date)} PT
-              </div>
-              <div className="mt-2 inline-block rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-600">
-                {pick.pri.label}
+              <div className="mt-2 flex items-center gap-3">
+                <span
+                  className="text-sm font-medium"
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: "rgba(255,255,255,0.5)",
+                  }}
+                >
+                  {formatPT(pick.event?.date)} PT
+                </span>
+                <span
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{
+                    backgroundColor: `${pick.pri.color}20`,
+                    color: pick.pri.textColor,
+                  }}
+                >
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: pick.pri.color }}
+                  />
+                  {pick.pri.label}
+                </span>
               </div>
             </div>
           ) : (
-            <div className="mt-2 text-sm text-neutral-500">
-              Nothing in the 5-8pm PT window.
+            <div
+              className="mt-2 text-sm"
+              style={{ color: "rgba(255,255,255,0.2)" }}
+            >
+              Nothing in the 5&ndash;8 PM window.
             </div>
           )}
         </div>

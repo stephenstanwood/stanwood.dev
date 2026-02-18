@@ -15,11 +15,16 @@ const title = "Idea Shuffler — stanwood.dev";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <style>
-      body { font-family: 'Inter', system-ui, sans-serif; }
+      body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background-color: #FFF8F0;
+        background-image: radial-gradient(circle, #e0d5c8 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
 
       /* ---- Rolodex card ---- */
       .rolodex-wrapper {
@@ -30,10 +35,11 @@ const title = "Idea Shuffler — stanwood.dev";
         cursor: pointer;
         user-select: none;
         transform-origin: center center;
-        transition: box-shadow 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s;
       }
       .rolodex-card:hover {
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        transform: rotate(-1deg) scale(1.01);
+        box-shadow: 8px 8px 0 #222;
       }
 
       /* Flip down (next) */
@@ -54,6 +60,16 @@ const title = "Idea Shuffler — stanwood.dev";
       .rolodex-card.flip-down { animation: flipDown 0.4s ease-in-out; }
       .rolodex-card.flip-up   { animation: flipUp   0.4s ease-in-out; }
 
+      /* wobble on land */
+      @keyframes wobble {
+        0%   { transform: rotate(0deg); }
+        25%  { transform: rotate(1.5deg); }
+        50%  { transform: rotate(-1deg); }
+        75%  { transform: rotate(0.5deg); }
+        100% { transform: rotate(0deg); }
+      }
+      .rolodex-card.wobble { animation: wobble 0.35s ease-out; }
+
       /* nav arrow buttons */
       .nav-btn { transition: all 0.15s; }
       .nav-btn:active { transform: scale(0.9); }
@@ -70,16 +86,23 @@ const title = "Idea Shuffler — stanwood.dev";
       .manage-body > div {
         overflow: hidden;
       }
+
+      /* counter pill */
+      .counter-pill {
+        background: #FFF8F0;
+        border: 2px solid #222;
+        font-variant-numeric: tabular-nums;
+      }
     </style>
   </head>
 
-  <body class="bg-neutral-50 text-neutral-900 antialiased">
+  <body class="text-[#1a1a1a] antialiased">
     <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a
           href="/"
-          class="text-sm font-semibold text-neutral-400 hover:text-neutral-900 transition-colors"
+          class="text-sm font-semibold text-[#1a1a1a]/40 hover:text-[#1a1a1a] transition-colors"
         >
           &larr; Home
         </a>
@@ -87,11 +110,11 @@ const title = "Idea Shuffler — stanwood.dev";
 
       <!-- Header -->
       <header class="mt-10">
-        <h1 class="text-4xl font-extrabold tracking-tight text-neutral-900">
+        <h1 class="text-5xl font-bold tracking-tight text-[#1a1a1a]">
           Idea Shuffler
         </h1>
-        <p class="mt-2 text-neutral-500">
-          Tap to browse. No ranking, no order.
+        <p class="mt-2 text-[#1a1a1a]/50 text-lg">
+          No ranking. No order. Just vibes.
         </p>
       </header>
 
@@ -100,13 +123,13 @@ const title = "Idea Shuffler — stanwood.dev";
         <div class="rolodex-wrapper">
           <div
             id="shuffleCard"
-            class="rolodex-card rounded-3xl border border-neutral-200 bg-white shadow-sm"
+            class="rolodex-card rounded-2xl border-3 border-[#222] bg-white shadow-[4px_4px_0_#222]"
           >
             <div class="px-10 py-16">
               <div class="text-center min-h-[4.5rem] flex items-center justify-center">
                 <p
                   id="idea"
-                  class="text-2xl sm:text-3xl font-semibold leading-snug tracking-tight text-neutral-900"
+                  class="text-2xl sm:text-3xl font-bold leading-snug tracking-tight text-[#1a1a1a]"
                 >
                   Add a few ideas to get started.
                 </p>
@@ -115,25 +138,28 @@ const title = "Idea Shuffler — stanwood.dev";
           </div>
         </div>
 
-        <!-- Nav arrows -->
-        <div class="mt-4 flex justify-center gap-3">
+        <!-- Counter + Nav arrows -->
+        <div class="mt-5 flex items-center justify-center gap-3">
           <button
             id="up"
-            class="nav-btn h-10 w-10 rounded-full border border-neutral-200 bg-white text-sm font-semibold text-neutral-500 shadow-sm hover:bg-neutral-100 hover:text-neutral-900"
+            class="nav-btn h-11 w-11 rounded-full border-2 border-[#222] bg-[#FF6154] text-white text-lg font-bold shadow-[2px_2px_0_#222] hover:shadow-[3px_3px_0_#222] hover:translate-x-[-1px] hover:translate-y-[-1px]"
             aria-label="Previous idea"
           >
             &uarr;
           </button>
+          <div id="counterPill" class="counter-pill rounded-full px-4 py-1.5 text-sm font-semibold text-[#1a1a1a]">
+            0 of 0
+          </div>
           <button
             id="down"
-            class="nav-btn h-10 w-10 rounded-full border border-neutral-200 bg-white text-sm font-semibold text-neutral-500 shadow-sm hover:bg-neutral-100 hover:text-neutral-900"
+            class="nav-btn h-11 w-11 rounded-full border-2 border-[#222] bg-[#FF6154] text-white text-lg font-bold shadow-[2px_2px_0_#222] hover:shadow-[3px_3px_0_#222] hover:translate-x-[-1px] hover:translate-y-[-1px]"
             aria-label="Next idea"
           >
             &darr;
           </button>
         </div>
 
-        <p class="mt-3 text-center text-xs text-neutral-400">
+        <p class="mt-3 text-center text-xs text-[#1a1a1a]/35">
           Click the card, use arrows, or scroll.
         </p>
       </section>
@@ -142,16 +168,16 @@ const title = "Idea Shuffler — stanwood.dev";
       <section class="mt-14">
         <button
           id="toggleManage"
-          class="flex w-full items-center justify-between rounded-xl px-1 py-2 text-left transition-colors hover:bg-neutral-100"
+          class="flex w-full items-center justify-between rounded-xl border-2 border-[#222] bg-[#FFD93D] px-4 py-3 text-left shadow-[2px_2px_0_#222] transition-all hover:shadow-[3px_3px_0_#222] hover:translate-x-[-1px] hover:translate-y-[-1px]"
         >
-          <span class="text-sm font-semibold text-neutral-500">
+          <span class="text-sm font-bold text-[#1a1a1a]">
             Manage ideas
-            <span id="listCount" class="ml-1 text-neutral-400">(0)</span>
+            <span id="listCount" class="ml-1 text-[#1a1a1a]/60">(0)</span>
           </span>
           <svg
             id="chevron"
-            class="h-4 w-4 text-neutral-400 transition-transform duration-300"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            class="h-4 w-4 text-[#1a1a1a] transition-transform duration-300"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
@@ -160,17 +186,17 @@ const title = "Idea Shuffler — stanwood.dev";
         <div id="manageBody" class="manage-body">
           <div>
             <!-- Add idea -->
-            <div class="mt-3 flex gap-3">
+            <div class="mt-4 flex gap-3">
               <textarea
                 id="newIdea"
-                class="flex-1 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-neutral-400 focus:ring-2 focus:ring-neutral-100 transition-colors"
-                placeholder="Type or paste an idea here. Long descriptions get auto-condensed!"
+                class="flex-1 rounded-xl border-2 border-dashed border-[#222]/30 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-[#FF6154] focus:border-solid transition-colors placeholder:text-[#1a1a1a]/30"
+                placeholder="Type or paste an idea here..."
                 rows="2"
                 spellcheck="false"
               ></textarea>
               <button
                 id="addSave"
-                class="shrink-0 self-end rounded-xl bg-neutral-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-neutral-800 transition-colors disabled:opacity-40"
+                class="shrink-0 self-end rounded-xl border-2 border-[#222] bg-[#1a1a1a] px-5 py-3 text-sm font-bold text-white shadow-[2px_2px_0_#FF6154] hover:shadow-[3px_3px_0_#FF6154] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all disabled:opacity-40"
               >
                 Add
               </button>
@@ -186,7 +212,7 @@ const title = "Idea Shuffler — stanwood.dev";
             <div id="clearRow" class="mt-4 hidden">
               <button
                 id="clearAll"
-                class="rounded-lg px-3 py-1.5 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                class="rounded-lg px-3 py-1.5 text-xs font-bold text-[#FF6154] hover:bg-[#FF6154]/10 transition-colors"
               >
                 Clear all ideas
               </button>
@@ -203,6 +229,7 @@ const title = "Idea Shuffler — stanwood.dev";
       const elCard = document.getElementById("shuffleCard")!;
       const btnUp = document.getElementById("up")!;
       const btnDown = document.getElementById("down")!;
+      const elCounter = document.getElementById("counterPill")!;
 
       const elNewIdea = document.getElementById("newIdea") as HTMLTextAreaElement;
       const btnAddSave = document.getElementById("addSave") as HTMLButtonElement;
@@ -239,11 +266,18 @@ const title = "Idea Shuffler — stanwood.dev";
         } catch (_) {}
       }
 
+      function updateCounter() {
+        if (ideas.length === 0) {
+          elCounter.textContent = "0 of 0";
+        } else {
+          elCounter.textContent = `${currentIdx + 1} of ${ideas.length}`;
+        }
+      }
+
       // ---- AI condense ----
 
       async function condenseText(raw: string): Promise<string> {
         const trimmed = raw.trim();
-        // Short inputs (roughly <=8 words) don't need AI condensing
         if (trimmed.split(/\s+/).length <= 8) {
           return capitalize(trimmed);
         }
@@ -257,7 +291,6 @@ const title = "Idea Shuffler — stanwood.dev";
           const { title } = await res.json();
           return title || capitalize(trimmed);
         } catch (_) {
-          // Fallback: first sentence, capitalized
           const first = trimmed.split(/[.!?]\s/)[0];
           return capitalize(first);
         }
@@ -272,13 +305,16 @@ const title = "Idea Shuffler — stanwood.dev";
         const cls = direction === "down" ? "flip-down" : "flip-up";
         elCard.classList.add(cls);
 
-        // Swap text at the midpoint of the animation
         setTimeout(() => {
           elIdea.textContent = newText;
+          updateCounter();
         }, 180);
 
         setTimeout(() => {
           elCard.classList.remove(cls);
+          // wobble on land
+          elCard.classList.add("wobble");
+          setTimeout(() => elCard.classList.remove("wobble"), 350);
           flipping = false;
         }, 400);
       }
@@ -294,7 +330,7 @@ const title = "Idea Shuffler — stanwood.dev";
           currentIdx = -1;
           const msg = "Add a few ideas to get started!";
           if (animate) flip(animate, msg);
-          else elIdea.textContent = msg;
+          else { elIdea.textContent = msg; updateCounter(); }
           return;
         }
 
@@ -307,6 +343,7 @@ const title = "Idea Shuffler — stanwood.dev";
           flip(animate, newText);
         } else {
           elIdea.textContent = newText;
+          updateCounter();
         }
       }
 
@@ -327,15 +364,15 @@ const title = "Idea Shuffler — stanwood.dev";
         ideas.forEach((text, i) => {
           const row = document.createElement("div");
           row.className =
-            "flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3";
+            "flex items-center gap-3 rounded-xl border-2 border-[#222]/15 bg-white px-4 py-3";
 
           const span = document.createElement("span");
-          span.className = "flex-1 text-sm text-neutral-800 truncate";
+          span.className = "flex-1 text-sm text-[#1a1a1a] truncate";
           span.textContent = text;
 
           const del = document.createElement("button");
           del.className =
-            "shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors";
+            "shrink-0 rounded-lg px-3 py-1.5 text-xs font-bold text-[#FF6154] hover:bg-[#FF6154]/10 transition-colors";
           del.textContent = "Delete";
           del.addEventListener("click", () => {
             ideas.splice(i, 1);
@@ -359,7 +396,6 @@ const title = "Idea Shuffler — stanwood.dev";
         const trimmed = raw.trim();
         if (!trimmed) return;
 
-        // Show loading state
         btnAddSave.disabled = true;
         btnAddSave.textContent = "...";
 

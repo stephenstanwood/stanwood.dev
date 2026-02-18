@@ -1,0 +1,115 @@
+---
+import "../styles/global.css";
+import SwimWorkout from "../components/SwimWorkout.jsx";
+const title = "Lap Lab — stanwood.dev";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="Lap Lab — Generate custom swim workouts for any duration and pace."
+    />
+    <meta property="og:title" content="Lap Lab" />
+    <meta property="og:description" content="Generate custom swim workouts for any duration and pace." />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body { font-family: 'Inter', system-ui, sans-serif; }
+
+      /* ── Fade-in animation for workout generation ── */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out;
+      }
+
+      /* ── Decorative chevron band at the top ── */
+      .chevron-band {
+        background:
+          linear-gradient(135deg, transparent 33.33%, currentColor 33.33%, currentColor 66.66%, transparent 66.66%),
+          linear-gradient(225deg, transparent 33.33%, currentColor 33.33%, currentColor 66.66%, transparent 66.66%);
+        background-size: 24px 12px;
+        height: 6px;
+      }
+
+      /* ── Print styles: clean single-page PDF ── */
+      @media print {
+        /* Hide everything except the print workout */
+        body > * { display: none !important; }
+        body { background: white !important; margin: 0 !important; padding: 0 !important; }
+
+        .print-workout {
+          display: block !important;
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          padding: 32px 40px !important;
+          max-width: 100% !important;
+          font-size: 11pt;
+        }
+
+        /* Prevent page breaks inside sections */
+        .print-workout > div { break-inside: avoid; }
+
+        @page {
+          size: letter;
+          margin: 0.5in;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <!-- Retro chevron band across the top -->
+    <div class="chevron-band text-teal-400"></div>
+
+    <main class="mx-auto max-w-2xl px-6 pt-12 pb-24 print:hidden">
+      <!-- Nav -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-sm font-semibold text-slate-400 hover:text-slate-900 transition-colors"
+        >
+          &larr; Home
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mt-10">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg shadow-teal-200/50">
+            <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              Lap Lab
+            </h1>
+            <p class="text-slate-400 text-sm font-medium -mt-0.5">swim workout generator</p>
+          </div>
+        </div>
+        <p class="mt-4 text-slate-500 leading-relaxed">
+          Pick your duration, pace, and pool type. We'll build you a workout with a warmup, main set, and cooldown.
+          Don't love it? Shuffle until you do.
+        </p>
+      </header>
+
+      <!-- App -->
+      <SwimWorkout client:load />
+    </main>
+
+    <!-- Print target (React renders here too) -->
+  </body>
+</html>

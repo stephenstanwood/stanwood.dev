@@ -16,108 +16,344 @@ const title = "Stephen Stanwood — stanwood.dev";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
   </head>
 
-  <body class="bg-neutral-50 text-neutral-900 antialiased font-sans">
-    <header class="max-w-3xl mx-auto px-6 pt-12 pb-6">
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
-        Stephen Stanwood
-      </h1>
-      <p class="mt-2 text-neutral-600">
-        My recent experiments 🎉
-      </p>
-    </header>
+  <body class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
 
-    <main class="max-w-3xl mx-auto px-6 pb-20">
-      <section class="space-y-4">
-        <a
-          href="/wtwtw"
-          class="block rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+    <!-- ── Animated gradient background ── -->
+    <div
+      class="animate-gradient fixed inset-0 -z-10"
+      style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #0d324d, #7b2869, #302b63, #0f0c29);"
+    ></div>
+
+    <!-- ── Floating blobs for depth ── -->
+    <div class="fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
+      <!-- turquoise pool blob -->
+      <div
+        class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
+        style="background: radial-gradient(circle, #00d2ff 0%, transparent 70%);"
+      ></div>
+      <!-- pink/magenta blob -->
+      <div
+        class="animate-float absolute -bottom-40 -left-40 h-[600px] w-[600px] rounded-full opacity-25"
+        style="background: radial-gradient(circle, #ff6b9d 0%, #c850c0 40%, transparent 70%);"
+      ></div>
+      <!-- warm orange accent -->
+      <div
+        class="animate-float-slow absolute top-1/2 right-1/4 h-[350px] w-[350px] rounded-full opacity-20"
+        style="background: radial-gradient(circle, #ff9a56 0%, transparent 70%); animation-delay: 3s;"
+      ></div>
+      <!-- deep purple accent -->
+      <div
+        class="animate-float absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full opacity-20"
+        style="background: radial-gradient(circle, #667eea 0%, transparent 70%); animation-delay: 2s;"
+      ></div>
+    </div>
+
+    <!-- ── Geometric decorations ── -->
+    <div class="fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
+      <!-- spinning ring -->
+      <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
+      <!-- dotted ring -->
+      <div class="animate-spin-slow absolute bottom-40 left-[10%] h-24 w-24 rounded-full border border-dashed border-white/8" style="animation-direction: reverse; animation-duration: 30s;"></div>
+      <!-- small diamond -->
+      <div class="animate-float absolute top-[60%] right-[8%] h-4 w-4 rotate-45 bg-white/10" style="animation-delay: 1s;"></div>
+      <!-- another diamond -->
+      <div class="animate-float absolute top-[20%] left-[20%] h-3 w-3 rotate-45 bg-cyan-400/15" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- ── Content ── -->
+    <div class="relative mx-auto max-w-4xl px-6 py-16 sm:py-24">
+
+      <!-- ── Hero ── -->
+      <header class="animate-slide-up mb-20 text-center">
+        <!-- Status badge (click to cycle) -->
+        <button
+          id="status-badge"
+          class="group mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/90 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
+          style="background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 0 20px rgba(0,210,255,0.15), 0 0 40px rgba(200,80,192,0.1);"
         >
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h2 class="text-lg sm:text-xl font-semibold">
-                WTWTW
-                <span class="text-sm font-medium text-neutral-500">
-                  (What To Watch This Week)
-                </span>
-              </h2>
-              <p class="mt-1 text-neutral-600">
-                Too many sports options? Let's fix that. 😎
-              </p>
-            </div>
-            <div
-              class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-neutral-100 text-neutral-700"
-            >
-              Web App
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
+          </span>
+          <span id="status-text" class="transition-all duration-300">building something new</span>
+        </button>
+
+        <script>
+          const phrases = [
+            "building something new",
+            "probably refactoring",
+            "one more commit...",
+            "let's try this out",
+            "that looks cool!",
+            "what if we tried this...",
+            "wait, what just happened?",
+          ];
+          let idx = 0;
+          const btn = document.getElementById("status-badge");
+          const txt = document.getElementById("status-text");
+          btn.addEventListener("click", () => {
+            idx = (idx + 1) % phrases.length;
+            txt.style.opacity = "0";
+            txt.style.transform = "translateY(-4px)";
+            setTimeout(() => {
+              txt.textContent = phrases[idx];
+              txt.style.opacity = "1";
+              txt.style.transform = "translateY(0)";
+            }, 200);
+          });
+        </script>
+
+        <h1
+          class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9]"
+          style="font-family: 'Space Grotesk', sans-serif;"
+        >
+          <span
+            class="animate-shimmer inline-block bg-clip-text text-transparent"
+            style="background-image: linear-gradient(90deg, #fff 0%, #00d2ff 25%, #ff6b9d 50%, #ff9a56 75%, #fff 100%);"
+          >
+            Stephen
+          </span>
+          <br />
+          <span
+            class="animate-shimmer inline-block bg-clip-text text-transparent"
+            style="background-image: linear-gradient(90deg, #fff 0%, #ff9a56 25%, #c850c0 50%, #00d2ff 75%, #fff 100%); animation-delay: -1.5s;"
+          >
+            Stanwood
+          </span>
+        </h1>
+
+        <p class="mx-auto mt-6 max-w-md text-lg text-white/60">
+          Experiments in making life simpler & more fun
+        </p>
+      </header>
+
+      <!-- ── Project cards (alphabetical) ── -->
+      <section class="stagger space-y-6">
+
+        <!-- Idea Shuffler Card -->
+        <a
+          href="/idea-shuffler"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+        >
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">🎲</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    Idea Shuffler
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-pink-300/80">All the inspiration with none of the pressure</p>
+                <p class="mt-3 text-white/60 leading-relaxed">
+                  A gentle way to browse project ideas without creating a priority list.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-pink-400/15 px-4 py-1.5 text-xs font-semibold text-pink-300 ring-1 ring-pink-400/20"
+              >
+                Web App
+              </div>
             </div>
           </div>
         </a>
-        <a 
-          href="/idea-shuffler"
-          class="block rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+
+        <!-- Lap Lab Card -->
+        <a
+          href="/swim"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
         >
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h2 class="text-lg sm:text-xl font-semibold">
-                Idea Shuffler
-                <span class="text-sm font-medium text-neutral-500">
-                  (no heap, just vibes)
-                </span>
-              </h2>
-              <p class="mt-1 text-neutral-600">
-                A gentle way to browse project ideas without creating a priority list.
-              </p>
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">🏊</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    Lap Lab
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-cyan-300/80">Swim workout generator</p>
+                <p class="mt-3 text-white/60 leading-relaxed">
+                  Pick a duration and pace. Get a workout. Shuffle until it clicks.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
+              >
+                Web App
+              </div>
             </div>
-            <div
-              class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-neutral-100 text-neutral-700"
-            >
-              Tool
+          </div>
+        </a>
+
+        <!-- NBA Now Card -->
+        <a
+          href="/nba-now"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+        >
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">🏀</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    NBA Now
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-orange-300/80">The best game to watch right now</p>
+                <p class="mt-3 text-white/60 leading-relaxed">
+                  Live scores ranked by watchability. No more flipping channels.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-orange-400/15 px-4 py-1.5 text-xs font-semibold text-orange-300 ring-1 ring-orange-400/20"
+              >
+                Web App
+              </div>
             </div>
-        </div>
-      </a>
+          </div>
+        </a>
+
+        <!-- TLDR Card -->
         <a
           href="/tldr"
-          class="block rounded-2xl border border-neutral-200 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
         >
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <h2 class="text-lg sm:text-xl font-semibold">
-                TL;DR
-              </h2>
-              <p class="mt-1 text-neutral-600">
-                Drop in a long PDF, get a short summary.
-              </p>
-            </div>
-            <div
-              class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold bg-neutral-100 text-neutral-700"
-            >
-              Tool
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">📄</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    TL;DR
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-emerald-300/80">Drop a PDF, get the short version</p>
+                <p class="mt-3 text-white/60 leading-relaxed">
+                  You got a long PDF and you don't want to read it. Same.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-emerald-400/15 px-4 py-1.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/20"
+              >
+                Web App
+              </div>
             </div>
           </div>
         </a>
+
+        <!-- What to Watch This Week Card -->
+        <a
+          href="/wtwtw"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+        >
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">📺</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    What to Watch This Week (WTWTW)
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-cyan-300/80">Your guide to the games that actually matter</p>
+                <p class="mt-3 text-white/60 leading-relaxed">
+                  Too many sports options? Let's fix that.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
+              >
+                Web App
+              </div>
+            </div>
+          </div>
+        </a>
+
       </section>
 
-      <footer class="text-center mt-12 text-sm text-neutral-500">
-        <a
-          href="https://github.com/stephenstanwood"
-          target="_blank"
-          class="mx-2"
-        >
-          GitHub
-        </a>
-        |
-        <a
-          href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f"
-          target="_blank"
-          class="mx-2"
-        >
-          Midjourney
-        </a>
+      <!-- ── Footer ── -->
+      <footer class="animate-fade-in mt-20 text-center" style="animation-delay: 0.8s;">
+        <div class="mb-4 flex items-center justify-center gap-6">
+          <a
+            href="https://github.com/stephenstanwood"
+            target="_blank"
+            class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span class="transition-transform group-hover:translate-x-0.5">GitHub</span>
+          </a>
+          <span class="text-white/20">|</span>
+          <a
+            href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f"
+            target="_blank"
+            class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          >
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+            </svg>
+            <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
+          </a>
+        </div>
       </footer>
-    </main>
+
+    </div>
   </body>
 </html>
