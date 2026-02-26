@@ -48,6 +48,7 @@ const title = "NBA Now — stanwood.dev";
         height: 8px;
         border-radius: 50%;
         background: #ff3b5c;
+        box-shadow: 0 0 8px #ff3b5c, 0 0 16px rgba(255, 59, 92, 0.3);
         animation: pulse-live 1.5s ease-in-out infinite;
       }
 
@@ -80,20 +81,22 @@ const title = "NBA Now — stanwood.dev";
       /* Hero card — scoreboard style */
       .hero-card {
         background: linear-gradient(160deg, #0c0c14 0%, #12121e 100%);
-        border: 1px solid #1f1f30;
+        border: 1px solid rgba(34, 211, 238, 0.5);
         border-radius: 12px;
-        box-shadow: 0 0 60px rgba(255, 107, 43, 0.05), inset 0 1px 0 rgba(255,255,255,0.03);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03);
       }
 
       /* Game rows */
       .game-row {
         background: #0a0a12;
-        border: 1px solid #18181f;
+        border: 1px solid rgba(34, 211, 238, 0.25);
         border-radius: 10px;
-        transition: border-color 0.2s;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.08);
       }
       .game-row:hover {
-        border-color: #2a2a3a;
+        border-color: rgba(34, 211, 238, 0.5);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
       }
 
       /* Broadcast badges */
@@ -121,6 +124,30 @@ const title = "NBA Now — stanwood.dev";
         border: 1px solid rgba(63, 63, 70, 0.3);
       }
 
+      /* Status pill */
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 4px 16px;
+        border-radius: 4px;
+        border: 1px solid rgba(245, 158, 11, 0.6);
+        background: rgba(245, 158, 11, 0.06);
+        color: #f59e0b;
+        text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      }
+      .status-pill.live {
+        border-color: rgba(34, 211, 238, 0.6);
+        background: rgba(34, 211, 238, 0.06);
+        color: #22d3ee;
+        text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+      }
+
       /* Subtle scanline effect on hero */
       .hero-card::after {
         content: '';
@@ -142,7 +169,7 @@ const title = "NBA Now — stanwood.dev";
       .scoreboard-divider {
         border: none;
         height: 1px;
-        background: linear-gradient(90deg, transparent, #2a2a3a 20%, #2a2a3a 80%, transparent);
+        background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.2) 20%, rgba(34, 211, 238, 0.2) 80%, transparent);
         margin: 0;
       }
 
@@ -154,7 +181,7 @@ const title = "NBA Now — stanwood.dev";
         letter-spacing: 0.2em;
         text-transform: uppercase;
         color: #f59e0b;
-        text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        text-shadow: 0 0 12px rgba(245, 158, 11, 0.5), 0 0 24px rgba(245, 158, 11, 0.2);
         text-align: center;
         padding: 12px 0 8px;
         position: relative;
@@ -166,7 +193,7 @@ const title = "NBA Now — stanwood.dev";
         top: 50%;
         width: 60px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3));
+        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4));
       }
       .section-header::before { right: calc(50% + 80px); transform: rotate(180deg); }
       .section-header::after { left: calc(50% + 80px); }
@@ -210,12 +237,13 @@ const title = "NBA Now — stanwood.dev";
       </div>
 
       <header class="mt-6 text-center">
-        <h1 class="font-score text-2xl font-bold tracking-widest neon-orange">
+        <h1 class="font-score text-4xl font-black tracking-widest" style="background: linear-gradient(90deg, #ff6b2b, #ff3b5c, #c850c0, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 30px rgba(255, 107, 43, 0.4));">
           NBA NOW
         </h1>
-        <p class="mt-1.5 subtitle">
+        <p class="mt-2 subtitle">
           The best game to watch right now
         </p>
+        <p class="mt-1 font-score" style="font-size: 10px; letter-spacing: 0.2em; color: #52525b;" id="dateLabel"></p>
       </header>
 
       <div id="app" class="mt-8">
@@ -416,17 +444,24 @@ const title = "NBA Now — stanwood.dev";
         const home = competitors.find(c => c.homeAway === "home") || competitors[1];
         const barPct = Math.min(100, Math.round((watchScore / maxScore) * 100));
 
+        const awayScore = parseInt(away?.score || 0, 10);
+        const homeScore = parseInt(home?.score || 0, 10);
+        const state = status?.type?.state;
+        const hasScores = state && state !== "pre";
+
         return `
           <div class="hero-card p-5">
-            <div class="flex items-center justify-center gap-2 text-xs font-score font-medium uppercase tracking-widest">
-              ${live ? '<div class="live-dot"></div><span class="neon-red">Live</span><span style="color:#27272a;">·</span>' : ''}
-              <span class="neon-cyan">${statusLabel(status)}</span>
+            <div class="flex justify-center">
+              <div class="status-pill ${live ? 'live' : ''}">
+                ${live ? '<div class="live-dot"></div>' : ''}
+                ${live ? 'LIVE · ' : ''}${statusLabel(status)}
+              </div>
             </div>
 
-            <div class="mt-5 space-y-2">
-              ${renderHeroTeam(away, status)}
-              <div style="border-top: 1px solid #18181b;"></div>
-              ${renderHeroTeam(home, status)}
+            <div class="mt-5 space-y-1">
+              ${renderHeroTeam(away, status, "AWAY", hasScores && awayScore > homeScore, hasScores && awayScore < homeScore)}
+              <div style="border-top: 1px dashed rgba(34, 211, 238, 0.15); margin: 4px 0;"></div>
+              ${renderHeroTeam(home, status, "HOME", hasScores && homeScore > awayScore, hasScores && homeScore < awayScore)}
             </div>
 
             <div class="flex justify-center">${renderBroadcastBadges(comp, false)}</div>
@@ -440,8 +475,10 @@ const title = "NBA Now — stanwood.dev";
         `;
       }
 
-      function renderHeroTeam(competitor, status) {
+      function renderHeroTeam(competitor, status, label, isWinning, isLosing) {
         const abbr = teamAbbr(competitor);
+        const city = competitor?.team?.location || abbr;
+        const name = competitor?.team?.name || "";
         const record = competitor?.records?.[0]?.summary || "";
         const logoUrl = competitor?.team?.logo;
         const color = teamColor(competitor);
@@ -449,19 +486,24 @@ const title = "NBA Now — stanwood.dev";
         const showScore = state && state !== "pre";
         const score = showScore ? (competitor?.score ?? "–") : "";
 
+        let scoreStyle = "color: #e4e4e7;";
+        if (isWinning) scoreStyle = `color: #4ade80; text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);`;
+        else if (isLosing) scoreStyle = "color: #71717a;";
+
         return `
-          <div class="flex items-center justify-between py-1">
+          <div class="flex items-center justify-between py-1.5">
             <div class="flex items-center gap-3">
               ${logoUrl
-                ? `<img src="${logoUrl}" alt="${abbr}" width="28" height="28" style="object-fit: contain;" />`
-                : `<div style="width:28px;height:28px;border-radius:50%;background:${color};"></div>`
+                ? `<img src="${logoUrl}" alt="${abbr}" width="32" height="32" style="object-fit: contain;" />`
+                : `<div style="width:32px;height:32px;border-radius:50%;background:${color};"></div>`
               }
               <div>
-                <div class="font-score text-sm font-bold tracking-wider" style="color: #fafafa;">${abbr}</div>
-                <div class="text-xs" style="color: #71717a;">${record}</div>
+                <div style="font-size: 10px; letter-spacing: 0.15em; color: #52525b; text-transform: uppercase;">${label}</div>
+                <div class="font-score text-base font-bold tracking-wider" style="color: ${color};">${city}</div>
+                <div style="font-size: 12px; color: ${color}; opacity: 0.7;">${name} <span style="color: #52525b; opacity: 1; font-size: 10px; margin-left: 4px;">${record}</span></div>
               </div>
             </div>
-            ${score ? `<div class="font-score text-3xl font-black tracking-wider neon-orange">${score}</div>` : ''}
+            ${score ? `<div class="font-score text-4xl font-black tracking-wider" style="${scoreStyle}">${score}</div>` : ''}
           </div>
         `;
       }
@@ -477,6 +519,8 @@ const title = "NBA Now — stanwood.dev";
 
         const awayScore = away?.score ?? "";
         const homeScore = home?.score ?? "";
+        const awayNum = parseInt(awayScore || 0, 10);
+        const homeNum = parseInt(homeScore || 0, 10);
         const awayAbbr = teamAbbr(away);
         const homeAbbr = teamAbbr(home);
         const awayLogo = away?.team?.logo;
@@ -488,6 +532,9 @@ const title = "NBA Now — stanwood.dev";
         const tipoff = isPreGame ? formatTipoff(game.date) : "";
         const statusText = isPreGame ? tipoff + " PT" : statusLabel(status);
 
+        const awayScoreStyle = showScores && awayNum > homeNum ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);" : showScores && awayNum < homeNum ? "color:#71717a;" : "color:#e4e4e7;";
+        const homeScoreStyle = showScores && homeNum > awayNum ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);" : showScores && homeNum < awayNum ? "color:#71717a;" : "color:#e4e4e7;";
+
         return `
           <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;gap:12px;">
             <div style="font-family:Orbitron,monospace;font-size:10px;color:#52525b;width:24px;text-align:right;flex-shrink:0;">${rank}</div>
@@ -498,9 +545,9 @@ const title = "NBA Now — stanwood.dev";
                     ? `<img src="${awayLogo}" alt="${awayAbbr}" width="16" height="16" style="object-fit:contain;" />`
                     : `<div style="width:16px;height:16px;border-radius:50%;background:${awayColor};"></div>`
                   }
-                  <span class="font-score text-xs font-semibold tracking-wider" style="color:#e4e4e7;">${awayAbbr}</span>
+                  <span class="font-score text-xs font-semibold tracking-wider" style="color:${awayColor};">${awayAbbr}</span>
                 </div>
-                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="color:#fafafa;">${awayScore}</span>` : ''}
+                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${awayScoreStyle}">${awayScore}</span>` : ''}
               </div>
               <div class="flex items-center justify-between mt-0.5">
                 <div class="flex items-center gap-2">
@@ -508,13 +555,13 @@ const title = "NBA Now — stanwood.dev";
                     ? `<img src="${homeLogo}" alt="${homeAbbr}" width="16" height="16" style="object-fit:contain;" />`
                     : `<div style="width:16px;height:16px;border-radius:50%;background:${homeColor};"></div>`
                   }
-                  <span class="font-score text-xs font-semibold tracking-wider" style="color:#e4e4e7;">${homeAbbr}</span>
+                  <span class="font-score text-xs font-semibold tracking-wider" style="color:${homeColor};">${homeAbbr}</span>
                 </div>
-                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="color:#fafafa;">${homeScore}</span>` : ''}
+                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${homeScoreStyle}">${homeScore}</span>` : ''}
               </div>
             </div>
             <div class="text-right flex-shrink-0" style="min-width: 70px;">
-              <div class="flex items-center justify-end gap-1">
+              <div class="flex items-center justify-end gap-1.5">
                 ${live ? '<div class="live-dot" style="width:5px;height:5px;"></div>' : ''}
                 <span class="font-score text-xs ${live ? 'neon-cyan' : ''}" style="${!live ? 'color:#a1a1aa;' : ''}">${statusText}</span>
               </div>
@@ -545,12 +592,12 @@ const title = "NBA Now — stanwood.dev";
         }
 
         const message = events.length === 0
-          ? "NO GAMES"
+          ? "NO GAMES TODAY"
           : "NO LIVE GAMES";
 
         return `
           <div class="hero-card p-8 text-center">
-            <div class="font-score text-lg font-bold tracking-widest" style="color: #a1a1aa; text-shadow: 0 0 10px rgba(161, 161, 170, 0.2);">${message}</div>
+            <div class="font-score text-lg font-bold tracking-widest" style="color: #22d3ee; text-shadow: 0 0 15px rgba(34, 211, 238, 0.4);">${message}</div>
             ${nextLine}
           </div>
         `;
@@ -673,6 +720,14 @@ const title = "NBA Now — stanwood.dev";
             </div>
           `;
         }
+      }
+
+      // Set date label
+      const dateLabelEl = document.getElementById("dateLabel");
+      if (dateLabelEl) {
+        dateLabelEl.textContent = new Date().toLocaleDateString("en-US", {
+          weekday: "long", month: "long", day: "numeric", year: "numeric"
+        }).toUpperCase();
       }
 
       fetchAndRender();
