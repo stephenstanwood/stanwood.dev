@@ -12,6 +12,7 @@ const title = "NBA Now — stanwood.dev";
       name="description"
       content="The best NBA game to watch right now."
     />
+    <link rel="icon" type="image/svg+xml" href="/favicon-nba.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -434,7 +435,6 @@ const title = "NBA Now — stanwood.dev";
               <div class="watch-bar-track">
                 <div class="watch-bar-fill" style="width: ${barPct}%;"></div>
               </div>
-              <div class="mt-1 text-center font-score text-xs neon-dim">${Math.round(watchScore)}</div>
             </div>
           </div>
         `;
@@ -489,8 +489,8 @@ const title = "NBA Now — stanwood.dev";
         const statusText = isPreGame ? tipoff + " PT" : statusLabel(status);
 
         return `
-          <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;">
-            <div style="font-family:Orbitron,monospace;font-size:10px;color:#52525b;width:24px;text-align:right;flex-shrink:0;margin-right:16px;">${rank}</div>
+          <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;gap:12px;">
+            <div style="font-family:Orbitron,monospace;font-size:10px;color:#52525b;width:24px;text-align:right;flex-shrink:0;">${rank}</div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
