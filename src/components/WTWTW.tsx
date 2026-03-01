@@ -2,7 +2,43 @@ import { useEffect, useMemo, useState } from "react";
 
 const PT_TZ = "America/Los_Angeles";
 
-const PRIORITY = [
+interface PriorityTeam {
+  key: string;
+  label: string;
+  league: string;
+  color: string;
+  textColor: string;
+}
+
+interface DayInfo {
+  label: string;
+  yyyymmdd: string;
+}
+
+interface ESPNEvent {
+  date: string;
+  name?: string;
+  competitions?: Array<{
+    competitors?: Array<{
+      team?: {
+        displayName?: string;
+        abbreviation?: string;
+      };
+      homeAway?: string;
+    }>;
+  }>;
+}
+
+interface DayPick {
+  day: DayInfo;
+  pick: {
+    priorityIndex: number;
+    pri: PriorityTeam;
+    event: ESPNEvent;
+  } | null;
+}
+
+const PRIORITY: PriorityTeam[] = [
   { key: "steelers", label: "Steelers", league: "football/nfl", color: "#FFB81C", textColor: "#FFB81C" },
   { key: "michigan", label: "Michigan", league: "basketball/mens-college-basketball", color: "#FFCB05", textColor: "#FFCB05" },
   { key: "warriors", label: "Warriors", league: "basketball/nba", color: "#1D428A", textColor: "#6B9BFF" },
@@ -11,8 +47,8 @@ const PRIORITY = [
   { key: "giants", label: "Giants", league: "baseball/mlb", color: "#FD5A1E", textColor: "#FD5A1E" },
 ];
 
-function teamMatcher(priorityKey, league) {
-  return (competitor) => {
+function teamMatcher(priorityKey: string, league: string) {
+  return (competitor: NonNullable<NonNullable<ESPNEvent["competitions"]>[0]["competitors"]>[0]) => {
     const name = (competitor?.team?.displayName || "").toLowerCase();
     const abbr = (competitor?.team?.abbreviation || "").toUpperCase();
 
@@ -32,7 +68,7 @@ function teamMatcher(priorityKey, league) {
   };
 }
 
-function formatPT(iso) {
+function formatPT(iso: string): string {
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
     minute: "2-digit",
@@ -41,7 +77,7 @@ function formatPT(iso) {
   }).format(new Date(iso));
 }
 
-function hitsWindowPT(isoStart) {
+function hitsWindowPT(isoStart: string): boolean {
   const d = new Date(isoStart);
   const [hhStr, mmStr] = new Intl.DateTimeFormat("en-US", {
     timeZone: PT_TZ,
@@ -60,14 +96,14 @@ function hitsWindowPT(isoStart) {
   return startMin < windowEnd && endMin > windowStart;
 }
 
-async function fetchScoreboard(leaguePath, yyyymmdd) {
+async function fetchScoreboard(leaguePath: string, yyyymmdd: string): Promise<{ events?: ESPNEvent[] }> {
   const url = `https://site.api.espn.com/apis/site/v2/sports/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed ${leaguePath} ${yyyymmdd}`);
   return res.json();
 }
 
-function getUpcoming7Days() {
+function getUpcoming7Days(): DayInfo[] {
   const nowPT = new Date(
     new Intl.DateTimeFormat("en-US", {
       timeZone: PT_TZ,
@@ -77,7 +113,7 @@ function getUpcoming7Days() {
     }).format(new Date())
   );
 
-  const days = [];
+  const days: DayInfo[] = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(nowPT);
     d.setDate(nowPT.getDate() + i);
@@ -92,8 +128,8 @@ function getUpcoming7Days() {
   return days;
 }
 
-function pickEventForDay(dayEvents) {
-  const candidates = [];
+function pickEventForDay(dayEvents: Array<{ leaguePath: string; event: ESPNEvent }>) {
+  const candidates: Array<{ priorityIndex: number; pri: PriorityTeam; event: ESPNEvent }> = [];
   for (const { leaguePath, event } of dayEvents) {
     const comps = event?.competitions?.[0]?.competitors || [];
     for (const pri of PRIORITY) {
@@ -112,15 +148,15 @@ function pickEventForDay(dayEvents) {
   candidates.sort(
     (a, b) =>
       a.priorityIndex - b.priorityIndex ||
-      new Date(a.event.date) - new Date(b.event.date)
+      new Date(a.event.date).getTime() - new Date(b.event.date).getTime()
   );
   return candidates[0];
 }
 
 export default function WTWTW() {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [picks, setPicks] = useState([]);
+  const [error, setError] = useState<string | null>(null);
+  const [picks, setPicks] = useState<DayPick[]>([]);
 
   const days = useMemo(() => getUpcoming7Days(), []);
 
@@ -131,16 +167,16 @@ export default function WTWTW() {
       setError(null);
       try {
         const leaguePaths = [...new Set(PRIORITY.map((p) => p.league))];
-        const results = [];
+        const results: DayPick[] = [];
         for (const day of days) {
           const jsons = await Promise.all(
             leaguePaths.map((lp) =>
               fetchScoreboard(lp, day.yyyymmdd)
                 .then((j) => ({ lp, j }))
-                .catch(() => ({ lp, j: null }))
+                .catch(() => ({ lp, j: null as { events?: ESPNEvent[] } | null }))
             )
           );
-          const dayEvents = [];
+          const dayEvents: Array<{ leaguePath: string; event: ESPNEvent }> = [];
           for (const { lp, j } of jsons) {
             for (const ev of j?.events || [])
               dayEvents.push({ leaguePath: lp, event: ev });
@@ -149,7 +185,7 @@ export default function WTWTW() {
         }
         if (alive) setPicks(results);
       } catch (e) {
-        if (alive) setError(e?.message || String(e));
+        if (alive) setError(e instanceof Error ? e.message : String(e));
       } finally {
         if (alive) setLoading(false);
       }

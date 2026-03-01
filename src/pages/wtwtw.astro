@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import WTWTW from "../components/WTWTW.jsx";
+import WTWTW from "../components/WTWTW.tsx";
 const title = "WTWTW — stanwood.dev";
 ---
 
@@ -13,6 +13,14 @@ const title = "WTWTW — stanwood.dev";
       name="description"
       content="What To Watch This Week — your favorite teams, filtered to the 5-8pm PT window."
     />
+    <meta property="og:title" content="WTWTW — stanwood.dev" />
+    <meta property="og:description" content="What To Watch This Week — your favorite teams, filtered to the 5-8pm PT window." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/wtwtw" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="WTWTW — stanwood.dev" />
+    <meta name="twitter:description" content="What To Watch This Week — your favorite teams, filtered to the 5-8pm PT window." />
+    <link rel="canonical" href="https://stanwood.dev/wtwtw" />
     <link rel="icon" type="image/svg+xml" href="/favicon-wtwtw.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -50,7 +58,8 @@ const title = "WTWTW — stanwood.dev";
   </head>
 
   <body class="text-white antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <div class="flex items-center">
         <a
           href="/"
@@ -64,7 +73,7 @@ const title = "WTWTW — stanwood.dev";
         <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-white oswald uppercase">
           WTWTW
         </h1>
-        <p class="mt-2 text-white/50 text-lg">
+        <p class="mt-2 text-white/70 text-lg">
           Best game per day in the 5&ndash;8 PM PT window.
         </p>
         <div class="mt-3 flex flex-wrap items-center gap-2">
@@ -95,7 +104,7 @@ const title = "WTWTW — stanwood.dev";
         </div>
       </header>
 
-      <WTWTW client:load />
+      <WTWTW client:idle />
     </main>
   </body>
 </html>

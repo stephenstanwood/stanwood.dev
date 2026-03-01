@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { condenseText } from "../lib/condenseText";
 
 const LS_KEY = "idea-shuffler:v2";
 
-function capitalize(str) {
-  const s = str.trim();
-  if (!s) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-function loadIdeas() {
+function loadIdeas(): string[] {
   try {
     const saved = JSON.parse(localStorage.getItem(LS_KEY) || "{}");
     if (Array.isArray(saved.ideas)) return saved.ideas;
@@ -16,26 +11,8 @@ function loadIdeas() {
   return [];
 }
 
-function persistIdeas(ideas) {
+function persistIdeas(ideas: string[]): void {
   localStorage.setItem(LS_KEY, JSON.stringify({ ideas }));
-}
-
-async function condenseText(raw) {
-  const trimmed = raw.trim();
-  if (trimmed.split(/\s+/).length <= 8) return capitalize(trimmed);
-  try {
-    const res = await fetch("/api/condense", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: trimmed }),
-    });
-    if (!res.ok) throw new Error("API error");
-    const { title } = await res.json();
-    return title || capitalize(trimmed);
-  } catch {
-    const first = trimmed.split(/[.!?]\s/)[0];
-    return capitalize(first);
-  }
 }
 
 const styles = `
@@ -76,8 +53,8 @@ const styles = `
 `;
 
 export default function IdeaShuffler() {
-  const [ideas, setIdeas] = useState(() => loadIdeas());
-  const [currentIdx, setCurrentIdx] = useState(() => {
+  const [ideas, setIdeas] = useState<string[]>(() => loadIdeas());
+  const [currentIdx, setCurrentIdx] = useState<number>(() => {
     const saved = loadIdeas();
     return saved.length > 0 ? Math.floor(Math.random() * saved.length) : -1;
   });
@@ -86,7 +63,7 @@ export default function IdeaShuffler() {
   const [flipClass, setFlipClass] = useState("");
   const [displayText, setDisplayText] = useState("");
 
-  const textareaRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const flippingRef = useRef(false);
   const wheelLockRef = useRef(false);
   const ideasRef = useRef(ideas);
@@ -110,7 +87,7 @@ export default function IdeaShuffler() {
     persistIdeas(ideas);
   }, [ideas]);
 
-  const flip = useCallback((direction, newText) => {
+  const flip = useCallback((direction: "down" | "up", newText: string) => {
     if (flippingRef.current) return;
     flippingRef.current = true;
 
@@ -127,7 +104,7 @@ export default function IdeaShuffler() {
     }, 400);
   }, []);
 
-  const step = useCallback((delta) => {
+  const step = useCallback((delta: number) => {
     const n = ideasRef.current.length;
     if (n === 0) return;
     const newIdx = ((currentIdxRef.current + delta) % n + n) % n;
@@ -137,7 +114,7 @@ export default function IdeaShuffler() {
 
   // Keyboard nav
   useEffect(() => {
-    function onKeyDown(e) {
+    function onKeyDown(e: KeyboardEvent) {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const tag = document.activeElement?.tagName || "";
       if (tag === "TEXTAREA" || tag === "INPUT") return;
@@ -151,7 +128,7 @@ export default function IdeaShuffler() {
 
   // Scroll nav
   useEffect(() => {
-    function onWheel(e) {
+    function onWheel(e: WheelEvent) {
       if (ideasRef.current.length === 0 || wheelLockRef.current) return;
       if (Math.abs(e.deltaY) < 8) return;
       wheelLockRef.current = true;
@@ -181,10 +158,10 @@ export default function IdeaShuffler() {
       }
       return next;
     });
-    textareaRef.current.value = "";
+    if (textareaRef.current) textareaRef.current.value = "";
   }
 
-  function handleDelete(i) {
+  function handleDelete(i: number) {
     setIdeas((prev) => {
       const next = prev.filter((_, idx) => idx !== i);
       if (next.length === 0) {

@@ -1,43 +1,36 @@
-# Astro Starter Kit: Minimal
+# stanwood.dev
+
+Personal project hub built with Astro, React, and Tailwind CSS. Deployed on Vercel.
+
+## Projects
+
+- **Idea Shuffler** — Browse project ideas without ranking them. Rolodex-style card UI with AI-powered title condensing.
+- **Lap Lab** — Swim workout generator. Pick duration, pace, and pool type to get a structured workout.
+- **NBA Now** — Live NBA scores ranked by watchability. Retro neon scoreboard aesthetic.
+- **TL;DR** — Drop a PDF, get a plain-language summary powered by Claude.
+- **WTWTW** — What To Watch This Week. Shows the best game per day for your favorite teams.
+
+## Setup
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+cp .env.example .env   # add your ANTHROPIC_API_KEY
+npm run dev             # starts dev server at localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command           | Action                          |
+| :---------------- | :------------------------------ |
+| `npm run dev`     | Start local dev server          |
+| `npm run build`   | Build for production            |
+| `npm run preview` | Preview production build        |
+| `npm test`        | Run tests (vitest)              |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Tech Stack
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Astro](https://astro.build) v5 — static site generator with server endpoints
+- [React](https://react.dev) 19 — interactive components
+- [Tailwind CSS](https://tailwindcss.com) v4 — styling
+- [Anthropic SDK](https://docs.anthropic.com) — AI-powered features (TL;DR, Idea Shuffler)
+- [Vercel](https://vercel.com) — hosting and serverless functions

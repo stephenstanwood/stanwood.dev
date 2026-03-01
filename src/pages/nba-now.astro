@@ -12,6 +12,14 @@ const title = "NBA Now — stanwood.dev";
       name="description"
       content="The best NBA game to watch right now."
     />
+    <meta property="og:title" content="NBA Now — stanwood.dev" />
+    <meta property="og:description" content="The best NBA game to watch right now." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/nba-now" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="NBA Now — stanwood.dev" />
+    <meta name="twitter:description" content="The best NBA game to watch right now." />
+    <link rel="canonical" href="https://stanwood.dev/nba-now" />
     <link rel="icon" type="image/svg+xml" href="/favicon-nba.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -223,14 +231,15 @@ const title = "NBA Now — stanwood.dev";
   </head>
 
   <body class="antialiased">
-    <main class="mx-auto max-w-lg px-5 pt-12 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-lg px-5 pt-12 pb-24">
       <div>
         <a
           href="/"
           class="text-xs font-medium uppercase tracking-wider transition-colors"
-          style="color: #3f3f46;"
+          style="color: #71717a;"
           onmouseover="this.style.color='#a1a1aa'"
-          onmouseout="this.style.color='#3f3f46'"
+          onmouseout="this.style.color='#71717a'"
         >
           &larr; Home
         </a>
@@ -281,6 +290,15 @@ const title = "NBA Now — stanwood.dev";
     <script>
       const API_URL = "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard";
       const REFRESH_MS = 30_000;
+      const MAX_WATCH_SCORE = 400;
+      const CLOSENESS_PENALTY = 4;        // Points deducted per score-delta point
+      const OT_MULTIPLIER = 3.5;          // Progress multiplier for overtime games
+      const MAX_PROGRESS_MULTIPLIER = 2.0; // Additional multiplier at game end
+
+      // --- XSS protection ---
+      const _esc = {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"};
+      function esc(s) { return String(s).replace(/[&<>"']/g, c => _esc[c]); }
+      function escUrl(u) { try { const p = new URL(u); return ["http:","https:"].includes(p.protocol) ? p.href : ""; } catch { return ""; } }
 
       // --- Ranking algorithm ---
 
@@ -337,9 +355,9 @@ const title = "NBA Now — stanwood.dev";
         const progress = gameProgress(status);
         const ot = isOvertime(status);
 
-        const closenessScore = Math.max(0, 100 - scoreDelta * 4);
+        const closenessScore = Math.max(0, 100 - scoreDelta * CLOSENESS_PENALTY);
         const qualityMultiplier = 0.5 + avgWinPct;
-        const progressMultiplier = ot ? 3.5 : 1.0 + Math.min(progress, 1.0) * 2.0;
+        const progressMultiplier = ot ? OT_MULTIPLIER : 1.0 + Math.min(progress, 1.0) * MAX_PROGRESS_MULTIPLIER;
 
         return closenessScore * qualityMultiplier * progressMultiplier;
       }
@@ -389,7 +407,7 @@ const title = "NBA Now — stanwood.dev";
 
         let badge;
         if (national.length > 0) {
-          badge = `<span style="${nationalStyle}">${national[0]}</span>`;
+          badge = `<span style="${nationalStyle}">${esc(national[0])}</span>`;
         } else {
           badge = `<span style="${leaguePassStyle}">League Pass</span>`;
         }
@@ -400,11 +418,12 @@ const title = "NBA Now — stanwood.dev";
       // --- Rendering ---
 
       function teamAbbr(competitor) {
-        return competitor?.team?.abbreviation || "???";
+        return esc(competitor?.team?.abbreviation || "???");
       }
 
       function teamColor(competitor) {
-        return competitor?.team?.color ? `#${competitor.team.color}` : "#ff6b2b";
+        const c = competitor?.team?.color;
+        return c && /^[0-9a-fA-F]{3,8}$/.test(c) ? `#${c}` : "#ff6b2b";
       }
 
       function statusLabel(status) {
@@ -438,7 +457,7 @@ const title = "NBA Now — stanwood.dev";
         const status = comp?.status;
         const live = isLive(status);
         const watchScore = computeWatchScore(game);
-        const maxScore = 400;
+        const maxScore = MAX_WATCH_SCORE;
 
         const away = competitors.find(c => c.homeAway === "away") || competitors[0];
         const home = competitors.find(c => c.homeAway === "home") || competitors[1];
@@ -477,10 +496,10 @@ const title = "NBA Now — stanwood.dev";
 
       function renderHeroTeam(competitor, status, label, isWinning, isLosing) {
         const abbr = teamAbbr(competitor);
-        const city = competitor?.team?.location || abbr;
-        const name = competitor?.team?.name || "";
-        const record = competitor?.records?.[0]?.summary || "";
-        const logoUrl = competitor?.team?.logo;
+        const city = esc(competitor?.team?.location || abbr);
+        const name = esc(competitor?.team?.name || "");
+        const record = esc(competitor?.records?.[0]?.summary || "");
+        const logoUrl = escUrl(competitor?.team?.logo || "");
         const color = teamColor(competitor);
         const state = status?.type?.state;
         const showScore = state && state !== "pre";
@@ -523,8 +542,8 @@ const title = "NBA Now — stanwood.dev";
         const homeNum = parseInt(homeScore || 0, 10);
         const awayAbbr = teamAbbr(away);
         const homeAbbr = teamAbbr(home);
-        const awayLogo = away?.team?.logo;
-        const homeLogo = home?.team?.logo;
+        const awayLogo = escUrl(away?.team?.logo || "");
+        const homeLogo = escUrl(home?.team?.logo || "");
         const awayColor = teamColor(away);
         const homeColor = teamColor(home);
 
@@ -708,7 +727,7 @@ const title = "NBA Now — stanwood.dev";
           errorEl.innerHTML = `
             <div class="hero-card p-6 text-center">
               <div class="font-score text-xs neon-red">
-                ${err.message}
+                ${esc(err.message)}
               </div>
               <button
                 onclick="fetchAndRender()"

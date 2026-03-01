@@ -1,15 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2dd4bf"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-  </defs>
-  <rect width="128" height="128" rx="28" fill="#0f172a"/>
-  <!-- Water waves -->
-  <path d="M16 72 Q32 58 48 72 Q64 86 80 72 Q96 58 112 72" stroke="url(#g)" stroke-width="6" fill="none" stroke-linecap="round"/>
-  <path d="M16 88 Q32 74 48 88 Q64 102 80 88 Q96 74 112 88" stroke="url(#g)" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.5"/>
-  <!-- Swimmer figure -->
-  <circle cx="52" cy="48" r="8" fill="url(#g)"/>
-  <path d="M52 56 L52 62 M42 54 L52 58 L68 50 M48 68 L52 62 L56 68" stroke="url(#g)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#2dd4bf"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs><rect width="128" height="128" fill="#0f172a" rx="28"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-width="6" d="M16 72q16-14 32 0t32 0 32 0"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-width="6" d="M16 88q16-14 32 0t32 0 32 0" opacity=".5"/><circle cx="52" cy="48" r="8" fill="url(#a)"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M52 56v6m-10-8 10 4 16-8M48 68l4-6 4 6"/></svg>

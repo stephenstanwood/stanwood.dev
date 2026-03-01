@@ -2,25 +2,37 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+
+const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   try {
     const body = await request.json();
     const base64 = body.pdf as string | undefined;
 
-    if (!base64) {
+    if (!base64 || typeof base64 !== "string") {
       return new Response(JSON.stringify({ error: "Please upload a PDF file" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
 
+    if (base64.length > MAX_PDF_SIZE) {
+      return new Response(
+        JSON.stringify({ error: "File too large (max 25 MB)" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     const message = await client.messages.create({
-      model: "claude-sonnet-4-5-20250929",
+      model: "claude-sonnet-4-6-20250514",
       max_tokens: 180,
       messages: [
         {

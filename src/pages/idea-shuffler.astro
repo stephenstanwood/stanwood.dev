@@ -12,6 +12,14 @@ const title = "Idea Shuffler — stanwood.dev";
       name="description"
       content="Browse ideas without ranking them. Random start + circular traversal."
     />
+    <meta property="og:title" content="Idea Shuffler — stanwood.dev" />
+    <meta property="og:description" content="Browse ideas without ranking them. Random start + circular traversal." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/idea-shuffler" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Idea Shuffler — stanwood.dev" />
+    <meta name="twitter:description" content="Browse ideas without ranking them. Random start + circular traversal." />
+    <link rel="canonical" href="https://stanwood.dev/idea-shuffler" />
     <link rel="icon" type="image/svg+xml" href="/favicon-idea.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -98,7 +106,8 @@ const title = "Idea Shuffler — stanwood.dev";
   </head>
 
   <body class="text-[#1a1a1a] antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a
@@ -224,6 +233,8 @@ const title = "Idea Shuffler — stanwood.dev";
     </main>
 
     <script>
+      import { condenseText } from "../lib/condenseText";
+
       const LS_KEY = "idea-shuffler:v2";
 
       const elIdea = document.getElementById("idea")!;
@@ -250,12 +261,6 @@ const title = "Idea Shuffler — stanwood.dev";
 
       // ---- Helpers ----
 
-      function capitalize(str: string) {
-        const s = str.trim();
-        if (!s) return s;
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      }
-
       function persist() {
         localStorage.setItem(LS_KEY, JSON.stringify({ ideas }));
       }
@@ -272,28 +277,6 @@ const title = "Idea Shuffler — stanwood.dev";
           elCounter.textContent = "0 of 0";
         } else {
           elCounter.textContent = `${currentIdx + 1} of ${ideas.length}`;
-        }
-      }
-
-      // ---- AI condense ----
-
-      async function condenseText(raw: string): Promise<string> {
-        const trimmed = raw.trim();
-        if (trimmed.split(/\s+/).length <= 8) {
-          return capitalize(trimmed);
-        }
-        try {
-          const res = await fetch("/api/condense", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: trimmed }),
-          });
-          if (!res.ok) throw new Error("API error");
-          const { title } = await res.json();
-          return title || capitalize(trimmed);
-        } catch (_) {
-          const first = trimmed.split(/[.!?]\s/)[0];
-          return capitalize(first);
         }
       }
 

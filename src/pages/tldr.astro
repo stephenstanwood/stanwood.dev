@@ -12,6 +12,14 @@ const title = "TL;DR — stanwood.dev";
       name="description"
       content="I don't want to read this long PDF. Tell me what it says."
     />
+    <meta property="og:title" content="TL;DR — stanwood.dev" />
+    <meta property="og:description" content="I don't want to read this long PDF. Tell me what it says." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/tldr" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="TL;DR — stanwood.dev" />
+    <meta name="twitter:description" content="I don't want to read this long PDF. Tell me what it says." />
+    <link rel="canonical" href="https://stanwood.dev/tldr" />
     <link rel="icon" type="image/svg+xml" href="/favicon-tldr.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -131,7 +139,8 @@ const title = "TL;DR — stanwood.dev";
   </head>
 
   <body class="text-[#E4E4E7] antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a
@@ -147,7 +156,7 @@ const title = "TL;DR — stanwood.dev";
         <h1 class="text-5xl font-bold tracking-tight text-white mono">
           <span id="typewriter" class="typewriter-title"><span class="char">T</span><span class="char">L</span><span class="char">;</span><span class="char">D</span><span class="char">R</span></span><span id="cursor" class="terminal-cursor"></span>
         </h1>
-        <p class="mt-4 text-[#71717A] leading-relaxed max-w-lg">
+        <p class="mt-4 text-[#a1a1aa] leading-relaxed max-w-lg">
           You got a long PDF and you don't want to read it. Same.
           Drop it here and get the short version &mdash; plain language,
           no jargon, just what it actually says.
@@ -187,6 +196,7 @@ const title = "TL;DR — stanwood.dev";
             id="fileInput"
             type="file"
             accept="application/pdf"
+            aria-label="Upload PDF file"
             class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           />
         </div>
