@@ -218,12 +218,14 @@ function isLive(status: Status | undefined): boolean {
 }
 
 function formatTipoff(dateStr: string): string {
-  return new Date(dateStr).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "America/Los_Angeles",
-  });
+  return new Date(dateStr)
+    .toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "America/Los_Angeles",
+    })
+    .replace(/\s*[AP]M$/i, "");
 }
 
 // --- Card renderers ---
@@ -280,17 +282,22 @@ function renderHeroCard(game: Game): string {
     <div class="hero-card p-6">
       <div class="hero-sentence">the best game right now is <span class="hl-team">${awayName}</span> at <span class="hl-team">${homeName}</span> on <span class="hl-network">${esc(network)}</span></div>
 
-      <div style="margin-top:20px;" class="text-center">
+      <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-top:24px;">
+        ${awayLogo ? `<img src="${awayLogo}" alt="${awayName}" width="72" height="72" style="object-fit:contain;opacity:0.9;" />` : ""}
         ${
           hasScores
-            ? `<div class="score-detail">
-                ${logoImg(awayLogo, awayName)}<span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
+            ? `<div class="score-detail" style="flex-direction:column;gap:4px;">
+                <span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
                 <span class="score-dash">\u2014</span>
-                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>${logoImg(homeLogo, homeName)}
+                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>
               </div>`
-            : ""
+            : `<span class="font-score" style="font-size:16px;color:#3f3f46;font-weight:700;">VS</span>`
         }
-        <div class="flex justify-center mt-3">
+        ${homeLogo ? `<img src="${homeLogo}" alt="${homeName}" width="72" height="72" style="object-fit:contain;opacity:0.9;" />` : ""}
+      </div>
+
+      <div style="margin-top:16px;" class="text-center">
+        <div class="flex justify-center">
           <div class="status-pill ${live ? "live" : ""}">
             ${live ? '<div class="live-dot"></div>' : ""}
             ${live ? "LIVE \u00b7 " : ""}${statusLabel(status)}
@@ -338,7 +345,7 @@ function renderGameRow(
 
   const showScores = !isPreGame;
   const tipoff = isPreGame ? formatTipoff(game.date!) : "";
-  const statusText = isPreGame ? tipoff + " PT" : statusLabel(status);
+  const statusText = isPreGame ? tipoff + " Pacific" : statusLabel(status);
 
   const awayScoreStyle =
     showScores && awayNum > homeNum
@@ -364,7 +371,7 @@ function renderGameRow(
                 ? `<img src="${awayLogo}" alt="${awayFull}" width="16" height="16" style="object-fit:contain;" />`
                 : `<div style="width:16px;height:16px;border-radius:50%;background:${awayColor};"></div>`
             }
-            <span class="font-score text-xs font-semibold tracking-wider" style="color:${awayColor};">${awayAbbr}</span>
+            <span class="font-score text-xs font-semibold tracking-wider" style="color:#e4e4e7;">${awayAbbr}</span>
           </div>
           ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${awayScoreStyle}">${awayScore}</span>` : ""}
         </div>
@@ -375,7 +382,7 @@ function renderGameRow(
                 ? `<img src="${homeLogo}" alt="${homeFull}" width="16" height="16" style="object-fit:contain;" />`
                 : `<div style="width:16px;height:16px;border-radius:50%;background:${homeColor};"></div>`
             }
-            <span class="font-score text-xs font-semibold tracking-wider" style="color:${homeColor};">${homeAbbr}</span>
+            <span class="font-score text-xs font-semibold tracking-wider" style="color:#e4e4e7;">${homeAbbr}</span>
           </div>
           ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${homeScoreStyle}">${homeScore}</span>` : ""}
         </div>
@@ -416,10 +423,17 @@ function renderNoGames(events: Game[]): string {
   const time = formatTipoff(best.date!);
   const { national } = getBroadcasts(comp!);
   const network = national.length > 0 ? national[0] : "League Pass";
+  const awayLogo = escUrl(away?.team?.logo || "");
+  const homeLogo = escUrl(home?.team?.logo || "");
 
   return `
     <div class="hero-card p-6">
-      <div class="hero-sentence">the best game today is <span class="hl-team">${teamFullName(away)}</span> at <span class="hl-team">${teamFullName(home)}</span> at <span class="hl-time">${esc(time)} PT</span> on <span class="hl-network">${esc(network)}</span></div>
+      <div class="hero-sentence">the best game today is <span class="hl-team">${teamFullName(away)}</span> at <span class="hl-team">${teamFullName(home)}</span> &middot; <span class="hl-time">${esc(time)}&nbsp;Pacific</span> on <span class="hl-network">${esc(network)}</span></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:32px;margin-top:24px;">
+        ${awayLogo ? `<img src="${awayLogo}" alt="${teamFullName(away)}" width="80" height="80" style="object-fit:contain;opacity:0.9;" />` : ""}
+        <span class="font-score" style="font-size:16px;color:#3f3f46;font-weight:700;">VS</span>
+        ${homeLogo ? `<img src="${homeLogo}" alt="${teamFullName(home)}" width="80" height="80" style="object-fit:contain;opacity:0.9;" />` : ""}
+      </div>
     </div>
   `;
 }
