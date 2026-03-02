@@ -281,21 +281,21 @@ function renderHeroCard(game: Game): string {
       <div class="hero-sentence">the best game right now is <span class="hl-team">${awayName}</span> at <span class="hl-team">${homeName}</span> on <span class="hl-network">${esc(network)}</span></div>
 
       <div style="margin-top:20px;" class="text-center">
-        <div class="flex justify-center">
-          <div class="status-pill ${live ? "live" : ""}">
-            ${live ? '<div class="live-dot"></div>' : ""}
-            ${live ? "LIVE \u00b7 " : ""}${statusLabel(status)}
-          </div>
-        </div>
         ${
           hasScores
-            ? `<div class="score-detail mt-3">
+            ? `<div class="score-detail">
                 ${logoImg(awayLogo, awayName)}<span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
                 <span class="score-dash">\u2014</span>
                 <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>${logoImg(homeLogo, homeName)}
               </div>`
             : ""
         }
+        <div class="flex justify-center mt-3">
+          <div class="status-pill ${live ? "live" : ""}">
+            ${live ? '<div class="live-dot"></div>' : ""}
+            ${live ? "LIVE \u00b7 " : ""}${statusLabel(status)}
+          </div>
+        </div>
         <div class="watch-meter mt-4">
           <div class="watch-meter-label">WATCHABILITY</div>
           <div class="watch-bar-track">
