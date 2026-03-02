@@ -1,10 +1,13 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   const { latitude, longitude } = await request.json();
 
   if (!latitude || !longitude) {
@@ -66,10 +69,10 @@ export const POST: APIRoute = async ({ request }) => {
     );
 
     if (!res.ok) {
-      const err = await res.text();
+      console.error("nearby-coffee Places API error:", res.status, await res.text());
       return new Response(
-        JSON.stringify({ error: "Places API error", details: err }),
-        { status: res.status, headers: { "Content-Type": "application/json" } },
+        JSON.stringify({ error: "Unable to search nearby places" }),
+        { status: 502, headers: { "Content-Type": "application/json" } },
       );
     }
 

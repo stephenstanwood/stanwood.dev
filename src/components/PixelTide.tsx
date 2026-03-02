@@ -137,11 +137,12 @@ export default function PixelTide() {
   const themeRef = useRef<BeachTheme>(THEMES.tropical);
   const [activeTheme, setActiveTheme] = useState<string>("tropical");
 
-  // Keep themeRef in sync
+  // Keep themeRef in sync & update page bg (restore on unmount)
   useEffect(() => {
     themeRef.current = THEMES[activeTheme] ?? THEMES.tropical;
-    // Update page bg
+    const prevBg = document.body.style.background;
     document.body.style.background = themeRef.current.bg;
+    return () => { document.body.style.background = prevBg; };
   }, [activeTheme]);
 
   /* ── Tide line: waves wash UP and DOWN the shore ── */

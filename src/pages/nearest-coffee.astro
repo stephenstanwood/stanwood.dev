@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 const title = "Nearest Coffee — stanwood.dev";
-const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
+const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 ---
 
 <html lang="en">
@@ -243,6 +243,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
   </head>
 
   <body class="text-[#E8E6E1] antialiased">
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#8BAA80] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
     <div class="bg-glow"></div>
 
     <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
@@ -272,7 +273,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       </header>
 
       <!-- All states live here, only one visible at a time via JS -->
-      <div id="app" data-maps-key={mapsApiKey}></div>
+      <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
     </main>
 
     <script>
@@ -289,7 +290,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       };
 
       const app = document.getElementById("app")!;
-      const mapsApiKey = app.dataset.mapsKey || "";
+      const hasMaps = app.dataset.hasMaps === "1";
 
       let userLat: number;
       let userLng: number;
@@ -413,6 +414,13 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         const midLng = (userLng + shop.lng) / 2;
         const zoom = computeZoom(shop.distance);
 
+        const params = new URLSearchParams();
+        params.set("center", `${midLat},${midLng}`);
+        params.set("zoom", String(zoom));
+        params.set("size", "600x300");
+        params.set("scale", "2");
+        params.set("maptype", "roadmap");
+
         const styles = [
           "feature:all|element:geometry|color:0x1a1c2e",
           "feature:all|element:labels.text.fill|color:0x8a8f9e",
@@ -422,12 +430,13 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
           "feature:water|element:geometry|color:0x141628",
           "feature:poi|visibility:off",
           "feature:transit|visibility:off",
-        ].map(s => `&style=${s}`).join("");
+        ];
+        for (const s of styles) params.append("style", s);
 
-        const userMarker = `&markers=color:0x6ECF8E%7Csize:small%7C${userLat},${userLng}`;
-        const shopMarker = `&markers=color:0xB4825A%7Csize:mid%7C${shop.lat},${shop.lng}`;
+        params.append("markers", `color:0x6ECF8E|size:small|${userLat},${userLng}`);
+        params.append("markers", `color:0xB4825A|size:mid|${shop.lat},${shop.lng}`);
 
-        return `https://maps.googleapis.com/maps/api/staticmap?center=${midLat},${midLng}&zoom=${zoom}&size=600x300&scale=2&maptype=roadmap${styles}${userMarker}${shopMarker}&key=${mapsApiKey}`;
+        return `/api/static-map?${params.toString()}`;
       }
 
       // ── Render results ──
@@ -439,7 +448,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       }
 
       function buildCardHtml(shop: CoffeeShop, rank: number, direction: "none" | "left" | "right"): string {
-        const showMap = mapsApiKey.length > 0;
+        const showMap = hasMaps;
         const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
 
         let mapHtml = "";
@@ -528,7 +537,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
           // Pre-load adjacent map images
           function preloadMap(idx: number) {
-            if (idx < 0 || idx >= shops.length || !mapsApiKey) return;
+            if (idx < 0 || idx >= shops.length || !hasMaps) return;
             const img = new Image();
             img.src = buildMapUrl(shops[idx]);
           }

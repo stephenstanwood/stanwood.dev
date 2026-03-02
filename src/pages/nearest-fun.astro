@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 const title = "Nearest Fun — stanwood.dev";
-const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
+const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 ---
 
 <html lang="en">
@@ -18,6 +18,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
     <meta name="twitter:title" content="Nearest Fun — stanwood.dev" />
     <meta name="twitter:description" content="Find the nearest open kids activity. Rain or shine." />
     <link rel="canonical" href="https://stanwood.dev/nearest-fun" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-fun.svg" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -324,6 +325,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
   </head>
 
   <body class="text-[#E8E6E1] antialiased theme-inside">
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#7C9FFF] focus:text-[#111318] focus:rounded-lg focus:font-semibold">Skip to content</a>
     <div class="bg-glow inside"></div>
 
     <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
@@ -359,7 +361,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         </div>
       </div>
 
-      <div id="app" data-maps-key={mapsApiKey}></div>
+      <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
     </main>
 
     <script>
@@ -377,7 +379,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       };
 
       const app = document.getElementById("app")!;
-      const mapsApiKey = app.dataset.mapsKey || "";
+      const hasMaps = app.dataset.hasMaps === "1";
 
       let userLat: number;
       let userLng: number;
@@ -554,8 +556,14 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         const midLat = (userLat + place.lat) / 2;
         const midLng = (userLng + place.lng) / 2;
         const zoom = computeZoom(place.distance);
-
         const markerColor = currentMode === "outside" ? "0xFFB74D" : "0x7C9FFF";
+
+        const params = new URLSearchParams();
+        params.set("center", `${midLat},${midLng}`);
+        params.set("zoom", String(zoom));
+        params.set("size", "600x300");
+        params.set("scale", "2");
+        params.set("maptype", "roadmap");
 
         const styles = [
           "feature:all|element:geometry|color:0x1a1c2e",
@@ -566,12 +574,13 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
           "feature:water|element:geometry|color:0x141628",
           "feature:poi|visibility:off",
           "feature:transit|visibility:off",
-        ].map(s => `&style=${s}`).join("");
+        ];
+        for (const s of styles) params.append("style", s);
 
-        const userMarker = `&markers=color:0x6ECF8E%7Csize:small%7C${userLat},${userLng}`;
-        const placeMarker = `&markers=color:${markerColor}%7Clabel:F%7C${place.lat},${place.lng}`;
+        params.append("markers", `color:0x6ECF8E|size:small|${userLat},${userLng}`);
+        params.append("markers", `color:${markerColor}|label:F|${place.lat},${place.lng}`);
 
-        return `https://maps.googleapis.com/maps/api/staticmap?center=${midLat},${midLng}&zoom=${zoom}&size=600x300&scale=2&maptype=roadmap${styles}${userMarker}${placeMarker}&key=${mapsApiKey}`;
+        return `/api/static-map?${params.toString()}`;
       }
 
       // ── Render results ──
@@ -583,7 +592,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       }
 
       function buildCardHtml(place: FunPlace, rank: number, direction: "none" | "left" | "right"): string {
-        const showMap = mapsApiKey.length > 0;
+        const showMap = hasMaps;
         const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=driving`;
 
         let mapHtml = "";
@@ -677,7 +686,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
           // Pre-load adjacent map images
           function preloadMap(idx: number) {
-            if (idx < 0 || idx >= places.length || !mapsApiKey) return;
+            if (idx < 0 || idx >= places.length || !hasMaps) return;
             const img = new Image();
             img.src = buildMapUrl(places[idx]);
           }

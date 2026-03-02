@@ -49,9 +49,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Something went wrong";
+    console.error("condense error:", err);
     return new Response(
-      JSON.stringify({ error: message }),
+      JSON.stringify({ error: "Something went wrong" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
