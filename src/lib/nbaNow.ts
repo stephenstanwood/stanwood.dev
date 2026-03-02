@@ -273,7 +273,7 @@ function renderHeroCard(game: Game): string {
 
   const logoImg = (url: string, name: string) =>
     url
-      ? `<img src="${url}" alt="${name}" width="20" height="20" style="object-fit:contain;vertical-align:-4px;" />`
+      ? `<img src="${url}" alt="${name}" width="32" height="32" style="object-fit:contain;" />`
       : "";
 
   return `
