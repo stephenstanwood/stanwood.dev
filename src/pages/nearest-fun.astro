@@ -1,0 +1,766 @@
+---
+import "../styles/global.css";
+const title = "Nearest Fun — stanwood.dev";
+const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="Find the nearest open kids activity. Rain or shine." />
+    <meta property="og:title" content="Nearest Fun — stanwood.dev" />
+    <meta property="og:description" content="Find the nearest open kids activity. Rain or shine." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/nearest-fun" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Nearest Fun — stanwood.dev" />
+    <meta name="twitter:description" content="Find the nearest open kids activity. Rain or shine." />
+    <link rel="canonical" href="https://stanwood.dev/nearest-fun" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Nearest Fun",
+        "url": "https://stanwood.dev/nearest-fun",
+        "description": "Find the nearest open kids activity. Rain or shine.",
+        "applicationCategory": "LifestyleApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background: #111318;
+        overflow-x: hidden;
+      }
+
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        transition: background 0.6s ease;
+      }
+      .bg-glow.inside {
+        background:
+          radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,159,255,0.06) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.3) 0%, transparent 70%),
+          #111318;
+      }
+      .bg-glow.outside {
+        background:
+          radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,183,77,0.06) 0%, transparent 70%),
+          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.3) 0%, transparent 70%),
+          #111318;
+      }
+
+      /* theme-aware accent colors via CSS custom properties */
+      :root {
+        --accent: #7C9FFF;
+        --accent-soft: rgba(124,159,255,0.12);
+        --accent-glow: rgba(124,159,255,0.15);
+        --open-color: #6ECF8E;
+      }
+      .theme-outside {
+        --accent: #FFB74D;
+        --accent-soft: rgba(255,183,77,0.12);
+        --accent-glow: rgba(255,183,77,0.15);
+      }
+
+      /* hero card */
+      .hero-card {
+        border-radius: 20px;
+        background: rgba(25,29,38,0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.06);
+        overflow: hidden;
+        transition: border-color 0.4s ease;
+      }
+      .theme-outside .hero-card { border-color: rgba(255,183,77,0.12); }
+      .theme-inside .hero-card  { border-color: rgba(124,159,255,0.12); }
+
+      /* map skeleton */
+      .map-skeleton {
+        background: rgba(25,29,38,0.6);
+        animation: skeleton-pulse 1.5s ease-in-out infinite;
+      }
+      @keyframes skeleton-pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.3; }
+      }
+
+      .map-img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 2 / 1;
+        object-fit: cover;
+      }
+
+      /* nav button */
+      .nav-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 52px;
+        border-radius: 14px;
+        background: var(--accent);
+        color: #111318;
+        font-weight: 700;
+        font-size: 15px;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+      }
+      .nav-btn:hover { filter: brightness(1.15); transform: scale(1.02); }
+      .nav-btn:active { transform: scale(0.98); }
+
+      /* open badge */
+      .open-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 10px;
+        border-radius: 8px;
+        background: rgba(110,207,142,0.12);
+        color: #6ECF8E;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .open-badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #6ECF8E;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      /* type badge */
+      .type-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 10px;
+        border-radius: 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+
+      /* toggle */
+      .mode-toggle {
+        display: flex;
+        gap: 0;
+        border-radius: 14px;
+        background: rgba(25,29,38,0.6);
+        border: 1px solid rgba(255,255,255,0.06);
+        padding: 4px;
+        width: 100%;
+        max-width: 320px;
+      }
+      .mode-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 42px;
+        border-radius: 11px;
+        border: none;
+        background: transparent;
+        color: #8B8D94;
+        font-family: inherit;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .mode-btn.active {
+        background: var(--accent);
+        color: #111318;
+        box-shadow: 0 2px 12px var(--accent-glow);
+      }
+      .mode-btn:not(.active):hover {
+        color: #E8E6E1;
+        background: rgba(255,255,255,0.04);
+      }
+
+      /* mini carousel */
+      .mini-track {
+        display: flex;
+        gap: 12px;
+        scroll-snap-type: x mandatory;
+        overflow-x: auto;
+        padding: 0 24px 24px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .mini-track::-webkit-scrollbar { display: none; }
+
+      .mini-card {
+        flex: 0 0 150px;
+        scroll-snap-align: start;
+        border-radius: 16px;
+        background: rgba(25,29,38,0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255,255,255,0.05);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 140px;
+        transition: transform 0.2s, border-color 0.3s;
+      }
+      .mini-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255,255,255,0.1);
+      }
+
+      .mini-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #E8E6E1;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+      }
+
+      .mini-type {
+        font-size: 11px;
+        color: var(--accent);
+        font-weight: 500;
+        margin-top: 2px;
+        text-transform: capitalize;
+      }
+
+      .mini-dist {
+        font-size: 12px;
+        color: #8B8D94;
+        font-weight: 500;
+        margin-top: 4px;
+      }
+
+      .mini-go {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 30px;
+        border-radius: 8px;
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.1);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 8px;
+      }
+      .mini-go:hover {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+      }
+
+      .star { color: #D4A847; }
+
+      /* progress bar */
+      .progress-track {
+        height: 4px;
+        background: rgba(255,255,255,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 280px;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), #6ECF8E);
+        border-radius: 2px;
+        transition: width 0.3s ease-out;
+        width: 0%;
+      }
+
+      /* fade in */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .fade-up { animation: fadeUp 0.5s ease both; }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="text-[#E8E6E1] antialiased theme-inside">
+    <div class="bg-glow inside"></div>
+
+    <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
+      <!-- Top bar -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-sm font-semibold text-[#E8E6E1]/30 hover:text-[#E8E6E1] transition-colors"
+        >
+          &larr; Home
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mt-8 mb-6">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#E8E6E1]">
+          Nearest Fun
+        </h1>
+        <p class="mt-2 text-[#8B8D94] text-base">
+          Open Right Now
+        </p>
+      </header>
+
+      <!-- Mode toggle -->
+      <div id="toggle-wrap" class="mb-6 flex justify-center">
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="inside">
+            🌧️ Inside
+          </button>
+          <button class="mode-btn" data-mode="outside">
+            ☀️ Outside
+          </button>
+        </div>
+      </div>
+
+      <div id="app" data-maps-key={mapsApiKey}></div>
+    </main>
+
+    <script>
+      type FunPlace = {
+        id: string;
+        name: string;
+        address: string;
+        lat: number;
+        lng: number;
+        distance: number;
+        rating: number | null;
+        ratingCount: number | null;
+        isOpen: boolean | null;
+        primaryType: string | null;
+      };
+
+      const app = document.getElementById("app")!;
+      const mapsApiKey = app.dataset.mapsKey || "";
+
+      let userLat: number;
+      let userLng: number;
+      let currentMode: "inside" | "outside" = "inside";
+
+      // ── Type display helpers ──
+
+      const TYPE_EMOJI: Record<string, string> = {
+        museum: "🏛️",
+        aquarium: "🐠",
+        bowling_alley: "🎳",
+        movie_theater: "🎬",
+        library: "📚",
+        community_center: "🏠",
+        cultural_center: "🎭",
+        art_gallery: "🎨",
+        park: "🌳",
+        playground: "🛝",
+        zoo: "🦁",
+        amusement_park: "🎢",
+        national_park: "🏞️",
+      };
+
+      function typeEmoji(type: string | null): string {
+        if (!type) return "📍";
+        return TYPE_EMOJI[type] || "📍";
+      }
+
+      function formatType(type: string | null): string {
+        if (!type) return "Activity";
+        return type.replace(/_/g, " ");
+      }
+
+      // ── Toggle ──
+
+      const toggleBtns = document.querySelectorAll<HTMLButtonElement>(".mode-btn");
+      const bgGlow = document.querySelector(".bg-glow")!;
+
+      toggleBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const mode = btn.dataset.mode as "inside" | "outside";
+          if (mode === currentMode) return;
+          currentMode = mode;
+
+          toggleBtns.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          // Swap theme class on body
+          document.body.classList.remove("theme-inside", "theme-outside");
+          document.body.classList.add(`theme-${mode}`);
+
+          // Swap bg glow
+          bgGlow.classList.remove("inside", "outside");
+          bgGlow.classList.add(mode);
+
+          // Re-fetch if we have location
+          if (userLat && userLng) {
+            fetchPlaces(userLat, userLng);
+          }
+        });
+      });
+
+      // ── Render helpers ──
+
+      function render(html: string) { app.innerHTML = html; }
+
+      function renderLoading() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressLabel" style="margin-top:16px;color:#8B8D94;font-size:14px;">Finding your location\u2026</p>
+          </div>
+        `);
+        startProgress();
+      }
+
+      function renderPermission() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div style="font-size:60px;margin-bottom:24px;">📍</div>
+            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">Find the Fun</h2>
+            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">
+              Allow location access to find open activities near you.
+            </p>
+            <button id="enable-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+              Enable Location
+            </button>
+          </div>
+        `);
+        document.getElementById("enable-btn")!.addEventListener("click", requestLocation);
+      }
+
+      function renderError(title: string, message: string) {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">${title}</h2>
+            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">${message}</p>
+            <button id="retry-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+              Try Again
+            </button>
+          </div>
+        `);
+        document.getElementById("retry-btn")!.addEventListener("click", requestLocation);
+      }
+
+      // ── Progress bar ──
+
+      let progressInterval: number | undefined;
+      let progressPct = 0;
+
+      function startProgress() {
+        progressPct = 0;
+        clearInterval(progressInterval);
+
+        const labels = [
+          { at: 0, text: "Finding your location\u2026" },
+          { at: 25, text: "Searching nearby\u2026" },
+          { at: 55, text: "Checking what\u2019s open\u2026" },
+          { at: 80, text: "Almost there\u2026" },
+        ];
+
+        progressInterval = window.setInterval(() => {
+          const fill = document.getElementById("progressFill");
+          const label = document.getElementById("progressLabel");
+          if (!fill || !label) { clearInterval(progressInterval); return; }
+
+          if (progressPct < 30)      progressPct += 2 + Math.random() * 8;
+          else if (progressPct < 60) progressPct += 0.5 + Math.random() * 3;
+          else if (progressPct < 85) progressPct += 0.2 + Math.random() * 1.5;
+          else if (progressPct < 95) progressPct += 0.05 + Math.random() * 0.4;
+
+          progressPct = Math.min(progressPct, 95);
+          fill.style.width = `${progressPct}%`;
+
+          for (const l of labels) {
+            if (progressPct >= l.at) label.textContent = l.text;
+          }
+        }, 300);
+      }
+
+      function finishProgress() {
+        clearInterval(progressInterval);
+        const fill = document.getElementById("progressFill");
+        if (fill) fill.style.width = "100%";
+      }
+
+      // ── Format helpers ──
+
+      function formatDistance(meters: number): string {
+        const miles = meters / 1609.34;
+        if (miles < 0.1) {
+          const feet = Math.round(meters * 3.28084);
+          return `${feet} ft`;
+        }
+        return `${miles.toFixed(1)} mi`;
+      }
+
+      function openNavigation(lat: number, lng: number) {
+        const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+        window.open(url, "_blank");
+      }
+
+      // ── Map helpers ──
+
+      function computeZoom(distanceMeters: number): number {
+        const km = distanceMeters / 1000;
+        const zoom = Math.round(15.5 - Math.log2(Math.max(km, 0.1)));
+        return Math.min(Math.max(zoom, 12), 17);
+      }
+
+      function buildMapUrl(place: FunPlace): string {
+        const midLat = (userLat + place.lat) / 2;
+        const midLng = (userLng + place.lng) / 2;
+        const zoom = computeZoom(place.distance);
+
+        const markerColor = currentMode === "outside" ? "0xFFB74D" : "0x7C9FFF";
+
+        const styles = [
+          "feature:all|element:geometry|color:0x1a1c2e",
+          "feature:all|element:labels.text.fill|color:0x8a8f9e",
+          "feature:all|element:labels.text.stroke|color:0x111318",
+          "feature:road|element:geometry|color:0x2a2d40",
+          "feature:road|element:geometry.stroke|color:0x1a1c2e",
+          "feature:water|element:geometry|color:0x141628",
+          "feature:poi|visibility:off",
+          "feature:transit|visibility:off",
+        ].map(s => `&style=${s}`).join("");
+
+        const userMarker = `&markers=color:0x6ECF8E%7Csize:small%7C${userLat},${userLng}`;
+        const placeMarker = `&markers=color:${markerColor}%7Clabel:F%7C${place.lat},${place.lng}`;
+
+        return `https://maps.googleapis.com/maps/api/staticmap?center=${midLat},${midLng}&zoom=${zoom}&size=600x300&scale=2&maptype=roadmap${styles}${userMarker}${placeMarker}&key=${mapsApiKey}`;
+      }
+
+      // ── Render results ──
+
+      function renderResults(places: FunPlace[]) {
+        finishProgress();
+
+        setTimeout(() => {
+          const hero = places[0];
+          const rest = places.slice(1);
+          const showMap = mapsApiKey.length > 0;
+
+          let mapHtml = "";
+          if (showMap) {
+            const mapUrl = buildMapUrl(hero);
+            mapHtml = `
+              <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
+                <img
+                  src="${mapUrl}"
+                  alt="Map showing ${hero.name}"
+                  class="map-img"
+                  style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
+                  onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
+                />
+              </div>
+            `;
+          }
+
+          const ratingHtml = hero.rating
+            ? `<span class="star">\u2605</span> <span style="color:#E8E6E1;">${hero.rating.toFixed(1)}</span>${hero.ratingCount ? ` <span style="color:#8B8D94;">(${hero.ratingCount.toLocaleString()})</span>` : ""}`
+            : "";
+
+          const emoji = typeEmoji(hero.primaryType);
+
+          let heroHtml = `
+            <div class="hero-card fade-up">
+              ${mapHtml}
+              <div style="padding:20px 20px 24px;">
+                <!-- Top row: badge + distance + rating -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+                  <span class="open-badge">Open</span>
+                  <span class="type-badge">${emoji} ${formatType(hero.primaryType)}</span>
+                  <span style="color:var(--accent);font-weight:600;font-size:14px;">${formatDistance(hero.distance)}</span>
+                  ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;display:flex;align-items:center;gap:4px;">${ratingHtml}</span>` : ""}
+                </div>
+
+                <!-- Name -->
+                <h2 style="font-size:clamp(22px,6vw,30px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${hero.name}</h2>
+
+                <!-- Address -->
+                <div style="display:flex;align-items:start;gap:6px;margin-bottom:20px;">
+                  <svg style="width:14px;height:14px;margin-top:2px;color:#8B8D94;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span style="font-size:13px;color:#8B8D94;line-height:1.5;">${hero.address}</span>
+                </div>
+
+                <!-- Navigate button -->
+                <button class="nav-btn" id="hero-nav-btn">
+                  <svg style="width:16px;height:16px;" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                  </svg>
+                  Navigate
+                </button>
+              </div>
+            </div>
+          `;
+
+          // Mini carousel for 2nd+ results
+          let miniHtml = "";
+          if (rest.length > 0) {
+            const miniCards = rest.map(place => `
+              <div class="mini-card">
+                <div>
+                  <div class="mini-name">${typeEmoji(place.primaryType)} ${place.name}</div>
+                  <div class="mini-type">${formatType(place.primaryType)}</div>
+                  <div class="mini-dist">${formatDistance(place.distance)}</div>
+                </div>
+                <button class="mini-go" data-lat="${place.lat}" data-lng="${place.lng}">
+                  Go
+                  <svg style="width:10px;height:10px;" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                  </svg>
+                </button>
+              </div>
+            `).join("");
+
+            miniHtml = `
+              <div style="margin-top:24px;">
+                <p style="font-size:13px;font-weight:500;color:#8B8D94;padding:0 24px;margin-bottom:12px;">More nearby</p>
+                <div class="mini-track">${miniCards}</div>
+              </div>
+            `;
+          }
+
+          app.innerHTML = heroHtml + miniHtml;
+
+          // Wire up hero navigate button
+          document.getElementById("hero-nav-btn")!.addEventListener("click", () => {
+            openNavigation(hero.lat, hero.lng);
+          });
+
+          // Wire up mini Go buttons
+          app.querySelectorAll(".mini-go").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const lat = parseFloat((btn as HTMLElement).dataset.lat!);
+              const lng = parseFloat((btn as HTMLElement).dataset.lng!);
+              openNavigation(lat, lng);
+            });
+          });
+        }, 300);
+      }
+
+      // ── Fetch places ──
+
+      async function fetchPlaces(lat: number, lng: number) {
+        renderLoading();
+        try {
+          const res = await fetch("/api/nearby-fun", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude: lat, longitude: lng, mode: currentMode }),
+          });
+
+          if (!res.ok) throw new Error("API request failed");
+
+          const data = await res.json();
+          const places: FunPlace[] = data.results || [];
+
+          if (places.length === 0) {
+            finishProgress();
+            const modeLabel = currentMode === "inside" ? "indoor" : "outdoor";
+            setTimeout(() => {
+              renderError(
+                "Nothing Nearby",
+                `Couldn\u2019t find any open ${modeLabel} spots nearby. Try switching to ${currentMode === "inside" ? "☀️ Outside" : "🌧️ Inside"} or try again later.`,
+              );
+            }, 300);
+            return;
+          }
+
+          renderResults(places);
+        } catch (err) {
+          finishProgress();
+          setTimeout(() => {
+            renderError("Oops", "Something went wrong. Please try again.");
+          }, 300);
+        }
+      }
+
+      // ── Geolocation ──
+
+      function requestLocation() {
+        renderLoading();
+
+        if (!("geolocation" in navigator)) {
+          renderError("No GPS", "Your browser doesn\u2019t support geolocation.");
+          return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            userLat = pos.coords.latitude;
+            userLng = pos.coords.longitude;
+            fetchPlaces(userLat, userLng);
+          },
+          (err) => {
+            if (err.code === err.PERMISSION_DENIED) {
+              renderPermission();
+            } else {
+              renderError(
+                "Location Unavailable",
+                "Unable to determine your location. Please ensure GPS is enabled.",
+              );
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000 },
+        );
+      }
+
+      // ── Init ──
+
+      if ("permissions" in navigator) {
+        navigator.permissions.query({ name: "geolocation" }).then((result) => {
+          if (result.state === "denied") {
+            renderPermission();
+          } else {
+            requestLocation();
+          }
+        });
+      } else {
+        requestLocation();
+      }
+    </script>
+  </body>
+</html>
