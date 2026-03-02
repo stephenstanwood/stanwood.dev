@@ -270,10 +270,10 @@ export default function SwimWorkout() {
   const [animating, setAnimating] = useState(false);
   const workoutRef = useRef<HTMLDivElement>(null);
 
-  // When unit changes, reset pace to middle option for that unit
+  // When unit changes, reset pace to default for that unit
   const handleUnitChange = (newUnit: string) => {
     setUnit(newUnit);
-    setPace(PACES[newUnit][2].value); // pick middle-ish option
+    setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
 
   const generate = useCallback(() => {
