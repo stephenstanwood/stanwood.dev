@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import WTWTW from "../components/WTWTW.jsx";
+import WTWTW from "../components/WTWTW.tsx";
 const title = "WTWTW — stanwood.dev";
 ---
 
@@ -11,8 +11,28 @@ const title = "WTWTW — stanwood.dev";
     <title>{title}</title>
     <meta
       name="description"
-      content="What To Watch This Week — your favorite teams, filtered to the 5-8pm PT window."
+      content="What To Watch This Week — Pick your teams and get the best game to watch each night."
     />
+    <meta property="og:title" content="WTWTW — stanwood.dev" />
+    <meta property="og:description" content="What To Watch This Week — Pick your teams and get the best game to watch each night." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/wtwtw" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="WTWTW — stanwood.dev" />
+    <meta name="twitter:description" content="What To Watch This Week — Pick your teams and get the best game to watch each night." />
+    <link rel="canonical" href="https://stanwood.dev/wtwtw" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "WTWTW",
+        "url": "https://stanwood.dev/wtwtw",
+        "description": "Pick your teams and get the best game to watch each night.",
+        "applicationCategory": "SportsApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon-wtwtw.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -45,11 +65,18 @@ const title = "WTWTW — stanwood.dev";
 
       .oswald { font-family: 'Oswald', sans-serif; }
       .mono { font-family: 'JetBrains Mono', monospace; }
+
+      /* staggered entrance for schedule cards */
+      @keyframes fadeSlideIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
     </style>
   </head>
 
   <body class="text-white antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <div class="flex items-center">
         <a
           href="/"
@@ -63,38 +90,9 @@ const title = "WTWTW — stanwood.dev";
         <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-white oswald uppercase">
           WTWTW
         </h1>
-        <p class="mt-2 text-white/50 text-lg">
-          Best game per day in the 5&ndash;8 PM PT window.
-        </p>
-        <div class="mt-3 flex flex-wrap items-center gap-2">
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#FFB81C]/15 px-3 py-1 text-xs font-semibold text-[#FFB81C]">
-            <span class="h-2 w-2 rounded-full bg-[#FFB81C]"></span>
-            Steelers
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#FFCB05]/15 px-3 py-1 text-xs font-semibold text-[#FFCB05]">
-            <span class="h-2 w-2 rounded-full bg-[#FFCB05]"></span>
-            Michigan
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#1D428A]/25 px-3 py-1 text-xs font-semibold text-[#6B9BFF]">
-            <span class="h-2 w-2 rounded-full bg-[#6B9BFF]"></span>
-            Warriors
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#702F8A]/25 px-3 py-1 text-xs font-semibold text-[#C085E0]">
-            <span class="h-2 w-2 rounded-full bg-[#C085E0]"></span>
-            Valkyries
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#CC3433]/15 px-3 py-1 text-xs font-semibold text-[#FF6B6B]">
-            <span class="h-2 w-2 rounded-full bg-[#FF6B6B]"></span>
-            Cubs
-          </span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#FD5A1E]/15 px-3 py-1 text-xs font-semibold text-[#FD5A1E]">
-            <span class="h-2 w-2 rounded-full bg-[#FD5A1E]"></span>
-            Giants
-          </span>
-        </div>
       </header>
 
-      <WTWTW client:load />
+      <WTWTW client:idle />
     </main>
   </body>
 </html>

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import SwimWorkout from "../components/SwimWorkout.jsx";
+import SwimWorkout from "../components/SwimWorkout.tsx";
 const title = "Lap Lab — stanwood.dev";
 ---
 
@@ -13,10 +13,27 @@ const title = "Lap Lab — stanwood.dev";
       name="description"
       content="Lap Lab — Generate custom swim workouts for any duration and pace."
     />
-    <meta property="og:title" content="Lap Lab" />
+    <meta property="og:title" content="Lap Lab — stanwood.dev" />
     <meta property="og:description" content="Generate custom swim workouts for any duration and pace." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/swim" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Lap Lab — stanwood.dev" />
+    <meta name="twitter:description" content="Generate custom swim workouts for any duration and pace." />
+    <link rel="canonical" href="https://stanwood.dev/swim" />
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Lap Lab",
+        "url": "https://stanwood.dev/swim",
+        "description": "Generate custom swim workouts for any duration and pace.",
+        "applicationCategory": "HealthApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon-swim.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -71,10 +88,11 @@ const title = "Lap Lab — stanwood.dev";
   </head>
 
   <body class="bg-slate-50 text-slate-900 antialiased">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
     <!-- Retro chevron band across the top -->
     <div class="chevron-band text-teal-400"></div>
 
-    <main class="mx-auto max-w-2xl px-6 pt-12 pb-24 print:hidden">
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-12 pb-24 print:hidden">
       <!-- Nav -->
       <div class="flex items-center">
         <a
@@ -104,10 +122,26 @@ const title = "Lap Lab — stanwood.dev";
           Pick your duration, pace, and pool type. We'll build you a workout with a warmup, main set, and cooldown.
           Don't love it? Shuffle until you do.
         </p>
+
+        <!-- Wave decoration -->
+        <svg class="mt-6 w-full h-6 text-teal-100" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z" fill="currentColor" opacity="0.5">
+            <animate attributeName="d" dur="4s" repeatCount="indefinite"
+              values="M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z;
+                      M0 20 Q150 40 300 20 T600 20 T900 20 T1200 20 V40 H0 Z;
+                      M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z" />
+          </path>
+          <path d="M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z" fill="currentColor" opacity="0.3">
+            <animate attributeName="d" dur="5s" repeatCount="indefinite"
+              values="M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z;
+                      M0 25 Q200 35 400 25 T800 25 T1200 25 V40 H0 Z;
+                      M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z" />
+          </path>
+        </svg>
       </header>
 
       <!-- App -->
-      <SwimWorkout client:load />
+      <SwimWorkout client:idle />
     </main>
 
     <!-- Print target (React renders here too) -->

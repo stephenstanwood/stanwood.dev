@@ -12,6 +12,26 @@ const title = "TL;DR — stanwood.dev";
       name="description"
       content="I don't want to read this long PDF. Tell me what it says."
     />
+    <meta property="og:title" content="TL;DR — stanwood.dev" />
+    <meta property="og:description" content="I don't want to read this long PDF. Tell me what it says." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/tldr" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="TL;DR — stanwood.dev" />
+    <meta name="twitter:description" content="I don't want to read this long PDF. Tell me what it says." />
+    <link rel="canonical" href="https://stanwood.dev/tldr" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "TL;DR",
+        "url": "https://stanwood.dev/tldr",
+        "description": "Drop a PDF and get the short version.",
+        "applicationCategory": "UtilitiesApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon-tldr.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -40,7 +60,7 @@ const title = "TL;DR — stanwood.dev";
       main { position: relative; z-index: 1; }
 
       .drop-zone {
-        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, transform 0.3s ease;
         border: 2px dashed #333;
         box-shadow: 0 0 20px rgba(0, 212, 255, 0.05), inset 0 0 20px rgba(0, 212, 255, 0.02);
       }
@@ -52,6 +72,7 @@ const title = "TL;DR — stanwood.dev";
         border-color: #00D4FF;
         background-color: rgba(0, 212, 255, 0.05);
         box-shadow: 0 0 40px rgba(0, 212, 255, 0.2), inset 0 0 40px rgba(0, 212, 255, 0.05);
+        transform: scale(1.02);
       }
 
       /* compact drop zone when shown after result */
@@ -126,58 +147,12 @@ const title = "TL;DR — stanwood.dev";
         width: 0%;
       }
 
-      /* summary text formatting */
-      .summary-content {
-        text-align: justify;
-        hyphens: auto;
-        -webkit-hyphens: auto;
-      }
-      .summary-content ul {
-        list-style: none;
-        padding: 0;
-        margin: 0.75rem 0 0 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .summary-content li {
-        position: relative;
-        padding-left: 1.25rem;
-        line-height: 1.6;
-      }
-      .summary-content li::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0.6em;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #4ADE80;
-      }
-      .summary-content strong {
-        color: #fff;
-        font-weight: 600;
-      }
-      .summary-content em {
-        color: #A1A1AA;
-        font-style: italic;
-      }
-      .summary-content p {
-        margin: 0;
-      }
-      .summary-content p + p {
-        margin-top: 0.5rem;
-      }
-      .summary-content p + ul,
-      .summary-content ul + p {
-        margin-top: 0.5rem;
-      }
     </style>
   </head>
 
   <body class="text-[#E4E4E7] antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a
@@ -193,7 +168,7 @@ const title = "TL;DR — stanwood.dev";
         <h1 class="text-5xl font-bold tracking-tight text-white mono">
           <span id="typewriter" class="typewriter-title"><span class="char">T</span><span class="char">L</span><span class="char">;</span><span class="char">D</span><span class="char">R</span></span><span id="cursor" class="terminal-cursor"></span>
         </h1>
-        <p class="mt-4 text-[#71717A] leading-relaxed max-w-lg">
+        <p class="mt-4 text-[#a1a1aa] leading-relaxed max-w-lg">
           You got a long PDF and you don't want to read it. Same.
           Drop it here and get the short version &mdash; plain language,
           no jargon, just what it actually says.
@@ -233,6 +208,7 @@ const title = "TL;DR — stanwood.dev";
             id="fileInput"
             type="file"
             accept="application/pdf"
+            aria-label="Upload PDF file"
             class="absolute inset-0 h-full w-full cursor-pointer opacity-0"
           />
         </div>
@@ -253,7 +229,7 @@ const title = "TL;DR — stanwood.dev";
                 copy
               </button>
             </div>
-            <div id="summaryText" class="summary-content text-base leading-relaxed text-[#E4E4E7]"></div>
+            <p id="summaryText" class="text-base leading-relaxed text-[#E4E4E7]"></p>
           </div>
         </div>
       </section>
@@ -364,58 +340,6 @@ const title = "TL;DR — stanwood.dev";
         }
       }
 
-      /** Convert markdown-like summary text into proper HTML */
-      function inlineMarkdown(text: string): string {
-        // Bold: **text**
-        text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-        // Italic: *text* (but not inside <strong> tags — already handled)
-        text = text.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "<em>$1</em>");
-        return text;
-      }
-
-      function formatSummary(raw: string): string {
-        const lines = raw.split(/\n/);
-        const listPattern = /^\s*(?:[-•]|\d+[.)]\s)/;
-
-        let html = "";
-        let inList = false;
-        let proseParts: string[] = [];
-
-        for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-
-          if (listPattern.test(trimmed)) {
-            // Flush prose
-            if (proseParts.length) {
-              html += `<p>${inlineMarkdown(proseParts.join(" "))}</p>`;
-              proseParts = [];
-            }
-            if (!inList) {
-              html += "<ul>";
-              inList = true;
-            }
-            const itemText = trimmed.replace(/^\s*(?:[-•]|\d+[.)]\s*)\s*/, "");
-            html += `<li>${inlineMarkdown(itemText)}</li>`;
-          } else {
-            if (inList) {
-              html += "</ul>";
-              inList = false;
-            }
-            proseParts.push(trimmed);
-          }
-        }
-
-        // Close any open list
-        if (inList) html += "</ul>";
-        if (proseParts.length) html += `<p>${inlineMarkdown(proseParts.join(" "))}</p>`;
-
-        // If no HTML was generated (single paragraph, no lists) just wrap in <p>
-        if (!html) html = `<p>${inlineMarkdown(raw)}</p>`;
-
-        return html;
-      }
-
       function fileToBase64(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -471,7 +395,7 @@ const title = "TL;DR — stanwood.dev";
           card.classList.remove("fade-in");
           void (card as HTMLElement).offsetWidth;
           card.classList.add("fade-in");
-          summaryText.innerHTML = formatSummary(data.summary);
+          summaryText.textContent = data.summary;
 
           // Move drop zone below the result and make it compact
           resultSection.after(uploadSection);
@@ -512,7 +436,13 @@ const title = "TL;DR — stanwood.dev";
         const text = summaryText.innerText || "";
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = "copied!";
-        setTimeout(() => (copyBtn.textContent = "copy"), 1500);
+        copyBtn.style.color = "#4ADE80";
+        copyBtn.style.background = "rgba(74, 222, 128, 0.1)";
+        setTimeout(() => {
+          copyBtn.textContent = "copy";
+          copyBtn.style.color = "";
+          copyBtn.style.background = "";
+        }, 1500);
       });
     </script>
   </body>

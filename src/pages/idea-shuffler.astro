@@ -12,6 +12,26 @@ const title = "Idea Shuffler — stanwood.dev";
       name="description"
       content="Browse ideas without ranking them. Random start + circular traversal."
     />
+    <meta property="og:title" content="Idea Shuffler — stanwood.dev" />
+    <meta property="og:description" content="Browse ideas without ranking them. Random start + circular traversal." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/idea-shuffler" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Idea Shuffler — stanwood.dev" />
+    <meta name="twitter:description" content="Browse ideas without ranking them. Random start + circular traversal." />
+    <link rel="canonical" href="https://stanwood.dev/idea-shuffler" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Idea Shuffler",
+        "url": "https://stanwood.dev/idea-shuffler",
+        "description": "Browse ideas without ranking them.",
+        "applicationCategory": "UtilitiesApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon-idea.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -93,11 +113,21 @@ const title = "Idea Shuffler — stanwood.dev";
         border: 2px solid #222;
         font-variant-numeric: tabular-nums;
       }
+
+      /* idea list item hover */
+      .idea-row {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .idea-row:hover {
+        transform: translateX(4px);
+        box-shadow: -4px 0 0 #FF6154;
+      }
     </style>
   </head>
 
   <body class="text-[#1a1a1a] antialiased">
-    <main class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a
@@ -113,7 +143,7 @@ const title = "Idea Shuffler — stanwood.dev";
         <h1 class="text-5xl font-bold tracking-tight text-[#1a1a1a]">
           Idea Shuffler
         </h1>
-        <p class="mt-2 text-[#1a1a1a]/50 text-lg">
+        <p class="mt-2 text-[#1a1a1a]/60 text-lg">
           No ranking. No order. Just vibes.
         </p>
       </header>
@@ -159,7 +189,7 @@ const title = "Idea Shuffler — stanwood.dev";
           </button>
         </div>
 
-        <p class="mt-3 text-center text-xs text-[#1a1a1a]/35">
+        <p class="mt-3 text-center text-xs text-[#1a1a1a]/50">
           Click the card, use arrows, or scroll.
         </p>
       </section>
@@ -189,6 +219,7 @@ const title = "Idea Shuffler — stanwood.dev";
             <div class="mt-4 flex gap-3">
               <textarea
                 id="newIdea"
+                aria-label="New idea"
                 class="flex-1 rounded-xl border-2 border-dashed border-[#222]/30 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-[#FF6154] focus:border-solid transition-colors placeholder:text-[#1a1a1a]/30"
                 placeholder="Type or paste an idea here..."
                 rows="2"
@@ -223,6 +254,8 @@ const title = "Idea Shuffler — stanwood.dev";
     </main>
 
     <script>
+      import { condenseText } from "../lib/condenseText";
+
       const LS_KEY = "idea-shuffler:v2";
 
       const elIdea = document.getElementById("idea")!;
@@ -249,12 +282,6 @@ const title = "Idea Shuffler — stanwood.dev";
 
       // ---- Helpers ----
 
-      function capitalize(str: string) {
-        const s = str.trim();
-        if (!s) return s;
-        return s.charAt(0).toUpperCase() + s.slice(1);
-      }
-
       function persist() {
         localStorage.setItem(LS_KEY, JSON.stringify({ ideas }));
       }
@@ -271,28 +298,6 @@ const title = "Idea Shuffler — stanwood.dev";
           elCounter.textContent = "0 of 0";
         } else {
           elCounter.textContent = `${currentIdx + 1} of ${ideas.length}`;
-        }
-      }
-
-      // ---- AI condense ----
-
-      async function condenseText(raw: string): Promise<string> {
-        const trimmed = raw.trim();
-        if (trimmed.split(/\s+/).length <= 8) {
-          return capitalize(trimmed);
-        }
-        try {
-          const res = await fetch("/api/condense", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: trimmed }),
-          });
-          if (!res.ok) throw new Error("API error");
-          const { title } = await res.json();
-          return title || capitalize(trimmed);
-        } catch (_) {
-          const first = trimmed.split(/[.!?]\s/)[0];
-          return capitalize(first);
         }
       }
 
@@ -364,7 +369,7 @@ const title = "Idea Shuffler — stanwood.dev";
         ideas.forEach((text, i) => {
           const row = document.createElement("div");
           row.className =
-            "flex items-center gap-3 rounded-xl border-2 border-[#222]/15 bg-white px-4 py-3";
+            "idea-row flex items-center gap-3 rounded-xl border-2 border-[#222]/15 bg-white px-4 py-3";
 
           const span = document.createElement("span");
           span.className = "flex-1 text-sm text-[#1a1a1a] truncate";

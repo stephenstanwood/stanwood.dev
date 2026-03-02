@@ -12,7 +12,25 @@ const title = "Stephen Stanwood — stanwood.dev";
     <meta property="og:title" content={title} />
     <meta property="og:description" content="Projects I'm tinkering with." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content="Projects I'm tinkering with." />
+    <link rel="canonical" href="https://stanwood.dev/" />
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "stanwood.dev",
+        "url": "https://stanwood.dev",
+        "description": "Projects I'm tinkering with.",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0f0c29" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,6 +40,7 @@ const title = "Stephen Stanwood — stanwood.dev";
   </head>
 
   <body class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
+    <a href="#projects" class="skip-nav">Skip to projects</a>
 
     <!-- ── Animated gradient background ── -->
     <div
@@ -29,8 +48,8 @@ const title = "Stephen Stanwood — stanwood.dev";
       style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #0d324d, #7b2869, #302b63, #0f0c29);"
     ></div>
 
-    <!-- ── Floating blobs for depth ── -->
-    <div class="fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
+    <!-- ── Floating blobs for depth (hidden on mobile for performance) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
       <!-- turquoise pool blob -->
       <div
         class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
@@ -53,8 +72,8 @@ const title = "Stephen Stanwood — stanwood.dev";
       ></div>
     </div>
 
-    <!-- ── Geometric decorations ── -->
-    <div class="fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
+    <!-- ── Geometric decorations (hidden on mobile for performance) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
       <!-- spinning ring -->
       <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
       <!-- dotted ring -->
@@ -127,18 +146,18 @@ const title = "Stephen Stanwood — stanwood.dev";
           </span>
         </h1>
 
-        <p class="mx-auto mt-6 max-w-md text-lg text-white/60">
-          Experiments in making life simpler & more fun
+        <p class="mx-auto mt-6 max-w-md text-lg text-white/80">
+          Building tools to make life simpler & more fun
         </p>
       </header>
 
-      <!-- ── Project cards (alphabetical) ── -->
-      <section class="stagger space-y-6">
+      <!-- ── Project cards ── -->
+      <section id="projects" class="stagger space-y-6">
 
         <!-- Nearest Coffee Card -->
         <a
           href="/nearest-coffee"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,179,0,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -160,7 +179,7 @@ const title = "Stephen Stanwood — stanwood.dev";
                   </h2>
                 </div>
                 <p class="text-sm font-medium text-amber-300/80">Open. Close. Go.</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
+                <p class="mt-3 text-white/70 leading-relaxed">
                   The nearest open coffee shop. One tap to navigate. That's it.
                 </p>
               </div>
@@ -173,86 +192,10 @@ const title = "Stephen Stanwood — stanwood.dev";
           </div>
         </a>
 
-        <!-- Idea Shuffler Card -->
-        <a
-          href="/idea-shuffler"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🎲</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Idea Shuffler
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-pink-300/80">All the inspiration with none of the pressure</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
-                  A gentle way to browse project ideas without creating a priority list.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-pink-400/15 px-4 py-1.5 text-xs font-semibold text-pink-300 ring-1 ring-pink-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Lap Lab Card -->
-        <a
-          href="/swim"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🏊</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Lap Lab
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-cyan-300/80">Swim workout generator</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
-                  Pick a duration and pace. Get a workout. Shuffle until it clicks.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
         <!-- NBA Now Card -->
         <a
           href="/nba-now"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,43,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -274,7 +217,7 @@ const title = "Stephen Stanwood — stanwood.dev";
                   </h2>
                 </div>
                 <p class="text-sm font-medium text-orange-300/80">The best game to watch right now</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
+                <p class="mt-3 text-white/70 leading-relaxed">
                   Live scores ranked by watchability. No more flipping channels.
                 </p>
               </div>
@@ -287,10 +230,48 @@ const title = "Stephen Stanwood — stanwood.dev";
           </div>
         </a>
 
+        <!-- Lap Lab Card -->
+        <a
+          href="/swim"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
+        >
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">🏊</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    Lap Lab
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-cyan-300/80">Swim workout generator</p>
+                <p class="mt-3 text-white/70 leading-relaxed">
+                  Pick a duration and pace. Get a workout. Shuffle until it clicks.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
+              >
+                Web App
+              </div>
+            </div>
+          </div>
+        </a>
+
         <!-- TLDR Card -->
         <a
           href="/tldr"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(102,126,234,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -312,7 +293,7 @@ const title = "Stephen Stanwood — stanwood.dev";
                   </h2>
                 </div>
                 <p class="text-sm font-medium text-emerald-300/80">Drop a PDF, get the short version</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
+                <p class="mt-3 text-white/70 leading-relaxed">
                   You got a long PDF and you don't want to read it. Same.
                 </p>
               </div>
@@ -328,7 +309,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- What to Watch This Week Card -->
         <a
           href="/wtwtw"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -349,13 +330,51 @@ const title = "Stephen Stanwood — stanwood.dev";
                     What to Watch This Week (WTWTW)
                   </h2>
                 </div>
-                <p class="text-sm font-medium text-cyan-300/80">Your guide to the games that actually matter</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
-                  Too many sports options? Let's fix that.
+                <p class="text-sm font-medium text-cyan-300/80">Pick your teams, get the best game each night</p>
+                <p class="mt-3 text-white/70 leading-relaxed">
+                  Too many sports options? Pick your teams and we'll find what to watch.
                 </p>
               </div>
               <div
                 class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
+              >
+                Web App
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Idea Shuffler Card -->
+        <a
+          href="/idea-shuffler"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,157,0.15)]"
+        >
+          <!-- Animated border gradient -->
+          <div
+            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+            style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"
+          ></div>
+
+          <!-- Card inner -->
+          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="mb-2 flex items-center gap-3">
+                  <span class="text-3xl">🎲</span>
+                  <h2
+                    class="text-2xl sm:text-3xl font-bold"
+                    style="font-family: 'Space Grotesk', sans-serif;"
+                  >
+                    Idea Shuffler
+                  </h2>
+                </div>
+                <p class="text-sm font-medium text-pink-300/80">All the inspiration with none of the pressure</p>
+                <p class="mt-3 text-white/70 leading-relaxed">
+                  A gentle way to browse project ideas without creating a priority list.
+                </p>
+              </div>
+              <div
+                class="shrink-0 rounded-full bg-pink-400/15 px-4 py-1.5 text-xs font-semibold text-pink-300 ring-1 ring-pink-400/20"
               >
                 Web App
               </div>
@@ -371,6 +390,7 @@ const title = "Stephen Stanwood — stanwood.dev";
           <a
             href="https://github.com/stephenstanwood"
             target="_blank"
+            rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -382,6 +402,7 @@ const title = "Stephen Stanwood — stanwood.dev";
           <a
             href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f"
             target="_blank"
+            rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
             <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -390,7 +411,31 @@ const title = "Stephen Stanwood — stanwood.dev";
             <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
           </a>
         </div>
+        <p class="text-xs text-white/20 mt-2">
+          Handcrafted with caffeinated intent
+        </p>
       </footer>
+
+      <!-- 3D tilt on project cards -->
+      <script>
+        document.querySelectorAll('#projects > a').forEach(card => {
+          card.style.transformStyle = 'preserve-3d';
+          card.style.perspective = '800px';
+
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.transition = 'transform 0.4s ease';
+            setTimeout(() => { card.style.transition = ''; }, 400);
+          });
+        });
+      </script>
 
     </div>
   </body>

@@ -1,16 +1,57 @@
 import { useState, useRef, useCallback } from "react";
 import { generateWorkout } from "../lib/workoutEngine.js";
 
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+interface WorkoutItem {
+  reps: number;
+  distance: number;
+  description: string;
+  stroke?: string;
+  equipment?: string;
+  interval?: number;
+  intervalDisplay?: string | null;
+  isGroup?: boolean;
+  items?: WorkoutItem[];
+}
+
+interface WorkoutSection {
+  name: string;
+  items: WorkoutItem[];
+  distance: number;
+}
+
+interface Workout {
+  name: string;
+  duration: number;
+  pace: string;
+  unit: string;
+  totalDistance: number;
+  estimatedMinutes: number;
+  sections: WorkoutSection[];
+  seed: number;
+}
+
+interface DurationOption {
+  value: number;
+  label: string;
+}
+
+interface PaceOption {
+  value: string;
+  label: string;
+}
+
 // ─── Constants ─────────────────────────────────────────────────────────────────
 
-const DURATIONS = [
+const DURATIONS: DurationOption[] = [
   { value: 30, label: "30 min" },
   { value: 60, label: "1 hour" },
   { value: 90, label: "1.5 hours" },
   { value: 120, label: "2 hours" },
 ];
 
-const PACES = {
+const PACES: Record<string, PaceOption[]> = {
   meters: [
     { value: "1:20", label: "1:20" },
     { value: "1:25", label: "1:25" },
@@ -31,7 +72,7 @@ const PACES = {
 
 // ─── Chevron SVG pattern (for background flair) ────────────────────────────────
 
-function ChevronPattern({ className = "" }) {
+function ChevronPattern({ className = "" }: { className?: string }) {
   return (
     <svg
       className={className}
@@ -49,13 +90,14 @@ function ChevronPattern({ className = "" }) {
 
 // ─── Equipment badge ───────────────────────────────────────────────────────────
 
-function EquipmentBadge({ equipment }) {
-  const config = {
-    pull: { label: "Pull", icon: "🟡", bg: "bg-amber-100 text-amber-800" },
-    kickboard: { label: "Kick", icon: "🟢", bg: "bg-emerald-100 text-emerald-800" },
-    fins: { label: "Fins", icon: "🔵", bg: "bg-sky-100 text-sky-800" },
-  };
-  const c = config[equipment];
+const EQUIPMENT_CONFIG: Record<string, { label: string; icon: string; bg: string }> = {
+  pull: { label: "Pull", icon: "🟡", bg: "bg-amber-100 text-amber-800" },
+  kickboard: { label: "Kick", icon: "🟢", bg: "bg-emerald-100 text-emerald-800" },
+  fins: { label: "Fins", icon: "🔵", bg: "bg-sky-100 text-sky-800" },
+};
+
+function EquipmentBadge({ equipment }: { equipment: string }) {
+  const c = EQUIPMENT_CONFIG[equipment];
   if (!c) return null;
   return (
     <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${c.bg}`}>
@@ -66,7 +108,7 @@ function EquipmentBadge({ equipment }) {
 
 // ─── Set item renderer ─────────────────────────────────────────────────────────
 
-function SetItem({ item, unit }) {
+function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
   if (item.isGroup && item.items) {
     return (
       <div className="pl-3 border-l-2 border-teal-200 space-y-2 my-2">
@@ -109,7 +151,7 @@ function SetItem({ item, unit }) {
 
 // ─── Section renderer ──────────────────────────────────────────────────────────
 
-const SECTION_COLORS = {
+const SECTION_COLORS: Record<string, { border: string; bg: string; badge: string; headerText: string }> = {
   Warmup: {
     border: "border-l-amber-400",
     bg: "bg-amber-50",
@@ -136,7 +178,7 @@ const SECTION_COLORS = {
   },
 };
 
-function WorkoutSection({ section, unit }) {
+function WorkoutSectionView({ section, unit }: { section: WorkoutSection; unit: string }) {
   const colors = SECTION_COLORS[section.name] || SECTION_COLORS["Main Set"];
   return (
     <div className={`border-l-4 ${colors.border} ${colors.bg} rounded-r-xl p-4 sm:p-5`}>
@@ -159,7 +201,7 @@ function WorkoutSection({ section, unit }) {
 
 // ─── Print view ────────────────────────────────────────────────────────────────
 
-function PrintWorkout({ workout }) {
+function PrintWorkout({ workout }: { workout: Workout | null }) {
   if (!workout) return null;
   const unit = workout.unit === "meters" ? "m" : "y";
 
@@ -202,7 +244,7 @@ function PrintWorkout({ workout }) {
   );
 }
 
-function PrintSetLine({ item, unit }) {
+function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
   const reps = item.reps > 1 ? `${item.reps} × ` : "";
   const dist = `${item.distance}${unit}`;
   let timing = "";
@@ -224,14 +266,14 @@ export default function SwimWorkout() {
   const [unit, setUnit] = useState("meters");
   const [duration, setDuration] = useState(120);
   const [pace, setPace] = useState("1:20");
-  const [workout, setWorkout] = useState(null);
+  const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
-  const workoutRef = useRef(null);
+  const workoutRef = useRef<HTMLDivElement>(null);
 
-  // When unit changes, reset pace to middle option for that unit
-  const handleUnitChange = (newUnit) => {
+  // When unit changes, reset pace to default for that unit
+  const handleUnitChange = (newUnit: string) => {
     setUnit(newUnit);
-    setPace(PACES[newUnit][2].value); // pick middle-ish option
+    setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
 
   const generate = useCallback(() => {
@@ -335,7 +377,12 @@ export default function SwimWorkout() {
         {/* Generate button */}
         <button
           onClick={generate}
-          className="group relative w-full rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/50 transition-all active:scale-[0.98] overflow-hidden"
+          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 transition-all active:scale-[0.98] overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #14b8a6, #06b6d4, #0891b2, #14b8a6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientShift 6s ease infinite",
+          }}
         >
           <span className="relative z-10">
             {workout ? "New Workout" : "Generate Workout"}
@@ -374,7 +421,7 @@ export default function SwimWorkout() {
           {/* Sections */}
           <div className="mt-6 space-y-4">
             {workout.sections.map((section, i) => (
-              <WorkoutSection key={i} section={section} unit={unit} />
+              <WorkoutSectionView key={i} section={section} unit={unit} />
             ))}
           </div>
 
