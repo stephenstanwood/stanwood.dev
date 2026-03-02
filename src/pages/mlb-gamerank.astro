@@ -7,6 +7,7 @@ const title = "MLB GameRank — stanwood.dev";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111318" />
     <title>{title}</title>
     <meta
       name="description"
@@ -20,6 +21,17 @@ const title = "MLB GameRank — stanwood.dev";
     <meta name="twitter:title" content="MLB GameRank — stanwood.dev" />
     <meta name="twitter:description" content="The best MLB game to watch right now." />
     <link rel="canonical" href="https://stanwood.dev/mlb-gamerank" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "MLB GameRank",
+        "url": "https://stanwood.dev/mlb-gamerank",
+        "description": "Live MLB scores ranked by watchability.",
+        "applicationCategory": "SportsApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon-mlb.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

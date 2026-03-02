@@ -14,9 +14,58 @@
  *  - Skew towards longer distances (100s–400s)
  */
 
+// ─── Types ──────────────────────────────────────────────────────────────────────
+
+type Stroke = "free" | "back" | "breast" | "fly" | "IM" | "choice" | "mixed";
+type Equipment = "pull" | "kickboard" | "fins";
+
+interface SetItem {
+  reps: number;
+  distance: number;
+  interval?: number;
+  intervalDisplay?: string | null;
+  description: string;
+  stroke: Stroke;
+  equipment?: Equipment;
+  isGroup?: boolean;
+  items?: SetItem[];
+}
+
+interface Section {
+  name: string;
+  items: SetItem[];
+  distance: number;
+}
+
+interface WorkoutInput {
+  duration: number;
+  pace: string;
+  unit: "meters" | "yards";
+  seed?: number;
+}
+
+interface Workout {
+  name: string;
+  duration: number;
+  pace: string;
+  unit: string;
+  totalDistance: number;
+  estimatedMinutes: number;
+  sections: Section[];
+  seed: number | undefined;
+}
+
+interface Rng {
+  random: () => number;
+  pick: <T>(arr: T[]) => T;
+  shuffle: <T>(arr: T[]) => T[];
+  int: (min: number, max: number) => number;
+  chance: (p: number) => boolean;
+}
+
 // ─── Seeded RNG ────────────────────────────────────────────────────────────────
 
-function mulberry32(seed) {
+function mulberry32(seed: number): () => number {
   return function () {
     seed |= 0;
     seed = (seed + 0x6d2b79f5) | 0;
@@ -26,12 +75,12 @@ function mulberry32(seed) {
   };
 }
 
-function createRng(seed) {
+function createRng(seed: number): Rng {
   const next = mulberry32(seed);
   return {
     random: () => next(),
-    pick: (arr) => arr[Math.floor(next() * arr.length)],
-    shuffle: (arr) => {
+    pick: <T>(arr: T[]) => arr[Math.floor(next() * arr.length)],
+    shuffle: <T>(arr: T[]) => {
       const a = [...arr];
       for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(next() * (i + 1));
@@ -39,35 +88,35 @@ function createRng(seed) {
       }
       return a;
     },
-    int: (min, max) => Math.floor(next() * (max - min + 1)) + min,
-    chance: (p) => next() < p,
+    int: (min: number, max: number) => Math.floor(next() * (max - min + 1)) + min,
+    chance: (p: number) => next() < p,
   };
 }
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
-function parsePace(str) {
+function parsePace(str: string): number {
   const [m, s] = str.split(":").map(Number);
   return m * 60 + s;
 }
 
-function formatTime(secs) {
+function formatTime(secs: number): string {
   const m = Math.floor(secs / 60);
   const s = Math.round(secs % 60);
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-function roundTo5(secs) {
+function roundTo5(secs: number): number {
   return Math.round(secs / 5) * 5;
 }
 
-function calcInterval(distance, pacePer100, restAdder = 10) {
+function calcInterval(distance: number, pacePer100: number, restAdder = 10): number {
   const swimTime = (distance / 100) * pacePer100;
   return roundTo5(swimTime + (distance / 100) * restAdder);
 }
 
 /** Pick the nearest "nice" rep count to a raw number */
-function niceReps(raw) {
+function niceReps(raw: number): number {
   const nice = [2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20];
   let best = nice[0];
   let bestDiff = Infinity;
@@ -78,27 +127,27 @@ function niceReps(raw) {
   return best;
 }
 
-function calcSetDuration(set, pacePer100) {
+function calcSetDuration(set: SetItem, pacePer100: number): number {
   if (!set || !set.reps || !set.distance) return 0;
   if (set.interval) return set.reps * set.interval;
   return set.reps * (set.distance / 100) * pacePer100;
 }
 
-function groupDistance(items) {
+function groupDistance(items: SetItem[]): number {
   return items.reduce((sum, item) => {
     if (item.items) return sum + item.reps * groupDistance(item.items);
     return sum + (item.reps || 1) * (item.distance || 0);
   }, 0);
 }
 
-function groupDuration(items, pacePer100) {
+function groupDuration(items: SetItem[], pacePer100: number): number {
   return items.reduce((sum, item) => {
     if (item.items) return sum + item.reps * groupDuration(item.items, pacePer100);
     return sum + calcSetDuration(item, pacePer100);
   }, 0);
 }
 
-function weightedPick(items, weights, rng) {
+function weightedPick<T>(items: T[], weights: number[], rng: Rng): T {
   const total = weights.reduce((a, b) => a + b, 0);
   let r = rng.random() * total;
   for (let i = 0; i < items.length; i++) {
@@ -110,7 +159,7 @@ function weightedPick(items, weights, rng) {
 
 // ─── Target yardage by duration & pace ─────────────────────────────────────────
 
-function calcTargetDistance(durationMin, paceSec) {
+function calcTargetDistance(durationMin: number, paceSec: number): number {
   const utilization = durationMin <= 30 ? 0.72 : durationMin <= 60 ? 0.68 : 0.65;
   const rawDist = (durationMin * 60 * utilization) / (paceSec / 100);
   return Math.round(rawDist / 100) * 100;
@@ -122,7 +171,7 @@ function calcTargetDistance(durationMin, paceSec) {
 // Warmup always starts with 200+ plain free, then an optional second piece.
 // Total warmup never exceeds 1000.
 
-function buildWarmup(target, pace, rng) {
+function buildWarmup(target: number, pace: number, rng: Rng): SetItem[] {
   target = Math.min(target, 1000); // cap warmup at 1000
 
   // Always lead with at least 200 plain free
@@ -203,7 +252,7 @@ function buildWarmup(target, pace, rng) {
 
 // ─── MAIN SET TEMPLATES ────────────────────────────────────────────────────────
 
-function mainStraight(target, pace, rng) {
+function mainStraight(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([100, 200, 200, 300, 400]);
   const reps = niceReps(target / dist);
   const interval = calcInterval(dist, pace, 10);
@@ -211,11 +260,9 @@ function mainStraight(target, pace, rng) {
   return [{ reps, distance: dist, interval, description: `Free — ${desc}`, stroke: "free" }];
 }
 
-function mainDescend(target, pace, rng) {
+function mainDescend(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([100, 150, 200]);
   const rawReps = Math.round(target / dist);
-  // Valid combos: reps must be divisible by descend group (3 or 4)
-  // Pick the best combo that's close to rawReps
   const combos = [
     { reps: 3, group: 3 }, { reps: 4, group: 4 },
     { reps: 6, group: 3 }, { reps: 8, group: 4 },
@@ -223,7 +270,6 @@ function mainDescend(target, pace, rng) {
     { reps: 12, group: 4 }, { reps: 15, group: 3 },
     { reps: 16, group: 4 }, { reps: 20, group: 4 },
   ];
-  // Find closest combo
   let best = combos[0];
   let bestDiff = Infinity;
   for (const c of combos) {
@@ -240,7 +286,7 @@ function mainDescend(target, pace, rng) {
   return [{ reps, distance: dist, interval, description: desc, stroke: "free" }];
 }
 
-function mainLadder(target, pace, rng) {
+function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
   const patterns = [
     [100, 200, 300, 400],
     [100, 200, 300, 400, 500],
@@ -261,15 +307,15 @@ function mainLadder(target, pace, rng) {
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
     description: i === 0 ? "Free — ease into it" : i === steps.length - 1 ? "Free — strong finish" : "Free — settle in",
-    stroke: "free",
+    stroke: "free" as Stroke,
   }));
 }
 
-function mainPyramid(target, pace, rng) {
+function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
   const step = target >= 2000 ? 100 : 50;
   const peak = Math.max(step * 2, Math.min(Math.round(target * 0.2 / step) * step, 500));
 
-  const ascending = [];
+  const ascending: number[] = [];
   for (let d = step; d <= peak; d += step) ascending.push(d);
   const descending = [...ascending].slice(0, -1).reverse();
   const pyramid = [...ascending, ...descending];
@@ -280,11 +326,11 @@ function mainPyramid(target, pace, rng) {
     const repDist = rng.pick([100, 200]);
     const repCount = niceReps(remaining / repDist);
     const interval = calcInterval(repDist, pace, 10);
-    const result = pyramid.map((d, i) => ({
+    const result: SetItem[] = pyramid.map((d, i) => ({
       reps: 1, distance: d,
       interval: calcInterval(d, pace, 10),
       description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
-      stroke: "free",
+      stroke: "free" as Stroke,
     }));
     result.push({ reps: repCount, distance: repDist, interval, description: "Free — hold best pace", stroke: "free" });
     return result;
@@ -294,18 +340,18 @@ function mainPyramid(target, pace, rng) {
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
     description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
-    stroke: "free",
+    stroke: "free" as Stroke,
   }));
 }
 
-function mainNegSplit(target, pace, rng) {
+function mainNegSplit(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([200, 200, 300, 400]);
   const reps = niceReps(target / dist);
   const interval = calcInterval(dist, pace, 12);
   return [{ reps, distance: dist, interval, description: "Free — negative split each", stroke: "free" }];
 }
 
-function mainPullSet(target, pace, rng) {
+function mainPullSet(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([200, 200, 300, 400]);
   const reps = niceReps(target / dist);
   const interval = calcInterval(dist, pace, 10);
@@ -313,7 +359,7 @@ function mainPullSet(target, pace, rng) {
   return [{ reps, distance: dist, interval, description: `Pull — ${desc}`, stroke: "free", equipment: "pull" }];
 }
 
-function mainMixedGear(target, pace, rng) {
+function mainMixedGear(target: number, pace: number, rng: Rng): SetItem[] {
   const swimDist = rng.pick([200, 300]);
   const pullDist = rng.pick([200, 300]);
   const kickDist = rng.pick([100, 200]);
@@ -322,11 +368,12 @@ function mainMixedGear(target, pace, rng) {
 
   const swimInterval = calcInterval(swimDist, pace, 10);
   const pullInterval = calcInterval(pullDist, pace, 10);
-  const kickInterval = calcInterval(kickDist, pace, 20); // more rest for kick
+  const kickInterval = calcInterval(kickDist, pace, 20);
 
   return [{
     reps: rounds, distance: roundTotal,
     description: `${rounds}x through:`,
+    stroke: "free",
     isGroup: true,
     items: [
       { reps: 1, distance: swimDist, interval: swimInterval, description: "Swim free — strong", stroke: "free" },
@@ -336,8 +383,8 @@ function mainMixedGear(target, pace, rng) {
   }];
 }
 
-function mainIMSet(target, pace, rng) {
-  const formats = [
+function mainIMSet(target: number, pace: number, rng: Rng): SetItem[] {
+  const formats: Array<(td: number) => SetItem[]> = [
     (td) => {
       const dist = td >= 1500 ? rng.pick([100, 200]) : 100;
       const reps = niceReps(td / dist);
@@ -371,29 +418,29 @@ function mainIMSet(target, pace, rng) {
   return rng.pick(formats)(target);
 }
 
-function mainBrokenSwim(target, pace, rng) {
+function mainBrokenSwim(target: number, pace: number, rng: Rng): SetItem[] {
   const raceDist = target >= 1500 ? rng.pick([400, 500, 800]) : rng.pick([400, 500]);
   const breakDist = rng.pick([100, 50]);
   const pieces = raceDist / breakDist;
-  const interval = calcInterval(breakDist, pace, 5); // tight interval for broken swim
+  const interval = calcInterval(breakDist, pace, 5);
 
   const remaining = target - raceDist;
-  const result = [
+  const result: SetItem[] = [
     { reps: pieces, distance: breakDist, interval, description: `Broken ${raceDist} free — race pace`, stroke: "free" },
   ];
 
   if (remaining >= 200) {
     const extraDist = rng.pick([100, 200]);
     const extraReps = niceReps(remaining / extraDist);
-    const interval = calcInterval(extraDist, pace, 10);
-    result.push({ reps: extraReps, distance: extraDist, interval, description: "Free — moderate", stroke: "free" });
+    const extraInterval = calcInterval(extraDist, pace, 10);
+    result.push({ reps: extraReps, distance: extraDist, interval: extraInterval, description: "Free — moderate", stroke: "free" });
   }
 
   return result;
 }
 
-function mainCombo(target, pace, rng) {
-  const patterns = [
+function mainCombo(target: number, pace: number, rng: Rng): SetItem[] {
+  const patterns: Array<[number, number][]> = [
     [[400, 0.3], [200, 0.35], [100, 0.35]],
     [[400, 0.25], [200, 0.30], [100, 0.25], [50, 0.20]],
     [[300, 0.30], [200, 0.40], [100, 0.30]],
@@ -405,11 +452,11 @@ function mainCombo(target, pace, rng) {
     const reps = niceReps((target * frac) / dist);
     const interval = calcInterval(dist, pace, 10);
     const descriptions = ["Free — settle into pace", "Free — hold steady", "Free — pick it up", "Free — fast finish"];
-    return { reps, distance: dist, interval, description: descriptions[Math.min(i, descriptions.length - 1)], stroke: "free" };
+    return { reps, distance: dist, interval, description: descriptions[Math.min(i, descriptions.length - 1)], stroke: "free" as Stroke };
   });
 }
 
-function mainFinsSet(target, pace, rng) {
+function mainFinsSet(target: number, pace: number, rng: Rng): SetItem[] {
   const swimDist = rng.pick([200, 300]);
   const finsDist = rng.pick([100, 200]);
   const swimReps = niceReps((target * 0.6) / swimDist);
@@ -422,7 +469,15 @@ function mainFinsSet(target, pace, rng) {
   ];
 }
 
-const MAIN_SET_TEMPLATES = [
+type MainSetFn = (target: number, pace: number, rng: Rng) => SetItem[];
+
+interface MainSetTemplate {
+  fn: MainSetFn;
+  weight: number;
+  name: string;
+}
+
+const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
   { fn: mainStraight, weight: 4, name: "Straight Freestyle" },
   { fn: mainDescend, weight: 4, name: "Descend Set" },
   { fn: mainLadder, weight: 3, name: "Ladder" },
@@ -439,13 +494,10 @@ const MAIN_SET_TEMPLATES = [
 // ─── COOLDOWN TEMPLATES ────────────────────────────────────────────────────────
 // NO rest intervals — cooldown is continuous
 
-// Cooldown always ends with 200 plain free. Optional first piece before it.
-
-function buildCooldown(target, pace, rng) {
+function buildCooldown(target: number, pace: number, rng: Rng): SetItem[] {
   const freeEnd = 200;
   const remaining = target - freeEnd;
 
-  // If not much room for a first piece, just do all free
   if (remaining < 200) {
     return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
   }
@@ -486,15 +538,17 @@ function buildCooldown(target, pace, rng) {
 
 // ─── PRE-SET TEMPLATES ─────────────────────────────────────────────────────────
 
-function presetKick(target, pace, rng) {
+type PresetFn = (target: number, pace: number, rng: Rng) => SetItem[];
+
+function presetKick(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([50, 100]);
-  const reps = Math.min(niceReps(target / dist), 12); // cap kick reps
-  const interval = calcInterval(dist, pace, 25); // generous interval for kick
+  const reps = Math.min(niceReps(target / dist), 12);
+  const interval = calcInterval(dist, pace, 25);
   const desc = rng.pick(["Kick — moderate", "Kick — build each", "Kick — descend 1-4"]);
   return [{ reps, distance: dist, interval, description: desc, stroke: "free", equipment: "kickboard" }];
 }
 
-function presetPull(target, pace, rng) {
+function presetPull(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([100, 200]);
   const reps = niceReps(target / dist);
   const interval = calcInterval(dist, pace, 10);
@@ -502,18 +556,18 @@ function presetPull(target, pace, rng) {
   return [{ reps, distance: dist, interval, description: desc, stroke: "free", equipment: "pull" }];
 }
 
-function presetDrill(target, pace, rng) {
+function presetDrill(target: number, pace: number, rng: Rng): SetItem[] {
   const drill = rng.pick(["Catch-up drill / swim by 25", "Fingertip drag / swim by 25", "Fist drill / swim by 25"]);
   const reps = niceReps(target / 50);
   const interval = calcInterval(50, pace, 15);
   return [{ reps, distance: 50, interval, description: drill, stroke: "free" }];
 }
 
-const PRESET_TEMPLATES = [presetKick, presetPull, presetDrill];
+const PRESET_TEMPLATES: PresetFn[] = [presetKick, presetPull, presetDrill];
 
 // ─── MAIN GENERATOR ────────────────────────────────────────────────────────────
 
-export function generateWorkout({ duration, pace, unit, seed }) {
+export function generateWorkout({ duration, pace, unit, seed }: WorkoutInput): Workout {
   const rng = createRng(seed ?? Math.floor(Math.random() * 2147483647));
   const paceSec = parsePace(pace);
   const totalTargetDist = calcTargetDistance(duration, paceSec);
@@ -533,7 +587,7 @@ export function generateWorkout({ duration, pace, unit, seed }) {
   const mainSet = mainEntry.fn(mainTargetRaw, paceSec, rng);
   const mainDist = groupDistance(mainSet);
 
-  let preset = [];
+  let preset: SetItem[] = [];
   let presetDist = 0;
   if (hasPreset) {
     preset = rng.pick(PRESET_TEMPLATES)(presetTargetRaw, paceSec, rng);
@@ -565,7 +619,7 @@ export function generateWorkout({ duration, pace, unit, seed }) {
     groupDuration(cooldown, paceSec * 1.2);
 
   // Format intervals for display
-  const formatSet = (items) =>
+  const formatSet = (items: SetItem[]): SetItem[] =>
     items.map((item) => {
       if (item.isGroup && item.items) {
         return { ...item, items: formatSet(item.items) };

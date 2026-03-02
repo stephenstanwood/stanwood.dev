@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { generateWorkout } from "../lib/workoutEngine.js";
+import { generateWorkout } from "../lib/workoutEngine";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
