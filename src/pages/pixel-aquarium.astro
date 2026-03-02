@@ -186,23 +186,43 @@ const title = "Pixel Aquarium — stanwood.dev";
       const FISH_EYE_L = [7 - 1 - FISH_EYE_R[0], FISH_EYE_R[1]];
       const FISH_FIN_L = mirrorX(FISH_FIN_R, 7);
 
+      // --- Curated fish palettes (body, tail, fin) ---
+      const FISH_PALETTES = [
+        { body: [255, 107, 157], tail: [220, 70, 130], fin: [255, 140, 180] }, // coral pink
+        { body: [0, 190, 220],   tail: [0, 150, 190],  fin: [80, 210, 235] }, // tropical cyan
+        { body: [255, 180, 50],  tail: [230, 140, 20],  fin: [255, 210, 100] }, // golden
+        { body: [130, 100, 220], tail: [100, 70, 190],  fin: [165, 140, 240] }, // soft purple
+        { body: [80, 210, 140],  tail: [50, 180, 110],  fin: [120, 230, 170] }, // seafoam
+        { body: [255, 120, 80],  tail: [220, 90, 55],   fin: [255, 155, 120] }, // tangerine
+        { body: [100, 180, 255], tail: [65, 145, 225],  fin: [140, 200, 255] }, // sky blue
+        { body: [240, 130, 200], tail: [210, 95, 170],  fin: [250, 170, 220] }, // orchid
+        { body: [255, 200, 100], tail: [240, 170, 60],  fin: [255, 220, 150] }, // buttercup
+        { body: [90, 200, 200],  tail: [60, 170, 175],  fin: [130, 220, 220] }, // teal
+      ];
+
+      // --- Size presets ---
+      const FISH_SIZES = [0.6, 0.7, 0.8, 1.0, 1.0, 1.0, 1.2, 1.4];
+
       // --- Create fish ---
       function createFish(x, y) {
-        const hue = Math.random() * 360;
-        const sat = 70 + Math.random() * 30;
-        const lit = 50 + Math.random() * 15;
+        const palette = FISH_PALETTES[Math.floor(Math.random() * FISH_PALETTES.length)];
+        const size = FISH_SIZES[Math.floor(Math.random() * FISH_SIZES.length)];
         return {
           x, y,
-          vx: (Math.random() - 0.5) * 0.6,
-          vy: (Math.random() - 0.5) * 0.3,
-          color: hslToRgb(hue, sat, lit),
-          tailColor: hslToRgb((hue + 30) % 360, sat, lit - 10),
-          finColor: hslToRgb((hue - 20 + 360) % 360, sat - 10, lit + 5),
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.15,
+          color: [...palette.body],
+          tailColor: [...palette.tail],
+          finColor: [...palette.fin],
           facing: Math.random() > 0.5 ? 1 : -1,
-          swimTimer: Math.random() * 200,
+          swimTimer: Math.random() * 1000,
           targetFood: null,
-          size: 0.8 + Math.random() * 0.5,
-          wobble: 0,
+          size,
+          // personality
+          hunger: 0.3 + Math.random() * 0.7,    // 0-1: how motivated by food
+          laziness: 0.3 + Math.random() * 0.5,   // affects idle drift frequency
+          swimSpeed: 0.3 + Math.random() * 0.4,  // personal max speed multiplier
+          wiggleRate: 0.002 + Math.random() * 0.003, // tail/fin animation speed
         };
       }
 
@@ -292,33 +312,39 @@ const title = "Pixel Aquarium — stanwood.dev";
         const eye = dir > 0 ? FISH_EYE_R : FISH_EYE_L;
         const fin = dir > 0 ? FISH_FIN_R : FISH_FIN_L;
 
-        const ox = Math.round(fish.x);
-        const oy = Math.round(fish.y);
+        const s = fish.size;
+        const ps = Math.round(PIXEL * s);
+        const ox = Math.round(fish.x * PIXEL);
+        const oy = Math.round(fish.y * PIXEL);
         const [r, g, b] = fish.color;
         const [tr, tg, tb] = fish.tailColor;
         const [fr, fg, fb] = fish.finColor;
 
-        // Tail wiggle
-        const wiggle = Math.round(Math.sin(time * 0.008 + fish.swimTimer) * 1.2);
+        // Gentle tail wiggle — slower, smaller amplitude
+        const wiggle = Math.round(Math.sin(time * fish.wiggleRate + fish.swimTimer) * 0.8);
 
         // Body
+        ctx.fillStyle = rgbStr(r, g, b);
         for (const [bx, by] of body) {
-          px(ox + bx, oy + by, rgbStr(r, g, b));
+          ctx.fillRect(ox + bx * ps, oy + by * ps, ps, ps);
         }
 
         // Tail with wiggle
+        ctx.fillStyle = rgbStr(tr, tg, tb);
         for (const [tx, ty] of tail) {
-          px(ox + tx + wiggle * -dir, oy + ty, rgbStr(tr, tg, tb));
+          ctx.fillRect(ox + (tx + wiggle * -dir) * ps, oy + ty * ps, ps, ps);
         }
 
         // Eye
-        px(ox + eye[0], oy + eye[1], '#fff');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(ox + eye[0] * ps, oy + eye[1] * ps, ps, ps);
 
-        // Fin
-        const finWobble = Math.sin(time * 0.006 + fish.swimTimer) > 0 ? 1 : 0;
-        if (finWobble) {
+        // Fin — gentle, shows about 60% of the time with smooth sine
+        const finAlpha = Math.sin(time * fish.wiggleRate * 0.8 + fish.swimTimer) * 0.3 + 0.5;
+        if (finAlpha > 0.4) {
+          ctx.fillStyle = rgbStr(fr, fg, fb, Math.min(finAlpha, 0.7));
           for (const [fx, fy] of fin) {
-            px(ox + fx, oy + fy, rgbStr(fr, fg, fb, 0.8));
+            ctx.fillRect(ox + fx * ps, oy + fy * ps, ps, ps);
           }
         }
       }
@@ -344,23 +370,29 @@ const title = "Pixel Aquarium — stanwood.dev";
       function updateFish(fish, dt) {
         fish.swimTimer += dt;
 
-        // Find nearest food if not targeting
+        // --- Food interest (governed by personality) ---
+        // Only look for food sometimes, based on hunger trait
         if (!fish.targetFood || foods.indexOf(fish.targetFood) === -1) {
           fish.targetFood = null;
-          let minDist = Infinity;
-          for (const f of foods) {
-            const dx = f.x - fish.x;
-            const dy = f.y - fish.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < minDist) {
-              minDist = dist;
-              fish.targetFood = f;
+
+          // Less hungry fish only check occasionally
+          if (foods.length > 0 && Math.random() < fish.hunger * 0.05) {
+            let minDist = Infinity;
+            const detectRange = 30 + fish.hunger * 50; // hungry fish notice from farther
+            for (const f of foods) {
+              const dx = f.x - fish.x;
+              const dy = f.y - fish.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < detectRange && dist < minDist) {
+                minDist = dist;
+                fish.targetFood = f;
+              }
             }
           }
         }
 
         if (fish.targetFood) {
-          // Swim toward food
+          // Swim toward food — gently, not a mad dash
           const dx = fish.targetFood.x - fish.x;
           const dy = fish.targetFood.y - fish.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
@@ -368,44 +400,49 @@ const title = "Pixel Aquarium — stanwood.dev";
           if (dist < 5) {
             // Eat!
             const foodColor = fish.targetFood.color.rgb;
-            fish.color = lerpColor(fish.color, foodColor, 0.3);
-            fish.tailColor = lerpColor(fish.tailColor, foodColor, 0.2);
-            fish.finColor = lerpColor(fish.finColor, foodColor, 0.15);
+            fish.color = lerpColor(fish.color, foodColor, 0.25);
+            fish.tailColor = lerpColor(fish.tailColor, foodColor, 0.15);
+            fish.finColor = lerpColor(fish.finColor, foodColor, 0.1);
             foods.splice(foods.indexOf(fish.targetFood), 1);
             fish.targetFood = null;
             fedCount++;
 
-            // Bubble burst
-            for (let i = 0; i < 3; i++) {
-              bubbles.push({
-                x: fish.x + 3,
-                y: fish.y,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: -0.3 - Math.random() * 0.3,
-              });
-            }
+            // Tiny bubble
+            bubbles.push({
+              x: fish.x + 3,
+              y: fish.y,
+              vx: (Math.random() - 0.5) * 0.15,
+              vy: -0.2 - Math.random() * 0.15,
+            });
           } else {
-            fish.vx += (dx / dist) * 0.08;
-            fish.vy += (dy / dist) * 0.06;
+            // Gentle pursuit — scales with hunger
+            const accel = 0.02 + fish.hunger * 0.03;
+            fish.vx += (dx / dist) * accel;
+            fish.vy += (dy / dist) * accel * 0.7;
           }
         } else {
-          // Idle swimming
-          if (Math.random() < 0.01) {
-            fish.vx += (Math.random() - 0.5) * 0.3;
-            fish.vy += (Math.random() - 0.5) * 0.15;
+          // --- Idle swimming (the main state) ---
+          // Each fish drifts on its own rhythm
+          const drift = fish.laziness;
+
+          // Occasional gentle course change
+          if (Math.random() < 0.005 * (1 - drift)) {
+            fish.vx += (Math.random() - 0.5) * 0.15;
+            fish.vy += (Math.random() - 0.5) * 0.08;
           }
 
-          // Gentle sine wave motion
-          fish.vy += Math.sin(fish.swimTimer * 0.003) * 0.002;
+          // Smooth sine wave — unique per fish
+          fish.vy += Math.sin(fish.swimTimer * 0.0015 + fish.laziness * 100) * 0.001;
+          fish.vx += Math.cos(fish.swimTimer * 0.001 + fish.hunger * 100) * 0.0005;
         }
 
-        // Damping
-        fish.vx *= 0.98;
-        fish.vy *= 0.97;
+        // Damping — heavier for a floaty feel
+        fish.vx *= 0.97;
+        fish.vy *= 0.96;
 
-        // Speed limit
+        // Speed limit — personal max speed
         const speed = Math.sqrt(fish.vx * fish.vx + fish.vy * fish.vy);
-        const maxSpeed = 1.2;
+        const maxSpeed = 0.5 * fish.swimSpeed;
         if (speed > maxSpeed) {
           fish.vx = (fish.vx / speed) * maxSpeed;
           fish.vy = (fish.vy / speed) * maxSpeed;
@@ -415,16 +452,22 @@ const title = "Pixel Aquarium — stanwood.dev";
         fish.x += fish.vx;
         fish.y += fish.vy;
 
-        // Facing direction
-        if (Math.abs(fish.vx) > 0.05) {
+        // Facing direction — only flip when clearly moving
+        if (Math.abs(fish.vx) > 0.03) {
           fish.facing = fish.vx > 0 ? 1 : -1;
         }
 
-        // Boundary bounce
-        if (fish.x < 3) { fish.x = 3; fish.vx = Math.abs(fish.vx) * 0.5; }
-        if (fish.x > COLS - 10) { fish.x = COLS - 10; fish.vx = -Math.abs(fish.vx) * 0.5; }
-        if (fish.y < 3) { fish.y = 3; fish.vy = Math.abs(fish.vy) * 0.5; }
-        if (fish.y > SAND_LINE - 8) { fish.y = SAND_LINE - 8; fish.vy = -Math.abs(fish.vy) * 0.5; }
+        // Soft boundary — gentle nudge back instead of hard bounce
+        const margin = 4;
+        const nudge = 0.01;
+        if (fish.x < margin) fish.vx += nudge;
+        if (fish.x > COLS - 12) fish.vx -= nudge;
+        if (fish.y < margin) fish.vy += nudge;
+        if (fish.y > SAND_LINE - 10) fish.vy -= nudge;
+
+        // Hard clamp just in case
+        fish.x = Math.max(2, Math.min(COLS - 10, fish.x));
+        fish.y = Math.max(2, Math.min(SAND_LINE - 8, fish.y));
       }
 
       // --- Update food ---
@@ -510,10 +553,12 @@ const title = "Pixel Aquarium — stanwood.dev";
         spawnCheck++;
         if (spawnCheck % 300 === 0 && fishes.length < 20 && fedCount > fishes.length * 2) {
           const parent = fishes[Math.floor(Math.random() * fishes.length)];
-          const baby = createFish(parent.x, parent.y);
-          baby.color = [...parent.color];
-          baby.tailColor = lerpColor(parent.tailColor, baby.tailColor, 0.5);
-          baby.size = 0.6;
+          const baby = createFish(parent.x + (Math.random() - 0.5) * 8, parent.y);
+          // Inherit parent colors with slight variation
+          baby.color = lerpColor(parent.color, baby.color, 0.3);
+          baby.tailColor = lerpColor(parent.tailColor, baby.tailColor, 0.3);
+          baby.finColor = lerpColor(parent.finColor, baby.finColor, 0.3);
+          baby.size = 0.5 + Math.random() * 0.2; // babies are small
           fishes.push(baby);
         }
       }
