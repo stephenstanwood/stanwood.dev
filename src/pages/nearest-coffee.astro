@@ -36,7 +36,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <style>
+    <style is:global>
       body {
         font-family: 'Space Grotesk', system-ui, sans-serif;
         background: #0e1110;
@@ -112,68 +112,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         50% { opacity: 0.4; }
       }
 
-      /* Carousel for "More nearby" */
-      .carousel-wrap {
-        position: relative;
-        margin-top: 28px;
-      }
-      .carousel-header {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: rgba(139,170,128,0.6);
-        text-align: center;
-        margin-bottom: 14px;
-      }
-      .carousel-card {
-        border-radius: 20px;
-        background: linear-gradient(165deg, rgba(30,35,30,0.85) 0%, rgba(20,24,20,0.9) 100%);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(139,170,128,0.1);
-        padding: 20px 24px;
-        text-align: center;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-        transition: opacity 0.3s;
-      }
-      .carousel-name {
-        font-size: 18px;
-        font-weight: 700;
-        color: #E8E6E1;
-        line-height: 1.3;
-      }
-      .carousel-meta {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 8px;
-        font-size: 13px;
-      }
-      .carousel-dist {
-        color: #8BAA80;
-        font-weight: 600;
-      }
-      .carousel-rating {
-        color: #E8E6E1;
-        font-size: 13px;
-      }
-      .carousel-addr {
-        margin-top: 10px;
-        font-size: 13px;
-        color: #8B8D94;
-        line-height: 1.4;
-      }
-      .carousel-addr a {
-        color: #8BAA80;
-        text-decoration: none;
-        transition: color 0.2s;
-      }
-      .carousel-addr a:hover {
-        color: #A3C296;
-        text-decoration: underline;
-      }
+      /* Carousel navigation */
       .carousel-nav {
         display: flex;
         align-items: center;
@@ -201,13 +140,30 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         transform: scale(1.05);
       }
       .carousel-arrow:disabled {
-        opacity: 0.2;
+        opacity: 0.15;
         cursor: default;
         transform: none;
       }
+      .carousel-arrow:disabled:hover {
+        background: rgba(139,170,128,0.08);
+        border-color: rgba(139,170,128,0.15);
+        transform: none;
+      }
+      .carousel-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .carousel-counter {
+        font-size: 13px;
+        color: rgba(139,170,128,0.5);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
       .carousel-dots {
         display: flex;
-        gap: 6px;
+        gap: 5px;
         align-items: center;
       }
       .carousel-dot {
@@ -215,14 +171,30 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         height: 6px;
         border-radius: 50%;
         background: rgba(139,170,128,0.15);
-        transition: all 0.2s;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      .carousel-dot:hover {
+        background: rgba(139,170,128,0.3);
       }
       .carousel-dot.active {
         background: #8BAA80;
-        box-shadow: 0 0 6px rgba(139,170,128,0.4);
-        width: 8px;
-        height: 8px;
+        box-shadow: 0 0 8px rgba(139,170,128,0.4);
+        width: 20px;
+        border-radius: 3px;
       }
+
+      /* Card transition */
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      .slide-in-right { animation: slideInRight 0.3s ease both; }
+      .slide-in-left  { animation: slideInLeft 0.3s ease both; }
 
       /* star */
       .star { color: #D4A847; text-shadow: 0 0 6px rgba(212,168,71,0.3); }
@@ -460,140 +432,181 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
       // ── Render results ──
 
+      function estimateWalk(meters: number): string {
+        const mins = Math.round(meters / 80); // ~80m/min walking
+        if (mins < 1) return "< 1 min walk";
+        return `${mins} min walk`;
+      }
+
+      function buildCardHtml(shop: CoffeeShop, rank: number, direction: "none" | "left" | "right"): string {
+        const showMap = mapsApiKey.length > 0;
+        const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+
+        let mapHtml = "";
+        if (showMap) {
+          const mapUrl = buildMapUrl(shop);
+          mapHtml = `
+            <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
+              <img
+                src="${mapUrl}"
+                alt="Map showing route to ${shop.name}"
+                class="map-img"
+                style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
+                onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
+              />
+            </div>
+          `;
+        }
+
+        const ratingHtml = shop.rating
+          ? `<span style="display:flex;align-items:center;gap:4px;"><span class="star">★</span> <span style="color:#E8E6E1;font-weight:600;">${shop.rating.toFixed(1)}</span></span>`
+          : "";
+
+        const animClass = direction === "right" ? "slide-in-right" : direction === "left" ? "slide-in-left" : "fade-up";
+
+        return `
+          <div class="hero-card ${animClass}">
+            ${mapHtml}
+            <div style="padding:20px 20px 24px;">
+              <!-- Top row: rank + badge + distance + walk time + rating -->
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(139,170,128,0.1);color:#8BAA80;font-weight:800;font-size:13px;">${rank}</span>
+                <span class="open-badge">Open</span>
+                <span style="color:#8BAA80;font-weight:600;font-size:14px;">${formatDistance(shop.distance)}</span>
+                <span style="color:rgba(139,170,128,0.4);font-size:12px;font-weight:500;">${estimateWalk(shop.distance)}</span>
+                ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
+              </div>
+
+              <!-- Name -->
+              <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${shop.name}</h2>
+
+              <!-- Address as nav link -->
+              <a href="${navUrl}" target="_blank" rel="noopener" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${shop.address}
+                  <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#8BAA80;" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
       function renderResults(shops: CoffeeShop[]) {
         finishProgress();
 
         setTimeout(() => {
-          const hero = shops[0];
-          const rest = shops.slice(1);
-          const showMap = mapsApiKey.length > 0;
+          let currentIdx = 0;
 
-          let mapHtml = "";
-          if (showMap) {
-            const mapUrl = buildMapUrl(hero);
-            mapHtml = `
-              <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
-                <img
-                  src="${mapUrl}"
-                  alt="Map showing route to ${hero.name}"
-                  class="map-img"
-                  style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
-                  onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
-                />
+          // Build shell: card container + nav
+          const navHtml = shops.length > 1 ? `
+            <div class="carousel-nav">
+              <button class="carousel-arrow" id="carousel-prev" aria-label="Previous result" disabled>
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <div class="carousel-center">
+                <div class="carousel-dots" id="carousel-dots"></div>
+                <span class="carousel-counter" id="carousel-counter"></span>
               </div>
-            `;
-          }
-
-          const ratingHtml = hero.rating
-            ? `<span class="star">★</span> <span style="color:#E8E6E1;font-weight:600;">${hero.rating.toFixed(1)}</span>`
-            : "";
-
-          const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${hero.lat},${hero.lng}&travelmode=walking`;
-
-          let heroHtml = `
-            <div class="hero-card fade-up">
-              ${mapHtml}
-              <div style="padding:20px 20px 24px;">
-                <!-- Top row: badge + distance + rating -->
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-                  <span class="open-badge">Open</span>
-                  <span style="color:#8BAA80;font-weight:600;font-size:14px;">${formatDistance(hero.distance)}</span>
-                  ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;display:flex;align-items:center;gap:4px;">${ratingHtml}</span>` : ""}
-                </div>
-
-                <!-- Name -->
-                <h2 style="font-size:clamp(22px,6vw,30px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${hero.name}</h2>
-
-                <!-- Address as nav link -->
-                <a href="${navUrl}" target="_blank" rel="noopener" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                  <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${hero.address}
-                    <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#8BAA80;" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
-                    </svg>
-                  </span>
-                </a>
-              </div>
+              <button class="carousel-arrow" id="carousel-next" aria-label="Next result">
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </button>
             </div>
+          ` : "";
+
+          app.innerHTML = `
+            <div id="card-viewport">${buildCardHtml(shops[0], 1, "none")}</div>
+            ${navHtml}
           `;
 
-          // Carousel for additional results
-          let carouselHtml = "";
-          if (rest.length > 0) {
-            carouselHtml = `
-              <div class="carousel-wrap">
-                <div class="carousel-header">More nearby</div>
-                <div id="carousel-content"></div>
-                <div class="carousel-nav">
-                  <button class="carousel-arrow" id="carousel-prev" aria-label="Previous">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                  </button>
-                  <div class="carousel-dots" id="carousel-dots"></div>
-                  <button class="carousel-arrow" id="carousel-next" aria-label="Next">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                  </button>
-                </div>
-              </div>
-            `;
+          if (shops.length <= 1) return;
+
+          // Pre-load adjacent map images
+          function preloadMap(idx: number) {
+            if (idx < 0 || idx >= shops.length || !mapsApiKey) return;
+            const img = new Image();
+            img.src = buildMapUrl(shops[idx]);
+          }
+          preloadMap(1);
+
+          const viewport = document.getElementById("card-viewport")!;
+          const dotsEl = document.getElementById("carousel-dots")!;
+          const counterEl = document.getElementById("carousel-counter")!;
+          const prevBtn = document.getElementById("carousel-prev")! as HTMLButtonElement;
+          const nextBtn = document.getElementById("carousel-next")! as HTMLButtonElement;
+
+          function showCard(idx: number, direction: "left" | "right") {
+            viewport.innerHTML = buildCardHtml(shops[idx], idx + 1, direction);
+
+            // Update dots
+            dotsEl.innerHTML = shops.map((_, i) =>
+              `<div class="carousel-dot ${i === idx ? 'active' : ''}" data-idx="${i}"></div>`
+            ).join("");
+
+            // Update counter
+            counterEl.textContent = `${idx + 1} of ${shops.length}`;
+
+            // Update arrow states
+            prevBtn.disabled = idx === 0;
+            nextBtn.disabled = idx === shops.length - 1;
+
+            // Preload neighbors
+            preloadMap(idx - 1);
+            preloadMap(idx + 1);
           }
 
-          app.innerHTML = heroHtml + carouselHtml;
+          // Initial dots + counter
+          dotsEl.innerHTML = shops.map((_, i) =>
+            `<div class="carousel-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></div>`
+          ).join("");
+          counterEl.textContent = `1 of ${shops.length}`;
 
-          // Wire up carousel
-          if (rest.length > 0) {
-            let carouselIdx = 0;
-            const carouselEl = document.getElementById("carousel-content")!;
-            const dotsEl = document.getElementById("carousel-dots")!;
-            const prevBtn = document.getElementById("carousel-prev")! as HTMLButtonElement;
-            const nextBtn = document.getElementById("carousel-next")! as HTMLButtonElement;
+          prevBtn.addEventListener("click", () => {
+            if (currentIdx > 0) { currentIdx--; showCard(currentIdx, "left"); }
+          });
+          nextBtn.addEventListener("click", () => {
+            if (currentIdx < shops.length - 1) { currentIdx++; showCard(currentIdx, "right"); }
+          });
 
-            function renderCarouselCard(idx: number) {
-              const shop = rest[idx];
-              const shopNavUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
-              const shopRating = shop.rating
-                ? `<span style="color:#D4A847;text-shadow:0 0 6px rgba(212,168,71,0.3);">★</span> <span style="font-weight:600;">${shop.rating.toFixed(1)}</span>`
-                : "";
+          // Click dots to jump
+          dotsEl.addEventListener("click", (e) => {
+            const dot = (e.target as HTMLElement).closest("[data-idx]");
+            if (!dot) return;
+            const newIdx = parseInt(dot.getAttribute("data-idx")!, 10);
+            if (newIdx === currentIdx) return;
+            const dir = newIdx > currentIdx ? "right" : "left";
+            currentIdx = newIdx;
+            showCard(currentIdx, dir);
+          });
 
-              carouselEl.innerHTML = `
-                <div class="carousel-card">
-                  <div class="carousel-name">${shop.name}</div>
-                  <div class="carousel-meta">
-                    <span class="carousel-dist">${formatDistance(shop.distance)}</span>
-                    ${shopRating ? `<span class="carousel-rating">${shopRating}</span>` : ""}
-                  </div>
-                  <div class="carousel-addr">
-                    <a href="${shopNavUrl}" target="_blank" rel="noopener">
-                      ${shop.address}
-                      <svg style="width:9px;height:9px;display:inline;vertical-align:middle;margin-left:3px;" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              `;
-
-              // Update dots
-              dotsEl.innerHTML = rest.map((_, i) =>
-                `<div class="carousel-dot ${i === idx ? 'active' : ''}"></div>`
-              ).join("");
-
-              // Update arrow states
-              prevBtn.disabled = idx === 0;
-              nextBtn.disabled = idx === rest.length - 1;
+          // Keyboard navigation
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowLeft" && currentIdx > 0) {
+              currentIdx--; showCard(currentIdx, "left");
+            } else if (e.key === "ArrowRight" && currentIdx < shops.length - 1) {
+              currentIdx++; showCard(currentIdx, "right");
             }
+          });
 
-            prevBtn.addEventListener("click", () => {
-              if (carouselIdx > 0) { carouselIdx--; renderCarouselCard(carouselIdx); }
-            });
-            nextBtn.addEventListener("click", () => {
-              if (carouselIdx < rest.length - 1) { carouselIdx++; renderCarouselCard(carouselIdx); }
-            });
-
-            renderCarouselCard(0);
-          }
+          // Touch swipe
+          let touchStartX = 0;
+          viewport.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+          }, { passive: true });
+          viewport.addEventListener("touchend", (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) < 50) return; // too small
+            if (dx < 0 && currentIdx < shops.length - 1) {
+              currentIdx++; showCard(currentIdx, "right");
+            } else if (dx > 0 && currentIdx > 0) {
+              currentIdx--; showCard(currentIdx, "left");
+            }
+          }, { passive: true });
         }, 300);
       }
 
