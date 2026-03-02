@@ -228,49 +228,6 @@ function formatTipoff(dateStr: string): string {
 
 // --- Card renderers ---
 
-function renderHeroTeam(
-  competitor: Competitor,
-  status: Status,
-  label: string,
-  isWinning: boolean,
-  isLosing: boolean,
-): string {
-  const abbr = teamAbbr(competitor);
-  const fullName = teamFullName(competitor);
-  const city = esc(competitor?.team?.location || abbr);
-  const name = esc(competitor?.team?.name || "");
-  const record = esc(competitor?.records?.[0]?.summary || "");
-  const logoUrl = escUrl(competitor?.team?.logo || "");
-  const color = teamColor(competitor);
-  const state = status?.type?.state;
-  const showScore = state && state !== "pre";
-  const score = showScore ? (competitor?.score ?? "\u2013") : "";
-
-  let scoreStyle = "color: #e4e4e7;";
-  if (isWinning)
-    scoreStyle =
-      "color: #4ade80; text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);";
-  else if (isLosing) scoreStyle = "color: #71717a;";
-
-  return `
-    <div class="flex items-center justify-between py-1.5">
-      <div class="flex items-center gap-3">
-        ${
-          logoUrl
-            ? `<img src="${logoUrl}" alt="${fullName}" width="32" height="32" style="object-fit: contain;" />`
-            : `<div style="width:32px;height:32px;border-radius:50%;background:${color};"></div>`
-        }
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.15em; color: #71717a; text-transform: uppercase;">${label}</div>
-          <div class="font-score text-base font-bold tracking-wider" style="color: ${color};">${city}</div>
-          <div style="font-size: 12px; color: ${color}; opacity: 0.7;">${name} <span style="color: #71717a; opacity: 1; font-size: 10px; margin-left: 4px;">${record}</span></div>
-        </div>
-      </div>
-      ${score ? `<div class="font-score text-4xl font-black tracking-wider" style="${scoreStyle}">${score}</div>` : ""}
-    </div>
-  `;
-}
-
 function renderHeroCard(game: Game): string {
   const comp = game.competitions![0];
   const competitors = comp?.competitors || [];
@@ -292,26 +249,51 @@ function renderHeroCard(game: Game): string {
   const state = status?.type?.state;
   const hasScores = !!(state && state !== "pre");
 
+  const awayName = teamFullName(away);
+  const homeName = teamFullName(home);
+  const { national } = getBroadcasts(comp);
+  const network = national.length > 0 ? national[0] : "League Pass";
+
+  // Score detail colors
+  const awayScoreColor =
+    hasScores && awayScore > homeScore
+      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
+      : hasScores && awayScore < homeScore
+        ? "color:#71717a;"
+        : "color:#e4e4e7;";
+  const homeScoreColor =
+    hasScores && homeScore > awayScore
+      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
+      : hasScores && homeScore < awayScore
+        ? "color:#71717a;"
+        : "color:#e4e4e7;";
+
   return `
-    <div class="hero-card p-5">
-      <div class="flex justify-center">
-        <div class="status-pill ${live ? "live" : ""}">
-          ${live ? '<div class="live-dot"></div>' : ""}
-          ${live ? "LIVE \u00b7 " : ""}${statusLabel(status)}
+    <div class="hero-card p-6 text-center">
+      <div class="hero-preamble">The best game<br>right now is</div>
+      <div class="hero-matchup mt-1">${awayName}<br><span style="color:#52525b;font-size:14px;font-weight:500;">at</span><br>${homeName}</div>
+      <div class="hero-network mt-1">on <span class="network-name">${esc(network)}</span></div>
+
+      <div style="margin-top:16px;">
+        <div class="flex justify-center">
+          <div class="status-pill ${live ? "live" : ""}">
+            ${live ? '<div class="live-dot"></div>' : ""}
+            ${live ? "LIVE \u00b7 " : ""}${statusLabel(status)}
+          </div>
         </div>
-      </div>
-
-      <div class="mt-5 space-y-1">
-        ${renderHeroTeam(away, status, "AWAY", hasScores && awayScore > homeScore, hasScores && awayScore < homeScore)}
-        <div style="border-top: 1px dashed rgba(34, 211, 238, 0.15); margin: 4px 0;"></div>
-        ${renderHeroTeam(home, status, "HOME", hasScores && homeScore > awayScore, hasScores && homeScore < awayScore)}
-      </div>
-
-      <div class="flex justify-center">${renderBroadcastBadges(comp, false)}</div>
-
-      <div class="mt-3">
-        <div class="watch-bar-track">
-          <div class="watch-bar-fill" style="width: ${barPct}%;"></div>
+        ${
+          hasScores
+            ? `<div class="score-detail mt-3">
+                <span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
+                <span class="score-dash">\u2014</span>
+                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>
+              </div>`
+            : ""
+        }
+        <div class="mt-3">
+          <div class="watch-bar-track">
+            <div class="watch-bar-fill" style="width: ${barPct}%;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -402,34 +384,36 @@ function renderGameRow(
 }
 
 function renderNoGames(events: Game[]): string {
-  const scheduled = events
+  // Find the best upcoming game by quality, not time
+  const preGames = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .sort(
-      (a, b) => new Date(a.date!).getTime() - new Date(b.date!).getTime(),
-    );
+    .map((g) => ({ game: g, score: computePreGameScore(g) }))
+    .sort((a, b) => b.score - a.score);
 
-  let nextLine = "";
-  if (scheduled.length > 0) {
-    const next = scheduled[0];
-    const comp = next.competitions?.[0];
-    const away = comp?.competitors?.find((c) => c.homeAway === "away");
-    const home = comp?.competitors?.find((c) => c.homeAway === "home");
-    const time = formatTipoff(next.date!);
-    nextLine = `
-      <div class="mt-4 font-score text-sm" style="color: #a1a1aa;">
-        Next up: <span style="color: #22d3ee; text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);">${teamAbbr(away!)} @ ${teamAbbr(home!)}</span>
-        <span style="color: #f59e0b; text-shadow: 0 0 6px rgba(245, 158, 11, 0.3); margin-left: 4px;">${time} PT</span>
+  if (preGames.length === 0) {
+    return `
+      <div class="hero-card p-8 text-center">
+        <div class="hero-preamble" style="line-height:1.6;">No games today.</div>
       </div>
     `;
   }
 
-  const message =
-    events.length === 0 ? "NO GAMES TODAY" : "NO LIVE GAMES";
+  const best = preGames[0].game;
+  const comp = best.competitions?.[0];
+  const competitors = comp?.competitors || [];
+  const away =
+    competitors.find((c) => c.homeAway === "away") || competitors[0];
+  const home =
+    competitors.find((c) => c.homeAway === "home") || competitors[1];
+  const time = formatTipoff(best.date!);
+  const { national } = getBroadcasts(comp!);
+  const network = national.length > 0 ? national[0] : "League Pass";
 
   return `
-    <div class="hero-card p-8 text-center">
-      <div class="font-score text-lg font-bold tracking-widest" style="color: #22d3ee; text-shadow: 0 0 15px rgba(34, 211, 238, 0.4);">${message}</div>
-      ${nextLine}
+    <div class="hero-card p-6 text-center">
+      <div class="hero-preamble">The best game<br>today is</div>
+      <div class="hero-matchup mt-1">${teamFullName(away)}<br><span style="color:#52525b;font-size:14px;font-weight:500;">at</span><br>${teamFullName(home)}</div>
+      <div class="hero-network mt-1">at <span class="time-value">${esc(time)} PT</span> on <span class="network-name">${esc(network)}</span></div>
     </div>
   `;
 }
@@ -519,7 +503,7 @@ function render(events: Game[]): void {
     `;
   }
 
-  html += renderRankedGames(events, "Coming Up");
+  html += renderRankedGames(events, "Up Next, Ranked");
 
   content.innerHTML = html;
 }
