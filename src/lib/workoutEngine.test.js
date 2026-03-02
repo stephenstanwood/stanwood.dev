@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateWorkout } from "./workoutEngine.js";
+import { generateWorkout } from "./workoutEngine";
 
 describe("generateWorkout", () => {
   const defaults = { duration: 60, pace: "1:30", unit: "meters", seed: 42 };

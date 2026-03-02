@@ -111,7 +111,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     );
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-6-20250514",
       max_tokens: 600,
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: userMessage }],
@@ -145,8 +145,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Something went wrong";
-    return new Response(JSON.stringify({ error: message }), {
+    console.error("recommend error:", err);
+    return new Response(JSON.stringify({ error: "Something went wrong" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });

@@ -8,6 +8,7 @@ const title = "Green Light — stanwood.dev";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0f0a" />
     <title>{title}</title>
     <meta
       name="description"
@@ -21,7 +22,17 @@ const title = "Green Light — stanwood.dev";
     <meta name="twitter:title" content="Green Light — stanwood.dev" />
     <meta name="twitter:description" content="Know what to order before you sit down." />
     <link rel="canonical" href="https://stanwood.dev/green-light" />
-
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Green Light",
+        "url": "https://stanwood.dev/green-light",
+        "description": "AI-powered healthy ordering for any restaurant.",
+        "applicationCategory": "LifestyleApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon-gl.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

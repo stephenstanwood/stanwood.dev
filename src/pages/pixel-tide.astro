@@ -8,6 +8,7 @@ const title = "Pixel Tide — stanwood.dev";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a1c2e" />
     <title>{title}</title>
     <meta
       name="description"
@@ -21,7 +22,17 @@ const title = "Pixel Tide — stanwood.dev";
     <meta name="twitter:title" content="Pixel Tide — stanwood.dev" />
     <meta name="twitter:description" content="Waves of colored pixels wash in and out. Click to build sandcastles. No winning, just vibes." />
     <link rel="canonical" href="https://stanwood.dev/pixel-tide" />
-
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Pixel Tide",
+        "url": "https://stanwood.dev/pixel-tide",
+        "description": "A pixel-art beach simulation. Build sandcastles and watch the tide.",
+        "applicationCategory": "GameApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon-pixel-tide.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -72,7 +83,7 @@ const title = "Pixel Tide — stanwood.dev";
       </header>
 
       <!-- Game -->
-      <PixelTide client:load />
+      <PixelTide client:idle />
     </main>
   </body>
 </html>

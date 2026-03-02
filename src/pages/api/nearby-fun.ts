@@ -1,6 +1,8 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { haversineMeters } from "../../lib/geo";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
@@ -25,7 +27,9 @@ const OUTSIDE_TYPES = [
   "national_park",
 ];
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   const { latitude, longitude, mode } = await request.json();
 
   if (!latitude || !longitude) {
@@ -89,10 +93,10 @@ export const POST: APIRoute = async ({ request }) => {
     );
 
     if (!res.ok) {
-      const err = await res.text();
+      console.error("nearby-fun Places API error:", res.status, await res.text());
       return new Response(
-        JSON.stringify({ error: "Places API error", details: err }),
-        { status: res.status, headers: { "Content-Type": "application/json" } },
+        JSON.stringify({ error: "Unable to search nearby places" }),
+        { status: 502, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -135,19 +139,3 @@ export const POST: APIRoute = async ({ request }) => {
     headers: { "Content-Type": "application/json" },
   });
 };
-
-function haversineMeters(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number,
-): number {
-  const R = 6371000;
-  const toRad = (d: number) => (d * Math.PI) / 180;
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
-  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
