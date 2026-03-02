@@ -269,12 +269,10 @@ function renderHeroCard(game: Game): string {
         : "color:#e4e4e7;";
 
   return `
-    <div class="hero-card p-6 text-center">
-      <div class="hero-preamble">The best game<br>right now is</div>
-      <div class="hero-matchup mt-1">${awayName}<br><span style="color:#52525b;font-size:14px;font-weight:500;">at</span><br>${homeName}</div>
-      <div class="hero-network mt-1">on <span class="network-name">${esc(network)}</span></div>
+    <div class="hero-card p-6">
+      <div class="hero-sentence">the best game right now is <span class="hl-team">${awayName}</span> at <span class="hl-team">${homeName}</span> on <span class="hl-network">${esc(network)}</span></div>
 
-      <div style="margin-top:16px;">
+      <div style="margin-top:20px;" class="text-center">
         <div class="flex justify-center">
           <div class="status-pill ${live ? "live" : ""}">
             ${live ? '<div class="live-dot"></div>' : ""}
@@ -392,8 +390,8 @@ function renderNoGames(events: Game[]): string {
 
   if (preGames.length === 0) {
     return `
-      <div class="hero-card p-8 text-center">
-        <div class="hero-preamble" style="line-height:1.6;">No games today.</div>
+      <div class="hero-card p-6">
+        <div class="hero-sentence" style="color:#52525b;">no games today</div>
       </div>
     `;
   }
@@ -410,10 +408,8 @@ function renderNoGames(events: Game[]): string {
   const network = national.length > 0 ? national[0] : "League Pass";
 
   return `
-    <div class="hero-card p-6 text-center">
-      <div class="hero-preamble">The best game<br>today is</div>
-      <div class="hero-matchup mt-1">${teamFullName(away)}<br><span style="color:#52525b;font-size:14px;font-weight:500;">at</span><br>${teamFullName(home)}</div>
-      <div class="hero-network mt-1">at <span class="time-value">${esc(time)} PT</span> on <span class="network-name">${esc(network)}</span></div>
+    <div class="hero-card p-6">
+      <div class="hero-sentence">the best game today is <span class="hl-team">${teamFullName(away)}</span> at <span class="hl-team">${teamFullName(home)}</span> at <span class="hl-time">${esc(time)} PT</span> on <span class="hl-network">${esc(network)}</span></div>
     </div>
   `;
 }
