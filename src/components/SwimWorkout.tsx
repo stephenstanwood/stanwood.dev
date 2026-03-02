@@ -1,36 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
-
-// ─── Types ──────────────────────────────────────────────────────────────────
-
-interface WorkoutItem {
-  reps: number;
-  distance: number;
-  description: string;
-  stroke?: string;
-  equipment?: string;
-  interval?: number;
-  intervalDisplay?: string | null;
-  isGroup?: boolean;
-  items?: WorkoutItem[];
-}
-
-interface WorkoutSection {
-  name: string;
-  items: WorkoutItem[];
-  distance: number;
-}
-
-interface Workout {
-  name: string;
-  duration: number;
-  pace: string;
-  unit: string;
-  totalDistance: number;
-  estimatedMinutes: number;
-  sections: WorkoutSection[];
-  seed: number;
-}
+import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout } from "../lib/workoutEngine";
 
 interface DurationOption {
   value: number;
@@ -263,7 +233,7 @@ function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export default function SwimWorkout() {
-  const [unit, setUnit] = useState("meters");
+  const [unit, setUnit] = useState<"meters" | "yards">("meters");
   const [duration, setDuration] = useState(120);
   const [pace, setPace] = useState("1:20");
   const [workout, setWorkout] = useState<Workout | null>(null);
@@ -271,7 +241,7 @@ export default function SwimWorkout() {
   const workoutRef = useRef<HTMLDivElement>(null);
 
   // When unit changes, reset pace to default for that unit
-  const handleUnitChange = (newUnit: string) => {
+  const handleUnitChange = (newUnit: "meters" | "yards") => {
     setUnit(newUnit);
     setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
@@ -314,7 +284,7 @@ export default function SwimWorkout() {
             Pool
           </label>
           <div className="flex gap-1 rounded-xl bg-slate-100 p-1 w-fit">
-            {["yards", "meters"].map((u) => (
+            {(["yards", "meters"] as const).map((u) => (
               <button
                 key={u}
                 onClick={() => handleUnitChange(u)}

@@ -19,7 +19,7 @@
 type Stroke = "free" | "back" | "breast" | "fly" | "IM" | "choice" | "mixed";
 type Equipment = "pull" | "kickboard" | "fins";
 
-interface SetItem {
+export interface SetItem {
   reps: number;
   distance: number;
   interval?: number;
@@ -31,20 +31,20 @@ interface SetItem {
   items?: SetItem[];
 }
 
-interface Section {
+export interface Section {
   name: string;
   items: SetItem[];
   distance: number;
 }
 
-interface WorkoutInput {
+export interface WorkoutInput {
   duration: number;
   pace: string;
   unit: "meters" | "yards";
   seed?: number;
 }
 
-interface Workout {
+export interface Workout {
   name: string;
   duration: number;
   pace: string;
@@ -52,7 +52,7 @@ interface Workout {
   totalDistance: number;
   estimatedMinutes: number;
   sections: Section[];
-  seed: number | undefined;
+  seed?: number;
 }
 
 interface Rng {

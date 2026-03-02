@@ -232,6 +232,17 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         animation: fadeUp 0.5s ease both;
       }
 
+      /* enable button hover */
+      .enable-btn:hover {
+        background: #A3C296 !important;
+        transform: scale(1.02);
+      }
+
+      /* nav link hover */
+      .addr-link:hover {
+        opacity: 0.8;
+      }
+
       /* reduced motion */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
@@ -278,6 +289,17 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     </main>
 
     <script>
+      import {
+        formatDistance,
+        estimateWalk,
+        computeZoom,
+        DARK_MAP_STYLES,
+        createProgress,
+        initGeolocation,
+        requestGeolocation,
+        setupCarousel,
+      } from "../lib/nearbyUtils";
+
       type CoffeeShop = {
         id: string;
         name: string;
@@ -292,6 +314,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       const app = document.getElementById("app")!;
       const hasMaps = app.dataset.hasMaps === "1";
+      const progress = createProgress();
 
       let userLat: number;
       let userLng: number;
@@ -312,7 +335,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <p id="progressLabel" style="margin-top:14px;color:#8BAA80;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
           </div>
         `);
-        startProgress();
+        progress.start();
       }
 
       function renderPermission() {
@@ -323,13 +346,13 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <p style="color:#8B8D94;margin-bottom:28px;max-width:280px;line-height:1.6;font-size:14px;">
               We'll use your location to find the nearest open coffee shop.
             </p>
-            <button id="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#8BAA80;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(139,170,128,0.2);" onmouseover="this.style.background='#A3C296';this.style.transform='scale(1.02)'" onmouseout="this.style.background='#8BAA80';this.style.transform='scale(1)'">
+            <button id="enable-btn" class="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#8BAA80;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(139,170,128,0.2);">
               <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               Enable Location
             </button>
           </div>
         `);
-        document.getElementById("enable-btn")!.addEventListener("click", requestLocation);
+        document.getElementById("enable-btn")!.addEventListener("click", doRequestLocation);
       }
 
       function renderError(title: string, message: string) {
@@ -342,73 +365,10 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             </button>
           </div>
         `);
-        document.getElementById("retry-btn")!.addEventListener("click", requestLocation);
-      }
-
-      // ── Progress bar ──
-
-      let progressInterval: number | undefined;
-      let progressPct = 0;
-
-      function startProgress() {
-        progressPct = 0;
-        clearInterval(progressInterval);
-
-        const labels = [
-          { at: 0, text: "Finding your location\u2026" },
-          { at: 25, text: "Searching nearby\u2026" },
-          { at: 55, text: "Checking what\u2019s open\u2026" },
-          { at: 80, text: "Almost there\u2026" },
-        ];
-
-        progressInterval = window.setInterval(() => {
-          const fill = document.getElementById("progressFill");
-          const label = document.getElementById("progressLabel");
-          if (!fill || !label) { clearInterval(progressInterval); return; }
-
-          if (progressPct < 30)      progressPct += 2 + Math.random() * 8;
-          else if (progressPct < 60) progressPct += 0.5 + Math.random() * 3;
-          else if (progressPct < 85) progressPct += 0.2 + Math.random() * 1.5;
-          else if (progressPct < 95) progressPct += 0.05 + Math.random() * 0.4;
-
-          progressPct = Math.min(progressPct, 95);
-          fill.style.width = `${progressPct}%`;
-
-          for (const l of labels) {
-            if (progressPct >= l.at) label.textContent = l.text;
-          }
-        }, 300);
-      }
-
-      function finishProgress() {
-        clearInterval(progressInterval);
-        const fill = document.getElementById("progressFill");
-        if (fill) fill.style.width = "100%";
-      }
-
-      // ── Format helpers ──
-
-      function formatDistance(meters: number): string {
-        const miles = meters / 1609.34;
-        if (miles < 0.1) {
-          const feet = Math.round(meters * 3.28084);
-          return `${feet} ft`;
-        }
-        return `${miles.toFixed(1)} mi`;
-      }
-
-      function openNavigation(lat: number, lng: number) {
-        const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
-        window.open(url, "_blank");
+        document.getElementById("retry-btn")!.addEventListener("click", doRequestLocation);
       }
 
       // ── Map helpers ──
-
-      function computeZoom(distanceMeters: number): number {
-        const km = distanceMeters / 1000;
-        const zoom = Math.round(15.5 - Math.log2(Math.max(km, 0.1)));
-        return Math.min(Math.max(zoom, 12), 17);
-      }
 
       function buildMapUrl(shop: CoffeeShop): string {
         const midLat = (userLat + shop.lat) / 2;
@@ -422,17 +382,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         params.set("scale", "2");
         params.set("maptype", "roadmap");
 
-        const styles = [
-          "feature:all|element:geometry|color:0x1a1c2e",
-          "feature:all|element:labels.text.fill|color:0x8a8f9e",
-          "feature:all|element:labels.text.stroke|color:0x111318",
-          "feature:road|element:geometry|color:0x2a2d40",
-          "feature:road|element:geometry.stroke|color:0x1a1c2e",
-          "feature:water|element:geometry|color:0x141628",
-          "feature:poi|visibility:off",
-          "feature:transit|visibility:off",
-        ];
-        for (const s of styles) params.append("style", s);
+        for (const s of DARK_MAP_STYLES) params.append("style", s);
 
         params.append("markers", `color:0x6ECF8E|size:small|${userLat},${userLng}`);
         params.append("markers", `color:0xB4825A|size:mid|${shop.lat},${shop.lng}`);
@@ -440,13 +390,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         return `/api/static-map?${params.toString()}`;
       }
 
-      // ── Render results ──
-
-      function estimateWalk(meters: number): string {
-        const mins = Math.round(meters / 80); // ~80m/min walking
-        if (mins < 1) return "< 1 min walk";
-        return `${mins} min walk`;
-      }
+      // ── Card builder ──
 
       function buildCardHtml(shop: CoffeeShop, rank: number, direction: "none" | "left" | "right"): string {
         const showMap = hasMaps;
@@ -478,7 +422,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           <div class="hero-card ${animClass}">
             ${mapHtml}
             <div style="padding:20px 20px 24px;">
-              <!-- Top row: rank + badge + distance + walk time + rating -->
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
                 <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(139,170,128,0.1);color:#8BAA80;font-weight:800;font-size:13px;">${rank}</span>
                 <span class="open-badge">Open</span>
@@ -487,11 +430,9 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
                 ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
               </div>
 
-              <!-- Name -->
               <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${shop.name}</h2>
 
-              <!-- Address as nav link -->
-              <a href="${navUrl}" target="_blank" rel="noopener" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+              <a href="${navUrl}" target="_blank" rel="noopener" class="addr-link" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;">
                 <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -507,116 +448,18 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         `;
       }
 
+      // ── Render results via shared carousel ──
+
       function renderResults(shops: CoffeeShop[]) {
-        finishProgress();
+        progress.finish();
 
         setTimeout(() => {
-          let currentIdx = 0;
-
-          // Build shell: card container + nav
-          const navHtml = shops.length > 1 ? `
-            <div class="carousel-nav">
-              <button class="carousel-arrow" id="carousel-prev" aria-label="Previous result" disabled>
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-              </button>
-              <div class="carousel-center">
-                <div class="carousel-dots" id="carousel-dots"></div>
-                <span class="carousel-counter" id="carousel-counter"></span>
-              </div>
-              <button class="carousel-arrow" id="carousel-next" aria-label="Next result">
-                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-              </button>
-            </div>
-          ` : "";
-
-          app.innerHTML = `
-            <div id="card-viewport">${buildCardHtml(shops[0], 1, "none")}</div>
-            ${navHtml}
-          `;
-
-          if (shops.length <= 1) return;
-
-          // Pre-load adjacent map images
-          function preloadMap(idx: number) {
-            if (idx < 0 || idx >= shops.length || !hasMaps) return;
-            const img = new Image();
-            img.src = buildMapUrl(shops[idx]);
-          }
-          preloadMap(1);
-
-          const viewport = document.getElementById("card-viewport")!;
-          const dotsEl = document.getElementById("carousel-dots")!;
-          const counterEl = document.getElementById("carousel-counter")!;
-          const prevBtn = document.getElementById("carousel-prev")! as HTMLButtonElement;
-          const nextBtn = document.getElementById("carousel-next")! as HTMLButtonElement;
-
-          function showCard(idx: number, direction: "left" | "right") {
-            viewport.innerHTML = buildCardHtml(shops[idx], idx + 1, direction);
-
-            // Update dots
-            dotsEl.innerHTML = shops.map((_, i) =>
-              `<div class="carousel-dot ${i === idx ? 'active' : ''}" data-idx="${i}"></div>`
-            ).join("");
-
-            // Update counter
-            counterEl.textContent = `${idx + 1} of ${shops.length}`;
-
-            // Update arrow states
-            prevBtn.disabled = idx === 0;
-            nextBtn.disabled = idx === shops.length - 1;
-
-            // Preload neighbors
-            preloadMap(idx - 1);
-            preloadMap(idx + 1);
-          }
-
-          // Initial dots + counter
-          dotsEl.innerHTML = shops.map((_, i) =>
-            `<div class="carousel-dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></div>`
-          ).join("");
-          counterEl.textContent = `1 of ${shops.length}`;
-
-          prevBtn.addEventListener("click", () => {
-            if (currentIdx > 0) { currentIdx--; showCard(currentIdx, "left"); }
+          setupCarousel({
+            container: app,
+            items: shops,
+            buildCard: buildCardHtml,
+            preload: hasMaps ? (shop) => { new Image().src = buildMapUrl(shop); } : undefined,
           });
-          nextBtn.addEventListener("click", () => {
-            if (currentIdx < shops.length - 1) { currentIdx++; showCard(currentIdx, "right"); }
-          });
-
-          // Click dots to jump
-          dotsEl.addEventListener("click", (e) => {
-            const dot = (e.target as HTMLElement).closest("[data-idx]");
-            if (!dot) return;
-            const newIdx = parseInt(dot.getAttribute("data-idx")!, 10);
-            if (newIdx === currentIdx) return;
-            const dir = newIdx > currentIdx ? "right" : "left";
-            currentIdx = newIdx;
-            showCard(currentIdx, dir);
-          });
-
-          // Keyboard navigation
-          document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft" && currentIdx > 0) {
-              currentIdx--; showCard(currentIdx, "left");
-            } else if (e.key === "ArrowRight" && currentIdx < shops.length - 1) {
-              currentIdx++; showCard(currentIdx, "right");
-            }
-          });
-
-          // Touch swipe
-          let touchStartX = 0;
-          viewport.addEventListener("touchstart", (e) => {
-            touchStartX = e.touches[0].clientX;
-          }, { passive: true });
-          viewport.addEventListener("touchend", (e) => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) < 50) return; // too small
-            if (dx < 0 && currentIdx < shops.length - 1) {
-              currentIdx++; showCard(currentIdx, "right");
-            } else if (dx > 0 && currentIdx > 0) {
-              currentIdx--; showCard(currentIdx, "left");
-            }
-          }, { passive: true });
         }, 300);
       }
 
@@ -636,7 +479,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           const shops: CoffeeShop[] = data.results || [];
 
           if (shops.length === 0) {
-            finishProgress();
+            progress.finish();
             setTimeout(() => {
               renderError(
                 "No Coffee Nearby",
@@ -648,7 +491,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
           renderResults(shops);
         } catch (err) {
-          finishProgress();
+          progress.finish();
           setTimeout(() => {
             renderError("Oops", "Something went wrong finding coffee. Please try again.");
           }, 300);
@@ -657,47 +500,32 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       // ── Geolocation ──
 
-      function requestLocation() {
-        renderLoading();
-
-        if (!("geolocation" in navigator)) {
-          renderError("No GPS", "Your browser doesn\u2019t support geolocation.");
-          return;
-        }
-
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            userLat = pos.coords.latitude;
-            userLng = pos.coords.longitude;
-            fetchCoffeeShops(userLat, userLng);
+      function doRequestLocation() {
+        requestGeolocation({
+          onLoading: renderLoading,
+          onPosition: (lat, lng) => {
+            userLat = lat;
+            userLng = lng;
+            fetchCoffeeShops(lat, lng);
           },
-          (err) => {
-            if (err.code === err.PERMISSION_DENIED) {
-              renderPermission();
-            } else {
-              renderError(
-                "Location Unavailable",
-                "Unable to determine your location. Please ensure GPS is enabled.",
-              );
-            }
-          },
-          { enableHighAccuracy: true, timeout: 10000 },
-        );
+          onPermissionDenied: renderPermission,
+          onError: renderError,
+        });
       }
 
       // ── Init ──
 
-      if ("permissions" in navigator) {
-        navigator.permissions.query({ name: "geolocation" }).then((result) => {
-          if (result.state === "denied") {
-            renderPermission();
-          } else {
-            requestLocation();
-          }
-        });
-      } else {
-        requestLocation();
-      }
+      initGeolocation({
+        onLoading: renderLoading,
+        onPosition: (lat, lng) => {
+          userLat = lat;
+          userLng = lng;
+          fetchCoffeeShops(lat, lng);
+        },
+        onPermissionDenied: renderPermission,
+        onPermissionScreen: renderPermission,
+        onError: renderError,
+      });
     </script>
   </body>
 </html>
