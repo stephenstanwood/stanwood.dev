@@ -270,10 +270,10 @@ export default function SwimWorkout() {
   const [animating, setAnimating] = useState(false);
   const workoutRef = useRef<HTMLDivElement>(null);
 
-  // When unit changes, reset pace to middle option for that unit
+  // When unit changes, reset pace to default for that unit
   const handleUnitChange = (newUnit: string) => {
     setUnit(newUnit);
-    setPace(PACES[newUnit][2].value); // pick middle-ish option
+    setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
 
   const generate = useCallback(() => {
@@ -377,7 +377,12 @@ export default function SwimWorkout() {
         {/* Generate button */}
         <button
           onClick={generate}
-          className="group relative w-full rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/50 transition-all active:scale-[0.98] overflow-hidden"
+          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 transition-all active:scale-[0.98] overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #14b8a6, #06b6d4, #0891b2, #14b8a6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientShift 6s ease infinite",
+          }}
         >
           <span className="relative z-10">
             {workout ? "New Workout" : "Generate Workout"}

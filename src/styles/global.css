@@ -102,6 +102,26 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* ── Focus states for keyboard navigation ── */
+:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.8);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Button press feedback ── */
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── GPU hints for animated elements ── */
+.animate-float,
+.animate-float-slow,
+.animate-spin-slow {
+  will-change: transform;
+}
+
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
