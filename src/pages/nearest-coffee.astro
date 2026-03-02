@@ -135,28 +135,21 @@ const title = "Nearest Coffee — stanwood.dev";
       /* star */
       .star { color: #FFD600; }
 
-      /* states */
-      .state-screen {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 70vh;
-        text-align: center;
-        padding: 32px;
+      /* progress bar */
+      .progress-track {
+        height: 4px;
+        background: rgba(255,179,0,0.15);
+        border-radius: 2px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 280px;
       }
-
-      /* spinner */
-      .spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(255,179,0,0.2);
-        border-top-color: #FFB300;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #FFB300, #FF6F00);
+        border-radius: 2px;
+        transition: width 0.3s ease-out;
+        width: 0%;
       }
 
       /* fade in */
@@ -194,46 +187,8 @@ const title = "Nearest Coffee — stanwood.dev";
         </p>
       </header>
 
-      <!-- Loading state -->
-      <div id="loading-state" class="state-screen">
-        <div class="spinner"></div>
-        <p class="mt-4 text-[#D7CCC8] text-sm">Finding coffee nearby&hellip;</p>
-      </div>
-
-      <!-- Permission state -->
-      <div id="permission-state" class="state-screen hidden">
-        <div class="text-6xl mb-6">📍</div>
-        <h2 class="text-2xl font-bold text-[#FFF8E1] mb-3">Find Your Coffee</h2>
-        <p class="text-[#D7CCC8] mb-8 max-w-xs leading-relaxed">
-          Allow location access to find the nearest open coffee shop.
-        </p>
-        <button
-          id="enable-location-btn"
-          class="nav-btn"
-          style="width: auto; padding: 0 32px;"
-        >
-          Enable Location
-        </button>
-      </div>
-
-      <!-- Error state -->
-      <div id="error-state" class="state-screen hidden">
-        <h2 id="error-title" class="text-2xl font-bold text-[#FFF8E1] mb-3">Oops</h2>
-        <p id="error-message" class="text-[#D7CCC8] mb-8 max-w-xs leading-relaxed"></p>
-        <button
-          id="retry-btn"
-          class="nav-btn"
-          style="width: auto; padding: 0 32px;"
-        >
-          Try Again
-        </button>
-      </div>
-
-      <!-- Results -->
-      <div id="results-state" class="hidden fade-up">
-        <div id="cards-track" class="cards-track"></div>
-        <div id="dot-track" class="dot-track"></div>
-      </div>
+      <!-- All states live here, only one visible at a time via JS -->
+      <div id="app"></div>
     </main>
 
     <!-- Card template (hidden) -->
@@ -262,7 +217,7 @@ const title = "Nearest Coffee — stanwood.dev";
           </div>
 
           <!-- Rating -->
-          <div class="shop-rating flex items-center gap-1.5 text-sm hidden">
+          <div class="shop-rating flex items-center gap-1.5 text-sm" style="display:none;">
             <span class="star">★</span>
             <span class="rating-value text-[#FFF8E1]"></span>
             <span class="rating-count text-[#D7CCC8]"></span>
@@ -280,7 +235,6 @@ const title = "Nearest Coffee — stanwood.dev";
     </template>
 
     <script>
-      // ── State ──
       type CoffeeShop = {
         id: string;
         name: string;
@@ -293,38 +247,106 @@ const title = "Nearest Coffee — stanwood.dev";
         isOpen: boolean | null;
       };
 
-      const els = {
-        loading: document.getElementById("loading-state")!,
-        permission: document.getElementById("permission-state")!,
-        error: document.getElementById("error-state")!,
-        results: document.getElementById("results-state")!,
-        errorTitle: document.getElementById("error-title")!,
-        errorMessage: document.getElementById("error-message")!,
-        cardsTrack: document.getElementById("cards-track")!,
-        dotTrack: document.getElementById("dot-track")!,
-        enableBtn: document.getElementById("enable-location-btn")!,
-        retryBtn: document.getElementById("retry-btn")!,
-        template: document.getElementById("card-template") as HTMLTemplateElement,
-      };
+      const app = document.getElementById("app")!;
+      const template = document.getElementById("card-template") as HTMLTemplateElement;
 
-      // ── Helpers ──
+      // ── Render helpers ──
 
-      function showState(state: "loading" | "permission" | "error" | "results") {
-        els.loading.classList.toggle("hidden", state !== "loading");
-        els.permission.classList.toggle("hidden", state !== "permission");
-        els.error.classList.toggle("hidden", state !== "error");
-        els.results.classList.toggle("hidden", state !== "results");
+      function render(html: string) {
+        app.innerHTML = html;
       }
 
-      function showError(title: string, message: string) {
-        els.errorTitle.textContent = title;
-        els.errorMessage.textContent = message;
-        showState("error");
+      function renderLoading() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
+            <div class="progress-track">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressLabel" style="margin-top:16px;color:#D7CCC8;font-size:14px;">Finding your location&hellip;</p>
+          </div>
+        `);
+        startProgress();
       }
+
+      function renderPermission() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
+            <div style="font-size:60px;margin-bottom:24px;">📍</div>
+            <h2 style="font-size:24px;font-weight:700;color:#FFF8E1;margin-bottom:12px;">Find Your Coffee</h2>
+            <p style="color:#D7CCC8;margin-bottom:32px;max-width:300px;line-height:1.6;">
+              Allow location access to find the nearest open coffee shop.
+            </p>
+            <button id="enable-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+              Enable Location
+            </button>
+          </div>
+        `);
+        document.getElementById("enable-btn")!.addEventListener("click", requestLocation);
+      }
+
+      function renderError(title: string, message: string) {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
+            <h2 style="font-size:24px;font-weight:700;color:#FFF8E1;margin-bottom:12px;">${title}</h2>
+            <p style="color:#D7CCC8;margin-bottom:32px;max-width:300px;line-height:1.6;">${message}</p>
+            <button id="retry-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+              Try Again
+            </button>
+          </div>
+        `);
+        document.getElementById("retry-btn")!.addEventListener("click", requestLocation);
+      }
+
+      // ── Progress bar ──
+
+      let progressInterval: number | undefined;
+      let progressPct = 0;
+
+      function startProgress() {
+        progressPct = 0;
+        clearInterval(progressInterval);
+
+        const labels = [
+          { at: 0, text: "Finding your location\u2026" },
+          { at: 25, text: "Searching nearby\u2026" },
+          { at: 55, text: "Checking what\u2019s open\u2026" },
+          { at: 80, text: "Almost there\u2026" },
+        ];
+
+        progressInterval = window.setInterval(() => {
+          const fill = document.getElementById("progressFill");
+          const label = document.getElementById("progressLabel");
+          if (!fill || !label) { clearInterval(progressInterval); return; }
+
+          if (progressPct < 30)      progressPct += 2 + Math.random() * 8;
+          else if (progressPct < 60) progressPct += 0.5 + Math.random() * 3;
+          else if (progressPct < 85) progressPct += 0.2 + Math.random() * 1.5;
+          else if (progressPct < 95) progressPct += 0.05 + Math.random() * 0.4;
+
+          progressPct = Math.min(progressPct, 95);
+          fill.style.width = `${progressPct}%`;
+
+          for (const l of labels) {
+            if (progressPct >= l.at) label.textContent = l.text;
+          }
+        }, 300);
+      }
+
+      function finishProgress() {
+        clearInterval(progressInterval);
+        const fill = document.getElementById("progressFill");
+        if (fill) fill.style.width = "100%";
+      }
+
+      // ── Format helpers ──
 
       function formatDistance(meters: number): string {
-        if (meters < 1000) return `${meters}m away`;
-        return `${(meters / 1000).toFixed(1)} km away`;
+        const miles = meters / 1609.34;
+        if (miles < 0.1) {
+          const feet = Math.round(meters * 3.28084);
+          return `${feet} ft away`;
+        }
+        return `${miles.toFixed(1)} mi away`;
       }
 
       function ordinalSuffix(n: number): string {
@@ -338,93 +360,92 @@ const title = "Nearest Coffee — stanwood.dev";
       }
 
       function openNavigation(lat: number, lng: number) {
-        // Try Google Maps first, falls back to browser default map handler
         const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
         window.open(url, "_blank");
       }
 
-      // ── Dot indicators ──
+      // ── Render results ──
 
       let currentPage = 0;
 
-      function updateDots(total: number, active: number) {
-        els.dotTrack.innerHTML = "";
+      function updateDots(container: HTMLElement, total: number, active: number) {
+        container.innerHTML = "";
         if (total <= 1) return;
         for (let i = 0; i < total; i++) {
           const dot = document.createElement("div");
           dot.className = `dot${i === active ? " active" : ""}`;
-          els.dotTrack.appendChild(dot);
+          container.appendChild(dot);
         }
       }
 
-      // ── Scroll snap observer ──
+      function renderResults(shops: CoffeeShop[]) {
+        finishProgress();
 
-      function observeSnap(total: number) {
-        const track = els.cardsTrack;
-        const cards = track.querySelectorAll(".coffee-card");
-        if (!cards.length) return;
+        // Small delay so the progress bar visually completes
+        setTimeout(() => {
+          app.innerHTML = `
+            <div class="fade-up">
+              <div id="cards-track" class="cards-track"></div>
+              <div id="dot-track" class="dot-track"></div>
+            </div>
+          `;
 
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-                const idx = Array.from(cards).indexOf(entry.target as HTMLElement);
-                if (idx >= 0 && idx !== currentPage) {
-                  currentPage = idx;
-                  updateDots(total, currentPage);
-                }
+          const track = document.getElementById("cards-track")!;
+          const dotTrack = document.getElementById("dot-track")!;
+
+          shops.forEach((shop, i) => {
+            const fragment = template.content.cloneNode(true) as DocumentFragment;
+            const card = fragment.querySelector(".coffee-card") as HTMLElement;
+
+            card.querySelector(".ordinal")!.textContent = `${ordinalSuffix(i + 1)} nearest`;
+            card.querySelector(".shop-name")!.textContent = shop.name;
+            card.querySelector(".shop-distance")!.textContent = formatDistance(shop.distance);
+            card.querySelector(".shop-address")!.textContent = shop.address;
+
+            if (shop.rating) {
+              const ratingEl = card.querySelector(".shop-rating") as HTMLElement;
+              ratingEl.style.display = "flex";
+              ratingEl.querySelector(".rating-value")!.textContent = shop.rating.toFixed(1);
+              if (shop.ratingCount) {
+                ratingEl.querySelector(".rating-count")!.textContent = `(${shop.ratingCount})`;
               }
             }
-          },
-          { root: track, threshold: 0.6 },
-        );
 
-        cards.forEach((card) => observer.observe(card));
-      }
+            const navBtn = card.querySelector(".navigate-btn") as HTMLButtonElement;
+            navBtn.addEventListener("click", () => openNavigation(shop.lat, shop.lng));
 
-      // ── Render results ──
+            card.style.animation = `fadeUp 0.4s ease ${i * 0.08}s both`;
+            track.appendChild(card);
+          });
 
-      function renderResults(shops: CoffeeShop[]) {
-        els.cardsTrack.innerHTML = "";
+          currentPage = 0;
+          updateDots(dotTrack, shops.length, 0);
 
-        shops.forEach((shop, i) => {
-          const fragment = els.template.content.cloneNode(true) as DocumentFragment;
-          const card = fragment.querySelector(".coffee-card") as HTMLElement;
-
-          card.querySelector(".ordinal")!.textContent = `${ordinalSuffix(i + 1)} nearest`;
-          card.querySelector(".shop-name")!.textContent = shop.name;
-          card.querySelector(".shop-distance")!.textContent = formatDistance(shop.distance);
-          card.querySelector(".shop-address")!.textContent = shop.address;
-
-          if (shop.rating) {
-            const ratingEl = card.querySelector(".shop-rating") as HTMLElement;
-            ratingEl.classList.remove("hidden");
-            ratingEl.querySelector(".rating-value")!.textContent = shop.rating.toFixed(1);
-            if (shop.ratingCount) {
-              ratingEl.querySelector(".rating-count")!.textContent = `(${shop.ratingCount})`;
-            }
+          // Observe scroll snap
+          const cards = track.querySelectorAll(".coffee-card");
+          if (cards.length > 1) {
+            const observer = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+                    const idx = Array.from(cards).indexOf(entry.target as HTMLElement);
+                    if (idx >= 0 && idx !== currentPage) {
+                      currentPage = idx;
+                      updateDots(dotTrack, shops.length, currentPage);
+                    }
+                  }
+                }
+              },
+              { root: track, threshold: 0.6 },
+            );
+            cards.forEach((card) => observer.observe(card));
           }
-
-          const navBtn = card.querySelector(".navigate-btn") as HTMLButtonElement;
-          navBtn.addEventListener("click", () => openNavigation(shop.lat, shop.lng));
-
-          // stagger animation
-          card.style.animation = `fadeUp 0.4s ease ${i * 0.08}s both`;
-
-          els.cardsTrack.appendChild(card);
-        });
-
-        currentPage = 0;
-        updateDots(shops.length, 0);
-        observeSnap(shops.length);
-        showState("results");
+        }, 300);
       }
 
       // ── Fetch coffee shops ──
 
       async function fetchCoffeeShops(lat: number, lng: number) {
-        showState("loading");
-
         try {
           const res = await fetch("/api/nearby-coffee", {
             method: "POST",
@@ -438,26 +459,32 @@ const title = "Nearest Coffee — stanwood.dev";
           const shops: CoffeeShop[] = data.results || [];
 
           if (shops.length === 0) {
-            showError(
-              "No Coffee Nearby",
-              "No open coffee shops found within 2km. Try again later or wander somewhere new.",
-            );
+            finishProgress();
+            setTimeout(() => {
+              renderError(
+                "No Coffee Nearby",
+                "Couldn\u2019t find any open spots nearby. Try again later or wander somewhere new.",
+              );
+            }, 300);
             return;
           }
 
           renderResults(shops);
         } catch (err) {
-          showError("Oops", "Something went wrong finding coffee. Please try again.");
+          finishProgress();
+          setTimeout(() => {
+            renderError("Oops", "Something went wrong finding coffee. Please try again.");
+          }, 300);
         }
       }
 
       // ── Geolocation ──
 
       function requestLocation() {
-        showState("loading");
+        renderLoading();
 
         if (!("geolocation" in navigator)) {
-          showError("No GPS", "Your browser doesn't support geolocation.");
+          renderError("No GPS", "Your browser doesn\u2019t support geolocation.");
           return;
         }
 
@@ -467,9 +494,9 @@ const title = "Nearest Coffee — stanwood.dev";
           },
           (err) => {
             if (err.code === err.PERMISSION_DENIED) {
-              showState("permission");
+              renderPermission();
             } else {
-              showError(
+              renderError(
                 "Location Unavailable",
                 "Unable to determine your location. Please ensure GPS is enabled.",
               );
@@ -479,22 +506,14 @@ const title = "Nearest Coffee — stanwood.dev";
         );
       }
 
-      // ── Events ──
-
-      els.enableBtn.addEventListener("click", requestLocation);
-      els.retryBtn.addEventListener("click", requestLocation);
-
       // ── Init ──
 
-      // Check if we can access location right away
       if ("permissions" in navigator) {
         navigator.permissions.query({ name: "geolocation" }).then((result) => {
-          if (result.state === "granted") {
-            requestLocation();
-          } else if (result.state === "prompt") {
-            requestLocation();
+          if (result.state === "denied") {
+            renderPermission();
           } else {
-            showState("permission");
+            requestLocation();
           }
         });
       } else {
