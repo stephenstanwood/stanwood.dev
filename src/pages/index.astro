@@ -38,8 +38,8 @@ const title = "Stephen Stanwood — stanwood.dev";
       style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #0d324d, #7b2869, #302b63, #0f0c29);"
     ></div>
 
-    <!-- ── Floating blobs for depth ── -->
-    <div class="fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
+    <!-- ── Floating blobs for depth (hidden on mobile for performance) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
       <!-- turquoise pool blob -->
       <div
         class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
@@ -62,8 +62,8 @@ const title = "Stephen Stanwood — stanwood.dev";
       ></div>
     </div>
 
-    <!-- ── Geometric decorations ── -->
-    <div class="fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
+    <!-- ── Geometric decorations (hidden on mobile for performance) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
       <!-- spinning ring -->
       <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
       <!-- dotted ring -->
@@ -147,7 +147,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- NBA Now Card -->
         <a
           href="/nba-now"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,43,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -185,7 +185,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- Lap Lab Card -->
         <a
           href="/swim"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -223,7 +223,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- TLDR Card -->
         <a
           href="/tldr"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(102,126,234,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -261,7 +261,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- What to Watch This Week Card -->
         <a
           href="/wtwtw"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
         >
           <!-- Animated border gradient -->
           <div
@@ -299,7 +299,7 @@ const title = "Stephen Stanwood — stanwood.dev";
         <!-- Idea Shuffler Card -->
         <a
           href="/idea-shuffler"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
+          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,157,0.15)]"
         >
           <!-- Animated border gradient -->
           <div

@@ -443,7 +443,13 @@ function SettingsPanel({
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-64 overflow-y-auto">
+        <div
+          className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-64 overflow-y-auto pr-1"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(255,255,255,0.1) transparent",
+          }}
+        >
           {leagueTeams.map((team) => {
             const selected = selectedSet.has(team.key);
             return (
@@ -656,7 +662,7 @@ export default function WTWTW() {
         >
           <p
             className="text-sm mb-3"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "rgba(255,255,255,0.5)" }}
           >
             No teams selected yet.
           </p>
@@ -764,7 +770,7 @@ export default function WTWTW() {
               ) : (
                 <div
                   className="mt-2 text-sm"
-                  style={{ color: "rgba(255,255,255,0.2)" }}
+                  style={{ color: "rgba(255,255,255,0.35)" }}
                 >
                   Nothing in the 5&ndash;8 PM window.
                 </div>
