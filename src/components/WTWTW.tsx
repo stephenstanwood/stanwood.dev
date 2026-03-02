@@ -206,6 +206,8 @@ function SettingsPanel({
   onClose: () => void;
 }) {
   const [activeLeague, setActiveLeague] = useState(LEAGUES[0].path);
+  const [dragIdx, setDragIdx] = useState<number | null>(null);
+  const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
   const leagueTeams = useMemo(
     () => getTeamsByLeague(activeLeague),
     [activeLeague]
@@ -221,18 +223,36 @@ function SettingsPanel({
     }
   }
 
-  function moveTeam(key: string, direction: -1 | 1) {
-    const idx = prefs.teams.indexOf(key);
-    if (idx < 0) return;
-    const newIdx = idx + direction;
-    if (newIdx < 0 || newIdx >= prefs.teams.length) return;
-    const next = [...prefs.teams];
-    [next[idx], next[newIdx]] = [next[newIdx], next[idx]];
-    onUpdate({ ...prefs, teams: next });
-  }
-
   function removeTeam(key: string) {
     onUpdate({ ...prefs, teams: prefs.teams.filter((k) => k !== key) });
+  }
+
+  function handleDragStart(idx: number) {
+    setDragIdx(idx);
+  }
+
+  function handleDragOver(e: React.DragEvent, idx: number) {
+    e.preventDefault();
+    setDragOverIdx(idx);
+  }
+
+  function handleDrop(idx: number) {
+    if (dragIdx === null || dragIdx === idx) {
+      setDragIdx(null);
+      setDragOverIdx(null);
+      return;
+    }
+    const next = [...prefs.teams];
+    const [moved] = next.splice(dragIdx, 1);
+    next.splice(idx, 0, moved);
+    onUpdate({ ...prefs, teams: next });
+    setDragIdx(null);
+    setDragOverIdx(null);
+  }
+
+  function handleDragEnd() {
+    setDragIdx(null);
+    setDragOverIdx(null);
   }
 
   return (
@@ -327,21 +347,43 @@ function SettingsPanel({
             {prefs.teams.map((key, idx) => {
               const team = getTeam(key);
               if (!team) return null;
+              const isDragging = dragIdx === idx;
+              const isOver = dragOverIdx === idx && dragIdx !== idx;
               return (
                 <div
                   key={key}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2"
-                  style={{ background: "rgba(255,255,255,0.03)" }}
+                  draggable
+                  onDragStart={() => handleDragStart(idx)}
+                  onDragOver={(e) => handleDragOver(e, idx)}
+                  onDrop={() => handleDrop(idx)}
+                  onDragEnd={handleDragEnd}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 transition-all"
+                  style={{
+                    background: isOver
+                      ? "rgba(99, 102, 241, 0.1)"
+                      : "rgba(255,255,255,0.03)",
+                    opacity: isDragging ? 0.4 : 1,
+                    borderTop: isOver ? "2px solid rgba(99, 102, 241, 0.5)" : "2px solid transparent",
+                    cursor: "grab",
+                  }}
                 >
+                  {/* Drag handle */}
                   <span
-                    className="text-xs font-bold w-5 text-center"
+                    className="text-xs shrink-0 select-none"
+                    style={{ color: "rgba(255,255,255,0.2)" }}
+                    aria-hidden="true"
+                  >
+                    ⠿
+                  </span>
+                  <span
+                    className="text-xs font-bold w-5 text-center shrink-0"
                     style={{ color: "rgba(255,255,255,0.25)" }}
                   >
                     {idx + 1}
                   </span>
                   <span
                     className="h-2.5 w-2.5 rounded-full shrink-0"
-                    style={{ backgroundColor: team.color }}
+                    style={{ backgroundColor: team.textColor }}
                   />
                   <span
                     className="text-sm font-medium flex-1"
@@ -355,30 +397,6 @@ function SettingsPanel({
                   >
                     {LEAGUES.find((l) => l.path === team.league)?.label}
                   </span>
-                  <button
-                    onClick={() => moveTeam(key, -1)}
-                    disabled={idx === 0}
-                    className="text-xs px-1 transition-opacity"
-                    style={{
-                      color: "rgba(255,255,255,0.3)",
-                      opacity: idx === 0 ? 0.2 : 1,
-                    }}
-                    aria-label={`Move ${team.label} up`}
-                  >
-                    ▲
-                  </button>
-                  <button
-                    onClick={() => moveTeam(key, 1)}
-                    disabled={idx === prefs.teams.length - 1}
-                    className="text-xs px-1 transition-opacity"
-                    style={{
-                      color: "rgba(255,255,255,0.3)",
-                      opacity: idx === prefs.teams.length - 1 ? 0.2 : 1,
-                    }}
-                    aria-label={`Move ${team.label} down`}
-                  >
-                    ▼
-                  </button>
                   <button
                     onClick={() => removeTeam(key)}
                     className="text-xs px-1 transition-colors hover:text-red-400"
@@ -478,7 +496,10 @@ export default function WTWTW() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [picks, setPicks] = useState<DayPick[]>([]);
+  // Raw ESPN data cache — only refetched when teams change
+  const [rawData, setRawData] = useState<
+    Map<string, Array<{ leaguePath: string; event: ESPNEvent }>>
+  >(new Map());
 
   // Persist prefs to localStorage
   useEffect(() => {
@@ -494,15 +515,17 @@ export default function WTWTW() {
     [prefs.teams]
   );
 
-  const days = useMemo(
-    () => getUpcoming7Days(prefs.timezone),
-    [prefs.timezone]
-  );
+  // Days depend on timezone (for "today" boundary), but we fetch based
+  // on a stable set of dates computed from the current timezone.
+  // We keep fetchDays separate so timezone changes don't re-trigger fetch.
+  const fetchTz = useMemo(() => prefs.timezone, [prefs.timezone]);
+  const days = useMemo(() => getUpcoming7Days(fetchTz), [fetchTz]);
 
-  // Fetch schedules when teams or days change
+  // Fetch ESPN data when teams change — timezone changes don't re-fetch
+  const teamKeys = prefs.teams.join(",");
   useEffect(() => {
     if (teams.length === 0) {
-      setPicks([]);
+      setRawData(new Map());
       return;
     }
 
@@ -512,7 +535,10 @@ export default function WTWTW() {
       setError(null);
       try {
         const leaguePaths = [...new Set(teams.map((t) => t.league))];
-        const results: DayPick[] = [];
+        const result = new Map<
+          string,
+          Array<{ leaguePath: string; event: ESPNEvent }>
+        >();
         for (const day of days) {
           const jsons = await Promise.all(
             leaguePaths.map((lp) =>
@@ -535,12 +561,9 @@ export default function WTWTW() {
             for (const ev of j?.events || [])
               dayEvents.push({ leaguePath: lp, event: ev });
           }
-          results.push({
-            day,
-            pick: pickEventForDay(dayEvents, teams, prefs.timezone),
-          });
+          result.set(day.yyyymmdd, dayEvents);
         }
-        if (alive) setPicks(results);
+        if (alive) setRawData(result);
       } catch (e) {
         if (alive) setError(e instanceof Error ? e.message : String(e));
       } finally {
@@ -550,7 +573,17 @@ export default function WTWTW() {
     return () => {
       alive = false;
     };
-  }, [teams, days, prefs.timezone]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamKeys]);
+
+  // Derive picks from cached data + current timezone (instant on tz change)
+  const picks = useMemo<DayPick[]>(() => {
+    if (teams.length === 0 || rawData.size === 0) return [];
+    return days.map((day) => ({
+      day,
+      pick: pickEventForDay(rawData.get(day.yyyymmdd) || [], teams, prefs.timezone),
+    }));
+  }, [rawData, teams, days, prefs.timezone]);
 
   return (
     <div className="mt-8">
@@ -562,13 +595,13 @@ export default function WTWTW() {
               key={team.key}
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
               style={{
-                backgroundColor: `${team.color}15`,
+                backgroundColor: `${team.textColor}15`,
                 color: team.textColor,
               }}
             >
               <span
                 className="h-2 w-2 rounded-full"
-                style={{ backgroundColor: team.color }}
+                style={{ backgroundColor: team.textColor }}
               />
               {team.label}
             </span>
