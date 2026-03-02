@@ -20,6 +20,17 @@ const title = "Idea Shuffler — stanwood.dev";
     <meta name="twitter:title" content="Idea Shuffler — stanwood.dev" />
     <meta name="twitter:description" content="Browse ideas without ranking them. Random start + circular traversal." />
     <link rel="canonical" href="https://stanwood.dev/idea-shuffler" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Idea Shuffler",
+        "url": "https://stanwood.dev/idea-shuffler",
+        "description": "Browse ideas without ranking them.",
+        "applicationCategory": "UtilitiesApplication",
+        "author": { "@type": "Person", "name": "Stephen Stanwood" }
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon-idea.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -208,6 +219,7 @@ const title = "Idea Shuffler — stanwood.dev";
             <div class="mt-4 flex gap-3">
               <textarea
                 id="newIdea"
+                aria-label="New idea"
                 class="flex-1 rounded-xl border-2 border-dashed border-[#222]/30 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-[#FF6154] focus:border-solid transition-colors placeholder:text-[#1a1a1a]/30"
                 placeholder="Type or paste an idea here..."
                 rows="2"
