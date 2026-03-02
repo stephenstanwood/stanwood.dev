@@ -1,0 +1,605 @@
+---
+import "../styles/global.css";
+const title = "Pixel Aquarium — stanwood.dev";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/pixel-aquarium" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
+    <link rel="canonical" href="https://stanwood.dev/pixel-aquarium" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-aquarium.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        background: #0a0e27;
+        color: #e0e0e0;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+      .pixel-font { font-family: 'Press Start 2P', monospace; }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+        background: linear-gradient(90deg, #ff6b9d, #00d2ff, #43e97b, #ffd93d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .subtitle {
+        font-size: 0.65rem;
+        color: rgba(255,255,255,0.4);
+        margin-bottom: 12px;
+        letter-spacing: 1px;
+      }
+      #aquarium-canvas {
+        border: 3px solid #1a2050;
+        border-radius: 8px;
+        cursor: crosshair;
+        image-rendering: pixelated;
+        box-shadow:
+          0 0 30px rgba(0, 100, 200, 0.15),
+          inset 0 0 60px rgba(0, 50, 120, 0.1);
+        max-width: 100%;
+        touch-action: none;
+      }
+      .info-bar {
+        display: flex;
+        gap: 24px;
+        margin-top: 10px;
+        font-size: 0.55rem;
+        letter-spacing: 1px;
+      }
+      .info-bar span { color: rgba(255,255,255,0.35); }
+      .info-bar .val { color: #00d2ff; }
+      .back-link {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        color: rgba(255,255,255,0.3);
+        text-decoration: none;
+        font-size: 0.8rem;
+        transition: color 0.2s;
+        z-index: 10;
+      }
+      .back-link:hover { color: rgba(255,255,255,0.7); }
+    </style>
+  </head>
+  <body>
+    <a href="/" class="back-link" aria-label="Back to home">&larr; home</a>
+    <div class="container">
+      <h1 class="pixel-font">PIXEL AQUARIUM</h1>
+      <p class="subtitle pixel-font">click to drop food</p>
+      <canvas id="aquarium-canvas"></canvas>
+      <div class="info-bar pixel-font">
+        <span>fish: <span class="val" id="fish-count">0</span></span>
+        <span>fed: <span class="val" id="fed-count">0</span></span>
+      </div>
+    </div>
+
+    <script is:inline>
+      const canvas = document.getElementById('aquarium-canvas');
+      const ctx = canvas.getContext('2d');
+
+      // --- Sizing ---
+      const PIXEL = 4; // each "pixel" is 4x4 real pixels
+      const COLS = 160;
+      const ROWS = 100;
+      canvas.width = COLS * PIXEL;
+      canvas.height = ROWS * PIXEL;
+
+      // --- Colors ---
+      const WATER_TOP = [10, 20, 60];
+      const WATER_BOT = [5, 10, 35];
+      const SAND_COLORS = ['#c2a64e', '#b89840', '#d4b85a', '#a08030'];
+      const FOOD_COLORS = [
+        { name: 'red',    hex: '#ff4060', rgb: [255, 64, 96] },
+        { name: 'orange', hex: '#ff9a30', rgb: [255, 154, 48] },
+        { name: 'yellow', hex: '#ffd93d', rgb: [255, 217, 61] },
+        { name: 'green',  hex: '#43e97b', rgb: [67, 233, 123] },
+        { name: 'cyan',   hex: '#00d2ff', rgb: [0, 210, 255] },
+        { name: 'purple', hex: '#c850c0', rgb: [200, 80, 192] },
+        { name: 'pink',   hex: '#ff6b9d', rgb: [255, 107, 157] },
+      ];
+
+      // --- State ---
+      let fishes = [];
+      let foods = [];
+      let bubbles = [];
+      let plants = [];
+      let fedCount = 0;
+      const SAND_HEIGHT = 8;
+      const SAND_LINE = ROWS - SAND_HEIGHT;
+
+      // --- Pixel helpers ---
+      function px(x, y, color) {
+        ctx.fillStyle = color;
+        ctx.fillRect(x * PIXEL, y * PIXEL, PIXEL, PIXEL);
+      }
+
+      function rgbStr(r, g, b, a = 1) {
+        return a < 1 ? `rgba(${r},${g},${b},${a})` : `rgb(${r},${g},${b})`;
+      }
+
+      function lerpColor(c1, c2, t) {
+        return [
+          Math.round(c1[0] + (c2[0] - c1[0]) * t),
+          Math.round(c1[1] + (c2[1] - c1[1]) * t),
+          Math.round(c1[2] + (c2[2] - c1[2]) * t),
+        ];
+      }
+
+      // --- Fish sprite ---
+      // Fish body pixels (relative to origin), facing right
+      // Shape: a cute 8x5 pixel fish
+      const FISH_BODY_R = [
+        // row 0 (top)
+        [2,0],[3,0],[4,0],
+        // row 1
+        [1,1],[2,1],[3,1],[4,1],[5,1],
+        // row 2 (middle)
+        [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],
+        // row 3
+        [1,3],[2,3],[3,3],[4,3],[5,3],
+        // row 4 (bottom)
+        [2,4],[3,4],[4,4],
+      ];
+      const FISH_TAIL_R = [
+        [-1,1],[-2,0],[-2,1],[-1,2],[-2,2],[-1,3],[-2,3],[-2,4],
+      ];
+      const FISH_EYE_R = [5,1];
+      const FISH_FIN_R = [[3,5],[4,5]];
+
+      // Flip for left-facing
+      function mirrorX(pixels, w) {
+        return pixels.map(([x, y]) => [w - 1 - x, y]);
+      }
+
+      const FISH_W = 9; // total width including tail
+      const FISH_BODY_L = mirrorX(FISH_BODY_R, 7);
+      const FISH_TAIL_L = mirrorX(FISH_TAIL_R.map(([x,y]) => [x + 7, y]), 7 + 3).map(([x,y]) => [x - 7, y]);
+      const FISH_EYE_L = [7 - 1 - FISH_EYE_R[0], FISH_EYE_R[1]];
+      const FISH_FIN_L = mirrorX(FISH_FIN_R, 7);
+
+      // --- Curated fish palettes (body, tail, fin) ---
+      const FISH_PALETTES = [
+        { body: [255, 107, 157], tail: [220, 70, 130], fin: [255, 140, 180] }, // coral pink
+        { body: [0, 190, 220],   tail: [0, 150, 190],  fin: [80, 210, 235] }, // tropical cyan
+        { body: [255, 180, 50],  tail: [230, 140, 20],  fin: [255, 210, 100] }, // golden
+        { body: [130, 100, 220], tail: [100, 70, 190],  fin: [165, 140, 240] }, // soft purple
+        { body: [80, 210, 140],  tail: [50, 180, 110],  fin: [120, 230, 170] }, // seafoam
+        { body: [255, 120, 80],  tail: [220, 90, 55],   fin: [255, 155, 120] }, // tangerine
+        { body: [100, 180, 255], tail: [65, 145, 225],  fin: [140, 200, 255] }, // sky blue
+        { body: [240, 130, 200], tail: [210, 95, 170],  fin: [250, 170, 220] }, // orchid
+        { body: [255, 200, 100], tail: [240, 170, 60],  fin: [255, 220, 150] }, // buttercup
+        { body: [90, 200, 200],  tail: [60, 170, 175],  fin: [130, 220, 220] }, // teal
+      ];
+
+      // --- Size presets ---
+      const FISH_SIZES = [0.6, 0.7, 0.8, 1.0, 1.0, 1.0, 1.2, 1.4];
+
+      // --- Create fish ---
+      function createFish(x, y) {
+        const palette = FISH_PALETTES[Math.floor(Math.random() * FISH_PALETTES.length)];
+        const size = FISH_SIZES[Math.floor(Math.random() * FISH_SIZES.length)];
+        return {
+          x, y,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.15,
+          color: [...palette.body],
+          tailColor: [...palette.tail],
+          finColor: [...palette.fin],
+          facing: Math.random() > 0.5 ? 1 : -1,
+          swimTimer: Math.random() * 1000,
+          targetFood: null,
+          size,
+          // personality
+          hunger: 0.3 + Math.random() * 0.7,    // 0-1: how motivated by food
+          laziness: 0.3 + Math.random() * 0.5,   // affects idle drift frequency
+          swimSpeed: 0.3 + Math.random() * 0.4,  // personal max speed multiplier
+          wiggleRate: 0.002 + Math.random() * 0.003, // tail/fin animation speed
+        };
+      }
+
+      function hslToRgb(h, s, l) {
+        s /= 100; l /= 100;
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+        return [Math.round(f(0)*255), Math.round(f(8)*255), Math.round(f(4)*255)];
+      }
+
+      // --- Spawn initial fish ---
+      function spawnInitialFish() {
+        const count = 6 + Math.floor(Math.random() * 4);
+        for (let i = 0; i < count; i++) {
+          const x = 15 + Math.random() * (COLS - 30);
+          const y = 10 + Math.random() * (SAND_LINE - 20);
+          fishes.push(createFish(x, y));
+        }
+      }
+
+      // --- Plants ---
+      function spawnPlants() {
+        const count = 4 + Math.floor(Math.random() * 5);
+        for (let i = 0; i < count; i++) {
+          const x = 5 + Math.random() * (COLS - 10);
+          const height = 6 + Math.floor(Math.random() * 12);
+          const hue = 100 + Math.random() * 60; // greens
+          plants.push({ x: Math.floor(x), height, hue, sway: Math.random() * Math.PI * 2 });
+        }
+      }
+
+      // --- Draw background ---
+      function drawBackground() {
+        // Water gradient
+        for (let y = 0; y < SAND_LINE; y++) {
+          const t = y / SAND_LINE;
+          const c = lerpColor(WATER_TOP, WATER_BOT, t);
+          ctx.fillStyle = rgbStr(c[0], c[1], c[2]);
+          ctx.fillRect(0, y * PIXEL, COLS * PIXEL, PIXEL);
+        }
+
+        // Sand
+        for (let y = SAND_LINE; y < ROWS; y++) {
+          for (let x = 0; x < COLS; x++) {
+            const ci = (x * 7 + y * 13) % SAND_COLORS.length;
+            px(x, y, SAND_COLORS[ci]);
+          }
+        }
+
+        // Light rays
+        const time = Date.now() * 0.0003;
+        ctx.globalAlpha = 0.03;
+        for (let i = 0; i < 5; i++) {
+          const rx = (Math.sin(time + i * 1.8) * 0.3 + 0.5) * COLS * PIXEL;
+          const grad = ctx.createLinearGradient(rx, 0, rx + 80, ROWS * PIXEL * 0.6);
+          grad.addColorStop(0, 'rgba(150,200,255,1)');
+          grad.addColorStop(1, 'rgba(150,200,255,0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(rx - 20, 0, 60, ROWS * PIXEL * 0.6);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // --- Draw plants ---
+      function drawPlants(time) {
+        for (const p of plants) {
+          for (let i = 0; i < p.height; i++) {
+            const sway = Math.sin(time * 0.001 + p.sway + i * 0.3) * (i * 0.15);
+            const x = Math.round(p.x + sway);
+            const y = SAND_LINE - i;
+            const lightness = 30 + (i / p.height) * 25;
+            const [r, g, b] = hslToRgb(p.hue, 60, lightness);
+            px(x, y, rgbStr(r, g, b));
+            if (i > 2 && i % 3 === 0) {
+              px(x + (i % 2 === 0 ? 1 : -1), y, rgbStr(r, g + 20, b, 0.7));
+            }
+          }
+        }
+      }
+
+      // --- Draw fish ---
+      function drawFish(fish, time) {
+        const dir = fish.facing;
+        const body = dir > 0 ? FISH_BODY_R : FISH_BODY_L;
+        const tail = dir > 0 ? FISH_TAIL_R : FISH_TAIL_L;
+        const eye = dir > 0 ? FISH_EYE_R : FISH_EYE_L;
+        const fin = dir > 0 ? FISH_FIN_R : FISH_FIN_L;
+
+        const s = fish.size;
+        const ps = Math.round(PIXEL * s);
+        const ox = Math.round(fish.x * PIXEL);
+        const oy = Math.round(fish.y * PIXEL);
+        const [r, g, b] = fish.color;
+        const [tr, tg, tb] = fish.tailColor;
+        const [fr, fg, fb] = fish.finColor;
+
+        // Gentle tail wiggle — slower, smaller amplitude
+        const wiggle = Math.round(Math.sin(time * fish.wiggleRate + fish.swimTimer) * 0.8);
+
+        // Body
+        ctx.fillStyle = rgbStr(r, g, b);
+        for (const [bx, by] of body) {
+          ctx.fillRect(ox + bx * ps, oy + by * ps, ps, ps);
+        }
+
+        // Tail with wiggle
+        ctx.fillStyle = rgbStr(tr, tg, tb);
+        for (const [tx, ty] of tail) {
+          ctx.fillRect(ox + (tx + wiggle * -dir) * ps, oy + ty * ps, ps, ps);
+        }
+
+        // Eye
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(ox + eye[0] * ps, oy + eye[1] * ps, ps, ps);
+
+        // Fin — gentle, shows about 60% of the time with smooth sine
+        const finAlpha = Math.sin(time * fish.wiggleRate * 0.8 + fish.swimTimer) * 0.3 + 0.5;
+        if (finAlpha > 0.4) {
+          ctx.fillStyle = rgbStr(fr, fg, fb, Math.min(finAlpha, 0.7));
+          for (const [fx, fy] of fin) {
+            ctx.fillRect(ox + fx * ps, oy + fy * ps, ps, ps);
+          }
+        }
+      }
+
+      // --- Draw food ---
+      function drawFood(food) {
+        px(Math.round(food.x), Math.round(food.y), food.color.hex);
+        // tiny sparkle
+        if (Math.random() > 0.7) {
+          px(Math.round(food.x) + 1, Math.round(food.y), food.color.hex);
+        }
+      }
+
+      // --- Draw bubbles ---
+      function drawBubbles(time) {
+        for (const b of bubbles) {
+          const alpha = Math.max(0, 0.5 - b.y / 20);
+          px(Math.round(b.x), Math.round(b.y), rgbStr(100, 180, 255, alpha));
+        }
+      }
+
+      // --- Update fish ---
+      function updateFish(fish, dt) {
+        fish.swimTimer += dt;
+
+        // --- Food interest (governed by personality) ---
+        // Only look for food sometimes, based on hunger trait
+        if (!fish.targetFood || foods.indexOf(fish.targetFood) === -1) {
+          fish.targetFood = null;
+
+          // Less hungry fish only check occasionally
+          if (foods.length > 0 && Math.random() < fish.hunger * 0.05) {
+            let minDist = Infinity;
+            const detectRange = 30 + fish.hunger * 50; // hungry fish notice from farther
+            for (const f of foods) {
+              const dx = f.x - fish.x;
+              const dy = f.y - fish.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < detectRange && dist < minDist) {
+                minDist = dist;
+                fish.targetFood = f;
+              }
+            }
+          }
+        }
+
+        if (fish.targetFood) {
+          // Swim toward food — gently, not a mad dash
+          const dx = fish.targetFood.x - fish.x;
+          const dy = fish.targetFood.y - fish.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 5) {
+            // Eat!
+            const foodColor = fish.targetFood.color.rgb;
+            fish.color = lerpColor(fish.color, foodColor, 0.25);
+            fish.tailColor = lerpColor(fish.tailColor, foodColor, 0.15);
+            fish.finColor = lerpColor(fish.finColor, foodColor, 0.1);
+            foods.splice(foods.indexOf(fish.targetFood), 1);
+            fish.targetFood = null;
+            fedCount++;
+
+            // Tiny bubble
+            bubbles.push({
+              x: fish.x + 3,
+              y: fish.y,
+              vx: (Math.random() - 0.5) * 0.15,
+              vy: -0.2 - Math.random() * 0.15,
+            });
+          } else {
+            // Gentle pursuit — scales with hunger
+            const accel = 0.02 + fish.hunger * 0.03;
+            fish.vx += (dx / dist) * accel;
+            fish.vy += (dy / dist) * accel * 0.7;
+          }
+        } else {
+          // --- Idle swimming (the main state) ---
+          // Each fish drifts on its own rhythm
+          const drift = fish.laziness;
+
+          // Occasional gentle course change
+          if (Math.random() < 0.005 * (1 - drift)) {
+            fish.vx += (Math.random() - 0.5) * 0.15;
+            fish.vy += (Math.random() - 0.5) * 0.08;
+          }
+
+          // Smooth sine wave — unique per fish
+          fish.vy += Math.sin(fish.swimTimer * 0.0015 + fish.laziness * 100) * 0.001;
+          fish.vx += Math.cos(fish.swimTimer * 0.001 + fish.hunger * 100) * 0.0005;
+        }
+
+        // Damping — heavier for a floaty feel
+        fish.vx *= 0.97;
+        fish.vy *= 0.96;
+
+        // Speed limit — personal max speed
+        const speed = Math.sqrt(fish.vx * fish.vx + fish.vy * fish.vy);
+        const maxSpeed = 0.5 * fish.swimSpeed;
+        if (speed > maxSpeed) {
+          fish.vx = (fish.vx / speed) * maxSpeed;
+          fish.vy = (fish.vy / speed) * maxSpeed;
+        }
+
+        // Update position
+        fish.x += fish.vx;
+        fish.y += fish.vy;
+
+        // Facing direction — only flip when clearly moving
+        if (Math.abs(fish.vx) > 0.03) {
+          fish.facing = fish.vx > 0 ? 1 : -1;
+        }
+
+        // Soft boundary — gentle nudge back instead of hard bounce
+        const margin = 4;
+        const nudge = 0.01;
+        if (fish.x < margin) fish.vx += nudge;
+        if (fish.x > COLS - 12) fish.vx -= nudge;
+        if (fish.y < margin) fish.vy += nudge;
+        if (fish.y > SAND_LINE - 10) fish.vy -= nudge;
+
+        // Hard clamp just in case
+        fish.x = Math.max(2, Math.min(COLS - 10, fish.x));
+        fish.y = Math.max(2, Math.min(SAND_LINE - 8, fish.y));
+      }
+
+      // --- Update food ---
+      function updateFood() {
+        for (let i = foods.length - 1; i >= 0; i--) {
+          const f = foods[i];
+          f.vy = Math.min(f.vy + 0.003, 0.15); // gentle gravity
+          f.y += f.vy;
+          f.x += Math.sin(f.y * 0.1) * 0.05; // gentle drift
+
+          // Settle on sand
+          if (f.y >= SAND_LINE - 1) {
+            f.y = SAND_LINE - 1;
+            f.vy = 0;
+            f.life -= 1;
+            if (f.life <= 0) {
+              foods.splice(i, 1);
+            }
+          }
+        }
+      }
+
+      // --- Update bubbles ---
+      function updateBubbles() {
+        for (let i = bubbles.length - 1; i >= 0; i--) {
+          const b = bubbles[i];
+          b.x += b.vx + Math.sin(b.y * 0.2) * 0.05;
+          b.y += b.vy;
+          if (b.y < 0) bubbles.splice(i, 1);
+        }
+      }
+
+      // --- Random idle bubbles ---
+      function spawnIdleBubble() {
+        if (Math.random() < 0.005) {
+          bubbles.push({
+            x: 5 + Math.random() * (COLS - 10),
+            y: SAND_LINE - 2,
+            vx: (Math.random() - 0.5) * 0.1,
+            vy: -0.2 - Math.random() * 0.2,
+          });
+        }
+      }
+
+      // --- Click to drop food ---
+      function getCanvasPos(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * scaleX / PIXEL,
+          y: (clientY - rect.top) * scaleY / PIXEL,
+        };
+      }
+
+      function dropFood(e) {
+        e.preventDefault();
+        const pos = getCanvasPos(e);
+        if (pos.y >= SAND_LINE) return; // don't drop food in sand
+
+        const color = FOOD_COLORS[Math.floor(Math.random() * FOOD_COLORS.length)];
+        // Drop 2-4 food pellets near click
+        const count = 2 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < count; i++) {
+          foods.push({
+            x: pos.x + (Math.random() - 0.5) * 4,
+            y: pos.y + (Math.random() - 0.5) * 2,
+            vy: 0.05,
+            color,
+            life: 600, // frames before disappearing
+          });
+        }
+      }
+
+      canvas.addEventListener('click', dropFood);
+      canvas.addEventListener('touchstart', dropFood, { passive: false });
+
+      // --- Maybe spawn a new fish if well-fed ---
+      let spawnCheck = 0;
+      function maybeSpawnFish() {
+        spawnCheck++;
+        if (spawnCheck % 300 === 0 && fishes.length < 20 && fedCount > fishes.length * 2) {
+          const parent = fishes[Math.floor(Math.random() * fishes.length)];
+          const baby = createFish(parent.x + (Math.random() - 0.5) * 8, parent.y);
+          // Inherit parent colors with slight variation
+          baby.color = lerpColor(parent.color, baby.color, 0.3);
+          baby.tailColor = lerpColor(parent.tailColor, baby.tailColor, 0.3);
+          baby.finColor = lerpColor(parent.finColor, baby.finColor, 0.3);
+          baby.size = 0.5 + Math.random() * 0.2; // babies are small
+          fishes.push(baby);
+        }
+      }
+
+      // --- Main loop ---
+      let lastTime = 0;
+      function gameLoop(timestamp) {
+        const dt = Math.min(timestamp - lastTime, 50);
+        lastTime = timestamp;
+
+        drawBackground();
+        drawPlants(timestamp);
+
+        // Update and draw food
+        updateFood();
+        for (const f of foods) drawFood(f);
+
+        // Update and draw fish
+        for (const fish of fishes) {
+          updateFish(fish, dt);
+          drawFish(fish, timestamp);
+        }
+
+        // Bubbles
+        spawnIdleBubble();
+        updateBubbles();
+        drawBubbles(timestamp);
+
+        maybeSpawnFish();
+
+        // HUD
+        document.getElementById('fish-count').textContent = fishes.length;
+        document.getElementById('fed-count').textContent = fedCount;
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      // --- Init ---
+      spawnPlants();
+      spawnInitialFish();
+      requestAnimationFrame(gameLoop);
+    </script>
+  </body>
+</html>

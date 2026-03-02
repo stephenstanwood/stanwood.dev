@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0a1430"/>
+  <!-- water -->
+  <rect x="2" y="2" width="28" height="24" rx="3" fill="#0d1f4a" opacity="0.6"/>
+  <!-- sand -->
+  <rect x="2" y="24" width="28" height="6" rx="0 0 3 3" fill="#c2a64e"/>
+  <!-- fish body -->
+  <rect x="10" y="10" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="14" y="10" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="18" y="10" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="12" y="6" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="16" y="6" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="12" y="14" width="4" height="4" fill="#ff6b9d"/>
+  <rect x="16" y="14" width="4" height="4" fill="#ff6b9d"/>
+  <!-- tail -->
+  <rect x="6" y="8" width="4" height="4" fill="#ff9a56"/>
+  <rect x="6" y="12" width="4" height="4" fill="#ff9a56"/>
+  <rect x="4" y="6" width="4" height="4" fill="#ff9a56"/>
+  <rect x="4" y="14" width="4" height="4" fill="#ff9a56"/>
+  <!-- eye -->
+  <rect x="20" y="8" width="3" height="3" fill="#fff"/>
+  <!-- bubbles -->
+  <circle cx="25" cy="6" r="1.5" fill="#00d2ff" opacity="0.5"/>
+  <circle cx="23" cy="3" r="1" fill="#00d2ff" opacity="0.3"/>
+  <!-- food -->
+  <rect x="24" y="18" width="2" height="2" fill="#ffd93d"/>
+  <rect x="20" y="21" width="2" height="2" fill="#43e97b"/>
+</svg>

@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+import PixelTide from "../components/PixelTide.tsx";
+const title = "Pixel Tide — stanwood.dev";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="Pixel Tide — Waves of colored pixels wash in and out on a beach. Click to build sandcastles the tide slowly erodes. No winning, just vibes."
+    />
+    <meta property="og:title" content="Pixel Tide — stanwood.dev" />
+    <meta property="og:description" content="Waves of colored pixels wash in and out. Click to build sandcastles. No winning, just vibes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/pixel-tide" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Pixel Tide — stanwood.dev" />
+    <meta name="twitter:description" content="Waves of colored pixels wash in and out. Click to build sandcastles. No winning, just vibes." />
+    <link rel="canonical" href="https://stanwood.dev/pixel-tide" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon-pixel-tide.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body { font-family: 'Inter', system-ui, sans-serif; }
+    </style>
+  </head>
+
+  <body class="min-h-screen text-white antialiased" style="background: #1a1a2e;">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+
+    <main id="main-content" class="mx-auto max-w-4xl px-6 pt-12 pb-24">
+      <!-- Nav -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-sm font-semibold text-white/40 hover:text-white transition-colors"
+        >
+          &larr; Home
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mt-10 mb-8 text-center">
+        <div class="flex items-center justify-center gap-3">
+          <div
+            class="flex items-center justify-center w-12 h-12 rounded-2xl shadow-lg"
+            style="background: linear-gradient(135deg, #7EC8E3, #F5E6C8); box-shadow: 0 8px 24px rgba(126, 200, 227, 0.3);"
+          >
+            <svg class="w-6 h-6 text-[#1a1a2e]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+            </svg>
+          </div>
+          <div>
+            <h1
+              class="text-3xl sm:text-4xl font-extrabold tracking-tight"
+              style="font-family: 'Space Grotesk', sans-serif;"
+            >
+              Pixel Tide
+            </h1>
+          </div>
+        </div>
+        <p class="mt-3 text-white/50 text-sm tracking-wide">a day at the beach from the comfort of your home</p>
+      </header>
+
+      <!-- Game -->
+      <PixelTide client:load />
+    </main>
+  </body>
+</html>
