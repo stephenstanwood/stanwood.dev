@@ -554,6 +554,28 @@ export default function WTWTW() {
 
   return (
     <div className="mt-8">
+      {/* Team badges */}
+      {teams.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-6">
+          {teams.map((team) => (
+            <span
+              key={team.key}
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+              style={{
+                backgroundColor: `${team.color}15`,
+                color: team.textColor,
+              }}
+            >
+              <span
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: team.color }}
+              />
+              {team.label}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* Gear toggle */}
       <div className="flex justify-end mb-3">
         <button
