@@ -268,6 +268,14 @@ function renderHeroCard(game: Game): string {
         ? "color:#71717a;"
         : "color:#e4e4e7;";
 
+  const awayLogo = escUrl(away?.team?.logo || "");
+  const homeLogo = escUrl(home?.team?.logo || "");
+
+  const logoImg = (url: string, name: string) =>
+    url
+      ? `<img src="${url}" alt="${name}" width="20" height="20" style="object-fit:contain;vertical-align:-4px;" />`
+      : "";
+
   return `
     <div class="hero-card p-6">
       <div class="hero-sentence">the best game right now is <span class="hl-team">${awayName}</span> at <span class="hl-team">${homeName}</span> on <span class="hl-network">${esc(network)}</span></div>
@@ -282,16 +290,18 @@ function renderHeroCard(game: Game): string {
         ${
           hasScores
             ? `<div class="score-detail mt-3">
-                <span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
+                ${logoImg(awayLogo, awayName)}<span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
                 <span class="score-dash">\u2014</span>
-                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>
+                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>${logoImg(homeLogo, homeName)}
               </div>`
             : ""
         }
-        <div class="mt-3">
+        <div class="watch-meter mt-4">
+          <div class="watch-meter-label">WATCHABILITY</div>
           <div class="watch-bar-track">
             <div class="watch-bar-fill" style="width: ${barPct}%;"></div>
           </div>
+          <div class="watch-meter-value">${barPct}%</div>
         </div>
       </div>
     </div>

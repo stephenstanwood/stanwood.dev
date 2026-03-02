@@ -83,18 +83,42 @@ const title = "NBA Now — stanwood.dev";
         border-radius: 6px;
       }
 
-      /* Watch score bar */
+      /* Watch meter */
+      .watch-meter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .watch-meter-label {
+        font-family: 'Orbitron', monospace;
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        color: #52525b;
+        flex-shrink: 0;
+      }
       .watch-bar-track {
-        height: 3px;
+        height: 4px;
         border-radius: 2px;
         background: #18181b;
         overflow: hidden;
+        flex: 1;
       }
       .watch-bar-fill {
         height: 100%;
         border-radius: 2px;
         background: linear-gradient(90deg, #ff6b2b, #22d3ee);
         transition: width 0.6s ease-out;
+      }
+      .watch-meter-value {
+        font-family: 'Orbitron', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #22d3ee;
+        text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+        flex-shrink: 0;
+        min-width: 30px;
+        text-align: right;
       }
 
       /* Hero card — scoreboard style */
