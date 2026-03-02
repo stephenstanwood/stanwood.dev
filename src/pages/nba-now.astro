@@ -105,6 +105,7 @@ const title = "NBA Now — stanwood.dev";
       .game-row:hover {
         border-color: rgba(34, 211, 238, 0.5);
         box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+        transform: translateY(-2px);
       }
 
       /* Broadcast badges */
@@ -154,6 +155,15 @@ const title = "NBA Now — stanwood.dev";
         background: rgba(34, 211, 238, 0.06);
         color: #22d3ee;
         text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+      }
+
+      /* Breathing glow on hero card */
+      @keyframes heroGlow {
+        0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
+        50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.35), 0 0 60px rgba(34, 211, 238, 0.12), inset 0 1px 0 rgba(255,255,255,0.05); }
+      }
+      .hero-card {
+        animation: heroGlow 4s ease-in-out infinite;
       }
 
       /* Subtle scanline effect on hero */

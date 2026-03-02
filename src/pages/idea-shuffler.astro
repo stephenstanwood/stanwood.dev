@@ -102,6 +102,15 @@ const title = "Idea Shuffler — stanwood.dev";
         border: 2px solid #222;
         font-variant-numeric: tabular-nums;
       }
+
+      /* idea list item hover */
+      .idea-row {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .idea-row:hover {
+        transform: translateX(4px);
+        box-shadow: -4px 0 0 #FF6154;
+      }
     </style>
   </head>
 
@@ -348,7 +357,7 @@ const title = "Idea Shuffler — stanwood.dev";
         ideas.forEach((text, i) => {
           const row = document.createElement("div");
           row.className =
-            "flex items-center gap-3 rounded-xl border-2 border-[#222]/15 bg-white px-4 py-3";
+            "idea-row flex items-center gap-3 rounded-xl border-2 border-[#222]/15 bg-white px-4 py-3";
 
           const span = document.createElement("span");
           span.className = "flex-1 text-sm text-[#1a1a1a] truncate";

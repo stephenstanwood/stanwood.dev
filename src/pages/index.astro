@@ -363,7 +363,31 @@ const title = "Stephen Stanwood — stanwood.dev";
             <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
           </a>
         </div>
+        <p class="text-xs text-white/20 mt-2">
+          Handcrafted with caffeinated intent
+        </p>
       </footer>
+
+      <!-- 3D tilt on project cards -->
+      <script>
+        document.querySelectorAll('#projects > a').forEach(card => {
+          card.style.transformStyle = 'preserve-3d';
+          card.style.perspective = '800px';
+
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+          });
+
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+            card.style.transition = 'transform 0.4s ease';
+            setTimeout(() => { card.style.transition = ''; }, 400);
+          });
+        });
+      </script>
 
     </div>
   </body>

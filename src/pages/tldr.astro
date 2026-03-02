@@ -49,7 +49,7 @@ const title = "TL;DR — stanwood.dev";
       main { position: relative; z-index: 1; }
 
       .drop-zone {
-        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, transform 0.3s ease;
         border: 2px dashed #333;
         box-shadow: 0 0 20px rgba(0, 212, 255, 0.05), inset 0 0 20px rgba(0, 212, 255, 0.02);
       }
@@ -61,6 +61,7 @@ const title = "TL;DR — stanwood.dev";
         border-color: #00D4FF;
         background-color: rgba(0, 212, 255, 0.05);
         box-shadow: 0 0 40px rgba(0, 212, 255, 0.2), inset 0 0 40px rgba(0, 212, 255, 0.05);
+        transform: scale(1.02);
       }
 
       /* compact drop zone when shown after result */
@@ -424,7 +425,13 @@ const title = "TL;DR — stanwood.dev";
         const text = summaryText.innerText || "";
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = "copied!";
-        setTimeout(() => (copyBtn.textContent = "copy"), 1500);
+        copyBtn.style.color = "#4ADE80";
+        copyBtn.style.background = "rgba(74, 222, 128, 0.1)";
+        setTimeout(() => {
+          copyBtn.textContent = "copy";
+          copyBtn.style.color = "";
+          copyBtn.style.background = "";
+        }, 1500);
       });
     </script>
   </body>

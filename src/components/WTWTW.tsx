@@ -706,7 +706,7 @@ export default function WTWTW() {
               {error}
             </div>
           )}
-          {picks.map(({ day, pick }) => (
+          {picks.map(({ day, pick }, idx) => (
             <div
               key={day.yyyymmdd}
               className="rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px]"
@@ -718,6 +718,8 @@ export default function WTWTW() {
                 boxShadow: pick
                   ? `0 4px 20px ${pick.team.color}10`
                   : "none",
+                animation: `fadeSlideIn 0.4s ease both`,
+                animationDelay: `${idx * 80}ms`,
               }}
             >
               <div
