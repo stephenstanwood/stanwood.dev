@@ -309,6 +309,30 @@ export default function PixelTide() {
           }
         }
 
+        // Water overlay on submerged blocks
+        for (const block of castle.blocks) {
+          if (block.row < 0 || block.row >= rows || block.col < 0 || block.col >= cols) continue;
+          const tideLine = getTideLine(block.col, t, rows);
+          if (block.row >= tideLine - 1) {
+            const bx = block.col * cellSize;
+            const by = block.row * cellSize;
+            // Deeper = more opaque water overlay
+            const depth = Math.min(1, (block.row - tideLine + 1) / 4);
+            const alpha = 0.3 + depth * 0.4;
+            const waterColor = pick(theme.shallow, block.col + block.row);
+            const r = parseInt(waterColor.slice(1, 3), 16);
+            const g = parseInt(waterColor.slice(3, 5), 16);
+            const b = parseInt(waterColor.slice(5, 7), 16);
+            ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+            ctx.fillRect(bx, by, cellSize, cellSize);
+            // Occasional foam sparkle on blocks right at the waterline
+            if (block.row < tideLine + 1 && Math.random() < 0.04) {
+              ctx.fillStyle = `rgba(255,255,255,0.5)`;
+              ctx.fillRect(bx + 1, by + 1, cellSize - 2, cellSize - 2);
+            }
+          }
+        }
+
         // Crenellation on topmost blocks per column
         const colMap = new Map<number, number>();
         for (const block of castle.blocks) {
