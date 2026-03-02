@@ -1,0 +1,851 @@
+---
+import "../styles/global.css";
+const title = "MLB GameRank — stanwood.dev";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta
+      name="description"
+      content="The best MLB game to watch right now."
+    />
+    <meta property="og:title" content="MLB GameRank — stanwood.dev" />
+    <meta property="og:description" content="The best MLB game to watch right now." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://stanwood.dev/mlb-gamerank" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MLB GameRank — stanwood.dev" />
+    <meta name="twitter:description" content="The best MLB game to watch right now." />
+    <link rel="canonical" href="https://stanwood.dev/mlb-gamerank" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-mlb.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #14532d;
+        color: #e5e7eb;
+        min-height: 100vh;
+      }
+
+      .font-score {
+        font-family: 'Orbitron', monospace;
+      }
+
+      /* Live pulse — warm red */
+      @keyframes pulse-live {
+        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
+        50% { opacity: 0.4; box-shadow: 0 0 2px #ef4444; }
+      }
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ef4444;
+        box-shadow: 0 0 6px #ef4444;
+        animation: pulse-live 1.5s ease-in-out infinite;
+      }
+
+      /* Skeleton loader */
+      @keyframes shimmer {
+        0% { background-position: -400px 0; }
+        100% { background-position: 400px 0; }
+      }
+      .skeleton {
+        background: linear-gradient(90deg, #0f3d1f 25%, #1a5c30 50%, #0f3d1f 75%);
+        background-size: 800px 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 6px;
+      }
+
+      /* Watch score bar */
+      .watch-bar-track {
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+      .watch-bar-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+        transition: width 0.6s ease-out;
+      }
+
+      /* Hero card — darker green panel like Wrigley manual board */
+      .hero-card {
+        background: #0c3a1b;
+        border: 2px solid #1a5c30;
+        border-radius: 12px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Subtle horizontal slat texture */
+      .hero-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 4px,
+          rgba(0,0,0,0.08) 4px,
+          rgba(0,0,0,0.08) 5px
+        );
+        border-radius: 12px;
+        pointer-events: none;
+      }
+      .hero-card { position: relative; overflow: hidden; }
+
+      /* Game rows */
+      .game-row {
+        background: #0c3a1b;
+        border: 2px solid #1a5c30;
+        border-radius: 10px;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      .game-row:hover {
+        border-color: #2d7a3a;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Slat texture on game rows */
+      .game-row::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 4px,
+          rgba(0,0,0,0.06) 4px,
+          rgba(0,0,0,0.06) 5px
+        );
+        border-radius: 10px;
+        pointer-events: none;
+      }
+      .game-row { position: relative; overflow: hidden; }
+
+      /* Status pill */
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 4px 16px;
+        border-radius: 4px;
+        border: 1px solid rgba(251, 191, 36, 0.5);
+        background: rgba(251, 191, 36, 0.1);
+        color: #fbbf24;
+      }
+      .status-pill.live {
+        border-color: rgba(239, 68, 68, 0.5);
+        background: rgba(239, 68, 68, 0.1);
+        color: #fca5a5;
+      }
+
+      /* Section header — white on green */
+      .section-header {
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #fbbf24;
+        text-align: center;
+        padding: 12px 0 8px;
+        position: relative;
+      }
+      .section-header::before,
+      .section-header::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 60px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3));
+      }
+      .section-header::before { right: calc(50% + 80px); transform: rotate(180deg); }
+      .section-header::after { left: calc(50% + 80px); }
+
+      /* Subtitle styling */
+      .subtitle {
+        font-family: 'Orbitron', monospace;
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Situation panel */
+      .situation-panel {
+        margin-top: 12px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-lg px-5 pt-12 pb-24">
+      <div>
+        <a
+          href="/"
+          class="text-xs font-medium uppercase tracking-wider transition-colors"
+          style="color: rgba(255,255,255,0.4);"
+          onmouseover="this.style.color='rgba(255,255,255,0.7)'"
+          onmouseout="this.style.color='rgba(255,255,255,0.4)'"
+        >
+          &larr; Home
+        </a>
+      </div>
+
+      <header class="mt-6 text-center">
+        <h1 class="font-score text-4xl font-black tracking-widest" style="background: linear-gradient(90deg, #fbbf24, #ffffff, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.3));">
+          MLB GAMERANK
+        </h1>
+        <p class="mt-2 subtitle">
+          The best game to watch right now
+        </p>
+        <p class="mt-1 font-score" style="font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);" id="dateLabel"></p>
+      </header>
+
+      <div id="app" class="mt-8">
+        <!-- Loading skeleton -->
+        <div id="loading">
+          <div class="hero-card p-6">
+            <div class="skeleton mx-auto" style="width: 100px; height: 12px;"></div>
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="skeleton" style="width: 32px; height: 32px; border-radius: 50%;"></div>
+                  <div class="skeleton" style="width: 50px; height: 20px;"></div>
+                </div>
+                <div class="skeleton" style="width: 60px; height: 32px;"></div>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="skeleton" style="width: 32px; height: 32px; border-radius: 50%;"></div>
+                  <div class="skeleton" style="width: 50px; height: 20px;"></div>
+                </div>
+                <div class="skeleton" style="width: 60px; height: 32px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main content (hidden until loaded) -->
+        <div id="content" style="display: none;"></div>
+
+        <!-- Error state -->
+        <div id="error" style="display: none;"></div>
+      </div>
+    </main>
+
+    <script>
+      const API_URL = "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard";
+      const REFRESH_MS = 30_000;
+      const MAX_WATCH_SCORE = 400;
+      const CLOSENESS_PENALTY = 15;
+      const EXTRA_INNINGS_MULTIPLIER = 3.5;
+      const MAX_PROGRESS_MULTIPLIER = 2.5;
+      const LATE_INNING_THRESHOLD = 7;
+      const LATE_INNING_BONUS = 1.5;
+      const RUNNERS_ON_BASE_BONUS = 0.15;
+
+      // --- XSS protection ---
+      const _esc = {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"};
+      function esc(s) { return String(s).replace(/[&<>"']/g, c => _esc[c]); }
+      function escUrl(u) { try { const p = new URL(u); return ["http:","https:"].includes(p.protocol) ? p.href : ""; } catch { return ""; } }
+
+      // --- Ranking algorithm ---
+
+      function parseRecord(competitor) {
+        const rec = competitor?.records?.[0];
+        if (!rec) return { wins: 0, losses: 0 };
+        if (rec.summary) {
+          const [w, l] = rec.summary.split("-").map(Number);
+          if (!isNaN(w) && !isNaN(l)) return { wins: w, losses: l };
+        }
+        return { wins: 0, losses: 0 };
+      }
+
+      function winPct({ wins, losses }) {
+        const total = wins + losses;
+        return total > 0 ? wins / total : 0.5;
+      }
+
+      function gameProgress(status) {
+        const period = status?.period || 0;
+        const detail = status?.type?.detail || "";
+        if (period === 0) return 0;
+        let halfInnings = (period - 1) * 2;
+        if (/^Bot/i.test(detail) || /^End/i.test(detail)) halfInnings += 1;
+        else if (/^Mid/i.test(detail)) halfInnings += 1;
+        return Math.max(0, Math.min(halfInnings / 18, 1.0));
+      }
+
+      function isExtraInnings(status) { return (status?.period || 0) > 9; }
+      function isLateInning(status) { return (status?.period || 0) >= LATE_INNING_THRESHOLD; }
+
+      function getRunnersOnBase(situation) {
+        if (!situation) return 0;
+        let count = 0;
+        if (situation.onFirst) count++;
+        if (situation.onSecond) count++;
+        if (situation.onThird) count++;
+        return count;
+      }
+
+      function computeWatchScore(game) {
+        const comp = game.competitions?.[0];
+        if (!comp) return 0;
+        const competitors = comp.competitors || [];
+        if (competitors.length < 2) return 0;
+
+        const score1 = parseInt(competitors[0].score || 0, 10);
+        const score2 = parseInt(competitors[1].score || 0, 10);
+        const scoreDelta = Math.abs(score1 - score2);
+
+        const rec1 = parseRecord(competitors[0]);
+        const rec2 = parseRecord(competitors[1]);
+        const avgWinPct = (winPct(rec1) + winPct(rec2)) / 2;
+
+        const status = comp.status;
+        const progress = gameProgress(status);
+        const extraInnings = isExtraInnings(status);
+        const lateInning = isLateInning(status);
+
+        const closenessScore = Math.max(0, 100 - scoreDelta * CLOSENESS_PENALTY);
+        const qualityMultiplier = 0.5 + avgWinPct;
+
+        let progressMultiplier;
+        if (extraInnings) {
+          progressMultiplier = EXTRA_INNINGS_MULTIPLIER;
+        } else {
+          progressMultiplier = 1.0 + Math.min(progress, 1.0) * MAX_PROGRESS_MULTIPLIER;
+        }
+
+        let lateBonus = 1.0;
+        if (lateInning && scoreDelta <= 2) lateBonus = LATE_INNING_BONUS;
+
+        const situation = comp.situation;
+        const runners = getRunnersOnBase(situation);
+        const runnerBonus = 1.0 + (runners * RUNNERS_ON_BASE_BONUS);
+
+        return closenessScore * qualityMultiplier * progressMultiplier * lateBonus * runnerBonus;
+      }
+
+      function computePreGameScore(game) {
+        const comp = game.competitions?.[0];
+        if (!comp) return 0;
+        const competitors = comp.competitors || [];
+        if (competitors.length < 2) return 0;
+        const rec1 = parseRecord(competitors[0]);
+        const rec2 = parseRecord(competitors[1]);
+        const avgWinPct = (winPct(rec1) + winPct(rec2)) / 2;
+        const diff = Math.abs(winPct(rec1) - winPct(rec2));
+        const matchupBonus = 1.0 - diff;
+        return avgWinPct * 100 * matchupBonus;
+      }
+
+      // --- Broadcast helpers ---
+
+      function getBroadcasts(competition) {
+        const geo = competition?.geoBroadcasts || [];
+        const national = geo
+          .filter(b => b.market?.type === "National")
+          .map(b => b.media?.shortName)
+          .filter(Boolean);
+        return { national: [...new Set(national)] };
+      }
+
+      function renderBroadcastBadges(competition, compact) {
+        const { national } = getBroadcasts(competition);
+
+        const nationalStyle = "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.03em;padding:2px 6px;border-radius:3px;white-space:nowrap;line-height:1;background:#d97706;color:#fff;";
+        const mlbTvStyle = "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);";
+
+        let badge;
+        if (national.length > 0) {
+          badge = `<span style="${nationalStyle}">${esc(national[0])}</span>`;
+        } else {
+          badge = `<span style="${mlbTvStyle}">MLB.TV</span>`;
+        }
+
+        return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${compact ? 'flex-end' : 'center'};${compact ? '' : 'margin-top:8px;'}">${badge}</div>`;
+      }
+
+      // --- Baseball-specific rendering ---
+
+      function renderDiamond(situation) {
+        if (!situation) return '';
+
+        const baseColor = (occupied) => occupied ? '#fbbf24' : 'rgba(255,255,255,0.12)';
+        const glowFilter = (occupied) => occupied ? 'filter="url(#baseGlow)"' : '';
+
+        return `
+          <svg width="48" height="48" viewBox="0 0 48 48" style="flex-shrink:0;" role="img" aria-label="Bases: ${[situation.onFirst && '1st', situation.onSecond && '2nd', situation.onThird && '3rd'].filter(Boolean).join(', ') || 'empty'}">
+            <defs>
+              <filter id="baseGlow">
+                <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fbbf24" flood-opacity="0.7"/>
+              </filter>
+            </defs>
+            <path d="M24 6 L42 24 L24 42 L6 24 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+            <rect x="21" y="39" width="6" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+            <rect x="37" y="20" width="8" height="8" rx="2" fill="${baseColor(situation.onFirst)}" ${glowFilter(situation.onFirst)}/>
+            <rect x="20" y="2" width="8" height="8" rx="2" fill="${baseColor(situation.onSecond)}" ${glowFilter(situation.onSecond)}/>
+            <rect x="3" y="20" width="8" height="8" rx="2" fill="${baseColor(situation.onThird)}" ${glowFilter(situation.onThird)}/>
+          </svg>
+        `;
+      }
+
+      function renderCount(situation) {
+        if (!situation) return '';
+
+        const balls = situation.balls ?? 0;
+        const strikes = situation.strikes ?? 0;
+        const outs = situation.outs ?? 0;
+
+        function dots(count, max, activeColor) {
+          return Array.from({ length: max }, (_, i) => {
+            const active = i < count;
+            return `<div style="width:8px;height:8px;border-radius:50%;background:${active ? activeColor : 'rgba(255,255,255,0.1)'};${active ? `box-shadow:0 0 4px ${activeColor};` : ''}"></div>`;
+          }).join('');
+        }
+
+        return `
+          <div style="display:flex;flex-direction:column;gap:4px;font-family:Orbitron,monospace;font-size:10px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="color:rgba(255,255,255,0.3);width:10px;">B</span>
+              <div style="display:flex;gap:3px;">${dots(balls, 4, '#22c55e')}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="color:rgba(255,255,255,0.3);width:10px;">S</span>
+              <div style="display:flex;gap:3px;">${dots(strikes, 3, '#dc2626')}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="color:rgba(255,255,255,0.3);width:10px;">O</span>
+              <div style="display:flex;gap:3px;">${dots(outs, 3, '#fbbf24')}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderMatchup(situation) {
+        if (!situation) return '';
+        const pitcher = situation.pitcher?.athlete?.shortName || situation.pitcher?.athlete?.displayName || '';
+        const batter = situation.batter?.athlete?.shortName || situation.batter?.athlete?.displayName || '';
+        if (!pitcher && !batter) return '';
+        const pitcherSummary = situation.pitcher?.summary || '';
+        const batterSummary = situation.batter?.summary || '';
+
+        return `
+          <div style="display:flex;gap:16px;font-size:11px;margin-top:6px;justify-content:center;flex-wrap:wrap;">
+            ${pitcher ? `
+              <div>
+                <span style="color:rgba(255,255,255,0.3);font-family:Orbitron,monospace;font-size:9px;letter-spacing:0.1em;">P</span>
+                <span style="color:rgba(255,255,255,0.7);margin-left:4px;">${esc(pitcher)}</span>
+                ${pitcherSummary ? `<span style="color:rgba(255,255,255,0.35);margin-left:4px;font-size:10px;">${esc(pitcherSummary)}</span>` : ''}
+              </div>
+            ` : ''}
+            ${batter ? `
+              <div>
+                <span style="color:rgba(255,255,255,0.3);font-family:Orbitron,monospace;font-size:9px;letter-spacing:0.1em;">AB</span>
+                <span style="color:rgba(255,255,255,0.7);margin-left:4px;">${esc(batter)}</span>
+                ${batterSummary ? `<span style="color:rgba(255,255,255,0.35);margin-left:4px;font-size:10px;">${esc(batterSummary)}</span>` : ''}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      function renderRHE(away, home) {
+        const awayR = away?.score ?? '0';
+        const awayH = away?.hits ?? '0';
+        const awayE = away?.errors ?? '0';
+        const homeR = home?.score ?? '0';
+        const homeH = home?.hits ?? '0';
+        const homeE = home?.errors ?? '0';
+        const awayAbbr = teamAbbr(away);
+        const homeAbbr = teamAbbr(home);
+
+        const headerStyle = "font-family:Orbitron,monospace;font-size:9px;text-align:center;padding:2px 8px;color:rgba(255,255,255,0.35);letter-spacing:0.15em;";
+        const valueStyle = "font-family:Orbitron,monospace;font-size:11px;text-align:center;padding:2px 8px;color:#fbbf24;";
+        const teamStyle = "font-family:Orbitron,monospace;font-size:10px;text-align:left;padding:2px 12px 2px 0;color:rgba(255,255,255,0.5);";
+
+        return `
+          <div style="margin-top:12px;display:flex;justify-content:center;">
+            <table style="border-collapse:collapse;">
+              <tr>
+                <td style="${headerStyle}"></td>
+                <td style="${headerStyle}">R</td>
+                <td style="${headerStyle}">H</td>
+                <td style="${headerStyle}">E</td>
+              </tr>
+              <tr>
+                <td style="${teamStyle}">${awayAbbr}</td>
+                <td style="${valueStyle}">${esc(String(awayR))}</td>
+                <td style="${valueStyle}">${esc(String(awayH))}</td>
+                <td style="${valueStyle}">${esc(String(awayE))}</td>
+              </tr>
+              <tr>
+                <td style="${teamStyle}">${homeAbbr}</td>
+                <td style="${valueStyle}">${esc(String(homeR))}</td>
+                <td style="${valueStyle}">${esc(String(homeH))}</td>
+                <td style="${valueStyle}">${esc(String(homeE))}</td>
+              </tr>
+            </table>
+          </div>
+        `;
+      }
+
+      // --- Rendering ---
+
+      function teamAbbr(competitor) {
+        return esc(competitor?.team?.abbreviation || "???");
+      }
+
+      function teamColor(competitor) {
+        const c = competitor?.team?.color;
+        return c && /^[0-9a-fA-F]{3,8}$/.test(c) ? `#${c}` : "#d97706";
+      }
+
+      function statusLabel(status) {
+        const period = status?.period || 0;
+        const state = status?.type?.state || "";
+        const detail = status?.type?.shortDetail || status?.type?.detail || "";
+        const desc = status?.type?.description || "";
+        if (state === "post" || desc === "Final") {
+          if (period > 9) return `FINAL/${period}`;
+          return "FINAL";
+        }
+        if (state === "pre" || period === 0) return "";
+        return detail;
+      }
+
+      function isLive(status) {
+        return (status?.type?.state || "") === "in";
+      }
+
+      function formatFirstPitch(dateStr) {
+        return new Date(dateStr).toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true,
+          timeZone: "America/Los_Angeles",
+        });
+      }
+
+      function renderHeroCard(game) {
+        const comp = game.competitions?.[0];
+        const competitors = comp?.competitors || [];
+        const status = comp?.status;
+        const live = isLive(status);
+        const watchScore = computeWatchScore(game);
+        const maxScore = MAX_WATCH_SCORE;
+        const situation = comp?.situation;
+
+        const away = competitors.find(c => c.homeAway === "away") || competitors[0];
+        const home = competitors.find(c => c.homeAway === "home") || competitors[1];
+        const barPct = Math.min(100, Math.round((watchScore / maxScore) * 100));
+
+        const awayScore = parseInt(away?.score || 0, 10);
+        const homeScore = parseInt(home?.score || 0, 10);
+        const state = status?.type?.state;
+        const hasScores = state && state !== "pre";
+
+        return `
+          <div class="hero-card p-5">
+            <div class="flex justify-center">
+              <div class="status-pill ${live ? 'live' : ''}">
+                ${live ? '<div class="live-dot"></div>' : ''}
+                ${live ? 'LIVE &middot; ' : ''}${statusLabel(status)}
+              </div>
+            </div>
+
+            <div class="mt-5 space-y-1">
+              ${renderHeroTeam(away, status, "AWAY", hasScores && awayScore > homeScore, hasScores && awayScore < homeScore)}
+              <div style="border-top: 1px dashed rgba(255, 255, 255, 0.1); margin: 4px 0;"></div>
+              ${renderHeroTeam(home, status, "HOME", hasScores && homeScore > awayScore, hasScores && homeScore < awayScore)}
+            </div>
+
+            ${hasScores ? renderRHE(away, home) : ''}
+
+            ${live && situation ? `
+              <div class="situation-panel">
+                <div style="display:flex;align-items:center;gap:16px;justify-content:center;">
+                  ${renderDiamond(situation)}
+                  ${renderCount(situation)}
+                </div>
+                ${renderMatchup(situation)}
+              </div>
+            ` : ''}
+
+            <div class="flex justify-center">${renderBroadcastBadges(comp, false)}</div>
+
+            <div class="mt-3">
+              <div class="watch-bar-track">
+                <div class="watch-bar-fill" style="width: ${barPct}%;"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderHeroTeam(competitor, status, label, isWinning, isLosing) {
+        const abbr = teamAbbr(competitor);
+        const city = esc(competitor?.team?.location || abbr);
+        const name = esc(competitor?.team?.name || "");
+        const record = esc(competitor?.records?.[0]?.summary || "");
+        const logoUrl = escUrl(competitor?.team?.logo || "");
+        const color = teamColor(competitor);
+        const state = status?.type?.state;
+        const showScore = state && state !== "pre";
+        const score = showScore ? (competitor?.score ?? "\u2013") : "";
+
+        let scoreStyle = "color: #e5e7eb;";
+        if (isWinning) scoreStyle = `color: #fbbf24; text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);`;
+        else if (isLosing) scoreStyle = "color: rgba(255, 255, 255, 0.3);";
+
+        return `
+          <div class="flex items-center justify-between py-1.5">
+            <div class="flex items-center gap-3">
+              ${logoUrl
+                ? `<img src="${logoUrl}" alt="${abbr}" width="32" height="32" style="object-fit: contain;" />`
+                : `<div style="width:32px;height:32px;border-radius:50%;background:${color};"></div>`
+              }
+              <div>
+                <div style="font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); text-transform: uppercase;">${label}</div>
+                <div class="font-score text-base font-bold tracking-wider" style="color: #e5e7eb;">${city}</div>
+                <div style="font-size: 12px; color: rgba(255,255,255,0.5);">${name} <span style="color: rgba(255,255,255,0.3); font-size: 10px; margin-left: 4px;">${record}</span></div>
+              </div>
+            </div>
+            ${score ? `<div class="font-score text-4xl font-black tracking-wider" style="${scoreStyle}">${score}</div>` : ''}
+          </div>
+        `;
+      }
+
+      function renderGameRow(game, rank, isPreGame) {
+        const comp = game.competitions?.[0];
+        const competitors = comp?.competitors || [];
+        const status = comp?.status;
+        const live = isLive(status);
+
+        const away = competitors.find(c => c.homeAway === "away") || competitors[0];
+        const home = competitors.find(c => c.homeAway === "home") || competitors[1];
+
+        const awayScore = away?.score ?? "";
+        const homeScore = home?.score ?? "";
+        const awayNum = parseInt(awayScore || 0, 10);
+        const homeNum = parseInt(homeScore || 0, 10);
+        const awayAbbr = teamAbbr(away);
+        const homeAbbr = teamAbbr(home);
+        const awayLogo = escUrl(away?.team?.logo || "");
+        const homeLogo = escUrl(home?.team?.logo || "");
+
+        const showScores = !isPreGame;
+        const firstPitch = isPreGame ? formatFirstPitch(game.date) : "";
+        const statusText = isPreGame ? firstPitch + " PT" : statusLabel(status);
+
+        const awayScoreStyle = showScores && awayNum > homeNum ? "color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,0.4);" : showScores && awayNum < homeNum ? "color:rgba(255,255,255,0.3);" : "color:#e5e7eb;";
+        const homeScoreStyle = showScores && homeNum > awayNum ? "color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,0.4);" : showScores && homeNum < awayNum ? "color:rgba(255,255,255,0.3);" : "color:#e5e7eb;";
+
+        return `
+          <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;gap:12px;">
+            <div style="font-family:Orbitron,monospace;font-size:10px;color:rgba(255,255,255,0.3);width:24px;text-align:right;flex-shrink:0;">${rank}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  ${awayLogo
+                    ? `<img src="${awayLogo}" alt="${awayAbbr}" width="16" height="16" style="object-fit:contain;" />`
+                    : `<div style="width:16px;height:16px;border-radius:50%;background:#d97706;"></div>`
+                  }
+                  <span class="font-score text-xs font-semibold tracking-wider" style="color:#e5e7eb;">${awayAbbr}</span>
+                </div>
+                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${awayScoreStyle}">${awayScore}</span>` : ''}
+              </div>
+              <div class="flex items-center justify-between mt-0.5">
+                <div class="flex items-center gap-2">
+                  ${homeLogo
+                    ? `<img src="${homeLogo}" alt="${homeAbbr}" width="16" height="16" style="object-fit:contain;" />`
+                    : `<div style="width:16px;height:16px;border-radius:50%;background:#d97706;"></div>`
+                  }
+                  <span class="font-score text-xs font-semibold tracking-wider" style="color:#e5e7eb;">${homeAbbr}</span>
+                </div>
+                ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${homeScoreStyle}">${homeScore}</span>` : ''}
+              </div>
+            </div>
+            <div class="text-right flex-shrink-0" style="min-width: 70px;">
+              <div class="flex items-center justify-end gap-1.5">
+                ${live ? '<div class="live-dot" style="width:5px;height:5px;"></div>' : ''}
+                <span class="font-score text-xs" style="color:${live ? '#fca5a5' : 'rgba(255,255,255,0.5)'};">${statusText}</span>
+              </div>
+              ${renderBroadcastBadges(comp, true)}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderNoGames(events) {
+        const scheduled = events
+          .filter(e => e.competitions?.[0]?.status?.type?.state === "pre")
+          .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        let nextLine = "";
+        if (scheduled.length > 0) {
+          const next = scheduled[0];
+          const comp = next.competitions?.[0];
+          const away = comp?.competitors?.find(c => c.homeAway === "away");
+          const home = comp?.competitors?.find(c => c.homeAway === "home");
+          const time = formatFirstPitch(next.date);
+          nextLine = `
+            <div class="mt-4 font-score text-sm" style="color: rgba(255,255,255,0.6);">
+              Next up: <span style="color: #fbbf24;">${teamAbbr(away)} @ ${teamAbbr(home)}</span>
+              <span style="color: #d97706; margin-left: 4px;">${time} PT</span>
+            </div>
+          `;
+        }
+
+        const message = events.length === 0
+          ? "NO GAMES TODAY"
+          : "NO LIVE GAMES";
+
+        return `
+          <div class="hero-card p-8 text-center">
+            <div class="font-score text-lg font-bold tracking-widest" style="color: #fbbf24;">${message}</div>
+            ${nextLine}
+          </div>
+        `;
+      }
+
+      function getGameDayLabel(events) {
+        const firstGame = events.find(e => e.date);
+        if (!firstGame) return "Games";
+        const gameDate = new Date(firstGame.date);
+        const now = new Date();
+        const pt = "America/Los_Angeles";
+        const gameDayStr = gameDate.toLocaleDateString("en-US", { timeZone: pt, year: "numeric", month: "2-digit", day: "2-digit" });
+        const todayStr = now.toLocaleDateString("en-US", { timeZone: pt, year: "numeric", month: "2-digit", day: "2-digit" });
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowStr = tomorrow.toLocaleDateString("en-US", { timeZone: pt, year: "numeric", month: "2-digit", day: "2-digit" });
+        if (gameDayStr === todayStr) return "Today's Games";
+        if (gameDayStr === tomorrowStr) return "Tomorrow's Games";
+        const dayName = gameDate.toLocaleDateString("en-US", { timeZone: pt, weekday: "long" });
+        return `${dayName}'s Games`;
+      }
+
+      function renderRankedGames(events, sectionTitle) {
+        const preGames = events
+          .filter(e => e.competitions?.[0]?.status?.type?.state === "pre")
+          .map(g => ({ game: g, score: computePreGameScore(g) }))
+          .sort((a, b) => b.score - a.score);
+        if (preGames.length === 0) return "";
+        return `
+          <div class="section-header mt-8 mb-3">${sectionTitle}</div>
+          <div class="space-y-1.5">
+            ${preGames.map((g, i) => renderGameRow(g.game, i + 1, true)).join("")}
+          </div>
+        `;
+      }
+
+      function render(events) {
+        const content = document.getElementById("content");
+        const liveGames = events.filter(e => {
+          const state = e.competitions?.[0]?.status?.type?.state;
+          return state === "in";
+        });
+        const dayLabel = getGameDayLabel(events);
+
+        if (liveGames.length === 0) {
+          content.innerHTML = renderNoGames(events) + renderRankedGames(events, dayLabel + ", Ranked");
+          return;
+        }
+
+        const ranked = liveGames
+          .map(g => ({ game: g, score: computeWatchScore(g) }))
+          .sort((a, b) => b.score - a.score);
+
+        const best = ranked[0];
+        const others = ranked.slice(1);
+        let html = renderHeroCard(best.game);
+
+        if (others.length > 0) {
+          html += `
+            <div class="section-header mt-6 mb-3">Also Live</div>
+            <div class="space-y-1.5">
+              ${others.map((o, i) => renderGameRow(o.game, i + 2, false)).join("")}
+            </div>
+          `;
+        }
+
+        html += renderRankedGames(events, "Coming Up");
+        content.innerHTML = html;
+      }
+
+      // --- Fetch + loop ---
+
+      async function fetchAndRender() {
+        const loading = document.getElementById("loading");
+        const content = document.getElementById("content");
+        const errorEl = document.getElementById("error");
+
+        try {
+          const res = await fetch(API_URL);
+          if (!res.ok) throw new Error(`ESPN returned ${res.status}`);
+          const data = await res.json();
+          const events = data?.events || [];
+
+          loading.style.display = "none";
+          errorEl.style.display = "none";
+          content.style.display = "block";
+          render(events);
+        } catch (err) {
+          loading.style.display = "none";
+          content.style.display = "none";
+          errorEl.style.display = "block";
+          errorEl.innerHTML = `
+            <div class="hero-card p-6 text-center">
+              <div class="font-score text-xs" style="color: #fca5a5;">
+                ${esc(err.message)}
+              </div>
+              <button
+                onclick="fetchAndRender()"
+                class="mt-3 font-score text-xs font-semibold px-4 py-2 rounded-lg"
+                style="background: rgba(0,0,0,0.3); color: #fbbf24; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;"
+              >
+                RETRY
+              </button>
+            </div>
+          `;
+        }
+      }
+
+      const dateLabelEl = document.getElementById("dateLabel");
+      if (dateLabelEl) {
+        dateLabelEl.textContent = new Date().toLocaleDateString("en-US", {
+          weekday: "long", month: "long", day: "numeric", year: "numeric"
+        }).toUpperCase();
+      }
+
+      fetchAndRender();
+      setInterval(fetchAndRender, REFRESH_MS);
+    </script>
+  </body>
+</html>
