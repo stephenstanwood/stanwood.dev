@@ -43,6 +43,7 @@ export const POST: APIRoute = async ({ request }) => {
     const body = {
       includedTypes: search.types,
       maxResultCount: 10,
+      rankPreference: "DISTANCE",
       locationRestriction: {
         circle: {
           center: { latitude, longitude },
