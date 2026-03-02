@@ -38,34 +38,36 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
     <style>
       body {
         font-family: 'Space Grotesk', system-ui, sans-serif;
-        background: #111318;
+        background: #0e1110;
         overflow-x: hidden;
       }
 
-      /* subtle ambient glow */
+      /* warm ambient glow — coffee + green */
       .bg-glow {
         position: fixed;
         inset: 0;
         z-index: -1;
         background:
-          radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139,170,128,0.05) 0%, transparent 70%),
-          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.3) 0%, transparent 70%),
-          #111318;
+          radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139,170,128,0.06) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 50% at 20% 80%, rgba(180,130,70,0.04) 0%, transparent 60%),
+          radial-gradient(ellipse 40% 40% at 80% 20%, rgba(180,130,70,0.03) 0%, transparent 60%),
+          #0e1110;
       }
 
       /* hero card */
       .hero-card {
         border-radius: 20px;
-        background: rgba(25,29,38,0.85);
+        background: linear-gradient(165deg, rgba(30,35,30,0.9) 0%, rgba(20,24,20,0.95) 100%);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(139,170,128,0.12);
+        border: 1px solid rgba(139,170,128,0.15);
         overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(139,170,128,0.04);
       }
 
       /* map skeleton */
       .map-skeleton {
-        background: rgba(25,29,38,0.6);
+        background: rgba(25,29,28,0.6);
         animation: skeleton-pulse 1.5s ease-in-out infinite;
       }
       @keyframes skeleton-pulse {
@@ -79,31 +81,6 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         display: block;
         aspect-ratio: 2 / 1;
         object-fit: cover;
-      }
-
-      /* nav button */
-      .nav-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        height: 52px;
-        border-radius: 14px;
-        background: #8BAA80;
-        color: #111318;
-        font-weight: 700;
-        font-size: 15px;
-        transition: all 0.2s;
-        border: none;
-        cursor: pointer;
-      }
-      .nav-btn:hover {
-        background: #A3C296;
-        transform: scale(1.02);
-      }
-      .nav-btn:active {
-        transform: scale(0.98);
       }
 
       /* open badge */
@@ -134,94 +111,125 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         50% { opacity: 0.4; }
       }
 
-      /* mini carousel */
-      .mini-track {
-        display: flex;
-        gap: 12px;
-        scroll-snap-type: x mandatory;
-        overflow-x: auto;
-        padding: 0 24px 24px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+      /* Carousel for "More nearby" */
+      .carousel-wrap {
+        position: relative;
+        margin-top: 24px;
       }
-      .mini-track::-webkit-scrollbar { display: none; }
-
-      .mini-card {
-        flex: 0 0 140px;
-        scroll-snap-align: start;
+      .carousel-card {
         border-radius: 16px;
         background: rgba(25,29,38,0.65);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid rgba(139,170,128,0.08);
-        padding: 14px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 130px;
-        transition: transform 0.2s;
+        padding: 18px 20px;
+        transition: opacity 0.3s;
       }
-      .mini-card:hover {
-        transform: translateY(-2px);
-      }
-
-      .mini-name {
-        font-size: 13px;
+      .carousel-name {
+        font-size: 16px;
         font-weight: 600;
         color: #E8E6E1;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
         line-height: 1.3;
       }
-
-      .mini-dist {
-        font-size: 12px;
-        color: #8BAA80;
-        font-weight: 500;
-        margin-top: 4px;
+      .carousel-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+        font-size: 13px;
       }
-
-      .mini-go {
+      .carousel-dist {
+        color: #8BAA80;
+        font-weight: 600;
+      }
+      .carousel-rating {
+        color: #8B8D94;
+        font-size: 12px;
+      }
+      .carousel-addr {
+        margin-top: 8px;
+        font-size: 12px;
+        color: #8B8D94;
+        line-height: 1.4;
+      }
+      .carousel-addr a {
+        color: #8BAA80;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .carousel-addr a:hover {
+        color: #A3C296;
+        text-decoration: underline;
+      }
+      .carousel-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 12px;
+      }
+      .carousel-arrow {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(139,170,128,0.1);
+        border: 1px solid rgba(139,170,128,0.2);
+        color: #8BAA80;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
-        height: 30px;
-        border-radius: 8px;
-        background: transparent;
-        border: 1px solid rgba(139,170,128,0.3);
-        color: #8BAA80;
-        font-size: 12px;
-        font-weight: 700;
         cursor: pointer;
         transition: all 0.2s;
-        margin-top: 8px;
+        flex-shrink: 0;
       }
-      .mini-go:hover {
-        background: rgba(139,170,128,0.1);
+      .carousel-arrow:hover {
+        background: rgba(139,170,128,0.2);
         border-color: #8BAA80;
+      }
+      .carousel-arrow:disabled {
+        opacity: 0.25;
+        cursor: default;
+      }
+      .carousel-dots {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .carousel-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(139,170,128,0.2);
+        transition: all 0.2s;
+      }
+      .carousel-dot.active {
+        background: #8BAA80;
+        box-shadow: 0 0 6px rgba(139,170,128,0.4);
       }
 
       /* star */
-      .star { color: #D4A847; }
+      .star { color: #D4A847; text-shadow: 0 0 6px rgba(212,168,71,0.3); }
 
       /* progress bar */
       .progress-track {
-        height: 4px;
-        background: rgba(139,170,128,0.15);
+        height: 3px;
+        background: rgba(139,170,128,0.1);
         border-radius: 2px;
         overflow: hidden;
         width: 100%;
-        max-width: 280px;
+        max-width: 240px;
       }
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #8BAA80, #6ECF8E);
+        background: linear-gradient(90deg, #6B4226, #8BAA80, #6ECF8E);
         border-radius: 2px;
         transition: width 0.3s ease-out;
         width: 0%;
+      }
+
+      /* coffee steam bob */
+      @keyframes steam {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
       }
 
       /* fade in */
@@ -260,12 +268,17 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
       <!-- Header -->
       <header class="mt-8 mb-6">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#E8E6E1]">
-          Nearest Coffee
-        </h1>
-        <p class="mt-2 text-[#8B8D94] text-base">
-          Open Right Now
-        </p>
+        <div class="flex items-center gap-3">
+          <span style="font-size:36px;filter:drop-shadow(0 0 8px rgba(180,130,70,0.3));">☕</span>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#E8E6E1]">
+              Nearest Coffee
+            </h1>
+            <p class="text-[#8BAA80] text-sm font-medium tracking-wide uppercase" style="letter-spacing:0.15em;">
+              Open Right Now
+            </p>
+          </div>
+        </div>
       </header>
 
       <!-- All states live here, only one visible at a time via JS -->
@@ -299,11 +312,12 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
       function renderLoading() {
         render(`
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
-            <div class="progress-track">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div style="font-size:48px;animation:steam 2s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(180,130,70,0.3));">☕</div>
+            <div class="progress-track" style="margin-top:24px;">
               <div id="progressFill" class="progress-fill"></div>
             </div>
-            <p id="progressLabel" style="margin-top:16px;color:#8B8D94;font-size:14px;">Finding your location&hellip;</p>
+            <p id="progressLabel" style="margin-top:14px;color:#8BAA80;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
           </div>
         `);
         startProgress();
@@ -311,13 +325,14 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
 
       function renderPermission() {
         render(`
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
-            <div style="font-size:60px;margin-bottom:24px;">📍</div>
-            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">Find Your Coffee</h2>
-            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">
-              Allow location access to find the nearest open coffee shop.
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div style="font-size:56px;margin-bottom:20px;filter:drop-shadow(0 0 16px rgba(180,130,70,0.3));">☕</div>
+            <h2 style="font-size:22px;font-weight:700;color:#E8E6E1;margin-bottom:10px;">Find Your Coffee</h2>
+            <p style="color:#8B8D94;margin-bottom:28px;max-width:280px;line-height:1.6;font-size:14px;">
+              We'll use your location to find the nearest open coffee shop.
             </p>
-            <button id="enable-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+            <button id="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#8BAA80;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(139,170,128,0.2);" onmouseover="this.style.background='#A3C296';this.style.transform='scale(1.02)'" onmouseout="this.style.background='#8BAA80';this.style.transform='scale(1)'">
+              <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               Enable Location
             </button>
           </div>
@@ -420,7 +435,7 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
         ].map(s => `&style=${s}`).join("");
 
         const userMarker = `&markers=color:0x6ECF8E%7Csize:small%7C${userLat},${userLng}`;
-        const shopMarker = `&markers=color:0x8BAA80%7Clabel:C%7C${shop.lat},${shop.lng}`;
+        const shopMarker = `&markers=icon:https://maps.google.com/mapfiles/kml/shapes/coffee.png%7C${shop.lat},${shop.lng}`;
 
         return `https://maps.googleapis.com/maps/api/staticmap?center=${midLat},${midLng}&zoom=${zoom}&size=600x300&scale=2&maptype=roadmap${styles}${userMarker}${shopMarker}&key=${mapsApiKey}`;
       }
@@ -452,8 +467,10 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
           }
 
           const ratingHtml = hero.rating
-            ? `<span class="star">★</span> <span style="color:#E8E6E1;">${hero.rating.toFixed(1)}</span>${hero.ratingCount ? ` <span style="color:#8B8D94;">(${hero.ratingCount.toLocaleString()})</span>` : ""}`
+            ? `<span class="star">★</span> <span style="color:#E8E6E1;font-weight:600;">${hero.rating.toFixed(1)}</span>`
             : "";
+
+          const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${hero.lat},${hero.lng}&travelmode=walking`;
 
           let heroHtml = `
             <div class="hero-card fade-up">
@@ -469,67 +486,96 @@ const mapsApiKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
                 <!-- Name -->
                 <h2 style="font-size:clamp(22px,6vw,30px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${hero.name}</h2>
 
-                <!-- Address -->
-                <div style="display:flex;align-items:start;gap:6px;margin-bottom:20px;">
-                  <svg style="width:14px;height:14px;margin-top:2px;color:#8B8D94;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <!-- Address as nav link -->
+                <a href="${navUrl}" target="_blank" rel="noopener" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                  <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <span style="font-size:13px;color:#8B8D94;line-height:1.5;">${hero.address}</span>
-                </div>
-
-                <!-- Navigate button -->
-                <button class="nav-btn" id="hero-nav-btn">
-                  <svg style="width:16px;height:16px;" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
-                  </svg>
-                  Navigate
-                </button>
+                  <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${hero.address}
+                    <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#8BAA80;" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                    </svg>
+                  </span>
+                </a>
               </div>
             </div>
           `;
 
-          // Mini carousel for 2nd+ results
-          let miniHtml = "";
+          // Carousel for additional results
+          let carouselHtml = "";
           if (rest.length > 0) {
-            const miniCards = rest.map(shop => `
-              <div class="mini-card">
-                <div>
-                  <div class="mini-name">${shop.name}</div>
-                  <div class="mini-dist">${formatDistance(shop.distance)}</div>
+            carouselHtml = `
+              <div class="carousel-wrap">
+                <p style="font-size:13px;font-weight:500;color:#8B8D94;margin-bottom:12px;">More nearby</p>
+                <div id="carousel-content"></div>
+                <div class="carousel-nav">
+                  <button class="carousel-arrow" id="carousel-prev" aria-label="Previous">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                  </button>
+                  <div class="carousel-dots" id="carousel-dots"></div>
+                  <button class="carousel-arrow" id="carousel-next" aria-label="Next">
+                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                  </button>
                 </div>
-                <button class="mini-go" data-lat="${shop.lat}" data-lng="${shop.lng}">
-                  Go
-                  <svg style="width:10px;height:10px;" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
-                  </svg>
-                </button>
-              </div>
-            `).join("");
-
-            miniHtml = `
-              <div style="margin-top:24px;">
-                <p style="font-size:13px;font-weight:500;color:#8B8D94;padding:0 24px;margin-bottom:12px;">More nearby</p>
-                <div class="mini-track">${miniCards}</div>
               </div>
             `;
           }
 
-          app.innerHTML = heroHtml + miniHtml;
+          app.innerHTML = heroHtml + carouselHtml;
 
-          // Wire up hero navigate button
-          document.getElementById("hero-nav-btn")!.addEventListener("click", () => {
-            openNavigation(hero.lat, hero.lng);
-          });
+          // Wire up carousel
+          if (rest.length > 0) {
+            let carouselIdx = 0;
+            const carouselEl = document.getElementById("carousel-content")!;
+            const dotsEl = document.getElementById("carousel-dots")!;
+            const prevBtn = document.getElementById("carousel-prev")! as HTMLButtonElement;
+            const nextBtn = document.getElementById("carousel-next")! as HTMLButtonElement;
 
-          // Wire up mini Go buttons
-          app.querySelectorAll(".mini-go").forEach(btn => {
-            btn.addEventListener("click", () => {
-              const lat = parseFloat((btn as HTMLElement).dataset.lat!);
-              const lng = parseFloat((btn as HTMLElement).dataset.lng!);
-              openNavigation(lat, lng);
+            function renderCarouselCard(idx: number) {
+              const shop = rest[idx];
+              const shopNavUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+              const shopRating = shop.rating
+                ? `<span style="color:#D4A847;text-shadow:0 0 6px rgba(212,168,71,0.3);">★</span> <span style="font-weight:600;">${shop.rating.toFixed(1)}</span>`
+                : "";
+
+              carouselEl.innerHTML = `
+                <div class="carousel-card">
+                  <div class="carousel-name">${shop.name}</div>
+                  <div class="carousel-meta">
+                    <span class="carousel-dist">${formatDistance(shop.distance)}</span>
+                    ${shopRating ? `<span class="carousel-rating">${shopRating}</span>` : ""}
+                  </div>
+                  <div class="carousel-addr">
+                    <a href="${shopNavUrl}" target="_blank" rel="noopener">
+                      ${shop.address}
+                      <svg style="width:9px;height:9px;display:inline;vertical-align:middle;margin-left:3px;" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              `;
+
+              // Update dots
+              dotsEl.innerHTML = rest.map((_, i) =>
+                `<div class="carousel-dot ${i === idx ? 'active' : ''}"></div>`
+              ).join("");
+
+              // Update arrow states
+              prevBtn.disabled = idx === 0;
+              nextBtn.disabled = idx === rest.length - 1;
+            }
+
+            prevBtn.addEventListener("click", () => {
+              if (carouselIdx > 0) { carouselIdx--; renderCarouselCard(carouselIdx); }
             });
-          });
+            nextBtn.addEventListener("click", () => {
+              if (carouselIdx < rest.length - 1) { carouselIdx++; renderCarouselCard(carouselIdx); }
+            });
+
+            renderCarouselCard(0);
+          }
         }, 300);
       }
 
