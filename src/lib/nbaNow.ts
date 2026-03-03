@@ -275,18 +275,18 @@ function renderHeroCard(game: Game): string {
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-top:24px;">
-        ${awayLogo ? `<img src="${awayLogo}" alt="${awayName}" width="72" height="72" style="object-fit:contain;opacity:0.9;" />` : ""}
+      <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
+        ${awayLogo ? `<img src="${awayLogo}" alt="${awayName}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
         ${
           hasScores
-            ? `<div class="score-detail" style="flex-direction:column;gap:4px;">
+            ? `<div class="score-detail" style="flex-direction:column;gap:6px;">
                 <span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
                 <span class="score-dash">\u2014</span>
                 <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>
               </div>`
-            : `<span class="font-score" style="font-size:16px;color:#3f3f46;font-weight:700;">VS</span>`
+            : `<span class="font-score" style="font-size:20px;color:#3f3f46;font-weight:700;">VS</span>`
         }
-        ${homeLogo ? `<img src="${homeLogo}" alt="${homeName}" width="72" height="72" style="object-fit:contain;opacity:0.9;" />` : ""}
+        ${homeLogo ? `<img src="${homeLogo}" alt="${homeName}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
       </div>
 
       <div style="margin-top:16px;" class="text-center">
