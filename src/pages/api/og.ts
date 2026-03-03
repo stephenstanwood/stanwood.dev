@@ -104,7 +104,7 @@ const PAGES: Record<string, PageConfig> = {
   "nearest-coffee": {
     emoji: "☕",
     title: "Nearest Coffee",
-    tagline: "Find the nearest open coffee shop.",
+    tagline: "Find the nearest coffee shop open right now.",
     bg: "#0e1110",
     bg2: "#1a2420",
     accent: "#a3e635",
