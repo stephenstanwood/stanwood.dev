@@ -472,7 +472,7 @@ function getGameDayLabel(events: Game[]): string {
 
 function renderRankedGames(
   events: Game[],
-  sectionTitle: string,
+  sectionLabel: string,
 ): string {
   const preGames = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
@@ -481,8 +481,10 @@ function renderRankedGames(
 
   if (preGames.length === 0) return "";
 
+  const title = preGames.length === 1 ? sectionLabel : sectionLabel + ", Ranked";
+
   return `
-    <div class="section-header mt-8 mb-3">${sectionTitle}</div>
+    <div class="section-header mt-8 mb-3">${title}</div>
     <div class="space-y-1.5">
       ${preGames.map((g, i) => renderGameRow(g.game, i + 1, true)).join("")}
     </div>
@@ -502,7 +504,7 @@ function render(events: Game[]): void {
   if (liveGames.length === 0) {
     content.innerHTML =
       renderNoGames(events) +
-      renderRankedGames(events, dayLabel + ", Ranked");
+      renderRankedGames(events, dayLabel);
     document.fonts.ready.then(fitHeroLines);
     return;
   }
@@ -525,7 +527,7 @@ function render(events: Game[]): void {
     `;
   }
 
-  html += renderRankedGames(events, "Up Next, Ranked");
+  html += renderRankedGames(events, "Up Next");
 
   content.innerHTML = html;
   document.fonts.ready.then(fitHeroLines);
