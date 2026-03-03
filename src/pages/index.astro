@@ -74,7 +74,7 @@ const cards = [
     badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
     gradient: "linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea)",
     glow: "rgba(102,126,234,0.15)",
-    screenshot: "/screenshots/tldr.png", imgPos: "top center",
+    screenshot: null,
   },
   {
     key: "wtwtw", href: "/wtwtw", emoji: "📺",
@@ -98,7 +98,7 @@ const cards = [
     badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
     gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d)",
     glow: "rgba(0,210,255,0.15)",
-    screenshot: "/screenshots/pixel-aquarium.png", imgPos: "center 60%",
+    screenshot: null,
   },
   {
     key: "nearest-coffee", href: "/nearest-coffee", emoji: "☕",
@@ -110,7 +110,7 @@ const cards = [
     badgeClass: "bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20",
     gradient: "linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80)",
     glow: "rgba(139,170,128,0.15)",
-    screenshot: "/screenshots/nearest-coffee.png", imgPos: "top center",
+    screenshot: null,
   },
   {
     key: "nearest-fun", href: "/nearest-fun", emoji: "🛝",
@@ -122,7 +122,7 @@ const cards = [
     badgeClass: "bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20",
     gradient: "linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF)",
     glow: "rgba(124,159,255,0.15)",
-    screenshot: "/screenshots/nearest-fun.png", imgPos: "top center",
+    screenshot: null,
   },
   {
     key: "idea-shuffler", href: "/idea-shuffler", emoji: "🎲",
@@ -134,7 +134,7 @@ const cards = [
     badgeClass: "bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20",
     gradient: "linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0)",
     glow: "rgba(255,107,157,0.15)",
-    screenshot: "/screenshots/idea-shuffler.png", imgPos: "top center",
+    screenshot: null,
   },
 ];
 ---
@@ -176,8 +176,8 @@ const cards = [
       rel="stylesheet"
     />
 
-    <style>
-      /* ── Hero card screenshot area ── */
+    <style is:global>
+      /* ── Hero card screenshot area (is:global because content is injected via JS) ── */
       .hero-screenshot {
         position: relative;
         overflow: hidden;
@@ -401,18 +401,16 @@ const cards = [
           if (!section) return;
           const allCards = [...section.querySelectorAll('a[data-key]')];
 
-          // Fisher-Yates shuffle all cards
-          for (let i = allCards.length - 1; i > 0; i--) {
+          // NBA Now is always the hero at the top
+          const heroCard = allCards.find(c => c.dataset.key === 'nba-now');
+
+          // Fisher-Yates shuffle the rest
+          const rest = allCards.filter(c => c !== heroCard);
+          for (let i = rest.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
+            [rest[i], rest[j]] = [rest[j], rest[i]];
           }
 
-          // Pick 1 random hero from screenshot-eligible cards
-          const heroEligible = allCards.filter(c => c.dataset.screenshot);
-          const heroCard = heroEligible[Math.floor(Math.random() * heroEligible.length)];
-
-          // Move hero to front, keep rest in shuffled order
-          const rest = allCards.filter(c => c !== heroCard);
           const ordered = [heroCard, ...rest];
 
           // Upgrade the hero card — keep same outer <a> structure, just swap inner content
