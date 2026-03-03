@@ -1,43 +1,17 @@
 ---
-import "../styles/global.css";
-const title = "Pixel Aquarium — stanwood.dev";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0a1628" />
-    <title>{title}</title>
-    <meta name="description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/pixel-aquarium" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content="Little pixel fish swim around. Click to drop food. They change color based on what they eat." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=pixel-aquarium" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=pixel-aquarium" />
-    <link rel="canonical" href="https://stanwood.dev/pixel-aquarium" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-aquarium.svg" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Pixel Aquarium",
-        "url": "https://stanwood.dev/pixel-aquarium",
-        "description": "A peaceful pixel-art aquarium. Click to drop food.",
-        "applicationCategory": "GameApplication",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+<BaseLayout
+  title="Pixel Aquarium — stanwood.dev"
+  description="Little pixel fish swim around. Click to drop food. They change color based on what they eat."
+  slug="pixel-aquarium"
+  favicon="/favicon-aquarium.svg"
+  themeColor="#0a1628"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap"
+  schemaCategory="GameApplication"
+>
+  <Fragment slot="head">
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
@@ -103,14 +77,14 @@ const title = "Pixel Aquarium — stanwood.dev";
       }
       .back-link:hover { color: rgba(255,255,255,0.7); }
     </style>
-  </head>
-  <body>
+  </Fragment>
+
     <a href="#aquarium-canvas" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-400 focus:text-black focus:rounded-lg focus:font-semibold">Skip to aquarium</a>
     <a href="/" class="back-link" aria-label="Back to home">&larr; home</a>
     <div class="container">
       <h1 class="pixel-font">PIXEL AQUARIUM</h1>
       <p class="subtitle pixel-font">click to drop food</p>
-      <canvas id="aquarium-canvas"></canvas>
+      <canvas id="aquarium-canvas" role="img" aria-label="Pixel art aquarium with fish swimming around. Click to drop food."></canvas>
       <div class="info-bar pixel-font">
         <span>fish: <span class="val" id="fish-count">0</span></span>
         <span>fed: <span class="val" id="fed-count">0</span></span>
@@ -580,7 +554,10 @@ const title = "Pixel Aquarium — stanwood.dev";
 
       // --- Main loop ---
       let lastTime = 0;
+      const fishCountEl = document.getElementById('fish-count');
+      const fedCountEl = document.getElementById('fed-count');
       function gameLoop(timestamp) {
+        if (document.hidden) { requestAnimationFrame(gameLoop); return; }
         const dt = Math.min(timestamp - lastTime, 50);
         lastTime = timestamp;
 
@@ -605,8 +582,8 @@ const title = "Pixel Aquarium — stanwood.dev";
         maybeSpawnFish();
 
         // HUD
-        document.getElementById('fish-count').textContent = fishes.length;
-        document.getElementById('fed-count').textContent = fedCount;
+        fishCountEl.textContent = fishes.length;
+        fedCountEl.textContent = fedCount;
 
         requestAnimationFrame(gameLoop);
       }
@@ -616,5 +593,4 @@ const title = "Pixel Aquarium — stanwood.dev";
       spawnInitialFish();
       requestAnimationFrame(gameLoop);
     </script>
-  </body>
-</html>
+</BaseLayout>

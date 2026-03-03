@@ -1,56 +1,25 @@
 ---
-import "../styles/global.css";
-const title = "NBA Now — stanwood.dev";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#111318" />
-    <title>{title}</title>
-    <meta
-      name="description"
-      content="The best NBA game to watch right now."
-    />
-    <meta property="og:title" content="NBA Now — stanwood.dev" />
-    <meta property="og:description" content="The best NBA game to watch right now." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/nba-now" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="NBA Now — stanwood.dev" />
-    <meta name="twitter:description" content="The best NBA game to watch right now." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=nba-now" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=nba-now" />
-    <link rel="canonical" href="https://stanwood.dev/nba-now" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "NBA Now",
-        "url": "https://stanwood.dev/nba-now",
-        "description": "The best NBA game to watch right now.",
-        "applicationCategory": "SportsApplication",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon-nba.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+<BaseLayout
+  title="NBA Now — stanwood.dev"
+  description="The best NBA game to watch right now."
+  slug="nba-now"
+  favicon="/favicon-nba.svg"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+  themeColor="#111318"
+  schemaCategory="SportsApplication"
+>
+  <Fragment slot="head">
     <style is:global>
+      @import "../styles/sports.css";
+
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background: #050508;
         color: #d4d4d8;
         min-height: 100vh;
-      }
-
-      .font-score {
-        font-family: 'Orbitron', monospace;
       }
 
       /* Neon glow colors */
@@ -60,83 +29,56 @@ const title = "NBA Now — stanwood.dev";
       .neon-dim { color: #71717a; text-shadow: none; }
       .neon-amber { color: #f59e0b; text-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
 
-      /* Live pulse */
-      @keyframes pulse-live {
-        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ff3b5c; }
-        50% { opacity: 0.4; box-shadow: 0 0 2px #ff3b5c; }
-      }
+      /* Live pulse — NBA red */
       .live-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
         background: #ff3b5c;
         box-shadow: 0 0 8px #ff3b5c, 0 0 16px rgba(255, 59, 92, 0.3);
-        animation: pulse-live 1.5s ease-in-out infinite;
       }
 
-      /* Skeleton loader */
-      @keyframes shimmer {
-        0% { background-position: -400px 0; }
-        100% { background-position: 400px 0; }
-      }
+      /* Skeleton — dark blue tones */
       .skeleton {
         background: linear-gradient(90deg, #111118 25%, #1a1a28 50%, #111118 75%);
-        background-size: 800px 100%;
         animation: shimmer 1s infinite;
-        border-radius: 6px;
       }
 
-      /* Watch meter */
-      .watch-meter {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .watch-meter-label {
-        font-family: 'Orbitron', monospace;
-        font-size: 8px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        color: #52525b;
-        flex-shrink: 0;
-      }
-      .watch-bar-track {
-        height: 4px;
-        border-radius: 2px;
-        background: #18181b;
-        overflow: hidden;
-        flex: 1;
-      }
-      .watch-bar-fill {
-        height: 100%;
-        border-radius: 2px;
-        background: linear-gradient(90deg, #ff6b2b, #22d3ee);
-        transition: width 0.6s ease-out;
-      }
+      /* Watch meter — NBA colors */
+      .watch-meter-label { color: #52525b; }
+      .watch-bar-track { background: #18181b; }
+      .watch-bar-fill { background: linear-gradient(90deg, #ff6b2b, #22d3ee); }
       .watch-meter-value {
-        font-family: 'Orbitron', monospace;
-        font-size: 10px;
-        font-weight: 700;
         color: #22d3ee;
         text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
-        flex-shrink: 0;
-        min-width: 30px;
-        text-align: right;
       }
 
-      /* Hero card — scoreboard style */
+      /* Hero card — neon scoreboard */
       .hero-card {
         background: linear-gradient(160deg, #0c0c14 0%, #12121e 100%);
         border: 1px solid rgba(34, 211, 238, 0.5);
-        border-radius: 12px;
         box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03);
       }
 
-      /* Game rows */
+      /* Breathing glow on hero card */
+      @keyframes heroGlow {
+        0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
+        50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.35), 0 0 60px rgba(34, 211, 238, 0.12), inset 0 1px 0 rgba(255,255,255,0.05); }
+      }
+      .hero-card { animation: heroGlow 4s ease-in-out infinite; }
+
+      /* Scanline effect on hero */
+      .hero-card::after {
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255,255,255,0.008) 2px,
+          rgba(255,255,255,0.008) 4px
+        );
+      }
+
+      /* Game rows — neon cyan */
       .game-row {
         background: #0a0a12;
         border: 1px solid rgba(34, 211, 238, 0.25);
-        border-radius: 10px;
         transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
         box-shadow: 0 0 10px rgba(34, 211, 238, 0.08);
       }
@@ -144,6 +86,12 @@ const title = "NBA Now — stanwood.dev";
         border-color: rgba(34, 211, 238, 0.5);
         box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
         transform: translateY(-2px);
+      }
+
+      /* Retro dot grid on game rows */
+      .game-row::before {
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 8px 8px;
       }
 
       /* Broadcast badges */
@@ -165,24 +113,9 @@ const title = "NBA Now — stanwood.dev";
         color: #ff8c55;
         border: 1px solid rgba(255, 107, 43, 0.2);
       }
-      .broadcast-badge.local {
-        background: rgba(63, 63, 70, 0.3);
-        color: #71717a;
-        border: 1px solid rgba(63, 63, 70, 0.3);
-      }
 
-      /* Status pill */
+      /* Status pill — NBA amber/cyan */
       .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-family: 'Orbitron', monospace;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 4px 16px;
-        border-radius: 4px;
         border: 1px solid rgba(245, 158, 11, 0.6);
         background: rgba(245, 158, 11, 0.06);
         color: #f59e0b;
@@ -195,32 +128,6 @@ const title = "NBA Now — stanwood.dev";
         text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
       }
 
-      /* Breathing glow on hero card */
-      @keyframes heroGlow {
-        0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
-        50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.35), 0 0 60px rgba(34, 211, 238, 0.12), inset 0 1px 0 rgba(255,255,255,0.05); }
-      }
-      .hero-card {
-        animation: heroGlow 4s ease-in-out infinite;
-      }
-
-      /* Subtle scanline effect on hero */
-      .hero-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(255,255,255,0.008) 2px,
-          rgba(255,255,255,0.008) 4px
-        );
-        border-radius: 12px;
-        pointer-events: none;
-      }
-      .hero-card { position: relative; overflow: hidden; }
-
       /* Scoreboard section dividers */
       .scoreboard-divider {
         border: none;
@@ -229,113 +136,56 @@ const title = "NBA Now — stanwood.dev";
         margin: 0;
       }
 
-      /* Section header — retro LED style */
+      /* Section header — retro LED amber */
       .section-header {
-        font-family: 'Orbitron', monospace;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
         color: #f59e0b;
         text-shadow: 0 0 12px rgba(245, 158, 11, 0.5), 0 0 24px rgba(245, 158, 11, 0.2);
-        text-align: center;
-        padding: 12px 0 8px;
-        position: relative;
       }
       .section-header::before,
       .section-header::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        width: 60px;
-        height: 1px;
         background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4));
       }
-      .section-header::before { right: calc(50% + 80px); transform: rotate(180deg); }
-      .section-header::after { left: calc(50% + 80px); }
 
-      /* Retro dot grid on game rows */
-      .game-row::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-        background-size: 8px 8px;
-        border-radius: 10px;
-        pointer-events: none;
-      }
-      .game-row { position: relative; overflow: hidden; }
-
-      /* Subtitle styling */
+      /* Subtitle */
       .subtitle {
-        font-family: 'Orbitron', monospace;
-        font-size: 10px;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
         color: #a1a1aa;
         text-shadow: 0 0 6px rgba(161, 161, 170, 0.2);
       }
 
       /* Home link */
-      .home-link {
-        color: #71717a;
-      }
-      .home-link:hover {
-        color: #a1a1aa;
-      }
+      .home-link { color: #71717a; }
+      .home-link:hover { color: #a1a1aa; }
 
-      /* Mad-lib hero — boxy per-line sizing */
+      /* Hero sentence — NBA colors */
       .hero-sentence {
-        font-family: 'Orbitron', monospace;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        line-height: 1.05;
         color: #71717a;
-        width: 100%;
         max-width: 420px;
         margin: 0 auto;
-        overflow: hidden;
-      }
-      .hero-line {
-        display: block;
-        white-space: nowrap;
       }
       .hero-sentence .hl-team {
         color: #fff;
-        font-weight: 800;
         text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
       }
       .hero-sentence .hl-network {
         color: #ff6b2b;
-        font-weight: 800;
         text-shadow: 0 0 14px rgba(255, 107, 43, 0.5);
       }
       .hero-sentence .hl-time {
         color: #f59e0b;
-        font-weight: 800;
         text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
       }
 
-      /* Score detail row below hero sentence */
-      .score-detail {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        font-family: 'Orbitron', monospace;
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: #a1a1aa;
-      }
-      .score-detail .score-dash {
-        color: #3f3f46;
+      /* Score detail */
+      .score-detail { color: #a1a1aa; }
+      .score-detail .score-dash { color: #3f3f46; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .live-dot { animation: none; }
+        .skeleton { animation: none; }
       }
     </style>
-  </head>
+  </Fragment>
 
-  <body class="antialiased">
     <a href="#main-content" class="skip-nav">Skip to content</a>
     <main id="main-content" class="mx-auto max-w-lg px-5 pt-12 pb-24">
       <div>
@@ -376,5 +226,4 @@ const title = "NBA Now — stanwood.dev";
       import { init } from "../lib/nbaNow";
       init();
     </script>
-  </body>
-</html>
+</BaseLayout>

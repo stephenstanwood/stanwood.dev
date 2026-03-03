@@ -1,67 +1,36 @@
 // NBA Now — scoreboard ranking engine and renderer
 
-import { esc, escUrl } from "./htmlUtils";
+import {
+  type Game,
+  type Status,
+  type Competition,
+  type Competitor,
+  esc,
+  escUrl,
+  parseRecord,
+  winPct,
+  computePreGameScore,
+  getBroadcasts,
+  teamAbbr,
+  teamMascot,
+  teamFullName,
+  teamColor,
+  isLive,
+  getGameDayLabel,
+  formatGameTime,
+  fitHeroLines,
+  initSportsApp,
+} from "./sportsCore";
 
 // --- Constants ---
 const API_URL =
   "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard";
-const REFRESH_MS = 30_000;
 const MAX_WATCH_SCORE = 400;
 const CLOSENESS_PENALTY = 4;
 const OT_MULTIPLIER = 3.5;
 const MAX_PROGRESS_MULTIPLIER = 2.0;
 
-// --- Minimal types for ESPN data ---
-interface Competitor {
-  homeAway?: string;
-  score?: string;
-  team?: {
-    abbreviation?: string;
-    displayName?: string;
-    location?: string;
-    name?: string;
-    logo?: string;
-    color?: string;
-  };
-  records?: Array<{ summary?: string }>;
-}
-
-interface Status {
-  period?: number;
-  displayClock?: string;
-  type?: { description?: string; state?: string };
-}
-
-interface Competition {
-  competitors?: Competitor[];
-  status?: Status;
-  geoBroadcasts?: Array<{
-    market?: { type?: string };
-    media?: { shortName?: string };
-  }>;
-}
-
-interface Game {
-  date?: string;
-  competitions?: Competition[];
-}
-
 // --- Ranking algorithm ---
-
-function parseRecord(competitor: Competitor) {
-  const rec = competitor?.records?.[0];
-  if (!rec) return { wins: 0, losses: 0 };
-  if (rec.summary) {
-    const [w, l] = rec.summary.split("-").map(Number);
-    if (!isNaN(w) && !isNaN(l)) return { wins: w, losses: l };
-  }
-  return { wins: 0, losses: 0 };
-}
-
-function winPct({ wins, losses }: { wins: number; losses: number }): number {
-  const total = wins + losses;
-  return total > 0 ? wins / total : 0.5;
-}
 
 function gameProgress(status: Status): number {
   const period = status?.period || 0;
@@ -110,38 +79,7 @@ function computeWatchScore(game: Game): number {
   return closenessScore * qualityMultiplier * progressMultiplier;
 }
 
-function computePreGameScore(game: Game): number {
-  const comp = game.competitions?.[0];
-  if (!comp) return 0;
-  const competitors = comp.competitors || [];
-  if (competitors.length < 2) return 0;
-
-  const rec1 = parseRecord(competitors[0]);
-  const rec2 = parseRecord(competitors[1]);
-  const avg = (winPct(rec1) + winPct(rec2)) / 2;
-  const diff = Math.abs(winPct(rec1) - winPct(rec2));
-  const matchupBonus = 1.0 - diff;
-
-  return avg * 100 * matchupBonus;
-}
-
 // --- Broadcast helpers ---
-
-function getBroadcasts(competition: Competition) {
-  const geo = competition?.geoBroadcasts || [];
-  const national = geo
-    .filter((b) => b.market?.type === "National")
-    .map((b) => b.media?.shortName)
-    .filter(Boolean) as string[];
-  const local = geo
-    .filter((b) => b.market?.type !== "National")
-    .map((b) => b.media?.shortName)
-    .filter(Boolean) as string[];
-  return {
-    national: [...new Set(national)],
-    local: [...new Set(local)],
-  };
-}
 
 function renderBroadcastBadges(
   competition: Competition,
@@ -164,29 +102,6 @@ function renderBroadcastBadges(
 
 // --- Rendering helpers ---
 
-function teamAbbr(competitor: Competitor): string {
-  return esc(competitor?.team?.abbreviation || "???");
-}
-
-/** Full team name for accessible alt text (e.g. "Golden State Warriors"). */
-function teamFullName(competitor: Competitor): string {
-  const loc = competitor?.team?.location || "";
-  const name = competitor?.team?.name || "";
-  const full = `${loc} ${name}`.trim();
-  return esc(full || competitor?.team?.abbreviation || "Team");
-}
-
-function teamMascot(competitor: Competitor): string {
-  return esc(
-    competitor?.team?.name || competitor?.team?.abbreviation || "Team",
-  );
-}
-
-function teamColor(competitor: Competitor): string {
-  const c = competitor?.team?.color;
-  return c && /^[0-9a-fA-F]{3,8}$/.test(c) ? `#${c}` : "#ff6b2b";
-}
-
 function statusLabel(status: Status): string {
   const period = status?.period || 0;
   const clock = status?.displayClock || "";
@@ -199,19 +114,8 @@ function statusLabel(status: Status): string {
   return `Q${period} ${clock}`;
 }
 
-function isLive(status: Status | undefined): boolean {
-  return (status?.type?.state || "") === "in";
-}
-
 function formatTipoff(dateStr: string): string {
-  return new Date(dateStr)
-    .toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "America/Los_Angeles",
-    })
-    .replace(/\s*[AP]M$/i, "");
+  return formatGameTime(dateStr);
 }
 
 // --- Card renderers ---
@@ -258,11 +162,6 @@ function renderHeroCard(game: Game): string {
 
   const awayLogo = escUrl(away?.team?.logo || "");
   const homeLogo = escUrl(home?.team?.logo || "");
-
-  const logoImg = (url: string, name: string) =>
-    url
-      ? `<img src="${url}" alt="${name}" width="32" height="32" style="object-fit:contain;" />`
-      : "";
 
   return `
     <div class="hero-card p-6">
@@ -334,8 +233,8 @@ function renderGameRow(
   const homeFull = teamFullName(home);
   const awayLogo = escUrl(away?.team?.logo || "");
   const homeLogo = escUrl(home?.team?.logo || "");
-  const awayColor = teamColor(away);
-  const homeColor = teamColor(home);
+  const awayColor = teamColor(away, "#ff6b2b");
+  const homeColor = teamColor(home, "#ff6b2b");
 
   const showScores = !isPreGame;
   const tipoff = isPreGame ? formatTipoff(game.date!) : "";
@@ -441,37 +340,6 @@ function renderNoGames(events: Game[]): string {
   `;
 }
 
-function getGameDayLabel(events: Game[]): string {
-  const firstGame = events.find((e) => e.date);
-  if (!firstGame) return "Games";
-
-  const gameDate = new Date(firstGame.date!);
-  const now = new Date();
-  const pt = "America/Los_Angeles";
-
-  const opts: Intl.DateTimeFormatOptions = {
-    timeZone: pt,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  };
-  const gameDayStr = gameDate.toLocaleDateString("en-US", opts);
-  const todayStr = now.toLocaleDateString("en-US", opts);
-
-  const tomorrow = new Date(now);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = tomorrow.toLocaleDateString("en-US", opts);
-
-  if (gameDayStr === todayStr) return "Today's Games";
-  if (gameDayStr === tomorrowStr) return "Tomorrow's Games";
-
-  const dayName = gameDate.toLocaleDateString("en-US", {
-    timeZone: pt,
-    weekday: "long",
-  });
-  return `${dayName}'s Games`;
-}
-
 function renderRankedGames(
   events: Game[],
   sectionLabel: string,
@@ -535,93 +403,12 @@ function render(events: Game[]): void {
   document.fonts.ready.then(fitHeroLines);
 }
 
-/** Scale each .hero-line to fill the container width, creating a boxy block. */
-function fitHeroLines(): void {
-  const container = document.querySelector(".hero-sentence") as HTMLElement;
-  if (!container) return;
-  const targetWidth = container.clientWidth;
-  const lines = container.querySelectorAll(
-    ".hero-line",
-  ) as NodeListOf<HTMLElement>;
-  const BASE = 48;
-  // Temporarily allow overflow so getBoundingClientRect returns true width
-  container.style.overflow = "visible";
-  lines.forEach((line) => {
-    line.style.whiteSpace = "nowrap";
-    line.style.display = "inline-block";
-    // Pass 1: measure at base size
-    line.style.fontSize = `${BASE}px`;
-    const w1 = line.getBoundingClientRect().width;
-    if (w1 <= 0) return;
-    // Pass 2: scale and re-measure to correct for em-relative letter-spacing
-    let size = (targetWidth / w1) * BASE;
-    line.style.fontSize = `${size.toFixed(1)}px`;
-    const w2 = line.getBoundingClientRect().width;
-    if (w2 > 0) size = (targetWidth / w2) * size;
-    line.style.fontSize = `${size.toFixed(1)}px`;
-    line.style.display = "block";
-  });
-  container.style.overflow = "hidden";
-}
-
-// --- Fetch + loop ---
-
-async function fetchAndRender(): Promise<void> {
-  const loading = document.getElementById("loading")!;
-  const content = document.getElementById("content")!;
-  const errorEl = document.getElementById("error")!;
-
-  try {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error(`ESPN returned ${res.status}`);
-    const data = await res.json();
-    const events: Game[] = data?.events || [];
-
-    loading.style.display = "none";
-    errorEl.style.display = "none";
-    content.style.display = "block";
-
-    render(events);
-  } catch (err) {
-    loading.style.display = "none";
-    content.style.display = "none";
-    errorEl.style.display = "block";
-    const message =
-      err instanceof Error ? err.message : "Something went wrong";
-    errorEl.innerHTML = `
-      <div class="hero-card p-6 text-center">
-        <div class="font-score text-xs neon-red">${esc(message)}</div>
-        <button
-          id="retryBtn"
-          class="mt-3 font-score text-xs font-semibold px-4 py-2 rounded-lg"
-          style="background: #111118; color: #ff6b2b; border: 1px solid #1f1f30; cursor: pointer;"
-        >
-          RETRY
-        </button>
-      </div>
-    `;
-    document
-      .getElementById("retryBtn")
-      ?.addEventListener("click", fetchAndRender);
-  }
-}
+// --- Init ---
 
 /** Initialize NBA Now: set date label, start fetching + auto-refresh. */
 export function init(): void {
-  const dateLabelEl = document.getElementById("dateLabel");
-  if (dateLabelEl) {
-    dateLabelEl.textContent = new Date()
-      .toLocaleDateString("en-US", {
-        weekday: "long",
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-      })
-      .toUpperCase();
-  }
-
-  fetchAndRender();
-  setInterval(fetchAndRender, REFRESH_MS);
-
-  window.addEventListener("resize", fitHeroLines);
+  initSportsApp(API_URL, render, {
+    retryBtnStyle:
+      "background:#111118;color:#ff6b2b;border:1px solid #1f1f30;cursor:pointer;",
+  });
 }

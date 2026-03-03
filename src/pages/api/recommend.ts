@@ -129,7 +129,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     // Parse JSON from Claude's response, stripping markdown fences if present
     const cleaned = text.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "");
-    const recommendation = JSON.parse(cleaned);
+    let recommendation;
+    try {
+      recommendation = JSON.parse(cleaned);
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Failed to parse AI response" }),
+        { status: 502, headers: { "Content-Type": "application/json" } },
+      );
+    }
 
     console.log(
       JSON.stringify({
