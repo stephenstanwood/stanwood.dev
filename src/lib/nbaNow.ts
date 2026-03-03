@@ -150,9 +150,9 @@ function renderBroadcastBadges(
   const { national } = getBroadcasts(competition);
 
   const nationalStyle =
-    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(255,107,43,0.12);color:#ff8c55;border:1px solid rgba(255,107,43,0.2);";
+    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;text-transform:uppercase;background:rgba(255,107,43,0.12);color:#ff8c55;border:1px solid rgba(255,107,43,0.2);";
   const leaguePassStyle =
-    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(63,63,70,0.3);color:#71717a;border:1px solid rgba(63,63,70,0.4);";
+    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;text-transform:uppercase;background:rgba(63,63,70,0.3);color:#71717a;border:1px solid rgba(63,63,70,0.4);";
 
   const badge =
     national.length > 0
