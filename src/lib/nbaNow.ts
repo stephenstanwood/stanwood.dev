@@ -264,7 +264,7 @@ function renderHeroCard(game: Game): string {
         <div class="hero-line">the best game</div>
         <div class="hero-line">right now is</div>
         <div class="hero-line hl-team">${awayName}</div>
-        <div class="hero-line">at</div>
+        <div class="hero-line">versus the</div>
         <div class="hero-line hl-team">${homeName}</div>
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
       </div>
@@ -419,7 +419,7 @@ function renderNoGames(events: Game[]): string {
         <div class="hero-line">the best game</div>
         <div class="hero-line">today is</div>
         <div class="hero-line hl-team">${teamFullName(away)}</div>
-        <div class="hero-line">at</div>
+        <div class="hero-line">versus the</div>
         <div class="hero-line hl-team">${teamFullName(home)}</div>
         <div class="hero-line hl-time">${esc(time)} Pacific</div>
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
