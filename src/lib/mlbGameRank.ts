@@ -136,7 +136,7 @@ function renderBroadcastBadges(competition: any, compact: boolean): string {
   const { national } = getBroadcasts(competition);
 
   const nationalStyle =
-    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.03em;padding:2px 6px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);";
+    "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.03em;padding:2px 6px;border-radius:3px;white-space:nowrap;line-height:1;text-transform:uppercase;background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);";
   const mlbTvStyle =
     "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.1);";
 
@@ -371,6 +371,12 @@ function renderHeroTeam(
   `;
 }
 
+function teamMascot(competitor: any): string {
+  return esc(
+    competitor?.team?.name || competitor?.team?.abbreviation || "Team",
+  );
+}
+
 function renderHeroCard(game: any): string {
   const comp = game.competitions?.[0];
   const competitors = comp?.competitors || [];
@@ -391,22 +397,59 @@ function renderHeroCard(game: any): string {
   const state = status?.type?.state;
   const hasScores = state && state !== "pre";
 
+  const { national } = getBroadcasts(comp);
+  const network = national.length > 0 ? national[0] : "MLB.TV";
+
+  const awayLogo = escUrl(away?.team?.logo || "");
+  const homeLogo = escUrl(home?.team?.logo || "");
+
+  // Score colors: gold for winning, dim for losing
+  const awayScoreColor =
+    hasScores && awayScore > homeScore
+      ? "color:#fbbf24;text-shadow:0 0 10px rgba(251,191,36,0.4);"
+      : hasScores && awayScore < homeScore
+        ? "color:rgba(255,255,255,0.3);"
+        : "color:#e5e7eb;";
+  const homeScoreColor =
+    hasScores && homeScore > awayScore
+      ? "color:#fbbf24;text-shadow:0 0 10px rgba(251,191,36,0.4);"
+      : hasScores && homeScore < awayScore
+        ? "color:rgba(255,255,255,0.3);"
+        : "color:#e5e7eb;";
+
   return `
     <div class="hero-card p-5">
-      <div class="flex justify-center">
-        <div class="status-pill ${live ? "live" : ""}">
-          ${live ? '<div class="live-dot"></div>' : ""}
-          ${live ? "LIVE &middot; " : ""}${statusLabel(status)}
+      <div class="hero-sentence">
+        <div class="hero-line">the best game</div>
+        <div class="hero-line">right now is the</div>
+        <div class="hero-line hl-team">${teamMascot(away)}</div>
+        <div class="hero-line">versus the</div>
+        <div class="hero-line hl-team">${teamMascot(home)}</div>
+        <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
+        ${awayLogo ? `<img src="${awayLogo}" alt="${teamMascot(away)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+        ${
+          hasScores
+            ? `<div class="score-detail" style="flex-direction:column;gap:6px;">
+                <span style="${awayScoreColor}">${teamAbbr(away)} ${awayScore}</span>
+                <span style="color:rgba(255,255,255,0.15);">\u2014</span>
+                <span style="${homeScoreColor}">${teamAbbr(home)} ${homeScore}</span>
+              </div>`
+            : `<span class="font-score" style="font-size:20px;color:rgba(255,255,255,0.15);font-weight:700;">VS</span>`
+        }
+        ${homeLogo ? `<img src="${homeLogo}" alt="${teamMascot(home)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+      </div>
+
+      <div style="margin-top:16px;" class="text-center">
+        <div class="flex justify-center">
+          <div class="status-pill ${live ? "live" : ""}">
+            ${live ? '<div class="live-dot"></div>' : ""}
+            ${live ? "LIVE &middot; " : ""}${statusLabel(status)}
+          </div>
         </div>
       </div>
-
-      <div class="mt-5 space-y-1">
-        ${renderHeroTeam(away, status, "AWAY", hasScores && awayScore > homeScore, hasScores && awayScore < homeScore)}
-        <div style="border-top: 1px dashed rgba(255, 255, 255, 0.1); margin: 4px 0;"></div>
-        ${renderHeroTeam(home, status, "HOME", hasScores && homeScore > awayScore, hasScores && homeScore < awayScore)}
-      </div>
-
-      ${hasScores ? renderRHE(away, home) : ""}
 
       ${
         live && situation
@@ -421,8 +464,6 @@ function renderHeroCard(game: any): string {
       `
           : ""
       }
-
-      <div class="flex justify-center">${renderBroadcastBadges(comp, false)}</div>
 
       <div style="display:flex;align-items:center;gap:8px;margin-top:16px;">
         <div style="font-family:Orbitron,monospace;font-size:8px;font-weight:600;letter-spacing:0.15em;color:rgba(255,255,255,0.25);flex-shrink:0;">WATCHABILITY</div>
@@ -513,21 +554,38 @@ function renderGameRow(game: any, rank: number, isPreGame: boolean): string {
 function renderNoGames(events: any[]): string {
   const scheduled = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
-    );
+    .map((g) => ({ game: g, score: computePreGameScore(g) }))
+    .sort((a, b) => b.score - a.score);
 
-  let nextLine = "";
   if (scheduled.length > 0) {
-    const next = scheduled[0];
-    const comp = next.competitions?.[0];
+    const best = scheduled[0].game;
+    const comp = best.competitions?.[0];
     const away = comp?.competitors?.find((c: any) => c.homeAway === "away");
     const home = comp?.competitors?.find((c: any) => c.homeAway === "home");
-    const time = formatFirstPitch(next.date);
-    nextLine = `
-      <div class="mt-4 font-score text-sm" style="color: rgba(255,255,255,0.6);">
-        Next up: <span style="color: #fbbf24;">${teamAbbr(away)} @ ${teamAbbr(home)}</span>
-        <span style="color: #d97706; margin-left: 4px;">${time} PT</span>
+    const time = formatFirstPitch(best.date);
+    const { national } = getBroadcasts(comp);
+    const network = national.length > 0 ? national[0] : "MLB.TV";
+
+    const awayLogo = escUrl(away?.team?.logo || "");
+    const homeLogo = escUrl(home?.team?.logo || "");
+
+    return `
+      <div class="hero-card p-5">
+        <div class="hero-sentence">
+          <div class="hero-line">the best game</div>
+          <div class="hero-line">today is the</div>
+          <div class="hero-line hl-team">${teamMascot(away)}</div>
+          <div class="hero-line">versus the</div>
+          <div class="hero-line hl-team">${teamMascot(home)}</div>
+          <div class="hero-line hl-time">${esc(time)} pacific</div>
+          <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
+          ${awayLogo ? `<img src="${awayLogo}" alt="${teamMascot(away)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+          <span class="font-score" style="font-size:20px;color:rgba(255,255,255,0.15);font-weight:700;">VS</span>
+          ${homeLogo ? `<img src="${homeLogo}" alt="${teamMascot(home)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+        </div>
       </div>
     `;
   }
@@ -537,7 +595,6 @@ function renderNoGames(events: any[]): string {
   return `
     <div class="hero-card p-8 text-center">
       <div class="font-score text-lg font-bold tracking-widest" style="color: #fbbf24;">${message}</div>
-      ${nextLine}
     </div>
   `;
 }
@@ -577,18 +634,45 @@ function getGameDayLabel(events: any[]): string {
   return `${dayName}'s Games`;
 }
 
-function renderRankedGames(events: any[], sectionTitle: string): string {
+function renderRankedGames(events: any[], sectionLabel: string): string {
   const preGames = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
     .map((g) => ({ game: g, score: computePreGameScore(g) }))
     .sort((a, b) => b.score - a.score);
   if (preGames.length === 0) return "";
+  const title = preGames.length === 1 ? sectionLabel : sectionLabel + ", Ranked";
   return `
-    <div class="section-header mt-8 mb-3">${sectionTitle}</div>
+    <div class="section-header mt-8 mb-3">${title}</div>
     <div class="space-y-1.5">
       ${preGames.map((g, i) => renderGameRow(g.game, i + 1, true)).join("")}
     </div>
   `;
+}
+
+/** Scale each .hero-line to fill the container width, creating a boxy block. */
+function fitHeroLines(): void {
+  const container = document.querySelector(".hero-sentence") as HTMLElement;
+  if (!container) return;
+  const targetWidth = container.clientWidth;
+  const lines = container.querySelectorAll(
+    ".hero-line",
+  ) as NodeListOf<HTMLElement>;
+  const BASE = 48;
+  container.style.overflow = "visible";
+  lines.forEach((line) => {
+    line.style.whiteSpace = "nowrap";
+    line.style.display = "inline-block";
+    line.style.fontSize = `${BASE}px`;
+    const w1 = line.getBoundingClientRect().width;
+    if (w1 <= 0) return;
+    let size = (targetWidth / w1) * BASE;
+    line.style.fontSize = `${size.toFixed(1)}px`;
+    const w2 = line.getBoundingClientRect().width;
+    if (w2 > 0) size = (targetWidth / w2) * size;
+    line.style.fontSize = `${size.toFixed(1)}px`;
+    line.style.display = "block";
+  });
+  container.style.overflow = "hidden";
 }
 
 function render(events: any[]): void {
@@ -604,7 +688,8 @@ function render(events: any[]): void {
   if (liveGames.length === 0) {
     content.innerHTML =
       renderNoGames(events) +
-      renderRankedGames(events, dayLabel + ", Ranked");
+      renderRankedGames(events, dayLabel);
+    document.fonts.ready.then(fitHeroLines);
     return;
   }
 
@@ -627,6 +712,7 @@ function render(events: any[]): void {
 
   html += renderRankedGames(events, "Coming Up");
   content.innerHTML = html;
+  document.fonts.ready.then(fitHeroLines);
 }
 
 // ── Fetch + loop ──
@@ -688,4 +774,5 @@ export function init(): void {
 
   fetchAndRender();
   setInterval(fetchAndRender, REFRESH_MS);
+  window.addEventListener("resize", fitHeroLines);
 }
