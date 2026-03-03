@@ -176,6 +176,12 @@ function teamFullName(competitor: Competitor): string {
   return esc(full || competitor?.team?.abbreviation || "Team");
 }
 
+function teamMascot(competitor: Competitor): string {
+  return esc(
+    competitor?.team?.name || competitor?.team?.abbreviation || "Team",
+  );
+}
+
 function teamColor(competitor: Competitor): string {
   const c = competitor?.team?.color;
   return c && /^[0-9a-fA-F]{3,8}$/.test(c) ? `#${c}` : "#ff6b2b";
@@ -231,8 +237,8 @@ function renderHeroCard(game: Game): string {
   const state = status?.type?.state;
   const hasScores = !!(state && state !== "pre");
 
-  const awayName = teamFullName(away);
-  const homeName = teamFullName(home);
+  const awayName = teamMascot(away);
+  const homeName = teamMascot(home);
   const { national } = getBroadcasts(comp);
   const network = national.length > 0 ? national[0] : "League Pass";
 
@@ -262,7 +268,7 @@ function renderHeroCard(game: Game): string {
     <div class="hero-card p-6">
       <div class="hero-sentence">
         <div class="hero-line">the best game</div>
-        <div class="hero-line">right now is</div>
+        <div class="hero-line">right now is the</div>
         <div class="hero-line hl-team">${awayName}</div>
         <div class="hero-line">versus the</div>
         <div class="hero-line hl-team">${homeName}</div>
@@ -417,10 +423,10 @@ function renderNoGames(events: Game[]): string {
     <div class="hero-card p-6">
       <div class="hero-sentence">
         <div class="hero-line">the best game</div>
-        <div class="hero-line">today is</div>
-        <div class="hero-line hl-team">${teamFullName(away)}</div>
+        <div class="hero-line">today is the</div>
+        <div class="hero-line hl-team">${teamMascot(away)}</div>
         <div class="hero-line">versus the</div>
-        <div class="hero-line hl-team">${teamFullName(home)}</div>
+        <div class="hero-line hl-team">${teamMascot(home)}</div>
         <div class="hero-line hl-time">${esc(time)} Pacific</div>
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
       </div>
@@ -534,14 +540,24 @@ function fitHeroLines(): void {
     ".hero-line",
   ) as NodeListOf<HTMLElement>;
   const BASE = 48;
+  // Temporarily allow overflow so getBoundingClientRect returns true width
+  container.style.overflow = "visible";
   lines.forEach((line) => {
-    line.style.fontSize = `${BASE}px`;
     line.style.whiteSpace = "nowrap";
-    const natural = line.scrollWidth;
-    if (natural > 0) {
-      line.style.fontSize = `${Math.floor((targetWidth / natural) * BASE)}px`;
-    }
+    line.style.display = "inline-block";
+    // Pass 1: measure at base size
+    line.style.fontSize = `${BASE}px`;
+    const w1 = line.getBoundingClientRect().width;
+    if (w1 <= 0) return;
+    // Pass 2: scale and re-measure to correct for em-relative letter-spacing
+    let size = (targetWidth / w1) * BASE;
+    line.style.fontSize = `${size.toFixed(1)}px`;
+    const w2 = line.getBoundingClientRect().width;
+    if (w2 > 0) size = (targetWidth / w2) * size;
+    line.style.fontSize = `${size.toFixed(1)}px`;
+    line.style.display = "block";
   });
+  container.style.overflow = "hidden";
 }
 
 // --- Fetch + loop ---
