@@ -260,7 +260,14 @@ function renderHeroCard(game: Game): string {
 
   return `
     <div class="hero-card p-6">
-      <div class="hero-sentence">the best game right now is <span class="hl-team">${awayName}</span> at <span class="hl-team">${homeName}</span> on <span class="hl-network">${esc(network)}</span></div>
+      <div class="hero-sentence">
+        <div class="hero-line">the best game</div>
+        <div class="hero-line">right now is</div>
+        <div class="hero-line hl-team">${awayName}</div>
+        <div class="hero-line">at</div>
+        <div class="hero-line hl-team">${homeName}</div>
+        <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+      </div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:24px;margin-top:24px;">
         ${awayLogo ? `<img src="${awayLogo}" alt="${awayName}" width="72" height="72" style="object-fit:contain;opacity:0.9;" />` : ""}
@@ -408,7 +415,15 @@ function renderNoGames(events: Game[]): string {
 
   return `
     <div class="hero-card p-6">
-      <div class="hero-sentence">the best game today is <span class="hl-team">${teamFullName(away)}</span> at <span class="hl-team">${teamFullName(home)}</span> &middot; <span class="hl-time">${esc(time)}&nbsp;Pacific</span> on <span class="hl-network">${esc(network)}</span></div>
+      <div class="hero-sentence">
+        <div class="hero-line">the best game</div>
+        <div class="hero-line">today is</div>
+        <div class="hero-line hl-team">${teamFullName(away)}</div>
+        <div class="hero-line">at</div>
+        <div class="hero-line hl-team">${teamFullName(home)}</div>
+        <div class="hero-line hl-time">${esc(time)} Pacific</div>
+        <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+      </div>
       <div style="display:flex;align-items:center;justify-content:center;gap:32px;margin-top:24px;">
         ${awayLogo ? `<img src="${awayLogo}" alt="${teamFullName(away)}" width="80" height="80" style="object-fit:contain;opacity:0.9;" />` : ""}
         <span class="font-score" style="font-size:16px;color:#3f3f46;font-weight:700;">VS</span>
@@ -482,6 +497,7 @@ function render(events: Game[]): void {
     content.innerHTML =
       renderNoGames(events) +
       renderRankedGames(events, dayLabel + ", Ranked");
+    fitHeroLines();
     return;
   }
 
@@ -506,6 +522,26 @@ function render(events: Game[]): void {
   html += renderRankedGames(events, "Up Next, Ranked");
 
   content.innerHTML = html;
+  fitHeroLines();
+}
+
+/** Scale each .hero-line to fill the container width, creating a boxy block. */
+function fitHeroLines(): void {
+  const container = document.querySelector(".hero-sentence") as HTMLElement;
+  if (!container) return;
+  const targetWidth = container.clientWidth;
+  const lines = container.querySelectorAll(
+    ".hero-line",
+  ) as NodeListOf<HTMLElement>;
+  const BASE = 48;
+  lines.forEach((line) => {
+    line.style.fontSize = `${BASE}px`;
+    line.style.whiteSpace = "nowrap";
+    const natural = line.scrollWidth;
+    if (natural > 0) {
+      line.style.fontSize = `${Math.floor((targetWidth / natural) * BASE)}px`;
+    }
+  });
 }
 
 // --- Fetch + loop ---
@@ -566,4 +602,6 @@ export function init(): void {
 
   fetchAndRender();
   setInterval(fetchAndRender, REFRESH_MS);
+
+  window.addEventListener("resize", fitHeroLines);
 }
