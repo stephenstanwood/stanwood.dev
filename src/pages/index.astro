@@ -1,6 +1,142 @@
 ---
 import "../styles/global.css";
 const title = "Stephen Stanwood — stanwood.dev";
+
+/* Card data — drives both static HTML and JS shuffle/hero logic */
+const cards = [
+  {
+    key: "nba-now", href: "/nba-now", emoji: "🏀",
+    title: "NBA Now",
+    subtitle: "The best game to watch right now",
+    subtitleClass: "text-orange-300/80",
+    description: "Live scores ranked by watchability. Taking the guesswork out of watching basketball.",
+    badge: "Web App",
+    badgeClass: "bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20",
+    gradient: "linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b)",
+    glow: "rgba(255,107,43,0.15)",
+    screenshot: "/screenshots/nba-now.png", imgPos: "top center",
+  },
+  {
+    key: "mlb-gamerank", href: "/mlb-gamerank", emoji: "⚾",
+    title: "MLB GameRank",
+    subtitle: "The best game to watch right now",
+    subtitleClass: "text-amber-300/80",
+    description: "Live scores ranked by watchability. Taking the guesswork out of watching baseball.",
+    badge: "Web App",
+    badgeClass: "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20",
+    gradient: "linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d)",
+    glow: "rgba(21,128,61,0.15)",
+    screenshot: "/screenshots/mlb-gamerank.png", imgPos: "top center",
+  },
+  {
+    key: "swim", href: "/swim", emoji: "🏊",
+    title: "Lap Lab",
+    subtitle: "Swim workout generator",
+    subtitleClass: "text-cyan-300/80",
+    description: "Pick a duration and pace. Get a workout. Shuffle until it clicks.",
+    badge: "Web App",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff)",
+    glow: "rgba(0,210,255,0.15)",
+    screenshot: null,
+  },
+  {
+    key: "pixel-tide", href: "/pixel-tide", emoji: "🌊",
+    title: "Pixel Tide",
+    subtitle: "No winning, just vibes",
+    subtitleClass: "text-sky-300/80",
+    description: "Waves of colored pixels wash in and out. Click to build sandcastles the tide slowly erodes.",
+    badge: "Game",
+    badgeClass: "bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20",
+    gradient: "linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8)",
+    glow: "rgba(0,180,216,0.15)",
+    screenshot: null,
+  },
+  {
+    key: "green-light", href: "/green-light", emoji: "🟢",
+    title: "Green Light",
+    subtitle: "Know what to order before you sit down",
+    subtitleClass: "text-emerald-300/80",
+    description: "Quick taste quiz, name a restaurant, pick from two smart options.",
+    badge: "Web App",
+    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
+    gradient: "linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71)",
+    glow: "rgba(107,143,113,0.15)",
+    screenshot: null,
+  },
+  {
+    key: "tldr", href: "/tldr", emoji: "📄",
+    title: "TL;DR",
+    subtitle: "Drop a PDF, get the short version",
+    subtitleClass: "text-emerald-300/80",
+    description: "You got a long PDF and you don't want to read it. We've got you covered. 😎",
+    badge: "Web App",
+    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
+    gradient: "linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea)",
+    glow: "rgba(102,126,234,0.15)",
+    screenshot: "/screenshots/tldr.png", imgPos: "top center",
+  },
+  {
+    key: "wtwtw", href: "/wtwtw", emoji: "📺",
+    title: "What to Watch This Week (WTWTW)",
+    subtitle: "Pick your teams, get the best game each night",
+    subtitleClass: "text-cyan-300/80",
+    description: "Too many sports options? Pick your teams and we'll find what to watch.",
+    badge: "Web App",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d)",
+    glow: "rgba(0,210,255,0.15)",
+    screenshot: null,
+  },
+  {
+    key: "pixel-aquarium", href: "/pixel-aquarium", emoji: "🐠",
+    title: "Pixel Aquarium",
+    subtitle: "Little pixel fish, big pixel vibes",
+    subtitleClass: "text-cyan-300/80",
+    description: "Watch pixel fish swim around. Click to drop food and watch them change color.",
+    badge: "Game",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d)",
+    glow: "rgba(0,210,255,0.15)",
+    screenshot: "/screenshots/pixel-aquarium.png", imgPos: "center 60%",
+  },
+  {
+    key: "nearest-coffee", href: "/nearest-coffee", emoji: "☕",
+    title: "Nearest Coffee",
+    subtitle: "When you need it, you need it.",
+    subtitleClass: "text-[#A3C296]/80",
+    description: "The nearest open coffee shop. One tap to navigate. That's it.",
+    badge: "Web App",
+    badgeClass: "bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20",
+    gradient: "linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80)",
+    glow: "rgba(139,170,128,0.15)",
+    screenshot: "/screenshots/nearest-coffee.png", imgPos: "top center",
+  },
+  {
+    key: "nearest-fun", href: "/nearest-fun", emoji: "🛝",
+    title: "Nearest Fun",
+    subtitle: "Kids activities, rain or shine",
+    subtitleClass: "text-[#9DB8FF]/80",
+    description: "The nearest open thing to do with kids. Toggle inside or outside. Go.",
+    badge: "Web App",
+    badgeClass: "bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20",
+    gradient: "linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF)",
+    glow: "rgba(124,159,255,0.15)",
+    screenshot: "/screenshots/nearest-fun.png", imgPos: "top center",
+  },
+  {
+    key: "idea-shuffler", href: "/idea-shuffler", emoji: "🎲",
+    title: "Idea Shuffler",
+    subtitle: "All the inspiration with none of the pressure",
+    subtitleClass: "text-pink-300/80",
+    description: "A gentle way to browse project ideas without creating a priority list.",
+    badge: "Web App",
+    badgeClass: "bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20",
+    gradient: "linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0)",
+    glow: "rgba(255,107,157,0.15)",
+    screenshot: "/screenshots/idea-shuffler.png", imgPos: "top center",
+  },
+];
 ---
 
 <html lang="en">
@@ -41,22 +177,8 @@ const title = "Stephen Stanwood — stanwood.dev";
     />
 
     <style>
-      /* ── Bento grid ── */
-      .bento {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-      @media (min-width: 640px) {
-        .bento {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.25rem;
-        }
-        .bento-wide { grid-column: span 2; }
-      }
-
-      /* ── Card base ── */
-      .bento-card {
+      /* ── Hero card with screenshot ── */
+      .hero-card {
         position: relative;
         display: block;
         overflow: hidden;
@@ -64,60 +186,54 @@ const title = "Stephen Stanwood — stanwood.dev";
         padding: 1px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-      .bento-card:hover {
+      .hero-card:hover {
         transform: scale(1.02);
       }
-      .bento-card .card-border {
+      .hero-card .card-border {
         position: absolute;
         inset: 0;
         border-radius: 1.5rem;
-        opacity: 0.5;
+        opacity: 0.6;
         transition: opacity 0.3s ease;
       }
-      .bento-card:hover .card-border {
+      .hero-card:hover .card-border {
         opacity: 1;
       }
-      .bento-card .card-inner {
+      .hero-card .card-inner {
         position: relative;
         border-radius: 1.5rem;
         background: rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-      }
-
-      /* ── Screenshot cards ── */
-      .card-screenshot {
         overflow: hidden;
-        border-radius: 1.5rem 1.5rem 0 0;
-        position: relative;
       }
-      .card-screenshot img {
+      .hero-card .card-screenshot {
+        overflow: hidden;
+        position: relative;
+        height: 300px;
+      }
+      @media (min-width: 640px) {
+        .hero-card .card-screenshot {
+          height: 380px;
+        }
+      }
+      .hero-card .card-screenshot img {
         display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.6s ease;
       }
-      .bento-card:hover .card-screenshot img {
-        transform: scale(1.08);
+      .hero-card:hover .card-screenshot img {
+        transform: scale(1.05);
       }
-      .card-screenshot .screenshot-overlay {
+      .hero-card .screenshot-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 35%, transparent 65%);
         pointer-events: none;
       }
-
-      /* ── Hero screenshot (wide card) ── */
-      .card-hero .card-screenshot {
-        height: 280px;
-      }
-      @media (min-width: 640px) {
-        .card-hero .card-screenshot {
-          height: 340px;
-        }
-      }
-      .card-hero .card-text {
+      .hero-card .card-text {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -126,58 +242,13 @@ const title = "Stephen Stanwood — stanwood.dev";
         z-index: 2;
       }
 
-      /* ── Standard screenshot card ── */
-      .card-std .card-screenshot {
-        height: 180px;
-      }
-      @media (min-width: 640px) {
-        .card-std .card-screenshot {
-          height: 200px;
-        }
-      }
-
-      /* ── Compact text-only cards ── */
-      .card-compact .card-inner {
-        padding: 1.25rem 1.5rem;
-      }
-      @media (min-width: 640px) {
-        .card-compact .card-inner {
-          padding: 1.5rem 1.75rem;
-        }
-      }
-
-      /* ── Type badge ── */
-      .type-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.25rem 0.75rem;
-        border-radius: 9999px;
-        font-size: 0.7rem;
-        font-weight: 600;
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-
-      /* ── Staggered entry animation ── */
-      .bento > * {
+      /* Hide cards until JS shuffles (prevents flash of un-shuffled order) */
+      #projects {
         opacity: 0;
-        animation: slideUp 0.6s ease forwards;
+        transition: opacity 0.15s ease;
       }
-      .bento > *:nth-child(1) { animation-delay: 0.05s; }
-      .bento > *:nth-child(2) { animation-delay: 0.1s; }
-      .bento > *:nth-child(3) { animation-delay: 0.15s; }
-      .bento > *:nth-child(4) { animation-delay: 0.2s; }
-      .bento > *:nth-child(5) { animation-delay: 0.25s; }
-      .bento > *:nth-child(6) { animation-delay: 0.3s; }
-      .bento > *:nth-child(7) { animation-delay: 0.35s; }
-      .bento > *:nth-child(8) { animation-delay: 0.4s; }
-      .bento > *:nth-child(9) { animation-delay: 0.45s; }
-      .bento > *:nth-child(10) { animation-delay: 0.5s; }
-      .bento > *:nth-child(11) { animation-delay: 0.55s; }
-
-      @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+      #projects.shuffled {
+        opacity: 1;
       }
     </style>
   </head>
@@ -220,10 +291,10 @@ const title = "Stephen Stanwood — stanwood.dev";
     </div>
 
     <!-- ── Content ── -->
-    <div class="relative mx-auto max-w-3xl px-5 py-16 sm:py-24">
+    <div class="relative mx-auto max-w-4xl px-6 py-16 sm:py-24">
 
       <!-- ── Hero ── -->
-      <header class="animate-slide-up mb-16 text-center">
+      <header class="animate-slide-up mb-20 text-center">
         <button
           id="status-badge"
           class="group mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/90 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
@@ -285,221 +356,49 @@ const title = "Stephen Stanwood — stanwood.dev";
         </p>
       </header>
 
-      <!-- ── Bento grid ── -->
-      <section id="projects" class="bento">
-
-        <!-- ═══ NBA Now — Hero screenshot, wide ═══ -->
-        <a href="/nba-now" class="bento-card card-hero bento-wide" style="--glow: rgba(255,107,43,0.15);">
-          <div class="card-border" style="background: linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b);"></div>
-          <div class="card-inner">
-            <div class="card-screenshot">
-              <img src="/screenshots/nba-now.png" alt="NBA Now app showing live game scores" loading="eager" />
-              <div class="screenshot-overlay"></div>
-            </div>
-            <div class="card-text">
-              <div class="flex items-end justify-between gap-4">
+      <!-- ── Project cards (static HTML, JS shuffles + upgrades on load) ── -->
+      <section id="projects" class="stagger space-y-6">
+        {cards.map((c) => (
+          <a
+            href={c.href}
+            data-key={c.key}
+            data-screenshot={c.screenshot || undefined}
+            data-img-pos={c.imgPos || undefined}
+            data-gradient={c.gradient}
+            data-emoji={c.emoji}
+            data-title={c.title}
+            data-subtitle={c.subtitle}
+            data-badge={c.badge}
+            data-badge-class={c.badgeClass}
+            class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02]"
+            style={`--glow: ${c.glow};`}
+          >
+            <div
+              class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+              style={`background: ${c.gradient};`}
+            />
+            <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+              <div class="flex items-start justify-between gap-4">
                 <div>
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="text-2xl">🏀</span>
-                    <h2 class="text-2xl sm:text-3xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">
-                      NBA Now
+                  <div class="mb-2 flex items-center gap-3">
+                    <span class="text-3xl">{c.emoji}</span>
+                    <h2
+                      class="text-2xl sm:text-3xl font-bold"
+                      style="font-family: 'Space Grotesk', sans-serif;"
+                    >
+                      {c.title}
                     </h2>
                   </div>
-                  <p class="text-sm text-orange-300/90">Live scores ranked by watchability</p>
+                  <p class={`text-sm font-medium ${c.subtitleClass}`}>{c.subtitle}</p>
+                  <p class="mt-3 text-white/70 leading-relaxed">{c.description}</p>
                 </div>
-                <span class="type-badge bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20">Web App</span>
+                <div class={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold ${c.badgeClass}`}>
+                  {c.badge}
+                </div>
               </div>
             </div>
-          </div>
-        </a>
-
-        <!-- ═══ MLB GameRank — Screenshot standard ═══ -->
-        <a href="/mlb-gamerank" class="bento-card card-std">
-          <div class="card-border" style="background: linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d);"></div>
-          <div class="card-inner">
-            <div class="card-screenshot">
-              <img src="/screenshots/mlb-gamerank.png" alt="MLB GameRank scoreboard" loading="lazy" />
-              <div class="screenshot-overlay"></div>
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <div class="flex items-center gap-2 mb-0.5">
-                    <span class="text-lg">⚾</span>
-                    <h2 class="text-lg font-bold" style="font-family: 'Space Grotesk', sans-serif;">MLB GameRank</h2>
-                  </div>
-                  <p class="text-xs text-amber-300/80">The best game to watch right now</p>
-                </div>
-                <span class="type-badge bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20">Web App</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Pixel Aquarium — Screenshot standard ═══ -->
-        <a href="/pixel-aquarium" class="bento-card card-std">
-          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d);"></div>
-          <div class="card-inner">
-            <div class="card-screenshot">
-              <img src="/screenshots/pixel-aquarium.png" alt="Pixel Aquarium with colorful fish swimming" loading="lazy" />
-              <div class="screenshot-overlay"></div>
-            </div>
-            <div class="p-4">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <div class="flex items-center gap-2 mb-0.5">
-                    <span class="text-lg">🐠</span>
-                    <h2 class="text-lg font-bold" style="font-family: 'Space Grotesk', sans-serif;">Pixel Aquarium</h2>
-                  </div>
-                  <p class="text-xs text-cyan-300/80">Little pixel fish, big pixel vibes</p>
-                </div>
-                <span class="type-badge bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Game</span>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Lap Lab — Compact text ═══ -->
-        <a href="/swim" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">🏊</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Lap Lab</h2>
-                </div>
-                <p class="text-sm text-cyan-300/80">Swim workout generator</p>
-                <p class="mt-2 text-sm text-white/60 leading-relaxed">Pick a duration and pace. Get a workout. Shuffle until it clicks.</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Pixel Tide — Compact text ═══ -->
-        <a href="/pixel-tide" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">🌊</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Pixel Tide</h2>
-                </div>
-                <p class="text-sm text-sky-300/80">No winning, just vibes</p>
-                <p class="mt-2 text-sm text-white/60 leading-relaxed">Waves of pixels wash in and out. Click to build sandcastles.</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20">Game</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Green Light — Compact text ═══ -->
-        <a href="/green-light" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">🟢</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Green Light</h2>
-                </div>
-                <p class="text-sm text-emerald-300/80">Know what to order before you sit down</p>
-                <p class="mt-2 text-sm text-white/60 leading-relaxed">Quick taste quiz, name a restaurant, pick from two smart options.</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ TL;DR — Compact text ═══ -->
-        <a href="/tldr" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">📄</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">TL;DR</h2>
-                </div>
-                <p class="text-sm text-emerald-300/80">Drop a PDF, get the short version</p>
-                <p class="mt-2 text-sm text-white/60 leading-relaxed">You got a long PDF and you don't want to read it. We've got you covered.</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ WTWTW — Compact text ═══ -->
-        <a href="/wtwtw" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">📺</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">WTWTW</h2>
-                </div>
-                <p class="text-sm text-cyan-300/80">What to watch this week</p>
-                <p class="mt-2 text-sm text-white/60 leading-relaxed">Pick your teams, we'll find the best game each night.</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Nearest Coffee — Compact text ═══ -->
-        <a href="/nearest-coffee" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">☕</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Nearest Coffee</h2>
-                </div>
-                <p class="text-sm text-[#A3C296]/80">When you need it, you need it</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Nearest Fun — Compact text ═══ -->
-        <a href="/nearest-fun" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">🛝</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Nearest Fun</h2>
-                </div>
-                <p class="text-sm text-[#9DB8FF]/80">Kids activities, rain or shine</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- ═══ Idea Shuffler — Compact text ═══ -->
-        <a href="/idea-shuffler" class="bento-card card-compact">
-          <div class="card-border" style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"></div>
-          <div class="card-inner">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="text-2xl">🎲</span>
-                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Idea Shuffler</h2>
-                </div>
-                <p class="text-sm text-pink-300/80">All the inspiration, none of the pressure</p>
-              </div>
-              <span class="type-badge mt-0.5 bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20">Web App</span>
-            </div>
-          </div>
-        </a>
-
+          </a>
+        ))}
       </section>
 
       <!-- ── Footer ── -->
@@ -534,26 +433,98 @@ const title = "Stephen Stanwood — stanwood.dev";
         </p>
       </footer>
 
-      <!-- 3D tilt on project cards -->
+      <!-- Shuffle cards + upgrade random heroes on every page load -->
       <script>
-        document.querySelectorAll('.bento-card').forEach(card => {
-          card.style.transformStyle = 'preserve-3d';
-          card.style.perspective = '800px';
+        (function() {
+          const section = document.getElementById('projects');
+          if (!section) return;
+          const allCards = [...section.querySelectorAll('a[data-key]')];
 
-          card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+          // Fisher-Yates shuffle
+          for (let i = allCards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
+          }
+
+          // Pick 2 random cards with screenshots to upgrade to hero
+          const heroEligible = allCards.filter(c => c.dataset.screenshot);
+          const heroSet = new Set();
+          while (heroSet.size < Math.min(2, heroEligible.length)) {
+            heroSet.add(heroEligible[Math.floor(Math.random() * heroEligible.length)]);
+          }
+
+          // Upgrade hero cards
+          heroSet.forEach(card => {
+            const { screenshot, imgPos, gradient, emoji, title, subtitle, badge, badgeClass } = card.dataset;
+            const objectPos = imgPos || 'top center';
+
+            // Replace classes
+            card.className = 'hero-card';
+            card.style.cssText = '';
+
+            // Replace inner HTML with hero layout
+            card.innerHTML = `
+              <div class="card-border" style="background: ${gradient};"></div>
+              <div class="card-inner">
+                <div class="card-screenshot">
+                  <img src="${screenshot}" alt="${title}" loading="eager" style="object-position: ${objectPos};" />
+                  <div class="screenshot-overlay"></div>
+                </div>
+                <div class="card-text">
+                  <div class="flex items-end justify-between gap-4">
+                    <div>
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class="text-2xl">${emoji}</span>
+                        <h2 class="text-2xl sm:text-3xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">${title}</h2>
+                      </div>
+                      <p class="text-sm text-white/80">${subtitle}</p>
+                    </div>
+                    <div class="shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold ${badgeClass}">${badge}</div>
+                  </div>
+                </div>
+              </div>
+            `;
           });
 
-          card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
-            card.style.transition = 'transform 0.4s ease';
-            setTimeout(() => { card.style.transition = ''; }, 400);
+          // Reorder cards in DOM (shuffled)
+          allCards.forEach(card => section.appendChild(card));
+
+          // Apply staggered animation delays
+          allCards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.animation = `slideUp 0.6s ease ${0.05 + i * 0.05}s forwards`;
           });
-        });
+
+          // Reveal (prevents flash of un-shuffled order)
+          section.classList.add('shuffled');
+
+          // 3D tilt on all project cards
+          allCards.forEach(card => {
+            card.style.transformStyle = 'preserve-3d';
+            card.style.perspective = '800px';
+
+            card.addEventListener('mousemove', (e) => {
+              const rect = card.getBoundingClientRect();
+              const x = (e.clientX - rect.left) / rect.width - 0.5;
+              const y = (e.clientY - rect.top) / rect.height - 0.5;
+              card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = '';
+              card.style.transition = 'transform 0.4s ease';
+              setTimeout(() => { card.style.transition = ''; }, 400);
+            });
+          });
+        })();
       </script>
+
+      <style>
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      </style>
 
     </div>
   </body>
