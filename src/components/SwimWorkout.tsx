@@ -29,6 +29,8 @@ const PACES: Record<string, PaceOption[]> = {
     { value: "1:35", label: "1:35" },
     { value: "1:40", label: "1:40" },
     { value: "1:45", label: "1:45" },
+    { value: "1:50", label: "1:50" },
+    { value: "1:55", label: "1:55" },
   ],
   yards: [
     { value: "1:10", label: "1:10" },
@@ -37,6 +39,8 @@ const PACES: Record<string, PaceOption[]> = {
     { value: "1:25", label: "1:25" },
     { value: "1:30", label: "1:30" },
     { value: "1:35", label: "1:35" },
+    { value: "1:40", label: "1:40" },
+    { value: "1:45", label: "1:45" },
   ],
 };
 
