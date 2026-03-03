@@ -312,6 +312,7 @@ function renderGameRow(
   game: Game,
   rank: number,
   isPreGame: boolean,
+  watchPct?: number,
 ): string {
   const comp = game.competitions![0];
   const competitors = comp?.competitors || [];
@@ -386,6 +387,7 @@ function renderGameRow(
           <span class="font-score text-xs ${live ? "neon-cyan" : ""}" style="${!live ? "color:#a1a1aa;" : ""}">${statusText}</span>
         </div>
         ${renderBroadcastBadges(comp, true)}
+        ${watchPct != null ? `<div style="display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:3px;"><div style="height:2px;width:36px;border-radius:1px;background:rgba(63,63,70,0.5);overflow:hidden;"><div style="height:100%;width:${watchPct}%;border-radius:1px;background:linear-gradient(90deg,#f97316,#fb923c);"></div></div><span style="font-family:Orbitron,monospace;font-size:8px;font-weight:600;color:#f97316;">${watchPct}%</span></div>` : ""}
       </div>
     </div>
   `;
@@ -522,7 +524,7 @@ function render(events: Game[]): void {
     html += `
       <div class="section-header mt-6 mb-3">Also Live</div>
       <div class="space-y-1.5">
-        ${others.map((o, i) => renderGameRow(o.game, i + 2, false)).join("")}
+        ${others.map((o, i) => renderGameRow(o.game, i + 2, false, Math.min(100, Math.round((o.score / MAX_WATCH_SCORE) * 100)))).join("")}
       </div>
     `;
   }
