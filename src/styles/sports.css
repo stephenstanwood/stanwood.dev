@@ -1,0 +1,167 @@
+/*  sports.css — shared structural styles for NBA Now & MLB GameRank  */
+
+.font-score {
+  font-family: 'Orbitron', monospace;
+}
+
+/* Live pulse animation */
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse-live 1.5s ease-in-out infinite;
+}
+
+/* Skeleton loader animation */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background-size: 800px 100%;
+  border-radius: 6px;
+}
+
+/* Watch meter */
+.watch-meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.watch-meter-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  flex-shrink: 0;
+}
+.watch-bar-track {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+.watch-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease-out;
+}
+.watch-meter-value {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* Hero card */
+.hero-card {
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* Game rows */
+.game-row {
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.game-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* Status pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 16px;
+  border-radius: 4px;
+}
+
+/* Section header */
+.section-header {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px 0 8px;
+  position: relative;
+}
+.section-header::before,
+.section-header::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 60px;
+  height: 1px;
+}
+.section-header::before { right: calc(50% + 80px); transform: rotate(180deg); }
+.section-header::after { left: calc(50% + 80px); }
+
+/* Subtitle */
+.subtitle {
+  font-family: 'Orbitron', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+/* Home link */
+.home-link {
+  transition: color 0.2s;
+}
+
+/* Hero sentence — boxy per-line sizing */
+.hero-sentence {
+  font-family: 'Orbitron', monospace;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  width: 100%;
+  overflow: hidden;
+}
+.hero-line {
+  display: block;
+  white-space: nowrap;
+}
+.hero-sentence .hl-team {
+  font-weight: 800;
+}
+
+/* Score detail row */
+.score-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  font-family: 'Orbitron', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}

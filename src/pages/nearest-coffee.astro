@@ -1,49 +1,26 @@
 ---
-import "../styles/global.css";
-const title = "Nearest Coffee — stanwood.dev";
+import BaseLayout from "../layouts/BaseLayout.astro";
 const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0e1110" />
-    <title>{title}</title>
-    <meta name="description" content="Find the nearest coffee shop open right now." />
-    <meta property="og:title" content="Nearest Coffee — stanwood.dev" />
-    <meta property="og:description" content="Find the nearest coffee shop open right now." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/nearest-coffee" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Nearest Coffee — stanwood.dev" />
-    <meta name="twitter:description" content="Find the nearest coffee shop open right now." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=nearest-coffee" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=nearest-coffee" />
-    <link rel="canonical" href="https://stanwood.dev/nearest-coffee" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-coffee.svg" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Nearest Coffee",
-        "url": "https://stanwood.dev/nearest-coffee",
-        "description": "Find the nearest coffee shop open right now.",
-        "applicationCategory": "LifestyleApplication",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+<BaseLayout
+  title="Nearest Coffee — stanwood.dev"
+  description="Find the nearest coffee shop open right now."
+  slug="nearest-coffee"
+  favicon="/favicon-coffee.svg"
+  themeColor="#0e1110"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+  schemaCategory="LifestyleApplication"
+>
+  <Fragment slot="head">
     <style is:global>
       body {
         font-family: 'Space Grotesk', system-ui, sans-serif;
         background: #0e1110;
+        color: #E8E6E1;
         overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       /* warm ambient glow — coffee + green */
@@ -254,9 +231,8 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         }
       }
     </style>
-  </head>
+  </Fragment>
 
-  <body class="text-[#E8E6E1] antialiased">
     <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#8BAA80] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
     <div class="bg-glow"></div>
 
@@ -357,11 +333,13 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         document.getElementById("enable-btn")!.addEventListener("click", doRequestLocation);
       }
 
+      function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
       function renderError(title: string, message: string) {
         render(`
           <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
-            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">${title}</h2>
-            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">${message}</p>
+            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">${esc(title)}</h2>
+            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">${esc(message)}</p>
             <button id="retry-btn" class="nav-btn" style="width:auto;padding:0 32px;">
               Try Again
             </button>
@@ -529,5 +507,4 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         onError: renderError,
       });
     </script>
-  </body>
-</html>
+</BaseLayout>

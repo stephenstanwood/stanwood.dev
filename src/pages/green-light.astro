@@ -1,48 +1,19 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import GreenLight from "../components/GreenLight.tsx";
 const title = "Green Light — stanwood.dev";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0a0f0a" />
-    <title>{title}</title>
-    <meta
-      name="description"
-      content="Green Light — Know what to order before you sit down. Take a quick taste quiz, pick a restaurant, get two smart options."
-    />
-    <meta property="og:title" content="Green Light — stanwood.dev" />
-    <meta property="og:description" content="Know what to order before you sit down." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/green-light" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Green Light — stanwood.dev" />
-    <meta name="twitter:description" content="Know what to order before you sit down." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=green-light" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=green-light" />
-    <link rel="canonical" href="https://stanwood.dev/green-light" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Green Light",
-        "url": "https://stanwood.dev/green-light",
-        "description": "AI-powered healthy ordering for any restaurant.",
-        "applicationCategory": "LifestyleApplication",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon-gl.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-
+<BaseLayout
+  title={title}
+  description="Know what to order before you sit down. Take a quick taste quiz, pick a restaurant, get two smart options."
+  slug="green-light"
+  favicon="/favicon-gl.svg"
+  themeColor="#0a0f0a"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+  schemaCategory="LifestyleApplication"
+>
+  <Fragment slot="head">
     <style is:global>
       /* ─── Page Theme ─────────────────────────────────────────────── */
       :root {
@@ -597,23 +568,21 @@ const title = "Green Light — stanwood.dev";
       }
       .he-actions .he-btn-primary { margin-top: 0; }
     </style>
-  </head>
+  </Fragment>
 
-  <body>
-    <div class="he-page">
-      <a href="#main-content" class="skip-nav">Skip to content</a>
+  <div class="he-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
 
-      <header class="he-header">
-        <a href="/" class="he-back" aria-label="Back to stanwood.dev">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-          Home
-        </a>
-        <span class="he-brand">Green Light</span>
-      </header>
+    <header class="he-header">
+      <a href="/" class="he-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Home
+      </a>
+      <span class="he-brand">Green Light</span>
+    </header>
 
-      <main id="main-content" class="he-main">
-        <GreenLight client:idle />
-      </main>
-    </div>
-  </body>
-</html>
+    <main id="main-content" class="he-main">
+      <GreenLight client:idle />
+    </main>
+  </div>
+</BaseLayout>

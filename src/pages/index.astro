@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 const title = "Stephen Stanwood — stanwood.dev";
 
 /* Card data — drives both static HTML and JS shuffle/hero logic */
@@ -14,7 +14,7 @@ const cards = [
     badgeClass: "bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20",
     gradient: "linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b)",
     glow: "rgba(255,107,43,0.15)",
-    screenshot: null,
+
   },
   {
     key: "mlb-gamerank", href: "/mlb-gamerank", emoji: "⚾",
@@ -26,7 +26,7 @@ const cards = [
     badgeClass: "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20",
     gradient: "linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d)",
     glow: "rgba(21,128,61,0.15)",
-    screenshot: null,
+
   },
   {
     key: "swim", href: "/swim", emoji: "🏊",
@@ -38,7 +38,7 @@ const cards = [
     badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
     gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff)",
     glow: "rgba(0,210,255,0.15)",
-    screenshot: null,
+
   },
   {
     key: "pixel-tide", href: "/pixel-tide", emoji: "🌊",
@@ -50,7 +50,7 @@ const cards = [
     badgeClass: "bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20",
     gradient: "linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8)",
     glow: "rgba(0,180,216,0.15)",
-    screenshot: null,
+
   },
   {
     key: "green-light", href: "/green-light", emoji: "🟢",
@@ -62,7 +62,7 @@ const cards = [
     badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
     gradient: "linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71)",
     glow: "rgba(107,143,113,0.15)",
-    screenshot: null,
+
   },
   {
     key: "tldr", href: "/tldr", emoji: "📄",
@@ -74,7 +74,7 @@ const cards = [
     badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
     gradient: "linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea)",
     glow: "rgba(102,126,234,0.15)",
-    screenshot: null,
+
   },
   {
     key: "wtwtw", href: "/wtwtw", emoji: "📺",
@@ -86,7 +86,7 @@ const cards = [
     badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
     gradient: "linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d)",
     glow: "rgba(0,210,255,0.15)",
-    screenshot: null,
+
   },
   {
     key: "pixel-aquarium", href: "/pixel-aquarium", emoji: "🐠",
@@ -98,7 +98,7 @@ const cards = [
     badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
     gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d)",
     glow: "rgba(0,210,255,0.15)",
-    screenshot: null,
+
   },
   {
     key: "nearest-coffee", href: "/nearest-coffee", emoji: "☕",
@@ -110,7 +110,7 @@ const cards = [
     badgeClass: "bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20",
     gradient: "linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80)",
     glow: "rgba(139,170,128,0.15)",
-    screenshot: null,
+
   },
   {
     key: "nearest-fun", href: "/nearest-fun", emoji: "🛝",
@@ -122,7 +122,7 @@ const cards = [
     badgeClass: "bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20",
     gradient: "linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF)",
     glow: "rgba(124,159,255,0.15)",
-    screenshot: null,
+
   },
   {
     key: "idea-shuffler", href: "/idea-shuffler", emoji: "🎲",
@@ -134,48 +134,22 @@ const cards = [
     badgeClass: "bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20",
     gradient: "linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0)",
     glow: "rgba(255,107,157,0.15)",
-    screenshot: null,
+
   },
 ];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content="Projects I'm tinkering with. :)" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content="Projects I'm tinkering with." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content="Projects I'm tinkering with." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=index" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=index" />
-    <link rel="canonical" href="https://stanwood.dev/" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "stanwood.dev",
-        "url": "https://stanwood.dev",
-        "description": "Projects I'm tinkering with.",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<BaseLayout
+  title={title}
+  description="Projects I'm tinkering with. :)"
+  slug=""
+  themeColor="#0f0c29"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+  schemaType="WebSite"
+  schemaName="stanwood.dev"
+>
+  <Fragment slot="head">
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0f0c29" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-
     <style>
       /* Hide cards until JS shuffles (prevents flash of un-shuffled order) */
       #projects {
@@ -186,9 +160,10 @@ const cards = [
         opacity: 1;
       }
     </style>
-  </head>
+    <noscript><style>#projects { opacity: 1 !important; }</style></noscript>
+  </Fragment>
 
-  <body class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
+  <div class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
     <a href="#projects" class="skip-nav">Skip to projects</a>
 
     <!-- ── Animated gradient background ── -->
@@ -337,7 +312,7 @@ const cards = [
             rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
             </svg>
             <span class="transition-transform group-hover:translate-x-0.5">GitHub</span>
@@ -349,7 +324,7 @@ const cards = [
             rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
             </svg>
             <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
@@ -414,5 +389,5 @@ const cards = [
       </style>
 
     </div>
-  </body>
-</html>
+  </div>
+</BaseLayout>

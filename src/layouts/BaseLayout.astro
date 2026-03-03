@@ -1,0 +1,89 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  /** URL path segment, e.g. "nba-now", "swim". Use "" for the homepage. */
+  slug: string;
+  /** Page-specific favicon path. Defaults to /favicon.svg */
+  favicon?: string;
+  /** Google Fonts CSS URL. Defaults to Inter. */
+  fontsUrl?: string;
+  /** meta theme-color. Defaults to #111318 */
+  themeColor?: string;
+  /** JSON-LD schema type. Defaults to "WebApplication". Homepage uses "WebSite". */
+  schemaType?: "WebApplication" | "WebSite";
+  /** JSON-LD applicationCategory (ignored for WebSite). Defaults to "UtilitiesApplication". */
+  schemaCategory?: string;
+  /** Display name for JSON-LD (e.g. "NBA Now"). Falls back to title minus " — stanwood.dev". */
+  schemaName?: string;
+}
+
+const {
+  title,
+  description,
+  slug,
+  favicon = "/favicon.svg",
+  fontsUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap",
+  themeColor = "#111318",
+  schemaType = "WebApplication",
+  schemaCategory = "UtilitiesApplication",
+  schemaName,
+} = Astro.props;
+
+const siteUrl = "https://stanwood.dev";
+const pageUrl = slug ? `${siteUrl}/${slug}` : siteUrl;
+const canonicalUrl = slug ? `${siteUrl}/${slug}` : `${siteUrl}/`;
+const ogImage = `${siteUrl}/api/og?page=${slug || "index"}`;
+const displayName = schemaName || title.replace(" — stanwood.dev", "");
+
+const schema =
+  schemaType === "WebSite"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: displayName,
+        url: pageUrl,
+        description,
+        author: { "@type": "Person", name: "Stephen Stanwood" },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        name: displayName,
+        url: pageUrl,
+        description,
+        applicationCategory: schemaCategory,
+        author: { "@type": "Person", name: "Stephen Stanwood" },
+      };
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={themeColor} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="canonical" href={canonicalUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fontsUrl} rel="stylesheet" />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

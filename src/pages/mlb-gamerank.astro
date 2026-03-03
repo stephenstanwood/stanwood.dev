@@ -1,47 +1,20 @@
 ---
-import "../styles/global.css";
-const title = "MLB GameRank — stanwood.dev";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#111318" />
-    <title>{title}</title>
-    <meta
-      name="description"
-      content="The best MLB game to watch right now."
-    />
-    <meta property="og:title" content="MLB GameRank — stanwood.dev" />
-    <meta property="og:description" content="The best MLB game to watch right now." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/mlb-gamerank" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MLB GameRank — stanwood.dev" />
-    <meta name="twitter:description" content="The best MLB game to watch right now." />
-    <meta property="og:image" content="https://stanwood.dev/api/og?page=mlb-gamerank" />
-    <meta name="twitter:image" content="https://stanwood.dev/api/og?page=mlb-gamerank" />
-    <link rel="canonical" href="https://stanwood.dev/mlb-gamerank" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "MLB GameRank",
-        "url": "https://stanwood.dev/mlb-gamerank",
-        "description": "Live MLB scores ranked by watchability.",
-        "applicationCategory": "SportsApplication",
-        "author": { "@type": "Person", "name": "Stephen Stanwood" }
-      }
-    </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon-mlb.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+<BaseLayout
+  title="MLB GameRank — stanwood.dev"
+  description="The best MLB game to watch right now."
+  slug="mlb-gamerank"
+  favicon="/favicon-mlb.svg"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+  themeColor="#111318"
+  schemaCategory="SportsApplication"
+>
+  <Fragment slot="head">
     <style>
+      @import "../styles/sports.css";
+
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background: #14532d;
@@ -49,87 +22,36 @@ const title = "MLB GameRank — stanwood.dev";
         min-height: 100vh;
       }
 
-      .font-score {
-        font-family: 'Orbitron', monospace;
-      }
-
       /* Live pulse — warm red */
-      @keyframes pulse-live {
-        0%, 100% { opacity: 1; box-shadow: 0 0 6px #ef4444; }
-        50% { opacity: 0.4; box-shadow: 0 0 2px #ef4444; }
-      }
       .live-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
         background: #ef4444;
         box-shadow: 0 0 6px #ef4444;
-        animation: pulse-live 1.5s ease-in-out infinite;
       }
 
-      /* Skeleton loader */
-      @keyframes shimmer {
-        0% { background-position: -400px 0; }
-        100% { background-position: 400px 0; }
-      }
+      /* Skeleton — green tones */
       .skeleton {
         background: linear-gradient(90deg, #0f3d1f 25%, #1a5c30 50%, #0f3d1f 75%);
-        background-size: 800px 100%;
         animation: shimmer 1.5s infinite;
-        border-radius: 6px;
       }
 
-      /* Watch meter */
-      .watch-meter {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .watch-meter-label {
-        font-family: 'Orbitron', monospace;
-        font-size: 8px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        color: rgba(255,255,255,0.25);
-        flex-shrink: 0;
-      }
-      .watch-bar-track {
-        height: 4px;
-        border-radius: 2px;
-        background: rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        flex: 1;
-      }
-      .watch-bar-fill {
-        height: 100%;
-        border-radius: 2px;
-        background: linear-gradient(90deg, #d97706, #fbbf24);
-        transition: width 0.6s ease-out;
-      }
+      /* Watch meter — MLB colors */
+      .watch-meter-label { color: rgba(255,255,255,0.25); }
+      .watch-bar-track { background: rgba(0, 0, 0, 0.3); }
+      .watch-bar-fill { background: linear-gradient(90deg, #d97706, #fbbf24); }
       .watch-meter-value {
-        font-family: 'Orbitron', monospace;
-        font-size: 10px;
-        font-weight: 700;
         color: #fbbf24;
         text-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
-        flex-shrink: 0;
-        min-width: 30px;
-        text-align: right;
       }
 
-      /* Hero card — darker green panel like Wrigley manual board */
+      /* Hero card — Wrigley green scoreboard */
       .hero-card {
         background: #0c3a1b;
         border: 2px solid #1a5c30;
-        border-radius: 12px;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
       }
 
-      /* Subtle horizontal slat texture */
+      /* Horizontal slat texture on hero */
       .hero-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
         background: repeating-linear-gradient(
           0deg,
           transparent,
@@ -137,16 +59,12 @@ const title = "MLB GameRank — stanwood.dev";
           rgba(0,0,0,0.08) 4px,
           rgba(0,0,0,0.08) 5px
         );
-        border-radius: 12px;
-        pointer-events: none;
       }
-      .hero-card { position: relative; overflow: hidden; }
 
-      /* Game rows */
+      /* Game rows — green */
       .game-row {
         background: #0c3a1b;
         border: 2px solid #1a5c30;
-        border-radius: 10px;
         transition: border-color 0.2s, box-shadow 0.2s;
         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
       }
@@ -157,9 +75,6 @@ const title = "MLB GameRank — stanwood.dev";
 
       /* Slat texture on game rows */
       .game-row::before {
-        content: '';
-        position: absolute;
-        inset: 0;
         background: repeating-linear-gradient(
           0deg,
           transparent,
@@ -167,23 +82,10 @@ const title = "MLB GameRank — stanwood.dev";
           rgba(0,0,0,0.06) 4px,
           rgba(0,0,0,0.06) 5px
         );
-        border-radius: 10px;
-        pointer-events: none;
       }
-      .game-row { position: relative; overflow: hidden; }
 
-      /* Status pill */
+      /* Status pill — MLB amber/red */
       .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-family: 'Orbitron', monospace;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 4px 16px;
-        border-radius: 4px;
         border: 1px solid rgba(251, 191, 36, 0.5);
         background: rgba(251, 191, 36, 0.1);
         color: #fbbf24;
@@ -194,46 +96,19 @@ const title = "MLB GameRank — stanwood.dev";
         color: #fca5a5;
       }
 
-      /* Section header — white on green */
-      .section-header {
-        font-family: 'Orbitron', monospace;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #fbbf24;
-        text-align: center;
-        padding: 12px 0 8px;
-        position: relative;
-      }
+      /* Section header — gold on green */
+      .section-header { color: #fbbf24; }
       .section-header::before,
       .section-header::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        width: 60px;
-        height: 1px;
         background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3));
       }
-      .section-header::before { right: calc(50% + 80px); transform: rotate(180deg); }
-      .section-header::after { left: calc(50% + 80px); }
 
-      /* Subtitle styling */
-      .subtitle {
-        font-family: 'Orbitron', monospace;
-        font-size: 10px;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.5);
-      }
+      /* Subtitle */
+      .subtitle { color: rgba(255, 255, 255, 0.5); }
 
       /* Home link */
-      .home-link {
-        color: rgba(255,255,255,0.4);
-      }
-      .home-link:hover {
-        color: rgba(255,255,255,0.7);
-      }
+      .home-link { color: rgba(255,255,255,0.4); }
+      .home-link:hover { color: rgba(255,255,255,0.7); }
 
       /* Situation panel */
       .situation-panel {
@@ -244,24 +119,10 @@ const title = "MLB GameRank — stanwood.dev";
         border-radius: 8px;
       }
 
-      /* Hero sentence — boxy justified text */
-      .hero-sentence {
-        font-family: 'Orbitron', monospace;
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        line-height: 1.05;
-        color: rgba(255, 255, 255, 0.25);
-        width: 100%;
-        overflow: hidden;
-      }
-      .hero-line {
-        display: block;
-        white-space: nowrap;
-      }
+      /* Hero sentence — MLB colors */
+      .hero-sentence { color: rgba(255, 255, 255, 0.25); }
       .hl-team {
         color: #fbbf24;
-        font-weight: 800;
         text-shadow: 0 0 16px rgba(251, 191, 36, 0.3);
       }
       .hl-network {
@@ -274,22 +135,16 @@ const title = "MLB GameRank — stanwood.dev";
         text-shadow: 0 0 12px rgba(217, 119, 6, 0.3);
       }
 
-      /* Score detail row */
-      .score-detail {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        font-family: 'Orbitron', monospace;
-        font-size: 20px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        color: #e5e7eb;
+      /* Score detail */
+      .score-detail { color: #e5e7eb; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .live-dot { animation: none; }
+        .skeleton { animation: none; }
       }
     </style>
-  </head>
+  </Fragment>
 
-  <body class="antialiased">
     <a href="#main-content" class="skip-nav">Skip to content</a>
     <main id="main-content" class="mx-auto max-w-lg px-5 pt-12 pb-24">
       <div>
@@ -347,5 +202,4 @@ const title = "MLB GameRank — stanwood.dev";
       import { init } from "../lib/mlbGameRank";
       init();
     </script>
-  </body>
-</html>
+</BaseLayout>
