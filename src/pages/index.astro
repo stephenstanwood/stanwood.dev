@@ -26,7 +26,7 @@ const cards = [
     badgeClass: "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20",
     gradient: "linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d)",
     glow: "rgba(21,128,61,0.15)",
-    screenshot: "/screenshots/mlb-gamerank.png", imgPos: "top center",
+    screenshot: null,
   },
   {
     key: "swim", href: "/swim", emoji: "🏊",
@@ -177,69 +177,30 @@ const cards = [
     />
 
     <style>
-      /* ── Hero card with screenshot ── */
-      .hero-card {
+      /* ── Hero card screenshot area ── */
+      .hero-screenshot {
         position: relative;
-        display: block;
         overflow: hidden;
-        border-radius: 1.5rem;
-        padding: 1px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      .hero-card:hover {
-        transform: scale(1.02);
-      }
-      .hero-card .card-border {
-        position: absolute;
-        inset: 0;
-        border-radius: 1.5rem;
-        opacity: 0.6;
-        transition: opacity 0.3s ease;
-      }
-      .hero-card:hover .card-border {
-        opacity: 1;
-      }
-      .hero-card .card-inner {
-        position: relative;
-        border-radius: 1.5rem;
-        background: rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        overflow: hidden;
-      }
-      .hero-card .card-screenshot {
-        overflow: hidden;
-        position: relative;
-        height: 300px;
+        height: 280px;
       }
       @media (min-width: 640px) {
-        .hero-card .card-screenshot {
-          height: 380px;
-        }
+        .hero-screenshot { height: 360px; }
       }
-      .hero-card .card-screenshot img {
+      .hero-screenshot img {
         display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
         transition: transform 0.6s ease;
       }
-      .hero-card:hover .card-screenshot img {
+      .group:hover .hero-screenshot img {
         transform: scale(1.05);
       }
-      .hero-card .screenshot-overlay {
+      .hero-screenshot .hero-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 35%, transparent 65%);
         pointer-events: none;
-      }
-      .hero-card .card-text {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 1.5rem;
-        z-index: 2;
       }
 
       /* Hide cards until JS shuffles (prevents flash of un-shuffled order) */
@@ -433,44 +394,40 @@ const cards = [
         </p>
       </footer>
 
-      <!-- Shuffle cards + upgrade random heroes on every page load -->
+      <!-- Shuffle cards + upgrade 1 random hero at top on every page load -->
       <script>
         (function() {
           const section = document.getElementById('projects');
           if (!section) return;
           const allCards = [...section.querySelectorAll('a[data-key]')];
 
-          // Fisher-Yates shuffle
+          // Fisher-Yates shuffle all cards
           for (let i = allCards.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
           }
 
-          // Pick 2 random cards with screenshots to upgrade to hero
+          // Pick 1 random hero from screenshot-eligible cards
           const heroEligible = allCards.filter(c => c.dataset.screenshot);
-          const heroSet = new Set();
-          while (heroSet.size < Math.min(2, heroEligible.length)) {
-            heroSet.add(heroEligible[Math.floor(Math.random() * heroEligible.length)]);
-          }
+          const heroCard = heroEligible[Math.floor(Math.random() * heroEligible.length)];
 
-          // Upgrade hero cards
-          heroSet.forEach(card => {
-            const { screenshot, imgPos, gradient, emoji, title, subtitle, badge, badgeClass } = card.dataset;
+          // Move hero to front, keep rest in shuffled order
+          const rest = allCards.filter(c => c !== heroCard);
+          const ordered = [heroCard, ...rest];
+
+          // Upgrade the hero card — keep same outer <a> structure, just swap inner content
+          if (heroCard) {
+            const { screenshot, imgPos, emoji, title, subtitle, badge, badgeClass } = heroCard.dataset;
             const objectPos = imgPos || 'top center';
-
-            // Replace classes
-            card.className = 'hero-card';
-            card.style.cssText = '';
-
-            // Replace inner HTML with hero layout
-            card.innerHTML = `
-              <div class="card-border" style="background: ${gradient};"></div>
-              <div class="card-inner">
-                <div class="card-screenshot">
+            const inner = heroCard.querySelector('.glass-dark');
+            if (inner) {
+              inner.style.padding = '0';
+              inner.innerHTML = `
+                <div class="hero-screenshot">
                   <img src="${screenshot}" alt="${title}" loading="eager" style="object-position: ${objectPos};" />
-                  <div class="screenshot-overlay"></div>
+                  <div class="hero-overlay"></div>
                 </div>
-                <div class="card-text">
+                <div style="position:absolute; bottom:0; left:0; right:0; padding:1.5rem; z-index:2;">
                   <div class="flex items-end justify-between gap-4">
                     <div>
                       <div class="flex items-center gap-2 mb-1">
@@ -482,15 +439,15 @@ const cards = [
                     <div class="shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold ${badgeClass}">${badge}</div>
                   </div>
                 </div>
-              </div>
-            `;
-          });
+              `;
+            }
+          }
 
-          // Reorder cards in DOM (shuffled)
-          allCards.forEach(card => section.appendChild(card));
+          // Reorder cards in DOM
+          ordered.forEach(card => section.appendChild(card));
 
           // Apply staggered animation delays
-          allCards.forEach((card, i) => {
+          ordered.forEach((card, i) => {
             card.style.opacity = '0';
             card.style.animation = `slideUp 0.6s ease ${0.05 + i * 0.05}s forwards`;
           });
@@ -499,7 +456,7 @@ const cards = [
           section.classList.add('shuffled');
 
           // 3D tilt on all project cards
-          allCards.forEach(card => {
+          ordered.forEach(card => {
             card.style.transformStyle = 'preserve-3d';
             card.style.perspective = '800px';
 
