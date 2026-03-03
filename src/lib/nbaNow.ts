@@ -503,7 +503,7 @@ function render(events: Game[]): void {
     content.innerHTML =
       renderNoGames(events) +
       renderRankedGames(events, dayLabel + ", Ranked");
-    fitHeroLines();
+    document.fonts.ready.then(fitHeroLines);
     return;
   }
 
@@ -528,7 +528,7 @@ function render(events: Game[]): void {
   html += renderRankedGames(events, "Up Next, Ranked");
 
   content.innerHTML = html;
-  fitHeroLines();
+  document.fonts.ready.then(fitHeroLines);
 }
 
 /** Scale each .hero-line to fill the container width, creating a boxy block. */
