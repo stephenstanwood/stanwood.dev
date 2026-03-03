@@ -39,6 +39,147 @@ const title = "Stephen Stanwood — stanwood.dev";
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      /* ── Bento grid ── */
+      .bento {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .bento {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.25rem;
+        }
+        .bento-wide { grid-column: span 2; }
+      }
+
+      /* ── Card base ── */
+      .bento-card {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        border-radius: 1.5rem;
+        padding: 1px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .bento-card:hover {
+        transform: scale(1.02);
+      }
+      .bento-card .card-border {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+      .bento-card:hover .card-border {
+        opacity: 1;
+      }
+      .bento-card .card-inner {
+        position: relative;
+        border-radius: 1.5rem;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+
+      /* ── Screenshot cards ── */
+      .card-screenshot {
+        overflow: hidden;
+        border-radius: 1.5rem 1.5rem 0 0;
+        position: relative;
+      }
+      .card-screenshot img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+      }
+      .bento-card:hover .card-screenshot img {
+        transform: scale(1.08);
+      }
+      .card-screenshot .screenshot-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 40%, transparent 70%);
+        pointer-events: none;
+      }
+
+      /* ── Hero screenshot (wide card) ── */
+      .card-hero .card-screenshot {
+        height: 280px;
+      }
+      @media (min-width: 640px) {
+        .card-hero .card-screenshot {
+          height: 340px;
+        }
+      }
+      .card-hero .card-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem;
+        z-index: 2;
+      }
+
+      /* ── Standard screenshot card ── */
+      .card-std .card-screenshot {
+        height: 180px;
+      }
+      @media (min-width: 640px) {
+        .card-std .card-screenshot {
+          height: 200px;
+        }
+      }
+
+      /* ── Compact text-only cards ── */
+      .card-compact .card-inner {
+        padding: 1.25rem 1.5rem;
+      }
+      @media (min-width: 640px) {
+        .card-compact .card-inner {
+          padding: 1.5rem 1.75rem;
+        }
+      }
+
+      /* ── Type badge ── */
+      .type-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      /* ── Staggered entry animation ── */
+      .bento > * {
+        opacity: 0;
+        animation: slideUp 0.6s ease forwards;
+      }
+      .bento > *:nth-child(1) { animation-delay: 0.05s; }
+      .bento > *:nth-child(2) { animation-delay: 0.1s; }
+      .bento > *:nth-child(3) { animation-delay: 0.15s; }
+      .bento > *:nth-child(4) { animation-delay: 0.2s; }
+      .bento > *:nth-child(5) { animation-delay: 0.25s; }
+      .bento > *:nth-child(6) { animation-delay: 0.3s; }
+      .bento > *:nth-child(7) { animation-delay: 0.35s; }
+      .bento > *:nth-child(8) { animation-delay: 0.4s; }
+      .bento > *:nth-child(9) { animation-delay: 0.45s; }
+      .bento > *:nth-child(10) { animation-delay: 0.5s; }
+      .bento > *:nth-child(11) { animation-delay: 0.55s; }
+
+      @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
   </head>
 
   <body class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
@@ -52,46 +193,37 @@ const title = "Stephen Stanwood — stanwood.dev";
 
     <!-- ── Floating blobs for depth (hidden on mobile for performance) ── -->
     <div class="hidden sm:block fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
-      <!-- turquoise pool blob -->
       <div
         class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
         style="background: radial-gradient(circle, #00d2ff 0%, transparent 70%);"
       ></div>
-      <!-- pink/magenta blob -->
       <div
         class="animate-float absolute -bottom-40 -left-40 h-[600px] w-[600px] rounded-full opacity-25"
         style="background: radial-gradient(circle, #ff6b9d 0%, #c850c0 40%, transparent 70%);"
       ></div>
-      <!-- warm orange accent -->
       <div
         class="animate-float-slow absolute top-1/2 right-1/4 h-[350px] w-[350px] rounded-full opacity-20"
         style="background: radial-gradient(circle, #ff9a56 0%, transparent 70%); animation-delay: 3s;"
       ></div>
-      <!-- deep purple accent -->
       <div
         class="animate-float absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full opacity-20"
         style="background: radial-gradient(circle, #667eea 0%, transparent 70%); animation-delay: 2s;"
       ></div>
     </div>
 
-    <!-- ── Geometric decorations (hidden on mobile for performance) ── -->
+    <!-- ── Geometric decorations (hidden on mobile) ── -->
     <div class="hidden sm:block fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
-      <!-- spinning ring -->
       <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
-      <!-- dotted ring -->
       <div class="animate-spin-slow absolute bottom-40 left-[10%] h-24 w-24 rounded-full border border-dashed border-white/8" style="animation-direction: reverse; animation-duration: 30s;"></div>
-      <!-- small diamond -->
       <div class="animate-float absolute top-[60%] right-[8%] h-4 w-4 rotate-45 bg-white/10" style="animation-delay: 1s;"></div>
-      <!-- another diamond -->
       <div class="animate-float absolute top-[20%] left-[20%] h-3 w-3 rotate-45 bg-cyan-400/15" style="animation-delay: 4s;"></div>
     </div>
 
     <!-- ── Content ── -->
-    <div class="relative mx-auto max-w-4xl px-6 py-16 sm:py-24">
+    <div class="relative mx-auto max-w-3xl px-5 py-16 sm:py-24">
 
       <!-- ── Hero ── -->
-      <header class="animate-slide-up mb-20 text-center">
-        <!-- Status badge (click to cycle) -->
+      <header class="animate-slide-up mb-16 text-center">
         <button
           id="status-badge"
           class="group mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/90 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
@@ -153,420 +285,217 @@ const title = "Stephen Stanwood — stanwood.dev";
         </p>
       </header>
 
-      <!-- ── Project cards ── -->
-      <section id="projects" class="stagger space-y-6">
+      <!-- ── Bento grid ── -->
+      <section id="projects" class="bento">
 
-        <!-- NBA Now Card -->
-        <a
-          href="/nba-now"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,43,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🏀</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    NBA Now
-                  </h2>
+        <!-- ═══ NBA Now — Hero screenshot, wide ═══ -->
+        <a href="/nba-now" class="bento-card card-hero bento-wide" style="--glow: rgba(255,107,43,0.15);">
+          <div class="card-border" style="background: linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b);"></div>
+          <div class="card-inner">
+            <div class="card-screenshot">
+              <img src="/screenshots/nba-now.png" alt="NBA Now app showing live game scores" loading="eager" />
+              <div class="screenshot-overlay"></div>
+            </div>
+            <div class="card-text">
+              <div class="flex items-end justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-2xl">🏀</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">
+                      NBA Now
+                    </h2>
+                  </div>
+                  <p class="text-sm text-orange-300/90">Live scores ranked by watchability</p>
                 </div>
-                <p class="text-sm font-medium text-orange-300/80">The best game to watch right now</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Live scores ranked by watchability. Taking the guesswork out of watching basketball.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-orange-400/15 px-4 py-1.5 text-xs font-semibold text-orange-300 ring-1 ring-orange-400/20"
-              >
-                Web App
+                <span class="type-badge bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20">Web App</span>
               </div>
             </div>
           </div>
         </a>
 
-        <!-- MLB GameRank Card -->
-        <a
-          href="/mlb-gamerank"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(21,128,61,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">&#9918;</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    MLB GameRank
-                  </h2>
+        <!-- ═══ MLB GameRank — Screenshot standard ═══ -->
+        <a href="/mlb-gamerank" class="bento-card card-std">
+          <div class="card-border" style="background: linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d);"></div>
+          <div class="card-inner">
+            <div class="card-screenshot">
+              <img src="/screenshots/mlb-gamerank.png" alt="MLB GameRank scoreboard" loading="lazy" />
+              <div class="screenshot-overlay"></div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-lg">⚾</span>
+                    <h2 class="text-lg font-bold" style="font-family: 'Space Grotesk', sans-serif;">MLB GameRank</h2>
+                  </div>
+                  <p class="text-xs text-amber-300/80">The best game to watch right now</p>
                 </div>
-                <p class="text-sm font-medium text-amber-300/80">The best game to watch right now</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Live scores ranked by watchability. Taking the guesswork out of watching baseball.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-amber-400/15 px-4 py-1.5 text-xs font-semibold text-amber-300 ring-1 ring-amber-400/20"
-              >
-                Web App
+                <span class="type-badge bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20">Web App</span>
               </div>
             </div>
           </div>
         </a>
 
-        <!-- Lap Lab Card -->
-        <a
-          href="/swim"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🏊</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Lap Lab
-                  </h2>
+        <!-- ═══ Pixel Aquarium — Screenshot standard ═══ -->
+        <a href="/pixel-aquarium" class="bento-card card-std">
+          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d);"></div>
+          <div class="card-inner">
+            <div class="card-screenshot">
+              <img src="/screenshots/pixel-aquarium.png" alt="Pixel Aquarium with colorful fish swimming" loading="lazy" />
+              <div class="screenshot-overlay"></div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <span class="text-lg">🐠</span>
+                    <h2 class="text-lg font-bold" style="font-family: 'Space Grotesk', sans-serif;">Pixel Aquarium</h2>
+                  </div>
+                  <p class="text-xs text-cyan-300/80">Little pixel fish, big pixel vibes</p>
                 </div>
-                <p class="text-sm font-medium text-cyan-300/80">Swim workout generator</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Pick a duration and pace. Get a workout. Shuffle until it clicks.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Web App
+                <span class="type-badge bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Game</span>
               </div>
             </div>
           </div>
         </a>
 
-        <!-- Pixel Tide Card -->
-        <a
-          href="/pixel-tide"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,180,216,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Lap Lab — Compact text ═══ -->
+        <a href="/swim" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🌊</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Pixel Tide
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">🏊</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Lap Lab</h2>
                 </div>
-                <p class="text-sm font-medium text-sky-300/80">No winning, just vibes</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Waves of colored pixels wash in and out. Click to build sandcastles the tide slowly erodes.
-                </p>
+                <p class="text-sm text-cyan-300/80">Swim workout generator</p>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">Pick a duration and pace. Get a workout. Shuffle until it clicks.</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-sky-400/15 px-4 py-1.5 text-xs font-semibold text-sky-300 ring-1 ring-sky-400/20"
-              >
-                Game
-              </div>
+              <span class="type-badge mt-0.5 bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- Green Light Card -->
-        <a
-          href="/green-light"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71);"
-          ></div>
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Pixel Tide — Compact text ═══ -->
+        <a href="/pixel-tide" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl" aria-hidden="true">&#x1F7E2;</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Green Light
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">🌊</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Pixel Tide</h2>
                 </div>
-                <p class="text-sm font-medium text-emerald-300/80">Know what to order before you sit down</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Quick taste quiz, name a restaurant, pick from two smart options.
-                </p>
+                <p class="text-sm text-sky-300/80">No winning, just vibes</p>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">Waves of pixels wash in and out. Click to build sandcastles.</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-emerald-400/15 px-4 py-1.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20">Game</span>
             </div>
           </div>
         </a>
 
-        <!-- TLDR Card -->
-        <a
-          href="/tldr"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(102,126,234,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Green Light — Compact text ═══ -->
+        <a href="/green-light" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">📄</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    TL;DR
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">🟢</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Green Light</h2>
                 </div>
-                <p class="text-sm font-medium text-emerald-300/80">Drop a PDF, get the short version</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  You got a long PDF and you don't want to read it. We've got you covered. 😎
-                </p>
+                <p class="text-sm text-emerald-300/80">Know what to order before you sit down</p>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">Quick taste quiz, name a restaurant, pick from two smart options.</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-emerald-400/15 px-4 py-1.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- What to Watch This Week Card -->
-        <a
-          href="/wtwtw"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ TL;DR — Compact text ═══ -->
+        <a href="/tldr" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">📺</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    What to Watch This Week (WTWTW)
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">📄</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">TL;DR</h2>
                 </div>
-                <p class="text-sm font-medium text-cyan-300/80">Pick your teams, get the best game each night</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Too many sports options? Pick your teams and we'll find what to watch.
-                </p>
+                <p class="text-sm text-emerald-300/80">Drop a PDF, get the short version</p>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">You got a long PDF and you don't want to read it. We've got you covered.</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- Pixel Aquarium Card -->
-        <a
-          href="/pixel-aquarium"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(0,210,255,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ WTWTW — Compact text ═══ -->
+        <a href="/wtwtw" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🐠</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Pixel Aquarium
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">📺</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">WTWTW</h2>
                 </div>
-                <p class="text-sm font-medium text-cyan-300/80">Little pixel fish, big pixel vibes</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Watch pixel fish swim around. Click to drop food and watch them change color.
-                </p>
+                <p class="text-sm text-cyan-300/80">What to watch this week</p>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">Pick your teams, we'll find the best game each night.</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Game
-              </div>
+              <span class="type-badge mt-0.5 bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- Nearest Coffee Card -->
-        <a
-          href="/nearest-coffee"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(139,170,128,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Nearest Coffee — Compact text ═══ -->
+        <a href="/nearest-coffee" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">☕</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Nearest Coffee
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">☕</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Nearest Coffee</h2>
                 </div>
-                <p class="text-sm font-medium text-[#A3C296]/80">When you need it, you need it.</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  The nearest open coffee shop. One tap to navigate. That's it.
-                </p>
+                <p class="text-sm text-[#A3C296]/80">When you need it, you need it</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-[#8BAA80]/15 px-4 py-1.5 text-xs font-semibold text-[#A3C296] ring-1 ring-[#8BAA80]/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- Nearest Fun Card -->
-        <a
-          href="/nearest-fun"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Nearest Fun — Compact text ═══ -->
+        <a href="/nearest-fun" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🛝</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Nearest Fun
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">🛝</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Nearest Fun</h2>
                 </div>
-                <p class="text-sm font-medium text-[#9DB8FF]/80">Kids activities, rain or shine</p>
-                <p class="mt-3 text-white/60 leading-relaxed">
-                  The nearest open thing to do with kids. Toggle inside or outside. Go.
-                </p>
+                <p class="text-sm text-[#9DB8FF]/80">Kids activities, rain or shine</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-[#7C9FFF]/15 px-4 py-1.5 text-xs font-semibold text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20">Web App</span>
             </div>
           </div>
         </a>
 
-        <!-- Idea Shuffler Card -->
-        <a
-          href="/idea-shuffler"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_40px_rgba(255,107,157,0.15)]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
+        <!-- ═══ Idea Shuffler — Compact text ═══ -->
+        <a href="/idea-shuffler" class="bento-card card-compact">
+          <div class="card-border" style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"></div>
+          <div class="card-inner">
+            <div class="flex items-start justify-between gap-3">
               <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🎲</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Idea Shuffler
-                  </h2>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-2xl">🎲</span>
+                  <h2 class="text-xl font-bold" style="font-family: 'Space Grotesk', sans-serif;">Idea Shuffler</h2>
                 </div>
-                <p class="text-sm font-medium text-pink-300/80">All the inspiration with none of the pressure</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  A gentle way to browse project ideas without creating a priority list.
-                </p>
+                <p class="text-sm text-pink-300/80">All the inspiration, none of the pressure</p>
               </div>
-              <div
-                class="shrink-0 rounded-full bg-pink-400/15 px-4 py-1.5 text-xs font-semibold text-pink-300 ring-1 ring-pink-400/20"
-              >
-                Web App
-              </div>
+              <span class="type-badge mt-0.5 bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20">Web App</span>
             </div>
           </div>
         </a>
@@ -607,7 +536,7 @@ const title = "Stephen Stanwood — stanwood.dev";
 
       <!-- 3D tilt on project cards -->
       <script>
-        document.querySelectorAll('#projects > a').forEach(card => {
+        document.querySelectorAll('.bento-card').forEach(card => {
           card.style.transformStyle = 'preserve-3d';
           card.style.perspective = '800px';
 
