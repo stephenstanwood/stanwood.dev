@@ -1,36 +1,6 @@
 import { useState, useRef, useCallback } from "react";
-import { generateWorkout } from "../lib/workoutEngine.js";
-
-// ─── Types ──────────────────────────────────────────────────────────────────
-
-interface WorkoutItem {
-  reps: number;
-  distance: number;
-  description: string;
-  stroke?: string;
-  equipment?: string;
-  interval?: number;
-  intervalDisplay?: string | null;
-  isGroup?: boolean;
-  items?: WorkoutItem[];
-}
-
-interface WorkoutSection {
-  name: string;
-  items: WorkoutItem[];
-  distance: number;
-}
-
-interface Workout {
-  name: string;
-  duration: number;
-  pace: string;
-  unit: string;
-  totalDistance: number;
-  estimatedMinutes: number;
-  sections: WorkoutSection[];
-  seed: number;
-}
+import { generateWorkout } from "../lib/workoutEngine";
+import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout } from "../lib/workoutEngine";
 
 interface DurationOption {
   value: number;
@@ -59,6 +29,8 @@ const PACES: Record<string, PaceOption[]> = {
     { value: "1:35", label: "1:35" },
     { value: "1:40", label: "1:40" },
     { value: "1:45", label: "1:45" },
+    { value: "1:50", label: "1:50" },
+    { value: "1:55", label: "1:55" },
   ],
   yards: [
     { value: "1:10", label: "1:10" },
@@ -67,6 +39,8 @@ const PACES: Record<string, PaceOption[]> = {
     { value: "1:25", label: "1:25" },
     { value: "1:30", label: "1:30" },
     { value: "1:35", label: "1:35" },
+    { value: "1:40", label: "1:40" },
+    { value: "1:45", label: "1:45" },
   ],
 };
 
@@ -263,17 +237,17 @@ function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
 // ─── Main component ────────────────────────────────────────────────────────────
 
 export default function SwimWorkout() {
-  const [unit, setUnit] = useState("meters");
+  const [unit, setUnit] = useState<"meters" | "yards">("meters");
   const [duration, setDuration] = useState(120);
   const [pace, setPace] = useState("1:20");
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
   const workoutRef = useRef<HTMLDivElement>(null);
 
-  // When unit changes, reset pace to middle option for that unit
-  const handleUnitChange = (newUnit: string) => {
+  // When unit changes, reset pace to default for that unit
+  const handleUnitChange = (newUnit: "meters" | "yards") => {
     setUnit(newUnit);
-    setPace(PACES[newUnit][2].value); // pick middle-ish option
+    setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
 
   const generate = useCallback(() => {
@@ -314,7 +288,7 @@ export default function SwimWorkout() {
             Pool
           </label>
           <div className="flex gap-1 rounded-xl bg-slate-100 p-1 w-fit">
-            {["yards", "meters"].map((u) => (
+            {(["yards", "meters"] as const).map((u) => (
               <button
                 key={u}
                 onClick={() => handleUnitChange(u)}
@@ -377,7 +351,12 @@ export default function SwimWorkout() {
         {/* Generate button */}
         <button
           onClick={generate}
-          className="group relative w-full rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/50 transition-all active:scale-[0.98] overflow-hidden"
+          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 transition-all active:scale-[0.98] overflow-hidden"
+          style={{
+            background: "linear-gradient(135deg, #14b8a6, #06b6d4, #0891b2, #14b8a6)",
+            backgroundSize: "300% 300%",
+            animation: "gradientShift 6s ease infinite",
+          }}
         >
           <span className="relative z-10">
             {workout ? "New Workout" : "Generate Workout"}

@@ -1,35 +1,169 @@
 ---
-import "../styles/global.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
 const title = "Stephen Stanwood — stanwood.dev";
+
+/* Card data — drives both static HTML and JS shuffle/hero logic */
+const cards = [
+  {
+    key: "nba-now", href: "https://nbanow.app", external: true, emoji: "🏀",
+    title: "NBA Now",
+    subtitle: "The best game to watch right now",
+    subtitleClass: "text-orange-300/80",
+    description: "Live scores ranked by watchability. Taking the guesswork out of watching basketball.",
+    badge: "Web App",
+    badgeClass: "bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20",
+    gradient: "linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b)",
+    glow: "rgba(255,107,43,0.15)",
+
+  },
+  {
+    key: "mlb-gamerank", href: "/mlb-gamerank", emoji: "⚾",
+    title: "MLB GameRank",
+    subtitle: "The best game to watch right now",
+    subtitleClass: "text-amber-300/80",
+    description: "Live scores ranked by watchability. Taking the guesswork out of watching baseball.",
+    badge: "Web App",
+    badgeClass: "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20",
+    gradient: "linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d)",
+    glow: "rgba(21,128,61,0.15)",
+
+  },
+  {
+    key: "swim", href: "/swim", emoji: "🏊",
+    title: "Lap Lab",
+    subtitle: "Swim workout generator",
+    subtitleClass: "text-cyan-300/80",
+    description: "Pick a duration and pace. Get a workout. Shuffle until it clicks.",
+    badge: "Web App",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff)",
+    glow: "rgba(0,210,255,0.15)",
+
+  },
+  {
+    key: "pixel-tide", href: "/pixel-tide", emoji: "🌊",
+    title: "Pixel Tide",
+    subtitle: "No winning, just vibes",
+    subtitleClass: "text-sky-300/80",
+    description: "Waves of colored pixels wash in and out. Click to build sandcastles the tide slowly erodes.",
+    badge: "Game",
+    badgeClass: "bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20",
+    gradient: "linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8)",
+    glow: "rgba(0,180,216,0.15)",
+
+  },
+  {
+    key: "green-light", href: "/green-light", emoji: "🟢",
+    title: "Green Light",
+    subtitle: "Know what to order before you sit down",
+    subtitleClass: "text-emerald-300/80",
+    description: "Quick taste quiz, name a restaurant, pick from two smart options.",
+    badge: "Web App",
+    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
+    gradient: "linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71)",
+    glow: "rgba(107,143,113,0.15)",
+
+  },
+  {
+    key: "tldr", href: "/tldr", emoji: "📄",
+    title: "TL;DR",
+    subtitle: "Drop a PDF, get the short version",
+    subtitleClass: "text-emerald-300/80",
+    description: "You got a long PDF and you don't want to read it. We've got you covered. 😎",
+    badge: "Web App",
+    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
+    gradient: "linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea)",
+    glow: "rgba(102,126,234,0.15)",
+
+  },
+  {
+    key: "wtwtw", href: "/wtwtw", emoji: "📺",
+    title: "What to Watch This Week (WTWTW)",
+    subtitle: "Pick your teams, get the best game each night",
+    subtitleClass: "text-cyan-300/80",
+    description: "Too many sports options? Pick your teams and we'll find what to watch.",
+    badge: "Web App",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d)",
+    glow: "rgba(0,210,255,0.15)",
+
+  },
+  {
+    key: "pixel-aquarium", href: "/pixel-aquarium", emoji: "🐠",
+    title: "Pixel Aquarium",
+    subtitle: "Little pixel fish, big pixel vibes",
+    subtitleClass: "text-cyan-300/80",
+    description: "Watch pixel fish swim around. Click to drop food and watch them change color.",
+    badge: "Game",
+    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
+    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d)",
+    glow: "rgba(0,210,255,0.15)",
+
+  },
+  {
+    key: "nearest-coffee", href: "/nearest-coffee", emoji: "☕",
+    title: "Nearest Coffee",
+    subtitle: "When you need it, you need it.",
+    subtitleClass: "text-[#A3C296]/80",
+    description: "The nearest open coffee shop. One tap to navigate. That's it.",
+    badge: "Web App",
+    badgeClass: "bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20",
+    gradient: "linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80)",
+    glow: "rgba(139,170,128,0.15)",
+
+  },
+  {
+    key: "nearest-fun", href: "/nearest-fun", emoji: "🛝",
+    title: "Nearest Fun",
+    subtitle: "Kids activities, rain or shine",
+    subtitleClass: "text-[#9DB8FF]/80",
+    description: "The nearest open thing to do with kids. Toggle inside or outside. Go.",
+    badge: "Web App",
+    badgeClass: "bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20",
+    gradient: "linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF)",
+    glow: "rgba(124,159,255,0.15)",
+
+  },
+  {
+    key: "idea-shuffler", href: "/idea-shuffler", emoji: "🎲",
+    title: "Idea Shuffler",
+    subtitle: "All the inspiration with none of the pressure",
+    subtitleClass: "text-pink-300/80",
+    description: "A gentle way to browse project ideas without creating a priority list.",
+    badge: "Web App",
+    badgeClass: "bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20",
+    gradient: "linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0)",
+    glow: "rgba(255,107,157,0.15)",
+
+  },
+];
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content="Projects I'm tinkering with. :)" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content="Projects I'm tinkering with." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content="Projects I'm tinkering with." />
-    <link rel="canonical" href="https://stanwood.dev/" />
-
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<BaseLayout
+  title={title}
+  description="Projects I'm tinkering with. :)"
+  slug=""
+  themeColor="#0f0c29"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+  schemaType="WebSite"
+  schemaName="stanwood.dev"
+>
+  <Fragment slot="head">
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#0f0c29" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+    <style>
+      /* Hide cards until JS shuffles (prevents flash of un-shuffled order) */
+      #projects {
+        opacity: 0;
+        transition: opacity 0.15s ease;
+      }
+      #projects.shuffled {
+        opacity: 1;
+      }
+    </style>
+    <noscript><style>#projects { opacity: 1 !important; }</style></noscript>
+  </Fragment>
 
-  <body class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
+  <div class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
     <a href="#projects" class="skip-nav">Skip to projects</a>
 
     <!-- ── Animated gradient background ── -->
@@ -38,39 +172,31 @@ const title = "Stephen Stanwood — stanwood.dev";
       style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #0d324d, #7b2869, #302b63, #0f0c29);"
     ></div>
 
-    <!-- ── Floating blobs for depth ── -->
-    <div class="fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
-      <!-- turquoise pool blob -->
+    <!-- ── Floating blobs for depth (hidden on mobile for performance) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
       <div
         class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
         style="background: radial-gradient(circle, #00d2ff 0%, transparent 70%);"
       ></div>
-      <!-- pink/magenta blob -->
       <div
         class="animate-float absolute -bottom-40 -left-40 h-[600px] w-[600px] rounded-full opacity-25"
         style="background: radial-gradient(circle, #ff6b9d 0%, #c850c0 40%, transparent 70%);"
       ></div>
-      <!-- warm orange accent -->
       <div
         class="animate-float-slow absolute top-1/2 right-1/4 h-[350px] w-[350px] rounded-full opacity-20"
         style="background: radial-gradient(circle, #ff9a56 0%, transparent 70%); animation-delay: 3s;"
       ></div>
-      <!-- deep purple accent -->
       <div
         class="animate-float absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full opacity-20"
         style="background: radial-gradient(circle, #667eea 0%, transparent 70%); animation-delay: 2s;"
       ></div>
     </div>
 
-    <!-- ── Geometric decorations ── -->
-    <div class="fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
-      <!-- spinning ring -->
+    <!-- ── Geometric decorations (hidden on mobile) ── -->
+    <div class="hidden sm:block fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
       <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
-      <!-- dotted ring -->
       <div class="animate-spin-slow absolute bottom-40 left-[10%] h-24 w-24 rounded-full border border-dashed border-white/8" style="animation-direction: reverse; animation-duration: 30s;"></div>
-      <!-- small diamond -->
       <div class="animate-float absolute top-[60%] right-[8%] h-4 w-4 rotate-45 bg-white/10" style="animation-delay: 1s;"></div>
-      <!-- another diamond -->
       <div class="animate-float absolute top-[20%] left-[20%] h-3 w-3 rotate-45 bg-cyan-400/15" style="animation-delay: 4s;"></div>
     </div>
 
@@ -79,7 +205,6 @@ const title = "Stephen Stanwood — stanwood.dev";
 
       <!-- ── Hero ── -->
       <header class="animate-slide-up mb-20 text-center">
-        <!-- Status badge (click to cycle) -->
         <button
           id="status-badge"
           class="group mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/90 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
@@ -141,201 +266,42 @@ const title = "Stephen Stanwood — stanwood.dev";
         </p>
       </header>
 
-      <!-- ── Project cards (alphabetical) ── -->
+      <!-- ── Project cards (static HTML, JS shuffles + upgrades on load) ── -->
       <section id="projects" class="stagger space-y-6">
-
-        <!-- Idea Shuffler Card -->
-        <a
-          href="/idea-shuffler"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🎲</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Idea Shuffler
-                  </h2>
+        {cards.map((c) => (
+          <a
+            href={c.href}
+            {...(c.external ? { target: "_blank", rel: "noopener" } : {})}
+            data-key={c.key}
+            class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02]"
+            style={`--glow: ${c.glow};`}
+          >
+            <div
+              class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
+              style={`background: ${c.gradient};`}
+            />
+            <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <div class="mb-2 flex items-center gap-3">
+                    <span class="text-3xl">{c.emoji}</span>
+                    <h2
+                      class="text-2xl sm:text-3xl font-bold"
+                      style="font-family: 'Space Grotesk', sans-serif;"
+                    >
+                      {c.title}
+                    </h2>
+                  </div>
+                  <p class={`text-sm font-medium ${c.subtitleClass}`}>{c.subtitle}</p>
+                  <p class="mt-3 text-white/70 leading-relaxed">{c.description}</p>
                 </div>
-                <p class="text-sm font-medium text-pink-300/80">All the inspiration with none of the pressure</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  A gentle way to browse project ideas without creating a priority list.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-pink-400/15 px-4 py-1.5 text-xs font-semibold text-pink-300 ring-1 ring-pink-400/20"
-              >
-                Web App
+                <div class={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold ${c.badgeClass}`}>
+                  {c.badge}
+                </div>
               </div>
             </div>
-          </div>
-        </a>
-
-        <!-- Lap Lab Card -->
-        <a
-          href="/swim"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🏊</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    Lap Lab
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-cyan-300/80">Swim workout generator</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Pick a duration and pace. Get a workout. Shuffle until it clicks.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- NBA Now Card -->
-        <a
-          href="https://nbanow.app"
-          target="_blank"
-          rel="noopener"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">🏀</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    NBA Now
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-orange-300/80">The best game to watch right now</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Live scores ranked by watchability. No more flipping channels.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-orange-400/15 px-4 py-1.5 text-xs font-semibold text-orange-300 ring-1 ring-orange-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- TLDR Card -->
-        <a
-          href="/tldr"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">📄</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    TL;DR
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-emerald-300/80">Drop a PDF, get the short version</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  You got a long PDF and you don't want to read it. Same.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-emerald-400/15 px-4 py-1.5 text-xs font-semibold text-emerald-300 ring-1 ring-emerald-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- What to Watch This Week Card -->
-        <a
-          href="/wtwtw"
-          class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-transform duration-300 hover:scale-[1.02]"
-        >
-          <!-- Animated border gradient -->
-          <div
-            class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-            style="background: linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d);"
-          ></div>
-
-          <!-- Card inner -->
-          <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="mb-2 flex items-center gap-3">
-                  <span class="text-3xl">📺</span>
-                  <h2
-                    class="text-2xl sm:text-3xl font-bold"
-                    style="font-family: 'Space Grotesk', sans-serif;"
-                  >
-                    What to Watch This Week (WTWTW)
-                  </h2>
-                </div>
-                <p class="text-sm font-medium text-cyan-300/80">Your guide to the games that actually matter</p>
-                <p class="mt-3 text-white/70 leading-relaxed">
-                  Too many sports options? Let's fix that.
-                </p>
-              </div>
-              <div
-                class="shrink-0 rounded-full bg-cyan-400/15 px-4 py-1.5 text-xs font-semibold text-cyan-300 ring-1 ring-cyan-400/20"
-              >
-                Web App
-              </div>
-            </div>
-          </div>
-        </a>
-
+          </a>
+        ))}
       </section>
 
       <!-- ── Footer ── -->
@@ -347,7 +313,7 @@ const title = "Stephen Stanwood — stanwood.dev";
             rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
             </svg>
             <span class="transition-transform group-hover:translate-x-0.5">GitHub</span>
@@ -359,14 +325,70 @@ const title = "Stephen Stanwood — stanwood.dev";
             rel="noopener noreferrer"
             class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
           >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
             </svg>
             <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
           </a>
         </div>
+        <p class="text-xs text-white/20 mt-2">
+          Handcrafted with caffeinated intent
+        </p>
       </footer>
 
+      <!-- Shuffle card order on every page load -->
+      <script>
+        (function() {
+          const section = document.getElementById('projects');
+          if (!section) return;
+          const cards = [...section.querySelectorAll('a[data-key]')];
+
+          // Fisher-Yates shuffle
+          for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+          }
+
+          // Reorder in DOM
+          cards.forEach(card => section.appendChild(card));
+
+          // Staggered slide-up animation
+          cards.forEach((card, i) => {
+            card.style.opacity = '0';
+            card.style.animation = `slideUp 0.6s ease ${0.05 + i * 0.05}s forwards`;
+          });
+
+          // Reveal (prevents flash of un-shuffled order)
+          section.classList.add('shuffled');
+
+          // 3D tilt on hover
+          cards.forEach(card => {
+            card.style.transformStyle = 'preserve-3d';
+            card.style.perspective = '800px';
+
+            card.addEventListener('mousemove', (e) => {
+              const rect = card.getBoundingClientRect();
+              const x = (e.clientX - rect.left) / rect.width - 0.5;
+              const y = (e.clientY - rect.top) / rect.height - 0.5;
+              card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+              card.style.transform = '';
+              card.style.transition = 'transform 0.4s ease';
+              setTimeout(() => { card.style.transition = ''; }, 400);
+            });
+          });
+        })();
+      </script>
+
+      <style>
+        @keyframes slideUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      </style>
+
     </div>
-  </body>
-</html>
+  </div>
+</BaseLayout>

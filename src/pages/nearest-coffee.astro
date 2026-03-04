@@ -1,0 +1,510 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
+---
+
+<BaseLayout
+  title="Nearest Coffee — stanwood.dev"
+  description="Find the nearest coffee shop open right now."
+  slug="nearest-coffee"
+  favicon="/favicon-coffee.svg"
+  themeColor="#0e1110"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+  schemaCategory="LifestyleApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background: #0e1110;
+        color: #E8E6E1;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* warm ambient glow — coffee + green */
+      .bg-glow {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139,170,128,0.06) 0%, transparent 60%),
+          radial-gradient(ellipse 50% 50% at 20% 80%, rgba(180,130,70,0.04) 0%, transparent 60%),
+          radial-gradient(ellipse 40% 40% at 80% 20%, rgba(180,130,70,0.03) 0%, transparent 60%),
+          #0e1110;
+      }
+
+      /* hero card */
+      .hero-card {
+        border-radius: 20px;
+        background: linear-gradient(165deg, rgba(30,35,30,0.9) 0%, rgba(20,24,20,0.95) 100%);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(139,170,128,0.15);
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(139,170,128,0.04);
+      }
+
+      /* map skeleton */
+      .map-skeleton {
+        background: rgba(25,29,28,0.6);
+        animation: skeleton-pulse 1.5s ease-in-out infinite;
+      }
+      @keyframes skeleton-pulse {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.3; }
+      }
+
+      /* map image */
+      .map-img {
+        width: 100%;
+        display: block;
+        aspect-ratio: 2 / 1;
+        object-fit: cover;
+      }
+
+      /* open badge */
+      .open-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 10px;
+        border-radius: 8px;
+        background: rgba(110,207,142,0.12);
+        color: #6ECF8E;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      .open-badge::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #6ECF8E;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+
+      /* Carousel navigation */
+      .carousel-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      .carousel-arrow {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(139,170,128,0.08);
+        border: 1px solid rgba(139,170,128,0.15);
+        color: #8BAA80;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      .carousel-arrow:hover {
+        background: rgba(139,170,128,0.2);
+        border-color: #8BAA80;
+        transform: scale(1.05);
+      }
+      .carousel-arrow:disabled {
+        opacity: 0.15;
+        cursor: default;
+        transform: none;
+      }
+      .carousel-arrow:disabled:hover {
+        background: rgba(139,170,128,0.08);
+        border-color: rgba(139,170,128,0.15);
+        transform: none;
+      }
+      .carousel-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      .carousel-counter {
+        font-size: 13px;
+        color: rgba(139,170,128,0.5);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+      .carousel-dots {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+      .carousel-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(139,170,128,0.15);
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+      .carousel-dot:hover {
+        background: rgba(139,170,128,0.3);
+      }
+      .carousel-dot.active {
+        background: #8BAA80;
+        box-shadow: 0 0 8px rgba(139,170,128,0.4);
+        width: 20px;
+        border-radius: 3px;
+      }
+
+      /* Card transition */
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to   { opacity: 1; transform: translateX(0); }
+      }
+      .slide-in-right { animation: slideInRight 0.3s ease both; }
+      .slide-in-left  { animation: slideInLeft 0.3s ease both; }
+
+      /* star */
+      .star { color: #D4A847; text-shadow: 0 0 6px rgba(212,168,71,0.3); }
+
+      /* progress bar */
+      .progress-track {
+        height: 3px;
+        background: rgba(139,170,128,0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        width: 100%;
+        max-width: 240px;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #6B4226, #8BAA80, #6ECF8E);
+        border-radius: 2px;
+        transition: width 0.3s ease-out;
+        width: 0%;
+      }
+
+      /* coffee steam bob */
+      @keyframes steam {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+      }
+
+      /* fade in */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .fade-up {
+        animation: fadeUp 0.5s ease both;
+      }
+
+      /* enable button hover */
+      .enable-btn:hover {
+        background: #A3C296 !important;
+        transform: scale(1.02);
+      }
+
+      /* nav link hover */
+      .addr-link:hover {
+        opacity: 0.8;
+      }
+
+      /* reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </Fragment>
+
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#8BAA80] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
+    <div class="bg-glow"></div>
+
+    <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
+      <!-- Top bar -->
+      <div class="flex items-center">
+        <a
+          href="/"
+          class="text-sm font-semibold text-[#E8E6E1]/30 hover:text-[#E8E6E1] transition-colors"
+        >
+          &larr; Home
+        </a>
+      </div>
+
+      <!-- Header -->
+      <header class="mt-8 mb-6">
+        <div class="flex items-center gap-3">
+          <span style="font-size:36px;filter:drop-shadow(0 0 8px rgba(180,130,70,0.3));">☕</span>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#E8E6E1]">
+              Nearest Coffee
+            </h1>
+            <p class="text-[#8BAA80] text-sm font-medium tracking-wide uppercase" style="letter-spacing:0.15em;">
+              Open Right Now
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <!-- All states live here, only one visible at a time via JS -->
+      <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
+    </main>
+
+    <script>
+      import {
+        formatDistance,
+        estimateWalk,
+        computeZoom,
+        DARK_MAP_STYLES,
+        createProgress,
+        initGeolocation,
+        requestGeolocation,
+        setupCarousel,
+      } from "../lib/nearbyUtils";
+
+      type CoffeeShop = {
+        id: string;
+        name: string;
+        address: string;
+        lat: number;
+        lng: number;
+        distance: number;
+        rating: number | null;
+        ratingCount: number | null;
+        isOpen: boolean | null;
+      };
+
+      const app = document.getElementById("app")!;
+      const hasMaps = app.dataset.hasMaps === "1";
+      const progress = createProgress();
+
+      let userLat: number;
+      let userLng: number;
+
+      // ── Render helpers ──
+
+      function render(html: string) {
+        app.innerHTML = html;
+      }
+
+      function renderLoading() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div style="font-size:48px;animation:steam 2s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(180,130,70,0.3));">☕</div>
+            <div class="progress-track" style="margin-top:24px;">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressLabel" style="margin-top:14px;color:#8BAA80;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
+          </div>
+        `);
+        progress.start();
+      }
+
+      function renderPermission() {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
+            <div style="font-size:56px;margin-bottom:20px;filter:drop-shadow(0 0 16px rgba(180,130,70,0.3));">☕</div>
+            <h2 style="font-size:22px;font-weight:700;color:#E8E6E1;margin-bottom:10px;">Find Your Coffee</h2>
+            <p style="color:#8B8D94;margin-bottom:28px;max-width:280px;line-height:1.6;font-size:14px;">
+              We'll use your location to find the nearest open coffee shop.
+            </p>
+            <button id="enable-btn" class="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#8BAA80;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(139,170,128,0.2);">
+              <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              Enable Location
+            </button>
+          </div>
+        `);
+        document.getElementById("enable-btn")!.addEventListener("click", doRequestLocation);
+      }
+
+      function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+      function renderError(title: string, message: string) {
+        render(`
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
+            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">${esc(title)}</h2>
+            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">${esc(message)}</p>
+            <button id="retry-btn" class="nav-btn" style="width:auto;padding:0 32px;">
+              Try Again
+            </button>
+          </div>
+        `);
+        document.getElementById("retry-btn")!.addEventListener("click", doRequestLocation);
+      }
+
+      // ── Map helpers ──
+
+      function buildMapUrl(shop: CoffeeShop): string {
+        const midLat = (userLat + shop.lat) / 2;
+        const midLng = (userLng + shop.lng) / 2;
+        const zoom = computeZoom(shop.distance);
+
+        const params = new URLSearchParams();
+        params.set("center", `${midLat},${midLng}`);
+        params.set("zoom", String(zoom));
+        params.set("size", "600x300");
+        params.set("scale", "2");
+        params.set("maptype", "roadmap");
+
+        for (const s of DARK_MAP_STYLES) params.append("style", s);
+
+        params.append("markers", `color:0x6ECF8E|size:small|${userLat},${userLng}`);
+        params.append("markers", `color:0xB4825A|size:mid|${shop.lat},${shop.lng}`);
+
+        return `/api/static-map?${params.toString()}`;
+      }
+
+      // ── Card builder ──
+
+      function buildCardHtml(shop: CoffeeShop, rank: number, direction: "none" | "left" | "right"): string {
+        const showMap = hasMaps;
+        const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+
+        let mapHtml = "";
+        if (showMap) {
+          const mapUrl = buildMapUrl(shop);
+          mapHtml = `
+            <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
+              <img
+                src="${mapUrl}"
+                alt="Map showing route to ${shop.name}"
+                class="map-img"
+                style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
+                onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
+              />
+            </div>
+          `;
+        }
+
+        const ratingHtml = shop.rating
+          ? `<span style="display:flex;align-items:center;gap:4px;"><span class="star">★</span> <span style="color:#E8E6E1;font-weight:600;">${shop.rating.toFixed(1)}</span></span>`
+          : "";
+
+        const animClass = direction === "right" ? "slide-in-right" : direction === "left" ? "slide-in-left" : "fade-up";
+
+        return `
+          <div class="hero-card ${animClass}">
+            ${mapHtml}
+            <div style="padding:20px 20px 24px;">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(139,170,128,0.1);color:#8BAA80;font-weight:800;font-size:13px;">${rank}</span>
+                <span class="open-badge">Open</span>
+                <span style="color:#8BAA80;font-weight:600;font-size:14px;">${formatDistance(shop.distance)}</span>
+                <span style="color:rgba(139,170,128,0.4);font-size:12px;font-weight:500;">${estimateWalk(shop.distance)}</span>
+                ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
+              </div>
+
+              <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${shop.name}</h2>
+
+              <a href="${navUrl}" target="_blank" rel="noopener" class="addr-link" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;">
+                <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${shop.address}
+                  <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#8BAA80;" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
+        `;
+      }
+
+      // ── Render results via shared carousel ──
+
+      function renderResults(shops: CoffeeShop[]) {
+        progress.finish();
+
+        setTimeout(() => {
+          setupCarousel({
+            container: app,
+            items: shops,
+            buildCard: buildCardHtml,
+            preload: hasMaps ? (shop) => { new Image().src = buildMapUrl(shop); } : undefined,
+          });
+        }, 300);
+      }
+
+      // ── Fetch coffee shops ──
+
+      async function fetchCoffeeShops(lat: number, lng: number) {
+        try {
+          const res = await fetch("/api/nearby-coffee", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ latitude: lat, longitude: lng }),
+          });
+
+          if (!res.ok) throw new Error("API request failed");
+
+          const data = await res.json();
+          const shops: CoffeeShop[] = data.results || [];
+
+          if (shops.length === 0) {
+            progress.finish();
+            setTimeout(() => {
+              renderError(
+                "No Coffee Nearby",
+                "Couldn\u2019t find any open spots nearby. Try again later or wander somewhere new.",
+              );
+            }, 300);
+            return;
+          }
+
+          renderResults(shops);
+        } catch (err) {
+          progress.finish();
+          setTimeout(() => {
+            renderError("Oops", "Something went wrong finding coffee. Please try again.");
+          }, 300);
+        }
+      }
+
+      // ── Geolocation ──
+
+      function doRequestLocation() {
+        requestGeolocation({
+          onLoading: renderLoading,
+          onPosition: (lat, lng) => {
+            userLat = lat;
+            userLng = lng;
+            fetchCoffeeShops(lat, lng);
+          },
+          onPermissionDenied: renderPermission,
+          onError: renderError,
+        });
+      }
+
+      // ── Init ──
+
+      initGeolocation({
+        onLoading: renderLoading,
+        onPosition: (lat, lng) => {
+          userLat = lat;
+          userLng = lng;
+          fetchCoffeeShops(lat, lng);
+        },
+        onPermissionDenied: renderPermission,
+        onPermissionScreen: renderPermission,
+        onError: renderError,
+      });
+    </script>
+</BaseLayout>

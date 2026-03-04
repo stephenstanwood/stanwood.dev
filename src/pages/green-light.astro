@@ -1,0 +1,588 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GreenLight from "../components/GreenLight.tsx";
+const title = "Green Light — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="Know what to order before you sit down. Take a quick taste quiz, pick a restaurant, get two smart options."
+  slug="green-light"
+  favicon="/favicon-gl.svg"
+  themeColor="#0a0f0a"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+  schemaCategory="LifestyleApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      /* ─── Page Theme ─────────────────────────────────────────────── */
+      :root {
+        --he-bg: #FAFAF5;
+        --he-sage: #6B8F71;
+        --he-sage-light: #8FB896;
+        --he-sage-faint: #e8f0e9;
+        --he-gold: #C9A96E;
+        --he-gold-light: #dcc596;
+        --he-charcoal: #2D2D2D;
+        --he-gray: #6B6B6B;
+        --he-light-gray: #A0A0A0;
+        --he-border: #E8E5DE;
+        --he-card-bg: #FFFFFF;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--he-bg);
+        color: var(--he-charcoal);
+        margin: 0;
+      }
+
+      /* ─── Animations ─────────────────────────────────────────────── */
+      @keyframes heFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes heFadeOut {
+        from { opacity: 1; }
+        to   { opacity: 0; transform: translateY(-6px); }
+      }
+      @keyframes heSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* ─── Layout ─────────────────────────────────────────────────── */
+      .he-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .he-header {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .he-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--he-gray);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .he-back:hover { color: var(--he-charcoal); }
+      .he-back svg { width: 16px; height: 16px; }
+
+      .he-brand {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--he-sage);
+      }
+
+      .he-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 1.5rem 3rem;
+      }
+
+      .he-app {
+        width: 100%;
+        max-width: 480px;
+        animation: heFadeIn 0.3s ease-out;
+      }
+
+      /* ─── Quiz ───────────────────────────────────────────────────── */
+      .he-quiz {
+        text-align: center;
+      }
+
+      .he-progress-track {
+        height: 4px;
+        background: var(--he-border);
+        border-radius: 2px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+      }
+      .he-progress-fill {
+        height: 100%;
+        background: var(--he-sage);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+      }
+      .he-progress-label {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+        margin: 0 0 2rem;
+      }
+
+      .he-quiz-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      @media (min-width: 480px) {
+        .he-quiz-cards {
+          flex-direction: row;
+          gap: 1rem;
+        }
+      }
+
+      .he-fade-in { animation: heFadeIn 0.25s ease-out; }
+      .he-fade-out { animation: heFadeOut 0.2s ease-out; }
+
+      .he-quiz-card {
+        flex: 1;
+        width: 100%;
+        background: var(--he-card-bg);
+        border: 2px solid var(--he-border);
+        border-radius: 16px;
+        padding: 1.5rem 1.25rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: inherit;
+      }
+      .he-quiz-card:hover {
+        border-color: var(--he-sage);
+        background: var(--he-sage-faint);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(107, 143, 113, 0.12);
+      }
+      .he-quiz-card:active {
+        transform: translateY(0);
+      }
+
+      .he-quiz-card-label {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--he-charcoal);
+        line-height: 1.3;
+      }
+      .he-quiz-card-sub {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+      }
+
+      .he-quiz-or {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+        font-weight: 500;
+        text-transform: lowercase;
+      }
+
+      /* ─── Constraints ────────────────────────────────────────────── */
+      .he-constraints {
+        animation: heFadeIn 0.3s ease-out;
+      }
+
+      .he-section-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem;
+        color: var(--he-charcoal);
+      }
+      .he-section-sub {
+        font-size: 0.85rem;
+        color: var(--he-light-gray);
+        margin: 0 0 1.5rem;
+      }
+
+      .he-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .he-chip {
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        border: 1.5px solid var(--he-border);
+        background: var(--he-card-bg);
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--he-gray);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .he-chip:hover {
+        border-color: var(--he-sage-light);
+        color: var(--he-sage);
+      }
+      .he-chip-active {
+        background: var(--he-sage);
+        border-color: var(--he-sage);
+        color: #fff;
+      }
+      .he-chip-active:hover {
+        background: var(--he-sage-light);
+        border-color: var(--he-sage-light);
+        color: #fff;
+      }
+
+      .he-field-label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--he-gray);
+        margin-bottom: 0.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .he-input {
+        width: 100%;
+        padding: 0.65rem 0.9rem;
+        border: 1.5px solid var(--he-border);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        color: var(--he-charcoal);
+        background: var(--he-card-bg);
+        transition: border-color 0.15s;
+        box-sizing: border-box;
+      }
+      .he-input:focus {
+        outline: none;
+        border-color: var(--he-sage);
+        box-shadow: 0 0 0 3px rgba(107, 143, 113, 0.1);
+      }
+      .he-input::placeholder {
+        color: var(--he-light-gray);
+      }
+      .he-input-lg {
+        padding: 0.85rem 1rem;
+        font-size: 1.05rem;
+      }
+
+      .he-meal-size {
+        margin: 1.5rem 0;
+      }
+      .he-toggle-group {
+        display: flex;
+        gap: 0;
+        margin-top: 0.4rem;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1.5px solid var(--he-border);
+      }
+      .he-toggle {
+        flex: 1;
+        padding: 0.55rem 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: none;
+        background: var(--he-card-bg);
+        color: var(--he-gray);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .he-toggle:first-child { border-right: 1.5px solid var(--he-border); }
+      .he-toggle-active {
+        background: var(--he-sage);
+        color: #fff;
+      }
+
+      /* ─── Buttons ────────────────────────────────────────────────── */
+      .he-btn-primary {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 12px;
+        background: var(--he-sage);
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.15s;
+        margin-top: 1.5rem;
+        font-family: inherit;
+      }
+      .he-btn-primary:hover { background: var(--he-sage-light); }
+      .he-btn-primary:active { transform: scale(0.98); }
+      .he-btn-primary:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .he-btn-secondary {
+        display: inline-block;
+        padding: 0.65rem 1.5rem;
+        border: 1.5px solid var(--he-border);
+        border-radius: 12px;
+        background: var(--he-card-bg);
+        color: var(--he-gray);
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .he-btn-secondary:hover {
+        border-color: var(--he-sage-light);
+        color: var(--he-sage);
+      }
+
+      .he-link-btn {
+        display: block;
+        margin-top: 2rem;
+        padding: 0;
+        border: none;
+        background: none;
+        color: var(--he-light-gray);
+        font-size: 0.8rem;
+        cursor: pointer;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        font-family: inherit;
+      }
+      .he-link-btn:hover { color: var(--he-sage); }
+
+      /* ─── Search ─────────────────────────────────────────────────── */
+      .he-search {
+        text-align: center;
+        animation: heFadeIn 0.3s ease-out;
+      }
+      .he-search-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+      }
+
+      .he-recent {
+        margin-top: 1.5rem;
+        text-align: left;
+      }
+      .he-recent-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--he-light-gray);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .he-recent-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.5rem;
+      }
+      .he-recent-item {
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        border: 1px solid var(--he-border);
+        background: var(--he-card-bg);
+        font-size: 0.8rem;
+        color: var(--he-gray);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: inherit;
+      }
+      .he-recent-item:hover {
+        border-color: var(--he-sage-light);
+        color: var(--he-sage);
+      }
+
+      /* ─── Loading ────────────────────────────────────────────────── */
+      .he-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        padding: 3rem 0;
+        animation: heFadeIn 0.3s ease-out;
+      }
+      .he-spinner {
+        width: 36px;
+        height: 36px;
+        border: 3px solid var(--he-border);
+        border-top-color: var(--he-sage);
+        border-radius: 50%;
+        animation: heSpin 0.7s linear infinite;
+      }
+      .he-loading-text {
+        font-size: 0.9rem;
+        color: var(--he-gray);
+      }
+
+      /* ─── Error ──────────────────────────────────────────────────── */
+      .he-error {
+        background: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+        border-radius: 10px;
+        padding: 0.65rem 1rem;
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      /* ─── Result Card ────────────────────────────────────────────── */
+      .he-result {
+        animation: heFadeIn 0.35s ease-out;
+      }
+      .he-result-note {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+        font-style: italic;
+        margin: 0 0 0.75rem;
+      }
+      .he-result-card {
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-left: 4px solid var(--he-sage);
+        border-radius: 14px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .he-result-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--he-sage);
+        margin: 0 0 0.5rem;
+      }
+      .he-result-order {
+        font-size: 1.1rem;
+        font-weight: 600;
+        line-height: 1.45;
+        color: var(--he-charcoal);
+        margin: 0;
+      }
+
+      .he-result-section {
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--he-border);
+      }
+      .he-result-subhead {
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--he-light-gray);
+        margin: 0 0 0.4rem;
+      }
+      .he-result-list {
+        margin: 0;
+        padding-left: 1.1rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--he-gray);
+      }
+      .he-result-list li { margin-bottom: 0.15rem; }
+
+      /* ─── Picker (two-option chooser) ────────────────────────────── */
+      .he-picker {
+        text-align: center;
+        animation: heFadeIn 0.35s ease-out;
+      }
+      .he-picker-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.25rem;
+      }
+      .he-picker-sub {
+        font-size: 0.85rem;
+        color: var(--he-light-gray);
+        margin: 0 0 1.5rem;
+      }
+      .he-picker-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      @media (min-width: 480px) {
+        .he-picker-cards {
+          flex-direction: row;
+          gap: 1rem;
+          align-items: stretch;
+        }
+      }
+      .he-picker-card {
+        flex: 1;
+        width: 100%;
+        background: var(--he-card-bg);
+        border: 2px solid var(--he-border);
+        border-radius: 16px;
+        padding: 1.25rem 1.1rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        font-family: inherit;
+      }
+      .he-picker-card:hover {
+        border-color: var(--he-sage);
+        background: var(--he-sage-faint);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(107, 143, 113, 0.12);
+      }
+      .he-picker-card:active { transform: translateY(0); }
+      .he-picker-order {
+        font-size: 0.95rem;
+        font-weight: 600;
+        line-height: 1.4;
+        color: var(--he-charcoal);
+        margin: 0;
+      }
+      .he-picker-why {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+        margin: 0;
+        line-height: 1.4;
+      }
+      .he-picker-or {
+        font-size: 0.8rem;
+        color: var(--he-light-gray);
+        font-weight: 500;
+      }
+
+      /* ─── Actions ────────────────────────────────────────────────── */
+      .he-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .he-actions .he-btn-primary { margin-top: 0; }
+    </style>
+  </Fragment>
+
+  <div class="he-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+
+    <header class="he-header">
+      <a href="/" class="he-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Home
+      </a>
+      <span class="he-brand">Green Light</span>
+    </header>
+
+    <main id="main-content" class="he-main">
+      <GreenLight client:idle />
+    </main>
+  </div>
+</BaseLayout>

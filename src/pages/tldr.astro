@@ -1,38 +1,27 @@
 ---
-import "../styles/global.css";
-const title = "TL;DR — stanwood.dev";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta
-      name="description"
-      content="I don't want to read this long PDF. Tell me what it says."
-    />
-    <meta property="og:title" content="TL;DR — stanwood.dev" />
-    <meta property="og:description" content="I don't want to read this long PDF. Tell me what it says." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://stanwood.dev/tldr" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="TL;DR — stanwood.dev" />
-    <meta name="twitter:description" content="I don't want to read this long PDF. Tell me what it says." />
-    <link rel="canonical" href="https://stanwood.dev/tldr" />
-    <link rel="icon" type="image/svg+xml" href="/favicon-tldr.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+<BaseLayout
+  title="TL;DR — stanwood.dev"
+  description="I don't want to read this long PDF. Tell me what it says."
+  slug="tldr"
+  favicon="/favicon-tldr.svg"
+  themeColor="#111318"
+  fontsUrl="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+  schemaCategory="UtilitiesApplication"
+  schemaName="TL;DR"
+>
+  <Fragment slot="head">
     <style>
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background: #0f0f0f;
+        color: #E4E4E7;
         min-height: 100vh;
         position: relative;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       /* subtle noise overlay */
@@ -49,7 +38,7 @@ const title = "TL;DR — stanwood.dev";
       main { position: relative; z-index: 1; }
 
       .drop-zone {
-        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+        transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, transform 0.3s ease;
         border: 2px dashed #333;
         box-shadow: 0 0 20px rgba(0, 212, 255, 0.05), inset 0 0 20px rgba(0, 212, 255, 0.02);
       }
@@ -61,6 +50,7 @@ const title = "TL;DR — stanwood.dev";
         border-color: #00D4FF;
         background-color: rgba(0, 212, 255, 0.05);
         box-shadow: 0 0 40px rgba(0, 212, 255, 0.2), inset 0 0 40px rgba(0, 212, 255, 0.05);
+        transform: scale(1.02);
       }
 
       /* compact drop zone when shown after result */
@@ -136,9 +126,8 @@ const title = "TL;DR — stanwood.dev";
       }
 
     </style>
-  </head>
+  </Fragment>
 
-  <body class="text-[#E4E4E7] antialiased">
     <a href="#main-content" class="skip-nav">Skip to content</a>
     <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
@@ -424,8 +413,13 @@ const title = "TL;DR — stanwood.dev";
         const text = summaryText.innerText || "";
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = "copied!";
-        setTimeout(() => (copyBtn.textContent = "copy"), 1500);
+        copyBtn.style.color = "#4ADE80";
+        copyBtn.style.background = "rgba(74, 222, 128, 0.1)";
+        setTimeout(() => {
+          copyBtn.textContent = "copy";
+          copyBtn.style.color = "";
+          copyBtn.style.background = "";
+        }, 1500);
       });
     </script>
-  </body>
-</html>
+</BaseLayout>

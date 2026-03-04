@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sandy bottom -->
+  <rect x="0" y="20" width="32" height="12" fill="#F5E6C8" rx="2"/>
+  <!-- Pixel wave row 1 -->
+  <rect x="0" y="14" width="4" height="4" fill="#7EC8E3"/>
+  <rect x="4" y="12" width="4" height="6" fill="#5BB5D5"/>
+  <rect x="8" y="10" width="4" height="8" fill="#45A5C9"/>
+  <rect x="12" y="12" width="4" height="6" fill="#2E86AB"/>
+  <rect x="16" y="14" width="4" height="4" fill="#7EC8E3"/>
+  <rect x="20" y="12" width="4" height="6" fill="#5BB5D5"/>
+  <rect x="24" y="10" width="4" height="8" fill="#45A5C9"/>
+  <rect x="28" y="12" width="4" height="6" fill="#2E86AB"/>
+  <!-- Water fill below wave -->
+  <rect x="0" y="18" width="32" height="2" fill="#5BB5D5" opacity="0.6"/>
+  <!-- Tiny sandcastle -->
+  <rect x="22" y="17" width="4" height="3" fill="#D4A76A"/>
+  <rect x="23" y="15" width="2" height="2" fill="#C49A5C"/>
+  <rect x="22" y="14" width="1" height="1" fill="#B8884E"/>
+  <rect x="25" y="14" width="1" height="1" fill="#B8884E"/>
+</svg>

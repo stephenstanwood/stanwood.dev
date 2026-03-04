@@ -68,9 +68,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return new Response(JSON.stringify({ summary }), {
       headers: { "Content-Type": "application/json" },
     });
-  } catch (err: any) {
+  } catch (err) {
+    console.error("summarize-pdf error:", err);
     return new Response(
-      JSON.stringify({ error: err.message || "Something went wrong" }),
+      JSON.stringify({ error: "Something went wrong" }),
       { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
