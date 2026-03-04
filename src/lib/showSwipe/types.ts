@@ -66,6 +66,7 @@ export interface ShowSwipeCard {
   genreNames: string[];
   youtubeKey: string;
   trailerName: string;
+  originalLanguage: string;
 }
 
 // ─── Swipe State ────────────────────────────────────────────────────────────

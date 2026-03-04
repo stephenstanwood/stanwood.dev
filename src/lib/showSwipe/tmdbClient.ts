@@ -106,5 +106,6 @@ export async function resolveCard(
     genreNames: resolveGenreNames(item.genre_ids, mediaType),
     youtubeKey: trailer.key,
     trailerName: trailer.name,
+    originalLanguage: item.original_language,
   };
 }

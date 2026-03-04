@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 interface Props {
   youtubeKey: string;
   title: string;
+  originalLanguage: string;
   onEnded?: () => void;
 }
 
@@ -35,7 +36,7 @@ function ensureYTApi(cb: () => void) {
 
 /* ── Component ────────────────────────────────────────────────────── */
 
-export default function TrailerPlayer({ youtubeKey, title, onEnded }: Props) {
+export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onEnded }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const onEndedRef = useRef(onEnded);
@@ -62,8 +63,10 @@ export default function TrailerPlayer({ youtubeKey, title, onEnded }: Props) {
           rel: 0,
           modestbranding: 1,
           controls: 1,
-          cc_load_policy: 1,
-          cc_lang_pref: "en",
+          ...(originalLanguage !== "en" && {
+            cc_load_policy: 1,
+            cc_lang_pref: "en",
+          }),
         },
         events: {
           onStateChange: (event: any) => {
