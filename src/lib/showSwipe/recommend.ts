@@ -112,6 +112,7 @@ async function fetchFromSource(
         "vote_count.gte": 50,
         include_adult: false,
         without_genres: excluded,
+        with_original_language: "en",
         page,
       };
       if (genres.length > 0) {
@@ -130,6 +131,7 @@ async function fetchFromSource(
         "vote_average.gte": 7.5,
         include_adult: false,
         without_genres: excluded,
+        with_original_language: "en",
         page: Math.floor(Math.random() * 5) + 1,
       };
       params[`${dateField}.lte`] = `${currentYear - 10}-12-31`;
@@ -174,6 +176,7 @@ export async function fetchNextBatch(
   // Filter: not seen, not adult, has poster, no excluded genres, era-appropriate
   const candidates = rawItems.filter((item) => {
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
+    if (item.original_language !== "en") return false;
     if (hasExcludedGenre(item, mediaType)) return false;
 
     // For "recent" mode, filter out older content from trending/now_playing

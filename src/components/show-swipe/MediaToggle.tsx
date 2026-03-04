@@ -34,7 +34,7 @@ export default function MediaToggle({
           className={`ss-toggle-btn ${era === "recent" ? "ss-toggle-active" : ""}`}
           onClick={() => onEraChange("recent")}
         >
-          Just Out
+          Recent
         </button>
         <button
           className={`ss-toggle-btn ${era === "all" ? "ss-toggle-active" : ""}`}
