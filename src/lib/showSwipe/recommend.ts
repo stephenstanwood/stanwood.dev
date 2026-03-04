@@ -9,6 +9,20 @@ import {
 
 const BUFFER_SIZE = 8;
 
+// TV genre IDs to exclude: Talk, News, Reality, Soap
+// Reality (10764) covers competition shows like The Voice, Survivor, etc.
+const EXCLUDED_TV_GENRES = new Set([10767, 10763, 10764, 10766]);
+// Movie genre IDs to exclude: TV Movie
+const EXCLUDED_MOVIE_GENRES = new Set([10770]);
+
+function getExcludedGenres(mediaType: MediaType): Set<number> {
+  return mediaType === "tv" ? EXCLUDED_TV_GENRES : EXCLUDED_MOVIE_GENRES;
+}
+
+function getExcludedGenreString(mediaType: MediaType): string {
+  return [...getExcludedGenres(mediaType)].join(",");
+}
+
 interface FetchPlan {
   source: "trending" | "now_playing" | "discover_personalized" | "discover_classic";
   weight: number;
@@ -53,6 +67,7 @@ async function fetchFromSource(
   page: number,
 ): Promise<TmdbMediaItem[]> {
   const currentYear = new Date().getFullYear();
+  const excluded = getExcludedGenreString(mediaType);
 
   switch (source) {
     case "trending":
@@ -67,6 +82,7 @@ async function fetchFromSource(
         sort_by: "popularity.desc",
         "vote_count.gte": 50,
         include_adult: false,
+        without_genres: excluded,
         page,
       };
       if (genres.length > 0) {
@@ -84,6 +100,7 @@ async function fetchFromSource(
         "vote_count.gte": 1000,
         "vote_average.gte": 7.5,
         include_adult: false,
+        without_genres: excluded,
         page: Math.floor(Math.random() * 5) + 1,
       };
       const dateField =
@@ -92,6 +109,12 @@ async function fetchFromSource(
       return (await fetchDiscover(mediaType, params)).results;
     }
   }
+}
+
+/** Returns true if the item has any excluded genre */
+function hasExcludedGenre(item: TmdbMediaItem, mediaType: MediaType): boolean {
+  const excluded = getExcludedGenres(mediaType);
+  return item.genre_ids.some((id) => excluded.has(id));
 }
 
 export async function fetchNextBatch(
@@ -103,7 +126,6 @@ export async function fetchNextBatch(
   const totalSwipes = getTotalSwipes();
   const plan = buildFetchPlan(totalSwipes);
 
-  // Pick source via weighted random
   const roll = Math.random();
   let cumulative = 0;
   let chosenSource = plan[0];
@@ -118,15 +140,17 @@ export async function fetchNextBatch(
   const page = Math.floor(Math.random() * 3) + 1;
   const rawItems = await fetchFromSource(chosenSource.source, mediaType, page);
 
-  // Filter out seen, adult, and poster-less items
+  // Filter: not seen, not adult, has poster, no excluded genres
   const candidates = rawItems.filter(
-    (item) => !allSeen.has(item.id) && !item.adult && item.poster_path,
+    (item) =>
+      !allSeen.has(item.id) &&
+      !item.adult &&
+      item.poster_path &&
+      !hasExcludedGenre(item, mediaType),
   );
 
-  // Shuffle for variety
   const shuffled = candidates.sort(() => Math.random() - 0.5);
 
-  // Resolve trailers in parallel (fetch extra in case some lack trailers)
   const batch = shuffled.slice(0, BUFFER_SIZE + 4);
   const results = await Promise.allSettled(
     batch.map((item) => resolveCard(item, mediaType)),

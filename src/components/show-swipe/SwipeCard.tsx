@@ -5,13 +5,14 @@ import TrailerPlayer from "./TrailerPlayer";
 interface Props {
   card: ShowSwipeCard;
   onSwipe: (direction: SwipeDirection) => void;
+  onShare: (card: ShowSwipeCard) => void;
   active: boolean;
 }
 
 const SWIPE_THRESHOLD = 80;
 const VELOCITY_THRESHOLD = 0.5;
 
-export default function SwipeCard({ card, onSwipe, active }: Props) {
+export default function SwipeCard({ card, onSwipe, onShare, active }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
   const startX = useRef(0);
   const startTime = useRef(0);
@@ -20,7 +21,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
   const [flyOff, setFlyOff] = useState<SwipeDirection | null>(null);
   const dragging = useRef(false);
 
-  // Shared logic for starting a drag/swipe
   const startDrag = useCallback(
     (clientX: number) => {
       if (!active) return;
@@ -31,7 +31,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     [active],
   );
 
-  // Shared logic for updating drag position
   const moveDrag = useCallback(
     (clientX: number) => {
       if (!swiping) return;
@@ -40,7 +39,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     [swiping],
   );
 
-  // Shared logic for ending a drag/swipe
   const endDrag = useCallback(() => {
     if (!swiping) return;
     setSwiping(false);
@@ -59,7 +57,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     }
   }, [swiping, deltaX, onSwipe]);
 
-  // Touch handlers
+  // Touch
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => startDrag(e.touches[0].clientX),
     [startDrag],
@@ -70,11 +68,10 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
   );
   const handleTouchEnd = useCallback(() => endDrag(), [endDrag]);
 
-  // Mouse handlers
+  // Mouse
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
-      // Don't capture drags on buttons or iframes
-      if ((e.target as HTMLElement).closest("button, iframe, .ss-play-btn")) return;
+      if ((e.target as HTMLElement).closest("button, iframe, a, .ss-play-btn")) return;
       e.preventDefault();
       dragging.current = true;
       startDrag(e.clientX);
@@ -82,7 +79,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     [startDrag],
   );
 
-  // Mouse move/up on window so drag continues outside the card
   useEffect(() => {
     function onMouseMove(e: MouseEvent) {
       if (!dragging.current) return;
@@ -137,7 +133,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
           className="ss-swipe-overlay ss-overlay-yes"
           style={{ opacity: overlayOpacity }}
         >
-          <span className="ss-overlay-label ss-label-yes">YES</span>
+          <span className="ss-overlay-label ss-label-yes">INTO IT</span>
         </div>
       )}
       {deltaX < -10 && !flyOff && (
@@ -145,7 +141,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
           className="ss-swipe-overlay ss-overlay-nope"
           style={{ opacity: overlayOpacity }}
         >
-          <span className="ss-overlay-label ss-label-nope">NOPE</span>
+          <span className="ss-overlay-label ss-label-nope">NEXT</span>
         </div>
       )}
 
@@ -156,10 +152,21 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
       <div className="ss-card-info">
         <div className="ss-card-title-row">
           <h2 className="ss-card-title">{card.title}</h2>
-          <span className="ss-card-year">{card.year}</span>
+          <button
+            className="ss-share-link"
+            onClick={(e) => {
+              e.stopPropagation();
+              onShare(card);
+            }}
+            aria-label="Share trailer"
+          >
+            send to a friend
+          </button>
         </div>
 
         <div className="ss-card-meta">
+          <span className="ss-card-year">{card.year}</span>
+          <span className="ss-card-dot">·</span>
           <span className="ss-card-rating">
             {"★"} {card.voteAverage.toFixed(1)}
           </span>
@@ -167,7 +174,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
             <>
               <span className="ss-card-dot">·</span>
               <span className="ss-card-genres">
-                {card.genreNames.slice(0, 3).join(", ")}
+                {card.genreNames.slice(0, 2).join(", ")}
               </span>
             </>
           )}
@@ -178,7 +185,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
         )}
       </div>
 
-      {/* Desktop swipe buttons embedded in card */}
       <div className="ss-card-actions">
         <button
           className="ss-btn ss-btn-nope"
@@ -188,28 +194,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
           }}
           aria-label="Pass"
         >
-          NOPE
-        </button>
-        <button
-          className="ss-btn ss-btn-share"
-          onClick={(e) => {
-            e.stopPropagation();
-            const url = `https://www.youtube.com/watch?v=${card.youtubeKey}`;
-            if (navigator.share) {
-              navigator.share({
-                title: card.title,
-                text: `Check out "${card.title}" trailer`,
-                url,
-              });
-            } else {
-              navigator.clipboard.writeText(url);
-            }
-          }}
-          aria-label="Share trailer"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
-            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" />
-          </svg>
+          NEXT
         </button>
         <button
           className="ss-btn ss-btn-yes"
@@ -219,7 +204,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
           }}
           aria-label="Interested"
         >
-          YES
+          INTO IT
         </button>
       </div>
     </div>
