@@ -1,394 +1,692 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const title = "Stephen Stanwood — stanwood.dev";
 
-/* Card data — drives both static HTML and JS shuffle/hero logic */
-const cards = [
+const featured = [
   {
-    key: "nba-now", href: "https://nbanow.app", external: true, emoji: "🏀",
+    href: "https://nbanow.app",
+    external: true,
+    emoji: "🏀",
+    tag: "Sports · Live",
     title: "NBA Now",
-    subtitle: "The best game to watch right now",
-    subtitleClass: "text-orange-300/80",
-    description: "Live scores ranked by watchability. Taking the guesswork out of watching basketball.",
-    badge: "Web App",
-    badgeClass: "bg-orange-400/15 text-orange-300 ring-1 ring-orange-400/20",
-    gradient: "linear-gradient(135deg, #ff6b2b, #ff3b5c, #22d3ee, #ff6b2b)",
-    glow: "rgba(255,107,43,0.15)",
-
+    desc: "The best NBA game to watch right now. Live scores ranked by watchability — no more flipping channels.",
+    bg: "#e8f5ff",
   },
   {
-    key: "mlb-gamerank", href: "/mlb-gamerank", emoji: "⚾",
-    title: "MLB GameRank",
-    subtitle: "The best game to watch right now",
-    subtitleClass: "text-amber-300/80",
-    description: "Live scores ranked by watchability. Taking the guesswork out of watching baseball.",
-    badge: "Web App",
-    badgeClass: "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/20",
-    gradient: "linear-gradient(135deg, #15803d, #d97706, #dc2626, #15803d)",
-    glow: "rgba(21,128,61,0.15)",
-
+    href: "/wtwtw",
+    emoji: "📺",
+    tag: "Sports · Weekly",
+    title: "What to Watch This Week",
+    desc: "Pick your teams and your time zone. Get the best game each night.",
+    bg: "#fff0e8",
   },
   {
-    key: "swim", href: "/swim", emoji: "🏊",
-    title: "Lap Lab",
-    subtitle: "Swim workout generator",
-    subtitleClass: "text-cyan-300/80",
-    description: "Pick a duration and pace. Get a workout. Shuffle until it clicks.",
-    badge: "Web App",
-    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
-    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #00b4d8, #00d2ff)",
-    glow: "rgba(0,210,255,0.15)",
-
-  },
-  {
-    key: "pixel-tide", href: "/pixel-tide", emoji: "🌊",
-    title: "Pixel Tide",
-    subtitle: "No winning, just vibes",
-    subtitleClass: "text-sky-300/80",
-    description: "Waves of colored pixels wash in and out. Click to build sandcastles the tide slowly erodes.",
-    badge: "Game",
-    badgeClass: "bg-sky-400/15 text-sky-300 ring-1 ring-sky-400/20",
-    gradient: "linear-gradient(135deg, #00b4d8, #f4a261, #e0c097, #00b4d8)",
-    glow: "rgba(0,180,216,0.15)",
-
-  },
-  {
-    key: "green-light", href: "/green-light", emoji: "🟢",
-    title: "Green Light",
-    subtitle: "Know what to order before you sit down",
-    subtitleClass: "text-emerald-300/80",
-    description: "Quick taste quiz, name a restaurant, pick from two smart options.",
-    badge: "Web App",
-    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
-    gradient: "linear-gradient(135deg, #6B8F71, #C9A96E, #8FB896, #6B8F71)",
-    glow: "rgba(107,143,113,0.15)",
-
-  },
-  {
-    key: "tldr", href: "/tldr", emoji: "📄",
-    title: "TL;DR",
-    subtitle: "Drop a PDF, get the short version",
-    subtitleClass: "text-emerald-300/80",
-    description: "You got a long PDF and you don't want to read it. We've got you covered. 😎",
-    badge: "Web App",
-    badgeClass: "bg-emerald-400/15 text-emerald-300 ring-1 ring-emerald-400/20",
-    gradient: "linear-gradient(135deg, #667eea, #00d2ff, #43e97b, #667eea)",
-    glow: "rgba(102,126,234,0.15)",
-
-  },
-  {
-    key: "wtwtw", href: "/wtwtw", emoji: "📺",
-    title: "What to Watch This Week (WTWTW)",
-    subtitle: "Pick your teams, get the best game each night",
-    subtitleClass: "text-cyan-300/80",
-    description: "Too many sports options? Pick your teams and we'll find what to watch.",
-    badge: "Web App",
-    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
-    gradient: "linear-gradient(135deg, #00d2ff, #667eea, #c850c0, #ff6b9d)",
-    glow: "rgba(0,210,255,0.15)",
-
-  },
-  {
-    key: "pixel-aquarium", href: "/pixel-aquarium", emoji: "🐠",
-    title: "Pixel Aquarium",
-    subtitle: "Little pixel fish, big pixel vibes",
-    subtitleClass: "text-cyan-300/80",
-    description: "Watch pixel fish swim around. Click to drop food and watch them change color.",
-    badge: "Game",
-    badgeClass: "bg-cyan-400/15 text-cyan-300 ring-1 ring-cyan-400/20",
-    gradient: "linear-gradient(135deg, #00d2ff, #43e97b, #ffd93d, #ff6b9d)",
-    glow: "rgba(0,210,255,0.15)",
-
-  },
-  {
-    key: "nearest-coffee", href: "/nearest-coffee", emoji: "☕",
+    href: "/nearest-coffee",
+    emoji: "☕",
+    tag: "Utility · Location",
     title: "Nearest Coffee",
-    subtitle: "When you need it, you need it.",
-    subtitleClass: "text-[#A3C296]/80",
-    description: "The nearest open coffee shop. One tap to navigate. That's it.",
-    badge: "Web App",
-    badgeClass: "bg-[#8BAA80]/15 text-[#A3C296] ring-1 ring-[#8BAA80]/20",
-    gradient: "linear-gradient(135deg, #8BAA80, #4A5E44, #6ECF8E, #8BAA80)",
-    glow: "rgba(139,170,128,0.15)",
-
+    desc: "The nearest open coffee shop. One tap to navigate. That's it.",
+    bg: "#efffea",
   },
-  {
-    key: "nearest-fun", href: "/nearest-fun", emoji: "🛝",
-    title: "Nearest Fun",
-    subtitle: "Kids activities, rain or shine",
-    subtitleClass: "text-[#9DB8FF]/80",
-    description: "The nearest open thing to do with kids. Toggle inside or outside. Go.",
-    badge: "Web App",
-    badgeClass: "bg-[#7C9FFF]/15 text-[#9DB8FF] ring-1 ring-[#7C9FFF]/20",
-    gradient: "linear-gradient(135deg, #7C9FFF, #FFB74D, #6ECF8E, #7C9FFF)",
-    glow: "rgba(124,159,255,0.15)",
+];
 
-  },
-  {
-    key: "idea-shuffler", href: "/idea-shuffler", emoji: "🎲",
-    title: "Idea Shuffler",
-    subtitle: "All the inspiration with none of the pressure",
-    subtitleClass: "text-pink-300/80",
-    description: "A gentle way to browse project ideas without creating a priority list.",
-    badge: "Web App",
-    badgeClass: "bg-pink-400/15 text-pink-300 ring-1 ring-pink-400/20",
-    gradient: "linear-gradient(135deg, #ff6b9d, #ff9a56, #ffd93d, #c850c0)",
-    glow: "rgba(255,107,157,0.15)",
-
-  },
+const projects = [
+  { href: "/mlb-gamerank", emoji: "⚾", name: "MLB GameRank", tag: "best game right now" },
+  { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator" },
+  { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version" },
+  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order" },
+  { href: "/nearest-fun", emoji: "🛝", name: "Nearest Fun", tag: "kids activities nearby" },
+  { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure" },
+  { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes" },
+  { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes" },
 ];
 ---
 
 <BaseLayout
-  title={title}
-  description="Projects I'm tinkering with. :)"
+  title="Stephen Stanwood — stanwood.dev"
+  description="Building tools to make life simpler & more fun."
   slug=""
-  themeColor="#0f0c29"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
   schemaType="WebSite"
   schemaName="stanwood.dev"
 >
   <Fragment slot="head">
     <link rel="manifest" href="/manifest.json" />
-    <style>
-      /* Hide cards until JS shuffles (prevents flash of un-shuffled order) */
-      #projects {
+    <style is:global>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --bg: #fffef5;
+        --ink: #111;
+        --yellow: #f5e642;
+        --orange: #ff5c1a;
+        --blue: #1a4fff;
+        --green: #1db842;
+        --pink: #ff3aac;
+        --pixel: 3px;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Cabin', sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      /* ── pixel border utils ── */
+      .px-border {
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+
+      /* ── ticker ── */
+      .ticker-wrap {
+        background: var(--ink);
+        color: var(--yellow);
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        padding: 8px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
+        cursor: default;
+      }
+      .ticker-wrap:hover .ticker-inner {
+        animation-play-state: paused;
+      }
+      .ticker-inner {
+        display: inline-block;
+        animation: ticker 45s linear infinite;
+      }
+      .ticker-sep { margin: 0 32px; opacity: 0.4; }
+      @keyframes ticker {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+
+      /* ── main grid ── */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 16px;
+        padding: 24px 24px 0;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      /* ── identity block ── */
+      .id-block {
+        grid-column: 1 / 7;
+        background: var(--yellow);
+        padding: 28px;
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        position: relative;
+        animation: fadeIn 0.4s ease;
+      }
+      .id-block .stamp {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: var(--ink);
+        color: var(--yellow);
+        display: inline-block;
+        padding: 3px 8px;
+        margin-bottom: 12px;
+      }
+      .id-block h1 {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 42px;
+        line-height: 1.0;
+        margin-bottom: 8px;
+        letter-spacing: -1px;
+      }
+      .id-block .tagline {
+        font-family: 'Cabin', sans-serif;
+        font-size: 15px;
+        font-style: italic;
+        color: #333;
+        margin-bottom: 20px;
+        max-width: 340px;
+      }
+      .link-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .retro-link {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        text-decoration: none;
+        color: var(--ink);
+        border: 2px solid var(--ink);
+        padding: 4px 10px;
+        background: white;
+        transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+        box-shadow: 2px 2px 0 var(--ink);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .retro-link:hover {
+        background: var(--ink);
+        color: var(--yellow);
+        transform: translate(-1px,-1px);
+        box-shadow: 3px 3px 0 var(--orange);
+      }
+
+      /* ── avatar block ── */
+      .avatar-block {
+        grid-column: 7 / 10;
+        background: var(--blue);
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        gap: 12px;
+        animation: fadeIn 0.4s ease 0.05s both;
+      }
+      .avatar-circle {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        border: 3px solid white;
+        background: #1a3acc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 28px;
+        color: white;
+        overflow: hidden;
+      }
+      .avatar-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .avatar-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: white;
+        text-align: center;
+        letter-spacing: 0.05em;
+      }
+      .avatar-loc {
+        font-size: 11px;
+        color: rgba(255,255,255,0.6);
+        font-family: 'Space Mono', monospace;
+        text-align: center;
+      }
+
+      /* ── terminal banner ── */
+      .banner-block {
+        grid-column: 10 / 13;
+        background: #0a0a0a;
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 6px 6px 0 var(--ink);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        cursor: default;
+        animation: fadeIn 0.4s ease 0.1s both;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Space Mono', monospace;
+      }
+      .term-bar {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 12px;
+      }
+      .term-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+      }
+      .term-dot.r { background: #ff5f57; }
+      .term-dot.y { background: #ffbd2e; }
+      .term-dot.g { background: #28c840; }
+      .term-prompt {
+        color: #28c840;
+        font-size: 12px;
+        line-height: 1.7;
+        min-height: 5.1em;
+      }
+      .term-prompt .line::before {
+        content: '> ';
+        color: #555;
+      }
+      .term-cursor {
+        display: inline-block;
+        width: 7px;
+        height: 14px;
+        background: #28c840;
+        vertical-align: text-bottom;
+        margin-left: 1px;
+        animation: blink 0.8s step-end infinite;
+      }
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      .term-status {
+        margin-top: auto;
+        padding-top: 8px;
+        font-size: 9px;
+        color: #444;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      /* ── section label ── */
+      .section-label {
+        grid-column: 1 / -1;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #888;
+        padding-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-label::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: #ddd;
+      }
+
+      /* ── featured row ── */
+      .feat-row {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
         opacity: 0;
         transition: opacity 0.15s ease;
       }
-      #projects.shuffled {
-        opacity: 1;
+      .feat-row.shuffled { opacity: 1; }
+
+      .feat-card {
+        background: white;
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 5px 5px 0 var(--ink);
+        padding: 22px;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
+        position: relative;
+      }
+      .feat-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 var(--ink);
+      }
+      .feat-card:hover .feat-emoji {
+        transform: scale(1.3) rotate(-8deg);
+      }
+      .feat-emoji {
+        font-size: 32px;
+        margin-bottom: 10px;
+        display: inline-block;
+        transition: transform 0.2s;
+      }
+      .feat-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+        margin-bottom: 6px;
+      }
+      .feat-title {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 17px;
+        margin-bottom: 8px;
+        line-height: 1.2;
+      }
+      .feat-desc {
+        font-size: 12px;
+        color: #444;
+        line-height: 1.55;
+        flex: 1;
+      }
+      .feat-arrow {
+        align-self: flex-end;
+        margin-top: 14px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: #888;
+        transition: color 0.15s;
+      }
+      .feat-card:hover .feat-arrow { color: var(--orange); }
+
+      /* ── project tiles row ── */
+      .proj-row {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+      }
+      .proj-row.shuffled { opacity: 1; }
+
+      .proj-tile {
+        background: white;
+        border: 2px solid var(--ink);
+        box-shadow: 3px 3px 0 var(--ink);
+        padding: 14px 16px;
+        text-decoration: none;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .proj-tile:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+        background: var(--yellow);
+      }
+      .proj-tile:hover .proj-emoji {
+        transform: rotate(-12deg) scale(1.2);
+      }
+      .proj-emoji {
+        font-size: 20px;
+        flex-shrink: 0;
+        transition: transform 0.2s;
+      }
+      .proj-info { min-width: 0; }
+      .proj-name {
+        font-weight: 700;
+        font-size: 13px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .proj-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #888;
+      }
+
+      /* ── footer ── */
+      .footer-row {
+        grid-column: 1 / -1;
+        border-top: 2px solid var(--ink);
+        padding: 24px 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+      }
+      .footer-sig {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 16px;
+        color: #333;
+      }
+      .footer-mono {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #aaa;
+        letter-spacing: 0.08em;
+      }
+
+      /* ── pixel dot util ── */
+      .px-dot {
+        display: inline-block;
+        width: 8px; height: 8px;
+        background: currentColor;
+        margin: 0 3px;
+        vertical-align: middle;
+      }
+
+      /* ── animations ── */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .grid > * { animation: fadeIn 0.4s ease both; }
+      .grid > *:nth-child(1) { animation-delay: 0.05s; }
+      .grid > *:nth-child(2) { animation-delay: 0.10s; }
+      .grid > *:nth-child(3) { animation-delay: 0.15s; }
+      .grid > *:nth-child(4) { animation-delay: 0.20s; }
+      .grid > *:nth-child(5) { animation-delay: 0.25s; }
+      .grid > *:nth-child(n+6) { animation-delay: 0.3s; }
+
+      /* ── responsive ── */
+      @media (max-width: 700px) {
+        .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; }
+        .id-block { grid-column: 1 / -1; }
+        .avatar-block { grid-column: 1 / 2; }
+        .banner-block { grid-column: 2 / 3; }
+        .section-label { grid-column: 1 / -1; }
+        .feat-row { grid-template-columns: 1fr; }
+        .proj-row { grid-template-columns: 1fr 1fr; }
+        .footer-row { flex-direction: column; gap: 10px; text-align: center; }
+        .id-block h1 { font-size: 32px; }
+      }
+
+      /* ── reduced motion ── */
+      @media (prefers-reduced-motion: reduce) {
+        .ticker-inner { animation: none !important; }
+        .banner-inner { transition: none !important; }
+        .banner-blink { animation: none !important; }
       }
     </style>
-    <noscript><style>#projects { opacity: 1 !important; }</style></noscript>
+    <noscript><style>.feat-row, .proj-row { opacity: 1 !important; }</style></noscript>
   </Fragment>
 
-  <div class="min-h-screen overflow-x-hidden text-white antialiased" style="font-family: 'Inter', sans-serif;">
-    <a href="#projects" class="skip-nav">Skip to projects</a>
-
-    <!-- ── Animated gradient background ── -->
-    <div
-      class="animate-gradient fixed inset-0 -z-10"
-      style="background: linear-gradient(135deg, #0f0c29, #302b63, #24243e, #0d324d, #7b2869, #302b63, #0f0c29);"
-    ></div>
-
-    <!-- ── Floating blobs for depth (hidden on mobile for performance) ── -->
-    <div class="hidden sm:block fixed inset-0 -z-5 overflow-hidden pointer-events-none" aria-hidden="true">
-      <div
-        class="animate-float-slow animate-pulse-glow absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full opacity-30"
-        style="background: radial-gradient(circle, #00d2ff 0%, transparent 70%);"
-      ></div>
-      <div
-        class="animate-float absolute -bottom-40 -left-40 h-[600px] w-[600px] rounded-full opacity-25"
-        style="background: radial-gradient(circle, #ff6b9d 0%, #c850c0 40%, transparent 70%);"
-      ></div>
-      <div
-        class="animate-float-slow absolute top-1/2 right-1/4 h-[350px] w-[350px] rounded-full opacity-20"
-        style="background: radial-gradient(circle, #ff9a56 0%, transparent 70%); animation-delay: 3s;"
-      ></div>
-      <div
-        class="animate-float absolute top-1/3 -left-20 h-[280px] w-[280px] rounded-full opacity-20"
-        style="background: radial-gradient(circle, #667eea 0%, transparent 70%); animation-delay: 2s;"
-      ></div>
-    </div>
-
-    <!-- ── Geometric decorations (hidden on mobile) ── -->
-    <div class="hidden sm:block fixed inset-0 -z-4 overflow-hidden pointer-events-none" aria-hidden="true">
-      <div class="animate-spin-slow absolute top-20 right-[15%] h-32 w-32 rounded-full border-2 border-white/10"></div>
-      <div class="animate-spin-slow absolute bottom-40 left-[10%] h-24 w-24 rounded-full border border-dashed border-white/8" style="animation-direction: reverse; animation-duration: 30s;"></div>
-      <div class="animate-float absolute top-[60%] right-[8%] h-4 w-4 rotate-45 bg-white/10" style="animation-delay: 1s;"></div>
-      <div class="animate-float absolute top-[20%] left-[20%] h-3 w-3 rotate-45 bg-cyan-400/15" style="animation-delay: 4s;"></div>
-    </div>
-
-    <!-- ── Content ── -->
-    <div class="relative mx-auto max-w-4xl px-6 py-16 sm:py-24">
-
-      <!-- ── Hero ── -->
-      <header class="animate-slide-up mb-20 text-center">
-        <button
-          id="status-badge"
-          class="group mb-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm text-white/90 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
-          style="background: rgba(255,255,255,0.08); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 0 20px rgba(0,210,255,0.15), 0 0 40px rgba(200,80,192,0.1);"
-        >
-          <span class="relative flex h-2.5 w-2.5">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400"></span>
-          </span>
-          <span id="status-text" class="transition-all duration-300">building something new</span>
-        </button>
-
-        <script>
-          const phrases = [
-            "building something new",
-            "probably refactoring",
-            "one more commit...",
-            "let's try this out",
-            "that looks cool!",
-            "what if we tried this...",
-            "wait, what just happened?",
-          ];
-          let idx = 0;
-          const btn = document.getElementById("status-badge");
-          const txt = document.getElementById("status-text");
-          btn.addEventListener("click", () => {
-            idx = (idx + 1) % phrases.length;
-            txt.style.opacity = "0";
-            txt.style.transform = "translateY(-4px)";
-            setTimeout(() => {
-              txt.textContent = phrases[idx];
-              txt.style.opacity = "1";
-              txt.style.transform = "translateY(0)";
-            }, 200);
-          });
-        </script>
-
-        <h1
-          class="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.9]"
-          style="font-family: 'Space Grotesk', sans-serif;"
-        >
-          <span
-            class="animate-shimmer inline-block bg-clip-text text-transparent"
-            style="background-image: linear-gradient(90deg, #fff 0%, #00d2ff 25%, #ff6b9d 50%, #ff9a56 75%, #fff 100%);"
-          >
-            Stephen
-          </span>
-          <br />
-          <span
-            class="animate-shimmer inline-block bg-clip-text text-transparent"
-            style="background-image: linear-gradient(90deg, #fff 0%, #ff9a56 25%, #c850c0 50%, #00d2ff 75%, #fff 100%); animation-delay: -1.5s;"
-          >
-            Stanwood
-          </span>
-        </h1>
-
-        <p class="mx-auto mt-6 max-w-md text-lg text-white/80">
-          Building tools to make life simpler & more fun
-        </p>
-      </header>
-
-      <!-- ── Project cards (static HTML, JS shuffles + upgrades on load) ── -->
-      <section id="projects" class="stagger space-y-6">
-        {cards.map((c) => (
-          <a
-            href={c.href}
-            {...(c.external ? { target: "_blank", rel: "noopener" } : {})}
-            data-key={c.key}
-            class="animate-slide-up group relative block overflow-hidden rounded-3xl p-[1px] transition-all duration-300 hover:scale-[1.02]"
-            style={`--glow: ${c.glow};`}
-          >
-            <div
-              class="absolute inset-0 rounded-3xl opacity-60 transition-opacity group-hover:opacity-100"
-              style={`background: ${c.gradient};`}
-            />
-            <div class="glass-dark relative rounded-3xl p-6 sm:p-8">
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <div class="mb-2 flex items-center gap-3">
-                    <span class="text-3xl">{c.emoji}</span>
-                    <h2
-                      class="text-2xl sm:text-3xl font-bold"
-                      style="font-family: 'Space Grotesk', sans-serif;"
-                    >
-                      {c.title}
-                    </h2>
-                  </div>
-                  <p class={`text-sm font-medium ${c.subtitleClass}`}>{c.subtitle}</p>
-                  <p class="mt-3 text-white/70 leading-relaxed">{c.description}</p>
-                </div>
-                <div class={`shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold ${c.badgeClass}`}>
-                  {c.badge}
-                </div>
-              </div>
-            </div>
-          </a>
-        ))}
-      </section>
-
-      <!-- ── Footer ── -->
-      <footer class="animate-fade-in mt-20 text-center" style="animation-delay: 0.8s;">
-        <div class="mb-4 flex items-center justify-center gap-6">
-          <a
-            href="https://github.com/stephenstanwood"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
-          >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-            <span class="transition-transform group-hover:translate-x-0.5">GitHub</span>
-          </a>
-          <span class="text-white/20">|</span>
-          <a
-            href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="group flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
-          >
-            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-            </svg>
-            <span class="transition-transform group-hover:translate-x-0.5">Midjourney</span>
-          </a>
-        </div>
-        <p class="text-xs text-white/20 mt-2">
-          Handcrafted with caffeinated intent
-        </p>
-      </footer>
-
-      <!-- Shuffle card order on every page load -->
-      <script>
-        (function() {
-          const section = document.getElementById('projects');
-          if (!section) return;
-          const cards = [...section.querySelectorAll('a[data-key]')];
-
-          // Fisher-Yates shuffle
-          for (let i = cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [cards[i], cards[j]] = [cards[j], cards[i]];
-          }
-
-          // Reorder in DOM
-          cards.forEach(card => section.appendChild(card));
-
-          // Staggered slide-up animation
-          cards.forEach((card, i) => {
-            card.style.opacity = '0';
-            card.style.animation = `slideUp 0.6s ease ${0.05 + i * 0.05}s forwards`;
-          });
-
-          // Reveal (prevents flash of un-shuffled order)
-          section.classList.add('shuffled');
-
-          // 3D tilt on hover
-          cards.forEach(card => {
-            card.style.transformStyle = 'preserve-3d';
-            card.style.perspective = '800px';
-
-            card.addEventListener('mousemove', (e) => {
-              const rect = card.getBoundingClientRect();
-              const x = (e.clientX - rect.left) / rect.width - 0.5;
-              const y = (e.clientY - rect.top) / rect.height - 0.5;
-              card.style.transform = `scale(1.02) rotateY(${x * 6}deg) rotateX(${-y * 4}deg)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-              card.style.transform = '';
-              card.style.transition = 'transform 0.4s ease';
-              setTimeout(() => { card.style.transition = ''; }, 400);
-            });
-          });
-        })();
-      </script>
-
-      <style>
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      </style>
-
+  <!-- Ticker -->
+  <div class="ticker-wrap" title="hover to pause">
+    <div class="ticker-inner">
+      &nbsp;&nbsp;&nbsp;stanwood.dev
+      <span class="ticker-sep">◆</span>
+      building tools to make life simpler & more fun
+      <span class="ticker-sep">◆</span>
+      probably refactoring
+      <span class="ticker-sep">◆</span>
+      one more commit...
+      <span class="ticker-sep">◆</span>
+      campbell, california
+      <span class="ticker-sep">◆</span>
+      what if we tried this...
+      <span class="ticker-sep">◆</span>
+      let's try this out
+      <span class="ticker-sep">◆</span>
+      that looks cool!
+      <span class="ticker-sep">◆</span>
+      wait, what just happened?
+      <span class="ticker-sep">◆</span>
+      &nbsp;&nbsp;&nbsp;stanwood.dev
+      <span class="ticker-sep">◆</span>
+      building tools to make life simpler & more fun
+      <span class="ticker-sep">◆</span>
+      probably refactoring
+      <span class="ticker-sep">◆</span>
+      one more commit...
+      <span class="ticker-sep">◆</span>
+      campbell, california
+      <span class="ticker-sep">◆</span>
+      what if we tried this...
+      <span class="ticker-sep">◆</span>
+      let's try this out
+      <span class="ticker-sep">◆</span>
+      that looks cool!
+      <span class="ticker-sep">◆</span>
+      wait, what just happened?
+      <span class="ticker-sep">◆</span>
     </div>
   </div>
+
+  <div class="grid">
+    <!-- Identity -->
+    <div class="id-block">
+      <div class="stamp">stanwood.dev</div>
+      <h1>Stephen<br>Stanwood</h1>
+      <p class="tagline">Building tools to make life simpler & more fun.</p>
+      <div class="link-row">
+        <a class="retro-link" href="https://github.com/stephenstanwood" target="_blank" rel="noopener">
+          ⌥ GitHub
+        </a>
+        <a class="retro-link" href="https://bsky.app/profile/stephenstanwood.bsky.social" target="_blank" rel="noopener">
+          ☁ Bluesky
+        </a>
+        <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener">
+          ✦ Midjourney
+        </a>
+        <a class="retro-link" href="mailto:stephen@stanwood.dev">
+          ✉ Email
+        </a>
+      </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-block">
+      <div class="avatar-circle">
+        <img src="/headshot.png" alt="Stephen Stanwood" onerror="this.style.display='none';this.parentElement.textContent='SS';" />
+      </div>
+      <div class="avatar-name">Stephen Stanwood</div>
+      <div class="avatar-loc">📍 Silicon Valley</div>
+    </div>
+
+    <!-- Terminal card -->
+    <div class="banner-block" id="terminal">
+      <div class="term-bar">
+        <span class="term-dot r"></span>
+        <span class="term-dot y"></span>
+        <span class="term-dot g"></span>
+      </div>
+      <div class="term-prompt" id="term-output"></div>
+      <div class="term-status">stanwood.dev</div>
+    </div>
+
+    <!-- Featured -->
+    <div class="section-label">⭐ featured</div>
+
+    <div id="feat-row" class="feat-row">
+      {featured.map((f) => (
+        <a
+          class="feat-card"
+          href={f.href}
+          style={`background: ${f.bg};`}
+          {...(f.external ? { target: "_blank", rel: "noopener" } : {})}
+        >
+          <span class="feat-emoji">{f.emoji}</span>
+          <div class="feat-tag">{f.tag}</div>
+          <div class="feat-title">{f.title}</div>
+          <div class="feat-desc">{f.desc}</div>
+          <div class="feat-arrow">open →</div>
+        </a>
+      ))}
+    </div>
+
+    <!-- All projects -->
+    <div class="section-label">all projects</div>
+
+    <div id="proj-row" class="proj-row">
+      {projects.map((p) => (
+        <a class="proj-tile" href={p.href}>
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-row">
+      <span class="footer-sig">powered by coffee and chlorine ☕</span>
+      <span class="footer-mono">stanwood.dev <span class="px-dot" style="color:#ccc"></span> campbell, california</span>
+    </div>
+  </div>
+
+  <script>
+    // ── Fisher-Yates shuffle ──
+    function shuffle(container: HTMLElement) {
+      const kids = [...container.children] as HTMLElement[];
+      for (let i = kids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [kids[i], kids[j]] = [kids[j], kids[i]];
+      }
+      kids.forEach((el, i) => {
+        container.appendChild(el);
+        el.style.opacity = '0';
+        el.style.animation = `fadeIn 0.4s ease ${0.05 + i * 0.06}s forwards`;
+      });
+      container.classList.add('shuffled');
+    }
+
+    // Shuffle featured + projects
+    const featRow = document.getElementById('feat-row');
+    const projRow = document.getElementById('proj-row');
+    if (featRow) shuffle(featRow);
+    if (projRow) shuffle(projRow);
+
+    // ── Terminal typewriter ──
+    const termOutput = document.getElementById('term-output');
+    const termLines = [
+      'building something new',
+      'probably refactoring',
+      'one more commit...',
+      'what if we tried this',
+      'that looks cool!',
+      'npm run dev',
+      'git push origin main',
+      'wait what just happened',
+    ];
+
+    let termLineIdx = 0;
+    const MAX_VISIBLE = 3;
+
+    async function typeLine(text: string): Promise<void> {
+      const lines = termOutput!.querySelectorAll('.line');
+      if (lines.length >= MAX_VISIBLE) {
+        const first = lines[0] as HTMLElement;
+        first.style.opacity = '0';
+        first.style.transform = 'translateY(-8px)';
+        first.style.transition = 'all 0.3s';
+        await new Promise(r => setTimeout(r, 300));
+        first.remove();
+      }
+
+      const line = document.createElement('div');
+      line.className = 'line';
+      const span = document.createElement('span');
+      line.appendChild(span);
+      const cursor = document.createElement('span');
+      cursor.className = 'term-cursor';
+      line.appendChild(cursor);
+      termOutput!.appendChild(line);
+
+      for (let i = 0; i < text.length; i++) {
+        span.textContent += text[i];
+        await new Promise(r => setTimeout(r, 50 + Math.random() * 40));
+      }
+      cursor.remove();
+    }
+
+    async function termLoop() {
+      while (true) {
+        await typeLine(termLines[termLineIdx]);
+        termLineIdx = (termLineIdx + 1) % termLines.length;
+        await new Promise(r => setTimeout(r, 2500));
+      }
+    }
+
+    termLoop();
+  </script>
 </BaseLayout>
