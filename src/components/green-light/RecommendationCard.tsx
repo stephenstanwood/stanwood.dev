@@ -33,6 +33,11 @@ export function RecommendationPicker({
           onClick={() => onPick("A")}
           aria-label={`Pick: ${response.optionA.order}`}
         >
+          {response.optionA.photoUrl && (
+            <div className="he-picker-photo">
+              <img src={response.optionA.photoUrl} alt="" loading="lazy" />
+            </div>
+          )}
           <p className="he-picker-order">{response.optionA.order}</p>
           {response.optionA.whyItWorks.length > 0 && (
             <p className="he-picker-why">{response.optionA.whyItWorks[0]}</p>
@@ -47,6 +52,11 @@ export function RecommendationPicker({
           onClick={() => onPick("B")}
           aria-label={`Pick: ${response.optionB.order}`}
         >
+          {response.optionB.photoUrl && (
+            <div className="he-picker-photo">
+              <img src={response.optionB.photoUrl} alt="" loading="lazy" />
+            </div>
+          )}
           <p className="he-picker-order">{response.optionB.order}</p>
           {response.optionB.whyItWorks.length > 0 && (
             <p className="he-picker-why">{response.optionB.whyItWorks[0]}</p>
@@ -73,6 +83,11 @@ export function RecommendationResult({
   return (
     <div className="he-result">
       <div className="he-result-card">
+        {recommendation.photoUrl && (
+          <div className="he-result-photo">
+            <img src={recommendation.photoUrl} alt="" loading="lazy" />
+          </div>
+        )}
         <h3 className="he-result-heading">Your order</h3>
         <p className="he-result-order">{recommendation.order}</p>
 
