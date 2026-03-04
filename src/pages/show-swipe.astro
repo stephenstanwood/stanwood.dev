@@ -157,6 +157,7 @@ const title = "Show Swipe — stanwood.dev";
         width: 100%;
         border-radius: var(--ss-card-radius);
         overflow: hidden;
+        cursor: grab;
         background: var(--ss-surface);
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
         touch-action: pan-y;
@@ -164,6 +165,9 @@ const title = "Show Swipe — stanwood.dev";
         will-change: transform;
         position: relative;
         animation: ssFadeUp 0.3s ease-out;
+      }
+      .ss-card:active {
+        cursor: grabbing;
       }
 
       /* ─── Trailer ────────────────────────────────────────────────── */

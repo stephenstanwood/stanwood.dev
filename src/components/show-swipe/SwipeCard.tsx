@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import type { ShowSwipeCard, SwipeDirection } from "../../lib/showSwipe/types";
 import TrailerPlayer from "./TrailerPlayer";
 
@@ -18,29 +18,33 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
   const [deltaX, setDeltaX] = useState(0);
   const [swiping, setSwiping] = useState(false);
   const [flyOff, setFlyOff] = useState<SwipeDirection | null>(null);
+  const dragging = useRef(false);
 
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
+  // Shared logic for starting a drag/swipe
+  const startDrag = useCallback(
+    (clientX: number) => {
       if (!active) return;
-      startX.current = e.touches[0].clientX;
+      startX.current = clientX;
       startTime.current = Date.now();
       setSwiping(true);
     },
     [active],
   );
 
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
+  // Shared logic for updating drag position
+  const moveDrag = useCallback(
+    (clientX: number) => {
       if (!swiping) return;
-      const dx = e.touches[0].clientX - startX.current;
-      setDeltaX(dx);
+      setDeltaX(clientX - startX.current);
     },
     [swiping],
   );
 
-  const handleTouchEnd = useCallback(() => {
+  // Shared logic for ending a drag/swipe
+  const endDrag = useCallback(() => {
     if (!swiping) return;
     setSwiping(false);
+    dragging.current = false;
 
     const elapsed = Date.now() - startTime.current;
     const velocity = Math.abs(deltaX) / elapsed;
@@ -55,6 +59,47 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     }
   }, [swiping, deltaX, onSwipe]);
 
+  // Touch handlers
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => startDrag(e.touches[0].clientX),
+    [startDrag],
+  );
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => moveDrag(e.touches[0].clientX),
+    [moveDrag],
+  );
+  const handleTouchEnd = useCallback(() => endDrag(), [endDrag]);
+
+  // Mouse handlers
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      // Don't capture drags on buttons or iframes
+      if ((e.target as HTMLElement).closest("button, iframe, .ss-play-btn")) return;
+      e.preventDefault();
+      dragging.current = true;
+      startDrag(e.clientX);
+    },
+    [startDrag],
+  );
+
+  // Mouse move/up on window so drag continues outside the card
+  useEffect(() => {
+    function onMouseMove(e: MouseEvent) {
+      if (!dragging.current) return;
+      moveDrag(e.clientX);
+    }
+    function onMouseUp() {
+      if (!dragging.current) return;
+      endDrag();
+    }
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [moveDrag, endDrag]);
+
   const triggerSwipe = useCallback(
     (direction: SwipeDirection) => {
       setFlyOff(direction);
@@ -63,7 +108,6 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
     [onSwipe],
   );
 
-  // Expose triggerSwipe via data attribute for parent to call
   const rotation = deltaX * 0.06;
   const overlayOpacity = Math.min(Math.abs(deltaX) / 120, 0.8);
 
@@ -85,8 +129,7 @@ export default function SwipeCard({ card, onSwipe, active }: Props) {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      data-trigger-swipe=""
-      // Store the triggerSwipe function in a ref accessible to parent
+      onMouseDown={handleMouseDown}
     >
       {/* Swipe overlays */}
       {deltaX > 10 && !flyOff && (
