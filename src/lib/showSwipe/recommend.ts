@@ -145,20 +145,33 @@ function hasExcludedGenre(item: TmdbMediaItem, mediaType: MediaType): boolean {
   return item.genre_ids.some((id) => excluded.has(id));
 }
 
+type SourceType = FetchPlan["source"];
+
 function filterCandidates(
   rawItems: TmdbMediaItem[],
   allSeen: Set<number>,
   mediaType: MediaType,
   era: Era,
+  source: SourceType,
 ): TmdbMediaItem[] {
   const currentYear = new Date().getFullYear();
   const recentCutoff = `${currentYear - RECENT_YEARS}-01-01`;
 
+  // Trending/now_playing are already curated by TMDB — light filter only.
+  // Discover needs stricter quality gates since we control the query.
+  const isCurated = source === "trending" || source === "now_playing";
+
   return rawItems.filter((item) => {
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
-    // Quality floor: skip low-rated or unrated content
-    if (item.vote_count < 50 || item.vote_average < 5.0) return false;
     if (hasExcludedGenre(item, mediaType)) return false;
+
+    if (isCurated) {
+      // Only filter out truly garbage-rated content from trending
+      if (item.vote_count >= 20 && item.vote_average < 3.0) return false;
+    } else {
+      // Stricter floor for discover results
+      if (item.vote_count < 50 || item.vote_average < 5.0) return false;
+    }
 
     // For "recent" mode, filter out older content from trending/now_playing
     if (era === "recent") {
@@ -199,12 +212,12 @@ export async function fetchNextBatch(
   let candidates: TmdbMediaItem[] = [];
 
   for (const entry of sourceOrder) {
-    // Try up to 3 pages per source
-    for (let pageAttempt = 0; pageAttempt < 3 && candidates.length < BUFFER_SIZE; pageAttempt++) {
-      const page = Math.floor(Math.random() * 5) + 1;
+    // Try up to 5 pages per source, across a wider page range
+    for (let pageAttempt = 0; pageAttempt < 5 && candidates.length < BUFFER_SIZE; pageAttempt++) {
+      const page = Math.floor(Math.random() * 10) + 1;
       try {
         const rawItems = await fetchFromSource(entry.source, mediaType, era, page);
-        const filtered = filterCandidates(rawItems, allSeen, mediaType, era);
+        const filtered = filterCandidates(rawItems, allSeen, mediaType, era, entry.source);
         // Add new candidates (dedup against what we already have)
         const existingIds = new Set(candidates.map((c) => c.id));
         for (const item of filtered) {
