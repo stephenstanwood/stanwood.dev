@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import type {
   AppView,
   MediaType,
@@ -13,6 +14,7 @@ import {
   setMediaType as saveMediaType,
   getEra,
   setEra as saveEra,
+  getLiked,
 } from "../lib/showSwipe/storage";
 import { fetchNextBatch } from "../lib/showSwipe/recommend";
 import SwipeCard from "./show-swipe/SwipeCard";
@@ -32,12 +34,16 @@ export default function ShowSwipe() {
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
   const [flyDirection, setFlyDirection] = useState<SwipeDirection | null>(null);
+  const [likedCount, setLikedCount] = useState(0);
   const fetchingRef = useRef(false);
   const aliveRef = useRef(true);
+  const portalRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setMediaType(getMediaType());
     setEra(getEra());
+    setLikedCount(getLiked().length);
+    portalRef.current = document.getElementById("ss-liked-mount");
   }, []);
 
   const loadCards = useCallback(
@@ -116,6 +122,9 @@ export default function ShowSwipe() {
             timestamp: Date.now(),
           };
           recordSwipe(item, direction);
+          if (direction === "right") {
+            setLikedCount((c) => c + 1);
+          }
         }
 
         const remaining = prev.slice(1);
@@ -208,32 +217,46 @@ export default function ShowSwipe() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [screen, view, cards.length, doAdvance]);
 
+  const handleBackFromLiked = useCallback(() => {
+    setLikedCount(getLiked().length);
+    setScreen("swipe");
+  }, []);
+
+  const likedButton = portalRef.current
+    ? createPortal(
+        <button
+          className="ss-liked-btn"
+          onClick={() => setScreen("liked")}
+          aria-label="View liked"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          </svg>
+          {likedCount > 0 && <span className="ss-liked-count">{likedCount}</span>}
+        </button>,
+        portalRef.current,
+      )
+    : null;
+
   // Liked list screen
   if (screen === "liked") {
     return (
       <div className="ss-app">
-        <LikedList onBack={() => setScreen("swipe")} />
+        {likedButton}
+        <LikedList onBack={handleBackFromLiked} />
       </div>
     );
   }
 
   return (
     <div className="ss-app">
-      <div className="ss-top-row">
-        <MediaToggle
-          mediaType={mediaType}
-          era={era}
-          onMediaChange={handleMediaToggle}
-          onEraChange={handleEraToggle}
-        />
-        <button
-          className="ss-liked-btn"
-          onClick={() => setScreen("liked")}
-          aria-label="View liked"
-        >
-          liked
-        </button>
-      </div>
+      {likedButton}
+      <MediaToggle
+        mediaType={mediaType}
+        era={era}
+        onMediaChange={handleMediaToggle}
+        onEraChange={handleEraToggle}
+      />
 
       <div className="ss-card-area">
         {view === "loading" && (
