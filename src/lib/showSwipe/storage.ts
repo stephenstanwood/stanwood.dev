@@ -92,3 +92,20 @@ export function getTotalSwipes(): number {
   const stored = loadStorage();
   return (stored?.liked?.length ?? 0) + (stored?.disliked?.length ?? 0);
 }
+
+export function getLiked(): SwipedItem[] {
+  return loadStorage()?.liked ?? [];
+}
+
+export function removeLiked(tmdbId: number): void {
+  const stored = loadStorage() ?? getDefault();
+  const item = stored.liked.find((i) => i.tmdbId === tmdbId);
+  if (item) {
+    // Reverse the genre score boost
+    for (const gid of item.genreIds) {
+      stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) - 1;
+    }
+  }
+  stored.liked = stored.liked.filter((i) => i.tmdbId !== tmdbId);
+  save(stored);
+}

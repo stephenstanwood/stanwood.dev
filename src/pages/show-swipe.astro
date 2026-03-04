@@ -581,6 +581,160 @@ const title = "Show Swipe — stanwood.dev";
         pointer-events: none;
       }
 
+      /* ─── Top Row (toggles + liked button) ──────────────────────────── */
+      .ss-top-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        flex-shrink: 0;
+      }
+      .ss-top-row .ss-toggles {
+        flex: 1;
+        min-width: 0;
+      }
+      .ss-liked-btn {
+        background: none;
+        border: 1px solid var(--ss-border);
+        color: var(--ss-text-dim);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        padding: 0.45rem 0.65rem;
+        border-radius: 10px;
+        transition: color 0.15s, border-color 0.15s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .ss-liked-btn:hover {
+        color: var(--ss-warm);
+        border-color: var(--ss-warm);
+      }
+
+      /* ─── Liked List ────────────────────────────────────────────────── */
+      .ss-liked {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        animation: ssFadeIn 0.2s ease-out;
+      }
+      .ss-liked-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--ss-border);
+        margin-bottom: 0.5rem;
+        flex-shrink: 0;
+      }
+      .ss-liked-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.25rem 0;
+        transition: color 0.15s;
+      }
+      .ss-liked-back:hover { color: var(--ss-warm); }
+      .ss-liked-back svg { width: 14px; height: 14px; }
+      .ss-liked-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--ss-text);
+        margin: 0;
+        flex: 1;
+      }
+      .ss-liked-count {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--ss-text-dim);
+        background: var(--ss-surface);
+        padding: 0.15rem 0.5rem;
+        border-radius: 6px;
+      }
+      .ss-liked-empty {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: var(--ss-text-muted);
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 2rem;
+      }
+      .ss-liked-empty-hint {
+        font-size: 0.75rem;
+        color: var(--ss-text-dim);
+      }
+      .ss-liked-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .ss-liked-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--ss-border);
+        animation: ssSlideIn 0.15s ease-out;
+      }
+      .ss-liked-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .ss-liked-item-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--ss-text);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .ss-liked-item-meta {
+        font-size: 0.7rem;
+        color: var(--ss-text-dim);
+      }
+      .ss-liked-remove {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        cursor: pointer;
+        padding: 0.35rem;
+        border-radius: 6px;
+        transition: color 0.15s, background 0.15s;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ss-liked-remove:hover {
+        color: #e85d4a;
+        background: rgba(232, 93, 74, 0.1);
+      }
+      .ss-liked-remove svg {
+        width: 16px;
+        height: 16px;
+      }
+
       /* ─── Desktop: wider cards ─────────────────────────────────────── */
       @media (min-width: 600px) {
         .ss-page {

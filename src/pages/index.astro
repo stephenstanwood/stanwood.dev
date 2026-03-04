@@ -12,12 +12,13 @@ const featured = [
     bg: "#e8f5ff",
   },
   {
-    href: "/wtwtw",
-    emoji: "📺",
-    tag: "Sports · Weekly",
-    title: "What to Watch This Week",
-    desc: "Pick your teams and your time zone. Get the best game each night.",
-    bg: "#fff0e8",
+    href: "/show-swipe",
+    emoji: "🍿",
+    tag: "Entertainment · Discovery",
+    title: "Show Swipe",
+    desc: "Swipe through movie and TV trailers. Right for yes, left for pass. It learns what you like.",
+    bg: "#1a1a2e",
+    dark: true,
   },
   {
     href: "/nearest-coffee",
@@ -30,6 +31,7 @@ const featured = [
 ];
 
 const projects = [
+  { href: "/wtwtw", emoji: "📺", name: "What to Watch This Week", tag: "best game each night" },
   { href: "/mlb-gamerank", emoji: "⚾", name: "MLB GameRank", tag: "best game right now" },
   { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator" },
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version" },
@@ -38,7 +40,6 @@ const projects = [
   { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure" },
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes" },
-  { href: "/show-swipe", emoji: "🍿", name: "Show Swipe", tag: "swipe through trailers" },
 ];
 ---
 
@@ -374,6 +375,12 @@ const projects = [
         transition: color 0.15s;
       }
       .feat-card:hover .feat-arrow { color: var(--orange); }
+      .feat-card--dark { color: #f0f0f0; border-color: #333; box-shadow: 5px 5px 0 #333; }
+      .feat-card--dark .feat-tag { color: #999; }
+      .feat-card--dark .feat-desc { color: #bbb; }
+      .feat-card--dark .feat-arrow { color: #666; }
+      .feat-card--dark:hover .feat-arrow { color: #e85d4a; }
+      .feat-card--dark:hover { border-color: #555; box-shadow: 7px 7px 0 #555; }
 
       /* ── project tiles row ── */
       .proj-row {
@@ -588,7 +595,7 @@ const projects = [
     <div id="feat-row" class="feat-row">
       {featured.map((f) => (
         <a
-          class="feat-card"
+          class={`feat-card${f.dark ? ' feat-card--dark' : ''}`}
           href={f.href}
           style={`background: ${f.bg};`}
           {...(f.external ? { target: "_blank", rel: "noopener" } : {})}
@@ -654,7 +661,7 @@ const projects = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '11 and counting'],
+      ['ls projects/ | wc -l', '12 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],

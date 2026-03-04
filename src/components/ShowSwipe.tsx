@@ -17,17 +17,20 @@ import {
 import { fetchNextBatch } from "../lib/showSwipe/recommend";
 import SwipeCard from "./show-swipe/SwipeCard";
 import MediaToggle from "./show-swipe/MediaToggle";
+import LikedList from "./show-swipe/LikedList";
 
 const REFETCH_THRESHOLD = 3;
 
+type Screen = "swipe" | "liked";
+
 export default function ShowSwipe() {
+  const [screen, setScreen] = useState<Screen>("swipe");
   const [view, setView] = useState<AppView>("loading");
   const [mediaType, setMediaType] = useState<MediaType>("tv");
   const [era, setEra] = useState<Era>("recent");
   const [cards, setCards] = useState<ShowSwipeCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
-  // flyDirection triggers the card's fly-off animation from parent
   const [flyDirection, setFlyDirection] = useState<SwipeDirection | null>(null);
   const fetchingRef = useRef(false);
   const aliveRef = useRef(true);
@@ -103,7 +106,6 @@ export default function ShowSwipe() {
         const current = prev[0];
         if (!current) return prev;
 
-        // Only record to algo if not skipping
         if (direction !== "skip") {
           const item: SwipedItem = {
             tmdbId: current.tmdbId,
@@ -145,13 +147,11 @@ export default function ShowSwipe() {
     [mediaType, era, maybeFetchMore],
   );
 
-  // Swipe handler — card already handled its own fly-off animation
   const handleSwipe = useCallback(
     (direction: SwipeDirection) => doAdvance(direction),
     [doAdvance],
   );
 
-  // Auto-advance from countdown — card already did its fly-off
   const handleAutoAdvance = useCallback(() => doAdvance("skip"), [doAdvance]);
 
   const handleShare = useCallback(async (card: ShowSwipeCard) => {
@@ -191,10 +191,10 @@ export default function ShowSwipe() {
     [],
   );
 
-  // Keyboard controls — left arrow = pass (left swipe), right arrow = into it (right swipe)
+  // Keyboard controls
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (view !== "swiping" || cards.length === 0) return;
+      if (screen !== "swipe" || view !== "swiping" || cards.length === 0) return;
       if (e.key === "ArrowLeft") {
         setFlyDirection("left");
         setTimeout(() => doAdvance("left"), 350);
@@ -206,16 +206,34 @@ export default function ShowSwipe() {
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [view, cards.length, doAdvance]);
+  }, [screen, view, cards.length, doAdvance]);
+
+  // Liked list screen
+  if (screen === "liked") {
+    return (
+      <div className="ss-app">
+        <LikedList onBack={() => setScreen("swipe")} />
+      </div>
+    );
+  }
 
   return (
     <div className="ss-app">
-      <MediaToggle
-        mediaType={mediaType}
-        era={era}
-        onMediaChange={handleMediaToggle}
-        onEraChange={handleEraToggle}
-      />
+      <div className="ss-top-row">
+        <MediaToggle
+          mediaType={mediaType}
+          era={era}
+          onMediaChange={handleMediaToggle}
+          onEraChange={handleEraToggle}
+        />
+        <button
+          className="ss-liked-btn"
+          onClick={() => setScreen("liked")}
+          aria-label="View liked"
+        >
+          liked
+        </button>
+      </div>
 
       <div className="ss-card-area">
         {view === "loading" && (
