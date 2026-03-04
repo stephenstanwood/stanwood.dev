@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="b" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#00d2ff"/><stop offset="33%" stop-color="#c850c0"/><stop offset="66%" stop-color="#ff6b9d"/><stop offset="100%" stop-color="#ff9a56"/></linearGradient><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#0f0c29"/><stop offset="100%" stop-color="#302b63"/></linearGradient></defs><rect width="128" height="128" fill="url(#a)" rx="28"/><text x="64" y="96" fill="url(#b)" font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif" font-size="90" font-weight="900" text-anchor="middle">S</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#fffef5" rx="20"/>
+  <rect x="4" y="4" width="120" height="120" fill="none" stroke="#111" stroke-width="6" rx="18"/>
+  <text x="64" y="98" fill="#111" font-family="'Arial Black', Impact, sans-serif" font-size="88" font-weight="900" text-anchor="middle">S</text>
+  <rect x="8" y="8" width="8" height="8" fill="#f5e642" rx="1"/>
+</svg>

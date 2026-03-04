@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#7C9FFF"/><stop offset="100%" stop-color="#FFB74D"/></linearGradient></defs><rect width="128" height="128" fill="#111318" rx="28"/><circle cx="64" cy="52" r="22" fill="none" stroke="url(#a)" stroke-width="5"/><path fill="url(#a)" d="M52 78h24v6a12 12 0 0 1-12 12 12 12 0 0 1-12-12v-6z"/><circle cx="57" cy="48" r="4" fill="url(#a)"/><circle cx="71" cy="48" r="4" fill="url(#a)"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-width="3" d="M56 58q8 6 16 0"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#fffef5" rx="20"/>
+  <rect x="4" y="4" width="120" height="120" fill="none" stroke="#111" stroke-width="6" rx="18"/>
+  <!-- smiley face -->
+  <circle cx="64" cy="64" r="38" fill="#f5e642" stroke="#111" stroke-width="5"/>
+  <!-- eyes -->
+  <circle cx="50" cy="54" r="6" fill="#111"/>
+  <circle cx="78" cy="54" r="6" fill="#111"/>
+  <!-- mouth -->
+  <path d="M46 74q18 16 36 0" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+</svg>
