@@ -236,6 +236,7 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
         <TrailerPlayer
           youtubeKey={card.youtubeKey}
           title={card.title}
+          originalLanguage={card.originalLanguage}
           onEnded={handleTrailerEnded}
         />
       </div>
