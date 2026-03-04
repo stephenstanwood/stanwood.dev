@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#667eea"/><stop offset="50%" stop-color="#00d2ff"/><stop offset="100%" stop-color="#43e97b"/></linearGradient></defs><rect width="128" height="128" fill="#0a1628" rx="28"/><rect width="64" height="84" x="32" y="22" fill="none" stroke="url(#a)" stroke-width="4" rx="6"/><path stroke="url(#a)" stroke-linecap="round" stroke-width="4" d="M44 42h40"/><path stroke="url(#a)" stroke-linecap="round" stroke-width="4" d="M44 56h32" opacity=".7"/><path stroke="url(#a)" stroke-linecap="round" stroke-width="4" d="M44 70h20" opacity=".4"/><path fill="none" stroke="url(#a)" stroke-width="3" d="M80 22h16v16"/><path fill="none" stroke="url(#a)" stroke-width="2" d="m80 22 16 16" opacity=".4"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#fffef5" rx="20"/>
+  <rect x="4" y="4" width="120" height="120" fill="none" stroke="#111" stroke-width="6" rx="18"/>
+  <!-- page -->
+  <rect x="32" y="22" width="64" height="84" fill="#fff" stroke="#111" stroke-width="5" rx="4"/>
+  <!-- corner fold -->
+  <path d="M78 22h18v18" fill="#fffef5" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M78 22l18 18" fill="none" stroke="#111" stroke-width="3"/>
+  <!-- text lines -->
+  <path d="M44 50h40" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+  <path d="M44 64h32" stroke="#111" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <path d="M44 78h20" stroke="#111" stroke-width="5" stroke-linecap="round" opacity="0.25"/>
+</svg>

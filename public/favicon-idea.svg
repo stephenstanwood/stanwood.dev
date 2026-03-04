@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="a" x1="0%" x2="100%" y1="0%" y2="100%"><stop offset="0%" stop-color="#ff6b9d"/><stop offset="50%" stop-color="#ff9a56"/><stop offset="100%" stop-color="#ffd93d"/></linearGradient></defs><rect width="128" height="128" fill="#1a0a1e" rx="28"/><rect width="72" height="72" x="28" y="28" fill="none" stroke="url(#a)" stroke-width="5" rx="14"/><circle cx="48" cy="48" r="6" fill="url(#a)"/><circle cx="80" cy="48" r="6" fill="url(#a)" opacity=".6"/><circle cx="64" cy="64" r="6" fill="url(#a)" opacity=".8"/><circle cx="48" cy="80" r="6" fill="url(#a)" opacity=".6"/><circle cx="80" cy="80" r="6" fill="url(#a)"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#fffef5" rx="20"/>
+  <rect x="4" y="4" width="120" height="120" fill="none" stroke="#111" stroke-width="6" rx="18"/>
+  <!-- die face -->
+  <rect x="28" y="28" width="72" height="72" fill="#fff" stroke="#111" stroke-width="5" rx="12"/>
+  <!-- pips (5-face) -->
+  <circle cx="46" cy="46" r="7" fill="#ff5c1a"/>
+  <circle cx="82" cy="46" r="7" fill="#ff5c1a"/>
+  <circle cx="64" cy="64" r="7" fill="#111"/>
+  <circle cx="46" cy="82" r="7" fill="#ff5c1a"/>
+  <circle cx="82" cy="82" r="7" fill="#ff5c1a"/>
+</svg>

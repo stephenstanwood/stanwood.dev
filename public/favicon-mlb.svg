@@ -1,1 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" fill="#14532d" rx="28"/><path d="M64 24L100 64L64 104L28 64Z" fill="none" stroke="#fbbf24" stroke-width="4" stroke-linejoin="round"/><circle cx="64" cy="24" r="5" fill="#fbbf24"/><circle cx="100" cy="64" r="5" fill="#fbbf24"/><circle cx="28" cy="64" r="5" fill="#fbbf24"/><rect x="60" y="100" width="8" height="6" rx="1" fill="#fbbf24"/><path d="M48 44Q64 56 80 44" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/><path d="M48 84Q64 72 80 84" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#fffef5" rx="20"/>
+  <rect x="4" y="4" width="120" height="120" fill="none" stroke="#111" stroke-width="6" rx="18"/>
+  <!-- baseball -->
+  <circle cx="64" cy="64" r="36" fill="#fff" stroke="#111" stroke-width="5"/>
+  <!-- stitching -->
+  <path d="M44 34q-8 14-4 30t12 26" fill="none" stroke="#ff5c1a" stroke-width="4" stroke-linecap="round"/>
+  <path d="M84 34q8 14 4 30t-12 26" fill="none" stroke="#ff5c1a" stroke-width="4" stroke-linecap="round"/>
+  <!-- stitch marks left -->
+  <path d="M38 42l6 2M34 52l6 1M34 62l6-1M38 72l6-2M42 80l5-4" fill="none" stroke="#ff5c1a" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- stitch marks right -->
+  <path d="M90 42l-6 2M94 52l-6 1M94 62l-6-1M90 72l-6-2M86 80l-5-4" fill="none" stroke="#ff5c1a" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
