@@ -114,6 +114,11 @@ const title = "Show Swipe — stanwood.dev";
       .ss-back:hover { color: var(--ss-text-muted); }
       .ss-back svg { width: 14px; height: 14px; }
 
+      .ss-header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
       .ss-brand {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
@@ -581,35 +586,34 @@ const title = "Show Swipe — stanwood.dev";
         pointer-events: none;
       }
 
-      /* ─── Top Row (toggles + liked button) ──────────────────────────── */
-      .ss-top-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
-        flex-shrink: 0;
-      }
-      .ss-top-row .ss-toggles {
-        flex: 1;
-        min-width: 0;
-      }
+      /* ─── Liked Button (in header via portal) ──────────────────────── */
       .ss-liked-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
         background: none;
-        border: 1px solid var(--ss-border);
+        border: none;
         color: var(--ss-text-dim);
-        font-family: 'Space Grotesk', sans-serif;
-        font-size: 0.7rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
         cursor: pointer;
-        padding: 0.45rem 0.65rem;
-        border-radius: 10px;
-        transition: color 0.15s, border-color 0.15s;
-        white-space: nowrap;
-        flex-shrink: 0;
+        padding: 0.25rem;
+        border-radius: 6px;
+        transition: color 0.15s, transform 0.15s;
+        position: relative;
+      }
+      .ss-liked-btn svg {
+        width: 18px;
+        height: 18px;
       }
       .ss-liked-btn:hover {
-        color: var(--ss-warm);
-        border-color: var(--ss-warm);
+        color: #e85d4a;
+        transform: scale(1.1);
+      }
+      .ss-liked-count {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--ss-text-muted);
+        min-width: 1em;
       }
 
       /* ─── Liked List ────────────────────────────────────────────────── */
@@ -780,7 +784,10 @@ const title = "Show Swipe — stanwood.dev";
         </svg>
         stanwood.dev
       </a>
-      <span class="ss-brand">Show Swipe</span>
+      <div class="ss-header-right">
+        <span class="ss-brand">Show Swipe</span>
+        <div id="ss-liked-mount"></div>
+      </div>
     </header>
     <main id="main-content" class="ss-main">
       <ShowSwipe client:idle />
