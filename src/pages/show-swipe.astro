@@ -424,6 +424,60 @@ const title = "Show Swipe — stanwood.dev";
         background: rgba(10, 14, 23, 0.5);
       }
 
+      /* ─── Film-Leader Countdown ──────────────────────────────────── */
+      .ss-countdown-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 14, 23, 0.88);
+        z-index: 15;
+        border-radius: var(--ss-card-radius);
+        animation: ssFadeIn 0.3s ease-out;
+      }
+      .ss-countdown-leader {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ss-countdown-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--ss-warm);
+        transform: rotate(-90deg);
+      }
+      .ss-countdown-arc {
+        transition: stroke-dashoffset 1s linear;
+      }
+      .ss-countdown-number {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--ss-warm);
+        line-height: 1;
+        position: relative;
+        z-index: 1;
+      }
+      .ss-countdown-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ss-text-muted);
+        margin-top: 0.75rem;
+      }
+
       /* ─── Loading ────────────────────────────────────────────────── */
       .ss-loading {
         display: flex;
