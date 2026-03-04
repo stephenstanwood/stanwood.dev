@@ -27,6 +27,8 @@ export default function ShowSwipe() {
   const [cards, setCards] = useState<ShowSwipeCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
+  // flyDirection triggers the card's fly-off animation from parent
+  const [flyDirection, setFlyDirection] = useState<SwipeDirection | null>(null);
   const fetchingRef = useRef(false);
   const aliveRef = useRef(true);
 
@@ -94,8 +96,9 @@ export default function ShowSwipe() {
     [],
   );
 
-  const advanceCard = useCallback(
+  const doAdvance = useCallback(
     (direction: SwipeDirection | "skip") => {
+      setFlyDirection(null);
       setCards((prev) => {
         const current = prev[0];
         if (!current) return prev;
@@ -142,12 +145,14 @@ export default function ShowSwipe() {
     [mediaType, era, maybeFetchMore],
   );
 
+  // Swipe handler — card already handled its own fly-off animation
   const handleSwipe = useCallback(
-    (direction: SwipeDirection) => advanceCard(direction),
-    [advanceCard],
+    (direction: SwipeDirection) => doAdvance(direction),
+    [doAdvance],
   );
 
-  const handleSkip = useCallback(() => advanceCard("skip"), [advanceCard]);
+  // Auto-advance from countdown — card already did its fly-off
+  const handleAutoAdvance = useCallback(() => doAdvance("skip"), [doAdvance]);
 
   const handleShare = useCallback(async (card: ShowSwipeCard) => {
     const url = `https://www.youtube.com/watch?v=${card.youtubeKey}`;
@@ -186,20 +191,22 @@ export default function ShowSwipe() {
     [],
   );
 
-  // Keyboard controls
+  // Keyboard controls — left arrow = pass (left swipe), right arrow = into it (right swipe)
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (view !== "swiping" || cards.length === 0) return;
-      if (e.key === "ArrowLeft") handleSwipe("left");
-      if (e.key === "ArrowRight") handleSwipe("right");
-      if (e.key === "ArrowDown" || e.key === " ") {
-        e.preventDefault();
-        handleSkip();
+      if (e.key === "ArrowLeft") {
+        setFlyDirection("left");
+        setTimeout(() => doAdvance("left"), 350);
+      }
+      if (e.key === "ArrowRight") {
+        setFlyDirection("right");
+        setTimeout(() => doAdvance("right"), 350);
       }
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [view, cards.length, handleSwipe, handleSkip]);
+  }, [view, cards.length, doAdvance]);
 
   return (
     <div className="ss-app">
@@ -249,19 +256,18 @@ export default function ShowSwipe() {
             key={cards[0].tmdbId}
             card={cards[0]}
             onSwipe={handleSwipe}
+            onAutoAdvance={handleAutoAdvance}
             onShare={handleShare}
             active
+            parentFlyDirection={flyDirection}
           />
         )}
       </div>
 
       {view === "swiping" && (
         <div className="ss-footer">
-          <button className="ss-skip" onClick={handleSkip} aria-label="Skip this trailer">
-            skip
-          </button>
           <p className="ss-hint">
-            swipe · arrow keys · space to skip
+            swipe or use arrow keys
           </p>
         </div>
       )}

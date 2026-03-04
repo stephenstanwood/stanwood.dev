@@ -109,10 +109,10 @@ async function fetchFromSource(
       const genres = topGenres(3);
       const params: Record<string, string | number | boolean> = {
         sort_by: "popularity.desc",
-        "vote_count.gte": 50,
+        "vote_count.gte": 200,
+        "vote_average.gte": 5.5,
         include_adult: false,
         without_genres: excluded,
-        with_original_language: "en",
         page,
       };
       if (genres.length > 0) {
@@ -131,7 +131,6 @@ async function fetchFromSource(
         "vote_average.gte": 7.5,
         include_adult: false,
         without_genres: excluded,
-        with_original_language: "en",
         page: Math.floor(Math.random() * 5) + 1,
       };
       params[`${dateField}.lte`] = `${currentYear - 10}-12-31`;
@@ -173,10 +172,11 @@ export async function fetchNextBatch(
   const currentYear = new Date().getFullYear();
   const recentCutoff = `${currentYear - RECENT_YEARS}-01-01`;
 
-  // Filter: not seen, not adult, has poster, no excluded genres, era-appropriate
+  // Filter: not seen, not adult, has poster, quality floor, no excluded genres, era-appropriate
   const candidates = rawItems.filter((item) => {
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
-    if (item.original_language !== "en") return false;
+    // Quality floor: skip low-rated or unrated content
+    if (item.vote_count < 50 || item.vote_average < 5.0) return false;
     if (hasExcludedGenre(item, mediaType)) return false;
 
     // For "recent" mode, filter out older content from trending/now_playing
