@@ -117,6 +117,14 @@ const PAGES: Record<string, PageConfig> = {
     bg2: "#1e2330",
     accent: "#c084fc",
   },
+  "show-swipe": {
+    emoji: "🍿",
+    title: "Show Swipe",
+    tagline: "Swipe through movie and TV trailers.",
+    bg: "#0d0d0d",
+    bg2: "#1a1010",
+    accent: "#e85d4a",
+  },
 };
 
 export const GET: APIRoute = async ({ url }) => {
