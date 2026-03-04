@@ -1,6 +1,7 @@
 // ─── Media Types ────────────────────────────────────────────────────────────
 
 export type MediaType = "movie" | "tv";
+export type Era = "recent" | "all";
 
 // ─── TMDB Response Shapes ───────────────────────────────────────────────────
 
@@ -89,6 +90,7 @@ export interface ShowSwipeStorage {
   genreScores: Record<number, number>;
   seenIds: number[];
   mediaType: MediaType;
+  era: Era;
   lastUpdated: string;
 }
 

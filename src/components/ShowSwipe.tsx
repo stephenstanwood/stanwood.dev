@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import type {
   AppView,
   MediaType,
+  Era,
   ShowSwipeCard,
   SwipedItem,
   SwipeDirection,
@@ -10,6 +11,8 @@ import {
   recordSwipe,
   getMediaType,
   setMediaType as saveMediaType,
+  getEra,
+  setEra as saveEra,
 } from "../lib/showSwipe/storage";
 import { fetchNextBatch } from "../lib/showSwipe/recommend";
 import SwipeCard from "./show-swipe/SwipeCard";
@@ -19,7 +22,8 @@ const REFETCH_THRESHOLD = 3;
 
 export default function ShowSwipe() {
   const [view, setView] = useState<AppView>("loading");
-  const [mediaType, setMediaType] = useState<MediaType>("movie");
+  const [mediaType, setMediaType] = useState<MediaType>("tv");
+  const [era, setEra] = useState<Era>("recent");
   const [cards, setCards] = useState<ShowSwipeCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
@@ -28,17 +32,18 @@ export default function ShowSwipe() {
 
   useEffect(() => {
     setMediaType(getMediaType());
+    setEra(getEra());
   }, []);
 
   const loadCards = useCallback(
-    async (mt: MediaType) => {
+    async (mt: MediaType, e: Era) => {
       if (fetchingRef.current) return;
       fetchingRef.current = true;
       setError(null);
       setView("loading");
 
       try {
-        const batch = await fetchNextBatch(mt, new Set());
+        const batch = await fetchNextBatch(mt, e, new Set());
         if (!aliveRef.current) return;
 
         if (batch.length === 0) {
@@ -61,19 +66,19 @@ export default function ShowSwipe() {
 
   useEffect(() => {
     aliveRef.current = true;
-    loadCards(mediaType);
+    loadCards(mediaType, era);
     return () => {
       aliveRef.current = false;
     };
-  }, [mediaType, loadCards]);
+  }, [mediaType, era, loadCards]);
 
   const maybeFetchMore = useCallback(
-    async (currentCards: ShowSwipeCard[], mt: MediaType) => {
+    async (currentCards: ShowSwipeCard[], mt: MediaType, e: Era) => {
       if (fetchingRef.current || currentCards.length >= REFETCH_THRESHOLD) return;
       fetchingRef.current = true;
       try {
         const existingIds = new Set(currentCards.map((c) => c.tmdbId));
-        const batch = await fetchNextBatch(mt, existingIds);
+        const batch = await fetchNextBatch(mt, e, existingIds);
         if (!aliveRef.current) return;
         setCards((prev) => {
           const ids = new Set(prev.map((c) => c.tmdbId));
@@ -113,7 +118,7 @@ export default function ShowSwipe() {
         if (remaining.length === 0) {
           setView("loading");
           fetchingRef.current = false;
-          fetchNextBatch(mediaType, new Set())
+          fetchNextBatch(mediaType, era, new Set())
             .then((batch) => {
               if (!aliveRef.current) return;
               if (batch.length === 0) {
@@ -128,13 +133,13 @@ export default function ShowSwipe() {
               setView("empty");
             });
         } else {
-          maybeFetchMore(remaining, mediaType);
+          maybeFetchMore(remaining, mediaType, era);
         }
 
         return remaining;
       });
     },
-    [mediaType, maybeFetchMore],
+    [mediaType, era, maybeFetchMore],
   );
 
   const handleSwipe = useCallback(
@@ -172,6 +177,15 @@ export default function ShowSwipe() {
     [],
   );
 
+  const handleEraToggle = useCallback(
+    (e: Era) => {
+      setEra(e);
+      saveEra(e);
+      setCards([]);
+    },
+    [],
+  );
+
   // Keyboard controls
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
@@ -189,7 +203,12 @@ export default function ShowSwipe() {
 
   return (
     <div className="ss-app">
-      <MediaToggle value={mediaType} onChange={handleMediaToggle} />
+      <MediaToggle
+        mediaType={mediaType}
+        era={era}
+        onMediaChange={handleMediaToggle}
+        onEraChange={handleEraToggle}
+      />
 
       <div className="ss-card-area">
         {view === "loading" && (
@@ -204,7 +223,7 @@ export default function ShowSwipe() {
             <p className="ss-error">{error}</p>
             <button
               className="ss-btn ss-btn-retry"
-              onClick={() => loadCards(mediaType)}
+              onClick={() => loadCards(mediaType, era)}
             >
               Try again
             </button>
@@ -218,7 +237,7 @@ export default function ShowSwipe() {
             </p>
             <button
               className="ss-btn ss-btn-retry"
-              onClick={() => loadCards(mediaType)}
+              onClick={() => loadCards(mediaType, era)}
             >
               Refresh
             </button>

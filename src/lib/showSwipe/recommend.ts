@@ -1,4 +1,4 @@
-import type { MediaType, TmdbMediaItem, ShowSwipeCard } from "./types";
+import type { MediaType, Era, TmdbMediaItem, ShowSwipeCard } from "./types";
 import { getSeenIds, getGenreScores, getTotalSwipes } from "./storage";
 import {
   fetchTrending,
@@ -28,7 +28,33 @@ interface FetchPlan {
   weight: number;
 }
 
-function buildFetchPlan(totalSwipes: number): FetchPlan[] {
+// "recent" = current year + 2 prior (e.g. 2024-2026)
+const RECENT_YEARS = 2;
+
+function buildFetchPlan(totalSwipes: number, era: Era): FetchPlan[] {
+  // "recent" mode: no classics, heavier on trending + now playing
+  if (era === "recent") {
+    if (totalSwipes < 10) {
+      return [
+        { source: "trending", weight: 0.55 },
+        { source: "now_playing", weight: 0.45 },
+      ];
+    }
+    if (totalSwipes < 50) {
+      return [
+        { source: "discover_personalized", weight: 0.45 },
+        { source: "trending", weight: 0.30 },
+        { source: "now_playing", weight: 0.25 },
+      ];
+    }
+    return [
+      { source: "discover_personalized", weight: 0.60 },
+      { source: "trending", weight: 0.20 },
+      { source: "now_playing", weight: 0.20 },
+    ];
+  }
+
+  // "all" mode: includes classics
   if (totalSwipes < 10) {
     return [
       { source: "trending", weight: 0.5 },
@@ -64,10 +90,13 @@ function topGenres(n: number): number[] {
 async function fetchFromSource(
   source: FetchPlan["source"],
   mediaType: MediaType,
+  era: Era,
   page: number,
 ): Promise<TmdbMediaItem[]> {
   const currentYear = new Date().getFullYear();
   const excluded = getExcludedGenreString(mediaType);
+  const dateField =
+    mediaType === "movie" ? "primary_release_date" : "first_air_date";
 
   switch (source) {
     case "trending":
@@ -88,9 +117,9 @@ async function fetchFromSource(
       if (genres.length > 0) {
         params.with_genres = genres.join(",");
       }
-      const dateField =
-        mediaType === "movie" ? "primary_release_date" : "first_air_date";
-      params[`${dateField}.gte`] = `${currentYear - 3}-01-01`;
+      // "recent" = last ~3 years; "all" = also last 3 years for personalized
+      // (classics handle the older stuff in "all" mode)
+      params[`${dateField}.gte`] = `${currentYear - RECENT_YEARS}-01-01`;
       return (await fetchDiscover(mediaType, params)).results;
     }
 
@@ -103,8 +132,6 @@ async function fetchFromSource(
         without_genres: excluded,
         page: Math.floor(Math.random() * 5) + 1,
       };
-      const dateField =
-        mediaType === "movie" ? "primary_release_date" : "first_air_date";
       params[`${dateField}.lte`] = `${currentYear - 10}-12-31`;
       return (await fetchDiscover(mediaType, params)).results;
     }
@@ -119,12 +146,13 @@ function hasExcludedGenre(item: TmdbMediaItem, mediaType: MediaType): boolean {
 
 export async function fetchNextBatch(
   mediaType: MediaType,
+  era: Era,
   existingCardIds: Set<number>,
 ): Promise<ShowSwipeCard[]> {
   const seenIds = getSeenIds();
   const allSeen = new Set([...seenIds, ...existingCardIds]);
   const totalSwipes = getTotalSwipes();
-  const plan = buildFetchPlan(totalSwipes);
+  const plan = buildFetchPlan(totalSwipes, era);
 
   const roll = Math.random();
   let cumulative = 0;
@@ -138,16 +166,25 @@ export async function fetchNextBatch(
   }
 
   const page = Math.floor(Math.random() * 3) + 1;
-  const rawItems = await fetchFromSource(chosenSource.source, mediaType, page);
+  const rawItems = await fetchFromSource(chosenSource.source, mediaType, era, page);
 
-  // Filter: not seen, not adult, has poster, no excluded genres
-  const candidates = rawItems.filter(
-    (item) =>
-      !allSeen.has(item.id) &&
-      !item.adult &&
-      item.poster_path &&
-      !hasExcludedGenre(item, mediaType),
-  );
+  const currentYear = new Date().getFullYear();
+  const recentCutoff = `${currentYear - RECENT_YEARS}-01-01`;
+
+  // Filter: not seen, not adult, has poster, no excluded genres, era-appropriate
+  const candidates = rawItems.filter((item) => {
+    if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
+    if (hasExcludedGenre(item, mediaType)) return false;
+
+    // For "recent" mode, filter out older content from trending/now_playing
+    if (era === "recent") {
+      const dateStr =
+        mediaType === "movie" ? item.release_date : item.first_air_date;
+      if (dateStr && dateStr < recentCutoff) return false;
+    }
+
+    return true;
+  });
 
   const shuffled = candidates.sort(() => Math.random() - 0.5);
 
