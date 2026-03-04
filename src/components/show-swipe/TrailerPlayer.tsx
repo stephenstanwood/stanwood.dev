@@ -5,6 +5,7 @@ interface Props {
   title: string;
   originalLanguage: string;
   onEnded?: () => void;
+  onError?: () => void;
 }
 
 /* ── YouTube IFrame API loader (singleton) ────────────────────────── */
@@ -36,11 +37,13 @@ function ensureYTApi(cb: () => void) {
 
 /* ── Component ────────────────────────────────────────────────────── */
 
-export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onEnded }: Props) {
+export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onEnded, onError }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const onEndedRef = useRef(onEnded);
   onEndedRef.current = onEnded;
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
 
   useEffect(() => {
     const id = `yt-${youtubeKey}-${Math.random().toString(36).slice(2, 6)}`;
@@ -74,6 +77,10 @@ export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onE
             if (event.data === 0) {
               onEndedRef.current?.();
             }
+          },
+          onError: () => {
+            // Fires for embedding disabled (101/150), removed (100), etc.
+            onErrorRef.current?.();
           },
         },
       });

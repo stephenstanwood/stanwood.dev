@@ -41,6 +41,12 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     setCountdown(COUNTDOWN_SECONDS);
   }, []);
 
+  // When trailer can't be embedded, skip immediately
+  const handleTrailerError = useCallback(() => {
+    setFlyOff("left");
+    setTimeout(() => onAutoAdvance(), 350);
+  }, [onAutoAdvance]);
+
   // Tick the countdown
   useEffect(() => {
     if (countdown === null) return;
@@ -238,6 +244,7 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
           title={card.title}
           originalLanguage={card.originalLanguage}
           onEnded={handleTrailerEnded}
+          onError={handleTrailerError}
         />
       </div>
 
