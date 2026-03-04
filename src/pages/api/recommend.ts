@@ -42,16 +42,20 @@ OUTPUT FORMAT — return valid JSON only, no markdown fences, no extra text:
     "order": "Imperative sentence, e.g. 'Order the grilled salmon bowl with brown rice — dressing on the side.'",
     "quickMods": ["1-2 short modification suggestions"],
     "whyItWorks": ["1 short bullet on why this fits"],
-    "signals": { "flavorProfile": -0.6, "portionSize": -0.4 }
+    "signals": { "flavorProfile": -0.6, "portionSize": -0.4 },
+    "photoQuery": "grilled salmon rice bowl"
   },
   "optionB": {
     "order": "Imperative sentence for the contrasting option.",
     "quickMods": ["1-2 short modification suggestions"],
     "whyItWorks": ["1 short bullet on why this fits"],
-    "signals": { "flavorProfile": 0.5, "portionSize": 0.3 }
+    "signals": { "flavorProfile": 0.5, "portionSize": 0.3 },
+    "photoQuery": "chicken avocado wrap"
   },
   "restaurantMatched": true
-}`;
+}
+
+9. For "photoQuery": provide a short, generic food search term (2-4 words) that describes the dish visually. Use common food terms, not restaurant-specific names. Examples: "poke bowl", "grilled chicken salad", "fish tacos", "veggie burger".`;
 
 function buildUserMessage(
   restaurantName: string,
@@ -137,6 +141,44 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         JSON.stringify({ error: "Failed to parse AI response" }),
         { status: 502, headers: { "Content-Type": "application/json" } },
       );
+    }
+
+    // Fetch food photos from Pexels (best-effort, non-blocking)
+    const pexelsKey = import.meta.env.PEXELS_API_KEY;
+    if (pexelsKey) {
+      const fetchPhoto = async (query: string): Promise<string | null> => {
+        try {
+          const res = await fetch(
+            `https://api.pexels.com/v1/search?query=${encodeURIComponent(query + " food")}&per_page=3&orientation=landscape`,
+            {
+              headers: { Authorization: pexelsKey },
+              signal: AbortSignal.timeout(3000),
+            },
+          );
+          if (!res.ok) return null;
+          const data = await res.json();
+          if (data.photos?.length > 0) {
+            // Pick a random photo from top 3 for variety
+            const photo = data.photos[Math.floor(Math.random() * data.photos.length)];
+            return photo.src.medium;
+          }
+          return null;
+        } catch {
+          return null;
+        }
+      };
+
+      const [photoA, photoB] = await Promise.all([
+        recommendation.optionA.photoQuery
+          ? fetchPhoto(recommendation.optionA.photoQuery)
+          : null,
+        recommendation.optionB.photoQuery
+          ? fetchPhoto(recommendation.optionB.photoQuery)
+          : null,
+      ]);
+
+      if (photoA) recommendation.optionA.photoUrl = photoA;
+      if (photoB) recommendation.optionB.photoUrl = photoB;
     }
 
     console.log(
