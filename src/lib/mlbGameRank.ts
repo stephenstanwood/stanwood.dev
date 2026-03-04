@@ -19,6 +19,25 @@ import {
   winPct,
 } from "./sportsCore";
 
+// ── MLB-specific types ──
+
+interface MLBSituation {
+  onFirst?: boolean;
+  onSecond?: boolean;
+  onThird?: boolean;
+  balls?: number;
+  strikes?: number;
+  outs?: number;
+  pitcher?: {
+    athlete?: { shortName?: string; displayName?: string };
+    summary?: string;
+  };
+  batter?: {
+    athlete?: { shortName?: string; displayName?: string };
+    summary?: string;
+  };
+}
+
 // ── MLB-specific constants ──
 
 const API_URL =
@@ -51,7 +70,7 @@ function isLateInning(status: Status | undefined): boolean {
   return (status?.period || 0) >= LATE_INNING_THRESHOLD;
 }
 
-function getRunnersOnBase(situation: any): number {
+function getRunnersOnBase(situation: MLBSituation | undefined): number {
   if (!situation) return 0;
   let count = 0;
   if (situation.onFirst) count++;
@@ -93,7 +112,7 @@ function computeWatchScore(game: Game): number {
   let lateBonus = 1.0;
   if (lateInning && scoreDelta <= 2) lateBonus = LATE_INNING_BONUS;
 
-  const situation = comp.situation;
+  const situation = comp.situation as MLBSituation | undefined;
   const runners = getRunnersOnBase(situation);
   const runnerBonus = 1.0 + runners * RUNNERS_ON_BASE_BONUS;
 
@@ -128,7 +147,7 @@ function renderBroadcastBadges(competition: Competition, compact: boolean): stri
 
 // ── Baseball-specific rendering ──
 
-function renderDiamond(situation: any): string {
+function renderDiamond(situation: MLBSituation | undefined): string {
   if (!situation) return "";
 
   const baseColor = (occupied: boolean) =>
@@ -152,7 +171,7 @@ function renderDiamond(situation: any): string {
   `;
 }
 
-function renderCount(situation: any): string {
+function renderCount(situation: MLBSituation | undefined): string {
   if (!situation) return "";
 
   const balls = situation.balls ?? 0;
@@ -184,7 +203,7 @@ function renderCount(situation: any): string {
   `;
 }
 
-function renderMatchup(situation: any): string {
+function renderMatchup(situation: MLBSituation | undefined): string {
   if (!situation) return "";
   const pitcher =
     situation.pitcher?.athlete?.shortName ||
@@ -336,7 +355,7 @@ function renderHeroCard(game: Game): string {
   const live = isLive(status);
   const watchScore = computeWatchScore(game);
   const maxScore = MAX_WATCH_SCORE;
-  const situation = comp?.situation;
+  const situation = comp?.situation as MLBSituation | undefined;
 
   const away =
     competitors.find((c: Competitor) => c.homeAway === "away") || competitors[0];

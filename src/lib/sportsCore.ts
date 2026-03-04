@@ -39,7 +39,7 @@ export interface Status {
 export interface Competition {
   competitors?: Competitor[];
   status?: Status;
-  situation?: any;
+  situation?: unknown;
   geoBroadcasts?: Array<{
     market?: { type?: string };
     media?: { shortName?: string };
