@@ -9,7 +9,7 @@ const title = "Show Swipe — stanwood.dev";
   description="Swipe through movie and TV trailers. Like a dating app, but for what to watch next."
   slug="show-swipe"
   favicon="/favicon-ss.svg"
-  themeColor="#0d0d0d"
+  themeColor="#0a0e17"
   fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
   schemaCategory="EntertainmentApplication"
   schemaName="Show Swipe"
@@ -18,19 +18,22 @@ const title = "Show Swipe — stanwood.dev";
     <style is:global>
       /* ─── Page Theme ─────────────────────────────────────────────── */
       :root {
-        --ss-bg: #0d0d0d;
-        --ss-surface: #1a1a1a;
-        --ss-surface-raised: #242424;
-        --ss-text: #f0f0f0;
-        --ss-text-muted: #999;
-        --ss-text-dim: #555;
-        --ss-primary: #e85d4a;
-        --ss-primary-light: #ff7a6a;
-        --ss-nope: #4a4a4a;
-        --ss-nope-light: #666;
-        --ss-star: #fbbf24;
-        --ss-border: #2a2a2a;
-        --ss-card-radius: 16px;
+        --ss-bg: #0a0e17;
+        --ss-surface: #141a26;
+        --ss-surface-raised: #1c2435;
+        --ss-text: #e8e6e3;
+        --ss-text-muted: #7a8599;
+        --ss-text-dim: #3d4a5c;
+        --ss-warm: #d4a24e;
+        --ss-warm-light: #e8bb6a;
+        --ss-warm-glow: rgba(212, 162, 78, 0.15);
+        --ss-cool: #5a7aa8;
+        --ss-nope: #4a3d50;
+        --ss-nope-light: #7a6585;
+        --ss-star: #d4a24e;
+        --ss-border: #1e2a3a;
+        --ss-card-radius: 14px;
+        --ss-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       }
 
       body {
@@ -41,21 +44,42 @@ const title = "Show Swipe — stanwood.dev";
         overflow-x: hidden;
       }
 
+      /* Film grain overlay */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: var(--ss-grain);
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.5;
+      }
+
       /* ─── Animations ─────────────────────────────────────────────── */
       @keyframes ssFadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to   { opacity: 1; transform: translateY(0); }
       }
       @keyframes ssFadeUp {
-        from { opacity: 0; transform: translateY(20px) scale(0.97); }
+        from { opacity: 0; transform: translateY(16px) scale(0.98); }
         to   { opacity: 1; transform: translateY(0) scale(1); }
       }
       @keyframes ssSpin {
         to { transform: rotate(360deg); }
       }
       @keyframes ssPulse {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 1; }
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.8; }
+      }
+      @keyframes ssSlideIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes ssToast {
+        0% { opacity: 0; transform: translateY(10px); }
+        15% { opacity: 1; transform: translateY(0); }
+        85% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-10px); }
       }
 
       /* ─── Layout ─────────────────────────────────────────────────── */
@@ -65,41 +89,44 @@ const title = "Show Swipe — stanwood.dev";
         flex-direction: column;
         max-width: 480px;
         margin: 0 auto;
+        position: relative;
       }
 
       .ss-header {
         padding: 0.75rem 1rem;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        justify-content: space-between;
         flex-shrink: 0;
       }
 
       .ss-back {
         display: inline-flex;
         align-items: center;
-        gap: 0.35rem;
-        color: var(--ss-text-muted);
+        gap: 0.3rem;
+        color: var(--ss-text-dim);
         text-decoration: none;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         font-weight: 500;
+        letter-spacing: 0.02em;
         transition: color 0.15s;
       }
-      .ss-back:hover { color: var(--ss-text); }
-      .ss-back svg { width: 16px; height: 16px; }
+      .ss-back:hover { color: var(--ss-text-muted); }
+      .ss-back svg { width: 14px; height: 14px; }
 
       .ss-brand {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
-        font-size: 1.1rem;
-        color: var(--ss-primary);
+        font-size: 0.95rem;
+        color: var(--ss-warm);
+        letter-spacing: -0.01em;
       }
 
       .ss-main {
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: 0 1rem 1.5rem;
+        padding: 0 0.75rem 1rem;
         min-height: 0;
       }
 
@@ -108,38 +135,47 @@ const title = "Show Swipe — stanwood.dev";
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.6rem;
         animation: ssFadeIn 0.3s ease-out;
       }
 
       /* ─── Media Toggle ───────────────────────────────────────────── */
       .ss-toggle {
         display: flex;
-        gap: 0;
+        gap: 2px;
         background: var(--ss-surface);
+        border: 1px solid var(--ss-border);
         border-radius: 10px;
         padding: 3px;
         flex-shrink: 0;
       }
       .ss-toggle-btn {
         flex: 1;
-        padding: 0.5rem 1rem;
+        padding: 0.45rem 0.75rem;
         border: none;
         border-radius: 8px;
         background: transparent;
-        color: var(--ss-text-muted);
-        font-family: 'Inter', sans-serif;
-        font-size: 0.85rem;
+        color: var(--ss-text-dim);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .ss-toggle-icon {
+        font-size: 0.85rem;
       }
       .ss-toggle-btn.ss-toggle-active {
-        background: var(--ss-primary);
-        color: white;
+        background: var(--ss-surface-raised);
+        color: var(--ss-warm);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
       }
       .ss-toggle-btn:not(.ss-toggle-active):hover {
-        color: var(--ss-text);
+        color: var(--ss-text-muted);
       }
 
       /* ─── Card Area ──────────────────────────────────────────────── */
@@ -159,7 +195,10 @@ const title = "Show Swipe — stanwood.dev";
         overflow: hidden;
         cursor: grab;
         background: var(--ss-surface);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        border: 1px solid var(--ss-border);
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.3),
+          0 12px 40px rgba(0, 0, 0, 0.2);
         touch-action: pan-y;
         user-select: none;
         will-change: transform;
@@ -176,14 +215,7 @@ const title = "Show Swipe — stanwood.dev";
         aspect-ratio: 16/9;
         background: #000;
         position: relative;
-        cursor: pointer;
         overflow: hidden;
-      }
-      .ss-trailer-thumb {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
       }
       .ss-trailer-iframe {
         width: 100%;
@@ -191,39 +223,21 @@ const title = "Show Swipe — stanwood.dev";
         border: none;
         display: block;
       }
-      .ss-play-btn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s, transform 0.2s;
-      }
-      .ss-trailer:hover .ss-play-btn {
-        background: var(--ss-primary);
-        transform: translate(-50%, -50%) scale(1.1);
-      }
 
       /* ─── Card Info ──────────────────────────────────────────────── */
       .ss-card-info {
-        padding: 0.875rem 1rem 0.5rem;
+        padding: 0.75rem 0.875rem 0.25rem;
       }
       .ss-card-title-row {
         display: flex;
         align-items: baseline;
+        justify-content: space-between;
         gap: 0.5rem;
       }
       .ss-card-title {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         line-height: 1.2;
         margin: 0;
         flex: 1;
@@ -231,36 +245,60 @@ const title = "Show Swipe — stanwood.dev";
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        color: var(--ss-text);
       }
-      .ss-card-year {
-        font-size: 0.8rem;
-        color: var(--ss-text-muted);
+
+      /* Share link */
+      .ss-share-link {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        white-space: nowrap;
         flex-shrink: 0;
+        padding: 0.2rem 0;
+        transition: color 0.15s;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
       }
+      .ss-share-link:hover {
+        color: var(--ss-warm);
+        border-bottom-color: var(--ss-warm);
+      }
+
       .ss-card-meta {
         display: flex;
         align-items: center;
-        gap: 0.4rem;
-        margin-top: 0.25rem;
-        font-size: 0.8rem;
+        gap: 0.35rem;
+        margin-top: 0.2rem;
+        font-size: 0.75rem;
         color: var(--ss-text-muted);
+      }
+      .ss-card-year {
+        color: var(--ss-text-muted);
+        font-variant-numeric: tabular-nums;
       }
       .ss-card-rating {
         color: var(--ss-star);
       }
       .ss-card-dot {
-        opacity: 0.4;
+        opacity: 0.3;
       }
       .ss-card-genres {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        color: var(--ss-text-dim);
       }
       .ss-card-overview {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: var(--ss-text-muted);
         line-height: 1.5;
-        margin-top: 0.4rem;
+        margin-top: 0.35rem;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -271,24 +309,21 @@ const title = "Show Swipe — stanwood.dev";
       .ss-card-actions {
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 0.5rem 1rem 0.875rem;
+        gap: 0.5rem;
+        padding: 0.5rem 0.875rem 0.75rem;
       }
 
       .ss-btn {
         border: none;
-        border-radius: 12px;
         cursor: pointer;
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
-        font-size: 0.9rem;
-        letter-spacing: 0.04em;
-        transition: transform 0.1s, opacity 0.15s;
+        letter-spacing: 0.06em;
+        transition: transform 0.1s, background 0.15s;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 0.4rem;
+        gap: 0.35rem;
       }
       .ss-btn:active {
         transform: scale(0.95);
@@ -296,49 +331,40 @@ const title = "Show Swipe — stanwood.dev";
 
       .ss-btn-nope {
         flex: 1;
-        padding: 0.75rem 1rem;
+        padding: 0.65rem 1rem;
         background: var(--ss-surface-raised);
         color: var(--ss-text-muted);
+        border-radius: 10px;
+        font-size: 0.8rem;
         border: 1px solid var(--ss-border);
       }
       .ss-btn-nope:hover {
         background: var(--ss-nope);
         color: var(--ss-text);
+        border-color: var(--ss-nope-light);
       }
 
       .ss-btn-yes {
         flex: 1;
-        padding: 0.75rem 1rem;
-        background: var(--ss-primary);
-        color: white;
+        padding: 0.65rem 1rem;
+        background: var(--ss-warm);
+        color: var(--ss-bg);
+        border-radius: 10px;
+        font-size: 0.8rem;
       }
       .ss-btn-yes:hover {
-        background: var(--ss-primary-light);
-      }
-
-      .ss-btn-share {
-        padding: 0.75rem;
-        background: transparent;
-        color: var(--ss-text-muted);
-        border: 1px solid var(--ss-border);
-        border-radius: 50%;
-        width: 44px;
-        height: 44px;
-        flex-shrink: 0;
-      }
-      .ss-btn-share:hover {
-        color: var(--ss-text);
-        border-color: var(--ss-text-muted);
+        background: var(--ss-warm-light);
       }
 
       .ss-btn-retry {
-        padding: 0.75rem 1.5rem;
-        background: var(--ss-primary);
-        color: white;
-        font-size: 0.85rem;
+        padding: 0.65rem 1.5rem;
+        background: var(--ss-warm);
+        color: var(--ss-bg);
+        border-radius: 10px;
+        font-size: 0.8rem;
       }
       .ss-btn-retry:hover {
-        background: var(--ss-primary-light);
+        background: var(--ss-warm-light);
       }
 
       /* ─── Swipe Overlays ─────────────────────────────────────────── */
@@ -356,30 +382,33 @@ const title = "Show Swipe — stanwood.dev";
         border-radius: var(--ss-card-radius);
       }
       .ss-overlay-yes {
-        background: rgba(232, 93, 74, 0.15);
+        background: rgba(212, 162, 78, 0.1);
       }
       .ss-overlay-nope {
-        background: rgba(100, 100, 100, 0.15);
+        background: rgba(74, 61, 80, 0.15);
       }
       .ss-overlay-label {
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         font-weight: 700;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
       .ss-label-yes {
-        color: var(--ss-primary);
-        transform: rotate(-15deg);
-        border: 3px solid var(--ss-primary);
-        padding: 0.25rem 1rem;
-        border-radius: 8px;
+        color: var(--ss-warm);
+        transform: rotate(-12deg);
+        border: 3px solid var(--ss-warm);
+        padding: 0.15rem 0.75rem;
+        border-radius: 6px;
+        background: rgba(10, 14, 23, 0.5);
       }
       .ss-label-nope {
         color: var(--ss-nope-light);
-        transform: rotate(15deg);
+        transform: rotate(12deg);
         border: 3px solid var(--ss-nope-light);
-        padding: 0.25rem 1rem;
-        border-radius: 8px;
+        padding: 0.15rem 0.75rem;
+        border-radius: 6px;
+        background: rgba(10, 14, 23, 0.5);
       }
 
       /* ─── Loading ────────────────────────────────────────────────── */
@@ -390,16 +419,18 @@ const title = "Show Swipe — stanwood.dev";
         gap: 1rem;
       }
       .ss-spinner {
-        width: 36px;
-        height: 36px;
-        border: 3px solid var(--ss-border);
-        border-top-color: var(--ss-primary);
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--ss-border);
+        border-top-color: var(--ss-warm);
         border-radius: 50%;
         animation: ssSpin 0.8s linear infinite;
       }
       .ss-loading-text {
-        font-size: 0.85rem;
-        color: var(--ss-text-muted);
+        font-size: 0.8rem;
+        color: var(--ss-text-dim);
+        font-family: 'Space Grotesk', sans-serif;
+        letter-spacing: 0.04em;
         animation: ssPulse 1.5s ease-in-out infinite;
       }
 
@@ -414,33 +445,107 @@ const title = "Show Swipe — stanwood.dev";
         padding: 2rem;
       }
       .ss-error {
-        background: rgba(232, 93, 74, 0.1);
-        color: var(--ss-primary-light);
-        border: 1px solid rgba(232, 93, 74, 0.2);
+        background: rgba(212, 162, 78, 0.08);
+        color: var(--ss-warm-light);
+        border: 1px solid rgba(212, 162, 78, 0.15);
         border-radius: 10px;
-        padding: 0.75rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.65rem 1rem;
+        font-size: 0.8rem;
       }
       .ss-empty-text {
         color: var(--ss-text-muted);
-        font-size: 0.9rem;
+        font-size: 0.85rem;
       }
 
-      /* ─── Hint ───────────────────────────────────────────────────── */
+      /* ─── Footer / Skip / Hint ───────────────────────────────────── */
+      .ss-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      .ss-skip {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        transition: color 0.15s, background 0.15s;
+      }
+      .ss-skip:hover {
+        color: var(--ss-text-muted);
+        background: var(--ss-surface);
+      }
+
       .ss-hint {
         text-align: center;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         color: var(--ss-text-dim);
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
         font-family: 'Space Grotesk', sans-serif;
-        flex-shrink: 0;
+        opacity: 0.6;
+      }
+
+      /* ─── Toast ──────────────────────────────────────────────────── */
+      .ss-toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ss-surface-raised);
+        color: var(--ss-warm);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.5rem 1.25rem;
+        border-radius: 8px;
+        border: 1px solid var(--ss-border);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        z-index: 100;
+        animation: ssToast 2s ease-in-out forwards;
+        pointer-events: none;
+      }
+
+      /* ─── Desktop: wider cards ─────────────────────────────────────── */
+      @media (min-width: 600px) {
+        .ss-page {
+          max-width: 640px;
+          padding: 0 1rem;
+        }
+        .ss-card-info {
+          padding: 1rem 1.25rem 0.35rem;
+        }
+        .ss-card-actions {
+          padding: 0.5rem 1.25rem 1rem;
+        }
+        .ss-card-title {
+          font-size: 1.3rem;
+        }
+        .ss-card-overview {
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .ss-page {
+          max-width: 760px;
+        }
       }
 
       /* ─── Reduced Motion ─────────────────────────────────────────── */
       @media (prefers-reduced-motion: reduce) {
         .ss-card { animation: none; }
-        .ss-spinner { animation: none; border-top-color: var(--ss-primary); }
+        .ss-spinner { animation: none; border-top-color: var(--ss-warm); }
         .ss-loading-text { animation: none; }
+        body::after { display: none; }
       }
     </style>
   </Fragment>

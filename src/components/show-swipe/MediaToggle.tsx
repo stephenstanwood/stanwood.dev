@@ -12,13 +12,13 @@ export default function MediaToggle({ value, onChange }: Props) {
         className={`ss-toggle-btn ${value === "movie" ? "ss-toggle-active" : ""}`}
         onClick={() => onChange("movie")}
       >
-        Movies
+        <span className="ss-toggle-icon">🎬</span> Movies
       </button>
       <button
         className={`ss-toggle-btn ${value === "tv" ? "ss-toggle-active" : ""}`}
         onClick={() => onChange("tv")}
       >
-        Shows
+        <span className="ss-toggle-icon">📺</span> Shows
       </button>
     </div>
   );
