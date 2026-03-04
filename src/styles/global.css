@@ -124,6 +124,21 @@ button:active:not(:disabled),
   }
 }
 
+/* Retro back link — consistent nav to homepage */
+.retro-back {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 11px;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+}
+.retro-back:hover {
+  opacity: 0.9;
+}
+
 /* Skip navigation link */
 .skip-nav {
   position: absolute;
