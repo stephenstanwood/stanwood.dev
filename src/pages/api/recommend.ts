@@ -143,43 +143,126 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
-    // Fetch food photos from Pexels (best-effort, non-blocking)
+    // Fetch real restaurant photos from Google Places, Pexels as fallback
+    const placesKey = import.meta.env.GOOGLE_PLACES_API_KEY;
     const pexelsKey = import.meta.env.PEXELS_API_KEY;
-    if (pexelsKey) {
-      const fetchPhoto = async (query: string): Promise<string | null> => {
-        try {
-          const res = await fetch(
-            `https://api.pexels.com/v1/search?query=${encodeURIComponent(query + " food")}&per_page=3&orientation=landscape`,
-            {
-              headers: { Authorization: pexelsKey },
-              signal: AbortSignal.timeout(3000),
-            },
-          );
-          if (!res.ok) return null;
-          const data = await res.json();
-          if (data.photos?.length > 0) {
-            // Pick a random photo from top 3 for variety
-            const photo = data.photos[Math.floor(Math.random() * data.photos.length)];
-            return photo.src.medium;
-          }
-          return null;
-        } catch {
-          return null;
-        }
-      };
 
+    const fetchRestaurantPhotos = async (
+      restaurant: string,
+      loc: string,
+    ): Promise<string[]> => {
+      if (!placesKey) return [];
+      try {
+        const searchRes = await fetch(
+          "https://places.googleapis.com/v1/places:searchText",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Goog-Api-Key": placesKey,
+              "X-Goog-FieldMask": "places.photos",
+            },
+            body: JSON.stringify({
+              textQuery: `${restaurant} restaurant ${loc}`,
+              maxResultCount: 1,
+            }),
+            signal: AbortSignal.timeout(4000),
+          },
+        );
+        if (!searchRes.ok) return [];
+        const data = await searchRes.json();
+        const photos = data.places?.[0]?.photos ?? [];
+        if (photos.length === 0) return [];
+
+        // Pick 2 random photos from the top results for variety
+        const selected = photos
+          .slice(0, 6)
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 2);
+
+        const urls = await Promise.all(
+          selected.map(async (p: any) => {
+            try {
+              const photoRes = await fetch(
+                `https://places.googleapis.com/v1/${p.name}/media?maxWidthPx=400&skipHttpRedirect=true&key=${placesKey}`,
+                { signal: AbortSignal.timeout(3000) },
+              );
+              if (!photoRes.ok) return null;
+              const photoData = await photoRes.json();
+              return photoData.photoUri ?? null;
+            } catch {
+              return null;
+            }
+          }),
+        );
+        return urls.filter((u): u is string => u !== null);
+      } catch {
+        return [];
+      }
+    };
+
+    const fetchPexelsPhoto = async (
+      query: string,
+    ): Promise<string | null> => {
+      if (!pexelsKey) return null;
+      try {
+        const res = await fetch(
+          `https://api.pexels.com/v1/search?query=${encodeURIComponent(query + " food")}&per_page=3&orientation=landscape`,
+          {
+            headers: { Authorization: pexelsKey },
+            signal: AbortSignal.timeout(3000),
+          },
+        );
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.photos?.length > 0) {
+          const photo =
+            data.photos[Math.floor(Math.random() * data.photos.length)];
+          return photo.src.medium;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    };
+
+    // Try Google Places first, fall back to Pexels
+    const restaurantPhotos = await fetchRestaurantPhotos(
+      restaurantName.trim(),
+      location || "Campbell, CA",
+    );
+
+    if (restaurantPhotos.length >= 2) {
+      recommendation.optionA.photoUrl = restaurantPhotos[0];
+      recommendation.optionB.photoUrl = restaurantPhotos[1];
+    } else if (restaurantPhotos.length === 1) {
+      recommendation.optionA.photoUrl = restaurantPhotos[0];
+      if (recommendation.optionB.photoQuery) {
+        const fallback = await fetchPexelsPhoto(
+          recommendation.optionB.photoQuery,
+        );
+        if (fallback) recommendation.optionB.photoUrl = fallback;
+      }
+    } else {
+      // No restaurant photos — Pexels fallback for both
       const [photoA, photoB] = await Promise.all([
         recommendation.optionA.photoQuery
-          ? fetchPhoto(recommendation.optionA.photoQuery)
+          ? fetchPexelsPhoto(recommendation.optionA.photoQuery)
           : null,
         recommendation.optionB.photoQuery
-          ? fetchPhoto(recommendation.optionB.photoQuery)
+          ? fetchPexelsPhoto(recommendation.optionB.photoQuery)
           : null,
       ]);
-
       if (photoA) recommendation.optionA.photoUrl = photoA;
       if (photoB) recommendation.optionB.photoUrl = photoB;
     }
+
+    const photoSource =
+      restaurantPhotos.length >= 2
+        ? "google-places"
+        : restaurantPhotos.length === 1
+          ? "google-places+pexels"
+          : "pexels";
 
     console.log(
       JSON.stringify({
@@ -187,6 +270,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         restaurant: restaurantName,
         matched: recommendation.restaurantMatched,
         constraints: constraints.dietary,
+        photoSource,
+        photosFound: restaurantPhotos.length,
         timestamp: new Date().toISOString(),
       }),
     );
