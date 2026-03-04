@@ -653,11 +653,18 @@ const projects = [
       ['date +"%A"', 'another good day to build'],
     ];
 
-    // Fetch real weather and patch into the pair
+    // Shuffle terminal commands (Fisher-Yates)
+    for (let i = termPairs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [termPairs[i], termPairs[j]] = [termPairs[j], termPairs[i]];
+    }
+
+    // Find the weather entry and patch with real data
+    const weatherEntry = termPairs.find(p => p[0].includes('wttr'));
     fetch('/api/weather')
       .then(r => r.json())
-      .then(d => { if (d.weather) termPairs[1][1] = d.weather; })
-      .catch(() => { termPairs[1][1] = '☀️  nice out there'; });
+      .then(d => { if (d.weather && weatherEntry) weatherEntry[1] = d.weather; })
+      .catch(() => { if (weatherEntry) weatherEntry[1] = '☀️  nice out there'; });
 
     let termIdx = 0;
     const MAX_VISIBLE = 4;
