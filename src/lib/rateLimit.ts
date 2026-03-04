@@ -1,6 +1,6 @@
 const hits = new Map<string, number[]>();
 
-const MAX_REQUESTS = 20;
+const MAX_REQUESTS = 120;
 const WINDOW_MS = 60_000; // 1 minute
 const CLEANUP_INTERVAL_MS = 5 * 60_000; // 5 minutes
 
