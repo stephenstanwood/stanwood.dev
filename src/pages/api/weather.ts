@@ -2,26 +2,59 @@ import type { APIRoute } from "astro";
 
 /**
  * Lightweight weather proxy for the homepage terminal card.
- * Fetches current conditions from wttr.in for Campbell, CA
- * and returns a one-liner like "☀️  72°F clear".
+ * Uses Open-Meteo (free, no key) for Campbell, CA coords.
+ * Returns a one-liner like "☀️ 72°F Clear sky".
  *
  * Cached for 30 minutes via CDN headers.
  */
+
+// WMO weather codes → emoji + description
+const WMO: Record<number, [string, string]> = {
+  0: ["☀️", "clear"],
+  1: ["🌤", "mostly clear"],
+  2: ["⛅", "partly cloudy"],
+  3: ["☁️", "overcast"],
+  45: ["🌫", "fog"],
+  48: ["🌫", "fog"],
+  51: ["🌦", "light drizzle"],
+  53: ["🌦", "drizzle"],
+  55: ["🌧", "heavy drizzle"],
+  61: ["🌧", "light rain"],
+  63: ["🌧", "rain"],
+  65: ["🌧", "heavy rain"],
+  71: ["🌨", "light snow"],
+  73: ["🌨", "snow"],
+  75: ["🌨", "heavy snow"],
+  80: ["🌦", "rain showers"],
+  81: ["🌧", "rain showers"],
+  82: ["⛈", "heavy showers"],
+  95: ["⛈", "thunderstorm"],
+  96: ["⛈", "thunderstorm + hail"],
+  99: ["⛈", "thunderstorm + hail"],
+};
+
+// Campbell, CA
+const LAT = 37.2872;
+const LON = -121.9500;
+
 export const GET: APIRoute = async () => {
   try {
-    // wttr.in format: %c = weather icon, %t = temperature, %C = condition text
-    const res = await fetch("https://wttr.in/Campbell,CA?format=%c+%t+%C", {
-      headers: { "User-Agent": "stanwood.dev terminal card" },
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America/Los_Angeles`;
+
+    const res = await fetch(url, {
       signal: AbortSignal.timeout(4000),
     });
 
-    if (!res.ok) throw new Error(`wttr.in ${res.status}`);
+    if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 
-    const raw = await res.text();
-    // Clean up: wttr.in sometimes adds extra whitespace
-    const line = raw.trim().replace(/\s+/g, " ");
+    const data = await res.json();
+    const temp = Math.round(data.current.temperature_2m);
+    const code = data.current.weather_code as number;
+    const [emoji, desc] = WMO[code] ?? ["🌡", "unknown"];
 
-    return new Response(JSON.stringify({ weather: line }), {
+    const weather = `${emoji} ${temp}°F ${desc}`;
+
+    return new Response(JSON.stringify({ weather }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
