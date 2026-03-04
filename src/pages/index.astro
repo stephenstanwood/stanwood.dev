@@ -472,8 +472,22 @@ const projects = [
       @media (max-width: 700px) {
         .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; }
         .id-block { grid-column: 1 / -1; }
+        .link-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+        .link-row .retro-link {
+          justify-content: center;
+          text-align: center;
+        }
         .avatar-block { grid-column: 1 / 2; }
-        .banner-block { grid-column: 2 / 3; }
+        .banner-block {
+          grid-column: 2 / 3;
+          min-height: 180px;
+          max-height: 220px;
+        }
+        .term-prompt { min-height: 4em; }
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
@@ -604,7 +618,7 @@ const projects = [
 
     <!-- Footer -->
     <div class="footer-row">
-      <span class="footer-sig">powered by coffee and chlorine ☕</span>
+      <span class="footer-sig">powered by chlorine and coffee ☕</span>
       <span class="footer-mono">stanwood.dev <span class="px-dot" style="color:#ccc"></span> campbell, california</span>
     </div>
   </div>
