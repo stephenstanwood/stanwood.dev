@@ -1,4 +1,4 @@
-import type { ShowSwipeStorage, SwipedItem, MediaType } from "./types";
+import type { ShowSwipeStorage, SwipedItem, MediaType, Era } from "./types";
 
 const LS_KEY = "show-swipe:v1";
 const MAX_HISTORY = 200;
@@ -11,7 +11,8 @@ function getDefault(): ShowSwipeStorage {
     disliked: [],
     genreScores: {},
     seenIds: [],
-    mediaType: "movie",
+    mediaType: "tv",
+    era: "recent",
     lastUpdated: new Date().toISOString(),
   };
 }
@@ -68,12 +69,22 @@ export function getGenreScores(): Record<number, number> {
 }
 
 export function getMediaType(): MediaType {
-  return loadStorage()?.mediaType ?? "movie";
+  return loadStorage()?.mediaType ?? "tv";
 }
 
 export function setMediaType(mt: MediaType): void {
   const stored = loadStorage() ?? getDefault();
   stored.mediaType = mt;
+  save(stored);
+}
+
+export function getEra(): Era {
+  return loadStorage()?.era ?? "recent";
+}
+
+export function setEra(era: Era): void {
+  const stored = loadStorage() ?? getDefault();
+  stored.era = era;
   save(stored);
 }
 

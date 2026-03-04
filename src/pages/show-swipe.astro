@@ -139,6 +139,14 @@ const title = "Show Swipe — stanwood.dev";
         animation: ssFadeIn 0.3s ease-out;
       }
 
+      /* ─── Toggles Container ──────────────────────────────────────── */
+      .ss-toggles {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
       /* ─── Media Toggle ───────────────────────────────────────────── */
       .ss-toggle {
         display: flex;
@@ -148,6 +156,11 @@ const title = "Show Swipe — stanwood.dev";
         border-radius: 10px;
         padding: 3px;
         flex-shrink: 0;
+      }
+      .ss-toggle-sm .ss-toggle-btn {
+        padding: 0.3rem 0.75rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
       }
       .ss-toggle-btn {
         flex: 1;
