@@ -257,13 +257,16 @@ const projects = [
       .term-dot.g { background: #28c840; }
       .term-prompt {
         color: #28c840;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1.7;
-        min-height: 5.1em;
+        min-height: 6em;
       }
-      .term-prompt .line::before {
-        content: '> ';
+      .term-prompt .line.cmd::before {
+        content: '$ ';
         color: #555;
+      }
+      .term-prompt .line.out {
+        color: #888;
       }
       .term-cursor {
         display: inline-block;
@@ -638,33 +641,45 @@ const projects = [
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
-    const termLines = [
-      'building something new',
-      'probably refactoring',
-      'one more commit...',
-      'what if we tried this',
-      'that looks cool!',
-      'npm run dev',
-      'git push origin main',
-      'wait what just happened',
+    const termPairs = [
+      ['wc -l src/**/*.ts', '4,847 lines of vibes'],
+      ['uptime', '42d caffeinated'],
+      ['curl wttr.in/campbell', '☀️  72°F clear'],
+      ['git log --oneline -1', 'one more commit...'],
+      ['echo $MOOD', 'optimistic'],
+      ['ping localhost', '0.01ms — still here'],
+      ['ls projects/ | wc -l', '11 and counting'],
+      ['cat /dev/motivation', 'keep shipping'],
+      ['git diff --stat', '3 files changed, +42 -0'],
+      ['date +"%A"', 'another good day to build'],
     ];
 
-    let termLineIdx = 0;
-    const MAX_VISIBLE = 3;
+    let termIdx = 0;
+    const MAX_VISIBLE = 4;
 
-    async function typeLine(text: string): Promise<void> {
+    function trimLines() {
       const lines = termOutput!.querySelectorAll('.line');
-      if (lines.length >= MAX_VISIBLE) {
+      if (lines.length > MAX_VISIBLE) {
         const first = lines[0] as HTMLElement;
         first.style.opacity = '0';
         first.style.transform = 'translateY(-8px)';
-        first.style.transition = 'all 0.3s';
-        await new Promise(r => setTimeout(r, 300));
-        first.remove();
+        first.style.transition = 'all 0.25s';
+        setTimeout(() => first.remove(), 250);
       }
+    }
 
+    function addLine(text: string, cls: string) {
+      trimLines();
       const line = document.createElement('div');
-      line.className = 'line';
+      line.className = 'line ' + cls;
+      line.textContent = text;
+      termOutput!.appendChild(line);
+    }
+
+    async function typeCmd(text: string): Promise<void> {
+      trimLines();
+      const line = document.createElement('div');
+      line.className = 'line cmd';
       const span = document.createElement('span');
       line.appendChild(span);
       const cursor = document.createElement('span');
@@ -674,16 +689,19 @@ const projects = [
 
       for (let i = 0; i < text.length; i++) {
         span.textContent += text[i];
-        await new Promise(r => setTimeout(r, 50 + Math.random() * 40));
+        await new Promise(r => setTimeout(r, 40 + Math.random() * 35));
       }
       cursor.remove();
     }
 
     async function termLoop() {
       while (true) {
-        await typeLine(termLines[termLineIdx]);
-        termLineIdx = (termLineIdx + 1) % termLines.length;
-        await new Promise(r => setTimeout(r, 2500));
+        const [cmd, out] = termPairs[termIdx];
+        await typeCmd(cmd);
+        await new Promise(r => setTimeout(r, 300));
+        addLine(out, 'out');
+        termIdx = (termIdx + 1) % termPairs.length;
+        await new Promise(r => setTimeout(r, 2200));
       }
     }
 
