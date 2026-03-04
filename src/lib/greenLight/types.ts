@@ -73,6 +73,8 @@ export interface Recommendation {
   quickMods: string[];
   whyItWorks: string[];
   signals: Partial<DimensionScores>;
+  photoQuery?: string;
+  photoUrl?: string;
 }
 
 export interface RecommendResponse {
