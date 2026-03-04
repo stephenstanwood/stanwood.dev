@@ -24,7 +24,7 @@ const featured = [
     emoji: "☕",
     tag: "Utility · Location",
     title: "Nearest Coffee",
-    desc: "The nearest open coffee shop. One tap to navigate. That's it.",
+    desc: "The nearest open coffee shop. That's it.",
     bg: "#efffea",
   },
 ];
@@ -641,10 +641,10 @@ const projects = [
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
-    const termPairs = [
+    const termPairs: [string, string][] = [
       ['wc -l src/**/*.ts', '4,847 lines of vibes'],
       ['uptime', '42d caffeinated'],
-      ['curl wttr.in/campbell', '☀️  72°F clear'],
+      ['curl wttr.in/campbell', '…'],
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
@@ -653,6 +653,12 @@ const projects = [
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
     ];
+
+    // Fetch real weather and patch into the pair
+    fetch('/api/weather')
+      .then(r => r.json())
+      .then(d => { if (d.weather) termPairs[2][1] = d.weather; })
+      .catch(() => { termPairs[2][1] = '☀️  nice out there'; });
 
     let termIdx = 0;
     const MAX_VISIBLE = 4;
