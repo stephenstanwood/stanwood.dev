@@ -145,35 +145,16 @@ function hasExcludedGenre(item: TmdbMediaItem, mediaType: MediaType): boolean {
   return item.genre_ids.some((id) => excluded.has(id));
 }
 
-export async function fetchNextBatch(
+function filterCandidates(
+  rawItems: TmdbMediaItem[],
+  allSeen: Set<number>,
   mediaType: MediaType,
   era: Era,
-  existingCardIds: Set<number>,
-): Promise<ShowSwipeCard[]> {
-  const seenIds = getSeenIds();
-  const allSeen = new Set([...seenIds, ...existingCardIds]);
-  const totalSwipes = getTotalSwipes();
-  const plan = buildFetchPlan(totalSwipes, era);
-
-  const roll = Math.random();
-  let cumulative = 0;
-  let chosenSource = plan[0];
-  for (const entry of plan) {
-    cumulative += entry.weight;
-    if (roll <= cumulative) {
-      chosenSource = entry;
-      break;
-    }
-  }
-
-  const page = Math.floor(Math.random() * 3) + 1;
-  const rawItems = await fetchFromSource(chosenSource.source, mediaType, era, page);
-
+): TmdbMediaItem[] {
   const currentYear = new Date().getFullYear();
   const recentCutoff = `${currentYear - RECENT_YEARS}-01-01`;
 
-  // Filter: not seen, not adult, has poster, quality floor, no excluded genres, era-appropriate
-  const candidates = rawItems.filter((item) => {
+  return rawItems.filter((item) => {
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
     // Quality floor: skip low-rated or unrated content
     if (item.vote_count < 50 || item.vote_average < 5.0) return false;
@@ -188,6 +169,60 @@ export async function fetchNextBatch(
 
     return true;
   });
+}
+
+export async function fetchNextBatch(
+  mediaType: MediaType,
+  era: Era,
+  existingCardIds: Set<number>,
+): Promise<ShowSwipeCard[]> {
+  const seenIds = getSeenIds();
+  const allSeen = new Set([...seenIds, ...existingCardIds]);
+  const totalSwipes = getTotalSwipes();
+  const plan = buildFetchPlan(totalSwipes, era);
+
+  // Weighted random pick
+  const roll = Math.random();
+  let cumulative = 0;
+  let chosenIdx = 0;
+  for (let i = 0; i < plan.length; i++) {
+    cumulative += plan[i].weight;
+    if (roll <= cumulative) {
+      chosenIdx = i;
+      break;
+    }
+  }
+
+  // Build source order: chosen first, then remaining sources as fallbacks
+  const sourceOrder = [plan[chosenIdx], ...plan.filter((_, i) => i !== chosenIdx)];
+
+  let candidates: TmdbMediaItem[] = [];
+
+  for (const entry of sourceOrder) {
+    // Try up to 3 pages per source
+    for (let pageAttempt = 0; pageAttempt < 3 && candidates.length < BUFFER_SIZE; pageAttempt++) {
+      const page = Math.floor(Math.random() * 5) + 1;
+      try {
+        const rawItems = await fetchFromSource(entry.source, mediaType, era, page);
+        const filtered = filterCandidates(rawItems, allSeen, mediaType, era);
+        // Add new candidates (dedup against what we already have)
+        const existingIds = new Set(candidates.map((c) => c.id));
+        for (const item of filtered) {
+          if (!existingIds.has(item.id)) {
+            candidates.push(item);
+            existingIds.add(item.id);
+          }
+        }
+        // If we got some results, move to next source (don't exhaust pages)
+        if (filtered.length > 0) break;
+      } catch {
+        // Source failed, try next
+        break;
+      }
+    }
+
+    if (candidates.length >= BUFFER_SIZE) break;
+  }
 
   const shuffled = candidates.sort(() => Math.random() - 0.5);
 
