@@ -642,7 +642,6 @@ const projects = [
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
     const termPairs: [string, string][] = [
-      ['wc -l src/**/*.ts', '4,847 lines of vibes'],
       ['uptime', '42d caffeinated'],
       ['curl wttr.in/campbell', '…'],
       ['git log --oneline -1', 'one more commit...'],
@@ -657,8 +656,8 @@ const projects = [
     // Fetch real weather and patch into the pair
     fetch('/api/weather')
       .then(r => r.json())
-      .then(d => { if (d.weather) termPairs[2][1] = d.weather; })
-      .catch(() => { termPairs[2][1] = '☀️  nice out there'; });
+      .then(d => { if (d.weather) termPairs[1][1] = d.weather; })
+      .catch(() => { termPairs[1][1] = '☀️  nice out there'; });
 
     let termIdx = 0;
     const MAX_VISIBLE = 4;
