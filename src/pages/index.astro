@@ -161,9 +161,9 @@ const projects = [
         max-width: 340px;
       }
       .link-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 8px;
-        flex-wrap: wrap;
       }
       .retro-link {
         font-family: 'Space Mono', monospace;
@@ -177,6 +177,7 @@ const projects = [
         box-shadow: 2px 2px 0 var(--ink);
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 5px;
       }
       .retro-link:hover {
@@ -520,21 +521,17 @@ const projects = [
         .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; }
         .id-block { grid-column: 1 / -1; }
         .link-row {
-          display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 8px;
-        }
-        .link-row .retro-link {
-          justify-content: center;
-          text-align: center;
         }
         .avatar-block { grid-column: 1 / 2; }
         .banner-block {
           grid-column: 2 / 3;
           min-height: 180px;
           max-height: 220px;
+          overflow: hidden;
         }
-        .term-prompt { min-height: 4em; }
+        .term-prompt { min-height: 4em; font-size: 9px; }
+        .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }

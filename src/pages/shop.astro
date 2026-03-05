@@ -5,12 +5,14 @@ const products = [
   {
     id: "love",
     name: "LOVE OVER HATE",
+    stackedName: "LOVE\nOVER\nHATE",
     price: 32,
     defaultColor: "white",
   },
   {
     id: "make",
     name: "MAKE COOL THINGS",
+    stackedName: "MAKE\nCOOL\nTHINGS",
     price: 32,
     defaultColor: "black",
   },
@@ -133,6 +135,23 @@ const products = [
         object-fit: cover;
         display: block;
       }
+
+      .design-placeholder {
+        display: none;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 32px;
+        line-height: 1.1;
+        text-align: center;
+        color: #111;
+      }
+      .product-card[data-color="black"] .design-placeholder { color: #f0f0f0; }
+      .design-img.broken { display: none; }
+      .design-img.broken + .design-placeholder { display: flex; }
 
       /* ── Color swatches ── */
       .color-swatches {
@@ -361,7 +380,9 @@ const products = [
                 decoding="async"
                 width="800"
                 height="800"
+                onerror="this.classList.add('broken')"
               />
+              <div class="design-placeholder">{(p.stackedName || p.name).split('\n').map((line: string, i: number) => <>{i > 0 && <br />}{line}</>)}</div>
             </div>
             <div class="color-swatches">
               <button
@@ -436,6 +457,8 @@ const products = [
         const img = card.querySelector('.design-img') as HTMLImageElement;
         if (img) {
           const base = img.dataset.base;
+          img.classList.remove('broken');
+          img.onerror = () => img.classList.add('broken');
           img.src = `${base}-${color}.webp`;
           img.alt = img.alt.replace(/— \w+$/, `— ${color}`);
         }
