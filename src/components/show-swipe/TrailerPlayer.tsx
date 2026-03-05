@@ -12,6 +12,7 @@ interface Props {
 
 let apiLoaded = false;
 let apiReady = false;
+let hasUserInteracted = false;
 const readyQueue: (() => void)[] = [];
 
 function ensureYTApi(cb: () => void) {
@@ -45,8 +46,26 @@ export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onE
   const onErrorRef = useRef(onError);
   onErrorRef.current = onError;
 
+  // Track user interaction so we can unmute after first swipe
+  useEffect(() => {
+    if (hasUserInteracted) return;
+    const markInteracted = () => {
+      hasUserInteracted = true;
+      window.removeEventListener("pointerdown", markInteracted);
+      window.removeEventListener("keydown", markInteracted);
+    };
+    window.addEventListener("pointerdown", markInteracted);
+    window.addEventListener("keydown", markInteracted);
+    return () => {
+      window.removeEventListener("pointerdown", markInteracted);
+      window.removeEventListener("keydown", markInteracted);
+    };
+  }, []);
+
   useEffect(() => {
     const id = `yt-${youtubeKey}-${Math.random().toString(36).slice(2, 6)}`;
+    // Mute the first video so autoplay works; unmute after user interaction
+    const needsMute = !hasUserInteracted;
 
     ensureYTApi(() => {
       if (!containerRef.current) return;
@@ -62,6 +81,7 @@ export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onE
         height: "100%",
         playerVars: {
           autoplay: 1,
+          mute: needsMute ? 1 : 0,
           playsinline: 1,
           rel: 0,
           modestbranding: 1,
