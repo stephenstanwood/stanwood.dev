@@ -33,6 +33,10 @@ export default function TasteQuiz({ questions, onComplete }: Props) {
 
   return (
     <div className="he-quiz">
+      {/* Intro heading */}
+      <h2 className="he-quiz-intro-title">Let's learn what you like</h2>
+      <p className="he-quiz-intro-sub">Pick whichever sounds better &mdash; no wrong answers.</p>
+
       {/* Progress bar */}
       <div className="he-progress-track">
         <div
@@ -52,6 +56,9 @@ export default function TasteQuiz({ questions, onComplete }: Props) {
           onClick={() => pick("A")}
           aria-label={`Choose: ${question.optionA.label}`}
         >
+          {question.optionA.emoji && (
+            <span className="he-quiz-card-emoji">{question.optionA.emoji}</span>
+          )}
           <span className="he-quiz-card-label">{question.optionA.label}</span>
           {question.optionA.subtitle && (
             <span className="he-quiz-card-sub">{question.optionA.subtitle}</span>
@@ -66,6 +73,9 @@ export default function TasteQuiz({ questions, onComplete }: Props) {
           onClick={() => pick("B")}
           aria-label={`Choose: ${question.optionB.label}`}
         >
+          {question.optionB.emoji && (
+            <span className="he-quiz-card-emoji">{question.optionB.emoji}</span>
+          )}
           <span className="he-quiz-card-label">{question.optionB.label}</span>
           {question.optionB.subtitle && (
             <span className="he-quiz-card-sub">{question.optionB.subtitle}</span>

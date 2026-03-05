@@ -331,12 +331,12 @@ export default function SwimWorkout() {
           <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
             Pace per 100{unitLabel}
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid grid-cols-4 gap-2">
             {currentPaces.map((p) => (
               <button
                 key={p.value}
                 onClick={() => setPace(p.value)}
-                className={`rounded-xl px-5 py-2.5 text-sm font-mono font-semibold transition-all ${
+                className={`rounded-xl px-4 py-2.5 text-sm font-mono font-semibold transition-all ${
                   pace === p.value
                     ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
                     : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"

@@ -71,6 +71,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         align-items: center;
         justify-content: center;
         padding: 12px 16px 24px;
+        max-width: 720px;
+        margin: 0 auto;
       }
       h1 {
         font-size: 1.2rem;
@@ -212,37 +214,36 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         ];
       }
 
-      // --- Fish sprite ---
-      // Fish body pixels (relative to origin), facing right
-      // Shape: a cute 8x5 pixel fish
-      const FISH_BODY_R = [
-        // row 0 (top)
-        [2,0],[3,0],[4,0],
-        // row 1
-        [1,1],[2,1],[3,1],[4,1],[5,1],
-        // row 2 (middle)
-        [0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],
-        // row 3
-        [1,3],[2,3],[3,3],[4,3],[5,3],
-        // row 4 (bottom)
-        [2,4],[3,4],[4,4],
-      ];
-      const FISH_TAIL_R = [
-        [-1,1],[-2,0],[-2,1],[-1,2],[-2,2],[-1,3],[-2,3],[-2,4],
-      ];
-      const FISH_EYE_R = [5,1];
-      const FISH_FIN_R = [[3,5],[4,5]];
-
-      // Flip for left-facing
+      // --- Fish shapes (multiple body types) ---
       function mirrorX(pixels, w) {
         return pixels.map(([x, y]) => [w - 1 - x, y]);
       }
 
-      const FISH_W = 9; // total width including tail
-      const FISH_BODY_L = mirrorX(FISH_BODY_R, 7);
-      const FISH_TAIL_L = mirrorX(FISH_TAIL_R.map(([x,y]) => [x + 7, y]), 7 + 3).map(([x,y]) => [x - 7, y]);
-      const FISH_EYE_L = [7 - 1 - FISH_EYE_R[0], FISH_EYE_R[1]];
-      const FISH_FIN_L = mirrorX(FISH_FIN_R, 7);
+      const FISH_SHAPES = [
+        { // Classic — compact diamond
+          bodyR: [[2,0],[3,0],[4,0],[1,1],[2,1],[3,1],[4,1],[5,1],[0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[1,3],[2,3],[3,3],[4,3],[5,3],[2,4],[3,4],[4,4]],
+          tailR: [[-1,1],[-2,0],[-2,1],[-1,2],[-2,2],[-1,3],[-2,3],[-2,4]],
+          eyeR: [5,1], finR: [[3,5],[4,5]], w: 7, stripeY: [2],
+        },
+        { // Angelfish — tall leaf shape
+          bodyR: [[3,0],[2,1],[3,1],[4,1],[1,2],[2,2],[3,2],[4,2],[5,2],[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[1,4],[2,4],[3,4],[4,4],[5,4],[2,5],[3,5],[4,5],[3,6]],
+          tailR: [[-1,2],[-1,3],[-1,4],[-2,1],[-2,3],[-2,5]],
+          eyeR: [5,2], finR: [[2,7],[3,7]], w: 7, stripeY: [3],
+        },
+        { // Pufferfish — round and chunky
+          bodyR: [[2,0],[3,0],[4,0],[5,0],[1,1],[2,1],[3,1],[4,1],[5,1],[6,1],[0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2],[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3],[1,4],[2,4],[3,4],[4,4],[5,4],[6,4],[2,5],[3,5],[4,5],[5,5]],
+          tailR: [[-1,2],[-1,3]],
+          eyeR: [6,1], finR: [[3,6],[4,6]], w: 8, stripeY: [2, 3],
+        },
+      ];
+
+      // Precompute left-facing versions for each shape
+      for (const s of FISH_SHAPES) {
+        s.bodyL = mirrorX(s.bodyR, s.w);
+        s.tailL = mirrorX(s.tailR.map(([x,y]) => [x + s.w, y]), s.w + 3).map(([x,y]) => [x - s.w, y]);
+        s.eyeL = [s.w - 1 - s.eyeR[0], s.eyeR[1]];
+        s.finL = mirrorX(s.finR, s.w);
+      }
 
       // --- Curated fish palettes (body, tail, fin) ---
       const FISH_PALETTES = [
@@ -265,6 +266,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       function createFish(x, y) {
         const palette = FISH_PALETTES[Math.floor(Math.random() * FISH_PALETTES.length)];
         const size = FISH_SIZES[Math.floor(Math.random() * FISH_SIZES.length)];
+        const shapeIdx = Math.floor(Math.random() * FISH_SHAPES.length);
         return {
           x, y,
           vx: (Math.random() - 0.5) * 0.3,
@@ -276,11 +278,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           swimTimer: Math.random() * 1000,
           targetFood: null,
           size,
+          shapeIdx,
+          hasStripe: Math.random() > 0.5,
           // personality
           hunger: 0.3 + Math.random() * 0.7,    // 0-1: how motivated by food
           laziness: 0.3 + Math.random() * 0.5,   // affects idle drift frequency
-          swimSpeed: 0.3 + Math.random() * 0.4,  // personal max speed multiplier
-          wiggleRate: 0.002 + Math.random() * 0.003, // tail/fin animation speed
+          swimSpeed: 0.5 + Math.random() * 0.8,  // faster + more variable
+          wiggleRate: 0.001 + Math.random() * 0.0015, // slower, calmer animation
         };
       }
 
@@ -365,10 +369,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       // --- Draw fish ---
       function drawFish(fish, time) {
         const dir = fish.facing;
-        const body = dir > 0 ? FISH_BODY_R : FISH_BODY_L;
-        const tail = dir > 0 ? FISH_TAIL_R : FISH_TAIL_L;
-        const eye = dir > 0 ? FISH_EYE_R : FISH_EYE_L;
-        const fin = dir > 0 ? FISH_FIN_R : FISH_FIN_L;
+        const shape = FISH_SHAPES[fish.shapeIdx];
+        const body = dir > 0 ? shape.bodyR : shape.bodyL;
+        const tail = dir > 0 ? shape.tailR : shape.tailL;
+        const eye = dir > 0 ? shape.eyeR : shape.eyeL;
+        const fin = dir > 0 ? shape.finR : shape.finL;
 
         const s = fish.size;
         const ps = Math.round(PIXEL * s);
@@ -378,13 +383,26 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         const [tr, tg, tb] = fish.tailColor;
         const [fr, fg, fb] = fish.finColor;
 
-        // Gentle tail wiggle — slower, smaller amplitude
-        const wiggle = Math.round(Math.sin(time * fish.wiggleRate + fish.swimTimer) * 0.8);
+        // Gentle tail wiggle — calm amplitude
+        const wiggle = Math.round(Math.sin(time * fish.wiggleRate + fish.swimTimer) * 0.5);
 
         // Body
         ctx.fillStyle = rgbStr(r, g, b);
         for (const [bx, by] of body) {
           ctx.fillRect(ox + bx * ps, oy + by * ps, ps, ps);
+        }
+
+        // Stripe overlay for detail
+        if (fish.hasStripe) {
+          const sr = Math.min(255, r + 45);
+          const sg = Math.min(255, g + 45);
+          const sb = Math.min(255, b + 45);
+          ctx.fillStyle = rgbStr(sr, sg, sb, 0.6);
+          for (const [bx, by] of body) {
+            if (shape.stripeY.includes(by)) {
+              ctx.fillRect(ox + bx * ps, oy + by * ps, ps, ps);
+            }
+          }
         }
 
         // Tail with wiggle
@@ -398,7 +416,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         ctx.fillRect(ox + eye[0] * ps, oy + eye[1] * ps, ps, ps);
 
         // Fin — gentle, shows about 60% of the time with smooth sine
-        const finAlpha = Math.sin(time * fish.wiggleRate * 0.8 + fish.swimTimer) * 0.3 + 0.5;
+        const finAlpha = Math.sin(time * fish.wiggleRate * 0.5 + fish.swimTimer) * 0.3 + 0.5;
         if (finAlpha > 0.4) {
           ctx.fillStyle = rgbStr(fr, fg, fb, Math.min(finAlpha, 0.7));
           for (const [fx, fy] of fin) {
@@ -484,9 +502,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           const drift = fish.laziness;
 
           // Occasional gentle course change
-          if (Math.random() < 0.005 * (1 - drift)) {
-            fish.vx += (Math.random() - 0.5) * 0.15;
-            fish.vy += (Math.random() - 0.5) * 0.08;
+          if (Math.random() < 0.008 * (1 - drift)) {
+            fish.vx += (Math.random() - 0.5) * 0.2;
+            fish.vy += (Math.random() - 0.5) * 0.12;
           }
 
           // Smooth sine wave — unique per fish
@@ -500,7 +518,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
         // Speed limit — personal max speed
         const speed = Math.sqrt(fish.vx * fish.vx + fish.vy * fish.vy);
-        const maxSpeed = 0.5 * fish.swimSpeed;
+        const maxSpeed = 0.7 * fish.swimSpeed;
         if (speed > maxSpeed) {
           fish.vx = (fish.vx / speed) * maxSpeed;
           fish.vy = (fish.vy / speed) * maxSpeed;

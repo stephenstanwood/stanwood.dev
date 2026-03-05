@@ -227,7 +227,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               Drop a PDF here, or click to upload.
             </p>
             <p class="mt-1 text-xs text-[#71717A]">
-              Sent to AI for summarization, then discarded.
+              Sent to AI to summarize, then discarded.
             </p>
           </div>
 
@@ -279,19 +279,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </main>
 
     <script>
-      // Typewriter animation
+      // Typewriter animation — type, pause, delete, repeat
       (() => {
         const chars = document.querySelectorAll<HTMLSpanElement>('#typewriter .char');
         const cursor = document.getElementById('cursor')!;
-        let i = 0;
-        function typeNext() {
-          if (i < chars.length) {
+
+        async function sleep(ms: number) {
+          return new Promise(r => setTimeout(r, ms));
+        }
+
+        async function typeAll() {
+          for (let i = 0; i < chars.length; i++) {
             chars[i].classList.add('visible');
-            i++;
-            setTimeout(typeNext, 150);
+            await sleep(150);
           }
         }
-        setTimeout(typeNext, 400);
+
+        async function deleteAll() {
+          for (let i = chars.length - 1; i >= 0; i--) {
+            chars[i].classList.remove('visible');
+            await sleep(100);
+          }
+        }
+
+        async function loop() {
+          await sleep(400);
+          while (true) {
+            await typeAll();
+            await sleep(2500);
+            await deleteAll();
+            await sleep(800);
+          }
+        }
+
+        loop();
       })();
 
       const dropZone = document.getElementById("dropZone")!;
