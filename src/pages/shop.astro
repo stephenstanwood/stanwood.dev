@@ -5,21 +5,18 @@ const products = [
   {
     id: "love",
     name: "LOVE OVER HATE",
-    lines: ["LOVE", "OVER", "HATE"],
     price: 32,
     defaultColor: "white",
   },
   {
     id: "make",
     name: "MAKE COOL THINGS",
-    lines: ["MAKE", "COOL", "THINGS"],
     price: 32,
     defaultColor: "black",
   },
   {
     id: "care",
     name: "CARE",
-    lines: ["CARE"],
     price: 32,
     defaultColor: "white",
   },
@@ -121,25 +118,20 @@ const products = [
         box-shadow: 5px 5px 0 #333;
       }
 
-      /* ── Design display — just the text, big and bold ── */
+      /* ── Design display — product mockup photo ── */
       .design-display {
         aspect-ratio: 1;
         background: #f5f5f0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
         border-bottom: 3px solid #111;
-        padding: 24px;
-        gap: 2px;
+        overflow: hidden;
         transition: background 0.3s;
       }
 
-      .design-line {
-        font-family: 'Permanent Marker', cursive;
-        line-height: 1.05;
-        transition: color 0.3s;
-        user-select: none;
+      .design-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
       /* ── Color swatches ── */
@@ -357,16 +349,19 @@ const products = [
     <div class="product-grid">
       {products.map((p) => {
         const isBlack = p.defaultColor === "black";
-        const fontSize = p.lines.length === 1 ? "clamp(48px, 10vw, 72px)" : p.lines.some(l => l.length > 4) ? "clamp(28px, 6vw, 40px)" : "clamp(32px, 7vw, 48px)";
         return (
           <div class="product-card" data-color={p.defaultColor}>
             <div class="design-display">
-              {p.lines.map((line) => (
-                <div
-                  class="design-line"
-                  style={`font-size: ${fontSize}; color: ${isBlack ? "white" : "#111"};`}
-                >{line}</div>
-              ))}
+              <img
+                class="design-img"
+                src={`/shop/${p.id}-${p.defaultColor}.webp`}
+                data-base={`/shop/${p.id}`}
+                alt={`${p.name} tee — ${p.defaultColor}`}
+                loading="lazy"
+                decoding="async"
+                width="800"
+                height="800"
+              />
             </div>
             <div class="color-swatches">
               <button
@@ -396,7 +391,7 @@ const products = [
     </div>
 
     <p class="product-blurb">
-      Bella Canvas 3001CVC. 52/48 cotton-poly blend. Holds its shape, soft as hell, built to last.
+      Bella Canvas 3001CVC. 52/48 cotton-poly blend. Tagless inside neck print. Soft as hell, built to last.
     </p>
 
     <div class="shop-footer">
@@ -438,11 +433,23 @@ const products = [
         card.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
         btn.classList.add('active');
 
-        const isBlack = color === 'black';
-        card.querySelectorAll('.design-line').forEach((el) => {
-          (el as HTMLElement).style.color = isBlack ? 'white' : '#111';
-        });
+        const img = card.querySelector('.design-img') as HTMLImageElement;
+        if (img) {
+          const base = img.dataset.base;
+          img.src = `${base}-${color}.webp`;
+          img.alt = img.alt.replace(/— \w+$/, `— ${color}`);
+        }
       });
+    });
+
+    // Preload alternate color images
+    document.querySelectorAll('.design-img').forEach((img) => {
+      const el = img as HTMLImageElement;
+      const base = el.dataset.base;
+      const currentColor = el.closest('.product-card')?.getAttribute('data-color');
+      const altColor = currentColor === 'black' ? 'white' : 'black';
+      const preload = new Image();
+      preload.src = `${base}-${altColor}.webp`;
     });
 
     // Size chart modal
