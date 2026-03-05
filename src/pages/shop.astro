@@ -1,0 +1,446 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const products = [
+  {
+    id: "love",
+    name: "LOVE OVER HATE",
+    lines: ["LOVE", "OVER", "HATE"],
+    price: 32,
+    defaultColor: "white",
+  },
+  {
+    id: "make",
+    name: "MAKE COOL THINGS",
+    lines: ["MAKE", "COOL", "THINGS"],
+    price: 32,
+    defaultColor: "black",
+  },
+  {
+    id: "care",
+    name: "CARE",
+    lines: ["CARE"],
+    price: 32,
+    defaultColor: "white",
+  },
+];
+---
+
+<BaseLayout
+  title="Shop — stanwood.dev"
+  description="Simple tees with something to say."
+  slug="shop"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cabin:wght@400;700&family=Permanent+Marker&display=swap"
+  schemaCategory="Store"
+  schemaName="Shop"
+>
+  <Fragment slot="head">
+    <style is:global>
+      body {
+        background: #fffef5;
+        color: #111;
+        font-family: 'Cabin', sans-serif;
+      }
+
+      .shop-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px 64px;
+      }
+
+      .back-link {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: #888;
+        text-decoration: none;
+        margin-bottom: 32px;
+        transition: color 0.15s;
+      }
+      .back-link:hover { color: #111; }
+
+      .shop-header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+
+      .shop-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 48px;
+        letter-spacing: 2px;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      /* ── Card ── */
+      .product-card {
+        border: 3px solid #111;
+        box-shadow: 5px 5px 0 #111;
+        background: white;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .product-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 #111;
+      }
+
+      /* ── Dark variant ── */
+      .product-card[data-color="black"] {
+        background: #111;
+        color: #f0f0f0;
+        border-color: #333;
+        box-shadow: 5px 5px 0 #333;
+      }
+      .product-card[data-color="black"]:hover {
+        box-shadow: 7px 7px 0 #333;
+      }
+      .product-card[data-color="black"] .product-price { color: #f0f0f0; }
+      .product-card[data-color="black"] .size-link { color: #666; }
+      .product-card[data-color="black"] .size-link:hover { color: #999; }
+      .product-card[data-color="black"] .design-display {
+        background: #0a0a0a;
+        border-bottom-color: #333;
+      }
+      .product-card[data-color="black"] .buy-btn {
+        background: white;
+        color: #111;
+        border-color: #333;
+        box-shadow: 3px 3px 0 #333;
+      }
+      .product-card[data-color="black"] .buy-btn:hover {
+        background: #ff5c1a;
+        color: white;
+        box-shadow: 5px 5px 0 #333;
+      }
+
+      /* ── Design display — just the text, big and bold ── */
+      .design-display {
+        aspect-ratio: 1;
+        background: #f5f5f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 3px solid #111;
+        padding: 24px;
+        gap: 2px;
+        transition: background 0.3s;
+      }
+
+      .design-line {
+        font-family: 'Permanent Marker', cursive;
+        line-height: 1.05;
+        transition: color 0.3s;
+        user-select: none;
+      }
+
+      /* ── Color swatches ── */
+      .color-swatches {
+        display: flex;
+        gap: 8px;
+        padding: 12px 20px;
+      }
+
+      .swatch {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .swatch:hover { transform: scale(1.15); }
+      .swatch--white {
+        background: white;
+        border: 2px solid #ccc;
+      }
+      .swatch--black {
+        background: #111;
+        border: 2px solid #444;
+      }
+      .swatch.active {
+        box-shadow: 0 0 0 2px #ff5c1a;
+      }
+      .product-card[data-color="black"] .swatch--white { border-color: #555; }
+      .product-card[data-color="black"] .swatch--black { border-color: #666; }
+
+      /* ── Product info ── */
+      .product-info {
+        padding: 16px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .product-name {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 2px;
+      }
+
+      .product-meta {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .product-price {
+        font-family: 'Space Mono', monospace;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .size-link {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #999;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        cursor: pointer;
+        transition: color 0.15s;
+        background: none;
+        border: none;
+        padding: 0;
+      }
+      .size-link:hover { color: #555; }
+
+      .buy-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-align: center;
+        text-decoration: none;
+        color: #fffef5;
+        background: #111;
+        border: 3px solid #111;
+        box-shadow: 3px 3px 0 #111;
+        cursor: pointer;
+        transition: all 0.15s;
+        margin-top: auto;
+      }
+
+      .buy-btn:hover {
+        background: #ff5c1a;
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 #111;
+      }
+
+      /* ── Size chart modal ── */
+      .size-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .size-modal.open { display: flex; }
+
+      .size-modal-inner {
+        background: white;
+        border: 3px solid #111;
+        box-shadow: 8px 8px 0 #111;
+        padding: 32px;
+        max-width: 480px;
+        width: 100%;
+        position: relative;
+      }
+
+      .size-modal-close {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #111;
+        line-height: 1;
+      }
+
+      .size-modal h3 {
+        font-family: 'Cabin', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .size-modal .size-note {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #888;
+        margin-bottom: 16px;
+      }
+
+      .size-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+      }
+      .size-table th {
+        text-align: left;
+        font-weight: 700;
+        padding: 8px 12px;
+        border-bottom: 2px solid #111;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .size-table td {
+        padding: 8px 12px;
+        border-bottom: 1px solid #eee;
+      }
+      .size-table tr:last-child td { border-bottom: none; }
+
+      /* ── Footer ── */
+      .shop-footer {
+        text-align: center;
+        margin-top: 40px;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #bbb;
+        letter-spacing: 0.08em;
+      }
+      .shop-footer a {
+        color: #888;
+        text-decoration: none;
+      }
+      .shop-footer a:hover { color: #111; }
+
+      @media (max-width: 700px) {
+        .shop-wrap { padding: 28px 16px 48px; }
+        .shop-title { font-size: 36px; }
+        .product-grid {
+          grid-template-columns: 1fr;
+          max-width: 360px;
+          margin: 0 auto;
+        }
+      }
+    </style>
+  </Fragment>
+
+  <div class="shop-wrap">
+    <a href="/" class="back-link">&larr; stanwood.dev</a>
+
+    <div class="shop-header">
+      <h1 class="shop-title">SHOP</h1>
+    </div>
+
+    <div class="product-grid">
+      {products.map((p) => {
+        const isBlack = p.defaultColor === "black";
+        const fontSize = p.lines.length === 1 ? "clamp(48px, 10vw, 72px)" : p.lines.some(l => l.length > 4) ? "clamp(28px, 6vw, 40px)" : "clamp(32px, 7vw, 48px)";
+        return (
+          <div class="product-card" data-color={p.defaultColor}>
+            <div class="design-display">
+              {p.lines.map((line) => (
+                <div
+                  class="design-line"
+                  style={`font-size: ${fontSize}; color: ${isBlack ? "white" : "#111"};`}
+                >{line}</div>
+              ))}
+            </div>
+            <div class="color-swatches">
+              <button
+                class={`swatch swatch--white${!isBlack ? ' active' : ''}`}
+                data-swatch="white"
+                title="White tee"
+                aria-label="White tee"
+              />
+              <button
+                class={`swatch swatch--black${isBlack ? ' active' : ''}`}
+                data-swatch="black"
+                title="Black tee"
+                aria-label="Black tee"
+              />
+            </div>
+            <div class="product-info">
+              <div class="product-name">{p.name}</div>
+              <div class="product-meta">
+                <span class="product-price">${p.price}</span>
+                <button class="size-link" data-size-chart>size chart</button>
+              </div>
+              <a href="#" class="buy-btn">Coming Soon &rarr;</a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <div class="shop-footer">
+      Bella Canvas 3001 &middot; printed &amp; shipped by <a href="https://www.printful.com" target="_blank" rel="noopener">Printful</a>
+    </div>
+  </div>
+
+  <!-- Size chart modal -->
+  <div class="size-modal" id="sizeModal">
+    <div class="size-modal-inner">
+      <button class="size-modal-close" id="sizeClose">&times;</button>
+      <h3>Size Chart</h3>
+      <p class="size-note">Bella Canvas 3001 &middot; Unisex &middot; runs slightly fitted</p>
+      <table class="size-table">
+        <thead>
+          <tr><th>Size</th><th>Chest</th><th>Length</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>S</td><td>34–37"</td><td>28"</td></tr>
+          <tr><td>M</td><td>38–41"</td><td>29"</td></tr>
+          <tr><td>L</td><td>42–45"</td><td>30"</td></tr>
+          <tr><td>XL</td><td>46–49"</td><td>31"</td></tr>
+          <tr><td>2XL</td><td>50–53"</td><td>32"</td></tr>
+          <tr><td>3XL</td><td>54–57"</td><td>33"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Color swatch toggling
+    document.querySelectorAll('.swatch').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.product-card') as HTMLElement;
+        if (!card) return;
+        const color = (btn as HTMLElement).dataset.swatch!;
+        card.dataset.color = color;
+
+        card.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+
+        const isBlack = color === 'black';
+        card.querySelectorAll('.design-line').forEach((el) => {
+          (el as HTMLElement).style.color = isBlack ? 'white' : '#111';
+        });
+      });
+    });
+
+    // Size chart modal
+    const modal = document.getElementById('sizeModal')!;
+    const closeBtn = document.getElementById('sizeClose')!;
+
+    document.querySelectorAll('[data-size-chart]').forEach((btn) => {
+      btn.addEventListener('click', () => modal.classList.add('open'));
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('open');
+    });
+  </script>
+</BaseLayout>
