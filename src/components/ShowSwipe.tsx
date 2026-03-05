@@ -33,6 +33,7 @@ export default function ShowSwipe() {
   const [cards, setCards] = useState<ShowSwipeCard[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
+  const [reported, setReported] = useState(false);
   const [flyDirection, setFlyDirection] = useState<SwipeDirection | null>(null);
   const [likedCount, setLikedCount] = useState(0);
   const fetchingRef = useRef(false);
@@ -275,12 +276,20 @@ export default function ShowSwipe() {
             >
               Try again
             </button>
-            <a
+            <button
               className="ss-report-link"
-              href={`mailto:stephen@stanwood.dev?subject=Show Swipe — error&body=Hey, Show Swipe is showing an error: ${encodeURIComponent(error || "unknown")}`}
+              onClick={() => {
+                setReported(true);
+                fetch("/api/feedback", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ page: "show-swipe", context: `Error: ${error} (${mediaType}/${era})` }),
+                }).catch(() => {});
+              }}
+              disabled={reported}
             >
-              Seeing this a lot? Let us know
-            </a>
+              {reported ? "Thanks!" : "Seeing this a lot? Let us know"}
+            </button>
           </div>
         )}
 
@@ -295,12 +304,20 @@ export default function ShowSwipe() {
             >
               Refresh
             </button>
-            <a
+            <button
               className="ss-report-link"
-              href={`mailto:stephen@stanwood.dev?subject=Show Swipe — no trailers&body=Hey, Show Swipe is showing "no more trailers" for ${mediaType} / ${era}.`}
+              onClick={() => {
+                setReported(true);
+                fetch("/api/feedback", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ page: "show-swipe", context: `No trailers (${mediaType}/${era})` }),
+                }).catch(() => {});
+              }}
+              disabled={reported}
             >
-              Seeing this a lot? Let us know
-            </a>
+              {reported ? "Thanks!" : "Seeing this a lot? Let us know"}
+            </button>
           </div>
         )}
 
