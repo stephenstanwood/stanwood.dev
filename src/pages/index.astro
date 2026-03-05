@@ -37,7 +37,7 @@ const projects = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version" },
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order" },
   { href: "/nearest-fun", emoji: "🛝", name: "Nearest Fun", tag: "kids activities nearby" },
-  { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure" },
+  { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes" },
 ];
@@ -432,6 +432,27 @@ const projects = [
         color: #888;
       }
 
+      /* ── image-enhanced tiles ── */
+      .proj-tile.has-img {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0;
+        overflow: hidden;
+      }
+      .proj-tile.has-img .proj-img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        display: block;
+        border-bottom: 2px solid var(--ink);
+      }
+      .proj-tile.has-img .proj-emoji {
+        display: none;
+      }
+      .proj-tile.has-img .proj-info {
+        padding: 8px 14px;
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -499,6 +520,7 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
+        .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; }
         .id-block h1 { font-size: 32px; }
       }
@@ -614,7 +636,10 @@ const projects = [
 
     <div id="proj-row" class="proj-row">
       {projects.map((p) => (
-        <a class="proj-tile" href={p.href}>
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
           <span class="proj-emoji">{p.emoji}</span>
           <div class="proj-info">
             <div class="proj-name">{p.name}</div>
