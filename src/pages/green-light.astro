@@ -45,14 +45,17 @@ const title = "Green Light — stanwood.dev";
       .he-hero {
         position: relative;
         width: 100%;
-        height: 240px;
+        max-width: 720px;
+        margin: 0 auto;
+        height: 220px;
         overflow: hidden;
+        border-radius: 1rem;
       }
       @media (min-width: 480px) {
-        .he-hero { height: 300px; }
+        .he-hero { height: 280px; }
       }
       @media (min-width: 768px) {
-        .he-hero { height: 360px; }
+        .he-hero { height: 320px; }
       }
       .he-hero img {
         width: 100%;
@@ -60,35 +63,35 @@ const title = "Green Light — stanwood.dev";
         object-fit: cover;
         object-position: center 60%;
         display: block;
+        image-rendering: auto;
       }
       .he-hero-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(
           to bottom,
-          rgba(42, 33, 24, 0.08) 0%,
+          rgba(42, 33, 24, 0.06) 0%,
           rgba(42, 33, 24, 0.02) 40%,
-          rgba(250, 248, 243, 0.4) 75%,
+          rgba(250, 248, 243, 0.5) 78%,
           rgba(250, 248, 243, 1) 100%
         );
         pointer-events: none;
       }
       .he-hero-tagline {
         position: absolute;
-        bottom: 1.5rem;
+        bottom: 1.25rem;
         left: 0;
         right: 0;
         text-align: center;
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 1.05rem;
-        font-weight: 600;
+        font-size: 1.1rem;
+        font-weight: 700;
         color: var(--he-rosemary);
-        letter-spacing: 0.03em;
-        opacity: 0.85;
+        letter-spacing: 0.02em;
         pointer-events: none;
       }
       @media (min-width: 480px) {
-        .he-hero-tagline { font-size: 1.15rem; bottom: 2rem; }
+        .he-hero-tagline { font-size: 1.25rem; bottom: 1.5rem; }
       }
 
       /* ─── Animations ─────────────────────────────────────────────── */
@@ -165,6 +168,19 @@ const title = "Green Light — stanwood.dev";
         text-align: center;
       }
 
+      .he-quiz-intro-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.3rem;
+      }
+      .he-quiz-intro-sub {
+        font-size: 0.85rem;
+        color: var(--he-light-gray);
+        margin: 0 0 1.75rem;
+      }
+
       .he-progress-track {
         height: 4px;
         background: var(--he-border);
@@ -206,13 +222,13 @@ const title = "Green Light — stanwood.dev";
         background: var(--he-card-bg);
         border: 2px solid var(--he-border);
         border-radius: 16px;
-        padding: 1.5rem 1.25rem;
+        padding: 1.25rem 1rem;
         cursor: pointer;
         transition: all 0.15s ease;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.35rem;
         font-family: inherit;
       }
       .he-quiz-card:hover {
@@ -225,14 +241,20 @@ const title = "Green Light — stanwood.dev";
         transform: translateY(0);
       }
 
+      .he-quiz-card-emoji {
+        font-size: 2.2rem;
+        line-height: 1;
+        margin-bottom: 0.15rem;
+      }
       .he-quiz-card-label {
         font-weight: 600;
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: var(--he-charcoal);
-        line-height: 1.3;
+        line-height: 1.35;
+        text-wrap: balance;
       }
       .he-quiz-card-sub {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: var(--he-light-gray);
       }
 
@@ -669,9 +691,11 @@ const title = "Green Light — stanwood.dev";
         alt="Overhead view of a rustic wooden table with fresh herbs, sage, and rosemary in warm natural light"
         loading="lazy"
         decoding="async"
+        width="1280"
+        height="720"
       />
       <div class="he-hero-overlay"></div>
-      <p class="he-hero-tagline">Know what to order before you sit down.</p>
+      <p class="he-hero-tagline">Never stare at a menu again.</p>
     </section>
 
     <main id="main-content" class="he-main">

@@ -8,7 +8,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   slug="mlb-gamerank"
   favicon="/favicon-mlb.svg"
   fontsUrl="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
-  themeColor="#1a1a0e"
+  themeColor="#14532d"
   schemaCategory="SportsApplication"
 >
   <Fragment slot="head">
@@ -17,10 +17,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       body {
         font-family: 'Inter', system-ui, sans-serif;
-        background:
-          radial-gradient(ellipse 80% 60% at 50% 0%, rgba(180, 120, 40, 0.12) 0%, transparent 60%),
-          linear-gradient(180deg, #1a1a0e 0%, #1c1610 30%, #141210 100%);
-        color: #e8dcc8;
+        background: #14532d;
+        color: #e5e7eb;
         min-height: 100vh;
       }
 
@@ -31,10 +29,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         border-radius: 16px;
         overflow: hidden;
         margin-bottom: 0;
-        box-shadow:
-          0 8px 40px rgba(0,0,0,0.5),
-          0 0 80px rgba(180,120,40,0.08),
-          inset 0 0 0 1px rgba(180,120,40,0.1);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.4);
       }
       .hero-banner img {
         width: 100%;
@@ -54,10 +49,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         inset: 0;
         background: linear-gradient(
           to bottom,
-          rgba(26,26,14,0.15) 0%,
-          rgba(26,26,14,0.05) 30%,
-          rgba(20,18,16,0.6) 70%,
-          rgba(20,18,16,0.95) 100%
+          rgba(20,83,45,0.15) 0%,
+          rgba(20,83,45,0.05) 30%,
+          rgba(20,83,45,0.6) 70%,
+          rgba(20,83,45,0.95) 100%
         );
         pointer-events: none;
       }
@@ -68,7 +63,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         transform: translateX(-50%);
         width: 80%;
         height: 80px;
-        background: radial-gradient(ellipse, rgba(217,119,6,0.12) 0%, transparent 70%);
+        background: radial-gradient(ellipse, rgba(251,191,36,0.08) 0%, transparent 70%);
         pointer-events: none;
       }
 
@@ -78,33 +73,53 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         box-shadow: 0 0 6px #ef4444;
       }
 
-      /* Skeleton — warm amber tones */
+      /* Skeleton — green tones */
       .skeleton {
-        background: linear-gradient(90deg, #2a1f12 25%, #3d2c18 50%, #2a1f12 75%);
+        background: linear-gradient(90deg, #0f3d1f 25%, #1a5c30 50%, #0f3d1f 75%);
         animation: shimmer 1.5s infinite;
       }
 
-      /* Watch meter — warm amber */
-      .watch-meter-label { color: rgba(232,220,200,0.25); }
-      .watch-bar-track { background: rgba(0, 0, 0, 0.35); }
-      .watch-bar-fill { background: linear-gradient(90deg, #b45309, #f59e0b); }
+      /* Watch meter — MLB colors */
+      .watch-meter-label { color: rgba(255,255,255,0.25); }
+      .watch-bar-track { background: rgba(0, 0, 0, 0.3); }
+      .watch-bar-fill { background: linear-gradient(90deg, #d97706, #fbbf24); }
       .watch-meter-value {
-        color: #f59e0b;
-        text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        color: #fbbf24;
+        text-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
       }
 
-      /* Hero card — dark ballpark green with warm undertone */
+      /* Hero card — Wrigley green scoreboard */
       .hero-card {
-        background: linear-gradient(135deg, #1a2e1a 0%, #1e2a18 100%);
-        border: 2px solid rgba(100, 140, 80, 0.35);
-        box-shadow:
-          inset 0 2px 4px rgba(0, 0, 0, 0.3),
-          0 4px 16px rgba(0, 0, 0, 0.3),
-          0 0 40px rgba(100, 140, 80, 0.04);
+        background: #0c3a1b;
+        border: 2px solid #1a5c30;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
       }
 
       /* Horizontal slat texture on hero */
       .hero-card::after {
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 4px,
+          rgba(0,0,0,0.08) 4px,
+          rgba(0,0,0,0.08) 5px
+        );
+      }
+
+      /* Game rows — green */
+      .game-row {
+        background: #0c3a1b;
+        border: 2px solid #1a5c30;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      .game-row:hover {
+        border-color: #2d7a3a;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Slat texture on game rows */
+      .game-row::before {
         background: repeating-linear-gradient(
           0deg,
           transparent,
@@ -114,77 +129,49 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         );
       }
 
-      /* Game rows — warm dark green */
-      .game-row {
-        background: linear-gradient(135deg, #1a2e1a 0%, #1e2a18 100%);
-        border: 2px solid rgba(100, 140, 80, 0.3);
-        transition: border-color 0.2s, box-shadow 0.2s;
-        box-shadow:
-          inset 0 1px 3px rgba(0, 0, 0, 0.2),
-          0 2px 8px rgba(0, 0, 0, 0.2);
-      }
-      .game-row:hover {
-        border-color: rgba(140, 180, 100, 0.45);
-        box-shadow:
-          inset 0 1px 3px rgba(0, 0, 0, 0.2),
-          0 4px 16px rgba(0, 0, 0, 0.3),
-          0 0 20px rgba(100, 140, 80, 0.06);
-      }
-
-      /* Slat texture on game rows */
-      .game-row::before {
-        background: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 4px,
-          rgba(0,0,0,0.05) 4px,
-          rgba(0,0,0,0.05) 5px
-        );
-      }
-
-      /* Status pill — warm amber/red */
+      /* Status pill — MLB amber/red */
       .status-pill {
-        border: 1px solid rgba(245, 158, 11, 0.45);
-        background: rgba(245, 158, 11, 0.08);
-        color: #f59e0b;
+        border: 1px solid rgba(251, 191, 36, 0.5);
+        background: rgba(251, 191, 36, 0.1);
+        color: #fbbf24;
       }
       .status-pill.live {
         border-color: rgba(239, 68, 68, 0.5);
-        background: rgba(239, 68, 68, 0.08);
+        background: rgba(239, 68, 68, 0.1);
         color: #fca5a5;
       }
 
-      /* Section header — warm gold */
-      .section-header { color: #f59e0b; }
+      /* Section header — gold on green */
+      .section-header { color: #fbbf24; }
       .section-header::before,
       .section-header::after {
-        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.25));
+        background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3));
       }
 
       /* Subtitle */
-      .subtitle { color: rgba(232, 220, 200, 0.45); }
+      .subtitle { color: rgba(255, 255, 255, 0.5); }
 
       /* Home link */
-      .home-link { color: rgba(232,220,200,0.35); }
-      .home-link:hover { color: rgba(232,220,200,0.65); }
+      .home-link { color: rgba(255,255,255,0.4); }
+      .home-link:hover { color: rgba(255,255,255,0.7); }
 
       /* Situation panel */
       .situation-panel {
         margin-top: 12px;
         padding: 10px;
-        background: rgba(0, 0, 0, 0.25);
-        border: 1px solid rgba(232, 220, 200, 0.06);
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
       }
 
-      /* Hero sentence — warm tones */
-      .hero-sentence { color: rgba(232, 220, 200, 0.22); }
+      /* Hero sentence — MLB colors */
+      .hero-sentence { color: rgba(255, 255, 255, 0.25); }
       .hl-team {
-        color: #f59e0b;
-        text-shadow: 0 0 16px rgba(245, 158, 11, 0.25);
+        color: #fbbf24;
+        text-shadow: 0 0 16px rgba(251, 191, 36, 0.3);
       }
       .hl-network {
-        color: rgba(232, 220, 200, 0.4);
+        color: rgba(255, 255, 255, 0.45);
         font-weight: 500;
       }
       .hl-time {
@@ -194,7 +181,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
 
       /* Score detail */
-      .score-detail { color: #e8dcc8; }
+      .score-detail { color: #e5e7eb; }
 
       @media (prefers-reduced-motion: reduce) {
         .live-dot { animation: none; }
@@ -234,7 +221,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <p class="mt-2 subtitle">
           The best game to watch right now
         </p>
-        <p class="mt-1 font-score" style="font-size: 10px; letter-spacing: 0.2em; color: rgba(232,220,200,0.25);" id="dateLabel"></p>
+        <p class="mt-1 font-score" style="font-size: 10px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3);" id="dateLabel"></p>
       </header>
 
       <div id="app" class="mt-8">
