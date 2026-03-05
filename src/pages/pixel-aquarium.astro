@@ -7,7 +7,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="Little pixel fish swim around. Click to drop food. They change color based on what they eat."
   slug="pixel-aquarium"
   favicon="/favicon-aquarium.svg"
-  themeColor="#0a1628"
+  themeColor="#041230"
   fontsUrl="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap"
   schemaCategory="GameApplication"
 >
@@ -15,72 +15,141 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
-        background: #0a0e27;
-        color: #e0e0e0;
+        background: #041230;
+        color: #e0e8f0;
         font-family: 'Inter', sans-serif;
         min-height: 100vh;
-        overflow: hidden;
+        overflow-x: hidden;
       }
       .pixel-font { font-family: 'Press Start 2P', monospace; }
+
+      /* --- Hero banner --- */
+      .hero-banner {
+        position: relative;
+        width: 100%;
+        max-height: 340px;
+        overflow: hidden;
+        margin-top: 48px;
+      }
+      .hero-banner img {
+        width: 100%;
+        height: 340px;
+        object-fit: cover;
+        object-position: center 40%;
+        display: block;
+        image-rendering: pixelated;
+      }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(4, 18, 48, 0.15) 0%,
+          rgba(4, 18, 48, 0.0) 30%,
+          rgba(4, 18, 48, 0.3) 70%,
+          rgba(4, 18, 48, 1) 100%
+        );
+        pointer-events: none;
+      }
+      /* Side fade vignette */
+      .hero-overlay::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(4, 18, 48, 0.6) 0%,
+          transparent 15%,
+          transparent 85%,
+          rgba(4, 18, 48, 0.6) 100%
+        );
+      }
+
       .container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 100vh;
-        padding: 16px;
+        padding: 12px 16px 24px;
       }
       h1 {
         font-size: 1.2rem;
         letter-spacing: 2px;
         margin-bottom: 8px;
-        background: linear-gradient(90deg, #ff6b9d, #00d2ff, #43e97b, #ffd93d);
+        background: linear-gradient(90deg, #ff6b9d, #ff9a30, #ffd93d, #00d2ff, #ff6b9d);
+        background-size: 200% 100%;
+        animation: shimmer 6s ease-in-out infinite;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        text-shadow: none;
+      }
+      @keyframes shimmer {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
       }
       .subtitle {
         font-size: 0.65rem;
-        color: rgba(255,255,255,0.4);
-        margin-bottom: 12px;
+        color: rgba(0, 210, 255, 0.45);
+        margin-bottom: 16px;
         letter-spacing: 1px;
       }
       #aquarium-canvas {
-        border: 3px solid #1a2050;
+        border: 3px solid rgba(0, 180, 255, 0.25);
         border-radius: 8px;
         cursor: crosshair;
         image-rendering: pixelated;
         box-shadow:
-          0 0 30px rgba(0, 100, 200, 0.15),
-          inset 0 0 60px rgba(0, 50, 120, 0.1);
+          0 0 40px rgba(0, 140, 255, 0.2),
+          0 0 80px rgba(255, 107, 157, 0.08),
+          inset 0 0 60px rgba(0, 50, 120, 0.15);
         max-width: 100%;
         touch-action: none;
       }
       .info-bar {
         display: flex;
         gap: 24px;
-        margin-top: 10px;
+        margin-top: 12px;
         font-size: 0.55rem;
         letter-spacing: 1px;
       }
-      .info-bar span { color: rgba(255,255,255,0.35); }
-      .info-bar .val { color: #00d2ff; }
+      .info-bar span { color: rgba(0, 210, 255, 0.35); }
+      .info-bar .val { color: #ffd93d; }
       .back-link {
         position: fixed;
         top: 16px;
         left: 16px;
-        color: rgba(255,255,255,0.3);
+        color: rgba(0, 210, 255, 0.4);
         text-decoration: none;
         font-size: 0.8rem;
         transition: color 0.2s;
         z-index: 10;
       }
-      .back-link:hover { color: rgba(255,255,255,0.7); }
+      .back-link:hover { color: rgba(0, 210, 255, 0.8); }
+
+      @media (max-width: 640px) {
+        .hero-banner { max-height: 200px; margin-top: 40px; }
+        .hero-banner img { height: 200px; }
+        h1 { font-size: 0.9rem; }
+      }
     </style>
   </Fragment>
 
     <a href="#aquarium-canvas" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-400 focus:text-black focus:rounded-lg focus:font-semibold">Skip to aquarium</a>
     <a href="/" class="back-link retro-back" aria-label="Back to stanwood.dev">&larr; stanwood.dev</a>
+
+    <div class="hero-banner">
+      <img
+        src="/images/pixel-aquarium.webp"
+        alt="Vibrant pixel art aquarium with colorful tropical fish swimming through coral and sea plants"
+        loading="lazy"
+        width="1280"
+        height="340"
+        decoding="async"
+      />
+      <div class="hero-overlay"></div>
+    </div>
+
     <div class="container">
       <h1 class="pixel-font">PIXEL AQUARIUM</h1>
       <p class="subtitle pixel-font">click to drop food</p>

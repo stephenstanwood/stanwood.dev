@@ -85,7 +85,7 @@ function EquipmentBadge({ equipment }: { equipment: string }) {
 function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
   if (item.isGroup && item.items) {
     return (
-      <div className="pl-3 border-l-2 border-teal-200 space-y-2 my-2">
+      <div className="pl-3 border-l-2 border-teal-300/50 space-y-2 my-2">
         {item.items.map((sub, i) => (
           <SetItem key={i} item={sub} unit={unit} />
         ))}
@@ -104,19 +104,19 @@ function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
 
   return (
     <div className="flex items-start gap-3 py-1.5">
-      <div className="shrink-0 min-w-[80px] text-right font-mono text-sm font-semibold text-slate-700">
+      <div className="shrink-0 min-w-[80px] text-right font-mono text-sm font-semibold text-stone-700">
         {repsLabel}{distLabel}
       </div>
       <div className="flex-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm text-slate-600">{item.description}</span>
+          <span className="text-sm text-stone-600">{item.description}</span>
           {item.equipment && <EquipmentBadge equipment={item.equipment} />}
         </div>
         {timingLabel && (
           <span className="text-xs font-mono text-teal-600">{timingLabel}</span>
         )}
       </div>
-      <div className="shrink-0 text-xs text-slate-400 font-mono">
+      <div className="shrink-0 text-xs text-stone-400 font-mono">
         {totalDist}
       </div>
     </div>
@@ -128,39 +128,39 @@ function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
 const SECTION_COLORS: Record<string, { border: string; bg: string; badge: string; headerText: string }> = {
   Warmup: {
     border: "border-l-amber-400",
-    bg: "bg-amber-50",
-    badge: "bg-amber-400 text-white",
+    bg: "bg-amber-50/60",
+    badge: "bg-amber-500/90 text-white",
     headerText: "text-amber-800",
   },
   "Pre-Set": {
     border: "border-l-orange-400",
-    bg: "bg-orange-50",
-    badge: "bg-orange-400 text-white",
+    bg: "bg-orange-50/60",
+    badge: "bg-orange-500/90 text-white",
     headerText: "text-orange-800",
   },
   "Main Set": {
     border: "border-l-teal-500",
-    bg: "bg-teal-50",
-    badge: "bg-teal-500 text-white",
+    bg: "bg-teal-50/70",
+    badge: "bg-teal-600 text-white",
     headerText: "text-teal-800",
   },
   Cooldown: {
-    border: "border-l-sky-400",
-    bg: "bg-sky-50",
-    badge: "bg-sky-400 text-white",
-    headerText: "text-sky-800",
+    border: "border-l-cyan-400",
+    bg: "bg-cyan-50/60",
+    badge: "bg-cyan-500/90 text-white",
+    headerText: "text-cyan-800",
   },
 };
 
 function WorkoutSectionView({ section, unit }: { section: WorkoutSection; unit: string }) {
   const colors = SECTION_COLORS[section.name] || SECTION_COLORS["Main Set"];
   return (
-    <div className={`border-l-4 ${colors.border} ${colors.bg} rounded-r-xl p-4 sm:p-5`}>
+    <div className={`border-l-4 ${colors.border} ${colors.bg} rounded-r-xl p-4 sm:p-5 backdrop-blur-sm`}>
       <div className="flex items-center justify-between mb-3">
         <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider ${colors.badge}`}>
           {section.name}
         </span>
-        <span className="text-xs font-mono text-slate-400">
+        <span className="text-xs font-mono text-stone-400">
           {section.distance} {unit === "meters" ? "m" : "y"}
         </span>
       </div>
@@ -284,10 +284,10 @@ export default function SwimWorkout() {
       <div className="mt-8 space-y-6 print:hidden">
         {/* Unit toggle */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
             Pool
           </label>
-          <div className="flex gap-1 rounded-xl bg-slate-100 p-1 w-fit">
+          <div className="flex gap-1 rounded-xl bg-stone-100 p-1 w-fit">
             {(["yards", "meters"] as const).map((u) => (
               <button
                 key={u}
@@ -295,7 +295,7 @@ export default function SwimWorkout() {
                 className={`rounded-lg px-5 py-2 text-sm font-semibold transition-all ${
                   unit === u
                     ? "bg-white text-teal-700 shadow-sm"
-                    : "text-slate-500 hover:text-slate-700"
+                    : "text-stone-500 hover:text-stone-700"
                 }`}
               >
                 {u === "yards" ? "Yards (SCY)" : "Meters (LCM)"}
@@ -306,7 +306,7 @@ export default function SwimWorkout() {
 
         {/* Duration */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
             Duration
           </label>
           <div className="flex flex-wrap gap-2">
@@ -316,8 +316,8 @@ export default function SwimWorkout() {
                 onClick={() => setDuration(d.value)}
                 className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${
                   duration === d.value
-                    ? "bg-teal-600 text-white shadow-md shadow-teal-200"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-teal-300 hover:text-teal-700"
+                    ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
+                    : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"
                 }`}
               >
                 {d.label}
@@ -328,7 +328,7 @@ export default function SwimWorkout() {
 
         {/* Pace */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
             Pace per 100{unitLabel}
           </label>
           <div className="flex flex-wrap gap-2">
@@ -338,8 +338,8 @@ export default function SwimWorkout() {
                 onClick={() => setPace(p.value)}
                 className={`rounded-xl px-5 py-2.5 text-sm font-mono font-semibold transition-all ${
                   pace === p.value
-                    ? "bg-teal-600 text-white shadow-md shadow-teal-200"
-                    : "bg-white text-slate-600 border border-slate-200 hover:border-teal-300 hover:text-teal-700"
+                    ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
+                    : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"
                 }`}
               >
                 {p.label}
@@ -351,9 +351,9 @@ export default function SwimWorkout() {
         {/* Generate button */}
         <button
           onClick={generate}
-          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-200/50 hover:shadow-xl hover:shadow-teal-300/60 transition-all active:scale-[0.98] overflow-hidden"
+          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-400/30 hover:shadow-xl hover:shadow-teal-400/40 transition-all active:scale-[0.98] overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, #14b8a6, #06b6d4, #0891b2, #14b8a6)",
+            background: "linear-gradient(135deg, #0d9488, #0891b2, #06b6d4, #0d9488)",
             backgroundSize: "300% 300%",
             animation: "gradientShift 6s ease infinite",
           }}
@@ -372,7 +372,7 @@ export default function SwimWorkout() {
           className={`mt-10 print:hidden ${animating ? "animate-fadeIn" : ""}`}
         >
           {/* Workout header card */}
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-600 via-teal-500 to-cyan-500 p-6 sm:p-8 text-white shadow-xl">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 p-6 sm:p-8 text-white shadow-xl shadow-teal-900/20">
             <ChevronPattern className="absolute inset-0 w-full h-full text-white" />
             <div className="relative z-10">
               <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
@@ -403,7 +403,7 @@ export default function SwimWorkout() {
           <div className="mt-6 flex flex-wrap gap-3 print:hidden">
             <button
               onClick={shuffle}
-              className="flex items-center gap-2 rounded-xl bg-white border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97]"
+              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -412,7 +412,7 @@ export default function SwimWorkout() {
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 rounded-xl bg-white border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97]"
+              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />

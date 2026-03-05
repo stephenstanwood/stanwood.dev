@@ -16,11 +16,89 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       body {
         font-family: 'Space Grotesk', system-ui, sans-serif;
         background-color: #FFF8F0;
-        background-image: radial-gradient(circle, #e0d5c8 1px, transparent 1px);
+        background-image:
+          radial-gradient(circle, #e0d5c8 1px, transparent 1px);
         background-size: 24px 24px;
         color: #1a1a1a;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* ── Hero image banner ── */
+      .is-hero {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        border: 3px solid #222;
+        box-shadow: 4px 4px 0 #222;
+        margin-top: 1.5rem;
+      }
+      @media (min-width: 640px) {
+        .is-hero { height: 340px; }
+      }
+      .is-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      /* gradient fade into page background */
+      .is-hero-fade {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 248, 240, 0) 0%,
+          rgba(255, 248, 240, 0) 50%,
+          rgba(255, 248, 240, 0.5) 75%,
+          rgba(255, 248, 240, 1) 100%
+        );
+        pointer-events: none;
+      }
+      /* subtle side fades so the border stays sharp up top */
+      .is-hero-fade::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(255, 248, 240, 0.3) 0%,
+          transparent 15%,
+          transparent 85%,
+          rgba(255, 248, 240, 0.3) 100%
+        );
+        pointer-events: none;
+      }
+
+      @keyframes heroFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .is-hero {
+        animation: heroFadeIn 0.8s ease-out both;
+      }
+
+      /* ── Geometric accent stripe ── */
+      .geo-stripe {
+        height: 6px;
+        background: repeating-linear-gradient(
+          90deg,
+          #FF6154 0px,
+          #FF6154 24px,
+          #FFF8F0 24px,
+          #FFF8F0 28px,
+          #2EC4B6 28px,
+          #2EC4B6 52px,
+          #FFF8F0 52px,
+          #FFF8F0 56px,
+          #FFD93D 56px,
+          #FFD93D 80px,
+          #FFF8F0 80px,
+          #FFF8F0 84px
+        );
+        border-radius: 3px;
       }
 
       /* ---- Rolodex card ---- */
@@ -101,7 +179,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .rolodex-inner, .manage-slide { animation: none !important; transition: none !important; }
+        .rolodex-inner, .manage-slide, .is-hero { animation: none !important; transition: none !important; }
       }
     </style>
   </Fragment>
@@ -113,8 +191,24 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <a href="/" class="retro-back">&larr; stanwood.dev</a>
       </div>
 
+      <!-- Hero image -->
+      <div class="is-hero" aria-label="Decorative illustration of a vintage rolodex with bold geometric shapes">
+        <img
+          src="/images/idea-shuffler.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          width="1280"
+          height="720"
+        />
+        <div class="is-hero-fade"></div>
+      </div>
+
+      <!-- Geometric accent stripe -->
+      <div class="geo-stripe mt-6"></div>
+
       <!-- Header -->
-      <header class="mt-10">
+      <header class="mt-6">
         <h1 class="text-5xl font-bold tracking-tight text-[#1a1a1a]">
           Idea Shuffler
         </h1>
@@ -128,7 +222,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="rolodex-wrapper">
           <div
             id="shuffleCard"
-            class="rolodex-card rounded-2xl border-3 border-[#222] bg-white shadow-[4px_4px_0_#222]"
+            class="rolodex-card rounded-2xl border-3 border-[#222] bg-white shadow-[4px_4px_0_#2EC4B6]"
           >
             <div class="px-10 py-16">
               <div class="text-center min-h-[4.5rem] flex items-center justify-center">
@@ -147,7 +241,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="mt-5 flex items-center justify-center gap-3">
           <button
             id="up"
-            class="nav-btn h-11 w-11 rounded-full border-2 border-[#222] bg-[#FF6154] text-white text-lg font-bold shadow-[2px_2px_0_#222] hover:shadow-[3px_3px_0_#222] hover:translate-x-[-1px] hover:translate-y-[-1px]"
+            class="nav-btn h-11 w-11 rounded-full border-2 border-[#222] bg-[#2EC4B6] text-white text-lg font-bold shadow-[2px_2px_0_#222] hover:shadow-[3px_3px_0_#222] hover:translate-x-[-1px] hover:translate-y-[-1px]"
             aria-label="Previous idea"
           >
             &uarr;
@@ -195,14 +289,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <textarea
                 id="newIdea"
                 aria-label="New idea"
-                class="flex-1 rounded-xl border-2 border-dashed border-[#222]/30 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-[#FF6154] focus:border-solid transition-colors placeholder:text-[#1a1a1a]/30"
+                class="flex-1 rounded-xl border-2 border-dashed border-[#222]/30 bg-white px-4 py-3 text-sm leading-6 outline-none resize-none focus:border-[#2EC4B6] focus:border-solid transition-colors placeholder:text-[#1a1a1a]/30"
                 placeholder="Type or paste an idea here..."
                 rows="2"
                 spellcheck="false"
               ></textarea>
               <button
                 id="addSave"
-                class="shrink-0 self-end rounded-xl border-2 border-[#222] bg-[#1a1a1a] px-5 py-3 text-sm font-bold text-white shadow-[2px_2px_0_#FF6154] hover:shadow-[3px_3px_0_#FF6154] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all disabled:opacity-40"
+                class="shrink-0 self-end rounded-xl border-2 border-[#222] bg-[#1a1a1a] px-5 py-3 text-sm font-bold text-white shadow-[2px_2px_0_#2EC4B6] hover:shadow-[3px_3px_0_#2EC4B6] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all disabled:opacity-40"
               >
                 Add
               </button>
