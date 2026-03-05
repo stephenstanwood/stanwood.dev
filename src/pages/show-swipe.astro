@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ShowSwipe from "../components/ShowSwipe.tsx";
-const title = "Show Swipe — stanwood.dev";
+const title = "Show Swipe";
 ---
 
 <BaseLayout
@@ -13,6 +13,7 @@ const title = "Show Swipe — stanwood.dev";
   fontsUrl="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
   schemaCategory="EntertainmentApplication"
   schemaName="Show Swipe"
+  customDomain="https://showswipe.app"
 >
   <Fragment slot="head">
     <style is:global>
@@ -850,7 +851,7 @@ const title = "Show Swipe — stanwood.dev";
   <div class="ss-page">
     <a href="#main-content" class="skip-nav">Skip to content</a>
     <header class="ss-header">
-      <a href="/" class="ss-back" aria-label="Back to stanwood.dev">
+      <a href="https://stanwood.dev" class="ss-back" aria-label="Back to stanwood.dev">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M15 18l-6-6 6-6" />
         </svg>
