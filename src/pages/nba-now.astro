@@ -1,0 +1,240 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const title = "NBA Now";
+---
+
+<BaseLayout
+  title={title}
+  description="The best NBA game to watch right now."
+  slug="nba-now"
+  favicon="/favicon-nba.svg"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap"
+  themeColor="#050508"
+  schemaCategory="SportsApplication"
+  schemaName="NBA Now"
+  customDomain="https://nbanow.app"
+>
+  <Fragment slot="head">
+    <style is:global>
+      @import "../styles/sports.css";
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #050508;
+        color: #d4d4d8;
+        min-height: 100vh;
+      }
+
+      /* Neon glow colors */
+      .neon-orange { color: #ff6b2b; text-shadow: 0 0 10px rgba(255, 107, 43, 0.5), 0 0 20px rgba(255, 107, 43, 0.2); }
+      .neon-cyan { color: #22d3ee; text-shadow: 0 0 10px rgba(34, 211, 238, 0.5), 0 0 20px rgba(34, 211, 238, 0.2); }
+      .neon-red { color: #ff3b5c; text-shadow: 0 0 10px rgba(255, 59, 92, 0.5); }
+      .neon-dim { color: #71717a; text-shadow: none; }
+      .neon-amber { color: #f59e0b; text-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+
+      /* Live pulse — NBA red */
+      .live-dot {
+        background: #ff3b5c;
+        box-shadow: 0 0 8px #ff3b5c, 0 0 16px rgba(255, 59, 92, 0.3);
+      }
+
+      /* Skeleton — dark blue tones */
+      .skeleton {
+        background: linear-gradient(90deg, #111118 25%, #1a1a28 50%, #111118 75%);
+        animation: shimmer 1s infinite;
+      }
+
+      /* Watch meter — NBA colors */
+      .watch-meter-label { color: #52525b; }
+      .watch-bar-track { background: #18181b; }
+      .watch-bar-fill { background: linear-gradient(90deg, #ff6b2b, #22d3ee); }
+      .watch-meter-value {
+        color: #22d3ee;
+        text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+      }
+
+      /* Hero card — neon scoreboard */
+      .hero-card {
+        background: linear-gradient(160deg, #0c0c14 0%, #12121e 100%);
+        border: 1px solid rgba(34, 211, 238, 0.5);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03);
+      }
+
+      /* Breathing glow on hero card */
+      @keyframes heroGlow {
+        0%, 100% { box-shadow: 0 0 20px rgba(34, 211, 238, 0.2), 0 0 40px rgba(34, 211, 238, 0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
+        50% { box-shadow: 0 0 30px rgba(34, 211, 238, 0.35), 0 0 60px rgba(34, 211, 238, 0.12), inset 0 1px 0 rgba(255,255,255,0.05); }
+      }
+      .hero-card { animation: heroGlow 4s ease-in-out infinite; }
+
+      /* Scanline effect on hero */
+      .hero-card::after {
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(255,255,255,0.008) 2px,
+          rgba(255,255,255,0.008) 4px
+        );
+      }
+
+      /* Game rows — neon cyan */
+      .game-row {
+        background: #0a0a12;
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.08);
+      }
+      .game-row:hover {
+        border-color: rgba(34, 211, 238, 0.5);
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Retro dot grid on game rows */
+      .game-row::before {
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+        background-size: 8px 8px;
+      }
+
+      /* Broadcast badges */
+      .broadcast-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-family: 'Inter', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        padding: 2px 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        line-height: 1;
+      }
+      .broadcast-badge.national {
+        background: rgba(255, 107, 43, 0.12);
+        color: #ff8c55;
+        border: 1px solid rgba(255, 107, 43, 0.2);
+      }
+
+      /* Status pill — NBA amber/cyan */
+      .status-pill {
+        border: 1px solid rgba(245, 158, 11, 0.6);
+        background: rgba(245, 158, 11, 0.06);
+        color: #f59e0b;
+        text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+      }
+      .status-pill.live {
+        border-color: rgba(34, 211, 238, 0.6);
+        background: rgba(34, 211, 238, 0.06);
+        color: #22d3ee;
+        text-shadow: 0 0 8px rgba(34, 211, 238, 0.4);
+      }
+
+      /* Scoreboard section dividers */
+      .scoreboard-divider {
+        border: none;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.2) 20%, rgba(34, 211, 238, 0.2) 80%, transparent);
+        margin: 0;
+      }
+
+      /* Section header — retro LED amber */
+      .section-header {
+        color: #f59e0b;
+        text-shadow: 0 0 12px rgba(245, 158, 11, 0.5), 0 0 24px rgba(245, 158, 11, 0.2);
+      }
+      .section-header::before,
+      .section-header::after {
+        background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.4));
+      }
+
+      /* Subtitle */
+      .subtitle {
+        color: #a1a1aa;
+        text-shadow: 0 0 6px rgba(161, 161, 170, 0.2);
+      }
+
+      /* Hero sentence — NBA colors */
+      .hero-sentence {
+        color: #71717a;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+      .hero-sentence .hl-team {
+        color: #fff;
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+      }
+      .hero-sentence .hl-network {
+        color: #ff6b2b;
+        text-shadow: 0 0 14px rgba(255, 107, 43, 0.5);
+      }
+      .hero-sentence .hl-time {
+        color: #f59e0b;
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      }
+
+      /* Score detail */
+      .score-detail { color: #a1a1aa; }
+      .score-detail .score-dash { color: #3f3f46; }
+
+      /* Footer */
+      .site-footer {
+        font-size: 11px;
+        color: #3f3f46;
+        text-align: center;
+        padding: 24px 0 16px;
+      }
+      .site-footer a {
+        color: #52525b;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .site-footer a:hover {
+        color: #a1a1aa;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .live-dot { animation: none; }
+        .skeleton { animation: none; }
+        .hero-card { animation: none; }
+      }
+    </style>
+  </Fragment>
+
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content" class="mx-auto max-w-lg px-5 pt-12 pb-16">
+      <header class="text-center">
+        <h1 class="font-score text-4xl font-black tracking-widest" style="background: linear-gradient(90deg, #ff6b2b, #ff3b5c, #c850c0, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 30px rgba(255, 107, 43, 0.4));">
+          NBA NOW
+        </h1>
+        <p class="mt-1 font-score" style="font-size: 10px; letter-spacing: 0.2em; color: #71717a;" id="dateLabel"></p>
+      </header>
+
+      <div id="app" class="mt-8">
+        <!-- Loading skeleton -->
+        <div id="loading">
+          <div class="hero-card p-6 text-center">
+            <div class="skeleton mx-auto" style="width: 180px; height: 10px;"></div>
+            <div class="skeleton mx-auto mt-4" style="width: 280px; height: 22px;"></div>
+            <div class="skeleton mx-auto mt-3" style="width: 140px; height: 10px;"></div>
+          </div>
+        </div>
+
+        <!-- Main content (hidden until loaded) -->
+        <div id="content" style="display: none;"></div>
+
+        <!-- Error state -->
+        <div id="error" style="display: none;"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      Built by <a href="https://stanwood.dev" target="_blank" rel="noopener">stanwood.dev</a>
+    </footer>
+
+    <script>
+      import { init } from "../lib/nbaNow";
+      init();
+    </script>
+</BaseLayout>
