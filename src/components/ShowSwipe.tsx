@@ -275,6 +275,12 @@ export default function ShowSwipe() {
             >
               Try again
             </button>
+            <a
+              className="ss-report-link"
+              href={`mailto:stephen@stanwood.dev?subject=Show Swipe — error&body=Hey, Show Swipe is showing an error: ${encodeURIComponent(error || "unknown")}`}
+            >
+              Seeing this a lot? Let us know
+            </a>
           </div>
         )}
 
@@ -289,6 +295,12 @@ export default function ShowSwipe() {
             >
               Refresh
             </button>
+            <a
+              className="ss-report-link"
+              href={`mailto:stephen@stanwood.dev?subject=Show Swipe — no trailers&body=Hey, Show Swipe is showing "no more trailers" for ${mediaType} / ${era}.`}
+            >
+              Seeing this a lot? Let us know
+            </a>
           </div>
         )}
 
