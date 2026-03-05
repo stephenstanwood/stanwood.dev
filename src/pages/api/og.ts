@@ -111,8 +111,8 @@ const PAGES: Record<string, PageConfig> = {
   },
   "nearest-fun": {
     emoji: "🎪",
-    title: "Nearest Fun",
-    tagline: "Find the nearest open kids activity.",
+    title: "FunFinder",
+    tagline: "Find kids activities open right now near you.",
     bg: "#111318",
     bg2: "#1e2330",
     accent: "#c084fc",

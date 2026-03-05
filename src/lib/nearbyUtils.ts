@@ -1,5 +1,5 @@
 /**
- * Shared utilities for Nearest Coffee and Nearest Fun pages.
+ * Shared utilities for Nearest Coffee and FunFinder pages.
  * Contains geolocation, progress bar, distance/walk helpers,
  * map styling, and carousel setup logic.
  */
@@ -29,7 +29,7 @@ export function computeZoom(distanceMeters: number): number {
   return Math.min(Math.max(zoom, 12), 17);
 }
 
-/** Dark map styles shared by both Nearest Coffee and Nearest Fun. */
+/** Dark map styles shared by both Nearest Coffee and FunFinder. */
 export const DARK_MAP_STYLES = [
   "feature:all|element:geometry|color:0x1a1c2e",
   "feature:all|element:labels.text.fill|color:0x8a8f9e",
