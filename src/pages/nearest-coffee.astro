@@ -440,7 +440,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
               <img
                 src="${mapUrl}"
-                alt="Map showing route to ${shop.name}"
+                alt="Map showing route to ${esc(shop.name)}"
                 class="map-img"
                 style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
                 onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
@@ -467,14 +467,14 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
                 ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
               </div>
 
-              <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${shop.name}</h2>
+              <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${esc(shop.name)}</h2>
 
               <a href="${navUrl}" target="_blank" rel="noopener" class="addr-link" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;">
                 <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${shop.address}
+                <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${esc(shop.address)}
                   <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#C8963C;" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
                   </svg>
