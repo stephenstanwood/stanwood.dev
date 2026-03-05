@@ -1,0 +1,868 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ShowSwipe from "../components/ShowSwipe.tsx";
+const title = "Show Swipe — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="Swipe through movie and TV trailers. Like a dating app, but for what to watch next."
+  slug="show-swipe"
+  favicon="/favicon-ss.svg"
+  themeColor="#0b1026"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;600;700;800&family=Fredoka:wght@500;600;700&display=swap"
+  schemaCategory="EntertainmentApplication"
+  schemaName="Show Swipe"
+>
+  <Fragment slot="head">
+    <style is:global>
+      /* ─── Drive-In Theater Theme ──────────────────────────────────── */
+      :root {
+        --ss-bg: #0b1026;
+        --ss-surface: #162040;
+        --ss-surface-raised: #1d2a50;
+        --ss-text: #fff8e7;
+        --ss-text-muted: #8a9ab8;
+        --ss-text-dim: #4a5a7a;
+        --ss-warm: #f0a830;
+        --ss-warm-light: #ffc04a;
+        --ss-warm-glow: rgba(240, 168, 48, 0.15);
+        --ss-orange: #ff6b2b;
+        --ss-cool: #5a7aa8;
+        --ss-nope: #2a3050;
+        --ss-nope-light: #6a7a9a;
+        --ss-star: #ffe4a0;
+        --ss-border: #2a3a5a;
+        --ss-card-radius: 12px;
+      }
+
+      body {
+        font-family: 'Nunito', system-ui, sans-serif;
+        background: var(--ss-bg);
+        color: var(--ss-text);
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      /* ─── Starfield ─────────────────────────────────────────────── */
+      .ss-stars {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .ss-stars span {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        animation: ssTwinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+      }
+      @keyframes ssTwinkle {
+        0%, 100% { opacity: 0.15; }
+        50% { opacity: 0.8; }
+      }
+
+      /* Ground glow from "screen" */
+      body::after {
+        content: '';
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: radial-gradient(ellipse at 50% 20%, rgba(240, 168, 48, 0.04) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ─── Animations ─────────────────────────────────────────────── */
+      @keyframes ssFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes ssFadeUp {
+        from { opacity: 0; transform: translateY(16px) scale(0.98); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes ssSpin {
+        to { transform: rotate(360deg); }
+      }
+      @keyframes ssPulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.8; }
+      }
+      @keyframes ssSlideIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes ssToast {
+        0% { opacity: 0; transform: translateY(10px); }
+        15% { opacity: 1; transform: translateY(0); }
+        85% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-10px); }
+      }
+      @keyframes ssNeonPulse {
+        0%, 100% { text-shadow: 0 0 10px rgba(240, 168, 48, 0.6), 0 0 30px rgba(240, 168, 48, 0.3), 0 0 60px rgba(240, 168, 48, 0.1); }
+        50% { text-shadow: 0 0 14px rgba(240, 168, 48, 0.8), 0 0 40px rgba(240, 168, 48, 0.4), 0 0 80px rgba(240, 168, 48, 0.15); }
+      }
+
+      /* ─── Layout ─────────────────────────────────────────────────── */
+      .ss-page {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        max-width: 480px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .ss-header {
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+      }
+
+      .ss-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: var(--ss-text-dim);
+        text-decoration: none;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        transition: color 0.15s;
+      }
+      .ss-back:hover { color: var(--ss-text-muted); }
+      .ss-back svg { width: 14px; height: 14px; }
+
+      .ss-header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .ss-brand {
+        font-family: 'Righteous', cursive;
+        font-size: 1.15rem;
+        color: var(--ss-warm);
+        letter-spacing: 0.02em;
+        text-shadow:
+          0 0 10px rgba(240, 168, 48, 0.6),
+          0 0 30px rgba(240, 168, 48, 0.3),
+          0 0 60px rgba(240, 168, 48, 0.1);
+        animation: ssNeonPulse 4s ease-in-out infinite;
+      }
+
+      .ss-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 0 0.75rem 1rem;
+        min-height: 0;
+      }
+
+      /* ─── App Container ──────────────────────────────────────────── */
+      .ss-app {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        animation: ssFadeIn 0.3s ease-out;
+      }
+
+      /* ─── Toggles Container ──────────────────────────────────────── */
+      .ss-toggles {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+
+      /* ─── Media Toggle (radio tuner style) ───────────────────────── */
+      .ss-toggle {
+        display: flex;
+        gap: 2px;
+        background: var(--ss-surface);
+        border: 1px solid var(--ss-border);
+        border-radius: 20px;
+        padding: 3px;
+        flex-shrink: 0;
+      }
+      .ss-toggle-sm .ss-toggle-btn {
+        padding: 0.3rem 0.75rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.04em;
+      }
+      .ss-toggle-btn {
+        flex: 1;
+        padding: 0.45rem 0.75rem;
+        border: none;
+        border-radius: 18px;
+        background: transparent;
+        color: var(--ss-text-dim);
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .ss-toggle-icon {
+        font-size: 0.85rem;
+      }
+      .ss-toggle-btn.ss-toggle-active {
+        background: linear-gradient(135deg, rgba(240, 168, 48, 0.15), rgba(255, 107, 43, 0.1));
+        color: var(--ss-warm);
+        box-shadow: 0 1px 6px rgba(240, 168, 48, 0.1);
+      }
+      .ss-toggle-btn:not(.ss-toggle-active):hover {
+        color: var(--ss-text-muted);
+      }
+
+      /* ─── Card Area ──────────────────────────────────────────────── */
+      .ss-card-area {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 0;
+        position: relative;
+      }
+
+      /* ─── Swipe Card ─────────────────────────────────────────────── */
+      .ss-card {
+        width: 100%;
+        border-radius: var(--ss-card-radius);
+        overflow: hidden;
+        cursor: grab;
+        background: var(--ss-surface);
+        border: 1px solid var(--ss-border);
+        box-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.3),
+          0 12px 40px rgba(0, 0, 0, 0.2),
+          0 0 30px rgba(240, 168, 48, 0.03);
+        touch-action: pan-y;
+        user-select: none;
+        will-change: transform;
+        position: relative;
+        animation: ssFadeUp 0.3s ease-out;
+      }
+      .ss-card:active {
+        cursor: grabbing;
+      }
+
+      /* ─── Trailer (the "screen") ────────────────────────────────── */
+      .ss-trailer {
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #000;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 3px solid var(--ss-border);
+      }
+      /* Screen glow */
+      .ss-trailer::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .ss-trailer-iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      /* ─── Card Info ──────────────────────────────────────────────── */
+      .ss-card-info {
+        padding: 0.75rem 0.875rem 0.25rem;
+      }
+      .ss-card-title-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .ss-card-title {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        line-height: 1.2;
+        margin: 0;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--ss-text);
+      }
+
+      /* Share link */
+      .ss-share-link {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 0.2rem 0;
+        transition: color 0.15s;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      .ss-share-link:hover {
+        color: var(--ss-warm);
+        border-bottom-color: var(--ss-warm);
+      }
+
+      .ss-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: 0.2rem;
+        font-size: 0.75rem;
+        color: var(--ss-text-muted);
+      }
+      .ss-card-year {
+        color: var(--ss-text-muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .ss-card-rating {
+        color: var(--ss-star);
+      }
+      .ss-card-dot {
+        opacity: 0.3;
+      }
+      .ss-card-genres {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--ss-text-dim);
+      }
+      .ss-card-overview {
+        font-size: 0.78rem;
+        color: var(--ss-text-muted);
+        line-height: 1.5;
+        margin-top: 0.35rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* ─── Card Action Buttons (rounded, drive-in style) ──────────── */
+      .ss-card-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.875rem 0.75rem;
+      }
+
+      .ss-btn {
+        border: none;
+        cursor: pointer;
+        font-family: 'Fredoka', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        transition: transform 0.1s, background 0.15s, box-shadow 0.15s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+      .ss-btn:active {
+        transform: scale(0.95);
+      }
+
+      .ss-btn-nope {
+        flex: 1;
+        padding: 0.65rem 1rem;
+        background: var(--ss-surface-raised);
+        color: var(--ss-text-muted);
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid var(--ss-border);
+      }
+      .ss-btn-nope:hover {
+        background: var(--ss-nope);
+        color: var(--ss-text);
+        border-color: var(--ss-nope-light);
+      }
+
+      .ss-btn-yes {
+        flex: 1;
+        padding: 0.65rem 1rem;
+        background: linear-gradient(135deg, var(--ss-warm), var(--ss-orange));
+        color: #1a0a00;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        box-shadow: 0 0 16px rgba(240, 168, 48, 0.2);
+      }
+      .ss-btn-yes:hover {
+        background: linear-gradient(135deg, var(--ss-warm-light), var(--ss-orange));
+        box-shadow: 0 0 24px rgba(240, 168, 48, 0.3);
+      }
+
+      .ss-btn-retry {
+        padding: 0.65rem 1.5rem;
+        background: linear-gradient(135deg, var(--ss-warm), var(--ss-orange));
+        color: #1a0a00;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        box-shadow: 0 0 12px rgba(240, 168, 48, 0.15);
+      }
+      .ss-btn-retry:hover {
+        background: linear-gradient(135deg, var(--ss-warm-light), var(--ss-orange));
+      }
+
+      /* ─── Swipe Overlays ─────────────────────────────────────────── */
+      .ss-swipe-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        z-index: 10;
+        border-radius: var(--ss-card-radius);
+      }
+      .ss-overlay-yes {
+        background: rgba(240, 168, 48, 0.1);
+      }
+      .ss-overlay-nope {
+        background: rgba(42, 48, 80, 0.2);
+      }
+      .ss-overlay-label {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .ss-label-yes {
+        color: var(--ss-warm);
+        transform: rotate(-12deg);
+        border: 3px solid var(--ss-warm);
+        padding: 0.15rem 0.75rem;
+        border-radius: 12px;
+        background: rgba(11, 16, 38, 0.6);
+        text-shadow: 0 0 12px rgba(240, 168, 48, 0.4);
+      }
+      .ss-label-nope {
+        color: var(--ss-nope-light);
+        transform: rotate(12deg);
+        border: 3px solid var(--ss-nope-light);
+        padding: 0.15rem 0.75rem;
+        border-radius: 12px;
+        background: rgba(11, 16, 38, 0.6);
+      }
+
+      /* ─── Film-Leader Countdown ──────────────────────────────────── */
+      .ss-countdown-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(11, 16, 38, 0.88);
+        z-index: 15;
+        border-radius: var(--ss-card-radius);
+        animation: ssFadeIn 0.3s ease-out;
+      }
+      .ss-countdown-leader {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ss-countdown-svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--ss-warm);
+        transform: rotate(-90deg);
+      }
+      .ss-countdown-arc {
+        transition: stroke-dashoffset 1s linear;
+      }
+      .ss-countdown-number {
+        font-family: 'Righteous', cursive;
+        font-size: 3rem;
+        color: var(--ss-warm);
+        line-height: 1;
+        position: relative;
+        z-index: 1;
+        text-shadow: 0 0 20px rgba(240, 168, 48, 0.4);
+      }
+      .ss-countdown-label {
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ss-text-muted);
+        margin-top: 0.75rem;
+      }
+
+      /* ─── Loading ────────────────────────────────────────────────── */
+      .ss-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .ss-spinner {
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--ss-border);
+        border-top-color: var(--ss-warm);
+        border-radius: 50%;
+        animation: ssSpin 0.8s linear infinite;
+      }
+      .ss-loading-text {
+        font-size: 0.8rem;
+        color: var(--ss-text-dim);
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        animation: ssPulse 1.5s ease-in-out infinite;
+      }
+
+      /* ─── Error / Empty States ───────────────────────────────────── */
+      .ss-error-state,
+      .ss-empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        text-align: center;
+        padding: 2rem;
+      }
+      .ss-error {
+        background: rgba(240, 168, 48, 0.08);
+        color: var(--ss-warm-light);
+        border: 1px solid rgba(240, 168, 48, 0.15);
+        border-radius: 12px;
+        padding: 0.65rem 1rem;
+        font-size: 0.8rem;
+      }
+      .ss-empty-text {
+        color: var(--ss-text-muted);
+        font-size: 0.85rem;
+      }
+
+      /* ─── Footer / Hint ──────────────────────────────────────────── */
+      .ss-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        flex-shrink: 0;
+      }
+
+      .ss-skip {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 0.35rem 0.75rem;
+        border-radius: 12px;
+        transition: color 0.15s, background 0.15s;
+      }
+      .ss-skip:hover {
+        color: var(--ss-text-muted);
+        background: var(--ss-surface);
+      }
+
+      .ss-hint {
+        text-align: center;
+        font-size: 0.6rem;
+        color: var(--ss-text-dim);
+        letter-spacing: 0.06em;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        opacity: 0.6;
+      }
+
+      /* ─── Toast ──────────────────────────────────────────────────── */
+      .ss-toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ss-surface-raised);
+        color: var(--ss-warm);
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 0.5rem 1.25rem;
+        border-radius: 20px;
+        border: 1px solid var(--ss-border);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 12px rgba(240, 168, 48, 0.1);
+        z-index: 100;
+        animation: ssToast 2s ease-in-out forwards;
+        pointer-events: none;
+      }
+
+      /* ─── Liked Button (in header via portal) ──────────────────────── */
+      .ss-liked-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 6px;
+        transition: color 0.15s, transform 0.15s;
+        position: relative;
+      }
+      .ss-liked-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .ss-liked-btn:hover {
+        color: var(--ss-orange);
+        transform: scale(1.1);
+      }
+      .ss-liked-count {
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--ss-text-muted);
+        min-width: 1em;
+      }
+
+      /* ─── Liked List ────────────────────────────────────────────────── */
+      .ss-liked {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        animation: ssFadeIn 0.2s ease-out;
+      }
+      .ss-liked-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--ss-border);
+        margin-bottom: 0.5rem;
+        flex-shrink: 0;
+      }
+      .ss-liked-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0.25rem 0;
+        transition: color 0.15s;
+      }
+      .ss-liked-back:hover { color: var(--ss-warm); }
+      .ss-liked-back svg { width: 14px; height: 14px; }
+      .ss-liked-title {
+        font-family: 'Fredoka', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ss-text);
+        margin: 0;
+        flex: 1;
+      }
+      .ss-liked-count {
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--ss-text-dim);
+        background: var(--ss-surface);
+        padding: 0.15rem 0.5rem;
+        border-radius: 10px;
+      }
+      .ss-liked-empty {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: var(--ss-text-muted);
+        font-size: 0.85rem;
+        text-align: center;
+        padding: 2rem;
+      }
+      .ss-liked-empty-hint {
+        font-size: 0.75rem;
+        color: var(--ss-text-dim);
+      }
+      .ss-liked-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .ss-liked-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--ss-border);
+        animation: ssSlideIn 0.15s ease-out;
+      }
+      .ss-liked-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .ss-liked-item-title {
+        font-family: 'Nunito', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--ss-text);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .ss-liked-item-meta {
+        font-size: 0.7rem;
+        color: var(--ss-text-dim);
+      }
+      .ss-liked-remove {
+        background: none;
+        border: none;
+        color: var(--ss-text-dim);
+        cursor: pointer;
+        padding: 0.35rem;
+        border-radius: 8px;
+        transition: color 0.15s, background 0.15s;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ss-liked-remove:hover {
+        color: var(--ss-orange);
+        background: rgba(255, 107, 43, 0.1);
+      }
+      .ss-liked-remove svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* ─── Desktop: wider cards ─────────────────────────────────────── */
+      @media (min-width: 600px) {
+        .ss-page {
+          max-width: 640px;
+          padding: 0 1rem;
+        }
+        .ss-card-info {
+          padding: 1rem 1.25rem 0.35rem;
+        }
+        .ss-card-actions {
+          padding: 0.5rem 1.25rem 1rem;
+        }
+        .ss-card-title {
+          font-size: 1.3rem;
+        }
+        .ss-card-overview {
+          -webkit-line-clamp: 3;
+        }
+      }
+
+      @media (min-width: 900px) {
+        .ss-page {
+          max-width: 760px;
+        }
+      }
+
+      /* ─── Reduced Motion ─────────────────────────────────────────── */
+      @media (prefers-reduced-motion: reduce) {
+        .ss-card { animation: none; }
+        .ss-spinner { animation: none; border-top-color: var(--ss-warm); }
+        .ss-loading-text { animation: none; }
+        .ss-stars span { animation: none; opacity: 0.3; }
+        .ss-brand { animation: none; }
+      }
+    </style>
+  </Fragment>
+
+  <!-- Starfield -->
+  <div class="ss-stars" aria-hidden="true">
+    <span style="top:3%;left:8%;--dur:2.5s;--delay:0s"></span>
+    <span style="top:7%;left:22%;--dur:3.5s;--delay:0.5s"></span>
+    <span style="top:2%;left:38%;--dur:2.8s;--delay:1s"></span>
+    <span style="top:11%;left:52%;--dur:3.2s;--delay:0.3s"></span>
+    <span style="top:5%;left:67%;--dur:4s;--delay:0.8s"></span>
+    <span style="top:9%;left:81%;--dur:2.2s;--delay:1.5s"></span>
+    <span style="top:1%;left:93%;--dur:3s;--delay:0.2s"></span>
+    <span style="top:14%;left:12%;--dur:3.8s;--delay:1.2s"></span>
+    <span style="top:6%;left:45%;--dur:2.6s;--delay:0.7s"></span>
+    <span style="top:12%;left:75%;--dur:3.3s;--delay:0.4s"></span>
+    <span style="top:18%;left:30%;--dur:4.2s;--delay:1.8s"></span>
+    <span style="top:4%;left:58%;--dur:2.9s;--delay:0.6s"></span>
+    <span style="top:16%;left:88%;--dur:3.6s;--delay:1.1s"></span>
+    <span style="top:8%;left:4%;--dur:2.4s;--delay:0.9s"></span>
+    <span style="top:20%;left:50%;--dur:3.1s;--delay:1.4s"></span>
+    <span style="top:15%;left:65%;--dur:2.7s;--delay:0.1s"></span>
+    <span style="top:22%;left:18%;--dur:3.9s;--delay:1.6s"></span>
+    <span style="top:10%;left:35%;--dur:2.3s;--delay:0.4s"></span>
+  </div>
+
+  <div class="ss-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <header class="ss-header">
+      <a href="/" class="ss-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        stanwood.dev
+      </a>
+      <div class="ss-header-right">
+        <span class="ss-brand">Show Swipe</span>
+        <div id="ss-liked-mount"></div>
+      </div>
+    </header>
+    <main id="main-content" class="ss-main">
+      <ShowSwipe client:idle />
+    </main>
+  </div>
+</BaseLayout>
