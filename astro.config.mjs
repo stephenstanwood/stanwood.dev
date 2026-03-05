@@ -9,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://stanwood.dev',
   output: 'static',
-  adapter: vercel(),
+  adapter: vercel({ edgeMiddleware: true }),
   integrations: [react(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
