@@ -113,6 +113,7 @@ async function fetchFromSource(
         "vote_average.gte": 5.5,
         include_adult: false,
         without_genres: excluded,
+        with_original_language: "en",
         page,
       };
       if (genres.length > 0) {
@@ -131,6 +132,7 @@ async function fetchFromSource(
         "vote_average.gte": 7.5,
         include_adult: false,
         without_genres: excluded,
+        with_original_language: "en",
         page: Math.floor(Math.random() * 5) + 1,
       };
       params[`${dateField}.lte`] = `${currentYear - 10}-12-31`;
@@ -164,6 +166,12 @@ function filterCandidates(
   return rawItems.filter((item) => {
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
     if (hasExcludedGenre(item, mediaType)) return false;
+
+    // Bias toward English — non-English from trending/now_playing
+    // only gets through if highly rated (7.0+)
+    if (item.original_language !== "en" && isCurated) {
+      if (item.vote_average < 7.0) return false;
+    }
 
     if (isCurated) {
       // Only filter out truly garbage-rated content from trending
