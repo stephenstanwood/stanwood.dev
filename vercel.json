@@ -9,6 +9,16 @@
       "source": "/",
       "has": [{ "type": "host", "value": "www.showswipe.app" }],
       "destination": "/show-swipe"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "nbanow.app" }],
+      "destination": "/nba-now"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.nbanow.app" }],
+      "destination": "/nba-now"
     }
   ],
   "redirects": [
@@ -22,6 +32,18 @@
       "source": "/show-swipe",
       "has": [{ "type": "host", "value": "www.stanwood.dev" }],
       "destination": "https://showswipe.app",
+      "permanent": true
+    },
+    {
+      "source": "/nba-now",
+      "has": [{ "type": "host", "value": "stanwood.dev" }],
+      "destination": "https://nbanow.app",
+      "permanent": true
+    },
+    {
+      "source": "/nba-now",
+      "has": [{ "type": "host", "value": "www.stanwood.dev" }],
+      "destination": "https://nbanow.app",
       "permanent": true
     }
   ]
