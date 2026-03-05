@@ -1,26 +1,4 @@
 {
-  "rewrites": [
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "showswipe.app" }],
-      "destination": "/show-swipe"
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "www.showswipe.app" }],
-      "destination": "/show-swipe"
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "nbanow.app" }],
-      "destination": "/nba-now"
-    },
-    {
-      "source": "/",
-      "has": [{ "type": "host", "value": "www.nbanow.app" }],
-      "destination": "/nba-now"
-    }
-  ],
   "redirects": [
     {
       "source": "/nba-now",
