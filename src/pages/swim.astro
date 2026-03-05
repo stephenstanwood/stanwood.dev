@@ -9,7 +9,7 @@ const title = "Lap Lab — stanwood.dev";
   description="Lap Lab — Generate custom swim workouts for any duration and pace."
   slug="swim"
   favicon="/favicon-swim.svg"
-  themeColor="#0f172a"
+  themeColor="#0d9488"
   schemaCategory="HealthApplication"
   schemaName="Lap Lab"
 >
@@ -17,7 +17,7 @@ const title = "Lap Lab — stanwood.dev";
     <style>
       body {
         font-family: 'Inter', system-ui, sans-serif;
-        background-color: rgb(248 250 252);
+        background-color: #f5f0eb;
         color: rgb(15 23 42);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -32,13 +32,71 @@ const title = "Lap Lab — stanwood.dev";
         animation: fadeIn 0.4s ease-out;
       }
 
-      /* ── Decorative chevron band at the top ── */
-      .chevron-band {
-        background:
-          linear-gradient(135deg, transparent 33.33%, currentColor 33.33%, currentColor 66.66%, transparent 66.66%),
-          linear-gradient(225deg, transparent 33.33%, currentColor 33.33%, currentColor 66.66%, transparent 66.66%);
-        background-size: 24px 12px;
-        height: 6px;
+      /* ── Hero section ── */
+      .hero-container {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        border-radius: 1.25rem;
+        margin-top: 1rem;
+      }
+      @media (min-width: 640px) {
+        .hero-container {
+          height: 340px;
+        }
+      }
+      .hero-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(245, 240, 235, 0) 0%,
+          rgba(245, 240, 235, 0) 40%,
+          rgba(245, 240, 235, 0.6) 70%,
+          rgba(245, 240, 235, 1) 100%
+        );
+        pointer-events: none;
+      }
+      .hero-title-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem 1.5rem 1.25rem;
+        pointer-events: none;
+      }
+
+      /* ── Pool-themed accent bar ── */
+      .lane-divider {
+        height: 4px;
+        background: repeating-linear-gradient(
+          90deg,
+          #0d9488 0px,
+          #0d9488 20px,
+          #f5f0eb 20px,
+          #f5f0eb 28px,
+          #e11d48 28px,
+          #e11d48 48px,
+          #f5f0eb 48px,
+          #f5f0eb 56px
+        );
+        border-radius: 2px;
+      }
+
+      /* ── Sandstone card surface ── */
+      .card-sandstone {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(13, 148, 136, 0.1);
+        border-radius: 1.25rem;
       }
 
       /* ── Print styles: clean single-page PDF ── */
@@ -68,50 +126,54 @@ const title = "Lap Lab — stanwood.dev";
   </Fragment>
 
   <a href="#main-content" class="skip-nav">Skip to content</a>
-  <!-- Retro chevron band across the top -->
-  <div class="chevron-band text-teal-400"></div>
 
-  <main id="main-content" class="mx-auto max-w-2xl px-6 pt-12 pb-24 print:hidden">
+  <!-- Subtle lane divider at very top -->
+  <div class="lane-divider"></div>
+
+  <main id="main-content" class="mx-auto max-w-2xl px-6 pt-8 pb-24 print:hidden">
     <!-- Nav -->
     <div class="flex items-center">
       <a href="/" class="retro-back">&larr; stanwood.dev</a>
     </div>
 
-    <!-- Header -->
-    <header class="mt-10">
-      <div class="flex items-center gap-3">
-        <div class="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-400 to-cyan-500 shadow-lg shadow-teal-200/50">
-          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-          </svg>
-        </div>
-        <div>
-          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-            Lap Lab
-          </h1>
-          <p class="text-slate-400 text-sm font-medium -mt-0.5">swim workout generator</p>
+    <!-- Hero Image -->
+    <div class="hero-container">
+      <img
+        src="/images/lap-lab.webp"
+        alt="Aerial view of a turquoise swimming pool with lane dividers"
+        class="hero-image"
+        loading="lazy"
+        decoding="async"
+        width="1280"
+        height="720"
+      />
+      <div class="hero-overlay"></div>
+      <div class="hero-title-overlay">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center justify-center w-11 h-11 rounded-xl bg-teal-600/90 backdrop-blur-sm shadow-lg shadow-teal-900/20">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              Lap Lab
+            </h1>
+          </div>
         </div>
       </div>
-      <p class="mt-4 text-slate-500 leading-relaxed">
+    </div>
+
+    <!-- Header copy -->
+    <header class="mt-3">
+      <p class="text-teal-700/60 text-sm font-medium uppercase tracking-wider">swim workout generator</p>
+      <p class="mt-3 text-stone-500 leading-relaxed">
         Pick your duration, pace, and pool type. We'll build you a workout with a warmup, main set, and cooldown.
         Don't love it? Shuffle until you do.
       </p>
 
-      <!-- Wave decoration -->
-      <svg class="mt-6 w-full h-6 text-teal-100" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z" fill="currentColor" opacity="0.5">
-          <animate attributeName="d" dur="4s" repeatCount="indefinite"
-            values="M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z;
-                    M0 20 Q150 40 300 20 T600 20 T900 20 T1200 20 V40 H0 Z;
-                    M0 20 Q150 0 300 20 T600 20 T900 20 T1200 20 V40 H0 Z" />
-        </path>
-        <path d="M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z" fill="currentColor" opacity="0.3">
-          <animate attributeName="d" dur="5s" repeatCount="indefinite"
-            values="M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z;
-                    M0 25 Q200 35 400 25 T800 25 T1200 25 V40 H0 Z;
-                    M0 25 Q200 10 400 25 T800 25 T1200 25 V40 H0 Z" />
-        </path>
-      </svg>
+      <!-- Lane divider decoration -->
+      <div class="lane-divider mt-6"></div>
     </header>
 
     <!-- App -->

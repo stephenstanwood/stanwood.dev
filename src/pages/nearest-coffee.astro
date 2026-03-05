@@ -23,27 +23,77 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         -moz-osx-font-smoothing: grayscale;
       }
 
-      /* warm ambient glow — coffee + green */
+      /* warm ambient glow — amber + sage, moody cafe */
       .bg-glow {
         position: fixed;
         inset: 0;
         z-index: -1;
         background:
-          radial-gradient(ellipse 70% 50% at 50% 0%, rgba(139,170,128,0.06) 0%, transparent 60%),
-          radial-gradient(ellipse 50% 50% at 20% 80%, rgba(180,130,70,0.04) 0%, transparent 60%),
-          radial-gradient(ellipse 40% 40% at 80% 20%, rgba(180,130,70,0.03) 0%, transparent 60%),
+          radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,150,60,0.08) 0%, transparent 55%),
+          radial-gradient(ellipse 60% 60% at 20% 70%, rgba(180,130,70,0.06) 0%, transparent 50%),
+          radial-gradient(ellipse 50% 40% at 80% 30%, rgba(139,170,128,0.05) 0%, transparent 50%),
+          radial-gradient(ellipse 40% 30% at 60% 50%, rgba(200,150,60,0.03) 0%, transparent 60%),
           #0e1110;
+      }
+
+      /* hero image banner */
+      .hero-banner {
+        position: relative;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 28px;
+        box-shadow:
+          0 8px 40px rgba(0,0,0,0.5),
+          0 0 80px rgba(200,150,60,0.06),
+          inset 0 0 0 1px rgba(200,150,60,0.08);
+      }
+      .hero-banner img {
+        width: 100%;
+        display: block;
+        height: 220px;
+        object-fit: cover;
+        object-position: center 40%;
+      }
+      @media (min-width: 640px) {
+        .hero-banner img {
+          height: 280px;
+        }
+      }
+      .hero-banner::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(14,17,16,0) 0%,
+          rgba(14,17,16,0.15) 40%,
+          rgba(14,17,16,0.7) 75%,
+          rgba(14,17,16,0.95) 100%
+        );
+        pointer-events: none;
+      }
+      .hero-banner-glow {
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 80px;
+        background: radial-gradient(ellipse at center, rgba(200,150,60,0.12) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 1;
       }
 
       /* hero card */
       .hero-card {
         border-radius: 20px;
-        background: linear-gradient(165deg, rgba(30,35,30,0.9) 0%, rgba(20,24,20,0.95) 100%);
+        background: linear-gradient(165deg, rgba(30,28,22,0.92) 0%, rgba(18,17,14,0.96) 100%);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(139,170,128,0.15);
+        border: 1px solid rgba(200,150,60,0.12);
         overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 60px rgba(139,170,128,0.04);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(200,150,60,0.05), 0 0 100px rgba(139,170,128,0.02);
       }
 
       /* map skeleton */
@@ -104,9 +154,9 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: rgba(139,170,128,0.08);
-        border: 1px solid rgba(139,170,128,0.15);
-        color: #8BAA80;
+        background: rgba(200,150,60,0.06);
+        border: 1px solid rgba(200,150,60,0.15);
+        color: #C8963C;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -115,8 +165,8 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         flex-shrink: 0;
       }
       .carousel-arrow:hover {
-        background: rgba(139,170,128,0.2);
-        border-color: #8BAA80;
+        background: rgba(200,150,60,0.18);
+        border-color: #C8963C;
         transform: scale(1.05);
       }
       .carousel-arrow:disabled {
@@ -125,8 +175,8 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         transform: none;
       }
       .carousel-arrow:disabled:hover {
-        background: rgba(139,170,128,0.08);
-        border-color: rgba(139,170,128,0.15);
+        background: rgba(200,150,60,0.06);
+        border-color: rgba(200,150,60,0.15);
         transform: none;
       }
       .carousel-center {
@@ -137,7 +187,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       }
       .carousel-counter {
         font-size: 13px;
-        color: rgba(139,170,128,0.5);
+        color: rgba(200,150,60,0.5);
         font-weight: 600;
         font-variant-numeric: tabular-nums;
       }
@@ -150,16 +200,16 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: rgba(139,170,128,0.15);
+        background: rgba(200,150,60,0.15);
         transition: all 0.3s;
         cursor: pointer;
       }
       .carousel-dot:hover {
-        background: rgba(139,170,128,0.3);
+        background: rgba(200,150,60,0.3);
       }
       .carousel-dot.active {
-        background: #8BAA80;
-        box-shadow: 0 0 8px rgba(139,170,128,0.4);
+        background: #C8963C;
+        box-shadow: 0 0 8px rgba(200,150,60,0.4);
         width: 20px;
         border-radius: 3px;
       }
@@ -177,12 +227,12 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .slide-in-left  { animation: slideInLeft 0.3s ease both; }
 
       /* star */
-      .star { color: #D4A847; text-shadow: 0 0 6px rgba(212,168,71,0.3); }
+      .star { color: #E0B44C; text-shadow: 0 0 8px rgba(224,180,76,0.4); }
 
       /* progress bar */
       .progress-track {
         height: 3px;
-        background: rgba(139,170,128,0.1);
+        background: rgba(200,150,60,0.1);
         border-radius: 2px;
         overflow: hidden;
         width: 100%;
@@ -190,7 +240,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       }
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, #6B4226, #8BAA80, #6ECF8E);
+        background: linear-gradient(90deg, #8B5E34, #C8963C, #8BAA80);
         border-radius: 2px;
         transition: width 0.3s ease-out;
         width: 0%;
@@ -213,7 +263,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       /* enable button hover */
       .enable-btn:hover {
-        background: #A3C296 !important;
+        background: #D4A645 !important;
         transform: scale(1.02);
       }
 
@@ -233,7 +283,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     </style>
   </Fragment>
 
-    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#8BAA80] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#C8963C] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
     <div class="bg-glow"></div>
 
     <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
@@ -242,15 +292,27 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         <a href="/" class="retro-back">&larr; stanwood.dev</a>
       </div>
 
+      <!-- Hero image -->
+      <div class="hero-banner mt-6 fade-up">
+        <img
+          src="/images/nearest-coffee.webp"
+          alt="A steaming sage green coffee cup on a dark wooden counter, bathed in warm amber light"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
+        <div class="hero-banner-glow"></div>
+      </div>
+
       <!-- Header -->
-      <header class="mt-8 mb-6">
+      <header class="mb-6" style="margin-top:-8px;position:relative;z-index:2;">
         <div class="flex items-center gap-3">
-          <span style="font-size:36px;filter:drop-shadow(0 0 8px rgba(180,130,70,0.3));">☕</span>
+          <span style="font-size:36px;filter:drop-shadow(0 0 10px rgba(200,150,60,0.4));">☕</span>
           <div>
             <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#E8E6E1]">
               Nearest Coffee
             </h1>
-            <p class="text-[#8BAA80] text-sm font-medium tracking-wide uppercase" style="letter-spacing:0.15em;">
+            <p class="text-sm font-medium tracking-wide uppercase" style="letter-spacing:0.15em;color:#C8963C;">
               Open Right Now
             </p>
           </div>
@@ -305,7 +367,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <div class="progress-track" style="margin-top:24px;">
               <div id="progressFill" class="progress-fill"></div>
             </div>
-            <p id="progressLabel" style="margin-top:14px;color:#8BAA80;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
+            <p id="progressLabel" style="margin-top:14px;color:#C8963C;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
           </div>
         `);
         progress.start();
@@ -319,7 +381,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <p style="color:#8B8D94;margin-bottom:28px;max-width:280px;line-height:1.6;font-size:14px;">
               We'll use your location to find the nearest open coffee shop.
             </p>
-            <button id="enable-btn" class="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#8BAA80;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(139,170,128,0.2);">
+            <button id="enable-btn" class="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#C8963C;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(200,150,60,0.25);">
               <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               Enable Location
             </button>
@@ -398,10 +460,10 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             ${mapHtml}
             <div style="padding:20px 20px 24px;">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(139,170,128,0.1);color:#8BAA80;font-weight:800;font-size:13px;">${rank}</span>
+                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(200,150,60,0.1);color:#C8963C;font-weight:800;font-size:13px;">${rank}</span>
                 <span class="open-badge">Open</span>
-                <span style="color:#8BAA80;font-weight:600;font-size:14px;">${formatDistance(shop.distance)}</span>
-                <span style="color:rgba(139,170,128,0.4);font-size:12px;font-weight:500;">${estimateWalk(shop.distance)}</span>
+                <span style="color:#C8963C;font-weight:600;font-size:14px;">${formatDistance(shop.distance)}</span>
+                <span style="color:rgba(200,150,60,0.4);font-size:12px;font-weight:500;">${estimateWalk(shop.distance)}</span>
                 ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
               </div>
 
@@ -413,7 +475,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${shop.address}
-                  <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#8BAA80;" fill="currentColor" viewBox="0 0 24 24">
+                  <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#C8963C;" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
                   </svg>
                 </span>

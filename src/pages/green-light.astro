@@ -9,7 +9,7 @@ const title = "Green Light — stanwood.dev";
   description="Know what to order before you sit down. Take a quick taste quiz, pick a restaurant, get two smart options."
   slug="green-light"
   favicon="/favicon-gl.svg"
-  themeColor="#0a0f0a"
+  themeColor="#2A2118"
   fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap"
   schemaCategory="LifestyleApplication"
 >
@@ -17,17 +17,21 @@ const title = "Green Light — stanwood.dev";
     <style is:global>
       /* ─── Page Theme ─────────────────────────────────────────────── */
       :root {
-        --he-bg: #FAFAF5;
-        --he-sage: #6B8F71;
-        --he-sage-light: #8FB896;
-        --he-sage-faint: #e8f0e9;
-        --he-gold: #C9A96E;
-        --he-gold-light: #dcc596;
-        --he-charcoal: #2D2D2D;
-        --he-gray: #6B6B6B;
-        --he-light-gray: #A0A0A0;
-        --he-border: #E8E5DE;
-        --he-card-bg: #FFFFFF;
+        --he-bg: #FAF8F3;
+        --he-sage: #5C7A52;
+        --he-sage-light: #7A9E6E;
+        --he-sage-faint: #EAF0E4;
+        --he-gold: #B8944F;
+        --he-gold-light: #D4B878;
+        --he-charcoal: #2A2118;
+        --he-gray: #5E5244;
+        --he-light-gray: #9C8E7E;
+        --he-border: #E0D8CC;
+        --he-card-bg: #FFFDF9;
+        --he-warm-cream: #F5F0E6;
+        --he-rosemary: #4A6741;
+        --he-wood: #6E4F2D;
+        --he-wood-light: #8B6D4A;
       }
 
       body {
@@ -35,6 +39,56 @@ const title = "Green Light — stanwood.dev";
         background: var(--he-bg);
         color: var(--he-charcoal);
         margin: 0;
+      }
+
+      /* ─── Hero Image ──────────────────────────────────────────────── */
+      .he-hero {
+        position: relative;
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+      }
+      @media (min-width: 480px) {
+        .he-hero { height: 300px; }
+      }
+      @media (min-width: 768px) {
+        .he-hero { height: 360px; }
+      }
+      .he-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 60%;
+        display: block;
+      }
+      .he-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(42, 33, 24, 0.08) 0%,
+          rgba(42, 33, 24, 0.02) 40%,
+          rgba(250, 248, 243, 0.4) 75%,
+          rgba(250, 248, 243, 1) 100%
+        );
+        pointer-events: none;
+      }
+      .he-hero-tagline {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--he-rosemary);
+        letter-spacing: 0.03em;
+        opacity: 0.85;
+        pointer-events: none;
+      }
+      @media (min-width: 480px) {
+        .he-hero-tagline { font-size: 1.15rem; bottom: 2rem; }
       }
 
       /* ─── Animations ─────────────────────────────────────────────── */
@@ -68,7 +122,7 @@ const title = "Green Light — stanwood.dev";
         display: inline-flex;
         align-items: center;
         gap: 0.35rem;
-        color: var(--he-gray);
+        color: var(--he-light-gray);
         text-decoration: none;
         font-size: 0.875rem;
         font-weight: 500;
@@ -81,7 +135,14 @@ const title = "Green Light — stanwood.dev";
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 700;
         font-size: 1.15rem;
-        color: var(--he-sage);
+        color: var(--he-rosemary);
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .he-brand-leaf {
+        color: var(--he-sage-light);
+        font-size: 1.1em;
       }
 
       .he-main {
@@ -158,7 +219,7 @@ const title = "Green Light — stanwood.dev";
         border-color: var(--he-sage);
         background: var(--he-sage-faint);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(107, 143, 113, 0.12);
+        box-shadow: 0 4px 12px rgba(74, 103, 65, 0.12);
       }
       .he-quiz-card:active {
         transform: translateY(0);
@@ -258,7 +319,7 @@ const title = "Green Light — stanwood.dev";
       .he-input:focus {
         outline: none;
         border-color: var(--he-sage);
-        box-shadow: 0 0 0 3px rgba(107, 143, 113, 0.1);
+        box-shadow: 0 0 0 3px rgba(92, 122, 82, 0.12);
       }
       .he-input::placeholder {
         color: var(--he-light-gray);
@@ -443,10 +504,10 @@ const title = "Green Light — stanwood.dev";
       .he-result-card {
         background: var(--he-card-bg);
         border: 1px solid var(--he-border);
-        border-left: 4px solid var(--he-sage);
+        border-left: 4px solid var(--he-rosemary);
         border-radius: 14px;
         padding: 1.5rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 8px rgba(42, 33, 24, 0.06);
       }
       .he-result-heading {
         font-family: 'Space Grotesk', sans-serif;
@@ -536,7 +597,7 @@ const title = "Green Light — stanwood.dev";
         border-color: var(--he-sage);
         background: var(--he-sage-faint);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(107, 143, 113, 0.12);
+        box-shadow: 0 4px 12px rgba(74, 103, 65, 0.12);
       }
       .he-picker-card:active { transform: translateY(0); }
       .he-picker-order {
@@ -599,8 +660,19 @@ const title = "Green Light — stanwood.dev";
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         stanwood.dev
       </a>
-      <span class="he-brand">Green Light</span>
+      <span class="he-brand"><span class="he-brand-leaf" aria-hidden="true">&#x1F33F;</span> Green Light</span>
     </header>
+
+    <section class="he-hero" aria-label="Decorative hero image">
+      <img
+        src="/images/green-light.webp"
+        alt="Overhead view of a rustic wooden table with fresh herbs, sage, and rosemary in warm natural light"
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="he-hero-overlay"></div>
+      <p class="he-hero-tagline">Know what to order before you sit down.</p>
+    </section>
 
     <main id="main-content" class="he-main">
       <GreenLight client:idle />

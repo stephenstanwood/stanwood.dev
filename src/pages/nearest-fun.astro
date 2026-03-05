@@ -8,7 +8,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
   description="Find the nearest open kids activity. Rain or shine."
   slug="nearest-fun"
   favicon="/favicon-fun.svg"
-  themeColor="#111318"
+  themeColor="#0E1117"
   fontsUrl="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
   schemaCategory="LifestyleApplication"
 >
@@ -16,7 +16,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     <style is:global>
       body {
         font-family: 'Space Grotesk', system-ui, sans-serif;
-        background: #111318;
+        background: #0E1117;
         color: #E8E6E1;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
@@ -27,46 +27,99 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         position: fixed;
         inset: 0;
         z-index: -1;
-        transition: background 0.6s ease;
+        transition: background 0.8s ease;
       }
       .bg-glow.inside {
         background:
-          radial-gradient(ellipse 60% 50% at 50% 0%, rgba(124,159,255,0.06) 0%, transparent 70%),
-          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.3) 0%, transparent 70%),
-          #111318;
+          radial-gradient(ellipse 80% 50% at 30% 0%, rgba(100,140,255,0.10) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 40% at 70% 0%, rgba(80,120,220,0.06) 0%, transparent 50%),
+          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.4) 0%, transparent 70%),
+          #0E1117;
       }
       .bg-glow.outside {
         background:
-          radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255,183,77,0.06) 0%, transparent 70%),
-          radial-gradient(ellipse 50% 40% at 80% 100%, rgba(25,29,38,0.3) 0%, transparent 70%),
-          #111318;
+          radial-gradient(ellipse 80% 50% at 70% 0%, rgba(255,183,77,0.10) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 40% at 30% 0%, rgba(255,140,50,0.06) 0%, transparent 50%),
+          radial-gradient(ellipse 50% 40% at 20% 100%, rgba(25,29,38,0.4) 0%, transparent 70%),
+          #0E1117;
+      }
+
+      /* hero banner image */
+      .hero-banner {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 28px;
+        aspect-ratio: 21 / 9;
+        background: linear-gradient(135deg, rgba(100,140,255,0.15) 0%, rgba(255,183,77,0.15) 100%);
+      }
+      .hero-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .hero-banner-overlay {
+        position: absolute;
+        inset: 0;
+        transition: background 0.8s ease;
+      }
+      .hero-banner-overlay.inside {
+        background: linear-gradient(
+          135deg,
+          rgba(100,140,255,0.25) 0%,
+          rgba(14,17,23,0.3) 40%,
+          rgba(14,17,23,0.6) 100%
+        );
+      }
+      .hero-banner-overlay.outside {
+        background: linear-gradient(
+          135deg,
+          rgba(14,17,23,0.6) 0%,
+          rgba(14,17,23,0.3) 60%,
+          rgba(255,170,50,0.25) 100%
+        );
+      }
+      /* bottom fade so text below reads clearly */
+      .hero-banner::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: linear-gradient(to top, #0E1117, transparent);
+        pointer-events: none;
       }
 
       /* theme-aware accent colors via CSS custom properties */
       :root {
         --accent: #7C9FFF;
         --accent-soft: rgba(124,159,255,0.12);
-        --accent-glow: rgba(124,159,255,0.15);
+        --accent-glow: rgba(124,159,255,0.18);
+        --accent-border: rgba(124,159,255,0.15);
         --open-color: #6ECF8E;
       }
       .theme-outside {
         --accent: #FFB74D;
         --accent-soft: rgba(255,183,77,0.12);
-        --accent-glow: rgba(255,183,77,0.15);
+        --accent-glow: rgba(255,183,77,0.18);
+        --accent-border: rgba(255,183,77,0.15);
       }
 
       /* hero card */
       .hero-card {
         border-radius: 20px;
-        background: rgba(25,29,38,0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.06);
+        background: rgba(20,24,32,0.88);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--accent-border, rgba(255,255,255,0.06));
         overflow: hidden;
-        transition: border-color 0.4s ease;
+        transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.03);
       }
-      .theme-outside .hero-card { border-color: rgba(255,183,77,0.12); }
-      .theme-inside .hero-card  { border-color: rgba(124,159,255,0.12); }
+      .theme-outside .hero-card { border-color: rgba(255,183,77,0.15); box-shadow: 0 4px 32px rgba(255,183,77,0.06), 0 0 0 1px rgba(255,255,255,0.03); }
+      .theme-inside .hero-card  { border-color: rgba(124,159,255,0.15); box-shadow: 0 4px 32px rgba(124,159,255,0.06), 0 0 0 1px rgba(255,255,255,0.03); }
 
       /* map skeleton */
       .map-skeleton {
@@ -94,16 +147,16 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         height: 48px;
         border-radius: 14px;
         background: var(--accent);
-        color: #111318;
+        color: #0E1117;
         font-weight: 700;
         font-size: 14px;
-        transition: all 0.2s;
+        transition: all 0.25s;
         border: none;
         cursor: pointer;
-        box-shadow: 0 4px 16px var(--accent-glow);
+        box-shadow: 0 4px 20px var(--accent-glow);
       }
-      .nav-btn:hover { filter: brightness(1.15); transform: scale(1.02); }
-      .nav-btn:active { transform: scale(0.98); }
+      .nav-btn:hover { filter: brightness(1.12); transform: scale(1.03); box-shadow: 0 6px 28px var(--accent-glow); }
+      .nav-btn:active { transform: scale(0.97); }
 
       /* open badge */
       .open-badge {
@@ -151,11 +204,13 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         display: flex;
         gap: 0;
         border-radius: 14px;
-        background: rgba(25,29,38,0.6);
+        background: rgba(20,24,32,0.7);
         border: 1px solid rgba(255,255,255,0.06);
         padding: 4px;
         width: 100%;
         max-width: 320px;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
       .mode-btn {
         flex: 1;
@@ -176,12 +231,13 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       }
       .mode-btn.active {
         background: var(--accent);
-        color: #111318;
-        box-shadow: 0 2px 12px var(--accent-glow);
+        color: #0E1117;
+        box-shadow: 0 2px 16px var(--accent-glow);
+        font-weight: 700;
       }
       .mode-btn:not(.active):hover {
         color: #E8E6E1;
-        background: rgba(255,255,255,0.04);
+        background: rgba(255,255,255,0.05);
       }
 
       .star { color: #D4A847; }
@@ -205,13 +261,14 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.25s;
         flex-shrink: 0;
       }
       .carousel-arrow:hover {
         background: var(--accent-soft);
         border-color: var(--accent);
-        transform: scale(1.05);
+        transform: scale(1.08);
+        box-shadow: 0 0 12px var(--accent-glow);
       }
       .carousel-arrow:disabled {
         opacity: 0.15;
@@ -281,7 +338,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       }
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, var(--accent), #6ECF8E);
+        background: linear-gradient(90deg, #7C9FFF, #6ECF8E, #FFB74D);
         border-radius: 2px;
         transition: width 0.3s ease-out;
         width: 0%;
@@ -309,7 +366,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     </style>
   </Fragment>
 
-    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#7C9FFF] focus:text-[#111318] focus:rounded-lg focus:font-semibold">Skip to content</a>
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#7C9FFF] focus:text-[#0E1117] focus:rounded-lg focus:font-semibold">Skip to content</a>
     <div class="bg-glow inside"></div>
 
     <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
@@ -318,13 +375,24 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         <a href="/" class="retro-back">&larr; stanwood.dev</a>
       </div>
 
+      <!-- Hero banner -->
+      <div class="hero-banner mt-6">
+        <img
+          src="/images/nearest-fun.webp"
+          alt="Split scene: cozy indoor library with warm blue tones on one side, golden outdoor sunset adventure on the other"
+          loading="lazy"
+          decoding="async"
+        />
+        <div class="hero-banner-overlay inside" aria-hidden="true"></div>
+      </div>
+
       <!-- Header -->
-      <header class="mt-8 mb-6">
+      <header class="mb-6" style="margin-top:-8px;">
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-[#E8E6E1]">
           Nearest Fun
         </h1>
-        <p class="mt-2 text-[#8B8D94] text-base">
-          Open Right Now
+        <p class="mt-2 text-base" style="color:#9B9DA4;">
+          Open Right Now &mdash; Rain or Shine
         </p>
       </header>
 
@@ -408,6 +476,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       const toggleBtns = document.querySelectorAll<HTMLButtonElement>(".mode-btn");
       const bgGlow = document.querySelector(".bg-glow")!;
+      const heroOverlay = document.querySelector(".hero-banner-overlay");
 
       toggleBtns.forEach(btn => {
         btn.addEventListener("click", () => {
@@ -423,6 +492,11 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
           bgGlow.classList.remove("inside", "outside");
           bgGlow.classList.add(mode);
+
+          if (heroOverlay) {
+            heroOverlay.classList.remove("inside", "outside");
+            heroOverlay.classList.add(mode);
+          }
 
           if (userLat && userLng) {
             fetchPlaces(userLat, userLng);

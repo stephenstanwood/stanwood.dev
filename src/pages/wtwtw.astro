@@ -9,7 +9,7 @@ const title = "WTWTW — stanwood.dev";
   description="Pick your teams and get the best game to watch each night."
   slug="wtwtw"
   favicon="/favicon-wtwtw.svg"
-  themeColor="#111318"
+  themeColor="#0d1117"
   fontsUrl="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
   schemaCategory="SportsApplication"
   schemaName="What To Watch This Week"
@@ -18,24 +18,24 @@ const title = "WTWTW — stanwood.dev";
     <style>
       body {
         font-family: 'Inter', system-ui, sans-serif;
-        background: #0A1628;
+        background: #0d1117;
         min-height: 100vh;
         position: relative;
-        color: white;
+        color: #f0e6d6;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
 
-      /* subtle radial glow */
+      /* warm ambient glow from above */
       body::before {
         content: '';
         position: fixed;
-        top: -20%;
+        top: -30%;
         left: 50%;
         transform: translateX(-50%);
-        width: 120%;
-        height: 60%;
-        background: radial-gradient(ellipse, rgba(29, 66, 138, 0.15) 0%, transparent 70%);
+        width: 140%;
+        height: 70%;
+        background: radial-gradient(ellipse, rgba(180, 120, 50, 0.08) 0%, rgba(120, 80, 30, 0.04) 40%, transparent 70%);
         pointer-events: none;
         z-index: 0;
       }
@@ -45,10 +45,92 @@ const title = "WTWTW — stanwood.dev";
       .oswald { font-family: 'Oswald', sans-serif; }
       .mono { font-family: 'JetBrains Mono', monospace; }
 
+      /* hero image container */
+      .wtwtw-hero {
+        position: relative;
+        width: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        aspect-ratio: 21 / 9;
+        box-shadow:
+          0 4px 30px rgba(180, 120, 50, 0.12),
+          0 0 60px rgba(180, 120, 50, 0.06);
+      }
+
+      .wtwtw-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* gradient overlay on hero */
+      .wtwtw-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(13, 17, 23, 0) 0%,
+          rgba(13, 17, 23, 0.15) 40%,
+          rgba(13, 17, 23, 0.7) 75%,
+          rgba(13, 17, 23, 0.95) 100%
+        );
+        pointer-events: none;
+      }
+
+      /* hero title overlay */
+      .wtwtw-hero-title {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        padding: 1.5rem 1.5rem 1.25rem;
+      }
+
+      .wtwtw-hero-title h1 {
+        font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #f5e6d0;
+        text-shadow: 0 2px 20px rgba(180, 120, 50, 0.3);
+      }
+
+      .wtwtw-hero-subtitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.6);
+        margin-top: 0.25rem;
+      }
+
+      /* warm vignette at page edges */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 50%, rgba(13, 17, 23, 0.4) 100%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
       /* staggered entrance for schedule cards */
       @keyframes fadeSlideIn {
         from { opacity: 0; transform: translateY(12px); }
         to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes heroFadeIn {
+        from { opacity: 0; transform: scale(1.02); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+
+      .wtwtw-hero {
+        animation: heroFadeIn 1s ease-out both;
       }
     </style>
   </Fragment>
@@ -64,11 +146,21 @@ const title = "WTWTW — stanwood.dev";
       </a>
     </div>
 
-    <header class="mt-10">
-      <h1 class="text-5xl sm:text-6xl font-bold tracking-tight text-white oswald uppercase">
-        WTWTW
-      </h1>
-    </header>
+    <!-- Hero banner -->
+    <div class="wtwtw-hero mt-8">
+      <img
+        src="/images/wtwtw.webp"
+        alt="A cozy living room at night with a massive TV showing a stadium, sports memorabilia, and warm ambient lighting"
+        loading="lazy"
+        decoding="async"
+        width="1200"
+        height="514"
+      />
+      <div class="wtwtw-hero-title">
+        <h1 class="text-5xl sm:text-6xl">WTWTW</h1>
+        <p class="wtwtw-hero-subtitle">What to Watch This Week</p>
+      </div>
+    </div>
 
     <WTWTW client:idle />
   </main>

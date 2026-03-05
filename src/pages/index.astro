@@ -10,15 +10,17 @@ const featured = [
     title: "NBA Now",
     desc: "The best NBA game to watch right now. Live scores ranked by watchability — no more flipping channels.",
     bg: "#e8f5ff",
+    image: "/images/nba-now.webp",
   },
   {
-    href: "https://showswipe.app",
+    href: "/show-swipe",
     emoji: "🍿",
     tag: "Entertainment · Discovery",
     title: "Show Swipe",
     desc: "Swipe through movie and TV trailers. Right for yes, left for pass. It learns what you like.",
     bg: "#1a1a2e",
     dark: true,
+    image: "/images/show-swipe.webp",
   },
   {
     href: "/nearest-coffee",
@@ -27,19 +29,20 @@ const featured = [
     title: "Nearest Coffee",
     desc: "The nearest open coffee shop. That's it.",
     bg: "#efffea",
+    image: "/images/nearest-coffee.webp",
   },
 ];
 
 const projects = [
-  { href: "/wtwtw", emoji: "📺", name: "What to Watch This Week", tag: "best game each night" },
-  { href: "/mlb-gamerank", emoji: "⚾", name: "MLB GameRank", tag: "best game right now" },
-  { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator" },
-  { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version" },
-  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order" },
-  { href: "/nearest-fun", emoji: "🛝", name: "Nearest Fun", tag: "kids activities nearby" },
+  { href: "/wtwtw", emoji: "📺", name: "What to Watch This Week", tag: "best game each night", image: "/images/wtwtw.webp" },
+  { href: "/mlb-gamerank", emoji: "⚾", name: "MLB GameRank", tag: "best game right now", image: "/images/mlb-gamerank.webp" },
+  { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator", image: "/images/lap-lab.webp" },
+  { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
+  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
+  { href: "/nearest-fun", emoji: "🛝", name: "Nearest Fun", tag: "kids activities nearby", image: "/images/nearest-fun.webp" },
   { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
-  { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes" },
-  { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes" },
+  { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
+  { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
 ];
 ---
 
@@ -324,20 +327,35 @@ const projects = [
         background: white;
         border: var(--pixel) solid var(--ink);
         box-shadow: 5px 5px 0 var(--ink);
-        padding: 22px;
+        padding: 0;
         text-decoration: none;
         color: var(--ink);
         display: flex;
         flex-direction: column;
         transition: transform 0.1s, box-shadow 0.1s, background 0.1s;
         position: relative;
+        overflow: hidden;
       }
       .feat-card:hover {
         transform: translate(-2px, -2px);
         box-shadow: 7px 7px 0 var(--ink);
       }
-      .feat-card:hover .feat-emoji {
-        transform: scale(1.3) rotate(-8deg);
+      .feat-card:hover .feat-img {
+        transform: scale(1.05);
+      }
+      .feat-img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+        border-bottom: var(--pixel) solid var(--ink);
+        transition: transform 0.3s ease;
+      }
+      .feat-body {
+        padding: 18px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
       }
       .feat-emoji {
         font-size: 32px;
@@ -622,11 +640,13 @@ const projects = [
           style={`background: ${f.bg};`}
           {...(f.external ? { target: "_blank", rel: "noopener" } : {})}
         >
-          <span class="feat-emoji">{f.emoji}</span>
-          <div class="feat-tag">{f.tag}</div>
-          <div class="feat-title">{f.title}</div>
-          <div class="feat-desc">{f.desc}</div>
-          <div class="feat-arrow">open →</div>
+          {f.image && <img class="feat-img" src={f.image} alt={f.title} loading="lazy" />}
+          <div class="feat-body">
+            <div class="feat-tag">{f.tag}</div>
+            <div class="feat-title">{f.title}</div>
+            <div class="feat-desc">{f.desc}</div>
+            <div class="feat-arrow">open →</div>
+          </div>
         </a>
       ))}
     </div>
