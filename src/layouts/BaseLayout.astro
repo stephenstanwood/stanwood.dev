@@ -18,6 +18,8 @@ interface Props {
   schemaCategory?: string;
   /** Display name for JSON-LD (e.g. "NBA Now"). Falls back to title minus " — stanwood.dev". */
   schemaName?: string;
+  /** Custom domain for standalone apps (e.g. "https://showswipe.app"). Overrides canonical/og URLs. */
+  customDomain?: string;
 }
 
 const {
@@ -30,11 +32,12 @@ const {
   schemaType = "WebApplication",
   schemaCategory = "UtilitiesApplication",
   schemaName,
+  customDomain,
 } = Astro.props;
 
 const siteUrl = "https://stanwood.dev";
-const pageUrl = slug ? `${siteUrl}/${slug}` : siteUrl;
-const canonicalUrl = slug ? `${siteUrl}/${slug}` : `${siteUrl}/`;
+const pageUrl = customDomain || (slug ? `${siteUrl}/${slug}` : siteUrl);
+const canonicalUrl = customDomain ? `${customDomain}/` : (slug ? `${siteUrl}/${slug}` : `${siteUrl}/`);
 const ogImage = `${siteUrl}/api/og?page=${slug || "index"}`;
 const displayName = schemaName || title.replace(" — stanwood.dev", "");
 

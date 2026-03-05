@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "showswipe.app" }],
+      "destination": "/show-swipe"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.showswipe.app" }],
+      "destination": "/show-swipe"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/show-swipe",
+      "has": [{ "type": "host", "value": "stanwood.dev" }],
+      "destination": "https://showswipe.app",
+      "permanent": true
+    },
+    {
+      "source": "/show-swipe",
+      "has": [{ "type": "host", "value": "www.stanwood.dev" }],
+      "destination": "https://showswipe.app",
+      "permanent": true
+    }
+  ]
+}
