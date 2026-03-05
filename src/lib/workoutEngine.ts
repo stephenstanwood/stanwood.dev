@@ -186,7 +186,7 @@ function buildWarmup(target: number, pace: number, rng: Rng): SetItem[] {
   const secondDist = Math.round(remaining / 50) * 50;
 
   // Pick a flavor for the second piece
-  const flavor = rng.pick(["choice", "SKPS", "build", "IM", "kansas"]);
+  const flavor = rng.pick(["choice", "SKPS", "build", "IM", "kansas", "reverseIM", "kick", "pull", "drill"]);
 
   switch (flavor) {
     case "choice":
@@ -244,6 +244,44 @@ function buildWarmup(target: number, pace: number, rng: Rng): SetItem[] {
         { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
         { reps: 1, distance: 300, description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)", stroke: "mixed" },
       ];
+
+    case "reverseIM":
+      if (secondDist < 200) {
+        return [
+          { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+          { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
+        ];
+      }
+      return [
+        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+        { reps: 4, distance: 50, description: "Reverse IM order (free, breast, back, fly)", stroke: "IM" },
+      ];
+
+    case "kick": {
+      const kickDist = Math.round(secondDist / 50) * 50;
+      return [
+        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+        { reps: 1, distance: kickDist, description: "Kick — moderate, loosen up legs", stroke: "free", equipment: "kickboard" },
+      ];
+    }
+
+    case "pull": {
+      const pullDist = Math.round(secondDist / 50) * 50;
+      return [
+        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+        { reps: 1, distance: pullDist, description: "Pull — easy, focus on catch", stroke: "free", equipment: "pull" },
+      ];
+    }
+
+    case "drill": {
+      const drillType = rng.pick(["Catch-up", "Fingertip drag", "Single-arm", "6-kick switch"]);
+      const reps = niceReps(secondDist / 50);
+      const dist = Math.round(secondDist / reps / 50) * 50 || 50;
+      return [
+        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+        { reps, distance: dist, description: `${drillType} drill / swim by 25`, stroke: "free" },
+      ];
+    }
 
     default:
       return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
@@ -469,6 +507,246 @@ function mainFinsSet(target: number, pace: number, rng: Rng): SetItem[] {
   ];
 }
 
+function mainSprint(target: number, pace: number, rng: Rng): SetItem[] {
+  const sprintDist = rng.pick([25, 50, 50]);
+  const sprintReps = niceReps((target * 0.45) / sprintDist);
+  const sprintInterval = calcInterval(sprintDist, pace, 30);
+  const recoveryDist = rng.pick([100, 200]);
+  const recoveryReps = niceReps((target * 0.55) / recoveryDist);
+  const recoveryInterval = calcInterval(recoveryDist, pace, 10);
+  const desc = rng.pick(["All-out sprint", "Max effort", "Race pace — go!"]);
+  return [
+    { reps: recoveryReps, distance: recoveryDist, interval: recoveryInterval, description: "Free — moderate, settle in", stroke: "free" },
+    { reps: sprintReps, distance: sprintDist, interval: sprintInterval, description: `Free — ${desc}`, stroke: "free" },
+  ];
+}
+
+function mainThreshold(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([200, 300, 400]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 5);
+  const desc = rng.pick(["Threshold pace — hold it", "T-pace — no slowing down", "Red line — sustain it"]);
+  return [{ reps, distance: dist, interval, description: `Free — ${desc}`, stroke: "free" }];
+}
+
+function mainWave(target: number, pace: number, rng: Rng): SetItem[] {
+  const fastDist = rng.pick([200, 300]);
+  const easyDist = rng.pick([100, 100, 200]);
+  const roundTotal = fastDist + easyDist;
+  const rounds = niceReps(target / roundTotal);
+  const fastInterval = calcInterval(fastDist, pace, 8);
+  const easyInterval = calcInterval(easyDist, pace, 15);
+  return [{
+    reps: rounds, distance: roundTotal,
+    description: `${rounds}x through:`,
+    stroke: "free",
+    isGroup: true,
+    items: [
+      { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — strong effort", stroke: "free" },
+      { reps: 1, distance: easyDist, interval: easyInterval, description: "Free — easy recovery", stroke: "free" },
+    ],
+  }];
+}
+
+function mainOddsEvens(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([100, 150, 200]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 12);
+  const pattern = rng.pick([
+    "Odds fast, evens moderate",
+    "Odds build, evens easy",
+    "Odds sprint, evens recovery",
+  ]);
+  return [{ reps, distance: dist, interval, description: `Free — ${pattern}`, stroke: "free" }];
+}
+
+function mainCountdown(target: number, pace: number, rng: Rng): SetItem[] {
+  const patterns: Array<[number, number][]> = [
+    [[100, 8], [200, 4], [400, 2]],
+    [[100, 6], [150, 4], [200, 3]],
+    [[50, 10], [100, 6], [200, 3]],
+    [[100, 10], [200, 5], [300, 2]],
+  ];
+  const pattern = rng.pick(patterns);
+  const patternTotal = pattern.reduce((s, [d, r]) => s + d * r, 0);
+  const scale = target / patternTotal;
+
+  return pattern.map(([dist, baseReps], i) => {
+    const reps = niceReps(baseReps * scale);
+    const interval = calcInterval(dist, pace, 10);
+    const descs = ["Free — fast & sharp", "Free — settle into rhythm", "Free — long & strong"];
+    return { reps, distance: dist, interval, description: descs[Math.min(i, descs.length - 1)], stroke: "free" as Stroke };
+  });
+}
+
+function mainBackstroke(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([100, 200, 200]);
+  const reps = niceReps(target * 0.6 / dist);
+  const interval = calcInterval(dist, pace, 15);
+  const freeReps = niceReps(target * 0.4 / 200);
+  const freeInterval = calcInterval(200, pace, 10);
+  const desc = rng.pick(["Hold steady", "Descend 1-4", "Build each"]);
+  return [
+    { reps: freeReps, distance: 200, interval: freeInterval, description: "Free — settle in", stroke: "free" },
+    { reps, distance: dist, interval, description: `Back — ${desc}`, stroke: "back" },
+  ];
+}
+
+function mainBreaststroke(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([100, 200]);
+  const reps = niceReps(target * 0.55 / dist);
+  const interval = calcInterval(dist, pace, 18);
+  const freeReps = niceReps(target * 0.45 / 200);
+  const freeInterval = calcInterval(200, pace, 10);
+  const desc = rng.pick(["Focus on glide", "Strong pull, patient kick", "Hold tempo"]);
+  return [
+    { reps: freeReps, distance: 200, interval: freeInterval, description: "Free — moderate", stroke: "free" },
+    { reps, distance: dist, interval, description: `Breast — ${desc}`, stroke: "breast" },
+  ];
+}
+
+function mainStrokeMix(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([100, 200]);
+  const secondStroke = rng.pick(["back", "breast"]) as Stroke;
+  const secondName = secondStroke === "back" ? "Back" : "Breast";
+  const repsPerStroke = niceReps(target / 2 / dist);
+  const interval = calcInterval(dist, pace, 12);
+  const format = rng.pick(["alternating", "block"]);
+
+  if (format === "alternating") {
+    const totalReps = repsPerStroke * 2;
+    return [{ reps: totalReps, distance: dist, interval, description: `Alternate free / ${secondName.toLowerCase()} by ${dist}`, stroke: "mixed" }];
+  }
+  return [
+    { reps: repsPerStroke, distance: dist, interval, description: "Free — hold pace", stroke: "free" },
+    { reps: repsPerStroke, distance: dist, interval, description: `${secondName} — steady`, stroke: secondStroke },
+  ];
+}
+
+function mainRacePace(target: number, pace: number, rng: Rng): SetItem[] {
+  const fastDist = rng.pick([50, 75, 100]);
+  const recoveryDist = rng.pick([50, 100]);
+  const roundTotal = fastDist + recoveryDist;
+  const rounds = niceReps(target / roundTotal);
+  const fastInterval = calcInterval(fastDist, pace, 5);
+  const recoveryInterval = calcInterval(recoveryDist, pace, 20);
+  return [{
+    reps: rounds, distance: roundTotal,
+    description: `${rounds}x through:`,
+    stroke: "free",
+    isGroup: true,
+    items: [
+      { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — race pace", stroke: "free" },
+      { reps: 1, distance: recoveryDist, interval: recoveryInterval, description: "Free — easy", stroke: "free" },
+    ],
+  }];
+}
+
+function mainBuildSet(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([200, 300, 400]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 10);
+  const desc = rng.pick([
+    "Build each: easy → moderate → fast → sprint",
+    "Build each rep: 25 easy, 25 mod, 25 fast, 25 all-out",
+    "Progressive build — last 50 is fastest",
+  ]);
+  return [{ reps, distance: dist, interval, description: `Free — ${desc}`, stroke: "free" }];
+}
+
+function mainPaddlesSet(target: number, pace: number, rng: Rng): SetItem[] {
+  const swimDist = rng.pick([200, 300]);
+  const paddleDist = rng.pick([200, 300]);
+  const swimReps = niceReps(target * 0.5 / swimDist);
+  const paddleReps = niceReps(target * 0.5 / paddleDist);
+  const swimInterval = calcInterval(swimDist, pace, 10);
+  const paddleInterval = calcInterval(paddleDist, pace, 8);
+  return [
+    { reps: swimReps, distance: swimDist, interval: swimInterval, description: "Free — hold pace", stroke: "free" },
+    { reps: paddleReps, distance: paddleDist, interval: paddleInterval, description: "Pull with paddles — power", stroke: "free", equipment: "pull" },
+  ];
+}
+
+function mainBrokenIM(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([100, 200]);
+  const roundsPerStroke = niceReps(target / (dist * 4));
+  const interval = calcInterval(dist, pace, 15);
+  const strokes: Array<{ name: string; stroke: Stroke }> = [
+    { name: "Fly", stroke: "fly" },
+    { name: "Back", stroke: "back" },
+    { name: "Breast", stroke: "breast" },
+    { name: "Free — bring it home", stroke: "free" },
+  ];
+  return strokes.map(({ name, stroke }) => ({
+    reps: roundsPerStroke, distance: dist, interval, description: name, stroke,
+  }));
+}
+
+function mainEndurance(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([400, 500, 800]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 15);
+  const desc = rng.pick(["Hold pace — long & steady", "Cruise — find your rhythm", "Consistent splits"]);
+  return [{ reps, distance: dist, interval, description: `Free — ${desc}`, stroke: "free" }];
+}
+
+function mainKickMain(target: number, pace: number, rng: Rng): SetItem[] {
+  const swimDist = rng.pick([200, 300]);
+  const kickDist = rng.pick([100, 200]);
+  const swimReps = niceReps(target * 0.55 / swimDist);
+  const kickReps = niceReps(target * 0.45 / kickDist);
+  const swimInterval = calcInterval(swimDist, pace, 10);
+  const kickInterval = calcInterval(kickDist, pace, 20);
+  const kickDesc = rng.pick(["Kick with fins — fast!", "Kick with board — build each", "Kick on back — streamline"]);
+  return [
+    { reps: swimReps, distance: swimDist, interval: swimInterval, description: "Free — moderate", stroke: "free" },
+    { reps: kickReps, distance: kickDist, interval: kickInterval, description: kickDesc, stroke: "free", equipment: rng.pick(["fins", "kickboard"]) },
+  ];
+}
+
+function mainDescendLadder(target: number, pace: number, rng: Rng): SetItem[] {
+  const patterns = [
+    [400, 300, 200, 100],
+    [500, 400, 300, 200, 100],
+    [300, 200, 100, 50],
+    [400, 300, 200, 100, 50],
+  ];
+  let steps = rng.pick(patterns);
+  const stepsTotal = steps.reduce((a, b) => a + b, 0);
+  const repeats = Math.max(1, Math.round(target / stepsTotal));
+  const fullSteps: number[] = [];
+  for (let r = 0; r < repeats; r++) fullSteps.push(...steps);
+  while (fullSteps.reduce((a, b) => a + b, 0) > target * 1.15 && fullSteps.length > 3) fullSteps.pop();
+
+  return fullSteps.map((d, i) => ({
+    reps: 1, distance: d,
+    interval: calcInterval(d, pace, 10),
+    description: i === 0 ? "Free — long & steady" : i === fullSteps.length - 1 ? "Free — sprint to finish" : "Free — pick it up",
+    stroke: "free" as Stroke,
+  }));
+}
+
+function mainSwimPullAlternate(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([200, 300]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 10);
+  return [{ reps, distance: dist, interval, description: "Alternate: 1 swim, 1 pull (every other with pull buoy)", stroke: "free" }];
+}
+
+function mainTest(target: number, pace: number, rng: Rng): SetItem[] {
+  const warmupReps = niceReps(target * 0.3 / 200);
+  const warmupInterval = calcInterval(200, pace, 10);
+  const testDist = rng.pick([200, 400, 500]);
+  const testInterval = calcInterval(testDist, pace, 5);
+  const coolReps = niceReps(target * 0.3 / 100);
+  const coolInterval = calcInterval(100, pace, 15);
+  return [
+    { reps: warmupReps, distance: 200, interval: warmupInterval, description: "Free — build to race pace", stroke: "free" },
+    { reps: 1, distance: testDist, interval: testInterval, description: `Free — ${testDist} time trial, all out`, stroke: "free" },
+    { reps: coolReps, distance: 100, interval: coolInterval, description: "Free — active recovery", stroke: "free" },
+  ];
+}
+
 type MainSetFn = (target: number, pace: number, rng: Rng) => SetItem[];
 
 interface MainSetTemplate {
@@ -489,6 +767,23 @@ const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
   { fn: mainBrokenSwim, weight: 2, name: "Broken Swim" },
   { fn: mainCombo, weight: 3, name: "Distance Combo" },
   { fn: mainFinsSet, weight: 2, name: "Fins Set" },
+  { fn: mainSprint, weight: 3, name: "Sprint Set" },
+  { fn: mainThreshold, weight: 3, name: "Threshold" },
+  { fn: mainWave, weight: 2, name: "Wave Set" },
+  { fn: mainOddsEvens, weight: 3, name: "Odds & Evens" },
+  { fn: mainCountdown, weight: 2, name: "Countdown" },
+  { fn: mainBackstroke, weight: 2, name: "Backstroke Focus" },
+  { fn: mainBreaststroke, weight: 2, name: "Breaststroke Focus" },
+  { fn: mainStrokeMix, weight: 2, name: "Stroke Mix" },
+  { fn: mainRacePace, weight: 2, name: "Race Pace" },
+  { fn: mainBuildSet, weight: 3, name: "Build Set" },
+  { fn: mainPaddlesSet, weight: 2, name: "Paddles Power" },
+  { fn: mainBrokenIM, weight: 2, name: "Broken IM" },
+  { fn: mainEndurance, weight: 2, name: "Endurance" },
+  { fn: mainKickMain, weight: 2, name: "Kick Focus" },
+  { fn: mainDescendLadder, weight: 2, name: "Descend Ladder" },
+  { fn: mainSwimPullAlternate, weight: 2, name: "Swim/Pull Alternate" },
+  { fn: mainTest, weight: 1, name: "Time Trial" },
 ];
 
 // ─── COOLDOWN TEMPLATES ────────────────────────────────────────────────────────
@@ -504,7 +799,7 @@ function buildCooldown(target: number, pace: number, rng: Rng): SetItem[] {
 
   const firstDist = Math.round(remaining / 50) * 50;
 
-  const flavor = rng.pick(["back", "choice", "kansas"]);
+  const flavor = rng.pick(["back", "choice", "kansas", "IM", "pull", "build", "breast"]);
 
   switch (flavor) {
     case "back":
@@ -528,6 +823,36 @@ function buildCooldown(target: number, pace: number, rng: Rng): SetItem[] {
       }
       return [
         { reps: 1, distance: 300, description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)", stroke: "mixed" },
+        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
+      ];
+
+    case "IM":
+      if (firstDist < 200) {
+        return [
+          { reps: 1, distance: firstDist, description: "Moderate backstroke", stroke: "back" },
+          { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
+        ];
+      }
+      return [
+        { reps: 4, distance: 50, description: "Easy IM order (fly, back, breast, free)", stroke: "IM" },
+        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
+      ];
+
+    case "pull":
+      return [
+        { reps: 1, distance: firstDist, description: "Easy pull — flush the legs", stroke: "free", equipment: "pull" },
+        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
+      ];
+
+    case "build":
+      return [
+        { reps: 1, distance: firstDist, description: "Easy free — build last 50", stroke: "free" },
+        { reps: 1, distance: freeEnd, description: "Moderate free — stretch it out", stroke: "free" },
+      ];
+
+    case "breast":
+      return [
+        { reps: 1, distance: firstDist, description: "Easy breaststroke — long glide", stroke: "breast" },
         { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
       ];
 
@@ -563,7 +888,34 @@ function presetDrill(target: number, pace: number, rng: Rng): SetItem[] {
   return [{ reps, distance: 50, interval, description: drill, stroke: "free" }];
 }
 
-const PRESET_TEMPLATES: PresetFn[] = [presetKick, presetPull, presetDrill];
+function presetSprintPrep(target: number, pace: number, rng: Rng): SetItem[] {
+  const reps = niceReps(target / 25);
+  const interval = calcInterval(25, pace, 25);
+  const desc = rng.pick(["Fast 25s — race starts", "25s sprint — explode off the wall", "Quick turnover 25s"]);
+  return [{ reps, distance: 25, interval, description: desc, stroke: "free" }];
+}
+
+function presetIMDrill(target: number, pace: number, rng: Rng): SetItem[] {
+  const reps = niceReps(target / 100);
+  const interval = calcInterval(100, pace, 15);
+  return [{ reps, distance: 100, interval, description: "IM — 25 each stroke", stroke: "IM" }];
+}
+
+function presetFinsKick(target: number, pace: number, rng: Rng): SetItem[] {
+  const dist = rng.pick([50, 100]);
+  const reps = niceReps(target / dist);
+  const interval = calcInterval(dist, pace, 15);
+  const desc = rng.pick(["Kick with fins — fast", "Kick with fins — build each", "Streamline kick with fins"]);
+  return [{ reps, distance: dist, interval, description: desc, stroke: "free", equipment: "fins" }];
+}
+
+function presetScull(target: number, pace: number, rng: Rng): SetItem[] {
+  const reps = niceReps(target / 50);
+  const interval = calcInterval(50, pace, 20);
+  return [{ reps, distance: 50, interval, description: "Scull 25 / swim 25 — feel the water", stroke: "free" }];
+}
+
+const PRESET_TEMPLATES: PresetFn[] = [presetKick, presetPull, presetDrill, presetSprintPrep, presetIMDrill, presetFinsKick, presetScull];
 
 // ─── MAIN GENERATOR ────────────────────────────────────────────────────────────
 
