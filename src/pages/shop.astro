@@ -8,19 +8,10 @@ const products = [
     stackedName: "LOVE\nOVER\nHATE",
     price: 32,
     defaultColor: "white",
-  },
-  {
-    id: "make",
-    name: "MAKE COOL THINGS",
-    stackedName: "MAKE\nCOOL\nTHINGS",
-    price: 32,
-    defaultColor: "black",
-  },
-  {
-    id: "care",
-    name: "CARE",
-    price: 32,
-    defaultColor: "white",
+    buyUrls: {
+      white: "https://stanwood.printful.me/product/love-over-hate-black-on-white",
+      black: "https://stanwood.printful.me/product/love-over-hate-white-on-black",
+    },
   },
 ];
 ---
@@ -72,7 +63,9 @@ const products = [
 
       .product-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr;
+        max-width: 340px;
+        margin: 0 auto;
         gap: 24px;
       }
 
@@ -122,7 +115,7 @@ const products = [
 
       /* ── Design display — product mockup photo ── */
       .design-display {
-        aspect-ratio: 1;
+        aspect-ratio: 3 / 4;
         background: #f5f5f0;
         border-bottom: 3px solid #111;
         overflow: hidden;
@@ -386,7 +379,7 @@ const products = [
                 alt={`${p.name} tee — ${p.defaultColor}`}
                 loading="lazy"
                 decoding="async"
-                width="800"
+                width="600"
                 height="800"
                 onerror="this.classList.add('broken')"
               />
@@ -412,7 +405,7 @@ const products = [
                 <span class="product-price">${p.price}</span>
                 <button class="size-link" data-size-chart>size chart</button>
               </div>
-              <a href="#" class="buy-btn">Coming Soon &rarr;</a>
+              <a href={p.buyUrls[p.defaultColor]} class="buy-btn" data-buy-white={p.buyUrls.white} data-buy-black={p.buyUrls.black} target="_blank" rel="noopener">Buy &rarr;</a>
             </div>
           </div>
         );
@@ -470,6 +463,11 @@ const products = [
           img.onerror = () => img.classList.add('broken');
           img.src = `${base}-${color}.webp`;
           img.alt = img.alt.replace(/— \w+$/, `— ${color}`);
+        }
+
+        const buyBtn = card.querySelector('.buy-btn') as HTMLAnchorElement;
+        if (buyBtn) {
+          buyBtn.href = buyBtn.dataset[`buy${color.charAt(0).toUpperCase() + color.slice(1)}`] || '#';
         }
       });
     });

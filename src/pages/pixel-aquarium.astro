@@ -644,7 +644,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const fishCountEl = document.getElementById('fish-count');
       const fedCountEl = document.getElementById('fed-count');
       function gameLoop(timestamp) {
-        if (document.hidden) { requestAnimationFrame(gameLoop); return; }
+        if (document.hidden) { return; }
         const dt = Math.min(timestamp - lastTime, 50);
         lastTime = timestamp;
 
@@ -679,5 +679,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       spawnPlants();
       spawnInitialFish();
       requestAnimationFrame(gameLoop);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) requestAnimationFrame(gameLoop);
+      });
     </script>
 </BaseLayout>
