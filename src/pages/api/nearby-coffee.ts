@@ -6,14 +6,30 @@ import { haversineMeters } from "../../lib/geo";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
+interface GooglePlace {
+  id: string;
+  displayName?: { text: string };
+  formattedAddress?: string;
+  location?: { latitude: number; longitude: number };
+  rating?: number;
+  userRatingCount?: number;
+  businessStatus?: "OPERATIONAL" | "CLOSED_TEMPORARILY" | "CLOSED_PERMANENTLY";
+  currentOpeningHours?: { openNow?: boolean };
+}
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   const { latitude, longitude } = await request.json();
 
-  if (!latitude || !longitude) {
+  if (
+    typeof latitude !== "number" ||
+    typeof longitude !== "number" ||
+    Math.abs(latitude) > 90 ||
+    Math.abs(longitude) > 180
+  ) {
     return new Response(
-      JSON.stringify({ error: "latitude and longitude are required" }),
+      JSON.stringify({ error: "valid latitude and longitude are required" }),
       { status: 400, headers: { "Content-Type": "application/json" } },
     );
   }
@@ -70,7 +86,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     );
 
     if (!res.ok) {
-      console.error("nearby-coffee Places API error:", res.status, await res.text());
+      console.error("nearby-coffee Places API error:", res.status);
       return new Response(
         JSON.stringify({ error: "Unable to search nearby places" }),
         { status: 502, headers: { "Content-Type": "application/json" } },
@@ -80,11 +96,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const data = await res.json();
     const places = data.places || [];
 
-    const results = places
+    const results = (places as GooglePlace[])
       .filter(
-        (p: any) => !p.businessStatus || p.businessStatus === "OPERATIONAL",
+        (p) => !p.businessStatus || p.businessStatus === "OPERATIONAL",
       )
-      .map((p: any) => {
+      .map((p) => {
         const shopLat = p.location?.latitude ?? 0;
         const shopLng = p.location?.longitude ?? 0;
         const dist = haversineMeters(latitude, longitude, shopLat, shopLng);
@@ -101,8 +117,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           isOpen: p.currentOpeningHours?.openNow ?? null,
         };
       })
-      .filter((p: any) => p.isOpen !== false)
-      .sort((a: any, b: any) => a.distance - b.distance);
+      .filter((p) => p.isOpen !== false)
+      .sort((a, b) => a.distance - b.distance);
 
     if (results.length > 0) {
       return new Response(JSON.stringify({ results }), {

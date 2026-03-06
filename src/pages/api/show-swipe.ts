@@ -72,7 +72,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
 
     if (!tmdbRes.ok) {
-      console.error("TMDB API error:", tmdbRes.status, await tmdbRes.text());
+      console.error("TMDB API error:", tmdbRes.status);
       return new Response(
         JSON.stringify({ error: "Failed to fetch from TMDB" }),
         { status: 502, headers: { "Content-Type": "application/json" } },
