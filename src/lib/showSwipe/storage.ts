@@ -31,7 +31,7 @@ export function loadStorage(): ShowSwipeStorage | null {
 
 function save(data: ShowSwipeStorage): void {
   data.lastUpdated = new Date().toISOString();
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch {}
 }
 
 export function recordSwipe(

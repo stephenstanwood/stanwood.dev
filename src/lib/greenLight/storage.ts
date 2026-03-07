@@ -38,7 +38,7 @@ export function saveProfile(
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };
-  localStorage.setItem(LS_KEY, JSON.stringify(data));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch {}
 }
 
 export function addRecentRestaurant(name: string): void {
@@ -54,7 +54,7 @@ export function addRecentRestaurant(name: string): void {
   ].slice(0, MAX_RECENT);
   stored.recentRestaurants = recent;
   stored.updatedAt = new Date().toISOString();
-  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(stored)); } catch {}
 }
 
 export function updateTasteProfile(profile: TasteProfile): void {
@@ -62,9 +62,9 @@ export function updateTasteProfile(profile: TasteProfile): void {
   if (!stored) return;
   stored.profile = profile;
   stored.updatedAt = new Date().toISOString();
-  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+  try { localStorage.setItem(LS_KEY, JSON.stringify(stored)); } catch {}
 }
 
 export function clearProfile(): void {
-  localStorage.removeItem(LS_KEY);
+  try { localStorage.removeItem(LS_KEY); } catch {}
 }
