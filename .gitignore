@@ -9,6 +9,7 @@ dist/
 # environment variables
 .env
 .env.*
+!.env.example
 
 # logs
 npm-debug.log*
