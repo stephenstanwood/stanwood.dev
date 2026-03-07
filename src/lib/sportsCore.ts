@@ -262,7 +262,7 @@ export function initSportsApp(
   const fetchAndRender = createFetchLoop(apiUrl, renderFn, opts);
   fetchAndRender();
   // Start polling, but skip when tab is hidden
-  let intervalId = setInterval(() => {
+  setInterval(() => {
     if (!document.hidden) fetchAndRender();
   }, REFRESH_MS);
   window.addEventListener("resize", fitHeroLines);

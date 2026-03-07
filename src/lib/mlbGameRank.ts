@@ -164,9 +164,9 @@ function renderDiamond(situation: MLBSituation | undefined): string {
       </defs>
       <path d="M24 6 L42 24 L24 42 L6 24 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
       <rect x="21" y="39" width="6" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
-      <rect x="37" y="20" width="8" height="8" rx="2" fill="${baseColor(situation.onFirst)}" ${glowFilter(situation.onFirst)}/>
-      <rect x="20" y="2" width="8" height="8" rx="2" fill="${baseColor(situation.onSecond)}" ${glowFilter(situation.onSecond)}/>
-      <rect x="3" y="20" width="8" height="8" rx="2" fill="${baseColor(situation.onThird)}" ${glowFilter(situation.onThird)}/>
+      <rect x="37" y="20" width="8" height="8" rx="2" fill="${baseColor(!!situation.onFirst)}" ${glowFilter(!!situation.onFirst)}/>
+      <rect x="20" y="2" width="8" height="8" rx="2" fill="${baseColor(!!situation.onSecond)}" ${glowFilter(!!situation.onSecond)}/>
+      <rect x="3" y="20" width="8" height="8" rx="2" fill="${baseColor(!!situation.onThird)}" ${glowFilter(!!situation.onThird)}/>
     </svg>
   `;
 }

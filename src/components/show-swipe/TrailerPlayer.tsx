@@ -1,5 +1,34 @@
 import { useEffect, useRef } from "react";
 
+interface YTPlayer {
+  destroy(): void;
+}
+
+interface YTPlayerStateEvent {
+  data: number;
+}
+
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: () => void;
+    YT: {
+      Player: new (
+        elementId: string,
+        options: {
+          videoId: string;
+          width: string;
+          height: string;
+          playerVars?: Record<string, number | string>;
+          events?: {
+            onStateChange?: (event: YTPlayerStateEvent) => void;
+            onError?: () => void;
+          };
+        },
+      ) => YTPlayer;
+    };
+  }
+}
+
 interface Props {
   youtubeKey: string;
   title: string;
@@ -24,8 +53,8 @@ function ensureYTApi(cb: () => void) {
   if (apiLoaded) return;
   apiLoaded = true;
 
-  const prev = (window as any).onYouTubeIframeAPIReady;
-  (window as any).onYouTubeIframeAPIReady = () => {
+  const prev = window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady = () => {
     apiReady = true;
     prev?.();
     readyQueue.forEach((fn) => fn());
@@ -40,7 +69,7 @@ function ensureYTApi(cb: () => void) {
 
 export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onEnded, onError }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<YTPlayer | null>(null);
   const onEndedRef = useRef(onEnded);
   onEndedRef.current = onEnded;
   const onErrorRef = useRef(onError);
@@ -75,7 +104,7 @@ export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onE
       containerRef.current.innerHTML = "";
       containerRef.current.appendChild(el);
 
-      playerRef.current = new (window as any).YT.Player(id, {
+      playerRef.current = new window.YT.Player(id, {
         videoId: youtubeKey,
         width: "100%",
         height: "100%",
@@ -92,7 +121,7 @@ export default function TrailerPlayer({ youtubeKey, title, originalLanguage, onE
           }),
         },
         events: {
-          onStateChange: (event: any) => {
+          onStateChange: (event: YTPlayerStateEvent) => {
             // YT.PlayerState.ENDED === 0
             if (event.data === 0) {
               onEndedRef.current?.();
