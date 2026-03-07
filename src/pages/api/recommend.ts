@@ -181,7 +181,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           .slice(0, 2);
 
         const urls = await Promise.all(
-          selected.map(async (p: any) => {
+          selected.map(async (p: { name: string }) => {
             try {
               const photoRes = await fetch(
                 `https://places.googleapis.com/v1/${p.name}/media?maxWidthPx=400&skipHttpRedirect=true&key=${placesKey}`,
