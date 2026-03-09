@@ -481,7 +481,7 @@ const projects = [
       .footer-row {
         grid-column: 1 / -1;
         border-top: 2px solid var(--ink);
-        padding: 24px 0 40px;
+        padding: 12px 0 32px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -502,6 +502,16 @@ const projects = [
         color: #aaa;
         letter-spacing: 0.08em;
         flex-shrink: 0;
+      }
+      .footer-location {
+        flex-shrink: 0;
+      }
+      .footer-loc-text {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 11px;
+        color: #999;
+        text-align: right;
+        line-height: 1.5;
       }
 
       /* ── pixel dot util ── */
@@ -687,7 +697,9 @@ const projects = [
       <div class="footer-chem">
         <ChemFormula compact client:visible />
       </div>
-      <span class="footer-mono">stanwood.dev <span class="px-dot" style="color:#ccc"></span> campbell, california</span>
+      <div class="footer-location">
+        <span class="footer-loc-text">based in beautiful<br>campbell, california</span>
+      </div>
     </div>
   </div>
 
