@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 const elements = [
-  { symbol: 'Cl', number: '17', name: 'Chlorine', formula: 'Cl₂', bg: '#2196F3', accent: '#0d47a1' },
-  { symbol: 'Cf', number: '☕', name: 'Coffee', formula: 'C₈H₁₀N₄O₂', bg: '#C4956A', accent: '#8a6642' },
-  { symbol: 'Cc', number: '✦', name: 'Claude Code', formula: 'CC', bg: '#da7756', accent: '#8a3a20' },
+  { symbol: 'Cl', number: '17', name: 'Chlorine', bg: '#2196F3', accent: '#0d47a1' },
+  { symbol: 'Cf', number: '☕', name: 'Coffee', bg: '#5C3D2E', accent: '#3a2418' },
+  { symbol: 'Cc', number: '✦', name: 'Claude\nCode', bg: '#FF6B2B', accent: '#c44a10' },
 ];
 
 type Phase = 'idle' | 'slide-in' | 'react' | 'product' | 'hold';
@@ -53,8 +53,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   const tileW = Math.round(86 * s);
   const tileH = Math.round(108 * s);
   const symbolSize = Math.round(34 * s);
-  const formulaSize = Math.round(9 * s);
-  const nameSize = Math.round(7 * s);
+  const nameSize = Math.round(12 * s);
   const numberSize = Math.round(11 * s);
   const opSize = Math.round(24 * s);
   const productTitleSize = compact ? 20 : 34;
@@ -122,18 +121,15 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
                   textShadow: `1px 1px 0 ${el.accent}`,
                 }}>{el.symbol}</span>
                 <span style={{
-                  fontSize: `${formulaSize}px`,
-                  color: 'rgba(255,255,255,0.9)',
-                  marginTop: `${Math.round(5 * s)}px`,
-                  fontWeight: 700,
-                  letterSpacing: '0.02em',
-                }}>{el.formula}</span>
-                <span style={{
                   fontSize: `${nameSize}px`,
-                  color: 'rgba(255,255,255,0.5)',
+                  color: 'rgba(255,255,255,0.7)',
+                  fontWeight: 600,
                   letterSpacing: '0.08em',
                   marginTop: `${Math.round(2 * s)}px`,
                   textTransform: 'uppercase',
+                  whiteSpace: 'pre-line',
+                  textAlign: 'center',
+                  lineHeight: 1.2,
                 }}>{el.name}</span>
               </div>
             )}
