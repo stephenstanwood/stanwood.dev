@@ -505,13 +505,23 @@ const projects = [
       }
       .footer-location {
         flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
       }
-      .footer-loc-text {
+      .footer-loc-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        color: #aaa;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .footer-loc-title {
         font-family: 'Permanent Marker', cursive;
-        font-size: 11px;
-        color: #999;
-        text-align: right;
-        line-height: 1.5;
+        font-size: 20px;
+        color: #333;
+        letter-spacing: -0.5px;
       }
 
       /* ── pixel dot util ── */
@@ -699,7 +709,8 @@ const projects = [
         <ChemFormula compact client:visible />
       </div>
       <div class="footer-location">
-        <span class="footer-loc-text">based in beautiful<br>campbell, california</span>
+        <span class="footer-loc-sub">based in beautiful</span>
+        <span class="footer-loc-title">campbell, ca</span>
       </div>
     </div>
   </div>
