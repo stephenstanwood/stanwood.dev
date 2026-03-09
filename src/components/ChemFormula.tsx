@@ -54,7 +54,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   const tileH = Math.round(108 * s);
   const symbolSize = Math.round(34 * s);
   const nameSize = Math.round(12 * s);
-  const numberSize = Math.round(11 * s);
+  const numberSize = Math.round(14 * s);
   const opSize = Math.round(24 * s);
   const productTitleSize = compact ? 20 : 34;
   const productSubSize = compact ? 8 : 9;
@@ -111,7 +111,8 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
                   top: `${Math.round(5 * s)}px`,
                   right: `${Math.round(7 * s)}px`,
                   fontSize: `${numberSize}px`,
-                  color: 'rgba(255,255,255,0.6)',
+                  color: 'rgba(255,255,255,0.85)',
+                  fontWeight: 700,
                 }}>{el.number}</span>
                 <span style={{
                   fontSize: `${symbolSize}px`,
