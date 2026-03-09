@@ -740,7 +740,7 @@ const projects = [
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
     const termPairs: [string, string][] = [
-      ['uptime', '42d caffeinated'],
+      ['uptime', `${Math.floor((Date.now() - new Date('2026-03-01').getTime()) / 86400000)}d since launch`],
       ['curl wttr.in/campbell', '…'],
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
