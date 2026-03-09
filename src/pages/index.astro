@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ChemFormula from "../components/ChemFormula";
 
 const featured = [
   {
@@ -471,6 +472,10 @@ const projects = [
       .proj-tile.has-img .proj-info {
         padding: 8px 14px;
       }
+      /* stretch last tile if it sits alone on its row */
+      .proj-row .proj-tile:last-child:nth-child(3n+1) {
+        grid-column: span 2;
+      }
 
       /* ── footer ── */
       .footer-row {
@@ -487,11 +492,16 @@ const projects = [
         font-size: 16px;
         color: #333;
       }
+      .footer-chem {
+        flex: 1;
+        min-width: 0;
+      }
       .footer-mono {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
         color: #aaa;
         letter-spacing: 0.08em;
+        flex-shrink: 0;
       }
 
       /* ── pixel dot util ── */
@@ -535,6 +545,8 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
+        .proj-row .proj-tile:last-child:nth-child(3n+1) { grid-column: span 1; }
+        .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; }
         .id-block h1 { font-size: 32px; }
@@ -593,7 +605,7 @@ const projects = [
           ⌥ GitHub
         </a>
         <a class="retro-link" href="https://x.com/stephenstanwood" target="_blank" rel="noopener">
-          ✕ X
+          🦜 Twitter
         </a>
         <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener">
           ✦ Midjourney
@@ -672,7 +684,9 @@ const projects = [
 
     <!-- Footer -->
     <div class="footer-row">
-      <span class="footer-sig">powered by chlorine and coffee ☕</span>
+      <div class="footer-chem">
+        <ChemFormula compact client:visible />
+      </div>
       <span class="footer-mono">stanwood.dev <span class="px-dot" style="color:#ccc"></span> campbell, california</span>
     </div>
   </div>
