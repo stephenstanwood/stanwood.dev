@@ -65,7 +65,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
+      alignItems: compact ? 'flex-start' : 'center',
       padding: compact ? '8px 0' : '24px 16px',
       fontFamily: "'Space Mono', monospace",
       userSelect: 'none',
@@ -75,7 +75,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
         alignItems: 'center',
         gap: `${gap}px`,
         minHeight: `${tileH + 20}px`,
-        justifyContent: 'center',
+        justifyContent: compact ? 'flex-start' : 'center',
         flexWrap: 'wrap',
       }}>
         {showElements && elements.map((el, i) => (
