@@ -581,6 +581,25 @@ const projects = [
       .sct-desc {
         color: #555;
       }
+      .sct-barcode {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        height: 24px;
+        padding: 0 18px;
+        gap: 0;
+        margin-top: 4px;
+      }
+      .sct-bar {
+        background: #333;
+        height: 100%;
+        display: block;
+      }
+      .sct-gap {
+        background: transparent;
+        height: 100%;
+        display: block;
+      }
       .sct-footer {
         font-family: 'Space Mono', monospace;
         font-size: 8px;
@@ -588,9 +607,7 @@ const projects = [
         color: #bbb;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        padding: 8px 0 10px;
-        border-top: 1px dashed #ddd;
-        margin-top: 4px;
+        padding: 6px 0 10px;
       }
 
       /* ── AI radar tile ── */
