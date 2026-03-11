@@ -487,18 +487,22 @@ const projects = [
         grid-column: span 2;
       }
 
-      /* ── ship clock live tile ── */
+      /* ── ship clock neon tile ── */
       .sct-tile {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
-        padding: 18px 20px;
+        gap: 10px;
+        padding: 20px 22px;
         cursor: default;
+        background: #1a1a2e;
+        border-color: #333;
+        box-shadow: 3px 3px 0 #333;
       }
       .sct-tile:hover {
-        background: white;
+        background: #1a1a2e;
         transform: none;
-        box-shadow: 3px 3px 0 var(--ink);
+        box-shadow: 3px 3px 0 #333;
+        border-color: #333;
       }
       .sct-header {
         display: flex;
@@ -510,32 +514,41 @@ const projects = [
         font-family: 'Space Mono', monospace;
         font-size: 10px;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #999;
+        letter-spacing: 0.15em;
+        color: #666;
       }
       .sct-elapsed {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
-        color: #ff5c1a;
+        color: #ff6b9d;
         margin-left: auto;
+        text-shadow: 0 0 8px rgba(255, 107, 157, 0.6);
       }
       .sct-time {
         font-family: 'Permanent Marker', cursive;
         font-size: 24px;
-        color: var(--ink);
         line-height: 1.2;
+        color: #fff;
+      }
+      .sct-glow {
+        text-shadow:
+          0 0 7px rgba(255, 107, 157, 0.8),
+          0 0 20px rgba(255, 107, 157, 0.4),
+          0 0 40px rgba(255, 107, 157, 0.2);
+        color: #ff6b9d;
       }
       .sct-blurb {
         font-family: 'Cabin', sans-serif;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 1.4;
       }
       .sct-project {
-        color: #ff5c1a;
+        color: #64ffda;
         font-weight: 700;
+        text-shadow: 0 0 8px rgba(100, 255, 218, 0.4);
       }
       .sct-desc {
-        color: var(--ink);
+        color: rgba(255, 255, 255, 0.7);
       }
 
       /* ── AI radar tile ── */
