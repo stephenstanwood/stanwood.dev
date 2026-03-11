@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ChemFormula from "../components/ChemFormula";
 import ShipClockTile from "../components/ShipClockTile.tsx";
+import AIRadarTile from "../components/AIRadarTile.tsx";
 
 const featured = [
   {
@@ -408,11 +409,14 @@ const projects = [
         grid-column: 1 / -1;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
+        grid-auto-rows: min-content;
         gap: 16px;
         opacity: 0;
         transition: opacity 0.15s ease;
       }
       .proj-row.shuffled { opacity: 1; }
+      .proj-row > style,
+      .proj-row > script { display: none; }
 
       .proj-tile {
         grid-column: span 2;
@@ -478,6 +482,10 @@ const projects = [
       .proj-row.balanced .proj-tile:nth-last-child(-n+4) {
         grid-column: span 3;
       }
+      /* radar tile always stays span 2 wide, span 2 tall */
+      .proj-row.balanced .radar-tile:nth-last-child(-n+4) {
+        grid-column: span 2;
+      }
 
       /* ── ship clock live tile ── */
       .sct-tile {
@@ -522,6 +530,104 @@ const projects = [
         font-size: 14px;
         color: #555;
         line-height: 1.4;
+      }
+
+      /* ── AI radar tile ── */
+      .radar-tile {
+        grid-row: span 2;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .radar-tile:hover {
+        background: white;
+        cursor: default;
+      }
+      .radar-header {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        color: #888;
+        margin-bottom: 10px;
+      }
+      .radar-anim {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        position: relative;
+      }
+      .radar-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--orange);
+      }
+      .radar-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1.5px solid var(--orange);
+        opacity: 0;
+        animation: radarPulse 1.8s ease-out infinite;
+      }
+      .radar-ring-1 { width: 30px; height: 30px; animation-delay: 0s; }
+      .radar-ring-2 { width: 55px; height: 55px; animation-delay: 0.4s; }
+      .radar-ring-3 { width: 80px; height: 80px; animation-delay: 0.8s; }
+      @keyframes radarPulse {
+        0% { opacity: 0.6; transform: scale(0.5); }
+        100% { opacity: 0; transform: scale(1.2); }
+      }
+      .radar-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .radar-list--visible { opacity: 1; }
+      .radar-entry {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto;
+        gap: 0 8px;
+        padding: 6px 0;
+        border-bottom: 1px solid #eee;
+        text-decoration: none;
+        color: var(--ink);
+        transition: background 0.1s;
+      }
+      .radar-entry:last-child { border-bottom: none; }
+      .radar-entry:hover { background: #fefbf0; }
+      .radar-org {
+        grid-row: 1 / 3;
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        color: #aaa;
+        letter-spacing: 0.05em;
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        text-align: center;
+        line-height: 1;
+        padding-right: 2px;
+      }
+      .radar-name {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 1.3;
+      }
+      .radar-summary {
+        font-size: 10px;
+        color: #666;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .radar-date {
+        display: none;
       }
 
       /* ── footer ── */
@@ -615,6 +721,7 @@ const projects = [
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
+        .radar-tile { grid-column: span 2; grid-row: span 1; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
@@ -750,6 +857,7 @@ const projects = [
         </a>
       ))}
       <ShipClockTile client:idle />
+      <AIRadarTile client:idle />
     </div>
 
     <!-- Footer -->
@@ -766,8 +874,8 @@ const projects = [
 
   <script>
     // ── Fisher-Yates shuffle ──
-    function shuffle(container: HTMLElement) {
-      const kids = [...container.children] as HTMLElement[];
+    function shuffle(container: HTMLElement, selector = ':scope > *') {
+      const kids = [...container.querySelectorAll(selector)] as HTMLElement[];
       for (let i = kids.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [kids[i], kids[j]] = [kids[j], kids[i]];
@@ -783,22 +891,43 @@ const projects = [
     // Shuffle featured + projects
     const featRow = document.getElementById('feat-row');
     const projRow = document.getElementById('proj-row');
-    if (featRow) shuffle(featRow);
+    if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
-      shuffle(projRow);
-      const kids = [...projRow.children] as HTMLElement[];
+      // Only shuffle actual tiles and astro-island wrappers (not script/style tags)
+      shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
+
+      // Helper: get the tile element from a grid-level element
+      function tileOf(el: HTMLElement): HTMLElement {
+        return el.classList.contains('proj-tile') ? el : el.querySelector('.proj-tile') as HTMLElement || el;
+      }
+
+      // Get grid-level children that represent tiles
+      const gridKids = [...projRow.querySelectorAll(':scope > .proj-tile, :scope > astro-island')] as HTMLElement[];
       // If tile count % 3 === 1, rebalance last 4 into 2×2
-      // but ensure only image tiles go in the wide slots
-      if (kids.length % 3 === 1 && kids.length >= 4) {
-        const last4 = kids.slice(-4);
-        const rest = kids.slice(0, -4);
+      // but ensure only image tiles go in the wide slots, preferring Lap Lab
+      if (gridKids.length % 3 === 1 && gridKids.length >= 4) {
+        const last4 = gridKids.slice(-4);
+        const rest = gridKids.slice(0, -4);
         // Swap any non-image tiles out of last 4 with image tiles from rest
         for (let i = 0; i < last4.length; i++) {
-          if (!last4[i].classList.contains('has-img')) {
-            const swapIdx = rest.findIndex(t => t.classList.contains('has-img'));
+          const tile = tileOf(last4[i]);
+          if (!tile.classList.contains('has-img')) {
+            let swapIdx = rest.findIndex(t => tileOf(t).getAttribute('href') === '/swim');
+            if (swapIdx === -1) swapIdx = rest.findIndex(t => tileOf(t).classList.contains('has-img'));
             if (swapIdx !== -1) {
               [last4[i], rest[swapIdx]] = [rest[swapIdx], last4[i]];
             }
+          }
+        }
+        // Also: if Lap Lab is in rest but not in last4, try to swap it in
+        const lapInRest = rest.findIndex(t => tileOf(t).getAttribute('href') === '/swim');
+        if (lapInRest !== -1) {
+          const swapOut = last4.findIndex(t => {
+            const tile = tileOf(t);
+            return tile.getAttribute('href') !== '/swim' && tile.classList.contains('has-img');
+          });
+          if (swapOut !== -1) {
+            [last4[swapOut], rest[lapInRest]] = [rest[lapInRest], last4[swapOut]];
           }
         }
         // Re-append in corrected order
@@ -815,7 +944,7 @@ const projects = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '13 and counting'],
+      ['ls projects/ | wc -l', '14 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
