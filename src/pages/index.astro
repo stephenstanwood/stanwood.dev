@@ -536,20 +536,27 @@ const projects = [
       .radar-tile {
         grid-row: span 2;
         flex-direction: column;
-        align-items: stretch;
         padding: 14px 16px;
         position: relative;
         overflow: hidden;
+        background: #1a1a2e;
+        border-color: #333;
       }
       .radar-tile:hover {
-        background: white;
+        background: #1a1a2e;
         cursor: default;
       }
       .radar-header {
         font-family: 'Space Mono', monospace;
-        font-size: 10px;
+        font-size: 11px;
         letter-spacing: 0.15em;
-        color: #888;
+        color: #10a37f;
+        margin-bottom: 2px;
+      }
+      .radar-sub {
+        font-family: 'Cabin', sans-serif;
+        font-size: 10px;
+        color: #8888aa;
         margin-bottom: 10px;
       }
       .radar-anim {
@@ -563,12 +570,12 @@ const projects = [
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: var(--orange);
+        background: #10a37f;
       }
       .radar-ring {
         position: absolute;
         border-radius: 50%;
-        border: 1.5px solid var(--orange);
+        border: 1.5px solid #10a37f;
         opacity: 0;
         animation: radarPulse 1.8s ease-out infinite;
       }
@@ -585,49 +592,52 @@ const projects = [
         gap: 0;
         opacity: 0;
         transition: opacity 0.4s ease;
+        overflow-y: auto;
+        flex: 1;
+        scrollbar-width: thin;
+        scrollbar-color: #333 transparent;
       }
       .radar-list--visible { opacity: 1; }
       .radar-entry {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto auto;
-        gap: 0 8px;
-        padding: 6px 0;
-        border-bottom: 1px solid #eee;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        padding: 8px 8px 8px 12px;
+        border-bottom: 1px solid #2a2a3e;
         text-decoration: none;
-        color: var(--ink);
-        transition: background 0.1s;
+        color: #e0e0e0;
+        transition: background 0.15s;
       }
       .radar-entry:last-child { border-bottom: none; }
-      .radar-entry:hover { background: #fefbf0; }
-      .radar-org {
-        grid-row: 1 / 3;
+      .radar-entry:hover { background: #252540; }
+      .radar-date {
+        display: block;
         font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        color: #aaa;
-        letter-spacing: 0.05em;
-        writing-mode: vertical-lr;
-        transform: rotate(180deg);
-        text-align: center;
-        line-height: 1;
-        padding-right: 2px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #ccc;
+        white-space: nowrap;
+        min-width: 48px;
+      }
+      .radar-info {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
       }
       .radar-name {
         font-family: 'Cabin', sans-serif;
         font-weight: 700;
         font-size: 12px;
+        color: #fff;
         line-height: 1.3;
       }
       .radar-summary {
         font-size: 10px;
-        color: #666;
+        color: #8888aa;
         line-height: 1.3;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-      .radar-date {
-        display: none;
       }
 
       /* ── footer ── */
