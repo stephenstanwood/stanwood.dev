@@ -8,15 +8,13 @@ interface DeployData {
   error?: string;
 }
 
-/** Turn a git commit message into a punchy, verb-first blurb */
-function spiffUp(msg: string): string {
-  let clean = msg.split("\n")[0].trim();
-  // Strip conventional-commit prefixes
-  clean = clean.replace(/^(feat|fix|chore|refactor|docs|style|perf|ci|build|test)\s*(\(.+?\))?\s*:\s*/i, "");
-  // Strip trailing metadata
-  clean = clean.replace(/\s*\(#\d+\)\s*$/, "");
+interface Blurb {
+  project: string | null;
+  description: string;
+}
 
-  // Normalize any tense → past tense
+/** Normalize a description to start with a past-tense verb */
+function pastTense(s: string): string {
   const verbMap: [RegExp, string][] = [
     [/^add(ed|s|ing)?\s/i, "Added "],
     [/^implement(ed|s|ing)?\s/i, "Built "],
@@ -45,19 +43,43 @@ function spiffUp(msg: string): string {
   ];
 
   for (const [pattern, replacement] of verbMap) {
-    if (pattern.test(clean)) {
-      clean = clean.replace(pattern, replacement);
-      return clean;
+    if (pattern.test(s)) return s.replace(pattern, replacement);
+  }
+
+  // If already past-tense, just capitalize
+  if (/^(Added|Built|Created|Fixed|Updated|Improved|Removed|Refactored|Moved|Renamed|Replaced|Swapped|Bumped|Enabled|Disabled|Launched|Shipped|Cleaned|Rewrote|Polished|Tweaked|Wired|Hooked)\b/i.test(s)) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  // Fallback: prepend "Shipped"
+  return "Shipped " + s.charAt(0).toLowerCase() + s.slice(1);
+}
+
+/** Parse a commit message into project name + past-tense description */
+function spiffUp(msg: string): Blurb {
+  let clean = msg.split("\n")[0].trim();
+  // Strip conventional-commit prefixes like "feat(scope):"
+  clean = clean.replace(/^(feat|fix|chore|refactor|docs|style|perf|ci|build|test)\s*(\(.+?\))?\s*:\s*/i, "");
+  // Strip trailing PR refs like (#123)
+  clean = clean.replace(/\s*\(#\d+\)\s*$/, "");
+
+  // Try to split on "project: description"
+  const colonIdx = clean.indexOf(":");
+  if (colonIdx > 0 && colonIdx < 40) {
+    const project = clean.slice(0, colonIdx).trim();
+    const desc = clean.slice(colonIdx + 1).trim();
+    if (desc.length > 0) {
+      // Titlecase the project name
+      const projectTitle = project
+        .split(/[\s-]+/)
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+        .join(" ");
+      return { project: projectTitle, description: pastTense(desc) };
     }
   }
 
-  // Fallback: if it doesn't already start past-tense, prepend "Shipped"
-  clean = clean.charAt(0).toUpperCase() + clean.slice(1);
-  if (!/^(Added|Built|Created|Fixed|Updated|Improved|Removed|Refactored|Moved|Renamed|Replaced|Swapped|Bumped|Enabled|Disabled|Launched|Shipped|Cleaned|Rewrote|Polished|Tweaked|Wired|Hooked)\b/i.test(clean)) {
-    clean = "Shipped " + clean.charAt(0).toLowerCase() + clean.slice(1);
-  }
-
-  return clean;
+  // No colon split — whole thing is the description
+  return { project: null, description: pastTense(clean) };
 }
 
 function formatTimestamp(iso: string): string {
@@ -152,7 +174,12 @@ export default function ShipClockTile() {
         {elapsed && <span className="sct-elapsed">{elapsed}</span>}
       </div>
       <div className="sct-time">{timestamp}</div>
-      {blurb && <div className="sct-blurb">{blurb}</div>}
+      {blurb && (
+        <div className="sct-blurb">
+          {blurb.project && <span className="sct-project">{blurb.project}: </span>}
+          <span className="sct-desc">{blurb.description}</span>
+        </div>
+      )}
     </div>
   );
 }
