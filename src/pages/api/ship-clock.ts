@@ -25,9 +25,9 @@ async function summarizeCommit(raw: string): Promise<{ project: string | null; s
           role: "user",
           content: `You're writing a one-line changelog entry for a personal dev portfolio site. Given this git commit message, return JSON with two fields:
 - "project": the project/feature name in Title Case (or null if unclear)
-- "summary": a short, punchy past-tense description (start with a verb like "Added", "Fixed", "Built", etc.). Keep it under 60 chars, no period at the end. Write for a general audience — no jargon.
+- "summary": a short, punchy past-tense description (start with a verb like "Added", "Fixed", "Built", etc.). Keep it under 60 chars, no period at the end. Write for a general audience — no jargon. Never include PR numbers, issue numbers, or (#123) references.
 
-Commit message: "${raw.split("\n")[0].trim()}"
+Commit message: "${raw.split("\n")[0].trim().replace(/\s*\(#\d+\)\s*$/, "")}"
 
 Return ONLY valid JSON, nothing else.`,
         },
