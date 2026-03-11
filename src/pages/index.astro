@@ -407,7 +407,7 @@ const projects = [
       .proj-row {
         grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         gap: 16px;
         opacity: 0;
         transition: opacity 0.15s ease;
@@ -415,6 +415,7 @@ const projects = [
       .proj-row.shuffled { opacity: 1; }
 
       .proj-tile {
+        grid-column: span 2;
         background: white;
         border: 2px solid var(--ink);
         box-shadow: 3px 3px 0 var(--ink);
@@ -473,9 +474,9 @@ const projects = [
       .proj-tile.has-img .proj-info {
         padding: 8px 14px;
       }
-      /* stretch last tile if it sits alone on its row */
-      .proj-row .proj-tile:last-child:nth-child(3n+1) {
-        grid-column: span 2;
+      /* when 1 leftover (count%3===1), rebalance last 4 tiles into 2×2 */
+      .proj-row.balanced .proj-tile:nth-last-child(-n+4) {
+        grid-column: span 3;
       }
 
       /* ── footer ── */
@@ -566,8 +567,9 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
-        .proj-row .proj-tile:last-child:nth-child(3n+1) { grid-column: span 1; }
+        .proj-row .proj-tile { grid-column: span 1; }
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
+        .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
@@ -736,7 +738,13 @@ const projects = [
     const featRow = document.getElementById('feat-row');
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow);
-    if (projRow) shuffle(projRow);
+    if (projRow) {
+      shuffle(projRow);
+      // If tile count % 3 === 1, rebalance last 4 into 2×2
+      if (projRow.children.length % 3 === 1) {
+        projRow.classList.add('balanced');
+      }
+    }
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
