@@ -960,11 +960,16 @@ const projects = [
 
       // Get grid-level children that represent tiles
       const gridKids = [...projRow.querySelectorAll(':scope > .proj-tile, :scope > astro-island')] as HTMLElement[];
-      // If tile count % 3 === 1, rebalance last 4 into 2×2
+      // Exclude special tiles (radar, ship clock) from balance count — they shouldn't widen
+      const normalKids = gridKids.filter(el => {
+        const tile = tileOf(el);
+        return !tile.classList.contains('radar-tile') && !tile.classList.contains('sct-tile');
+      });
+      // If normal tile count % 3 === 1, rebalance last 4 into 2×2
       // but ensure only image tiles go in the wide slots, preferring Lap Lab
-      if (gridKids.length % 3 === 1 && gridKids.length >= 4) {
-        const last4 = gridKids.slice(-4);
-        const rest = gridKids.slice(0, -4);
+      if (normalKids.length % 3 === 1 && normalKids.length >= 4) {
+        const last4 = normalKids.slice(-4);
+        const rest = normalKids.slice(0, -4);
         // Swap any non-image tiles out of last 4 with image tiles from rest
         for (let i = 0; i < last4.length; i++) {
           const tile = tileOf(last4[i]);
