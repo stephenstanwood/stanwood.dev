@@ -6,7 +6,19 @@ interface DeployData {
   hoursSince: number | null;
   project?: string | null;
   summary?: string | null;
+  sha?: string | null;
   error?: string;
+}
+
+/** Generate pseudo-barcode bar widths from a string (for visual effect only) */
+function barsFromSha(sha: string): number[] {
+  const bars: number[] = [];
+  for (let i = 0; i < sha.length; i++) {
+    const code = sha.charCodeAt(i);
+    bars.push(code % 2 === 0 ? 2 : 1); // bar width
+    bars.push(code % 3 === 0 ? 2 : 1); // gap width (encoded as negative)
+  }
+  return bars;
 }
 
 function formatTimestamp(iso: string): string {
@@ -132,6 +144,12 @@ export default function ShipClockTile() {
           <span className="sct-row-label">time</span>
           <span className="sct-row-value">{timeStr}</span>
         </div>
+        {data.sha && (
+          <div className="sct-row">
+            <span className="sct-row-label">order #</span>
+            <span className="sct-row-value">{data.sha}</span>
+          </div>
+        )}
         {data.summary && (
           <>
             <hr className="sct-divider" />
@@ -142,6 +160,17 @@ export default function ShipClockTile() {
           </>
         )}
       </div>
+      {data.sha && (
+        <div className="sct-barcode" aria-hidden="true">
+          {barsFromSha(data.sha).map((w, i) => (
+            <span
+              key={i}
+              className={i % 2 === 0 ? "sct-bar" : "sct-gap"}
+              style={{ width: `${w}px` }}
+            />
+          ))}
+        </div>
+      )}
       <div className="sct-footer">thank you for visiting</div>
     </div>
   );
