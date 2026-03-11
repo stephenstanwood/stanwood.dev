@@ -102,6 +102,7 @@ export default function ShipClockTile() {
 
   const timestamp = formatTimestamp(data.lastDeploy);
   const deployDate = new Date(data.lastDeploy);
+  const dayName = deployDate.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
   const dateStr = deployDate.toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
@@ -118,6 +119,10 @@ export default function ShipClockTile() {
         <div className="sct-header">
           <span className="sct-store">stanwood.dev latest update</span>
           {elapsed && <span className="sct-elapsed">{elapsed}</span>}
+        </div>
+        <div className="sct-row">
+          <span className="sct-row-label">day</span>
+          <span className="sct-row-value">{dayName}</span>
         </div>
         <div className="sct-row">
           <span className="sct-row-label">date</span>
