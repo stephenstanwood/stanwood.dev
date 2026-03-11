@@ -71,10 +71,14 @@ export default function ShipClockTile() {
   if (!data) {
     return (
       <div className="proj-tile sct-tile">
-        <div className="sct-header">
-          <span className="sct-label">last update</span>
+        <div className="sct-inner">
+          <div className="sct-header">
+            <span className="sct-store">stanwood.dev</span>
+          </div>
+          <div className="sct-row">
+            <span className="sct-row-label">loading…</span>
+          </div>
         </div>
-        <div className="sct-time sct-glow">loading…</div>
       </div>
     );
   }
@@ -83,29 +87,57 @@ export default function ShipClockTile() {
   if (data.error || !data.lastDeploy) {
     return (
       <div className="proj-tile sct-tile">
-        <div className="sct-header">
-          <span className="sct-label">last update</span>
+        <div className="sct-inner">
+          <div className="sct-header">
+            <span className="sct-store">stanwood.dev</span>
+          </div>
+          <div className="sct-row">
+            <span className="sct-row-label">status</span>
+            <span className="sct-row-value">offline</span>
+          </div>
         </div>
-        <div className="sct-time sct-glow">offline</div>
       </div>
     );
   }
 
   const timestamp = formatTimestamp(data.lastDeploy);
+  const deployDate = new Date(data.lastDeploy);
+  const dateStr = deployDate.toLocaleDateString("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit",
+  });
+  const timeStr = deployDate.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).toLowerCase();
 
   return (
     <div className="proj-tile sct-tile">
-      <div className="sct-header">
-        <span className="sct-label">last update</span>
-        {elapsed && <span className="sct-elapsed">{elapsed}</span>}
-      </div>
-      <div className="sct-time sct-glow">{timestamp}</div>
-      {data.summary && (
-        <div className="sct-blurb">
-          {data.project && <span className="sct-project">{data.project}: </span>}
-          <span className="sct-desc">{data.summary}</span>
+      <div className="sct-inner">
+        <div className="sct-header">
+          <span className="sct-store">stanwood.dev</span>
+          {elapsed && <span className="sct-elapsed">{elapsed}</span>}
         </div>
-      )}
+        <div className="sct-row">
+          <span className="sct-row-label">date</span>
+          <span className="sct-row-value">{dateStr}</span>
+        </div>
+        <div className="sct-row">
+          <span className="sct-row-label">time</span>
+          <span className="sct-row-value">{timeStr}</span>
+        </div>
+        {data.summary && (
+          <>
+            <hr className="sct-divider" />
+            <div className="sct-blurb">
+              {data.project && <span className="sct-project">{data.project}: </span>}
+              <span className="sct-desc">{data.summary}</span>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="sct-footer">thank you for visiting</div>
     </div>
   );
 }
