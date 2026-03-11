@@ -994,6 +994,12 @@ const projects = [
         [...rest, ...last4].forEach(el => projRow.appendChild(el));
         projRow.classList.add('balanced');
       }
+
+      // Pin AI Radar tile to end (bottom-right corner)
+      const radarEl = projRow.querySelector(':scope > .radar-tile') ||
+        [...projRow.querySelectorAll(':scope > astro-island')].find(
+          ai => ai.querySelector('.radar-tile'));
+      if (radarEl) projRow.appendChild(radarEl);
     }
 
     // ── Terminal typewriter ──
