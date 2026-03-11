@@ -8,16 +8,48 @@ interface DeployData {
   error?: string;
 }
 
-/** Condense a git commit message into a short, punchy blurb */
+/** Turn a git commit message into a punchy, verb-first blurb */
 function spiffUp(msg: string): string {
-  // Strip "Co-Authored-By" lines and clean up
   let clean = msg.split("\n")[0].trim();
-  // Remove conventional-commit prefixes like "feat:" or "fix:"
+  // Strip conventional-commit prefixes
   clean = clean.replace(/^(feat|fix|chore|refactor|docs|style|perf|ci|build|test)\s*(\(.+?\))?\s*:\s*/i, "");
-  // Capitalize first letter
+  // Strip trailing metadata
+  clean = clean.replace(/\s*\(#\d+\)\s*$/, "");
+
+  // Map common commit verbs → punchier versions
+  const verbMap: [RegExp, string][] = [
+    [/^add(ed|s|ing)?\s/i, "Added "],
+    [/^implement(ed|s|ing)?\s/i, "Built "],
+    [/^create(d|s)?\s/i, "Created "],
+    [/^fix(ed|es|ing)?\s/i, "Fixed "],
+    [/^update(d|s)?\s/i, "Updated "],
+    [/^improve(d|s)?\s/i, "Improved "],
+    [/^remove(d|s)?\s/i, "Removed "],
+    [/^refactor(ed|s|ing)?\s/i, "Refactored "],
+    [/^move(d|s)?\s/i, "Moved "],
+    [/^rename(d|s)?\s/i, "Renamed "],
+    [/^replace(d|s)?\s/i, "Replaced "],
+    [/^swap(ped|s)?\s/i, "Swapped "],
+    [/^bump(ed|s)?\s/i, "Bumped "],
+    [/^enable(d|s)?\s/i, "Enabled "],
+    [/^disable(d|s)?\s/i, "Disabled "],
+  ];
+
+  for (const [pattern, replacement] of verbMap) {
+    if (pattern.test(clean)) {
+      clean = clean.replace(pattern, replacement);
+      return clean.charAt(0).toUpperCase() + clean.slice(1);
+    }
+  }
+
+  // If no verb match, ensure it starts capitalized and starts with a verb
   clean = clean.charAt(0).toUpperCase() + clean.slice(1);
-  // Truncate if too long
-  if (clean.length > 60) clean = clean.slice(0, 57) + "…";
+
+  // If it doesn't start with a verb-like word, prepend "Shipped"
+  if (!/^(Add|Built|Creat|Fix|Updat|Improv|Remov|Refactor|Ship|Launch|Enabl|Disabl|Mov|Renam|Replac|Swap|Bump)\w*/i.test(clean)) {
+    clean = "Shipped " + clean.charAt(0).toLowerCase() + clean.slice(1);
+  }
+
   return clean;
 }
 
@@ -54,12 +86,12 @@ export default function ShipClockTile() {
       .catch(() => null);
   }, []);
 
-  // Loading state — minimal skeleton
+  // Loading state
   if (!data) {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-header">
-          <span className="sct-label">last deploy</span>
+          <span className="sct-label">last update</span>
         </div>
         <div className="sct-blurb">loading…</div>
       </div>
@@ -71,7 +103,7 @@ export default function ShipClockTile() {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-header">
-          <span className="sct-label">last deploy</span>
+          <span className="sct-label">last update</span>
         </div>
         <div className="sct-blurb">couldn't reach mission control</div>
       </div>
@@ -85,7 +117,7 @@ export default function ShipClockTile() {
   return (
     <div className="proj-tile sct-tile">
       <div className="sct-header">
-        <span className="sct-label">last deploy</span>
+        <span className="sct-label">last update</span>
         {days === 0 && <span className="sct-badge">today</span>}
       </div>
       <div className="sct-time">{timestamp}</div>
