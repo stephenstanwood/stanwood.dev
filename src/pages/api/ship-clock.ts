@@ -43,11 +43,15 @@ export const GET: APIRoute = async () => {
     const hoursSince = Math.floor(diffMs / (1000 * 60 * 60));
     const daysSince = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
+    const meta = deployments[0].meta ?? {};
+    const commitMessage = meta.githubCommitMessage ?? null;
+
     return new Response(
       JSON.stringify({
         lastDeploy: createdAt.toISOString(),
         daysSince,
         hoursSince,
+        commitMessage,
       }),
       {
         status: 200,

@@ -488,12 +488,48 @@ const projects = [
       }
 
       /* ── ship clock live tile ── */
-      .ship-clock-tile .sct-number {
-        font-family: 'Permanent Marker', cursive;
-        font-size: 22px;
+      .sct-tile {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 18px 20px;
+        cursor: default;
+      }
+      .sct-tile:hover {
+        background: white;
+        transform: none;
+        box-shadow: 3px 3px 0 var(--ink);
+      }
+      .sct-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+      }
+      .sct-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #999;
+      }
+      .sct-elapsed {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
         color: #ff5c1a;
-        flex-shrink: 0;
-        line-height: 1;
+        margin-left: auto;
+      }
+      .sct-time {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 24px;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .sct-blurb {
+        font-family: 'Cabin', sans-serif;
+        font-size: 14px;
+        color: #555;
+        line-height: 1.4;
       }
 
       /* ── AI radar tile ── */
@@ -860,10 +896,6 @@ const projects = [
       // Only shuffle actual tiles and astro-island wrappers (not script/style tags)
       shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
 
-      // Helper: get the grid-level element to move (astro-island parent or tile itself)
-      function gridParent(tile: HTMLElement): HTMLElement {
-        return tile.closest('astro-island') as HTMLElement || tile;
-      }
       // Helper: get the tile element from a grid-level element
       function tileOf(el: HTMLElement): HTMLElement {
         return el.classList.contains('proj-tile') ? el : el.querySelector('.proj-tile') as HTMLElement || el;
@@ -877,7 +909,6 @@ const projects = [
         const last4 = gridKids.slice(-4);
         const rest = gridKids.slice(0, -4);
         // Swap any non-image tiles out of last 4 with image tiles from rest
-        // Prefer Lap Lab (href="/swim") for wide slots — it looks great wide
         for (let i = 0; i < last4.length; i++) {
           const tile = tileOf(last4[i]);
           if (!tile.classList.contains('has-img')) {
