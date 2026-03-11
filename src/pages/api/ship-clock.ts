@@ -1,8 +1,50 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
+import Anthropic from "@anthropic-ai/sdk";
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
+const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
+
+const anthropic = ANTHROPIC_API_KEY
+  ? new Anthropic({ apiKey: ANTHROPIC_API_KEY })
+  : null;
+
+/** Ask Claude to turn a raw commit message into a nice one-liner */
+async function summarizeCommit(raw: string): Promise<{ project: string | null; summary: string }> {
+  if (!anthropic) {
+    return { project: null, summary: raw.split("\n")[0] };
+  }
+
+  try {
+    const res = await anthropic.messages.create({
+      model: "claude-haiku-4-20250414",
+      max_tokens: 100,
+      messages: [
+        {
+          role: "user",
+          content: `You're writing a one-line changelog entry for a personal dev portfolio site. Given this git commit message, return JSON with two fields:
+- "project": the project/feature name in Title Case (or null if unclear)
+- "summary": a short, punchy past-tense description (start with a verb like "Added", "Fixed", "Built", etc.). Keep it under 60 chars, no period at the end. Write for a general audience — no jargon.
+
+Commit message: "${raw.split("\n")[0].trim()}"
+
+Return ONLY valid JSON, nothing else.`,
+        },
+      ],
+    });
+
+    const text = res.content[0].type === "text" ? res.content[0].text : "";
+    const parsed = JSON.parse(text);
+    return {
+      project: parsed.project ?? null,
+      summary: parsed.summary ?? raw.split("\n")[0],
+    };
+  } catch {
+    // Fallback to raw message
+    return { project: null, summary: raw.split("\n")[0] };
+  }
+}
 
 export const GET: APIRoute = async () => {
   if (!VERCEL_TOKEN || !VERCEL_PROJECT_ID) {
@@ -44,14 +86,24 @@ export const GET: APIRoute = async () => {
     const daysSince = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
     const meta = deployments[0].meta ?? {};
-    const commitMessage = meta.githubCommitMessage ?? null;
+    const rawCommit = meta.githubCommitMessage ?? null;
+
+    // Summarize via Claude (cached for 5 min by s-maxage anyway)
+    let project: string | null = null;
+    let summary: string | null = null;
+    if (rawCommit) {
+      const result = await summarizeCommit(rawCommit);
+      project = result.project;
+      summary = result.summary;
+    }
 
     return new Response(
       JSON.stringify({
         lastDeploy: createdAt.toISOString(),
         daysSince,
         hoursSince,
-        commitMessage,
+        project,
+        summary,
       }),
       {
         status: 200,

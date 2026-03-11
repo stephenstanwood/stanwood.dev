@@ -4,60 +4,9 @@ interface DeployData {
   lastDeploy: string | null;
   daysSince: number | null;
   hoursSince: number | null;
-  commitMessage?: string | null;
+  project?: string | null;
+  summary?: string | null;
   error?: string;
-}
-
-/** Turn a git commit message into a punchy, verb-first blurb */
-function spiffUp(msg: string): string {
-  let clean = msg.split("\n")[0].trim();
-  // Strip conventional-commit prefixes
-  clean = clean.replace(/^(feat|fix|chore|refactor|docs|style|perf|ci|build|test)\s*(\(.+?\))?\s*:\s*/i, "");
-  // Strip trailing metadata
-  clean = clean.replace(/\s*\(#\d+\)\s*$/, "");
-
-  // Normalize any tense → past tense
-  const verbMap: [RegExp, string][] = [
-    [/^add(ed|s|ing)?\s/i, "Added "],
-    [/^implement(ed|s|ing)?\s/i, "Built "],
-    [/^build(s|ing|t)?\s/i, "Built "],
-    [/^create(d|s|ing)?\s/i, "Created "],
-    [/^fix(ed|es|ing)?\s/i, "Fixed "],
-    [/^update(d|s|ing)?\s/i, "Updated "],
-    [/^improve(d|s|ing)?\s/i, "Improved "],
-    [/^remove(d|s|ing)?\s/i, "Removed "],
-    [/^refactor(ed|s|ing)?\s/i, "Refactored "],
-    [/^move(d|s|ing)?\s/i, "Moved "],
-    [/^rename(d|s|ing)?\s/i, "Renamed "],
-    [/^replace(d|s|ing)?\s/i, "Replaced "],
-    [/^swap(ped|s|ping)?\s/i, "Swapped "],
-    [/^bump(ed|s|ing)?\s/i, "Bumped "],
-    [/^enable(d|s|ing)?\s/i, "Enabled "],
-    [/^disable(d|s|ing)?\s/i, "Disabled "],
-    [/^launch(ed|es|ing)?\s/i, "Launched "],
-    [/^ship(ped|s|ping)?\s/i, "Shipped "],
-    [/^clean(ed|s|ing)?\s?(up)?\s/i, "Cleaned up "],
-    [/^rewrite?(ten|s|ing)?\s/i, "Rewrote "],
-    [/^polish(ed|es|ing)?\s/i, "Polished "],
-    [/^tweak(ed|s|ing)?\s/i, "Tweaked "],
-    [/^wire(d)?\s?(up)?\s/i, "Wired up "],
-    [/^hook(ed)?\s?(up)?\s/i, "Hooked up "],
-  ];
-
-  for (const [pattern, replacement] of verbMap) {
-    if (pattern.test(clean)) {
-      clean = clean.replace(pattern, replacement);
-      return clean;
-    }
-  }
-
-  // Fallback: if it doesn't already start past-tense, prepend "Shipped"
-  clean = clean.charAt(0).toUpperCase() + clean.slice(1);
-  if (!/^(Added|Built|Created|Fixed|Updated|Improved|Removed|Refactored|Moved|Renamed|Replaced|Swapped|Bumped|Enabled|Disabled|Launched|Shipped|Cleaned|Rewrote|Polished|Tweaked|Wired|Hooked)\b/i.test(clean)) {
-    clean = "Shipped " + clean.charAt(0).toLowerCase() + clean.slice(1);
-  }
-
-  return clean;
 }
 
 function formatTimestamp(iso: string): string {
@@ -106,7 +55,7 @@ export default function ShipClockTile() {
       .catch(() => null);
   }, []);
 
-  // Tick the counter every 30s
+  // Tick every 30s
   useEffect(() => {
     if (!data?.lastDeploy) return;
     const update = () => {
@@ -118,32 +67,31 @@ export default function ShipClockTile() {
     return () => clearInterval(id);
   }, [data?.lastDeploy]);
 
-  // Loading state
+  // Loading
   if (!data) {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-header">
           <span className="sct-label">last update</span>
         </div>
-        <div className="sct-blurb">loading…</div>
+        <div className="sct-time sct-glow">loading…</div>
       </div>
     );
   }
 
-  // Error / no data
+  // Error
   if (data.error || !data.lastDeploy) {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-header">
           <span className="sct-label">last update</span>
         </div>
-        <div className="sct-blurb">couldn't reach mission control</div>
+        <div className="sct-time sct-glow">offline</div>
       </div>
     );
   }
 
   const timestamp = formatTimestamp(data.lastDeploy);
-  const blurb = data.commitMessage ? spiffUp(data.commitMessage) : null;
 
   return (
     <div className="proj-tile sct-tile">
@@ -151,8 +99,13 @@ export default function ShipClockTile() {
         <span className="sct-label">last update</span>
         {elapsed && <span className="sct-elapsed">{elapsed}</span>}
       </div>
-      <div className="sct-time">{timestamp}</div>
-      {blurb && <div className="sct-blurb">{blurb}</div>}
+      <div className="sct-time sct-glow">{timestamp}</div>
+      {data.summary && (
+        <div className="sct-blurb">
+          {data.project && <span className="sct-project">{data.project}: </span>}
+          <span className="sct-desc">{data.summary}</span>
+        </div>
+      )}
     </div>
   );
 }
