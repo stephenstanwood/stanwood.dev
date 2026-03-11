@@ -16,37 +16,44 @@ function spiffUp(msg: string): string {
   // Strip trailing metadata
   clean = clean.replace(/\s*\(#\d+\)\s*$/, "");
 
-  // Map common commit verbs → punchier versions
+  // Normalize any tense → past tense
   const verbMap: [RegExp, string][] = [
     [/^add(ed|s|ing)?\s/i, "Added "],
     [/^implement(ed|s|ing)?\s/i, "Built "],
-    [/^create(d|s)?\s/i, "Created "],
+    [/^build(s|ing|t)?\s/i, "Built "],
+    [/^create(d|s|ing)?\s/i, "Created "],
     [/^fix(ed|es|ing)?\s/i, "Fixed "],
-    [/^update(d|s)?\s/i, "Updated "],
-    [/^improve(d|s)?\s/i, "Improved "],
-    [/^remove(d|s)?\s/i, "Removed "],
+    [/^update(d|s|ing)?\s/i, "Updated "],
+    [/^improve(d|s|ing)?\s/i, "Improved "],
+    [/^remove(d|s|ing)?\s/i, "Removed "],
     [/^refactor(ed|s|ing)?\s/i, "Refactored "],
-    [/^move(d|s)?\s/i, "Moved "],
-    [/^rename(d|s)?\s/i, "Renamed "],
-    [/^replace(d|s)?\s/i, "Replaced "],
-    [/^swap(ped|s)?\s/i, "Swapped "],
-    [/^bump(ed|s)?\s/i, "Bumped "],
-    [/^enable(d|s)?\s/i, "Enabled "],
-    [/^disable(d|s)?\s/i, "Disabled "],
+    [/^move(d|s|ing)?\s/i, "Moved "],
+    [/^rename(d|s|ing)?\s/i, "Renamed "],
+    [/^replace(d|s|ing)?\s/i, "Replaced "],
+    [/^swap(ped|s|ping)?\s/i, "Swapped "],
+    [/^bump(ed|s|ing)?\s/i, "Bumped "],
+    [/^enable(d|s|ing)?\s/i, "Enabled "],
+    [/^disable(d|s|ing)?\s/i, "Disabled "],
+    [/^launch(ed|es|ing)?\s/i, "Launched "],
+    [/^ship(ped|s|ping)?\s/i, "Shipped "],
+    [/^clean(ed|s|ing)?\s?(up)?\s/i, "Cleaned up "],
+    [/^rewrite?(ten|s|ing)?\s/i, "Rewrote "],
+    [/^polish(ed|es|ing)?\s/i, "Polished "],
+    [/^tweak(ed|s|ing)?\s/i, "Tweaked "],
+    [/^wire(d)?\s?(up)?\s/i, "Wired up "],
+    [/^hook(ed)?\s?(up)?\s/i, "Hooked up "],
   ];
 
   for (const [pattern, replacement] of verbMap) {
     if (pattern.test(clean)) {
       clean = clean.replace(pattern, replacement);
-      return clean.charAt(0).toUpperCase() + clean.slice(1);
+      return clean;
     }
   }
 
-  // If no verb match, ensure it starts capitalized and starts with a verb
+  // Fallback: if it doesn't already start past-tense, prepend "Shipped"
   clean = clean.charAt(0).toUpperCase() + clean.slice(1);
-
-  // If it doesn't start with a verb-like word, prepend "Shipped"
-  if (!/^(Add|Built|Creat|Fix|Updat|Improv|Remov|Refactor|Ship|Launch|Enabl|Disabl|Mov|Renam|Replac|Swap|Bump)\w*/i.test(clean)) {
+  if (!/^(Added|Built|Created|Fixed|Updated|Improved|Removed|Refactored|Moved|Renamed|Replaced|Swapped|Bumped|Enabled|Disabled|Launched|Shipped|Cleaned|Rewrote|Polished|Tweaked|Wired|Hooked)\b/i.test(clean)) {
     clean = "Shipped " + clean.charAt(0).toLowerCase() + clean.slice(1);
   }
 
