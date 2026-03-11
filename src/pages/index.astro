@@ -487,6 +487,17 @@ const projects = [
         grid-column: span 2;
       }
 
+      /* ── ship clock pinned wrapper ── */
+      .sct-pin {
+        grid-column: 5 / 7;
+        grid-row: 1 / 2;
+        opacity: 1 !important;
+        animation: fadeIn 0.4s ease 0.1s both !important;
+      }
+      .sct-pin .proj-tile {
+        height: 100%;
+      }
+
       /* ── ship clock receipt tile ── */
       .sct-tile {
         flex-direction: column;
@@ -775,6 +786,7 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
+        .sct-pin { grid-column: 2 / 3; grid-row: 1 / 2; }
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
@@ -913,7 +925,7 @@ const projects = [
           </div>
         </a>
       ))}
-      <ShipClockTile client:idle />
+      <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
       <AIRadarTile client:idle />
     </div>
 
@@ -950,7 +962,7 @@ const projects = [
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
-      // Only shuffle actual tiles and astro-island wrappers (not script/style tags)
+      // Only shuffle actual tiles and astro-island wrappers (not pinned or script/style)
       shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
 
       // Helper: get the tile element from a grid-level element

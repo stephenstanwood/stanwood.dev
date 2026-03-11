@@ -10,10 +10,17 @@ const anthropic = ANTHROPIC_API_KEY
   ? new Anthropic({ apiKey: ANTHROPIC_API_KEY })
   : null;
 
+/** Strip PR refs and clean up a raw commit message */
+function cleanRaw(raw: string): string {
+  return raw.split("\n")[0].trim().replace(/\s*\(#\d+\)\s*$/g, "");
+}
+
 /** Ask Claude to turn a raw commit message into a nice one-liner */
 async function summarizeCommit(raw: string): Promise<{ project: string | null; summary: string }> {
+  const cleaned = cleanRaw(raw);
+
   if (!anthropic) {
-    return { project: null, summary: raw.split("\n")[0] };
+    return { project: null, summary: cleaned };
   }
 
   try {
@@ -27,7 +34,7 @@ async function summarizeCommit(raw: string): Promise<{ project: string | null; s
 - "project": the project/feature name in Title Case (or null if unclear)
 - "summary": a short, punchy past-tense description (start with a verb like "Added", "Fixed", "Built", etc.). Keep it under 60 chars, no period at the end. Write for a general audience — no jargon. Never include PR numbers, issue numbers, or (#123) references.
 
-Commit message: "${raw.split("\n")[0].trim().replace(/\s*\(#\d+\)\s*$/, "")}"
+Commit message: "${cleaned}"
 
 Return ONLY valid JSON, nothing else.`,
         },
@@ -38,11 +45,10 @@ Return ONLY valid JSON, nothing else.`,
     const parsed = JSON.parse(text);
     return {
       project: parsed.project ?? null,
-      summary: parsed.summary ?? raw.split("\n")[0],
+      summary: parsed.summary ?? cleaned,
     };
   } catch {
-    // Fallback to raw message
-    return { project: null, summary: raw.split("\n")[0] };
+    return { project: null, summary: cleaned };
   }
 }
 
