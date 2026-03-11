@@ -750,8 +750,23 @@ const projects = [
     if (featRow) shuffle(featRow);
     if (projRow) {
       shuffle(projRow);
+      const kids = [...projRow.children] as HTMLElement[];
       // If tile count % 3 === 1, rebalance last 4 into 2×2
-      if (projRow.children.length % 3 === 1) {
+      // but ensure only image tiles go in the wide slots
+      if (kids.length % 3 === 1 && kids.length >= 4) {
+        const last4 = kids.slice(-4);
+        const rest = kids.slice(0, -4);
+        // Swap any non-image tiles out of last 4 with image tiles from rest
+        for (let i = 0; i < last4.length; i++) {
+          if (!last4[i].classList.contains('has-img')) {
+            const swapIdx = rest.findIndex(t => t.classList.contains('has-img'));
+            if (swapIdx !== -1) {
+              [last4[i], rest[swapIdx]] = [rest[swapIdx], last4[i]];
+            }
+          }
+        }
+        // Re-append in corrected order
+        [...rest, ...last4].forEach(el => projRow.appendChild(el));
         projRow.classList.add('balanced');
       }
     }
