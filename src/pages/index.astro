@@ -589,11 +589,8 @@ const projects = [
         padding: 14px 16px;
         position: relative;
         overflow: hidden;
-        background: #1a1a2e;
-        border-color: #333;
       }
       .radar-tile:hover {
-        background: #1a1a2e;
         cursor: default;
       }
       .radar-header {
@@ -606,7 +603,7 @@ const projects = [
       .radar-sub {
         font-family: 'Cabin', sans-serif;
         font-size: 10px;
-        color: #8888aa;
+        color: #888;
         margin-bottom: 10px;
       }
       .radar-anim {
@@ -620,12 +617,12 @@ const projects = [
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background: #10a37f;
+        background: var(--orange);
       }
       .radar-ring {
         position: absolute;
         border-radius: 50%;
-        border: 1.5px solid #10a37f;
+        border: 1.5px solid var(--orange);
         opacity: 0;
         animation: radarPulse 1.8s ease-out infinite;
       }
@@ -645,7 +642,7 @@ const projects = [
         overflow-y: auto;
         flex: 1;
         scrollbar-width: thin;
-        scrollbar-color: #333 transparent;
+        scrollbar-color: #ccc transparent;
       }
       .radar-list--visible { opacity: 1; }
       .radar-entry {
@@ -653,19 +650,19 @@ const projects = [
         align-items: baseline;
         gap: 10px;
         padding: 8px 8px 8px 12px;
-        border-bottom: 1px solid #2a2a3e;
+        border-bottom: 1px solid #eee;
         text-decoration: none;
-        color: #e0e0e0;
+        color: var(--ink);
         transition: background 0.15s;
       }
       .radar-entry:last-child { border-bottom: none; }
-      .radar-entry:hover { background: #252540; }
+      .radar-entry:hover { background: #fefbf0; }
       .radar-date {
         display: block;
         font-family: 'Space Mono', monospace;
         font-size: 13px;
         font-weight: 700;
-        color: #ccc;
+        color: #555;
         white-space: nowrap;
         min-width: 48px;
       }
@@ -678,12 +675,12 @@ const projects = [
         font-family: 'Cabin', sans-serif;
         font-weight: 700;
         font-size: 12px;
-        color: #fff;
+        color: var(--ink);
         line-height: 1.3;
       }
       .radar-summary {
         font-size: 10px;
-        color: #8888aa;
+        color: #888;
         line-height: 1.3;
         white-space: nowrap;
         overflow: hidden;
@@ -995,11 +992,11 @@ const projects = [
         projRow.classList.add('balanced');
       }
 
-      // Pin AI Radar tile to end (bottom-right corner)
+      // Pin AI Radar tile to start (top-left corner)
       const radarEl = projRow.querySelector(':scope > .radar-tile') ||
         [...projRow.querySelectorAll(':scope > astro-island')].find(
           ai => ai.querySelector('.radar-tile'));
-      if (radarEl) projRow.appendChild(radarEl);
+      if (radarEl) projRow.prepend(radarEl);
     }
 
     // ── Terminal typewriter ──
