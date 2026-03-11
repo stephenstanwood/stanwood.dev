@@ -76,8 +76,21 @@ function formatTimestamp(iso: string): string {
   }) + ` at ${time}`;
 }
 
+function formatElapsed(ms: number): string {
+  const totalMin = Math.floor(ms / 60000);
+  const totalHr = Math.floor(totalMin / 60);
+  const totalDays = Math.floor(totalHr / 24);
+
+  if (totalMin < 1) return "just now";
+  if (totalMin < 60) return `${totalMin}m ago`;
+  if (totalHr < 24) return `${totalHr}h ${totalMin % 60}m ago`;
+  if (totalDays < 7) return `${totalDays}d ${totalHr % 24}h ago`;
+  return `${totalDays}d ago`;
+}
+
 export default function ShipClockTile() {
   const [data, setData] = useState<DeployData | null>(null);
+  const [elapsed, setElapsed] = useState("");
 
   useEffect(() => {
     fetch("/api/ship-clock")
@@ -85,6 +98,18 @@ export default function ShipClockTile() {
       .then((d: DeployData) => setData(d))
       .catch(() => null);
   }, []);
+
+  // Tick the counter every 30s
+  useEffect(() => {
+    if (!data?.lastDeploy) return;
+    const update = () => {
+      const ms = Date.now() - new Date(data.lastDeploy!).getTime();
+      setElapsed(formatElapsed(ms));
+    };
+    update();
+    const id = setInterval(update, 30000);
+    return () => clearInterval(id);
+  }, [data?.lastDeploy]);
 
   // Loading state
   if (!data) {
@@ -110,7 +135,6 @@ export default function ShipClockTile() {
     );
   }
 
-  const days = data.daysSince ?? 0;
   const timestamp = formatTimestamp(data.lastDeploy);
   const blurb = data.commitMessage ? spiffUp(data.commitMessage) : null;
 
@@ -118,7 +142,7 @@ export default function ShipClockTile() {
     <div className="proj-tile sct-tile">
       <div className="sct-header">
         <span className="sct-label">last update</span>
-        {days === 0 && <span className="sct-badge">today</span>}
+        {elapsed && <span className="sct-elapsed">{elapsed}</span>}
       </div>
       <div className="sct-time">{timestamp}</div>
       {blurb && <div className="sct-blurb">{blurb}</div>}
