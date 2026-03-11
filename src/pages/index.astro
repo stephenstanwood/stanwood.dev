@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ChemFormula from "../components/ChemFormula";
+import ShipClockTile from "../components/ShipClockTile.tsx";
 
 const featured = [
   {
@@ -44,7 +45,6 @@ const projects = [
   { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
-  { href: "/ship-clock", emoji: "⏱️", name: "Ship Clock", tag: "deploy tracker" },
 ];
 ---
 
@@ -479,6 +479,15 @@ const projects = [
         grid-column: span 3;
       }
 
+      /* ── ship clock live tile ── */
+      .ship-clock-tile .sct-number {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        color: #ff5c1a;
+        flex-shrink: 0;
+        line-height: 1;
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -704,6 +713,7 @@ const projects = [
           </div>
         </a>
       ))}
+      <ShipClockTile client:idle />
     </div>
 
     <!-- Footer -->
