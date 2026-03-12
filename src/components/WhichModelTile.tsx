@@ -208,8 +208,10 @@ export default function WhichModelTile() {
         justifyContent: "space-between",
         gap: "8px",
         padding: "20px",
+        paddingBottom: "40px",
         height: "100%",
         boxSizing: "border-box",
+        position: "relative",
       }}
     >
       {/* Title */}
@@ -227,7 +229,11 @@ export default function WhichModelTile() {
       </div>
 
       <WheelWithLegend />
-      <CyclingExample />
+
+      {/* Absolutely positioned so text width never affects wheel layout */}
+      <div style={{ position: "absolute", bottom: "14px", left: "20px", right: "20px" }}>
+        <CyclingExample />
+      </div>
     </a>
   );
 }
