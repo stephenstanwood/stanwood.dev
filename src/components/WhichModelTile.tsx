@@ -27,7 +27,7 @@ const SLICES = [
   { org: "Google", label: "Gemini" },
   { org: "Meta", label: "Llama" },
   { org: "Mistral", label: "Mistral" },
-  { org: "Midjourney", label: "MJ" },
+  { org: "Midjourney", label: "Midjourney" },
   { org: "Black Forest Labs", label: "Flux" },
 ];
 
@@ -63,10 +63,10 @@ const WheelWithLegend = memo(function WheelWithLegend() {
   }, []);
 
   const n = SLICES.length;
-  const svgSize = 120;
+  const svgSize = 100;
   const cx = svgSize / 2;
   const cy = svgSize / 2;
-  const r = 52;
+  const r = 44;
   const sliceAngle = (Math.PI * 2) / n;
 
   return (
@@ -75,7 +75,7 @@ const WheelWithLegend = memo(function WheelWithLegend() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "14px",
+        gap: "10px",
         flex: 1,
       }}
     >
@@ -123,20 +123,21 @@ const WheelWithLegend = memo(function WheelWithLegend() {
       </div>
 
       {/* Legend */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
         {SLICES.map((slice) => (
           <div
             key={slice.org}
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "5px",
-              fontSize: "11px",
+              gap: "4px",
+              fontSize: "10px",
               fontWeight: 600,
               color: BRAND_COLORS[slice.org],
+              whiteSpace: "nowrap",
             }}
           >
-            <ModelLogo org={slice.org} size={14} color={BRAND_COLORS[slice.org]} />
+            <ModelLogo org={slice.org} size={12} color={BRAND_COLORS[slice.org]} />
             <span>{slice.label}</span>
           </div>
         ))}
@@ -170,11 +171,12 @@ function CyclingExample() {
         height: "20px",
         display: "flex",
         alignItems: "center",
-        gap: "6px",
-        fontSize: "13px",
+        gap: "5px",
+        fontSize: "12px",
         transition: "opacity 0.3s ease",
         overflow: "hidden",
         whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
         opacity: fading ? 0 : 1,
         flexShrink: 0,
       }}
