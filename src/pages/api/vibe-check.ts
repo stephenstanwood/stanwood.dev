@@ -141,10 +141,16 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   } catch (err) {
     console.error("vibe-check error:", err);
-    const message =
-      err instanceof Error && err.message === "Failed to capture screenshot"
-        ? "Couldn't capture that site. It may be blocking screenshots or unreachable."
-        : "Something went wrong. Try again in a moment.";
+    let message = "Something went wrong. Try again in a moment.";
+    if (err instanceof Error) {
+      if (err.message === "Failed to capture screenshot") {
+        message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
+      } else if (err.message === "Screenshot API key not configured") {
+        message = "Screenshot service not configured. Check SCREENSHOTONE_API_KEY.";
+      } else if (err.message.includes("JSON")) {
+        message = "AI returned an unexpected format. Try again.";
+      }
+    }
     return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
