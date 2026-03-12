@@ -742,6 +742,26 @@ const projects = [
         overflow: hidden;
         text-overflow: ellipsis;
       }
+      .radar-ticker {
+        margin-top: auto;
+        overflow: hidden;
+        border-top: 1px solid #eee;
+        padding: 6px 0;
+      }
+      .radar-ticker-track {
+        display: flex;
+        white-space: nowrap;
+        animation: radar-scroll 20s linear infinite;
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #bbb;
+      }
+      @keyframes radar-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
 
       /* ── footer ── */
       .footer-row {
