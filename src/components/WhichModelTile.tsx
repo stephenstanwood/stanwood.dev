@@ -193,16 +193,19 @@ export default function WhichModelTile() {
         </div>
       </div>
 
-      {/* Cycling recommendation — color-coded to brand */}
+      {/* Cycling recommendation — color-coded to brand, fixed height to prevent layout shift */}
       <div
         style={{
+          height: "36px",
           display: "flex",
           alignItems: "center",
           gap: "6px",
           fontSize: "13px",
           transition: "opacity 0.3s ease",
-          flexWrap: "wrap",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
           opacity: fading ? 0 : 1,
+          flexShrink: 0,
         }}
       >
         <span style={{ color: "#666" }}>{ex.task}</span>
