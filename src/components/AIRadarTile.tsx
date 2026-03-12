@@ -13,16 +13,15 @@ const orgColors: Record<string, string> = {
   OpenAI: "#10a37f",
   Anthropic: "#d97706",
   Google: "#4285f4",
-  Apple: "#555",
   Alibaba: "#ff6a00",
   Lightricks: "#a855f7",
 };
 
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr + "T12:00:00");
-  return d
-    .toLocaleDateString("en-US", { month: "short", day: "numeric" })
-    .toUpperCase();
+  const day = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+  const rest = d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
+  return `${day} ${rest}`;
 }
 
 export default function AIRadarTile() {
