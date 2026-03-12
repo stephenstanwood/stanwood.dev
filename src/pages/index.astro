@@ -6,6 +6,7 @@ import AIRadarTile from "../components/AIRadarTile.tsx";
 import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import AIStatusTile from "../components/AIStatusTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
+import VibeCheckTile from "../components/VibeCheckTile.tsx";
 
 const featured = [
   {
@@ -1092,6 +1093,199 @@ const projects = [
         color: var(--ink);
       }
 
+      /* ── vibe check tile ── */
+      .vct {
+        grid-column: span 2;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 12px 14px;
+        cursor: pointer;
+      }
+      .vct:hover {
+        background: var(--yellow);
+      }
+      .vct-idle {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .vct-top-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .vct-emoji {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+      .vct-form {
+        display: flex;
+        gap: 6px;
+      }
+      .vct-input {
+        flex: 1;
+        padding: 6px 10px;
+        border: 1.5px solid #d0ccc4;
+        border-radius: 6px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--ink);
+        background: #fff;
+        outline: none;
+        min-width: 0;
+      }
+      .vct-input:focus {
+        border-color: var(--orange);
+      }
+      .vct-input::placeholder {
+        color: #c0b9ad;
+      }
+      .vct-go {
+        padding: 6px 14px;
+        border: 2px solid var(--ink);
+        border-radius: 6px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.15s;
+        white-space: nowrap;
+      }
+      .vct-go:hover { background: var(--orange); border-color: var(--orange); }
+      .vct-go:disabled { opacity: 0.3; cursor: not-allowed; }
+      .vct-examples {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .vct-ex {
+        padding: 2px 8px;
+        border: 1px solid #e0d8cc;
+        border-radius: 999px;
+        background: transparent;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #999;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .vct-ex:hover { border-color: var(--orange); color: var(--orange); }
+      .vct-error {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #b91c1c;
+        padding: 4px 0;
+      }
+
+      /* vibe check tile — loading */
+      .vct-loading-tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100px;
+      }
+      .vct-loading-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .vct-scanner-sm {
+        width: 40px;
+        height: 40px;
+        border: 1.5px solid #d0ccc4;
+        border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+      }
+      .vct-scanner-line-sm {
+        position: absolute;
+        left: 3px;
+        right: 3px;
+        height: 1.5px;
+        background: var(--orange);
+        border-radius: 1px;
+        animation: vcTileScan 1.8s ease-in-out infinite;
+      }
+      @keyframes vcTileScan {
+        0%   { top: 0; opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+      }
+      .vct-loading-msg {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #888;
+        text-align: center;
+      }
+
+      /* vibe check tile — result */
+      .vct-result {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .vct-result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .vct-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #999;
+      }
+      .vct-big-grade {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 28px;
+        line-height: 1;
+      }
+      .vct-verdict {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .vct-grades-row {
+        display: flex;
+        gap: 8px;
+      }
+      .vct-mini-grade {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        display: flex;
+        gap: 4px;
+        align-items: baseline;
+      }
+      .vct-mini-label {
+        color: #aaa;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .vct-again {
+        margin-top: 4px;
+        padding: 4px 10px;
+        border: 1.5px solid #d0ccc4;
+        border-radius: 4px;
+        background: transparent;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #888;
+        cursor: pointer;
+        transition: all 0.15s;
+        align-self: flex-start;
+      }
+      .vct-again:hover { border-color: var(--orange); color: var(--orange); }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -1320,6 +1514,7 @@ const projects = [
       <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
       <AIRadarTile client:idle />
       <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
+      <VibeCheckTile client:idle />
     </div>
 
     <!-- Footer -->
