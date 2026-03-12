@@ -4,6 +4,11 @@ import type { APIRoute } from "astro";
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 
+// CLEANUP-FLAG: Custom rate limiter duplicates the pattern in lib/rateLimit.ts.
+// rateLimit.ts uses different limits (200/min), so feedback intentionally uses
+// tighter limits (3/10min). Consider parameterizing rateLimit() or exporting a
+// factory so the implementation isn't duplicated.
+
 // Simple in-memory rate limit: 3 reports per IP per 10 minutes
 const hits = new Map<string, number[]>();
 const MAX = 3;

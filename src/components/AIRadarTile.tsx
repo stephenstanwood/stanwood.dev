@@ -30,6 +30,11 @@ function formatDate(dateStr: string): { day: string; date: string } {
   return { day, date };
 }
 
+// Sort once at module load — launches is a static import, never changes.
+const sorted = (launches as Launch[])
+  .slice()
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 export default function AIRadarTile() {
   const [ready, setReady] = useState(false);
 
@@ -37,10 +42,6 @@ export default function AIRadarTile() {
     const t = setTimeout(() => setReady(true), 2000);
     return () => clearTimeout(t);
   }, []);
-
-  const sorted = (launches as Launch[])
-    .slice()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <div className="proj-tile radar-tile">
@@ -57,27 +58,30 @@ export default function AIRadarTile() {
       )}
 
       <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
-        {sorted.map((l) => (
-          <a
-            key={l.name}
-            className="radar-entry"
-            href={l.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ borderLeft: `3px solid ${orgColors[l.org] || "#888"}` }}
-          >
-            <span className="radar-date">
-              <span className="radar-day">{formatDate(l.date).day}</span>
-              <span className="radar-datenum">{formatDate(l.date).date}</span>
-            </span>
-            <span className="radar-info">
-              <span className="radar-name">{l.name}</span>
-              <span className="radar-summary">
-                {l.org} — {l.summary}
+        {sorted.map((l) => {
+          const { day, date } = formatDate(l.date);
+          return (
+            <a
+              key={l.name}
+              className="radar-entry"
+              href={l.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ borderLeft: `3px solid ${orgColors[l.org] || "#888"}` }}
+            >
+              <span className="radar-date">
+                <span className="radar-day">{day}</span>
+                <span className="radar-datenum">{date}</span>
               </span>
-            </span>
-          </a>
-        ))}
+              <span className="radar-info">
+                <span className="radar-name">{l.name}</span>
+                <span className="radar-summary">
+                  {l.org} — {l.summary}
+                </span>
+              </span>
+            </a>
+          );
+        })}
       </div>
 
       <div className="radar-ticker" aria-hidden="true">
