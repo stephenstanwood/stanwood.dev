@@ -88,8 +88,9 @@ export default function ShipClockTile() {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-inner">
+          <div className="sct-logo">stanwood.dev</div>
           <div className="sct-header">
-            <span className="sct-store">stanwood.dev latest update</span>
+            <span className="sct-store">latest update</span>
           </div>
           <div className="sct-row">
             <span className="sct-row-label">loading…</span>
@@ -104,8 +105,9 @@ export default function ShipClockTile() {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-inner">
+          <div className="sct-logo">stanwood.dev</div>
           <div className="sct-header">
-            <span className="sct-store">stanwood.dev latest update</span>
+            <span className="sct-store">latest update</span>
           </div>
           <div className="sct-row">
             <span className="sct-row-label">status</span>
@@ -132,8 +134,9 @@ export default function ShipClockTile() {
   return (
     <div className="proj-tile sct-tile">
       <div className="sct-inner">
+        <div className="sct-logo">stanwood.dev</div>
         <div className="sct-header">
-          <span className="sct-store">stanwood.dev latest update</span>
+          <span className="sct-store">latest update</span>
           {elapsed && <span className="sct-elapsed">{elapsed}</span>}
         </div>
         <div className="sct-row">
