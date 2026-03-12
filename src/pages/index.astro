@@ -624,8 +624,8 @@ const projects = [
 
       /* ── AI radar tile ── */
       .proj-tile.radar-tile {
-        grid-column: span 4;
-        grid-row: span 1;
+        grid-column: 1 / 5;
+        grid-row: 1 / 2;
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -633,12 +633,10 @@ const projects = [
         padding: 14px 16px 0;
         position: relative;
         overflow: hidden;
-        cursor: pointer;
       }
       .proj-tile.radar-tile:hover {
-        transform: translate(-1px, -1px);
-        box-shadow: 4px 4px 0 var(--ink);
-        background: #fffdf8;
+        transform: none;
+        box-shadow: 3px 3px 0 var(--ink);
       }
       .radar-header-row {
         display: flex;
@@ -738,6 +736,13 @@ const projects = [
         display: flex;
         flex-direction: column;
         justify-content: center;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 4px;
+        transition: background 0.15s;
+      }
+      .radar-lead:hover {
+        background: #f8f6f0;
       }
 
       /* Entries column */
@@ -801,6 +806,11 @@ const projects = [
         border-bottom: 1px solid #f0ede4;
         color: var(--ink);
         overflow: hidden;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .radar-entry:hover {
+        background: #f8f6f0;
       }
       .radar-entry:last-child { border-bottom: none; }
       .radar-date-block {
@@ -850,10 +860,12 @@ const projects = [
 
       /* Footer link */
       .radar-footer {
+        display: block;
         flex-shrink: 0;
         border-top: 1px solid #f0ede4;
         padding: 8px 0;
         text-align: right;
+        text-decoration: none;
       }
       .radar-footer-text {
         font-family: 'Space Mono', monospace;
@@ -863,7 +875,7 @@ const projects = [
         color: var(--orange);
         transition: color 0.15s;
       }
-      .proj-tile.radar-tile:hover .radar-footer-text {
+      .radar-footer:hover .radar-footer-text {
         color: var(--ink);
       }
 
@@ -1023,9 +1035,6 @@ const projects = [
         </a>
         <a class="retro-link" href="https://x.com/stephenstanwood" target="_blank" rel="noopener noreferrer">
           🕊️ Twitter
-        </a>
-        <a class="retro-link" href="https://bsky.app/profile/stephenstanwood.bsky.social" target="_blank" rel="noopener noreferrer">
-          ☁ Bluesky
         </a>
         <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener noreferrer">
           ✦ Midjourney

@@ -1,52 +1,12 @@
 import { useState, useEffect } from "react";
 import launches from "../data/ai-launches.json";
-
-interface Launch {
-  name: string;
-  org: string;
-  date: string;
-  type: string;
-  summary: string;
-  url: string;
-}
-
-const orgColors: Record<string, string> = {
-  OpenAI: "#10a37f",
-  Anthropic: "#d97706",
-  Google: "#4285f4",
-  Alibaba: "#ff6a00",
-  Lightricks: "#a855f7",
-  Apple: "#555",
-  xAI: "#1d9bf0",
-  NVIDIA: "#76b900",
-  Inception: "#e63946",
-  ByteDance: "#ff004f",
-  MiniMax: "#6366f1",
-};
-
-const typeLabels: Record<string, string> = {
-  model: "MODEL",
-  product: "PRODUCT",
-  tool: "TOOL",
-  infra: "INFRA",
-};
-
-function formatDate(dateStr: string): { day: string; date: string; month: string } {
-  const d = new Date(dateStr + "T12:00:00");
-  const day = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
-  const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
-  const dateNum = d.getDate().toString();
-  return { day, date: dateNum, month };
-}
-
-function relativeAge(dateStr: string): string {
-  const d = new Date(dateStr + "T12:00:00");
-  const now = new Date();
-  const diff = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
-  if (diff === 0) return "today";
-  if (diff === 1) return "yesterday";
-  return `${diff}d ago`;
-}
+import {
+  type Launch,
+  ORG_COLORS,
+  TYPE_LABELS,
+  relativeAge,
+  formatLaunchDate,
+} from "../lib/aiRadar";
 
 // Sort once at module load
 const sorted = (launches as Launch[])
@@ -65,7 +25,7 @@ export default function AIRadarTile() {
   const rest = sorted.slice(1, 9);
 
   return (
-    <a className="proj-tile radar-tile" href="/radar">
+    <div className="proj-tile radar-tile">
       {/* Header */}
       <div className="radar-header-row">
         <div className="radar-header">
@@ -91,30 +51,36 @@ export default function AIRadarTile() {
         {/* Two-column layout: lead left, entries right */}
         <div className="radar-body">
           {/* Lead story */}
-          <div
+          <a
+            href={latest.url}
+            target="_blank"
+            rel="noopener noreferrer"
             className="radar-lead"
-            style={{ borderLeftColor: orgColors[latest.org] || "#888" }}
+            style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
           >
             <div className="radar-lead-meta">
-              <span className="radar-type-badge">{typeLabels[latest.type] || "LAUNCH"}</span>
+              <span className="radar-type-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
               <span className="radar-age">{relativeAge(latest.date)}</span>
             </div>
             <div className="radar-lead-name">{latest.name}</div>
             <div className="radar-lead-summary">
-              <span className="radar-org-label" style={{ color: orgColors[latest.org] || "#888" }}>{latest.org}</span>
+              <span className="radar-org-label" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
               {" — "}{latest.summary}
             </div>
-          </div>
+          </a>
 
           {/* Secondary items */}
           <div className="radar-entries">
             {rest.map((l) => {
-              const { date, month } = formatDate(l.date);
+              const { date, month } = formatLaunchDate(l.date);
               return (
-                <div
+                <a
                   key={l.name}
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="radar-entry"
-                  style={{ borderLeftColor: orgColors[l.org] || "#888" }}
+                  style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
                 >
                   <span className="radar-date-block">
                     <span className="radar-date-num">{date}</span>
@@ -124,7 +90,7 @@ export default function AIRadarTile() {
                     <span className="radar-name">{l.name}</span>
                     <span className="radar-summary">{l.org} — {l.summary}</span>
                   </span>
-                </div>
+                </a>
               );
             })}
           </div>
@@ -132,9 +98,9 @@ export default function AIRadarTile() {
       </div>
 
       {/* Footer */}
-      <div className="radar-footer">
+      <a className="radar-footer" href="/radar">
         <span className="radar-footer-text">view full radar →</span>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
