@@ -709,57 +709,52 @@ const projects = [
         padding: 0;
         overflow: hidden;
         cursor: default;
-        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        background: #fff;
       }
       .proj-tile.ais-tile:hover {
         transform: none !important;
+        box-shadow: 3px 3px 0 var(--ink) !important;
       }
-      .ais-tile--out {
+      .ais-tile--out .ais-head,
+      .ais-tile--out .ais-body {
         opacity: 0;
         transition: opacity 0.2s ease;
       }
-      .ais-inner {
+
+      /* White zone: logo + name + status */
+      .ais-head {
         padding: 14px 16px 10px;
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-        height: 100%;
-      }
-
-      /* Top row: logo + name */
-      .ais-top {
-        display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
+        background: #fff;
+        min-height: 68px;
       }
       .ais-logo {
         display: flex;
         align-items: center;
         flex-shrink: 0;
       }
+      .ais-head-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
       .ais-name {
         font-family: 'Cabin', sans-serif;
         font-weight: 700;
-        font-size: 15px;
+        font-size: 16px;
+        color: var(--ink);
         letter-spacing: 0.02em;
-      }
-
-      /* Center: status + summary */
-      .ais-center {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        min-height: 70px;
       }
       .ais-status-row {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
       }
       .ais-pulse {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         flex-shrink: 0;
         animation: aisPulse 2s ease-in-out infinite;
@@ -770,20 +765,32 @@ const projects = [
       }
       .ais-status-label {
         font-family: 'Space Mono', monospace;
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.06em;
       }
+
+      /* Brand color zone: summary + footer */
+      .ais-body {
+        flex: 1;
+        padding: 10px 16px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        color: #fff;
+        transition: background 0.3s ease;
+      }
       .ais-summary {
         font-size: 12px;
         line-height: 1.4;
+        opacity: 0.9;
       }
       .ais-incident {
         font-family: 'Space Mono', monospace;
         font-size: 9px;
         line-height: 1.4;
-        padding: 4px 0 0;
+        opacity: 0.7;
       }
 
       /* Footer: dots + meta */
@@ -791,8 +798,8 @@ const projects = [
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding-top: 4px;
         margin-top: auto;
+        padding-top: 4px;
       }
       .ais-dots {
         display: flex;
@@ -802,18 +809,18 @@ const projects = [
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        border: 1.5px solid rgba(128,128,128,0.3);
+        border: 1.5px solid rgba(255,255,255,0.35);
         background: transparent;
         padding: 0;
         cursor: pointer;
         transition: background 0.15s, border-color 0.15s;
       }
       .ais-dot:hover {
-        border-color: var(--dot-color);
+        border-color: rgba(255,255,255,0.7);
       }
       .ais-dot--active {
-        background: var(--dot-color);
-        border-color: var(--dot-color);
+        background: #fff;
+        border-color: #fff;
       }
       .ais-meta {
         display: flex;
@@ -825,6 +832,7 @@ const projects = [
         font-size: 9px;
         text-transform: uppercase;
         letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.5);
       }
       .ais-link {
         font-family: 'Space Mono', monospace;
@@ -832,10 +840,11 @@ const projects = [
         text-transform: uppercase;
         letter-spacing: 0.06em;
         text-decoration: none;
-        transition: opacity 0.15s;
+        color: rgba(255,255,255,0.7);
+        transition: color 0.15s;
       }
       .ais-link:hover {
-        opacity: 1 !important;
+        color: #fff;
       }
       .ais-loading {
         flex: 1;
@@ -854,11 +863,13 @@ const projects = [
       .ais-loading-text {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
+        color: #aaa;
       }
 
       @media (prefers-reduced-motion: reduce) {
         .ais-pulse { animation: none !important; }
-        .ais-tile--out { transition: none !important; }
+        .ais-tile--out .ais-head,
+        .ais-tile--out .ais-body { transition: none !important; }
         .ais-loading-dot { animation: none !important; }
       }
 
