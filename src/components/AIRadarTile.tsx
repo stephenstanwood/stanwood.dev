@@ -13,16 +13,15 @@ const orgColors: Record<string, string> = {
   OpenAI: "#10a37f",
   Anthropic: "#d97706",
   Google: "#4285f4",
-  Apple: "#555",
   Alibaba: "#ff6a00",
   Lightricks: "#a855f7",
 };
 
-function formatDate(dateStr: string): string {
+function formatDate(dateStr: string): { day: string; date: string } {
   const d = new Date(dateStr + "T12:00:00");
-  return d
-    .toLocaleDateString("en-US", { month: "short", day: "numeric" })
-    .toUpperCase();
+  const day = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
+  const date = d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
+  return { day, date };
 }
 
 export default function AIRadarTile() {
@@ -61,7 +60,10 @@ export default function AIRadarTile() {
             rel="noopener noreferrer"
             style={{ borderLeft: `3px solid ${orgColors[l.org] || "#888"}` }}
           >
-            <span className="radar-date">{formatDate(l.date)}</span>
+            <span className="radar-date">
+              <span className="radar-day">{formatDate(l.date).day}</span>
+              <span className="radar-datenum">{formatDate(l.date).date}</span>
+            </span>
             <span className="radar-info">
               <span className="radar-name">{l.name}</span>
               <span className="radar-summary">
@@ -70,6 +72,13 @@ export default function AIRadarTile() {
             </span>
           </a>
         ))}
+      </div>
+
+      <div className="radar-ticker" aria-hidden="true">
+        <div className="radar-ticker-track">
+          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
+          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
+        </div>
       </div>
     </div>
   );

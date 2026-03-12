@@ -467,7 +467,8 @@ const projects = [
       }
       .proj-tile.has-img .proj-img {
         width: 100%;
-        height: 100px;
+        min-height: 100px;
+        flex: 1;
         object-fit: cover;
         display: block;
         border-bottom: 2px solid var(--ink);
@@ -487,6 +488,17 @@ const projects = [
         grid-column: span 2;
       }
 
+      /* ── ship clock pinned wrapper ── */
+      .sct-pin {
+        grid-column: 5 / 7;
+        grid-row: 1 / 2;
+        opacity: 1 !important;
+        animation: fadeIn 0.4s ease 0.1s both !important;
+      }
+      .sct-pin .proj-tile {
+        height: 100%;
+      }
+
       /* ── ship clock receipt tile ── */
       .sct-tile {
         flex-direction: column;
@@ -499,10 +511,10 @@ const projects = [
         box-shadow: none;
         overflow: hidden;
       }
-      .sct-tile:hover {
-        background: #fff;
-        transform: none;
-        box-shadow: none;
+      .proj-tile.sct-tile:hover {
+        background: #fff !important;
+        transform: none !important;
+        box-shadow: none !important;
         border-color: #ccc;
       }
       .sct-inner {
@@ -511,9 +523,18 @@ const projects = [
         flex-direction: column;
         gap: 6px;
       }
+      .sct-logo {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        text-align: center;
+        color: #111;
+        line-height: 1.1;
+        padding-bottom: 2px;
+      }
       .sct-header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 8px;
         width: 100%;
         padding-bottom: 6px;
@@ -522,11 +543,11 @@ const projects = [
       }
       .sct-store {
         font-family: 'Space Mono', monospace;
-        font-size: 11px;
+        font-size: 9px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        color: #333;
+        color: #666;
       }
       .sct-elapsed {
         font-family: 'Space Mono', monospace;
@@ -570,6 +591,26 @@ const projects = [
       .sct-desc {
         color: #555;
       }
+      .sct-barcode {
+        display: flex;
+        align-items: stretch;
+        height: 28px;
+        padding: 0 18px;
+        gap: 0;
+        margin-top: 4px;
+      }
+      .sct-bar {
+        background: #333;
+        height: 100%;
+        display: block;
+        flex: var(--w);
+      }
+      .sct-gap {
+        background: transparent;
+        height: 100%;
+        display: block;
+        flex: var(--w);
+      }
       .sct-footer {
         font-family: 'Space Mono', monospace;
         font-size: 8px;
@@ -577,9 +618,7 @@ const projects = [
         color: #bbb;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        padding: 8px 0 10px;
-        border-top: 1px dashed #ddd;
-        margin-top: 4px;
+        padding: 6px 0 10px;
       }
 
       /* ── AI radar tile ── */
@@ -590,13 +629,16 @@ const projects = [
         position: relative;
         overflow: hidden;
       }
-      .radar-tile:hover {
+      .proj-tile.radar-tile:hover {
+        background: #fff !important;
+        transform: none !important;
+        box-shadow: 3px 3px 0 var(--ink) !important;
         cursor: default;
       }
       .radar-header {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.15em;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 20px;
+        letter-spacing: 0.05em;
         color: var(--ink);
         margin-bottom: 0;
       }
@@ -647,29 +689,43 @@ const projects = [
       .radar-list--visible { opacity: 1; }
       .radar-entry {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         gap: 10px;
         padding: 6px 6px 6px 10px;
         border-bottom: 1px solid #eee;
         text-decoration: none;
         color: var(--ink);
         transition: background 0.15s;
+        overflow: hidden;
       }
       .radar-entry:last-child { border-bottom: none; }
       .radar-entry:hover { background: #fefbf0; }
       .radar-date {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         font-family: 'Space Mono', monospace;
-        font-size: 13px;
+        white-space: nowrap;
+        min-width: 52px;
+        flex-shrink: 0;
+      }
+      .radar-day {
+        font-size: 9px;
+        font-weight: 400;
+        color: #aaa;
+        letter-spacing: 0.05em;
+      }
+      .radar-datenum {
+        font-size: 12px;
         font-weight: 700;
         color: #555;
-        white-space: nowrap;
-        min-width: 48px;
       }
       .radar-info {
         display: flex;
         flex-direction: column;
         min-width: 0;
+        flex: 1;
+        overflow: hidden;
       }
       .radar-name {
         font-family: 'Cabin', sans-serif;
@@ -685,6 +741,26 @@ const projects = [
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .radar-ticker {
+        margin-top: auto;
+        overflow: hidden;
+        border-top: 1px solid #eee;
+        padding: 6px 0;
+      }
+      .radar-ticker-track {
+        display: flex;
+        white-space: nowrap;
+        animation: radar-scroll 20s linear infinite;
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #bbb;
+      }
+      @keyframes radar-scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
       }
 
       /* ── footer ── */
@@ -775,6 +851,7 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
+        .sct-pin { grid-column: 2 / 3; grid-row: 1 / 2; }
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
@@ -913,7 +990,7 @@ const projects = [
           </div>
         </a>
       ))}
-      <ShipClockTile client:idle />
+      <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
       <AIRadarTile client:idle />
     </div>
 
@@ -950,7 +1027,7 @@ const projects = [
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
-      // Only shuffle actual tiles and astro-island wrappers (not script/style tags)
+      // Only shuffle actual tiles and astro-island wrappers (not pinned or script/style)
       shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
 
       // Helper: get the tile element from a grid-level element

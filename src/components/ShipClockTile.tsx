@@ -6,7 +6,23 @@ interface DeployData {
   hoursSince: number | null;
   project?: string | null;
   summary?: string | null;
+  sha?: string | null;
   error?: string;
+}
+
+/** Generate pseudo-barcode bar widths from a string (for visual effect only).
+ *  Repeats the SHA pattern to fill ~60 bars for a full-width barcode. */
+function barsFromSha(sha: string): number[] {
+  const bars: number[] = [];
+  const target = 60; // enough bars to span the tile width
+  let i = 0;
+  while (bars.length < target * 2) {
+    const code = sha.charCodeAt(i % sha.length);
+    bars.push(code % 2 === 0 ? 2 : 1); // bar width
+    bars.push(code % 3 === 0 ? 2 : 1); // gap width
+    i++;
+  }
+  return bars;
 }
 
 function formatTimestamp(iso: string): string {
@@ -72,8 +88,9 @@ export default function ShipClockTile() {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-inner">
+          <div className="sct-logo">stanwood.dev</div>
           <div className="sct-header">
-            <span className="sct-store">stanwood.dev latest update</span>
+            <span className="sct-store">latest update</span>
           </div>
           <div className="sct-row">
             <span className="sct-row-label">loading…</span>
@@ -88,8 +105,9 @@ export default function ShipClockTile() {
     return (
       <div className="proj-tile sct-tile">
         <div className="sct-inner">
+          <div className="sct-logo">stanwood.dev</div>
           <div className="sct-header">
-            <span className="sct-store">stanwood.dev latest update</span>
+            <span className="sct-store">latest update</span>
           </div>
           <div className="sct-row">
             <span className="sct-row-label">status</span>
@@ -102,6 +120,7 @@ export default function ShipClockTile() {
 
   const timestamp = formatTimestamp(data.lastDeploy);
   const deployDate = new Date(data.lastDeploy);
+  const dayName = deployDate.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
   const dateStr = deployDate.toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
@@ -115,9 +134,14 @@ export default function ShipClockTile() {
   return (
     <div className="proj-tile sct-tile">
       <div className="sct-inner">
+        <div className="sct-logo">stanwood.dev</div>
         <div className="sct-header">
-          <span className="sct-store">stanwood.dev latest update</span>
+          <span className="sct-store">latest update</span>
           {elapsed && <span className="sct-elapsed">{elapsed}</span>}
+        </div>
+        <div className="sct-row">
+          <span className="sct-row-label">day</span>
+          <span className="sct-row-value">{dayName}</span>
         </div>
         <div className="sct-row">
           <span className="sct-row-label">date</span>
@@ -127,6 +151,12 @@ export default function ShipClockTile() {
           <span className="sct-row-label">time</span>
           <span className="sct-row-value">{timeStr}</span>
         </div>
+        {data.sha && (
+          <div className="sct-row">
+            <span className="sct-row-label">order #</span>
+            <span className="sct-row-value">{data.sha}</span>
+          </div>
+        )}
         {data.summary && (
           <>
             <hr className="sct-divider" />
@@ -137,6 +167,17 @@ export default function ShipClockTile() {
           </>
         )}
       </div>
+      {data.sha && (
+        <div className="sct-barcode" aria-hidden="true">
+          {barsFromSha(data.sha).map((w, i) => (
+            <span
+              key={i}
+              className={i % 2 === 0 ? "sct-bar" : "sct-gap"}
+              style={{ "--w": w } as React.CSSProperties}
+            />
+          ))}
+        </div>
+      )}
       <div className="sct-footer">thank you for visiting</div>
     </div>
   );
