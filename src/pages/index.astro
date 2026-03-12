@@ -642,14 +642,14 @@ const projects = [
         padding: 0;
         overflow: hidden;
         cursor: default;
-        background: #fff;
-        border: 2px solid var(--ink);
-        box-shadow: 3px 3px 0 var(--ink);
+        transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
       }
       .proj-tile.ais-tile:hover {
         transform: none !important;
-        box-shadow: 3px 3px 0 var(--ink) !important;
-        background: #fff;
+      }
+      .ais-tile--out {
+        opacity: 0;
+        transition: opacity 0.2s ease;
       }
       .ais-inner {
         padding: 14px 16px 10px;
@@ -658,68 +658,41 @@ const projects = [
         gap: 8px;
         height: 100%;
       }
-      .ais-header-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-      }
-      .ais-title {
-        font-family: 'Permanent Marker', cursive;
-        font-size: 16px;
-        color: var(--ink);
-        line-height: 1.1;
-      }
-      .ais-checked {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        color: #aaa;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      .ais-card {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        transition: opacity 0.2s ease;
-        min-height: 80px;
-      }
-      .ais-card--out {
-        opacity: 0;
-      }
-      .ais-provider-row {
+
+      /* Top row: logo + name */
+      .ais-top {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
       }
       .ais-logo {
         display: flex;
         align-items: center;
         flex-shrink: 0;
       }
-      .ais-provider-name {
+      .ais-name {
         font-family: 'Cabin', sans-serif;
         font-weight: 700;
-        font-size: 14px;
-        color: var(--ink);
+        font-size: 15px;
+        letter-spacing: 0.02em;
       }
-      .ais-status-badge {
-        margin-left: auto;
+
+      /* Center: status + summary */
+      .ais-center {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-height: 70px;
+      }
+      .ais-status-row {
         display: flex;
         align-items: center;
-        gap: 5px;
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--status-color);
-        background: color-mix(in srgb, var(--status-color) 8%, transparent);
-        padding: 2px 8px;
-        border-radius: 3px;
+        gap: 6px;
       }
       .ais-pulse {
-        width: 6px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         flex-shrink: 0;
         animation: aisPulse 2s ease-in-out infinite;
@@ -728,31 +701,30 @@ const projects = [
         0%, 100% { opacity: 1; }
         50% { opacity: 0.4; }
       }
+      .ais-status-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
       .ais-summary {
         font-size: 12px;
-        color: #666;
         line-height: 1.4;
       }
       .ais-incident {
         font-family: 'Space Mono', monospace;
         font-size: 9px;
-        color: #888;
         line-height: 1.4;
         padding: 4px 0 0;
-        border-top: 1px solid #f0ede4;
       }
-      .ais-incident-label {
-        font-weight: 700;
-        color: #aaa;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
+
+      /* Footer: dots + meta */
       .ais-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding-top: 4px;
-        border-top: 1px solid #f0ede4;
         margin-top: auto;
       }
       .ais-dots {
@@ -763,7 +735,7 @@ const projects = [
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        border: 1.5px solid #ccc;
+        border: 1.5px solid rgba(128,128,128,0.3);
         background: transparent;
         padding: 0;
         cursor: pointer;
@@ -776,17 +748,27 @@ const projects = [
         background: var(--dot-color);
         border-color: var(--dot-color);
       }
+      .ais-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .ais-checked {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
       .ais-link {
         font-family: 'Space Mono', monospace;
         font-size: 9px;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        color: var(--orange);
         text-decoration: none;
-        transition: color 0.15s;
+        transition: opacity 0.15s;
       }
       .ais-link:hover {
-        color: var(--ink);
+        opacity: 1 !important;
       }
       .ais-loading {
         flex: 1;
@@ -805,12 +787,11 @@ const projects = [
       .ais-loading-text {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
-        color: #aaa;
       }
 
       @media (prefers-reduced-motion: reduce) {
         .ais-pulse { animation: none !important; }
-        .ais-card { transition: none !important; }
+        .ais-tile--out { transition: none !important; }
         .ais-loading-dot { animation: none !important; }
       }
 

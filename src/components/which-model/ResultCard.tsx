@@ -1,4 +1,5 @@
 import type { RecommendResult } from "../../lib/whichModel/types";
+import { ModelLogo } from "../../lib/whichModel/logos";
 
 interface Props {
   result: RecommendResult;
@@ -22,7 +23,9 @@ export default function ResultCard({ result, onTryAgain }: Props) {
         style={{ borderLeftColor: primary.model.color }}
       >
         <div className="wm-primary-top">
-          <span className="wm-primary-emoji">{primary.model.emoji}</span>
+          <span className="wm-primary-emoji">
+            <ModelLogo org={primary.model.org} size={36} color={primary.model.color} />
+          </span>
           <div>
             <h2 className="wm-primary-name">Use {primary.model.name}</h2>
             <p className="wm-primary-org">{primary.model.org}</p>
@@ -65,7 +68,9 @@ export default function ResultCard({ result, onTryAgain }: Props) {
                 style={{ borderLeftColor: alt.model.color }}
               >
                 <div className="wm-alt-top">
-                  <span className="wm-alt-emoji">{alt.model.emoji}</span>
+                  <span className="wm-alt-emoji">
+                    <ModelLogo org={alt.model.org} size={20} color={alt.model.color} />
+                  </span>
                   <span className="wm-alt-name">{alt.model.name}</span>
                   <span className="wm-alt-score">{alt.score}%</span>
                 </div>
@@ -86,7 +91,7 @@ export default function ResultCard({ result, onTryAgain }: Props) {
                 <span className="wm-care-trait">{item.trait}</span>
                 <span className="wm-care-arrow">→</span>
                 <span className="wm-care-model">
-                  {item.model.emoji} {item.model.name}
+                  <ModelLogo org={item.model.org} size={16} color={item.model.color} /> {item.model.name}
                 </span>
               </div>
             ))}
