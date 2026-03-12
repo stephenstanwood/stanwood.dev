@@ -412,7 +412,6 @@ const projects = [
         grid-column: 1 / -1;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-        grid-auto-rows: min-content;
         gap: 16px;
         opacity: 0;
         transition: opacity 0.15s ease;
@@ -433,6 +432,7 @@ const projects = [
         align-items: center;
         gap: 10px;
         transition: transform 0.1s, box-shadow 0.1s;
+        min-height: 200px;
       }
       .proj-tile:hover {
         transform: translate(-1px, -1px);
@@ -486,6 +486,15 @@ const projects = [
       .proj-tile.last-full {
         grid-column: 1 / -1;
       }
+      /* wrapper divs for React islands must fill grid cells */
+      [data-pinned] {
+        grid-column: span 2;
+        display: flex;
+      }
+      /* astro-island uses display:contents, so .proj-tile participates in flex */
+      [data-pinned] .proj-tile {
+        flex: 1;
+      }
 
       /* ── ship clock receipt tile ── */
       .sct-tile {
@@ -510,6 +519,7 @@ const projects = [
         display: flex;
         flex-direction: column;
         gap: 6px;
+        flex: 1;
       }
       .sct-logo {
         font-family: 'Permanent Marker', cursive;
