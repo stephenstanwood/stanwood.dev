@@ -12,6 +12,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react(), sitemap()],
   vite: {
+    // @ts-ignore - tailwindcss/vite type mismatch with astro's bundled vite
     plugins: [tailwindcss()],
     server: {
       fs: {
