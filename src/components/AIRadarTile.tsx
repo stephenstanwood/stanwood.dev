@@ -20,7 +20,7 @@ export default function AIRadarTile() {
     return () => clearTimeout(t);
   }, []);
 
-  const items = sorted.slice(0, 10);
+  const items = sorted.slice(0, 5);
 
   return (
     <div className="proj-tile radar-tile">
