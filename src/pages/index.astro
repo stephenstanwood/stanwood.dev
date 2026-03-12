@@ -482,23 +482,12 @@ const projects = [
       .proj-tile.has-img .proj-info {
         padding: 8px 14px;
       }
-      /* when 1 leftover (count%3===1), rebalance last 4 tiles into 2×2 */
-      .proj-row.balanced .proj-tile:nth-last-child(-n+4) {
-        grid-column: span 3;
-      }
-      /* special tiles always stay span 2 wide */
-      .proj-row.balanced .radar-tile:nth-last-child(-n+4),
-      .proj-row.balanced .aw-tile:nth-last-child(-n+4) {
-        grid-column: span 2;
+      /* last tile stretches full width if alone on its row */
+      .proj-tile.last-full {
+        grid-column: 1 / -1;
       }
 
-      /* ── ship clock pinned wrapper ── */
-      .sct-pin {
-        grid-column: 5 / 7;
-        grid-row: 1 / 2;
-        opacity: 1 !important;
-        animation: fadeIn 0.4s ease 0.1s both !important;
-      }
+      /* ship clock wrapper inherits standard tile sizing */
       .sct-pin .proj-tile {
         height: 100%;
       }
@@ -691,12 +680,6 @@ const projects = [
       .aw-tile[data-dark] .aw-meta { color: rgba(255,255,255,0.5); }
 
       /* ── AI status tile pin ── */
-      .ais-pin {
-        grid-column: 5 / 7;
-        grid-row: 2 / 3;
-        opacity: 1 !important;
-        animation: fadeIn 0.4s ease 0.15s both !important;
-      }
       .ais-pin .proj-tile {
         height: 100%;
       }
@@ -875,8 +858,6 @@ const projects = [
 
       /* ── AI radar tile ── */
       .proj-tile.radar-tile {
-        grid-column: 1 / 5;
-        grid-row: 1 / 2;
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -1158,13 +1139,11 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; }
-        .sct-pin { grid-column: 2 / 3; grid-row: 1 / 2; }
-        .ais-pin { grid-column: 1 / 3; grid-row: auto; }
         .proj-row .proj-tile { grid-column: span 1; }
-        .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
-        .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
-        .proj-tile.radar-tile { grid-column: 1 / -1; grid-row: span 1; }
-        .radar-entries { max-height: 200px; }
+        .proj-tile.last-full { grid-column: 1 / -1; }
+        .radar-body { flex-direction: column; gap: 8px; }
+        .radar-lead { flex: none; }
+        .radar-entries { border-left: none; padding-left: 0; max-height: 180px; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
@@ -1339,58 +1318,17 @@ const projects = [
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
-      // Only shuffle actual tiles and astro-island wrappers (not pinned or script/style)
-      shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
+      // Full shuffle — all tiles treated equally
+      const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
+      shuffle(projRow, tileSelector);
 
-      // Helper: get the tile element from a grid-level element
-      function tileOf(el: HTMLElement): HTMLElement {
-        return el.classList.contains('proj-tile') ? el : el.querySelector('.proj-tile') as HTMLElement || el;
+      // If last tile is alone on its row (count % 3 !== 0), stretch it full-width
+      const tiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
+      if (tiles.length % 3 !== 0) {
+        const lastTile = tiles[tiles.length - 1];
+        const tile = lastTile.classList.contains('proj-tile') ? lastTile : lastTile.querySelector('.proj-tile');
+        if (tile) tile.classList.add('last-full');
       }
-
-      // Get grid-level children that represent tiles
-      const gridKids = [...projRow.querySelectorAll(':scope > .proj-tile, :scope > astro-island')] as HTMLElement[];
-      // Exclude special tiles (radar, ship clock) from balance count — they shouldn't widen
-      const normalKids = gridKids.filter(el => {
-        const tile = tileOf(el);
-        return !tile.classList.contains('radar-tile') && !tile.classList.contains('sct-tile') && !tile.classList.contains('aw-tile') && !tile.classList.contains('ais-tile');
-      });
-      // If normal tile count % 3 === 1, rebalance last 4 into 2×2
-      // but ensure only image tiles go in the wide slots, preferring Lap Lab
-      if (normalKids.length % 3 === 1 && normalKids.length >= 4) {
-        const last4 = normalKids.slice(-4);
-        const rest = normalKids.slice(0, -4);
-        // Swap any non-image tiles out of last 4 with image tiles from rest
-        for (let i = 0; i < last4.length; i++) {
-          const tile = tileOf(last4[i]);
-          if (!tile.classList.contains('has-img')) {
-            let swapIdx = rest.findIndex(t => tileOf(t).getAttribute('href') === '/swim');
-            if (swapIdx === -1) swapIdx = rest.findIndex(t => tileOf(t).classList.contains('has-img'));
-            if (swapIdx !== -1) {
-              [last4[i], rest[swapIdx]] = [rest[swapIdx], last4[i]];
-            }
-          }
-        }
-        // Also: if Lap Lab is in rest but not in last4, try to swap it in
-        const lapInRest = rest.findIndex(t => tileOf(t).getAttribute('href') === '/swim');
-        if (lapInRest !== -1) {
-          const swapOut = last4.findIndex(t => {
-            const tile = tileOf(t);
-            return tile.getAttribute('href') !== '/swim' && tile.classList.contains('has-img');
-          });
-          if (swapOut !== -1) {
-            [last4[swapOut], rest[lapInRest]] = [rest[lapInRest], last4[swapOut]];
-          }
-        }
-        // Re-append in corrected order
-        [...rest, ...last4].forEach(el => projRow.appendChild(el));
-        projRow.classList.add('balanced');
-      }
-
-      // Pin AI Radar tile to start (top-left corner)
-      const radarEl = projRow.querySelector(':scope > .radar-tile') ||
-        [...projRow.querySelectorAll(':scope > astro-island')].find(
-          ai => ai.querySelector('.radar-tile'));
-      if (radarEl) projRow.prepend(radarEl);
     }
 
     // ── Terminal typewriter ──
