@@ -25,10 +25,10 @@ export default function AestheticWeatherTile() {
         className="proj-tile aw-tile"
         href="/south-bay-aesthetic-weather"
         style={{
-          background: "linear-gradient(135deg, #f5f5f0, #ebe8e0)",
+          background: "linear-gradient(160deg, #f5f5f0 50%, #e8e5dd 50%)",
         }}
       >
-        <div className="aw-inner">
+        <div className="aw-hero">
           <div className="aw-loading">reading the sky…</div>
         </div>
       </a>
@@ -42,12 +42,12 @@ export default function AestheticWeatherTile() {
         className="proj-tile aw-tile"
         href="/south-bay-aesthetic-weather"
         style={{
-          background: "linear-gradient(135deg, #eceff1, #cfd8dc)",
+          background: "linear-gradient(160deg, #eceff1 50%, #cfd8dc 50%)",
         }}
       >
-        <div className="aw-inner">
-          <div className="aw-title">Aesthetic Weather</div>
-          <div className="aw-subtitle">check the vibe →</div>
+        <div className="aw-hero">
+          <div className="aw-hero-title">Aesthetic Weather</div>
+          <div className="aw-hero-sub">check the vibe →</div>
         </div>
       </a>
     );
@@ -59,17 +59,31 @@ export default function AestheticWeatherTile() {
       href="/south-bay-aesthetic-weather"
       data-dark={data.isDark || undefined}
       style={{
-        background: `linear-gradient(135deg, ${data.gradient[0]}, ${data.gradient[1]})`,
+        background: `linear-gradient(160deg, ${data.gradient[0]} 50%, ${data.gradient[1]} 50%)`,
       }}
     >
-      <div className="aw-inner">
-        <div className="aw-label">
-          <span className="aw-emoji">{data.emoji}</span> aesthetic weather
+      {/* Hero section — gradient bg */}
+      <div className="aw-hero">
+        <div className="aw-hero-label">
+          {data.emoji} aesthetic weather
         </div>
-        <div className="aw-title">{data.title}</div>
-        <div className="aw-subtitle">{data.subtitle}</div>
-        <div className="aw-meta">
-          {data.temp}° · {data.location}
+        <div className="aw-hero-title">{data.title}</div>
+        <div className="aw-hero-sub">{data.subtitle}</div>
+      </div>
+
+      {/* Content card — black outline, white bg */}
+      <div className="aw-card">
+        <div className="aw-card-section">
+          <div className="aw-card-label">the read</div>
+          <div className="aw-card-prose">{data.prose}</div>
+        </div>
+        <div className="aw-card-section">
+          <div className="aw-card-label">best use of today</div>
+          <div className="aw-card-bestuse">{data.bestUse}</div>
+        </div>
+        <div className="aw-card-footer">
+          <span>{data.weatherEmoji} {data.temp}° · {data.weatherDesc.toLowerCase()}</span>
+          <span>{data.location}</span>
         </div>
       </div>
     </a>
