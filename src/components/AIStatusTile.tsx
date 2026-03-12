@@ -12,9 +12,9 @@ interface ProviderStatus {
   brandColor: string;
 }
 
-const BRAND: Record<string, { bg: string; fg: string; accent: string }> = {
-  chatgpt: { bg: "#0d0d0d", fg: "#ffffff", accent: "#10a37f" },
-  claude: { bg: "#d4a27f", fg: "#1a1008", accent: "#c45a2c" },
+const BRAND: Record<string, { bg: string; logoColor: string }> = {
+  chatgpt: { bg: "#0d0d0d", logoColor: "#10a37f" },
+  claude: { bg: "#e8763a", logoColor: "#e8763a" },
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
@@ -93,13 +93,14 @@ export default function AIStatusTile() {
 
   if (!providers) {
     return (
-      <div className="proj-tile ais-tile" style={{ background: BRAND.claude.bg }}>
-        <div className="ais-inner">
+      <div className="proj-tile ais-tile">
+        <div className="ais-head">
           <div className="ais-loading">
             <span className="ais-loading-dot" />
-            <span className="ais-loading-text" style={{ color: BRAND.claude.fg }}>checking…</span>
+            <span className="ais-loading-text">checking…</span>
           </div>
         </div>
+        <div className="ais-body" style={{ background: BRAND.claude.bg }} />
       </div>
     );
   }
@@ -114,41 +115,34 @@ export default function AIStatusTile() {
   return (
     <div
       className={`proj-tile ais-tile${transitioning ? " ais-tile--out" : ""}`}
-      style={{
-        background: brand.bg,
-        borderColor: brand.fg === "#ffffff" ? "#333" : "var(--ink)",
-        boxShadow: brand.fg === "#ffffff" ? "3px 3px 0 #333" : "3px 3px 0 var(--ink)",
-      }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       aria-label={`AI Status: ${p.name} is ${cfg.label}`}
     >
-      <div className="ais-inner" style={{ color: brand.fg }}>
-        {/* Top row: logo + name */}
-        <div className="ais-top">
-          <span className="ais-logo" style={{ color: brand.fg, opacity: 0.25 }}>
-            <LogoSvg id={p.id} size={36} />
-          </span>
-          <span className="ais-name" style={{ color: brand.fg }}>{p.name}</span>
-        </div>
-
-        {/* Center: status */}
-        <div className="ais-center">
+      {/* White zone: logo, name, status */}
+      <div className="ais-head">
+        <span className="ais-logo" style={{ color: brand.logoColor }}>
+          <LogoSvg id={p.id} size={40} />
+        </span>
+        <div className="ais-head-text">
+          <span className="ais-name">{p.name}</span>
           <div className="ais-status-row">
             <span className="ais-pulse" style={{ background: cfg.color }} />
             <span className="ais-status-label" style={{ color: cfg.color }}>{cfg.label}</span>
           </div>
-          <div className="ais-summary" style={{ color: brand.fg, opacity: 0.7 }}>
-            {p.summary}
-          </div>
-          {hasIssue && p.incidentTitle && (
-            <div className="ais-incident" style={{ color: brand.fg, opacity: 0.5 }}>
-              {p.incidentTitle}
-            </div>
-          )}
         </div>
+      </div>
 
-        {/* Footer */}
+      {/* Brand color zone: summary, incident, footer */}
+      <div className="ais-body" style={{ background: brand.bg }}>
+        <div className="ais-summary">
+          {p.summary}
+        </div>
+        {hasIssue && p.incidentTitle && (
+          <div className="ais-incident">
+            {p.incidentTitle}
+          </div>
+        )}
         <div className="ais-footer">
           <div className="ais-dots" role="tablist" aria-label="Switch provider">
             {providers.map((pr, i) => (
@@ -161,15 +155,11 @@ export default function AIStatusTile() {
                 aria-selected={i === active}
                 aria-label={pr.name}
                 title={pr.name}
-                style={{
-                  "--dot-color": brand.fg,
-                  borderColor: brand.fg === "#ffffff" ? "rgba(255,255,255,0.3)" : "rgba(0,0,0,0.2)",
-                } as React.CSSProperties}
               />
             ))}
           </div>
           <div className="ais-meta">
-            <span className="ais-checked" style={{ color: brand.fg, opacity: 0.4 }}>
+            <span className="ais-checked">
               {timeAgo(p.checkedAt)}
             </span>
             {hasIssue && (
@@ -178,7 +168,6 @@ export default function AIStatusTile() {
                 href={p.statusPageUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: brand.fg, opacity: 0.6 }}
               >
                 status page →
               </a>
