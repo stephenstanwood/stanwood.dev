@@ -65,7 +65,7 @@ export default function AIRadarTile() {
   const rest = sorted.slice(1, 9);
 
   return (
-    <a className="proj-tile radar-tile" href="/radar">
+    <div className="proj-tile radar-tile">
       {/* Header */}
       <div className="radar-header-row">
         <div className="radar-header">
@@ -91,7 +91,10 @@ export default function AIRadarTile() {
         {/* Two-column layout: lead left, entries right */}
         <div className="radar-body">
           {/* Lead story */}
-          <div
+          <a
+            href={latest.url}
+            target="_blank"
+            rel="noopener noreferrer"
             className="radar-lead"
             style={{ borderLeftColor: orgColors[latest.org] || "#888" }}
           >
@@ -104,15 +107,18 @@ export default function AIRadarTile() {
               <span className="radar-org-label" style={{ color: orgColors[latest.org] || "#888" }}>{latest.org}</span>
               {" — "}{latest.summary}
             </div>
-          </div>
+          </a>
 
           {/* Secondary items */}
           <div className="radar-entries">
             {rest.map((l) => {
               const { date, month } = formatDate(l.date);
               return (
-                <div
+                <a
                   key={l.name}
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="radar-entry"
                   style={{ borderLeftColor: orgColors[l.org] || "#888" }}
                 >
@@ -124,7 +130,7 @@ export default function AIRadarTile() {
                     <span className="radar-name">{l.name}</span>
                     <span className="radar-summary">{l.org} — {l.summary}</span>
                   </span>
-                </div>
+                </a>
               );
             })}
           </div>
@@ -132,9 +138,9 @@ export default function AIRadarTile() {
       </div>
 
       {/* Footer */}
-      <div className="radar-footer">
+      <a className="radar-footer" href="/radar">
         <span className="radar-footer-text">view full radar →</span>
-      </div>
-    </a>
+      </a>
+    </div>
   );
 }
