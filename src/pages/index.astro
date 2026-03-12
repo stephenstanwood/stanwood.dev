@@ -1092,6 +1092,43 @@ const projects = [
         color: var(--ink);
       }
 
+      /* ── vibes tile (spacer) ── */
+      .vibes-tile {
+        background: #111;
+        border-color: #333;
+        box-shadow: 3px 3px 0 #333;
+        justify-content: center;
+        align-items: center;
+        cursor: default;
+      }
+      .vibes-tile:hover {
+        background: #111 !important;
+        transform: none !important;
+        box-shadow: 3px 3px 0 #333 !important;
+      }
+      .vibes-inner {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Space Mono', monospace;
+        font-size: 16px;
+        color: #10a37f;
+      }
+      .vibes-prompt {
+        color: #666;
+      }
+      .vibes-cmd {
+        color: #f0f0f0;
+        letter-spacing: 0.05em;
+      }
+      .vibes-cursor {
+        color: #10a37f;
+        animation: vibesBlink 1s step-end infinite;
+      }
+      @keyframes vibesBlink {
+        50% { opacity: 0; }
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -1320,6 +1357,13 @@ const projects = [
       <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
       <AIRadarTile client:idle />
       <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
+      <div class="proj-tile vibes-tile">
+        <div class="vibes-inner">
+          <div class="vibes-prompt">$</div>
+          <div class="vibes-cmd">just ship it</div>
+          <div class="vibes-cursor">█</div>
+        </div>
+      </div>
     </div>
 
     <!-- Footer -->
