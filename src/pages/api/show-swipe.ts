@@ -7,6 +7,10 @@ import type { ShowSwipeApiRequest, TmdbAction } from "../../lib/showSwipe/types"
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";
 
+const VALID_ACTIONS = new Set<TmdbAction>([
+  "trending", "discover", "now_playing", "tv_on_the_air", "videos",
+]);
+
 function buildTmdbUrl(
   action: TmdbAction,
   mediaType: "movie" | "tv",
@@ -58,6 +62,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (mediaType !== "movie" && mediaType !== "tv") {
       return new Response(
         JSON.stringify({ error: "mediaType must be 'movie' or 'tv'" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    if (!VALID_ACTIONS.has(action)) {
+      return new Response(
+        JSON.stringify({ error: `Invalid action: ${action}` }),
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }

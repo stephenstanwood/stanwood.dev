@@ -1,32 +1,15 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
+import { rateLimit } from "../../lib/rateLimit";
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
-
-// CLEANUP-FLAG: Custom rate limiter duplicates the pattern in lib/rateLimit.ts.
-// rateLimit.ts uses different limits (200/min), so feedback intentionally uses
-// tighter limits (3/10min). Consider parameterizing rateLimit() or exporting a
-// factory so the implementation isn't duplicated.
-
-// Simple in-memory rate limit: 3 reports per IP per 10 minutes
-const hits = new Map<string, number[]>();
-const MAX = 3;
-const WINDOW = 10 * 60_000;
-
-function allowed(ip: string): boolean {
-  const now = Date.now();
-  const ts = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW);
-  if (ts.length >= MAX) { hits.set(ip, ts); return false; }
-  ts.push(now);
-  hits.set(ip, ts);
-  return true;
-}
 
 export const POST: APIRoute = async ({ request }) => {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 
-  if (!allowed(ip)) {
+  // 3 reports per IP per 10 minutes
+  if (!rateLimit(ip, 3, 10 * 60_000)) {
     return new Response(JSON.stringify({ ok: false }), { status: 429 });
   }
 

@@ -1,16 +1,16 @@
 const hits = new Map<string, number[]>();
 
-const MAX_REQUESTS = 200;
-const WINDOW_MS = 60_000; // 1 minute
+const DEFAULT_MAX = 200;
+const DEFAULT_WINDOW_MS = 60_000; // 1 minute
 const CLEANUP_INTERVAL_MS = 5 * 60_000; // 5 minutes
 
 let lastCleanup = Date.now();
 
 /** Remove stale IP entries to prevent unbounded memory growth. */
-function cleanup() {
+function cleanup(windowMs: number) {
   const now = Date.now();
   for (const [ip, timestamps] of hits) {
-    const recent = timestamps.filter((t) => now - t < WINDOW_MS);
+    const recent = timestamps.filter((t) => now - t < windowMs);
     if (recent.length === 0) {
       hits.delete(ip);
     } else {
@@ -20,18 +20,22 @@ function cleanup() {
   lastCleanup = now;
 }
 
-export function rateLimit(ip: string): boolean {
+export function rateLimit(
+  ip: string,
+  max: number = DEFAULT_MAX,
+  windowMs: number = DEFAULT_WINDOW_MS,
+): boolean {
   const now = Date.now();
 
   // Periodic cleanup of stale entries
   if (now - lastCleanup > CLEANUP_INTERVAL_MS) {
-    cleanup();
+    cleanup(windowMs);
   }
 
   const timestamps = hits.get(ip) ?? [];
-  const recent = timestamps.filter((t) => now - t < WINDOW_MS);
+  const recent = timestamps.filter((t) => now - t < windowMs);
 
-  if (recent.length >= MAX_REQUESTS) {
+  if (recent.length >= max) {
     hits.set(ip, recent);
     return false; // rejected
   }

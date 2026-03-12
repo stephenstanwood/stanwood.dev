@@ -2,6 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { ImageResponse } from "@vercel/og";
+import { PAGES } from "../../lib/ogPages";
 
 /**
  * Dynamic Open Graph image generator.
@@ -10,122 +11,6 @@ import { ImageResponse } from "@vercel/og";
  * Each page has a pre-defined config (emoji, title, description, colors)
  * so URLs stay clean and can't be abused to render arbitrary content.
  */
-
-interface PageConfig {
-  emoji: string;
-  title: string;
-  tagline: string;
-  bg: string;       // gradient start (darker)
-  bg2: string;      // gradient end (lighter)
-  accent: string;   // accent color for emoji glow / border
-}
-
-const PAGES: Record<string, PageConfig> = {
-  index: {
-    emoji: "🛠️",
-    title: "stanwood.dev",
-    tagline: "Projects I'm tinkering with.",
-    bg: "#0f0c29",
-    bg2: "#1a1545",
-    accent: "#818cf8",
-  },
-  "pixel-aquarium": {
-    emoji: "🐠",
-    title: "Pixel Aquarium",
-    tagline: "Little pixel fish swim around. Click to drop food.",
-    bg: "#0a1628",
-    bg2: "#0f2847",
-    accent: "#38bdf8",
-  },
-  "pixel-tide": {
-    emoji: "🌊",
-    title: "Pixel Tide",
-    tagline: "Waves wash in and out. Click to build sandcastles.",
-    bg: "#1a1c2e",
-    bg2: "#2a2d4a",
-    accent: "#818cf8",
-  },
-  "green-light": {
-    emoji: "🟢",
-    title: "Green Light",
-    tagline: "Know what to order before you sit down.",
-    bg: "#0a0f0a",
-    bg2: "#142814",
-    accent: "#4ade80",
-  },
-  "nba-now": {
-    emoji: "🏀",
-    title: "NBA Now",
-    tagline: "The best NBA game to watch right now.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#f97316",
-  },
-  tldr: {
-    emoji: "📄",
-    title: "TL;DR",
-    tagline: "Tell me what this long PDF says.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#a78bfa",
-  },
-  wtwtw: {
-    emoji: "📺",
-    title: "WTWTW",
-    tagline: "What To Watch This Week — best game each night.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#fb923c",
-  },
-  "idea-shuffler": {
-    emoji: "🔀",
-    title: "Idea Shuffler",
-    tagline: "Browse ideas without ranking them.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#f472b6",
-  },
-  swim: {
-    emoji: "🏊",
-    title: "Lap Lab",
-    tagline: "Generate custom swim workouts for any duration and pace.",
-    bg: "#0f172a",
-    bg2: "#1e293b",
-    accent: "#38bdf8",
-  },
-  "mlb-gamerank": {
-    emoji: "⚾",
-    title: "MLB GameRank",
-    tagline: "The best MLB game to watch right now.",
-    bg: "#14532d",
-    bg2: "#1a5c30",
-    accent: "#fbbf24",
-  },
-  "nearest-coffee": {
-    emoji: "☕",
-    title: "Nearest Coffee",
-    tagline: "Find the nearest coffee shop open right now.",
-    bg: "#0e1110",
-    bg2: "#1a2420",
-    accent: "#a3e635",
-  },
-  "nearest-fun": {
-    emoji: "🎪",
-    title: "FunFinder",
-    tagline: "Find kids activities open right now near you.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#c084fc",
-  },
-  "show-swipe": {
-    emoji: "🍿",
-    title: "Show Swipe",
-    tagline: "Swipe through movie and TV trailers.",
-    bg: "#0d0d0d",
-    bg2: "#1a1010",
-    accent: "#e85d4a",
-  },
-};
 
 export const GET: APIRoute = async ({ url }) => {
   const page = url.searchParams.get("page") ?? "index";
