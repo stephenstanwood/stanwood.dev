@@ -13,11 +13,11 @@ interface ProviderStatus {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
-  operational: { label: "Operational", color: "#22c55e", icon: "●" },
-  degraded: { label: "Degraded", color: "#f59e0b", icon: "◐" },
-  partial_outage: { label: "Partial Outage", color: "#ef4444", icon: "◑" },
-  major_outage: { label: "Major Outage", color: "#dc2626", icon: "○" },
-  unknown: { label: "Unknown", color: "#9ca3af", icon: "?" },
+  operational: { label: "All good", color: "#22c55e", icon: "●" },
+  degraded: { label: "A little off", color: "#f59e0b", icon: "◐" },
+  partial_outage: { label: "Half broken", color: "#ef4444", icon: "◑" },
+  major_outage: { label: "Very broken", color: "#dc2626", icon: "○" },
+  unknown: { label: "Who knows", color: "#9ca3af", icon: "?" },
 };
 
 function timeAgo(iso: string): string {
