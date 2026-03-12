@@ -1322,12 +1322,20 @@ const projects = [
       const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
       shuffle(projRow, tileSelector);
 
-      // If last tile is alone on its row (count % 3 !== 0), stretch it full-width
+      // If exactly 1 tile on the last row, stretch it full-width
       const tiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
-      if (tiles.length % 3 !== 0) {
+      const remainder = tiles.length % 3;
+      if (remainder === 1) {
         const lastTile = tiles[tiles.length - 1];
         const tile = lastTile.classList.contains('proj-tile') ? lastTile : lastTile.querySelector('.proj-tile');
         if (tile) tile.classList.add('last-full');
+      } else if (remainder === 2) {
+        // 2 leftover: each takes half the row (span 3)
+        for (let i = tiles.length - 2; i < tiles.length; i++) {
+          const el = tiles[i];
+          const tile = el.classList.contains('proj-tile') ? el : el.querySelector('.proj-tile');
+          if (tile) tile.style.gridColumn = 'span 3';
+        }
       }
     }
 
