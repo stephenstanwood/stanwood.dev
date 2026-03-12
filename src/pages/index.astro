@@ -624,10 +624,12 @@ const projects = [
       /* ── AI radar tile ── */
       .radar-tile {
         grid-row: span 2;
+        display: flex;
         flex-direction: column;
-        padding: 10px 12px;
+        padding: 8px 12px 0;
         position: relative;
         overflow: hidden;
+        max-height: 520px;
       }
       .proj-tile.radar-tile:hover {
         background: #fff !important;
@@ -640,13 +642,14 @@ const projects = [
         font-size: 20px;
         letter-spacing: 0.05em;
         color: var(--ink);
-        margin-bottom: 0;
+        margin: 0;
+        line-height: 1.1;
       }
       .radar-sub {
         font-family: 'Cabin', sans-serif;
         font-size: 10px;
         color: #888;
-        margin-bottom: 6px;
+        margin: 0 0 4px;
       }
       .radar-anim {
         display: flex;
@@ -683,6 +686,7 @@ const projects = [
         transition: opacity 0.4s ease;
         overflow-y: auto;
         flex: 1;
+        min-height: 0;
         scrollbar-width: thin;
         scrollbar-color: #ccc transparent;
       }
