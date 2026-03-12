@@ -1,5 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { ModelLogo } from "../lib/whichModel/logos";
+
+// Brand colors per company — shared between wheel and examples
+const BRAND_COLORS: Record<string, string> = {
+  Anthropic: "#d97706",
+  OpenAI: "#10a37f",
+  Google: "#4285f4",
+  Meta: "#0668e1",
+  Mistral: "#ff7000",
+  Midjourney: "#9b59b6",
+  "Black Forest Labs": "#e74c3c",
+};
 
 const EXAMPLES = [
   { task: "write marketing copy", model: "Claude", org: "Anthropic" },
@@ -10,15 +21,14 @@ const EXAMPLES = [
   { task: "fast chatbot prototype", model: "Gemini Flash", org: "Google" },
 ];
 
-// Brand colors per company
 const SLICES = [
-  { org: "Anthropic", bg: "#d97706", logoColor: "#fff" },
-  { org: "OpenAI", bg: "#10a37f", logoColor: "#fff" },
-  { org: "Google", bg: "#4285f4", logoColor: "#fff" },
-  { org: "Meta", bg: "#0668e1", logoColor: "#fff" },
-  { org: "Mistral", bg: "#ff7000", logoColor: "#fff" },
-  { org: "Midjourney", bg: "#9b59b6", logoColor: "#fff" },
-  { org: "Black Forest Labs", bg: "#e74c3c", logoColor: "#fff" },
+  { org: "Anthropic", label: "Claude" },
+  { org: "OpenAI", label: "GPT" },
+  { org: "Google", label: "Gemini" },
+  { org: "Meta", label: "Llama" },
+  { org: "Mistral", label: "Mistral" },
+  { org: "Midjourney", label: "MJ" },
+  { org: "Black Forest Labs", label: "Flux" },
 ];
 
 const SPIN_CSS = `
@@ -31,7 +41,6 @@ const SPIN_CSS = `
 }
 `;
 
-/** Build an SVG arc path for a pie slice */
 function slicePath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string {
   const x1 = cx + r * Math.cos(startAngle);
   const y1 = cy + r * Math.sin(startAngle);
@@ -40,6 +49,61 @@ function slicePath(cx: number, cy: number, r: number, startAngle: number, endAng
   const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
   return `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
 }
+
+/** Memoized wheel so it never re-renders when example text cycles */
+const SpinningWheel = memo(function SpinningWheel() {
+  const n = SLICES.length;
+  const svgSize = 120;
+  const cx = svgSize / 2;
+  const cy = svgSize / 2;
+  const r = 52;
+  const sliceAngle = (Math.PI * 2) / n;
+
+  return (
+    <div style={{ position: "relative", display: "inline-flex" }}>
+      {/* Pointer */}
+      <div
+        style={{
+          position: "absolute",
+          top: -10,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 0,
+          height: 0,
+          borderLeft: "6px solid transparent",
+          borderRight: "6px solid transparent",
+          borderTop: "10px solid #222",
+          zIndex: 2,
+        }}
+      />
+      <svg
+        className="wm-wheel-spin"
+        width={svgSize}
+        height={svgSize}
+        viewBox={`0 0 ${svgSize} ${svgSize}`}
+        style={{ display: "block", animation: "wmSpin 14s linear infinite" }}
+      >
+        {SLICES.map((slice, i) => {
+          const start = i * sliceAngle - Math.PI / 2;
+          const end = (i + 1) * sliceAngle - Math.PI / 2;
+          return (
+            <path
+              key={slice.org}
+              d={slicePath(cx, cy, r, start, end)}
+              fill={BRAND_COLORS[slice.org]}
+              stroke="#fff"
+              strokeWidth="1.5"
+            />
+          );
+        })}
+        <circle cx={cx} cy={cy} r={8} fill="#222" />
+        <circle cx={cx} cy={cy} r={5} fill="#fff" />
+        <circle cx={cx} cy={cy} r={2} fill="#222" />
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke="#222" strokeWidth="2" />
+      </svg>
+    </div>
+  );
+});
 
 export default function WhichModelTile() {
   const [index, setIndex] = useState(0);
@@ -51,20 +115,13 @@ export default function WhichModelTile() {
       setTimeout(() => {
         setIndex((i) => (i + 1) % EXAMPLES.length);
         setFading(false);
-      }, 300);
+      }, 3000);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
 
   const ex = EXAMPLES[index];
-  const n = SLICES.length;
-  const svgSize = 160;
-  const cx = svgSize / 2;
-  const cy = svgSize / 2;
-  const r = 68;
-  const sliceAngle = (Math.PI * 2) / n;
-  // Logo placement radius — 60% out from center
-  const logoR = r * 0.62;
+  const brandColor = BRAND_COLORS[ex.org] || "#7c5cff";
 
   return (
     <a
@@ -75,7 +132,7 @@ export default function WhichModelTile() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        gap: "6px",
+        gap: "8px",
         padding: "20px",
         height: "100%",
         boxSizing: "border-box",
@@ -83,6 +140,7 @@ export default function WhichModelTile() {
     >
       <style dangerouslySetInnerHTML={{ __html: SPIN_CSS }} />
 
+      {/* Title */}
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <span
           style={{
@@ -96,101 +154,46 @@ export default function WhichModelTile() {
         </span>
       </div>
 
-      {/* Wheel container */}
+      {/* Wheel + legend side by side */}
       <div
         style={{
           flex: 1,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
+          gap: "14px",
         }}
       >
-        {/* Pointer triangle */}
-        <div
-          style={{
-            position: "absolute",
-            top: `calc(50% - ${r + 14}px)`,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 0,
-            height: 0,
-            borderLeft: "7px solid transparent",
-            borderRight: "7px solid transparent",
-            borderTop: "12px solid #222",
-            zIndex: 2,
-          }}
-        />
+        <SpinningWheel />
 
-        {/* Spinning SVG wheel */}
+        {/* Logo legend */}
         <div
-          className="wm-wheel-spin"
           style={{
-            width: svgSize,
-            height: svgSize,
-            animation: "wmSpin 14s linear infinite",
-            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
           }}
         >
-          <svg
-            width={svgSize}
-            height={svgSize}
-            viewBox={`0 0 ${svgSize} ${svgSize}`}
-            style={{ display: "block" }}
-          >
-            {/* Pie slices */}
-            {SLICES.map((slice, i) => {
-              // Offset by -90° so first slice starts at top
-              const start = i * sliceAngle - Math.PI / 2;
-              const end = (i + 1) * sliceAngle - Math.PI / 2;
-              return (
-                <path
-                  key={slice.org}
-                  d={slicePath(cx, cy, r, start, end)}
-                  fill={slice.bg}
-                  stroke="#fff"
-                  strokeWidth="1.5"
-                />
-              );
-            })}
-            {/* Center hub */}
-            <circle cx={cx} cy={cy} r={10} fill="#222" />
-            <circle cx={cx} cy={cy} r={7} fill="#fff" />
-            <circle cx={cx} cy={cy} r={3} fill="#222" />
-            {/* Outer ring */}
-            <circle cx={cx} cy={cy} r={r} fill="none" stroke="#222" strokeWidth="2.5" />
-          </svg>
-
-          {/* Logos positioned in each slice, counter-rotating */}
-          {SLICES.map((slice, i) => {
-            const midAngle = (i + 0.5) * sliceAngle - Math.PI / 2;
-            const lx = cx + Math.cos(midAngle) * logoR;
-            const ly = cy + Math.sin(midAngle) * logoR;
-            return (
-              <div
-                key={`logo-${slice.org}`}
-                style={{
-                  position: "absolute",
-                  left: lx,
-                  top: ly,
-                  transform: "translate(-50%, -50%)",
-                  // Counter-rotate to keep logos upright
-                  animation: "wmSpin 14s linear infinite reverse",
-                  width: 24,
-                  height: 24,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ModelLogo org={slice.org} size={20} color={slice.logoColor} />
-              </div>
-            );
-          })}
+          {SLICES.map((slice) => (
+            <div
+              key={slice.org}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                fontSize: "11px",
+                fontWeight: 600,
+                color: BRAND_COLORS[slice.org],
+              }}
+            >
+              <ModelLogo org={slice.org} size={14} color={BRAND_COLORS[slice.org]} />
+              <span>{slice.label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Cycling recommendation */}
+      {/* Cycling recommendation — color-coded to brand */}
       <div
         style={{
           display: "flex",
@@ -209,11 +212,11 @@ export default function WhichModelTile() {
             display: "inline-flex",
             alignItems: "center",
             gap: "4px",
-            color: "#7c5cff",
+            color: brandColor,
             fontWeight: 600,
           }}
         >
-          <ModelLogo org={ex.org} size={16} color="#7c5cff" /> {ex.model}
+          <ModelLogo org={ex.org} size={16} color={brandColor} /> {ex.model}
         </span>
       </div>
     </a>
