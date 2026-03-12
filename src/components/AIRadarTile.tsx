@@ -73,6 +73,13 @@ export default function AIRadarTile() {
           </a>
         ))}
       </div>
+
+      <div className="radar-ticker" aria-hidden="true">
+        <div className="radar-ticker-track">
+          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
+          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
+        </div>
+      </div>
     </div>
   );
 }
