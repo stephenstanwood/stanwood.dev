@@ -46,15 +46,15 @@ function normalizeStatus(indicator: string): ProviderStatus["status"] {
 function statusSummary(status: ProviderStatus["status"], name: string): string {
   switch (status) {
     case "operational":
-      return "All systems normal";
+      return `${name} appears awake and well`;
     case "degraded":
-      return `${name} reports degraded performance`;
+      return `${name} is being a little weird`;
     case "partial_outage":
-      return `${name} is experiencing a partial outage`;
+      return `Yep, it's not just you — ${name} is struggling`;
     case "major_outage":
-      return `${name} is experiencing a major outage`;
+      return `${name} is having a really bad day`;
     default:
-      return "Unable to verify right now";
+      return `Can't tell what ${name} is up to`;
   }
 }
 
