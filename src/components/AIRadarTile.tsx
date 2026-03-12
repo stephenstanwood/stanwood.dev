@@ -5,6 +5,7 @@ interface Launch {
   name: string;
   org: string;
   date: string;
+  type: string;
   summary: string;
   url: string;
 }
@@ -23,22 +24,34 @@ const orgColors: Record<string, string> = {
   MiniMax: "#6366f1",
 };
 
-function formatDate(dateStr: string): { day: string; date: string } {
+const typeLabels: Record<string, string> = {
+  model: "MODEL",
+  product: "PRODUCT",
+  tool: "TOOL",
+  infra: "INFRA",
+};
+
+function formatDate(dateStr: string): { day: string; date: string; month: string } {
   const d = new Date(dateStr + "T12:00:00");
   const day = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
-  const date = d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
-  return { day, date };
+  const month = d.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+  const dateNum = d.getDate().toString();
+  return { day, date: dateNum, month };
 }
 
-// Sort and pre-compute dates at module load — launches is a static import.
+function relativeAge(dateStr: string): string {
+  const d = new Date(dateStr + "T12:00:00");
+  const now = new Date();
+  const diff = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24));
+  if (diff === 0) return "today";
+  if (diff === 1) return "yesterday";
+  return `${diff}d ago`;
+}
+
+// Sort once at module load
 const sorted = (launches as Launch[])
   .slice()
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-const formattedDates = new Map(
-  sorted.map((l) => [l.name, formatDate(l.date)]),
-);
-
 
 export default function AIRadarTile() {
   const [ready, setReady] = useState(false);
@@ -48,10 +61,22 @@ export default function AIRadarTile() {
     return () => clearTimeout(t);
   }, []);
 
+  const latest = sorted[0];
+  const rest = sorted.slice(1, 6);
+
   return (
-    <div className="proj-tile radar-tile">
-      <div className="radar-header">AI RADAR</div>
-      <div className="radar-sub">latest launches &amp; models</div>
+    <a className="proj-tile radar-tile" href="/radar">
+      {/* Header */}
+      <div className="radar-header-row">
+        <div className="radar-header">
+          <span className="radar-signal-dot" />
+          AI RADAR
+        </div>
+        <span className="radar-status">
+          {sorted.length} tracked
+        </span>
+      </div>
+      <div className="radar-sub">what just shipped in AI</div>
 
       {!ready && (
         <div className="radar-anim">
@@ -63,38 +88,48 @@ export default function AIRadarTile() {
       )}
 
       <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
-        {sorted.map((l) => {
-          const { day, date } = formattedDates.get(l.name)!;
+        {/* Lead story */}
+        <div
+          className="radar-lead"
+          style={{ borderLeftColor: orgColors[latest.org] || "#888" }}
+        >
+          <div className="radar-lead-meta">
+            <span className="radar-type-badge">{typeLabels[latest.type] || "LAUNCH"}</span>
+            <span className="radar-age">{relativeAge(latest.date)}</span>
+          </div>
+          <div className="radar-lead-name">{latest.name}</div>
+          <div className="radar-lead-summary">
+            <span className="radar-org-label" style={{ color: orgColors[latest.org] || "#888" }}>{latest.org}</span>
+            {" — "}{latest.summary}
+          </div>
+        </div>
+
+        {/* Secondary items */}
+        {rest.map((l) => {
+          const { date, month } = formatDate(l.date);
           return (
-            <a
+            <div
               key={l.name}
               className="radar-entry"
-              href={l.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ borderLeft: `3px solid ${orgColors[l.org] || "#888"}` }}
+              style={{ borderLeftColor: orgColors[l.org] || "#888" }}
             >
-              <span className="radar-date">
-                <span className="radar-day">{day}</span>
-                <span className="radar-datenum">{date}</span>
+              <span className="radar-date-block">
+                <span className="radar-date-num">{date}</span>
+                <span className="radar-date-month">{month}</span>
               </span>
               <span className="radar-info">
                 <span className="radar-name">{l.name}</span>
-                <span className="radar-summary">
-                  {l.org} — {l.summary}
-                </span>
+                <span className="radar-summary">{l.org} — {l.summary}</span>
               </span>
-            </a>
+            </div>
           );
         })}
       </div>
 
-      <div className="radar-ticker" aria-hidden="true">
-        <div className="radar-ticker-track">
-          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
-          <span>scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦ scanning for what's new and potentially useful ✦ {sorted.length} launches tracked ✦&nbsp;</span>
-        </div>
+      {/* Footer */}
+      <div className="radar-footer">
+        <span className="radar-footer-text">view full radar →</span>
       </div>
-    </div>
+    </a>
   );
 }

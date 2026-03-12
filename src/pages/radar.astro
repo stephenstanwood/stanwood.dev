@@ -1,0 +1,292 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AIRadarPage from "../components/AIRadarPage.tsx";
+---
+
+<BaseLayout
+  title="AI Radar — stanwood.dev"
+  description="What just shipped in AI that's actually worth knowing about. A curated signal feed."
+  slug="radar"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&family=Cabin:wght@400;700&display=swap"
+  schemaCategory="ReferenceApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      :root {
+        --rp-bg: #fffef5;
+        --rp-ink: #111;
+        --rp-accent: #ff5c1a;
+        --rp-border: #e8e4d9;
+        --rp-muted: #999;
+        --rp-subtle: #f8f6f0;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Cabin', sans-serif;
+        background: var(--rp-bg);
+        color: var(--rp-ink);
+        min-height: 100vh;
+      }
+
+      .retro-back {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+      }
+
+      /* ── Page shell ── */
+      .rp-page {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 72px 24px 48px;
+      }
+
+      /* ── Header ── */
+      .rp-header {
+        margin-bottom: 28px;
+      }
+      .rp-title-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      .rp-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 32px;
+        letter-spacing: 0.03em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        line-height: 1;
+      }
+      .rp-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: rpBlink 2s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      @keyframes rpBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      .rp-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--rp-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+      .rp-tagline {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--rp-muted);
+        letter-spacing: 0.02em;
+        line-height: 1.5;
+      }
+
+      /* ── Lead story ── */
+      .rp-lead {
+        display: block;
+        text-decoration: none;
+        color: var(--rp-ink);
+        border: 2px solid var(--rp-ink);
+        border-left: 5px solid #888;
+        box-shadow: 3px 3px 0 var(--rp-ink);
+        padding: 20px 22px;
+        margin-bottom: 32px;
+        background: #fff;
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .rp-lead:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--rp-ink);
+      }
+      .rp-lead-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .rp-badge {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--rp-accent);
+        background: #fff5ef;
+        padding: 2px 7px;
+        border-radius: 2px;
+      }
+      .rp-badge--time {
+        color: var(--rp-muted);
+        background: var(--rp-subtle);
+      }
+      .rp-lead-name {
+        font-family: 'Cabin', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 6px;
+      }
+      .rp-lead-summary {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 10px;
+      }
+      .rp-org {
+        font-weight: 700;
+        font-size: 0.9em;
+      }
+      .rp-lead-link {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--rp-accent);
+      }
+
+      /* ── Timeline ── */
+      .rp-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .rp-day {
+        display: flex;
+        gap: 20px;
+        padding: 16px 0;
+        border-top: 1px solid var(--rp-border);
+      }
+      .rp-day:first-child { border-top: none; }
+
+      .rp-day-marker {
+        flex-shrink: 0;
+        width: 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 2px;
+      }
+      .rp-day-date {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .rp-day-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--rp-ink);
+      }
+      .rp-day-month {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: var(--rp-muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+      .rp-day-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        color: #ccc;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: 4px;
+      }
+
+      .rp-day-entries {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .rp-entry {
+        display: block;
+        text-decoration: none;
+        color: var(--rp-ink);
+        border-left: 3px solid #888;
+        padding: 10px 14px;
+        background: #fff;
+        border-radius: 0 4px 4px 0;
+        transition: background 0.15s, box-shadow 0.15s;
+      }
+      .rp-entry:hover {
+        background: var(--rp-subtle);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      }
+      .rp-entry-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 3px;
+      }
+      .rp-entry-name {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.2;
+      }
+      .rp-entry-badge {
+        font-family: 'Space Mono', monospace;
+        font-size: 7px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+        background: var(--rp-subtle);
+        padding: 1px 5px;
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+      .rp-entry-summary {
+        font-size: 12px;
+        color: #777;
+        line-height: 1.4;
+      }
+
+      /* ── Footer ── */
+      .rp-footer {
+        margin-top: 48px;
+        padding-top: 16px;
+        border-top: 1px solid var(--rp-border);
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #ccc;
+      }
+
+      /* ── Responsive ── */
+      @media (max-width: 600px) {
+        .rp-page { padding: 56px 16px 32px; }
+        .rp-title { font-size: 24px; }
+        .rp-lead { padding: 16px; }
+        .rp-lead-name { font-size: 18px; }
+        .rp-day { gap: 12px; }
+        .rp-day-marker { width: 36px; }
+        .rp-day-num { font-size: 18px; }
+        .retro-back { top: 14px; left: 14px; }
+      }
+    </style>
+  </Fragment>
+
+  <AIRadarPage />
+</BaseLayout>
