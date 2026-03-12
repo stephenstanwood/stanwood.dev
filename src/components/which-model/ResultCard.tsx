@@ -12,7 +12,7 @@ export default function ResultCard({ result, onTryAgain }: Props) {
     <div className="wm-result">
       <div className="wm-result-header">
         <p className="wm-result-task">
-          For <strong>{taskLabel}</strong>, the oracle says:
+          For <strong>{taskLabel}</strong>, the wheel landed on:
         </p>
       </div>
 
@@ -96,7 +96,7 @@ export default function ResultCard({ result, onTryAgain }: Props) {
 
       <div className="wm-actions">
         <button className="wm-try-again" onClick={onTryAgain}>
-          🔮 Ask the oracle again
+          🎡 Spin again
         </button>
       </div>
     </div>

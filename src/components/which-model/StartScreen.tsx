@@ -23,10 +23,10 @@ export default function StartScreen({ onJustTellMe, onGuideMe }: Props) {
         </button>
 
         <button className="wm-path-card" onClick={onGuideMe}>
-          <span className="wm-path-emoji">🔮</span>
+          <span className="wm-path-emoji">🎡</span>
           <span className="wm-path-label">Guide me</span>
           <span className="wm-path-desc">
-            Answer 5 quick questions and the oracle will decide
+            Answer 5 quick questions and spin the wheel
           </span>
         </button>
       </div>

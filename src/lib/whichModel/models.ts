@@ -6,6 +6,7 @@ export const MODELS: ModelProfile[] = [
     name: "Claude",
     org: "Anthropic",
     emoji: "🧠",
+    shortLabel: "C",
     color: "#d97706",
     traits: {
       writing: 9,
@@ -37,6 +38,7 @@ export const MODELS: ModelProfile[] = [
     name: "GPT-4o",
     org: "OpenAI",
     emoji: "⚡",
+    shortLabel: "4o",
     color: "#10a37f",
     traits: {
       writing: 7,
@@ -68,6 +70,7 @@ export const MODELS: ModelProfile[] = [
     name: "GPT-4o mini",
     org: "OpenAI",
     emoji: "🏎️",
+    shortLabel: "mini",
     color: "#10a37f",
     traits: {
       writing: 5,
@@ -98,6 +101,7 @@ export const MODELS: ModelProfile[] = [
     name: "o3",
     org: "OpenAI",
     emoji: "🔬",
+    shortLabel: "o3",
     color: "#10a37f",
     traits: {
       writing: 6,
@@ -129,6 +133,7 @@ export const MODELS: ModelProfile[] = [
     name: "Gemini 2.5 Pro",
     org: "Google",
     emoji: "💎",
+    shortLabel: "GP",
     color: "#4285f4",
     traits: {
       writing: 7,
@@ -160,6 +165,7 @@ export const MODELS: ModelProfile[] = [
     name: "Gemini 2.5 Flash",
     org: "Google",
     emoji: "✨",
+    shortLabel: "GF",
     color: "#4285f4",
     traits: {
       writing: 6,
@@ -190,6 +196,7 @@ export const MODELS: ModelProfile[] = [
     name: "Llama 3.3 70B",
     org: "Meta",
     emoji: "🦙",
+    shortLabel: "LL",
     color: "#0668e1",
     traits: {
       writing: 6,
@@ -222,6 +229,7 @@ export const MODELS: ModelProfile[] = [
     name: "Mistral Large",
     org: "Mistral",
     emoji: "🌊",
+    shortLabel: "ML",
     color: "#ff7000",
     traits: {
       writing: 7,
@@ -252,6 +260,7 @@ export const MODELS: ModelProfile[] = [
     name: "Midjourney",
     org: "Midjourney",
     emoji: "🎨",
+    shortLabel: "MJ",
     color: "#e84393",
     traits: {
       writing: 0,
@@ -284,6 +293,7 @@ export const MODELS: ModelProfile[] = [
     name: "DALL-E 3",
     org: "OpenAI",
     emoji: "🖼️",
+    shortLabel: "DE",
     color: "#10a37f",
     traits: {
       writing: 0,
@@ -314,6 +324,7 @@ export const MODELS: ModelProfile[] = [
     name: "Flux Pro",
     org: "Black Forest Labs",
     emoji: "🔥",
+    shortLabel: "FX",
     color: "#ff4500",
     traits: {
       writing: 0,
@@ -344,6 +355,7 @@ export const MODELS: ModelProfile[] = [
     name: "Claude Haiku",
     org: "Anthropic",
     emoji: "🍃",
+    shortLabel: "CH",
     color: "#d97706",
     traits: {
       writing: 6,

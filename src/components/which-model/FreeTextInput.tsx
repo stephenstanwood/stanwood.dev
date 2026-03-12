@@ -37,7 +37,7 @@ export default function FreeTextInput({ onSubmit, onBack }: Props) {
 
       <h2 className="wm-section-title">What are you trying to do?</h2>
       <p className="wm-section-desc">
-        Be specific or be vague — the oracle adapts.
+        Be specific or be vague — the wheel decides.
       </p>
 
       <form onSubmit={handleSubmit} className="wm-input-form">
@@ -54,7 +54,7 @@ export default function FreeTextInput({ onSubmit, onBack }: Props) {
           className="wm-submit"
           disabled={!text.trim()}
         >
-          Consult the oracle
+          Spin the wheel
         </button>
       </form>
 

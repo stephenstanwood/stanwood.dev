@@ -5,7 +5,7 @@ import { inferWeights } from "../lib/whichModel/taskInference";
 import StartScreen from "./which-model/StartScreen";
 import FreeTextInput from "./which-model/FreeTextInput";
 import QuizFlow from "./which-model/QuizFlow";
-import OracleReveal from "./which-model/OracleReveal";
+import WheelReveal from "./which-model/WheelReveal";
 import ResultCard from "./which-model/ResultCard";
 
 export default function WhichModel() {
@@ -65,7 +65,7 @@ export default function WhichModel() {
         )}
 
         {view === "revealing" && result && (
-          <OracleReveal
+          <WheelReveal
             model={result.primary.model}
             onComplete={handleRevealComplete}
           />
