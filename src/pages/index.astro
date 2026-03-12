@@ -1109,24 +1109,12 @@ const projects = [
       .vibes-inner {
         display: flex;
         align-items: center;
-        gap: 8px;
+      }
+      .vibes-msg {
         font-family: 'Space Mono', monospace;
         font-size: 16px;
-        color: #10a37f;
-      }
-      .vibes-prompt {
-        color: #666;
-      }
-      .vibes-cmd {
         color: #f0f0f0;
-        letter-spacing: 0.05em;
-      }
-      .vibes-cursor {
-        color: #10a37f;
-        animation: vibesBlink 1s step-end infinite;
-      }
-      @keyframes vibesBlink {
-        50% { opacity: 0; }
+        letter-spacing: 0.03em;
       }
 
       /* ── footer ── */
@@ -1359,9 +1347,7 @@ const projects = [
       <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
       <div class="proj-tile vibes-tile">
         <div class="vibes-inner">
-          <div class="vibes-prompt">$</div>
-          <div class="vibes-cmd">just ship it</div>
-          <div class="vibes-cursor">█</div>
+          <span class="vibes-msg">have a great day 🙂</span>
         </div>
       </div>
     </div>
