@@ -171,7 +171,7 @@ export default function VibeCheckTile() {
             disabled={!url.trim()}
             onClick={(e) => e.stopPropagation()}
           >
-            go
+            check →
           </button>
         </form>
         {state === "error" && (

@@ -31,7 +31,10 @@ export default function VibeCheck() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        const msg = data.debug
+          ? `${data.error} [${data.debug}]`
+          : data.error || "Something went wrong";
+        setError(msg);
         setState("error");
         return;
       }
