@@ -10,42 +10,35 @@ const EXAMPLES = [
   { task: "fast chatbot prototype", model: "Gemini Flash", org: "Google" },
 ];
 
-const SEGMENTS = [
-  { org: "Anthropic", color: "#d97706" },
-  { org: "OpenAI", color: "#10a37f" },
-  { org: "Google", color: "#4285f4" },
-  { org: "Meta", color: "#0668e1" },
-  { org: "Mistral", color: "#ff7000" },
-  { org: "Midjourney", color: "#e84393" },
-  { org: "Black Forest Labs", color: "#ff4500" },
+// Brand colors per company
+const SLICES = [
+  { org: "Anthropic", bg: "#d97706", logoColor: "#fff" },
+  { org: "OpenAI", bg: "#10a37f", logoColor: "#fff" },
+  { org: "Google", bg: "#4285f4", logoColor: "#fff" },
+  { org: "Meta", bg: "#0668e1", logoColor: "#fff" },
+  { org: "Mistral", bg: "#ff7000", logoColor: "#fff" },
+  { org: "Midjourney", bg: "#9b59b6", logoColor: "#fff" },
+  { org: "Black Forest Labs", bg: "#e74c3c", logoColor: "#fff" },
 ];
 
 const SPIN_CSS = `
-@keyframes wmWheelSpin {
+@keyframes wmSpin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-@keyframes wmLogoCounterSpin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(-360deg); }
-}
 @media (prefers-reduced-motion: reduce) {
-  .wm-roulette, .wm-roulette-logo {
-    animation: none !important;
-  }
+  .wm-wheel-spin { animation: none !important; }
 }
 `;
 
-function buildConicGradient(segments: typeof SEGMENTS): string {
-  const n = segments.length;
-  const sliceAngle = 360 / n;
-  const stops: string[] = [];
-  segments.forEach((seg, i) => {
-    const start = i * sliceAngle;
-    const end = (i + 1) * sliceAngle;
-    stops.push(`${seg.color} ${start}deg ${end}deg`);
-  });
-  return `conic-gradient(from 0deg, ${stops.join(", ")})`;
+/** Build an SVG arc path for a pie slice */
+function slicePath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string {
+  const x1 = cx + r * Math.cos(startAngle);
+  const y1 = cy + r * Math.sin(startAngle);
+  const x2 = cx + r * Math.cos(endAngle);
+  const y2 = cy + r * Math.sin(endAngle);
+  const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
+  return `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
 }
 
 export default function WhichModelTile() {
@@ -64,8 +57,14 @@ export default function WhichModelTile() {
   }, []);
 
   const ex = EXAMPLES[index];
-  const wheelSize = 140;
-  const logoRadius = wheelSize / 2 - 20; // place logos inside segments
+  const n = SLICES.length;
+  const svgSize = 160;
+  const cx = svgSize / 2;
+  const cy = svgSize / 2;
+  const r = 68;
+  const sliceAngle = (Math.PI * 2) / n;
+  // Logo placement radius — 60% out from center
+  const logoR = r * 0.62;
 
   return (
     <a
@@ -76,7 +75,7 @@ export default function WhichModelTile() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        gap: "8px",
+        gap: "6px",
         padding: "20px",
         height: "100%",
         boxSizing: "border-box",
@@ -97,7 +96,7 @@ export default function WhichModelTile() {
         </span>
       </div>
 
-      {/* Roulette wheel with pointer */}
+      {/* Wheel container */}
       <div
         style={{
           flex: 1,
@@ -107,103 +106,91 @@ export default function WhichModelTile() {
           position: "relative",
         }}
       >
-        {/* Pointer triangle at top */}
+        {/* Pointer triangle */}
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: `calc(50% - ${r + 14}px)`,
             left: "50%",
-            transform: `translate(-50%, -50%) translateY(${-wheelSize / 2 - 8}px)`,
+            transform: "translateX(-50%)",
             width: 0,
             height: 0,
-            borderLeft: "8px solid transparent",
-            borderRight: "8px solid transparent",
-            borderTop: "14px solid #111",
+            borderLeft: "7px solid transparent",
+            borderRight: "7px solid transparent",
+            borderTop: "12px solid #222",
             zIndex: 2,
-            filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.2))",
           }}
         />
 
-        {/* Spinning wheel */}
+        {/* Spinning SVG wheel */}
         <div
-          className="wm-roulette"
+          className="wm-wheel-spin"
           style={{
-            width: wheelSize,
-            height: wheelSize,
-            borderRadius: "50%",
-            background: buildConicGradient(SEGMENTS),
-            animation: "wmWheelSpin 12s linear infinite",
+            width: svgSize,
+            height: svgSize,
+            animation: "wmSpin 14s linear infinite",
             position: "relative",
-            boxShadow: "0 0 0 3px #222, 0 2px 8px rgba(0,0,0,0.15)",
           }}
         >
-          {/* Center hub */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: 24,
-              height: 24,
-              borderRadius: "50%",
-              background: "#222",
-              border: "2px solid #fff",
-              zIndex: 1,
-            }}
-          />
+          <svg
+            width={svgSize}
+            height={svgSize}
+            viewBox={`0 0 ${svgSize} ${svgSize}`}
+            style={{ display: "block" }}
+          >
+            {/* Pie slices */}
+            {SLICES.map((slice, i) => {
+              // Offset by -90° so first slice starts at top
+              const start = i * sliceAngle - Math.PI / 2;
+              const end = (i + 1) * sliceAngle - Math.PI / 2;
+              return (
+                <path
+                  key={slice.org}
+                  d={slicePath(cx, cy, r, start, end)}
+                  fill={slice.bg}
+                  stroke="#fff"
+                  strokeWidth="1.5"
+                />
+              );
+            })}
+            {/* Center hub */}
+            <circle cx={cx} cy={cy} r={10} fill="#222" />
+            <circle cx={cx} cy={cy} r={7} fill="#fff" />
+            <circle cx={cx} cy={cy} r={3} fill="#222" />
+            {/* Outer ring */}
+            <circle cx={cx} cy={cy} r={r} fill="none" stroke="#222" strokeWidth="2.5" />
+          </svg>
 
-          {/* Segment divider lines */}
-          {SEGMENTS.map((_, i) => {
-            const angle = (i * 360) / SEGMENTS.length;
+          {/* Logos positioned in each slice, counter-rotating */}
+          {SLICES.map((slice, i) => {
+            const midAngle = (i + 0.5) * sliceAngle - Math.PI / 2;
+            const lx = cx + Math.cos(midAngle) * logoR;
+            const ly = cy + Math.sin(midAngle) * logoR;
             return (
               <div
-                key={`line-${i}`}
+                key={`logo-${slice.org}`}
                 style={{
                   position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  width: wheelSize / 2,
-                  height: "1.5px",
-                  background: "rgba(255,255,255,0.5)",
-                  transformOrigin: "0 50%",
-                  transform: `rotate(${angle}deg)`,
-                }}
-              />
-            );
-          })}
-
-          {/* Logos inside each segment, counter-rotating to stay upright */}
-          {SEGMENTS.map((seg, i) => {
-            const midAngle = ((i + 0.5) / SEGMENTS.length) * Math.PI * 2 - Math.PI / 2;
-            const lx = Math.cos(midAngle) * logoRadius;
-            const ly = Math.sin(midAngle) * logoRadius;
-            return (
-              <div
-                key={seg.org}
-                className="wm-roulette-logo"
-                style={{
-                  position: "absolute",
-                  top: `calc(50% + ${ly}px)`,
-                  left: `calc(50% + ${lx}px)`,
+                  left: lx,
+                  top: ly,
                   transform: "translate(-50%, -50%)",
-                  animation: "wmLogoCounterSpin 12s linear infinite",
+                  // Counter-rotate to keep logos upright
+                  animation: "wmSpin 14s linear infinite reverse",
+                  width: 24,
+                  height: 24,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: 22,
-                  height: 22,
-                  borderRadius: "50%",
-                  background: "rgba(255,255,255,0.9)",
                 }}
               >
-                <ModelLogo org={seg.org} size={14} color="#222" />
+                <ModelLogo org={slice.org} size={20} color={slice.logoColor} />
               </div>
             );
           })}
         </div>
       </div>
 
+      {/* Cycling recommendation */}
       <div
         style={{
           display: "flex",
@@ -217,7 +204,15 @@ export default function WhichModelTile() {
       >
         <span style={{ color: "#666" }}>{ex.task}</span>
         <span style={{ color: "#aaa" }}>&rarr;</span>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", color: "#7c5cff", fontWeight: 600 }}>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+            color: "#7c5cff",
+            fontWeight: 600,
+          }}
+        >
           <ModelLogo org={ex.org} size={16} color="#7c5cff" /> {ex.model}
         </span>
       </div>
