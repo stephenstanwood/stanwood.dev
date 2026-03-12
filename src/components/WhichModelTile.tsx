@@ -1,0 +1,110 @@
+import { useState, useEffect } from "react";
+import { ModelLogo } from "../lib/whichModel/logos";
+
+const EXAMPLES = [
+  { task: "write marketing copy", model: "Claude", org: "Anthropic" },
+  { task: "build a React app", model: "GPT-4o", org: "OpenAI" },
+  { task: "generate product photos", model: "Midjourney", org: "Midjourney" },
+  { task: "analyze 500-page PDFs", model: "Gemini", org: "Google" },
+  { task: "self-host for privacy", model: "Llama", org: "Meta" },
+  { task: "fast chatbot prototype", model: "Gemini Flash", org: "Google" },
+];
+
+const LOGO_ORGS = ["Anthropic", "OpenAI", "Google", "Meta", "Mistral", "Midjourney", "Black Forest Labs"];
+
+export default function WhichModelTile() {
+  const [index, setIndex] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFading(true);
+      setTimeout(() => {
+        setIndex((i) => (i + 1) % EXAMPLES.length);
+        setFading(false);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const ex = EXAMPLES[index];
+
+  return (
+    <a
+      href="/which-model"
+      style={{
+        textDecoration: "none",
+        color: "inherit",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: "12px",
+        padding: "20px",
+        height: "100%",
+        boxSizing: "border-box",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{ fontSize: "20px" }}>🎡</span>
+        <span
+          style={{
+            fontFamily: "'Bangers', cursive",
+            fontSize: "18px",
+            letterSpacing: "1px",
+            color: "#111",
+          }}
+        >
+          Which Model?
+        </span>
+      </div>
+
+      {/* Logo grid fills visual space */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+          padding: "4px 0",
+        }}
+      >
+        {LOGO_ORGS.map((org) => (
+          <div
+            key={org}
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: "#f5f3ed",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <ModelLogo org={org} size={18} color="#888" />
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          fontSize: "13px",
+          transition: "opacity 0.3s ease",
+          flexWrap: "wrap",
+          opacity: fading ? 0 : 1,
+        }}
+      >
+        <span style={{ color: "#666" }}>{ex.task}</span>
+        <span style={{ color: "#aaa" }}>→</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", color: "#7c5cff", fontWeight: 600 }}>
+          <ModelLogo org={ex.org} size={16} color="#7c5cff" /> {ex.model}
+        </span>
+      </div>
+    </a>
+  );
+}

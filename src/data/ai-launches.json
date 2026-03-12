@@ -1,130 +1,130 @@
 [
   {
-    "name": "Nemotron 3 Super",
-    "org": "NVIDIA",
-    "date": "2026-03-11",
-    "type": "model",
-    "summary": "hybrid Mamba-Transformer, 1M context window",
-    "url": "https://blogs.nvidia.com/blog/nemotron-3-super-agentic-ai/"
-  },
-  {
-    "name": "Siri AI Rewrite",
-    "org": "Apple",
-    "date": "2026-03-10",
-    "type": "product",
-    "summary": "Gemini-powered Siri in iOS 26.4",
-    "url": "https://www.apple.com/newsroom/"
-  },
-  {
-    "name": "Grok 4.20 Beta",
-    "org": "xAI",
-    "date": "2026-03-09",
-    "type": "model",
-    "summary": "multi-agent reasoning model",
-    "url": "https://x.ai/blog/grok-4-20"
-  },
-  {
-    "name": "Codex Desktop",
-    "org": "OpenAI",
-    "date": "2026-03-07",
+    "name": "Cursor Automations",
+    "org": "Cursor",
+    "date": "2026-03-05",
     "type": "tool",
-    "summary": "desktop app for AI coding agents",
-    "url": "https://openai.com/index/introducing-the-codex-app/"
-  },
-  {
-    "name": "LTX 2.3",
-    "org": "Lightricks",
-    "date": "2026-03-06",
-    "type": "model",
-    "summary": "open-source 4K video gen at 50fps",
-    "url": "https://github.com/Lightricks/LTX-Video"
+    "summary": "always-on agents via Slack + GitHub",
+    "url": "https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/"
   },
   {
     "name": "Claude Opus 4.6",
     "org": "Anthropic",
     "date": "2026-03-05",
     "type": "model",
-    "summary": "improved long-range reasoning + coding",
+    "summary": "big leap in reasoning + coding",
     "url": "https://www.anthropic.com/news/claude-opus-4-6"
   },
   {
-    "name": "GPT-5.4",
+    "name": "Codex Desktop",
     "org": "OpenAI",
-    "date": "2026-03-04",
-    "type": "model",
-    "summary": "1M token context, 33% fewer errors",
-    "url": "https://openai.com/index/gpt-5-4/"
+    "date": "2026-03-07",
+    "type": "tool",
+    "summary": "local app for AI coding agents",
+    "url": "https://openai.com/index/introducing-the-codex-app/"
   },
   {
-    "name": "Gemini 3.1 Flash-Lite",
-    "org": "Google",
+    "name": "v0 MCP Support",
+    "org": "Vercel",
+    "date": "2026-03-06",
+    "type": "tool",
+    "summary": "plug any MCP server into v0",
+    "url": "https://vercel.com/changelog"
+  },
+  {
+    "name": "LTX 2.3",
+    "org": "Lightricks",
+    "date": "2026-03-06",
+    "type": "tool",
+    "summary": "open-source 4K video gen, run local",
+    "url": "https://github.com/Lightricks/LTX-Video"
+  },
+  {
+    "name": "Runway Gen-4",
+    "org": "Runway",
+    "date": "2026-03-04",
+    "type": "tool",
+    "summary": "10s video with character consistency",
+    "url": "https://runwayml.com/research/introducing-runway-gen-4"
+  },
+  {
+    "name": "Windsurf Wave 13",
+    "org": "Windsurf",
     "date": "2026-03-03",
-    "type": "model",
-    "summary": "faster, cheaper Gemini for high-volume",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
+    "type": "tool",
+    "summary": "parallel agents + worktrees in IDE",
+    "url": "https://windsurf.com/changelog"
   },
   {
     "name": "Qwen 3.5",
     "org": "Alibaba",
     "date": "2026-03-01",
     "type": "model",
-    "summary": "small models rivaling 13x larger ones",
+    "summary": "small open models that punch up",
     "url": "https://qwen.ai/blog?id=qwen3.5"
   },
   {
-    "name": "Mercury 2",
-    "org": "Inception",
+    "name": "Midjourney V8",
+    "org": "Midjourney",
+    "date": "2026-02-28",
+    "type": "tool",
+    "summary": "video gen + style codes + char lock",
+    "url": "https://www.midjourney.com/updates"
+  },
+  {
+    "name": "Lovable Agent",
+    "org": "Lovable",
     "date": "2026-02-24",
-    "type": "model",
-    "summary": "diffusion-based LLM, 10x faster inference",
-    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-2"
+    "type": "tool",
+    "summary": "AI that debugs and ships full apps",
+    "url": "https://lovable.dev"
   },
   {
-    "name": "Gemini 3.1 Pro",
-    "org": "Google",
-    "date": "2026-02-19",
-    "type": "model",
-    "summary": "tops 13 of 16 major benchmarks",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/"
-  },
-  {
-    "name": "Grok 4.20",
-    "org": "xAI",
-    "date": "2026-02-17",
-    "type": "model",
-    "summary": "four-agent parallel processing",
-    "url": "https://x.ai/blog/grok-4-20"
+    "name": "Figma Make GA",
+    "org": "Figma",
+    "date": "2026-02-20",
+    "type": "tool",
+    "summary": "prompt-to-prototype, now public",
+    "url": "https://www.figma.com/blog/figma-make-general-availability/"
   },
   {
     "name": "Claude Sonnet 4.6",
     "org": "Anthropic",
     "date": "2026-02-17",
     "type": "model",
-    "summary": "near-Opus quality at Sonnet pricing",
+    "summary": "near-Opus quality, Sonnet price",
     "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
   },
   {
-    "name": "Seed 2.0",
-    "org": "ByteDance",
+    "name": "Bolt.new Teams",
+    "org": "StackBlitz",
     "date": "2026-02-14",
-    "type": "model",
-    "summary": "multimodal reasoning + code gen",
-    "url": "https://www.bytedance.com/en/"
+    "type": "tool",
+    "summary": "deploy pipelines for vibe-coded apps",
+    "url": "https://bolt.new"
   },
   {
-    "name": "MiniMax M2.5",
-    "org": "MiniMax",
+    "name": "Replit Agent 3",
+    "org": "Replit",
     "date": "2026-02-12",
-    "type": "model",
-    "summary": "long-context competitor at low cost",
-    "url": "https://www.minimax.io/"
+    "type": "tool",
+    "summary": "200-min autonomous coding sessions",
+    "url": "https://replit.com"
   },
   {
     "name": "GPT-5.3 Codex",
     "org": "OpenAI",
     "date": "2026-02-05",
-    "type": "tool",
-    "summary": "code-specialized reasoning model",
+    "type": "model",
+    "summary": "fastest AI pair programmer yet",
     "url": "https://openai.com/index/gpt-5-3-codex/"
+  },
+  {
+    "name": "v0 Git Panel",
+    "org": "Vercel",
+    "date": "2026-02-03",
+    "type": "tool",
+    "summary": "branch per chat, deploy on merge",
+    "url": "https://vercel.com/blog/introducing-the-new-v0"
   }
 ]

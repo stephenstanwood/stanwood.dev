@@ -1,0 +1,771 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WhichModel from "../components/WhichModel.tsx";
+const title = "Which Model? — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="Stop overthinking it. Tell us what you need, we'll tell you which AI model to use."
+  slug="which-model"
+  themeColor="#fffdf5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+  schemaCategory="UtilitiesApplication"
+  schemaName="Which Model?"
+>
+  <Fragment slot="head">
+    <style is:global>
+      /* ─── Page Theme ─────────────────────────────────────────────── */
+      :root {
+        --wm-bg: #fffdf5;
+        --wm-card: #ffffff;
+        --wm-ink: #111;
+        --wm-muted: #666;
+        --wm-light: #999;
+        --wm-gold: #f5c542;
+        --wm-gold-dark: #c9a020;
+        --wm-purple: #7c5cff;
+        --wm-coral: #ff6b4a;
+        --wm-wheel-bg: rgba(255, 253, 245, 0.95);
+        --wm-border: #e5e2d9;
+        --wm-shadow: 3px 3px 0 #111;
+        --wm-shadow-sm: 2px 2px 0 #111;
+      }
+
+      body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background: var(--wm-bg);
+        color: var(--wm-ink);
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      astro-island {
+        display: contents;
+      }
+
+      /* ─── Layout ───────────────────────────────────────────────── */
+      .wm-page {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wm-header {
+        padding: 16px 24px;
+      }
+
+      .wm-back-home {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        color: var(--wm-muted);
+        text-decoration: none;
+      }
+      .wm-back-home:hover {
+        color: var(--wm-ink);
+      }
+
+      .wm-main {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0 24px 48px;
+      }
+
+      .wm-footer {
+        text-align: center;
+        padding: 24px;
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--wm-light);
+        border-top: 1px solid var(--wm-border);
+      }
+
+      /* ─── Start Screen ────────────────────────────────────────── */
+      .wm-start {
+        max-width: 560px;
+        width: 100%;
+        padding-top: 48px;
+        animation: wmFadeIn 0.3s ease;
+      }
+
+      .wm-hero {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .wm-title {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(48px, 10vw, 72px);
+        letter-spacing: 2px;
+        margin: 0;
+        line-height: 1;
+        color: var(--wm-ink);
+      }
+
+      .wm-subtitle {
+        font-size: 17px;
+        color: var(--wm-muted);
+        margin: 12px 0 0;
+        line-height: 1.5;
+      }
+
+      .wm-paths {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .wm-path-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        box-shadow: var(--wm-shadow);
+        border-radius: 8px;
+        padding: 28px 20px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+        transition: transform 0.15s, box-shadow 0.15s;
+        font-family: inherit;
+      }
+      .wm-path-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 #111;
+      }
+      .wm-path-card:active {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #111;
+      }
+
+      .wm-path-emoji {
+        font-size: 36px;
+      }
+
+      .wm-path-label {
+        font-family: 'Bangers', cursive;
+        font-size: 24px;
+        letter-spacing: 1px;
+      }
+
+      .wm-path-desc {
+        font-size: 14px;
+        color: var(--wm-muted);
+        line-height: 1.4;
+      }
+
+      .wm-examples {
+        text-align: center;
+      }
+
+      .wm-examples-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--wm-light);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0 0 12px;
+      }
+
+      .wm-example-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .wm-chip {
+        font-size: 13px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: var(--wm-card);
+        border: 1px solid var(--wm-border);
+        color: var(--wm-muted);
+      }
+
+      /* ─── Free Text Input ─────────────────────────────────────── */
+      .wm-freetext {
+        max-width: 560px;
+        width: 100%;
+        padding-top: 24px;
+        animation: wmFadeIn 0.3s ease;
+      }
+
+      .wm-back {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        color: var(--wm-muted);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin-bottom: 24px;
+        display: block;
+      }
+      .wm-back:hover {
+        color: var(--wm-ink);
+      }
+
+      .wm-section-title {
+        font-family: 'Bangers', cursive;
+        font-size: 36px;
+        letter-spacing: 1px;
+        margin: 0 0 8px;
+      }
+
+      .wm-section-desc {
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0 0 24px;
+      }
+
+      .wm-input-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .wm-textarea {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 16px;
+        padding: 16px;
+        border: 2px solid var(--wm-ink);
+        border-radius: 8px;
+        box-shadow: var(--wm-shadow-sm);
+        background: var(--wm-card);
+        resize: none;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .wm-textarea:focus {
+        border-color: var(--wm-purple);
+      }
+      .wm-textarea::placeholder {
+        color: var(--wm-light);
+      }
+
+      .wm-submit {
+        font-family: 'Bangers', cursive;
+        font-size: 20px;
+        letter-spacing: 1px;
+        padding: 14px 24px;
+        background: var(--wm-gold);
+        color: var(--wm-ink);
+        border: 2px solid var(--wm-ink);
+        border-radius: 8px;
+        box-shadow: var(--wm-shadow);
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .wm-submit:hover:not(:disabled) {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 #111;
+      }
+      .wm-submit:active:not(:disabled) {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #111;
+      }
+      .wm-submit:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .wm-example-grid {
+        text-align: center;
+      }
+
+      .wm-example-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+
+      .wm-example-btn {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 13px;
+        padding: 8px 14px;
+        border-radius: 20px;
+        background: var(--wm-card);
+        border: 1px solid var(--wm-border);
+        color: var(--wm-muted);
+        cursor: pointer;
+        transition: border-color 0.15s, color 0.15s;
+      }
+      .wm-example-btn:hover {
+        border-color: var(--wm-purple);
+        color: var(--wm-ink);
+      }
+
+      /* ─── Quiz ────────────────────────────────────────────────── */
+      .wm-quiz {
+        max-width: 480px;
+        width: 100%;
+        padding-top: 24px;
+        animation: wmFadeIn 0.3s ease;
+      }
+
+      .wm-progress {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 8px;
+      }
+
+      .wm-progress-dot {
+        width: 32px;
+        height: 6px;
+        border-radius: 3px;
+        background: var(--wm-border);
+        transition: background 0.2s;
+      }
+      .wm-progress-dot.done {
+        background: var(--wm-gold);
+      }
+      .wm-progress-dot.active {
+        background: var(--wm-purple);
+      }
+
+      .wm-quiz-step {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--wm-light);
+        text-align: center;
+        margin: 0 0 24px;
+      }
+
+      .wm-quiz-prompt {
+        font-family: 'Bangers', cursive;
+        font-size: 36px;
+        letter-spacing: 1px;
+        text-align: center;
+        margin: 0 0 32px;
+      }
+
+      .wm-quiz-options {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .wm-quiz-card {
+        flex: 1;
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        box-shadow: var(--wm-shadow);
+        border-radius: 8px;
+        padding: 32px 16px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        transition: transform 0.15s, box-shadow 0.15s;
+        font-family: inherit;
+      }
+      .wm-quiz-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 #111;
+      }
+      .wm-quiz-card:active {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #111;
+      }
+
+      .wm-quiz-emoji {
+        font-size: 40px;
+      }
+
+      .wm-quiz-label {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .wm-quiz-or {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        color: var(--wm-light);
+        flex-shrink: 0;
+      }
+
+      /* ─── Wheel Reveal ────────────────────────────────────────── */
+      .wm-wheel-overlay {
+        position: fixed;
+        inset: 0;
+        background: var(--wm-wheel-bg);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: wmFadeIn 0.3s ease;
+      }
+
+      .wm-wheel-scene {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .wm-wheel-pointer {
+        font-size: 28px;
+        color: var(--wm-ink);
+        line-height: 1;
+        margin-bottom: -12px;
+        z-index: 2;
+      }
+
+      .wm-wheel-canvas {
+        border-radius: 50%;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 0 0 4px var(--wm-ink);
+      }
+
+      .wm-wheel-result {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      .wm-wheel-result.show {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .wm-wheel-result-emoji {
+        font-size: 40px;
+      }
+
+      .wm-wheel-result-name {
+        font-family: 'Bangers', cursive;
+        font-size: 36px;
+        letter-spacing: 2px;
+        color: var(--wm-ink);
+      }
+
+      .wm-wheel-tagline {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        color: var(--wm-muted);
+        opacity: 0;
+        transition: opacity 0.4s ease 0.2s;
+        margin: 0;
+      }
+      .wm-wheel-tagline.show {
+        opacity: 1;
+      }
+
+      /* ─── Result Card ─────────────────────────────────────────── */
+      .wm-result {
+        max-width: 600px;
+        width: 100%;
+        padding-top: 24px;
+        animation: wmFadeIn 0.4s ease;
+      }
+
+      .wm-result-header {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      .wm-result-task {
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        color: var(--wm-muted);
+      }
+      .wm-result-task strong {
+        color: var(--wm-ink);
+      }
+
+      .wm-primary-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-left: 6px solid var(--wm-gold);
+        box-shadow: var(--wm-shadow);
+        border-radius: 8px;
+        padding: 28px;
+        margin-bottom: 24px;
+      }
+
+      .wm-primary-top {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .wm-primary-emoji {
+        font-size: 40px;
+        flex-shrink: 0;
+      }
+
+      .wm-primary-name {
+        font-family: 'Bangers', cursive;
+        font-size: 32px;
+        letter-spacing: 1px;
+        margin: 0;
+        line-height: 1.1;
+      }
+
+      .wm-primary-org {
+        font-size: 13px;
+        color: var(--wm-muted);
+        margin: 2px 0 0;
+      }
+
+      .wm-fit-badge {
+        margin-left: auto;
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        background: var(--wm-gold);
+        color: var(--wm-ink);
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid var(--wm-ink);
+        flex-shrink: 0;
+      }
+
+      .wm-primary-tagline {
+        font-style: italic;
+        color: var(--wm-muted);
+        font-size: 15px;
+        margin: 0 0 8px;
+      }
+
+      .wm-primary-why {
+        font-size: 15px;
+        line-height: 1.5;
+        margin: 0 0 20px;
+      }
+
+      .wm-primary-lists {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .wm-list-col h4 {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--wm-light);
+        margin: 0 0 8px;
+      }
+
+      .wm-list-col ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .wm-list-col li {
+        font-size: 14px;
+        padding: 3px 0;
+        color: var(--wm-muted);
+      }
+
+      /* ─── Alternates ──────────────────────────────────────────── */
+      .wm-section-heading {
+        font-family: 'Bangers', cursive;
+        font-size: 22px;
+        letter-spacing: 1px;
+        margin: 0 0 16px;
+      }
+
+      .wm-alt-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .wm-alt-card {
+        background: var(--wm-card);
+        border: 1px solid var(--wm-border);
+        border-left: 4px solid var(--wm-gold);
+        border-radius: 6px;
+        padding: 16px;
+      }
+
+      .wm-alt-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .wm-alt-emoji {
+        font-size: 20px;
+      }
+
+      .wm-alt-name {
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .wm-alt-score {
+        margin-left: auto;
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--wm-light);
+      }
+
+      .wm-alt-why {
+        font-size: 13px;
+        color: var(--wm-muted);
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* ─── If You Care More ────────────────────────────────────── */
+      .wm-care-more {
+        margin-bottom: 32px;
+      }
+
+      .wm-care-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .wm-care-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: var(--wm-card);
+        border: 1px solid var(--wm-border);
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      .wm-care-trait {
+        font-weight: 600;
+        color: var(--wm-purple);
+        min-width: 100px;
+      }
+
+      .wm-care-arrow {
+        color: var(--wm-light);
+      }
+
+      .wm-care-model {
+        color: var(--wm-ink);
+      }
+
+      /* ─── Actions ─────────────────────────────────────────────── */
+      .wm-actions {
+        text-align: center;
+        padding: 16px 0;
+      }
+
+      .wm-try-again {
+        font-family: 'Bangers', cursive;
+        font-size: 20px;
+        letter-spacing: 1px;
+        padding: 14px 28px;
+        background: var(--wm-gold);
+        color: var(--wm-ink);
+        border: 2px solid var(--wm-ink);
+        border-radius: 8px;
+        box-shadow: var(--wm-shadow);
+        cursor: pointer;
+        transition: transform 0.15s, box-shadow 0.15s;
+      }
+      .wm-try-again:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 5px 5px 0 #111;
+      }
+      .wm-try-again:active {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 1px 0 #111;
+      }
+
+      /* ─── Animations ──────────────────────────────────────────── */
+      @keyframes wmFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .wm-wheel-result { transition: none !important; opacity: 1; transform: none; }
+        .wm-wheel-tagline { transition: none !important; opacity: 1; }
+        .wm-start, .wm-freetext, .wm-quiz, .wm-result {
+          animation: none !important;
+        }
+      }
+
+      /* ─── Responsive ──────────────────────────────────────────── */
+      @media (max-width: 600px) {
+        .wm-paths {
+          grid-template-columns: 1fr;
+        }
+
+        .wm-quiz-options {
+          flex-direction: column;
+        }
+
+        .wm-quiz-or {
+          display: none;
+        }
+
+        .wm-quiz-card {
+          padding: 24px 16px;
+          width: 100%;
+        }
+
+        .wm-primary-top {
+          flex-wrap: wrap;
+        }
+
+        .wm-fit-badge {
+          margin-left: 0;
+        }
+
+        .wm-primary-lists {
+          grid-template-columns: 1fr;
+        }
+
+        .wm-alt-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .wm-care-item {
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+
+        .wm-care-trait {
+          min-width: auto;
+        }
+
+        .wm-title {
+          font-size: 48px;
+        }
+
+        .wm-quiz-prompt {
+          font-size: 28px;
+        }
+
+        .wm-section-title {
+          font-size: 28px;
+        }
+      }
+
+    </style>
+  </Fragment>
+
+  <WhichModel client:idle />
+</BaseLayout>
