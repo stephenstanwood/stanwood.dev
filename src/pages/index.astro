@@ -3,6 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ChemFormula from "../components/ChemFormula";
 import ShipClockTile from "../components/ShipClockTile.tsx";
 import AIRadarTile from "../components/AIRadarTile.tsx";
+import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
+import AIStatusTile from "../components/AIStatusTile.tsx";
+import WhichModelTile from "../components/WhichModelTile.tsx";
 
 const featured = [
   {
@@ -54,7 +57,7 @@ const projects = [
   description="Building tools to make life simpler & more fun."
   slug=""
   themeColor="#fffef5"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
   schemaType="WebSite"
   schemaName="stanwood.dev"
 >
@@ -611,6 +614,248 @@ const projects = [
         padding: 6px 0 10px;
       }
 
+      /* ── aesthetic weather tile ── */
+      .proj-tile.aw-tile {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 2px solid var(--ink);
+        box-shadow: 3px 3px 0 var(--ink);
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .proj-tile.aw-tile:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .aw-inner {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-height: 120px;
+        justify-content: center;
+      }
+      .aw-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+      }
+      .aw-emoji {
+        letter-spacing: 0;
+      }
+      .aw-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 17px;
+        line-height: 1.1;
+        color: #111;
+      }
+      .aw-subtitle {
+        font-family: 'Cabin', sans-serif;
+        font-style: italic;
+        font-size: 11px;
+        color: #555;
+        line-height: 1.3;
+      }
+      .aw-meta {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #999;
+        margin-top: 4px;
+      }
+      .aw-loading {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #bbb;
+        text-align: center;
+        padding: 40px 0;
+      }
+      /* dark variant for night day-types */
+      .aw-tile[data-dark] .aw-label { color: rgba(255,255,255,0.5); }
+      .aw-tile[data-dark] .aw-title { color: #f0f0f0; }
+      .aw-tile[data-dark] .aw-subtitle { color: rgba(255,255,255,0.7); }
+      .aw-tile[data-dark] .aw-meta { color: rgba(255,255,255,0.5); }
+
+      /* ── AI status tile pin ── */
+      .ais-pin .proj-tile {
+        height: 100%;
+      }
+
+      /* ── AI status tile ── */
+      .ais-tile {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        overflow: hidden;
+        cursor: default;
+        background: #fff;
+      }
+      .proj-tile.ais-tile:hover {
+        transform: none !important;
+        box-shadow: 3px 3px 0 var(--ink) !important;
+      }
+      .ais-tile--out .ais-head,
+      .ais-tile--out .ais-body {
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      /* White zone: logo + name + status */
+      .ais-head {
+        padding: 14px 16px 10px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #fff;
+        min-height: 68px;
+      }
+      .ais-logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .ais-head-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .ais-name {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--ink);
+        letter-spacing: 0.02em;
+      }
+      .ais-status-row {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .ais-pulse {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        animation: aisPulse 2s ease-in-out infinite;
+      }
+      @keyframes aisPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+      }
+      .ais-status-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      /* Brand color zone: summary + footer */
+      .ais-body {
+        flex: 1;
+        padding: 10px 16px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        color: #fff;
+        transition: background 0.3s ease;
+      }
+      .ais-summary {
+        font-size: 12px;
+        line-height: 1.4;
+        opacity: 0.9;
+      }
+      .ais-incident {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        line-height: 1.4;
+        opacity: 0.7;
+      }
+
+      /* Footer: dots + meta */
+      .ais-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: auto;
+        padding-top: 4px;
+      }
+      .ais-dots {
+        display: flex;
+        gap: 6px;
+      }
+      .ais-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255,255,255,0.35);
+        background: transparent;
+        padding: 0;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .ais-dot:hover {
+        border-color: rgba(255,255,255,0.7);
+      }
+      .ais-dot--active {
+        background: #fff;
+        border-color: #fff;
+      }
+      .ais-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .ais-checked {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: rgba(255,255,255,0.5);
+      }
+      .ais-link {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        text-decoration: none;
+        color: rgba(255,255,255,0.7);
+        transition: color 0.15s;
+      }
+      .ais-link:hover {
+        color: #fff;
+      }
+      .ais-loading {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .ais-loading-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #ccc;
+        animation: aisPulse 1.5s ease-in-out infinite;
+      }
+      .ais-loading-text {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #aaa;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ais-pulse { animation: none !important; }
+        .ais-tile--out .ais-head,
+        .ais-tile--out .ais-body { transition: none !important; }
+        .ais-loading-dot { animation: none !important; }
+      }
+
       /* ── AI radar tile ── */
       .proj-tile.radar-tile {
         display: flex;
@@ -620,12 +865,11 @@ const projects = [
         padding: 14px 16px 0;
         position: relative;
         overflow: hidden;
-        cursor: pointer;
       }
       .proj-tile.radar-tile:hover {
-        transform: translate(-1px, -1px);
-        box-shadow: 4px 4px 0 var(--ink);
-        background: #fffdf8;
+        transform: none;
+        box-shadow: 3px 3px 0 var(--ink);
+        background: #faf8f3;
       }
       .radar-header-row {
         display: flex;
@@ -710,75 +954,13 @@ const projects = [
       }
       .radar-list--visible { opacity: 1; }
 
-      /* Two-column body: lead left, entries right */
-      .radar-body {
-        display: flex;
-        gap: 16px;
-        height: 100%;
-      }
-
-      /* Lead story */
-      .radar-lead {
-        border-left: 3px solid #888;
-        padding: 8px 0 8px 12px;
-        flex: 0 0 38%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      /* Entries column */
+      /* Entries list */
       .radar-entries {
-        flex: 1;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #ddd transparent;
-        border-left: 1px solid #f0ede4;
-        padding-left: 12px;
+        flex: 1;
       }
-      .radar-lead-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 3px;
-      }
-      .radar-type-badge {
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--orange);
-        background: #fff5ef;
-        padding: 1px 5px;
-        border-radius: 2px;
-      }
-      .radar-age {
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        color: #aaa;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      .radar-lead-name {
-        font-family: 'Cabin', sans-serif;
-        font-weight: 700;
-        font-size: 14px;
-        color: var(--ink);
-        line-height: 1.2;
-        margin-bottom: 2px;
-      }
-      .radar-lead-summary {
-        font-size: 11px;
-        color: #666;
-        line-height: 1.3;
-      }
-      .radar-org-label {
-        font-weight: 600;
-        font-size: 10px;
-      }
-
-      /* Secondary entries */
       .radar-entry {
         display: flex;
         align-items: center;
@@ -787,9 +969,24 @@ const projects = [
         border-left: 3px solid #888;
         border-bottom: 1px solid #f0ede4;
         color: var(--ink);
-        overflow: hidden;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .radar-entry:hover {
+        background: #f8f6f0;
+      }
+      .radar-entry--latest {
+        border-left-width: 4px;
       }
       .radar-entry:last-child { border-bottom: none; }
+      .radar-age {
+        font-family: 'Space Mono', monospace;
+        font-size: 7px;
+        color: var(--orange);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-left: 6px;
+      }
       .radar-date-block {
         display: flex;
         flex-direction: column;
@@ -817,7 +1014,6 @@ const projects = [
         flex-direction: column;
         min-width: 0;
         flex: 1;
-        overflow: hidden;
       }
       .radar-name {
         font-family: 'Cabin', sans-serif;
@@ -825,22 +1021,23 @@ const projects = [
         font-size: 11px;
         color: var(--ink);
         line-height: 1.2;
+        display: flex;
+        align-items: baseline;
       }
       .radar-summary {
         font-size: 9px;
         color: #999;
         line-height: 1.3;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
       /* Footer link */
       .radar-footer {
+        display: block;
         flex-shrink: 0;
         border-top: 1px solid #f0ede4;
         padding: 8px 0;
         text-align: right;
+        text-decoration: none;
       }
       .radar-footer-text {
         font-family: 'Space Mono', monospace;
@@ -850,7 +1047,7 @@ const projects = [
         color: var(--orange);
         transition: color 0.15s;
       }
-      .proj-tile.radar-tile:hover .radar-footer-text {
+      .radar-footer:hover .radar-footer-text {
         color: var(--ink);
       }
 
@@ -1081,8 +1278,11 @@ const projects = [
           </div>
         </a>
       ))}
+      <AestheticWeatherTile client:idle />
       <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
+      <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
       <AIRadarTile client:idle />
+      <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
     </div>
 
     <!-- Footer -->
@@ -1119,10 +1319,11 @@ const projects = [
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
       // Full shuffle — all tiles treated equally
-      shuffle(projRow, ':scope > .proj-tile, :scope > astro-island');
+      const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
+      shuffle(projRow, tileSelector);
 
       // If last tile is alone on its row (count % 3 !== 0), stretch it full-width
-      const tiles = [...projRow.querySelectorAll(':scope > .proj-tile, :scope > astro-island')] as HTMLElement[];
+      const tiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
       if (tiles.length % 3 !== 0) {
         const lastTile = tiles[tiles.length - 1];
         const tile = lastTile.classList.contains('proj-tile') ? lastTile : lastTile.querySelector('.proj-tile');
@@ -1138,7 +1339,7 @@ const projects = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '14 and counting'],
+      ['ls projects/ | wc -l', '15 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],

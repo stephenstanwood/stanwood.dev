@@ -1,10 +1,5 @@
 export const prerender = false;
 
-// CLEANUP-FLAG: This file shares ~80% of its logic with nearby-coffee.ts.
-// The Places API fetch, field-mask building, progressive-search loop, and result
-// mapping are near-identical. Consider extracting a shared searchNearbyPlaces()
-// helper in lib/placesClient.ts to avoid drift between the two routes.
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { validatePlacesKey, searchNearbyPlaces } from "../../lib/placesClient";
