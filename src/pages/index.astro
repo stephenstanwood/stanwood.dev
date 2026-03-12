@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ChemFormula from "../components/ChemFormula";
 import ShipClockTile from "../components/ShipClockTile.tsx";
 import AIRadarTile from "../components/AIRadarTile.tsx";
+import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import AIStatusTile from "../components/AIStatusTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
 
@@ -485,8 +486,9 @@ const projects = [
       .proj-row.balanced .proj-tile:nth-last-child(-n+4) {
         grid-column: span 3;
       }
-      /* radar tile always stays span 2 wide, span 2 tall */
-      .proj-row.balanced .radar-tile:nth-last-child(-n+4) {
+      /* special tiles always stay span 2 wide */
+      .proj-row.balanced .radar-tile:nth-last-child(-n+4),
+      .proj-row.balanced .aw-tile:nth-last-child(-n+4) {
         grid-column: span 2;
       }
 
@@ -622,6 +624,71 @@ const projects = [
         text-transform: uppercase;
         padding: 6px 0 10px;
       }
+
+      /* ── aesthetic weather tile ── */
+      .proj-tile.aw-tile {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 2px solid var(--ink);
+        box-shadow: 3px 3px 0 var(--ink);
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .proj-tile.aw-tile:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+      }
+      .aw-inner {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-height: 120px;
+        justify-content: center;
+      }
+      .aw-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #888;
+      }
+      .aw-emoji {
+        letter-spacing: 0;
+      }
+      .aw-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 17px;
+        line-height: 1.1;
+        color: #111;
+      }
+      .aw-subtitle {
+        font-family: 'Cabin', sans-serif;
+        font-style: italic;
+        font-size: 11px;
+        color: #555;
+        line-height: 1.3;
+      }
+      .aw-meta {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #999;
+        margin-top: 4px;
+      }
+      .aw-loading {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #bbb;
+        text-align: center;
+        padding: 40px 0;
+      }
+      /* dark variant for night day-types */
+      .aw-tile[data-dark] .aw-label { color: rgba(255,255,255,0.5); }
+      .aw-tile[data-dark] .aw-title { color: #f0f0f0; }
+      .aw-tile[data-dark] .aw-subtitle { color: rgba(255,255,255,0.7); }
+      .aw-tile[data-dark] .aw-meta { color: rgba(255,255,255,0.5); }
 
       /* ── AI status tile pin ── */
       .ais-pin {
@@ -1232,6 +1299,7 @@ const projects = [
           </div>
         </a>
       ))}
+      <AestheticWeatherTile client:idle />
       <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
       <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
       <AIRadarTile client:idle />
@@ -1284,7 +1352,7 @@ const projects = [
       // Exclude special tiles (radar, ship clock) from balance count — they shouldn't widen
       const normalKids = gridKids.filter(el => {
         const tile = tileOf(el);
-        return !tile.classList.contains('radar-tile') && !tile.classList.contains('sct-tile') && !tile.classList.contains('ais-tile');
+        return !tile.classList.contains('radar-tile') && !tile.classList.contains('sct-tile') && !tile.classList.contains('aw-tile') && !tile.classList.contains('ais-tile');
       });
       // If normal tile count % 3 === 1, rebalance last 4 into 2×2
       // but ensure only image tiles go in the wide slots, preferring Lap Lab

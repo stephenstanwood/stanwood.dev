@@ -1,0 +1,234 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AestheticWeatherPage from "../components/AestheticWeatherPage";
+---
+
+<BaseLayout
+  title="Aesthetic Weather — stanwood.dev"
+  description="A poetic weather read for the South Bay. Not a forecast — a vibe check on the sky."
+  slug="south-bay-aesthetic-weather"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
+  schemaType="WebApplication"
+  schemaCategory="WeatherApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      body {
+        background: #fffef5;
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Cabin', sans-serif;
+        color: #111;
+      }
+
+      /* ── back link ── */
+      .retro-back {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 100;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: #111;
+        text-decoration: none;
+        background: #fffef5;
+        border: 2px solid #111;
+        box-shadow: 2px 2px 0 #111;
+        padding: 4px 10px;
+        transition: transform 0.1s, box-shadow 0.1s;
+      }
+      .retro-back:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 #111;
+      }
+
+      /* ── page layout ── */
+      .aw-page {
+        min-height: 100vh;
+      }
+
+      .aw-page-header {
+        padding: 80px 24px 48px;
+        text-align: center;
+        transition: background 0.4s ease;
+      }
+      .aw-page-header-inner {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+
+      /* ── location bar ── */
+      .aw-page-loc-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .aw-page-loc-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #555;
+      }
+      .aw-page-loc-actions {
+        display: flex;
+        gap: 8px;
+      }
+      .aw-page-loc-btn {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        background: rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 3px;
+        padding: 3px 10px;
+        cursor: pointer;
+        color: #444;
+        transition: background 0.15s;
+      }
+      .aw-page-loc-btn:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      .aw-page-loc-btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .aw-page-geo-note {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #888;
+        margin-bottom: 16px;
+      }
+
+      /* ── hero ── */
+      .aw-page-emoji {
+        font-size: 48px;
+        margin-bottom: 12px;
+      }
+      .aw-page-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(32px, 8vw, 48px);
+        line-height: 1.1;
+        margin: 0 0 8px;
+        color: #111;
+      }
+      .aw-page-subtitle {
+        font-family: 'Cabin', sans-serif;
+        font-style: italic;
+        font-size: 18px;
+        color: #444;
+        margin: 0;
+      }
+      .aw-page-loading {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: #999;
+        padding: 80px 0;
+        text-align: center;
+      }
+
+      /* ── content card ── */
+      .aw-page-card {
+        max-width: 640px;
+        margin: -16px auto 48px;
+        background: white;
+        border: 3px solid #111;
+        box-shadow: 5px 5px 0 #111;
+        padding: 32px;
+      }
+
+      .aw-page-section {
+        margin-bottom: 24px;
+      }
+      .aw-page-section:last-child {
+        margin-bottom: 0;
+      }
+      .aw-page-section-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: #aaa;
+        margin-bottom: 8px;
+      }
+      .aw-page-prose {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+      }
+      .aw-page-bestuse {
+        font-size: 15px;
+        line-height: 1.5;
+        color: #555;
+        margin: 0;
+      }
+      .aw-page-later {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #555;
+        margin: 0;
+      }
+
+      .aw-page-divider {
+        border: none;
+        border-top: 1px solid #eee;
+        margin: 24px 0;
+      }
+
+      /* ── numbers grid ── */
+      .aw-page-numbers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 24px;
+      }
+      .aw-page-num-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        line-height: 1.8;
+      }
+      .aw-page-num-label {
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #999;
+      }
+      .aw-page-num-value {
+        color: #333;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      /* ── dark mode (night types) ── */
+      .aw-page--dark .aw-page-title { color: #f0f0f0; }
+      .aw-page--dark .aw-page-subtitle { color: rgba(255,255,255,0.7); }
+      .aw-page--dark .aw-page-loc-label { color: rgba(255,255,255,0.6); }
+      .aw-page--dark .aw-page-loc-btn {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.7);
+      }
+      .aw-page--dark .aw-page-loc-btn:hover {
+        background: rgba(255,255,255,0.15);
+      }
+      .aw-page--dark .aw-page-geo-note { color: rgba(255,255,255,0.5); }
+
+      /* ── mobile ── */
+      @media (max-width: 600px) {
+        .aw-page-header { padding: 64px 16px 32px; }
+        .aw-page-card { margin: -8px 12px 32px; padding: 24px 20px; }
+        .aw-page-numbers { grid-template-columns: 1fr; }
+        .retro-back { top: 12px; left: 12px; font-size: 10px; }
+      }
+    </style>
+  </Fragment>
+
+  <a class="retro-back" href="/">← home</a>
+  <AestheticWeatherPage client:idle />
+</BaseLayout>
