@@ -62,7 +62,7 @@ export default function AIRadarTile() {
   }, []);
 
   const latest = sorted[0];
-  const rest = sorted.slice(1, 6);
+  const rest = sorted.slice(1, 9);
 
   return (
     <a className="proj-tile radar-tile" href="/radar">
@@ -88,42 +88,47 @@ export default function AIRadarTile() {
       )}
 
       <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
-        {/* Lead story */}
-        <div
-          className="radar-lead"
-          style={{ borderLeftColor: orgColors[latest.org] || "#888" }}
-        >
-          <div className="radar-lead-meta">
-            <span className="radar-type-badge">{typeLabels[latest.type] || "LAUNCH"}</span>
-            <span className="radar-age">{relativeAge(latest.date)}</span>
+        {/* Two-column layout: lead left, entries right */}
+        <div className="radar-body">
+          {/* Lead story */}
+          <div
+            className="radar-lead"
+            style={{ borderLeftColor: orgColors[latest.org] || "#888" }}
+          >
+            <div className="radar-lead-meta">
+              <span className="radar-type-badge">{typeLabels[latest.type] || "LAUNCH"}</span>
+              <span className="radar-age">{relativeAge(latest.date)}</span>
+            </div>
+            <div className="radar-lead-name">{latest.name}</div>
+            <div className="radar-lead-summary">
+              <span className="radar-org-label" style={{ color: orgColors[latest.org] || "#888" }}>{latest.org}</span>
+              {" — "}{latest.summary}
+            </div>
           </div>
-          <div className="radar-lead-name">{latest.name}</div>
-          <div className="radar-lead-summary">
-            <span className="radar-org-label" style={{ color: orgColors[latest.org] || "#888" }}>{latest.org}</span>
-            {" — "}{latest.summary}
+
+          {/* Secondary items */}
+          <div className="radar-entries">
+            {rest.map((l) => {
+              const { date, month } = formatDate(l.date);
+              return (
+                <div
+                  key={l.name}
+                  className="radar-entry"
+                  style={{ borderLeftColor: orgColors[l.org] || "#888" }}
+                >
+                  <span className="radar-date-block">
+                    <span className="radar-date-num">{date}</span>
+                    <span className="radar-date-month">{month}</span>
+                  </span>
+                  <span className="radar-info">
+                    <span className="radar-name">{l.name}</span>
+                    <span className="radar-summary">{l.org} — {l.summary}</span>
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
-
-        {/* Secondary items */}
-        {rest.map((l) => {
-          const { date, month } = formatDate(l.date);
-          return (
-            <div
-              key={l.name}
-              className="radar-entry"
-              style={{ borderLeftColor: orgColors[l.org] || "#888" }}
-            >
-              <span className="radar-date-block">
-                <span className="radar-date-num">{date}</span>
-                <span className="radar-date-month">{month}</span>
-              </span>
-              <span className="radar-info">
-                <span className="radar-name">{l.name}</span>
-                <span className="radar-summary">{l.org} — {l.summary}</span>
-              </span>
-            </div>
-          );
-        })}
       </div>
 
       {/* Footer */}

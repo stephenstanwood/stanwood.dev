@@ -622,11 +622,14 @@ const projects = [
       }
 
       /* ── AI radar tile ── */
-      .radar-tile {
-        grid-row: span 2;
+      .proj-tile.radar-tile {
+        grid-column: span 4;
+        grid-row: span 1;
         display: flex;
         flex-direction: column;
-        padding: 12px 14px 0;
+        align-items: stretch;
+        gap: 0;
+        padding: 14px 16px 0;
         position: relative;
         overflow: hidden;
         cursor: pointer;
@@ -638,9 +641,9 @@ const projects = [
       }
       .radar-header-row {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: space-between;
-        margin-bottom: 1px;
+        margin-bottom: 2px;
       }
       .radar-header {
         font-family: 'Permanent Marker', cursive;
@@ -712,9 +715,6 @@ const projects = [
 
       /* Radar list */
       .radar-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
         opacity: 0;
         transition: opacity 0.4s ease;
         flex: 1;
@@ -722,11 +722,31 @@ const projects = [
       }
       .radar-list--visible { opacity: 1; }
 
+      /* Two-column body: lead left, entries right */
+      .radar-body {
+        display: flex;
+        gap: 16px;
+        height: 100%;
+      }
+
       /* Lead story */
       .radar-lead {
         border-left: 3px solid #888;
-        padding: 6px 0 8px 10px;
-        margin-bottom: 4px;
+        padding: 8px 0 8px 12px;
+        flex: 0 0 38%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Entries column */
+      .radar-entries {
+        flex: 1;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #ddd transparent;
+        border-left: 1px solid #f0ede4;
+        padding-left: 12px;
       }
       .radar-lead-meta {
         display: flex;
@@ -829,9 +849,9 @@ const projects = [
 
       /* Footer link */
       .radar-footer {
-        margin-top: auto;
+        flex-shrink: 0;
         border-top: 1px solid #f0ede4;
-        padding: 6px 0;
+        padding: 8px 0;
         text-align: right;
       }
       .radar-footer-text {
@@ -938,7 +958,10 @@ const projects = [
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
-        .radar-tile { grid-column: span 2; grid-row: span 1; }
+        .proj-tile.radar-tile { grid-column: 1 / -1; grid-row: span 1; }
+        .radar-body { flex-direction: column; gap: 8px; }
+        .radar-lead { flex: none; }
+        .radar-entries { border-left: none; padding-left: 0; max-height: 180px; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
