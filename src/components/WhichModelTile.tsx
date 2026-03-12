@@ -13,7 +13,7 @@ const BRAND_COLORS: Record<string, string> = {
 
 const EXAMPLES = [
   { task: "marketing copy", model: "Claude", org: "Anthropic" },
-  { task: "React app", model: "GPT-4o", org: "OpenAI" },
+  { task: "React app", model: "ChatGPT", org: "OpenAI" },
   { task: "product photos", model: "Midjourney", org: "Midjourney" },
   { task: "500-page PDFs", model: "Gemini", org: "Google" },
   { task: "self-host", model: "Llama", org: "Meta" },
