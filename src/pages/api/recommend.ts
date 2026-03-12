@@ -107,9 +107,22 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
+    // Guard against oversized inputs reaching Claude
+    if (restaurantName.trim().length > 200) {
+      return new Response(
+        JSON.stringify({ error: "Restaurant name too long (max 200 characters)" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const safeLocation =
+      typeof location === "string" && location.trim().length <= 100
+        ? location.trim()
+        : "Campbell, CA";
+
     const userMessage = buildUserMessage(
       restaurantName.trim(),
-      location || "Campbell, CA",
+      safeLocation,
       tasteProfile,
       constraints,
     );
