@@ -1099,7 +1099,7 @@ const projects = [
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        padding: 12px 14px;
+        padding: 14px 16px;
         cursor: pointer;
       }
       .vct:hover {
@@ -1109,6 +1109,8 @@ const projects = [
         display: flex;
         flex-direction: column;
         gap: 8px;
+        height: 100%;
+        justify-content: space-between;
       }
       .vct-top-row {
         display: flex;
@@ -1146,16 +1148,21 @@ const projects = [
         border: 2px solid var(--ink);
         border-radius: 6px;
         background: var(--ink);
-        color: var(--cream);
+        color: #fff;
         font-family: 'Space Mono', monospace;
         font-size: 11px;
         font-weight: 700;
         cursor: pointer;
-        transition: background 0.15s;
+        transition: all 0.15s;
         white-space: nowrap;
       }
       .vct-go:hover { background: var(--orange); border-color: var(--orange); }
-      .vct-go:disabled { opacity: 0.3; cursor: not-allowed; }
+      .vct-go:disabled {
+        background: #e0d8cc;
+        border-color: #e0d8cc;
+        color: #aaa;
+        cursor: not-allowed;
+      }
       .vct-examples {
         display: flex;
         gap: 4px;
