@@ -130,7 +130,7 @@ async function fetchAll(): Promise<ProviderStatus[]> {
       "#d97706",
     ),
   ]);
-  return [chatgpt, claude];
+  return [claude, chatgpt];
 }
 
 export const GET: APIRoute = async () => {
