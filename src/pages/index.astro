@@ -682,6 +682,7 @@ const projects = [
         flex-direction: column;
         gap: 6px;
         transition: opacity 0.2s ease;
+        min-height: 80px;
       }
       .ais-card--out {
         opacity: 0;
@@ -913,82 +914,13 @@ const projects = [
       }
       .radar-list--visible { opacity: 1; }
 
-      /* Two-column body: lead left, entries right */
-      .radar-body {
-        display: flex;
-        gap: 16px;
-        height: 100%;
-      }
-
-      /* Lead story */
-      .radar-lead {
-        border-left: 3px solid #888;
-        padding: 8px 0 8px 12px;
-        flex: 0 0 38%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        text-decoration: none;
-        color: inherit;
-        border-radius: 4px;
-        transition: background 0.15s;
-      }
-      .radar-lead:hover {
-        background: #f8f6f0;
-      }
-
-      /* Entries column */
+      /* Entries list */
       .radar-entries {
-        flex: 1;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: #ddd transparent;
-        border-left: 1px solid #f0ede4;
-        padding-left: 12px;
+        flex: 1;
       }
-      .radar-lead-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 3px;
-      }
-      .radar-type-badge {
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--orange);
-        background: #fff5ef;
-        padding: 1px 5px;
-        border-radius: 2px;
-      }
-      .radar-age {
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        color: #aaa;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-      }
-      .radar-lead-name {
-        font-family: 'Cabin', sans-serif;
-        font-weight: 700;
-        font-size: 14px;
-        color: var(--ink);
-        line-height: 1.2;
-        margin-bottom: 2px;
-      }
-      .radar-lead-summary {
-        font-size: 11px;
-        color: #666;
-        line-height: 1.3;
-      }
-      .radar-org-label {
-        font-weight: 600;
-        font-size: 10px;
-      }
-
-      /* Secondary entries */
       .radar-entry {
         display: flex;
         align-items: center;
@@ -997,14 +929,24 @@ const projects = [
         border-left: 3px solid #888;
         border-bottom: 1px solid #f0ede4;
         color: var(--ink);
-        overflow: hidden;
         text-decoration: none;
         transition: background 0.15s;
       }
       .radar-entry:hover {
         background: #f8f6f0;
       }
+      .radar-entry--latest {
+        border-left-width: 4px;
+      }
       .radar-entry:last-child { border-bottom: none; }
+      .radar-age {
+        font-family: 'Space Mono', monospace;
+        font-size: 7px;
+        color: var(--orange);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-left: 6px;
+      }
       .radar-date-block {
         display: flex;
         flex-direction: column;
@@ -1032,7 +974,6 @@ const projects = [
         flex-direction: column;
         min-width: 0;
         flex: 1;
-        overflow: hidden;
       }
       .radar-name {
         font-family: 'Cabin', sans-serif;
@@ -1040,14 +981,13 @@ const projects = [
         font-size: 11px;
         color: var(--ink);
         line-height: 1.2;
+        display: flex;
+        align-items: baseline;
       }
       .radar-summary {
         font-size: 9px;
         color: #999;
         line-height: 1.3;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
       /* Footer link */
@@ -1165,9 +1105,7 @@ const projects = [
         .proj-row .proj-tile:last-child:nth-child(odd) { grid-column: span 2; }
         .proj-row.balanced .proj-tile:nth-last-child(-n+4) { grid-column: span 1; }
         .proj-tile.radar-tile { grid-column: 1 / -1; grid-row: span 1; }
-        .radar-body { flex-direction: column; gap: 8px; }
-        .radar-lead { flex: none; }
-        .radar-entries { border-left: none; padding-left: 0; max-height: 180px; }
+        .radar-entries { max-height: 200px; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }

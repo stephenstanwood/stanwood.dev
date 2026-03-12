@@ -37,10 +37,10 @@ function LogoSvg({ id }: { id: string }) {
       </svg>
     );
   }
-  // Claude/Anthropic logo
+  // Claude / Anthropic logo
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M16.98 7.59L12.61 20.41H15.76L20.13 7.59H16.98ZM8.24 7.59L3.87 20.41H7.02L8.76 15.35H13.22L11.48 20.41H14.63L19.0 7.59H8.24ZM9.67 12.72L11.48 7.59L13.29 12.72H9.67Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd" transform="translate(-1, -2)"/>
+      <path d="M17.304 3.541h-3.672l6.696 16.918H24zm-10.608 0L0 20.459h3.744l1.37-3.553h7.005l1.37 3.553h3.744L10.536 3.541zm-.371 10.223 2.291-5.946 2.292 5.946z" fill="currentColor"/>
     </svg>
   );
 }

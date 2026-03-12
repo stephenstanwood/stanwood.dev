@@ -3,7 +3,6 @@ import launches from "../data/ai-launches.json";
 import {
   type Launch,
   ORG_COLORS,
-  TYPE_LABELS,
   relativeAge,
   formatLaunchDate,
 } from "../lib/aiRadar";
@@ -21,8 +20,7 @@ export default function AIRadarTile() {
     return () => clearTimeout(t);
   }, []);
 
-  const latest = sorted[0];
-  const rest = sorted.slice(1, 9);
+  const items = sorted.slice(0, 10);
 
   return (
     <div className="proj-tile radar-tile">
@@ -48,52 +46,33 @@ export default function AIRadarTile() {
       )}
 
       <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
-        {/* Two-column layout: lead left, entries right */}
-        <div className="radar-body">
-          {/* Lead story */}
-          <a
-            href={latest.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="radar-lead"
-            style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
-          >
-            <div className="radar-lead-meta">
-              <span className="radar-type-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
-              <span className="radar-age">{relativeAge(latest.date)}</span>
-            </div>
-            <div className="radar-lead-name">{latest.name}</div>
-            <div className="radar-lead-summary">
-              <span className="radar-org-label" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
-              {" — "}{latest.summary}
-            </div>
-          </a>
-
-          {/* Secondary items */}
-          <div className="radar-entries">
-            {rest.map((l) => {
-              const { date, month } = formatLaunchDate(l.date);
-              return (
-                <a
-                  key={l.name}
-                  href={l.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="radar-entry"
-                  style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
-                >
-                  <span className="radar-date-block">
-                    <span className="radar-date-num">{date}</span>
-                    <span className="radar-date-month">{month}</span>
+        <div className="radar-entries">
+          {items.map((l, i) => {
+            const { date, month } = formatLaunchDate(l.date);
+            const age = i === 0 ? relativeAge(l.date) : null;
+            return (
+              <a
+                key={l.name}
+                href={l.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`radar-entry ${i === 0 ? "radar-entry--latest" : ""}`}
+                style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
+              >
+                <span className="radar-date-block">
+                  <span className="radar-date-num">{date}</span>
+                  <span className="radar-date-month">{month}</span>
+                </span>
+                <span className="radar-info">
+                  <span className="radar-name">
+                    {l.name}
+                    {age && <span className="radar-age">{age}</span>}
                   </span>
-                  <span className="radar-info">
-                    <span className="radar-name">{l.name}</span>
-                    <span className="radar-summary">{l.org} — {l.summary}</span>
-                  </span>
-                </a>
-              );
-            })}
-          </div>
+                  <span className="radar-summary">{l.org} — {l.summary}</span>
+                </span>
+              </a>
+            );
+          })}
         </div>
       </div>
 
