@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, memo } from "react";
 import { ModelLogo } from "../lib/whichModel/logos";
 
-// Brand colors per company — shared between wheel and examples
 const BRAND_COLORS: Record<string, string> = {
   Anthropic: "#d97706",
   OpenAI: "#10a37f",
@@ -13,22 +12,16 @@ const BRAND_COLORS: Record<string, string> = {
 };
 
 const EXAMPLES = [
-  { task: "write marketing copy", model: "Claude", org: "Anthropic" },
-  { task: "build a React app", model: "GPT-4o", org: "OpenAI" },
-  { task: "generate product photos", model: "Midjourney", org: "Midjourney" },
-  { task: "analyze 500-page PDFs", model: "Gemini", org: "Google" },
-  { task: "self-host for privacy", model: "Llama", org: "Meta" },
-  { task: "fast chatbot prototype", model: "Gemini Flash", org: "Google" },
+  { task: "marketing copy", model: "Claude", org: "Anthropic" },
+  { task: "React app", model: "GPT-4o", org: "OpenAI" },
+  { task: "product photos", model: "Midjourney", org: "Midjourney" },
+  { task: "500-page PDFs", model: "Gemini", org: "Google" },
+  { task: "self-host", model: "Llama", org: "Meta" },
+  { task: "fast prototype", model: "Gemini Flash", org: "Google" },
 ];
 
 const SLICES = [
-  { org: "Anthropic", label: "Claude" },
-  { org: "OpenAI", label: "GPT" },
-  { org: "Google", label: "Gemini" },
-  { org: "Meta", label: "Llama" },
-  { org: "Mistral", label: "Mistral" },
-  { org: "Midjourney", label: "Midjourney" },
-  { org: "Black Forest Labs", label: "Flux" },
+  "Anthropic", "OpenAI", "Google", "Meta", "Mistral", "Midjourney", "Black Forest Labs",
 ];
 
 function slicePath(cx: number, cy: number, r: number, startAngle: number, endAngle: number): string {
@@ -40,11 +33,10 @@ function slicePath(cx: number, cy: number, r: number, startAngle: number, endAng
   return `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
 }
 
-/** Entire static section: wheel + legend. Memoized — never re-renders. */
-const WheelWithLegend = memo(function WheelWithLegend() {
+/** Centered spinning wheel. Memoized — never re-renders. */
+const SpinningWheel = memo(function SpinningWheel() {
   const styleRef = useRef<HTMLStyleElement | null>(null);
 
-  // Inject CSS keyframes once, never re-insert
   useEffect(() => {
     if (styleRef.current) return;
     const style = document.createElement("style");
@@ -63,24 +55,23 @@ const WheelWithLegend = memo(function WheelWithLegend() {
   }, []);
 
   const n = SLICES.length;
-  const svgSize = 100;
+  const svgSize = 130;
   const cx = svgSize / 2;
   const cy = svgSize / 2;
-  const r = 44;
+  const r = 58;
   const sliceAngle = (Math.PI * 2) / n;
 
   return (
     <div
       style={{
+        flex: 1,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "10px",
-        flex: 1,
       }}
     >
-      {/* Wheel */}
       <div style={{ position: "relative", display: "inline-flex", flexShrink: 0 }}>
+        {/* Pointer */}
         <div
           style={{
             position: "absolute",
@@ -89,9 +80,9 @@ const WheelWithLegend = memo(function WheelWithLegend() {
             transform: "translateX(-50%)",
             width: 0,
             height: 0,
-            borderLeft: "6px solid transparent",
-            borderRight: "6px solid transparent",
-            borderTop: "10px solid #222",
+            borderLeft: "7px solid transparent",
+            borderRight: "7px solid transparent",
+            borderTop: "12px solid #222",
             zIndex: 2,
           }}
         />
@@ -102,51 +93,30 @@ const WheelWithLegend = memo(function WheelWithLegend() {
           viewBox={`0 0 ${svgSize} ${svgSize}`}
           style={{ display: "block", animation: "wmSpin 14s linear infinite" }}
         >
-          {SLICES.map((slice, i) => {
+          {SLICES.map((org, i) => {
             const start = i * sliceAngle - Math.PI / 2;
             const end = (i + 1) * sliceAngle - Math.PI / 2;
             return (
               <path
-                key={slice.org}
+                key={org}
                 d={slicePath(cx, cy, r, start, end)}
-                fill={BRAND_COLORS[slice.org]}
+                fill={BRAND_COLORS[org]}
                 stroke="#fff"
                 strokeWidth="1.5"
               />
             );
           })}
-          <circle cx={cx} cy={cy} r={8} fill="#222" />
-          <circle cx={cx} cy={cy} r={5} fill="#fff" />
-          <circle cx={cx} cy={cy} r={2} fill="#222" />
-          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#222" strokeWidth="2" />
+          <circle cx={cx} cy={cy} r={9} fill="#222" />
+          <circle cx={cx} cy={cy} r={6} fill="#fff" />
+          <circle cx={cx} cy={cy} r={2.5} fill="#222" />
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#222" strokeWidth="2.5" />
         </svg>
-      </div>
-
-      {/* Legend */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "2px", minWidth: 0 }}>
-        {SLICES.map((slice) => (
-          <div
-            key={slice.org}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              fontSize: "10px",
-              fontWeight: 600,
-              color: BRAND_COLORS[slice.org],
-              whiteSpace: "nowrap",
-            }}
-          >
-            <ModelLogo org={slice.org} size={12} color={BRAND_COLORS[slice.org]} />
-            <span>{slice.label}</span>
-          </div>
-        ))}
       </div>
     </div>
   );
 });
 
-/** Cycling text — isolated from wheel to prevent any layout interference */
+/** Cycling text — isolated so state changes never touch the wheel */
 function CyclingExample() {
   const [index, setIndex] = useState(0);
   const [fading, setFading] = useState(false);
@@ -168,31 +138,28 @@ function CyclingExample() {
   return (
     <div
       style={{
-        height: "20px",
+        height: "18px",
         display: "flex",
         alignItems: "center",
         gap: "5px",
         fontSize: "12px",
         transition: "opacity 0.3s ease",
-        overflow: "hidden",
-        whiteSpace: "nowrap",
-        textOverflow: "ellipsis",
         opacity: fading ? 0 : 1,
-        flexShrink: 0,
       }}
     >
-      <span style={{ color: "#666" }}>{ex.task}</span>
-      <span style={{ color: "#aaa" }}>&rarr;</span>
+      <span style={{ color: "#888" }}>{ex.task}</span>
+      <span style={{ color: "#ccc" }}>→</span>
       <span
         style={{
           display: "inline-flex",
           alignItems: "center",
-          gap: "4px",
+          gap: "3px",
           color: brandColor,
           fontWeight: 600,
         }}
       >
-        <ModelLogo org={ex.org} size={16} color={brandColor} /> {ex.model}
+        <ModelLogo org={ex.org} size={14} color={brandColor} />
+        {ex.model}
       </span>
     </div>
   );
@@ -207,35 +174,29 @@ export default function WhichModelTile() {
         color: "inherit",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
-        gap: "8px",
-        padding: "20px",
-        paddingBottom: "40px",
+        padding: "16px",
         height: "100%",
         boxSizing: "border-box",
-        position: "relative",
       }}
     >
       {/* Title */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-        <span
-          style={{
-            fontFamily: "'Bangers', cursive",
-            fontSize: "18px",
-            letterSpacing: "1px",
-            color: "#111",
-          }}
-        >
-          Which Model?
-        </span>
-      </div>
+      <span
+        style={{
+          fontFamily: "'Bangers', cursive",
+          fontSize: "16px",
+          letterSpacing: "1px",
+          color: "#111",
+          flexShrink: 0,
+        }}
+      >
+        Which Model?
+      </span>
 
-      <WheelWithLegend />
+      {/* Wheel fills available space */}
+      <SpinningWheel />
 
-      {/* Absolutely positioned so text width never affects wheel layout */}
-      <div style={{ position: "absolute", bottom: "14px", left: "20px", right: "20px" }}>
-        <CyclingExample />
-      </div>
+      {/* Cycling example at bottom */}
+      <CyclingExample />
     </a>
   );
 }
