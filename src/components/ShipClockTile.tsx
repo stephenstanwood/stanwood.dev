@@ -10,13 +10,17 @@ interface DeployData {
   error?: string;
 }
 
-/** Generate pseudo-barcode bar widths from a string (for visual effect only) */
+/** Generate pseudo-barcode bar widths from a string (for visual effect only).
+ *  Repeats the SHA pattern to fill ~60 bars for a full-width barcode. */
 function barsFromSha(sha: string): number[] {
   const bars: number[] = [];
-  for (let i = 0; i < sha.length; i++) {
-    const code = sha.charCodeAt(i);
+  const target = 60; // enough bars to span the tile width
+  let i = 0;
+  while (bars.length < target * 2) {
+    const code = sha.charCodeAt(i % sha.length);
     bars.push(code % 2 === 0 ? 2 : 1); // bar width
-    bars.push(code % 3 === 0 ? 2 : 1); // gap width (encoded as negative)
+    bars.push(code % 3 === 0 ? 2 : 1); // gap width
+    i++;
   }
   return bars;
 }
@@ -166,7 +170,7 @@ export default function ShipClockTile() {
             <span
               key={i}
               className={i % 2 === 0 ? "sct-bar" : "sct-gap"}
-              style={{ width: `${w}px` }}
+              style={{ "--w": w } as React.CSSProperties}
             />
           ))}
         </div>
