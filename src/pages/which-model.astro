@@ -26,8 +26,7 @@ const title = "Which Model? — stanwood.dev";
         --wm-gold-dark: #c9a020;
         --wm-purple: #7c5cff;
         --wm-coral: #ff6b4a;
-        --wm-oracle-bg: #0d0b1a;
-        --wm-oracle-text: #f0eee6;
+        --wm-wheel-bg: rgba(255, 253, 245, 0.95);
         --wm-border: #e5e2d9;
         --wm-shadow: 3px 3px 0 #111;
         --wm-shadow-sm: 2px 2px 0 #111;
@@ -395,101 +394,74 @@ const title = "Which Model? — stanwood.dev";
         flex-shrink: 0;
       }
 
-      /* ─── Oracle Reveal ───────────────────────────────────────── */
-      .wm-oracle-overlay {
+      /* ─── Wheel Reveal ────────────────────────────────────────── */
+      .wm-wheel-overlay {
         position: fixed;
         inset: 0;
-        background: var(--wm-oracle-bg);
+        background: var(--wm-wheel-bg);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
         z-index: 100;
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: wmOracleFadeIn 0.4s ease;
+        animation: wmFadeIn 0.3s ease;
       }
 
-      .wm-oracle-scene {
+      .wm-wheel-scene {
         position: relative;
-        width: 300px;
-        height: 300px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .wm-oracle-ring {
-        position: absolute;
-        border-radius: 50%;
-        border: 2px solid var(--wm-gold);
-        opacity: 0.3;
-        transition: all 0.8s ease;
-      }
-
-      .wm-oracle-ring.ring-1 {
-        width: 280px;
-        height: 280px;
-        animation: wmRingSpin 3s linear infinite;
-      }
-      .wm-oracle-ring.ring-2 {
-        width: 220px;
-        height: 220px;
-        border-color: var(--wm-purple);
-        animation: wmRingSpin 2.5s linear infinite reverse;
-      }
-      .wm-oracle-ring.ring-3 {
-        width: 160px;
-        height: 160px;
-        animation: wmRingSpin 2s linear infinite;
-      }
-
-      .wm-oracle-ring.reveal,
-      .wm-oracle-ring.done {
-        opacity: 0.6;
-        border-width: 3px;
-      }
-
-      .wm-oracle-center {
-        position: relative;
-        z-index: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
-        opacity: 0;
-        transform: scale(0.8);
-        transition: opacity 0.5s ease 0.6s, transform 0.5s ease 0.6s;
+        gap: 24px;
       }
-      .wm-oracle-center.reveal,
-      .wm-oracle-center.done {
+
+      .wm-wheel-pointer {
+        font-size: 28px;
+        color: var(--wm-ink);
+        line-height: 1;
+        margin-bottom: -12px;
+        z-index: 2;
+      }
+
+      .wm-wheel-canvas {
+        border-radius: 50%;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 0 0 4px var(--wm-ink);
+      }
+
+      .wm-wheel-result {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0;
+        transform: scale(0.9);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+      .wm-wheel-result.show {
         opacity: 1;
         transform: scale(1);
       }
 
-      .wm-oracle-emoji {
-        font-size: 56px;
-      }
-
-      .wm-oracle-name {
-        font-family: 'Bangers', cursive;
+      .wm-wheel-result-emoji {
         font-size: 40px;
-        letter-spacing: 2px;
-        color: var(--wm-gold);
-        text-shadow: 0 0 20px rgba(245, 197, 66, 0.4);
       }
 
-      .wm-oracle-tagline {
-        position: absolute;
-        bottom: -40px;
-        left: 0;
-        right: 0;
-        text-align: center;
+      .wm-wheel-result-name {
+        font-family: 'Bangers', cursive;
+        font-size: 36px;
+        letter-spacing: 2px;
+        color: var(--wm-ink);
+      }
+
+      .wm-wheel-tagline {
         font-family: 'Space Mono', monospace;
         font-size: 13px;
-        color: rgba(240, 238, 230, 0.5);
+        color: var(--wm-muted);
         opacity: 0;
-        transition: opacity 0.5s ease 1s;
+        transition: opacity 0.4s ease 0.2s;
+        margin: 0;
       }
-      .wm-oracle-tagline.reveal,
-      .wm-oracle-tagline.done {
+      .wm-wheel-tagline.show {
         opacity: 1;
       }
 
@@ -727,20 +699,9 @@ const title = "Which Model? — stanwood.dev";
         to { opacity: 1; transform: none; }
       }
 
-      @keyframes wmOracleFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
-      @keyframes wmRingSpin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        .wm-oracle-ring { animation: none !important; }
-        .wm-oracle-center { transition: none !important; opacity: 1; transform: none; }
-        .wm-oracle-tagline { transition: none !important; opacity: 1; }
+        .wm-wheel-result { transition: none !important; opacity: 1; transform: none; }
+        .wm-wheel-tagline { transition: none !important; opacity: 1; }
         .wm-start, .wm-freetext, .wm-quiz, .wm-result {
           animation: none !important;
         }

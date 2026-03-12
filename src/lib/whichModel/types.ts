@@ -46,6 +46,7 @@ export interface ModelProfile {
   name: string;
   org: string;
   emoji: string;
+  shortLabel: string;
   color: string;
   traits: TraitScores;
   bestFor: string[];

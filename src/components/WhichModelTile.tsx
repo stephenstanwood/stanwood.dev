@@ -38,7 +38,7 @@ export default function WhichModelTile() {
     >
       <div
         style={{
-          background: "#0d0b1a",
+          background: "#fffdf5",
           borderRadius: "8px",
           padding: "20px",
           height: "100%",
@@ -48,16 +48,17 @@ export default function WhichModelTile() {
           gap: "16px",
           boxSizing: "border-box",
           minHeight: "120px",
+          border: "2px solid #111",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ fontSize: "20px" }}>🔮</span>
+          <span style={{ fontSize: "20px" }}>🎡</span>
           <span
             style={{
               fontFamily: "'Bangers', cursive",
               fontSize: "18px",
               letterSpacing: "1px",
-              color: "#f0eee6",
+              color: "#111",
             }}
           >
             Which Model?
@@ -74,9 +75,9 @@ export default function WhichModelTile() {
             opacity: fading ? 0 : 1,
           }}
         >
-          <span style={{ color: "#8b87a0" }}>{ex.task}</span>
-          <span style={{ color: "#555" }}>→</span>
-          <span style={{ color: "#f5c542", fontWeight: 600 }}>
+          <span style={{ color: "#666" }}>{ex.task}</span>
+          <span style={{ color: "#ccc" }}>→</span>
+          <span style={{ color: "#7c5cff", fontWeight: 600 }}>
             {ex.emoji} {ex.model}
           </span>
         </div>
