@@ -17,11 +17,11 @@ const orgColors: Record<string, string> = {
   Lightricks: "#a855f7",
 };
 
-function formatDate(dateStr: string): string {
+function formatDate(dateStr: string): { day: string; date: string } {
   const d = new Date(dateStr + "T12:00:00");
   const day = d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase();
-  const rest = d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
-  return `${day} ${rest}`;
+  const date = d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toUpperCase();
+  return { day, date };
 }
 
 export default function AIRadarTile() {
@@ -60,7 +60,10 @@ export default function AIRadarTile() {
             rel="noopener noreferrer"
             style={{ borderLeft: `3px solid ${orgColors[l.org] || "#888"}` }}
           >
-            <span className="radar-date">{formatDate(l.date)}</span>
+            <span className="radar-date">
+              <span className="radar-day">{formatDate(l.date).day}</span>
+              <span className="radar-datenum">{formatDate(l.date).date}</span>
+            </span>
             <span className="radar-info">
               <span className="radar-name">{l.name}</span>
               <span className="radar-summary">

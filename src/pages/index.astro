@@ -700,13 +700,23 @@ const projects = [
       .radar-entry:last-child { border-bottom: none; }
       .radar-entry:hover { background: #fefbf0; }
       .radar-date {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         font-family: 'Space Mono', monospace;
-        font-size: 13px;
+        white-space: nowrap;
+        min-width: 52px;
+      }
+      .radar-day {
+        font-size: 9px;
+        font-weight: 400;
+        color: #aaa;
+        letter-spacing: 0.05em;
+      }
+      .radar-datenum {
+        font-size: 12px;
         font-weight: 700;
         color: #555;
-        white-space: nowrap;
-        min-width: 48px;
       }
       .radar-info {
         display: flex;
