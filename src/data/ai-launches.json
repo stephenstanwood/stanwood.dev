@@ -1,24 +1,31 @@
 [
   {
-    "name": "GPT-5.4",
+    "name": "Nemotron 3 Super",
+    "org": "NVIDIA",
+    "date": "2026-03-11",
+    "summary": "hybrid Mamba-Transformer, 1M context window",
+    "url": "https://developer.nvidia.com/blog/nemotron-3-super/"
+  },
+  {
+    "name": "Siri AI Rewrite",
+    "org": "Apple",
+    "date": "2026-03-10",
+    "summary": "Gemini-powered Siri in iOS 26.4",
+    "url": "https://www.apple.com/newsroom/"
+  },
+  {
+    "name": "Grok 4.20 Beta",
+    "org": "xAI",
+    "date": "2026-03-09",
+    "summary": "multi-agent reasoning model",
+    "url": "https://x.ai/blog/grok-4-20"
+  },
+  {
+    "name": "Codex Desktop",
     "org": "OpenAI",
-    "date": "2026-03-04",
-    "summary": "1M token context, 33% fewer errors",
-    "url": "https://openai.com/index/gpt-5-4/"
-  },
-  {
-    "name": "Claude Opus 4.6",
-    "org": "Anthropic",
-    "date": "2026-03-05",
-    "summary": "improved long-range reasoning + coding",
-    "url": "https://www.anthropic.com/news/claude-opus-4-6"
-  },
-  {
-    "name": "Gemini 3.1 Flash-Lite",
-    "org": "Google",
-    "date": "2026-03-03",
-    "summary": "faster, cheaper Gemini for high-volume",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
+    "date": "2026-03-07",
+    "summary": "desktop app for AI coding agents",
+    "url": "https://openai.com/index/introducing-the-codex-app/"
   },
   {
     "name": "LTX 2.3",
@@ -28,6 +35,27 @@
     "url": "https://github.com/Lightricks/LTX-Video"
   },
   {
+    "name": "Claude Opus 4.6",
+    "org": "Anthropic",
+    "date": "2026-03-05",
+    "summary": "improved long-range reasoning + coding",
+    "url": "https://www.anthropic.com/news/claude-opus-4-6"
+  },
+  {
+    "name": "GPT-5.4",
+    "org": "OpenAI",
+    "date": "2026-03-04",
+    "summary": "1M token context, 33% fewer errors",
+    "url": "https://openai.com/index/gpt-5-4/"
+  },
+  {
+    "name": "Gemini 3.1 Flash-Lite",
+    "org": "Google",
+    "date": "2026-03-03",
+    "summary": "faster, cheaper Gemini for high-volume",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
+  },
+  {
     "name": "Qwen 3.5",
     "org": "Alibaba",
     "date": "2026-03-01",
@@ -35,10 +63,52 @@
     "url": "https://qwen.ai/blog?id=qwen3.5"
   },
   {
-    "name": "Codex Desktop",
+    "name": "Mercury 2",
+    "org": "Inception",
+    "date": "2026-02-24",
+    "summary": "diffusion-based LLM, 10x faster inference",
+    "url": "https://www.inceptionlabs.ai/mercury"
+  },
+  {
+    "name": "Gemini 3.1 Pro",
+    "org": "Google",
+    "date": "2026-02-19",
+    "summary": "tops 13 of 16 major benchmarks",
+    "url": "https://blog.google/technology/ai/gemini-3-1-pro/"
+  },
+  {
+    "name": "Grok 4.20",
+    "org": "xAI",
+    "date": "2026-02-17",
+    "summary": "four-agent parallel processing",
+    "url": "https://x.ai/blog/grok-4-20"
+  },
+  {
+    "name": "Claude Sonnet 4.6",
+    "org": "Anthropic",
+    "date": "2026-02-17",
+    "summary": "near-Opus quality at Sonnet pricing",
+    "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
+  },
+  {
+    "name": "Seed 2.0",
+    "org": "ByteDance",
+    "date": "2026-02-14",
+    "summary": "multimodal reasoning + code gen",
+    "url": "https://www.bytedance.com/en/"
+  },
+  {
+    "name": "MiniMax M2.5",
+    "org": "MiniMax",
+    "date": "2026-02-12",
+    "summary": "long-context competitor at low cost",
+    "url": "https://www.minimax.io/"
+  },
+  {
+    "name": "GPT-5.3 Codex",
     "org": "OpenAI",
-    "date": "2026-03-07",
-    "summary": "desktop app for AI coding agents",
-    "url": "https://openai.com/index/introducing-the-codex-app/"
+    "date": "2026-02-05",
+    "summary": "code-specialized reasoning model",
+    "url": "https://openai.com/index/gpt-5-3-codex/"
   }
 ]

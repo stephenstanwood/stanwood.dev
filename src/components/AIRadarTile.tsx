@@ -15,6 +15,12 @@ const orgColors: Record<string, string> = {
   Google: "#4285f4",
   Alibaba: "#ff6a00",
   Lightricks: "#a855f7",
+  Apple: "#555",
+  xAI: "#1d9bf0",
+  NVIDIA: "#76b900",
+  Inception: "#e63946",
+  ByteDance: "#ff004f",
+  MiniMax: "#6366f1",
 };
 
 function formatDate(dateStr: string): { day: string; date: string } {
