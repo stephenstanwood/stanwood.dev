@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ChemFormula from "../components/ChemFormula";
 import ShipClockTile from "../components/ShipClockTile.tsx";
 import AIRadarTile from "../components/AIRadarTile.tsx";
+import WhichModelTile from "../components/WhichModelTile.tsx";
 
 const featured = [
   {
@@ -54,7 +55,7 @@ const projects = [
   description="Building tools to make life simpler & more fun."
   slug=""
   themeColor="#fffef5"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
   schemaType="WebSite"
   schemaName="stanwood.dev"
 >
@@ -1110,6 +1111,7 @@ const projects = [
       ))}
       <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
       <AIRadarTile client:idle />
+      <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
     </div>
 
     <!-- Footer -->
@@ -1207,7 +1209,7 @@ const projects = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '14 and counting'],
+      ['ls projects/ | wc -l', '15 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
