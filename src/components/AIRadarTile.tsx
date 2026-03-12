@@ -30,10 +30,15 @@ function formatDate(dateStr: string): { day: string; date: string } {
   return { day, date };
 }
 
-// Sort once at module load — launches is a static import, never changes.
+// Sort and pre-compute dates at module load — launches is a static import.
 const sorted = (launches as Launch[])
   .slice()
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const formattedDates = new Map(
+  sorted.map((l) => [l.name, formatDate(l.date)]),
+);
+
 
 export default function AIRadarTile() {
   const [ready, setReady] = useState(false);
@@ -59,7 +64,7 @@ export default function AIRadarTile() {
 
       <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
         {sorted.map((l) => {
-          const { day, date } = formatDate(l.date);
+          const { day, date } = formattedDates.get(l.name)!;
           return (
             <a
               key={l.name}

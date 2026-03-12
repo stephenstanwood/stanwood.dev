@@ -913,13 +913,16 @@ const projects = [
       <h1>Stephen<br>Stanwood</h1>
       <p class="tagline">Building tools to make life simpler & more fun.</p>
       <div class="link-row">
-        <a class="retro-link" href="https://github.com/stephenstanwood" target="_blank" rel="noopener">
+        <a class="retro-link" href="https://github.com/stephenstanwood" target="_blank" rel="noopener noreferrer">
           ⌥ GitHub
         </a>
-        <a class="retro-link" href="https://x.com/stephenstanwood" target="_blank" rel="noopener">
+        <a class="retro-link" href="https://x.com/stephenstanwood" target="_blank" rel="noopener noreferrer">
           🕊️ Twitter
         </a>
-        <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener">
+        <a class="retro-link" href="https://bsky.app/profile/stephenstanwood.bsky.social" target="_blank" rel="noopener noreferrer">
+          ☁ Bluesky
+        </a>
+        <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener noreferrer">
           ✦ Midjourney
         </a>
         <a class="retro-link" href="mailto:stephen@stanwood.dev">
@@ -928,7 +931,7 @@ const projects = [
         <a class="retro-link" href="/shop">
           👕 Shop
         </a>
-        <a class="retro-link" href="https://discord.gg/Prk8x3SwHA" target="_blank" rel="noopener">
+        <a class="retro-link" href="https://discord.gg/Prk8x3SwHA" target="_blank" rel="noopener noreferrer">
           💬 Discord
         </a>
       </div>
@@ -963,7 +966,7 @@ const projects = [
           class={`feat-card${f.dark ? ' feat-card--dark' : ''}`}
           href={f.href}
           style={`background: ${f.bg};`}
-          {...(f.external ? { target: "_blank", rel: "noopener" } : {})}
+          {...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         >
           {f.image && <img class="feat-img" src={f.image} alt={f.title} loading="lazy" />}
           <div class="feat-body">
