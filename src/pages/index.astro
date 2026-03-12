@@ -412,7 +412,7 @@ const projects = [
         grid-column: 1 / -1;
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-        grid-auto-rows: 1fr;
+        grid-auto-rows: 240px;
         gap: 16px;
         opacity: 0;
         transition: opacity 0.15s ease;
@@ -1095,7 +1095,6 @@ const projects = [
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
-        border-top: 2px solid var(--ink);
         padding: 12px 0 24px;
         display: flex;
         justify-content: space-between;
@@ -1179,7 +1178,7 @@ const projects = [
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
-        .proj-row { grid-template-columns: 1fr 1fr; }
+        .proj-row { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-tile.last-full { grid-column: 1 / -1; }
         .proj-tile.has-img .proj-img { height: 90px; }
@@ -1356,24 +1355,57 @@ const projects = [
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
-      // Full shuffle — all tiles treated equally
       const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
-      shuffle(projRow, tileSelector);
 
-      // If exactly 1 tile on the last row, stretch it full-width
+      // Pin Ship Clock (sct-pin) first, AI Radar second — then shuffle the rest
+      const sctPin = projRow.querySelector('.sct-pin');
+      const radarIsland = [...projRow.querySelectorAll(':scope > astro-island')].find(
+        el => el.querySelector('.radar-tile')
+      );
+      // Move pinned tiles to front (order matters: sct first, radar second)
+      if (radarIsland) projRow.prepend(radarIsland);
+      if (sctPin) projRow.prepend(sctPin);
+
+      // Shuffle only non-pinned tiles
+      const pinned = new Set([sctPin, radarIsland].filter(Boolean));
+      const rest = [...projRow.querySelectorAll(tileSelector)].filter(el => !pinned.has(el)) as HTMLElement[];
+      for (let i = rest.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [rest[i], rest[j]] = [rest[j], rest[i]];
+      }
+      rest.forEach(el => projRow.appendChild(el));
+
+      // Fade-in all tiles with stagger
+      const allTiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
+      allTiles.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.animation = `fadeIn 0.4s ease ${0.05 + i * 0.06}s forwards`;
+      });
+      projRow.classList.add('shuffled');
+
+      // Stretch last-row tiles to fill remaining width
       const tiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
       const remainder = tiles.length % 3;
-      if (remainder === 1) {
-        const lastTile = tiles[tiles.length - 1];
-        const tile = lastTile.classList.contains('proj-tile') ? lastTile : lastTile.querySelector('.proj-tile');
-        if (tile) tile.classList.add('last-full');
-      } else if (remainder === 2) {
-        // 2 leftover: each takes half the row (span 3)
-        for (let i = tiles.length - 2; i < tiles.length; i++) {
-          const el = tiles[i];
-          const tile = el.classList.contains('proj-tile') ? el : el.querySelector('.proj-tile');
-          if (tile) tile.style.gridColumn = 'span 3';
+
+      // Helper: set grid-column on the actual grid item
+      // astro-island uses display:contents so we target its .proj-tile child
+      // [data-pinned] wrappers ARE grid items, so we target them directly
+      function setGridCol(el: HTMLElement, val: string) {
+        if (el.tagName === 'ASTRO-ISLAND') {
+          const inner = el.querySelector('.proj-tile') as HTMLElement | null;
+          if (inner) inner.style.gridColumn = val;
+        } else if (el.hasAttribute('data-pinned')) {
+          el.style.gridColumn = val;
+        } else {
+          el.style.gridColumn = val;
         }
+      }
+
+      if (remainder === 1) {
+        setGridCol(tiles[tiles.length - 1], '1 / -1');
+      } else if (remainder === 2) {
+        setGridCol(tiles[tiles.length - 2], 'span 3');
+        setGridCol(tiles[tiles.length - 1], 'span 3');
       }
     }
 
