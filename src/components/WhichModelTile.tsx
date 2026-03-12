@@ -10,6 +10,8 @@ const EXAMPLES = [
   { task: "fast chatbot prototype", model: "Gemini Flash", org: "Google" },
 ];
 
+const LOGO_ORGS = ["Anthropic", "OpenAI", "Google", "Meta", "Mistral", "Midjourney", "Black Forest Labs"];
+
 export default function WhichModelTile() {
   const [index, setIndex] = useState(0);
   const [fading, setFading] = useState(false);
@@ -55,6 +57,37 @@ export default function WhichModelTile() {
           Which Model?
         </span>
       </div>
+
+      {/* Logo grid fills visual space */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+          flex: 1,
+          padding: "4px 0",
+        }}
+      >
+        {LOGO_ORGS.map((org) => (
+          <div
+            key={org}
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "8px",
+              background: "#f5f3ed",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <ModelLogo org={org} size={18} color="#888" />
+          </div>
+        ))}
+      </div>
+
       <div
         style={{
           display: "flex",
