@@ -32,55 +32,44 @@ export default function WhichModelTile() {
       style={{
         textDecoration: "none",
         color: "inherit",
-        display: "block",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        gap: "12px",
+        padding: "20px",
         height: "100%",
+        boxSizing: "border-box",
       }}
     >
-      <div
-        style={{
-          background: "#fffdf5",
-          borderRadius: "8px",
-          padding: "20px",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          gap: "16px",
-          boxSizing: "border-box",
-          minHeight: "120px",
-          border: "2px solid #111",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{ fontSize: "20px" }}>🎡</span>
-          <span
-            style={{
-              fontFamily: "'Bangers', cursive",
-              fontSize: "18px",
-              letterSpacing: "1px",
-              color: "#111",
-            }}
-          >
-            Which Model?
-          </span>
-        </div>
-        <div
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <span style={{ fontSize: "20px" }}>🎡</span>
+        <span
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "13px",
-            transition: "opacity 0.3s ease",
-            flexWrap: "wrap",
-            opacity: fading ? 0 : 1,
+            fontFamily: "'Bangers', cursive",
+            fontSize: "18px",
+            letterSpacing: "1px",
+            color: "#111",
           }}
         >
-          <span style={{ color: "#666" }}>{ex.task}</span>
-          <span style={{ color: "#ccc" }}>→</span>
-          <span style={{ color: "#7c5cff", fontWeight: 600 }}>
-            {ex.emoji} {ex.model}
-          </span>
-        </div>
+          Which Model?
+        </span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          fontSize: "13px",
+          transition: "opacity 0.3s ease",
+          flexWrap: "wrap",
+          opacity: fading ? 0 : 1,
+        }}
+      >
+        <span style={{ color: "#666" }}>{ex.task}</span>
+        <span style={{ color: "#aaa" }}>→</span>
+        <span style={{ color: "#7c5cff", fontWeight: 600 }}>
+          {ex.emoji} {ex.model}
+        </span>
       </div>
     </a>
   );
