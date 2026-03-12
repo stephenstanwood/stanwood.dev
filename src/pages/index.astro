@@ -487,11 +487,6 @@ const projects = [
         grid-column: 1 / -1;
       }
 
-      /* ship clock wrapper inherits standard tile sizing */
-      .sct-pin .proj-tile {
-        height: 100%;
-      }
-
       /* ── ship clock receipt tile ── */
       .sct-tile {
         flex-direction: column;
@@ -720,11 +715,6 @@ const projects = [
       .aw-tile[data-dark] .aw-hero-title { color: #f0f0f0; }
       .aw-tile[data-dark] .aw-hero-sub { color: rgba(255,255,255,0.7); }
 
-      /* ── AI status tile pin ── */
-      .ais-pin .proj-tile {
-        height: 100%;
-      }
-
       /* ── AI status tile ── */
       .ais-tile {
         flex-direction: column;
@@ -899,17 +889,13 @@ const projects = [
 
       /* ── AI radar tile ── */
       .proj-tile.radar-tile {
-        display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 0;
         padding: 14px 16px 0;
-        position: relative;
         overflow: hidden;
       }
       .proj-tile.radar-tile:hover {
-        transform: none;
-        box-shadow: 3px 3px 0 var(--ink);
         background: #faf8f3;
       }
       .radar-header-row {
@@ -1182,10 +1168,6 @@ const projects = [
         .proj-row { grid-template-columns: 1fr 1fr; }
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-tile.last-full { grid-column: 1 / -1; }
-        .proj-tile.aw-tile { grid-column: 1 / -1; }
-        .radar-body { flex-direction: column; gap: 8px; }
-        .radar-lead { flex: none; }
-        .radar-entries { border-left: none; padding-left: 0; max-height: 180px; }
         .proj-tile.has-img .proj-img { height: 90px; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
