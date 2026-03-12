@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import type { ModelProfile } from "../../lib/whichModel/types";
 import { MODELS } from "../../lib/whichModel/models";
+import { ModelLogo } from "../../lib/whichModel/logos";
 
 interface Props {
   model: ModelProfile;
@@ -151,7 +152,7 @@ export default function WheelReveal({ model, onComplete }: Props) {
           className="wm-wheel-canvas"
         />
         <div className={`wm-wheel-result ${phase === "landing" || phase === "done" ? "show" : ""}`}>
-          <span className="wm-wheel-result-emoji">{model.emoji}</span>
+          <ModelLogo org={model.org} size={36} color={model.color} />
           <span className="wm-wheel-result-name">{model.name}!</span>
         </div>
         <p className={`wm-wheel-tagline ${phase === "landing" || phase === "done" ? "show" : ""}`}>
