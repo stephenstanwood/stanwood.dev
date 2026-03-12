@@ -626,30 +626,62 @@ const projects = [
         grid-row: span 2;
         display: flex;
         flex-direction: column;
-        padding: 8px 12px 0;
+        padding: 12px 14px 0;
         position: relative;
         overflow: hidden;
+        cursor: pointer;
       }
       .proj-tile.radar-tile:hover {
-        background: #fff !important;
-        transform: none !important;
-        box-shadow: 3px 3px 0 var(--ink) !important;
-        cursor: default;
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0 var(--ink);
+        background: #fffdf8;
+      }
+      .radar-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1px;
       }
       .radar-header {
         font-family: 'Permanent Marker', cursive;
-        font-size: 20px;
-        letter-spacing: 0.05em;
+        font-size: 18px;
+        letter-spacing: 0.04em;
         color: var(--ink);
         margin: 0;
         line-height: 1.1;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .radar-signal-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: radarBlink 2s ease-in-out infinite;
+        flex-shrink: 0;
+      }
+      @keyframes radarBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      .radar-status {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #aaa;
       }
       .radar-sub {
-        font-family: 'Cabin', sans-serif;
-        font-size: 10px;
-        color: #888;
-        margin: 0 0 4px;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #999;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
       }
+
+      /* Radar animation */
       .radar-anim {
         display: flex;
         align-items: center;
@@ -677,50 +709,100 @@ const projects = [
         0% { opacity: 0.6; transform: scale(0.5); }
         100% { opacity: 0; transform: scale(1.2); }
       }
+
+      /* Radar list */
       .radar-list {
         display: flex;
         flex-direction: column;
         gap: 0;
         opacity: 0;
         transition: opacity 0.4s ease;
-        overflow-y: auto;
-        max-height: 390px;
-        scrollbar-width: thin;
-        scrollbar-color: #ccc transparent;
+        flex: 1;
+        overflow: hidden;
       }
       .radar-list--visible { opacity: 1; }
+
+      /* Lead story */
+      .radar-lead {
+        border-left: 3px solid #888;
+        padding: 6px 0 8px 10px;
+        margin-bottom: 4px;
+      }
+      .radar-lead-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 3px;
+      }
+      .radar-type-badge {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--orange);
+        background: #fff5ef;
+        padding: 1px 5px;
+        border-radius: 2px;
+      }
+      .radar-age {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        color: #aaa;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .radar-lead-name {
+        font-family: 'Cabin', sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--ink);
+        line-height: 1.2;
+        margin-bottom: 2px;
+      }
+      .radar-lead-summary {
+        font-size: 11px;
+        color: #666;
+        line-height: 1.3;
+      }
+      .radar-org-label {
+        font-weight: 600;
+        font-size: 10px;
+      }
+
+      /* Secondary entries */
       .radar-entry {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 8px 8px 8px 12px;
-        border-bottom: 1px solid #eee;
-        text-decoration: none;
+        gap: 8px;
+        padding: 5px 0 5px 10px;
+        border-left: 3px solid #888;
+        border-bottom: 1px solid #f0ede4;
         color: var(--ink);
-        transition: background 0.15s;
-        flex-shrink: 0;
+        overflow: hidden;
       }
       .radar-entry:last-child { border-bottom: none; }
-      .radar-entry:hover { background: #fefbf0; }
-      .radar-date {
+      .radar-date-block {
         display: flex;
         flex-direction: column;
         align-items: center;
         font-family: 'Space Mono', monospace;
         white-space: nowrap;
-        min-width: 52px;
+        min-width: 28px;
         flex-shrink: 0;
       }
-      .radar-day {
-        font-size: 9px;
+      .radar-date-num {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--ink);
+        line-height: 1;
+      }
+      .radar-date-month {
+        font-size: 7px;
         font-weight: 400;
         color: #aaa;
-        letter-spacing: 0.05em;
-      }
-      .radar-datenum {
-        font-size: 12px;
-        font-weight: 700;
-        color: #555;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
       .radar-info {
         display: flex;
@@ -732,37 +814,36 @@ const projects = [
       .radar-name {
         font-family: 'Cabin', sans-serif;
         font-weight: 700;
-        font-size: 12px;
+        font-size: 11px;
         color: var(--ink);
-        line-height: 1.3;
+        line-height: 1.2;
       }
       .radar-summary {
-        font-size: 10px;
-        color: #888;
+        font-size: 9px;
+        color: #999;
         line-height: 1.3;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .radar-ticker {
+
+      /* Footer link */
+      .radar-footer {
         margin-top: auto;
-        overflow: hidden;
-        border-top: 1px solid #eee;
+        border-top: 1px solid #f0ede4;
         padding: 6px 0;
+        text-align: right;
       }
-      .radar-ticker-track {
-        display: flex;
-        white-space: nowrap;
-        animation: radar-scroll 20s linear infinite;
+      .radar-footer-text {
         font-family: 'Space Mono', monospace;
-        font-size: 8px;
+        font-size: 9px;
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #bbb;
+        letter-spacing: 0.06em;
+        color: var(--orange);
+        transition: color 0.15s;
       }
-      @keyframes radar-scroll {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+      .proj-tile.radar-tile:hover .radar-footer-text {
+        color: var(--ink);
       }
 
       /* ── footer ── */
