@@ -128,7 +128,7 @@ function niceReps(raw: number): number {
 }
 
 function calcSetDuration(set: SetItem, pacePer100: number): number {
-  if (!set || !set.reps || !set.distance) return 0;
+  if (!set.reps || !set.distance) return 0;
   if (set.interval) return set.reps * set.interval;
   return set.reps * (set.distance / 100) * pacePer100;
 }

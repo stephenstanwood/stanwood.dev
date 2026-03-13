@@ -496,10 +496,7 @@ function SettingsPanel({
 
 export default function WTWTW() {
   const [prefs, setPrefs] = useState<WTWTWPrefs>(() => loadPrefs());
-  const [settingsOpen, setSettingsOpen] = useState(() => {
-    const saved = loadPrefs();
-    return saved.teams.length === 0;
-  });
+  const [settingsOpen, setSettingsOpen] = useState(() => loadPrefs().teams.length === 0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // Raw ESPN data cache — only refetched when teams change
@@ -523,9 +520,7 @@ export default function WTWTW() {
 
   // Days depend on timezone (for "today" boundary), but we fetch based
   // on a stable set of dates computed from the current timezone.
-  // We keep fetchDays separate so timezone changes don't re-trigger fetch.
-  const fetchTz = useMemo(() => prefs.timezone, [prefs.timezone]);
-  const days = useMemo(() => getUpcoming7Days(fetchTz), [fetchTz]);
+  const days = useMemo(() => getUpcoming7Days(prefs.timezone), [prefs.timezone]);
 
   // Fetch ESPN data when teams change — timezone changes don't re-fetch
   const teamKeys = prefs.teams.join(",");
