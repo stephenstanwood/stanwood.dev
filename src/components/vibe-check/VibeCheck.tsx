@@ -5,7 +5,20 @@ import VibeScorecard from "./VibeScorecard";
 
 type AppState = "idle" | "loading" | "result" | "error";
 
-const EXAMPLE_URLS = ["apple.com", "figma.com", "craigslist.org", "stanwood.dev"];
+const ALL_EXAMPLES = [
+  "apple.com", "figma.com", "craigslist.org", "stanwood.dev",
+  "stripe.com", "linear.app", "notion.so", "vercel.com",
+  "poolsuite.net", "neal.fun", "spacejam.com", "berkshirehathaway.com",
+  "gov.uk", "arc.net", "craft.do", "raycast.com",
+  "supabase.com", "deno.com", "fly.io", "wikipedia.org",
+];
+
+function pickRandom<T>(arr: T[], n: number): T[] {
+  const shuffled = [...arr].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, n);
+}
+
+const EXAMPLE_URLS = pickRandom(ALL_EXAMPLES, 4);
 
 export default function VibeCheck() {
   const [state, setState] = useState<AppState>("idle");
