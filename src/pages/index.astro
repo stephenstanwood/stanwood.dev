@@ -7,6 +7,8 @@ import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import AIStatusTile from "../components/AIStatusTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import VibeCheckTile from "../components/VibeCheckTile.tsx";
+import TerminalLoopTile from "../components/TerminalLoopTile.tsx";
+import StatusRotatorTile from "../components/StatusRotatorTile.tsx";
 
 const featured = [
   {
@@ -1301,6 +1303,41 @@ const projects = [
       }
       .vct-again:hover { border-color: var(--orange); color: var(--orange); }
 
+      /* ── spacer tiles ── */
+      .spacer-tile {
+        background: #111 !important;
+        border-color: #333 !important;
+        box-shadow: 3px 3px 0 #333 !important;
+        justify-content: center;
+        align-items: center;
+        cursor: default;
+      }
+      .spacer-tile:hover {
+        transform: none !important;
+        box-shadow: 3px 3px 0 #333 !important;
+      }
+      .spacer-terminal {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'Space Mono', monospace;
+        font-size: 16px;
+      }
+      .spacer-prompt {
+        color: #666;
+      }
+      .spacer-text {
+        color: #f0f0f0;
+        letter-spacing: 0.03em;
+      }
+      .spacer-cursor {
+        color: #10a37f;
+        animation: spacerBlink 1s step-end infinite;
+      }
+      @keyframes spacerBlink {
+        50% { opacity: 0; }
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -1530,6 +1567,11 @@ const projects = [
       <AIRadarTile client:idle />
       <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
       <VibeCheckTile client:idle />
+      <div class="proj-tile spacer-tile">
+        <div class="spacer-terminal"><span class="spacer-text" style="font-style:italic;">have a great day 🙂</span></div>
+      </div>
+      <TerminalLoopTile client:idle />
+      <StatusRotatorTile client:idle />
     </div>
 
     <!-- Footer -->
