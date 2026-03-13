@@ -51,7 +51,10 @@ export default function VibeCheckTile() {
       clearInterval(msgInterval);
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        const msg = data.debug
+          ? `${data.error} [${data.debug}]`
+          : data.error || "Something went wrong";
+        setError(msg);
         setState("error");
         return;
       }

@@ -1,5 +1,10 @@
 export const prerender = false;
 
+// Vercel serverless config — screenshot + AI analysis needs more than the 10s default
+export const config = {
+  maxDuration: 60,
+};
+
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
