@@ -319,18 +319,6 @@ export interface HourlyForecast {
   precipProbs: number[];
 }
 
-function formatTime12h(hour: number, minute: number): string {
-  const h = hour % 12 || 12;
-  const ampm = hour < 12 ? "AM" : "PM";
-  return `${h}:${String(minute).padStart(2, "0")} ${ampm}`;
-}
-
-function decimalHourToString(dh: number): string {
-  const h = Math.floor(dh);
-  const m = Math.round((dh - h) * 60);
-  return formatTime12h(h, m);
-}
-
 export function computeLaterToday(
   currentTemp: number,
   currentHour: number,
@@ -442,4 +430,3 @@ export function buildResponse(
   };
 }
 
-export { decimalHourToString };

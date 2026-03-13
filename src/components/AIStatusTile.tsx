@@ -1,16 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-
-interface ProviderStatus {
-  id: "chatgpt" | "claude";
-  name: string;
-  status: "operational" | "degraded" | "partial_outage" | "major_outage" | "unknown";
-  summary: string;
-  incidentTitle?: string;
-  incidentSummary?: string;
-  statusPageUrl: string;
-  checkedAt: string;
-  brandColor: string;
-}
+import type { ProviderStatus } from "../pages/api/ai-status";
 
 const BRAND: Record<string, { bg: string; logoColor: string }> = {
   chatgpt: { bg: "#0d0d0d", logoColor: "#10a37f" },
