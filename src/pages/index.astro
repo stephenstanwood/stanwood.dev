@@ -588,6 +588,7 @@ const projects = [
         font-size: 10px;
         line-height: 1.5;
         padding-top: 2px;
+        padding-bottom: 4px;
       }
       .sct-project {
         color: #ff5c1a;
@@ -1607,7 +1608,25 @@ const projects = [
     const projRow = document.getElementById('proj-row');
     if (featRow) shuffle(featRow, ':scope > .feat-card');
     if (projRow) {
+      // Collect shuffleable items: direct children that are grid items
+      // astro-island has display:contents so its children are grid items,
+      // but we shuffle the astro-island wrapper to keep hydration intact.
+      // Use a Set to avoid double-counting.
       const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
+      function getGridItems(): HTMLElement[] {
+        const seen = new Set<HTMLElement>();
+        const items: HTMLElement[] = [];
+        for (const el of projRow!.querySelectorAll(tileSelector)) {
+          // Skip .proj-tile if its parent is an astro-island (already counted)
+          const parent = el.parentElement;
+          if (parent && parent.tagName === 'ASTRO-ISLAND' && parent.parentElement === projRow) continue;
+          if (!seen.has(el as HTMLElement)) {
+            seen.add(el as HTMLElement);
+            items.push(el as HTMLElement);
+          }
+        }
+        return items;
+      }
 
       // Pin Ship Clock top-left, AI Radar top-right — shuffle the rest
       const sctPin = projRow.querySelector('.sct-pin');
@@ -1617,27 +1636,22 @@ const projects = [
 
       // Shuffle non-pinned tiles
       const pinned = new Set([sctPin, radarIsland].filter(Boolean));
-      const rest = [...projRow.querySelectorAll(tileSelector)].filter(el => !pinned.has(el)) as HTMLElement[];
+      const rest = getGridItems().filter(el => !pinned.has(el));
       for (let i = rest.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [rest[i], rest[j]] = [rest[j], rest[i]];
       }
 
       // Build final order: [sct, random, radar, ...rest]
-      // Remove all children first
-      const allEls = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
+      const allEls = getGridItems();
       allEls.forEach(el => el.remove());
-      // Position 1: Ship Clock (top-left)
       if (sctPin) projRow.appendChild(sctPin);
-      // Position 2: first shuffled tile
       if (rest.length > 0) projRow.appendChild(rest.shift()!);
-      // Position 3: AI Radar (top-right)
       if (radarIsland) projRow.appendChild(radarIsland);
-      // Remaining shuffled tiles
       rest.forEach(el => projRow.appendChild(el));
 
       // Fade-in all tiles with stagger
-      const allTiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
+      const allTiles = getGridItems();
       allTiles.forEach((el, i) => {
         el.style.opacity = '0';
         el.style.animation = `fadeIn 0.4s ease ${0.05 + i * 0.06}s forwards`;
@@ -1645,18 +1659,13 @@ const projects = [
       projRow.classList.add('shuffled');
 
       // Stretch last-row tiles to fill remaining width
-      const tiles = [...projRow.querySelectorAll(tileSelector)] as HTMLElement[];
+      const tiles = getGridItems();
       const remainder = tiles.length % 3;
 
-      // Helper: set grid-column on the actual grid item
-      // astro-island uses display:contents so we target its .proj-tile child
-      // [data-pinned] wrappers ARE grid items, so we target them directly
       function setGridCol(el: HTMLElement, val: string) {
         if (el.tagName === 'ASTRO-ISLAND') {
           const inner = el.querySelector('.proj-tile') as HTMLElement | null;
           if (inner) inner.style.gridColumn = val;
-        } else if (el.hasAttribute('data-pinned')) {
-          el.style.gridColumn = val;
         } else {
           el.style.gridColumn = val;
         }
