@@ -54,14 +54,24 @@ export const GET: APIRoute = async ({ url }) => {
     const c = data.current;
 
     // Parse sunrise/sunset times
-    const sunriseDate = new Date(data.daily.sunrise[0]);
-    const sunsetDate = new Date(data.daily.sunset[0]);
-    const sunriseHour =
-      sunriseDate.getHours() + sunriseDate.getMinutes() / 60;
-    const sunsetHour = sunsetDate.getHours() + sunsetDate.getMinutes() / 60;
+    // Open-Meteo returns times in the requested timezone (America/Los_Angeles)
+    // Parse as Pacific time to avoid UTC conversion issues on server
+    const sunriseRaw = data.daily.sunrise[0]; // e.g. "2026-03-12T06:23"
+    const sunsetRaw = data.daily.sunset[0];
+    const parseLocalHour = (iso: string) => {
+      const [, time] = iso.split("T");
+      const [h, m] = time.split(":").map(Number);
+      return h + m / 60;
+    };
+    const sunriseHour = parseLocalHour(sunriseRaw);
+    const sunsetHour = parseLocalHour(sunsetRaw);
+    const sunriseDate = new Date(sunriseRaw);
+    const sunsetDate = new Date(sunsetRaw);
 
+    // Use Pacific time — server may be UTC
     const now = new Date();
-    const currentHour = now.getHours() + now.getMinutes() / 60;
+    const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+    const currentHour = pacificNow.getHours() + pacificNow.getMinutes() / 60;
 
     const input: WeatherInput = {
       weatherCode: c.weather_code,
@@ -79,7 +89,7 @@ export const GET: APIRoute = async ({ url }) => {
     };
 
     // Build hourly forecast for next 12 hours
-    const hourlyIdx = Math.floor(now.getHours());
+    const hourlyIdx = Math.floor(pacificNow.getHours());
     const hourly = data.hourly;
     const forecast: HourlyForecast = {
       temperatures: hourly.temperature_2m.slice(hourlyIdx, hourlyIdx + 12),
