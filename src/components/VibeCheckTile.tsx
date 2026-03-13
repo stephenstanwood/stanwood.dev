@@ -22,6 +22,15 @@ function gradeColor(grade: string): string {
   return "#C04830";
 }
 
+const CATEGORY_LABELS: Record<string, string> = {
+  design: "Design",
+  tone: "Tone",
+  speed_feel: "Speed Feel",
+  clarity: "Clarity",
+  originality: "Originality",
+  trust: "Trust",
+};
+
 export default function VibeCheckTile() {
   const [state, setState] = useState<TileState>("idle");
   const [url, setUrl] = useState("");
@@ -84,14 +93,6 @@ export default function VibeCheckTile() {
 
   // Result view
   if (state === "result" && result) {
-    const CATEGORY_LABELS: Record<string, string> = {
-      design: "Design",
-      tone: "Tone",
-      speed_feel: "Speed Feel",
-      clarity: "Clarity",
-      originality: "Originality",
-      trust: "Trust",
-    };
     const categories = Object.entries(result.categories) as [
       string,
       { grade: string; note: string },
