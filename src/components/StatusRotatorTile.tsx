@@ -56,7 +56,6 @@ export default function StatusRotatorTile() {
           style={{
             opacity: fading ? 0 : 1,
             transition: "opacity 0.4s ease",
-            fontStyle: "italic",
           }}
         >
           {status}
