@@ -84,6 +84,14 @@ export default function VibeCheckTile() {
 
   // Result view
   if (state === "result" && result) {
+    const CATEGORY_LABELS: Record<string, string> = {
+      design: "Design",
+      tone: "Tone",
+      speed_feel: "Speed Feel",
+      clarity: "Clarity",
+      originality: "Originality",
+      trust: "Trust",
+    };
     const categories = Object.entries(result.categories) as [
       string,
       { grade: string; note: string },
@@ -101,21 +109,12 @@ export default function VibeCheckTile() {
             </span>
           </div>
           <div className="vct-verdict">{result.overall_vibe}</div>
-          <div className="vct-grades-row">
-            {categories.slice(0, 3).map(([key, { grade }]) => (
+          <p className="vct-blurb">{result.main_read}</p>
+          <div className="vct-grades-grid">
+            {categories.map(([key, { grade }]) => (
               <span key={key} className="vct-mini-grade">
                 <span className="vct-mini-label">
-                  {key === "speed_feel" ? "SPD" : key.slice(0, 3).toUpperCase()}
-                </span>
-                <span style={{ color: gradeColor(grade) }}>{grade}</span>
-              </span>
-            ))}
-          </div>
-          <div className="vct-grades-row">
-            {categories.slice(3).map(([key, { grade }]) => (
-              <span key={key} className="vct-mini-grade">
-                <span className="vct-mini-label">
-                  {key === "speed_feel" ? "SPD" : key.slice(0, 3).toUpperCase()}
+                  {CATEGORY_LABELS[key] || key}
                 </span>
                 <span style={{ color: gradeColor(grade) }}>{grade}</span>
               </span>
