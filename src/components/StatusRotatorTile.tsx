@@ -49,16 +49,15 @@ export default function StatusRotatorTile() {
 
   return (
     <div className="proj-tile spacer-tile">
-      <div className="spacer-terminal">
+      <div
+        className="spacer-terminal"
+        style={{
+          opacity: fading ? 0 : 1,
+          transition: "opacity 0.4s ease",
+        }}
+      >
         <span className="spacer-prompt">~</span>
-        <span
-          className="spacer-text"
-          style={{
-            opacity: fading ? 0 : 1,
-            transition: "opacity 0.4s ease",
-            fontStyle: "italic",
-          }}
-        >
+        <span className="spacer-text" style={{ fontStyle: "italic" }}>
           {status}
         </span>
       </div>
