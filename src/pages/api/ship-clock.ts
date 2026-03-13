@@ -94,6 +94,8 @@ export const GET: APIRoute = async () => {
     const meta = deployments[0].meta ?? {};
     const rawCommit = meta.githubCommitMessage ?? null;
     const sha = (meta.githubCommitSha ?? deployments[0].uid ?? "").slice(0, 7) || null;
+    const prMatch = rawCommit?.match(/\(#(\d+)\)/);
+    const prNumber = prMatch ? prMatch[1] : null;
 
     // Summarize via Claude (cached for 5 min by s-maxage anyway)
     let project: string | null = null;
@@ -112,6 +114,7 @@ export const GET: APIRoute = async () => {
         project,
         summary,
         sha,
+        prNumber,
       }),
       {
         status: 200,
