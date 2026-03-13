@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import KidWindow from "../components/KidWindow.tsx";
+---
+
+<BaseLayout
+  title="KidWindow — stanwood.dev"
+  description="What can we do in the next 90 minutes? A quick local picker for kid and toddler outings."
+  slug="kid-window"
+  favicon="/favicon-fun.svg"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cabin:wght@400;700&family=Permanent+Marker&display=swap"
+  schemaCategory="LifestyleApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      body {
+        font-family: 'Cabin', sans-serif;
+        background: #fffef5;
+        color: #111;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .retro-back {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        text-decoration: none;
+        color: #888;
+        transition: color 0.15s;
+        letter-spacing: 0.03em;
+      }
+      .retro-back:hover {
+        color: #111;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </Fragment>
+
+  <main class="mx-auto max-w-xl px-5 pt-10 pb-16">
+    <!-- Top bar -->
+    <div class="flex items-center mb-6">
+      <a href="/" class="retro-back">&larr; stanwood.dev</a>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-6">
+      <h1 style="font-family: 'Permanent Marker', cursive; font-size: 36px; line-height: 1.1; letter-spacing: -0.5px; color: #111; margin: 0;">
+        KidWindow
+      </h1>
+      <p style="font-family: 'Cabin', sans-serif; font-size: 15px; color: #666; margin-top: 6px; font-style: italic;">
+        What can we do in the next 90 minutes?
+      </p>
+    </header>
+
+    <KidWindow client:load />
+  </main>
+</BaseLayout>

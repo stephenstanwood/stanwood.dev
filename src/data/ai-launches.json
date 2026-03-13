@@ -1,11 +1,27 @@
 [
   {
+    "name": "Grok Custom Agents",
+    "org": "xAI",
+    "date": "2026-03-08",
+    "type": "tool",
+    "summary": "build and configure your own AI agents inside Grok",
+    "url": "https://x.ai/news"
+  },
+  {
     "name": "Cursor Automations",
     "org": "Cursor",
     "date": "2026-03-05",
     "type": "tool",
     "summary": "always-on agents via Slack + GitHub",
     "url": "https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/"
+  },
+  {
+    "name": "GPT-5.4",
+    "org": "OpenAI",
+    "date": "2026-03-05",
+    "type": "model",
+    "summary": "1M context, native computer use, 33% fewer hallucinations",
+    "url": "https://openai.com/index/introducing-gpt-5-4/"
   },
   {
     "name": "Claude Opus 4.6",
@@ -46,85 +62,5 @@
     "type": "tool",
     "summary": "10s video with character consistency",
     "url": "https://runwayml.com/research/introducing-runway-gen-4"
-  },
-  {
-    "name": "Windsurf Wave 13",
-    "org": "Windsurf",
-    "date": "2026-03-03",
-    "type": "tool",
-    "summary": "parallel agents + worktrees in IDE",
-    "url": "https://windsurf.com/changelog"
-  },
-  {
-    "name": "Qwen 3.5",
-    "org": "Alibaba",
-    "date": "2026-03-01",
-    "type": "model",
-    "summary": "small open models that punch up",
-    "url": "https://qwen.ai/blog?id=qwen3.5"
-  },
-  {
-    "name": "Midjourney V8",
-    "org": "Midjourney",
-    "date": "2026-02-28",
-    "type": "tool",
-    "summary": "video gen + style codes + char lock",
-    "url": "https://www.midjourney.com/updates"
-  },
-  {
-    "name": "Lovable Agent",
-    "org": "Lovable",
-    "date": "2026-02-24",
-    "type": "tool",
-    "summary": "AI that debugs and ships full apps",
-    "url": "https://lovable.dev"
-  },
-  {
-    "name": "Figma Make GA",
-    "org": "Figma",
-    "date": "2026-02-20",
-    "type": "tool",
-    "summary": "prompt-to-prototype, now public",
-    "url": "https://www.figma.com/blog/figma-make-general-availability/"
-  },
-  {
-    "name": "Claude Sonnet 4.6",
-    "org": "Anthropic",
-    "date": "2026-02-17",
-    "type": "model",
-    "summary": "near-Opus quality, Sonnet price",
-    "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
-  },
-  {
-    "name": "Bolt.new Teams",
-    "org": "StackBlitz",
-    "date": "2026-02-14",
-    "type": "tool",
-    "summary": "deploy pipelines for vibe-coded apps",
-    "url": "https://bolt.new"
-  },
-  {
-    "name": "Replit Agent 3",
-    "org": "Replit",
-    "date": "2026-02-12",
-    "type": "tool",
-    "summary": "200-min autonomous coding sessions",
-    "url": "https://replit.com"
-  },
-  {
-    "name": "GPT-5.3 Codex",
-    "org": "OpenAI",
-    "date": "2026-02-05",
-    "type": "model",
-    "summary": "fastest AI pair programmer yet",
-    "url": "https://openai.com/index/gpt-5-3-codex/"
-  },
-  {
-    "name": "v0 Git Panel",
-    "org": "Vercel",
-    "date": "2026-02-03",
-    "type": "tool",
-    "summary": "branch per chat, deploy on merge",
-    "url": "https://vercel.com/blog/introducing-the-new-v0"
   }
 ]

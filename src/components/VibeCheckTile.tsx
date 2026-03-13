@@ -22,6 +22,15 @@ function gradeColor(grade: string): string {
   return "#C04830";
 }
 
+const CATEGORY_LABELS: Record<string, string> = {
+  design: "Design",
+  tone: "Tone",
+  speed_feel: "Speed Feel",
+  clarity: "Clarity",
+  originality: "Originality",
+  trust: "Trust",
+};
+
 export default function VibeCheckTile() {
   const [state, setState] = useState<TileState>("idle");
   const [url, setUrl] = useState("");
@@ -51,7 +60,10 @@ export default function VibeCheckTile() {
       clearInterval(msgInterval);
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        const msg = data.debug
+          ? `${data.error} [${data.debug}]`
+          : data.error || "Something went wrong";
+        setError(msg);
         setState("error");
         return;
       }
@@ -98,21 +110,12 @@ export default function VibeCheckTile() {
             </span>
           </div>
           <div className="vct-verdict">{result.overall_vibe}</div>
-          <div className="vct-grades-row">
-            {categories.slice(0, 3).map(([key, { grade }]) => (
+          <p className="vct-blurb">{result.main_read}</p>
+          <div className="vct-grades-grid">
+            {categories.map(([key, { grade }]) => (
               <span key={key} className="vct-mini-grade">
                 <span className="vct-mini-label">
-                  {key === "speed_feel" ? "SPD" : key.slice(0, 3).toUpperCase()}
-                </span>
-                <span style={{ color: gradeColor(grade) }}>{grade}</span>
-              </span>
-            ))}
-          </div>
-          <div className="vct-grades-row">
-            {categories.slice(3).map(([key, { grade }]) => (
-              <span key={key} className="vct-mini-grade">
-                <span className="vct-mini-label">
-                  {key === "speed_feel" ? "SPD" : key.slice(0, 3).toUpperCase()}
+                  {CATEGORY_LABELS[key] || key}
                 </span>
                 <span style={{ color: gradeColor(grade) }}>{grade}</span>
               </span>
@@ -171,7 +174,7 @@ export default function VibeCheckTile() {
             disabled={!url.trim()}
             onClick={(e) => e.stopPropagation()}
           >
-            go
+            check →
           </button>
         </form>
         {state === "error" && (

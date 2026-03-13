@@ -46,7 +46,7 @@ const projects = [
   { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator", image: "/images/lap-lab.webp" },
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
-  { href: "/nearest-fun", emoji: "🛝", name: "FunFinder", tag: "kids activities nearby", image: "/images/nearest-fun.webp" },
+  { href: "/kid-window", emoji: "🪟", name: "KidWindow", tag: "quick kid outing picker", image: "/images/nearest-fun.webp" },
   { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
@@ -1099,7 +1099,7 @@ const projects = [
         flex-direction: column;
         align-items: stretch;
         gap: 0;
-        padding: 12px 14px;
+        padding: 14px 16px;
         cursor: pointer;
       }
       .vct:hover {
@@ -1109,6 +1109,8 @@ const projects = [
         display: flex;
         flex-direction: column;
         gap: 8px;
+        height: 100%;
+        justify-content: space-between;
       }
       .vct-top-row {
         display: flex;
@@ -1146,16 +1148,21 @@ const projects = [
         border: 2px solid var(--ink);
         border-radius: 6px;
         background: var(--ink);
-        color: var(--cream);
+        color: #fff;
         font-family: 'Space Mono', monospace;
         font-size: 11px;
         font-weight: 700;
         cursor: pointer;
-        transition: background 0.15s;
+        transition: all 0.15s;
         white-space: nowrap;
       }
       .vct-go:hover { background: var(--orange); border-color: var(--orange); }
-      .vct-go:disabled { opacity: 0.3; cursor: not-allowed; }
+      .vct-go:disabled {
+        background: #e0d8cc;
+        border-color: #e0d8cc;
+        color: #aaa;
+        cursor: not-allowed;
+      }
       .vct-examples {
         display: flex;
         gap: 4px;
@@ -1254,9 +1261,17 @@ const projects = [
         color: var(--ink);
         line-height: 1.2;
       }
-      .vct-grades-row {
-        display: flex;
-        gap: 8px;
+      .vct-blurb {
+        font-family: 'Cabin', sans-serif;
+        font-size: 11px;
+        color: #666;
+        line-height: 1.5;
+        margin: 2px 0 4px;
+      }
+      .vct-grades-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px 8px;
       }
       .vct-mini-grade {
         font-family: 'Space Mono', monospace;

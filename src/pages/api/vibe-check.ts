@@ -1,5 +1,10 @@
 export const prerender = false;
 
+// Vercel serverless config — screenshot + AI analysis needs more than the 10s default
+export const config = {
+  maxDuration: 60,
+};
+
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
@@ -96,7 +101,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const screenshotBase64 = await captureScreenshot(parsed.toString());
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6-20250514",
+      model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       system: VIBE_SYSTEM_PROMPT,
       messages: [
@@ -142,16 +147,18 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   } catch (err) {
     console.error("vibe-check error:", err);
     let message = "Something went wrong. Try again in a moment.";
-    if (err instanceof Error) {
-      if (err.message === "Failed to capture screenshot") {
-        message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
-      } else if (err.message === "Screenshot API key not configured") {
-        message = "Screenshot service not configured. Check SCREENSHOTONE_API_KEY.";
-      } else if (err.message.includes("JSON")) {
-        message = "AI returned an unexpected format. Try again.";
-      }
+    const errMsg = err instanceof Error ? err.message : String(err);
+    if (errMsg === "Failed to capture screenshot") {
+      message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
+    } else if (errMsg === "Screenshot API key not configured") {
+      message = "Screenshot service not configured. Check SCREENSHOTONE_API_KEY.";
+    } else if (errMsg.includes("JSON")) {
+      message = "AI returned an unexpected format. Try again.";
     }
-    return new Response(JSON.stringify({ error: message }), {
+    // Only include debug detail in development — never expose internal errors to production clients
+    const isDev = import.meta.env.DEV;
+    const body = isDev ? { error: message, debug: errMsg } : { error: message };
+    return new Response(JSON.stringify(body), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
