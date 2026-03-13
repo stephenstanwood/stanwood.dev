@@ -14,8 +14,8 @@ const INSIDE_TYPES = [
   "community_center",
   "cultural_center",
   "art_gallery",
-  "indoor_play_area",
-  "children_store",
+  "indoor_playground",
+  "toy_store",
 ];
 
 // Outside (sunny day) — parks, playgrounds, zoos, gardens, water parks
