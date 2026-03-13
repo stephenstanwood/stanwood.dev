@@ -164,6 +164,14 @@ export default function ShowSwipe() {
 
   const handleAutoAdvance = useCallback(() => doAdvance("skip"), [doAdvance]);
 
+  const sendFeedback = useCallback((context: string) => {
+    fetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: "show-swipe", context }),
+    }).catch(() => {});
+  }, []);
+
   const handleShare = useCallback(async (card: ShowSwipeCard) => {
     const url = `https://www.youtube.com/watch?v=${card.youtubeKey}`;
     try {
@@ -280,11 +288,7 @@ export default function ShowSwipe() {
               className="ss-report-link"
               onClick={() => {
                 setReported(true);
-                fetch("/api/feedback", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ page: "show-swipe", context: `Error: ${error} (${mediaType}/${era})` }),
-                }).catch(() => {});
+                sendFeedback(`Error: ${error} (${mediaType}/${era})`);
               }}
               disabled={reported}
             >
@@ -308,11 +312,7 @@ export default function ShowSwipe() {
               className="ss-report-link"
               onClick={() => {
                 setReported(true);
-                fetch("/api/feedback", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ page: "show-swipe", context: `No trailers (${mediaType}/${era})` }),
-                }).catch(() => {});
+                sendFeedback(`No trailers (${mediaType}/${era})`);
               }}
               disabled={reported}
             >

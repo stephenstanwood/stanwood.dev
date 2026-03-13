@@ -101,19 +101,19 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const body = (await request.json()) as RecommendRequest;
     const { restaurantName, location, tasteProfile, constraints } = body;
 
+    if (!restaurantName || typeof restaurantName !== "string") {
+      return new Response(
+        JSON.stringify({ error: "Restaurant name is required" }),
+        { status: 400, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
     // Cap array inputs to prevent token inflation
     if (constraints?.dietary) {
       constraints.dietary = constraints.dietary.slice(0, 10);
     }
     if (constraints?.disliked) {
       constraints.disliked = constraints.disliked.slice(0, 20);
-    }
-
-    if (!restaurantName || typeof restaurantName !== "string") {
-      return new Response(
-        JSON.stringify({ error: "Restaurant name is required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
     }
 
     // Guard against oversized inputs reaching Claude
