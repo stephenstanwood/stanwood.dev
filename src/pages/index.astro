@@ -1261,9 +1261,17 @@ const projects = [
         color: var(--ink);
         line-height: 1.2;
       }
-      .vct-grades-row {
-        display: flex;
-        gap: 8px;
+      .vct-blurb {
+        font-family: 'Cabin', sans-serif;
+        font-size: 11px;
+        color: #666;
+        line-height: 1.5;
+        margin: 2px 0 4px;
+      }
+      .vct-grades-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px 8px;
       }
       .vct-mini-grade {
         font-family: 'Space Mono', monospace;
