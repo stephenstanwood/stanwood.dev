@@ -103,8 +103,8 @@ export const PAGES: Record<string, PageConfig> = {
   },
   "kid-window": {
     emoji: "\u{1FA9F}",
-    title: "KidWindow",
-    tagline: "What can we do in the next 90 minutes?",
+    title: "Kid Window",
+    tagline: "Find kids activities open right now near you.",
     bg: "#1a1545",
     bg2: "#0f0c29",
     accent: "#f5e642",

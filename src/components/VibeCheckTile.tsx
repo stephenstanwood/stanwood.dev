@@ -11,7 +11,9 @@ const LOADING_MESSAGES = [
   "judging gently...",
 ];
 
-const EXAMPLE_URLS = ["apple.com", "figma.com", "craigslist.org"];
+import { pickExamples } from "../lib/vibeExamples";
+
+const EXAMPLE_URLS = pickExamples(3);
 
 function gradeColor(grade: string): string {
   const letter = grade.charAt(0).toUpperCase();
