@@ -4,16 +4,18 @@ import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { validatePlacesKey, searchNearbyPlaces } from "../../lib/placesClient";
 
-// Inside (rainy day) — museums, libraries, bowling, movies, aquariums, indoor play
+// Inside (rainy day) — museums, libraries, bowling, aquariums, indoor play
+// movie_theater excluded: "open" doesn't mean showtimes are running
 const INSIDE_TYPES = [
   "museum",
   "aquarium",
   "bowling_alley",
-  "movie_theater",
   "library",
   "community_center",
   "cultural_center",
   "art_gallery",
+  "indoor_play_area",
+  "children_store",
 ];
 
 // Outside (sunny day) — parks, playgrounds, zoos, gardens, water parks
