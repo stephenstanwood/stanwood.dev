@@ -199,48 +199,42 @@ const projects = [
       /* ── avatar block ── */
       .avatar-block {
         grid-column: 7 / 10;
-        background: var(--blue);
+        background: white;
         border: var(--pixel) solid var(--ink);
         box-shadow: 6px 6px 0 var(--ink);
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        padding: 24px 16px;
-        gap: 12px;
+        padding: 0;
+        gap: 0;
+        overflow: hidden;
         animation: fadeIn 0.4s ease 0.05s both;
       }
-      .avatar-circle {
-        width: 88px;
-        height: 88px;
-        border-radius: 50%;
-        border: 3px solid white;
-        background: #1a3acc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Permanent Marker', cursive;
-        font-size: 28px;
-        color: white;
-        overflow: hidden;
-      }
-      .avatar-circle img {
+      .avatar-img {
         width: 100%;
-        height: 100%;
+        flex: 1;
         object-fit: cover;
+        object-position: center top;
+        display: block;
+      }
+      .avatar-footer {
+        width: 100%;
+        padding: 10px 16px;
+        text-align: center;
+        border-top: 2px solid var(--ink);
       }
       .avatar-name {
         font-family: 'Space Mono', monospace;
         font-size: 11px;
-        color: white;
-        text-align: center;
+        color: var(--ink);
         letter-spacing: 0.05em;
+        font-weight: 700;
       }
       .avatar-loc {
-        font-size: 11px;
-        color: rgba(255,255,255,0.6);
+        font-size: 10px;
+        color: #888;
         font-family: 'Space Mono', monospace;
-        text-align: center;
+        margin-top: 2px;
       }
 
       /* ── terminal banner ── */
@@ -1418,8 +1412,6 @@ const projects = [
         .banner-block {
           grid-column: 2 / 3;
           min-height: 180px;
-          max-height: 220px;
-          overflow: hidden;
         }
         .term-prompt { min-height: 4em; font-size: 9px; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -1506,11 +1498,11 @@ const projects = [
 
     <!-- Avatar -->
     <div class="avatar-block">
-      <div class="avatar-circle">
-        <img src="/headshot.png" alt="Stephen Stanwood" onerror="this.style.display='none';this.parentElement.textContent='SS';" />
+      <img class="avatar-img" src="/headshot-sketch.png" alt="Stephen Stanwood" />
+      <div class="avatar-footer">
+        <div class="avatar-name">Stephen Stanwood</div>
+        <div class="avatar-loc">Silicon Valley</div>
       </div>
-      <div class="avatar-name">Stephen Stanwood</div>
-      <div class="avatar-loc">📍 Silicon Valley</div>
     </div>
 
     <!-- Terminal card -->
