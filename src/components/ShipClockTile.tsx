@@ -7,6 +7,7 @@ interface DeployData {
   project?: string | null;
   summary?: string | null;
   sha?: string | null;
+  prNumber?: string | null;
   error?: string;
 }
 
@@ -155,6 +156,12 @@ export default function ShipClockTile() {
           <div className="sct-row">
             <span className="sct-row-label">order #</span>
             <span className="sct-row-value">{data.sha}</span>
+          </div>
+        )}
+        {data.prNumber && (
+          <div className="sct-row">
+            <span className="sct-row-label">PR</span>
+            <span className="sct-row-value">#{data.prNumber}</span>
           </div>
         )}
         {data.summary && (
