@@ -152,16 +152,10 @@ export default function ShipClockTile() {
           <span className="sct-row-label">time</span>
           <span className="sct-row-value">{timeStr}</span>
         </div>
-        {data.sha && (
+        {(data.sha || data.prNumber) && (
           <div className="sct-row">
             <span className="sct-row-label">order #</span>
-            <span className="sct-row-value">{data.sha}</span>
-          </div>
-        )}
-        {data.prNumber && (
-          <div className="sct-row">
-            <span className="sct-row-label">PR</span>
-            <span className="sct-row-value">#{data.prNumber}</span>
+            <span className="sct-row-value">{data.prNumber ? `PR${data.prNumber}` : data.sha}</span>
           </div>
         )}
         {data.summary && (
