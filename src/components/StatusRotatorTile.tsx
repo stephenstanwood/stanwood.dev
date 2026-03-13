@@ -6,7 +6,6 @@ const STATUSES = [
   "one more commit...",
   "refactoring for fun",
   "powered by coffee",
-  "fixing what ain't broke",
   "deploying on a friday",
   "rm -rf node_modules",
   "it works on my machine",
@@ -16,6 +15,17 @@ const STATUSES = [
   "ctrl+z ctrl+z ctrl+z",
   "git push --force (jk)",
   "tailwind goes brr",
+  "npm install hope",
+  "todo: fix later",
+  "works locally ¯\\_(ツ)_/¯",
+  "commit early commit often",
+  "just one more feature",
+  "shipping > perfecting",
+  "404: sleep not found",
+  "lgtm, ship it",
+  "the tests pass (probably)",
+  "built different (literally)",
+  "console.log everything",
 ];
 
 function pick(): string {
