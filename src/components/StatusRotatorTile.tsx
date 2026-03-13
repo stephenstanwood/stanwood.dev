@@ -16,7 +16,7 @@ const STATUSES = [
   "git push --force (jk)",
   "tailwind goes brr",
   "npm install hope",
-  "todo: fix later",
+  "to-do: fix later",
   "works locally ¯\\_(ツ)_/¯",
   "commit early commit often",
   "just one more feature",
