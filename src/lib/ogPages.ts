@@ -10,7 +10,6 @@ export interface PageConfig {
   bg: string;       // gradient start (darker)
   bg2: string;      // gradient end (lighter)
   accent: string;   // accent color for emoji glow / border
-  custom?: boolean; // use custom homepage layout
 }
 
 export const PAGES: Record<string, PageConfig> = {
@@ -21,7 +20,6 @@ export const PAGES: Record<string, PageConfig> = {
     bg: "#f5df4d",
     bg2: "#f0d400",
     accent: "#111",
-    custom: true,
   },
   "pixel-aquarium": {
     emoji: "\u{1F420}",
