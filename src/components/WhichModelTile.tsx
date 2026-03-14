@@ -116,7 +116,6 @@ export default function WhichModelTile() {
         boxSizing: "border-box",
       }}
     >
-      {/* Title */}
       <span
         style={{
           fontFamily: "'Bangers', cursive",
@@ -128,7 +127,6 @@ export default function WhichModelTile() {
         Which Model?
       </span>
 
-      {/* Color-coded model list */}
       <div
         className="wm-model-list"
         style={{
@@ -156,7 +154,6 @@ export default function WhichModelTile() {
         ))}
       </div>
 
-      {/* Cycling example */}
       <div
         style={{
           height: "16px",

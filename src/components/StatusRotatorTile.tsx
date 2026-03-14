@@ -28,19 +28,19 @@ const STATUSES = [
   "console.log everything",
 ];
 
-function pick(): string {
+function pickRandom(): string {
   return STATUSES[Math.floor(Math.random() * STATUSES.length)];
 }
 
 export default function StatusRotatorTile() {
-  const [status, setStatus] = useState(pick);
+  const [status, setStatus] = useState(pickRandom);
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setFading(true);
       setTimeout(() => {
-        setStatus(pick());
+        setStatus(pickRandom());
         setFading(false);
       }, 400);
     }, 4000);

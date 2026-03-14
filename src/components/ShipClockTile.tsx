@@ -84,7 +84,6 @@ export default function ShipClockTile() {
     return () => clearInterval(id);
   }, [data?.lastDeploy]);
 
-  // Loading
   if (!data) {
     return (
       <div className="proj-tile sct-tile">
@@ -101,7 +100,6 @@ export default function ShipClockTile() {
     );
   }
 
-  // Error
   if (data.error || !data.lastDeploy) {
     return (
       <div className="proj-tile sct-tile">

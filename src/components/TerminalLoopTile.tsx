@@ -14,6 +14,9 @@ export default function TerminalLoopTile() {
     if (!deleting && charIdx <= word.length) {
       if (charIdx === word.length) {
         const isLast = wordIdx === WORDS.length - 1;
+        // CLEANUP-FLAG: the inner 1500ms reset timer is not tracked by the outer
+        // clearTimeout, so it may fire on an unmounted component. Low risk in
+        // practice (no crash, just a no-op setState), but worth a useRef fix.
         const timer = setTimeout(() => {
           if (isLast) {
             setTimeout(() => {

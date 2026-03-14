@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
-import type { VibeResult } from "../lib/vibePrompt";
+import { vibeCheckErrorMessage, type VibeResult } from "../lib/vibePrompt";
+import { pickExamples } from "../lib/vibeExamples";
 
 type TileState = "idle" | "loading" | "result" | "error";
 
@@ -10,8 +11,6 @@ const LOADING_MESSAGES = [
   "checking fonts & vibes...",
   "judging gently...",
 ];
-
-import { pickExamples } from "../lib/vibeExamples";
 
 const EXAMPLE_URLS = pickExamples(3);
 
@@ -45,7 +44,6 @@ export default function VibeCheckTile() {
     setState("loading");
     setError("");
 
-    // Rotate loading messages
     let msgIdx = 0;
     const msgInterval = setInterval(() => {
       msgIdx = (msgIdx + 1) % LOADING_MESSAGES.length;
@@ -62,10 +60,7 @@ export default function VibeCheckTile() {
       clearInterval(msgInterval);
 
       if (!res.ok) {
-        const msg = data.debug
-          ? `${data.error} [${data.debug}]`
-          : data.error || "Something went wrong";
-        setError(msg);
+        setError(vibeCheckErrorMessage(data));
         setState("error");
         return;
       }
@@ -93,7 +88,6 @@ export default function VibeCheckTile() {
     setError("");
   };
 
-  // Result view
   if (state === "result" && result) {
     const categories = Object.entries(result.categories) as [
       string,
@@ -134,7 +128,6 @@ export default function VibeCheckTile() {
     );
   }
 
-  // Loading view
   if (state === "loading") {
     return (
       <div className="proj-tile vct vct-loading-tile">
@@ -148,7 +141,6 @@ export default function VibeCheckTile() {
     );
   }
 
-  // Idle + error view
   return (
     <div className="proj-tile vct">
       <div className="vct-idle">
