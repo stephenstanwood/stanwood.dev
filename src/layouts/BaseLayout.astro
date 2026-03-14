@@ -38,7 +38,7 @@ const {
 const siteUrl = "https://stanwood.dev";
 const pageUrl = customDomain || (slug ? `${siteUrl}/${slug}` : siteUrl);
 const canonicalUrl = customDomain ? `${customDomain}/` : (slug ? `${siteUrl}/${slug}` : `${siteUrl}/`);
-const ogImage = slug ? `${siteUrl}/api/og?page=${slug}` : `${siteUrl}/og-homepage.png`;
+const ogImage = `${siteUrl}/api/og?page=${slug || "index"}`;
 const displayName = schemaName || title.replace(" — stanwood.dev", "");
 
 const schema =
