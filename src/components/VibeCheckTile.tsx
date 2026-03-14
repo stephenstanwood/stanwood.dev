@@ -94,7 +94,7 @@ export default function VibeCheckTile() {
       { grade: string; note: string },
     ][];
     return (
-      <div className="proj-tile vct" onClick={() => window.location.href = "/vibe-check"}>
+      <a href="/vibe-check" className="proj-tile vct" style={{ textDecoration: "none", color: "inherit" }}>
         <div className="vct-result">
           <div className="vct-result-header">
             <span className="vct-label">VIBE CHECK</span>
@@ -124,7 +124,7 @@ export default function VibeCheckTile() {
             check another
           </button>
         </div>
-      </div>
+      </a>
     );
   }
 

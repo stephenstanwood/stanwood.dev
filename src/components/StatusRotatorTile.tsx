@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCycling } from "../hooks/useCycling";
 
 const STATUSES = [
   "currently shipping",
@@ -28,24 +28,8 @@ const STATUSES = [
   "console.log everything",
 ];
 
-function pickRandom(): string {
-  return STATUSES[Math.floor(Math.random() * STATUSES.length)];
-}
-
 export default function StatusRotatorTile() {
-  const [status, setStatus] = useState(pickRandom);
-  const [fading, setFading] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setStatus(pickRandom());
-        setFading(false);
-      }, 400);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+  const { value: status, fading } = useCycling(STATUSES, 4000, 400);
 
   return (
     <div className="proj-tile spacer-tile">
