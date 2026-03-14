@@ -1403,7 +1403,8 @@ const projects = [
 
       /* ── responsive ── */
       @media (max-width: 700px) {
-        .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; }
+        .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; max-width: 100%; overflow: hidden; }
+        .grid > * { min-width: 0; }
         .id-block { grid-column: 1 / -1; }
         .link-row {
           grid-template-columns: 1fr 1fr;
@@ -1418,6 +1419,7 @@ const projects = [
         .section-label { grid-column: 1 / -1; }
         .feat-row { grid-template-columns: 1fr; }
         .proj-row { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
+        .proj-row > * { min-width: 0; overflow: hidden; }
         .proj-row .proj-tile { grid-column: span 1; }
         .proj-tile.last-full { grid-column: 1 / -1; }
         .proj-tile.has-img .proj-img { height: 90px; }

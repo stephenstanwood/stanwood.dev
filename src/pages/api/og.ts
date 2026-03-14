@@ -12,15 +12,230 @@ import { PAGES } from "../../lib/ogPages";
  * so URLs stay clean and can't be abused to render arbitrary content.
  */
 
-export const GET: APIRoute = async ({ url }) => {
-  const page = url.searchParams.get("page") ?? "index";
-  const config = PAGES[page];
+function buildIndexCard(config: (typeof PAGES)[string]) {
+  // Retro zine style matching the homepage aesthetic
+  return {
+    type: "div",
+    props: {
+      style: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: "#f5f0e8",
+        fontFamily: "Inter, system-ui, sans-serif",
+        position: "relative",
+        padding: "0",
+      },
+      children: [
+        // Top black bar (like the ticker)
+        {
+          type: "div",
+          props: {
+            style: {
+              width: "100%",
+              background: "#111",
+              padding: "14px 60px",
+              display: "flex",
+              alignItems: "center",
+              gap: "24px",
+            },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: {
+                    color: "#fbbf24",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                  },
+                  children: "stanwood.dev",
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    color: "#fbbf24",
+                    fontSize: "12px",
+                    opacity: "0.4",
+                  },
+                  children: "\u25C6",
+                },
+              },
+              {
+                type: "div",
+                props: {
+                  style: {
+                    color: "#fbbf24",
+                    fontSize: "13px",
+                    letterSpacing: "0.05em",
+                    opacity: "0.7",
+                  },
+                  children: "building tools to make life simpler & more fun",
+                },
+              },
+            ],
+          },
+        },
+        // Main content area
+        {
+          type: "div",
+          props: {
+            style: {
+              flex: "1",
+              display: "flex",
+              padding: "48px 60px",
+              gap: "48px",
+            },
+            children: [
+              // Left: identity block (yellow card)
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    flex: "1",
+                  },
+                  children: [
+                    // Yellow card
+                    {
+                      type: "div",
+                      props: {
+                        style: {
+                          background: "#fbbf24",
+                          border: "3px solid #111",
+                          boxShadow: "8px 8px 0 #111",
+                          padding: "36px 40px",
+                          display: "flex",
+                          flexDirection: "column",
+                        },
+                        children: [
+                          // Stamp
+                          {
+                            type: "div",
+                            props: {
+                              style: {
+                                background: "#111",
+                                color: "#fbbf24",
+                                fontSize: "11px",
+                                fontWeight: 700,
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                padding: "4px 10px",
+                                display: "flex",
+                                alignSelf: "flex-start",
+                                marginBottom: "16px",
+                              },
+                              children: "stanwood.dev",
+                            },
+                          },
+                          // Name
+                          {
+                            type: "div",
+                            props: {
+                              style: {
+                                fontSize: "64px",
+                                fontWeight: 900,
+                                color: "#111",
+                                lineHeight: "1.0",
+                                letterSpacing: "-2px",
+                                marginBottom: "12px",
+                              },
+                              children: "Stephen Stanwood",
+                            },
+                          },
+                          // Tagline
+                          {
+                            type: "div",
+                            props: {
+                              style: {
+                                fontSize: "20px",
+                                fontStyle: "italic",
+                                color: "#333",
+                                lineHeight: "1.4",
+                              },
+                              children: config.tagline,
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+              // Right: project grid mockup
+              {
+                type: "div",
+                props: {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "14px",
+                    justifyContent: "center",
+                    width: "340px",
+                    flexShrink: "0",
+                  },
+                  children: [
+                    // Row of mini project tiles
+                    ...[
+                      ["\u{1F3C0}", "NBA Now"],
+                      ["\u{1F37F}", "Show Swipe"],
+                      ["\u26BE", "MLB GameRank"],
+                      ["\u{1FA9F}", "Kid Window"],
+                      ["\u{1F3CA}", "Lap Lab"],
+                      ["\u2615", "Nearest Coffee"],
+                    ].map(([emoji, name]) => ({
+                      type: "div",
+                      props: {
+                        style: {
+                          background: "#fff",
+                          border: "2px solid #111",
+                          boxShadow: "3px 3px 0 #111",
+                          padding: "12px 16px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "12px",
+                        },
+                        children: [
+                          {
+                            type: "div",
+                            props: {
+                              style: { fontSize: "24px" },
+                              children: emoji,
+                            },
+                          },
+                          {
+                            type: "div",
+                            props: {
+                              style: {
+                                fontSize: "16px",
+                                fontWeight: 700,
+                                color: "#111",
+                              },
+                              children: name,
+                            },
+                          },
+                        ],
+                      },
+                    })),
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+}
 
-  if (!config) {
-    return new Response("Unknown page", { status: 404 });
-  }
-
-  const html = {
+function buildDefaultCard(config: (typeof PAGES)[string]) {
+  return {
     type: "div",
     props: {
       style: {
@@ -164,6 +379,17 @@ export const GET: APIRoute = async ({ url }) => {
       ],
     },
   };
+}
+
+export const GET: APIRoute = async ({ url }) => {
+  const page = url.searchParams.get("page") ?? "index";
+  const config = PAGES[page];
+
+  if (!config) {
+    return new Response("Unknown page", { status: 404 });
+  }
+
+  const html = page === "index" ? buildIndexCard(config) : buildDefaultCard(config);
 
   // Plain object trees are valid at runtime (Satori accepts them)
   // but @vercel/og types expect ReactElement, hence the cast.

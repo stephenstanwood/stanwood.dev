@@ -15,11 +15,11 @@ export interface PageConfig {
 export const PAGES: Record<string, PageConfig> = {
   index: {
     emoji: "\u{1F6E0}\uFE0F",
-    title: "stanwood.dev",
-    tagline: "Projects I'm tinkering with.",
-    bg: "#0f0c29",
-    bg2: "#1a1545",
-    accent: "#818cf8",
+    title: "Stephen Stanwood",
+    tagline: "Building tools to make life simpler & more fun.",
+    bg: "#f5f0e8",
+    bg2: "#ede7db",
+    accent: "#111111",
   },
   "pixel-aquarium": {
     emoji: "\u{1F420}",
