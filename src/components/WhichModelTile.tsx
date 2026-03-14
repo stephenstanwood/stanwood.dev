@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ModelLogo } from "../lib/whichModel/logos";
+import { useCycling } from "../hooks/useCycling";
 
 const BRAND_COLORS: Record<string, string> = {
   Anthropic: "#d97706",
@@ -85,21 +86,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 export default function WhichModelTile() {
   const [examples] = useState(() => shuffleArray(ALL_EXAMPLES));
-  const [index, setIndex] = useState(0);
-  const [fading, setFading] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setIndex((i) => (i + 1) % examples.length);
-        setFading(false);
-      }, 300);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [examples.length]);
-
-  const ex = examples[index];
+  const { value: ex, fading } = useCycling(examples, 3000, 300);
   const brandColor = BRAND_COLORS[ex.org] || "#666";
 
   return (

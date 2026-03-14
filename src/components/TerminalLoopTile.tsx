@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const WORDS = ["sleep", "swim", "build", "dad", "repeat"];
 
@@ -7,6 +7,13 @@ export default function TerminalLoopTile() {
   const [wordIdx, setWordIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
+  const innerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (innerTimerRef.current !== null) clearTimeout(innerTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const word = WORDS[wordIdx];
@@ -14,12 +21,9 @@ export default function TerminalLoopTile() {
     if (!deleting && charIdx <= word.length) {
       if (charIdx === word.length) {
         const isLast = wordIdx === WORDS.length - 1;
-        // CLEANUP-FLAG: the inner 1500ms reset timer is not tracked by the outer
-        // clearTimeout, so it may fire on an unmounted component. Low risk in
-        // practice (no crash, just a no-op setState), but worth a useRef fix.
         const timer = setTimeout(() => {
           if (isLast) {
-            setTimeout(() => {
+            innerTimerRef.current = setTimeout(() => {
               setDisplay("");
               setWordIdx(0);
               setCharIdx(0);
