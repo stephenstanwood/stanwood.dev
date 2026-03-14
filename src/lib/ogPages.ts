@@ -10,16 +10,18 @@ export interface PageConfig {
   bg: string;       // gradient start (darker)
   bg2: string;      // gradient end (lighter)
   accent: string;   // accent color for emoji glow / border
+  custom?: boolean; // use custom homepage layout
 }
 
 export const PAGES: Record<string, PageConfig> = {
   index: {
-    emoji: "\u{1F6E0}\uFE0F",
-    title: "stanwood.dev",
-    tagline: "Projects I'm tinkering with.",
-    bg: "#0f0c29",
-    bg2: "#1a1545",
-    accent: "#818cf8",
+    emoji: "",
+    title: "Stephen Stanwood",
+    tagline: "Building tools to make life simpler & more fun.",
+    bg: "#f5df4d",
+    bg2: "#f0d400",
+    accent: "#111",
+    custom: true,
   },
   "pixel-aquarium": {
     emoji: "\u{1F420}",
