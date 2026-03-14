@@ -52,10 +52,10 @@ const projects = [
   { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
-  { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp" },
-  { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp" },
-  { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.webp" },
-  { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/radar.webp" },
+  { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp", mobileOnly: true },
+  { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp", mobileOnly: true },
+  { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.webp", mobileOnly: true },
+  { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/radar.webp", mobileOnly: true },
 ];
 ---
 
@@ -423,6 +423,8 @@ const projects = [
       .proj-row.shuffled { opacity: 1; }
       .proj-row > style,
       .proj-row > script { display: none; }
+      .proj-tile.mobile-only { display: none; }
+      .desktop-only { grid-column: span 2; display: contents; }
 
       .proj-tile {
         grid-column: span 2;
@@ -1456,6 +1458,8 @@ const projects = [
         .wm-model-list { display: none !important; }
         .vct { padding: 10px 14px !important; }
         .spacer-tile { display: none !important; }
+        .proj-tile.mobile-only { display: flex !important; }
+        .desktop-only { display: none !important; }
         .proj-row .proj-tile { height: 80px; }
 
         .footer-row { flex-direction: column; gap: 10px; text-align: center; align-items: center; padding-bottom: 48px; }
@@ -1580,7 +1584,7 @@ const projects = [
 
     <div id="proj-row" class="proj-row">
       {projects.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+        <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
           {p.image && (
             <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
           )}
@@ -1592,11 +1596,11 @@ const projects = [
         </a>
       ))}
       <AestheticWeatherTile client:idle />
-      <div class="sct-pin" data-pinned><ShipClockTile client:idle /></div>
+      <div class="sct-pin desktop-only" data-pinned><ShipClockTile client:idle /></div>
       <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
-      <AIRadarTile client:idle />
-      <div class="proj-tile wmt-tile"><WhichModelTile client:idle /></div>
-      <VibeCheckTile client:idle />
+      <div class="desktop-only"><AIRadarTile client:idle /></div>
+      <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
+      <div class="desktop-only"><VibeCheckTile client:idle /></div>
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
@@ -1641,7 +1645,7 @@ const projects = [
       // astro-island has display:contents so its children are grid items,
       // but we shuffle the astro-island wrapper to keep hydration intact.
       // Use a Set to avoid double-counting.
-      const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned]';
+      const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned], :scope > .desktop-only';
       function getGridItems(): HTMLElement[] {
         const seen = new Set<HTMLElement>();
         const items: HTMLElement[] = [];
@@ -1649,6 +1653,8 @@ const projects = [
           // Skip .proj-tile if its parent is an astro-island (already counted)
           const parent = el.parentElement;
           if (parent && parent.tagName === 'ASTRO-ISLAND' && parent.parentElement === projRow) continue;
+          // Skip .proj-tile inside .desktop-only (already counted via wrapper)
+          if (parent && parent.classList.contains('desktop-only') && parent.parentElement === projRow) continue;
           if (!seen.has(el as HTMLElement)) {
             seen.add(el as HTMLElement);
             items.push(el as HTMLElement);
@@ -1659,12 +1665,12 @@ const projects = [
 
       // Pin Ship Clock top-left, AI Radar top-right — shuffle the rest
       const sctPin = projRow.querySelector('.sct-pin');
-      const radarIsland = [...projRow.querySelectorAll(':scope > astro-island')].find(
+      const radarWrapper = [...projRow.querySelectorAll(':scope > .desktop-only')].find(
         el => el.querySelector('.radar-tile')
       );
 
       // Shuffle non-pinned tiles
-      const pinned = new Set([sctPin, radarIsland].filter(Boolean));
+      const pinned = new Set([sctPin, radarWrapper].filter(Boolean));
       const rest = getGridItems().filter(el => !pinned.has(el));
       for (let i = rest.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1676,7 +1682,7 @@ const projects = [
       allEls.forEach(el => el.remove());
       if (sctPin) projRow.appendChild(sctPin);
       if (rest.length > 0) projRow.appendChild(rest.shift()!);
-      if (radarIsland) projRow.appendChild(radarIsland);
+      if (radarWrapper) projRow.appendChild(radarWrapper);
       rest.forEach(el => projRow.appendChild(el));
 
       // Fade-in all tiles with stagger
