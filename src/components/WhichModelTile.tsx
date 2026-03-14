@@ -130,10 +130,11 @@ export default function WhichModelTile() {
 
       {/* Color-coded model list */}
       <div
+        className="wm-model-list"
         style={{
           display: "flex",
           flexWrap: "wrap",
-          gap: "6px 12px",
+          gap: "4px 10px",
           padding: "4px 0",
         }}
       >
@@ -143,13 +144,13 @@ export default function WhichModelTile() {
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "4px",
-              fontSize: "12px",
+              gap: "3px",
+              fontSize: "11px",
               fontWeight: 600,
               color: BRAND_COLORS[m.org],
             }}
           >
-            <ModelLogo org={m.org} size={14} color={BRAND_COLORS[m.org]} />
+            <ModelLogo org={m.org} size={12} color={BRAND_COLORS[m.org]} />
             {m.label}
           </div>
         ))}
@@ -158,13 +159,15 @@ export default function WhichModelTile() {
       {/* Cycling example */}
       <div
         style={{
-          height: "18px",
+          height: "16px",
           display: "flex",
           alignItems: "center",
-          gap: "5px",
-          fontSize: "12px",
+          gap: "4px",
+          fontSize: "11px",
           transition: "opacity 0.3s ease",
           opacity: fading ? 0 : 1,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
         }}
       >
         <span style={{ color: "#888" }}>{ex.task}</span>
@@ -178,7 +181,7 @@ export default function WhichModelTile() {
             fontWeight: 600,
           }}
         >
-          <ModelLogo org={ex.org} size={14} color={brandColor} />
+          <ModelLogo org={ex.org} size={12} color={brandColor} />
           {ex.model}
         </span>
       </div>
