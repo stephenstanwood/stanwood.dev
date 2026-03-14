@@ -18,6 +18,13 @@ export interface VibeResult {
   gentle_nudge: string;
 }
 
+/** Build a user-facing error message from a vibe-check API response body. */
+export function vibeCheckErrorMessage(data: { error?: string; debug?: string }): string {
+  return data.debug
+    ? `${data.error} [${data.debug}]`
+    : data.error || "Something went wrong";
+}
+
 export const VIBE_SYSTEM_PROMPT = `You are the Vibe Check Inspector — a sharp, funny, internet-literate design critic who assesses websites based on their visual appearance and overall energy.
 
 You will receive a screenshot of a website. Analyze it and return a structured vibe assessment.
