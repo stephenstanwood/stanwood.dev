@@ -131,6 +131,7 @@ const projects = [
         padding: 24px 24px 0;
         max-width: 1100px;
         margin: 0 auto;
+        overflow: hidden;
       }
 
       /* ── identity block ── */
@@ -268,7 +269,8 @@ const projects = [
         color: #28c840;
         font-size: 11px;
         line-height: 1.7;
-        min-height: 6em;
+        height: 7.5em;
+        overflow: hidden;
       }
       .term-prompt .line.cmd::before {
         content: '$ ';
@@ -1401,50 +1403,58 @@ const projects = [
       .grid > *:nth-child(5) { animation-delay: 0.25s; }
       .grid > *:nth-child(n+6) { animation-delay: 0.3s; }
 
-      /* ── responsive ── */
+      /* ── responsive: tablet ── */
+      @media (max-width: 1024px) {
+        .grid { grid-template-columns: 1fr 1fr; gap: 14px; padding: 16px; }
+        .grid > * { grid-column: 1 / -1 !important; min-width: 0; max-width: 100%; }
+        .avatar-block { grid-column: 1 / 2 !important; }
+        .banner-block { grid-column: 2 / 3 !important; }
+        .feat-row { grid-template-columns: 1fr 1fr !important; }
+        .feat-row .feat-card:nth-child(3) { grid-column: 1 / -1; }
+        .proj-row { grid-template-columns: repeat(6, 1fr) !important; }
+        .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 2 !important; }
+        .proj-tile.last-full { grid-column: 1 / -1 !important; }
+      }
+
+      /* ── responsive: phone ── */
       @media (max-width: 700px) {
-        .grid { grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px 12px 0; }
-        .id-block { grid-column: 1 / -1; }
-        .link-row {
-          grid-template-columns: 1fr 1fr;
-        }
-        .avatar-block { grid-column: 1 / 2; }
-        .banner-block {
-          grid-column: 2 / 3;
-          min-height: 180px;
-        }
-        .term-prompt { min-height: 4em; font-size: 9px; }
+        .grid { grid-template-columns: 1fr !important; gap: 10px; padding: 10px; }
+        .grid > * { grid-column: 1 / -1 !important; min-width: 0; max-width: 100%; }
+
+        .id-block, .avatar-block, .banner-block { box-shadow: 3px 3px 0 var(--ink); }
+        .retro-link { font-size: 10px; padding: 4px 6px; box-shadow: 1px 1px 0 var(--ink); }
+        .link-row { grid-template-columns: 1fr 1fr; }
+        .banner-block { min-height: 140px; }
+        .term-prompt { height: 5em; font-size: 9px; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .section-label { grid-column: 1 / -1; }
-        .feat-row { grid-template-columns: 1fr; }
-        .proj-row { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 10px; }
-        .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1; min-height: 0; }
-        .proj-tile.last-full { grid-column: 1 / -1; }
+        .id-block h1 { font-size: 32px; }
+
+        .section-label { grid-column: 1 / -1 !important; }
+        .feat-row { grid-template-columns: 1fr !important; }
+        .proj-row { grid-template-columns: 1fr !important; grid-auto-rows: auto; gap: 10px; }
+        .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1 !important; min-height: 0; }
+        .proj-tile.last-full { grid-column: 1 / -1 !important; }
         .proj-tile.has-img .proj-img { height: 140px; }
+        .proj-tile { box-shadow: 2px 2px 0 var(--ink); }
 
-        /* ── simplified dynamic tiles on mobile ── */
-
-        /* Weather: hide prose card, just show hero */
+        /* dynamic tiles: compact link-style on phone */
         .aw-card { display: none; }
-        .aw-hero { padding: 14px 16px; }
-
-        /* AI Radar: hide entry list, just show header + footer link */
+        .aw-hero { padding: 12px 14px; }
+        .aw-hero-title { font-size: 16px; }
         .radar-list { display: none; }
         .radar-header { padding-bottom: 4px; }
-
-        /* Ship Clock: compact — hide detail rows, just show logo + last commit */
+        .radar-tile { padding: 12px 14px !important; }
         .sct-row, .sct-divider, .sct-barcode, .sct-footer { display: none; }
-        .sct-inner { padding: 12px 16px; }
+        .sct-inner { padding: 10px 14px; }
         .sct-header { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .ais-body { padding: 6px 10px; font-size: 10px; }
+        .ais-head { padding: 8px 10px; }
+        .wm-model-list { display: none !important; }
+        .vct { padding: 10px 14px !important; }
+        .spacer-tile { min-height: 50px !important; }
 
-        /* AI Status: already compact, just tighten */
-        .ais-body { padding: 8px 12px; }
-
-        /* Spacer tiles: just center content */
-        .spacer-tile { min-height: 60px !important; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
-        .id-block h1 { font-size: 32px; }
       }
 
       /* ── reduced motion ── */
