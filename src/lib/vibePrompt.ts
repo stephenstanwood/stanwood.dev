@@ -18,6 +18,16 @@ export interface VibeResult {
   gentle_nudge: string;
 }
 
+/** Human-readable label for each vibe category key. Shared between tile and scorecard. */
+export const VIBE_CATEGORY_LABELS: Record<string, string> = {
+  design: "Design",
+  tone: "Tone",
+  speed_feel: "Speed Feel",
+  clarity: "Clarity",
+  originality: "Originality",
+  trust: "Trust",
+};
+
 /** Build a user-facing error message from a vibe-check API response body. */
 export function vibeCheckErrorMessage(data: { error?: string; debug?: string }): string {
   return data.debug
