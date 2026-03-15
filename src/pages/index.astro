@@ -1655,6 +1655,8 @@ const projects = [
           if (parent && parent.tagName === 'ASTRO-ISLAND' && parent.parentElement === projRow) continue;
           // Skip .proj-tile inside .desktop-only (already counted via wrapper)
           if (parent && parent.classList.contains('desktop-only') && parent.parentElement === projRow) continue;
+          // Skip mobile-only tiles (hidden on desktop, don't occupy grid cells)
+          if (el.classList.contains('mobile-only')) continue;
           if (!seen.has(el as HTMLElement)) {
             seen.add(el as HTMLElement);
             items.push(el as HTMLElement);
