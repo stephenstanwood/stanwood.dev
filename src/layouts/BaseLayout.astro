@@ -41,7 +41,18 @@ const canonicalUrl = customDomain ? `${customDomain}/` : (slug ? `${siteUrl}/${s
 const ogImage = slug ? `${siteUrl}/api/og?page=${slug}` : `${siteUrl}/og-homepage.png`;
 const displayName = schemaName || title.replace(" — stanwood.dev", "");
 
-const schema =
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Stephen Stanwood",
+  url: "https://stanwood.dev",
+  sameAs: [
+    "https://x.com/stephenstanwood",
+    "https://github.com/stephenstanwood",
+  ],
+};
+
+const pageSchema =
   schemaType === "WebSite"
     ? {
         "@context": "https://schema.org",
@@ -74,12 +85,16 @@ const schema =
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={ogImage} />
+    <meta name="author" content="Stephen Stanwood" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@stephenstanwood" />
+    <meta name="twitter:creator" content="@stephenstanwood" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="canonical" href={canonicalUrl} />
-    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+    {!slug && <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />}
     <link rel="icon" type="image/svg+xml" href={favicon} />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

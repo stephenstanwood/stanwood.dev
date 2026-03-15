@@ -16,7 +16,15 @@ export const PAGES: Record<string, PageConfig> = {
   index: {
     emoji: "",
     title: "Stephen Stanwood",
-    tagline: "Building tools to make life simpler & more fun.",
+    tagline: "Builder, designer, developer. Apps, games & experiments.",
+    bg: "#f5df4d",
+    bg2: "#f0d400",
+    accent: "#111",
+  },
+  about: {
+    emoji: "\u{1F44B}",
+    title: "About Stephen Stanwood",
+    tagline: "Builder and designer. Campbell, California.",
     bg: "#f5df4d",
     bg2: "#f0d400",
     accent: "#111",
