@@ -101,7 +101,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const screenshotBase64 = await captureScreenshot(parsed.toString());
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-20250514",
+      model: "claude-sonnet-4-6-20250514",
       max_tokens: 1024,
       system: VIBE_SYSTEM_PROMPT,
       messages: [

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { vibeCheckErrorMessage, type VibeResult } from "../lib/vibePrompt";
+import { vibeCheckErrorMessage, VIBE_CATEGORY_LABELS, type VibeResult } from "../lib/vibePrompt";
 import { pickExamples } from "../lib/vibeExamples";
 
 type TileState = "idle" | "loading" | "result" | "error";
@@ -22,15 +22,6 @@ function gradeColor(grade: string): string {
   if (letter === "D") return "#B85C2A";
   return "#C04830";
 }
-
-const CATEGORY_LABELS: Record<string, string> = {
-  design: "Design",
-  tone: "Tone",
-  speed_feel: "Speed Feel",
-  clarity: "Clarity",
-  originality: "Originality",
-  trust: "Trust",
-};
 
 export default function VibeCheckTile() {
   const [state, setState] = useState<TileState>("idle");
@@ -111,7 +102,7 @@ export default function VibeCheckTile() {
             {categories.map(([key, { grade }]) => (
               <span key={key} className="vct-mini-grade">
                 <span className="vct-mini-label">
-                  {CATEGORY_LABELS[key] || key}
+                  {VIBE_CATEGORY_LABELS[key] || key}
                 </span>
                 <span style={{ color: gradeColor(grade) }}>{grade}</span>
               </span>

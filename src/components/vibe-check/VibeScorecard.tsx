@@ -1,19 +1,10 @@
-import type { VibeResult } from "../../lib/vibePrompt";
+import { VIBE_CATEGORY_LABELS, type VibeResult } from "../../lib/vibePrompt";
 
 interface Props {
   result: VibeResult;
   url: string;
   onCheckAnother: () => void;
 }
-
-const CATEGORY_LABELS: Record<string, string> = {
-  design: "Design",
-  tone: "Tone",
-  speed_feel: "Speed Feel",
-  clarity: "Clarity",
-  originality: "Originality",
-  trust: "Trust",
-};
 
 function gradeColor(grade: string): string {
   const letter = grade.charAt(0).toUpperCase();
@@ -75,7 +66,7 @@ export default function VibeScorecard({ result, url, onCheckAnother }: Props) {
           <div key={key} className="vc-category-row">
             <div className="vc-category-left">
               <span className="vc-category-label">
-                {CATEGORY_LABELS[key] || key}
+                {VIBE_CATEGORY_LABELS[key] || key}
               </span>
               <span
                 className="vc-category-grade"

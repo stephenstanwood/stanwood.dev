@@ -25,6 +25,9 @@ export interface ProviderStatus {
 }
 
 // In-memory cache: { data, fetchedAt }
+// CLEANUP-FLAG: serverless functions don't share memory across instances, so this cache only
+// helps when the same instance handles repeated requests within its lifetime. CDN headers
+// (s-maxage/stale-while-revalidate) on the response are the real caching layer here.
 let cache: { data: ProviderStatus[]; fetchedAt: number } | null = null;
 const CACHE_TTL = 3 * 60 * 1000; // 3 minutes
 
