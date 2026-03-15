@@ -1431,16 +1431,17 @@ const projects = [
         .retro-link { font-size: 10px; padding: 4px 6px; box-shadow: 1px 1px 0 var(--ink); }
         .link-row { grid-template-columns: 1fr 1fr; }
         .banner-block { min-height: 140px; }
-        .term-prompt { height: 5em; font-size: 9px; }
+        .term-prompt { min-height: 5em; font-size: 9px; overflow: hidden; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .id-block h1 { font-size: 32px; }
 
         .section-label { grid-column: 1 / -1 !important; }
         .feat-row { grid-template-columns: 1fr !important; }
-        .proj-row { grid-template-columns: 1fr !important; grid-auto-rows: auto; gap: 10px; }
-        .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1 !important; min-height: 0; }
+        .proj-row { display: flex !important; flex-direction: column !important; gap: 10px; }
+        .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1 !important; min-height: 0 !important; height: auto !important; flex: 0 0 auto !important; }
         .proj-tile.last-full { grid-column: 1 / -1 !important; }
-        .proj-tile.has-img .proj-img { height: 140px; }
+        .proj-tile.has-img { flex-direction: row !important; max-height: 100px !important; overflow: hidden !important; }
+        .proj-tile.has-img .proj-img { width: 100px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 100px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; }
         .proj-tile { box-shadow: 2px 2px 0 var(--ink); }
 
         /* dynamic tiles: compact link-style on phone */
@@ -1460,7 +1461,9 @@ const projects = [
         .spacer-tile { display: none !important; }
         .proj-tile.mobile-only { display: flex !important; }
         .desktop-only { display: none !important; }
-        .proj-row .proj-tile { height: 80px; }
+        .proj-row .proj-tile { height: auto; }
+        .proj-row .proj-tile.has-img { height: auto; }
+        .proj-row .proj-tile:not(.has-img) { min-height: 60px; }
 
         .footer-row { flex-direction: column; gap: 10px; text-align: center; align-items: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
@@ -1595,17 +1598,17 @@ const projects = [
           </div>
         </a>
       ))}
-      <AestheticWeatherTile client:idle />
+      <div class="desktop-only"><AestheticWeatherTile client:idle /></div>
       <div class="sct-pin desktop-only" data-pinned><ShipClockTile client:idle /></div>
-      <div class="ais-pin" data-pinned><AIStatusTile client:idle /></div>
+      <div class="ais-pin desktop-only" data-pinned><AIStatusTile client:idle /></div>
       <div class="desktop-only"><AIRadarTile client:idle /></div>
       <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
       <div class="desktop-only"><VibeCheckTile client:idle /></div>
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
-      <TerminalLoopTile client:idle />
-      <StatusRotatorTile client:idle />
+      <div class="desktop-only"><TerminalLoopTile client:idle /></div>
+      <div class="desktop-only"><StatusRotatorTile client:idle /></div>
     </div>
 
     <!-- Footer -->
