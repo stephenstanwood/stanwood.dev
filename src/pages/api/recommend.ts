@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { CLAUDE_SONNET } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
 import type {
@@ -137,7 +138,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     );
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6-20250514",
+      model: CLAUDE_SONNET,
       max_tokens: 600,
       system: SYSTEM_PROMPT,
       messages: [{ role: "user", content: userMessage }],

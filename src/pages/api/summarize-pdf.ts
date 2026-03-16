@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { CLAUDE_SONNET } from "../../lib/models";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
@@ -33,7 +34,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     // CLEANUP-FLAG: model ID hardcoded — centralise with condense.ts, recommend.ts, ship-clock.ts
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6-20250514",
+      model: CLAUDE_SONNET,
       max_tokens: 180,
       messages: [
         {
