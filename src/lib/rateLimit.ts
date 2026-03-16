@@ -37,12 +37,12 @@ export function rateLimit(
 
   if (recent.length >= max) {
     hits.set(ip, recent);
-    return false; // rejected
+    return false;
   }
 
   recent.push(now);
   hits.set(ip, recent);
-  return true; // allowed
+  return true;
 }
 
 export function rateLimitResponse(): Response {

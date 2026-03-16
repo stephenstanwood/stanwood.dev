@@ -30,7 +30,15 @@ const OUTSIDE_TYPES = [
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
-  const { latitude, longitude, mode } = await request.json();
+  let latitude: unknown, longitude: unknown, mode: unknown;
+  try {
+    ({ latitude, longitude, mode } = await request.json());
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "invalid request body" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   if (
     typeof latitude !== "number" ||

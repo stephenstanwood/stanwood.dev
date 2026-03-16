@@ -7,7 +7,15 @@ import { validatePlacesKey, searchNearbyPlaces } from "../../lib/placesClient";
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
-  const { latitude, longitude } = await request.json();
+  let latitude: unknown, longitude: unknown;
+  try {
+    ({ latitude, longitude } = await request.json());
+  } catch {
+    return new Response(
+      JSON.stringify({ error: "invalid request body" }),
+      { status: 400, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   if (
     typeof latitude !== "number" ||
