@@ -241,6 +241,38 @@ const projects = [
         font-family: 'Space Mono', monospace;
         margin-top: 2px;
       }
+      .avatar-block {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+        position: relative;
+      }
+      .avatar-img {
+        transition: transform 0.3s ease;
+      }
+      .avatar-block:hover .avatar-img {
+        transform: rotate(-3deg) scale(1.05);
+      }
+      .avatar-hover-label {
+        position: absolute;
+        bottom: 54px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 14px;
+        color: white;
+        background: var(--ink);
+        padding: 6px 0;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none;
+      }
+      .avatar-block:hover .avatar-hover-label {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
       /* ── terminal banner ── */
       .banner-block {
@@ -1534,20 +1566,21 @@ const projects = [
         <a class="retro-link" href="/shop">
           👕 Shop
         </a>
-        <a class="retro-link" href="https://discord.gg/Prk8x3SwHA" target="_blank" rel="noopener noreferrer">
-          💬 Discord
+        <a class="retro-link" href="https://www.threads.com/@stanwood.dev" target="_blank" rel="noopener noreferrer">
+          🧵 Threads
         </a>
       </div>
     </div>
 
     <!-- Avatar -->
-    <div class="avatar-block">
+    <a class="avatar-block" href="/about">
       <img class="avatar-img" src="/headshot-sketch.png" alt="Stephen Stanwood" />
       <div class="avatar-footer">
         <div class="avatar-name">Stephen Stanwood</div>
         <div class="avatar-loc">Silicon Valley</div>
       </div>
-    </div>
+      <div class="avatar-hover-label">about me →</div>
+    </a>
 
     <!-- Terminal card -->
     <div class="banner-block" id="terminal">
