@@ -1,6 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
+import { CLAUDE_HAIKU } from "../../lib/models";
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
@@ -25,7 +26,7 @@ async function summarizeCommit(raw: string): Promise<{ project: string | null; s
 
   try {
     const res = await anthropic.messages.create({
-      model: "claude-haiku-4-20250414",
+      model: CLAUDE_HAIKU,
       max_tokens: 100,
       messages: [
         {

@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { CLAUDE_SONNET } from "../../lib/models";
 
 const MAX_TEXT_LENGTH = 5_000;
 
@@ -33,7 +34,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     // CLEANUP-FLAG: model ID hardcoded — centralise with recommend.ts, summarize-pdf.ts, ship-clock.ts
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6-20250514",
+      model: CLAUDE_SONNET,
       max_tokens: 60,
       messages: [
         {
