@@ -8,7 +8,7 @@ import { PAGES } from "../../lib/ogPages";
  * Dynamic Open Graph image generator.
  * Usage: /api/og?page=mlb-gamerank → returns a 1200×630 PNG.
  *
- * Homepage uses a static image (public/og-homepage.png) instead.
+ * Homepage uses a static image (public/images/og-homepage.png) instead.
  */
 
 export const GET: APIRoute = async ({ url }) => {
