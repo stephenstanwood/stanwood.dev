@@ -8,6 +8,7 @@ export const config = {
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { CLAUDE_SONNET } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
 
 const RATE_LIMIT_MAX = 20;
@@ -101,7 +102,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const screenshotBase64 = await captureScreenshot(parsed.toString());
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6-20250514",
+      model: CLAUDE_SONNET,
       max_tokens: 1024,
       system: VIBE_SYSTEM_PROMPT,
       messages: [
