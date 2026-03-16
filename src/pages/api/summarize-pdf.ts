@@ -32,7 +32,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
-    // CLEANUP-FLAG: model ID hardcoded — centralise with condense.ts, recommend.ts, ship-clock.ts
     const message = await client.messages.create({
       model: CLAUDE_SONNET,
       max_tokens: 180,
