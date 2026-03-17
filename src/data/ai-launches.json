@@ -8,20 +8,20 @@
     "url": "https://allthingsopen.org/articles/openclaw-viral-open-source-ai-agent-architecture"
   },
   {
+    "name": "Gemini 3.1 Pro",
+    "org": "Google",
+    "date": "2026-03-09",
+    "type": "model",
+    "summary": "big reasoning jump over Gemini 3 Pro, free tier via AI Studio",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/"
+  },
+  {
     "name": "Codex Desktop",
     "org": "OpenAI",
     "date": "2026-03-07",
     "type": "tool",
     "summary": "local app for AI coding agents",
     "url": "https://openai.com/index/introducing-the-codex-app/"
-  },
-  {
-    "name": "v0 MCP Support",
-    "org": "Vercel",
-    "date": "2026-03-06",
-    "type": "tool",
-    "summary": "plug any MCP server into v0",
-    "url": "https://vercel.com/changelog"
   },
   {
     "name": "LTX 2.3",
@@ -56,11 +56,11 @@
     "url": "https://www.anthropic.com/news/claude-opus-4-6"
   },
   {
-    "name": "Gemini 3.1 Flash-Lite",
-    "org": "Google",
-    "date": "2026-03-03",
+    "name": "GLM-5",
+    "org": "Zhipu AI",
+    "date": "2026-03-05",
     "type": "model",
-    "summary": "fastest & cheapest Gemini yet — $0.25/M tokens, available in AI Studio now",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
+    "summary": "MIT-licensed open-weight model, #1 on LMArena among open models — GPT-4 class, free on Hugging Face",
+    "url": "https://huggingface.co/blog/mlabonne/glm-5"
   }
 ]
