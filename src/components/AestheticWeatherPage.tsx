@@ -41,7 +41,9 @@ export default function AestheticWeatherPage() {
           setData(json);
           setUsingCustom(!!coords);
         }
-      } catch {}
+      } catch (err) {
+        console.error("weather fetch failed:", err);
+      }
       setLoading(false);
     },
     []
