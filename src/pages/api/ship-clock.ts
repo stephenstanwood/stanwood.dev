@@ -125,7 +125,8 @@ export const GET: APIRoute = async () => {
         },
       },
     );
-  } catch {
+  } catch (err) {
+    console.error("ship-clock fetch failed:", err);
     return new Response(
       JSON.stringify({ lastDeploy: null, daysSince: null, hoursSince: null, error: "api error" }),
       {
