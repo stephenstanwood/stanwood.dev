@@ -1,5 +1,13 @@
 [
   {
+    "name": "Nemotron 3 Super",
+    "org": "NVIDIA",
+    "date": "2026-03-11",
+    "type": "model",
+    "summary": "open-weight 120B MoE (12B active), free on OpenRouter, 1M context, 5x faster for agentic workflows",
+    "url": "https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/"
+  },
+  {
     "name": "OpenClaw",
     "org": "Peter Steinberger",
     "date": "2026-03-10",
@@ -28,7 +36,7 @@
     "org": "Lightricks",
     "date": "2026-03-06",
     "type": "tool",
-    "summary": "open-source 4K video gen, run local",
+    "summary": "open-source 4K/50fps video gen with native audio — run locally, Apache 2.0",
     "url": "https://github.com/Lightricks/LTX-Video"
   },
   {
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "big leap in reasoning + coding",
     "url": "https://www.anthropic.com/news/claude-opus-4-6"
-  },
-  {
-    "name": "GLM-5",
-    "org": "Zhipu AI",
-    "date": "2026-03-05",
-    "type": "model",
-    "summary": "MIT-licensed open-weight model, #1 on LMArena among open models — GPT-4 class, free on Hugging Face",
-    "url": "https://huggingface.co/blog/mlabonne/glm-5"
   }
 ]
