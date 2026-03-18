@@ -56,25 +56,25 @@ export function relativeAge(dateStr: string): string {
   return `${Math.floor(diff / 7)}w ago`;
 }
 
-/** Extract { day, date, month } strings from a YYYY-MM-DD date string. */
-export function formatLaunchDate(dateStr: string): { day: string; date: string; month: string } {
-  const d = parseLaunchDate(dateStr);
-  return {
-    day: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
-    date: d.getDate().toString(),
-    month: d.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
-  };
-}
-
-/** Extract { dayName, dayNum, month, year } strings from a YYYY-MM-DD date string. */
-export function formatLaunchDateFull(dateStr: string): { dayName: string; dayNum: string; month: string; year: string } {
-  const d = parseLaunchDate(dateStr);
+/** Extract common formatted parts from a parsed Date. Used by formatLaunchDate and formatLaunchDateFull. */
+function extractDateParts(d: Date) {
   return {
     dayName: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
     dayNum: d.getDate().toString(),
     month: d.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
     year: d.getFullYear().toString(),
   };
+}
+
+/** Extract { day, date, month } strings from a YYYY-MM-DD date string. */
+export function formatLaunchDate(dateStr: string): { day: string; date: string; month: string } {
+  const { dayName, dayNum, month } = extractDateParts(parseLaunchDate(dateStr));
+  return { day: dayName, date: dayNum, month };
+}
+
+/** Extract { dayName, dayNum, month, year } strings from a YYYY-MM-DD date string. */
+export function formatLaunchDateFull(dateStr: string): { dayName: string; dayNum: string; month: string; year: string } {
+  return extractDateParts(parseLaunchDate(dateStr));
 }
 
 /** Group an array of launches by date, newest first. */

@@ -14,6 +14,9 @@ interface Props {
 const SWIPE_THRESHOLD = 80;
 const VELOCITY_THRESHOLD = 0.5;
 const COUNTDOWN_SECONDS = 5;
+const DRAG_ROTATION_MULTIPLIER = 0.06; // degrees of card tilt per pixel of drag
+const OVERLAY_OPACITY_DISTANCE = 120; // px of drag to reach full overlay opacity
+const OVERLAY_OPACITY_MAX = 0.8;
 
 export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, active, parentFlyDirection }: Props) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -155,8 +158,8 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     [onSwipe, clearCountdown],
   );
 
-  const rotation = deltaX * 0.06;
-  const overlayOpacity = Math.min(Math.abs(deltaX) / 120, 0.8);
+  const rotation = deltaX * DRAG_ROTATION_MULTIPLIER;
+  const overlayOpacity = Math.min(Math.abs(deltaX) / OVERLAY_OPACITY_DISTANCE, OVERLAY_OPACITY_MAX);
 
   const effectiveFlyOff = flyOff ?? parentFlyDirection ?? null;
 
