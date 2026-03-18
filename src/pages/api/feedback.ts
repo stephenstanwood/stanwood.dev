@@ -6,7 +6,7 @@ import { rateLimit } from "../../lib/rateLimit";
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 
 export const POST: APIRoute = async ({ request }) => {
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
 
   // 3 reports per IP per 10 minutes
   if (!rateLimit(ip, 3, 10 * 60_000)) {
