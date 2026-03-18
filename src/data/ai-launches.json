@@ -1,66 +1,58 @@
 [
   {
+    "name": "Gemini Spend Caps",
+    "org": "Google",
+    "date": "2026-03-16",
+    "type": "tool",
+    "summary": "Gemini API finally gets monthly spend caps — removes the accidental runaway-bill risk for indie devs",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/more-control-over-gemini-api-costs"
+  },
+  {
     "name": "Nemotron 3 Super",
     "org": "NVIDIA",
     "date": "2026-03-11",
     "type": "model",
-    "summary": "open-weight 120B MoE (12B active), free on OpenRouter, 1M context, 5x faster for agentic workflows",
+    "summary": "fully open 120B model (only 12B active), free on OpenRouter now — one of the most capable open models you can actually call today",
     "url": "https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/"
   },
   {
-    "name": "OpenClaw",
-    "org": "Peter Steinberger",
-    "date": "2026-03-10",
+    "name": "Claude Memory",
+    "org": "Anthropic",
+    "date": "2026-03-13",
     "type": "tool",
-    "summary": "major update: GPT-5.4 support, memory hot-swapping, cloud-hosted deployment (280k+ GitHub stars)",
-    "url": "https://allthingsopen.org/articles/openclaw-viral-open-source-ai-agent-architecture"
-  },
-  {
-    "name": "Gemini 3.1 Pro",
-    "org": "Google",
-    "date": "2026-03-09",
-    "type": "model",
-    "summary": "big reasoning jump over Gemini 3 Pro, free tier via AI Studio",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/"
-  },
-  {
-    "name": "Codex Desktop",
-    "org": "OpenAI",
-    "date": "2026-03-07",
-    "type": "tool",
-    "summary": "local app for AI coding agents",
-    "url": "https://openai.com/index/introducing-the-codex-app/"
-  },
-  {
-    "name": "LTX 2.3",
-    "org": "Lightricks",
-    "date": "2026-03-06",
-    "type": "tool",
-    "summary": "open-source 4K/50fps video gen with native audio — run locally, Apache 2.0",
-    "url": "https://github.com/Lightricks/LTX-Video"
-  },
-  {
-    "name": "Cursor Automations",
-    "org": "Cursor",
-    "date": "2026-03-05",
-    "type": "tool",
-    "summary": "always-on agents via Slack + GitHub",
-    "url": "https://techcrunch.com/2026/03/05/cursor-is-rolling-out-a-new-system-for-agentic-coding/"
+    "summary": "Claude now remembers context and preferences across conversations — rolled out to all users",
+    "url": "https://releasebot.io/updates/anthropic/claude"
   },
   {
     "name": "GPT-5.4",
     "org": "OpenAI",
     "date": "2026-03-05",
     "type": "model",
-    "summary": "1M context, native computer use, 33% fewer hallucinations",
+    "summary": "1M context, native computer-use, API from $2.50/M tokens — current OpenAI flagship",
     "url": "https://openai.com/index/introducing-gpt-5-4/"
   },
   {
-    "name": "Claude Opus 4.6",
-    "org": "Anthropic",
+    "name": "Windsurf Wave 13",
+    "org": "Codeium",
     "date": "2026-03-05",
+    "type": "tool",
+    "summary": "parallel agents, 10x faster code context retrieval, and hooks for pre/post-action triggers",
+    "url": "https://windsurf.com/"
+  },
+  {
+    "name": "LTX 2.3",
+    "org": "Lightricks",
+    "date": "2026-03-03",
+    "type": "tool",
+    "summary": "open-source 4K video gen with synced audio in one pass — Apache 2.0, use it commercially",
+    "url": "https://github.com/Lightricks/LTX-Video"
+  },
+  {
+    "name": "Qwen 3.5 Small",
+    "org": "Alibaba",
+    "date": "2026-03-01",
     "type": "model",
-    "summary": "big leap in reasoning + coding",
-    "url": "https://www.anthropic.com/news/claude-opus-4-6"
+    "summary": "open-source 0.8B–9B multimodal models at ~$0.10/M tokens — dirt cheap for on-device or embedded use",
+    "url": "https://www.buildfastwithai.com/blogs/ai-models-march-2026-releases"
   }
 ]
