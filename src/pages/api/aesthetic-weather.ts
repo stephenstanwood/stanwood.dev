@@ -51,7 +51,7 @@ export const GET: APIRoute = async ({ url }) => {
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 
     const data = await res.json();
-    const c = data.current;
+    const current = data.current;
 
     // Parse sunrise/sunset times
     // Open-Meteo returns times in the requested timezone (America/Los_Angeles)
@@ -74,15 +74,15 @@ export const GET: APIRoute = async ({ url }) => {
     const currentHour = pacificNow.getHours() + pacificNow.getMinutes() / 60;
 
     const input: WeatherInput = {
-      weatherCode: c.weather_code,
-      temp: c.temperature_2m,
-      feelsLike: c.apparent_temperature,
-      humidity: c.relative_humidity_2m,
-      windSpeedKmh: c.wind_speed_10m,
-      cloudCover: c.cloud_cover,
-      uvIndex: c.uv_index,
-      isDay: c.is_day === 1,
-      precipitation: c.precipitation,
+      weatherCode: current.weather_code,
+      temp: current.temperature_2m,
+      feelsLike: current.apparent_temperature,
+      humidity: current.relative_humidity_2m,
+      windSpeedKmh: current.wind_speed_10m,
+      cloudCover: current.cloud_cover,
+      uvIndex: current.uv_index,
+      isDay: current.is_day === 1,
+      precipitation: current.precipitation,
       currentHour,
       sunriseHour,
       sunsetHour,
