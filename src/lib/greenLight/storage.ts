@@ -3,6 +3,10 @@ import type { StoredProfile, DietaryConstraints, QuizAnswer, TasteProfile } from
 const LS_KEY = "green-light:v1";
 const MAX_RECENT = 5;
 
+function safeSet(key: string, value: unknown): void {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+
 export const defaultConstraints: DietaryConstraints = {
   dietary: [],
   disliked: [],
@@ -38,7 +42,7 @@ export function saveProfile(
     createdAt: existing?.createdAt ?? now,
     updatedAt: now,
   };
-  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch {}
+  safeSet(LS_KEY, data);
 }
 
 export function addRecentRestaurant(name: string): void {
@@ -54,7 +58,7 @@ export function addRecentRestaurant(name: string): void {
   ].slice(0, MAX_RECENT);
   stored.recentRestaurants = recent;
   stored.updatedAt = new Date().toISOString();
-  try { localStorage.setItem(LS_KEY, JSON.stringify(stored)); } catch {}
+  safeSet(LS_KEY, stored);
 }
 
 export function updateTasteProfile(profile: TasteProfile): void {
@@ -62,7 +66,7 @@ export function updateTasteProfile(profile: TasteProfile): void {
   if (!stored) return;
   stored.profile = profile;
   stored.updatedAt = new Date().toISOString();
-  try { localStorage.setItem(LS_KEY, JSON.stringify(stored)); } catch {}
+  safeSet(LS_KEY, stored);
 }
 
 export function clearProfile(): void {
