@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET } from "../../lib/models";
+import { CLAUDE_SONNET, extractText } from "../../lib/models";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
@@ -56,8 +56,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       ],
     });
 
-    const block = message.content[0];
-    const summary = block.type === "text" ? block.text.trim() : "";
+    const summary = extractText(message.content);
 
     if (!summary) {
       return new Response(

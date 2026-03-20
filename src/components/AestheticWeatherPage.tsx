@@ -83,7 +83,6 @@ export default function AestheticWeatherPage() {
     fetchWeather();
   };
 
-  // Loading state
   if (loading && !data) {
     return (
       <div className="aw-page">

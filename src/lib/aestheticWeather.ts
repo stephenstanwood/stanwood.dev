@@ -27,6 +27,11 @@ export function wmoInfo(code: number): [string, string] {
   return WMO[code] ?? ["🌡", "Unknown"];
 }
 
+/** Default location for weather features (Campbell, CA). */
+export const DEFAULT_WEATHER_LAT = 37.2872;
+export const DEFAULT_WEATHER_LON = -121.95;
+export const DEFAULT_WEATHER_LOCATION = "Campbell, CA";
+
 // --- Types ---
 
 export interface WeatherInput {

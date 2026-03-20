@@ -18,7 +18,6 @@ export default function AestheticWeatherTile() {
       .catch(() => setError(true));
   }, []);
 
-  // Loading state
   if (!data && !error) {
     return (
       <a
@@ -35,7 +34,6 @@ export default function AestheticWeatherTile() {
     );
   }
 
-  // Error — still link to the page
   if (error || !data) {
     return (
       <a

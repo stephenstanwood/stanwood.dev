@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET } from "../../lib/models";
+import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
 import type {
@@ -109,6 +109,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
+    const trimmedName = restaurantName.trim();
+
     // Cap array inputs to prevent token inflation
     if (constraints?.dietary) {
       constraints.dietary = constraints.dietary.slice(0, 10);
@@ -117,8 +119,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       constraints.disliked = constraints.disliked.slice(0, 20);
     }
 
-    // Guard against oversized inputs reaching Claude
-    if (restaurantName.trim().length > 200) {
+    if (trimmedName.length > 200) {
       return new Response(
         JSON.stringify({ error: "Restaurant name too long (max 200 characters)" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -131,7 +132,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         : "Campbell, CA";
 
     const userMessage = buildUserMessage(
-      restaurantName.trim(),
+      trimmedName,
       safeLocation,
       tasteProfile,
       constraints,
@@ -144,8 +145,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       messages: [{ role: "user", content: userMessage }],
     });
 
-    const block = message.content[0];
-    const text = block.type === "text" ? block.text.trim() : "";
+    const text = extractText(message.content);
 
     if (!text) {
       return new Response(
@@ -154,8 +154,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       );
     }
 
-    // Parse JSON from Claude's response, stripping markdown fences if present
-    const cleaned = text.replace(/^```json?\s*/i, "").replace(/\s*```$/i, "");
+    const cleaned = stripFences(text);
     let recommendation;
     try {
       recommendation = JSON.parse(cleaned);
@@ -170,7 +169,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const placesKey = import.meta.env.GOOGLE_PLACES_API_KEY ?? "";
     const pexelsKey = import.meta.env.PEXELS_API_KEY ?? "";
     const restaurantPhotos = await fetchRestaurantPhotos(
-      restaurantName.trim(),
+      trimmedName,
       safeLocation,
       placesKey,
     );
@@ -210,7 +209,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     console.log(
       JSON.stringify({
         event: "green-light-recommend",
-        restaurant: restaurantName,
+        restaurant: trimmedName,
         matched: recommendation.restaurantMatched,
         constraints: constraints.dietary,
         photoSource,
