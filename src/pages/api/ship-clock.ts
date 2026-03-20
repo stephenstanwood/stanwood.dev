@@ -1,7 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
-import { CLAUDE_HAIKU } from "../../lib/models";
+import { CLAUDE_HAIKU, extractText } from "../../lib/models";
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
@@ -42,8 +42,7 @@ Return ONLY valid JSON, nothing else.`,
       ],
     });
 
-    const text = res.content[0].type === "text" ? res.content[0].text : "";
-    const parsed = JSON.parse(text);
+    const parsed = JSON.parse(extractText(res.content));
     return {
       project: parsed.project ?? null,
       summary: parsed.summary ?? cleaned,

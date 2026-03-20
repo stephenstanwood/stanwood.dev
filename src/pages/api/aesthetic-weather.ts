@@ -1,24 +1,23 @@
 import type { APIRoute } from "astro";
 import {
   buildResponse,
+  DEFAULT_WEATHER_LAT,
+  DEFAULT_WEATHER_LON,
+  DEFAULT_WEATHER_LOCATION,
   type WeatherInput,
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
 
 export const prerender = false;
 
-const DEFAULT_LAT = 37.2872;
-const DEFAULT_LON = -121.95;
-const DEFAULT_LOCATION = "Campbell, CA";
-
 export const GET: APIRoute = async ({ url }) => {
   try {
     const latParam = url.searchParams.get("lat");
     const lonParam = url.searchParams.get("lon");
 
-    let lat = DEFAULT_LAT;
-    let lon = DEFAULT_LON;
-    let location = DEFAULT_LOCATION;
+    let lat = DEFAULT_WEATHER_LAT;
+    let lon = DEFAULT_WEATHER_LON;
+    let location = DEFAULT_WEATHER_LOCATION;
 
     if (latParam && lonParam) {
       const parsedLat = parseFloat(latParam);

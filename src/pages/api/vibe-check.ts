@@ -8,7 +8,7 @@ export const config = {
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET } from "../../lib/models";
+import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
 
 const RATE_LIMIT_MAX = 20;
@@ -126,16 +126,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       ],
     });
 
-    const block = message.content[0];
-    if (block.type !== "text") {
-      throw new Error("Unexpected response format");
-    }
-
-    // Parse the JSON response, handling potential markdown code fences
-    let jsonText = block.text.trim();
-    if (jsonText.startsWith("```")) {
-      jsonText = jsonText.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "");
-    }
+    const jsonText = stripFences(extractText(message.content));
+    if (!jsonText) throw new Error("Unexpected response format");
 
     const result: VibeResult = JSON.parse(jsonText);
 
@@ -152,7 +144,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (errMsg === "Failed to capture screenshot") {
       message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
     } else if (errMsg === "Screenshot API key not configured") {
-      message = "Screenshot service not configured. Check SCREENSHOTONE_API_KEY.";
+      message = "Screenshot service not available right now.";
     } else if (errMsg.includes("JSON")) {
       message = "AI returned an unexpected format. Try again.";
     }

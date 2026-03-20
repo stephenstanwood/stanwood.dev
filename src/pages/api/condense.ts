@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET } from "../../lib/models";
+import { CLAUDE_SONNET, extractText } from "../../lib/models";
 
 const MAX_TEXT_LENGTH = 5_000;
 
@@ -43,8 +43,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       ],
     });
 
-    const block = message.content[0];
-    const title = block.type === "text" ? block.text.trim() : text.trim();
+    const title = extractText(message.content) || text.trim();
 
     return new Response(JSON.stringify({ title }), {
       headers: { "Content-Type": "application/json" },
