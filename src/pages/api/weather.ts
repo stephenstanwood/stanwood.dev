@@ -34,7 +34,8 @@ export const GET: APIRoute = async () => {
         "Cache-Control": "public, s-maxage=1800, max-age=900",
       },
     });
-  } catch {
+  } catch (err) {
+    console.error("weather fetch error:", err);
     return new Response(JSON.stringify({ weather: null }), {
       status: 200,
       headers: { "Content-Type": "application/json" },

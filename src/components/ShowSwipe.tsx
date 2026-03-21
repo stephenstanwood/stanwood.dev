@@ -23,6 +23,20 @@ import LikedList from "./show-swipe/LikedList";
 
 const REFETCH_THRESHOLD = 3;
 
+function ReportButton({
+  reported,
+  onReport,
+}: {
+  reported: boolean;
+  onReport: () => void;
+}) {
+  return (
+    <button className="ss-report-link" onClick={onReport} disabled={reported}>
+      {reported ? "Thanks!" : "Seeing this a lot? Let us know"}
+    </button>
+  );
+}
+
 type Screen = "swipe" | "liked";
 
 export default function ShowSwipe() {
@@ -284,16 +298,13 @@ export default function ShowSwipe() {
             >
               Try again
             </button>
-            <button
-              className="ss-report-link"
-              onClick={() => {
+            <ReportButton
+              reported={reported}
+              onReport={() => {
                 setReported(true);
                 sendFeedback(`Error: ${error} (${mediaType}/${era})`);
               }}
-              disabled={reported}
-            >
-              {reported ? "Thanks!" : "Seeing this a lot? Let us know"}
-            </button>
+            />
           </div>
         )}
 
@@ -308,16 +319,13 @@ export default function ShowSwipe() {
             >
               Refresh
             </button>
-            <button
-              className="ss-report-link"
-              onClick={() => {
+            <ReportButton
+              reported={reported}
+              onReport={() => {
                 setReported(true);
                 sendFeedback(`No trailers (${mediaType}/${era})`);
               }}
-              disabled={reported}
-            >
-              {reported ? "Thanks!" : "Seeing this a lot? Let us know"}
-            </button>
+            />
           </div>
         )}
 
