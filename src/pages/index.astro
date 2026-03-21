@@ -7,8 +7,6 @@ import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import AIStatusTile from "../components/AIStatusTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import VibeCheckTile from "../components/VibeCheckTile.tsx";
-import TerminalLoopTile from "../components/TerminalLoopTile.tsx";
-import StatusRotatorTile from "../components/StatusRotatorTile.tsx";
 
 const featured = [
   {
@@ -49,7 +47,7 @@ const projects = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
   { href: "/kid-window", emoji: "🪟", name: "Kid Window", tag: "kids activities open right now", image: "/images/nearest-fun.webp" },
-  { href: "/idea-shuffler", emoji: "🎲", name: "Idea Shuffler", tag: "browse without pressure", image: "/images/idea-shuffler.webp" },
+
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
   { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp", mobileOnly: true },
@@ -1641,8 +1639,6 @@ const projects = [
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
-      <div class="desktop-only"><TerminalLoopTile client:idle /></div>
-      <div class="desktop-only"><StatusRotatorTile client:idle /></div>
     </div>
 
     <!-- Footer -->
