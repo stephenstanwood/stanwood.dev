@@ -167,11 +167,8 @@ function filterCandidates(
     if (allSeen.has(item.id) || item.adult || !item.poster_path) return false;
     if (hasExcludedGenre(item, mediaType)) return false;
 
-    // Bias toward English — non-English from trending/now_playing
-    // only gets through if highly rated (7.0+)
-    if (item.original_language !== "en" && isCurated) {
-      if (item.vote_average < 7.0) return false;
-    }
+    // English only — filter out all non-English content
+    if (item.original_language !== "en") return false;
 
     if (isCurated) {
       // Only filter out truly garbage-rated content from trending
