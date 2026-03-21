@@ -1,0 +1,518 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MuseumLabel from "../components/museum-label/MuseumLabel.tsx";
+const title = "Tiny Museum Label — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="Upload a photo of an ordinary object and receive an absurdly serious museum placard. Dry humor meets art-world reverence."
+  slug="museum-label"
+  themeColor="#FAFAF7"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+  schemaCategory="WebApplication"
+>
+  <Fragment slot="head">
+    <style is:global>
+      /* ─── Museum Label Theme ────────────────────────────────────── */
+      :root {
+        --ml-bg: #FAFAF7;
+        --ml-card-bg: #FFFFFF;
+        --ml-ink: #1A1A1A;
+        --ml-gray: #6B6B6B;
+        --ml-light-gray: #9A9A9A;
+        --ml-border: #E5E5E0;
+        --ml-border-dark: #D0D0C8;
+        --ml-accent: #8B7355;
+        --ml-accent-light: #F0EBE3;
+        --ml-placard-bg: #FFFEF9;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--ml-bg);
+        color: var(--ml-ink);
+        margin: 0;
+      }
+
+      /* ─── Animations ─────────────────────────────────────────── */
+      @keyframes mlFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes mlPulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+      }
+
+      .ml-fade-in { animation: mlFadeIn 0.4s ease-out; }
+
+      /* ─── Layout ─────────────────────────────────────────────── */
+      .ml-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .ml-header {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .ml-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--ml-light-gray);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .ml-back:hover { color: var(--ml-ink); }
+      .ml-back svg { width: 16px; height: 16px; }
+
+      .ml-brand {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: var(--ml-accent);
+        letter-spacing: -0.02em;
+      }
+
+      .ml-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      .ml-app {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      /* ─── Form / Idle State ──────────────────────────────────── */
+      .ml-form-container {
+        text-align: center;
+        animation: mlFadeIn 0.4s ease-out;
+      }
+
+      .ml-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 2.8rem;
+        font-weight: 600;
+        color: var(--ml-ink);
+        margin: 0 0 0.35rem;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+      @media (min-width: 480px) {
+        .ml-title { font-size: 3.4rem; }
+      }
+
+      .ml-subtitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        color: var(--ml-light-gray);
+        margin: 0 0 2.5rem;
+        letter-spacing: 0.01em;
+      }
+
+      /* ─── Upload Zone ──────────────────────────────────────── */
+      .ml-upload-zone {
+        border: 2px dashed var(--ml-border-dark);
+        border-radius: 12px;
+        padding: 3rem 2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--ml-card-bg);
+        position: relative;
+        overflow: hidden;
+      }
+      .ml-upload-zone:hover {
+        border-color: var(--ml-accent);
+        background: var(--ml-accent-light);
+      }
+      .ml-upload-zone--has-image {
+        padding: 0;
+        border-style: solid;
+        border-color: var(--ml-border);
+      }
+      .ml-upload-zone--has-image:hover {
+        border-color: var(--ml-accent);
+      }
+
+      .ml-file-input {
+        display: none;
+      }
+
+      .ml-upload-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .ml-upload-icon {
+        font-size: 2rem;
+        color: var(--ml-border-dark);
+        font-weight: 300;
+        line-height: 1;
+        width: 48px;
+        height: 48px;
+        border: 2px solid var(--ml-border-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ml-upload-text {
+        font-size: 0.85rem;
+        color: var(--ml-light-gray);
+      }
+
+      .ml-upload-preview {
+        width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+        display: block;
+        border-radius: 10px;
+      }
+
+      /* ─── Options ──────────────────────────────────────────── */
+      .ml-options {
+        margin-top: 1.5rem;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .ml-label {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ml-light-gray);
+        margin-bottom: 0.5rem;
+      }
+
+      .ml-optional {
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--ml-border-dark);
+      }
+
+      .ml-style-pills {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .ml-style-selector {
+        text-align: center;
+      }
+
+      .ml-style-pill {
+        padding: 0.35rem 0.7rem;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ml-gray);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.72rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .ml-style-pill:hover {
+        border-color: var(--ml-accent);
+        color: var(--ml-accent);
+      }
+      .ml-style-pill--active {
+        background: var(--ml-ink);
+        border-color: var(--ml-ink);
+        color: #fff;
+      }
+      .ml-style-pill--active:hover {
+        background: var(--ml-accent);
+        border-color: var(--ml-accent);
+        color: #fff;
+      }
+
+      .ml-input {
+        width: 100%;
+        padding: 0.7rem 0.85rem;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 8px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        color: var(--ml-ink);
+        background: var(--ml-card-bg);
+        transition: border-color 0.15s;
+        box-sizing: border-box;
+      }
+      .ml-input:focus {
+        outline: none;
+        border-color: var(--ml-accent);
+        box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.08);
+      }
+      .ml-input::placeholder {
+        color: var(--ml-border-dark);
+      }
+
+      /* ─── Buttons ──────────────────────────────────────────── */
+      .ml-btn-primary {
+        margin-top: 1.5rem;
+        width: 100%;
+        padding: 0.9rem;
+        border: 2px solid var(--ml-ink);
+        border-radius: 10px;
+        background: var(--ml-ink);
+        color: var(--ml-bg);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .ml-btn-primary:hover {
+        background: var(--ml-accent);
+        border-color: var(--ml-accent);
+      }
+      .ml-btn-primary:active { transform: scale(0.98); }
+      .ml-btn-primary:disabled {
+        opacity: 0.25;
+        cursor: not-allowed;
+      }
+
+      .ml-btn-secondary {
+        padding: 0.5rem 1rem;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 8px;
+        background: var(--ml-card-bg);
+        color: var(--ml-gray);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .ml-btn-secondary:hover {
+        border-color: var(--ml-accent);
+        color: var(--ml-accent);
+      }
+
+      .ml-btn-reset {
+        margin-top: 1rem;
+        width: 100%;
+        padding: 0.75rem;
+        border: none;
+        border-top: 1.5px solid var(--ml-border);
+        border-radius: 0;
+        background: transparent;
+        color: var(--ml-light-gray);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: color 0.15s;
+      }
+      .ml-btn-reset:hover {
+        color: var(--ml-accent);
+      }
+
+      /* ─── Error ────────────────────────────────────────────── */
+      .ml-error {
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        background: #fef2f2;
+        border: 1.5px solid #fecaca;
+        border-radius: 8px;
+        text-align: center;
+      }
+      .ml-error p {
+        color: #b91c1c;
+        font-size: 0.85rem;
+        margin: 0;
+      }
+
+      /* ─── Loading ──────────────────────────────────────────── */
+      .ml-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 4rem 0;
+        animation: mlFadeIn 0.3s ease-out;
+      }
+
+      .ml-loading-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .ml-magnifier {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--ml-accent);
+        border-radius: 50%;
+        position: relative;
+        animation: mlPulse 1.5s ease-in-out infinite;
+      }
+      .ml-magnifier::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        width: 3px;
+        height: 14px;
+        background: var(--ml-accent);
+        border-radius: 2px;
+        transform: rotate(-45deg);
+        transform-origin: top;
+      }
+
+      .ml-loading-text {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--ml-gray);
+      }
+
+      /* ─── Result ───────────────────────────────────────────── */
+      .ml-result {
+        animation: mlFadeIn 0.4s ease-out;
+      }
+
+      .ml-result-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+      }
+      @media (min-width: 640px) {
+        .ml-result-layout {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+      }
+
+      .ml-photo-frame {
+        flex-shrink: 0;
+        width: 100%;
+        max-width: 220px;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      }
+
+      .ml-photo {
+        width: 100%;
+        display: block;
+        object-fit: contain;
+        max-height: 280px;
+      }
+
+      /* ─── Placard ──────────────────────────────────────────── */
+      .ml-placard {
+        flex: 1;
+        min-width: 0;
+        width: 100%;
+      }
+
+      .ml-placard-inner {
+        background: var(--ml-placard-bg);
+        border: 1.5px solid var(--ml-border);
+        border-radius: 4px;
+        padding: 1.75rem 1.5rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      }
+
+      .ml-placard-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.6rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ml-ink);
+        margin: 0 0 0.35rem;
+        line-height: 1.2;
+      }
+
+      .ml-placard-period {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        color: var(--ml-gray);
+        margin: 0 0 0.25rem;
+      }
+
+      .ml-placard-materials {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+      }
+
+      .ml-placard-divider {
+        border-top: 1px solid var(--ml-border);
+        margin: 1rem 0;
+      }
+
+      .ml-placard-description {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        color: var(--ml-ink);
+        margin: 0;
+      }
+
+      .ml-placard-credit {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.6rem;
+        color: var(--ml-border-dark);
+        margin: 1.25rem 0 0;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      /* ─── Actions ──────────────────────────────────────────── */
+      .ml-actions {
+        margin-top: 1.5rem;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    </style>
+  </Fragment>
+
+  <div class="ml-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+
+    <header class="ml-header">
+      <a href="/" class="ml-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        stanwood.dev
+      </a>
+      <span class="ml-brand">// museum-label</span>
+    </header>
+
+    <main id="main-content" class="ml-main">
+      <div class="ml-app">
+        <MuseumLabel client:idle />
+      </div>
+    </main>
+  </div>
+</BaseLayout>
