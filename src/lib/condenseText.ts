@@ -16,7 +16,8 @@ export async function condenseText(raw: string): Promise<string> {
     if (!res.ok) throw new Error("API error");
     const { title } = await res.json();
     return title || capitalize(trimmed);
-  } catch {
+  } catch (err) {
+    console.error("condenseText API error:", err);
     const first = trimmed.split(/[.!?]\s/)[0];
     return capitalize(first);
   }

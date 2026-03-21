@@ -7,6 +7,9 @@ import type { ShowSwipeApiRequest, TmdbAction } from "../../lib/showSwipe/types"
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";
 
+// CLEANUP-FLAG: ~20 instances of `new Response(JSON.stringify({ error }), { status, headers })` spread across
+// api routes. A shared errJson(msg, status) helper in lib/ would reduce this significantly.
+
 const VALID_ACTIONS = new Set<TmdbAction>([
   "trending", "discover", "now_playing", "tv_on_the_air", "videos",
 ]);
