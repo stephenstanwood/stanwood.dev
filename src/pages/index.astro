@@ -20,6 +20,15 @@ const featured = [
     image: "/images/nba-now.webp",
   },
   {
+    href: "/nearest-coffee",
+    emoji: "☕",
+    tag: "Utility · Location",
+    title: "Nearest Coffee",
+    desc: "Nearest open coffee.",
+    bg: "#FAFAF8",
+    editorial: true,
+  },
+  {
     href: "/show-swipe",
     emoji: "🍿",
     tag: "Entertainment · Discovery",
@@ -28,15 +37,6 @@ const featured = [
     bg: "#1a1a2e",
     dark: true,
     image: "/images/show-swipe.webp",
-  },
-  {
-    href: "/nearest-coffee",
-    emoji: "☕",
-    tag: "Utility · Location",
-    title: "Nearest Coffee",
-    desc: "The nearest open coffee shop. That's it.",
-    bg: "#efffea",
-    image: "/images/nearest-coffee.webp",
   },
 ];
 
@@ -62,7 +62,7 @@ const projects = [
   description="Apps, games, and weird little tools from a solo builder in the Bay Area. Free to use, fun to poke around, and built to make everyday stuff a little easier."
   slug=""
   themeColor="#fffef5"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Bangers&family=Playfair+Display:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cabin:ital,wght@0,400;0,700;1,400&family=Permanent+Marker&display=swap"
   schemaType="WebSite"
   schemaName="stanwood.dev"
 >
@@ -439,6 +439,56 @@ const projects = [
       .feat-card--dark .feat-arrow { color: #666; }
       .feat-card--dark:hover .feat-arrow { color: #e85d4a; }
       .feat-card--dark:hover { border-color: #555; box-shadow: 7px 7px 0 #555; }
+
+      /* ── editorial card (Swiss editorial variant) ── */
+      .feat-card--editorial {
+        color: #1A1A1A;
+        border-color: #C0BDB8;
+        box-shadow: 5px 5px 0 #C0BDB8;
+      }
+      .feat-card--editorial:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 7px 7px 0 #C0BDB8;
+        background: #F5F3EF !important;
+      }
+      .feat-card--editorial .feat-body {
+        padding: 28px 24px 24px;
+        justify-content: flex-start;
+      }
+      .feat-card--editorial .feat-tag {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        color: #9A9A9A;
+        margin-bottom: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #E5E3DF;
+      }
+      .feat-card--editorial .feat-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        color: #1A1A1A;
+        margin-bottom: 10px;
+      }
+      .feat-card--editorial .feat-desc {
+        font-size: 13px;
+        color: #9A9A9A;
+        line-height: 1.5;
+      }
+      .feat-card--editorial .feat-arrow {
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: #5C4033;
+        letter-spacing: 0.02em;
+      }
+      .feat-card--editorial:hover .feat-arrow {
+        color: #1A1A1A;
+      }
 
       /* ── project tiles row ── */
       .proj-row {
@@ -1610,7 +1660,7 @@ const projects = [
     <div id="feat-row" class="feat-row">
       {featured.map((f) => (
         <a
-          class={`feat-card${f.dark ? ' feat-card--dark' : ''}`}
+          class={`feat-card${f.dark ? ' feat-card--dark' : ''}${f.editorial ? ' feat-card--editorial' : ''}`}
           href={f.href}
           style={`background: ${f.bg};`}
           {...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -1711,7 +1761,17 @@ const projects = [
     // Shuffle featured + projects
     const featRow = document.getElementById('feat-row');
     const projRow = document.getElementById('proj-row');
-    if (featRow) shuffle(featRow, ':scope > .feat-card');
+    if (featRow) {
+      shuffle(featRow, ':scope > .feat-card');
+      // Pin editorial card to center position
+      const editorial = featRow.querySelector('.feat-card--editorial');
+      if (editorial) {
+        const cards = Array.from(featRow.querySelectorAll(':scope > .feat-card'));
+        if (cards.length === 3 && cards[1] !== editorial) {
+          featRow.insertBefore(editorial, cards[1]);
+        }
+      }
+    }
     if (projRow) {
       // Collect shuffleable items: direct children that are grid items
       // astro-island has display:contents so its children are grid items,
