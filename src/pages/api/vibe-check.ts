@@ -10,6 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
+import { errJson } from "../../lib/apiHelpers";
 
 const RATE_LIMIT_MAX = 20;
 
@@ -84,20 +85,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const body = await request.json();
     const rawUrl = body?.url;
 
-    if (!rawUrl || typeof rawUrl !== "string") {
-      return new Response(JSON.stringify({ error: "No URL provided" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
+    if (!rawUrl || typeof rawUrl !== "string") return errJson("No URL provided", 400);
 
     const parsed = isValidUrl(rawUrl);
-    if (!parsed) {
-      return new Response(
-        JSON.stringify({ error: "Invalid or private URL" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    if (!parsed) return errJson("Invalid or private URL", 400);
 
     const screenshotBase64 = await captureScreenshot(parsed.toString());
 

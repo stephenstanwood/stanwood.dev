@@ -6,6 +6,7 @@ import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
+import { errJson } from "../../lib/apiHelpers";
 import type {
   RecommendRequest,
   TasteProfile,
@@ -103,10 +104,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const { restaurantName, location, tasteProfile, constraints } = body;
 
     if (!restaurantName || typeof restaurantName !== "string") {
-      return new Response(
-        JSON.stringify({ error: "Restaurant name is required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return errJson("Restaurant name is required", 400);
     }
 
     const trimmedName = restaurantName.trim();
@@ -120,10 +118,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }
 
     if (trimmedName.length > 200) {
-      return new Response(
-        JSON.stringify({ error: "Restaurant name too long (max 200 characters)" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
+      return errJson("Restaurant name too long (max 200 characters)", 400);
     }
 
     const safeLocation =
@@ -147,22 +142,14 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const text = extractText(message.content);
 
-    if (!text) {
-      return new Response(
-        JSON.stringify({ error: "Could not generate a recommendation" }),
-        { status: 500, headers: { "Content-Type": "application/json" } },
-      );
-    }
+    if (!text) return errJson("Could not generate a recommendation", 500);
 
     const cleaned = stripFences(text);
     let recommendation;
     try {
       recommendation = JSON.parse(cleaned);
     } catch {
-      return new Response(
-        JSON.stringify({ error: "Failed to parse AI response" }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return errJson("Failed to parse AI response", 502);
     }
 
     // Fetch real restaurant photos from Google Places, Pexels as fallback
@@ -226,9 +213,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   } catch (err: unknown) {
     console.error("recommend error:", err);
-    return new Response(JSON.stringify({ error: "Something went wrong" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return errJson("Something went wrong", 500);
   }
 };

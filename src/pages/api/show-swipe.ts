@@ -3,12 +3,10 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import type { ShowSwipeApiRequest, TmdbAction } from "../../lib/showSwipe/types";
+import { errJson } from "../../lib/apiHelpers";
 
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";
-
-// CLEANUP-FLAG: ~20 instances of `new Response(JSON.stringify({ error }), { status, headers })` spread across
-// api routes. A shared errJson(msg, status) helper in lib/ would reduce this significantly.
 
 const VALID_ACTIONS = new Set<TmdbAction>([
   "trending", "discover", "now_playing", "tv_on_the_air", "videos",
@@ -44,37 +42,15 @@ function buildTmdbUrl(
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
-  if (!TMDB_TOKEN) {
-    return new Response(
-      JSON.stringify({ error: "TMDB API key not configured" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
-  }
+  if (!TMDB_TOKEN) return errJson("TMDB API key not configured", 500);
 
   try {
     const body = (await request.json()) as ShowSwipeApiRequest;
     const { action, mediaType, params = {} } = body;
 
-    if (!action || !mediaType) {
-      return new Response(
-        JSON.stringify({ error: "action and mediaType are required" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    if (mediaType !== "movie" && mediaType !== "tv") {
-      return new Response(
-        JSON.stringify({ error: "mediaType must be 'movie' or 'tv'" }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
-    }
-
-    if (!VALID_ACTIONS.has(action)) {
-      return new Response(
-        JSON.stringify({ error: `Invalid action: ${action}` }),
-        { status: 400, headers: { "Content-Type": "application/json" } },
-      );
-    }
+    if (!action || !mediaType) return errJson("action and mediaType are required", 400);
+    if (mediaType !== "movie" && mediaType !== "tv") return errJson("mediaType must be 'movie' or 'tv'", 400);
+    if (!VALID_ACTIONS.has(action)) return errJson(`Invalid action: ${action}`, 400);
 
     const url = buildTmdbUrl(action, mediaType, params);
 
@@ -87,10 +63,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     if (!tmdbRes.ok) {
       console.error("TMDB API error:", tmdbRes.status);
-      return new Response(
-        JSON.stringify({ error: "Failed to fetch from TMDB" }),
-        { status: 502, headers: { "Content-Type": "application/json" } },
-      );
+      return errJson("Failed to fetch from TMDB", 502);
     }
 
     const data = await tmdbRes.json();
@@ -103,9 +76,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   } catch (err) {
     console.error("show-swipe API error:", err);
-    return new Response(
-      JSON.stringify({ error: "Something went wrong" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    return errJson("Something went wrong", 500);
   }
 };

@@ -17,8 +17,8 @@ export const POST: APIRoute = async ({ request }) => {
   let context = "";
   try {
     const body = await request.json();
-    page = typeof body.page === "string" ? body.page.slice(0, 100) : "unknown";
-    context = typeof body.context === "string" ? body.context.slice(0, 500) : "";
+    page = typeof body.page === "string" ? body.page.trim().slice(0, 100) : "unknown";
+    context = typeof body.context === "string" ? body.context.trim().slice(0, 500) : "";
   } catch {}
 
   // Fire and forget — don't block the response on Discord
