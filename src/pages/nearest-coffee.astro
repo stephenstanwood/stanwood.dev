@@ -5,274 +5,427 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
 <BaseLayout
   title="Nearest Coffee — stanwood.dev"
-  description="Find the nearest coffee shop that's open right now. Uses your location to sort by distance and shows hours, ratings, and directions. No app needed."
+  description="Find the nearest coffee shop that's open right now. Uses your location to sort by distance and shows hours, ratings, and directions."
   slug="nearest-coffee"
   favicon="/favicon-coffee.svg"
-  themeColor="#0e1110"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+  themeColor="#FAFAF8"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
   schemaCategory="LifestyleApplication"
 >
   <Fragment slot="head">
     <style is:global>
       body {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        background: #0e1110;
-        color: #E8E6E1;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background: #FAFAF8;
+        color: #1A1A1A;
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
 
-      /* warm ambient glow — amber + sage, moody cafe */
-      .bg-glow {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        background:
-          radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,150,60,0.08) 0%, transparent 55%),
-          radial-gradient(ellipse 60% 60% at 20% 70%, rgba(180,130,70,0.06) 0%, transparent 50%),
-          radial-gradient(ellipse 50% 40% at 80% 30%, rgba(139,170,128,0.05) 0%, transparent 50%),
-          radial-gradient(ellipse 40% 30% at 60% 50%, rgba(200,150,60,0.03) 0%, transparent 60%),
-          #0e1110;
+      /* ── Page layout ── */
+      .nc-page {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 40px 24px 80px;
+      }
+      @media (min-width: 768px) {
+        .nc-page { padding: 56px 48px 120px; }
       }
 
-      /* hero image banner */
-      .hero-banner {
-        position: relative;
-        width: 100%;
-        border-radius: 16px;
-        overflow: hidden;
-        margin-bottom: 28px;
-        box-shadow:
-          0 8px 40px rgba(0,0,0,0.5),
-          0 0 80px rgba(200,150,60,0.06),
-          inset 0 0 0 1px rgba(200,150,60,0.08);
-      }
-      .hero-banner img {
-        width: 100%;
-        display: block;
-        height: 220px;
-        object-fit: cover;
-        object-position: center 40%;
-      }
-      @media (min-width: 640px) {
-        .hero-banner img {
-          height: 280px;
-        }
-      }
-      .hero-banner::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(14,17,16,0) 0%,
-          rgba(14,17,16,0.15) 40%,
-          rgba(14,17,16,0.7) 75%,
-          rgba(14,17,16,0.95) 100%
-        );
-        pointer-events: none;
-      }
-      .hero-banner-glow {
-        position: absolute;
-        bottom: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        height: 80px;
-        background: radial-gradient(ellipse at center, rgba(200,150,60,0.12) 0%, transparent 70%);
-        pointer-events: none;
-        z-index: 1;
-      }
-
-      /* hero card */
-      .hero-card {
-        border-radius: 20px;
-        background: linear-gradient(165deg, rgba(30,28,22,0.92) 0%, rgba(18,17,14,0.96) 100%);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(200,150,60,0.12);
-        overflow: hidden;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(200,150,60,0.05), 0 0 100px rgba(139,170,128,0.02);
-      }
-
-      /* map skeleton */
-      .map-skeleton {
-        background: rgba(25,29,28,0.6);
-        animation: skeleton-pulse 1.5s ease-in-out infinite;
-      }
-      @keyframes skeleton-pulse {
-        0%, 100% { opacity: 0.6; }
-        50% { opacity: 0.3; }
-      }
-
-      /* map image */
-      .map-img {
-        width: 100%;
-        display: block;
-        aspect-ratio: 2 / 1;
-        object-fit: cover;
-      }
-
-      /* open badge */
-      .open-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 3px 10px;
-        border-radius: 8px;
-        background: rgba(110,207,142,0.12);
-        color: #6ECF8E;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-      }
-      .open-badge::before {
-        content: '';
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #6ECF8E;
-        animation: pulse-dot 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse-dot {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.4; }
-      }
-
-      /* Carousel navigation */
-      .carousel-nav {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 16px;
-      }
-      .carousel-arrow {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(200,150,60,0.06);
-        border: 1px solid rgba(200,150,60,0.15);
-        color: #C8963C;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.2s;
-        flex-shrink: 0;
-      }
-      .carousel-arrow:hover {
-        background: rgba(200,150,60,0.18);
-        border-color: #C8963C;
-        transform: scale(1.05);
-      }
-      .carousel-arrow:disabled {
-        opacity: 0.15;
-        cursor: default;
-        transform: none;
-      }
-      .carousel-arrow:disabled:hover {
-        background: rgba(200,150,60,0.06);
-        border-color: rgba(200,150,60,0.15);
-        transform: none;
-      }
-      .carousel-center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-      }
-      .carousel-counter {
+      /* ── Navigation ── */
+      .nc-back {
         font-size: 13px;
-        color: rgba(200,150,60,0.5);
+        font-weight: 500;
+        color: #9A9A9A;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+      }
+      .nc-back:hover { color: #1A1A1A; }
+
+      /* ── Header ── */
+      .nc-header {
+        margin-top: 56px;
+        margin-bottom: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-header { margin-top: 72px; margin-bottom: 48px; }
+      }
+      .nc-label {
+        display: block;
+        font-size: 11px;
         font-weight: 600;
-        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        margin-bottom: 16px;
       }
-      .carousel-dots {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-      }
-      .carousel-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: rgba(200,150,60,0.15);
-        transition: all 0.3s;
-        cursor: pointer;
-      }
-      .carousel-dot:hover {
-        background: rgba(200,150,60,0.3);
-      }
-      .carousel-dot.active {
-        background: #C8963C;
-        box-shadow: 0 0 8px rgba(200,150,60,0.4);
-        width: 20px;
-        border-radius: 3px;
+      .nc-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(2rem, 4.5vw + 0.5rem, 3.25rem);
+        font-weight: 500;
+        line-height: 1.12;
+        color: #1A1A1A;
+        letter-spacing: -0.02em;
+        max-width: 480px;
       }
 
-      /* Card transition */
-      @keyframes slideInRight {
-        from { opacity: 0; transform: translateX(30px); }
-        to   { opacity: 1; transform: translateX(0); }
+      /* ── Divider ── */
+      .nc-rule {
+        border: none;
+        height: 1px;
+        background: #E5E3DF;
+        margin: 0;
       }
-      @keyframes slideInLeft {
-        from { opacity: 0; transform: translateX(-30px); }
-        to   { opacity: 1; transform: translateX(0); }
+
+      /* ── Loading ── */
+      .nc-loading {
+        padding: 56px 0;
       }
-      .slide-in-right { animation: slideInRight 0.3s ease both; }
-      .slide-in-left  { animation: slideInLeft 0.3s ease both; }
-
-      /* star */
-      .star { color: #E0B44C; text-shadow: 0 0 8px rgba(224,180,76,0.4); }
-
-      /* progress bar */
-      .progress-track {
-        height: 3px;
-        background: rgba(200,150,60,0.1);
-        border-radius: 2px;
+      .nc-loading-bar {
+        height: 1px;
+        background: #E5E3DF;
         overflow: hidden;
-        width: 100%;
-        max-width: 240px;
+        max-width: 180px;
       }
-      .progress-fill {
+      .nc-loading-fill {
         height: 100%;
-        background: linear-gradient(90deg, #8B5E34, #C8963C, #8BAA80);
-        border-radius: 2px;
+        background: #5C4033;
         transition: width 0.3s ease-out;
         width: 0%;
       }
-
-      /* coffee steam bob */
-      @keyframes steam {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-6px); }
+      .nc-loading-text {
+        margin-top: 14px;
+        font-size: 13px;
+        color: #9A9A9A;
+        font-weight: 400;
+        letter-spacing: 0.02em;
       }
 
-      /* fade in */
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+      /* ── Permission ── */
+      .nc-permission {
+        padding: 72px 0 56px;
+        max-width: 380px;
       }
-      .fade-up {
-        animation: fadeUp 0.5s ease both;
-      }
-
-      /* enable button hover */
-      .enable-btn:hover {
-        background: #D4A645 !important;
-        transform: scale(1.02);
+      .nc-permission p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #6B6B6B;
+        margin-bottom: 28px;
       }
 
-      /* nav link hover */
-      .addr-link:hover {
-        opacity: 0.8;
+      /* ── Buttons ── */
+      .nc-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        background: #1A1A1A;
+        color: #FAFAF8;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .nc-btn:hover { background: #5C4033; }
+
+      /* ── Error ── */
+      .nc-error {
+        padding: 72px 0 56px;
+        max-width: 400px;
+      }
+      .nc-error h2 {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 12px;
+        color: #1A1A1A;
+      }
+      .nc-error p {
+        font-size: 15px;
+        line-height: 1.7;
+        color: #6B6B6B;
+        margin-bottom: 28px;
       }
 
-      /* reduced motion */
+      /* ── Primary result ── */
+      .nc-result {
+        padding: 44px 0 0;
+      }
+      @media (min-width: 768px) {
+        .nc-result { padding: 52px 0 0; }
+      }
+      .nc-result-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      @media (min-width: 768px) {
+        .nc-result-grid {
+          grid-template-columns: 1fr 240px;
+          gap: 56px;
+        }
+      }
+
+      /* Status */
+      .nc-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #3D6B4F;
+        margin-bottom: 8px;
+      }
+      .nc-status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #3D6B4F;
+        animation: nc-pulse 2s ease-in-out infinite;
+      }
+
+      /* Inline distance (mobile) */
+      .nc-meta-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #6B6B6B;
+        margin-bottom: 20px;
+      }
+      .nc-meta-sep {
+        color: #D0CDC6;
+      }
+      @media (min-width: 768px) {
+        .nc-meta-line { display: none; }
+      }
+
+      /* Shop name */
+      .nc-shop-name {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
+        font-weight: 500;
+        line-height: 1.15;
+        color: #1A1A1A;
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+      }
+
+      /* Address */
+      .nc-address {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #6B6B6B;
+        margin-bottom: 8px;
+      }
+
+      /* Rating inline */
+      .nc-rating-inline {
+        font-size: 13px;
+        color: #9A9A9A;
+        margin-bottom: 24px;
+      }
+      .nc-rating-star { color: #5C4033; }
+
+      /* CTA */
+      .nc-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #5C4033;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition: color 0.2s;
+      }
+      .nc-cta:hover { color: #1A1A1A; }
+      .nc-cta svg { transition: transform 0.2s; }
+      .nc-cta:hover svg { transform: translateX(3px); }
+
+      /* ── Aside: distance + map (desktop) ── */
+      .nc-aside {
+        display: none;
+      }
+      @media (min-width: 768px) {
+        .nc-aside { display: block; }
+      }
+
+      .nc-distance-lg {
+        margin-bottom: 4px;
+      }
+      .nc-distance-number {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 56px;
+        font-weight: 400;
+        line-height: 1;
+        color: #1A1A1A;
+        letter-spacing: -0.03em;
+      }
+      .nc-distance-unit {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        margin-top: 4px;
+      }
+      .nc-aside-meta {
+        font-size: 13px;
+        color: #9A9A9A;
+        margin-top: 6px;
+      }
+      .nc-aside-rating {
+        font-size: 13px;
+        color: #9A9A9A;
+        margin-top: 2px;
+      }
+
+      /* Map */
+      .nc-map-wrap {
+        margin-top: 20px;
+        overflow: hidden;
+        border-radius: 2px;
+        background: #F2F0EC;
+        aspect-ratio: 4 / 3;
+        position: relative;
+      }
+      /* Mobile map: full width below CTA */
+      .nc-map-mobile {
+        display: block;
+        margin-top: 28px;
+        aspect-ratio: 2 / 1;
+      }
+      @media (min-width: 768px) {
+        .nc-map-mobile { display: none; }
+      }
+      .nc-map-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+      .nc-map-skeleton {
+        animation: nc-skeleton 1.5s ease-in-out infinite;
+      }
+
+      /* ── Nearby list ── */
+      .nc-nearby {
+        margin-top: 48px;
+      }
+      @media (min-width: 768px) {
+        .nc-nearby { margin-top: 56px; }
+      }
+      .nc-nearby-label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        margin-bottom: 16px;
+      }
+      .nc-nearby-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+        border-top: 1px solid #E5E3DF;
+        text-decoration: none;
+        color: inherit;
+        transition: opacity 0.2s;
+      }
+      .nc-nearby-item:last-child {
+        border-bottom: 1px solid #E5E3DF;
+      }
+      .nc-nearby-item:hover { opacity: 0.6; }
+      .nc-nearby-name {
+        font-size: 15px;
+        font-weight: 500;
+        color: #1A1A1A;
+        margin-bottom: 2px;
+      }
+      .nc-nearby-addr {
+        font-size: 12px;
+        color: #9A9A9A;
+        line-height: 1.4;
+      }
+      .nc-nearby-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .nc-nearby-dist {
+        font-size: 13px;
+        font-weight: 500;
+        color: #6B6B6B;
+        white-space: nowrap;
+      }
+      .nc-nearby-arrow {
+        color: #C0BDB8;
+        font-size: 14px;
+        transition: color 0.2s;
+      }
+      .nc-nearby-item:hover .nc-nearby-arrow {
+        color: #5C4033;
+      }
+
+      /* ── Footer ── */
+      .nc-footer {
+        margin-top: 48px;
+        padding-top: 24px;
+      }
+      .nc-refresh {
+        background: none;
+        border: none;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        color: #9A9A9A;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s;
+        letter-spacing: 0.02em;
+      }
+      .nc-refresh:hover { color: #5C4033; }
+      .nc-location-note {
+        font-size: 12px;
+        color: #C0BDB8;
+        margin-top: 6px;
+      }
+
+      /* ── Animations ── */
+      @keyframes nc-pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+      @keyframes nc-skeleton {
+        0%, 100% { opacity: 0.6; }
+        50% { opacity: 0.3; }
+      }
+      @keyframes nc-fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .nc-fade-in {
+        animation: nc-fadeIn 0.45s ease both;
+      }
+      .nc-fade-in-delay {
+        animation: nc-fadeIn 0.45s ease 0.1s both;
+      }
+
+      /* ── Reduced motion ── */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
           animation-duration: 0.01ms !important;
@@ -283,43 +436,20 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     </style>
   </Fragment>
 
-    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#C8963C] focus:text-[#0e1110] focus:rounded-lg focus:font-semibold">Skip to content</a>
-    <div class="bg-glow"></div>
+    <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#5C4033] focus:text-[#FAFAF8] focus:rounded focus:font-semibold">Skip to content</a>
 
-    <main class="mx-auto max-w-2xl px-6 pt-12 pb-8">
-      <!-- Top bar -->
-      <div class="flex items-center">
-        <a href="/" class="retro-back">&larr; stanwood.dev</a>
-      </div>
+    <main class="nc-page">
+      <nav>
+        <a href="/" class="nc-back">&larr; Back</a>
+      </nav>
 
-      <!-- Hero image -->
-      <div class="hero-banner mt-6 fade-up">
-        <img
-          src="/images/nearest-coffee.webp"
-          alt="A steaming sage green coffee cup on a dark wooden counter, bathed in warm amber light"
-          loading="lazy"
-          decoding="async"
-          fetchpriority="low"
-        />
-        <div class="hero-banner-glow"></div>
-      </div>
-
-      <!-- Header -->
-      <header class="mb-6" style="margin-top:-8px;position:relative;z-index:2;">
-        <div class="flex items-center gap-3">
-          <span style="font-size:36px;filter:drop-shadow(0 0 10px rgba(200,150,60,0.4));">☕</span>
-          <div>
-            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#E8E6E1]">
-              Nearest Coffee
-            </h1>
-            <p class="text-sm font-medium tracking-wide uppercase" style="letter-spacing:0.15em;color:#C8963C;">
-              Open Right Now
-            </p>
-          </div>
-        </div>
+      <header class="nc-header">
+        <span class="nc-label">Nearest Coffee</span>
+        <h1 class="nc-title">Your nearest open coffee.</h1>
       </header>
 
-      <!-- All states live here, only one visible at a time via JS -->
+      <hr class="nc-rule">
+
       <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
     </main>
 
@@ -328,11 +458,9 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         formatDistance,
         estimateWalk,
         computeZoom,
-        DARK_MAP_STYLES,
         createProgress,
         initGeolocation,
         requestGeolocation,
-        setupCarousel,
       } from "../lib/nearbyUtils";
 
       type CoffeeShop = {
@@ -349,65 +477,60 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       const app = document.getElementById("app")!;
       const hasMaps = app.dataset.hasMaps === "1";
-      const progress = createProgress();
+
+      const progress = createProgress([
+        { at: 0, text: "Locating\u2026" },
+        { at: 25, text: "Searching nearby\u2026" },
+        { at: 55, text: "Checking hours\u2026" },
+        { at: 80, text: "Almost ready\u2026" },
+      ]);
 
       let userLat: number;
       let userLng: number;
 
-      // ── Render helpers ──
+      // ── Light map styles ──
+
+      const LIGHT_MAP_STYLES = [
+        "feature:all|element:geometry|color:0xf2f0ec",
+        "feature:all|element:labels.text.fill|color:0xb0ada6",
+        "feature:all|element:labels.text.stroke|color:0xfafaf8",
+        "feature:water|element:geometry.fill|color:0xe5e3df",
+        "feature:road|element:geometry.fill|color:0xffffff",
+        "feature:road|element:geometry.stroke|color:0xeae8e4",
+        "feature:road.highway|element:geometry.fill|color:0xf5f3ef",
+        "feature:poi|visibility:off",
+        "feature:transit|visibility:off",
+        "feature:administrative|element:geometry.stroke|color:0xe5e3df",
+      ];
+
+      // ── Helpers ──
 
       function render(html: string) {
         app.innerHTML = html;
       }
 
-      function renderLoading() {
-        render(`
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
-            <div style="font-size:48px;animation:steam 2s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(180,130,70,0.3));">☕</div>
-            <div class="progress-track" style="margin-top:24px;">
-              <div id="progressFill" class="progress-fill"></div>
-            </div>
-            <p id="progressLabel" style="margin-top:14px;color:#C8963C;font-size:13px;font-weight:500;letter-spacing:0.03em;">Finding your location&hellip;</p>
-          </div>
-        `);
-        progress.start();
+      function esc(s: string) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
-      function renderPermission() {
-        render(`
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;text-align:center;padding:32px;">
-            <div style="font-size:56px;margin-bottom:20px;filter:drop-shadow(0 0 16px rgba(180,130,70,0.3));">☕</div>
-            <h2 style="font-size:22px;font-weight:700;color:#E8E6E1;margin-bottom:10px;">Find Your Coffee</h2>
-            <p style="color:#8B8D94;margin-bottom:28px;max-width:280px;line-height:1.6;font-size:14px;">
-              We'll use your location to find the nearest open coffee shop.
-            </p>
-            <button id="enable-btn" class="enable-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 28px;height:48px;border-radius:14px;background:#C8963C;color:#0e1110;font-weight:700;font-size:14px;border:none;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(200,150,60,0.25);">
-              <svg style="width:16px;height:16px;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              Enable Location
-            </button>
-          </div>
-        `);
-        document.getElementById("enable-btn")!.addEventListener("click", doRequestLocation);
+      function parseDistance(meters: number): { value: string; unit: string } {
+        const miles = meters / 1609.34;
+        if (miles < 0.1) {
+          return { value: String(Math.round(meters * 3.28084)), unit: "ft" };
+        }
+        return { value: miles.toFixed(1), unit: "mi" };
       }
 
-      function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+      // ── Map URL ──
 
-      function renderError(title: string, message: string) {
-        render(`
-          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:32px;">
-            <h2 style="font-size:24px;font-weight:700;color:#E8E6E1;margin-bottom:12px;">${esc(title)}</h2>
-            <p style="color:#8B8D94;margin-bottom:32px;max-width:300px;line-height:1.6;">${esc(message)}</p>
-            <button id="retry-btn" class="nav-btn" style="width:auto;padding:0 32px;">
-              Try Again
-            </button>
-          </div>
-        `);
-        document.getElementById("retry-btn")!.addEventListener("click", doRequestLocation);
-      }
-
-      // ── Map helpers ──
-
-      function buildMapUrl(shop: CoffeeShop): string {
+      function buildMapUrl(
+        shop: CoffeeShop,
+        size = "480x360",
+      ): string {
         const midLat = (userLat + shop.lat) / 2;
         const midLng = (userLng + shop.lng) / 2;
         const zoom = computeZoom(shop.distance);
@@ -415,92 +538,187 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         const params = new URLSearchParams();
         params.set("center", `${midLat},${midLng}`);
         params.set("zoom", String(zoom));
-        params.set("size", "600x300");
+        params.set("size", size);
         params.set("scale", "2");
         params.set("maptype", "roadmap");
 
-        for (const s of DARK_MAP_STYLES) params.append("style", s);
+        for (const s of LIGHT_MAP_STYLES) params.append("style", s);
 
-        params.append("markers", `color:0x6ECF8E|size:small|${userLat},${userLng}`);
-        params.append("markers", `color:0xB4825A|size:mid|${shop.lat},${shop.lng}`);
+        params.append(
+          "markers",
+          `color:0x9A9A9A|size:small|${userLat},${userLng}`,
+        );
+        params.append(
+          "markers",
+          `color:0x5C4033|size:mid|${shop.lat},${shop.lng}`,
+        );
 
         return `/api/static-map?${params.toString()}`;
       }
 
-      // ── Card builder ──
+      // ── States ──
 
-      function buildCardHtml(shop: CoffeeShop, rank: number, direction: "none" | "left" | "right"): string {
-        const showMap = hasMaps;
-        const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
-
-        let mapHtml = "";
-        if (showMap) {
-          const mapUrl = buildMapUrl(shop);
-          mapHtml = `
-            <div style="position:relative;aspect-ratio:2/1;background:rgba(25,29,38,0.6);" class="map-skeleton">
-              <img
-                src="${mapUrl}"
-                alt="Map showing route to ${esc(shop.name)}"
-                class="map-img"
-                style="position:absolute;inset:0;opacity:0;transition:opacity 0.4s;"
-                onload="this.style.opacity='1';this.parentElement.classList.remove('map-skeleton');"
-              />
+      function renderLoading() {
+        render(`
+          <div class="nc-loading">
+            <div class="nc-loading-bar">
+              <div id="progressFill" class="nc-loading-fill"></div>
             </div>
-          `;
-        }
-
-        const ratingHtml = shop.rating
-          ? `<span style="display:flex;align-items:center;gap:4px;"><span class="star">★</span> <span style="color:#E8E6E1;font-weight:600;">${shop.rating.toFixed(1)}</span></span>`
-          : "";
-
-        const animClass = direction === "right" ? "slide-in-right" : direction === "left" ? "slide-in-left" : "fade-up";
-
-        return `
-          <div class="hero-card ${animClass}">
-            ${mapHtml}
-            <div style="padding:20px 20px 24px;">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
-                <span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:rgba(200,150,60,0.1);color:#C8963C;font-weight:800;font-size:13px;">${rank}</span>
-                <span class="open-badge">Open</span>
-                <span style="color:#C8963C;font-weight:600;font-size:14px;">${formatDistance(shop.distance)}</span>
-                <span style="color:rgba(200,150,60,0.4);font-size:12px;font-weight:500;">${estimateWalk(shop.distance)}</span>
-                ${ratingHtml ? `<span style="margin-left:auto;font-size:13px;">${ratingHtml}</span>` : ""}
-              </div>
-
-              <h2 style="font-size:clamp(22px,6vw,28px);font-weight:700;color:#E8E6E1;line-height:1.2;margin-bottom:6px;">${esc(shop.name)}</h2>
-
-              <a href="${navUrl}" target="_blank" rel="noopener" class="addr-link" style="display:flex;align-items:start;gap:6px;text-decoration:none;transition:opacity 0.2s;">
-                <svg style="width:14px;height:14px;margin-top:2px;color:#8BAA80;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span style="font-size:13px;color:#8BAA80;line-height:1.5;">${esc(shop.address)}
-                  <svg style="width:10px;height:10px;display:inline;vertical-align:middle;margin-left:4px;color:#C8963C;" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/>
-                  </svg>
-                </span>
-              </a>
-            </div>
+            <p id="progressLabel" class="nc-loading-text">Locating\u2026</p>
           </div>
-        `;
+        `);
+        progress.start();
       }
 
-      // ── Render results via shared carousel ──
+      function renderPermission() {
+        render(`
+          <div class="nc-permission">
+            <p>Location access is needed to find coffee shops near you.</p>
+            <button id="enable-btn" class="nc-btn">Enable Location</button>
+          </div>
+        `);
+        document
+          .getElementById("enable-btn")!
+          .addEventListener("click", doRequestLocation);
+      }
+
+      function renderError(title: string, message: string) {
+        render(`
+          <div class="nc-error">
+            <h2>${esc(title)}</h2>
+            <p>${esc(message)}</p>
+            <button id="retry-btn" class="nc-btn">Try Again</button>
+          </div>
+        `);
+        document
+          .getElementById("retry-btn")!
+          .addEventListener("click", doRequestLocation);
+      }
+
+      // ── Results ──
 
       function renderResults(shops: CoffeeShop[]) {
         progress.finish();
 
         setTimeout(() => {
-          setupCarousel({
-            container: app,
-            items: shops,
-            buildCard: buildCardHtml,
-            preload: hasMaps ? (shop) => { new Image().src = buildMapUrl(shop); } : undefined,
-          });
+          const primary = shops[0];
+          const secondary = shops.slice(1, 5);
+          const dist = parseDistance(primary.distance);
+          const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${primary.lat},${primary.lng}&travelmode=walking`;
+
+          // Rating
+          let ratingDesktop = "";
+          let ratingMobile = "";
+          if (primary.rating) {
+            const rText = `<span class="nc-rating-star">\u2605</span> ${primary.rating.toFixed(1)}${primary.ratingCount ? ` \u00b7 ${primary.ratingCount}` : ""}`;
+            ratingDesktop = `<p class="nc-aside-rating">${rText}</p>`;
+            ratingMobile = `<p class="nc-rating-inline">${rText}</p>`;
+          }
+
+          // Maps
+          let mapDesktop = "";
+          let mapMobile = "";
+          if (hasMaps) {
+            const desktopUrl = buildMapUrl(primary, "480x360");
+            const mobileUrl = buildMapUrl(primary, "600x300");
+            mapDesktop = `
+              <div class="nc-map-wrap nc-map-skeleton">
+                <img
+                  src="${desktopUrl}"
+                  alt="Map to ${esc(primary.name)}"
+                  class="nc-map-img"
+                  loading="lazy"
+                  onload="this.style.opacity='1';this.parentElement.classList.remove('nc-map-skeleton');"
+                />
+              </div>`;
+            mapMobile = `
+              <div class="nc-map-wrap nc-map-mobile nc-map-skeleton">
+                <img
+                  src="${mobileUrl}"
+                  alt="Map to ${esc(primary.name)}"
+                  class="nc-map-img"
+                  loading="lazy"
+                  onload="this.style.opacity='1';this.parentElement.classList.remove('nc-map-skeleton');"
+                />
+              </div>`;
+          }
+
+          // Secondary list
+          let nearbyHtml = "";
+          if (secondary.length > 0) {
+            const items = secondary
+              .map((shop) => {
+                const url = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+                return `
+                <a href="${url}" target="_blank" rel="noopener" class="nc-nearby-item">
+                  <div>
+                    <div class="nc-nearby-name">${esc(shop.name)}</div>
+                    <div class="nc-nearby-addr">${esc(shop.address)}</div>
+                  </div>
+                  <div class="nc-nearby-right">
+                    <span class="nc-nearby-dist">${formatDistance(shop.distance)}</span>
+                    <span class="nc-nearby-arrow">\u2192</span>
+                  </div>
+                </a>`;
+              })
+              .join("");
+
+            nearbyHtml = `
+              <div class="nc-nearby nc-fade-in-delay">
+                <div class="nc-nearby-label">Nearby</div>
+                ${items}
+              </div>`;
+          }
+
+          render(`
+            <div class="nc-result nc-fade-in">
+              <div class="nc-result-grid">
+                <div>
+                  <div class="nc-status">
+                    <span class="nc-status-dot"></span>
+                    Open Now
+                  </div>
+                  <div class="nc-meta-line">
+                    <span>${formatDistance(primary.distance)}</span>
+                    <span class="nc-meta-sep">\u00b7</span>
+                    <span>${estimateWalk(primary.distance)}</span>
+                  </div>
+                  <h2 class="nc-shop-name">${esc(primary.name)}</h2>
+                  <p class="nc-address">${esc(primary.address)}</p>
+                  ${ratingMobile}
+                  <a href="${navUrl}" target="_blank" rel="noopener" class="nc-cta">
+                    Open in Maps
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                  ${mapMobile}
+                </div>
+                <div class="nc-aside">
+                  <div class="nc-distance-lg">
+                    <span class="nc-distance-number">${dist.value}</span>
+                    <span class="nc-distance-unit">${dist.unit}</span>
+                  </div>
+                  <p class="nc-aside-meta">${estimateWalk(primary.distance)}</p>
+                  ${ratingDesktop}
+                  ${mapDesktop}
+                </div>
+              </div>
+
+              ${nearbyHtml}
+
+              <div class="nc-footer">
+                <button id="refresh-btn" class="nc-refresh">\u21bb Refresh</button>
+                <p class="nc-location-note">Based on your current location</p>
+              </div>
+            </div>
+          `);
+
+          document
+            .getElementById("refresh-btn")!
+            .addEventListener("click", doRequestLocation);
         }, 300);
       }
 
-      // ── Fetch coffee shops ──
+      // ── Fetch ──
 
       async function fetchCoffeeShops(lat: number, lng: number) {
         try {
@@ -519,18 +737,21 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             progress.finish();
             setTimeout(() => {
               renderError(
-                "No Coffee Nearby",
-                "Couldn\u2019t find any open spots nearby. Try again later or wander somewhere new.",
+                "No coffee nearby",
+                "Couldn\u2019t find any open spots. Try again later or wander somewhere new.",
               );
             }, 300);
             return;
           }
 
           renderResults(shops);
-        } catch (err) {
+        } catch {
           progress.finish();
           setTimeout(() => {
-            renderError("Oops", "Something went wrong finding coffee. Please try again.");
+            renderError(
+              "Something went wrong",
+              "Couldn\u2019t find coffee right now. Please try again.",
+            );
           }, 300);
         }
       }
