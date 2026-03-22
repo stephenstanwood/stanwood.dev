@@ -4,6 +4,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText } from "../../lib/models";
+import { errJson } from "../../lib/apiHelpers";
 
 const MAX_TEXT_LENGTH = 5_000;
 
@@ -19,17 +20,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const text = body?.text;
 
     if (!text || typeof text !== "string" || text.trim().length === 0) {
-      return new Response(JSON.stringify({ error: "No text provided" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return errJson("No text provided", 400);
     }
 
     if (text.length > MAX_TEXT_LENGTH) {
-      return new Response(
-        JSON.stringify({ error: `Text too long (max ${MAX_TEXT_LENGTH} characters)` }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return errJson(`Text too long (max ${MAX_TEXT_LENGTH} characters)`, 400);
     }
 
     const message = await client.messages.create({
@@ -50,9 +45,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   } catch (err) {
     console.error("condense error:", err);
-    return new Response(
-      JSON.stringify({ error: "Something went wrong" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return errJson("Something went wrong", 500);
   }
 };

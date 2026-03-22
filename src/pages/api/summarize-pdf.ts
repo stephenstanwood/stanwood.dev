@@ -4,6 +4,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText } from "../../lib/models";
+import { errJson } from "../../lib/apiHelpers";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
@@ -19,17 +20,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const base64 = body.pdf as string | undefined;
 
     if (!base64 || typeof base64 !== "string") {
-      return new Response(JSON.stringify({ error: "Please upload a PDF file" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
+      return errJson("Please upload a PDF file", 400);
     }
 
     if (base64.length > MAX_PDF_SIZE) {
-      return new Response(
-        JSON.stringify({ error: "File too large (max 25 MB)" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
+      return errJson("File too large (max 25 MB)", 400);
     }
 
     const message = await client.messages.create({
@@ -58,21 +53,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const summary = extractText(message.content);
 
-    if (!summary) {
-      return new Response(
-        JSON.stringify({ error: "Could not generate a summary" }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    if (!summary) return errJson("Could not generate a summary", 500);
 
     return new Response(JSON.stringify({ summary }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
     console.error("summarize-pdf error:", err);
-    return new Response(
-      JSON.stringify({ error: "Something went wrong" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return errJson("Something went wrong", 500);
   }
 };

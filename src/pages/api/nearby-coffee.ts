@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { validatePlacesKey, searchNearbyPlaces } from "../../lib/placesClient";
+import { errJson } from "../../lib/apiHelpers";
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
@@ -11,10 +12,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   try {
     ({ latitude, longitude } = await request.json());
   } catch {
-    return new Response(
-      JSON.stringify({ error: "invalid request body" }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
+    return errJson("invalid request body", 400);
   }
 
   if (
@@ -23,10 +21,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     Math.abs(latitude) > 90 ||
     Math.abs(longitude) > 180
   ) {
-    return new Response(
-      JSON.stringify({ error: "valid latitude and longitude are required" }),
-      { status: 400, headers: { "Content-Type": "application/json" } },
-    );
+    return errJson("valid latitude and longitude are required", 400);
   }
 
   const keyError = validatePlacesKey();
