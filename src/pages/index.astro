@@ -1372,6 +1372,17 @@ const projects = [
         50% { opacity: 0; }
       }
 
+      /* ── trademark tools row ── */
+      .tm-row {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .tm-tile {
+        grid-column: span 1;
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -1496,6 +1507,7 @@ const projects = [
         .proj-row .proj-tile.has-img { height: auto; }
         .proj-row .proj-tile:not(.has-img) { min-height: 60px; }
 
+        .tm-row { grid-template-columns: 1fr; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; align-items: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
         .footer-location { text-align: center; }
@@ -1639,6 +1651,33 @@ const projects = [
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
+    </div>
+
+    <!-- Trademark Tools -->
+    <div class="section-label">trademark tools</div>
+
+    <div class="tm-row">
+      <a class="proj-tile tm-tile" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
+        <span class="proj-emoji">📋</span>
+        <div class="proj-info">
+          <div class="proj-name">ID Manual Search</div>
+          <div class="proj-tag">74k+ classifications</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile" href="https://tmcat.app/tmep" target="_blank" rel="noopener noreferrer">
+        <span class="proj-emoji">📖</span>
+        <div class="proj-info">
+          <div class="proj-name">TMEP</div>
+          <div class="proj-tag">examining procedure manual</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile" href="https://tmcat.app/tldr" target="_blank" rel="noopener noreferrer">
+        <span class="proj-emoji">🔍</span>
+        <div class="proj-info">
+          <div class="proj-name">TSDR Lookup</div>
+          <div class="proj-tag">trademark status, simplified</div>
+        </div>
+      </a>
     </div>
 
     <!-- Footer -->
