@@ -1,3 +1,6 @@
+export const prerender = false;
+export const config = { maxDuration: 60 };
+
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
@@ -5,14 +8,12 @@ import { errJson } from "../../lib/apiHelpers";
 import { extractText, stripFences, CLAUDE_SONNET } from "../../lib/models";
 import { getSystemPrompt } from "../../lib/museumPrompt";
 
-export const prerender = false;
-export const config = { maxDuration: 60 };
+const client = new Anthropic({
+  apiKey: import.meta.env.ANTHROPIC_API_KEY,
+});
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
-
-  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return errJson("ANTHROPIC_API_KEY not configured", 500);
 
   let image: string;
   let style: string;
@@ -31,7 +32,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const imageData = match[2];
 
   try {
-    const client = new Anthropic({ apiKey });
     const response = await client.messages.create({
       model: CLAUDE_SONNET,
       max_tokens: 1024,
@@ -55,8 +55,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Unknown error";
-    console.error("Museum label error:", message);
-    return errJson(message, 500);
+    console.error("Museum label error:", err instanceof Error ? err.message : err);
+    return errJson("Something went wrong", 500);
   }
 };
