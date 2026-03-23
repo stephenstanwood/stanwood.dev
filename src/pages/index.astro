@@ -4,7 +4,7 @@ import ChemFormula from "../components/ChemFormula";
 import ShipClockTile from "../components/ShipClockTile.tsx";
 import AIRadarTile from "../components/AIRadarTile.tsx";
 import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
-import AIStatusTile from "../components/AIStatusTile.tsx";
+
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import VibeCheckTile from "../components/VibeCheckTile.tsx";
 import NearestCoffeeTile from "../components/NearestCoffeeTile.tsx";
@@ -41,19 +41,31 @@ const featured = [
   },
 ];
 
-const projects = [
+const sportsAndFitness = [
   { href: "/wtwtw", emoji: "📺", name: "What to Watch This Week", tag: "best game each night", image: "/images/wtwtw.webp" },
   { href: "/mlb-gamerank", emoji: "⚾", name: "MLB GameRank", tag: "best game right now", image: "/images/mlb-gamerank.webp" },
   { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator", image: "/images/lap-lab.webp" },
-  { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
-  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
-  { href: "/kid-window", emoji: "🪟", name: "Kid Window", tag: "kids activities open right now", image: "/images/nearest-fun.webp" },
+];
 
-  { href: "/museum-label", emoji: "🏛️", name: "Museum Label", tag: "deadpan placard for any object" },
-  { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
-  { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
+const weirdAndUseful = [
+  { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
   { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp", mobileOnly: true },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp", mobileOnly: true },
+];
+
+const local = [
+  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
+  { href: "/kid-window", emoji: "🪟", name: "Kid Window", tag: "kids activities open right now", image: "/images/nearest-fun.webp" },
+];
+
+const justForFun = [
+  { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
+  { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
+  { href: "/museum-label", emoji: "🏛️", name: "Museum Label", tag: "deadpan placard for any object" },
+];
+
+// Mobile-only fallback tiles for dynamic React island sections
+const latestMobile = [
   { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.webp", mobileOnly: true },
   { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/radar.webp", mobileOnly: true },
 ];
@@ -1919,11 +1931,30 @@ const projects = [
       ))}
     </div>
 
-    <!-- All projects -->
-    <div class="section-label">all projects</div>
+    <!-- The Latest -->
+    <div class="section-label">the latest</div>
 
-    <div id="proj-row" class="proj-row">
-      {projects.map((p) => (
+    <div class="proj-row">
+      <div class="desktop-only"><ShipClockTile client:idle /></div>
+      <div class="desktop-only"><AestheticWeatherTile client:idle /></div>
+      <div class="desktop-only"><AIRadarTile client:idle /></div>
+      {latestMobile.map((p) => (
+        <a class="proj-tile has-img mobile-only" href={p.href}>
+          <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Weird & Useful -->
+    <div class="section-label">weird & useful</div>
+
+    <div class="proj-row">
+      {weirdAndUseful.map((p) => (
         <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
           {p.image && (
             <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
@@ -1935,21 +1966,65 @@ const projects = [
           </div>
         </a>
       ))}
-      <div class="desktop-only"><AestheticWeatherTile client:idle /></div>
-      <div class="sct-pin desktop-only" data-pinned><ShipClockTile client:idle /></div>
-      <div class="ais-pin desktop-only" data-pinned><AIStatusTile client:idle /></div>
-      <div class="desktop-only"><AIRadarTile client:idle /></div>
-      <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
       <div class="desktop-only"><VibeCheckTile client:idle /></div>
+      <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
+    </div>
+
+    <!-- Sports & Fitness -->
+    <div class="section-label">sports & fitness</div>
+
+    <div class="proj-row">
+      {sportsAndFitness.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Local -->
+    <div class="section-label">local</div>
+
+    <div class="proj-row">
+      {local.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">~ refactoring for fun</span></div>
-      </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">$ repeat</span> <span class="spacer-cursor">█</span></div>
-      </div>
+    </div>
+
+    <!-- Just for Fun -->
+    <div class="section-label">just for fun</div>
+
+    <div class="proj-row">
+      {justForFun.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
     </div>
 
     <!-- Trademark Tools -->
@@ -1992,102 +2067,6 @@ const projects = [
   </div>
 
   <script>
-    // ── Fisher-Yates shuffle ──
-    function shuffle(container: HTMLElement, selector = ':scope > *') {
-      const kids = [...container.querySelectorAll(selector)] as HTMLElement[];
-      for (let i = kids.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [kids[i], kids[j]] = [kids[j], kids[i]];
-      }
-      kids.forEach((el, i) => {
-        container.appendChild(el);
-        el.style.opacity = '0';
-        el.style.animation = `fadeIn 0.4s ease ${0.05 + i * 0.06}s forwards`;
-      });
-      container.classList.add('shuffled');
-    }
-
-    // Shuffle featured + projects
-    const featRow = document.getElementById('feat-row');
-    const projRow = document.getElementById('proj-row');
-    if (featRow) {
-      featRow.classList.add('shuffled');
-    }
-    if (projRow) {
-      // Collect shuffleable items: direct children that are grid items
-      // astro-island has display:contents so its children are grid items,
-      // but we shuffle the astro-island wrapper to keep hydration intact.
-      // Use a Set to avoid double-counting.
-      const tileSelector = ':scope > .proj-tile, :scope > astro-island, :scope > [data-pinned], :scope > .desktop-only';
-      function getGridItems(): HTMLElement[] {
-        const seen = new Set<HTMLElement>();
-        const items: HTMLElement[] = [];
-        for (const el of projRow!.querySelectorAll(tileSelector)) {
-          // Skip .proj-tile if its parent is an astro-island (already counted)
-          const parent = el.parentElement;
-          if (parent && parent.tagName === 'ASTRO-ISLAND' && parent.parentElement === projRow) continue;
-          // Skip .proj-tile inside .desktop-only (already counted via wrapper)
-          if (parent && parent.classList.contains('desktop-only') && parent.parentElement === projRow) continue;
-          // Skip mobile-only tiles (hidden on desktop, don't occupy grid cells)
-          if (el.classList.contains('mobile-only')) continue;
-          if (!seen.has(el as HTMLElement)) {
-            seen.add(el as HTMLElement);
-            items.push(el as HTMLElement);
-          }
-        }
-        return items;
-      }
-
-      // Pin Ship Clock top-left, AI Radar top-right — shuffle the rest
-      const sctPin = projRow.querySelector('.sct-pin');
-      const radarWrapper = [...projRow.querySelectorAll(':scope > .desktop-only')].find(
-        el => el.querySelector('.radar-tile')
-      );
-
-      // Shuffle non-pinned tiles
-      const pinned = new Set([sctPin, radarWrapper].filter(Boolean));
-      const rest = getGridItems().filter(el => !pinned.has(el));
-      for (let i = rest.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [rest[i], rest[j]] = [rest[j], rest[i]];
-      }
-
-      // Build final order: [sct, random, radar, ...rest]
-      const allEls = getGridItems();
-      allEls.forEach(el => el.remove());
-      if (sctPin) projRow.appendChild(sctPin);
-      if (rest.length > 0) projRow.appendChild(rest.shift()!);
-      if (radarWrapper) projRow.appendChild(radarWrapper);
-      rest.forEach(el => projRow.appendChild(el));
-
-      // Fade-in all tiles with stagger
-      const allTiles = getGridItems();
-      allTiles.forEach((el, i) => {
-        el.style.opacity = '0';
-        el.style.animation = `fadeIn 0.4s ease ${0.05 + i * 0.06}s forwards`;
-      });
-      projRow.classList.add('shuffled');
-
-      // Stretch last-row tiles to fill remaining width
-      const tiles = getGridItems();
-      const remainder = tiles.length % 3;
-
-      function setGridCol(el: HTMLElement, val: string) {
-        if (el.tagName === 'ASTRO-ISLAND') {
-          const inner = el.querySelector('.proj-tile') as HTMLElement | null;
-          if (inner) inner.style.gridColumn = val;
-        } else {
-          el.style.gridColumn = val;
-        }
-      }
-
-      if (remainder === 1) {
-        setGridCol(tiles[tiles.length - 1], '1 / -1');
-      } else if (remainder === 2) {
-        setGridCol(tiles[tiles.length - 2], 'span 3');
-        setGridCol(tiles[tiles.length - 1], 'span 3');
-      }
-    }
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
