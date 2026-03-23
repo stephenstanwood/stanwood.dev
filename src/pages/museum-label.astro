@@ -1,0 +1,331 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MuseumLabel from "../components/museum-label/MuseumLabel.tsx";
+const title = "Museum Label — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="Upload a photo of any everyday object and get an absurdly serious museum-style placard. Five styles from Metropolitan Classic to Christie's Auction Catalog."
+  slug="museum-label"
+  themeColor="#FAF8F3"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&family=Cabin:wght@400;500;700&display=swap"
+  schemaCategory="WebApplication"
+  schemaName="Museum Label"
+>
+  <Fragment slot="head">
+    <style is:global>
+      :root {
+        --ml-bg: #FAF8F3;
+        --ml-card-bg: #FFFDF9;
+        --ml-ink: #1A1612;
+        --ml-gray: #5E5244;
+        --ml-light-gray: #9C8E7E;
+        --ml-border: #E0D8CC;
+        --ml-accent: #6B4C3B;
+        --ml-accent-hover: #4A332A;
+      }
+
+      body {
+        font-family: 'Cabin', system-ui, sans-serif;
+        background: var(--ml-bg);
+        color: var(--ml-ink);
+        margin: 0;
+      }
+
+      @keyframes mlFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes mlSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .ml-fade-in { animation: mlFadeIn 0.4s ease-out; }
+
+      /* ── Layout ── */
+      .ml-page { min-height: 100vh; display: flex; flex-direction: column; }
+      .ml-header {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .ml-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        color: var(--ml-light-gray);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: color 0.15s;
+      }
+      .ml-back:hover { color: var(--ml-ink); }
+      .ml-back svg { width: 16px; height: 16px; }
+      .ml-brand {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--ml-accent);
+        letter-spacing: -0.02em;
+      }
+      .ml-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1.5rem 4rem;
+      }
+      .ml-app {
+        width: 100%;
+        max-width: 560px;
+      }
+      .ml-title-wrap { text-align: center; margin-bottom: 2rem; }
+      .ml-title {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: var(--ml-ink);
+        margin: 0 0 0.25rem;
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+      }
+      @media (min-width: 480px) {
+        .ml-title { font-size: 3rem; }
+      }
+      .ml-subtitle {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.8rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+      }
+
+      /* ── Styles ── */
+      .ml-styles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1.5rem;
+        justify-content: center;
+      }
+      .ml-style-btn {
+        padding: 0.4rem 0.75rem;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ml-gray);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .ml-style-btn:hover {
+        border-color: var(--ml-accent);
+        color: var(--ml-accent);
+      }
+      .ml-style-btn--active {
+        background: var(--ml-ink);
+        border-color: var(--ml-ink);
+        color: var(--ml-bg);
+      }
+      .ml-style-emoji { margin-right: 0.25rem; }
+
+      /* ── Dropzone ── */
+      .ml-dropzone {
+        border: 2px dashed var(--ml-border);
+        border-radius: 12px;
+        padding: 3rem 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--ml-card-bg);
+      }
+      .ml-dropzone:hover { border-color: var(--ml-gray); }
+      .ml-dropzone--active {
+        border-color: var(--ml-accent);
+        background: rgba(107, 76, 59, 0.03);
+      }
+      .ml-file-input { display: none; }
+      .ml-dropzone-icon { font-size: 2.5rem; display: block; margin-bottom: 0.75rem; }
+      .ml-dropzone-text {
+        font-weight: 600;
+        color: var(--ml-ink);
+        margin: 0 0 0.25rem;
+      }
+      .ml-dropzone-hint {
+        font-size: 0.8rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+      }
+      .ml-preview-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+      .ml-preview-img {
+        max-height: 200px;
+        border-radius: 8px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      }
+      .ml-preview-hint {
+        font-size: 0.75rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+      }
+
+      /* ── Buttons ── */
+      .ml-btn-primary {
+        display: block;
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.85rem;
+        border: 2px solid var(--ml-ink);
+        border-radius: 10px;
+        background: var(--ml-ink);
+        color: var(--ml-bg);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .ml-btn-primary:hover {
+        background: var(--ml-accent);
+        border-color: var(--ml-accent);
+      }
+      .ml-btn-secondary {
+        flex: 1;
+        padding: 0.75rem;
+        border: 1.5px solid var(--ml-border);
+        border-radius: 10px;
+        background: var(--ml-card-bg);
+        color: var(--ml-gray);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .ml-btn-secondary:hover {
+        border-color: var(--ml-accent);
+        color: var(--ml-accent);
+      }
+
+      /* ── Error ── */
+      .ml-error {
+        margin-top: 1rem;
+        padding: 0.75rem 1rem;
+        background: #fef2f2;
+        border: 1.5px solid #fecaca;
+        border-radius: 10px;
+        text-align: center;
+      }
+      .ml-error p { color: #b91c1c; font-size: 0.85rem; margin: 0; }
+
+      /* ── Loading ── */
+      .ml-loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 4rem 0;
+        animation: mlFadeIn 0.3s ease-out;
+      }
+      .ml-spinner {
+        font-size: 2rem;
+        animation: mlSpin 2s linear infinite;
+      }
+      .ml-loading-text {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.85rem;
+        color: var(--ml-gray);
+      }
+      .ml-loading-hint {
+        font-size: 0.75rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+      }
+
+      /* ── Result ── */
+      .ml-result { display: flex; flex-direction: column; gap: 1.5rem; }
+      .ml-placard {
+        background: var(--ml-card-bg);
+        border: 1.5px solid var(--ml-border);
+        border-radius: 4px;
+        padding: 2rem;
+        box-shadow: 0 2px 16px rgba(26, 22, 18, 0.06);
+        font-family: 'Cormorant Garamond', Georgia, serif;
+      }
+      .ml-placard-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--ml-ink);
+        margin: 0 0 0.15rem;
+        letter-spacing: 0.02em;
+      }
+      .ml-placard-artist {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: var(--ml-gray);
+        margin: 0 0 1rem;
+      }
+      .ml-placard-meta {
+        margin-bottom: 1rem;
+      }
+      .ml-placard-meta p {
+        font-size: 0.85rem;
+        color: var(--ml-light-gray);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .ml-placard-desc {
+        font-size: 1rem;
+        color: var(--ml-ink);
+        line-height: 1.7;
+        margin: 0 0 1rem;
+      }
+      .ml-placard-accession {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        color: var(--ml-light-gray);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .ml-result-photo { text-align: center; }
+      .ml-result-img {
+        max-height: 160px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      }
+
+      .ml-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+      .ml-actions .ml-btn-primary {
+        flex: 1;
+        margin-top: 0;
+      }
+    </style>
+  </Fragment>
+
+  <div class="ml-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+
+    <header class="ml-header">
+      <a href="/" class="ml-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        stanwood.dev
+      </a>
+      <span class="ml-brand">// museum-label</span>
+    </header>
+
+    <main id="main-content" class="ml-main">
+      <div class="ml-title-wrap">
+        <h1 class="ml-title">Museum Label</h1>
+        <p class="ml-subtitle">upload any object. get a deadpan placard.</p>
+      </div>
+      <MuseumLabel client:idle />
+    </main>
+  </div>
+</BaseLayout>
