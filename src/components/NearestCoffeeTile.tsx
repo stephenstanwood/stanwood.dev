@@ -86,7 +86,7 @@ export default function NearestCoffeeTile() {
               onClick={handleFind}
               type="button"
             >
-              Find my coffee ☕
+              Find Nearest Open
             </button>
           </div>
         )}
