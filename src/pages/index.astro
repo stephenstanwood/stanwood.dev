@@ -485,7 +485,16 @@ const projects = [
         margin-top: 10px;
       }
 
-      /* NBA Now — scoreboard energy */
+      /* NBA Now — scoreboard energy, text pinned to bottom-left */
+      .feat-card--hero:not(.feat-card--dark) .feat-body {
+        justify-content: flex-end;
+        padding-bottom: 20px;
+      }
+      .feat-card--hero:not(.feat-card--dark) .feat-arrow {
+        position: absolute;
+        bottom: 16px;
+        right: 22px;
+      }
       .feat-card--hero:not(.feat-card--dark) .feat-overlay {
         background: linear-gradient(
           to top,
@@ -1934,6 +1943,12 @@ const projects = [
       <div class="desktop-only"><VibeCheckTile client:idle /></div>
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
+      </div>
+      <div class="proj-tile spacer-tile desktop-only">
+        <div class="spacer-terminal"><span class="spacer-text">~ refactoring for fun</span></div>
+      </div>
+      <div class="proj-tile spacer-tile desktop-only">
+        <div class="spacer-terminal"><span class="spacer-text">$ repeat</span> <span class="spacer-cursor">█</span></div>
       </div>
     </div>
 
