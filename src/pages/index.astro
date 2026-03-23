@@ -516,15 +516,23 @@ const projects = [
         text-shadow: 0 2px 16px rgba(0,0,0,0.5);
       }
 
-      /* Show Swipe — drive-in neon */
+      /* Show Swipe — drive-in neon, text at top */
+      .feat-card--hero.feat-card--dark .feat-body {
+        justify-content: flex-start;
+      }
       .feat-card--hero.feat-card--dark .feat-overlay {
         background: linear-gradient(
-          to top,
+          to bottom,
           rgba(26,26,46,0.96) 0%,
           rgba(26,26,46,0.8) 35%,
           rgba(26,26,46,0.15) 70%,
           transparent 100%
         );
+      }
+      .feat-card--hero.feat-card--dark .feat-arrow {
+        position: absolute;
+        bottom: 16px;
+        right: 22px;
       }
       .feat-card--hero.feat-card--dark:hover .feat-arrow { color: #f0a050; }
       .feat-title--showswipe {
