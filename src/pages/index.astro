@@ -2007,12 +2007,24 @@ const latestMobile = [
       <div class="proj-tile spacer-tile">
         <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">~ refactoring for fun</span></div>
-      </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">$ repeat</span> <span class="spacer-cursor">█</span></div>
-      </div>
+    </div>
+
+    <!-- Just for Fun -->
+    <div class="section-label">just for fun</div>
+
+    <div class="proj-row">
+      {justForFun.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
     </div>
 
     <!-- Just for Fun -->
