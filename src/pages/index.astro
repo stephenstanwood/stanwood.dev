@@ -434,7 +434,8 @@ const projects = [
         transition: color 0.15s;
       }
       .feat-card:hover .feat-arrow { color: var(--orange); }
-      .feat-card--dark { color: #f0f0f0; border-color: #333; box-shadow: 5px 5px 0 #333; }
+      .feat-card--dark { color: #f0f0f0; border-color: #333; box-shadow: 5px 5px 0 #333; flex-direction: column-reverse; }
+      .feat-card--dark .feat-img { border-bottom: none; border-top: var(--pixel) solid #333; }
       .feat-card--dark .feat-tag { color: #999; }
       .feat-card--dark .feat-desc { color: #bbb; }
       .feat-card--dark .feat-arrow { color: #666; }
@@ -1986,16 +1987,7 @@ const projects = [
     const featRow = document.getElementById('feat-row');
     const projRow = document.getElementById('proj-row');
     if (featRow) {
-      // Shuffle all visual children (feat-cards + astro-island wrappers)
-      shuffle(featRow, ':scope > .feat-card, :scope > astro-island');
-      // Pin editorial card (inside astro-island) to center position
-      const island = featRow.querySelector(':scope > astro-island');
-      if (island) {
-        const items = Array.from(featRow.querySelectorAll(':scope > .feat-card, :scope > astro-island'));
-        if (items.length === 3 && items[1] !== island) {
-          featRow.insertBefore(island, items[1]);
-        }
-      }
+      featRow.classList.add('shuffled');
     }
     if (projRow) {
       // Collect shuffleable items: direct children that are grid items
