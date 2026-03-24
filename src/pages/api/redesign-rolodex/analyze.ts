@@ -132,8 +132,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     else if (errMsg.includes("JSON"))
       message = "AI returned an unexpected format. Try again.";
 
-    const isDev = import.meta.env.DEV;
-    const body = isDev ? { error: message, debug: errMsg } : { error: message };
+    // Temporarily expose debug info to diagnose production failure
+    const body = { error: message, debug: errMsg };
     return new Response(JSON.stringify(body), {
       status: 500,
       headers: { "Content-Type": "application/json" },
