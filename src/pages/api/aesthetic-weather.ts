@@ -7,6 +7,7 @@ import {
   type WeatherInput,
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
+import { okJson } from "../../lib/apiHelpers";
 
 export const prerender = false;
 
@@ -119,17 +120,9 @@ export const GET: APIRoute = async ({ url }) => {
       sunsetStr
     );
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=1800, max-age=900",
-      },
-    });
+    return okJson(response, { "Cache-Control": "public, s-maxage=1800, max-age=900" });
   } catch {
-    return new Response(JSON.stringify({ error: "Weather unavailable" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    // status 200 intentional — CDN caches this; error key signals the UI to show a fallback
+    return okJson({ error: "Weather unavailable" });
   }
 };
