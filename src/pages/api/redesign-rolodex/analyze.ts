@@ -6,6 +6,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET } from "../../../lib/models";
 import { errJson, isValidUrl } from "../../../lib/apiHelpers";
+import { captureScreenshot } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
 import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
@@ -13,35 +14,6 @@ import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-async function captureScreenshot(url: string): Promise<string> {
-  const apiKey = import.meta.env.SCREENSHOTONE_API_KEY;
-  if (!apiKey) throw new Error("Screenshot API key not configured");
-
-  const params = new URLSearchParams({
-    access_key: apiKey,
-    url,
-    viewport_width: "1280",
-    viewport_height: "800",
-    format: "png",
-    block_ads: "true",
-    block_cookie_banners: "true",
-    delay: "1",
-    timeout: "15",
-  });
-
-  const response = await fetch(
-    `https://api.screenshotone.com/take?${params.toString()}`,
-  );
-
-  if (!response.ok) {
-    console.error("Screenshot API error:", response.status);
-    throw new Error("Failed to capture screenshot");
-  }
-
-  const buffer = await response.arrayBuffer();
-  return Buffer.from(buffer).toString("base64");
-}
 
 const VALID_MODES: WeirdnessMode[] = [
   "client-safe",

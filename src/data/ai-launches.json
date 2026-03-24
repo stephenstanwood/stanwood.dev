@@ -1,19 +1,27 @@
 [
   {
+    "name": "Firefly Custom Models",
+    "org": "Adobe",
+    "date": "2026-03-19",
+    "type": "tool",
+    "summary": "train Firefly on your own images to create a reusable personal style model — consistent visual identity across AI generations",
+    "url": "https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models"
+  },
+  {
+    "name": "Gemini 3.1 + Computer Use API",
+    "org": "Google",
+    "date": "2026-03-18",
+    "type": "tool",
+    "summary": "Computer Use tool now live in Gemini 3.1 Pro and Flash previews — build browser agents via the Gemini API today",
+    "url": "https://ai.google.dev/gemini-api/docs/gemini-3"
+  },
+  {
     "name": "Gemini Spend Caps",
     "org": "Google",
     "date": "2026-03-16",
     "type": "tool",
     "summary": "Gemini API finally gets monthly spend caps — removes the accidental runaway-bill risk for indie devs",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/more-control-over-gemini-api-costs"
-  },
-  {
-    "name": "Nemotron 3 Super",
-    "org": "NVIDIA",
-    "date": "2026-03-11",
-    "type": "model",
-    "summary": "fully open 120B model (only 12B active), free on OpenRouter now — one of the most capable open models you can actually call today",
-    "url": "https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/"
   },
   {
     "name": "Claude Memory",
@@ -24,35 +32,27 @@
     "url": "https://releasebot.io/updates/anthropic/claude"
   },
   {
-    "name": "GPT-5.4",
-    "org": "OpenAI",
-    "date": "2026-03-05",
+    "name": "Nemotron 3 Super",
+    "org": "NVIDIA",
+    "date": "2026-03-11",
     "type": "model",
-    "summary": "1M context, native computer-use, API from $2.50/M tokens — current OpenAI flagship",
-    "url": "https://openai.com/index/introducing-gpt-5-4/"
+    "summary": "fully open 120B model (only 12B active), free on OpenRouter now — one of the most capable open models you can actually call today",
+    "url": "https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/"
   },
   {
-    "name": "Windsurf Wave 13",
-    "org": "Codeium",
-    "date": "2026-03-05",
+    "name": "Photoshop AI Generative Editing",
+    "org": "Adobe",
+    "date": "2026-03-10",
     "type": "tool",
-    "summary": "parallel agents, 10x faster code context retrieval, and hooks for pre/post-action triggers",
-    "url": "https://windsurf.com/"
+    "summary": "new generative fill, expand, upscale, and background removal — plus Project Moonlight for multi-step conversational editing across Photoshop and Express",
+    "url": "https://blog.adobe.com/en/publish/2026/03/10/image-editing-just-got-smarter-with-ai-photoshop-firefly"
   },
   {
-    "name": "LTX 2.3",
-    "org": "Lightricks",
-    "date": "2026-03-03",
+    "name": "Gemini in Docs & Sheets",
+    "org": "Google",
+    "date": "2026-03-10",
     "type": "tool",
-    "summary": "open-source 4K video gen with synced audio in one pass — Apache 2.0, use it commercially",
-    "url": "https://github.com/Lightricks/LTX-Video"
-  },
-  {
-    "name": "Qwen 3.5 Small",
-    "org": "Alibaba",
-    "date": "2026-03-01",
-    "type": "model",
-    "summary": "open-source 0.8B–9B multimodal models at ~$0.10/M tokens — dirt cheap for on-device or embedded use",
-    "url": "https://www.buildfastwithai.com/blogs/ai-models-march-2026-releases"
+    "summary": "\"Help me create\" in Docs drafts from your Drive/Gmail; \"Fill with Gemini\" in Sheets categorizes and pulls real-time Search data",
+    "url": "https://techcrunch.com/2026/03/10/google-rolls-out-new-gemini-capabilities-to-docs-sheets-slides-and-drive/"
   }
 ]
