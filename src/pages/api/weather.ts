@@ -1,6 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aestheticWeather";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 /**
  * Lightweight weather proxy for the homepage terminal card.
@@ -10,7 +11,9 @@ import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aes
  * Cached for 30 minutes via CDN headers.
  */
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_WEATHER_LAT}&longitude=${DEFAULT_WEATHER_LON}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America/Los_Angeles`;
 

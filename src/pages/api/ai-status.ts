@@ -1,5 +1,6 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
@@ -136,7 +137,9 @@ async function fetchAll(): Promise<ProviderStatus[]> {
   return [claude, chatgpt];
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   // Serve from cache if fresh
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) {
     return new Response(JSON.stringify(cache.data), {
