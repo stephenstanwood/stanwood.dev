@@ -5,7 +5,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
-import { errJson } from "../../../lib/apiHelpers";
+import { errJson, isValidUrl } from "../../../lib/apiHelpers";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import type {
   WeirdnessMode,
@@ -16,31 +16,6 @@ import type {
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-function isValidUrl(input: string): URL | null {
-  try {
-    let normalized = input.trim();
-    if (!/^https?:\/\//i.test(normalized)) normalized = `https://${normalized}`;
-    const url = new URL(normalized);
-    if (!["http:", "https:"].includes(url.protocol)) return null;
-    const h = url.hostname.toLowerCase();
-    if (
-      h === "localhost" ||
-      h === "127.0.0.1" ||
-      h === "0.0.0.0" ||
-      h.startsWith("10.") ||
-      h.startsWith("192.168.") ||
-      h.startsWith("172.") ||
-      h.endsWith(".local") ||
-      h.endsWith(".internal")
-    )
-      return null;
-    if (!h.includes(".")) return null;
-    return url;
-  } catch {
-    return null;
-  }
-}
 
 async function captureScreenshot(url: string): Promise<string> {
   const apiKey = import.meta.env.SCREENSHOTONE_API_KEY;
