@@ -21,6 +21,34 @@ experimental, post-internet, Y2K. Still recognizable as a redesign
 of the same site, but radically different in feel.`,
 };
 
+const CONCEPT_HTML_RULES = `
+## conceptHtml rules (CRITICAL — read carefully)
+
+Each conceptHtml is a self-contained HTML string rendered in a 400×280 iframe. It must:
+
+1. Start with a complete HTML document: \`<!DOCTYPE html><html><head>...</head><body>...</body></html>\`
+2. Include a Google Fonts \`<link>\` in the \`<head>\` for the fonts you chose
+3. Set \`<body style="margin:0; overflow:hidden; width:400px; height:280px;">\`
+4. Use ONLY inline styles — no \`<style>\` blocks, no classes, no external CSS
+5. NO JavaScript whatsoever
+6. Stay under 2000 characters total
+
+Visual quality requirements:
+- This is a HERO SECTION mockup — it should look like the top of a real website
+- Include a headline (4-8 words related to the site's purpose), a short subline, and at least one button or visual element
+- Use the exact palette colors you specified
+- Use the exact Google Fonts you specified in fontDirection
+- Make the layout feel intentional: consider alignment, spacing, visual hierarchy
+- Each concept must look RADICALLY DIFFERENT from the others — vary layout (centered vs left-aligned vs asymmetric vs grid), density (spacious vs dense), contrast, type scale, and decorative elements
+- Use CSS techniques like: borders, box-shadows, letter-spacing, text-transform, gradients, border-radius, flexbox, relative positioning
+- Add visual interest: decorative borders, geometric shapes (via divs with backgrounds), accent bars, numbered sections, subtle patterns via repeated borders
+
+Common mistakes to avoid:
+- Don't make all 8 concepts look like centered-text-on-solid-background — vary the LAYOUT
+- Don't use tiny text — headlines should be 28-48px
+- Don't leave large empty areas — fill the 400×280 viewport intentionally
+- Don't forget to set font-family on text elements`;
+
 export function buildAnalyzePrompt(url: string, mode: WeirdnessMode): string {
   return `You are an expert design director generating radically different redesign directions for a website.
 
@@ -40,26 +68,24 @@ ${MODE_GUIDANCE[mode]}
 
 2. **Generate exactly 8 redesign directions** that are:
    - Radically different from the source site
-   - Radically different from EACH OTHER
+   - Radically different from EACH OTHER — no two should share the same design family
    - Not just palette swaps — different layout philosophies, typographic families, densities, moods
-   - Drawn from diverse design families: editorial, brutalist, luxe, retro-tech, analog/tactile, cinematic, museum/cultural, soft organic, ultra-minimal, Y2K, old web revival, experimental dashboard, poster-like, premium consumer brand, offbeat civic UI, playful, storybook, etc.
+   - Each drawn from a DIFFERENT design family. Use at least 5 of these families across the 8:
+     editorial, brutalist, luxe/premium, retro-tech, analog/tactile, cinematic dark mode,
+     museum/cultural, soft organic, ultra-minimal, Y2K revival, old web prestige,
+     experimental dashboard, poster-like, consumer brand, civic/institutional, playful/storybook,
+     Japanese minimal, Swiss typographic, neon arcade, quiet luxury
 
 For each direction, provide:
 - **name**: A memorable 2-4 word direction name (e.g. "Swiss Editorial", "Neon Arcade Dashboard", "Quiet Japanese Minimal")
-- **tagline**: One sentence capturing the vibe
-- **palette**: Array of exactly 5 hex colors (background, primary, secondary, accent, text)
-- **fontDirection**: What fonts/typographic approach to use (reference specific Google Fonts)
+- **tagline**: One punchy sentence capturing the vibe
+- **palette**: Array of exactly 5 hex colors: [background, primary text, secondary/muted, accent, surface/card]
+- **fontDirection**: Specific Google Fonts to use (e.g. "Inter for body, Playfair Display for headings")
 - **layoutNotes**: How the layout differs from the original (density, alignment, grid, whitespace)
 - **artDirection**: Image/illustration style guidance
-- **conceptHtml**: A self-contained HTML string (under 2000 chars) that renders a ~400x280 mini hero concept. Requirements:
-  - Include a Google Fonts \`<link>\` tag in the HTML for the fonts you specified
-  - Use only inline styles (no external CSS)
-  - Create a visually compelling mini hero section that communicates the redesign direction
-  - Include placeholder headline text that fits the site's purpose
-  - Show the layout, typography, colors, and spacing clearly
-  - The HTML should render beautifully at 400x280px
-  - Do NOT use JavaScript
-  - Make each concept visually VERY different from the others
+- **conceptHtml**: A self-contained HTML string — see rules below
+
+${CONCEPT_HTML_RULES}
 
 ## Response format
 
@@ -115,6 +141,7 @@ ${previousNames.map((n, i) => `${i + 1}. ${n}`).join("\n")}
 - Do NOT repeat any of the above directions or their close variants
 - Do NOT generate near-duplicates (e.g. "Swiss Editorial" and "Swiss Typographic" are too similar)
 - Do NOT just do color rotations of previous directions
+- Each new direction must come from a DIFFERENT design family than all previous ones
 - Move into genuinely NEW visual territory
 - Maximize distinctiveness across the full set
 
@@ -123,15 +150,10 @@ ${modifierGuidance}
 
 ## Generate 5 new directions
 
-For each direction, provide the same structure:
-- name, tagline, palette (5 hex), fontDirection, layoutNotes, artDirection, conceptHtml
+For each direction, provide:
+- name, tagline, palette (5 hex: [background, primary text, secondary, accent, surface]), fontDirection, layoutNotes, artDirection, conceptHtml
 
-The conceptHtml should be a self-contained HTML string (under 2000 chars) rendering a ~400x280 mini hero concept with:
-- Google Fonts \`<link>\` tag
-- Only inline styles
-- Visually compelling hero section
-- Placeholder headline text fitting the site's purpose
-- No JavaScript
+${CONCEPT_HTML_RULES}
 
 Return valid JSON only:
 

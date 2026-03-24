@@ -101,6 +101,37 @@ export default function RedesignRolodex() {
     [checkedUrl, mode, directions, analysis],
   );
 
+  const handleSpinAgain = useCallback(() => {
+    if (!checkedUrl) return;
+    setUrl(checkedUrl);
+    setDirections([]);
+    setState("loading");
+    setError("");
+
+    fetch("/api/redesign-rolodex/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: checkedUrl, mode }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          setError(data.error);
+          setState("error");
+          return;
+        }
+        const result = data as AnalyzeResponse;
+        setAnalysis(result.siteAnalysis);
+        setScreenshotBase64(result.screenshotBase64);
+        setDirections(result.directions);
+        setState("result");
+      })
+      .catch(() => {
+        setError("Network error. Check your connection and try again.");
+        setState("error");
+      });
+  }, [checkedUrl, mode]);
+
   const handleReset = useCallback(() => {
     setState("idle");
     setUrl("");
@@ -128,7 +159,7 @@ export default function RedesignRolodex() {
           <input
             type="text"
             className="rr-input"
-            placeholder="stripe.com"
+            placeholder="any website..."
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             autoFocus
@@ -194,6 +225,13 @@ export default function RedesignRolodex() {
           type="button"
         >
           New URL
+        </button>
+        <button
+          className="rr-btn-reset"
+          onClick={handleSpinAgain}
+          type="button"
+        >
+          Spin again
         </button>
         <span className="rr-result-url">{checkedUrl}</span>
         <span className="rr-result-count">
