@@ -27,12 +27,12 @@ function barsFromSha(sha: string): number[] {
 }
 
 function formatTimestamp(iso: string): string {
-  const d = new Date(iso);
+  const date = new Date(iso);
   const now = new Date();
-  const diffMs = now.getTime() - d.getTime();
+  const diffMs = now.getTime() - date.getTime();
   const diffDays = Math.floor(diffMs / 86400000);
 
-  const time = d.toLocaleTimeString("en-US", {
+  const time = date.toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
   }).toLowerCase();
@@ -40,10 +40,10 @@ function formatTimestamp(iso: string): string {
   if (diffDays === 0) return `today at ${time}`;
   if (diffDays === 1) return `yesterday at ${time}`;
   if (diffDays < 7) {
-    const day = d.toLocaleDateString("en-US", { weekday: "long" });
+    const day = date.toLocaleDateString("en-US", { weekday: "long" });
     return `${day} at ${time}`;
   }
-  return d.toLocaleDateString("en-US", {
+  return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   }) + ` at ${time}`;

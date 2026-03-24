@@ -83,7 +83,7 @@ export default function RedesignRolodexTile() {
 
   // --- Result state ---
   if (state === "result" && directions.length > 0) {
-    const d = directions[activeIdx];
+    const direction = directions[activeIdx];
     return (
       <a href="/redesign-rolodex" className="proj-tile rrt rrt-has-result" style={{ textDecoration: "none", color: "inherit" }}>
         <div className="rrt-result">
@@ -91,10 +91,10 @@ export default function RedesignRolodexTile() {
             <span className="rrt-label">REDESIGN ROLODEX</span>
             <span className="rrt-count">{directions.length} directions</span>
           </div>
-          <div className="rrt-direction-name">{d.name}</div>
-          <p className="rrt-tagline">{d.tagline}</p>
+          <div className="rrt-direction-name">{direction.name}</div>
+          <p className="rrt-tagline">{direction.tagline}</p>
           <div className="rrt-palette-row">
-            {d.palette.map((hex, i) => (
+            {direction.palette.map((hex, i) => (
               <span key={i} className="rrt-swatch" style={{ background: hex }} />
             ))}
           </div>
