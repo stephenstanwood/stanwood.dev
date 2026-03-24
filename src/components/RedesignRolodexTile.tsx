@@ -101,7 +101,7 @@ export default function RedesignRolodexTile() {
         <div className="rrt-loading-inner">
           {stream.screenshotBase64 && (
             <img
-              src={`data:image/png;base64,${stream.screenshotBase64}`}
+              src={`data:image/webp;base64,${stream.screenshotBase64}`}
               alt=""
               className="rrt-loading-thumb"
             />

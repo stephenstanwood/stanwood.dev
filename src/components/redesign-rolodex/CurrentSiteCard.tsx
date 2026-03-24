@@ -13,7 +13,7 @@ export default function CurrentSiteCard({
       <div className="rr-card-label-tag">Current Site</div>
       <div className="rr-card-screenshot">
         <img
-          src={`data:image/png;base64,${screenshotBase64}`}
+          src={`data:image/webp;base64,${screenshotBase64}`}
           alt={`Screenshot of ${analysis.title}`}
           draggable={false}
         />
