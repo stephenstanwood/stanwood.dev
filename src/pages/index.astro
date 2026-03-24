@@ -1712,6 +1712,53 @@ const latestMobile = [
       }
       .rrt-again:hover { border-color: #A78BDB; color: #fff; }
 
+      .rrt-result-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+      }
+      .rrt-fullpage {
+        padding: 4px 10px;
+        border: 1.5px solid rgba(167,139,219,0.5);
+        border-radius: 4px;
+        background: rgba(167,139,219,0.15);
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #A78BDB;
+        cursor: pointer;
+        transition: all 0.15s;
+        text-decoration: none;
+        font-weight: 700;
+      }
+      .rrt-fullpage:hover { background: #A78BDB; color: #fff; border-color: #A78BDB; }
+
+      .rrt-streaming-dot {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #A78BDB;
+        margin-left: 4px;
+        vertical-align: middle;
+        animation: rrtPulse 1.2s ease-in-out infinite;
+      }
+      @keyframes rrtPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(0.6); }
+      }
+
+      .rrt-loading-thumb {
+        width: 100%;
+        max-height: 60px;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 4px;
+        margin-bottom: 6px;
+        opacity: 0.6;
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+
       /* ── spacer tiles ── */
       .spacer-tile {
         background: #111 !important;

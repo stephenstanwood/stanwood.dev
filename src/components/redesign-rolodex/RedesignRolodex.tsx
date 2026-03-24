@@ -1,76 +1,45 @@
 import { useState, useCallback } from "react";
 import type {
   WeirdnessMode,
-  SiteAnalysis,
-  DesignDirection,
   MoreModifier,
-  AnalyzeResponse,
   MoreResponse,
+  DesignDirection,
 } from "../../lib/redesignRolodex/types";
 import { pickExamples } from "../../lib/redesignRolodex/examples";
+import { useAnalyzeStream } from "../../lib/redesignRolodex/useAnalyzeStream";
 import WeirdnessModeToggle from "./WeirdnessModeToggle";
 import LoadingSequence from "./LoadingSequence";
 import RolodexViewer from "./RolodexViewer";
 import MoreDirectionsControls from "./MoreDirectionsControls";
 
-type AppState = "idle" | "loading" | "result" | "error";
-
 const examples = pickExamples(4);
 
 export default function RedesignRolodex() {
-  const [state, setState] = useState<AppState>("idle");
   const [url, setUrl] = useState("");
   const [checkedUrl, setCheckedUrl] = useState("");
   const [mode, setMode] = useState<WeirdnessMode>("designer");
-  const [error, setError] = useState("");
-
-  const [analysis, setAnalysis] = useState<SiteAnalysis | null>(null);
-  const [screenshotBase64, setScreenshotBase64] = useState("");
-  const [directions, setDirections] = useState<DesignDirection[]>([]);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [extraDirections, setExtraDirections] = useState<DesignDirection[]>([]);
+
+  const stream = useAnalyzeStream();
+
+  const allDirections = [...stream.directions, ...extraDirections];
 
   const handleSubmit = useCallback(
     async (e?: React.FormEvent) => {
       e?.preventDefault();
       const trimmed = url.trim();
       if (!trimmed) return;
-
-      setState("loading");
-      setError("");
-      setDirections([]);
-
-      try {
-        const res = await fetch("/api/redesign-rolodex/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: trimmed, mode }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          setError(data.error || "Something went wrong.");
-          setState("error");
-          return;
-        }
-
-        const result = data as AnalyzeResponse;
-        setAnalysis(result.siteAnalysis);
-        setScreenshotBase64(result.screenshotBase64);
-        setDirections(result.directions);
-        setCheckedUrl(trimmed);
-        setState("result");
-      } catch {
-        setError("Network error. Check your connection and try again.");
-        setState("error");
-      }
+      setCheckedUrl(trimmed);
+      setExtraDirections([]);
+      stream.analyze(trimmed, mode);
     },
-    [url, mode],
+    [url, mode, stream.analyze],
   );
 
   const handleMore = useCallback(
     async (modifier: MoreModifier) => {
-      if (!checkedUrl || !analysis) return;
+      if (!checkedUrl || !stream.analysis) return;
       setLoadingMore(true);
 
       try {
@@ -81,73 +50,48 @@ export default function RedesignRolodex() {
             url: checkedUrl,
             mode,
             modifier,
-            previousNames: directions.map((d) => d.name),
-            nextId: directions.length + 2,
+            previousNames: allDirections.map((d) => d.name),
+            nextId: allDirections.length + 2,
           }),
         });
 
         const data = await res.json();
-
         if (res.ok) {
           const result = data as MoreResponse;
-          setDirections((prev) => [...prev, ...result.directions]);
+          setExtraDirections((prev) => [...prev, ...result.directions]);
         }
       } catch {
-        // Silently fail for more — user can retry
+        // Silently fail — user can retry
       } finally {
         setLoadingMore(false);
       }
     },
-    [checkedUrl, mode, directions, analysis],
+    [checkedUrl, mode, allDirections, stream.analysis],
   );
 
   const handleSpinAgain = useCallback(() => {
     if (!checkedUrl) return;
-    setUrl(checkedUrl);
-    setDirections([]);
-    setState("loading");
-    setError("");
-
-    fetch("/api/redesign-rolodex/analyze", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: checkedUrl, mode }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          setState("error");
-          return;
-        }
-        const result = data as AnalyzeResponse;
-        setAnalysis(result.siteAnalysis);
-        setScreenshotBase64(result.screenshotBase64);
-        setDirections(result.directions);
-        setState("result");
-      })
-      .catch(() => {
-        setError("Network error. Check your connection and try again.");
-        setState("error");
-      });
-  }, [checkedUrl, mode]);
+    setExtraDirections([]);
+    stream.analyze(checkedUrl, mode);
+  }, [checkedUrl, mode, stream.analyze]);
 
   const handleReset = useCallback(() => {
-    setState("idle");
+    stream.reset();
     setUrl("");
     setCheckedUrl("");
-    setAnalysis(null);
-    setScreenshotBase64("");
-    setDirections([]);
-    setError("");
-  }, []);
+    setExtraDirections([]);
+  }, [stream.reset]);
 
   const handleExample = useCallback((ex: string) => {
     setUrl(ex);
   }, []);
 
-  // --- Idle / Input state ---
-  if (state === "idle" || state === "error") {
+  const isIdle = stream.phase === "idle" || stream.phase === "error";
+  const isLoading = stream.phase === "screenshot" || stream.phase === "analyzing";
+  const hasDirections = allDirections.length > 0;
+
+  // --- Idle / Error state ---
+  if (isIdle) {
     return (
       <div className="rr-form-container rr-fade-in">
         <h1 className="rr-title">Redesign Rolodex</h1>
@@ -180,12 +124,12 @@ export default function RedesignRolodex() {
           sites.
         </p>
 
-        {state === "error" && error && (
+        {stream.phase === "error" && stream.error && (
           <div className="rr-error">
-            <p>{error}</p>
+            <p>{stream.error}</p>
             <button
               className="rr-btn-secondary"
-              onClick={() => setState("idle")}
+              onClick={() => stream.reset()}
               type="button"
             >
               Try again
@@ -210,46 +154,43 @@ export default function RedesignRolodex() {
     );
   }
 
-  // --- Loading state ---
-  if (state === "loading") {
-    return <LoadingSequence />;
+  // --- Loading state (before any cards arrive) ---
+  if (isLoading && !hasDirections) {
+    return <LoadingSequence screenshotBase64={stream.screenshotBase64} phase={stream.phase} />;
   }
 
-  // --- Result state ---
+  // --- Result state (directions arriving or complete) ---
   return (
     <div className="rr-result-container rr-fade-in">
       <div className="rr-result-header">
-        <button
-          className="rr-btn-reset"
-          onClick={handleReset}
-          type="button"
-        >
+        <button className="rr-btn-reset" onClick={handleReset} type="button">
           New URL
         </button>
-        <button
-          className="rr-btn-reset"
-          onClick={handleSpinAgain}
-          type="button"
-        >
+        <button className="rr-btn-reset" onClick={handleSpinAgain} type="button">
           Spin again
         </button>
         <span className="rr-result-url">{checkedUrl}</span>
         <span className="rr-result-count">
-          {directions.length} direction{directions.length !== 1 ? "s" : ""}
+          {allDirections.length} direction{allDirections.length !== 1 ? "s" : ""}
+          {stream.phase === "directions" && <span className="rr-streaming-dot" />}
         </span>
       </div>
 
-      {analysis && (
+      {stream.analysis && (
         <RolodexViewer
-          analysis={analysis}
-          screenshotBase64={screenshotBase64}
-          directions={directions}
+          analysis={stream.analysis}
+          screenshotBase64={stream.screenshotBase64}
+          directions={allDirections}
           url={checkedUrl}
           mode={mode}
         />
       )}
 
-      <MoreDirectionsControls onMore={handleMore} loading={loadingMore} />
+      <MoreDirectionsControls
+        onMore={handleMore}
+        loading={loadingMore}
+        disabled={stream.phase === "directions"}
+      />
     </div>
   );
 }

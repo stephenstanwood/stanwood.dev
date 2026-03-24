@@ -1,70 +1,33 @@
 import { useState, useCallback, useEffect } from "react";
 import { pickExamples } from "../lib/redesignRolodex/examples";
-import type { WeirdnessMode, AnalyzeResponse, DesignDirection } from "../lib/redesignRolodex/types";
-
-type TileState = "idle" | "loading" | "result" | "error";
-
-const LOADING_MESSAGES = [
-  "taking a snapshot...",
-  "reading the room...",
-  "finding alternate timelines...",
-  "restyling reality...",
-  "loading the rolodex...",
-];
+import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
+import type { WeirdnessMode } from "../lib/redesignRolodex/types";
 
 const EXAMPLE_URLS = pickExamples(3);
 
 export default function RedesignRolodexTile() {
-  const [state, setState] = useState<TileState>("idle");
   const [url, setUrl] = useState("");
-  const [error, setError] = useState("");
-  const [loadMsg, setLoadMsg] = useState(LOADING_MESSAGES[0]);
-  const [directions, setDirections] = useState<DesignDirection[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
+  const stream = useAnalyzeStream();
 
+  // Auto-cycle through directions in result state
   useEffect(() => {
-    if (state !== "result" || directions.length <= 1) return;
+    if (stream.phase !== "done" && stream.phase !== "directions") return;
+    if (stream.directions.length <= 1) return;
     const interval = setInterval(() => {
-      setActiveIdx((i) => (i + 1) % directions.length);
+      setActiveIdx((i) => (i + 1) % stream.directions.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [state, directions.length]);
+  }, [stream.phase, stream.directions.length]);
 
-  const runAnalysis = useCallback(async (targetUrl: string) => {
-    if (!targetUrl.trim()) return;
-    setState("loading");
-    setError("");
-
-    let msgIdx = 0;
-    const msgInterval = setInterval(() => {
-      msgIdx = (msgIdx + 1) % LOADING_MESSAGES.length;
-      setLoadMsg(LOADING_MESSAGES[msgIdx]);
-    }, 2200);
-
-    try {
-      const res = await fetch("/api/redesign-rolodex/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: targetUrl.trim(), mode: "designer" as WeirdnessMode }),
-      });
-      const data = await res.json();
-      clearInterval(msgInterval);
-
-      if (!res.ok) {
-        setError(data.error || "Something went wrong.");
-        setState("error");
-        return;
-      }
-      const result = data as AnalyzeResponse;
-      setDirections(result.directions);
+  const runAnalysis = useCallback(
+    (targetUrl: string) => {
+      if (!targetUrl.trim()) return;
       setActiveIdx(0);
-      setState("result");
-    } catch {
-      clearInterval(msgInterval);
-      setError("Network error");
-      setState("error");
-    }
-  }, []);
+      stream.analyze(targetUrl.trim(), "designer" as WeirdnessMode);
+    },
+    [stream.analyze],
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,53 +38,107 @@ export default function RedesignRolodexTile() {
   const handleReset = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setState("idle");
+    stream.reset();
     setUrl("");
-    setDirections([]);
-    setError("");
   };
 
+  const hasResults =
+    (stream.phase === "done" || stream.phase === "directions") &&
+    stream.directions.length > 0;
+
   // --- Result state ---
-  if (state === "result" && directions.length > 0) {
-    const d = directions[activeIdx];
+  if (hasResults) {
+    const d = stream.directions[activeIdx % stream.directions.length];
     return (
-      <a href="/redesign-rolodex" className="proj-tile rrt rrt-has-result" style={{ textDecoration: "none", color: "inherit" }}>
+      <div className="proj-tile rrt rrt-has-result">
         <div className="rrt-result">
           <div className="rrt-result-header">
             <span className="rrt-label">REDESIGN ROLODEX</span>
-            <span className="rrt-count">{directions.length} directions</span>
+            <span className="rrt-count">
+              {stream.directions.length} directions
+              {stream.phase === "directions" && <span className="rrt-streaming-dot" />}
+            </span>
           </div>
-          <div className="rrt-direction-name">{d.name}</div>
-          <p className="rrt-tagline">{d.tagline}</p>
+          <div className="rrt-direction-name">{d?.name}</div>
+          <p className="rrt-tagline">{d?.tagline}</p>
           <div className="rrt-palette-row">
-            {d.palette.map((hex, i) => (
+            {d?.palette.map((hex, i) => (
               <span key={i} className="rrt-swatch" style={{ background: hex }} />
             ))}
           </div>
           <div className="rrt-card-dots">
-            {directions.slice(0, 8).map((_, i) => (
-              <span key={i} className={`rrt-dot ${i === activeIdx ? "rrt-dot-on" : ""}`} />
+            {stream.directions.slice(0, 8).map((_, i) => (
+              <span
+                key={i}
+                className={`rrt-dot ${i === activeIdx % stream.directions.length ? "rrt-dot-on" : ""}`}
+              />
             ))}
           </div>
-          <button className="rrt-again" onClick={handleReset}>
-            try another url
-          </button>
+          <div className="rrt-result-actions">
+            <a
+              href="/redesign-rolodex"
+              className="rrt-fullpage"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Open full page &rarr;
+            </a>
+            <button className="rrt-again" onClick={handleReset}>
+              try another url
+            </button>
+          </div>
         </div>
-      </a>
+      </div>
     );
   }
 
   // --- Loading state ---
-  if (state === "loading") {
+  if (
+    stream.phase === "screenshot" ||
+    stream.phase === "analyzing"
+  ) {
     return (
       <div className="proj-tile rrt rrt-loading-tile">
         <div className="rrt-loading-inner">
+          {stream.screenshotBase64 && (
+            <img
+              src={`data:image/png;base64,${stream.screenshotBase64}`}
+              alt=""
+              className="rrt-loading-thumb"
+            />
+          )}
           <div className="rrt-spinner">
             <div className="rrt-spin-card rrt-sc-1" />
             <div className="rrt-spin-card rrt-sc-2" />
             <div className="rrt-spin-card rrt-sc-3" />
           </div>
-          <span className="rrt-loading-msg">{loadMsg}</span>
+          <TileLoadingMsg phase={stream.phase} />
+        </div>
+      </div>
+    );
+  }
+
+  // --- Error state ---
+  if (stream.phase === "error") {
+    return (
+      <div className="proj-tile rrt">
+        <div className="rrt-idle">
+          <div className="rrt-header-block">
+            <div className="rrt-title-row">
+              <span className="rrt-icon">
+                <span className="rrt-icon-card rrt-ic-1" />
+                <span className="rrt-icon-card rrt-ic-2" />
+                <span className="rrt-icon-card rrt-ic-3" />
+              </span>
+              <div>
+                <div className="rrt-tile-title">Redesign Rolodex</div>
+                <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
+              </div>
+            </div>
+          </div>
+          <div className="rrt-error">{stream.error || "Something went wrong."}</div>
+          <button className="rrt-again" onClick={() => stream.reset()}>
+            try again
+          </button>
         </div>
       </div>
     );
@@ -140,7 +157,9 @@ export default function RedesignRolodexTile() {
             </span>
             <div>
               <div className="rrt-tile-title">Redesign Rolodex</div>
-              <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
+              <div className="rrt-tile-sub">
+                paste a URL, get alternate-universe redesigns
+              </div>
             </div>
           </div>
         </div>
@@ -164,9 +183,6 @@ export default function RedesignRolodexTile() {
             spin
           </button>
         </form>
-        {state === "error" && (
-          <div className="rrt-error">{error}</div>
-        )}
         <div className="rrt-examples">
           {EXAMPLE_URLS.map((ex) => (
             <button
@@ -186,4 +202,22 @@ export default function RedesignRolodexTile() {
       </div>
     </div>
   );
+}
+
+function TileLoadingMsg({ phase }: { phase: string }) {
+  const [idx, setIdx] = useState(0);
+  const msgs =
+    phase === "screenshot"
+      ? ["taking a snapshot...", "waiting for the page..."]
+      : ["reading the room...", "finding alternate timelines...", "restyling reality...", "loading the rolodex..."];
+
+  useEffect(() => {
+    setIdx(0);
+    const interval = setInterval(() => {
+      setIdx((i) => (i + 1) % msgs.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, [phase]);
+
+  return <span className="rrt-loading-msg">{msgs[idx]}</span>;
 }
