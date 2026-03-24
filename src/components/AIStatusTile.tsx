@@ -104,8 +104,10 @@ export default function AIStatusTile() {
   return (
     <div
       className={`proj-tile ais-tile${transitioning ? " ais-tile--out" : ""}`}
+      onClick={rotate}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      style={{ cursor: "pointer" }}
       aria-label={`AI Status: ${p.name} is ${cfg.label}`}
     >
       {/* White zone: logo, name, status */}

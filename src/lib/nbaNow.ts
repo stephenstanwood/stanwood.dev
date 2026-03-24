@@ -300,9 +300,11 @@ function renderNoGames(events: Game[]): string {
     .sort((a, b) => b.score - a.score);
 
   if (preGames.length === 0) {
+    const postGames = events.filter((e) => e.competitions?.[0]?.status?.type?.state === "post");
+    const label = postGames.length > 0 ? "All Games Over" : "No Games Today";
     return `
       <div class="hero-card p-8" style="display:flex;align-items:center;justify-content:center;min-height:160px;">
-        <div class="font-score" style="font-size:28px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#3f3f46;text-align:center;">No Games Today</div>
+        <div class="font-score" style="font-size:28px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#3f3f46;text-align:center;">${label}</div>
       </div>
     `;
   }
