@@ -6,7 +6,7 @@ import AIRadarTile from "../components/AIRadarTile.tsx";
 import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 
 import WhichModelTile from "../components/WhichModelTile.tsx";
-import VibeCheckTile from "../components/VibeCheckTile.tsx";
+import RedesignRolodexTile from "../components/RedesignRolodexTile.tsx";
 import NearestCoffeeTile from "../components/NearestCoffeeTile.tsx";
 
 const featured = [
@@ -49,7 +49,8 @@ const sportsAndFitness = [
 
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
-  { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp", mobileOnly: true },
+  { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", mobileOnly: true },
+  { href: "/vibe-check", emoji: "✨", name: "Vibe Check", tag: "paste a URL, get the vibe", image: "/images/vibe-check.webp" },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp", mobileOnly: true },
 ];
 
@@ -57,7 +58,6 @@ const local = [
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
   { href: "/kid-window", emoji: "🪟", name: "Kid Window", tag: "kids activities open right now", image: "/images/nearest-fun.webp" },
 ];
-
 const justForFun = [
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
@@ -1429,8 +1429,8 @@ const latestMobile = [
         color: var(--ink);
       }
 
-      /* ── vibe check tile ── */
-      .vct {
+      /* ── redesign rolodex tile ── */
+      .rrt {
         grid-column: span 2;
         flex-direction: column;
         align-items: stretch;
@@ -1438,30 +1438,30 @@ const latestMobile = [
         padding: 14px 16px;
         cursor: pointer;
       }
-      .vct:hover {
+      .rrt:hover {
         background: var(--yellow);
       }
-      .vct-idle {
+      .rrt-idle {
         display: flex;
         flex-direction: column;
         gap: 8px;
         height: 100%;
         justify-content: space-between;
       }
-      .vct-top-row {
+      .rrt-top-row {
         display: flex;
         align-items: center;
         gap: 10px;
       }
-      .vct-emoji {
+      .rrt-emoji {
         font-size: 20px;
         flex-shrink: 0;
       }
-      .vct-form {
+      .rrt-form {
         display: flex;
         gap: 6px;
       }
-      .vct-input {
+      .rrt-input {
         flex: 1;
         padding: 6px 10px;
         border: 1.5px solid #d0ccc4;
@@ -1473,13 +1473,13 @@ const latestMobile = [
         outline: none;
         min-width: 0;
       }
-      .vct-input:focus {
-        border-color: var(--orange);
+      .rrt-input:focus {
+        border-color: #6D28D9;
       }
-      .vct-input::placeholder {
+      .rrt-input::placeholder {
         color: #c0b9ad;
       }
-      .vct-go {
+      .rrt-go {
         padding: 6px 14px;
         border: 2px solid var(--ink);
         border-radius: 6px;
@@ -1492,19 +1492,19 @@ const latestMobile = [
         transition: all 0.15s;
         white-space: nowrap;
       }
-      .vct-go:hover { background: var(--orange); border-color: var(--orange); }
-      .vct-go:disabled {
+      .rrt-go:hover { background: #6D28D9; border-color: #6D28D9; }
+      .rrt-go:disabled {
         background: #e0d8cc;
         border-color: #e0d8cc;
         color: #aaa;
         cursor: not-allowed;
       }
-      .vct-examples {
+      .rrt-examples {
         display: flex;
         gap: 4px;
         flex-wrap: wrap;
       }
-      .vct-ex {
+      .rrt-ex {
         padding: 2px 8px;
         border: 1px solid #e0d8cc;
         border-radius: 999px;
@@ -1515,115 +1515,143 @@ const latestMobile = [
         cursor: pointer;
         transition: all 0.15s;
       }
-      .vct-ex:hover { border-color: var(--orange); color: var(--orange); }
-      .vct-error {
+      .rrt-ex:hover { border-color: #6D28D9; color: #6D28D9; }
+      .rrt-error {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
         color: #b91c1c;
         padding: 4px 0;
       }
 
-      /* vibe check tile — loading */
-      .vct-loading-tile {
+      /* redesign rolodex tile — loading */
+      .rrt-loading-tile {
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 100px;
       }
-      .vct-loading-inner {
+      .rrt-loading-inner {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 10px;
       }
-      .vct-scanner-sm {
-        width: 40px;
-        height: 40px;
-        border: 1.5px solid #d0ccc4;
-        border-radius: 4px;
+      .rrt-spinner {
         position: relative;
-        overflow: hidden;
+        width: 50px;
+        height: 36px;
+      }
+      .rrt-spin-card {
+        position: absolute;
+        width: 28px;
+        height: 20px;
+        border-radius: 3px;
+        border: 1.5px solid #d0ccc4;
         background: #fff;
       }
-      .vct-scanner-line-sm {
-        position: absolute;
-        left: 3px;
-        right: 3px;
-        height: 1.5px;
-        background: var(--orange);
-        border-radius: 1px;
-        animation: vcTileScan 1.8s ease-in-out infinite;
+      .rrt-sc-1 { top: 0; left: 3px; animation: rrtFloat1 2.4s ease-in-out infinite; }
+      .rrt-sc-2 { top: 4px; left: 11px; animation: rrtFloat2 2.8s ease-in-out infinite; background: #EDE9FE; border-color: #6D28D9; }
+      .rrt-sc-3 { top: 8px; left: 19px; animation: rrtFloat3 2.2s ease-in-out infinite; }
+      @keyframes rrtFloat1 {
+        0%, 100% { transform: translateY(0) rotate(-2deg); }
+        50% { transform: translateY(-5px) rotate(2deg); }
       }
-      @keyframes vcTileScan {
-        0%   { top: 0; opacity: 0; }
-        10%  { opacity: 1; }
-        90%  { opacity: 1; }
-        100% { top: 100%; opacity: 0; }
+      @keyframes rrtFloat2 {
+        0%, 100% { transform: translateY(0) rotate(3deg); }
+        50% { transform: translateY(-4px) rotate(-1deg); }
       }
-      .vct-loading-msg {
+      @keyframes rrtFloat3 {
+        0%, 100% { transform: translateY(0) rotate(-1deg); }
+        50% { transform: translateY(-6px) rotate(3deg); }
+      }
+      .rrt-loading-msg {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
         color: #888;
         text-align: center;
       }
 
-      /* vibe check tile — result */
-      .vct-result {
+      /* redesign rolodex tile — result */
+      .rrt-result {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 5px;
       }
-      .vct-result-header {
+      .rrt-result-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
-      .vct-label {
+      .rrt-label {
         font-family: 'Space Mono', monospace;
-        font-size: 9px;
+        font-size: 8px;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: #999;
       }
-      .vct-big-grade {
-        font-family: 'Permanent Marker', cursive;
-        font-size: 28px;
-        line-height: 1;
+      .rrt-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        color: #6D28D9;
+        background: #EDE9FE;
+        padding: 1px 6px;
+        border-radius: 999px;
       }
-      .vct-verdict {
+      .rrt-direction-name {
         font-family: 'Permanent Marker', cursive;
-        font-size: 14px;
+        font-size: 16px;
         color: var(--ink);
         line-height: 1.2;
       }
-      .vct-blurb {
+      .rrt-tagline {
         font-family: 'Cabin', sans-serif;
         font-size: 11px;
         color: #666;
-        line-height: 1.5;
-        margin: 2px 0 4px;
+        line-height: 1.4;
+        margin: 0;
+        font-style: italic;
       }
-      .vct-grades-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 4px 8px;
-      }
-      .vct-mini-grade {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
+      .rrt-palette-row {
         display: flex;
+        align-items: center;
         gap: 4px;
-        align-items: baseline;
+        margin-top: 2px;
       }
-      .vct-mini-label {
-        color: #aaa;
+      .rrt-swatch {
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        border: 1px solid rgba(0,0,0,0.08);
+        flex-shrink: 0;
+      }
+      .rrt-font-hint {
+        font-family: 'Space Mono', monospace;
         font-size: 8px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
+        color: #aaa;
+        margin-left: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
-      .vct-again {
-        margin-top: 4px;
+      .rrt-card-dots {
+        display: flex;
+        gap: 3px;
+        margin-top: 2px;
+      }
+      .rrt-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #e0d8cc;
+        transition: all 0.3s;
+      }
+      .rrt-dot-on {
+        background: #6D28D9;
+        transform: scale(1.3);
+      }
+      .rrt-again {
+        margin-top: 2px;
         padding: 4px 10px;
         border: 1.5px solid #d0ccc4;
         border-radius: 4px;
@@ -1635,7 +1663,7 @@ const latestMobile = [
         transition: all 0.15s;
         align-self: flex-start;
       }
-      .vct-again:hover { border-color: var(--orange); color: var(--orange); }
+      .rrt-again:hover { border-color: #6D28D9; color: #6D28D9; }
 
       /* ── spacer tiles ── */
       .spacer-tile {
@@ -1799,7 +1827,7 @@ const latestMobile = [
         .ais-body { padding: 6px 10px; font-size: 10px; }
         .ais-head { padding: 8px 10px; }
         .wm-model-list { display: none !important; }
-        .vct { padding: 10px 14px !important; }
+        .rrt { padding: 10px 14px !important; }
         .spacer-tile { display: none !important; }
         .proj-tile.mobile-only { display: flex !important; }
         .desktop-only { display: none !important; }
@@ -1966,7 +1994,7 @@ const latestMobile = [
           </div>
         </a>
       ))}
-      <div class="desktop-only"><VibeCheckTile client:idle /></div>
+      <div class="desktop-only"><RedesignRolodexTile client:idle /></div>
       <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
     </div>
 
