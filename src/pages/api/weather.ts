@@ -2,6 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aestheticWeather";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { okJson } from "../../lib/apiHelpers";
 
 /**
  * Lightweight weather proxy for the homepage terminal card.
@@ -30,18 +31,10 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
     const weather = `${emoji} ${temp}°F ${desc.toLowerCase()}`;
 
-    return new Response(JSON.stringify({ weather }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=1800, max-age=900",
-      },
-    });
+    return okJson({ weather }, { "Cache-Control": "public, s-maxage=1800, max-age=900" });
   } catch (err) {
     console.error("weather fetch error:", err);
-    return new Response(JSON.stringify({ weather: null }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    // status 200 intentional — CDN caches this; null signals the UI to show nothing
+    return okJson({ weather: null });
   }
 };
