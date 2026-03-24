@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import MuseumLabel from "../components/museum-label/MuseumLabel.tsx";
+import MuseumLabelApp from "../components/museum-label/MuseumLabelApp.tsx";
 const title = "Museum Label — stanwood.dev";
 ---
 
@@ -325,7 +325,7 @@ const title = "Museum Label — stanwood.dev";
         <h1 class="ml-title">Museum Label</h1>
         <p class="ml-subtitle">upload any object. get a deadpan placard.</p>
       </div>
-      <MuseumLabel client:idle />
+      <MuseumLabelApp client:idle />
     </main>
   </div>
 </BaseLayout>
