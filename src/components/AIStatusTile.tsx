@@ -94,12 +94,12 @@ export default function AIStatusTile() {
     );
   }
 
-  const p = providers[active];
-  if (!p) return null;
+  const provider = providers[active];
+  if (!provider) return null;
 
-  const brand = BRAND[p.id] ?? BRAND.claude;
-  const cfg = STATUS_CONFIG[p.status] ?? STATUS_CONFIG.unknown;
-  const hasIssue = p.status !== "operational";
+  const brand = BRAND[provider.id] ?? BRAND.claude;
+  const cfg = STATUS_CONFIG[provider.status] ?? STATUS_CONFIG.unknown;
+  const hasIssue = provider.status !== "operational";
 
   return (
     <div
@@ -108,15 +108,15 @@ export default function AIStatusTile() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{ cursor: "pointer" }}
-      aria-label={`AI Status: ${p.name} is ${cfg.label}`}
+      aria-label={`AI Status: ${provider.name} is ${cfg.label}`}
     >
       {/* White zone: logo, name, status */}
       <div className="ais-head">
         <span className="ais-logo" style={{ color: brand.logoColor }}>
-          <LogoSvg id={p.id} size={40} />
+          <LogoSvg id={provider.id} size={40} />
         </span>
         <div className="ais-head-text">
-          <span className="ais-name">{p.name}</span>
+          <span className="ais-name">{provider.name}</span>
           <div className="ais-status-row">
             <span className="ais-pulse" style={{ background: cfg.color }} />
             <span className="ais-status-label" style={{ color: cfg.color }}>{cfg.label}</span>
@@ -127,11 +127,11 @@ export default function AIStatusTile() {
       {/* Brand color zone: summary, incident, footer */}
       <div className="ais-body" style={{ background: brand.bg }}>
         <div className="ais-summary">
-          {p.summary}
+          {provider.summary}
         </div>
-        {hasIssue && p.incidentTitle && (
+        {hasIssue && provider.incidentTitle && (
           <div className="ais-incident">
-            {p.incidentTitle}
+            {provider.incidentTitle}
           </div>
         )}
         <div className="ais-footer">
@@ -151,12 +151,12 @@ export default function AIStatusTile() {
           </div>
           <div className="ais-meta">
             <span className="ais-checked">
-              {timeAgo(p.checkedAt)}
+              {timeAgo(provider.checkedAt)}
             </span>
             {hasIssue && (
               <a
                 className="ais-link"
-                href={p.statusPageUrl}
+                href={provider.statusPageUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >

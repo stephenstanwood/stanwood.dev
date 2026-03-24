@@ -10,46 +10,14 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
-import { errJson, okJson, isValidUrl, fetchWithTimeout } from "../../lib/apiHelpers";
+import { errJson, okJson, isValidUrl } from "../../lib/apiHelpers";
+import { captureScreenshot } from "../../lib/screenshotClient";
 
 const RATE_LIMIT_MAX = 20;
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-async function captureScreenshot(url: string): Promise<string> {
-  const apiKey = import.meta.env.SCREENSHOTONE_API_KEY;
-  if (!apiKey) throw new Error("Screenshot API key not configured");
-
-  const params = new URLSearchParams({
-    access_key: apiKey,
-    url,
-    viewport_width: "1280",
-    viewport_height: "800",
-    format: "png",
-    block_ads: "true",
-    block_cookie_banners: "true",
-    delay: "2",
-    timeout: "30",
-  });
-
-  // screenshotone has a 30s timeout + 2s delay; cap our end to avoid hanging the lambda
-  const response = await fetchWithTimeout(
-    `https://api.screenshotone.com/take?${params.toString()}`,
-    {},
-    40_000,
-  );
-
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("Screenshot API error:", response.status, text);
-    throw new Error("Failed to capture screenshot");
-  }
-
-  const buffer = await response.arrayBuffer();
-  return Buffer.from(buffer).toString("base64");
-}
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, RATE_LIMIT_MAX)) return rateLimitResponse();

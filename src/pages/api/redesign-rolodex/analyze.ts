@@ -6,6 +6,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
 import { errJson, isValidUrl } from "../../../lib/apiHelpers";
+import { captureScreenshot } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import type {
   WeirdnessMode,
@@ -16,35 +17,6 @@ import type {
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-async function captureScreenshot(url: string): Promise<string> {
-  const apiKey = import.meta.env.SCREENSHOTONE_API_KEY;
-  if (!apiKey) throw new Error("Screenshot API key not configured");
-
-  const params = new URLSearchParams({
-    access_key: apiKey,
-    url,
-    viewport_width: "1280",
-    viewport_height: "800",
-    format: "png",
-    block_ads: "true",
-    block_cookie_banners: "true",
-    delay: "2",
-    timeout: "30",
-  });
-
-  const response = await fetch(
-    `https://api.screenshotone.com/take?${params.toString()}`,
-  );
-
-  if (!response.ok) {
-    console.error("Screenshot API error:", response.status);
-    throw new Error("Failed to capture screenshot");
-  }
-
-  const buffer = await response.arrayBuffer();
-  return Buffer.from(buffer).toString("base64");
-}
 
 const VALID_MODES: WeirdnessMode[] = [
   "client-safe",
@@ -132,8 +104,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     else if (errMsg.includes("JSON"))
       message = "AI returned an unexpected format. Try again.";
 
-    // Temporarily expose debug info to diagnose production failure
-    const body = { error: message, debug: errMsg };
+    const isDev = import.meta.env.DEV;
+    const body = isDev ? { error: message, debug: errMsg } : { error: message };
     return new Response(JSON.stringify(body), {
       status: 500,
       headers: { "Content-Type": "application/json" },
