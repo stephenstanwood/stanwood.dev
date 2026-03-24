@@ -22,7 +22,6 @@ export default function RedesignRolodexTile() {
   const [directions, setDirections] = useState<DesignDirection[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
 
-  // Cycle through directions in result state
   useEffect(() => {
     if (state !== "result" || directions.length <= 1) return;
     const interval = setInterval(() => {
@@ -86,7 +85,7 @@ export default function RedesignRolodexTile() {
   if (state === "result" && directions.length > 0) {
     const d = directions[activeIdx];
     return (
-      <a href="/redesign-rolodex" className="proj-tile rrt" style={{ textDecoration: "none", color: "inherit" }}>
+      <a href="/redesign-rolodex" className="proj-tile rrt rrt-has-result" style={{ textDecoration: "none", color: "inherit" }}>
         <div className="rrt-result">
           <div className="rrt-result-header">
             <span className="rrt-label">REDESIGN ROLODEX</span>
@@ -98,7 +97,6 @@ export default function RedesignRolodexTile() {
             {d.palette.map((hex, i) => (
               <span key={i} className="rrt-swatch" style={{ background: hex }} />
             ))}
-            <span className="rrt-font-hint">{d.fontDirection.split(",")[0]}</span>
           </div>
           <div className="rrt-card-dots">
             {directions.slice(0, 8).map((_, i) => (
@@ -106,7 +104,7 @@ export default function RedesignRolodexTile() {
             ))}
           </div>
           <button className="rrt-again" onClick={handleReset}>
-            try another
+            try another url
           </button>
         </div>
       </a>
@@ -133,11 +131,17 @@ export default function RedesignRolodexTile() {
   return (
     <div className="proj-tile rrt">
       <div className="rrt-idle">
-        <div className="rrt-top-row">
-          <span className="rrt-emoji">🎰</span>
-          <div className="proj-info">
-            <div className="proj-name">Redesign Rolodex</div>
-            <div className="proj-tag">alternate-universe redesigns</div>
+        <div className="rrt-header-block">
+          <div className="rrt-title-row">
+            <span className="rrt-icon">
+              <span className="rrt-icon-card rrt-ic-1" />
+              <span className="rrt-icon-card rrt-ic-2" />
+              <span className="rrt-icon-card rrt-ic-3" />
+            </span>
+            <div>
+              <div className="rrt-tile-title">Redesign Rolodex</div>
+              <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
+            </div>
           </div>
         </div>
         <form className="rrt-form" onSubmit={handleSubmit}>
@@ -145,7 +149,7 @@ export default function RedesignRolodexTile() {
             type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="example.com"
+            placeholder="any website..."
             className="rrt-input"
             autoComplete="off"
             spellCheck={false}
@@ -157,7 +161,7 @@ export default function RedesignRolodexTile() {
             disabled={!url.trim()}
             onClick={(e) => e.stopPropagation()}
           >
-            spin →
+            spin
           </button>
         </form>
         {state === "error" && (
