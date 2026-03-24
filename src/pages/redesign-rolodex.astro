@@ -417,8 +417,9 @@ const title = "Redesign Rolodex — stanwood.dev";
       .rr-rolodex-stage {
         position: relative;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.25rem;
       }
 
       .rr-nav-btn {
@@ -436,43 +437,41 @@ const title = "Redesign Rolodex — stanwood.dev";
         transition: all 0.15s;
         z-index: 20;
       }
-      .rr-nav-btn:hover:not(:disabled) {
+      .rr-nav-btn:hover {
         border-color: var(--rr-accent);
         color: var(--rr-accent);
         background: var(--rr-accent-light);
       }
-      .rr-nav-btn:disabled {
-        opacity: 0.25;
-        cursor: not-allowed;
-      }
 
       .rr-rolodex-track {
-        flex: 1;
         position: relative;
-        height: 500px;
+        width: 100%;
+        max-width: 480px;
+        height: 520px;
         perspective: 1200px;
         overflow: hidden;
-        touch-action: pan-y;
+        touch-action: pan-x;
       }
       @media (max-width: 600px) {
-        .rr-rolodex-track { height: 440px; }
+        .rr-rolodex-track { height: 460px; max-width: 100%; }
       }
 
       .rr-rolodex-slot {
         position: absolute;
         top: 0;
         left: 50%;
-        width: 380px;
-        max-width: 90%;
-        margin-left: -190px;
+        width: 420px;
+        max-width: 94%;
+        margin-left: -210px;
         height: 100%;
         transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         transform-style: preserve-3d;
+        transform-origin: center bottom;
       }
       @media (max-width: 480px) {
         .rr-rolodex-slot {
-          width: 300px;
-          margin-left: -150px;
+          width: 320px;
+          margin-left: -160px;
         }
       }
 

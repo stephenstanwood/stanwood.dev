@@ -25,24 +25,24 @@ export default function RolodexViewer({
   const totalCards = 1 + directions.length;
   const [activeIdx, setActiveIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
 
   const prev = useCallback(
-    () => setActiveIdx((i) => Math.max(0, i - 1)),
-    [],
+    () => setActiveIdx((i) => (i === 0 ? totalCards - 1 : i - 1)),
+    [totalCards],
   );
   const next = useCallback(
-    () => setActiveIdx((i) => Math.min(totalCards - 1, i + 1)),
+    () => setActiveIdx((i) => (i === totalCards - 1 ? 0 : i + 1)),
     [totalCards],
   );
 
-  // Keyboard navigation
+  // Keyboard navigation (up/down + left/right for compat)
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
         e.preventDefault();
         prev();
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
         e.preventDefault();
         next();
       }
@@ -51,20 +51,20 @@ export default function RolodexViewer({
     return () => window.removeEventListener("keydown", handler);
   }, [prev, next]);
 
-  // Touch/swipe
+  // Touch/swipe (vertical)
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    touchStartX.current = e.clientX;
+    touchStartY.current = e.clientY;
   }, []);
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent) => {
-      if (touchStartX.current === null) return;
-      const dx = e.clientX - touchStartX.current;
-      if (Math.abs(dx) > 40) {
-        if (dx < 0) next();
-        else prev();
+      if (touchStartY.current === null) return;
+      const dy = e.clientY - touchStartY.current;
+      if (Math.abs(dy) > 40) {
+        if (dy < 0) next(); // swipe up = next
+        else prev(); // swipe down = prev
       }
-      touchStartX.current = null;
+      touchStartY.current = null;
     },
     [prev, next],
   );
@@ -84,11 +84,10 @@ export default function RolodexViewer({
         <button
           className="rr-nav-btn rr-nav-prev"
           onClick={prev}
-          disabled={activeIdx === 0}
           aria-label="Previous card"
           type="button"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 15l-6-6-6 6" /></svg>
         </button>
 
         <div
@@ -128,11 +127,10 @@ export default function RolodexViewer({
         <button
           className="rr-nav-btn rr-nav-next"
           onClick={next}
-          disabled={activeIdx === totalCards - 1}
           aria-label="Next card"
           type="button"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
         </button>
       </div>
 
@@ -167,7 +165,7 @@ function getSlotStyle(
   const diff = idx - activeIdx;
   if (diff === 0) {
     return {
-      transform: "translateX(0) scale(1) rotateY(0deg)",
+      transform: "translateY(0) scale(1) rotateX(0deg)",
       opacity: 1,
       zIndex: 10,
       pointerEvents: "auto",
@@ -175,16 +173,16 @@ function getSlotStyle(
   }
   if (diff === -1) {
     return {
-      transform: "translateX(-65%) scale(0.85) rotateY(8deg)",
-      opacity: 0.6,
+      transform: "translateY(-60%) scale(0.88) rotateX(15deg)",
+      opacity: 0.5,
       zIndex: 5,
       pointerEvents: "none",
     };
   }
   if (diff === 1) {
     return {
-      transform: "translateX(65%) scale(0.85) rotateY(-8deg)",
-      opacity: 0.6,
+      transform: "translateY(60%) scale(0.88) rotateX(-15deg)",
+      opacity: 0.5,
       zIndex: 5,
       pointerEvents: "none",
     };
@@ -192,7 +190,7 @@ function getSlotStyle(
   // Far away
   const sign = diff < 0 ? -1 : 1;
   return {
-    transform: `translateX(${sign * 120}%) scale(0.7) rotateY(${sign * -12}deg)`,
+    transform: `translateY(${sign * 110}%) scale(0.75) rotateX(${sign * 25}deg)`,
     opacity: 0,
     zIndex: 0,
     pointerEvents: "none",

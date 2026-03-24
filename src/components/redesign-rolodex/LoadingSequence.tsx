@@ -42,7 +42,7 @@ export default function LoadingSequence({ screenshotBase64, phase = "screenshot"
       {screenshotBase64 && (
         <div className="rr-loading-preview">
           <img
-            src={`data:image/png;base64,${screenshotBase64}`}
+            src={`data:image/jpeg;base64,${screenshotBase64}`}
             alt="Site preview"
             className="rr-loading-screenshot"
           />
