@@ -17,15 +17,15 @@ export async function captureScreenshot(url: string): Promise<string> {
     format: "png",
     block_ads: "true",
     block_cookie_banners: "true",
-    delay: "2",
-    timeout: "30",
+    delay: "1",
+    timeout: "15",
   });
 
-  // screenshotone has a 30s timeout + 2s delay; cap our end to avoid hanging the lambda
+  // screenshotone has a 15s timeout + 1s delay; cap our end to avoid hanging the lambda
   const response = await fetchWithTimeout(
     `https://api.screenshotone.com/take?${params.toString()}`,
     {},
-    40_000,
+    25_000,
   );
 
   if (!response.ok) {

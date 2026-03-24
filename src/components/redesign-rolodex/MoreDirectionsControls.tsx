@@ -11,9 +11,11 @@ const LOADING_MESSAGES = [
 export default function MoreDirectionsControls({
   onMore,
   loading,
+  disabled = false,
 }: {
   onMore: (modifier: MoreModifier) => void;
   loading: boolean;
+  disabled?: boolean;
 }) {
   const [msgIdx, setMsgIdx] = useState(0);
 
@@ -38,6 +40,7 @@ export default function MoreDirectionsControls({
           <button
             className="rr-more-btn"
             onClick={() => onMore("more")}
+            disabled={disabled}
             type="button"
           >
             More directions
@@ -45,6 +48,7 @@ export default function MoreDirectionsControls({
           <button
             className="rr-more-btn rr-more-weirder"
             onClick={() => onMore("weirder")}
+            disabled={disabled}
             type="button"
           >
             Go weirder
@@ -52,6 +56,7 @@ export default function MoreDirectionsControls({
           <button
             className="rr-more-btn rr-more-calmer"
             onClick={() => onMore("calmer")}
+            disabled={disabled}
             type="button"
           >
             Back toward reality

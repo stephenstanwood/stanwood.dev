@@ -1,18 +1,15 @@
 export const prerender = false;
-export const config = { maxDuration: 60 };
+export const config = { maxDuration: 120 };
 
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
+import { CLAUDE_SONNET } from "../../../lib/models";
 import { errJson, isValidUrl } from "../../../lib/apiHelpers";
 import { captureScreenshot } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
-import type {
-  WeirdnessMode,
-  SiteAnalysis,
-  DesignDirection,
-} from "../../../lib/redesignRolodex/types";
+import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
+import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
@@ -23,6 +20,10 @@ const VALID_MODES: WeirdnessMode[] = [
   "designer",
   "alternate-timeline",
 ];
+
+function sseEvent(event: string, data: unknown): string {
+  return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+}
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 10)) return rateLimitResponse();
@@ -40,75 +41,93 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const parsed = isValidUrl(rawUrl);
     if (!parsed) return errJson("Invalid or private URL", 400);
 
-    const screenshotBase64 = await captureScreenshot(parsed.toString());
+    const urlStr = parsed.toString();
 
-    const prompt = buildAnalyzePrompt(parsed.toString(), mode);
+    // Create a streaming response
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        const send = (event: string, data: unknown) => {
+          controller.enqueue(encoder.encode(sseEvent(event, data)));
+        };
 
-    const message = await client.messages.create({
-      model: CLAUDE_SONNET,
-      max_tokens: 16000,
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "image",
-              source: {
-                type: "base64",
-                media_type: "image/png",
-                data: screenshotBase64,
-              },
-            },
-            { type: "text", text: prompt },
-          ],
-        },
-      ],
+        try {
+          // Phase 1: Capture screenshot
+          let screenshotBase64: string;
+          try {
+            screenshotBase64 = await captureScreenshot(urlStr);
+            send("screenshot", { screenshotBase64 });
+          } catch (err) {
+            console.error("Screenshot failed:", err);
+            // Continue without screenshot
+            screenshotBase64 = "";
+            send("screenshot", { screenshotBase64: "", error: "Screenshot unavailable" });
+          }
+
+          // Phase 2: Stream Claude response with progressive parsing
+          const prompt = buildAnalyzePrompt(urlStr, mode);
+          const parser = new ProgressiveJsonParser();
+
+          const messageContent: Anthropic.MessageCreateParams["messages"][0]["content"] = screenshotBase64
+            ? [
+                {
+                  type: "image",
+                  source: {
+                    type: "base64",
+                    media_type: "image/png",
+                    data: screenshotBase64,
+                  },
+                },
+                { type: "text", text: prompt },
+              ]
+            : prompt;
+
+          const stream_ = client.messages.stream({
+            model: CLAUDE_SONNET,
+            max_tokens: 16000,
+            messages: [{ role: "user", content: messageContent }],
+          });
+
+          for await (const event of stream_) {
+            if (
+              event.type === "content_block_delta" &&
+              event.delta.type === "text_delta"
+            ) {
+              const events = parser.feed(event.delta.text);
+              for (const ev of events) {
+                send(ev.type, ev.data);
+              }
+            }
+          }
+
+          send("done", {});
+        } catch (err) {
+          console.error("redesign-rolodex analyze stream error:", err);
+          const errMsg = err instanceof Error ? err.message : String(err);
+          let message = "Something went wrong. Try again in a moment.";
+          if (errMsg === "Failed to capture screenshot")
+            message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
+          else if (errMsg === "Screenshot API key not configured")
+            message = "Screenshot service not available right now.";
+          else if (errMsg.includes("JSON"))
+            message = "AI returned an unexpected format. Try again.";
+
+          send("error", { error: message });
+        } finally {
+          controller.close();
+        }
+      },
     });
 
-    const jsonText = stripFences(extractText(message.content));
-    if (!jsonText) throw new Error("Unexpected response format");
-
-    const result = JSON.parse(jsonText) as {
-      siteAnalysis: SiteAnalysis;
-      directions: Omit<DesignDirection, "id">[];
-    };
-
-    // Assign sequential IDs starting at 2 (1 = current site card)
-    const directions: DesignDirection[] = result.directions.map((d, i) => ({
-      ...d,
-      id: i + 2,
-    }));
-
-    return new Response(
-      JSON.stringify({
-        siteAnalysis: result.siteAnalysis,
-        screenshotBase64,
-        directions,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "public, max-age=1800",
-        },
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
       },
-    );
+    });
   } catch (err) {
     console.error("redesign-rolodex analyze error:", err);
-    const errMsg = err instanceof Error ? err.message : String(err);
-    let message = "Something went wrong. Try again in a moment.";
-    if (errMsg === "Failed to capture screenshot")
-      message =
-        "Couldn't capture that site. It may be blocking screenshots or unreachable.";
-    else if (errMsg === "Screenshot API key not configured")
-      message = "Screenshot service not available right now.";
-    else if (errMsg.includes("JSON"))
-      message = "AI returned an unexpected format. Try again.";
-
-    const isDev = import.meta.env.DEV;
-    const body = isDev ? { error: message, debug: errMsg } : { error: message };
-    return new Response(JSON.stringify(body), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return errJson("Something went wrong. Try again in a moment.", 500);
   }
 };

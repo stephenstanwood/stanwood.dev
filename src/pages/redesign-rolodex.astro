@@ -743,6 +743,57 @@ const title = "Redesign Rolodex — stanwood.dev";
         color: var(--rr-accent);
         font-weight: 700;
       }
+
+      /* ─── Streaming Dot ─────────────────────────────────────── */
+      .rr-streaming-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--rr-accent);
+        margin-left: 0.35rem;
+        vertical-align: middle;
+        animation: rrPulse 1.2s ease-in-out infinite;
+      }
+      @keyframes rrPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(0.7); }
+      }
+
+      /* ─── Loading Preview ───────────────────────────────────── */
+      .rr-loading-preview {
+        position: relative;
+        width: 280px;
+        max-width: 90%;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid var(--rr-border);
+        box-shadow: 0 4px 16px rgba(28, 25, 23, 0.08);
+      }
+      .rr-loading-screenshot {
+        width: 100%;
+        height: auto;
+        display: block;
+        max-height: 160px;
+        object-fit: cover;
+        object-position: top;
+      }
+      .rr-loading-preview-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(109, 40, 217, 0.08) 0%,
+          rgba(250, 246, 240, 0.5) 50%,
+          rgba(109, 40, 217, 0.08) 100%
+        );
+        animation: rrShimmer 2s ease-in-out infinite;
+        background-size: 200% 200%;
+      }
+      @keyframes rrShimmer {
+        0% { background-position: 200% 200%; }
+        100% { background-position: 0% 0%; }
+      }
     </style>
   </Fragment>
 
