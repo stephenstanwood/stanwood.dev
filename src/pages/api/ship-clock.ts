@@ -2,6 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { CLAUDE_HAIKU, extractText } from "../../lib/models";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
@@ -52,7 +53,9 @@ Return ONLY valid JSON, nothing else.`,
   }
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress, 10)) return rateLimitResponse();
+
   if (!VERCEL_TOKEN || !VERCEL_PROJECT_ID) {
     return new Response(
       JSON.stringify({ lastDeploy: null, daysSince: null, hoursSince: null, error: "missing config" }),
