@@ -46,45 +46,52 @@ export default function RedesignRolodexTile() {
     (stream.phase === "done" || stream.phase === "directions") &&
     stream.directions.length > 0;
 
-  // --- Result state ---
+  // --- Result state: concept cards fill the tile ---
   if (hasResults) {
     const d = stream.directions[activeIdx % stream.directions.length];
+    const goPrev = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setActiveIdx((i) => (i === 0 ? stream.directions.length - 1 : i - 1));
+    };
+    const goNext = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setActiveIdx((i) => (i + 1) % stream.directions.length);
+    };
+
     return (
       <div className="proj-tile rrt rrt-has-result">
-        <div className="rrt-result">
-          <div className="rrt-result-header">
-            <span className="rrt-label">REDESIGN ROLODEX</span>
-            <span className="rrt-count">
-              {stream.directions.length} directions
+        <div className="rrt-concept-fill">
+          <iframe
+            srcDoc={d?.conceptHtml}
+            sandbox="allow-same-origin"
+            title={d?.name}
+            className="rrt-concept-iframe"
+          />
+          <div className="rrt-concept-overlay" />
+          <div className="rrt-concept-meta">
+            <span className="rrt-meta-name">{d?.name}</span>
+            <span className="rrt-meta-count">
+              {activeIdx + 1}/{stream.directions.length}
               {stream.phase === "directions" && <span className="rrt-streaming-dot" />}
             </span>
           </div>
-          <div className="rrt-direction-name">{d?.name}</div>
-          <p className="rrt-tagline">{d?.tagline}</p>
-          <div className="rrt-palette-row">
-            {d?.palette.map((hex, i) => (
-              <span key={i} className="rrt-swatch" style={{ background: hex }} />
-            ))}
-          </div>
-          <div className="rrt-card-dots">
-            {stream.directions.slice(0, 8).map((_, i) => (
-              <span
-                key={i}
-                className={`rrt-dot ${i === activeIdx % stream.directions.length ? "rrt-dot-on" : ""}`}
-              />
-            ))}
-          </div>
-          <div className="rrt-result-actions">
+          <button className="rrt-flip rrt-flip-up" onClick={goPrev} aria-label="Previous">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 15l-6-6-6 6" /></svg>
+          </button>
+          <button className="rrt-flip rrt-flip-down" onClick={goNext} aria-label="Next">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
+          </button>
+          <div className="rrt-concept-actions">
             <a
               href="/redesign-rolodex"
               className="rrt-fullpage"
               onClick={(e) => e.stopPropagation()}
             >
-              Open full page &rarr;
+              open &rarr;
             </a>
-            <button className="rrt-again" onClick={handleReset}>
-              try another url
-            </button>
+            <button className="rrt-again" onClick={handleReset}>new url</button>
           </div>
         </div>
       </div>
@@ -92,20 +99,10 @@ export default function RedesignRolodexTile() {
   }
 
   // --- Loading state ---
-  if (
-    stream.phase === "screenshot" ||
-    stream.phase === "analyzing"
-  ) {
+  if (stream.phase === "screenshot" || stream.phase === "analyzing") {
     return (
       <div className="proj-tile rrt rrt-loading-tile">
         <div className="rrt-loading-inner">
-          {stream.screenshotBase64 && (
-            <img
-              src={`data:image/webp;base64,${stream.screenshotBase64}`}
-              alt=""
-              className="rrt-loading-thumb"
-            />
-          )}
           <div className="rrt-spinner">
             <div className="rrt-spin-card rrt-sc-1" />
             <div className="rrt-spin-card rrt-sc-2" />
@@ -124,11 +121,7 @@ export default function RedesignRolodexTile() {
         <div className="rrt-idle">
           <div className="rrt-header-block">
             <div className="rrt-title-row">
-              <span className="rrt-icon">
-                <span className="rrt-icon-card rrt-ic-1" />
-                <span className="rrt-icon-card rrt-ic-2" />
-                <span className="rrt-icon-card rrt-ic-3" />
-              </span>
+              <TileIcon />
               <div>
                 <div className="rrt-tile-title">Redesign Rolodex</div>
                 <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
@@ -136,9 +129,7 @@ export default function RedesignRolodexTile() {
             </div>
           </div>
           <div className="rrt-error">{stream.error || "Something went wrong."}</div>
-          <button className="rrt-again" onClick={() => stream.reset()}>
-            try again
-          </button>
+          <button className="rrt-again" onClick={() => stream.reset()}>try again</button>
         </div>
       </div>
     );
@@ -150,16 +141,10 @@ export default function RedesignRolodexTile() {
       <div className="rrt-idle">
         <div className="rrt-header-block">
           <div className="rrt-title-row">
-            <span className="rrt-icon">
-              <span className="rrt-icon-card rrt-ic-1" />
-              <span className="rrt-icon-card rrt-ic-2" />
-              <span className="rrt-icon-card rrt-ic-3" />
-            </span>
+            <TileIcon />
             <div>
               <div className="rrt-tile-title">Redesign Rolodex</div>
-              <div className="rrt-tile-sub">
-                paste a URL, get alternate-universe redesigns
-              </div>
+              <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
             </div>
           </div>
         </div>
@@ -201,6 +186,16 @@ export default function RedesignRolodexTile() {
         </div>
       </div>
     </div>
+  );
+}
+
+function TileIcon() {
+  return (
+    <span className="rrt-icon">
+      <span className="rrt-icon-card rrt-ic-1" />
+      <span className="rrt-icon-card rrt-ic-2" />
+      <span className="rrt-icon-card rrt-ic-3" />
+    </span>
   );
 }
 

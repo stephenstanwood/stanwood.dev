@@ -74,7 +74,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
                   type: "image",
                   source: {
                     type: "base64",
-                    media_type: "image/webp",
+                    media_type: "image/jpeg",
                     data: screenshotBase64,
                   },
                 },

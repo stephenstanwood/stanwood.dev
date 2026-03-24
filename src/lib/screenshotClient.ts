@@ -2,7 +2,7 @@ import { fetchWithTimeout } from "./apiHelpers";
 
 /**
  * Capture a screenshot of the given URL via screenshotone.com.
- * Returns a base64-encoded PNG string.
+ * Returns a base64-encoded JPEG string.
  * Throws "Screenshot API key not configured" or "Failed to capture screenshot" on failure.
  */
 export async function captureScreenshot(url: string): Promise<string> {
@@ -14,7 +14,7 @@ export async function captureScreenshot(url: string): Promise<string> {
     url,
     viewport_width: "1280",
     viewport_height: "800",
-    format: "webp",
+    format: "jpeg",
     image_quality: "80",
     block_ads: "true",
     block_cookie_banners: "true",
