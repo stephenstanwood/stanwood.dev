@@ -712,6 +712,37 @@ const title = "Redesign Rolodex — stanwood.dev";
         border-color: #059669;
         color: #059669;
       }
+
+      /* ─── More Directions Loading ────────────────────────────── */
+      .rr-more-loading {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.55rem 1.25rem;
+        border: 2px solid var(--rr-accent-light);
+        border-radius: 10px;
+        background: var(--rr-accent-light);
+      }
+
+      .rr-more-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--rr-border);
+        border-top-color: var(--rr-accent);
+        border-radius: 50%;
+        animation: rrSpin 0.8s linear infinite;
+        flex-shrink: 0;
+      }
+      @keyframes rrSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      .rr-more-loading-text {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--rr-accent);
+        font-weight: 700;
+      }
     </style>
   </Fragment>
 

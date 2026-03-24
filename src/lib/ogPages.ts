@@ -125,6 +125,14 @@ export const PAGES: Record<string, PageConfig> = {
     bg2: "#1a1010",
     accent: "#e85d4a",
   },
+  "redesign-rolodex": {
+    emoji: "\u{1F3B0}",
+    title: "Redesign Rolodex",
+    tagline: "Paste a URL. Spin through alternate-universe redesigns.",
+    bg: "#1C1030",
+    bg2: "#2D1B4E",
+    accent: "#A78BDB",
+  },
   "vibe-check": {
     emoji: "\u2728",
     title: "Vibe Check",
