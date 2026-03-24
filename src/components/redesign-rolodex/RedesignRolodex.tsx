@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import type {
   WeirdnessMode,
   MoreModifier,
@@ -6,6 +6,7 @@ import type {
   DesignDirection,
 } from "../../lib/redesignRolodex/types";
 import { pickExamples } from "../../lib/redesignRolodex/examples";
+import { ghostMatch } from "../../lib/redesignRolodex/topSites";
 import { useAnalyzeStream } from "../../lib/redesignRolodex/useAnalyzeStream";
 import WeirdnessModeToggle from "./WeirdnessModeToggle";
 import LoadingSequence from "./LoadingSequence";
@@ -15,7 +16,13 @@ import MoreDirectionsControls from "./MoreDirectionsControls";
 const examples = pickExamples(4);
 
 export default function RedesignRolodex() {
-  const [url, setUrl] = useState("");
+  // Check for ?url= query param on mount
+  const [url, setUrl] = useState(() => {
+    if (typeof window === "undefined") return "";
+    const params = new URLSearchParams(window.location.search);
+    return params.get("url") || "";
+  });
+  const [ghost, setGhost] = useState<string | null>(null);
   const [checkedUrl, setCheckedUrl] = useState("");
   const [mode, setMode] = useState<WeirdnessMode>("designer");
   const [loadingMore, setLoadingMore] = useState(false);
@@ -23,18 +30,41 @@ export default function RedesignRolodex() {
 
   const stream = useAnalyzeStream();
 
+  // Ghost autocomplete
+  useEffect(() => {
+    setGhost(ghostMatch(url));
+  }, [url]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Tab" && ghost) {
+      e.preventDefault();
+      setUrl(ghost);
+      setGhost(null);
+    }
+  };
+
+  // Auto-run if URL came from query param
+  useEffect(() => {
+    if (url && stream.phase === "idle" && !checkedUrl) {
+      setCheckedUrl(url);
+      stream.analyze(url, mode);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const allDirections = [...stream.directions, ...extraDirections];
 
   const handleSubmit = useCallback(
     async (e?: React.FormEvent) => {
       e?.preventDefault();
-      const trimmed = url.trim();
+      const finalUrl = ghost && url.length >= 2 ? ghost : url;
+      const trimmed = finalUrl.trim();
       if (!trimmed) return;
+      setUrl(trimmed);
       setCheckedUrl(trimmed);
       setExtraDirections([]);
       stream.analyze(trimmed, mode);
     },
-    [url, mode, stream.analyze],
+    [url, ghost, mode, stream.analyze],
   );
 
   const handleMore = useCallback(
@@ -80,6 +110,10 @@ export default function RedesignRolodex() {
     setUrl("");
     setCheckedUrl("");
     setExtraDirections([]);
+    // Clear URL param
+    if (typeof window !== "undefined") {
+      window.history.replaceState({}, "", "/redesign-rolodex");
+    }
   }, [stream.reset]);
 
   const handleExample = useCallback((ex: string) => {
@@ -100,14 +134,23 @@ export default function RedesignRolodex() {
         </p>
 
         <form className="rr-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="rr-input"
-            placeholder="any website..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            autoFocus
-          />
+          <div className="rr-input-wrap">
+            <input
+              type="text"
+              className="rr-input"
+              placeholder="any website..."
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+            {ghost && url.length >= 2 && (
+              <span className="rr-ghost" aria-hidden>
+                <span className="rr-ghost-typed">{url}</span>
+                <span className="rr-ghost-rest">{ghost.slice(url.length)}</span>
+              </span>
+            )}
+          </div>
           <button
             type="submit"
             className="rr-btn-primary"

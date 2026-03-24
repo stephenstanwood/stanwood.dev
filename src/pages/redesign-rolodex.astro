@@ -153,8 +153,13 @@ const title = "Redesign Rolodex — stanwood.dev";
         }
       }
 
-      .rr-input {
+      .rr-input-wrap {
         flex: 1;
+        position: relative;
+        min-width: 0;
+      }
+      .rr-input {
+        width: 100%;
         padding: 0.85rem 1rem;
         border: 2px solid var(--rr-border);
         border-radius: 10px;
@@ -171,6 +176,20 @@ const title = "Redesign Rolodex — stanwood.dev";
         box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
       }
       .rr-input::placeholder { color: var(--rr-border-dark); }
+      .rr-ghost {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 0.85rem 1rem;
+        font-family: 'Space Mono', monospace;
+        font-size: 1rem;
+        pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .rr-ghost-typed { visibility: hidden; }
+      .rr-ghost-rest { color: var(--rr-border-dark); }
 
       .rr-btn-primary {
         padding: 0.85rem 1.75rem;

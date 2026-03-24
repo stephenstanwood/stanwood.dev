@@ -1504,8 +1504,13 @@ const latestMobile = [
         display: flex;
         gap: 6px;
       }
-      .rrt-input {
+      .rrt-input-wrap {
         flex: 1;
+        position: relative;
+        min-width: 0;
+      }
+      .rrt-input {
+        width: 100%;
         padding: 7px 10px;
         border: 1.5px solid #D4C8E8;
         border-radius: 6px;
@@ -1516,6 +1521,7 @@ const latestMobile = [
         outline: none;
         min-width: 0;
         transition: all 0.15s;
+        box-sizing: border-box;
       }
       .rrt-input:focus {
         border-color: #6D28D9;
@@ -1523,6 +1529,24 @@ const latestMobile = [
         box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.1);
       }
       .rrt-input::placeholder {
+        color: #BBA8D4;
+      }
+      .rrt-ghost {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 7px 10px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        pointer-events: none;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .rrt-ghost-typed {
+        visibility: hidden;
+      }
+      .rrt-ghost-rest {
         color: #BBA8D4;
       }
       .rrt-go {
@@ -1563,6 +1587,19 @@ const latestMobile = [
         transition: all 0.15s;
       }
       .rrt-ex:hover { border-color: #6D28D9; color: #6D28D9; background: #EDE5FF; }
+      .rrt-again-idle {
+        padding: 4px 10px;
+        border: 1.5px solid #D4C8E8;
+        border-radius: 4px;
+        background: transparent;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #8B7AA0;
+        cursor: pointer;
+        transition: all 0.15s;
+        align-self: flex-start;
+      }
+      .rrt-again-idle:hover { border-color: #6D28D9; color: #6D28D9; }
       .rrt-error {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
@@ -1640,6 +1677,13 @@ const latestMobile = [
         border: none;
         display: block;
         pointer-events: none;
+      }
+      .rrt-concept-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        display: block;
       }
       .rrt-concept-overlay {
         position: absolute;
