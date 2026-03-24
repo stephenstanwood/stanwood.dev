@@ -3,6 +3,7 @@ const hits = new Map<string, number[]>();
 const DEFAULT_MAX = 200;
 const DEFAULT_WINDOW_MS = 60_000; // 1 minute
 const CLEANUP_INTERVAL_MS = 5 * 60_000; // 5 minutes
+const MAX_ENTRIES = 10_000;
 
 let lastCleanup = Date.now();
 
@@ -42,6 +43,9 @@ export function rateLimit(
 
   recent.push(now);
   hits.set(ip, recent);
+  if (hits.size > MAX_ENTRIES) {
+    hits.delete(hits.keys().next().value!);
+  }
   return true;
 }
 

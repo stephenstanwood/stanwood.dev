@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { formatDistance, estimateWalk } from "../lib/nearbyUtils";
+import { useNearbySearch } from "../lib/useNearbySearch";
 
 interface CoffeeShop {
   name: string;
@@ -10,64 +10,16 @@ interface CoffeeShop {
   rating: number | null;
 }
 
-type State =
-  | { kind: "idle" }
-  | { kind: "loading" }
-  | { kind: "result"; shop: CoffeeShop }
-  | { kind: "error"; message: string };
-
 export default function NearestCoffeeTile() {
-  const [state, setState] = useState<State>({ kind: "idle" });
+  const { state, search } = useNearbySearch<{ results: CoffeeShop[] }>("/api/nearby-coffee");
 
-  function handleFind(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
+  const shop = state.kind === "result" ? state.data.results[0] ?? null : null;
 
-    if (!("geolocation" in navigator)) {
-      setState({ kind: "error", message: "Location not supported" });
-      return;
-    }
-
-    setState({ kind: "loading" });
-
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        try {
-          const res = await fetch("/api/nearby-coffee", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              latitude: pos.coords.latitude,
-              longitude: pos.coords.longitude,
-            }),
-          });
-          if (!res.ok) throw new Error("API error");
-          const data = await res.json();
-          const shops: CoffeeShop[] = data.results || [];
-          if (shops.length === 0) {
-            setState({ kind: "error", message: "No open coffee nearby" });
-            return;
-          }
-          setState({ kind: "result", shop: shops[0] });
-        } catch {
-          setState({ kind: "error", message: "Couldn\u2019t search nearby" });
-        }
-      },
-      (err) => {
-        if (err.code === err.PERMISSION_DENIED) {
-          setState({ kind: "error", message: "Location access denied" });
-        } else {
-          setState({ kind: "error", message: "Couldn\u2019t get location" });
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
-  }
-
-  const mapsUrl =
-    state.kind === "result"
-      ? `https://www.google.com/maps/dir/?api=1&destination=${state.shop.lat},${state.shop.lng}&travelmode=walking`
-      : undefined;
+  const openInMaps = () => {
+    if (!shop) return;
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <a
@@ -83,7 +35,7 @@ export default function NearestCoffeeTile() {
           <div className="nct-idle">
             <button
               className="nct-find-btn"
-              onClick={handleFind}
+              onClick={search}
               type="button"
             >
               Find Nearest Open
@@ -98,23 +50,22 @@ export default function NearestCoffeeTile() {
           </div>
         )}
 
-        {state.kind === "result" && (
+        {state.kind === "result" && shop && (
           <div className="nct-result">
             <div className="nct-status">
               <span className="nct-status-dot" />
               Open Now
             </div>
-            <div className="nct-shop">{state.shop.name}</div>
+            <div className="nct-shop">{shop.name}</div>
             <div className="nct-meta">
-              {formatDistance(state.shop.distance)} &middot;{" "}
-              {estimateWalk(state.shop.distance)}
+              {formatDistance(shop.distance)} &middot;{" "}
+              {estimateWalk(shop.distance)}
             </div>
-            <a
+            {/* button instead of <a> to avoid nested anchor (tile is already <a>) */}
+            <button
               className="nct-maps"
-              href={mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => { e.stopPropagation(); openInMaps(); }}
+              type="button"
             >
               Open in Maps
               <svg
@@ -129,7 +80,7 @@ export default function NearestCoffeeTile() {
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-            </a>
+            </button>
           </div>
         )}
 
@@ -138,7 +89,7 @@ export default function NearestCoffeeTile() {
             <div className="nct-error-msg">{state.message}</div>
             <button
               className="nct-retry"
-              onClick={handleFind}
+              onClick={search}
               type="button"
             >
               Try again

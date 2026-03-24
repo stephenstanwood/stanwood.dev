@@ -6,7 +6,8 @@ import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
-import { errJson } from "../../lib/apiHelpers";
+import { errJson, okJson } from "../../lib/apiHelpers";
+import { logEvent } from "../../lib/logger";
 import type {
   RecommendRequest,
   TasteProfile,
@@ -193,24 +194,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           ? "google-places+pexels"
           : "pexels";
 
-    console.log(
-      JSON.stringify({
-        event: "green-light-recommend",
-        restaurant: trimmedName,
-        matched: recommendation.restaurantMatched,
-        constraints: constraints.dietary,
-        photoSource,
-        photosFound: restaurantPhotos.length,
-        timestamp: new Date().toISOString(),
-      }),
-    );
-
-    return new Response(JSON.stringify(recommendation), {
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=300",
-      },
+    logEvent("green-light-recommend", {
+      restaurant: trimmedName,
+      matched: recommendation.restaurantMatched,
+      constraints: constraints.dietary,
+      photoSource,
+      photosFound: restaurantPhotos.length,
     });
+
+    return okJson(recommendation, { "Cache-Control": "public, max-age=300" });
   } catch (err: unknown) {
     console.error("recommend error:", err);
     return errJson("Something went wrong", 500);

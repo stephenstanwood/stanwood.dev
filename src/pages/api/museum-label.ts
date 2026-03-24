@@ -4,9 +4,10 @@ export const config = { maxDuration: 60 };
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { errJson } from "../../lib/apiHelpers";
+import { errJson, okJson } from "../../lib/apiHelpers";
 import { extractText, stripFences, CLAUDE_SONNET } from "../../lib/models";
-import { getSystemPrompt } from "../../lib/museumPrompt";
+import { getSystemPrompt, MUSEUM_STYLES } from "../../lib/museumPrompt";
+import { logEvent } from "../../lib/logger";
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
@@ -24,6 +25,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   if (!image || !style) return errJson("missing image or style", 400);
+
+  if (!MUSEUM_STYLES.some((s) => s.id === style)) {
+    return errJson(`unknown style: ${style}`, 400);
+  }
 
   const match = image.match(/^data:(image\/\w+);base64,(.+)$/);
   if (!match) return errJson("invalid image format — send a base64 data URL", 400);
@@ -50,10 +55,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const text = stripFences(extractText(response.content));
     const label = JSON.parse(text);
 
-    return new Response(JSON.stringify(label), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    logEvent("museum-label-generate", { style });
+    return okJson(label, { "Cache-Control": "public, max-age=300" });
   } catch (err: unknown) {
     console.error("Museum label error:", err instanceof Error ? err.message : err);
     return errJson("Something went wrong", 500);

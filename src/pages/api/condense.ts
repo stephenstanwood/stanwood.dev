@@ -4,7 +4,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText } from "../../lib/models";
-import { errJson } from "../../lib/apiHelpers";
+import { errJson, okJson } from "../../lib/apiHelpers";
 
 const MAX_TEXT_LENGTH = 5_000;
 
@@ -40,9 +40,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const title = extractText(message.content) || text.trim();
 
-    return new Response(JSON.stringify({ title }), {
-      headers: { "Content-Type": "application/json" },
-    });
+    return okJson({ title });
   } catch (err) {
     console.error("condense error:", err);
     return errJson("Something went wrong", 500);

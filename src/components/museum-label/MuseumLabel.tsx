@@ -3,6 +3,24 @@ import { MUSEUM_STYLES, type MuseumLabel as MuseumLabelType } from "../../lib/mu
 
 type Phase = "upload" | "loading" | "result";
 
+// Resize to max 1200px before upload — reduces API cost on large photos without visible quality loss
+function compressImage(dataUrl: string): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      const MAX = 1200;
+      const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      resolve(canvas.toDataURL("image/jpeg", 0.85));
+    };
+    img.src = dataUrl;
+  });
+}
+
 export default function MuseumLabel() {
   const [phase, setPhase] = useState<Phase>("upload");
   const [style, setStyle] = useState("classic");
@@ -24,7 +42,10 @@ export default function MuseumLabel() {
     }
     setError(null);
     const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result as string);
+    reader.onload = async () => {
+      const compressed = await compressImage(reader.result as string);
+      setPreview(compressed);
+    };
     reader.readAsDataURL(file);
   }, []);
 

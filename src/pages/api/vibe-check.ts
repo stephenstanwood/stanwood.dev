@@ -10,7 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
-import { errJson, isValidUrl } from "../../lib/apiHelpers";
+import { errJson, okJson, isValidUrl, fetchWithTimeout } from "../../lib/apiHelpers";
 
 const RATE_LIMIT_MAX = 20;
 
@@ -34,8 +34,11 @@ async function captureScreenshot(url: string): Promise<string> {
     timeout: "30",
   });
 
-  const response = await fetch(
-    `https://api.screenshotone.com/take?${params.toString()}`
+  // screenshotone has a 30s timeout + 2s delay; cap our end to avoid hanging the lambda
+  const response = await fetchWithTimeout(
+    `https://api.screenshotone.com/take?${params.toString()}`,
+    {},
+    40_000,
   );
 
   if (!response.ok) {
@@ -92,12 +95,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const result: VibeResult = JSON.parse(jsonText);
 
-    return new Response(JSON.stringify(result), {
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, max-age=3600",
-      },
-    });
+    return okJson(result, { "Cache-Control": "public, max-age=3600" });
   } catch (err) {
     console.error("vibe-check error:", err);
     let message = "Something went wrong. Try again in a moment.";
