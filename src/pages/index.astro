@@ -2149,24 +2149,6 @@ const latestMobile = [
       ))}
     </div>
 
-    <!-- Just for Fun -->
-    <div class="section-label">just for fun</div>
-
-    <div class="proj-row">
-      {justForFun.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
-    </div>
-
     <!-- Trademark Tools -->
     <div class="section-label">trademark tools</div>
 
