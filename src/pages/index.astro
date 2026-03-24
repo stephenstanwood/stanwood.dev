@@ -61,7 +61,7 @@ const local = [
 const justForFun = [
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "little fish, big vibes", image: "/images/pixel-aquarium.webp" },
-  { href: "/museum-label", emoji: "🏛️", name: "Museum Label", tag: "deadpan placard for any object" },
+  { href: "/museum-label", emoji: "🏛️", name: "Museum Label", tag: "deadpan placard for any object", image: "/images/museum-label.png" },
 ];
 
 // Mobile-only fallback tiles for dynamic React island sections
@@ -2004,15 +2004,27 @@ const latestMobile = [
           </div>
         </a>
       ))}
-      <div class="proj-tile spacer-tile">
-        <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
+      <div class="proj-tile spacer-tile" id="spacer-cycle">
+        <div class="spacer-terminal"><span class="spacer-text" id="spacer-msg">have a great day</span> <span id="spacer-icon">🙂</span></div>
       </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">~ refactoring for fun</span></div>
-      </div>
-      <div class="proj-tile spacer-tile desktop-only">
-        <div class="spacer-terminal"><span class="spacer-text">$ repeat</span> <span class="spacer-cursor">█</span></div>
-      </div>
+    </div>
+
+    <!-- Just for Fun -->
+    <div class="section-label">just for fun</div>
+
+    <div class="proj-row">
+      {justForFun.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
     </div>
 
     <!-- Just for Fun -->
@@ -2073,6 +2085,34 @@ const latestMobile = [
   </div>
 
   <script>
+
+    // ── Spacer tile cycle ──
+    const spacerMessages: [string, string][] = [
+      ['have a great day', '🙂'],
+      ['$ repeat', '█'],
+      ['~ refactoring for fun', ''],
+      ['keep shipping', '🚀'],
+      ['one more commit...', ''],
+      ['what if we tried this...', '💡'],
+    ];
+    const spacerMsg = document.getElementById('spacer-msg');
+    const spacerIcon = document.getElementById('spacer-icon');
+    if (spacerMsg && spacerIcon) {
+      let si = 0;
+      setInterval(() => {
+        si = (si + 1) % spacerMessages.length;
+        spacerMsg.style.opacity = '0';
+        spacerIcon.style.opacity = '0';
+        setTimeout(() => {
+          spacerMsg.textContent = spacerMessages[si][0];
+          spacerIcon.textContent = spacerMessages[si][1];
+          spacerMsg.style.opacity = '1';
+          spacerIcon.style.opacity = '1';
+        }, 300);
+      }, 4000);
+      spacerMsg.style.transition = 'opacity 0.3s';
+      spacerIcon.style.transition = 'opacity 0.3s';
+    }
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
