@@ -82,13 +82,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
               ]
             : prompt;
 
-          const stream_ = client.messages.stream({
+          const claudeStream = client.messages.stream({
             model: CLAUDE_SONNET,
             max_tokens: 16000,
             messages: [{ role: "user", content: messageContent }],
           });
 
-          for await (const event of stream_) {
+          for await (const event of claudeStream) {
             if (
               event.type === "content_block_delta" &&
               event.delta.type === "text_delta"
