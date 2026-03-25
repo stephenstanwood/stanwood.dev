@@ -71,7 +71,6 @@ export default function RedesignRolodexTile() {
   const hasContent = totalCards > 0;
 
   // --- Result / loading-with-content state ---
-  // Show cards as soon as we have ANY content (screenshot or directions)
   if (isWorking && hasContent) {
     const safeIdx = activeIdx % totalCards;
     const isScreenshotCard = hasScreenshot && safeIdx === 0;
