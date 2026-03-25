@@ -13,6 +13,11 @@ export class ProgressiveJsonParser {
   private analysisExtracted = false;
   private directionsExtracted = 0;
 
+  /** Release the buffer after streaming is complete. */
+  clear() {
+    this.buffer = "";
+  }
+
   feed(chunk: string): StreamEvent[] {
     this.buffer += chunk;
     const events: StreamEvent[] = [];

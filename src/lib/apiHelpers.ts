@@ -59,7 +59,9 @@ export function isValidUrl(input: string): URL | null {
       // RFC 1918: only 172.16.0.0–172.31.255.255, not all of 172.x.x.x
       /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) ||
       hostname.endsWith(".local") ||
-      hostname.endsWith(".internal")
+      hostname.endsWith(".internal") ||
+      // Link-local range (AWS/GCP metadata endpoints)
+      /^169\.254\./.test(hostname)
     ) {
       return null;
     }

@@ -1,11 +1,17 @@
 import { fetchWithTimeout } from "./apiHelpers";
 
+const CACHE_TTL_MS = 10 * 60_000; // 10 minutes
+const cache = new Map<string, { base64: string; expiresAt: number }>();
+
 /**
  * Capture a screenshot of the given URL via screenshotone.com.
+ * Results are cached in-memory for 10 minutes to avoid redundant API calls.
  * Returns a base64-encoded JPEG string.
  * Throws "Screenshot API key not configured" or "Failed to capture screenshot" on failure.
  */
 export async function captureScreenshot(url: string): Promise<string> {
+  const cached = cache.get(url);
+  if (cached && Date.now() < cached.expiresAt) return cached.base64;
   const apiKey = import.meta.env.SCREENSHOTONE_API_KEY;
   if (!apiKey) throw new Error("Screenshot API key not configured");
 
@@ -35,5 +41,7 @@ export async function captureScreenshot(url: string): Promise<string> {
   }
 
   const buffer = await response.arrayBuffer();
-  return Buffer.from(buffer).toString("base64");
+  const base64 = Buffer.from(buffer).toString("base64");
+  cache.set(url, { base64, expiresAt: Date.now() + CACHE_TTL_MS });
+  return base64;
 }

@@ -1,21 +1,5 @@
-import { useState, useEffect } from "react";
 import type { StreamPhase } from "../../lib/redesignRolodex/useAnalyzeStream";
-
-const MESSAGES: Record<string, string[]> = {
-  screenshot: [
-    "taking a snapshot...",
-    "waiting for the page to load...",
-  ],
-  analyzing: [
-    "reading the room...",
-    "inspecting the typography...",
-    "finding alternate timelines...",
-    "raiding the font library...",
-    "restyling reality...",
-    "picking palettes from parallel universes...",
-    "loading the rolodex...",
-  ],
-};
+import { useLoadingMessages } from "../../lib/redesignRolodex/useLoadingMessages";
 
 interface Props {
   screenshotBase64?: string;
@@ -23,19 +7,7 @@ interface Props {
 }
 
 export default function LoadingSequence({ screenshotBase64, phase = "screenshot" }: Props) {
-  const [idx, setIdx] = useState(0);
-  const pool = phase === "screenshot" ? MESSAGES.screenshot : MESSAGES.analyzing;
-
-  useEffect(() => {
-    setIdx(0);
-  }, [phase]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIdx((i) => (i + 1) % pool.length);
-    }, 2200);
-    return () => clearInterval(interval);
-  }, [pool]);
+  const message = useLoadingMessages(phase);
 
   return (
     <div className="rr-loading">
@@ -54,8 +26,8 @@ export default function LoadingSequence({ screenshotBase64, phase = "screenshot"
         <div className="rr-spinner-card rr-sc-2" />
         <div className="rr-spinner-card rr-sc-3" />
       </div>
-      <p className="rr-loading-text" key={`${phase}-${idx}`}>
-        {pool[idx]}
+      <p className="rr-loading-text" key={message}>
+        {message}
       </p>
     </div>
   );

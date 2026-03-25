@@ -26,7 +26,8 @@ function sseEvent(event: string, data: unknown): string {
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
-  if (!rateLimit(clientAddress, 10)) return rateLimitResponse();
+  // Each request burns a screenshot API call + a long Claude stream — keep tight
+  if (!rateLimit(clientAddress, 5)) return rateLimitResponse();
 
   try {
     const body = await request.json();
@@ -88,16 +89,24 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
             messages: [{ role: "user", content: messageContent }],
           });
 
-          for await (const event of claudeStream) {
-            if (
-              event.type === "content_block_delta" &&
-              event.delta.type === "text_delta"
-            ) {
-              const events = parser.feed(event.delta.text);
-              for (const ev of events) {
-                send(ev.type, ev.data);
+          // Hard timeout — serverless maxDuration is 120s but we want an
+          // explicit error rather than a silent infrastructure kill
+          const timeout = setTimeout(() => claudeStream.abort(), 90_000);
+          try {
+            for await (const event of claudeStream) {
+              if (
+                event.type === "content_block_delta" &&
+                event.delta.type === "text_delta"
+              ) {
+                const events = parser.feed(event.delta.text);
+                for (const ev of events) {
+                  send(ev.type, ev.data);
+                }
               }
             }
+          } finally {
+            clearTimeout(timeout);
+            parser.clear();
           }
 
           send("done", {});
@@ -111,6 +120,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
             message = "Screenshot service not available right now.";
           else if (errMsg.includes("JSON"))
             message = "AI returned an unexpected format. Try again.";
+          else if (errMsg.includes("abort") || errMsg.includes("timed out"))
+            message = "Analysis took too long. Try a simpler URL.";
 
           send("error", { error: message });
         } finally {

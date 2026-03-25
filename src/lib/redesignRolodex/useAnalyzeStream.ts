@@ -82,7 +82,7 @@ export function useAnalyzeStream() {
             eventType = line.slice(7).trim();
           } else if (line.startsWith("data: ") && eventType) {
             try {
-              const data = JSON.parse(line.slice(6));
+              const data: unknown = JSON.parse(line.slice(6));
               handleEvent(eventType, data, setState);
             } catch {
               // Malformed JSON, skip
@@ -124,42 +124,38 @@ export function useAnalyzeStream() {
   return { ...state, analyze, reset };
 }
 
+// Typed SSE event payloads — must match what analyze.ts sends
+type SseScreenshotPayload = { screenshotBase64: string };
+type SseErrorPayload = { error: string };
+
 function handleEvent(
   type: string,
-  data: Record<string, unknown>,
+  data: unknown,
   setState: React.Dispatch<React.SetStateAction<StreamState>>,
 ) {
   switch (type) {
-    case "screenshot":
-      setState((s) => ({
-        ...s,
-        phase: "analyzing",
-        screenshotBase64: (data.screenshotBase64 as string) || "",
-      }));
+    case "screenshot": {
+      const { screenshotBase64 } = data as SseScreenshotPayload;
+      setState((s) => ({ ...s, phase: "analyzing", screenshotBase64: screenshotBase64 || "" }));
       break;
+    }
     case "analysis":
-      setState((s) => ({
-        ...s,
-        phase: "directions",
-        analysis: data as unknown as SiteAnalysis,
-      }));
+      setState((s) => ({ ...s, phase: "directions", analysis: data as SiteAnalysis }));
       break;
     case "direction":
       setState((s) => ({
         ...s,
         phase: "directions",
-        directions: [...s.directions, data as unknown as DesignDirection],
+        directions: [...s.directions, data as DesignDirection],
       }));
       break;
     case "done":
       setState((s) => ({ ...s, phase: "done" }));
       break;
-    case "error":
-      setState((s) => ({
-        ...s,
-        phase: "error",
-        error: (data.error as string) || "Something went wrong.",
-      }));
+    case "error": {
+      const { error } = data as SseErrorPayload;
+      setState((s) => ({ ...s, phase: "error", error: error || "Something went wrong." }));
       break;
+    }
   }
 }
