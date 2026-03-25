@@ -2034,9 +2034,9 @@ const latestMobile = [
         <a class="retro-link" href="https://www.midjourney.com/explore?user_id=ad5d707e-4dc7-42e2-a7c8-056f4b89724f" target="_blank" rel="noopener noreferrer">
           ✦ Midjourney
         </a>
-        <a class="retro-link" href="mailto:stephen@stanwood.dev">
+        <button class="retro-link" id="copy-email" type="button">
           ✉ Email
-        </a>
+        </button>
         <a class="retro-link" href="/shop">
           👕 Shop
         </a>
@@ -2341,5 +2341,17 @@ const latestMobile = [
     }
 
     termLoop();
+
+    // ── Email copy-to-clipboard ──
+    const copyBtn = document.getElementById('copy-email');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText('stephen@stanwood.dev').then(() => {
+          const orig = copyBtn.textContent;
+          copyBtn.textContent = '✓ copied!';
+          setTimeout(() => { copyBtn.textContent = orig; }, 1500);
+        });
+      });
+    }
   </script>
 </BaseLayout>
