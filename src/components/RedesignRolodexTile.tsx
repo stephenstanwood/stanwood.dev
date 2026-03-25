@@ -1,12 +1,23 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useLoadingMessages } from "../lib/redesignRolodex/useLoadingMessages";
 import { pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
 import { ghostMatch } from "../lib/redesignRolodex/topSites";
 import type { WeirdnessMode } from "../lib/redesignRolodex/types";
-
-const EXAMPLE_URLS = pickExamples(3);
+import ErrorBoundary from "./ErrorBoundary";
 
 export default function RedesignRolodexTile() {
+  return (
+    <ErrorBoundary fallback={<div className="proj-tile rrt" style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", color: "#888" }}>Something went wrong.</div>}>
+      <RedesignRolodexTileInner />
+    </ErrorBoundary>
+  );
+}
+
+function RedesignRolodexTileInner() {
+  // useState initializer prevents hydration mismatch — module-scope random
+  // values differ between SSR and client render
+  const [EXAMPLE_URLS] = useState(() => pickExamples(3));
   const [url, setUrl] = useState("");
   const [ghost, setGhost] = useState<string | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -251,19 +262,6 @@ function TileIcon() {
 }
 
 function TileLoadingMsg({ phase }: { phase: string }) {
-  const [idx, setIdx] = useState(0);
-  const msgs =
-    phase === "screenshot"
-      ? ["taking a snapshot...", "waiting for the page..."]
-      : ["reading the room...", "finding alternate timelines...", "restyling reality...", "loading the rolodex..."];
-
-  useEffect(() => {
-    setIdx(0);
-    const interval = setInterval(() => {
-      setIdx((i) => (i + 1) % msgs.length);
-    }, 2200);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  return <span className="rrt-loading-msg">{msgs[idx]}</span>;
+  const message = useLoadingMessages(phase);
+  return <span className="rrt-loading-msg">{message}</span>;
 }

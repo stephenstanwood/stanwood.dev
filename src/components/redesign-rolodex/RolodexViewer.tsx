@@ -36,9 +36,10 @@ export default function RolodexViewer({
     [totalCards],
   );
 
-  // Keyboard navigation (up/down + left/right for compat)
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+  // Keyboard navigation — scoped to the container so arrow keys don't
+  // fire when the user is typing in another input elsewhere on the page
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
       if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
         e.preventDefault();
         prev();
@@ -46,10 +47,9 @@ export default function RolodexViewer({
         e.preventDefault();
         next();
       }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [prev, next]);
+    },
+    [prev, next],
+  );
 
   // Touch/swipe (vertical)
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
@@ -75,7 +75,11 @@ export default function RolodexViewer({
   }, [totalCards, activeIdx]);
 
   return (
-    <div className="rr-rolodex-container">
+    <div
+      className="rr-rolodex-container"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
       <div className="rr-rolodex-counter">
         {activeIdx + 1} / {totalCards}
       </div>
