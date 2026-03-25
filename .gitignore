@@ -19,6 +19,9 @@ pnpm-debug.log*
 # OS
 .DS_Store
 
+# raw data (processed into src/data/)
+raw-data/
+
 # editors
 .idea/
 .vscode/
