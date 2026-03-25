@@ -49,7 +49,7 @@ const sportsAndFitness = [
 
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
-  { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", mobileOnly: true },
+  { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", image: "/images/redesign-rolodex.png", mobileOnly: true },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp", mobileOnly: true },
 ];
 
@@ -1935,7 +1935,7 @@ const latestMobile = [
         .retro-link { font-size: 10px; padding: 4px 6px; box-shadow: 1px 1px 0 var(--ink); }
         .link-row { grid-template-columns: 1fr 1fr; }
         .banner-block { min-height: 140px; }
-        .term-prompt { min-height: 5em; font-size: 9px; overflow: hidden; }
+        .term-prompt { height: 5em; min-height: 5em; font-size: 9px; overflow: hidden; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .id-block h1 { font-size: 32px; }
 
@@ -2039,8 +2039,8 @@ const latestMobile = [
         <a class="retro-link" href="/shop">
           👕 Shop
         </a>
-        <a class="retro-link" href="https://www.threads.com/@stanwood.dev" target="_blank" rel="noopener noreferrer">
-          🧵 Threads
+        <a class="retro-link" href="https://www.linkedin.com/in/stephen-stanwood-13a6233b8/" target="_blank" rel="noopener noreferrer">
+          💼 LinkedIn
         </a>
       </div>
     </div>
@@ -2193,21 +2193,24 @@ const latestMobile = [
     <div class="section-label">trademark tools</div>
 
     <div class="tm-row">
-      <a class="proj-tile tm-tile" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/id-manual.png" alt="ID Manual Search" loading="lazy" />
         <span class="proj-emoji">📋</span>
         <div class="proj-info">
           <div class="proj-name">ID Manual Search</div>
           <div class="proj-tag">74k+ identifications</div>
         </div>
       </a>
-      <a class="proj-tile tm-tile" href="https://tmcat.app/tmep" target="_blank" rel="noopener noreferrer">
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/tmep" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/tmep.png" alt="TMEP" loading="lazy" />
         <span class="proj-emoji">📖</span>
         <div class="proj-info">
           <div class="proj-name">TMEP</div>
           <div class="proj-tag">examining procedure manual</div>
         </div>
       </a>
-      <a class="proj-tile tm-tile" href="https://tmcat.app/ttab" target="_blank" rel="noopener noreferrer">
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/ttab" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/ttab-decisions.png" alt="TTAB Decisions" loading="lazy" />
         <span class="proj-emoji">⚖️</span>
         <div class="proj-info">
           <div class="proj-name">TTAB Decisions</div>
