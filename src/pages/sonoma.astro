@@ -1,0 +1,376 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SonomaDashboard from "../components/sonoma/SonomaDashboard.tsx";
+
+const slug = "sonoma";
+---
+
+<BaseLayout
+  title="Sonoma County DA Dashboard — stanwood.dev"
+  description="Criminal justice data dashboard for Sonoma County. Arrest trends, disposition patterns, county comparisons, and proposition impact — all from CA DOJ public records."
+  slug={slug}
+  themeColor="#f8fafc"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap"
+>
+  <SonomaDashboard client:only="react" />
+</BaseLayout>
+
+<style is:global>
+  :root {
+    --da-bg: #f8fafc;
+    --da-card: #ffffff;
+    --da-ink: #0f172a;
+    --da-muted: #64748b;
+    --da-border: #e2e8f0;
+    --da-accent: #1e3a5f;
+    --da-accent-light: #eff6ff;
+    --da-red: #dc2626;
+    --da-green: #16a34a;
+  }
+
+  body {
+    background: var(--da-bg);
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--da-ink);
+    margin: 0;
+  }
+
+  /* Page layout */
+  .da-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+  }
+
+  /* Header */
+  .da-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--da-border);
+  }
+
+  .da-back {
+    font-size: 13px;
+    color: var(--da-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .da-back:hover {
+    color: var(--da-accent);
+  }
+
+  .da-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: var(--da-accent);
+  }
+
+  .da-subtitle {
+    font-size: 14px;
+    color: var(--da-muted);
+    margin: 2px 0 0;
+  }
+
+  /* Grid */
+  .da-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 860px) {
+    .da-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Panel cards */
+  .da-panel {
+    background: var(--da-card);
+    border: 1px solid var(--da-border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .da-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .da-panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--da-ink);
+  }
+
+  /* Live badge */
+  .da-live-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--da-green);
+    font-weight: 500;
+  }
+
+  .da-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--da-green);
+    animation: da-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes da-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Stat cards row */
+  .da-stat-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .da-stat-card {
+    flex: 1;
+    min-width: 80px;
+    background: var(--da-bg);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .da-stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--da-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .da-stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--da-ink);
+    line-height: 1.2;
+  }
+
+  .da-felony-val {
+    color: var(--da-red);
+  }
+
+  .da-city-val {
+    font-size: 14px;
+    font-family: "Inter", system-ui, sans-serif;
+    text-transform: capitalize;
+  }
+
+  /* Arrest list */
+  .da-arrest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .da-arrest-row {
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .da-arrest-row:last-child {
+    border-bottom: none;
+  }
+
+  .da-arrest-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .da-arrest-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--da-ink);
+  }
+
+  .da-arrest-time {
+    font-size: 11px;
+    color: var(--da-muted);
+  }
+
+  .da-degree {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .da-degree.felony {
+    background: #fef2f2;
+    color: var(--da-red);
+  }
+  .da-degree.misd {
+    background: var(--da-accent-light);
+    color: var(--da-accent);
+  }
+
+  .da-arrest-charge {
+    font-size: 13px;
+    color: var(--da-ink);
+    line-height: 1.4;
+  }
+
+  .da-arrest-detail {
+    font-size: 11px;
+    color: var(--da-muted);
+    margin-top: 2px;
+    text-transform: capitalize;
+  }
+
+  /* Chart container */
+  .da-chart-wrap {
+    width: 100%;
+    min-height: 220px;
+  }
+
+  /* Toggle buttons */
+  .da-toggle-group {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--da-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .da-toggle {
+    font-size: 11px;
+    font-family: "Inter", system-ui, sans-serif;
+    padding: 4px 10px;
+    border: none;
+    background: var(--da-card);
+    color: var(--da-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .da-toggle:not(:last-child) {
+    border-right: 1px solid var(--da-border);
+  }
+  .da-toggle.active {
+    background: var(--da-accent);
+    color: white;
+  }
+  .da-toggle:hover:not(.active) {
+    background: var(--da-accent-light);
+    color: var(--da-accent);
+  }
+
+  .da-panel-subtitle {
+    font-size: 12px;
+    color: var(--da-muted);
+    font-weight: 400;
+  }
+
+  /* Stat change indicator */
+  .da-stat-change {
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 3px;
+  }
+  .da-stat-change.up {
+    color: var(--da-red);
+  }
+  .da-stat-change.down {
+    color: var(--da-green);
+  }
+
+  /* Blotter spacing */
+  .da-blotter {
+    margin-top: 20px;
+  }
+
+  /* Recharts tooltip */
+  .recharts-default-tooltip {
+    font-size: 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--da-border) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .da-loading,
+  .da-empty {
+    font-size: 12px;
+    color: var(--da-muted);
+    text-align: center;
+    padding: 16px 0;
+  }
+
+  /* Notes */
+  .da-note {
+    font-size: 11px;
+    color: var(--da-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .da-note a {
+    color: var(--da-accent);
+    text-decoration: underline;
+  }
+
+  /* Footer */
+  .da-footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--da-border);
+  }
+  .da-footer p {
+    font-size: 11px;
+    color: var(--da-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .da-footer a {
+    color: var(--da-accent);
+    text-decoration: underline;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .da-page {
+      padding: 16px 12px 32px;
+    }
+    .da-title {
+      font-size: 20px;
+    }
+    .da-panel {
+      padding: 14px;
+    }
+    .da-stat-row {
+      gap: 6px;
+    }
+    .da-stat-card {
+      min-width: 70px;
+      padding: 8px;
+    }
+    .da-stat-value {
+      font-size: 15px;
+    }
+  }
+</style>
