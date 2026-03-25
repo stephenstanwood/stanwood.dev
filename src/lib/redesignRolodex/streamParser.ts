@@ -99,10 +99,9 @@ export class ProgressiveJsonParser {
       if (this.buffer[i] === ch) return i;
       // Skip whitespace and commas between array elements
       if (/[\s,]/.test(this.buffer[i])) continue;
-      // If we hit ] that means array ended
+      // If we hit ] that means array ended, or any other unexpected character
       if (this.buffer[i] === "]") return -1;
-      // If we hit anything else unexpected, stop
-      if (this.buffer[i] !== ch) return -1;
+      return -1;
     }
     return -1;
   }

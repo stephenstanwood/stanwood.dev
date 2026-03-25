@@ -95,7 +95,8 @@ export function useAnalyzeStream() {
       // Check if we ended without a done event
       setState((s) => {
         if (s.phase !== "error" && s.phase !== "done") {
-          return { ...s, phase: s.directions.length > 0 ? "done" : "error", error: s.directions.length > 0 ? "" : "Generation incomplete" };
+          const complete = s.directions.length > 0;
+          return { ...s, phase: complete ? "done" : "error", error: complete ? "" : "Generation incomplete" };
         }
         return s;
       });
