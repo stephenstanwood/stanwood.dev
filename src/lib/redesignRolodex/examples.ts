@@ -19,7 +19,7 @@ const EXAMPLE_URLS = [
   "reddit.com",
   "wikipedia.org",
   "craigslist.org",
-  "teenage.engineering",
+  "discord.com",
   "ableton.com",
 ];
 
