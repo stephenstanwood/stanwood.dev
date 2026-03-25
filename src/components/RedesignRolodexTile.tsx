@@ -1,24 +1,44 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
+import { ghostMatch } from "../lib/redesignRolodex/topSites";
 import type { WeirdnessMode } from "../lib/redesignRolodex/types";
 
 const EXAMPLE_URLS = pickExamples(3);
 
 export default function RedesignRolodexTile() {
   const [url, setUrl] = useState("");
+  const [ghost, setGhost] = useState<string | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
+  const inputRef = useRef<HTMLInputElement>(null);
   const stream = useAnalyzeStream();
 
-  // Auto-cycle through directions in result state
+  // Ghost autocomplete
   useEffect(() => {
-    if (stream.phase !== "done" && stream.phase !== "directions") return;
-    if (stream.directions.length <= 1) return;
+    setGhost(ghostMatch(url));
+  }, [url]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Tab" && ghost) {
+      e.preventDefault();
+      setUrl(ghost);
+      setGhost(null);
+    }
+  };
+
+  // Total cards: screenshot (if available) + directions
+  const hasScreenshot = !!stream.screenshotBase64;
+  const totalCards = (hasScreenshot ? 1 : 0) + stream.directions.length;
+
+  // Auto-cycle through cards
+  useEffect(() => {
+    if (totalCards <= 1) return;
+    if (stream.phase === "idle" || stream.phase === "error") return;
     const interval = setInterval(() => {
-      setActiveIdx((i) => (i + 1) % stream.directions.length);
+      setActiveIdx((i) => (i + 1) % totalCards);
     }, 3000);
     return () => clearInterval(interval);
-  }, [stream.phase, stream.directions.length]);
+  }, [stream.phase, totalCards]);
 
   const runAnalysis = useCallback(
     (targetUrl: string) => {
@@ -32,7 +52,9 @@ export default function RedesignRolodexTile() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    runAnalysis(url);
+    const finalUrl = ghost && url.length >= 2 ? ghost : url;
+    setUrl(finalUrl);
+    runAnalysis(finalUrl);
   };
 
   const handleReset = (e: React.MouseEvent) => {
@@ -40,55 +62,74 @@ export default function RedesignRolodexTile() {
     e.stopPropagation();
     stream.reset();
     setUrl("");
+    setGhost(null);
+    setActiveIdx(0);
   };
 
-  const hasResults =
-    (stream.phase === "done" || stream.phase === "directions") &&
-    stream.directions.length > 0;
+  // Is the stream doing anything? (not idle and not error)
+  const isWorking = stream.phase !== "idle" && stream.phase !== "error";
+  const hasContent = totalCards > 0;
 
-  // --- Result state: concept cards fill the tile ---
-  if (hasResults) {
-    const d = stream.directions[activeIdx % stream.directions.length];
+  // --- Result / loading-with-content state ---
+  if (isWorking && hasContent) {
+    const safeIdx = activeIdx % totalCards;
+    const isScreenshotCard = hasScreenshot && safeIdx === 0;
+    const dirIdx = hasScreenshot ? safeIdx - 1 : safeIdx;
+    const d = !isScreenshotCard ? stream.directions[dirIdx] : null;
+
     const goPrev = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      setActiveIdx((i) => (i === 0 ? stream.directions.length - 1 : i - 1));
+      setActiveIdx((i) => (i === 0 ? totalCards - 1 : i - 1));
     };
     const goNext = (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      setActiveIdx((i) => (i + 1) % stream.directions.length);
+      setActiveIdx((i) => (i + 1) % totalCards);
     };
+
+    const fullPageUrl = `/redesign-rolodex?url=${encodeURIComponent(url.trim())}`;
+    const stillStreaming = stream.phase === "screenshot" || stream.phase === "analyzing" || stream.phase === "directions";
 
     return (
       <div className="proj-tile rrt rrt-has-result">
         <div className="rrt-concept-fill">
-          <iframe
-            srcDoc={d?.conceptHtml}
-            sandbox="allow-same-origin"
-            title={d?.name}
-            className="rrt-concept-iframe"
-          />
+          {isScreenshotCard ? (
+            <img
+              src={`data:image/jpeg;base64,${stream.screenshotBase64}`}
+              alt="Current site"
+              className="rrt-concept-img"
+            />
+          ) : d?.conceptHtml ? (
+            <iframe
+              srcDoc={d.conceptHtml}
+              sandbox="allow-same-origin"
+              title={d.name}
+              className="rrt-concept-iframe"
+            />
+          ) : null}
           <div className="rrt-concept-overlay" />
           <div className="rrt-concept-meta">
-            <span className="rrt-meta-name">{d?.name}</span>
+            <span className="rrt-meta-name">
+              {isScreenshotCard ? "Current Site" : d?.name ?? "..."}
+            </span>
             <span className="rrt-meta-count">
-              {activeIdx + 1}/{stream.directions.length}
-              {stream.phase === "directions" && <span className="rrt-streaming-dot" />}
+              {safeIdx + 1}/{totalCards}
+              {stillStreaming && <span className="rrt-streaming-dot" />}
             </span>
           </div>
-          <button className="rrt-flip rrt-flip-up" onClick={goPrev} aria-label="Previous">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 15l-6-6-6 6" /></svg>
-          </button>
-          <button className="rrt-flip rrt-flip-down" onClick={goNext} aria-label="Next">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
-          </button>
+          {totalCards > 1 && (
+            <>
+              <button className="rrt-flip rrt-flip-up" onClick={goPrev} aria-label="Previous">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 15l-6-6-6 6" /></svg>
+              </button>
+              <button className="rrt-flip rrt-flip-down" onClick={goNext} aria-label="Next">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
+              </button>
+            </>
+          )}
           <div className="rrt-concept-actions">
-            <a
-              href="/redesign-rolodex"
-              className="rrt-fullpage"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <a href={fullPageUrl} className="rrt-fullpage" onClick={(e) => e.stopPropagation()}>
               open &rarr;
             </a>
             <button className="rrt-again" onClick={handleReset}>new url</button>
@@ -98,8 +139,8 @@ export default function RedesignRolodexTile() {
     );
   }
 
-  // --- Loading state ---
-  if (stream.phase === "screenshot" || stream.phase === "analyzing") {
+  // --- Loading state (no content yet) ---
+  if (isWorking && !hasContent) {
     return (
       <div className="proj-tile rrt rrt-loading-tile">
         <div className="rrt-loading-inner">
@@ -129,7 +170,7 @@ export default function RedesignRolodexTile() {
             </div>
           </div>
           <div className="rrt-error">{stream.error || "Something went wrong."}</div>
-          <button className="rrt-again" onClick={() => stream.reset()}>try again</button>
+          <button className="rrt-again-idle" onClick={() => stream.reset()}>try again</button>
         </div>
       </div>
     );
@@ -149,16 +190,26 @@ export default function RedesignRolodexTile() {
           </div>
         </div>
         <form className="rrt-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="any website..."
-            className="rrt-input"
-            autoComplete="off"
-            spellCheck={false}
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="rrt-input-wrap">
+            <input
+              ref={inputRef}
+              type="text"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="any website..."
+              className="rrt-input"
+              autoComplete="off"
+              spellCheck={false}
+              onClick={(e) => e.stopPropagation()}
+            />
+            {ghost && url.length >= 2 && (
+              <span className="rrt-ghost" aria-hidden>
+                <span className="rrt-ghost-typed">{url}</span>
+                <span className="rrt-ghost-rest">{ghost.slice(url.length)}</span>
+              </span>
+            )}
+          </div>
           <button
             type="submit"
             className="rrt-go"
