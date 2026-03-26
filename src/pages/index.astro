@@ -1951,8 +1951,8 @@ const latestMobile = [
         .proj-row { display: flex !important; flex-direction: column !important; gap: 10px; }
         .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1 !important; min-height: 0 !important; height: auto !important; flex: 0 0 auto !important; }
         .proj-tile.last-full { grid-column: 1 / -1 !important; }
-        .proj-tile.has-img { flex-direction: row !important; max-height: 100px !important; overflow: hidden !important; }
-        .proj-tile.has-img .proj-img { width: 100px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 100px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; }
+        .proj-tile.has-img { flex-direction: row !important; max-height: 80px !important; min-height: 0 !important; overflow: hidden !important; }
+        .proj-tile.has-img .proj-img { width: 80px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 80px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; object-fit: cover !important; }
         .proj-tile { box-shadow: 2px 2px 0 var(--ink); }
 
         /* dynamic tiles: compact link-style on phone */
@@ -1976,9 +1976,10 @@ const latestMobile = [
         .proj-row .proj-tile.has-img { height: auto; }
         .proj-row .proj-tile:not(.has-img) { min-height: 60px; }
 
-        .tm-row { grid-template-columns: 1fr; }
-        .tm-row .tm-tile.has-img { flex-direction: row !important; max-height: 100px !important; overflow: hidden !important; }
-        .tm-row .tm-tile.has-img .proj-img { width: 100px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 100px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; }
+        .tm-row { display: flex !important; flex-direction: column !important; gap: 10px; }
+        .tm-row .tm-tile { box-shadow: 2px 2px 0 var(--ink); }
+        .tm-row .tm-tile.has-img { flex-direction: row !important; overflow: hidden !important; min-height: 0 !important; max-height: 80px !important; }
+        .tm-row .tm-tile.has-img .proj-img { width: 80px !important; max-width: 80px !important; height: auto !important; min-height: 0 !important; max-height: 80px !important; flex: 0 0 80px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; object-fit: cover !important; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; align-items: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
         .footer-location { text-align: center; }
