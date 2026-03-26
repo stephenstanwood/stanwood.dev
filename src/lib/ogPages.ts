@@ -157,6 +157,14 @@ export const PAGES: Record<string, PageConfig> = {
     bg2: "#1a1a1a",
     accent: "#f5e642",
   },
+  driverless: {
+    emoji: "\u{1F697}",
+    title: "Driverless",
+    tagline: "Tracking the self-driving revolution across the US.",
+    bg: "#0a2e1a",
+    bg2: "#16a34a",
+    accent: "#f0fdf4",
+  },
   radar: {
     emoji: "\u{1F4E1}",
     title: "AI Radar",
