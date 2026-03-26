@@ -1,0 +1,422 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DriverlessDashboard from "../components/driverless/DriverlessDashboard.tsx";
+
+const slug = "driverless";
+---
+
+<BaseLayout
+  title="Driverless — Tracking the Self-Driving Revolution"
+  description="Live dashboard of autonomous vehicle stats across the US. Fleet sizes, safety data, state legislation, and the companies making it happen."
+  slug={slug}
+  favicon="/favicon-driverless.svg"
+  themeColor="#f8faf8"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Permanent+Marker&display=swap"
+>
+  <DriverlessDashboard client:only="react" />
+</BaseLayout>
+
+<style is:global>
+  :root {
+    --dl-bg: #f8faf8;
+    --dl-card: #ffffff;
+    --dl-ink: #0f172a;
+    --dl-muted: #64748b;
+    --dl-border: #e2e8f0;
+    --dl-accent: #16a34a;
+    --dl-accent-light: #f0fdf4;
+    --dl-red: #ef4444;
+    --dl-green: #22c55e;
+    --dl-blue: #3b82f6;
+    --dl-amber: #d97706;
+    --dl-gray: #d4d4d8;
+  }
+
+  body {
+    background: var(--dl-bg);
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--dl-ink);
+    margin: 0;
+  }
+
+  /* ── Page layout ────────────────────────────────────── */
+  .dl-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  .dl-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px dashed var(--dl-border);
+  }
+
+  .dl-back {
+    font-size: 13px;
+    color: var(--dl-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .dl-back:hover {
+    color: var(--dl-accent);
+  }
+
+  .dl-title {
+    font-family: "Permanent Marker", cursive;
+    font-size: 42px;
+    margin: 12px 0 4px;
+    color: var(--dl-accent);
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+  }
+
+  .dl-subtitle {
+    font-size: 16px;
+    color: var(--dl-muted);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  /* ── Hero stat cards ────────────────────────────────── */
+  .dl-hero-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .dl-hero-card {
+    background: var(--dl-card);
+    border: 1px solid var(--dl-border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .dl-hero-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .dl-hero-value {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dl-ink);
+    line-height: 1.2;
+  }
+
+  .dl-hero-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--dl-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  /* ── Grid ────────────────────────────────────────────── */
+  .dl-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .dl-full {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 860px) {
+    .dl-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ── Panel cards ─────────────────────────────────────── */
+  .dl-panel {
+    background: var(--dl-card);
+    border: 1px solid var(--dl-border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .dl-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .dl-panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--dl-ink);
+  }
+
+  .dl-panel-subtitle {
+    font-size: 12px;
+    color: var(--dl-muted);
+    font-weight: 400;
+  }
+
+  /* ── Chart container ─────────────────────────────────── */
+  .dl-chart-wrap {
+    width: 100%;
+    min-height: 220px;
+  }
+
+  /* ── Map ──────────────────────────────────────────────── */
+  .dl-map-wrap {
+    position: relative;
+  }
+
+  .dl-map-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .dl-map-svg path {
+    stroke: #ffffff;
+    stroke-width: 1.5;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .dl-map-svg path:hover {
+    opacity: 0.75;
+    stroke: var(--dl-ink);
+    stroke-width: 2;
+  }
+
+  .dl-map-tooltip {
+    position: absolute;
+    background: var(--dl-ink);
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+    transform: translate(-50%, -110%);
+  }
+
+  .dl-extra-states {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .dl-extra-state {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--dl-ink);
+    font-weight: 500;
+  }
+
+  .dl-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    justify-content: center;
+  }
+
+  .dl-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--dl-muted);
+  }
+
+  .dl-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── Company cards ───────────────────────────────────── */
+  .dl-company-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .dl-company-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px;
+    background: var(--dl-bg);
+    border-radius: 8px;
+  }
+
+  .dl-company-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dl-ink);
+  }
+
+  .dl-company-type {
+    font-size: 11px;
+    color: var(--dl-muted);
+    margin-top: 2px;
+  }
+
+  .dl-company-cities {
+    font-size: 12px;
+    color: var(--dl-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .dl-company-note {
+    font-size: 11px;
+    color: var(--dl-accent);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .dl-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .dl-badge.active {
+    background: var(--dl-accent-light);
+    color: var(--dl-accent);
+  }
+  .dl-badge.testing {
+    background: #fffbeb;
+    color: var(--dl-amber);
+  }
+  .dl-badge.shut-down {
+    background: #fef2f2;
+    color: var(--dl-red);
+  }
+  .dl-badge.l2-only,
+  .dl-badge[class*="l2"] {
+    background: #f0f4ff;
+    color: var(--dl-blue);
+  }
+
+  /* ── State breakdown ─────────────────────────────────── */
+  .dl-state-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .dl-state-card {
+    background: var(--dl-bg);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .dl-state-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dl-ink);
+    margin-bottom: 8px;
+  }
+
+  .dl-state-stat {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dl-accent);
+  }
+
+  .dl-state-label {
+    font-size: 10px;
+    color: var(--dl-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+
+  .dl-state-sub {
+    font-size: 11px;
+    color: var(--dl-muted);
+    margin-top: 6px;
+  }
+
+  /* ── Reduction labels ────────────────────────────────── */
+  .dl-reduction {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dl-green);
+  }
+
+  /* ── Footer ──────────────────────────────────────────── */
+  .dl-footer {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid var(--dl-border);
+  }
+  .dl-footer p {
+    font-size: 11px;
+    color: var(--dl-muted);
+    line-height: 1.6;
+    margin: 0 0 6px;
+  }
+  .dl-footer a {
+    color: var(--dl-accent);
+    text-decoration: underline;
+  }
+
+  /* ── Recharts tooltip override ───────────────────────── */
+  .recharts-default-tooltip {
+    font-size: 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--dl-border) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .dl-page {
+      padding: 16px 12px 32px;
+    }
+    .dl-title {
+      font-size: 32px;
+    }
+    .dl-hero-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .dl-hero-value {
+      font-size: 22px;
+    }
+    .dl-panel {
+      padding: 14px;
+    }
+    .dl-state-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .dl-state-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

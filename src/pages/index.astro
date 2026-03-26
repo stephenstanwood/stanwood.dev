@@ -47,6 +47,10 @@ const sportsAndFitness = [
   { href: "/swim", emoji: "🏊", name: "Lap Lab", tag: "swim workout generator", image: "/images/lap-lab.webp" },
 ];
 
+const technology = [
+  { href: "/driverless", emoji: "🚗", name: "Driverless", tag: "self-driving car stats dashboard" },
+];
+
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
   { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", image: "/images/redesign-rolodex.png", mobileOnly: true },
@@ -2152,6 +2156,37 @@ const latestMobile = [
           </div>
         </a>
       ))}
+    </div>
+
+    <!-- Technology -->
+    <div class="section-label">technology</div>
+
+    <div class="proj-row">
+      {technology.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+          {p.image && (
+            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
+          )}
+          <span class="proj-emoji">{p.emoji}</span>
+          <div class="proj-info">
+            <div class="proj-name">{p.name}</div>
+            <div class="proj-tag">{p.tag}</div>
+          </div>
+        </a>
+      ))}
+      <div class="spacer-tile proj-tile">
+        <div class="spacer-terminal">
+          <span class="spacer-prompt">$</span>
+          <span class="spacer-text" id="spacer-msg">have a great day</span>
+          <span class="spacer-cursor">█</span>
+        </div>
+      </div>
+      <div class="spacer-tile proj-tile">
+        <div class="spacer-terminal">
+          <span class="spacer-prompt">~</span>
+          <span class="spacer-text">more coming soon</span>
+        </div>
+      </div>
     </div>
 
     <!-- Local -->
