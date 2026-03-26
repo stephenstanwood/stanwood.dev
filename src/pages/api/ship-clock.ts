@@ -3,6 +3,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { CLAUDE_HAIKU, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { okJson } from "../../lib/apiHelpers";
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
@@ -57,10 +58,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress, 10)) return rateLimitResponse();
 
   if (!VERCEL_TOKEN || !VERCEL_PROJECT_ID) {
-    return new Response(
-      JSON.stringify({ lastDeploy: null, daysSince: null, hoursSince: null, error: "missing config" }),
-      { status: 200, headers: { "Content-Type": "application/json" } },
-    );
+    return okJson({ lastDeploy: null, daysSince: null, hoursSince: null, error: "missing config" });
   }
 
   try {
@@ -76,15 +74,9 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const deployments = data.deployments ?? [];
 
     if (deployments.length === 0) {
-      return new Response(
-        JSON.stringify({ lastDeploy: null, daysSince: null, hoursSince: null, error: "no deploys" }),
-        {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "public, s-maxage=300, max-age=60",
-          },
-        },
+      return okJson(
+        { lastDeploy: null, daysSince: null, hoursSince: null, error: "no deploys" },
+        { "Cache-Control": "public, s-maxage=300, max-age=60" },
       );
     }
 
@@ -109,32 +101,12 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       summary = result.summary;
     }
 
-    return new Response(
-      JSON.stringify({
-        lastDeploy: createdAt.toISOString(),
-        daysSince,
-        hoursSince,
-        project,
-        summary,
-        sha,
-        prNumber,
-      }),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "public, s-maxage=300, max-age=60",
-        },
-      },
+    return okJson(
+      { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber },
+      { "Cache-Control": "public, s-maxage=300, max-age=60" },
     );
   } catch (err) {
     console.error("ship-clock fetch failed:", err);
-    return new Response(
-      JSON.stringify({ lastDeploy: null, daysSince: null, hoursSince: null, error: "api error" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    return okJson({ lastDeploy: null, daysSince: null, hoursSince: null, error: "api error" });
   }
 };

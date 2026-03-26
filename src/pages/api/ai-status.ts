@@ -1,6 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { okJson } from "../../lib/apiHelpers";
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
@@ -140,25 +141,17 @@ async function fetchAll(): Promise<ProviderStatus[]> {
 export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
+  const AI_STATUS_CACHE_HEADERS = {
+    "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
+  };
+
   // Serve from cache if fresh
   if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) {
-    return new Response(JSON.stringify(cache.data), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
-      },
-    });
+    return okJson(cache.data, AI_STATUS_CACHE_HEADERS);
   }
 
   const data = await fetchAll();
   cache = { data, fetchedAt: Date.now() };
 
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
-    },
-  });
+  return okJson(data, AI_STATUS_CACHE_HEADERS);
 };
