@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import Anthropic from "@anthropic-ai/sdk";
 import { errJson, okJson } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
@@ -11,6 +12,10 @@ export const prerender = false;
 let cached: { data: DigestSummary; ts: number } | null = null;
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
+const client = new Anthropic({
+  apiKey: import.meta.env.ANTHROPIC_API_KEY,
+});
+
 export const POST: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
 
@@ -19,8 +24,7 @@ export const POST: APIRoute = async ({ clientAddress }) => {
     return okJson(cached.data);
   }
 
-  const apiKey = import.meta.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return errJson("Service not configured", 503);
+  if (!import.meta.env.ANTHROPIC_API_KEY) return errJson("Service not configured", 503);
 
   // 1. Scrape the latest agenda
   const agenda = await fetchLatestAgenda();
@@ -46,28 +50,13 @@ Agenda text:
 ${content}`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: CLAUDE_HAIKU,
-        max_tokens: 1024,
-        messages: [{ role: "user", content: prompt }],
-      }),
+    const message = await client.messages.create({
+      model: CLAUDE_HAIKU,
+      max_tokens: 1024,
+      messages: [{ role: "user", content: prompt }],
     });
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error("Claude API error:", err);
-      return errJson("AI summarization failed", 502);
-    }
-
-    const result = await res.json();
-    const raw = extractText(result.content);
+    const raw = extractText(message.content);
     const parsed: DigestSummary = JSON.parse(stripFences(raw));
 
     // Add metadata

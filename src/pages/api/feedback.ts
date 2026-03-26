@@ -2,13 +2,14 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { rateLimit } from "../../lib/rateLimit";
+import { okJson, errJson } from "../../lib/apiHelpers";
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   // 3 reports per IP per 10 minutes
   if (!rateLimit(clientAddress, 3, 10 * 60_000)) {
-    return new Response(JSON.stringify({ ok: false }), { status: 429 });
+    return errJson("Too many requests", 429);
   }
 
   let page = "unknown";
@@ -29,8 +30,5 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     }).catch(() => {});
   }
 
-  return new Response(JSON.stringify({ ok: true }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return okJson({ ok: true });
 };

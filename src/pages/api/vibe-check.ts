@@ -10,7 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
-import { errJson, okJson, isValidUrl } from "../../lib/apiHelpers";
+import { errJson, okJson, devErrJson, isValidUrl } from "../../lib/apiHelpers";
 import { captureScreenshot } from "../../lib/screenshotClient";
 
 const RATE_LIMIT_MAX = 20;
@@ -75,12 +75,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     } else if (errMsg.includes("JSON")) {
       message = "AI returned an unexpected format. Try again.";
     }
-    // Only include debug detail in development — never expose internal errors to production clients
-    const isDev = import.meta.env.DEV;
-    const body = isDev ? { error: message, debug: errMsg } : { error: message };
-    return new Response(JSON.stringify(body), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    // devErrJson includes debug detail in development only — never exposes internals to production clients
+    return devErrJson(message, errMsg);
   }
 };
