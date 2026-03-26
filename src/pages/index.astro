@@ -8,6 +8,7 @@ import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import RedesignRolodexTile from "../components/RedesignRolodexTile.tsx";
 import NearestCoffeeTile from "../components/NearestCoffeeTile.tsx";
+import TerminalLoopTile from "../components/TerminalLoopTile.tsx";
 
 const featured = [
   {
@@ -48,7 +49,7 @@ const sportsAndFitness = [
 ];
 
 const technology = [
-  { href: "/driverless", emoji: "🚗", name: "Driverless", tag: "self-driving car stats dashboard", image: "/images/self-driving.png" },
+  { href: "/driverless", emoji: "🚗", name: "Driverless Cars", tag: "stats on self-driving vehicles", image: "/images/self-driving.png" },
 ];
 
 const weirdAndUseful = [
@@ -2162,6 +2163,7 @@ const latestMobile = [
     <div class="section-label">technology</div>
 
     <div class="proj-row">
+      <TerminalLoopTile client:idle />
       {technology.map((p) => (
         <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
           {p.image && (
@@ -2174,18 +2176,8 @@ const latestMobile = [
           </div>
         </a>
       ))}
-      <div class="spacer-tile proj-tile">
-        <div class="spacer-terminal">
-          <span class="spacer-prompt">$</span>
-          <span class="spacer-text" id="spacer-msg">have a great day</span>
-          <span class="spacer-cursor">█</span>
-        </div>
-      </div>
-      <div class="spacer-tile proj-tile">
-        <div class="spacer-terminal">
-          <span class="spacer-prompt">~</span>
-          <span class="spacer-text">more coming soon</span>
-        </div>
+      <div class="proj-tile spacer-tile">
+        <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
       </div>
     </div>
 
@@ -2250,7 +2242,7 @@ const latestMobile = [
         <span class="proj-emoji">⚖️</span>
         <div class="proj-info">
           <div class="proj-name">TTAB Decisions</div>
-          <div class="proj-tag">full-text search, 18k+ decisions</div>
+          <div class="proj-tag">full-text search, 43k+ decisions</div>
         </div>
       </a>
     </div>
@@ -2268,34 +2260,6 @@ const latestMobile = [
   </div>
 
   <script>
-
-    // ── Spacer tile cycle ──
-    const spacerMessages: [string, string][] = [
-      ['have a great day', '🙂'],
-      ['$ repeat', '█'],
-      ['~ refactoring for fun', ''],
-      ['keep shipping', '🚀'],
-      ['one more commit...', ''],
-      ['what if we tried this...', '💡'],
-    ];
-    const spacerMsg = document.getElementById('spacer-msg');
-    const spacerIcon = document.getElementById('spacer-icon');
-    if (spacerMsg && spacerIcon) {
-      let si = 0;
-      setInterval(() => {
-        si = (si + 1) % spacerMessages.length;
-        spacerMsg.style.opacity = '0';
-        spacerIcon.style.opacity = '0';
-        setTimeout(() => {
-          spacerMsg.textContent = spacerMessages[si][0];
-          spacerIcon.textContent = spacerMessages[si][1];
-          spacerMsg.style.opacity = '1';
-          spacerIcon.style.opacity = '1';
-        }, 300);
-      }, 4000);
-      spacerMsg.style.transition = 'opacity 0.3s';
-      spacerIcon.style.transition = 'opacity 0.3s';
-    }
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
