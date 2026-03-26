@@ -1,0 +1,776 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
+const title = "Campbell — stanwood.dev";
+---
+
+<BaseLayout
+  title={title}
+  description="A resident portal for Campbell, CA. Quick links, AI-powered council meeting digests, activity finder, and city data — all in one place."
+  slug="campbell"
+  themeColor="#F8F9FA"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+  schemaCategory="WebApplication"
+  schemaName="Campbell Resident Portal"
+>
+  <Fragment slot="head">
+    <style is:global>
+      :root {
+        --cb-bg: #F8F9FA;
+        --cb-card-bg: #FFFFFF;
+        --cb-ink: #1A1D23;
+        --cb-gray: #5A6070;
+        --cb-light-gray: #8B92A0;
+        --cb-border: #E2E5EB;
+        --cb-blue: #1B4F8A;
+        --cb-blue-hover: #143D6B;
+        --cb-blue-light: #E8F0FA;
+        --cb-gold: #C69214;
+        --cb-gold-light: #FFF8E7;
+        --cb-green: #2D8659;
+        --cb-green-light: #E8F5EE;
+        --cb-red: #C0392B;
+        --cb-red-light: #FDEEEC;
+        --cb-radius: 10px;
+      }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: var(--cb-bg);
+        color: var(--cb-ink);
+        margin: 0;
+      }
+
+      @keyframes cbFadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes cbSpin {
+        to { transform: rotate(360deg); }
+      }
+
+      /* ── Layout ── */
+      .cb-page { min-height: 100vh; display: flex; flex-direction: column; }
+
+      .cb-header {
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+      .cb-back {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.8rem;
+        color: var(--cb-light-gray);
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .cb-back:hover { color: var(--cb-blue); }
+
+      .cb-hero {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem 1.5rem 0;
+        box-sizing: border-box;
+      }
+      .cb-hero-inner {
+        background: linear-gradient(135deg, #1B4F8A 0%, #1A3A6B 40%, #2563A0 100%);
+        border-radius: var(--cb-radius);
+        padding: 2rem 1.75rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(27, 79, 138, 0.25);
+      }
+      .cb-hero-inner::before {
+        content: '';
+        position: absolute;
+        top: -30%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255, 217, 102, 0.15) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .cb-hero-inner::after {
+        content: '🏛️';
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 2.5rem;
+        opacity: 0.15;
+        pointer-events: none;
+      }
+      .cb-hero h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem;
+        line-height: 1.2;
+        position: relative;
+      }
+      .cb-hero h1 span {
+        color: #FFD966;
+      }
+      .cb-hero-sub {
+        font-size: 0.9rem;
+        opacity: 0.85;
+        margin: 0;
+        line-height: 1.5;
+        position: relative;
+      }
+
+      .cb-main {
+        flex: 1;
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem 1.5rem 3rem;
+        box-sizing: border-box;
+      }
+
+      /* ── Portal ── */
+      .cb-portal { animation: cbFadeIn 0.3s ease-out; }
+
+      .cb-intro {
+        margin-bottom: 1rem;
+      }
+      .cb-intro p {
+        font-size: 0.9rem;
+        color: var(--cb-gray);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* ── Tabs ── */
+      .cb-tabs {
+        display: flex;
+        gap: 0.375rem;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      .cb-tabs::-webkit-scrollbar { display: none; }
+
+      .cb-tab {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.875rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: 999px;
+        background: var(--cb-card-bg);
+        color: var(--cb-gray);
+        font-size: 0.8rem;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s;
+      }
+      .cb-tab:hover {
+        border-color: var(--cb-blue);
+        color: var(--cb-blue);
+      }
+      .cb-tab--active,
+      .cb-tab--active:hover {
+        background: var(--cb-blue);
+        border-color: var(--cb-blue);
+        color: white;
+      }
+      .cb-tab--active .cb-tab-label,
+      .cb-tab--active .cb-tab-icon {
+        color: white;
+      }
+      .cb-tab-icon { font-size: 0.9rem; }
+      .cb-tab-label { font-size: 0.8rem; }
+
+      /* ── Quick Links ── */
+      .cb-links-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.625rem;
+      }
+      .cb-link-card {
+        display: flex;
+        align-items: center;
+        gap: 0.875rem;
+        padding: 1rem 1.125rem;
+        background: var(--cb-card-bg);
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        text-decoration: none;
+        color: var(--cb-ink);
+        transition: all 0.2s;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+      .cb-link-card:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.12);
+        transform: translateY(-2px);
+      }
+      .cb-link-icon { font-size: 1.5rem; flex-shrink: 0; }
+      .cb-link-text { flex: 1; min-width: 0; }
+      .cb-link-title {
+        display: block;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 0.125rem;
+      }
+      .cb-link-desc {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        line-height: 1.4;
+      }
+      .cb-link-arrow {
+        color: var(--cb-light-gray);
+        font-size: 1rem;
+        flex-shrink: 0;
+        transition: transform 0.15s;
+      }
+      .cb-link-card:hover .cb-link-arrow {
+        transform: translateX(2px);
+        color: var(--cb-blue);
+      }
+
+      /* ── Council Digest ── */
+      .cb-digest-empty, .cb-digest-loading, .cb-digest-error {
+        text-align: center;
+        padding: 2.5rem 1rem;
+      }
+      .cb-digest-info {
+        font-size: 0.9rem;
+        color: var(--cb-gray);
+        margin: 0 0 1.25rem;
+        line-height: 1.6;
+      }
+      .cb-digest-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        background: var(--cb-blue);
+        color: white;
+        border: none;
+        border-radius: var(--cb-radius);
+        font-size: 0.875rem;
+        font-weight: 600;
+        font-family: inherit;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .cb-digest-btn:hover { background: var(--cb-blue-hover); }
+
+      .cb-spinner {
+        width: 28px;
+        height: 28px;
+        border: 3px solid var(--cb-border);
+        border-top-color: var(--cb-blue);
+        border-radius: 50%;
+        animation: cbSpin 0.7s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      .cb-digest-loading p {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+      }
+      .cb-digest-error p {
+        font-size: 0.9rem;
+        color: var(--cb-red);
+        margin-bottom: 1rem;
+      }
+
+      .cb-digest {
+        background: var(--cb-card-bg);
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        overflow: hidden;
+        animation: cbFadeIn 0.3s ease-out;
+      }
+      .cb-digest-header {
+        padding: 1.25rem 1.25rem 0.75rem;
+        border-bottom: 1px solid var(--cb-border);
+      }
+      .cb-digest-date {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 0.25rem;
+      }
+      .cb-digest-meta {
+        font-size: 0.8rem;
+        color: var(--cb-light-gray);
+      }
+      .cb-digest-body {
+        padding: 1.25rem;
+      }
+      .cb-digest-summary {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        margin: 0 0 1rem;
+        color: var(--cb-ink);
+      }
+      .cb-digest-topics h4 {
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--cb-gray);
+        margin: 0 0 0.5rem;
+      }
+      .cb-digest-topics ul {
+        margin: 0;
+        padding: 0 0 0 1.25rem;
+      }
+      .cb-digest-topics li {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        color: var(--cb-ink);
+        margin-bottom: 0.25rem;
+      }
+      .cb-digest-next {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+        margin: 1rem 0 0;
+        padding: 0.75rem;
+        background: var(--cb-blue-light);
+        border-radius: 6px;
+      }
+      .cb-digest-footer {
+        padding: 0.875rem 1.25rem;
+        border-top: 1px solid var(--cb-border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .cb-digest-source {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-digest-source:hover { text-decoration: underline; }
+      .cb-digest-gen {
+        font-size: 0.75rem;
+        color: var(--cb-light-gray);
+      }
+
+      /* ── Activity Finder ── */
+      .cb-activities-note {
+        font-size: 0.8rem;
+        color: var(--cb-light-gray);
+        margin: 0 0 1rem;
+        padding: 0.625rem 0.875rem;
+        background: var(--cb-gold-light);
+        border-radius: 6px;
+        border-left: 3px solid var(--cb-gold);
+      }
+
+      .cb-activities-filters {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .cb-activities-search {
+        width: 100%;
+        padding: 0.625rem 0.875rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        font-size: 0.875rem;
+        font-family: inherit;
+        background: var(--cb-card-bg);
+        box-sizing: border-box;
+        transition: border-color 0.15s;
+      }
+      .cb-activities-search:focus {
+        outline: none;
+        border-color: var(--cb-blue);
+      }
+      .cb-activities-selects {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .cb-activities-select {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        font-size: 0.8rem;
+        font-family: inherit;
+        background: var(--cb-card-bg);
+        cursor: pointer;
+      }
+
+      .cb-activities-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+      }
+      .cb-activities-empty {
+        text-align: center;
+        padding: 2rem;
+        color: var(--cb-gray);
+        font-size: 0.9rem;
+      }
+
+      .cb-activity-card {
+        padding: 1rem 1.125rem;
+        background: var(--cb-card-bg);
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        animation: cbFadeIn 0.2s ease-out;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      }
+      .cb-activity-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+      .cb-activity-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      .cb-activity-fee {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cb-green);
+        white-space: nowrap;
+        padding: 0.125rem 0.5rem;
+        background: var(--cb-green-light);
+        border-radius: 4px;
+      }
+      .cb-activity-desc {
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        margin: 0.25rem 0 0.625rem;
+        line-height: 1.5;
+      }
+      .cb-activity-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--cb-gray);
+        margin-bottom: 0.5rem;
+      }
+      .cb-activity-tags {
+        display: flex;
+        gap: 0.375rem;
+        flex-wrap: wrap;
+      }
+      .cb-tag {
+        font-size: 0.7rem;
+        padding: 0.125rem 0.5rem;
+        border-radius: 4px;
+        font-weight: 500;
+      }
+      .cb-tag-cat { background: var(--cb-blue-light); color: var(--cb-blue); }
+      .cb-tag-age { background: var(--cb-gold-light); color: var(--cb-gold); }
+
+      .cb-activity-register {
+        display: inline-block;
+        margin-top: 0.625rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-activity-register:hover { text-decoration: underline; }
+
+      .cb-activities-footer {
+        margin-top: 1.25rem;
+        text-align: center;
+      }
+      .cb-activities-pdf {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-activities-pdf:hover { text-decoration: underline; }
+
+      /* ── City Data ── */
+      .cb-data-intro {
+        font-size: 0.9rem;
+        color: var(--cb-gray);
+        margin: 0 0 1rem;
+        line-height: 1.6;
+      }
+      .cb-data-layers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .cb-data-card {
+        width: 100%;
+        padding: 1rem 1.125rem;
+        background: var(--cb-card-bg);
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        text-align: left;
+        font-family: inherit;
+        cursor: pointer;
+        transition: border-color 0.15s;
+      }
+      .cb-data-card:hover { border-color: var(--cb-blue); }
+      .cb-data-card--open { border-color: var(--cb-blue); }
+
+      .cb-data-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .cb-data-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      .cb-data-toggle {
+        font-size: 1.25rem;
+        color: var(--cb-light-gray);
+        font-weight: 300;
+      }
+      .cb-data-card-body {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--cb-border);
+      }
+      .cb-data-card-body p {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+        margin: 0 0 0.625rem;
+        line-height: 1.5;
+      }
+      .cb-data-link {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-data-link:hover { text-decoration: underline; }
+
+      .cb-data-footer {
+        margin-top: 1.5rem;
+      }
+      .cb-data-note {
+        font-size: 0.8rem;
+        color: var(--cb-light-gray);
+        line-height: 1.6;
+        padding: 0.875rem;
+        background: var(--cb-card-bg);
+        border: 1px dashed var(--cb-border);
+        border-radius: var(--cb-radius);
+      }
+      .cb-data-note a {
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-data-note a:hover { text-decoration: underline; }
+
+      /* ── Eat Local ── */
+      .cb-eat-intro {
+        font-size: 0.9rem;
+        color: var(--cb-gray);
+        margin: 0 0 1rem;
+        line-height: 1.6;
+      }
+      .cb-eat-filters {
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+        margin-bottom: 1rem;
+      }
+      .cb-eat-search {
+        width: 100%;
+        padding: 0.625rem 0.875rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        font-size: 0.875rem;
+        font-family: inherit;
+        background: var(--cb-card-bg);
+        box-sizing: border-box;
+        transition: border-color 0.15s;
+      }
+      .cb-eat-search:focus {
+        outline: none;
+        border-color: var(--cb-blue);
+      }
+      .cb-eat-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+      }
+      .cb-eat-chip {
+        padding: 0.3rem 0.625rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: 999px;
+        background: var(--cb-card-bg);
+        color: var(--cb-gray);
+        font-size: 0.75rem;
+        font-weight: 500;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .cb-eat-chip:hover {
+        border-color: var(--cb-blue);
+        color: var(--cb-blue);
+      }
+      .cb-eat-chip--active {
+        background: var(--cb-blue);
+        border-color: var(--cb-blue);
+        color: white;
+      }
+      .cb-eat-empty {
+        text-align: center;
+        padding: 2rem;
+        color: var(--cb-gray);
+        font-size: 0.9rem;
+      }
+      .cb-eat-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.625rem;
+      }
+      .cb-eat-card {
+        padding: 1rem 1.125rem;
+        background: var(--cb-card-bg);
+        border: 1.5px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        animation: cbFadeIn 0.2s ease-out;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .cb-eat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+      }
+      .cb-eat-card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+      .cb-eat-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin: 0;
+      }
+      .cb-eat-area {
+        font-size: 0.7rem;
+        color: var(--cb-light-gray);
+        white-space: nowrap;
+        padding: 0.125rem 0.5rem;
+        background: var(--cb-bg);
+        border-radius: 4px;
+      }
+      .cb-eat-desc {
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        margin: 0.25rem 0 0.5rem;
+        line-height: 1.5;
+      }
+      .cb-eat-tags {
+        margin-bottom: 0.5rem;
+      }
+      .cb-eat-actions {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .cb-eat-site {
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        text-decoration: none;
+      }
+      .cb-eat-site:hover { text-decoration: underline; }
+      .cb-eat-order {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-eat-order:hover { text-decoration: underline; }
+
+      /* ── Footer ── */
+      .cb-footer {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        box-sizing: border-box;
+        text-align: center;
+      }
+      .cb-footer p {
+        font-size: 0.75rem;
+        color: var(--cb-light-gray);
+        margin: 0;
+      }
+      .cb-footer a {
+        color: var(--cb-blue);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .cb-footer a:hover { text-decoration: underline; }
+
+      /* ── Desktop ── */
+      @media (min-width: 640px) {
+        .cb-links-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cb-activities-filters {
+          flex-direction: row;
+          align-items: center;
+        }
+        .cb-activities-search {
+          flex: 1;
+        }
+        .cb-eat-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cb-eat-filters {
+          flex-direction: row;
+          align-items: center;
+        }
+        .cb-eat-search {
+          flex: 1;
+        }
+      }
+    </style>
+  </Fragment>
+
+  <div class="cb-page">
+    <header class="cb-header">
+      <a href="/" class="cb-back">← stanwood.dev</a>
+    </header>
+
+    <div class="cb-hero">
+      <div class="cb-hero-inner">
+        <h1><span>Campbell</span> Resident Portal</h1>
+        <p class="cb-hero-sub">One front door for everything City of Campbell — no more hunting through five different portals.</p>
+      </div>
+    </div>
+
+    <main class="cb-main">
+      <CampbellPortal client:load />
+    </main>
+
+    <footer class="cb-footer">
+      <p>Built with care by <a href="/">stanwood.dev</a> · Not affiliated with the City of Campbell</p>
+    </footer>
+  </div>
+</BaseLayout>
