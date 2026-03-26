@@ -1972,6 +1972,8 @@ const latestMobile = [
         .proj-row .proj-tile:not(.has-img) { min-height: 60px; }
 
         .tm-row { grid-template-columns: 1fr; }
+        .tm-row .tm-tile.has-img { flex-direction: row !important; max-height: 100px !important; overflow: hidden !important; }
+        .tm-row .tm-tile.has-img .proj-img { width: 100px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 100px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; }
         .footer-row { flex-direction: column; gap: 10px; text-align: center; align-items: center; padding-bottom: 48px; }
         .footer-chem { display: flex; justify-content: center; min-height: 180px; align-items: center; }
         .footer-location { text-align: center; }
