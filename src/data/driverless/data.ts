@@ -61,7 +61,7 @@ export const heroStats = [
   { label: "Self-Driving Cars", value: "4,500+", icon: "🚗" },
   { label: "Rides / Week", value: "500K", icon: "🚕" },
   { label: "Miles Driven", value: "200M+", icon: "🛣️" },
-  { label: "Safer Than Humans", value: "10x", icon: "🛡️" },
+  { label: "Safer Than Human Drivers", value: "10x", icon: "🛡️" },
 ];
 
 // ── Safety Comparison (Waymo peer-reviewed, 56.7M rider miles) ────
