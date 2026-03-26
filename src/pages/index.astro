@@ -55,7 +55,7 @@ const technology = [
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
   { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", image: "/images/redesign-rolodex.png", mobileOnly: true },
-  { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.webp", mobileOnly: true },
+  { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.png", mobileOnly: true },
 ];
 
 const local = [
@@ -71,8 +71,8 @@ const justForFun = [
 
 // Mobile-only fallback tiles for dynamic React island sections
 const latestMobile = [
-  { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.webp", mobileOnly: true },
-  { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/radar.webp", mobileOnly: true },
+  { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.png", mobileOnly: true },
+  { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/ai-radar.png", mobileOnly: true },
 ];
 ---
 
@@ -1941,8 +1941,8 @@ const latestMobile = [
         .id-block, .avatar-block, .banner-block { box-shadow: 3px 3px 0 var(--ink); }
         .retro-link { font-size: 10px; padding: 4px 6px; box-shadow: 1px 1px 0 var(--ink); }
         .link-row { grid-template-columns: 1fr 1fr; }
-        .banner-block { min-height: 140px; }
-        .term-prompt { height: 5em; min-height: 5em; font-size: 9px; overflow: hidden; }
+        .banner-block { height: 160px !important; min-height: 160px !important; max-height: 160px !important; overflow: hidden !important; }
+        .term-prompt { font-size: 9px; overflow: hidden !important; height: 100px !important; flex: none !important; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .id-block h1 { font-size: 32px; }
 
