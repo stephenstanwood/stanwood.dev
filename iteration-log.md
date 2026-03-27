@@ -2,6 +2,79 @@
 
 ---
 
+## Cycle 9 — 2026-03-27
+
+**Site worked on:** stanwood.dev
+
+**Ideas considered:**
+
+stanwood.dev:
+1. **Fix AI Radar 2-second fake loading delay** — static JSON data was being artificially hidden behind a 2000ms setTimeout + animation ← CHOSE THIS (4 cycles overdue)
+2. Update "just shipped" strip to refresh entries (current entries are from Feb/Mar '26, still relevant)
+3. Featured card tag audit — "Sports · Live" tag on NBA Now is generic
+
+stoa.works:
+1. Hero subtext tightening — remaining generic freelancer copy
+2. Stoa logo mark — still text-only
+3. Amplify founder credibility higher in the page flow
+
+**What changed:** Removed the 2-second artificial loading delay from `AIRadarTile.tsx`. The component previously initialized `ready = false` and used a `setTimeout(() => setReady(true), 2000)` to show a radar animation before revealing the entry list. Since the data is static JSON (no network fetch), this delay served no purpose — it just made the tile appear broken for 2 full seconds on every page load. Now the entries render immediately (`radar-list--visible` always active, `useState`/`useEffect` removed entirely).
+
+**Why highest-leverage:**
+- This bug was the #1 outstanding stanwood.dev item for 4 consecutive cycles — clearly the right move.
+- Every visitor sees the AI Radar tile in a broken/loading state for 2 full seconds. A visitor with a fast connection or returning to the page sees the spinning animation before seeing any content, which reads as "this is loading from the network" when it's actually instant static data.
+- The tile is one of the most compelling on the grid (live AI news, clear utility). A 2-second blank state undercuts that value.
+- Zero design change — same radar aesthetic, same header, same blinking dot. Just content appears immediately.
+- Lens: interaction/UX fix (first time this lens has been applied to stanwood.dev — prior cycles were info arch, delight/content, and copy).
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Hero/positioning copy: the remaining generic language ("Small team, fast delivery") — sharpen to reinforce the insider/government angle more specifically.
+2. stanwood.dev — "just shipped" strip freshness: currently shows Feb/Mar entries; consider adding a newer entry as more tools ship.
+3. stoa.works — Stoa logo mark: text-only still. A simple mark would help recognition, especially if Stoa starts appearing in other contexts (emails, proposals).
+
+---
+
+## Cycle 8 — 2026-03-26
+
+**Site worked on:** stoa.works
+
+**Ideas considered:**
+
+stoa.works:
+1. **Portfolio card outcome signals** — replace generic "Live demo" with concrete per-project meta ← CHOSE THIS (4 consecutive cycles overdue)
+2. Hero subtext tightening — "Small team, fast delivery, no nonsense" is generic
+3. Stoa logo mark — text-only currently
+
+stanwood.dev:
+1. AI Radar loading bug — possible visible loading state on first render
+2. About page — no photo, feels impersonal
+3. Grid section headers — could be more distinctive
+
+**What changed:** Replaced the generic "Live demo" label on each portfolio card with a specific, concrete outcome signal:
+- CPSC Recall Search: "Federal data · 500K+ records"
+- City of Campbell Portal: "City of Campbell, CA"
+- 311 Service Requests: "Municipal · Real-time tracking"
+- Bay Area Budget Dashboard: "6 Bay Area cities · FY 2024"
+- Council Minutes Search: "Real Legistar data · 7+ councils"
+- Parks & Facilities Map: "Geolocation · Live map"
+
+Also bumped the meta text color from slate-400 to slate-500 for slightly better legibility.
+
+**Why highest-leverage:**
+- This change has been the #1 overdue item for 4 consecutive cycles — clearly the right move.
+- "Live demo" told a government client nothing. Each meta now answers two implicit questions: "Is this real data or made up?" and "What's the scope?"
+- The CPSC card now signals it's backed by actual federal data (500K+ records) — not a mockup. The council minutes card surfaces that it uses real Legistar API data covering 7+ real councils. These are proof signals, not marketing copy.
+- A government procurement contact scanning the portfolio can now immediately triage which tools are closest to what they need.
+- Zero visual disruption — same card layout, same strip. Just more signal in the same space.
+- Lens: portfolio storytelling (first time this lens has been applied to stoa.works).
+
+**Up next (strongest ideas still on deck):**
+1. stanwood.dev — AI Radar loading bug: may show a visible "loading..." state on first render. Investigate and fix.
+2. stoa.works — Hero subtext: "Small team, fast delivery, no nonsense" reads as generic freelancer copy. Sharpen to something more specific to Stoa's insider position.
+3. stanwood.dev — About page: no photo. Even a casual shot would make the page feel real rather than placeholder.
+
+---
+
 ## Cycle 7 — 2026-03-26
 
 **Site worked on:** stanwood.dev
