@@ -1853,6 +1853,92 @@ const latestMobile = [
         grid-column: span 1;
       }
 
+      /* ── recently shipped strip ── */
+      .shipped-strip {
+        grid-column: 1 / -1;
+        background: white;
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+        display: flex;
+        align-items: stretch;
+        overflow: hidden;
+        animation: fadeIn 0.4s ease both;
+      }
+      .shipped-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--yellow);
+        background: var(--ink);
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        flex-shrink: 0;
+        gap: 6px;
+      }
+      .shipped-label-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: blink 1.4s step-end infinite;
+        flex-shrink: 0;
+      }
+      .shipped-entries {
+        display: flex;
+        flex: 1;
+      }
+      .shipped-entry {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 18px;
+        text-decoration: none;
+        color: var(--ink);
+        flex: 1;
+        border-left: var(--pixel) solid var(--ink);
+        transition: background 0.12s;
+        min-width: 0;
+      }
+      .shipped-entry:hover {
+        background: var(--yellow);
+      }
+      .shipped-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--ink);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .shipped-sep {
+        color: #ccc;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+      .shipped-tag {
+        font-size: 11px;
+        color: #666;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .shipped-date {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #aaa;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: 8px;
+      }
+      @media (max-width: 700px) {
+        .shipped-strip { display: none; }
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -2075,6 +2161,34 @@ const latestMobile = [
       </div>
       <div class="term-prompt" id="term-output"></div>
       <div class="term-status">stanwood.dev</div>
+    </div>
+
+    <!-- Recently Shipped -->
+    <div class="shipped-strip">
+      <span class="shipped-label">
+        <span class="shipped-label-dot"></span>
+        just shipped
+      </span>
+      <div class="shipped-entries">
+        <a class="shipped-entry" href="/vibe-check">
+          <span class="shipped-name">Vibe Check</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">AI design critique for any URL</span>
+          <span class="shipped-date">Mar '26</span>
+        </a>
+        <a class="shipped-entry" href="/museum-label">
+          <span class="shipped-name">Museum Label</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">Deadpan placard for any object</span>
+          <span class="shipped-date">Feb '26</span>
+        </a>
+        <a class="shipped-entry" href="/kid-window">
+          <span class="shipped-name">Kid Window</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">Kids activities open right now</span>
+          <span class="shipped-date">Feb '26</span>
+        </a>
+      </div>
     </div>
 
     <!-- Featured -->
