@@ -323,7 +323,8 @@ const latestMobile = [
         color: #28c840;
         font-size: 11px;
         line-height: 1.7;
-        height: 8em;
+        /* 4 lines × (11px font × 1.7 line-height) = 74.8px */
+        height: calc(4 * 11px * 1.7);
         flex: none;
         overflow: hidden;
       }
@@ -2028,8 +2029,8 @@ const latestMobile = [
         .id-block, .avatar-block, .banner-block { box-shadow: 3px 3px 0 var(--ink); }
         .retro-link { font-size: 10px; padding: 4px 6px; box-shadow: 1px 1px 0 var(--ink); }
         .link-row { grid-template-columns: 1fr 1fr; }
-        .banner-block { height: 160px !important; min-height: 160px !important; max-height: 160px !important; overflow: hidden !important; }
-        .term-prompt { font-size: 9px; overflow: hidden !important; height: 100px !important; flex: none !important; }
+        .banner-block { overflow: hidden !important; }
+        .term-prompt { font-size: 9px; overflow: hidden !important; height: calc(4 * 9px * 1.7) !important; flex: none !important; }
         .term-prompt .line { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .id-block h1 { font-size: 32px; }
 
