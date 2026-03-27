@@ -2,6 +2,73 @@
 
 ---
 
+## Cycle 7 — 2026-03-26
+
+**Site worked on:** stanwood.dev
+
+**Ideas considered:**
+
+stanwood.dev:
+1. **Tile tag sweep — rewrite the 4 weakest grid tags** ← CHOSE THIS
+2. AI Radar loading bug — possible visible bug on first render
+3. Homepage identity block / tagline — re-examine for clarity
+
+stoa.works:
+1. Portfolio card outcomes — add one concrete signal per card (timeline, agency type, live status)
+2. Stoa logo mark — currently text-only; a simple mark would help recognition
+3. Hero subtext tightening — "Small team, fast delivery, no nonsense" is decent but could be sharper
+
+**What changed:** Rewrote the 4 weakest tile tags on the stanwood.dev homepage grid:
+- Green Light: "know what to order" → "taste quiz → menu picks" (was bafflingly vague; now shows the input/output mechanism using the arrow format)
+- Redesign Rolodex: "alternate-universe redesigns" → "redesign concepts for any website" (was evocative but said nothing about what the tool does; now tells you the output and the scope)
+- Campbell, CA: "one-stop shop for our city" → "city services, events & permits" (was generic marketing speak; now specific and scannable)
+- Driverless Cars: "stats on self-driving vehicles" → "self-driving, by the numbers" (was inert and dry; now has a bit of editorial personality while staying clear)
+
+**Why highest-leverage:**
+- Tile tags are the only copy visible when scanning the grid — they are the sole click driver for 14+ projects. If a tag is confusing, the tool doesn't get clicked, period.
+- "Know what to order" was the single most confusing tag — Green Light is a taste quiz that gives you personalized restaurant menu picks. Nothing in the old tag communicated that.
+- "Alternate-universe redesigns" sounded cool but had no informational value — visitors couldn't tell if it was a gallery, an AI tool, a game, or something else.
+- Fixing 4 at once is meaningful scope — not a one-word tweak.
+- Rotation: last cycle was stoa.works (conversion/info arch). This cycle: stanwood.dev, copy/click-through lens.
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Portfolio card outcomes: add one concrete signal per card (deployed agency, timeline, live status). The portfolio is visually strong but lacks proof. This has been in the top 3 for 4 consecutive cycles — time to do it.
+2. stanwood.dev — AI Radar loading bug: the component may show a "loading..." state on first render visible to users. Worth investigating and fixing.
+3. stoa.works — Hero subtext: "Small team, fast delivery, no nonsense" is a bit generic for a site that has otherwise developed strong, specific positioning. Could be tightened to reinforce the insider angle.
+
+---
+
+## Cycle 6 — 2026-03-26
+
+**Site worked on:** stoa.works
+
+**Ideas considered:**
+
+stoa.works:
+1. **"How it works" process section** — 3-step engagement model (Brief us → Scope together → Build and ship) between services and portfolio ← CHOSE THIS
+2. Portfolio card outcome signals — deployment/live status per card
+3. "What we do" services strip visual upgrade (addressed partially — added section heading, renamed to "What we build")
+
+stanwood.dev:
+1. Section tagline rewrites for better click-through
+2. AI Radar "loading..." state investigation
+3. About page improvement (no photo)
+
+**What changed:** Added a new "How it works" section between "What we build" and "Portfolio" on stoa.works. Three numbered steps (01 / 02 / 03) in a centered horizontal grid with a connecting hairline on desktop. Steps: Brief us (no RFP needed), Scope together (one call, fixed scope/price), Build and ship (tight sprints, clean handoff, you own the code). Section ends with a CTA button linking to the contact section. Also renamed "What we do" → "What we build" and added a proper `h2` section heading to that previously headerless services strip.
+
+**Why highest-leverage:**
+- "How it works" has been the #1 pending stoa.works item for 3 consecutive cycles — clearly the right move.
+- The site explained why to choose Stoa and what they build, but had zero answer to "how do I actually engage you?" — a critical question for procurement-minded clients.
+- Government clients in particular need to understand the engagement model before they're willing to reach out. This removes a friction point between "this looks good" and "send email."
+- The lens this cycle: conversion / information architecture (new to this rotation; prior cycles covered trust, copy, and contact section redesign).
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Portfolio card outcomes: add one concrete signal per card (timeline, agency type, live status). The portfolio is strong visually but lacks proof.
+2. stanwood.dev — Section tagline rewrites: "know what to order" for Green Light is too vague; several tiles undersell their tools. Higher click-through potential.
+3. stanwood.dev — AI Radar "loading..." issue: the WebFetch detected a loading state that may be an actual bug visible on first render.
+
+---
+
 ## Cycle 5 — 2026-03-26
 
 **Site worked on:** stanwood.dev
