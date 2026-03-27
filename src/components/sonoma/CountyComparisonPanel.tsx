@@ -21,11 +21,11 @@ export default function CountyComparisonPanel({ data }: Props) {
   const chartData = years.map((year) => {
     const row: Record<string, number> = { year };
     for (const county of counties) {
-      const d = data[county].find((r) => r.year === year);
-      if (!d) continue;
-      if (metric === "total") row[county] = d.total;
-      else if (metric === "felonyRate") row[county] = parseFloat(((d.felony / d.total) * 100).toFixed(1));
-      else row[county] = parseFloat(((d.violent / d.total) * 100).toFixed(1));
+      const entry = data[county].find((r) => r.year === year);
+      if (!entry) continue;
+      if (metric === "total") row[county] = entry.total;
+      else if (metric === "felonyRate") row[county] = parseFloat(((entry.felony / entry.total) * 100).toFixed(1));
+      else row[county] = parseFloat(((entry.violent / entry.total) * 100).toFixed(1));
     }
     return row;
   });
@@ -34,11 +34,11 @@ export default function CountyComparisonPanel({ data }: Props) {
   const metricLabel = metric === "total" ? "Total Arrests" : metric === "felonyRate" ? "Felony Rate" : "Violent Rate";
 
   const latestStats = counties.map((county) => {
-    const d = data[county][data[county].length - 1];
+    const latest = data[county][data[county].length - 1];
     let val: number;
-    if (metric === "total") val = d.total;
-    else if (metric === "felonyRate") val = parseFloat(((d.felony / d.total) * 100).toFixed(1));
-    else val = parseFloat(((d.violent / d.total) * 100).toFixed(1));
+    if (metric === "total") val = latest.total;
+    else if (metric === "felonyRate") val = parseFloat(((latest.felony / latest.total) * 100).toFixed(1));
+    else val = parseFloat(((latest.violent / latest.total) * 100).toFixed(1));
     return { county, val };
   });
 

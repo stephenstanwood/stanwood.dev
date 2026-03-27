@@ -86,7 +86,7 @@ function RedesignRolodexTileInner() {
     const safeIdx = activeIdx % totalCards;
     const isScreenshotCard = hasScreenshot && safeIdx === 0;
     const dirIdx = hasScreenshot ? safeIdx - 1 : safeIdx;
-    const d = !isScreenshotCard ? stream.directions[dirIdx] : null;
+    const direction = !isScreenshotCard ? stream.directions[dirIdx] : null;
 
     const goPrev = (e: React.MouseEvent) => {
       e.preventDefault();
@@ -111,18 +111,18 @@ function RedesignRolodexTileInner() {
               alt="Current site"
               className="rrt-concept-img"
             />
-          ) : d?.conceptHtml ? (
+          ) : direction?.conceptHtml ? (
             <iframe
-              srcDoc={d.conceptHtml}
+              srcDoc={direction.conceptHtml}
               sandbox="allow-same-origin"
-              title={d.name}
+              title={direction.name}
               className="rrt-concept-iframe"
             />
           ) : null}
           <div className="rrt-concept-overlay" />
           <div className="rrt-concept-meta">
             <span className="rrt-meta-name">
-              {isScreenshotCard ? "Current Site" : d?.name ?? "..."}
+              {isScreenshotCard ? "Current Site" : direction?.name ?? "..."}
             </span>
             <span className="rrt-meta-count">
               {safeIdx + 1}/{totalCards}

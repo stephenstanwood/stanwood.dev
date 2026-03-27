@@ -5,7 +5,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
-import { errJson, okJson, devErrJson } from "../../../lib/apiHelpers";
+import { errJson, okJson, devErrJson, toErrMsg } from "../../../lib/apiHelpers";
 import { buildMorePrompt } from "../../../lib/redesignRolodex/prompt";
 import type {
   WeirdnessMode,
@@ -68,10 +68,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson({ directions });
   } catch (err) {
     console.error("redesign-rolodex more error:", err);
-    const errMsg = err instanceof Error ? err.message : String(err);
-    let message = "Couldn't generate more directions. Try again.";
-    if (errMsg.includes("JSON"))
-      message = "AI returned an unexpected format. Try again.";
+    const errMsg = toErrMsg(err);
+    const message = errMsg.includes("JSON")
+      ? "AI returned an unexpected format. Try again."
+      : "Couldn't generate more directions. Try again.";
 
     return devErrJson(message, errMsg);
   }
