@@ -77,14 +77,6 @@ export const PAGES: Record<string, PageConfig> = {
     bg2: "#1e2330",
     accent: "#fb923c",
   },
-  "idea-shuffler": {
-    emoji: "\u{1F500}",
-    title: "Idea Shuffler",
-    tagline: "Browse ideas without ranking them.",
-    bg: "#111318",
-    bg2: "#1e2330",
-    accent: "#f472b6",
-  },
   swim: {
     emoji: "\u{1F3CA}",
     title: "Lap Lab",
@@ -132,14 +124,6 @@ export const PAGES: Record<string, PageConfig> = {
     bg: "#1C1030",
     bg2: "#2D1B4E",
     accent: "#A78BDB",
-  },
-  "vibe-check": {
-    emoji: "\u2728",
-    title: "Vibe Check",
-    tagline: "Paste a URL, get an instant design vibe rating.",
-    bg: "#0d0f1a",
-    bg2: "#1a1f3a",
-    accent: "#a78bfa",
   },
   "which-model": {
     emoji: "\u{1F9E0}",

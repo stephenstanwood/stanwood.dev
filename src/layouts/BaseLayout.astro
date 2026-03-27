@@ -104,7 +104,10 @@ const pageSchema =
     <slot name="head" />
   </head>
   <body>
-    <slot />
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <main id="main-content">
+      <slot />
+    </main>
     <Analytics />
   </body>
 </html>
