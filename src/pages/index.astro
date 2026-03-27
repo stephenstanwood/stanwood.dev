@@ -50,12 +50,10 @@ const sportsAndFitness = [
 
 const technology = [
   { href: "/driverless", emoji: "🚗", name: "Driverless Cars", tag: "self-driving, by the numbers", image: "/images/self-driving.png" },
-  { href: "/vibe-check", emoji: "🔮", name: "Vibe Check", tag: "ai vibe rating for any website", image: "/images/vibe-check.webp" },
 ];
 
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
-  { href: "/idea-shuffler", emoji: "🔀", name: "Idea Shuffler", tag: "browse your ideas without ranking them", image: "/images/idea-shuffler.webp" },
   { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "redesign concepts for any website", image: "/images/redesign-rolodex.png", mobileOnly: true },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.png", mobileOnly: true },
 ];
@@ -2260,7 +2258,7 @@ const latestMobile = [
     </div>
 
     <!-- Sports & Fitness -->
-    <div class="section-label">on the scoreboard</div>
+    <div class="section-label">sports & fitness</div>
 
     <div class="proj-row">
       {sportsAndFitness.map((p) => (
@@ -2278,7 +2276,7 @@ const latestMobile = [
     </div>
 
     <!-- Technology -->
-    <div class="section-label">in the browser</div>
+    <div class="section-label">technology</div>
 
     <div class="proj-row">
       <TerminalLoopTile client:idle />
@@ -2297,7 +2295,7 @@ const latestMobile = [
     </div>
 
     <!-- Local -->
-    <div class="section-label">around here</div>
+    <div class="section-label">local</div>
 
     <div class="proj-row">
       {local.map((p) => (
@@ -2384,7 +2382,7 @@ const latestMobile = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '18 and counting'],
+      ['ls projects/ | wc -l', '16 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
