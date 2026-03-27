@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import launches from "../data/ai-launches.json";
 import {
   type Launch,
@@ -13,13 +12,6 @@ const sorted = (launches as Launch[])
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 export default function AIRadarTile() {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 2000);
-    return () => clearTimeout(t);
-  }, []);
-
   const items = sorted.slice(0, 3);
 
   return (
@@ -36,16 +28,7 @@ export default function AIRadarTile() {
       </div>
       <div className="radar-sub">what just shipped in AI</div>
 
-      {!ready && (
-        <div className="radar-anim">
-          <div className="radar-dot" />
-          <div className="radar-ring radar-ring-1" />
-          <div className="radar-ring radar-ring-2" />
-          <div className="radar-ring radar-ring-3" />
-        </div>
-      )}
-
-      <div className={`radar-list ${ready ? "radar-list--visible" : ""}`}>
+      <div className="radar-list radar-list--visible">
         <div className="radar-entries">
           {items.map((l, i) => {
             const { date, month } = formatLaunchDate(l.date);
