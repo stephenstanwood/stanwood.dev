@@ -10,8 +10,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { VIBE_SYSTEM_PROMPT, type VibeResult } from "../../lib/vibePrompt";
-import { errJson, okJson, devErrJson, isValidUrl } from "../../lib/apiHelpers";
-import { captureScreenshot } from "../../lib/screenshotClient";
+import { errJson, okJson, devErrJson, isValidUrl, toErrMsg } from "../../lib/apiHelpers";
+import { captureScreenshot, screenshotErrorMessage } from "../../lib/screenshotClient";
 
 const RATE_LIMIT_MAX = 20;
 
@@ -66,16 +66,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson(result, { "Cache-Control": "public, max-age=3600" });
   } catch (err) {
     console.error("vibe-check error:", err);
-    let message = "Something went wrong. Try again in a moment.";
-    const errMsg = err instanceof Error ? err.message : String(err);
-    if (errMsg === "Failed to capture screenshot") {
-      message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
-    } else if (errMsg === "Screenshot API key not configured") {
-      message = "Screenshot service not available right now.";
-    } else if (errMsg.includes("JSON")) {
-      message = "AI returned an unexpected format. Try again.";
-    }
+    const errMsg = toErrMsg(err);
     // devErrJson includes debug detail in development only — never exposes internals to production clients
-    return devErrJson(message, errMsg);
+    return devErrJson(screenshotErrorMessage(errMsg), errMsg);
   }
 };

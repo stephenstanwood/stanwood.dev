@@ -4,6 +4,7 @@
  */
 
 import { haversineMeters } from "./geo";
+import { errJson } from "./apiHelpers";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
@@ -63,10 +64,7 @@ const BASE_FIELDS = [
  */
 export function validatePlacesKey(): Response | null {
   if (!PLACES_API_KEY) {
-    return new Response(
-      JSON.stringify({ error: "Google Places API key not configured" }),
-      { status: 500, headers: { "Content-Type": "application/json" } },
-    );
+    return errJson("Google Places API key not configured", 500);
   }
   return null;
 }
@@ -110,12 +108,7 @@ export async function searchNearbyPlaces(
 
     if (!res.ok) {
       console.error("Places API error:", res.status);
-      return {
-        error: new Response(
-          JSON.stringify({ error: "Unable to search nearby places" }),
-          { status: 502, headers: { "Content-Type": "application/json" } },
-        ),
-      };
+      return { error: errJson("Unable to search nearby places", 502) };
     }
 
     const data = await res.json();

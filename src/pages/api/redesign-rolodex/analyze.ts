@@ -5,8 +5,8 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET } from "../../../lib/models";
-import { errJson, isValidUrl } from "../../../lib/apiHelpers";
-import { captureScreenshot } from "../../../lib/screenshotClient";
+import { errJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
+import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
 import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
@@ -112,16 +112,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           send("done", {});
         } catch (err) {
           console.error("redesign-rolodex analyze stream error:", err);
-          const errMsg = err instanceof Error ? err.message : String(err);
-          let message = "Something went wrong. Try again in a moment.";
-          if (errMsg === "Failed to capture screenshot")
-            message = "Couldn't capture that site. It may be blocking screenshots or unreachable.";
-          else if (errMsg === "Screenshot API key not configured")
-            message = "Screenshot service not available right now.";
-          else if (errMsg.includes("JSON"))
-            message = "AI returned an unexpected format. Try again.";
-          else if (errMsg.includes("abort") || errMsg.includes("timed out"))
-            message = "Analysis took too long. Try a simpler URL.";
+          const errMsg = toErrMsg(err);
+          // Timeout gets its own message; everything else goes through shared screenshot error helper
+          const message =
+            errMsg.includes("abort") || errMsg.includes("timed out")
+              ? "Analysis took too long. Try a simpler URL."
+              : screenshotErrorMessage(errMsg);
 
           send("error", { error: message });
         } finally {

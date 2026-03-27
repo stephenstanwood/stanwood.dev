@@ -37,6 +37,11 @@ export function validateLatLon(
   return { latitude: lat, longitude: lon };
 }
 
+/** Extract a string message from an unknown caught value. */
+export function toErrMsg(err: unknown): string {
+  return err instanceof Error ? err.message : String(err);
+}
+
 /**
  * Build a 500 error JSON response. In development, includes a `debug` field with the raw
  * error message so internals are never exposed to production clients.
