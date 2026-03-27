@@ -55,6 +55,7 @@ const technology = [
 
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
+  { href: "/idea-shuffler", emoji: "🔀", name: "Idea Shuffler", tag: "browse your ideas without ranking them", image: "/images/idea-shuffler.webp" },
   { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "redesign concepts for any website", image: "/images/redesign-rolodex.png", mobileOnly: true },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.png", mobileOnly: true },
 ];
@@ -763,6 +764,10 @@ const latestMobile = [
       .proj-row > script { display: none; }
       .proj-tile.mobile-only { display: none; }
       .desktop-only { grid-column: span 2; display: contents; }
+
+      /* ── 4-tile row variant ── */
+      .proj-row--four { grid-template-columns: repeat(4, 1fr); }
+      .proj-row--four .proj-tile { grid-column: span 1; }
 
       .proj-tile {
         grid-column: span 2;
@@ -2018,6 +2023,8 @@ const latestMobile = [
         .feat-row .feat-card:nth-child(3) { grid-column: 1 / -1; }
         .proj-row { grid-template-columns: repeat(6, 1fr) !important; }
         .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 2 !important; }
+        .proj-row--four { grid-template-columns: repeat(4, 1fr) !important; }
+        .proj-row--four .proj-tile { grid-column: span 1 !important; }
         .proj-tile.last-full { grid-column: 1 / -1 !important; }
       }
 
@@ -2241,7 +2248,7 @@ const latestMobile = [
     <!-- Weird & Useful -->
     <div class="section-label">weird & useful</div>
 
-    <div class="proj-row">
+    <div class="proj-row proj-row--four">
       {weirdAndUseful.map((p) => (
         <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
           {p.image && (
@@ -2383,7 +2390,7 @@ const latestMobile = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '17 and counting'],
+      ['ls projects/ | wc -l', '18 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
