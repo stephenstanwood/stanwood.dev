@@ -15,7 +15,11 @@ const chartData = disengagementData.map((d) => ({
   label: d.milesPerDisengagement.toLocaleString() + " mi",
 }));
 
-function CustomTooltip({ active, payload }: any) {
+interface ChartPayloadEntry {
+  payload: { company: string; milesPerDisengagement: number };
+}
+
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: ChartPayloadEntry[] }) {
   if (!active || !payload?.length) return null;
   const { company, milesPerDisengagement } = payload[0].payload;
   return (

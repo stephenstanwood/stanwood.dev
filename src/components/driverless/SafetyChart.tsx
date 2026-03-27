@@ -17,10 +17,12 @@ const chartData = safetyData.map((d) => ({
   label: `-${d.reduction}%`,
 }));
 
-function CustomTooltip({ active, payload, label }: any) {
+interface ChartPayloadEntry { dataKey: string; value: number }
+
+function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: ChartPayloadEntry[]; label?: string }) {
   if (!active || !payload?.length) return null;
-  const human = payload.find((p: any) => p.dataKey === "humanRate");
-  const waymo = payload.find((p: any) => p.dataKey === "waymoRate");
+  const human = payload.find((p) => p.dataKey === "humanRate");
+  const waymo = payload.find((p) => p.dataKey === "waymoRate");
   return (
     <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 6, padding: "8px 12px", fontSize: 12 }}>
       <strong>{label}</strong>

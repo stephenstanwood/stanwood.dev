@@ -1,5 +1,37 @@
 [
   {
+    "name": "Mistral Speech",
+    "org": "Mistral",
+    "date": "2026-03-26",
+    "type": "model",
+    "summary": "open-source text-to-speech model for building voice agents — Apache 2.0, competes with ElevenLabs at zero licensing cost",
+    "url": "https://mistral.ai/news/mistral-speech"
+  },
+  {
+    "name": "DeerFlow 2.0",
+    "org": "ByteDance",
+    "date": "2026-03-25",
+    "type": "tool",
+    "summary": "open-source agent framework for long-running autonomous tasks: research, coding, creative work — sandboxed execution, MIT license on GitHub",
+    "url": "https://github.com/bytedance/deer-flow"
+  },
+  {
+    "name": "Claude Code Auto Mode",
+    "org": "Anthropic",
+    "date": "2026-03-24",
+    "type": "tool",
+    "summary": "Claude Code now pauses less for approval — ships tasks faster end-to-end while keeping guardrails, new statusline and plugin controls",
+    "url": "https://www.anthropic.com/claude-code"
+  },
+  {
+    "name": "GPT Image 1.5 API",
+    "org": "OpenAI",
+    "date": "2026-03-22",
+    "type": "tool",
+    "summary": "image editing and generation in the API at $0.009/image — 4x faster than v1, strong image preservation for in-app editing flows",
+    "url": "https://openai.com/index/image-generation-api/"
+  },
+  {
     "name": "Claude Code Channels",
     "org": "Anthropic",
     "date": "2026-03-20",
@@ -24,43 +56,11 @@
     "url": "https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models"
   },
   {
-    "name": "Gemini 3.1 + Computer Use API",
-    "org": "Google",
-    "date": "2026-03-18",
-    "type": "tool",
-    "summary": "Computer Use tool now live in Gemini 3.1 Pro and Flash previews — build browser agents via the Gemini API today",
-    "url": "https://ai.google.dev/gemini-api/docs/gemini-3"
-  },
-  {
-    "name": "Gemini 3.1 Flash-Lite",
-    "org": "Google",
-    "date": "2026-03-18",
-    "type": "model",
-    "summary": "cheapest capable Gemini yet at $0.25/1M input tokens — same Flash quality, lower price, available in the Gemini API now",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
-  },
-  {
     "name": "Mistral Small 4",
     "org": "Mistral",
     "date": "2026-03-17",
     "type": "model",
     "summary": "Apache 2.0 open model with text + image support — 119B params, only 6B active (MoE), free to self-host or run via API",
     "url": "https://mistral.ai/news/mistral-small-4"
-  },
-  {
-    "name": "Gemini Spend Caps",
-    "org": "Google",
-    "date": "2026-03-16",
-    "type": "tool",
-    "summary": "Gemini API finally gets monthly spend caps — removes the accidental runaway-bill risk for indie devs",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/more-control-over-gemini-api-costs"
-  },
-  {
-    "name": "Claude Memory",
-    "org": "Anthropic",
-    "date": "2026-03-13",
-    "type": "tool",
-    "summary": "Claude now remembers context and preferences across conversations — rolled out to all users",
-    "url": "https://releasebot.io/updates/anthropic/claude"
   }
 ]

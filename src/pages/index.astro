@@ -49,19 +49,21 @@ const sportsAndFitness = [
 ];
 
 const technology = [
-  { href: "/driverless", emoji: "🚗", name: "Driverless Cars", tag: "stats on self-driving vehicles", image: "/images/self-driving.png" },
+  { href: "/driverless", emoji: "🚗", name: "Driverless Cars", tag: "self-driving, by the numbers", image: "/images/self-driving.png" },
+  { href: "/vibe-check", emoji: "🔮", name: "Vibe Check", tag: "ai vibe rating for any website", image: "/images/vibe-check.webp" },
 ];
 
 const weirdAndUseful = [
   { href: "/tldr", emoji: "📄", name: "TL;DR", tag: "pdf → short version", image: "/images/tldr.webp" },
-  { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "alternate-universe redesigns", image: "/images/redesign-rolodex.png", mobileOnly: true },
+  { href: "/idea-shuffler", emoji: "🔀", name: "Idea Shuffler", tag: "browse your ideas without ranking them", image: "/images/idea-shuffler.webp" },
+  { href: "/redesign-rolodex", emoji: "🎰", name: "Redesign Rolodex", tag: "redesign concepts for any website", image: "/images/redesign-rolodex.png", mobileOnly: true },
   { href: "/which-model", emoji: "🧠", name: "Which Model?", tag: "match your task to the right AI", image: "/images/which-model.png", mobileOnly: true },
 ];
 
 const local = [
-  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "know what to order", image: "/images/green-light.webp" },
+  { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "taste quiz → menu picks", image: "/images/green-light.webp" },
   { href: "/kid-window", emoji: "🪟", name: "Kid Window", tag: "kids activities open right now", image: "/images/nearest-fun.webp" },
-  { href: "/campbell", emoji: "🏛️", name: "Campbell, CA", tag: "one-stop shop for our city", image: "/images/campbell.png" },
+  { href: "/campbell", emoji: "🏛️", name: "Campbell, CA", tag: "city services, events & permits", image: "/images/campbell.png" },
 ];
 const justForFun = [
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
@@ -762,6 +764,10 @@ const latestMobile = [
       .proj-row > script { display: none; }
       .proj-tile.mobile-only { display: none; }
       .desktop-only { grid-column: span 2; display: contents; }
+
+      /* ── 4-tile row variant ── */
+      .proj-row--four { grid-template-columns: repeat(4, 1fr); }
+      .proj-row--four .proj-tile { grid-column: span 1; }
 
       .proj-tile {
         grid-column: span 2;
@@ -1853,6 +1859,92 @@ const latestMobile = [
         grid-column: span 1;
       }
 
+      /* ── recently shipped strip ── */
+      .shipped-strip {
+        grid-column: 1 / -1;
+        background: white;
+        border: var(--pixel) solid var(--ink);
+        box-shadow: 4px 4px 0 var(--ink);
+        display: flex;
+        align-items: stretch;
+        overflow: hidden;
+        animation: fadeIn 0.4s ease both;
+      }
+      .shipped-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--yellow);
+        background: var(--ink);
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        flex-shrink: 0;
+        gap: 6px;
+      }
+      .shipped-label-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: blink 1.4s step-end infinite;
+        flex-shrink: 0;
+      }
+      .shipped-entries {
+        display: flex;
+        flex: 1;
+      }
+      .shipped-entry {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 18px;
+        text-decoration: none;
+        color: var(--ink);
+        flex: 1;
+        border-left: var(--pixel) solid var(--ink);
+        transition: background 0.12s;
+        min-width: 0;
+      }
+      .shipped-entry:hover {
+        background: var(--yellow);
+      }
+      .shipped-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--ink);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .shipped-sep {
+        color: #ccc;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        flex-shrink: 0;
+      }
+      .shipped-tag {
+        font-size: 11px;
+        color: #666;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .shipped-date {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #aaa;
+        white-space: nowrap;
+        flex-shrink: 0;
+        margin-left: 8px;
+      }
+      @media (max-width: 700px) {
+        .shipped-strip { display: none; }
+      }
+
       /* ── footer ── */
       .footer-row {
         grid-column: 1 / -1;
@@ -1931,6 +2023,8 @@ const latestMobile = [
         .feat-row .feat-card:nth-child(3) { grid-column: 1 / -1; }
         .proj-row { grid-template-columns: repeat(6, 1fr) !important; }
         .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 2 !important; }
+        .proj-row--four { grid-template-columns: repeat(4, 1fr) !important; }
+        .proj-row--four .proj-tile { grid-column: span 1 !important; }
         .proj-tile.last-full { grid-column: 1 / -1 !important; }
       }
 
@@ -2077,6 +2171,34 @@ const latestMobile = [
       <div class="term-status">stanwood.dev</div>
     </div>
 
+    <!-- Recently Shipped -->
+    <div class="shipped-strip">
+      <span class="shipped-label">
+        <span class="shipped-label-dot"></span>
+        just shipped
+      </span>
+      <div class="shipped-entries">
+        <a class="shipped-entry" href="/idea-shuffler">
+          <span class="shipped-name">Idea Shuffler</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">Browse your ideas without ranking them</span>
+          <span class="shipped-date">Mar '26</span>
+        </a>
+        <a class="shipped-entry" href="/vibe-check">
+          <span class="shipped-name">Vibe Check</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">AI design critique for any URL</span>
+          <span class="shipped-date">Mar '26</span>
+        </a>
+        <a class="shipped-entry" href="/museum-label">
+          <span class="shipped-name">Museum Label</span>
+          <span class="shipped-sep">/</span>
+          <span class="shipped-tag">Deadpan placard for any object</span>
+          <span class="shipped-date">Feb '26</span>
+        </a>
+      </div>
+    </div>
+
     <!-- Featured -->
     <div class="section-label">⭐ featured</div>
 
@@ -2126,7 +2248,7 @@ const latestMobile = [
     <!-- Weird & Useful -->
     <div class="section-label">weird & useful</div>
 
-    <div class="proj-row">
+    <div class="proj-row proj-row--four">
       {weirdAndUseful.map((p) => (
         <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
           {p.image && (
@@ -2144,7 +2266,7 @@ const latestMobile = [
     </div>
 
     <!-- Sports & Fitness -->
-    <div class="section-label">sports & fitness</div>
+    <div class="section-label">on the scoreboard</div>
 
     <div class="proj-row">
       {sportsAndFitness.map((p) => (
@@ -2162,7 +2284,7 @@ const latestMobile = [
     </div>
 
     <!-- Technology -->
-    <div class="section-label">technology</div>
+    <div class="section-label">in the browser</div>
 
     <div class="proj-row">
       <TerminalLoopTile client:idle />
@@ -2178,13 +2300,10 @@ const latestMobile = [
           </div>
         </a>
       ))}
-      <div class="proj-tile spacer-tile">
-        <div class="spacer-terminal"><span class="spacer-text">have a great day</span> <span>🙂</span></div>
-      </div>
     </div>
 
     <!-- Local -->
-    <div class="section-label">local</div>
+    <div class="section-label">around here</div>
 
     <div class="proj-row">
       {local.map((p) => (
@@ -2271,7 +2390,7 @@ const latestMobile = [
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
       ['ping localhost', '0.01ms — still here'],
-      ['ls projects/ | wc -l', '16 and counting'],
+      ['ls projects/ | wc -l', '18 and counting'],
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],

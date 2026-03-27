@@ -4,6 +4,23 @@ const CACHE_TTL_MS = 10 * 60_000; // 10 minutes
 const cache = new Map<string, { base64: string; expiresAt: number }>();
 
 /**
+ * Translate a thrown error from captureScreenshot into a user-facing message.
+ * Both vibe-check and redesign-rolodex use this same translation logic.
+ */
+export function screenshotErrorMessage(errMsg: string): string {
+  if (errMsg === "Failed to capture screenshot") {
+    return "Couldn't capture that site. It may be blocking screenshots or unreachable.";
+  }
+  if (errMsg === "Screenshot API key not configured") {
+    return "Screenshot service not available right now.";
+  }
+  if (errMsg.includes("JSON")) {
+    return "AI returned an unexpected format. Try again.";
+  }
+  return "Something went wrong. Try again in a moment.";
+}
+
+/**
  * Capture a screenshot of the given URL via screenshotone.com.
  * Results are cached in-memory for 10 minutes to avoid redundant API calls.
  * Returns a base64-encoded JPEG string.
