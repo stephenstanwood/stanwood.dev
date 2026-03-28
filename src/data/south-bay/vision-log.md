@@ -660,3 +660,67 @@ Date grouping in EventsView solves a discoverability problem: "what's happening 
 **Yes — the Today tab now works as a real daily brief.** "Today in San Jose" on a given day might show 30+ events: library story times, SJSU lectures, community center programs, city-sponsored events, Computer History Museum programs. This is the density that makes a homepage worth bookmarking. The combination of specific times, venue names, and free/paid filtering makes it immediately actionable. The date-grouped EventsView makes the full calendar scannable rather than overwhelming. Together, these two changes cross another qualitative threshold: South Bay Signal now answers "what should I do today?" with real answers, not just recurring patterns.
 
 ---
+
+## 2026-03-28 — Cycle 12: Automated Data Refresh + Upcoming Council Meetings
+
+### Context
+Coming off Cycle 11 which delivered date grouping in EventsView and integrated scraped events into the Today tab. The events data was a static snapshot from that morning. Without a refresh mechanism, it would degrade within days: past events would pile up, new library programs wouldn't appear, the "Today in San Jose" section would thin out. The product had all the right infrastructure but no heartbeat.
+
+Simultaneously, the Government tab was entirely backward-looking: it showed what happened at the last council meeting but nothing about what's coming. A "Next meeting: Tue, Apr 7" label on the San Jose card answers a genuinely useful question that no other South Bay source provides in one place.
+
+### Issues Identified This Cycle
+1. **Events data goes stale without automation** — The 1,724-event JSON was generated on March 28 and would stay frozen until manually re-run. A product claiming to be "today's daily brief" needs data that refreshes daily, not manually.
+2. **Government tab is entirely backward-looking** — Every digest card showed the last meeting's summary. There was no forward-looking civic intelligence — no answer to "when is the next meeting?"
+3. **City government cards in empty state showed nothing** — A city without a pre-generated digest just showed "no digest yet" and a Generate button. No useful information. If we know the next meeting date from Legistar, that's civic value we can surface immediately without requiring the user to generate a digest.
+
+### What Was Built
+
+**1. GitHub Actions daily refresh workflow** (`.github/workflows/refresh-events.yml`)
+
+- Runs every day at 6am PT via cron (`0 14 * * *`)
+- Also has `workflow_dispatch` for manual triggers
+- Runs `node scripts/generate-events.mjs` (events from 11 sources)
+- Runs `node scripts/generate-upcoming-meetings.mjs` (council meeting dates)
+- Commits and pushes both JSON files only if they changed (no-op commits avoided)
+- Uses `GITHUB_TOKEN` with `permissions: contents: write` — no secrets needed
+- Triggers a Vercel redeploy automatically on each push to main
+- Result: the events feed and next-meeting data now refresh every morning automatically
+
+**2. `scripts/generate-upcoming-meetings.mjs`** — new script
+
+- Queries the Legistar Web API for 5 cities: San José, Mountain View, Sunnyvale, Cupertino, Santa Clara
+- For each city: `GET /v1/{client}/Events?$filter=EventBodyName eq 'City Council' and EventDate gt datetime'{today}'&$orderby=EventDate asc&$top=1`
+- Filters out placeholder dates more than 60 days out (Legistar often has distant year-end placeholders)
+- Writes `src/data/south-bay/upcoming-meetings.json` with next meeting date, display date, location, and direct Legistar URL
+- No API keys required — Legistar Web API is free and public
+- Results this run: San José (Apr 7), Cupertino (Apr 1); Mountain View, Sunnyvale, Santa Clara had no near-term meetings posted
+
+**3. GovernmentView.tsx + DigestCard.tsx updated**
+
+- GovernmentView imports `upcoming-meetings.json` and passes `upcomingMeeting` to DigestCard for each Legistar city
+- DigestCard: accepts optional `upcomingMeeting` prop; shows real meeting date (from JSON) in footer, linking to the Legistar event page — overrides AI-generated `nextMeeting` text when real data is available
+- Empty state (no digest yet): now shows city name + "Next meeting: Tue, Apr 7 →" link instead of just "no digest yet". If no upcoming meeting is known, shows "No digest generated yet"
+- Result: even before a user generates a digest, the Gov tab surfaces useful civic information — when the council meets next and where to find the agenda
+
+### Why This Was the Strongest Move
+
+**Automation closes the decay problem.** A product that describes itself as "the operating system for the South Bay" cannot run on stale data. The GitHub Actions workflow is the difference between a daily product and a snapshot that gradually lies. Once merged, South Bay Signal's events feed and upcoming meeting data self-refresh every morning. No human action needed.
+
+**Upcoming meetings add a second dimension of civic value.** "Last meeting summary" (backward-looking) and "Next meeting date" (forward-looking) together tell a more complete story. The Gov tab went from: "here's what happened" → "here's what happened + here's what's coming." That's meaningfully more useful for anyone trying to stay engaged with local government.
+
+**The empty state fix is high-leverage.** Most users will never click "Generate" on a city digest card — generating is a heavy action. But seeing "Next meeting: Tue, Apr 7 →" is a lightweight, instantly useful data point that requires zero user action. It turns a dead zone into a useful row.
+
+### What New Opportunities Emerged
+1. **Pre-generate digests on the same GitHub Actions cron** — Currently digests require manual generation (ANTHROPIC_API_KEY in secrets). If the key is set, we could regenerate all city digests automatically too, making the Gov tab truly "self-updating." One more script and one more workflow step.
+2. **Upcoming meeting agendas** — When Legistar has a posted agenda for the next meeting, the EventItems API returns those items too. A "peek at the upcoming agenda" section (top 3-5 items) would be uniquely useful.
+3. **Palo Alto PrimeGov coverage** — Still the largest city missing from Gov tab. PrimeGov has a public REST API.
+
+### Next 3 Strongest Ideas
+1. **Pre-generate city council digests automatically** — Add `ANTHROPIC_API_KEY` to GitHub Actions secrets and schedule digest regeneration. This turns the Gov tab from "on-demand AI" into "always-fresh summaries." Every morning, all 8 cities would have fresh digests waiting.
+2. **Upcoming meeting agenda preview** — Use Legistar's EventItems API to show the top 3-5 agenda items for the next scheduled meeting. Adds forward-looking civic intelligence that no other source aggregates across all South Bay cities.
+3. **Palo Alto PrimeGov coverage** — Remaining major city without Gov tab coverage. PrimeGov has a public REST API similar to Legistar. Would bring coverage to 9/11 cities.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — this cycle solves the permanence problem.** Previous cycles built excellent infrastructure but it was frozen in time. Now the product breathes: events refresh daily, council meeting dates update automatically, Vercel redeploys without human intervention. South Bay Signal crossed from "impressive demo" to "self-sustaining local intelligence layer." The upcoming meetings feature adds civic depth to the Gov tab that no other South Bay source provides — knowing when San José City Council meets next, with a direct link to the agenda, is genuinely useful to engaged residents.
+
+---
