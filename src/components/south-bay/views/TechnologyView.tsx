@@ -13,14 +13,16 @@ import {
   TECH_PULSE,
   CATEGORY_LABELS,
   CHART_DATA,
+  SCC_SPOTLIGHT,
   type TechCompany,
   type TechTrend,
+  type SccTechSpotlight,
 } from "../../../data/south-bay/tech-companies";
 
 // ── Tooltip for chart ──────────────────────────────────────────────────────
 
 interface TooltipPayload {
-  payload?: { name: string; headcount: number; trend: TechTrend };
+  payload?: { name: string; headcount: number; trend: TechTrend }; // headcount = sccEmployeesK
 }
 
 function ChartTooltip({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) {
@@ -42,7 +44,7 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: Tooltip
     >
       <div style={{ fontWeight: 600, marginBottom: 4 }}>{d.name}</div>
       <div style={{ color: trendColor, fontWeight: 500 }}>
-        ~{d.headcount.toLocaleString()}K employees (global est.)
+        ~{d.headcount.toLocaleString()}K SCC employees (est.)
       </div>
     </div>
   );
@@ -82,7 +84,7 @@ function CompanyCard({ company }: { company: TechCompany }) {
         <span className="tech-card-dot">·</span>
         <span className="tech-card-category">{CATEGORY_LABELS[company.category]}</span>
         <span className="tech-card-dot">·</span>
-        <span className="tech-card-headcount">~{company.headcountK.toLocaleString()}K employees</span>
+        <span className="tech-card-headcount">~{company.sccEmployeesK.toLocaleString()}K SCC jobs</span>
       </div>
 
       <p className="tech-card-desc">{company.description}</p>
@@ -98,11 +100,43 @@ function CompanyCard({ company }: { company: TechCompany }) {
   );
 }
 
+// ── Spotlight card (startups + mid-size) ───────────────────────────────────
+
+const STAGE_LABELS: Record<SccTechSpotlight["stage"], string> = {
+  public: "Public",
+  growth: "Growth",
+  startup: "Startup",
+};
+
+function SpotlightCard({ company }: { company: SccTechSpotlight }) {
+  return (
+    <div
+      className="tech-spotlight-card"
+      style={{ borderTop: `3px solid ${company.color}` }}
+    >
+      <div className="tech-spotlight-top">
+        <span className="tech-spotlight-name">{company.name}</span>
+        <span
+          className="tech-spotlight-stage"
+          style={{
+            background: company.stage === "startup" ? "#fef3c7" : company.stage === "growth" ? "#dbeafe" : "#f3f4f6",
+            color: company.stage === "startup" ? "#92400e" : company.stage === "growth" ? "#1e40af" : "#374151",
+          }}
+        >
+          {STAGE_LABELS[company.stage]}
+        </span>
+      </div>
+      <div className="tech-spotlight-city">{company.city}</div>
+      <p className="tech-spotlight-tagline">{company.tagline}</p>
+    </div>
+  );
+}
+
 // ── Main view ──────────────────────────────────────────────────────────────
 
 export default function TechnologyView() {
   const sortedCompanies = [...TECH_COMPANIES].sort(
-    (a, b) => b.headcountK - a.headcountK
+    (a, b) => b.sccEmployeesK - a.sccEmployeesK
   );
 
   return (
@@ -112,11 +146,11 @@ export default function TechnologyView() {
         <div className="tech-header-eyebrow">South Bay</div>
         <h2 className="tech-header-title">Technology</h2>
         <p className="tech-header-subtitle">
-          The companies headquartered in your backyard — from garage startups
-          to the most valuable businesses in human history.
+          The companies headquartered in your backyard — and how many people
+          they employ right here in Santa Clara County.
         </p>
         <div className="tech-header-note">
-          Data snapshot · Q1 2026 · Global headcount estimates · Not affiliated with any company listed
+          Data snapshot · Q1 2026 · Santa Clara County employment estimates · Not affiliated with any company listed
         </div>
       </div>
 
@@ -135,7 +169,7 @@ export default function TechnologyView() {
       <div className="tech-section">
         <div className="tech-section-head">
           <h3 className="tech-section-title">Top Employers</h3>
-          <span className="tech-section-note">Global headcount, thousands · Top 10 by size</span>
+          <span className="tech-section-note">SCC local jobs, thousands · Top 10 by size</span>
         </div>
 
         <div className="tech-chart-wrap">
@@ -190,7 +224,7 @@ export default function TechnologyView() {
       <div className="tech-section">
         <div className="tech-section-head">
           <h3 className="tech-section-title">All Companies</h3>
-          <span className="tech-section-note">Sorted by global headcount</span>
+          <span className="tech-section-note">Sorted by SCC local employment</span>
         </div>
 
         <div className="tech-grid">
@@ -200,11 +234,24 @@ export default function TechnologyView() {
         </div>
       </div>
 
+      {/* ── Spotlight: Startups & More ── */}
+      <div className="tech-section">
+        <div className="tech-section-head">
+          <h3 className="tech-section-title">Startups & Rising Companies</h3>
+          <span className="tech-section-note">Notable SCC tech beyond the marquee names</span>
+        </div>
+        <div className="tech-spotlight-grid">
+          {SCC_SPOTLIGHT.map((company) => (
+            <SpotlightCard key={company.id} company={company} />
+          ))}
+        </div>
+      </div>
+
       {/* ── Footer note ── */}
       <div className="tech-footer-note">
-        Headcount figures are global estimates as of Q1 2026, sourced from company earnings reports,
-        SEC filings, and news coverage. South Bay Signal is not affiliated with any company listed and
-        this is not investment advice.
+        Employment figures are Santa Clara County estimates as of Q1 2026, derived from campus headcount reports,
+        company filings, EDD data, and news coverage. Global headcounts are much larger. South Bay Signal is not
+        affiliated with any company listed and this is not investment advice.
       </div>
     </div>
   );

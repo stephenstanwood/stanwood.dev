@@ -758,6 +758,59 @@ const title = "South Bay Signal — stanwood.dev";
         border: 1px solid var(--sb-border-light);
       }
 
+      /* Spotlight grid */
+      .tech-spotlight-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 12px;
+      }
+
+      .tech-spotlight-card {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border);
+        border-radius: 6px;
+        padding: 14px 14px 12px;
+      }
+
+      .tech-spotlight-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 2px;
+      }
+
+      .tech-spotlight-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--sb-text);
+        font-family: var(--sb-sans);
+      }
+
+      .tech-spotlight-stage {
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 3px;
+        white-space: nowrap;
+        font-family: var(--sb-sans);
+      }
+
+      .tech-spotlight-city {
+        font-size: 11px;
+        color: var(--sb-light);
+        font-family: var(--sb-sans);
+        margin-bottom: 8px;
+      }
+
+      .tech-spotlight-tagline {
+        font-size: 12px;
+        color: var(--sb-secondary);
+        line-height: 1.5;
+        margin: 0;
+        font-family: var(--sb-sans);
+      }
+
       /* Footer note */
       .tech-footer-note {
         font-size: 11px;
