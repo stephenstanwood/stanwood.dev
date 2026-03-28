@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SouthBaySignal from "../components/south-bay/SouthBaySignal";
+---
+
+<BaseLayout
+  title="South Bay Signal — Local intelligence for the South Bay"
+  description="The cleanest way to follow what matters in the South Bay. Sports, city government, tech, and events — 11 cities, no noise."
+  slug="south-bay"
+  favicon="/favicon.ico"
+  themeColor="#1E3A5F"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap"
+  schemaCategory="WebApplication"
+  schemaName="South Bay Signal"
+>
+  <Fragment slot="head">
+    <style is:global>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #F7F8FA;
+      }
+    </style>
+  </Fragment>
+
+  <SouthBaySignal client:load />
+</BaseLayout>
