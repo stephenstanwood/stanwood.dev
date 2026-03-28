@@ -130,10 +130,10 @@ export default function SignalApp() {
         )}
         {activeTab === "sports" && <SportsView />}
         {activeTab === "events" && (
-          <EventsView selectedCities={selectedCities} />
+          <EventsView selectedCities={selectedCities} homeCity={homeCity} />
         )}
         {activeTab === "government" && (
-          <GovernmentView selectedCities={selectedCities} />
+          <GovernmentView selectedCities={selectedCities} homeCity={homeCity} />
         )}
         {activeTab === "technology" && <TechnologyView />}
         {activeTab === "development" && <DevelopmentView />}
