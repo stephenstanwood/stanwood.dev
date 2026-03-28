@@ -156,11 +156,37 @@ export const LEAGUE_META: Record<string, LeagueMeta> = {
 
 const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports";
 
-/** Get unique ESPN paths we need to fetch (deduped). */
+// Months (1-based) when each league is active — avoids fetching pointless off-season endpoints
+const LEAGUE_ACTIVE_MONTHS: Partial<Record<LeagueKey, number[]>> = {
+  // NFL: Sep(9) – Feb(2)
+  nfl: [1, 2, 9, 10, 11, 12],
+  // NCAAF: Sep(9) – Jan(1) + bowl games through Jan
+  ncaaf: [1, 9, 10, 11, 12],
+  // MLB: Mar(3) – Oct(10) (spring training through postseason)
+  mlb: [3, 4, 5, 6, 7, 8, 9, 10],
+  // MiLB: Apr(4) – Sep(9)
+  milb: [4, 5, 6, 7, 8, 9],
+  // MLS: Feb(2) – Nov(11)
+  mls: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  // NHL: Oct(10) – Jun(6)
+  nhl: [1, 2, 3, 4, 5, 6, 10, 11, 12],
+  // NBA: Oct(10) – Jun(6)
+  nba: [1, 2, 3, 4, 5, 6, 10, 11, 12],
+  // WNBA: May(5) – Sep(9)
+  wnba: [5, 6, 7, 8, 9],
+  // NCAAM basketball: Nov(11) – Apr(4) (includes March Madness)
+  ncaam: [1, 2, 3, 4, 11, 12],
+};
+
+/** Get unique ESPN paths we need to fetch, filtered to active seasons. */
 export function getEspnPaths(): string[] {
+  const currentMonth = new Date().getMonth() + 1; // 1-based
   const paths = new Set<string>();
   for (const team of SOUTH_BAY_TEAMS) {
-    if (team.espnPath) paths.add(team.espnPath);
+    if (!team.espnPath) continue;
+    const activeMonths = LEAGUE_ACTIVE_MONTHS[team.league];
+    if (activeMonths && !activeMonths.includes(currentMonth)) continue;
+    paths.add(team.espnPath);
   }
   return [...paths];
 }
