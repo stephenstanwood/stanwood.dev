@@ -215,6 +215,17 @@ function RecurringEventCard({ event }: { event: SBEvent }) {
   );
 }
 
+// ── Date grouping helpers ──
+
+function getDateGroupLabel(dateIso: string, todayIso: string, tomorrowIso: string, weekEndIso: string): string {
+  if (dateIso === todayIso) return "Today";
+  if (dateIso === tomorrowIso) return "Tomorrow";
+  if (dateIso <= weekEndIso) return "This Week";
+  return "Later";
+}
+
+const DATE_GROUP_ORDER = ["Today", "Tomorrow", "This Week", "Later"];
+
 // ── Main View ──
 
 export default function EventsView({ selectedCities, homeCity }: Props) {
@@ -222,10 +233,15 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
   const [category, setCategory] = useState<EventCategory | "all">("all");
   const [search, setSearch] = useState("");
   const [showKidsOnly, setShowKidsOnly] = useState(false);
+  const [showAllLater, setShowAllLater] = useState(false);
 
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
   const primary = homeCity ?? "san-jose";
+
+  const todayIso = now.toISOString().split("T")[0];
+  const tomorrowIso = new Date(now.getTime() + 86400000).toISOString().split("T")[0];
+  const weekEndIso = new Date(now.getTime() + 7 * 86400000).toISOString().split("T")[0];
 
   // ── Upcoming events (scraped, specific dates) ──
   const filteredUpcoming = useMemo(() => {
@@ -278,6 +294,20 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
   }, [selectedCities, category, showKidsOnly, search, currentMonth, primary]);
 
   const activeList = viewMode === "upcoming" ? filteredUpcoming : filteredRecurring;
+
+  // Group upcoming events by date bucket
+  const groupedUpcoming = useMemo(() => {
+    const groups: Record<string, UpcomingEvent[]> = {};
+    for (const e of filteredUpcoming) {
+      const label = getDateGroupLabel(e.date || "", todayIso, tomorrowIso, weekEndIso);
+      if (!groups[label]) groups[label] = [];
+      groups[label].push(e);
+    }
+    return DATE_GROUP_ORDER.filter((g) => groups[g]?.length > 0).map((label) => ({
+      label,
+      events: groups[label],
+    }));
+  }, [filteredUpcoming, todayIso, tomorrowIso, weekEndIso]);
 
   return (
     <>
@@ -379,16 +409,82 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
             Try broadening your filters or selecting more cities
           </div>
         </div>
+      ) : viewMode === "upcoming" ? (
+        /* Upcoming: grouped by date */
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {groupedUpcoming.map(({ label, events }) => {
+            const isLater = label === "Later";
+            const visible = isLater && !showAllLater ? events.slice(0, 50) : events;
+            return (
+              <div key={label} style={{ marginBottom: 20 }}>
+                {/* Date group header */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    marginBottom: 10,
+                    paddingBottom: 6,
+                    borderBottom: "2px solid var(--sb-border)",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 700,
+                      fontFamily: "'Space Mono', monospace",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: label === "Today" ? "var(--sb-accent)" : "var(--sb-muted)",
+                    }}
+                  >
+                    {label}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      color: "var(--sb-light)",
+                      fontFamily: "'Space Mono', monospace",
+                    }}
+                  >
+                    {events.length} event{events.length !== 1 ? "s" : ""}
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {visible.map((event) => (
+                    <UpcomingEventCard key={event.id} event={event} />
+                  ))}
+                </div>
+                {isLater && !showAllLater && events.length > 50 && (
+                  <button
+                    onClick={() => setShowAllLater(true)}
+                    style={{
+                      display: "block",
+                      marginTop: 12,
+                      padding: "8px 0",
+                      background: "none",
+                      border: "none",
+                      color: "var(--sb-primary)",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                      textUnderlineOffset: 3,
+                    }}
+                  >
+                    Show {events.length - 50} more events →
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
       ) : (
+        /* Recurring: flat list */
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {viewMode === "upcoming"
-            ? (activeList as UpcomingEvent[]).map((event) => (
-                <UpcomingEventCard key={event.id} event={event} />
-              ))
-            : (activeList as SBEvent[]).map((event) => (
-                <RecurringEventCard key={event.id} event={event} />
-              ))
-          }
+          {(activeList as SBEvent[]).map((event) => (
+            <RecurringEventCard key={event.id} event={event} />
+          ))}
         </div>
       )}
 
