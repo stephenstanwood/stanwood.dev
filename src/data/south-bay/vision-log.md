@@ -401,3 +401,68 @@ Transit hits the daily utility axis in a way no other tab does. Events are great
 **Yes — 8 tabs, comprehensive coverage.** South Bay Signal now covers: Today / Sports / Events / Gov / Tech / Development / Transit / Plan My Day. Adding Transit completes the "practical daily life" layer. A resident can now check: what's on today, how's traffic and Caltrain running, what's happening in local government, what's being built, and plan a weekend day — all from one page. That is a real local homepage, not a demo. The gap that remains is data freshness: the Government tab is partially broken, and Transit is a static snapshot. Closing those two gaps would make the product feel genuinely operational.
 
 ---
+
+## 2026-03-28 — Cycle 8: "Your City" Personalization + This Month Editorial
+
+### Context
+Coming off Cycle 7 which added the Transit tab. The product now has 8 solid tabs. But the Today tab — the landing experience and daily homepage — still felt generic. It showed the same view to everyone regardless of where they live. A key principle of habit-forming products is personalization: "this is YOUR page, not a generic regional page." The Today tab had the right structure but lacked personal connection.
+
+Two ideas that had been in the top-3 list for multiple consecutive cycles were finally ready: (1) "Your City" personalization and (2) "This Month" editorial. Both address the same root problem: the Today tab doesn't give users a strong reason to make it *their* homepage.
+
+### Issues Identified This Cycle
+1. **No personalization** — Every visitor sees the same generic view. Nothing says "this is tuned to where you live." Personalization is the difference between a utility and a habit.
+2. **Today tab lacked forward-looking editorial voice** — The tab showed what's happening *today* but not what's worth knowing about this month. Seasonal/annual events (Cinequest in March, Viva CalleSJ in April, Jazz Fest in August) were buried in the Events tab. Nothing on the homepage surfaced "here's what's coming up in the South Bay that you shouldn't miss."
+3. **Weather strip didn't know whose city it was** — It just said "South Bay, CA" — generic. Once a user sets their city, this should feel personal.
+
+### What Was Built
+
+**1. "Your City" home city personalization** (`SignalApp.tsx` + `OverviewView.tsx`)
+
+- Added `homeCity` state to SignalApp, lazy-initialized from `localStorage("sb-home-city")`
+- Persisted via `setHomeCity` callback that writes to/removes from localStorage
+- City selection: inline CityPicker component with 11 city pills using existing `sb-city-pill` style
+- When no city set: a gentle prompt banner ("Personalize for your city...") with "Set my city →" CTA
+- When city set: "Today in [City]" section appears at the top of the overview with today's events filtered to that city
+- "Change city" link in the section header for easy switching
+- Home city name shown in the masthead date line in accent red (e.g., "Saturday, March 28, 2026 · San Jose")
+- Weather strip shows "[City], CA" instead of generic "South Bay, CA"
+- City-specific events excluded from the "Across the South Bay" section below to avoid duplication
+
+**2. "This Month" editorial section** (`OverviewView.tsx`)
+
+- Filters `SOUTH_BAY_EVENTS` where `recurrence === "seasonal"` and `months[]` includes current month
+- Shows up to 6 cards in a responsive 2-column grid
+- Each card: emoji, title, city, month badge (green for this month, gray for upcoming), cost badge, 2-line description
+- "Coming in [Next Month]" preview: seasonal events starting next month but not yet active shown in same grid with gray badge
+- Month name shown in accent red next to section title
+- Sorted by featured flag so signature events (Cinequest, Great America, Sharks, Earthquakes) surface first
+
+**3. Today tab restructure**
+New section order:
+1. City prompt (if no home city set) OR city picker (if changing) — top of fold
+2. Weather strip (personalized city label)
+3. "Today in [City]" — personalized city events (only shown when homeCity set)
+4. "This Month" — seasonal editorial section (always shown when data exists)
+5. "Across the South Bay" — all-region today events (excludes homeCity events if personalized)
+6. City Hall teaser
+7. Sports scoreboard
+
+### Why This Was the Strongest Move
+"Your City" is the feature that turns South Bay Signal from a useful regional site into *your* local homepage. The mechanics are simple (localStorage, city filter) but the effect is significant: the site now knows where you live, and the Today tab reflects that. A San Jose resident sees "Today in San Jose" before they see anything else. A Campbell resident sees their farmers market and library events front and center.
+
+The "This Month" section adds the editorial layer that was missing. South Bay Signal now answers not just "what's happening today?" but "what's worth knowing about this month?" — which is the question a real local homepage should answer. Cinequest in March, Great America opening, Sharks season in progress, Earthquakes season starting — these are the things that make the South Bay feel alive as a place, and they now surface on the homepage.
+
+### What New Opportunities Emerged
+1. **Plan My Day: URL-encoded preferences** — Now that homeCity is a first-class state, it could pre-fill the Plan My Day feature. "Plan my day in San Jose" would be one click from the homepage.
+2. **Live transit status** — Still the most impactful infrastructure improvement available. Caltrain RSS feed, no auth required.
+3. **Government digest: San José** — Has been top-3 for 8 cycles. Still the most important single city to unlock.
+
+### Next 3 Strongest Ideas
+1. **Live Caltrain/VTA status fetch** — Make the Transit tab genuinely real-time. Caltrain publishes a JSON/RSS status feed. A simple fetch on tab load (with 5-minute cache) would make the Transit tab dramatically more useful and create a daily-urgency use case.
+2. **Government digest: San José (Legistar)** — America's 10th largest city. One unlock makes the Gov tab go from "3 small cities" to "the entire South Bay." Has been #1 infrastructure priority for the whole project.
+3. **Plan My Day: prefill from homeCity** — When a user has set their home city and clicks "Plan My Day," default the location context to that city. Small integration, big coherence payoff.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the personalization layer is what turns a useful site into YOUR homepage.** Before this cycle, South Bay Signal could be described as a good local information product. After this cycle, it can be described as *your* local homepage. The home city feature creates the "this was made for me" feeling that drives bookmarking behavior. The "This Month" editorial section gives the homepage a voice — not just data, but curation. Combined, these two additions cross a qualitative threshold: the product now has identity and personal connection, not just utility.
+
+---
