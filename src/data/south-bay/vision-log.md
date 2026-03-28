@@ -354,3 +354,50 @@ Development tracking hits four things: (1) unique territory no other South Bay s
 **Yes — the first tab that's genuinely unmatched.** South Bay Signal now has 7 tabs: Today / Sports / Events / Gov / Tech / Development / Plan My Day. The Development tab covers territory no other South Bay local site touches in a clean, structured way. A resident who follows housing policy, transit projects, or tech campus growth now has a permanent reason to bookmark the site. The combination of "what's happening today" (Events, Plan My Day) and "what's changing over time" (Development, Gov) is what a real local intelligence product needs. Both are now present.
 
 ---
+
+## 2026-03-28 — Cycle 7: Transit & Infrastructure Tab
+
+### Context
+Coming off Cycle 6 which added the Development Tracker. The vision document explicitly calls out Transit & Infrastructure as a full product section ("unglamorous but very useful"). The section has appeared in the vision doc since the beginning and has never been built. With 7 solid tabs now established, the product has a real gap: there's no coverage of the transportation layer that affects millions of South Bay residents daily. Caltrain, VTA, BART, and the highway network are not mentioned anywhere on the site.
+
+### Issues Identified This Cycle
+1. **Zero transit coverage** — South Bay Signal covers what's happening (events), what's being built (development), what government decided (gov), but nothing about how residents actually get around. For the largest commuter population in the US, this is a meaningful absence.
+2. **Daily utility gap** — A resident who depends on Caltrain or VTA has no reason to check the site on a disruption day. Adding transit status and alerts creates a daily utility hook that events and sports can't provide.
+3. **Transit projects are scattered** — BART Phase II, Caltrain electrification, US-101 express lanes, SR-85/I-280 work — these are massive projects affecting South Bay life that have no single clean source. South Bay Signal should own this.
+
+### What Was Built
+
+**`src/data/south-bay/transit-data.ts`** — Structured static snapshot of:
+- 4 transit agencies (Caltrain, VTA, BART, ACE) with service status, status notes, key routes, and specific alerts
+- 6 active road projects (US-101 express lanes, I-880 paving, SR-85/I-280 interchange, downtown SJ signal work, Story Road, Stevens Creek bike lanes)
+- 7 transit project milestones with status (completed/in-progress/upcoming) spanning Caltrain electrification through BART Diridon opening in 2030
+- 5 quick links to live real-time tools (511, Caltrain, VTA, BART, Caltrans Quickmap)
+- SERVICE_CONFIG map with green/amber/red status display specs
+
+**`src/components/south-bay/views/TransitView.tsx`** — Full transit intelligence dashboard:
+- Header + 3-stat pulse strip (4 agencies, active alerts count, BART Diridon opening year)
+- System-wide warning banner when any agency has disruptions
+- Agency cards with: emoji, name, service status badge (with animated dot), status note, key routes as pills, service alerts with details, direct links to real-time departures
+- Road projects in a 2-column grid with: highway label, impact badge (Low/Moderate/High), title, cities, description, schedule
+- Transit milestone timeline (with colored dots: green=done, amber=in-progress, gray=upcoming)
+- Quick links grid for live real-time tools
+
+**Types + SignalApp + CSS** — Added 'transit' to Tab type and TABS array between Development and Plan My Day. Full transit CSS block with mobile overrides.
+
+### Why This Was the Strongest Move
+Transit hits the daily utility axis in a way no other tab does. Events are great for weekends. Development is a long-horizon tracker. Sports is entertainment. But transit status is a daily life need — someone checking "is Caltrain running?" has urgency that drives habitual use. The agency-by-agency structure also validates South Bay Signal's coverage ambition: it's not just fun local stuff, it's the full operating system for regional life. BART Phase II and the Diridon Station multimodal hub story is one of the biggest infrastructure stories in the country right now — having it tracked in a clean timeline makes South Bay Signal feel like a real civic publication.
+
+### What New Opportunities Emerged
+1. **Live transit status integration** — The static snapshot is a great starting point, but real value comes from pulling live Caltrain/VTA status from their public APIs (no auth required). Adding a fetch call that updates agency status on page load would make this dramatically more useful.
+2. **"What's This Month" module on Today tab** — Still on deck. With 8 tabs now live, the Today tab feels light compared to the depth available. A "Seasonal picks this month" module would give the homepage a curated editorial voice.
+3. **Development city filter** — Pass selectedCities to DevelopmentView and TransitView so users can filter road projects and transit work to their city. Small code change, high utility.
+
+### Next 3 Strongest Ideas
+1. **Live transit status fetch** — Caltrain and VTA both publish RSS/JSON status feeds. Fetching on page load (with a 5-minute client cache) would make the transit tab genuinely real-time. This could become a signature utility feature.
+2. **"Happening This Month" module on Today tab** — Use the `months[]` event data to surface seasonal annual events (Tet, Viva CalleSJ, Jazz Fest, etc.) on the homepage. Small build, big first-impression impact for first-time visitors.
+3. **Government digest: San José** — Legistar scraper for San José city council. America's 10th largest city. One unlock makes Gov dramatically more valuable.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — 8 tabs, comprehensive coverage.** South Bay Signal now covers: Today / Sports / Events / Gov / Tech / Development / Transit / Plan My Day. Adding Transit completes the "practical daily life" layer. A resident can now check: what's on today, how's traffic and Caltrain running, what's happening in local government, what's being built, and plan a weekend day — all from one page. That is a real local homepage, not a demo. The gap that remains is data freshness: the Government tab is partially broken, and Transit is a static snapshot. Closing those two gaps would make the product feel genuinely operational.
+
+---

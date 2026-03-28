@@ -8,6 +8,7 @@ import GovernmentView from "./views/GovernmentView";
 import EventsView from "./views/EventsView";
 import TechnologyView from "./views/TechnologyView";
 import DevelopmentView from "./views/DevelopmentView";
+import TransitView from "./views/TransitView";
 import PlanView from "./views/PlanView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
@@ -114,6 +115,7 @@ export default function SignalApp() {
         )}
         {activeTab === "technology" && <TechnologyView />}
         {activeTab === "development" && <DevelopmentView />}
+        {activeTab === "transit" && <TransitView />}
         {activeTab === "plan" && <PlanView />}
       </main>
 
