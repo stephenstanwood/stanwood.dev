@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import type { Tab, City } from "../../lib/south-bay/types";
 import { TABS } from "../../lib/south-bay/types";
-import { CITIES } from "../../lib/south-bay/cities";
+import { CITIES, getCityName } from "../../lib/south-bay/cities";
 import SportsView from "./views/SportsView";
 import OverviewView from "./views/OverviewView";
 import GovernmentView from "./views/GovernmentView";
@@ -24,6 +24,19 @@ export default function SignalApp() {
   const [selectedCities, setSelectedCities] = useState<Set<City>>(
     () => new Set(CITIES.map((c) => c.id)),
   );
+  const [homeCity, setHomeCityState] = useState<City | null>(() => {
+    if (typeof window === "undefined") return null;
+    return (localStorage.getItem("sb-home-city") as City | null) ?? null;
+  });
+
+  const setHomeCity = useCallback((city: City | null) => {
+    setHomeCityState(city);
+    if (city) {
+      localStorage.setItem("sb-home-city", city);
+    } else {
+      localStorage.removeItem("sb-home-city");
+    }
+  }, []);
 
   const allSelected = selectedCities.size === CITIES.length;
 
@@ -57,7 +70,14 @@ export default function SignalApp() {
           <a href="/south-bay" className="sb-brand">
             <span className="sb-brand-name">South Bay Signal</span>
           </a>
-          <div className="sb-date">{TODAY}</div>
+          <div className="sb-date">
+            {TODAY}
+            {homeCity && (
+              <span style={{ marginLeft: 8, color: "var(--sb-accent)", fontWeight: 600 }}>
+                · {getCityName(homeCity)}
+              </span>
+            )}
+          </div>
         </div>
       </header>
 
@@ -105,7 +125,9 @@ export default function SignalApp() {
 
       {/* Content */}
       <main className="sb-main">
-        {activeTab === "overview" && <OverviewView />}
+        {activeTab === "overview" && (
+          <OverviewView homeCity={homeCity} setHomeCity={setHomeCity} />
+        )}
         {activeTab === "sports" && <SportsView />}
         {activeTab === "events" && (
           <EventsView selectedCities={selectedCities} />
