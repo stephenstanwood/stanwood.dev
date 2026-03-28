@@ -27,11 +27,16 @@
 import { writeFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { createHash } from "crypto";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = join(__dirname, "..", "src", "data", "south-bay", "upcoming-events.json");
 
 const UA = "SouthBaySignal/1.0 (stanwood.dev; public event aggregator)";
+
+function h(prefix, ...parts) {
+  return `${prefix}-${createHash("sha1").update(parts.join("|")).digest("hex").substring(0, 16)}`;
+}
 
 async function fetchJson(url) {
   const res = await fetch(url, {
@@ -118,13 +123,14 @@ function inferCity(location, address) {
 function inferCategory(title, desc, type) {
   const t = `${title} ${desc} ${type}`.toLowerCase();
   if (t.includes("story time") || t.includes("storytime") || t.includes("toddler") || t.includes("baby") || t.includes("preschool") || t.includes("kids") || t.includes("children")) return "family";
-  if (t.includes("concert") || t.includes("music") || t.includes("jazz") || t.includes("symphony") || t.includes("band")) return "music";
-  if (t.includes("art") || t.includes("gallery") || t.includes("exhibit") || t.includes("theater") || t.includes("theatre") || t.includes("film") || t.includes("cinema") || t.includes("dance")) return "arts";
+  if (t.includes("concert") || t.includes("music") || t.includes("jazz") || t.includes("symphony") || t.includes("band") || t.includes("orchestra") || t.includes("choir")) return "music";
+  // sports before arts to avoid false positives (e.g. "golf" → "community" not "arts")
+  if (t.includes("game") || t.includes("sport") || t.includes("athletic") || t.includes("golf") || t.includes("tennis") || t.includes("soccer") || t.includes("basketball") || t.includes("baseball") || t.includes("softball") || t.includes("volleyball") || t.includes("swimming") || t.includes("swim meet") || t.includes("track") || t.includes("cross country") || t.includes("lacrosse") || t.includes("football") || t.includes("gymnastics") || t.includes("wrestling") || t.includes("run") || t.includes("race") || t.includes("marathon") || t.includes("5k") || t.includes("triathlon")) return "sports";
+  if (t.includes("exhibit") || t.includes("gallery") || t.includes("theater") || t.includes("theatre") || t.includes("film") || t.includes("cinema") || t.includes("dance") || t.includes("performance") || t.includes("museum") || (t.includes("art") && !t.includes("martial art") && !t.includes("start"))) return "arts";
   if (t.includes("market") || t.includes("fair") || t.includes("vendor") || t.includes("craft")) return "market";
-  if (t.includes("hike") || t.includes("walk") || t.includes("outdoor") || t.includes("garden") || t.includes("nature") || t.includes("trail")) return "outdoor";
-  if (t.includes("game") || t.includes("sport") || t.includes("run") || t.includes("race") || t.includes("athletic")) return "sports";
-  if (t.includes("book") || t.includes("reading") || t.includes("lecture") || t.includes("workshop") || t.includes("class") || t.includes("learn") || t.includes("seminar") || t.includes("talk")) return "education";
-  if (t.includes("food") || t.includes("cooking") || t.includes("taste") || t.includes("chef") || t.includes("wine")) return "food";
+  if (t.includes("hike") || t.includes("hiking") || t.includes("outdoor") || t.includes("garden") || t.includes("nature") || t.includes("trail") || t.includes("park")) return "outdoor";
+  if (t.includes("book") || t.includes("reading") || t.includes("lecture") || t.includes("workshop") || t.includes("class") || t.includes("learn") || t.includes("seminar") || t.includes("talk") || t.includes("stem") || t.includes("science") || t.includes("coding") || t.includes("tech")) return "education";
+  if (t.includes("food") || t.includes("cooking") || t.includes("taste") || t.includes("chef") || t.includes("wine") || t.includes("beer") || t.includes("culinary")) return "food";
   return "community";
 }
 
@@ -253,7 +259,7 @@ async function fetchSjsuEvents() {
       const start = parseDate(item.pubDate);
       if (!start) return null;
       return {
-        id: `sjsu-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+        id: h("sjsu", item.link || item.title, item.pubDate),
         title: item.title,
         date: isoDate(start),
         displayDate: displayDate(start),
@@ -287,7 +293,7 @@ async function fetchScuEvents() {
       const start = parseDate(item.pubDate);
       if (!start) return null;
       return {
-        id: `scu-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+        id: h("scu", item.link || item.title, item.pubDate),
         title: item.title,
         date: isoDate(start),
         displayDate: displayDate(start),
@@ -321,7 +327,7 @@ async function fetchChmEvents() {
       const start = parseDate(item.pubDate);
       if (!start) return null;
       return {
-        id: `chm-${Buffer.from(item.title).toString("base64").substring(0, 12)}`,
+        id: h("chm", item.link || item.title, item.pubDate),
         title: item.title,
         date: isoDate(start),
         displayDate: displayDate(start),
@@ -356,7 +362,7 @@ async function fetchSjJazzEvents() {
         const start = parseDate(item.pubDate);
         if (!start) return null;
         return {
-          id: `sjjazz-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+          id: h("sjjazz", item.link || item.title, item.pubDate),
           title: item.title,
           date: isoDate(start),
           displayDate: displayDate(start),
@@ -392,7 +398,7 @@ async function fetchMontalvoEvents() {
         const start = parseDate(item.pubDate);
         if (!start) return null;
         return {
-          id: `montalvo-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+          id: h("montalvo", item.link || item.title, item.pubDate),
           title: item.title,
           date: isoDate(start),
           displayDate: displayDate(start),
@@ -428,7 +434,7 @@ async function fetchSvlgEvents() {
       if (!start) return null;
       const city = inferCity(item.title + " " + item.description, "");
       return {
-        id: `svlg-${Buffer.from(item.title).toString("base64").substring(0, 12)}`,
+        id: h("svlg", item.link || item.title, item.pubDate),
         title: item.title,
         date: isoDate(start),
         displayDate: displayDate(start),
@@ -466,7 +472,7 @@ async function fetchCampbellEvents() {
       const start = parseDate(item.startDate || item.pubDate);
       if (!start) return null;
       return {
-        id: `campbell-${Buffer.from(item.title + (item.startDate || item.pubDate)).toString("base64").substring(0, 12)}`,
+        id: h("campbell", item.link || item.title, item.startDate || item.pubDate),
         title: item.title,
         date: isoDate(start),
         displayDate: displayDate(start),
@@ -508,7 +514,7 @@ async function fetchCivicPlusIcal(name, url, defaultCity) {
         const end = parseIcalDate(ev.dtend);
         const city = inferCity(ev.location, "") || defaultCity;
         return {
-          id: `${defaultCity}-${Buffer.from(ev.summary + ev.dtstart).toString("base64").substring(0, 12)}`,
+          id: h(defaultCity, ev.uid || ev.summary, ev.dtstart),
           title: ev.summary.replace(/\\,/g, ",").replace(/\\n/g, " "),
           date: isoDate(start),
           displayDate: displayDate(start),
