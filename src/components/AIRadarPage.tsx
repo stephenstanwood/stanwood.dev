@@ -6,11 +6,10 @@ import {
   relativeAge,
   formatLaunchDateFull,
   groupByDate,
+  sortLaunches,
 } from "../lib/aiRadar";
 
-const sorted = (launches as Launch[])
-  .slice()
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const sorted = sortLaunches(launches as Launch[]);
 
 const latest = sorted[0];
 const grouped = groupByDate(sorted);

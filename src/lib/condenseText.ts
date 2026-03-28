@@ -1,7 +1,7 @@
 function capitalize(str: string): string {
-  const s = str.trim();
-  if (!s) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  const trimmed = str.trim();
+  if (!trimmed) return trimmed;
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
 }
 
 export async function condenseText(raw: string): Promise<string> {
