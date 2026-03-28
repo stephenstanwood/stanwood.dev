@@ -5,6 +5,7 @@ import { CITIES } from "../../lib/south-bay/cities";
 import SportsView from "./views/SportsView";
 import OverviewView from "./views/OverviewView";
 import GovernmentView from "./views/GovernmentView";
+import EventsView from "./views/EventsView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -61,19 +62,16 @@ export default function SignalApp() {
       {/* Navigation */}
       <nav className="sb-nav">
         <div className="sb-nav-inner">
-          {TABS.map((tab) => {
-            const disabled = tab.id === "events";
-            return (
-              <button
-                key={tab.id}
-                className={`sb-tab${activeTab === tab.id ? " sb-tab--active" : ""}${disabled ? " sb-tab--disabled" : ""}`}
-                onClick={() => !disabled && setActiveTab(tab.id)}
-                aria-current={activeTab === tab.id ? "page" : undefined}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              className={`sb-tab${activeTab === tab.id ? " sb-tab--active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+              aria-current={activeTab === tab.id ? "page" : undefined}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </nav>
 
@@ -106,13 +104,7 @@ export default function SignalApp() {
         {activeTab === "overview" && <OverviewView />}
         {activeTab === "sports" && <SportsView />}
         {activeTab === "events" && (
-          <div className="sb-coming-soon">
-            <div className="sb-coming-soon-icon">📅</div>
-            <div className="sb-coming-soon-title">Events</div>
-            <div className="sb-coming-soon-sub">
-              Local events calendar coming soon
-            </div>
-          </div>
+          <EventsView selectedCities={selectedCities} />
         )}
         {activeTab === "government" && (
           <GovernmentView selectedCities={selectedCities} />

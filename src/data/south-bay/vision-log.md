@@ -1,0 +1,76 @@
+# South Bay Signal — Vision Log
+
+---
+
+## 2026-03-27 — Cycle 1: The Events Section
+
+### Context
+Previous scheduled-task cycles already built:
+- `/south-bay` page with newspaper masthead, tabs, city filter pill navigation
+- Sports view with ESPN API integration for Sharks, Warriors, SF Giants, 49ers, Earthquakes, Stanford, SJSU
+- Government view with AI council digests for Campbell, Saratoga, and Los Altos (CivicEngage scraper)
+- Events tab — disabled with "coming soon" placeholder
+- MiLB integration for San Jose Giants via MLB Stats API
+- Agenda scraper factory supporting CivicEngage + Legistar (Legistar not yet implemented)
+
+### Issues Identified This Cycle
+1. **Events tab disabled** — the single biggest gap between "dashboard demo" and "useful local product"
+2. **Sports: NCAA football in March** — the ESPN college football scoreboard returns games in the offseason (spring games, old schedules), showing confusing results. Fix: season-aware path filtering.
+3. **Sports: Stanford basketball missing** — caused by season filtering; NCAA basketball IS active in March (March Madness). The season filter fix correctly retains NCAAM while removing NCAAF.
+4. **Council digests don't seem to do anything** — UI auto-fetches configured cities (Campbell, Saratoga, Los Altos) on tab load. The scraper itself may be failing on the CivicEngage pages or the AI key may not be set in the deployment environment. This needs deeper investigation: checking if the API route returns proper errors vs. silently failing.
+
+### What Was Built
+
+**1. Sports season awareness** (`src/lib/south-bay/teams.ts`)
+Added `LEAGUE_ACTIVE_MONTHS` map — each league has defined active months. `getEspnPaths()` now skips fetching endpoints for off-season leagues. Result: no more random NCAAF games in March. March Madness (NCAAM) correctly continues to show.
+
+**2. Events section** — the killer feature (finally live)
+
+`src/data/south-bay/events-data.ts` — 40+ curated South Bay events:
+- **Farmers markets**: Campbell, Mountain View, Sunnyvale, Palo Alto (2 locations), Los Gatos, Saratoga, Milpitas, Willow Glen, Downtown SJ
+- **Family/kids**: Children's Discovery Museum, The Tech Interactive, Computer History Museum, Campbell Library story times, SJ Public Library programs, Mountain View Library events
+- **Arts & culture**: SJ Museum of Art (free 3rd Fridays!), Montalvo Arts Center, Stanford Bing Concert Hall, Hammer Theatre, Cantor Arts Center (free always), SJ Jazz
+- **Outdoor**: Vasona Lake / Billy Jones Wildcat Railroad, Alum Rock Park, Los Gatos Creek Trail, Shoreline Park MV, Rancho San Antonio
+- **Stanford events**: Bing Concert Hall, free public lectures, The Dish hike, Cantor Arts, Stanford Athletics (many free)
+- **Sports venues**: Sharks at SAP Center, Earthquakes at PayPal Park, SJ Giants at Excite Ballpark
+- **Community**: Downtown Campbell summer concerts, MV free summer concerts, SJ Downtown Ice Rink
+- **Food**: Santana Row, San Pedro Square Market, Downtown Campbell dining strip
+
+`src/components/south-bay/views/EventsView.tsx`:
+- Category filter pills: All / Markets / Family / Outdoors / Music / Arts / Sports / Education / Food / Community
+- Time filter buttons: All / Today / Weekend / Weekday
+- Kids-only checkbox
+- Search box (title, description, city, venue)
+- "Today" badge on events active on the current day
+- Cost badges: FREE (green), $ (amber), $$ (purple)
+- Filterable by city via the global city filter in SignalApp
+- Event count in header ("X happening today")
+
+**3. SignalApp updated**:
+- Imported EventsView
+- Removed the `disabled` flag on the Events tab
+- Events tab now renders EventsView instead of "coming soon"
+
+**4. OverviewView updated**:
+- Shows live "N events happening today" count
+- Teaser text for Events and Government sections
+
+### Why This Was the Strongest Move
+The Events section has been called "potentially the killer feature" since day one of planning. Having it perpetually disabled makes the product feel half-baked. With 40+ real, verifiable events across all 11 cities and 9 categories, the tab now delivers immediate value. A resident visiting on a Sunday morning sees "12 happening today" and can browse farmers markets, free library programs, and open parks — all in their city.
+
+### What New Opportunities Emerged
+1. **Live event feeds** — the static events data is a strong foundation. Next step: pull real event data from Eventbrite, SJ City events API, Library events calendars, and city parks departments.
+2. **Government digest investigation** — the silent failure on council digests needs a real fix. Either the API is returning 404 because the CivicEngage scraper can't find the PDF links, or the ANTHROPIC_API_KEY isn't set. Add better error display (show the error message in the UI, not just a silent failure).
+3. **Plan My Day** — now that events data exists, the interactive "Plan My Day" feature becomes buildable. It needs: weather API, events data, routing/time estimation, and Claude to compose the itinerary.
+4. **Development tracker** — still the most unique potential section. "What's being built in your city?" with permit data.
+5. **More cities for government digests** — implement the Legistar scraper to cover San Jose, Sunnyvale, Mountain View, Santa Clara, Cupertino.
+
+### Next 3 Strongest Ideas
+1. **Government digest fix + more cities** — Fix the silent failure, show real errors in the UI, and start implementing the Legistar scraper for at least one more city (San Jose or Mountain View).
+2. **Plan My Day** — Signature interactive feature: pick your day, family type, and budget → get an AI-composed itinerary using the events data + weather. This is the "bookmark this page" moment.
+3. **Development tracker** — A structured data layer for "what's being built" across cities. Even a curated JSON of major known projects (downtown SJ developments, Mountain View mixed-use projects, etc.) would make the product feel like no other local site.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — materially more useful.** The Events section was the biggest missing piece for utility. A resident can now use South Bay Signal on a Sunday morning to find farmers markets, or on a Friday afternoon to find free evening events. The city filter works across Events. The "Today" badge makes it immediately actionable. Combined with the working sports scoreboard, there's now real daily-use value — not just a civic demo.
+
+---
