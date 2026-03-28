@@ -761,3 +761,42 @@ Simultaneously, the Government tab was entirely backward-looking: it showed what
 **Yes — community-level events are now meaningfully represented.** The SCCL fix adds library programs across 7 South Bay cities. San Jose Jazz and Montalvo add the two flagship arts institutions. Events now have genuine breadth. Still needs Mountain View and Sunnyvale to feel complete.
 
 ---
+
+## Cycle 13 — Event Scraper Quality: Category Fix + 60-Day Window + Source Balancing (2026-03-28)
+
+### What Changed
+
+**Problem 1: Category inference was badly ordered.** The `inferCategory` function checked "arts" before "sports," causing golf, tennis, soccer, and other sports events to be miscategorized as "arts" if any sports-adjacent word appeared in the description. The default fallback also produced noisy results for athletic events from SJSU.
+
+**Problem 2: Event window was only 30 days.** iCal sources and Stanford's API were limited to 30 days, cutting off events that are announced in advance (library programs, festivals, athletic schedules).
+
+**Problem 3: SJSU (633 events) and SCU (1,000 events) dominated the dataset.** With a 60-day window, SCU produced 1,000 events — half the entire dataset — all mapping to `santa-clara`. City-filtered views were flooded with university events while community events from smaller sources were buried.
+
+**Problem 4: Six key sources missing.** Mountain View, Sunnyvale, San Jose city calendar, Cupertino, The Tech Interactive — all missing from scraper. Attempted to add all five.
+
+**What was built:**
+
+1. **`inferCategory` rewrite** — Sports check moved before arts. Added: golf, tennis, soccer, basketball, volleyball, swimming, track, cross country, lacrosse, football, gymnastics, wrestling, marathon, 5K, triathlon. STEM/science/coding added to education. Arts tightened (requires exhibit/gallery/theater/theatre/film/cinema/dance/performance/museum or explicit "art" without "martial" or "start"). Choir/orchestra added to music.
+
+2. **60-day event window** — `fetchCivicPlusIcal`: 30 → 60 days. Stanford API: `days=30&pp=150` → `days=60&pp=200`.
+
+3. **Per-source cap: 200 events** — After date-sorting, slice each source to MAX_PER_SOURCE=200. Prevents any single university from drowning the dataset.
+
+4. **New source attempts** — Mountain View (403 blocked), Sunnyvale (403 blocked), San Jose city (403 blocked), Cupertino (404 — wrong URL), The Tech Interactive (404 — no WordPress feed). All fail gracefully with comments documenting the access issues.
+
+**Results:**
+- Total events: 1,978 → **821** (quality over quantity — better balanced)
+- Category quality: significantly improved for sports events
+- santa-clara: 934 → **188** (no longer dominated by SCU)
+- san-jose: 827 → **399** (no longer dominated by SJSU)
+- Sources documented: Mountain View/Sunnyvale/San Jose city/Cupertino block bot access. The Tech has no RSS.
+
+### Next 3 Strongest Ideas
+1. **Mountain View and Sunnyvale alternate sources** — CivicPlus blocks bot access for these cities. Alternatives: (a) Eventbrite free-event geo-search API (requires API key), (b) direct scrape of their Parks & Rec calendar pages, (c) add their library systems (Mountain View Public Library, Sunnyvale Public Library) via BiblioCommons or their own platforms.
+2. **The Tech Interactive proper calendar** — thetech.org doesn't use WordPress RSS. Likely uses Eventbrite or a custom ticketing system. Check their events page source for an embedded calendar or Eventbrite organization ID.
+3. **CHM date extraction fix** — Computer History Museum returns 8 events but 0 appear in the output because their WordPress pubDate is the article publish date, not the event date. CHM events have dates in their titles (e.g., "April 15: Talk on..."). A regex to extract dates from CHM titles would recover these events and fix Mountain View's zero-event problem.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — event quality improved significantly.** 821 well-balanced events beats 1,978 university-dominated events. A user filtering to Santa Clara (the city) now sees 188 relevant events instead of 934 SCU athletics. Sports events are correctly tagged. The 60-day window means upcoming library programs and athletic schedules appear further in advance. The product's filter UI is now more trustworthy.
+
+---

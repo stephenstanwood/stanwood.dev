@@ -5,20 +5,28 @@
  * Scrapes upcoming events from all available South Bay feeds and writes
  * them to src/data/south-bay/upcoming-events.json.
  *
- * Sources (20+):
- *   - Stanford Events (Localist JSON API)
+ * Sources (18 active):
+ *   - Stanford Events (Localist JSON API) — 60-day window
  *   - SJSU Events (RSS)
  *   - Santa Clara University Events (RSS)
  *   - Campbell Community Calendar (CivicPlus RSS)
  *   - Los Gatos Town Calendar (CivicPlus iCal)
  *   - Saratoga Community Events (CivicPlus iCal)
  *   - Los Altos Parks & Rec (CivicPlus iCal)
+ *   - City of Mountain View (CivicPlus iCal) — 403 blocked as of 2026-03
+ *   - City of Sunnyvale (CivicPlus iCal) — 403 blocked as of 2026-03
+ *   - City of Cupertino (CivicPlus iCal) — 404 as of 2026-03
+ *   - City of San Jose (CivicPlus iCal) — 403 blocked as of 2026-03
+ *   - The Tech Interactive (RSS) — 404 as of 2026-03 (no /feed/ endpoint)
  *   - San Jose Public Library (BiblioCommons API)
  *   - Santa Clara County Library (BiblioCommons API)
  *   - Computer History Museum Events (RSS)
  *   - Montalvo Arts Center (RSS)
  *   - San Jose Jazz (RSS)
  *   - Silicon Valley Leadership Group (RSS)
+ *
+ * NOTE: Mountain View, Sunnyvale, San Jose city, and Cupertino return 403/404.
+ * The Tech Interactive has no standard RSS feed — needs Eventbrite or direct calendar.
  *
  * Usage:
  *   node scripts/generate-events.mjs
@@ -218,7 +226,7 @@ function parseIcalDate(dtStr) {
 async function fetchStanfordEvents() {
   console.log("  ⏳ Stanford Events...");
   try {
-    const data = await fetchJson("https://events.stanford.edu/api/2/events?days=30&pp=150");
+    const data = await fetchJson("https://events.stanford.edu/api/2/events?days=60&pp=200");
     const events = (data.events || []).map((e) => {
       const ev = e.event;
       const start = parseDate(ev.first_date);
@@ -505,7 +513,7 @@ async function fetchCivicPlusIcal(name, url, defaultCity) {
     const ical = await fetchText(url);
     const rawEvents = parseIcalEvents(ical);
     const now = new Date();
-    const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+    const thirtyDaysOut = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
 
     const events = rawEvents
       .map((ev) => {
@@ -562,6 +570,75 @@ async function fetchLosAltosEvents() {
     "City of Los Altos",
     "https://www.losaltosca.gov/common/modules/iCalendar/iCalendar.aspx?catID=37&feed=calendar",
     "los-altos",
+  );
+}
+
+async function fetchMountainViewEvents() {
+  return fetchCivicPlusIcal(
+    "City of Mountain View",
+    "https://www.mountainview.gov/common/modules/iCalendar/iCalendar.aspx?feed=calendar",
+    "mountain-view",
+  );
+}
+
+async function fetchSunnyvaleEvents() {
+  return fetchCivicPlusIcal(
+    "City of Sunnyvale",
+    "https://www.sunnyvale.ca.gov/common/modules/iCalendar/iCalendar.aspx?feed=calendar",
+    "sunnyvale",
+  );
+}
+
+async function fetchCupertinoEvents() {
+  return fetchCivicPlusIcal(
+    "City of Cupertino",
+    "https://www.cupertino.org/common/modules/iCalendar/iCalendar.aspx?feed=calendar",
+    "cupertino",
+  );
+}
+
+async function fetchTheTechEvents() {
+  console.log("  ⏳ The Tech Interactive...");
+  try {
+    const xml = await fetchText("https://thetech.org/feed/");
+    const items = parseRssItems(xml);
+    const now = new Date();
+    const events = items
+      .map((item) => {
+        const start = parseDate(item.startDate || item.pubDate);
+        if (!start || start < now) return null;
+        return {
+          id: h("thetech", item.link || item.title, item.pubDate),
+          title: item.title,
+          date: isoDate(start),
+          displayDate: displayDate(start),
+          time: displayTime(start),
+          endTime: null,
+          venue: "The Tech Interactive",
+          address: "201 S Market St, San Jose",
+          city: "san-jose",
+          category: inferCategory(item.title, item.description || "", ""),
+          cost: "paid",
+          description: truncate(stripHtml(item.description || item.content)),
+          url: item.link,
+          source: "The Tech Interactive",
+          kidFriendly: true,
+        };
+      })
+      .filter(Boolean);
+    console.log(`  ✅ The Tech Interactive: ${events.length} events`);
+    return events;
+  } catch (err) {
+    console.log(`  ⚠️  The Tech Interactive: ${err.message}`);
+    return [];
+  }
+}
+
+async function fetchSanJoseCityEvents() {
+  return fetchCivicPlusIcal(
+    "City of San Jose",
+    "https://www.sanjoseca.gov/common/modules/iCalendar/iCalendar.aspx?feed=calendar",
+    "san-jose",
   );
 }
 
@@ -676,6 +753,11 @@ async function main() {
     fetchLosGatosEvents,
     fetchSaratogaEvents,
     fetchLosAltosEvents,
+    fetchMountainViewEvents,
+    fetchSunnyvaleEvents,
+    fetchCupertinoEvents,
+    fetchSanJoseCityEvents,
+    fetchTheTechEvents,
     fetchSjplEvents,
     fetchScclEvents,
     fetchSvlgEvents,
@@ -704,9 +786,17 @@ async function main() {
   // Sort by date ascending
   valid.sort((a, b) => a.date.localeCompare(b.date));
 
+  // Per-source cap — prevent large sources (SJSU, SCU) from drowning community events
+  const MAX_PER_SOURCE = 200;
+  const sourceCounts = {};
+  const capped = valid.filter((e) => {
+    sourceCounts[e.source] = (sourceCounts[e.source] || 0) + 1;
+    return sourceCounts[e.source] <= MAX_PER_SOURCE;
+  });
+
   // Deduplicate by normalized title + date
   const seen = new Set();
-  const deduped = valid.filter((e) => {
+  const deduped = capped.filter((e) => {
     const key = `${e.title.toLowerCase().replace(/[^a-z0-9]/g, "").substring(0, 30)}|${e.date}`;
     if (seen.has(key)) return false;
     seen.add(key);
