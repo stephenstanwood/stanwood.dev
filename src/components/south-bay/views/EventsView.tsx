@@ -9,6 +9,7 @@ import {
 
 interface Props {
   selectedCities: Set<City>;
+  homeCity: City | null;
 }
 
 type TimeFilter = "all" | "today" | "weekend" | "weekday";
@@ -183,7 +184,7 @@ function EventCard({ event }: { event: SBEvent }) {
   );
 }
 
-export default function EventsView({ selectedCities }: Props) {
+export default function EventsView({ selectedCities, homeCity }: Props) {
   const [category, setCategory] = useState<EventCategory | "all">("all");
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
   const [search, setSearch] = useState("");
@@ -226,12 +227,16 @@ export default function EventsView({ selectedCities }: Props) {
 
       return true;
     }).sort((a, b) => {
-      // Featured first, then by category order
+      // Home city first, then featured, then rest
+      const primary = homeCity ?? "san-jose";
+      const aHome = a.city === primary ? 1 : 0;
+      const bHome = b.city === primary ? 1 : 0;
+      if (aHome !== bHome) return bHome - aHome;
       if (a.featured && !b.featured) return -1;
       if (!a.featured && b.featured) return 1;
       return 0;
     });
-  }, [selectedCities, category, timeFilter, showKidsOnly, search, currentMonth]);
+  }, [selectedCities, category, timeFilter, showKidsOnly, search, currentMonth, homeCity]);
 
   const todayCount = SOUTH_BAY_EVENTS.filter((e) => {
     if (e.months && !e.months.includes(currentMonth)) return false;

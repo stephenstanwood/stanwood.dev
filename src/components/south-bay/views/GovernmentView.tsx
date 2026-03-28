@@ -1,32 +1,42 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import DigestCard from "../cards/DigestCard";
 import type { DigestData } from "../cards/DigestCard";
+import BlotterCard from "../cards/BlotterCard";
+import type { CityBlotter } from "../cards/BlotterCard";
 import type { City } from "../../../lib/south-bay/types";
+import digestsJson from "../../../data/south-bay/digests.json";
+import blotterJson from "../../../data/south-bay/blotter.json";
 
 interface Props {
   selectedCities: Set<City>;
+  homeCity: City | null;
 }
 
-export default function GovernmentView({ selectedCities }: Props) {
-  const [configuredCities, setConfiguredCities] = useState<City[]>([]);
-  const [digests, setDigests] = useState<Map<string, DigestData>>(new Map());
+// Load pre-generated data from static JSON
+const staticDigests = digestsJson as Record<string, DigestData>;
+const allBlotters = blotterJson as Record<string, CityBlotter>;
+const configuredCities = Object.keys(staticDigests) as City[];
+
+// If no pre-generated data, fall back to the known configured cities
+const KNOWN_CITIES: City[] = [
+  "campbell", "saratoga", "los-altos",
+  "san-jose", "mountain-view", "sunnyvale", "cupertino", "santa-clara",
+];
+const allConfigured = configuredCities.length > 0 ? configuredCities : KNOWN_CITIES;
+
+export default function GovernmentView({ selectedCities, homeCity }: Props) {
+  const [digests, setDigests] = useState<Map<string, DigestData>>(() => {
+    const map = new Map<string, DigestData>();
+    for (const [city, digest] of Object.entries(staticDigests)) {
+      map.set(city, digest);
+    }
+    return map;
+  });
   const [loading, setLoading] = useState<Set<string>>(new Set());
   const [errors, setErrors] = useState<Map<string, string>>(new Map());
-  const [initialized, setInitialized] = useState(false);
 
-  // Fetch list of configured cities on mount
-  useEffect(() => {
-    fetch("/api/south-bay/digest")
-      .then((res) => res.json())
-      .then((data) => {
-        setConfiguredCities(data.cities ?? []);
-        setInitialized(true);
-      })
-      .catch(() => setInitialized(true));
-  }, []);
-
-  // Fetch digest for a city
-  const fetchDigest = useCallback(async (city: City) => {
+  // On-demand refresh for a single city
+  const refreshDigest = useCallback(async (city: City) => {
     setLoading((prev) => new Set(prev).add(city));
     setErrors((prev) => {
       const next = new Map(prev);
@@ -58,33 +68,30 @@ export default function GovernmentView({ selectedCities }: Props) {
     }
   }, []);
 
-  // Auto-fetch digests for configured + selected cities
-  useEffect(() => {
-    if (!initialized) return;
-    for (const city of configuredCities) {
-      if (selectedCities.has(city) && !digests.has(city) && !loading.has(city)) {
-        fetchDigest(city);
-      }
-    }
-  }, [initialized, configuredCities, selectedCities, digests, loading, fetchDigest]);
-
-  if (!initialized) {
-    return (
-      <div className="sb-loading">
-        <div className="sb-spinner" />
-        <div className="sb-loading-text">Loading...</div>
-      </div>
-    );
-  }
-
-  // Filter to selected cities
-  const visibleCities = configuredCities.filter((c) => selectedCities.has(c));
+  // Sort: home city first (fallback san-jose)
+  const primary = homeCity ?? "san-jose";
+  const visibleCities = allConfigured
+    .filter((c) => selectedCities.has(c))
+    .sort((a, b) => {
+      if (a === primary) return -1;
+      if (b === primary) return 1;
+      return 0;
+    });
   const unconfiguredSelected = [...selectedCities].filter(
-    (c) => !configuredCities.includes(c),
+    (c) => !allConfigured.includes(c),
   );
 
-  const loadingCount = [...loading].filter((c) => configuredCities.includes(c as City)).length;
-  const totalCities = 11; // South Bay city count
+  // Blotter cities: those with data that are selected, sorted same way
+  const blotterCityIds = Object.keys(allBlotters) as City[];
+  const visibleBlotterCities = blotterCityIds
+    .filter((c) => selectedCities.has(c))
+    .sort((a, b) => {
+      if (a === primary) return -1;
+      if (b === primary) return 1;
+      return 0;
+    });
+
+  const totalCities = 11;
 
   function cityLabel(city: string) {
     return city
@@ -109,7 +116,7 @@ export default function GovernmentView({ selectedCities }: Props) {
             letterSpacing: "0.03em",
           }}
         >
-          {configuredCities.length} of {totalCities} cities
+          {allConfigured.length} of {totalCities} cities
         </span>
       </div>
 
@@ -125,29 +132,7 @@ export default function GovernmentView({ selectedCities }: Props) {
       >
         AI-generated plain-English summaries of city council meeting agendas —
         what was discussed, what was decided, and why it matters.
-        Select a city above to see its digest.
       </p>
-
-      {/* ── Loading indicator when multiple cities are fetching ── */}
-      {loadingCount > 1 && (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "10px 14px",
-            background: "var(--sb-primary-light)",
-            border: "1px solid var(--sb-border-light)",
-            borderRadius: "var(--sb-radius)",
-            marginBottom: 16,
-            fontSize: 13,
-            color: "var(--sb-muted)",
-          }}
-        >
-          <div className="sb-spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />
-          Generating {loadingCount} digests — this takes a moment…
-        </div>
-      )}
 
       {visibleCities.length === 0 && unconfiguredSelected.length === 0 && (
         <div className="sb-empty">
@@ -164,19 +149,7 @@ export default function GovernmentView({ selectedCities }: Props) {
         const isLoading = loading.has(city);
         const error = errors.get(city);
 
-        if (isLoading && loadingCount <= 1) {
-          return (
-            <div key={city} className="sb-digest-loading">
-              <div className="sb-spinner" />
-              <div className="sb-loading-text">
-                Generating {cityLabel(city)} digest…
-              </div>
-            </div>
-          );
-        }
-
         if (isLoading) {
-          // When multiple are loading, show minimal placeholder
           return (
             <div
               key={city}
@@ -193,7 +166,7 @@ export default function GovernmentView({ selectedCities }: Props) {
               }}
             >
               <div className="sb-spinner" style={{ width: 12, height: 12, borderWidth: 2 }} />
-              {cityLabel(city)}
+              Refreshing {cityLabel(city)}…
             </div>
           );
         }
@@ -204,16 +177,54 @@ export default function GovernmentView({ selectedCities }: Props) {
               <span>
                 <strong>{cityLabel(city)}:</strong> {error}
               </span>
-              <button onClick={() => fetchDigest(city)}>Retry</button>
+              <button onClick={() => refreshDigest(city)}>Retry</button>
             </div>
           );
         }
 
         if (digest) {
-          return <DigestCard key={city} digest={digest} />;
+          return (
+            <DigestCard
+              key={city}
+              digest={digest}
+              onRefresh={() => refreshDigest(city)}
+            />
+          );
         }
 
-        return null;
+        // No pre-generated data for this city — show prompt to generate
+        return (
+          <div
+            key={city}
+            style={{
+              padding: "14px 16px",
+              border: "1px dashed var(--sb-border)",
+              borderRadius: "var(--sb-radius)",
+              marginBottom: 12,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              fontSize: 13,
+              color: "var(--sb-muted)",
+            }}
+          >
+            <span>{cityLabel(city)} — no digest yet</span>
+            <button
+              onClick={() => refreshDigest(city)}
+              style={{
+                padding: "4px 10px",
+                fontSize: 11,
+                border: "1px solid var(--sb-border)",
+                borderRadius: 4,
+                background: "#fff",
+                cursor: "pointer",
+                fontFamily: "'Space Mono', monospace",
+              }}
+            >
+              Generate
+            </button>
+          </div>
+        );
       })}
 
       {/* Unconfigured cities */}
@@ -223,11 +234,48 @@ export default function GovernmentView({ selectedCities }: Props) {
             Digests not yet available for:{" "}
             {unconfiguredSelected.map(cityLabel).join(", ")}.
             {" "}Currently covering:{" "}
-            {configuredCities.length > 0
-              ? configuredCities.map(cityLabel).join(", ")
+            {allConfigured.length > 0
+              ? allConfigured.map(cityLabel).join(", ")
               : "—"}
           </p>
         </div>
+      )}
+
+      {/* ── Police Blotter ── */}
+      {visibleBlotterCities.length > 0 && (
+        <>
+          <div className="sb-section-header" style={{ marginTop: 32, marginBottom: 4 }}>
+            <span className="sb-section-title">Police Blotter</span>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                color: "var(--sb-muted)",
+                background: "#F3F4F6",
+                padding: "2px 8px",
+                borderRadius: 3,
+                letterSpacing: "0.03em",
+              }}
+            >
+              calls for service
+            </span>
+          </div>
+          <p
+            style={{
+              fontSize: 12,
+              color: "var(--sb-muted)",
+              marginTop: 0,
+              marginBottom: 16,
+              lineHeight: 1.5,
+            }}
+          >
+            Recent police calls for service from public open data portals.
+          </p>
+          {visibleBlotterCities.map((city) => {
+            const blotter = allBlotters[city];
+            return blotter ? <BlotterCard key={city} blotter={blotter} /> : null;
+          })}
+        </>
       )}
     </>
   );
