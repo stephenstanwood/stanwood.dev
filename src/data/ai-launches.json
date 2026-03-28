@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini 3.1 Flash Live",
+    "org": "Google",
+    "date": "2026-03-27",
+    "type": "model",
+    "summary": "real-time voice model in the developer API — build conversational voice apps with low latency, successor to Gemini 2.5 Flash Native Audio",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/"
+  },
+  {
     "name": "Mistral Speech",
     "org": "Mistral",
     "date": "2026-03-26",
@@ -48,19 +56,11 @@
     "url": "https://stitch.withgoogle.com/"
   },
   {
-    "name": "Firefly Custom Models",
-    "org": "Adobe",
-    "date": "2026-03-19",
-    "type": "tool",
-    "summary": "train Firefly on your own images to create a reusable personal style model — consistent visual identity across AI generations",
-    "url": "https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models"
-  },
-  {
-    "name": "Mistral Small 4",
-    "org": "Mistral",
+    "name": "Gemini 3.1 Flash-Lite",
+    "org": "Google",
     "date": "2026-03-17",
     "type": "model",
-    "summary": "Apache 2.0 open model with text + image support — 119B params, only 6B active (MoE), free to self-host or run via API",
-    "url": "https://mistral.ai/news/mistral-small-4"
+    "summary": "cheapest Gemini 3 model at $0.25/1M tokens — multimodal, huge context, built for high-volume dev workloads, available in API today",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
   }
 ]
