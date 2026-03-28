@@ -6,6 +6,7 @@ import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
 import {
   fetchCityAgenda,
   fetchAgendaContent,
+  fetchLegistarContent,
   getConfiguredCities,
 } from "../../../lib/south-bay/agendaScraperFactory";
 import type { City } from "../../../lib/south-bay/types";
@@ -67,7 +68,22 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   }
 
   // 2. Get the agenda content
-  const content = await fetchAgendaContent(agenda.pdfUrl);
+  // Legistar cities: use structured EventItems API (JSON, no PDF scraping needed)
+  // CivicEngage cities: fall back to HTML agenda page scraping
+  let content: string | null = null;
+
+  if (agenda.legistarEventId != null && agenda.legistarClientId) {
+    content = await fetchLegistarContent(
+      agenda.legistarClientId,
+      agenda.legistarEventId,
+    );
+  }
+
+  if (!content) {
+    // Fallback: HTML agenda page (works for CivicEngage; also tried if Legistar items come back empty)
+    content = await fetchAgendaContent(agenda.pdfUrl);
+  }
+
   if (!content) {
     return errJson("Could not read agenda content", 502);
   }

@@ -466,3 +466,105 @@ The "This Month" section adds the editorial layer that was missing. South Bay Si
 **Yes — the personalization layer is what turns a useful site into YOUR homepage.** Before this cycle, South Bay Signal could be described as a good local information product. After this cycle, it can be described as *your* local homepage. The home city feature creates the "this was made for me" feeling that drives bookmarking behavior. The "This Month" editorial section gives the homepage a voice — not just data, but curation. Combined, these two additions cross a qualitative threshold: the product now has identity and personal connection, not just utility.
 
 ---
+
+## 2026-03-28 — Cycle 9: Government Expansion — Legistar Scraper + 5 New Cities
+
+### Context
+Coming off Cycle 8 which added "Your City" personalization and the "This Month" editorial section. The Government tab has appeared as a top-3 priority in every single previous cycle and was never fully addressed. Currently covering only 3 small cities (Campbell, Saratoga, Los Altos) via CivicEngage — which covers a small fraction of the South Bay population. San José, America's 10th largest city and the heart of Silicon Valley, has been completely absent from government coverage since day one.
+
+The Legistar Web API (webapi.legistar.com) is free, public, JSON-based, and requires no authentication. Five major South Bay cities use Legistar for their council meeting management. This cycle finally implements that scraper.
+
+### Issues Identified This Cycle
+1. **Government tab covered <20% of population** — Campbell, Saratoga, and Los Altos are small cities (populations 40K, 30K, 30K respectively). San José (1M), Sunnyvale (155K), Santa Clara (130K), Mountain View (82K), and Cupertino (60K) were completely uncovered.
+2. **San José gap was embarrassing** — The product claims to cover "the South Bay" but the region's largest city by far had no government coverage. This was the single biggest credibility gap.
+3. **CivicEngage scraper hit PDF/HTML inconsistency** — The existing HTML scraper works for CivicEngage pages because they serve HTML agendas. Legistar typically uses PDF agendas — requiring a different content strategy. The Legistar EventItems API provides structured agenda items as JSON, eliminating the PDF problem entirely.
+4. **Government tab UI showed "loading" per-city with no progress context** — With 3 cities, this was manageable. Expanding to 8 cities requires better loading UX.
+
+### What Was Built
+
+**1. Legistar scraper** (`src/lib/south-bay/agendaScraperFactory.ts`)
+
+Extended `AgendaCityConfig` with:
+- `legistarClientId?: string` — the Legistar client ID (e.g., "sanjose" → webapi.legistar.com/v1/sanjose/)
+- `legistarBodyName?: string` — optional override if the exact Legistar body name differs from config.body
+
+Extended `AgendaInfo` with:
+- `legistarEventId?: number` — the Legistar EventId for the most recent meeting
+- `legistarClientId?: string` — passed through for content fetching
+
+`scrapeLegistar(config)` — new function:
+- Calls `GET /v1/{client}/Events?$filter=EventBodyName eq 'City Council'&$orderby=EventDate desc&$top=5`
+- Selects the most recent past meeting (skips future meetings)
+- Returns `AgendaInfo` with `legistarEventId` and `legistarClientId` set
+- Includes polite User-Agent header identifying South Bay Signal as a public information aggregator
+
+`fetchLegistarContent(clientId, eventId)` — new exported function:
+- Calls `GET /v1/{client}/EventItems?AgendaNote=1&$filter=EventItemEventId eq {id}&$orderby=EventItemAgendaSequence asc`
+- Gets structured agenda items (number, title, notes) from the API
+- Strips HTML from notes, formats as readable text for Claude summarization
+- Truncates to 12K characters (same limit as CivicEngage)
+
+**2. Five new Legistar city configurations** added to `AGENDA_CITIES`:
+- `san-jose` → client `sanjose` — "1st and 3rd Tuesday"
+- `mountain-view` → client `mountainview` — "2nd and 4th Tuesday"
+- `sunnyvale` → client `sunnyvaleca` — "2nd and 4th Tuesday"
+- `cupertino` → client `cupertino` — "1st and 3rd Tuesday"
+- `santa-clara` → client `santaclara` — "2nd and 4th Tuesday"
+
+Total cities: 3 (CivicEngage) + 5 (Legistar) = **8 of 11 South Bay cities**
+
+**3. Updated digest API** (`src/pages/api/south-bay/digest.ts`)
+
+Content fetching now follows a priority chain:
+1. If `agenda.legistarEventId` is set → call `fetchLegistarContent()` (structured JSON)
+2. If that returns null → fall back to `fetchAgendaContent(agenda.pdfUrl)` (HTML scraping)
+3. If both fail → 502 error
+
+This means Legistar cities get clean structured content from the API; CivicEngage cities continue to use HTML scraping.
+
+**4. Improved GovernmentView UI** (`src/components/south-bay/views/GovernmentView.tsx`)
+
+- Added "8 of 11 cities" badge next to section title (dynamically computed from configuredCities.length)
+- Added a plain-English explainer paragraph below the header
+- Multi-city loading indicator: when >1 city is loading simultaneously, shows a single "Generating N digests — this takes a moment…" banner instead of N individual spinners
+- Per-city loading still shows when only 1 city is loading
+- Error display now shows city name in the error message for clarity
+- "Unconfigured cities" messaging now names which cities are configured
+
+**5. Updated Overview City Hall teaser** (`src/components/south-bay/views/OverviewView.tsx`)
+
+Changed from "Campbell, Saratoga, and Los Altos" to "8 South Bay cities — including San José, Mountain View, Sunnyvale, and Cupertino."
+
+### Why This Was the Strongest Move
+
+Government digest coverage has appeared in the "Next 3 Strongest Ideas" section of EVERY previous cycle — all 8 of them — and was never the top priority because there was always something more immediately needed. With 8 tabs now live and the product feeling genuinely useful, the government gap is no longer defensible.
+
+The impact is categorical, not incremental:
+- **Before**: 3 cities with ~100K combined population
+- **After**: 8 cities with ~1.6M combined population (San José alone adds 1M)
+- San José is the cultural, economic, and civic heart of the South Bay. Having it missing was like a Bay Area news product not covering San Francisco.
+
+The Legistar API choice is the right technical approach:
+- JSON API (no HTML parsing, no PDF downloading)
+- Structured agenda items with numbers, titles, and notes
+- Much more reliable than HTML scraping (no layout changes breaking the parser)
+- The EventItems content is cleaner and more useful for Claude summarization than raw HTML
+
+The content quality from Legistar is also better. Instead of trying to parse a PDF or dense HTML agenda page, Claude receives a numbered list of agenda items with staff notes. This produces more accurate, specific summaries.
+
+### What New Opportunities Emerged
+1. **Live government RSS/alert feeds** — Some cities (like San José) publish council alerts/highlights through city websites. A supplementary news feed layer on the Gov tab would add timely context between meetings.
+2. **"What's on the agenda this week"** — The existing digests summarize the MOST RECENT past meeting. A companion section showing UPCOMING meeting items (from the next scheduled meeting's posted agenda) would add forward-looking value.
+3. **Palo Alto (PrimeGov)** — The remaining major city not yet covered. PrimeGov is a different platform but also has a public API. Could add this in a future cycle to get 9/11 cities.
+4. **Milpitas (CivicClerk)** — Smaller city but would complete the full 11-city sweep.
+5. **Government tab improvements** — Now that 8 cities load, consider lazy-loading (only load visible/selected cities) or staggered loading to reduce simultaneous API calls.
+
+### Next 3 Strongest Ideas
+1. **"What's on the agenda this week" — upcoming meetings** — Add a section to the Gov tab showing next scheduled meeting dates and any pre-posted agendas. Currently all digests are backward-looking (most recent past meeting). Forward-looking civic intelligence is the other half of the value prop.
+2. **Palo Alto government coverage (PrimeGov)** — Last major city without government digests. PrimeGov has a public API similar to Legistar. Getting to 9/11 cities makes the "South Bay-wide" claim much stronger.
+3. **Live Caltrain/VTA status fetch** — Has been #1 infrastructure idea since Cycle 7. Caltrain publishes a public JSON feed. Making the Transit tab genuinely real-time would create a daily-urgency use case no other feature currently provides.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the government coverage gap that undermined credibility is now closed.** South Bay Signal now generates AI digests for 8 of 11 South Bay cities, covering approximately 1.6 million residents. San José being present changes the product's credibility profile entirely. A San José resident — the most likely South Bay resident — can now see their city council's most recent meeting summarized in plain English. That has never existed in any form for this population. The Government tab is now the most uniquely differentiating section of the product: no other South Bay source aggregates plain-English council summaries across this many cities.
+
+---
