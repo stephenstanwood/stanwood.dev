@@ -246,25 +246,35 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
   // ── Upcoming events (scraped, specific dates) ──
   const filteredUpcoming = useMemo(() => {
     const allCities = selectedCities.size === 11;
-    return upcomingEvents
-      .filter((e) => {
-        if (!allCities && !selectedCities.has(e.city as City)) return false;
-        if (category !== "all" && e.category !== category) return false;
-        if (showKidsOnly && !e.kidFriendly) return false;
-        if (search) {
-          const q = search.toLowerCase();
-          if (!e.title.toLowerCase().includes(q) && !e.description.toLowerCase().includes(q) &&
-              !e.city.toLowerCase().includes(q) && !e.venue.toLowerCase().includes(q)) return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        // Home city first, then by date
-        const aHome = a.city === primary ? 1 : 0;
-        const bHome = b.city === primary ? 1 : 0;
-        if (aHome !== bHome) return bHome - aHome;
-        return (a.date || "").localeCompare(b.date || "");
-      });
+    const filtered = upcomingEvents.filter((e) => {
+      if (!allCities && !selectedCities.has(e.city as City)) return false;
+      if (category !== "all" && e.category !== category) return false;
+      if (showKidsOnly && !e.kidFriendly) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        if (!e.title.toLowerCase().includes(q) && !e.description.toLowerCase().includes(q) &&
+            !e.city.toLowerCase().includes(q) && !e.venue.toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+
+    // Source diversity: count how many events each source contributes after filtering.
+    // Within the same date, events from less-represented sources sort first — so a
+    // Campbell library story time beats the 200th SCU lecture.
+    const srcCounts: Record<string, number> = {};
+    for (const e of filtered) srcCounts[e.source] = (srcCounts[e.source] || 0) + 1;
+
+    return filtered.sort((a, b) => {
+      // 1. Home city always first
+      const aHome = a.city === primary ? 1 : 0;
+      const bHome = b.city === primary ? 1 : 0;
+      if (aHome !== bHome) return bHome - aHome;
+      // 2. Date ascending
+      const dateCmp = (a.date || "").localeCompare(b.date || "");
+      if (dateCmp !== 0) return dateCmp;
+      // 3. Same date: boost under-represented sources (fewer total = shown first)
+      return (srcCounts[a.source] || 0) - (srcCounts[b.source] || 0);
+    });
   }, [selectedCities, category, showKidsOnly, search, primary]);
 
   // ── Recurring events (static, weekly/monthly/seasonal) ──
