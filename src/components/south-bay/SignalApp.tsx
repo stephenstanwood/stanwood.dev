@@ -7,6 +7,7 @@ import OverviewView from "./views/OverviewView";
 import GovernmentView from "./views/GovernmentView";
 import EventsView from "./views/EventsView";
 import TechnologyView from "./views/TechnologyView";
+import PlanView from "./views/PlanView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -111,6 +112,7 @@ export default function SignalApp() {
           <GovernmentView selectedCities={selectedCities} />
         )}
         {activeTab === "technology" && <TechnologyView />}
+        {activeTab === "plan" && <PlanView />}
       </main>
 
       {/* Footer */}
