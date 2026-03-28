@@ -2,6 +2,17 @@
 
 ---
 
+## STANDING ORDERS (read every cycle before choosing what to build)
+
+These are permanent directives from Stephen — override any other instinct:
+
+1. **No local review — just ship.** Don't wait for approval. Build it, push it, merge it, move on.
+2. **Aesthetics are lacking — fix aggressively.** The design is functional but not beautiful. Every cycle should make it feel more like a real product: typography, spacing, hierarchy, color, polish. This is a real gap.
+3. **Mobile-first, always.** Check the mobile experience (375px) on every change. Don't build desktop-first and bolt on mobile. The "default homepage" goal requires excellent mobile.
+4. **Events data: more is more.** Volume over curation. It's easier to trim too much data than to feel sparse. Add every verifiable recurring event you can find — libraries, parks, schools, Stanford calendar, city events, cultural centers, live music venues, etc. Aim for 100+ events.
+
+---
+
 ## 2026-03-27 — Cycle 1: The Events Section
 
 ### Context
