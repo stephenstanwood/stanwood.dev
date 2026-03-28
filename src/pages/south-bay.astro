@@ -523,6 +523,250 @@ const title = "South Bay Signal — stanwood.dev";
         color: var(--sb-muted);
       }
 
+      /* ── Technology section ── */
+      .tech-view {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      /* Header */
+      .tech-header {
+        border-bottom: 3px double var(--sb-border);
+        padding-bottom: 20px;
+      }
+      .tech-header-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--sb-muted);
+        margin-bottom: 4px;
+      }
+      .tech-header-title {
+        font-family: var(--sb-serif);
+        font-size: 36px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: var(--sb-ink);
+        margin: 0 0 8px 0;
+        line-height: 1.1;
+      }
+      .tech-header-subtitle {
+        font-size: 15px;
+        color: var(--sb-muted);
+        margin: 0 0 10px 0;
+        line-height: 1.5;
+        max-width: 600px;
+      }
+      .tech-header-note {
+        font-size: 11px;
+        color: var(--sb-light);
+        letter-spacing: 0.03em;
+      }
+
+      /* Pulse strip */
+      .tech-pulse {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--sb-border-light);
+        border: 1px solid var(--sb-border-light);
+      }
+      .tech-pulse-item {
+        background: var(--sb-card);
+        padding: 16px 20px;
+      }
+      .tech-pulse-value {
+        font-family: var(--sb-serif);
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--sb-ink);
+        line-height: 1.1;
+        margin-bottom: 3px;
+      }
+      .tech-pulse-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--sb-muted);
+        margin-bottom: 4px;
+      }
+      .tech-pulse-note {
+        font-size: 12px;
+        color: var(--sb-light);
+        line-height: 1.4;
+      }
+
+      /* Section wrapper */
+      .tech-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .tech-section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        border-bottom: 1px solid var(--sb-border);
+        padding-bottom: 8px;
+      }
+      .tech-section-title {
+        font-family: var(--sb-serif);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--sb-ink);
+        margin: 0;
+      }
+      .tech-section-note {
+        font-size: 12px;
+        color: var(--sb-light);
+      }
+
+      /* Chart */
+      .tech-chart-wrap {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border-light);
+        padding: 20px 8px 12px 0;
+      }
+      .tech-chart-legend {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        font-size: 11px;
+      }
+      .tech-legend-up { color: #16a34a; font-weight: 600; }
+      .tech-legend-down { color: #dc2626; font-weight: 600; }
+      .tech-legend-note { color: var(--sb-light); margin-left: auto; }
+
+      /* Company grid */
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: var(--sb-border-light);
+        border: 1px solid var(--sb-border-light);
+      }
+
+      /* Company card */
+      .tech-card {
+        background: var(--sb-card);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tech-card:hover {
+        background: var(--sb-primary-light);
+      }
+      .tech-card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .tech-card-identity {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .tech-card-name {
+        font-family: var(--sb-serif);
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--sb-ink);
+        line-height: 1.2;
+      }
+      .tech-card-ticker {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--sb-light);
+        letter-spacing: 0.04em;
+        font-family: 'Space Mono', monospace;
+      }
+      .tech-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        color: var(--sb-muted);
+      }
+      .tech-card-city { font-weight: 500; }
+      .tech-card-dot { color: var(--sb-border); }
+      .tech-card-category {
+        background: var(--sb-primary-light);
+        border: 1px solid var(--sb-border-light);
+        padding: 1px 6px;
+        border-radius: 2px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--sb-muted);
+      }
+      .tech-card-headcount {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--sb-muted);
+      }
+      .tech-card-desc {
+        font-size: 13px;
+        color: var(--sb-ink);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .tech-card-trend-note {
+        font-size: 12px;
+        color: var(--sb-muted);
+        font-style: italic;
+      }
+      .tech-card-highlights {
+        margin: 4px 0 0 0;
+        padding-left: 16px;
+        font-size: 12px;
+        color: var(--sb-muted);
+        line-height: 1.6;
+      }
+      .tech-card-highlights li { margin-bottom: 2px; }
+
+      /* Trend badges */
+      .tech-trend {
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        padding: 2px 6px;
+        border-radius: 2px;
+        flex-shrink: 0;
+      }
+      .tech-trend--up {
+        color: #15803d;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+      }
+      .tech-trend--down {
+        color: #b91c1c;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+      }
+      .tech-trend--flat {
+        color: var(--sb-muted);
+        background: var(--sb-primary-light);
+        border: 1px solid var(--sb-border-light);
+      }
+
+      /* Footer note */
+      .tech-footer-note {
+        font-size: 11px;
+        color: var(--sb-light);
+        line-height: 1.6;
+        padding-top: 16px;
+        border-top: 1px solid var(--sb-border-light);
+      }
+
       /* ── Footer ── */
       .sb-footer {
         max-width: var(--sb-max-width);
@@ -552,6 +796,14 @@ const title = "South Bay Signal — stanwood.dev";
         .sb-section-title { font-size: 18px; }
         .sb-games-grid { grid-template-columns: 1fr; }
         .sb-overview-grid { grid-template-columns: 1fr; }
+
+        /* Tech section mobile */
+        .tech-header-title { font-size: 28px; }
+        .tech-pulse { grid-template-columns: repeat(2, 1fr); }
+        .tech-grid { grid-template-columns: 1fr; }
+        .tech-section-head { flex-direction: column; gap: 2px; }
+        .tech-legend-note { display: none; }
+        .tech-chart-wrap { overflow-x: auto; }
       }
     </style>
   </Fragment>

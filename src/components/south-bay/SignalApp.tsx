@@ -6,6 +6,7 @@ import SportsView from "./views/SportsView";
 import OverviewView from "./views/OverviewView";
 import GovernmentView from "./views/GovernmentView";
 import EventsView from "./views/EventsView";
+import TechnologyView from "./views/TechnologyView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -42,7 +43,7 @@ export default function SignalApp() {
     });
   }, []);
 
-  // Only show city filter on government/events tabs (sports are regional)
+  // Only show city filter on government/events tabs (sports and tech are regional)
   const showCityFilter = activeTab === "government" || activeTab === "events";
 
   return (
@@ -109,6 +110,7 @@ export default function SignalApp() {
         {activeTab === "government" && (
           <GovernmentView selectedCities={selectedCities} />
         )}
+        {activeTab === "technology" && <TechnologyView />}
       </main>
 
       {/* Footer */}
