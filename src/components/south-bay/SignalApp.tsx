@@ -1,10 +1,15 @@
 import { useState, useCallback } from "react";
 import type { Tab, City } from "../../lib/south-bay/types";
 import { TABS } from "../../lib/south-bay/types";
-import { CITIES } from "../../lib/south-bay/cities";
+import { CITIES, getCityName } from "../../lib/south-bay/cities";
 import SportsView from "./views/SportsView";
 import OverviewView from "./views/OverviewView";
 import GovernmentView from "./views/GovernmentView";
+import EventsView from "./views/EventsView";
+import TechnologyView from "./views/TechnologyView";
+import DevelopmentView from "./views/DevelopmentView";
+import TransitView from "./views/TransitView";
+import PlanView from "./views/PlanView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -19,6 +24,19 @@ export default function SignalApp() {
   const [selectedCities, setSelectedCities] = useState<Set<City>>(
     () => new Set(CITIES.map((c) => c.id)),
   );
+  const [homeCity, setHomeCityState] = useState<City | null>(() => {
+    if (typeof window === "undefined") return null;
+    return (localStorage.getItem("sb-home-city") as City | null) ?? null;
+  });
+
+  const setHomeCity = useCallback((city: City | null) => {
+    setHomeCityState(city);
+    if (city) {
+      localStorage.setItem("sb-home-city", city);
+    } else {
+      localStorage.removeItem("sb-home-city");
+    }
+  }, []);
 
   const allSelected = selectedCities.size === CITIES.length;
 
@@ -41,7 +59,7 @@ export default function SignalApp() {
     });
   }, []);
 
-  // Only show city filter on government/events tabs (sports are regional)
+  // Only show city filter on government/events tabs (sports and tech are regional)
   const showCityFilter = activeTab === "government" || activeTab === "events";
 
   return (
@@ -52,7 +70,14 @@ export default function SignalApp() {
           <a href="/south-bay" className="sb-brand">
             <span className="sb-brand-name">South Bay Signal</span>
           </a>
-          <div className="sb-date">{TODAY}</div>
+          <div className="sb-date">
+            {TODAY}
+            {homeCity && (
+              <span style={{ marginLeft: 8, color: "var(--sb-accent)", fontWeight: 600 }}>
+                · {getCityName(homeCity)}
+              </span>
+            )}
+          </div>
         </div>
       </header>
 
@@ -61,19 +86,16 @@ export default function SignalApp() {
       {/* Navigation */}
       <nav className="sb-nav">
         <div className="sb-nav-inner">
-          {TABS.map((tab) => {
-            const disabled = tab.id === "events";
-            return (
-              <button
-                key={tab.id}
-                className={`sb-tab${activeTab === tab.id ? " sb-tab--active" : ""}${disabled ? " sb-tab--disabled" : ""}`}
-                onClick={() => !disabled && setActiveTab(tab.id)}
-                aria-current={activeTab === tab.id ? "page" : undefined}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              className={`sb-tab${activeTab === tab.id ? " sb-tab--active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+              aria-current={activeTab === tab.id ? "page" : undefined}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </nav>
 
@@ -103,20 +125,20 @@ export default function SignalApp() {
 
       {/* Content */}
       <main className="sb-main">
-        {activeTab === "overview" && <OverviewView />}
+        {activeTab === "overview" && (
+          <OverviewView homeCity={homeCity} setHomeCity={setHomeCity} />
+        )}
         {activeTab === "sports" && <SportsView />}
         {activeTab === "events" && (
-          <div className="sb-coming-soon">
-            <div className="sb-coming-soon-icon">📅</div>
-            <div className="sb-coming-soon-title">Events</div>
-            <div className="sb-coming-soon-sub">
-              Local events calendar coming soon
-            </div>
-          </div>
+          <EventsView selectedCities={selectedCities} />
         )}
         {activeTab === "government" && (
           <GovernmentView selectedCities={selectedCities} />
         )}
+        {activeTab === "technology" && <TechnologyView />}
+        {activeTab === "development" && <DevelopmentView />}
+        {activeTab === "transit" && <TransitView />}
+        {activeTab === "plan" && <PlanView />}
       </main>
 
       {/* Footer */}

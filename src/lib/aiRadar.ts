@@ -77,6 +77,11 @@ export function formatLaunchDateFull(dateStr: string): { dayName: string; dayNum
   return extractDateParts(parseLaunchDate(dateStr));
 }
 
+/** Sort launches newest first. */
+export function sortLaunches(launches: Launch[]): Launch[] {
+  return launches.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
 /** Group an array of launches by date, newest first. */
 export function groupByDate(items: Launch[]): { date: string; launches: Launch[] }[] {
   const groups: Record<string, Launch[]> = {};

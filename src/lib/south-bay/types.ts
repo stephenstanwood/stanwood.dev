@@ -15,7 +15,7 @@ export type City =
   | "palo-alto"
   | "milpitas";
 
-export type Category = "sports" | "events" | "government";
+export type Category = "sports" | "events" | "government" | "technology" | "plan" | "development" | "transit";
 
 export type Tab = "overview" | Category;
 
@@ -29,6 +29,10 @@ export const TABS: TabDef[] = [
   { id: "sports", label: "Sports" },
   { id: "events", label: "Events" },
   { id: "government", label: "Gov" },
+  { id: "technology", label: "Tech" },
+  { id: "development", label: "Development" },
+  { id: "transit", label: "Transit" },
+  { id: "plan", label: "Plan My Day" },
 ];
 
 // ── Sports types ──

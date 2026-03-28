@@ -4,12 +4,11 @@ import {
   ORG_COLORS,
   relativeAge,
   formatLaunchDate,
+  sortLaunches,
 } from "../lib/aiRadar";
 
 // Sort once at module load
-const sorted = (launches as Launch[])
-  .slice()
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const sorted = sortLaunches(launches as Launch[]);
 
 export default function AIRadarTile() {
   const items = sorted.slice(0, 3);
