@@ -9,13 +9,15 @@ interface DigestData {
   nextMeeting: string | null;
   schedule: string;
   sourceUrl: string;
+  generatedAt?: string;
 }
 
 interface Props {
   digest: DigestData;
+  onRefresh?: () => void;
 }
 
-export default function DigestCard({ digest }: Props) {
+export default function DigestCard({ digest, onRefresh }: Props) {
   return (
     <div className="sb-digest-card">
       <div className="sb-digest-header">
@@ -37,14 +39,34 @@ export default function DigestCard({ digest }: Props) {
             Next meeting: {digest.nextMeeting}
           </span>
         )}
-        <a
-          href={digest.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="sb-digest-source"
-        >
-          View agenda
-        </a>
+        <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <a
+            href={digest.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sb-digest-source"
+          >
+            View agenda
+          </a>
+          {onRefresh && (
+            <button
+              onClick={onRefresh}
+              style={{
+                padding: "2px 8px",
+                fontSize: 10,
+                border: "1px solid var(--sb-border)",
+                borderRadius: 3,
+                background: "#fff",
+                cursor: "pointer",
+                fontFamily: "'Space Mono', monospace",
+                color: "var(--sb-muted)",
+              }}
+              title="Refresh this digest from the latest agenda"
+            >
+              ↻ refresh
+            </button>
+          )}
+        </span>
       </div>
     </div>
   );

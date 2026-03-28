@@ -26,13 +26,13 @@ export interface TabDef {
 
 export const TABS: TabDef[] = [
   { id: "overview", label: "Today" },
-  { id: "sports", label: "Sports" },
+  { id: "plan", label: "Plan My Day" },
   { id: "events", label: "Events" },
   { id: "government", label: "Gov" },
   { id: "technology", label: "Tech" },
   { id: "development", label: "Development" },
   { id: "transit", label: "Transit" },
-  { id: "plan", label: "Plan My Day" },
+  { id: "sports", label: "Sports" },
 ];
 
 // ── Sports types ──
