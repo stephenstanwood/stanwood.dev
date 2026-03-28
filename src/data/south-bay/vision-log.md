@@ -131,3 +131,62 @@ The rotation rule pushed away from pure data work (last cycle was Events) toward
 **Yes — materially closer to the morning tab promise.** The Today tab now earns its name. Someone opening it on a Thursday morning sees the weather, sees a list of real things happening today (a library story time, the Computer History Museum, Rancho San Antonio park, etc.), gets a City Hall teaser, and then finds the sports scoreboard. That's a daily briefing, not a sports widget. The sequence of information finally matches "this is your local morning tab."
 
 ---
+
+## 2026-03-27 — Cycle 3: Technology Tab — Local Bloomberg Terminal for South Bay Tech
+
+### Context
+Coming off Cycle 2 which delivered the Today tab morning dashboard. The product now has: Today (morning dashboard), Sports (live scores), Events (40+ recurring), Gov (council digests). All four existing tabs were working. The natural next move was to open a new territory entirely — one that's distinctly South Bay and deeply data-driven.
+
+### Issues Identified This Cycle
+1. **No tech coverage** — the South Bay IS Silicon Valley. No tab covered the tech industry that defines this region economically and culturally. A South Bay homepage without tech is a map missing its most prominent feature.
+2. **Product surface area too narrow** — four tabs covering sports, events, and local government is solid but not yet "default homepage" territory. Adding a fifth pillar with real depth signals ambition.
+3. **No charts or data visualizations** — Recharts is in the project but unused in south-bay. Adding it makes the product feel more like a real data product, less like a dashboard demo.
+
+### What Was Built
+
+**`src/data/south-bay/tech-companies.ts`** — 16-company curated dataset:
+- All major South Bay tech HQs: Apple, Google, NVIDIA, Intel, Cisco, Meta, AMD, Adobe, ServiceNow, PayPal, Palo Alto Networks, LinkedIn, Western Digital, eBay, Juniper, Zoom
+- Each entry: global headcount estimate, trend (up/flat/down), trend note, 2 highlights, 1-line description, brand color, chart-display name
+- Pulse stats: 4 headline numbers for the section header
+- Pre-computed chart data: top 10 companies sorted by headcount, with colors and trend data
+
+**`src/components/south-bay/views/TechnologyView.tsx`** — Full view component:
+1. **Section header** — "South Bay / Technology" in newspaper style with subtitle and data disclaimer
+2. **Pulse strip** — 4-stat card row: "16 Major HQs", "NVIDIA" (biggest gainer), "Intel" (most restructuring), "AI chips" (hot category)
+3. **Top Employers chart** — Recharts horizontal BarChart showing top 10 by global headcount. Per-bar colors (brand-adjacent). Trend shown via opacity (declining companies lighter). Custom tooltip shows name + headcount + trend.
+4. **Company grid** — 2-column card grid (1 column on mobile) showing all 16 companies sorted by headcount. Each card: name, ticker, city, category badge, headcount, description, trend note, 2 highlight bullets. Color-coded trend badges (green=growing, red=shrinking, gray=stable).
+5. **Footer disclaimer** — data sourcing note, not investment advice
+
+**`src/lib/south-bay/types.ts`** — Added 'technology' to Category and Tab union types, added Tech tab to TABS array
+
+**`src/components/south-bay/SignalApp.tsx`** — Imported TechnologyView, added tab render
+
+**`src/pages/south-bay.astro`** — Added full CSS block: tech-view, tech-header, tech-pulse, tech-section, tech-chart, tech-grid, tech-card, tech-trend badges, responsive mobile overrides
+
+### Why This Was the Strongest Move
+The rotation rule pushed away from pure UX polish (Cycle 2 was dashboard redesign). The highest-leverage new territory was Technology — it's:
+- Uniquely South Bay (not available on any other local site)
+- Data-rich in a way that's impossible to replicate by just listing links
+- A reason to visit even on a slow local news day (tech is always moving)
+- A proof point that South Bay Signal understands the full local picture, not just farmers markets and city council
+
+The chart is the signature element: horizontal bar showing Google (181K) to Intel (108K) to Cisco (85K) to NVIDIA (36K). Seeing NVIDIA's comparatively small headcount next to its enormous market impact tells a story no text summary can. Intel shown lighter (declining trend) adds an editorial layer without editorializing.
+
+The pulse stats are the fastest possible brief: "NVIDIA, biggest gainer. Intel, most restructuring." Two data points that capture the most important tech story in Silicon Valley right now.
+
+### What New Opportunities Emerged
+1. **Technology tab live feed** — the current data is a static snapshot. A live feed of South Bay tech news (job postings, earnings dates, funding rounds) would make this tab a daily destination.
+2. **"What's hiring / what's cutting" view** — the trend data is already there. A focused view of who's growing (NVIDIA, ServiceNow, AMD) vs. who's shrinking (Intel, PayPal) would be highly shareable.
+3. **Tech + events crossover** — "Events at tech campuses" (Stanford lectures, Computer History Museum, Tech Interactive) should appear in the Technology tab, not just Events.
+4. **Plan My Day** — still the signature interactive feature. Events ✓, weather ✓, just needs the itinerary builder. This is next on the rotation after something else.
+5. **Development tracker** — "what's being built" around these tech campuses (NVIDIA's new R&D building, Apple's expansion, Google's downtown San Jose campus) would connect tech and development in a powerful way.
+
+### Next 3 Strongest Ideas
+1. **Plan My Day** — the signature interactive feature. Everything it needs exists. This is the "bookmark forever" moment and should be prioritized soon.
+2. **Events data volume push** — standing order says target 100+ events. Still at 47. Adding library programs, city parks events, Stanford calendar entries, and community centers would double coverage.
+3. **Government digest fix** — three cities configured, silent failure on all. Investigating the CivicEngage scraper or confirming the API key is set in Vercel would unlock the Gov tab's actual value.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — a new dimension unlocked.** South Bay Signal now covers sports, events, government, AND technology. The nav bar reads "Today / Sports / Events / Gov / Tech" — that's a real product lineup, not a demo. The Technology tab alone is more useful than anything existing local media offers on this topic: no paywall, no generic Silicon Valley coverage, just the companies that are literally down the street from where residents live and work. The Recharts bar chart gives it a data product feel. Combined with the morning dashboard, live sports scores, and curated events, South Bay Signal is now approaching "I'd actually keep this open" territory.
+
+---
