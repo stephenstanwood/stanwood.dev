@@ -59,7 +59,7 @@ const weirdAndUseful = [
 ];
 
 const local = [
-  { href: "/south-bay", emoji: "📰", name: "South Bay Signal", tag: "local scores, events & news", image: "/images/south-bay-signal.svg" },
+  { href: "/south-bay", emoji: "📰", name: "South Bay Signal", tag: "everything happening in the south bay", image: "/images/south-bay-signal.svg" },
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "taste quiz → menu picks", image: "/images/green-light.webp" },
   { href: "/campbell", emoji: "🏛️", name: "Campbell, CA", tag: "city services, events & permits", image: "/images/campbell.png" },
 ];
@@ -2237,12 +2237,72 @@ const latestMobile = [
       ))}
     </div>
 
-    <!-- Weird & Useful -->
-    <div class="section-label">weird & useful</div>
+    <!-- Civic Tech (Stoa) -->
+    <div class="section-label">civic tech</div>
+
+    <div class="tm-row">
+      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/budget-dashboard" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/budget-dashboard.png" alt="Budget Dashboard" loading="lazy" />
+        <span class="proj-emoji">💰</span>
+        <div class="proj-info">
+          <div class="proj-name">Budget Dashboard</div>
+          <div class="proj-tag">Bay Area city spending, compared</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/council-minutes" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/council-minutes.png" alt="Council Minutes Search" loading="lazy" />
+        <span class="proj-emoji">🔍</span>
+        <div class="proj-info">
+          <div class="proj-name">Council Minutes</div>
+          <div class="proj-tag">AI search across 7+ city councils</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/parks-map" target="_blank" rel="noopener noreferrer">
+        <div class="proj-img" style="background:#EAFAF1;display:flex;align-items:center;justify-content:center;font-size:48px;">🌳</div>
+        <span class="proj-emoji">🌳</span>
+        <div class="proj-info">
+          <div class="proj-name">Parks Map</div>
+          <div class="proj-tag">every park and public space, mapped</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Trademark Tools -->
+    <div class="section-label">trademark tools</div>
+
+    <div class="tm-row">
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/id-manual.png" alt="ID Manual Search" loading="lazy" />
+        <span class="proj-emoji">📋</span>
+        <div class="proj-info">
+          <div class="proj-name">ID Manual Search</div>
+          <div class="proj-tag">74k+ identifications</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/tmep" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/tmep.png" alt="TMEP" loading="lazy" />
+        <span class="proj-emoji">📖</span>
+        <div class="proj-info">
+          <div class="proj-name">TMEP</div>
+          <div class="proj-tag">examining procedure manual</div>
+        </div>
+      </a>
+      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/ttab" target="_blank" rel="noopener noreferrer">
+        <img class="proj-img" src="/images/ttab-decisions.png" alt="TTAB Decisions" loading="lazy" />
+        <span class="proj-emoji">⚖️</span>
+        <div class="proj-info">
+          <div class="proj-name">TTAB Decisions</div>
+          <div class="proj-tag">full-text search, 43k+ decisions</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Local -->
+    <div class="section-label">local</div>
 
     <div class="proj-row">
-      {weirdAndUseful.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
+      {local.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
           {p.image && (
             <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
           )}
@@ -2253,8 +2313,6 @@ const latestMobile = [
           </div>
         </a>
       ))}
-      <div class="desktop-only"><RedesignRolodexTile client:idle /></div>
-      <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
     </div>
 
     <!-- Sports & Fitness -->
@@ -2299,12 +2357,12 @@ const latestMobile = [
       </div>
     </div>
 
-    <!-- Local -->
-    <div class="section-label">local</div>
+    <!-- Weird & Useful -->
+    <div class="section-label">weird & useful</div>
 
     <div class="proj-row">
-      {local.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
+      {weirdAndUseful.map((p) => (
+        <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
           {p.image && (
             <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
           )}
@@ -2315,6 +2373,8 @@ const latestMobile = [
           </div>
         </a>
       ))}
+      <div class="desktop-only"><RedesignRolodexTile client:idle /></div>
+      <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
     </div>
 
     <!-- Just for Fun -->
@@ -2334,39 +2394,6 @@ const latestMobile = [
         </a>
       ))}
     </div>
-
-    <!-- Civic Tech (Stoa) -->
-    <div class="section-label">civic tech</div>
-
-    <div class="tm-row">
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/budget-dashboard" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/budget-dashboard.png" alt="Budget Dashboard" loading="lazy" />
-        <span class="proj-emoji">💰</span>
-        <div class="proj-info">
-          <div class="proj-name">Budget Dashboard</div>
-          <div class="proj-tag">Bay Area city spending, compared</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/council-minutes" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/council-minutes.png" alt="Council Minutes Search" loading="lazy" />
-        <span class="proj-emoji">🔍</span>
-        <div class="proj-info">
-          <div class="proj-name">Council Minutes</div>
-          <div class="proj-tag">AI search across 7+ city councils</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/311-reports" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/311.png" alt="311 Service Requests" loading="lazy" />
-        <span class="proj-emoji">📍</span>
-        <div class="proj-info">
-          <div class="proj-name">311 Requests</div>
-          <div class="proj-tag">report issues, track neighborhood fixes</div>
-        </div>
-      </a>
-    </div>
-
-    <!-- Trademark Tools -->
-    <div class="section-label">trademark tools</div>
 
     <div class="tm-row">
       <a class="proj-tile tm-tile has-img" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
