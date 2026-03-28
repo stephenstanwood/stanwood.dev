@@ -4,6 +4,7 @@ import { TABS } from "../../lib/south-bay/types";
 import { CITIES } from "../../lib/south-bay/cities";
 import SportsView from "./views/SportsView";
 import OverviewView from "./views/OverviewView";
+import GovernmentView from "./views/GovernmentView";
 
 const TODAY = new Date().toLocaleDateString("en-US", {
   weekday: "long",
@@ -61,7 +62,7 @@ export default function SignalApp() {
       <nav className="sb-nav">
         <div className="sb-nav-inner">
           {TABS.map((tab) => {
-            const disabled = tab.id === "events" || tab.id === "government";
+            const disabled = tab.id === "events";
             return (
               <button
                 key={tab.id}
@@ -114,13 +115,7 @@ export default function SignalApp() {
           </div>
         )}
         {activeTab === "government" && (
-          <div className="sb-coming-soon">
-            <div className="sb-coming-soon-icon">🏛️</div>
-            <div className="sb-coming-soon-title">Government</div>
-            <div className="sb-coming-soon-sub">
-              Council meeting digests coming soon
-            </div>
-          </div>
+          <GovernmentView selectedCities={selectedCities} />
         )}
       </main>
 

@@ -405,6 +405,102 @@ const title = "South Bay Signal — stanwood.dev";
         color: var(--sb-muted);
       }
 
+      /* ── Digest cards ── */
+      .sb-digest-card {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border-light);
+        padding: 24px;
+        margin-bottom: 16px;
+      }
+      .sb-digest-header {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+      .sb-digest-city {
+        font-family: var(--sb-serif);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--sb-ink);
+      }
+      .sb-digest-body {
+        font-size: 12px;
+        color: var(--sb-light);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+      }
+      .sb-digest-date {
+        font-size: 13px;
+        color: var(--sb-muted);
+        margin-bottom: 12px;
+      }
+      .sb-digest-summary {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--sb-ink);
+        margin: 0 0 12px 0;
+      }
+      .sb-digest-topics {
+        margin: 0 0 16px 0;
+        padding-left: 18px;
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--sb-muted);
+      }
+      .sb-digest-topics li { margin-bottom: 2px; }
+      .sb-digest-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--sb-border-light);
+      }
+      .sb-digest-next {
+        color: var(--sb-muted);
+      }
+      .sb-digest-source {
+        color: var(--sb-muted);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .sb-digest-source:hover { text-decoration: underline; }
+      .sb-digest-loading {
+        text-align: center;
+        padding: 32px;
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border-light);
+        margin-bottom: 16px;
+      }
+      .sb-digest-error {
+        padding: 16px 20px;
+        background: var(--sb-accent-light);
+        border: 1px solid var(--sb-border-light);
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: var(--sb-accent);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .sb-digest-error button {
+        padding: 4px 12px;
+        background: none;
+        border: 1px solid var(--sb-accent);
+        color: var(--sb-accent);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .sb-gov-upcoming {
+        padding: 20px;
+        font-size: 13px;
+        color: var(--sb-muted);
+        text-align: center;
+      }
+
       /* ── Coming soon state ── */
       .sb-coming-soon {
         text-align: center;
