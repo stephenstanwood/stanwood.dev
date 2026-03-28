@@ -724,3 +724,40 @@ Simultaneously, the Government tab was entirely backward-looking: it showed what
 **Yes — this cycle solves the permanence problem.** Previous cycles built excellent infrastructure but it was frozen in time. Now the product breathes: events refresh daily, council meeting dates update automatically, Vercel redeploys without human intervention. South Bay Signal crossed from "impressive demo" to "self-sustaining local intelligence layer." The upcoming meetings feature adds civic depth to the Gov tab that no other South Bay source provides — knowing when San José City Council meets next, with a direct link to the agenda, is genuinely useful to engaged residents.
 
 ---
+
+## Cycle 6 — Event Scraper Expansion: +2 Sources, +254 Events, New City Coverage (2026-03-28)
+
+### What Changed
+
+**Problem**: The event scraper had three silent gaps: (1) SCCL was returning 0 events — the BiblioCommons API returns branch location *codes* (`CU`, `MI`, `LA`, etc.) not branch *names*, and the city mapper was only looking at text names. (2) San Jose Jazz and Montalvo Arts Center were listed in the script header comment as planned sources but never implemented. (3) iCal time window was only 14 days — too narrow for event discovery.
+
+**What was built**:
+- `fetchSjJazzEvents()` — scrapes San Jose Jazz RSS feed. 10 events, san-jose city. Music category.
+- `fetchMontalvoEvents()` — scrapes Montalvo Arts Center RSS feed. 10 events, saratoga city. Arts category.
+- **SCCL location code fix** — `fetchBiblioEvents` now passes `definition.branchLocationId` as third argument to cityMapper. Built `SCCL_LOCATION_MAP` dictionary: `CA → campbell`, `CU → cupertino`, `LA/WO → los-altos`, `LG → los-gatos`, `MI → milpitas`, `SA → saratoga`, `SC → santa-clara`. Result: SCCL went from 0 → 142 events.
+- **Expanded time windows** — iCal sources: 14 → 30 days. Stanford: `days=14` → `days=30`, `pp=100` → `pp=150`.
+- **BiblioCommons limit** — 100 → 200 per fetch.
+
+**Results**:
+- Total events: 1,724 → **1,978** (+254, +14.7%)
+- SCCL: 0 → **142 events**
+- San Jose Jazz: new source, **10 events**
+- Montalvo Arts: new source, **10 events**
+- New city coverage: milpitas (47), cupertino (17), expanded los-altos (66), saratoga (14)
+- Active sources: 11 → **13**
+
+### Why This Was the Strongest Move
+
+**The SCCL fix was a silent bug for an entire library district.** Santa Clara County Library serves 11 South Bay cities. Library programs are exactly the high-quality, free, family-friendly content that makes South Bay Signal useful to regular residents — story times, workshops, author talks, craft programs.
+
+**San Jose Jazz + Montalvo complete the "arts anchor" pair.** San Jose Jazz is the most prominent regional arts institution in the South Bay. Montalvo Arts Center is the flagship performance venue for the hill cities. Both were in the header comment as planned but never shipped.
+
+### Next 3 Strongest Ideas
+1. **Per-source event cap** — SJSU (633) and SCU (1,000) dominate the event counts. A `MAX_PER_SOURCE = 150` limit would surface community events more equitably in city-filtered views.
+2. **Mountain View + Sunnyvale event coverage** — Two major cities with zero events. CivicPlus blocks bot access. Alternative: Eventbrite API free-event geo-search, or direct city RSS discovery.
+3. **Pre-generate city council digests automatically** — ANTHROPIC_API_KEY not set in scheduled task env. Need GitHub Actions secret to make Gov tab auto-refresh.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — community-level events are now meaningfully represented.** The SCCL fix adds library programs across 7 South Bay cities. San Jose Jazz and Montalvo add the two flagship arts institutions. Events now have genuine breadth. Still needs Mountain View and Sunnyvale to feel complete.
+
+---

@@ -212,7 +212,7 @@ function parseIcalDate(dtStr) {
 async function fetchStanfordEvents() {
   console.log("  ⏳ Stanford Events...");
   try {
-    const data = await fetchJson("https://events.stanford.edu/api/2/events?days=14&pp=100");
+    const data = await fetchJson("https://events.stanford.edu/api/2/events?days=30&pp=150");
     const events = (data.events || []).map((e) => {
       const ev = e.event;
       const start = parseDate(ev.first_date);
@@ -346,6 +346,78 @@ async function fetchChmEvents() {
   }
 }
 
+async function fetchSjJazzEvents() {
+  console.log("  ⏳ San Jose Jazz...");
+  try {
+    const xml = await fetchText("https://www.sanjosejazz.org/feed/");
+    const items = parseRssItems(xml);
+    const events = items
+      .map((item) => {
+        const start = parseDate(item.pubDate);
+        if (!start) return null;
+        return {
+          id: `sjjazz-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+          title: item.title,
+          date: isoDate(start),
+          displayDate: displayDate(start),
+          time: displayTime(start),
+          endTime: null,
+          venue: item.location || "San Jose Jazz",
+          address: "",
+          city: "san-jose",
+          category: "music",
+          cost: inferCategory(item.title, item.description, "") === "music" ? "paid" : "free",
+          description: truncate(stripHtml(item.description || item.content)),
+          url: item.link,
+          source: "San Jose Jazz",
+          kidFriendly: false,
+        };
+      })
+      .filter(Boolean);
+    console.log(`  ✅ San Jose Jazz: ${events.length} events`);
+    return events;
+  } catch (err) {
+    console.log(`  ⚠️  San Jose Jazz: ${err.message}`);
+    return [];
+  }
+}
+
+async function fetchMontalvoEvents() {
+  console.log("  ⏳ Montalvo Arts Center...");
+  try {
+    const xml = await fetchText("https://montalvoarts.org/feed/");
+    const items = parseRssItems(xml);
+    const events = items
+      .map((item) => {
+        const start = parseDate(item.pubDate);
+        if (!start) return null;
+        return {
+          id: `montalvo-${Buffer.from(item.title + item.pubDate).toString("base64").substring(0, 12)}`,
+          title: item.title,
+          date: isoDate(start),
+          displayDate: displayDate(start),
+          time: displayTime(start),
+          endTime: null,
+          venue: "Montalvo Arts Center",
+          address: "15400 Montalvo Rd, Saratoga",
+          city: "saratoga",
+          category: inferCategory(item.title, item.description || "", "arts"),
+          cost: "paid",
+          description: truncate(stripHtml(item.description || item.content)),
+          url: item.link,
+          source: "Montalvo Arts Center",
+          kidFriendly: false,
+        };
+      })
+      .filter(Boolean);
+    console.log(`  ✅ Montalvo Arts Center: ${events.length} events`);
+    return events;
+  } catch (err) {
+    console.log(`  ⚠️  Montalvo Arts Center: ${err.message}`);
+    return [];
+  }
+}
+
 async function fetchSvlgEvents() {
   console.log("  ⏳ Silicon Valley Leadership Group...");
   try {
@@ -427,12 +499,12 @@ async function fetchCivicPlusIcal(name, url, defaultCity) {
     const ical = await fetchText(url);
     const rawEvents = parseIcalEvents(ical);
     const now = new Date();
-    const twoWeeksOut = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+    const thirtyDaysOut = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
     const events = rawEvents
       .map((ev) => {
         const start = parseIcalDate(ev.dtstart);
-        if (!start || start < now || start > twoWeeksOut) return null;
+        if (!start || start < now || start > thirtyDaysOut) return null;
         const end = parseIcalDate(ev.dtend);
         const city = inferCity(ev.location, "") || defaultCity;
         return {
@@ -493,7 +565,7 @@ async function fetchBiblioEvents(libraryId, libraryName, cityMapper) {
   console.log(`  ⏳ ${libraryName}...`);
   try {
     const data = await fetchJson(
-      `https://gateway.bibliocommons.com/v2/libraries/${libraryId}/events?limit=100`,
+      `https://gateway.bibliocommons.com/v2/libraries/${libraryId}/events?limit=200`,
     );
 
     const entities = data.entities || {};
@@ -512,7 +584,8 @@ async function fetchBiblioEvents(libraryId, libraryName, cityMapper) {
         const branch = branchId && entities.branches ? entities.branches[branchId] : null;
         const branchName = branch?.name || "";
         const branchAddr = branch?.address || "";
-        const city = cityMapper(branchName, branchAddr);
+        const locationCode = ev.definition?.branchLocationId || "";
+        const city = cityMapper(branchName, branchAddr, locationCode);
         if (!city) return null;
 
         const title = ev.title || ev.definition?.title || "";
@@ -553,16 +626,32 @@ async function fetchSjplEvents() {
   return fetchBiblioEvents("sjpl", "San Jose Public Library", () => "san-jose");
 }
 
+// SCCL branch location codes (branchLocationId from BiblioCommons)
+const SCCL_LOCATION_MAP = {
+  CA: "campbell",
+  CU: "cupertino",
+  LA: "los-altos",
+  WO: "los-altos",   // Woodland branch, Los Altos Hills
+  LG: "los-gatos",
+  MI: "milpitas",
+  SA: "saratoga",
+  SC: "santa-clara",
+  // MH = Morgan Hill, GI = Gilroy — outside South Bay, omit
+};
+
 async function fetchScclEvents() {
-  return fetchBiblioEvents("sccl", "Santa Clara County Library", (branch, addr) => {
+  return fetchBiblioEvents("sccl", "Santa Clara County Library", (branch, addr, locationCode) => {
+    // Prefer location code lookup (reliable short code)
+    if (locationCode && SCCL_LOCATION_MAP[locationCode]) return SCCL_LOCATION_MAP[locationCode];
+    // Fallback: text match on branch name/address
     const text = `${branch} ${addr}`.toLowerCase();
     if (text.includes("campbell")) return "campbell";
     if (text.includes("cupertino")) return "cupertino";
     if (text.includes("los altos")) return "los-altos";
+    if (text.includes("los gatos")) return "los-gatos";
     if (text.includes("milpitas")) return "milpitas";
     if (text.includes("saratoga")) return "saratoga";
     if (text.includes("santa clara")) return "santa-clara";
-    if (text.includes("morgan hill") || text.includes("gilroy")) return null;
     return null;
   });
 }
@@ -584,6 +673,8 @@ async function main() {
     fetchSjplEvents,
     fetchScclEvents,
     fetchSvlgEvents,
+    fetchSjJazzEvents,
+    fetchMontalvoEvents,
   ];
 
   const results = await Promise.allSettled(sources.map((fn) => fn()));
