@@ -6,46 +6,47 @@ import {
   type SBEvent,
   type EventCategory,
 } from "../../../data/south-bay/events-data";
+import upcomingJson from "../../../data/south-bay/upcoming-events.json";
 
 interface Props {
   selectedCities: Set<City>;
   homeCity: City | null;
 }
 
-type TimeFilter = "all" | "today" | "weekend" | "weekday";
+type ViewMode = "upcoming" | "recurring";
 
-const DAY_NAMES: Record<string, number> = {
-  sunday: 0, monday: 1, tuesday: 2, wednesday: 3,
-  thursday: 4, friday: 5, saturday: 6,
-};
+// ── Upcoming event type (from scraped JSON) ──
+
+interface UpcomingEvent {
+  id: string;
+  title: string;
+  date: string;
+  displayDate: string;
+  time: string | null;
+  endTime: string | null;
+  venue: string;
+  address: string;
+  city: string;
+  category: string;
+  cost: string;
+  description: string;
+  url: string;
+  source: string;
+  kidFriendly: boolean;
+}
+
+const upcomingEvents = (upcomingJson as { events: UpcomingEvent[] }).events || [];
+const upcomingSources = (upcomingJson as { sources: string[] }).sources || [];
+
+// ── Recurring event helpers ──
 
 function isEventActiveToday(event: SBEvent, now: Date): boolean {
   const month = now.getMonth() + 1;
   if (event.months && !event.months.includes(month)) return false;
-  if (!event.days) return true; // ongoing
+  if (!event.days) return true;
   return event.days.includes(
     ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"][now.getDay()] as SBEvent["days"] extends (infer T)[] ? T : never
   );
-}
-
-function isEventThisWeekend(event: SBEvent, now: Date): boolean {
-  const month = now.getMonth() + 1;
-  if (event.months && !event.months.includes(month)) return false;
-  if (!event.days) return true; // ongoing
-  return event.days.some((d) => d === "saturday" || d === "sunday");
-}
-
-function isEventWeekday(event: SBEvent, _now: Date): boolean {
-  if (!event.days) return true;
-  return event.days.some(
-    (d) => d !== "saturday" && d !== "sunday",
-  );
-}
-
-function costBadge(cost: SBEvent["cost"], note?: string): string {
-  if (cost === "free") return "FREE";
-  if (cost === "low") return note ? note.split(" ")[0] : "$";
-  return note ? note.split(" ")[0] : "$$";
 }
 
 function recurrenceLabel(event: SBEvent): string {
@@ -68,9 +69,103 @@ function recurrenceLabel(event: SBEvent): string {
   return "Weekly";
 }
 
-function EventCard({ event }: { event: SBEvent }) {
-  const isFree = event.cost === "free";
-  const isLow = event.cost === "low";
+// ── Cost badge ──
+
+function costBadge(cost: string): { label: string; bg: string; fg: string; border: string } {
+  if (cost === "free") return { label: "FREE", bg: "#F0FDF4", fg: "#166534", border: "#BBF7D0" };
+  if (cost === "low") return { label: "$", bg: "#FFF7ED", fg: "#92400E", border: "#FDE68A" };
+  return { label: "$$", bg: "#F5F3FF", fg: "#5B21B6", border: "#DDD6FE" };
+}
+
+function cityLabel(city: string) {
+  return city.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+}
+
+// ── Upcoming Event Card ──
+
+function UpcomingEventCard({ event }: { event: UpcomingEvent }) {
+  const badge = costBadge(event.cost);
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: "1.5px solid var(--sb-border-light)",
+        borderRadius: "var(--sb-radius-lg, 6px)",
+        padding: "12px 14px",
+        transition: "box-shadow 0.15s",
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "var(--sb-shadow-hover)")}
+      onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "none")}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
+        <div>
+          <span style={{ fontSize: 14, fontWeight: 700, color: "var(--sb-ink)", lineHeight: 1.3, display: "block" }}>
+            {event.url ? (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "inherit", textDecoration: "none" }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+              >
+                {event.title}
+              </a>
+            ) : event.title}
+          </span>
+        </div>
+        <span
+          style={{
+            flexShrink: 0,
+            fontSize: 10,
+            fontWeight: 700,
+            fontFamily: "'Space Mono', monospace",
+            letterSpacing: "0.04em",
+            padding: "2px 7px",
+            borderRadius: 3,
+            background: badge.bg,
+            color: badge.fg,
+            border: `1px solid ${badge.border}`,
+          }}
+        >
+          {badge.label}
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "4px 10px",
+          fontSize: 11,
+          color: "var(--sb-muted)",
+          marginBottom: 5,
+        }}
+      >
+        <span style={{ fontWeight: 600, color: "var(--sb-accent)" }}>📅 {event.displayDate}</span>
+        {event.time && <span>🕐 {event.time}{event.endTime ? ` – ${event.endTime}` : ""}</span>}
+        <span>📍 {cityLabel(event.city)}</span>
+        {event.venue && <span>· {event.venue}</span>}
+        {event.kidFriendly && <span>👶 Kid-friendly</span>}
+      </div>
+
+      {event.description && (
+        <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: "var(--sb-muted)" }}>
+          {event.description}
+        </p>
+      )}
+
+      <div style={{ marginTop: 4, fontSize: 10, color: "var(--sb-light)", fontFamily: "'Space Mono', monospace" }}>
+        via {event.source}
+      </div>
+    </div>
+  );
+}
+
+// ── Recurring Event Card ──
+
+function RecurringEventCard({ event }: { event: SBEvent }) {
+  const badge = costBadge(event.cost);
   const now = new Date();
   const activeToday = isEventActiveToday(event, now);
 
@@ -78,201 +173,164 @@ function EventCard({ event }: { event: SBEvent }) {
     <div
       style={{
         background: "#fff",
-        border: `1.5px solid ${event.featured ? "var(--sb-border)" : "var(--sb-border-light)"}`,
+        border: "1.5px solid var(--sb-border-light)",
         borderRadius: "var(--sb-radius-lg, 6px)",
-        padding: "14px 16px",
-        display: "flex",
-        gap: "12px",
-        alignItems: "flex-start",
+        padding: "12px 14px",
         transition: "box-shadow 0.15s",
-        position: "relative",
       }}
       onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "var(--sb-shadow-hover)")}
       onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "none")}
     >
-      {/* Emoji */}
-      <span style={{ fontSize: "24px", lineHeight: 1, flexShrink: 0, marginTop: "1px" }}>
-        {event.emoji}
-      </span>
-
-      {/* Content */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "8px", marginBottom: "3px" }}>
-          <div>
-            <span
-              style={{
-                fontSize: "14px",
-                fontWeight: 700,
-                color: "var(--sb-ink)",
-                lineHeight: 1.3,
-                display: "block",
-              }}
-            >
-              {event.url ? (
-                <a
-                  href={event.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: "inherit", textDecoration: "none" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
-                  onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
-                >
-                  {event.title}
-                </a>
-              ) : event.title}
-            </span>
-          </div>
-
-          {/* Cost badge */}
-          <span
-            style={{
-              flexShrink: 0,
-              fontSize: "10px",
-              fontWeight: 700,
-              fontFamily: "'Space Mono', monospace",
-              letterSpacing: "0.04em",
-              padding: "2px 7px",
-              borderRadius: "3px",
-              background: isFree ? "#F0FDF4" : isLow ? "#FFF7ED" : "#F5F3FF",
-              color: isFree ? "#166534" : isLow ? "#92400E" : "#5B21B6",
-              border: `1px solid ${isFree ? "#BBF7D0" : isLow ? "#FDE68A" : "#DDD6FE"}`,
-            }}
-          >
-            {costBadge(event.cost, event.costNote)}
-          </span>
-        </div>
-
-        {/* Meta line */}
-        <div
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 4 }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--sb-ink)", lineHeight: 1.3 }}>
+          {event.emoji} {event.url ? (
+            <a href={event.url} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none" }}
+              onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+              onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+            >{event.title}</a>
+          ) : event.title}
+        </span>
+        <span
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "4px 10px",
-            fontSize: "11px",
-            color: "var(--sb-muted)",
-            marginBottom: "6px",
+            flexShrink: 0, fontSize: 10, fontWeight: 700,
+            fontFamily: "'Space Mono', monospace", letterSpacing: "0.04em",
+            padding: "2px 7px", borderRadius: 3,
+            background: badge.bg, color: badge.fg, border: `1px solid ${badge.border}`,
           }}
         >
-          <span>📍 {event.city.split("-").map(w => w[0].toUpperCase() + w.slice(1)).join(" ")}</span>
-          <span>📅 {recurrenceLabel(event)}</span>
-          {event.time && <span>🕐 {event.time}</span>}
-          {event.kidFriendly && <span>👶 Kid-friendly</span>}
-          {activeToday && (
-            <span style={{ color: "#16803C", fontWeight: 600 }}>✓ Today</span>
-          )}
-        </div>
-
-        {/* Description */}
-        <p
-          style={{
-            margin: 0,
-            fontSize: "12px",
-            lineHeight: 1.55,
-            color: "var(--sb-muted)",
-          }}
-        >
-          {event.description}
-        </p>
-
-        {event.costNote && event.cost !== "free" && (
-          <div style={{ fontSize: "11px", color: "var(--sb-light)", marginTop: "4px" }}>
-            {event.costNote}
-          </div>
-        )}
+          {badge.label}
+        </span>
       </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 10px", fontSize: 11, color: "var(--sb-muted)", marginBottom: 5 }}>
+        <span>📍 {cityLabel(event.city)}</span>
+        <span>📅 {recurrenceLabel(event)}</span>
+        {event.time && <span>🕐 {event.time}</span>}
+        {event.kidFriendly && <span>👶 Kid-friendly</span>}
+        {activeToday && <span style={{ color: "#16803C", fontWeight: 600 }}>✓ Today</span>}
+      </div>
+      <p style={{ margin: 0, fontSize: 12, lineHeight: 1.5, color: "var(--sb-muted)" }}>
+        {event.description}
+      </p>
     </div>
   );
 }
 
+// ── Main View ──
+
 export default function EventsView({ selectedCities, homeCity }: Props) {
+  const [viewMode, setViewMode] = useState<ViewMode>("upcoming");
   const [category, setCategory] = useState<EventCategory | "all">("all");
-  const [timeFilter, setTimeFilter] = useState<TimeFilter>("all");
   const [search, setSearch] = useState("");
   const [showKidsOnly, setShowKidsOnly] = useState(false);
 
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
+  const primary = homeCity ?? "san-jose";
 
-  const filtered = useMemo(() => {
-    const allCitiesSelected = selectedCities.size === 11; // all cities
-    return SOUTH_BAY_EVENTS.filter((e) => {
-      // City filter
-      if (!allCitiesSelected && !selectedCities.has(e.city)) return false;
+  // ── Upcoming events (scraped, specific dates) ──
+  const filteredUpcoming = useMemo(() => {
+    const allCities = selectedCities.size === 11;
+    return upcomingEvents
+      .filter((e) => {
+        if (!allCities && !selectedCities.has(e.city as City)) return false;
+        if (category !== "all" && e.category !== category) return false;
+        if (showKidsOnly && !e.kidFriendly) return false;
+        if (search) {
+          const q = search.toLowerCase();
+          if (!e.title.toLowerCase().includes(q) && !e.description.toLowerCase().includes(q) &&
+              !e.city.toLowerCase().includes(q) && !e.venue.toLowerCase().includes(q)) return false;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        // Home city first, then by date
+        const aHome = a.city === primary ? 1 : 0;
+        const bHome = b.city === primary ? 1 : 0;
+        if (aHome !== bHome) return bHome - aHome;
+        return (a.date || "").localeCompare(b.date || "");
+      });
+  }, [selectedCities, category, showKidsOnly, search, primary]);
 
-      // Month / season filter
-      if (e.months && !e.months.includes(currentMonth)) return false;
+  // ── Recurring events (static, weekly/monthly/seasonal) ──
+  const filteredRecurring = useMemo(() => {
+    const allCities = selectedCities.size === 11;
+    return SOUTH_BAY_EVENTS
+      .filter((e) => {
+        if (!allCities && !selectedCities.has(e.city)) return false;
+        if (e.months && !e.months.includes(currentMonth)) return false;
+        if (category !== "all" && e.category !== category) return false;
+        if (showKidsOnly && !e.kidFriendly) return false;
+        if (search) {
+          const q = search.toLowerCase();
+          if (!e.title.toLowerCase().includes(q) && !e.description.toLowerCase().includes(q) &&
+              !e.city.toLowerCase().includes(q) && !e.venue.toLowerCase().includes(q)) return false;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const aHome = a.city === primary ? 1 : 0;
+        const bHome = b.city === primary ? 1 : 0;
+        if (aHome !== bHome) return bHome - aHome;
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return 0;
+      });
+  }, [selectedCities, category, showKidsOnly, search, currentMonth, primary]);
 
-      // Category filter
-      if (category !== "all" && e.category !== category) return false;
-
-      // Time filter
-      if (timeFilter === "today" && !isEventActiveToday(e, now)) return false;
-      if (timeFilter === "weekend" && !isEventThisWeekend(e, now)) return false;
-      if (timeFilter === "weekday" && !isEventWeekday(e, now)) return false;
-
-      // Kids filter
-      if (showKidsOnly && !e.kidFriendly) return false;
-
-      // Search
-      if (search) {
-        const q = search.toLowerCase();
-        if (
-          !e.title.toLowerCase().includes(q) &&
-          !e.description.toLowerCase().includes(q) &&
-          !e.city.toLowerCase().includes(q) &&
-          !e.venue.toLowerCase().includes(q)
-        )
-          return false;
-      }
-
-      return true;
-    }).sort((a, b) => {
-      // Home city first, then featured, then rest
-      const primary = homeCity ?? "san-jose";
-      const aHome = a.city === primary ? 1 : 0;
-      const bHome = b.city === primary ? 1 : 0;
-      if (aHome !== bHome) return bHome - aHome;
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      return 0;
-    });
-  }, [selectedCities, category, timeFilter, showKidsOnly, search, currentMonth, homeCity]);
-
-  const todayCount = SOUTH_BAY_EVENTS.filter((e) => {
-    if (e.months && !e.months.includes(currentMonth)) return false;
-    return isEventActiveToday(e, now);
-  }).length;
+  const activeList = viewMode === "upcoming" ? filteredUpcoming : filteredRecurring;
 
   return (
     <>
       <div className="sb-section-header">
         <span className="sb-section-title">
           Events
-          <span style={{ fontSize: "13px", fontWeight: 400, color: "var(--sb-muted)", marginLeft: "8px" }}>
-            {todayCount} happening today
+          <span style={{ fontSize: 13, fontWeight: 400, color: "var(--sb-muted)", marginLeft: 8 }}>
+            {upcomingEvents.length} upcoming · {SOUTH_BAY_EVENTS.length} recurring
           </span>
         </span>
         <div className="sb-section-line" />
       </div>
 
+      {/* View mode toggle */}
+      <div style={{ display: "flex", gap: 0, marginBottom: 12 }}>
+        {(["upcoming", "recurring"] as ViewMode[]).map((mode) => {
+          const active = viewMode === mode;
+          const labels = { upcoming: `Upcoming (${filteredUpcoming.length})`, recurring: `Recurring (${filteredRecurring.length})` };
+          return (
+            <button
+              key={mode}
+              onClick={() => setViewMode(mode)}
+              style={{
+                padding: "6px 16px",
+                border: `1.5px solid ${active ? "var(--sb-primary)" : "var(--sb-border)"}`,
+                borderRadius: mode === "upcoming" ? "6px 0 0 6px" : "0 6px 6px 0",
+                background: active ? "var(--sb-primary)" : "#fff",
+                color: active ? "#fff" : "var(--sb-muted)",
+                fontSize: 12,
+                fontWeight: active ? 700 : 400,
+                cursor: "pointer",
+                fontFamily: "inherit",
+                marginLeft: mode === "recurring" ? -1.5 : 0,
+              }}
+            >
+              {labels[mode]}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Search */}
-      <div style={{ marginBottom: "12px" }}>
+      <div style={{ marginBottom: 12 }}>
         <input
           type="search"
           placeholder="Search events, venues, cities…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
-            width: "100%",
-            padding: "8px 12px",
-            border: "1.5px solid var(--sb-border)",
-            borderRadius: "var(--sb-radius-lg, 6px)",
-            fontFamily: "inherit",
-            fontSize: "13px",
-            background: "#fff",
-            color: "var(--sb-ink)",
-            boxSizing: "border-box",
-            outline: "none",
+            width: "100%", padding: "8px 12px",
+            border: "1.5px solid var(--sb-border)", borderRadius: "var(--sb-radius-lg, 6px)",
+            fontFamily: "inherit", fontSize: 13, background: "#fff", color: "var(--sb-ink)",
+            boxSizing: "border-box", outline: "none",
           }}
           onFocus={(e) => (e.currentTarget.style.borderColor = "var(--sb-primary)")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "var(--sb-border)")}
@@ -280,14 +338,7 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
       </div>
 
       {/* Category pills */}
-      <div
-        style={{
-          display: "flex",
-          gap: "6px",
-          flexWrap: "wrap",
-          marginBottom: "10px",
-        }}
-      >
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
         {EVENT_CATEGORIES.map((cat) => {
           const active = category === cat.id;
           return (
@@ -295,19 +346,13 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
               key={cat.id}
               onClick={() => setCategory(cat.id as EventCategory | "all")}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
+                display: "flex", alignItems: "center", gap: 4,
                 padding: "4px 10px",
                 border: `1.5px solid ${active ? "var(--sb-primary)" : "var(--sb-border)"}`,
-                borderRadius: "100px",
-                background: active ? "var(--sb-primary)" : "#fff",
+                borderRadius: 100, background: active ? "var(--sb-primary)" : "#fff",
                 color: active ? "#fff" : "var(--sb-muted)",
-                fontSize: "12px",
-                fontWeight: active ? 600 : 400,
-                cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "all 0.12s",
+                fontSize: 12, fontWeight: active ? 600 : 400,
+                cursor: "pointer", fontFamily: "inherit", transition: "all 0.12s",
               }}
             >
               <span>{cat.emoji}</span>
@@ -315,76 +360,19 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
             </button>
           );
         })}
-      </div>
 
-      {/* Quick filters row */}
-      <div
-        style={{
-          display: "flex",
-          gap: "8px",
-          alignItems: "center",
-          marginBottom: "16px",
-          flexWrap: "wrap",
-        }}
-      >
-        {(["all", "today", "weekend", "weekday"] as TimeFilter[]).map((tf) => {
-          const labels: Record<TimeFilter, string> = {
-            all: "All",
-            today: "Today",
-            weekend: "Weekend",
-            weekday: "Weekday",
-          };
-          const active = timeFilter === tf;
-          return (
-            <button
-              key={tf}
-              onClick={() => setTimeFilter(tf)}
-              style={{
-                padding: "3px 10px",
-                border: `1px solid ${active ? "var(--sb-accent)" : "var(--sb-border)"}`,
-                borderRadius: "4px",
-                background: active ? "var(--sb-accent)" : "transparent",
-                color: active ? "#fff" : "var(--sb-muted)",
-                fontSize: "11px",
-                fontWeight: active ? 700 : 400,
-                fontFamily: "'Space Mono', monospace",
-                letterSpacing: "0.04em",
-                cursor: "pointer",
-                transition: "all 0.12s",
-              }}
-            >
-              {labels[tf]}
-            </button>
-          );
-        })}
-
-        <label
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "5px",
-            fontSize: "12px",
-            color: "var(--sb-muted)",
-            cursor: "pointer",
-            userSelect: "none",
-          }}
-        >
-          <input
-            type="checkbox"
-            checked={showKidsOnly}
-            onChange={(e) => setShowKidsOnly(e.target.checked)}
-            style={{ cursor: "pointer" }}
-          />
+        <label style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--sb-muted)", cursor: "pointer", userSelect: "none", marginLeft: 8 }}>
+          <input type="checkbox" checked={showKidsOnly} onChange={(e) => setShowKidsOnly(e.target.checked)} style={{ cursor: "pointer" }} />
           👶 Kids only
         </label>
 
-        <span style={{ marginLeft: "auto", fontSize: "11px", color: "var(--sb-light)", fontFamily: "'Space Mono', monospace" }}>
-          {filtered.length} events
+        <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--sb-light)", fontFamily: "'Space Mono', monospace" }}>
+          {activeList.length} events
         </span>
       </div>
 
       {/* Event cards */}
-      {filtered.length === 0 ? (
+      {activeList.length === 0 ? (
         <div className="sb-empty">
           <div className="sb-empty-title">No events match</div>
           <div className="sb-empty-sub">
@@ -392,29 +380,32 @@ export default function EventsView({ selectedCities, homeCity }: Props) {
           </div>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          {filtered.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {viewMode === "upcoming"
+            ? (activeList as UpcomingEvent[]).map((event) => (
+                <UpcomingEventCard key={event.id} event={event} />
+              ))
+            : (activeList as SBEvent[]).map((event) => (
+                <RecurringEventCard key={event.id} event={event} />
+              ))
+          }
         </div>
       )}
 
-      {/* Contribute notice */}
+      {/* Source attribution */}
       <div
         style={{
-          marginTop: "20px",
-          padding: "12px 14px",
-          background: "var(--sb-card)",
-          border: "1px dashed var(--sb-border)",
+          marginTop: 20, padding: "12px 14px",
+          background: "var(--sb-card)", border: "1px dashed var(--sb-border)",
           borderRadius: "var(--sb-radius-lg, 6px)",
-          fontSize: "12px",
-          color: "var(--sb-light)",
-          lineHeight: 1.5,
+          fontSize: 12, color: "var(--sb-light)", lineHeight: 1.5,
         }}
       >
-        <strong style={{ color: "var(--sb-muted)" }}>More events coming.</strong>{" "}
-        Live event calendar integration, ticketed shows, and one-off events are on the roadmap.
-        Events data covers {SOUTH_BAY_EVENTS.length} recurring and ongoing events across the South Bay.
+        <strong style={{ color: "var(--sb-muted)" }}>
+          {upcomingEvents.length} upcoming events from {upcomingSources.length} sources.
+        </strong>{" "}
+        Scraped from: {upcomingSources.join(", ")}.
+        {" "}Plus {SOUTH_BAY_EVENTS.length} recurring events across the South Bay.
       </div>
     </>
   );
