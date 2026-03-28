@@ -580,7 +580,7 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
         }}
       >
         <span style={{ fontWeight: 600, color: "var(--sb-ink)" }}>City Hall</span>
-        {" — "}AI-powered plain-English digests for Campbell, Saratoga, and Los Altos. What your city council decided, without the agenda-reading.
+        {" — "}AI-powered plain-English digests for 8 South Bay cities — including San José, Mountain View, Sunnyvale, and Cupertino. What your city council decided, without reading the agenda.
       </div>
 
       {/* ── Sports scoreboard ── */}
