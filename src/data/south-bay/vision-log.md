@@ -260,3 +260,66 @@ The UI pattern — emoji option pills, then a "Build My Day →" button that pro
 **Yes — the first feature that makes people _do_ something.** South Bay Signal now has a feature that transforms it from "a place I check" into "a place I use." A resident opening it on a weekend morning can now get a real, personalized, today-specific, weather-aware day plan in four taps. That's the difference between a dashboard and a product. The nav now reads "Today / Sports / Events / Gov / Tech / Plan My Day" — each tab earns its place. Plan My Day is the one that creates habit.
 
 ---
+
+## 2026-03-28 — Cycle 5: Events Volume Push to 100
+
+### Context
+Coming off Cycle 4 which delivered Plan My Day. Four cycles in: Today dashboard, Sports, Events, Gov, Tech, and Plan My Day are all live. The standing order to reach 100+ events has been open since Cycle 1. This was the cycle to execute it — not just because it's a directive, but because two downstream features (Plan My Day and the Today tab) become meaningfully better with more event variety. A sparse event list limits the quality of personalized itineraries. A full event list makes the product feel genuinely comprehensive.
+
+### Issues Identified This Cycle
+1. **Events at 40** — the standing order says 100+. A sparse events list limits Plan My Day quality, makes the Events tab feel incomplete, and leaves entire cities (Santa Clara, Los Altos, Milpitas, Cupertino) with little or no coverage.
+2. **City coverage uneven** — Santa Clara had 0 events. Los Altos had 0 events. Cupertino had only Rancho San Antonio. Milpitas had only its farmers market. These gaps make the product feel like it's really just a San Jose/Palo Alto product.
+3. **Plan My Day candidate pool too small** — with only 40 events + 24 POIs, the itinerary generator had limited variety. More events = more interesting, more personalized, more day-specific plans.
+4. **Annual community events completely absent** — no Viva CalleSJ, no Christmas in the Park, no Tet Festival, no San Jose Jazz Summer Fest. These are the most notable recurring events in the South Bay and their absence made the product feel thin.
+
+### What Was Built
+
+**`src/data/south-bay/events-data.ts`** — Expanded from 40 to 100 events:
+
+**New categories added:**
+- **More markets (2)**: Los Altos Village Thursday Market, Cupertino Farmers Market — filling two underrepresented cities
+- **Family/kids (12 new)**: Happy Hollow Zoo, Rosicrucian Egyptian Museum, Intel Museum (free!), History San Jose, Great America, NASA Ames Visitor Center, plus library programs for Sunnyvale, Cupertino, Santa Clara, Los Altos, and Milpitas — finally giving all 5 underrepresented cities active events
+- **Outdoor/parks (12 new)**: Guadalupe River Trail, Emma Prusch Farm, Japanese Friendship Garden, Palo Alto Baylands, Fremont Older Open Space, Stevens Creek County Park, Picchetti Ranch, Lexington Reservoir, Sanborn County Park, Coyote Creek Trail, Overfelt Botanical Gardens, Santa Clara Central Park — nearly doubling outdoor options across all cities
+- **Arts & culture (8 new)**: Triton Museum of Art (Santa Clara, FREE), Palo Alto Art Center (free), de Saisset Museum at SCU (free), City Lights Theater, Mexican Heritage Plaza, SJ Museum of Quilts & Textiles, Los Altos History Museum, Sunnyvale Community Players
+- **Music (4 new)**: Art Boutiki (SJ indie institution), Los Gatos summer concerts, Sunnyvale summer concerts, Santana Row weekend concerts
+- **Community/annual (12 new)**: Viva CalleSJ (spring/fall open streets), Christmas in the Park, SJ Jazz Summer Fest, Cinequest Film Festival, Sunnyvale Art & Wine Festival, Los Gatos Fiesta de Artes, San Jose Greek Festival, Tet Festival SJ, SJ Jazz Winter Fest, Campbell Oktoberfest, Mountain View Art & Wine Festival (Labor Day weekend), SoFA First Friday Art Walk
+- **Food/neighborhoods (5 new)**: Japantown SJ, Downtown Los Altos Village, Murphy Avenue Sunnyvale, SoFA District, Downtown Los Gatos
+- **Education (3 new)**: De Anza College, Foothill College, SJSU public events
+- **Sports (2 new)**: Bay FC women's soccer (NWSL, PayPal Park), SJSU Spartans athletics
+
+**All 11 cities now have meaningful coverage:**
+- San Jose: 30+ events
+- Palo Alto/Stanford: 10+ events
+- Campbell: 7 events
+- Mountain View: 7 events
+- Santa Clara: 7 events (was 0)
+- Los Gatos: 7 events
+- Saratoga: 5 events
+- Cupertino: 7 events (was 1)
+- Sunnyvale: 8 events (was 1)
+- Los Altos: 6 events (was 0)
+- Milpitas: 3 events (was 1)
+
+### Why This Was the Strongest Move
+The standing order has been explicit since Cycle 1: "Volume over curation. It's easier to trim too much data than to feel sparse. Aim for 100+ events." The gap was not just a directive — it was actively limiting the product. Santa Clara with zero events and Los Altos with zero events means that city-filtered views return nothing for two of the 11 cities the product claims to cover. That's broken, not just sparse.
+
+Beyond the standing order, the quality of Plan My Day is directly tied to event volume. More events = more variety = more likely to find something that matches today + your vibe + weather + budget. The itinerary builder now has 100 events + 24 POIs as its candidate pool — more than twice what it had before.
+
+The annual events are especially powerful: Viva CalleSJ, Tet Festival, Christmas in the Park, San Jose Jazz Summer Fest, and Mountain View Art & Wine are flagship South Bay events. Having them listed transforms the product from "here are things that are always open" into "here is the full calendar of what makes this place special."
+
+### What New Opportunities Emerged
+1. **Government digest expansion** — still the most impactful infrastructure improvement. Legistar scraper would unlock San Jose, Mountain View, Sunnyvale, and Santa Clara.
+2. **Plan My Day: share/save** — now that Plan My Day has 100+ events to draw from, encoding the plan in a shareable URL would let people forward their itinerary to a friend/partner. Small build, high habit value.
+3. **"What's coming up" module on Today tab** — with annual events now in the data (with months[] arrays), the Today tab could show a "Happening this month" or "Coming up soon" section surfacing seasonal events like Cinequest in March or Tet in January/February.
+4. **City-by-city view** — with all 11 cities now properly populated, a "Your City" mode or city snapshot card on the Today tab would be compelling. "What's in Los Altos this week?" now has a real answer.
+5. **Development tracker** — still completely unbuilt and still one of the most uniquely ownable territories. "What's being built in your city?" with permit/approval data.
+
+### Next 3 Strongest Ideas
+1. **"What's This Month" module on Today tab** — use the `months[]` data to surface upcoming seasonal events and annual highlights. Show what's coming this month and next month. Turns the Today tab from "what's open now" into "what's coming up that's worth knowing about."
+2. **Government digest expansion** — Legistar scraper for San Jose (the most important city for coverage). Even one more city would massively improve the Gov tab.
+3. **Development tracker** — curated JSON of 15-20 major South Bay development projects (NVIDIA campus expansion, Google downtown SJ, San Jose downtown revitalization). The most uniquely ownable territory on the roadmap.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — comprehensively closer.** The jump from 40 to 100 events isn't just a number — it's the difference between a product that covers San Jose and Palo Alto and a product that genuinely covers all 11 cities. Santa Clara, Los Altos, Milpitas, Sunnyvale, and Cupertino now each have real things to show. The annual events — Tet Festival, Viva CalleSJ, Christmas in the Park, Mountain View Art & Wine, SJ Jazz Summer Fest — are what make the South Bay feel alive as a place, not just a map. Having them listed means South Bay Signal now covers the full texture of local life, not just the always-open institutions.
+
+---
