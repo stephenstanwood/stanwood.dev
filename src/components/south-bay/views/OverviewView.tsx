@@ -7,6 +7,7 @@ import {
 } from "../../../data/south-bay/events-data";
 import { CITIES, getCityName } from "../../../lib/south-bay/cities";
 import type { City } from "../../../lib/south-bay/types";
+import upcomingJson from "../../../data/south-bay/upcoming-events.json";
 
 // ── Time constants ────────────────────────────────────────────────────────────
 
@@ -18,6 +19,29 @@ const DAY_NAME = ["sunday","monday","tuesday","wednesday","thursday","friday","s
 const WEEKDAY = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][DAY_IDX];
 const MONTH_NAME = NOW.toLocaleDateString("en-US", { month: "long" });
 const NEXT_MONTH_NAME = new Date(NOW.getFullYear(), NOW.getMonth() + 1, 1).toLocaleDateString("en-US", { month: "long" });
+const TODAY_ISO = NOW.toISOString().split("T")[0];
+
+// ── Upcoming event type ────────────────────────────────────────────────────────
+
+interface UpcomingEvent {
+  id: string;
+  title: string;
+  date: string;
+  displayDate: string;
+  time: string | null;
+  endTime: string | null;
+  venue: string;
+  address: string;
+  city: string;
+  category: string;
+  cost: string;
+  description: string;
+  url: string;
+  source: string;
+  kidFriendly: boolean;
+}
+
+const upcomingEvents = (upcomingJson as { events: UpcomingEvent[] }).events || [];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -37,7 +61,19 @@ function costBadge(e: SBEvent): { label: string; bg: string; color: string } {
   return { label: e.costNote?.split(" ")[0] ?? "$$", bg: "#EDE9FE", color: "#5B21B6" };
 }
 
-// ── Compact event row ─────────────────────────────────────────────────────────
+function upcomingCostBadge(cost: string): { label: string; bg: string; color: string } {
+  if (cost === "free") return { label: "FREE", bg: "#D1FAE5", color: "#065F46" };
+  if (cost === "low") return { label: "$", bg: "#FEF3C7", color: "#92400E" };
+  return { label: "$$", bg: "#EDE9FE", color: "#5B21B6" };
+}
+
+// ── Discriminated union for today items ──────────────────────────────────────
+
+type TodayItem =
+  | { kind: "recurring"; data: SBEvent }
+  | { kind: "upcoming"; data: UpcomingEvent };
+
+// ── Compact recurring event row ───────────────────────────────────────────────
 
 function EventRow({ event, showCity = true }: { event: SBEvent; showCity?: boolean }) {
   const badge = costBadge(event);
@@ -111,6 +147,104 @@ function EventRow({ event, showCity = true }: { event: SBEvent; showCity?: boole
       </div>
     </div>
   );
+}
+
+// ── Compact scraped event row ─────────────────────────────────────────────────
+
+function ScrapedEventRow({ event, showCity = true }: { event: UpcomingEvent; showCity?: boolean }) {
+  const badge = upcomingCostBadge(event.cost);
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 10,
+        padding: "10px 0",
+        borderBottom: "1px solid var(--sb-border-light)",
+      }}
+    >
+      <span style={{ fontSize: 20, lineHeight: 1, flexShrink: 0, width: 28, textAlign: "center" }}>
+        📌
+      </span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <span
+            style={{
+              fontFamily: "var(--sb-serif)",
+              fontWeight: 600,
+              fontSize: 14,
+              color: "var(--sb-ink)",
+              lineHeight: 1.3,
+            }}
+          >
+            {event.url ? (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "inherit", textDecoration: "none" }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+              >
+                {event.title}
+              </a>
+            ) : event.title}
+          </span>
+          <span
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              padding: "2px 6px",
+              borderRadius: 3,
+              background: badge.bg,
+              color: badge.color,
+              letterSpacing: "0.04em",
+              flexShrink: 0,
+            }}
+          >
+            {badge.label}
+          </span>
+        </div>
+        <div
+          style={{
+            fontSize: 12,
+            color: "var(--sb-muted)",
+            marginTop: 2,
+            display: "flex",
+            gap: 8,
+            flexWrap: "wrap",
+          }}
+        >
+          {event.time && <span>🕐 {event.time}</span>}
+          {showCity && <span>{cityLabel(event.city)}</span>}
+          {event.venue && event.venue !== cityLabel(event.city) && (
+            <>
+              <span style={{ color: "var(--sb-border)" }}>·</span>
+              <span
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  maxWidth: "200px",
+                }}
+              >
+                {event.venue}
+              </span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Unified today row ─────────────────────────────────────────────────────────
+
+function TodayRow({ item, showCity = true }: { item: TodayItem; showCity?: boolean }) {
+  if (item.kind === "upcoming") {
+    return <ScrapedEventRow event={item.data} showCity={showCity} />;
+  }
+  return <EventRow event={item.data} showCity={showCity} />;
 }
 
 // ── This Month card ───────────────────────────────────────────────────────────
@@ -299,6 +433,9 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
       .catch(() => {});
   }, []);
 
+  // ── Today's events from scraped feed ──────────────────────────────────────
+  const todayUpcoming = upcomingEvents.filter((e) => e.date === TODAY_ISO);
+
   // Seasonal events for "This Month" section
   const thisMonthEvents = SOUTH_BAY_EVENTS
     .filter((e) => e.recurrence === "seasonal" && e.months?.includes(MONTH))
@@ -318,34 +455,62 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
 
   const showThisMonth = thisMonthEvents.length > 0 || nextMonthPreview.length > 0;
 
-  // Your city today events
-  const cityTodayEvents = homeCity
-    ? SOUTH_BAY_EVENTS
-        .filter((e) => e.city === homeCity && isActiveToday(e))
-        .sort((a, b) => {
-          if (a.cost === "free" && b.cost !== "free") return -1;
-          if (b.cost === "free" && a.cost !== "free") return 1;
-          if (a.featured && !b.featured) return -1;
-          if (b.featured && !a.featured) return 1;
-          return 0;
-        })
+  // ── Your city today items (recurring + upcoming merged) ──────────────────
+  const cityTodayItems: TodayItem[] = homeCity
+    ? [
+        ...SOUTH_BAY_EVENTS
+          .filter((e) => e.city === homeCity && isActiveToday(e))
+          .map((e) => ({ kind: "recurring" as const, data: e })),
+        ...todayUpcoming
+          .filter((e) => e.city === homeCity)
+          .map((e) => ({ kind: "upcoming" as const, data: e })),
+      ].sort((a, b) => {
+        // Free first
+        const aFree = a.data.cost === "free" ? 0 : 1;
+        const bFree = b.data.cost === "free" ? 0 : 1;
+        if (aFree !== bFree) return aFree - bFree;
+        // Upcoming events: sort by time; recurring: featured first
+        if (a.kind === "upcoming" && b.kind === "upcoming") {
+          const at = a.data.time || "zz";
+          const bt = b.data.time || "zz";
+          return at.localeCompare(bt);
+        }
+        if (a.kind === "recurring" && b.kind === "recurring") {
+          if (a.data.featured && !b.data.featured) return -1;
+          if (!a.data.featured && b.data.featured) return 1;
+        }
+        return 0;
+      })
     : [];
 
-  // South Bay-wide today events (excluding homeCity events if personalized)
-  const southBayTodayEvents = SOUTH_BAY_EVENTS
-    .filter((e) => isActiveToday(e) && (homeCity ? e.city !== homeCity : true))
-    .sort((a, b) => {
-      if (a.cost === "free" && b.cost !== "free") return -1;
-      if (b.cost === "free" && a.cost !== "free") return 1;
-      if (a.featured && !b.featured) return -1;
-      if (b.featured && !a.featured) return 1;
-      return 0;
-    });
+  // ── South Bay today items (excluding homeCity) ───────────────────────────
+  const southBayTodayItems: TodayItem[] = [
+    ...SOUTH_BAY_EVENTS
+      .filter((e) => isActiveToday(e) && (homeCity ? e.city !== homeCity : true))
+      .map((e) => ({ kind: "recurring" as const, data: e })),
+    ...todayUpcoming
+      .filter((e) => (homeCity ? e.city !== homeCity : true))
+      .map((e) => ({ kind: "upcoming" as const, data: e })),
+  ].sort((a, b) => {
+    const aFree = a.data.cost === "free" ? 0 : 1;
+    const bFree = b.data.cost === "free" ? 0 : 1;
+    if (aFree !== bFree) return aFree - bFree;
+    if (a.kind === "recurring" && b.kind === "recurring") {
+      if (a.data.featured && !b.data.featured) return -1;
+      if (!a.data.featured && b.data.featured) return 1;
+    }
+    if (a.kind === "upcoming" && b.kind === "upcoming") {
+      const at = a.data.time || "zz";
+      const bt = b.data.time || "zz";
+      return at.localeCompare(bt);
+    }
+    return 0;
+  });
 
   const SB_LIMIT = homeCity ? 6 : 8;
   const visibleSouthBay = showAllSouthBay
-    ? southBayTodayEvents
-    : southBayTodayEvents.slice(0, SB_LIMIT);
+    ? southBayTodayItems
+    : southBayTodayItems.slice(0, SB_LIMIT);
 
   return (
     <>
@@ -427,9 +592,9 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
             style={{ marginBottom: 16 }}
           >
             <span className="sb-section-title">Today in {getCityName(homeCity)}</span>
-            {cityTodayEvents.length > 0 && (
+            {cityTodayItems.length > 0 && (
               <span style={{ fontSize: 12, fontWeight: 500, color: "var(--sb-muted)" }}>
-                {cityTodayEvents.length} {cityTodayEvents.length === 1 ? "event" : "events"}
+                {cityTodayItems.length} {cityTodayItems.length === 1 ? "event" : "events"}
               </span>
             )}
             <button
@@ -449,7 +614,7 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
               Change city
             </button>
           </div>
-          {cityTodayEvents.length === 0 ? (
+          {cityTodayItems.length === 0 ? (
             <div
               style={{
                 padding: "16px 0",
@@ -462,12 +627,12 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
             </div>
           ) : (
             <>
-              {cityTodayEvents.slice(0, 5).map((e) => (
-                <EventRow key={e.id} event={e} showCity={false} />
+              {cityTodayItems.slice(0, 8).map((item) => (
+                <TodayRow key={item.kind === "upcoming" ? item.data.id : item.data.id} item={item} showCity={false} />
               ))}
-              {cityTodayEvents.length > 5 && (
+              {cityTodayItems.length > 8 && (
                 <div style={{ paddingTop: 10, fontSize: 12, color: "var(--sb-muted)" }}>
-                  +{cityTodayEvents.length - 5} more in{" "}
+                  +{cityTodayItems.length - 8} more in{" "}
                   <span style={{ fontWeight: 600, color: "var(--sb-ink)" }}>{getCityName(homeCity)}</span>{" "}
                   — see the Events tab for the full list.
                 </div>
@@ -493,6 +658,7 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
             >
               {MONTH_NAME}
             </span>
+            <div className="sb-section-line" />
           </div>
           <div
             style={{
@@ -517,14 +683,14 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
           <span className="sb-section-title">
             {homeCity ? "Across the South Bay" : "Happening Today"}
           </span>
-          {southBayTodayEvents.length > 0 && (
+          {southBayTodayItems.length > 0 && (
             <span style={{ fontSize: 12, fontWeight: 500, color: "var(--sb-muted)" }}>
-              {southBayTodayEvents.length} {southBayTodayEvents.length === 1 ? "event" : "events"}
+              {southBayTodayItems.length} {southBayTodayItems.length === 1 ? "event" : "events"}
             </span>
           )}
         </div>
 
-        {southBayTodayEvents.length === 0 ? (
+        {southBayTodayItems.length === 0 ? (
           <div
             style={{
               padding: "20px 0",
@@ -539,10 +705,10 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
           </div>
         ) : (
           <>
-            {visibleSouthBay.map((e) => (
-              <EventRow key={e.id} event={e} />
+            {visibleSouthBay.map((item) => (
+              <TodayRow key={item.kind === "upcoming" ? item.data.id : item.data.id} item={item} />
             ))}
-            {southBayTodayEvents.length > SB_LIMIT && !showAllSouthBay && (
+            {southBayTodayItems.length > SB_LIMIT && !showAllSouthBay && (
               <button
                 onClick={() => setShowAllSouthBay(true)}
                 style={{
@@ -559,7 +725,7 @@ export default function OverviewView({ homeCity, setHomeCity }: Props) {
                   textUnderlineOffset: 3,
                 }}
               >
-                Show {southBayTodayEvents.length - SB_LIMIT} more events →
+                Show {southBayTodayItems.length - SB_LIMIT} more events →
               </button>
             )}
           </>

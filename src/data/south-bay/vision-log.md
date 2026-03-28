@@ -568,3 +568,95 @@ The content quality from Legistar is also better. Instead of trying to parse a P
 **Yes — the government coverage gap that undermined credibility is now closed.** South Bay Signal now generates AI digests for 8 of 11 South Bay cities, covering approximately 1.6 million residents. San José being present changes the product's credibility profile entirely. A San José resident — the most likely South Bay resident — can now see their city council's most recent meeting summarized in plain English. That has never existed in any form for this population. The Government tab is now the most uniquely differentiating section of the product: no other South Bay source aggregates plain-English council summaries across this many cities.
 
 ---
+
+## 2026-03-28 — Cycle 10: Event Scraper + 1,724 Upcoming Events
+
+### Context
+Coming off Cycle 9 which expanded government coverage to 8 cities. The Events tab had two modes (Upcoming / Recurring) but "Upcoming" was a placeholder — the scraper hadn't been built. This cycle delivered the infrastructure: a script that fetches real, specific, dated events from 11 sources and generates a 1,724-event JSON feed.
+
+### What Was Built
+
+**1. `scripts/generate-events.mjs`** — event scraper for 11 sources:
+- Stanford Events (Localist JSON API)
+- SJSU Events (RSS)
+- Santa Clara University Events (RSS)
+- Computer History Museum (RSS)
+- City of Campbell calendar (CivicPlus RSS)
+- Town of Los Gatos calendar (CivicPlus iCal)
+- City of Saratoga calendar (CivicPlus iCal)
+- City of Los Altos calendar (CivicPlus iCal)
+- San Jose Public Library (BiblioCommons API)
+- Santa Clara County Library (BiblioCommons API)
+- Silicon Valley Leadership Group (RSS)
+
+**2. `src/data/south-bay/upcoming-events.json`** — 1,724 upcoming events from 9 active sources, deduplicated, sorted by date ascending. Each event: id, title, date (ISO), displayDate, time, venue, city, category, cost, description, url, source, kidFriendly.
+
+**3. EventsView.tsx updated** — Upcoming tab now shows scraped events. Each card shows specific date in accent red, time, venue, cost badge, source attribution.
+
+### Why This Was the Strongest Move
+The events tab went from "37 recurring patterns" to "1,724 specific dated events with times, venues, and sources." This is the single biggest leap in content density the product has made. A user can now filter by city and find real things happening on real dates — not just "the farmers market is every Sunday."
+
+### Next 3 Strongest Ideas
+1. **Today tab: surface today's upcoming events** — The OverviewView still only pulls recurring events for "Happening Today." With 1,724 dated events, the Today tab could show 20-50 real events per day. This is the "aha" moment for daily use.
+2. **Date grouping in EventsView** — 1,724 flat events is overwhelming. Grouping by Today / Tomorrow / This Week / Later makes the feed scannable.
+3. **Schedule weekly scraper regeneration** — The events JSON is a static snapshot. Without automated regeneration, the data will go stale. A weekly cron job to re-run generate-events.mjs and commit the result keeps the feed fresh.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the events tab is now a real event calendar, not a recurring-patterns list.** 1,724 specific dated events from 9 authoritative sources (Stanford, SJSU, SCU, libraries, city halls, Computer History Museum) gives the product density that no hand-curated South Bay site can match. The event feed is as comprehensive as any local calendar site — and it's filterable by city, category, and time with a UI better than any of those sources.
+
+---
+
+## 2026-03-28 — Cycle 11: Today Tab + Upcoming Events Integration + Date Grouping
+
+### Context
+Coming off Cycle 10 which built the event scraper infrastructure and generated 1,724 dated events. The critical gap: the Today tab (OverviewView) had zero awareness of these events. "Today in San Jose" would show 0-2 recurring events on most days even though 50+ real events were happening. This cycle closes that gap and makes the EventsView's 1,700+ events scannable.
+
+### Issues Identified This Cycle
+1. **Today tab ignored the entire scraped event feed** — The OverviewView still only filtered `SOUTH_BAY_EVENTS` (37 recurring events) for "Today in [City]" and "Happening Today." A San Jose resident who had set their home city would see a nearly empty "Today in San Jose" section despite dozens of library programs, lectures, and community events happening that day. This was the most jarring user experience gap.
+2. **1,724 events as a flat list is overwhelming** — The EventsView Upcoming tab showed all events as a single scrolling wall. No way to quickly scan "what's happening today" vs "what's coming up next week."
+3. **"Today in [City]" often showed 0 events** — San Jose has 2 recurring events in the static data. A resident setting their city would immediately hit a "No events found" message despite the scraped feed having dozens of real San Jose events for that day.
+
+### What Was Built
+
+**1. OverviewView.tsx — Today tab merged with scraped events**
+
+- Added import of `upcoming-events.json` into OverviewView
+- Added `TODAY_ISO` constant (`NOW.toISOString().split("T")[0]`) for date comparison
+- Added `UpcomingEvent` interface matching the JSON schema
+- Added `ScrapedEventRow` component — compact row showing title, time, city, venue, cost badge, with clickable link
+- Added `TodayItem` discriminated union (`{ kind: "recurring"; data: SBEvent } | { kind: "upcoming"; data: UpcomingEvent }`) enabling mixed rendering
+- Added `TodayRow` wrapper dispatching to `EventRow` vs `ScrapedEventRow`
+- `cityTodayItems`: merges recurring events + today's upcoming events filtered to homeCity, sorted by cost (free first) then time
+- `southBayTodayItems`: same merge for the region-wide section
+- Shows up to 8 items in "Today in [City]", "+N more" link to Events tab
+- "Across the South Bay" now counts scraped + recurring (e.g., "47 events" vs prior "3 events")
+
+**2. EventsView.tsx — Date-grouped Upcoming tab**
+
+- Added `getDateGroupLabel()` helper bucketing events into "Today" / "Tomorrow" / "This Week" / "Later"
+- Added `groupedUpcoming` memo computing bucketed groups from `filteredUpcoming`
+- Upcoming view now renders groups with sticky newspaper-style section dividers
+- "Today" group header renders in accent red; other groups in muted gray
+- Each group header shows event count
+- "Later" group capped at 50 visible, with "Show N more events →" expand button
+- Reset `showAllLater` not needed on filter change (users explicitly expand if desired)
+
+### Why This Was the Strongest Move
+The Today tab is the landing experience. Before this cycle, a user who set their home city to San Jose would see "No events found today" immediately — a trust-breaking moment. The scraped feed has 200-300 South Bay events on any given day. Surfacing those on the homepage turns the Today tab from a placeholder into a genuine daily brief.
+
+Date grouping in EventsView solves a discoverability problem: "what's happening today" was buried in 1,724 flat cards. Now Today is a scannable group at the top, Tomorrow is below it, and users can load "Later" on demand. This makes the event feed genuinely usable for planning.
+
+### What New Opportunities Emerged
+1. **Schedule weekly scraper regeneration** — The events JSON is still a static snapshot from March 28. Without automated regeneration, the data will go stale within days. This is now the single highest infrastructure priority.
+2. **"Upcoming meetings" section in Gov tab** — Legistar API can return FUTURE scheduled meetings. Forward-looking civic intelligence (what's on the agenda next Tuesday) is the complement to the backward-looking digests.
+3. **Palo Alto government coverage (PrimeGov)** — Remaining major city without digests. Would bring coverage to 9/11 cities.
+
+### Next 3 Strongest Ideas
+1. **Set up automated weekly events scraper** — Run `generate-events.mjs` on a cron (weekly or daily), commit the result, redeploy. Without this, the data expires. Claude Code scheduled tasks or a GitHub Actions workflow are both options.
+2. **Upcoming council meetings section** — Add a "Coming up" row to each GovernmentView digest card: next scheduled meeting date, any pre-posted agenda. Makes the Gov tab forward-looking, not just historical.
+3. **Palo Alto government coverage (PrimeGov API)** — Last major city missing from Gov tab. PrimeGov has a public REST API. Getting to 9/11 cities completes the South Bay government picture.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the Today tab now works as a real daily brief.** "Today in San Jose" on a given day might show 30+ events: library story times, SJSU lectures, community center programs, city-sponsored events, Computer History Museum programs. This is the density that makes a homepage worth bookmarking. The combination of specific times, venue names, and free/paid filtering makes it immediately actionable. The date-grouped EventsView makes the full calendar scannable rather than overwhelming. Together, these two changes cross another qualitative threshold: South Bay Signal now answers "what should I do today?" with real answers, not just recurring patterns.
+
+---
