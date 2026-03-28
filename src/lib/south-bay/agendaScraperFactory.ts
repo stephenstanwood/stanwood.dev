@@ -35,6 +35,7 @@ export interface AgendaInfo {
 // Cities are added as their agenda systems are verified.
 
 export const AGENDA_CITIES: AgendaCityConfig[] = [
+  // ── CivicEngage cities (same scraper pattern) ──
   {
     city: "campbell",
     cityName: "Campbell",
@@ -43,10 +44,36 @@ export const AGENDA_CITIES: AgendaCityConfig[] = [
     baseUrl: "https://www.campbellca.gov",
     body: "City Council",
     schedule: "1st and 3rd Tuesday",
-    agendaFilePattern: /\/AgendaCenter\/ViewFile\/Agenda\/_(\d{8})-(\d+)/,
-    dateHeadingPattern: /<h3[^>]*>\s*([\w]+\s+\d{1,2},?\s+\d{4})\s*<\/h3>/gi,
   },
-  // More cities will be added as their systems are verified
+  // Los Gatos: CivicEngage but no Town Council category — skipped
+  {
+    city: "saratoga",
+    cityName: "Saratoga",
+    platform: "civicengage",
+    agendaUrl: "https://www.saratoga.ca.us/AgendaCenter/City-Council-13",
+    baseUrl: "https://www.saratoga.ca.us",
+    body: "City Council",
+    schedule: "1st and 3rd Wednesday",
+  },
+  {
+    city: "los-altos",
+    cityName: "Los Altos",
+    platform: "civicengage",
+    agendaUrl: "https://www.losaltosca.gov/AgendaCenter/City-Council-4",
+    baseUrl: "https://www.losaltosca.gov",
+    body: "City Council",
+    schedule: "2nd and 4th Tuesday",
+  },
+  // ── Legistar cities (TODO: implement scraper) ──
+  // San Jose: sanjose.legistar.com
+  // Cupertino: cupertino.legistar.com
+  // Sunnyvale: sunnyvaleca.legistar.com
+  // Mountain View: mountainview.legistar.com
+  // Santa Clara: santaclara.legistar.com
+  //
+  // ── Other platforms ──
+  // Palo Alto: PrimeGov (cityofpaloalto.primegov.com)
+  // Milpitas: CivicClerk (embedded, no AgendaCenter)
 ];
 
 // ── CivicEngage scraper ──
