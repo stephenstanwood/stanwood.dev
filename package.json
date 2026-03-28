@@ -9,7 +9,8 @@
     "astro": "astro",
     "test": "vitest run",
     "generate-digests": "node scripts/generate-digests.mjs",
-    "generate-blotter": "node scripts/generate-blotter.mjs"
+    "generate-blotter": "node scripts/generate-blotter.mjs",
+    "generate-events": "node scripts/generate-events.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
