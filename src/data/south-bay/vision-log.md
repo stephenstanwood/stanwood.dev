@@ -85,3 +85,49 @@ The Events section has been called "potentially the killer feature" since day on
 **Yes — materially more useful.** The Events section was the biggest missing piece for utility. A resident can now use South Bay Signal on a Sunday morning to find farmers markets, or on a Friday afternoon to find free evening events. The city filter works across Events. The "Today" badge makes it immediately actionable. Combined with the working sports scoreboard, there's now real daily-use value — not just a civic demo.
 
 ---
+
+## 2026-03-27 — Cycle 2: Today Tab → Real Morning Dashboard
+
+### Context
+Coming off Cycle 1 which delivered the Events section. The product now has live sports, curated events, and government digests. But the Today/Overview tab — the landing experience — was just the full sports scoreboard plus two text teasers. Opening South Bay Signal dropped you into a sports page. That's not a daily homepage.
+
+### Issues Identified This Cycle
+1. **Today tab weak as entry point** — first impression is "sports scoreboard + footnotes," not "daily South Bay briefing"
+2. **Events data not surfaced on homepage** — we have 40+ events but nothing shows on the landing tab except a count in a teaser
+3. **No ambient context** — no weather, no sense of "this is today, this is what's happening"
+
+### What Was Built
+
+**Redesigned OverviewView** (`src/components/south-bay/views/OverviewView.tsx`)
+
+New structure, top to bottom:
+
+1. **Weather strip** — fetches from existing `/api/weather` (Open-Meteo, free, no key). Shows live temp + conditions, e.g. "☀️ 68°F clear sky · South Bay, CA." Renders only when data loads; no flash of empty space on fetch.
+
+2. **"Happening Today" section** — compact event list of every event active today. Sorted: free events first, then featured, then rest. Each row: emoji + title + cost badge (color-coded: green=FREE, amber=$, purple=$$) + city + time + venue. Shows up to 8 with "Show N more →" expand button. Newspaper-style typography (Playfair Display for titles).
+
+3. **City Hall teaser** — compact info strip summarizing government digest coverage.
+
+4. **Sports scoreboard** — full SportsView, unchanged, now in supporting role below the daily content.
+
+### Why This Was the Strongest Move
+The Today tab is the first impression — the argument for why someone should bookmark this. Before: "here's a sports scoreboard." After: "here's what's happening today — weather, events, then sports." The weather strip adds ambient context in one line. The events list is the real hook: instead of "12 events today" as a text teaser, you now see exactly what those 12 things are, for free. That's bookmarkable. It's what a local morning tab should do.
+
+The rotation rule pushed away from pure data work (last cycle was Events) toward product/UX — the right call.
+
+### What New Opportunities Emerged
+1. **Events tab navigation from Today** — the Today tab shows events but doesn't deep-link to the Events tab with a city filter. A "See all in [city] →" interaction would add useful friction reduction.
+2. **Plan My Day** — now the Today tab proves the events data has daily value. Plan My Day would be the interactive version of this: "build me a full day from what's available." The data foundation is solid.
+3. **Government digest fix** — still the silent failure issue. Now more visible because the government teaser on Today tab would be much more powerful if the digest data showed there too.
+4. **Development tracker** — "what's being built in your city?" is still the most unique possible section. No other South Bay site does this.
+5. **Technology section** — local Bloomberg terminal for South Bay tech. Data-rich, chart-forward.
+
+### Next 3 Strongest Ideas
+1. **Plan My Day** — the signature interactive feature. Weather ✓, events data ✓, just need the AI itinerary builder. This is the "bookmark it forever" moment.
+2. **Government digest fix** — investigate the silent failure (CivicEngage scraper or missing API key in deploy env). Even one working digest is better than three broken ones.
+3. **Development tracker** — curate a JSON of 15-20 major known South Bay development projects (downtown SJ redevelopment, Mountain View mixed-use, etc.) with a clean "what's being built" view. Unique, ownable territory.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — materially closer to the morning tab promise.** The Today tab now earns its name. Someone opening it on a Thursday morning sees the weather, sees a list of real things happening today (a library story time, the Computer History Museum, Rancho San Antonio park, etc.), gets a City Hall teaser, and then finds the sports scoreboard. That's a daily briefing, not a sports widget. The sequence of information finally matches "this is your local morning tab."
+
+---
