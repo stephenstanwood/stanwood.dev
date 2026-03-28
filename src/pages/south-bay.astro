@@ -910,6 +910,279 @@ const title = "South Bay Signal — stanwood.dev";
         .plan-headline { font-size: 20px; }
       }
 
+      /* ── Development section ── */
+      .dev-view {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* Header */
+      .dev-header {
+        border-bottom: 3px double var(--sb-border);
+        padding-bottom: 20px;
+      }
+      .dev-header-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--sb-muted);
+        margin-bottom: 4px;
+      }
+      .dev-header-title {
+        font-family: var(--sb-serif);
+        font-size: 36px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: var(--sb-ink);
+        margin: 0 0 8px 0;
+        line-height: 1.1;
+      }
+      .dev-header-subtitle {
+        font-size: 15px;
+        color: var(--sb-muted);
+        margin: 0 0 10px 0;
+        line-height: 1.5;
+        max-width: 600px;
+      }
+      .dev-header-note {
+        font-size: 11px;
+        color: var(--sb-light);
+        letter-spacing: 0.03em;
+      }
+
+      /* Pulse strip */
+      .dev-pulse {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--sb-border-light);
+        border: 1px solid var(--sb-border-light);
+      }
+      .dev-pulse-item {
+        background: var(--sb-card);
+        padding: 16px 20px;
+      }
+      .dev-pulse-value {
+        font-family: var(--sb-serif);
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--sb-ink);
+        line-height: 1.1;
+        margin-bottom: 3px;
+      }
+      .dev-pulse-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--sb-muted);
+        margin-bottom: 4px;
+      }
+      .dev-pulse-note {
+        font-size: 12px;
+        color: var(--sb-light);
+        line-height: 1.4;
+      }
+
+      /* Filters */
+      .dev-filters-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .dev-filter-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .dev-filter-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--sb-muted);
+        min-width: 44px;
+        flex-shrink: 0;
+      }
+      .dev-filter-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .dev-filter-pill {
+        padding: 5px 12px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid var(--sb-border);
+        background: var(--sb-card);
+        color: var(--sb-muted);
+        cursor: pointer;
+        border-radius: var(--sb-radius);
+        transition: all 0.15s ease;
+        font-family: var(--sb-sans);
+        white-space: nowrap;
+      }
+      .dev-filter-pill:hover {
+        border-color: var(--sb-ink);
+        color: var(--sb-ink);
+      }
+      .dev-filter-pill--active {
+        background: var(--sb-ink);
+        color: #fff;
+        border-color: var(--sb-ink);
+      }
+
+      /* Results count */
+      .dev-results-count {
+        font-size: 12px;
+        color: var(--sb-light);
+        letter-spacing: 0.03em;
+        border-top: 1px solid var(--sb-border-light);
+        padding-top: 12px;
+      }
+
+      /* Projects list */
+      .dev-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        border: 1px solid var(--sb-border-light);
+      }
+      .dev-card {
+        background: var(--sb-card);
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--sb-border-light);
+        transition: box-shadow 0.15s ease;
+      }
+      .dev-card:last-child {
+        border-bottom: none;
+      }
+      .dev-card:hover {
+        box-shadow: var(--sb-shadow-hover);
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Card meta row */
+      .dev-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .dev-status-badge {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 3px 8px;
+        border-radius: 2px;
+      }
+      .dev-category-tag {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--sb-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 3px 8px;
+        border: 1px solid var(--sb-border-light);
+        background: var(--sb-bg);
+        border-radius: 2px;
+      }
+      .dev-featured-badge {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--sb-accent);
+        letter-spacing: 0.04em;
+      }
+
+      /* Card title */
+      .dev-card-title {
+        font-family: var(--sb-serif);
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--sb-ink);
+        margin: 0 0 4px 0;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .dev-card-location {
+        font-size: 12px;
+        color: var(--sb-muted);
+        margin-bottom: 10px;
+        letter-spacing: 0.02em;
+      }
+      .dev-card-description {
+        font-size: 14px;
+        color: var(--sb-muted);
+        line-height: 1.6;
+        margin: 0 0 14px 0;
+        max-width: 680px;
+      }
+
+      /* Detail pills */
+      .dev-card-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .dev-detail {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .dev-detail-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--sb-light);
+      }
+      .dev-detail-value {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--sb-ink);
+      }
+
+      /* Empty state */
+      .dev-empty {
+        text-align: center;
+        padding: 48px 24px;
+        color: var(--sb-muted);
+        font-size: 14px;
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border-light);
+      }
+      .dev-empty-icon {
+        font-size: 28px;
+        margin-bottom: 10px;
+        opacity: 0.5;
+      }
+
+      /* Footer note */
+      .dev-footer-note {
+        font-size: 11px;
+        color: var(--sb-light);
+        line-height: 1.6;
+        padding: 16px 0 0;
+        border-top: 1px solid var(--sb-border-light);
+      }
+
+      /* Development mobile */
+      @media (max-width: 640px) {
+        .dev-header-title { font-size: 28px; }
+        .dev-pulse { grid-template-columns: repeat(2, 1fr); }
+        .dev-card { padding: 16px; }
+        .dev-card-title { font-size: 17px; }
+        .dev-card-description { font-size: 13px; }
+        .dev-card-details { gap: 12px; }
+        .dev-filter-label { min-width: 36px; }
+      }
+
       /* ── Footer ── */
       .sb-footer {
         max-width: var(--sb-max-width);
