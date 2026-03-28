@@ -7,10 +7,7 @@
     "build": "astro build && node scripts/postbuild.mjs",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run",
-    "generate-digests": "node scripts/generate-digests.mjs",
-    "generate-blotter": "node scripts/generate-blotter.mjs",
-    "generate-events": "node scripts/generate-events.mjs"
+    "test": "vitest run"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
