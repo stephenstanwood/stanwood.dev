@@ -323,3 +323,34 @@ The annual events are especially powerful: Viva CalleSJ, Tet Festival, Christmas
 **Yes — comprehensively closer.** The jump from 40 to 100 events isn't just a number — it's the difference between a product that covers San Jose and Palo Alto and a product that genuinely covers all 11 cities. Santa Clara, Los Altos, Milpitas, Sunnyvale, and Cupertino now each have real things to show. The annual events — Tet Festival, Viva CalleSJ, Christmas in the Park, Mountain View Art & Wine, SJ Jazz Summer Fest — are what make the South Bay feel alive as a place, not just a map. Having them listed means South Bay Signal now covers the full texture of local life, not just the always-open institutions.
 
 ---
+
+## 2026-03-28 — Cycle 6: Development Tracker
+
+### Context
+Coming off Cycle 5 which pushed events to 100+. All 6 tabs are live and functional. The Development Tracker has appeared in every "top 3 ideas" list since Cycle 1 and has never been built. The reason it kept slipping was that the earlier cycles were more immediately urgent (events data, Plan My Day, Tech tab). Now, with the foundation solid, this is the right moment: the single most uniquely ownable territory on the roadmap.
+
+### Issues Identified This Cycle
+1. **Zero coverage of what's physically changing** — South Bay Signal covers what's happening today (events, sports, gov) but nothing about what's being built tomorrow. A resident can check the site daily and have no idea that a 7.3M sq ft Google campus is going up near Diridon Station.
+2. **No differentiated territory vs. basic local news** — The current tabs are well-executed but have analogues elsewhere. Development tracking as a curated structured layer is something nobody does well for the South Bay.
+3. **Opportunity to anchor civic identity** — Residents care deeply about what's being built in their city. Housing approvals, tech campuses, transit projects affect property values, commutes, and neighborhood character.
+
+### What Was Built
+
+**`src/data/south-bay/development-data.ts`** — 16 curated South Bay development projects across: Transit (BART Phase II, Caltrain Electrification, BART Berryessa), Tech Campus (NVIDIA Voyager, Google Bay View, Apple Park), Mixed-Use (Google Downtown West, Google North Bayshore, Santana Row, Diridon Area Plan), Retail (Valley Fair), Housing (North SJ Urban Villages), Civic (Mineta Airport, Related Santa Clara), Proposed (HSR, Downtown Sunnyvale). Data model: status / category / scale / developer / timeline / featured / description. Pulse stats computed from live data.
+
+**`src/components/south-bay/views/DevelopmentView.tsx`** — Header + pulse stats + dual filter pills (status + category) + sorted project list + footer attribution. Cards: color-coded status badge, category tag, ★ Signature badge, Playfair title, location, description, detail row.
+
+**Types, SignalApp, south-bay.astro** — Added 'development' tab between Tech and Plan My Day, full dev-* CSS block with mobile overrides.
+
+### Why This Was the Strongest Move
+Development tracking hits four things: (1) unique territory no other South Bay site owns, (2) high-stakes for residents (housing/transit/campus changes affect daily life), (3) civic credibility signal, (4) long-tail return behavior as projects unfold over years. The status filter creates immediate utility — one tap shows everything actively under construction across the South Bay.
+
+### Next 3 Strongest Ideas
+1. **"What's This Month" module on Today tab** — use `months[]` event data to surface upcoming seasonal highlights on the homepage. Small build, big first-impression impact.
+2. **Government digest expansion** — Legistar scraper for San José. Has been top-3 every cycle. San José is America's 10th largest city. One unlock makes Gov dramatically more valuable.
+3. **Development city filter** — Add 'development' to showCityFilter in SignalApp + pass selectedCities to DevelopmentView. Lets residents ask "what's being built in Mountain View?"
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the first tab that's genuinely unmatched.** South Bay Signal now has 7 tabs: Today / Sports / Events / Gov / Tech / Development / Plan My Day. The Development tab covers territory no other South Bay local site touches in a clean, structured way. A resident who follows housing policy, transit projects, or tech campus growth now has a permanent reason to bookmark the site. The combination of "what's happening today" (Events, Plan My Day) and "what's changing over time" (Development, Gov) is what a real local intelligence product needs. Both are now present.
+
+---
