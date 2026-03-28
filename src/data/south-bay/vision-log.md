@@ -190,3 +190,73 @@ The pulse stats are the fastest possible brief: "NVIDIA, biggest gainer. Intel, 
 **Yes — a new dimension unlocked.** South Bay Signal now covers sports, events, government, AND technology. The nav bar reads "Today / Sports / Events / Gov / Tech" — that's a real product lineup, not a demo. The Technology tab alone is more useful than anything existing local media offers on this topic: no paywall, no generic Silicon Valley coverage, just the companies that are literally down the street from where residents live and work. The Recharts bar chart gives it a data product feel. Combined with the morning dashboard, live sports scores, and curated events, South Bay Signal is now approaching "I'd actually keep this open" territory.
 
 ---
+
+## 2026-03-27 — Cycle 4: Plan My Day — The Signature Interactive Feature
+
+### Context
+Coming off Cycle 3 which delivered the Technology tab. Three cycles running, now with 6 tab categories. Every cycle has listed "Plan My Day" as the #1 or #2 strongest next move. The events data exists. The weather API exists. The infrastructure is there. This was the cycle to finally build the feature that makes South Bay Signal genuinely bookmarkable — not just useful to scan, but a product people come back to actively.
+
+### Issues Identified This Cycle
+1. **All existing tabs are passive** — every tab is "here's information." There's nothing interactive. The product has no "do something for me" feature.
+2. **Events data has no personalization layer** — 40+ events is great, but there's no path from "I want to do something today" to "here's exactly what to do."
+3. **Weather data is siloed** — the weather strip on Today tab shows current conditions but never influences any recommendations. It's ambient but not actionable.
+4. **No reason to come back on a specific day** — a resident can check South Bay Signal once and feel done. Plan My Day adds a reason to revisit every time you want to do something.
+
+### What Was Built
+
+**`src/data/south-bay/poi-data.ts`** — 24 curated always-available Points of Interest:
+- Outdoor/nature: Rancho San Antonio, Vasona Lake, Shoreline Park, Los Gatos Creek Trail, The Dish, Alum Rock Park, Hakone Gardens, Montalvo Arboretum, Stevens Creek Trail (9 options)
+- Museums/indoor: Computer History Museum, The Tech Interactive, Children's Discovery Museum, Cantor Arts Center, San Jose Museum of Art (5 options)
+- Neighborhoods/food: Downtown Campbell, Santana Row, Castro Street MV, Los Gatos Village, San Pedro Square Market, Willow Glen, Downtown Sunnyvale, Downtown Palo Alto (8 options)
+- Each: indoor/outdoor classification, best time slots, kid-friendly flag, cost, "why it fits" hook
+
+**`src/lib/south-bay/planMyDay.ts`** — Scoring algorithm:
+- Inputs: `who` (solo/couple/family-young/family-kids/teens/group), `duration` (morning/afternoon/evening/full-day/quick), `vibe` (outdoors/indoors/mix), `budget` (free/some/anything)
+- Weather parsing: detects rain/sun/heat/cold from weather string and adjusts indoor/outdoor scores
+- Scoring: slot fit (+10), vibe match (+14), weather adjustments (up to ±22), kid-friendliness (±30 when family selected), budget match (up to +15), "today active" event bonus (+20)
+- Time slots: morning (9am), lunch/midday (12pm), afternoon (2pm), evening (6pm)
+- Duration mapping: full-day = all 4 slots, afternoon = lunch + afternoon, quick = 1 slot based on current time
+- Candidate pool: all 40+ events + 24 POIs, scored per slot with no-repeat enforcement
+- Outputs: `DayPlan` with `stops[]`, `weatherNote`, `headline`
+
+**`src/components/south-bay/views/PlanView.tsx`** — Full interactive UI:
+1. **Form state**: Who / Duration / Vibe / Budget as pill-select buttons (emoji + label + sub-label)
+2. **Build button**: triggers 600ms artificial delay for UX (then runs algorithm synchronously)
+3. **Results view**: headline + weather note bar + time-blocked stop cards
+4. Each stop card: large emoji, title (linked if URL available), venue + city, cost badge, kid-friendly badge, indoor/outdoor badge, ★ Today badge (red, for events active today), "why it fits" note in body copy
+5. **Start over** secondary button
+
+**`src/lib/south-bay/types.ts`** — Added 'plan' to Category and Tab union types, added "Plan My Day" to TABS array
+
+**`src/components/south-bay/SignalApp.tsx`** — Imported PlanView, added tab render
+
+**`src/pages/south-bay.astro`** — Added full CSS block: plan-view, plan-section, plan-options, plan-option pill styles with --active state, plan-cta (primary + secondary variants), plan-headline, plan-weather bar, plan-stop-card, mobile overrides at 640px
+
+### Why This Was the Strongest Move
+"Plan My Day" has appeared as a top-3 idea in every single previous cycle. The blocking reason was always "needs events data" or "needs weather" — both of which were solved in Cycles 1-2. Cycle 4 was the moment to actually build it.
+
+The feature's power comes from combining three things that already existed:
+1. **Today's events** — the algorithm strongly favors events happening right now (today bonus: +20 points)
+2. **Weather** — rain shifts the scoring toward indoor options by ±22 points; sun boosts outdoor picks
+3. **User preferences** — family with young kids gets a ±30 kid-friendly filter; budget=free gets paid options excluded
+
+The result is a plan that feels _made for today_ — not a generic list of things that are always open, but a day shaped by what's actually happening and what the weather actually is. A parent on a rainy Saturday selecting "family-young + full-day + mix + free" gets an itinerary of indoor kid-friendly options with "★ Today" badges on anything that's a live event that day.
+
+The UI pattern — emoji option pills, then a "Build My Day →" button that processes and returns a time-blocked result — is clean, fast, and mobile-friendly. No forms to fill in. No text input. Just tap, tap, tap, and you have a plan.
+
+### What New Opportunities Emerged
+1. **Regenerate / shuffle** — "Try a different day" button to re-score with some randomization would add replayability and encourage return visits.
+2. **Save / share your plan** — "Copy day plan" or "Share link" using URL params to encode the preferences, so people can share plans with friends.
+3. **Events volume push** — the standing order to reach 100+ events becomes more urgent now that Plan My Day makes events data visible and actionable. More events = more interesting plans.
+4. **Government digest expansion** — the Legistar scraper to unlock San Jose, Mountain View, Sunnyvale would add a huge amount of Gov tab value. Still the most impactful infrastructure improvement.
+5. **Development tracker** — "what's being built near you" remains the most uniquely ownable section. No other South Bay product touches this.
+
+### Next 3 Strongest Ideas
+1. **Events volume push to 100+** — the standing order. Plan My Day makes this urgent: more events = more personalized plans. Target: library programs, city parks calendars, Stanford public events, cultural centers.
+2. **Government digest expansion** — implement Legistar scraper for San Jose (largest city, most important decisions). Even one more city makes the Gov tab dramatically more useful.
+3. **Plan My Day: share/save** — encode form state in URL params so users can share their plans. Small build, high bookmarkability boost.
+
+### Does the Product Now Feel Meaningfully Closer to "Default Homepage for South Bay Life"?
+**Yes — the first feature that makes people _do_ something.** South Bay Signal now has a feature that transforms it from "a place I check" into "a place I use." A resident opening it on a weekend morning can now get a real, personalized, today-specific, weather-aware day plan in four taps. That's the difference between a dashboard and a product. The nav now reads "Today / Sports / Events / Gov / Tech / Plan My Day" — each tab earns its place. Plan My Day is the one that creates habit.
+
+---
