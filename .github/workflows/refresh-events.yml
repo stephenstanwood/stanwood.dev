@@ -1,0 +1,42 @@
+name: Refresh South Bay Events
+
+on:
+  schedule:
+    # Daily at 6am PT (14:00 UTC — approximate; adjust for DST)
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate events
+        run: node scripts/generate-events.mjs
+
+      - name: Generate upcoming council meetings
+        run: node scripts/generate-upcoming-meetings.mjs
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/south-bay/upcoming-events.json src/data/south-bay/upcoming-meetings.json
+          if git diff --staged --quiet; then
+            echo "No changes to data"
+          else
+            git commit -m "refresh south bay events + council meetings $(date -u +%Y-%m-%d)"
+            git push
+          fi
