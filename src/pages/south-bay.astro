@@ -767,6 +767,149 @@ const title = "South Bay Signal — stanwood.dev";
         border-top: 1px solid var(--sb-border-light);
       }
 
+      /* ── Plan My Day ─────────────────────────────────────────────────────── */
+
+      .plan-view {
+        max-width: 680px;
+      }
+
+      /* Form sections */
+      .plan-section {
+        margin-bottom: 24px;
+      }
+      .plan-section-label {
+        font-family: var(--sb-sans);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--sb-muted);
+        margin-bottom: 10px;
+      }
+      .plan-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      /* Individual option pill */
+      .plan-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        padding: 10px 14px;
+        border: 1.5px solid var(--sb-border);
+        border-radius: 6px;
+        background: var(--sb-card);
+        cursor: pointer;
+        transition: border-color 0.15s, background 0.15s, color 0.15s;
+        min-width: 72px;
+        text-align: center;
+      }
+      .plan-option:hover {
+        border-color: var(--sb-ink);
+      }
+      .plan-option--active {
+        border-color: var(--sb-ink);
+        background: var(--sb-ink);
+        color: white;
+      }
+      .plan-option-emoji {
+        font-size: 18px;
+        line-height: 1;
+      }
+      .plan-option-label {
+        font-size: 12px;
+        font-weight: 600;
+        font-family: var(--sb-sans);
+        color: inherit;
+        white-space: nowrap;
+      }
+      .plan-option-sub {
+        font-size: 10px;
+        color: var(--sb-light);
+        font-family: var(--sb-sans);
+        white-space: nowrap;
+      }
+      .plan-option--active .plan-option-sub {
+        color: rgba(255,255,255,0.65);
+      }
+
+      /* CTA button */
+      .plan-cta {
+        display: inline-block;
+        padding: 13px 28px;
+        background: var(--sb-ink);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-family: var(--sb-sans);
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        margin-top: 8px;
+        transition: opacity 0.15s;
+      }
+      .plan-cta:hover { opacity: 0.88; }
+      .plan-cta:disabled { opacity: 0.55; cursor: default; }
+      .plan-cta--secondary {
+        background: transparent;
+        color: var(--sb-ink);
+        border: 1.5px solid var(--sb-border);
+        padding: 10px 20px;
+        font-size: 13px;
+      }
+      .plan-cta--secondary:hover {
+        border-color: var(--sb-ink);
+        opacity: 1;
+      }
+
+      /* Result headline */
+      .plan-headline {
+        font-family: var(--sb-serif);
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--sb-ink);
+        margin: 0 0 14px 0;
+        line-height: 1.25;
+      }
+
+      /* Weather note */
+      .plan-weather {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: var(--sb-primary-light);
+        border: 1px solid var(--sb-border-light);
+        border-radius: var(--sb-radius);
+        font-size: 13px;
+        color: var(--sb-muted);
+        margin-bottom: 4px;
+      }
+
+      /* Stop card */
+      .plan-stop-card {
+        background: var(--sb-card);
+        border: 1px solid var(--sb-border-light);
+        border-radius: var(--sb-radius);
+        padding: 16px 18px;
+        transition: box-shadow 0.15s;
+      }
+      .plan-stop-card:hover {
+        box-shadow: var(--sb-shadow-hover);
+      }
+
+      /* Plan mobile overrides */
+      @media (max-width: 640px) {
+        .plan-option { min-width: 60px; padding: 8px 10px; }
+        .plan-option-emoji { font-size: 16px; }
+        .plan-option-label { font-size: 11px; }
+        .plan-headline { font-size: 20px; }
+      }
+
       /* ── Footer ── */
       .sb-footer {
         max-width: var(--sb-max-width);
