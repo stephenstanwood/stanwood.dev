@@ -101,8 +101,23 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       summary = result.summary;
     }
 
+    // Build history from remaining deployments (no Claude — just clean raw messages)
+    type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
+    const history = (deployments as VercelDeployment[]).slice(1).map((d) => {
+      const dMeta = d.meta ?? {};
+      const dRaw = dMeta.githubCommitMessage ?? null;
+      const dSha = (dMeta.githubCommitSha ?? d.uid ?? "").slice(0, 7) || null;
+      const dPrMatch = dRaw?.match(/\(#(\d+)\)/);
+      return {
+        date: new Date(d.created).toISOString(),
+        message: dRaw ? cleanRaw(dRaw) : null,
+        sha: dSha,
+        prNumber: dPrMatch ? dPrMatch[1] : null,
+      };
+    });
+
     return okJson(
-      { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber },
+      { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber, history },
       { "Cache-Control": "public, s-maxage=300, max-age=60" },
     );
   } catch (err) {

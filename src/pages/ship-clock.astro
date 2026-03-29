@@ -99,9 +99,138 @@ const title = "Ship Clock — stanwood.dev";
         margin-bottom: 8px;
       }
 
+      .sc-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 480px;
+        width: 100%;
+      }
+
+      .sc-what-shipped {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 4px 4px 0 var(--sc-ink);
+        background: #fff;
+        padding: 20px 24px;
+      }
+
+      .sc-section-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--sc-ink);
+        opacity: 0.35;
+        margin-bottom: 10px;
+      }
+
+      .sc-shipped-row {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .sc-project-badge {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        background: var(--sc-accent);
+        color: #fff;
+        padding: 2px 8px;
+        white-space: nowrap;
+      }
+
+      .sc-shipped-summary {
+        font-family: 'Cabin', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--sc-ink);
+      }
+
+      .sc-shipped-meta {
+        display: flex;
+        gap: 12px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        opacity: 0.4;
+      }
+
+      .sc-history {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 4px 4px 0 var(--sc-ink);
+        background: #fff;
+        padding: 20px 24px;
+      }
+
+      .sc-history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .sc-history-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+      }
+      .sc-history-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .sc-history-row:first-child {
+        padding-top: 0;
+      }
+
+      .sc-history-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--sc-ink);
+        opacity: 0.25;
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
+
+      .sc-history-body {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .sc-history-msg {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sc-history-time {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.35;
+      }
+
+      .sc-history-sha {
+        opacity: 0.6;
+      }
+
       @media (max-width: 480px) {
         .sc-card {
           padding: 32px 24px;
+        }
+        .sc-what-shipped,
+        .sc-history {
+          padding: 16px 20px;
         }
       }
     </style>
