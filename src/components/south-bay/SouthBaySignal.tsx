@@ -45,6 +45,24 @@ interface GovernmentItem {
   link?: string;
 }
 
+// ── ESPN API response types ────────────────────────────────────────────────
+
+interface EspnCompetitor {
+  homeAway: "home" | "away";
+  score?: string;
+  team?: {
+    displayName?: string;
+    abbreviation?: string;
+    logo?: string;
+    color?: string;
+  };
+  records?: Array<{ summary?: string }>;
+}
+
+interface EspnBroadcast {
+  media?: { shortName?: string };
+}
+
 // ── South Bay teams we care about ──────────────────────────────────────────
 
 const SB_TEAMS: Record<string, { sport: SportGame["sport"]; abbr: string; color: string }> = {
@@ -184,8 +202,8 @@ async function fetchSportGames(sport: "nba" | "nhl" | "mlb" | "nfl"): Promise<Sp
       const competitors = comp.competitors || [];
       if (competitors.length < 2) continue;
 
-      const home = competitors.find((c: any) => c.homeAway === "home");
-      const away = competitors.find((c: any) => c.homeAway === "away");
+      const home = competitors.find((c: EspnCompetitor) => c.homeAway === "home");
+      const away = competitors.find((c: EspnCompetitor) => c.homeAway === "away");
       if (!home || !away) continue;
 
       const homeTeamName = home.team?.displayName || "";
@@ -220,7 +238,7 @@ async function fetchSportGames(sport: "nba" | "nhl" | "mlb" | "nfl"): Promise<Sp
         awayColor: away.team?.color ? `#${away.team.color}` : undefined,
         gameTime: timeStr,
         broadcasts: (comp.geoBroadcasts || [])
-          .map((b: any) => b.media?.shortName)
+          .map((b: EspnBroadcast) => b.media?.shortName)
           .filter(Boolean),
         isLocalTeam: true,
         localTeamHome: isHome,
@@ -246,18 +264,18 @@ async function fetchWeather(): Promise<WeatherData | null> {
       "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Los_Angeles&forecast_days=1";
     const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) return null;
-    const d = await res.json();
-    const code = d.current.weather_code as number;
+    const weather = await res.json();
+    const code = weather.current.weather_code as number;
     const [emoji, description] = wmoInfo(code);
     return {
-      temp: Math.round(d.current.temperature_2m),
-      tempHigh: Math.round(d.daily.temperature_2m_max[0]),
-      tempLow: Math.round(d.daily.temperature_2m_min[0]),
+      temp: Math.round(weather.current.temperature_2m),
+      tempHigh: Math.round(weather.daily.temperature_2m_max[0]),
+      tempLow: Math.round(weather.daily.temperature_2m_min[0]),
       code,
       description,
       emoji,
-      humidity: Math.round(d.current.relative_humidity_2m),
-      windSpeed: Math.round(d.current.wind_speed_10m),
+      humidity: Math.round(weather.current.relative_humidity_2m),
+      windSpeed: Math.round(weather.current.wind_speed_10m),
     };
   } catch {
     return null;

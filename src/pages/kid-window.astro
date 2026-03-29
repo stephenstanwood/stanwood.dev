@@ -601,7 +601,8 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           : "";
 
         const emoji = typeEmoji(place.primaryType);
-        const animClass = direction === "right" ? "slide-in-right" : direction === "left" ? "slide-in-left" : "fade-up";
+        const animClassMap: Record<string, string> = { right: "slide-in-right", left: "slide-in-left" };
+        const animClass = animClassMap[direction] ?? "fade-up";
 
         return `
           <div class="hero-card ${animClass}">
