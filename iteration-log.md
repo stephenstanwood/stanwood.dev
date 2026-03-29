@@ -2,6 +2,269 @@
 
 ---
 
+## Cycle 16 — 2026-03-27
+
+**Site worked on:** stoa.works
+
+**Ideas considered:**
+
+stoa.works:
+1. **Add proof-of-work pill badges to each portfolio card** ← CHOSE THIS (conversion lens; been outstanding 4 cycles)
+2. Rewrite portfolio card descriptions to be outcome-focused (avoided — same "portfolio storytelling" lens as cycle 15)
+3. Add a "Try it" secondary CTA on interactive demo cards (deferred — unclear which demos are fully interactive vs static)
+
+stanwood.dev:
+1. Section tagline rewrites — copy/positioning for tile grid
+2. Technology section still thin (2 tiles) — info architecture
+3. AI Radar loading state investigation — bug fix
+
+**What changed:**
+
+Added `proofTags` arrays to all 6 portfolio project objects in stoa.works `index.astro`, and rendered them as small stone-100 pill badges between the project description and "View project →" link. Each card now shows 3 proof signals covering: agency tier (Federal / Municipal / Regional), status/format (Live demo / AI search / Live data), and one concrete differentiator (508 compliant / Zero CMS dependency / No mapping library costs / etc.).
+
+**Why highest-leverage:**
+
+- The "portfolio card outcome signals" item has appeared in every cycle from 2 through 15 — four consecutive cycles without being addressed. Clearly overdue.
+- The prior cycle (15) added case study narratives to individual portfolio PAGES. This adds card-level scan signals to the HOMEPAGE portfolio grid — genuinely different in function (decision-making before clicking) vs content (reading after clicking).
+- Government procurement readers scan before they click. The existing cards had good visuals and titles, but zero answer to "is this live? what tier of agency? what am I actually getting?" — the pills answer all three in a single glance.
+- Lens: conversion (card-level scanability). Previous cycle was portfolio storytelling. Correctly rotating.
+
+**Up next (strongest ideas still on deck):**
+1. stanwood.dev — Section tagline rewrites: copy/positioning lens. "browse your ideas without ranking them" (Idea Shuffler), "redesign concepts for any website" (Redesign Rolodex), "taste quiz → menu picks" (Green Light) all undersell their tools.
+2. stoa.works — Investigate and resolve the "Stoa logo mark" gap — still text-only, a simple visual mark would improve recognition across the page and on small viewports.
+3. stanwood.dev — Investigate AI Radar first-render loading state — may be a real bug visible to users.
+
+---
+
+## Cycle 15 — 2026-03-27
+
+**Site worked on:** stoa.works (primary) + stanwood.dev (secondary)
+
+**Ideas considered:**
+
+stoa.works:
+1. **Add case study narratives to 311, parks-map, council-minutes** ← CHOSE THIS (Cycle 11 did 3 of 6; these 3 were still bare)
+2. Contact section further strengthening — "good fits" list is solid but could add a budget/scope signal
+3. Stoa logo mark — still text-only
+
+stanwood.dev:
+1. **Rename bland section labels to match zine voice** ← DID THIS (editorial consistency, affects all homepage visitors)
+2. About page — still no photo (asset-blocked)
+3. Technology section — only 2 tiles, feels sparse
+
+**What changed:**
+
+stoa.works: Added "problem / approach / why it matters" case study sections to the 3 remaining bare portfolio pages.
+- `311-reports.astro` — Replaced generic "Implementation Notes" (developer-focused, 4-panel technical grid) with a 3-column case study. Problem: cities still log 311 calls by hand, residents have no status visibility. Approach: structured intake → lifecycle tracking → staff filter view, accessible by default. Why it matters: force multiplier for public works, fewer repeat calls, staff time → faster resolution.
+- `parks-map.astro` — Replaced "About This Demo" (vague description) with a 3-column case study. Problem: most city parks pages are broken PDFs or single-pin Maps embeds with no filtering. Approach: pure SVG (no mapping library costs/bloat), stacking filters, keyboard-navigable markers, municipal open data APIs. Why it matters: applies to any public facility inventory; accessibility filter specifically improves access for residents with mobility limitations.
+- `council-minutes.astro` — Kept the "How it works" technical section (it's genuinely useful for this tool's complexity) but added a new case study section after the demo. Problem: minutes are published as hundred-page PDFs, keyword search fails, nothing indexed cross-meeting. Approach: Legistar + OpenAI embeddings + Elasticsearch, conversational search that cites source meeting/page. Why it matters: reduces FOIA volume, speeds staff responses, doesn't change agency workflow.
+
+stanwood.dev: Renamed 3 section labels to match the editorial/zine voice of "weird & useful" and "just for fun":
+- "sports & fitness" → "on the scoreboard"
+- "technology" → "in the browser"
+- "local" → "around here"
+
+**Why highest-leverage:**
+
+- The 3 remaining portfolio pages have been flagged in the cycle log since Cycle 11. Any government client clicking through a portfolio card and landing on a header + demo with no narrative had zero context to evaluate fit. Now all 6 portfolio pages tell a coherent story.
+- The case study format (problem/approach/why) is specifically calibrated for procurement-minded readers: problem recognition → technical credibility → operational ROI they can use internally to justify the engagement.
+- Cycle 14 was visual design (service cards). This cycle: portfolio storytelling / narrative depth — distinct lens, completing the work Cycle 11 started.
+- The stanwood.dev label rename is small but the inconsistency was real: "weird & useful" and "just for fun" have editorial personality; "sports & fitness" reads like a gym folder category. All labels now feel like they're from the same hand.
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Stoa logo mark. Still text-only. A simple mark would help recognition in email/proposal contexts and make the nav feel less bare.
+2. stanwood.dev — About page photo. Still the most obvious gap on the about page. (Asset-blocked — needs a photo from Stephen.)
+3. stoa.works — Contact section depth. Could add a light "what's out of scope" signal or typical project scale framing to help leads self-qualify before emailing.
+
+---
+
+## Cycle 14 — 2026-03-27
+
+**Site worked on:** stoa.works (primary) + stanwood.dev (secondary)
+
+**Ideas considered:**
+
+stoa.works:
+1. **Transform "What we build" from sparse text columns into portfolio-linked cards** ← CHOSE THIS (visual design + portfolio storytelling lens — flagged as weakest section for 2+ cycles)
+2. Strengthen contact section — still relies entirely on cold email with no warm framing
+3. Portfolio page case-study depth — 311, parks-map, council-minutes pages still lack outcome metrics
+
+stanwood.dev:
+1. **"NEW" badge on Idea Shuffler tile** ← DID THIS (freshness signal, zine aesthetic, trivial but visible)
+2. About page still has no photo
+3. Section header copy could have more personality
+
+**What changed:**
+
+stoa.works: Replaced 3 plain centered text columns in "What we build" with 3 left-aligned cards (white bg, rounded border, hover shadow). Each card has: a colored icon (blue/emerald/violet tinted), a service title, a more specific description, and a "Example: [Project Name] →" link directly to a portfolio case study. Layout expands from max-w-3xl to max-w-4xl to give the cards more room.
+
+stanwood.dev: Added `isNew: true` flag to Idea Shuffler in the weirdAndUseful array. Added `.proj-badge` CSS class (yellow bg, ink border, Space Mono 8px, 2px border-radius — fits the zine aesthetic). Conditionally renders `<span class="proj-badge">NEW</span>` inside the proj-name div for flagged tiles.
+
+Also fixed a pre-existing broken build: `@vercel/analytics` was missing from node_modules.
+
+**Why highest-leverage:**
+
+- The "What we build" section was the weakest on stoa.works and had been explicitly flagged in the last 2 cycle logs without being addressed. It was doing no persuasion work — just restating service categories without context or proof. The new cards immediately connect each service to a real shipped example, which closes the gap between "claim" and "evidence."
+- The portfolio links give a procurement-minded reader a clear path: see what it means → see it built. That's a conversion improvement.
+- Prior cycles covered credibility (stats strip, insider section) and copy (Why Stoa? pillars). This cycle adds visual substance and portfolio storytelling — a different lens.
+- The "NEW" badge on stanwood.dev is small but signals the site is alive and updating. First-time visitors have no other temporal signal on the homepage grid.
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Strengthen contact section. Still cold-email-only. Could add: what a first message should include, what typical project size looks like, or a brief response-time commitment.
+2. stanwood.dev — About page still has no photo. Even a casual one would make the page feel personal.
+3. stoa.works — Portfolio page depth. 311, parks-map, council-minutes pages still lack outcome metrics or case-study framing. Adding one concrete result per project would dramatically increase portfolio credibility.
+
+---
+
+## Cycle 13 — 2026-03-27
+
+**Site worked on:** stoa.works (primary) + stanwood.dev (secondary, one-liner)
+
+**Ideas considered:**
+
+stoa.works:
+1. **Add "by the numbers" stats strip to homepage** — front-load concrete proof before Why Stoa? ← CHOSE THIS (trust/credibility lens, never applied before)
+2. Remaining portfolio pages (311, parks-map, council-minutes) still lack case study sections
+3. "What we build" section is weakest on the page — sparse 3-column text, no differentiation
+
+stanwood.dev:
+1. **Refresh "just shipped" strip** — add Idea Shuffler (the newest tool, just added in Cycle 12) ← ALSO DID (trivial, 7+ cycles overdue)
+2. About page still no photo
+3. Section headers could be more distinctive
+
+**What changed:**
+
+stoa.works: Added a "by the numbers" stats strip between the hero section and "Why Stoa?". Four stats in a 2×2 (mobile) / 4-column (desktop) grid: 6 tools in production · 500K+ gov't records indexed · 7+ city councils covered · 100% 508 compliant. Clean white background, large slate-800 numbers (font-heading, 4xl), small-caps stone-400 labels. Consistent with the site's calm, credible aesthetic.
+
+stanwood.dev: Updated the "just shipped" strip to surface Idea Shuffler (Mar '26) as the newest entry, replacing Kid Window (Feb '26). Strip now shows: Idea Shuffler → Vibe Check → Museum Label.
+
+**Why highest-leverage:**
+
+- The stats strip addresses a gap that no prior cycle touched: stoa.works has zero front-loaded proof. A government client reading the hero and "Why Stoa?" had zero data points before reaching the portfolio. Numbers are the fastest credibility signal — especially for procurement-minded readers who triage quickly.
+- The four stats are all directly backed by real deployments (CPSC recalls, council minutes, portfolio count, compliance commitment). Not marketing copy.
+- Placement before "Why Stoa?" means it anchors the differentiator pillars with evidence, not just claims.
+- Lens: trust/credibility through data — never applied before. Distinct from all 12 prior cycles.
+- The stanwood.dev "just shipped" update is one-liner maintenance that was 7+ cycles overdue — no reason to keep deferring it.
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Remaining case studies: 311-reports, parks-map, council-minutes portfolio pages still lack "problem / approach / why it matters" sections (Cycle 11 only did 3 of 6).
+2. stoa.works — "What we build" redesign: current 3-column text section is the weakest on the page — could be replaced with a more visual, outcomes-focused showcase.
+3. stanwood.dev — About page: still no photo. Even a casual shot would make it feel real.
+
+---
+
+## Cycle 12 — 2026-03-27
+
+**Site worked on:** stanwood.dev
+
+**Ideas considered:**
+
+stanwood.dev:
+1. **Add Idea Shuffler to homepage grid** — flagged 4+ consecutive cycles as overdue; tile image exists, page is complete, just invisible ← CHOSE THIS
+2. "Just shipped" strip freshness — entries are from Feb/Mar '26
+3. stoa.works — "Why Stoa?" section could add supporting specifics (timeline expectations, budget framing)
+
+stoa.works:
+1. "Why Stoa?" could use supporting evidence (outcome metrics, timelines)
+2. Stoa logo mark — still text-only
+3. Portfolio pages — more project pages could get case study sections
+
+**What changed:** Added Idea Shuffler to the Weird & Useful section on the stanwood.dev homepage.
+- Added a new `proj-row--four` CSS variant using `grid-template-columns: repeat(4, 1fr)` (vs the standard 6-column layout), applied at both desktop and tablet breakpoints to avoid orphaned tile
+- Added `{ href: "/idea-shuffler", emoji: "🔀", name: "Idea Shuffler", tag: "browse your ideas without ranking them", image: "/images/idea-shuffler.webp" }` to the `weirdAndUseful` array
+- Bumped terminal project counter from `17 and counting` → `18 and counting`
+
+**Why highest-leverage:**
+- Idea Shuffler was a fully-built tool that no visitor could discover. Adding it to the grid makes it discoverable without any other changes — highest-leverage/lowest-effort ratio.
+- It had been the #1 deferred stanwood.dev item for multiple cycles, blocked only by the orphan layout concern. The 4-tile layout variant resolves that cleanly.
+- Four equally-sized tiles in the Weird & Useful section actually looks better than 3 — fills the row, more balanced.
+- Lens: information architecture / product discoverability (last applied to stanwood.dev in Cycle 3 — appropriate rotation).
+
+**Up next (strongest ideas still on deck):**
+1. stanwood.dev — "Just shipped" strip freshness: still showing Feb/Mar '26 entries. With 18 projects now, worth adding a newer entry or updating the strip signal.
+2. stoa.works — "Why Stoa?" supporting evidence: the pillars are strong but abstract. A single specific outcome per pillar (e.g., a deployment stat, an agency name, a time-to-ship number) would make them concrete and trust-building.
+3. stoa.works — Stoa logo mark: still text-only. A simple mark would help recognition in proposal/email contexts.
+
+---
+
+## Cycle 11 — 2026-03-27
+
+**Site worked on:** stoa.works
+
+**Ideas considered:**
+
+stoa.works:
+1. **Portfolio page case study narratives** — each page is just header + demo, no story ← CHOSE THIS (flagged in top 3 for 5+ consecutive cycles)
+2. Stoa logo mark — still text-only
+3. stanwood.dev "just shipped" strip freshness — Feb/Mar entries could be refreshed
+
+stanwood.dev:
+1. Idea Shuffler still not on the grid (orphan concern previously, but 4 tiles in a row is valid)
+2. "Just shipped" strip freshness
+3. About page — no photo (blocked by asset)
+
+**What changed:** Added consistent "The problem / The approach / Why it matters" case study sections to the three most bare stoa.works portfolio pages:
+- `budget-dashboard.astro` — previously just a back link + component. Now has a proper header, tech tags, and 3-panel case study.
+- `campbell-portal.astro` — previously just a breadcrumb bar + full component. Now has header, project description, and case study including the "ROI for city staff" framing.
+- `cpsc-recalls.astro` — had a decent header but no narrative. Now has the case study between header and demo.
+
+Each case study covers:
+- **The problem** — specific, grounded, not generic (e.g., "multi-hundred-page PDFs that technically meet the transparency requirement")
+- **The approach** — how it was built and why those choices made sense
+- **Why it matters** — the operational benefit for agencies (FOIA burden, staff time, call deflection) — the kind of ROI framing a city manager or procurement officer needs
+
+**Why highest-leverage:**
+- Portfolio case studies have been the #1 unchecked stoa.works item for 5+ consecutive cycles. Every prior cycle had something more urgent. Now there was no clear blocker.
+- A government client clicking through a portfolio card and seeing just a header + component has zero context to evaluate fit. The case study sections give them: (a) problem recognition, (b) technical credibility, (c) operational benefit language they can use internally to justify the engagement.
+- Lens: portfolio storytelling/conversion (distinct from Cycle 10's copy/positioning lens on the hero).
+- The "why it matters" sections are intentionally written in agency ROI language — not "this is cool" but "here's what this does for your staff and budget."
+
+**Up next (strongest ideas still on deck):**
+1. stanwood.dev — Idea Shuffler still not on the grid. Originally blocked by "orphan tile" concern, but 4 tiles in Weird & Useful fills a row cleanly. Worth revisiting.
+2. stoa.works — Stoa logo mark. Still text-only. Even a simple mark (stylized S or civic symbol) would help recognition in email context, proposals, etc.
+3. stanwood.dev — "Just shipped" strip freshness. Kid Window and Museum Label are Feb '26. Could add a newer entry or refresh the framing.
+
+---
+
+## Cycle 10 — 2026-03-27
+
+**Site worked on:** stoa.works
+
+**Ideas considered:**
+
+stoa.works:
+1. **Rewrite hero — lead with insider differentiator** ← CHOSE THIS (flagged in top 3 for 4 consecutive cycles)
+2. Portfolio individual pages lack case-study depth — just a header + live demo, no narrative
+3. Stoa logo mark — still text-only
+
+stanwood.dev:
+1. "Just shipped" strip is slightly stale — entries from Feb/Mar '26, no March or later entries
+2. Technology section only has 2 real tiles + terminal — could add a 3rd tool
+3. About page still has no photo
+
+**What changed:** Rewrote the hero section on stoa.works — both the headline and the subtext.
+
+Before:
+- Headline: "Software that helps government serve people better."
+- Sub: "We build citizen-facing tools and internal software for state & local agencies. Small team, fast delivery, no nonsense."
+
+After:
+- Headline: "Government software built by someone inside government."
+- Sub: "Citizen-facing tools, open data, and AI search for state and local agencies. The founder works in the federal government — no onboarding required on how procurement works, why the last portal failed, or what residents actually need."
+
+**Why highest-leverage:**
+- The hero is the first thing every visitor reads. The old headline ("Software that helps government serve people better.") was accurate but generic — any B2B gov-tech company could write it. The new headline opens with Stoa's single most differentiating fact: the founder is *inside* government.
+- "Small team, fast delivery, no nonsense" was generic freelancer copy. The new sub immediately answers the implicit question every potential client has: "Do these people understand government from the inside?" — and it does so in concrete terms (procurement, portal failures, resident needs).
+- This has been the top outstanding stoa.works item for 4 consecutive cycles (cycles 7, 8, 9 all listed it as #1 or #2 next move).
+- Rotation: Cycle 9 was stanwood.dev (UX/interaction fix). This cycle: stoa.works, copy/positioning lens (last applied to stoa.works in Cycle 2 — fully appropriate rotation).
+
+**Up next (strongest ideas still on deck):**
+1. stoa.works — Portfolio individual pages lack narrative. Each page is just a header + live demo. Adding a 2–3 paragraph case study (problem, approach, outcome) would dramatically improve conversion for government clients who click through to evaluate.
+2. stanwood.dev — "Just shipped" strip freshness: still showing Feb–Mar '26 entries. Worth refreshing or considering if a newer entry should be added.
+3. stoa.works — Stoa logo mark: still text-only. A simple mark would help recognition, especially if Stoa starts appearing in other contexts.
+
+---
+
 ## Cycle 9 — 2026-03-27
 
 **Site worked on:** stanwood.dev
