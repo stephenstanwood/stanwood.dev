@@ -62,7 +62,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   }
 
   try {
-    const url = `https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&target=production&limit=1&state=READY`;
+    const url = `https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&target=production&limit=8&state=READY`;
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
       signal: AbortSignal.timeout(5000),
