@@ -30,14 +30,14 @@ export class ProgressiveJsonParser {
       }
     }
 
-    // Try to extract directions one by one
-    let safety = 0;
-    while (safety < 20) {
+    // Try to extract directions one by one; cap iterations to prevent runaway loops
+    let iterations = 0;
+    while (iterations < 20) {
       const dir = this.tryExtractNextDirection();
       if (!dir) break;
       this.directionsExtracted++;
       events.push({ type: "direction", data: { ...dir, id: this.directionsExtracted + 1 } });
-      safety++;
+      iterations++;
     }
 
     return events;

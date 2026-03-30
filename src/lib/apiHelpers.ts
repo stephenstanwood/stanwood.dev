@@ -56,19 +56,6 @@ export function devErrJson(message: string, errMsg: string): Response {
 }
 
 /**
- * Build a 500 error JSON response. In development, includes a `debug` field with the raw
- * error message so internals are never exposed to production clients.
- */
-export function devErrJson(message: string, errMsg: string): Response {
-  const body =
-    import.meta.env.DEV ? { error: message, debug: errMsg } : { error: message };
-  return new Response(JSON.stringify(body), {
-    status: 500,
-    headers: { "Content-Type": "application/json" },
-  });
-}
-
-/**
  * Validate a user-supplied URL and block SSRF targets (localhost, RFC-1918 ranges, .local/.internal).
  * Returns the parsed URL on success, null on failure.
  */
