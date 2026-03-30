@@ -62,7 +62,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   }
 
   try {
-    const url = `https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&target=production&limit=8&state=READY`;
+    const url = `https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&target=production&limit=25&state=READY`;
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
       signal: AbortSignal.timeout(5000),
@@ -101,8 +101,41 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       summary = result.summary;
     }
 
-    // Build history from remaining deployments (no Claude — just clean raw messages)
+    // Compute stats from all deployments
     type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
+    const allDates = (deployments as VercelDeployment[]).map((d) => new Date(d.created));
+
+    // Average days between consecutive deploys
+    let avgDaysBetween: number | null = null;
+    if (allDates.length > 1) {
+      let totalGap = 0;
+      for (let i = 0; i < allDates.length - 1; i++) {
+        totalGap += (allDates[i].getTime() - allDates[i + 1].getTime()) / 86400000;
+      }
+      avgDaysBetween = Math.round((totalGap / (allDates.length - 1)) * 10) / 10;
+    }
+
+    // Deploys in the last 30 days
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000);
+    const deploysLast30 = allDates.filter((d) => d > thirtyDaysAgo).length;
+
+    // Streak: consecutive weeks (ending now) that had at least one deploy
+    const oneWeekMs = 7 * 86400000;
+    let streakWeeks = 0;
+    for (let week = 0; week < 12; week++) {
+      const weekEnd = new Date(now.getTime() - week * oneWeekMs);
+      const weekStart = new Date(now.getTime() - (week + 1) * oneWeekMs);
+      const hasDeployInWeek = allDates.some((d) => d >= weekStart && d < weekEnd);
+      if (hasDeployInWeek) {
+        streakWeeks++;
+      } else {
+        break;
+      }
+    }
+
+    const stats = { deploysLast30, avgDaysBetween, streakWeeks };
+
+    // Build history from remaining deployments (no Claude — just clean raw messages)
     const history = (deployments as VercelDeployment[]).slice(1).map((d) => {
       const dMeta = d.meta ?? {};
       const dRaw = dMeta.githubCommitMessage ?? null;
@@ -117,7 +150,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     });
 
     return okJson(
-      { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber, history },
+      { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber, history, stats },
       { "Cache-Control": "public, s-maxage=300, max-age=60" },
     );
   } catch (err) {

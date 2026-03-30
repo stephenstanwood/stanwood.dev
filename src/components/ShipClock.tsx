@@ -7,6 +7,12 @@ interface HistoryEntry {
   prNumber: string | null;
 }
 
+interface DeployStats {
+  deploysLast30: number;
+  avgDaysBetween: number | null;
+  streakWeeks: number;
+}
+
 interface DeployData {
   lastDeploy: string | null;
   daysSince: number | null;
@@ -16,7 +22,37 @@ interface DeployData {
   sha?: string | null;
   prNumber?: string | null;
   history?: HistoryEntry[];
+  stats?: DeployStats;
   error?: string;
+}
+
+function getStatus(days: number): { label: string; tone: string } {
+  if (days === 0) return { label: "shipped today", tone: "hot" };
+  if (days === 1) return { label: "shipped yesterday", tone: "good" };
+  if (days <= 3) return { label: "fresh off the line", tone: "good" };
+  if (days <= 6) return { label: "clock is ticking", tone: "warn" };
+  if (days <= 13) return { label: "getting rusty", tone: "warn" };
+  return { label: "dust is collecting", tone: "bad" };
+}
+
+// Build a 28-cell deploy heatmap: newest right, oldest left
+// each cell = one day; returns array of booleans (did a deploy happen?)
+function buildActivityGrid(
+  history: HistoryEntry[],
+  lastDeploy: string
+): boolean[] {
+  const grid: boolean[] = new Array(28).fill(false);
+  const now = Date.now();
+  const allDates = [lastDeploy, ...history.map((h) => h.date)]
+    .map((d) => new Date(d).getTime());
+
+  for (const ts of allDates) {
+    const daysAgo = Math.floor((now - ts) / 86400000);
+    if (daysAgo >= 0 && daysAgo < 28) {
+      grid[27 - daysAgo] = true; // newest = rightmost
+    }
+  }
+  return grid;
 }
 
 function timeAgo(dateStr: string): string {
@@ -96,6 +132,9 @@ export default function ShipClock() {
   const days = data.daysSince!;
   const isToday = days === 0;
   const history = data.history ?? [];
+  const stats = data.stats;
+  const status = getStatus(days);
+  const activityGrid = buildActivityGrid(history, data.lastDeploy!);
 
   return (
     <div className="sc-wrap">
@@ -114,10 +153,49 @@ export default function ShipClock() {
             </div>
           </>
         )}
+        <div className={`sc-status sc-status--${status.tone}`}>
+          {status.label}
+        </div>
         <div className="sc-meta">
           {formattedDate} at {formattedTime}
         </div>
       </div>
+
+      {/* Activity heatmap */}
+      <div className="sc-activity">
+        <div className="sc-section-label">last 28 days</div>
+        <div className="sc-dots">
+          {activityGrid.map((active, i) => (
+            <span key={i} className={`sc-dot${active ? " sc-dot--active" : ""}`} />
+          ))}
+        </div>
+      </div>
+
+      {/* Stats strip */}
+      {stats && (
+        <div className="sc-stats">
+          <div className="sc-stat">
+            <span className="sc-stat-num">{stats.streakWeeks}</span>
+            <span className="sc-stat-label">
+              {stats.streakWeeks === 1 ? "week streak" : "week streak"}
+            </span>
+          </div>
+          <div className="sc-stat-divider" />
+          <div className="sc-stat">
+            <span className="sc-stat-num">{stats.deploysLast30}</span>
+            <span className="sc-stat-label">deploys (30d)</span>
+          </div>
+          {stats.avgDaysBetween !== null && (
+            <>
+              <div className="sc-stat-divider" />
+              <div className="sc-stat">
+                <span className="sc-stat-num">{stats.avgDaysBetween}</span>
+                <span className="sc-stat-label">avg days</span>
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       {/* What shipped */}
       {(data.summary || data.project) && (
