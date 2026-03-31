@@ -16,14 +16,6 @@
     "url": "https://mistral.ai/news/mistral-speech"
   },
   {
-    "name": "DeerFlow 2.0",
-    "org": "ByteDance",
-    "date": "2026-03-25",
-    "type": "tool",
-    "summary": "open-source agent framework for long-running autonomous tasks: research, coding, creative work — sandboxed execution, MIT license on GitHub",
-    "url": "https://github.com/bytedance/deer-flow"
-  },
-  {
     "name": "Claude Code Auto Mode",
     "org": "Anthropic",
     "date": "2026-03-24",
@@ -46,6 +38,14 @@
     "type": "tool",
     "summary": "send messages from Telegram or Discord into a running Claude Code session — full filesystem, MCP, and git access from your phone",
     "url": "https://code.claude.com/docs/en/channels"
+  },
+  {
+    "name": "Adobe Firefly Custom Models",
+    "org": "Adobe",
+    "date": "2026-03-19",
+    "type": "tool",
+    "summary": "train a personal style model on your own images in public beta — capture a specific look or character and reuse it across Firefly's creative workspace",
+    "url": "https://blog.adobe.com/en/publish/2026/03/19/adobe-firefly-expands-video-image-creation-with-new-ai-capabilities-custom-models"
   },
   {
     "name": "Google Stitch",
