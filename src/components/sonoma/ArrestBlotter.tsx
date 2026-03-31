@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type { RecentArrest } from "../../lib/sonoma/types";
 
 export default function ArrestBlotter() {
   const [arrests, setArrests] = useState<RecentArrest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [degreeFilter, setDegreeFilter] = useState<"all" | "felony" | "misd">("all");
+  const [cityFilter, setCityFilter] = useState("all");
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     fetch("/api/sonoma/arrests?limit=50")
@@ -14,10 +17,27 @@ export default function ArrestBlotter() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Compute quick stats from live data
+  const cities = useMemo(() => {
+    const all = [...new Set(arrests.map((a) => a.city).filter(Boolean))].sort();
+    return all;
+  }, [arrests]);
+
+  const filtered = useMemo(() => {
+    return arrests.filter((a) => {
+      if (degreeFilter === "felony" && !a.degree.toLowerCase().includes("felony")) return false;
+      if (degreeFilter === "misd" && a.degree.toLowerCase().includes("felony")) return false;
+      if (cityFilter !== "all" && a.city !== cityFilter) return false;
+      if (keyword.trim()) {
+        const kw = keyword.toLowerCase();
+        if (!a.charge.toLowerCase().includes(kw) && !a.city.toLowerCase().includes(kw)) return false;
+      }
+      return true;
+    });
+  }, [arrests, degreeFilter, cityFilter, keyword]);
+
+  // Stats computed from full dataset (not filtered)
   const felonyCount = arrests.filter((a) => a.degree.toLowerCase().includes("felony")).length;
   const misdCount = arrests.length - felonyCount;
-  const cities = [...new Set(arrests.map((a) => a.city))];
   const topCity = cities
     .map((c) => ({ city: c, count: arrests.filter((a) => a.city === c).length }))
     .sort((a, b) => b.count - a.count)[0];
@@ -63,6 +83,8 @@ export default function ArrestBlotter() {
     );
   }
 
+  const hasActiveFilter = degreeFilter !== "all" || cityFilter !== "all" || keyword.trim() !== "";
+
   return (
     <div className="da-panel da-blotter">
       <div className="da-panel-header">
@@ -95,11 +117,50 @@ export default function ArrestBlotter() {
         </div>
       )}
 
-      {arrests.length === 0 ? (
-        <div className="da-empty">No recent arrests in the feed</div>
+      {/* Filter controls */}
+      <div className="da-filters">
+        <div className="da-toggle-group">
+          <button className={`da-toggle ${degreeFilter === "all" ? "active" : ""}`} onClick={() => setDegreeFilter("all")}>All</button>
+          <button className={`da-toggle ${degreeFilter === "felony" ? "active" : ""}`} onClick={() => setDegreeFilter("felony")}>Felony</button>
+          <button className={`da-toggle ${degreeFilter === "misd" ? "active" : ""}`} onClick={() => setDegreeFilter("misd")}>Misd</button>
+        </div>
+        <select
+          className="da-select"
+          value={cityFilter}
+          onChange={(e) => setCityFilter(e.target.value)}
+        >
+          <option value="all">All cities</option>
+          {cities.map((c) => (
+            <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1).toLowerCase()}</option>
+          ))}
+        </select>
+        <input
+          className="da-search"
+          type="text"
+          placeholder="Search charge…"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+        />
+      </div>
+
+      {/* Result count when filtering */}
+      {hasActiveFilter && (
+        <div className="da-filter-result">
+          {filtered.length === 0
+            ? "No matching arrests"
+            : `${filtered.length} of ${arrests.length} arrests`}
+          {" · "}
+          <button className="da-clear-filters" onClick={() => { setDegreeFilter("all"); setCityFilter("all"); setKeyword(""); }}>
+            clear filters
+          </button>
+        </div>
+      )}
+
+      {filtered.length === 0 ? (
+        <div className="da-empty">No arrests match the current filters</div>
       ) : (
         <div className="da-arrest-list">
-          {arrests.map((a, i) => (
+          {filtered.map((a, i) => (
             <div key={i} className="da-arrest-row">
               <div className="da-arrest-meta">
                 <span className="da-arrest-date">{formatDate(a.date)}</span>
@@ -110,7 +171,8 @@ export default function ArrestBlotter() {
               </div>
               <div className="da-arrest-charge">{formatCharge(a.charge)}</div>
               <div className="da-arrest-detail">
-                {a.city}{a.age ? ` · ${a.gender}, ${a.age}` : ""}
+                {a.city ? a.city.charAt(0).toUpperCase() + a.city.slice(1).toLowerCase() : ""}
+                {a.age ? ` · ${a.gender}, ${a.age}` : ""}
               </div>
             </div>
           ))}
