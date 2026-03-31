@@ -565,8 +565,8 @@ export default function WTWTW() {
           result.set(day.yyyymmdd, dayEvents);
         }
         if (alive) setRawData(result);
-      } catch (e) {
-        if (alive) setError(e instanceof Error ? e.message : String(e));
+      } catch (err) {
+        if (alive) setError(err instanceof Error ? err.message : String(err));
       } finally {
         if (alive) setLoading(false);
       }

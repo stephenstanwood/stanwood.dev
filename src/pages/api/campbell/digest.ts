@@ -67,8 +67,8 @@ ${content}`;
     cached = { data: parsed, ts: Date.now() };
 
     return okJson(parsed);
-  } catch (e) {
-    console.error("Digest error:", e);
+  } catch (err) {
+    console.error("Digest error:", err);
     return errJson("Failed to generate digest", 500);
   }
 };

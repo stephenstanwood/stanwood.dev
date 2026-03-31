@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { errJson, okJson, fetchWithTimeout } from "../../../lib/apiHelpers";
+import { errJson, okJson, fetchWithTimeout, toErrMsg } from "../../../lib/apiHelpers";
 
 const SOCRATA_BASE = "https://data.sonomacounty.ca.gov/resource/f6uf-eqmk.json";
 
@@ -61,8 +61,7 @@ export const GET: APIRoute = async ({ clientAddress, url }) => {
       { arrests },
       { "Cache-Control": "public, s-maxage=300, max-age=60" },
     );
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : "unknown error";
-    return errJson(`Failed to fetch arrest data: ${msg}`, 502);
+  } catch (err) {
+    return errJson(`Failed to fetch arrest data: ${toErrMsg(err)}`, 502);
   }
 };
