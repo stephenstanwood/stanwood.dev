@@ -106,7 +106,7 @@ function shiftHue(hex: string, deg: number): string {
   return `#${toHex(ro)}${toHex(go)}${toHex(bo)}`;
 }
 
-/* ── Castle: now multi-column ── */
+/* ── Castle ── */
 interface CastleBlock {
   col: number;
   row: number;
@@ -117,7 +117,7 @@ interface Castle {
   blocks: CastleBlock[];
 }
 
-/* ── Particle type ── */
+/* ── Particle ── */
 interface Particle {
   x: number;
   y: number;
@@ -128,14 +128,26 @@ interface Particle {
   color: string;
 }
 
+/* ── Seagull ── */
+interface Seagull {
+  x: number;      // canvas pixel x
+  pixelY: number; // current canvas pixel y
+  vx: number;     // horizontal speed (px per frame)
+  frame: number;  // animation counter
+}
+
 export default function PixelTide() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const castlesRef = useRef<Castle[]>([]);
   const particlesRef = useRef<Particle[]>([]);
+  const seagullsRef = useRef<Seagull[]>([]);
   const frameRef = useRef(0);
   const reducedMotion = useRef(false);
   const themeRef = useRef<BeachTheme>(THEMES.tropical);
   const [activeTheme, setActiveTheme] = useState<string>("tropical");
+  const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0 });
+  const statsRef = useRef({ built: 0, lost: 0 });
+  const [tideRising, setTideRising] = useState(false);
 
   // Keep themeRef in sync & update page bg (restore on unmount)
   useEffect(() => {
@@ -148,11 +160,8 @@ export default function PixelTide() {
   /* ── Tide line: waves wash UP and DOWN the shore ── */
   const getTideLine = useCallback((col: number, time: number, rows: number) => {
     const base = rows * 0.45;
-    // Main vertical surge — the whole shoreline rises and falls
     const surge = Math.sin(time * 0.4) * 6;
-    // Waves sweep across the shore (left to right)
     const sweep = Math.sin(time * 0.78 - col * 0.08) * 3;
-    // Small surface ripple
     const ripple = Math.sin(time * 1.8 + col * 0.3) * 1;
     return base + surge + sweep + ripple;
   }, []);
@@ -160,6 +169,8 @@ export default function PixelTide() {
   function handleReset() {
     castlesRef.current = [];
     particlesRef.current = [];
+    statsRef.current = { built: 0, lost: 0 };
+    setStats({ built: 0, lost: 0, standing: 0 });
   }
 
   /* ── Main setup + animation loop ── */
@@ -200,6 +211,16 @@ export default function PixelTide() {
       noiseSeed = Array.from({ length: rows }, () =>
         Array.from({ length: cols }, () => Math.random())
       );
+
+      // Initialize seagulls once
+      if (seagullsRef.current.length === 0) {
+        seagullsRef.current = Array.from({ length: 4 }, (_, i) => ({
+          x: ((cols * cellSize) / 4) * i + Math.random() * cellSize * 4,
+          pixelY: rows * 0.28 * cellSize,
+          vx: (Math.random() * 0.6 + 0.25) * (i % 2 === 0 ? 1 : -1),
+          frame: Math.floor(Math.random() * 60),
+        }));
+      }
     }
 
     resize();
@@ -289,7 +310,6 @@ export default function PixelTide() {
       for (let ci = castles.length - 1; ci >= 0; ci--) {
         const castle = castles[ci];
 
-        // Draw all blocks
         for (const block of castle.blocks) {
           if (block.row < 0 || block.row >= rows || block.col < 0 || block.col >= cols) continue;
 
@@ -300,7 +320,6 @@ export default function PixelTide() {
           ctx.fillStyle = shade;
           ctx.fillRect(bx, by, cellSize, cellSize);
 
-          // Brick lines
           ctx.fillStyle = "rgba(0,0,0,0.12)";
           ctx.fillRect(bx, by + cellSize - 1, cellSize, 1);
           if (block.row % 2 === 0) {
@@ -310,14 +329,12 @@ export default function PixelTide() {
           }
         }
 
-        // Water overlay on submerged blocks
         for (const block of castle.blocks) {
           if (block.row < 0 || block.row >= rows || block.col < 0 || block.col >= cols) continue;
           const tideLine = getTideLine(block.col, t, rows);
           if (block.row >= tideLine - 1) {
             const bx = block.col * cellSize;
             const by = block.row * cellSize;
-            // Deeper = more opaque water overlay
             const depth = Math.min(1, (block.row - tideLine + 1) / 4);
             const alpha = 0.3 + depth * 0.4;
             const waterColor = pick(theme.shallow, block.col + block.row);
@@ -326,7 +343,6 @@ export default function PixelTide() {
             const b = parseInt(waterColor.slice(5, 7), 16);
             ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
             ctx.fillRect(bx, by, cellSize, cellSize);
-            // Occasional foam sparkle on blocks right at the waterline
             if (block.row < tideLine + 1 && Math.random() < 0.04) {
               ctx.fillStyle = `rgba(255,255,255,0.5)`;
               ctx.fillRect(bx + 1, by + 1, cellSize - 2, cellSize - 2);
@@ -334,7 +350,6 @@ export default function PixelTide() {
           }
         }
 
-        // Crenellation on topmost blocks per column
         const colMap = new Map<number, number>();
         for (const block of castle.blocks) {
           const cur = colMap.get(block.col);
@@ -351,7 +366,6 @@ export default function PixelTide() {
           ctx.fillRect(bx + cellSize - cw, by - Math.floor(cellSize * 0.3), cw, Math.floor(cellSize * 0.3));
         }
 
-        // Erosion: erode bottom-most blocks that are submerged
         let eroded = false;
         for (let bi = castle.blocks.length - 1; bi >= 0; bi--) {
           const block = castle.blocks[bi];
@@ -359,7 +373,6 @@ export default function PixelTide() {
           if (block.row >= tideLine) {
             block.erosion += 0.008;
             if (block.erosion >= 1) {
-              // Spawn particles
               for (let p = 0; p < 3; p++) {
                 particlesRef.current.push({
                   x: block.col * cellSize + cellSize / 2,
@@ -377,11 +390,10 @@ export default function PixelTide() {
           }
         }
 
-        // Remove castle if no blocks left
         if (castle.blocks.length === 0) {
           castles.splice(ci, 1);
+          statsRef.current.lost++;
         } else if (eroded) {
-          // Remove floating blocks (blocks with nothing below them)
           const occupied = new Set(castle.blocks.map(b => `${b.col},${b.row}`));
           let changed = true;
           while (changed) {
@@ -389,16 +401,13 @@ export default function PixelTide() {
             for (let bi = castle.blocks.length - 1; bi >= 0; bi--) {
               const block = castle.blocks[bi];
               const below = `${block.col},${block.row + 1}`;
-              // A block is supported if it's the bottom of its column or has a block below
               const isBottom = !castle.blocks.some(
                 b => b.col === block.col && b.row > block.row
               );
               if (!isBottom && !occupied.has(below)) {
-                // Floating — remove it
                 occupied.delete(`${block.col},${block.row}`);
                 castle.blocks.splice(bi, 1);
                 changed = true;
-                // Spawn particle
                 particlesRef.current.push({
                   x: block.col * cellSize + cellSize / 2,
                   y: block.row * cellSize + cellSize / 2,
@@ -413,6 +422,7 @@ export default function PixelTide() {
           }
           if (castle.blocks.length === 0) {
             castles.splice(ci, 1);
+            statsRef.current.lost++;
           }
         }
       }
@@ -437,7 +447,72 @@ export default function PixelTide() {
       }
       ctx.globalAlpha = 1;
 
+      /* ── Seagulls ── */
+      const px = Math.max(2, Math.floor(cellSize / 2));
+      const canvasW = canvas!.width;
+      const canvasH = canvas!.height;
+
+      for (const sg of seagullsRef.current) {
+        sg.frame++;
+        sg.x += sg.vx;
+
+        // Wrap around horizontally
+        if (sg.x < -px * 6) sg.x = canvasW + px * 6;
+        if (sg.x > canvasW + px * 6) sg.x = -px * 6;
+
+        // Target Y: stay above the tide with a gentle offset
+        const sgCol = Math.max(0, Math.min(cols - 1, Math.floor(sg.x / cellSize)));
+        const tideLine = getTideLine(sgCol, t, rows);
+        const safeRow = Math.max(3, tideLine - 9);
+        const targetY = safeRow * cellSize;
+
+        // Lerp smoothly toward safe zone
+        sg.pixelY += (targetY - sg.pixelY) * 0.05;
+        // Clamp so they don't go off-canvas top
+        sg.pixelY = Math.max(px * 3, Math.min(canvasH * 0.65, sg.pixelY));
+
+        const sx = Math.round(sg.x);
+        const sy = Math.round(sg.pixelY);
+
+        // Flying when moving fast vertically or well above target
+        const flying = Math.abs(sg.pixelY - targetY) > cellSize * 1.5 || Math.abs(sg.vx) > 0.4;
+
+        ctx.fillStyle = "rgba(255, 255, 255, 0.82)";
+
+        if (flying) {
+          // Flying: W-shape silhouette
+          //   X . X . X
+          //   . X . X .
+          ctx.fillRect(sx - px * 3, sy - px, px, px);
+          ctx.fillRect(sx - px * 2, sy, px, px);
+          ctx.fillRect(sx - px, sy - px, px, px);
+          ctx.fillRect(sx, sy, px, px);
+          ctx.fillRect(sx + px, sy - px, px, px);
+        } else {
+          // Walking: body + head + alternating feet
+          ctx.fillRect(sx - px, sy, px * 2, px * 2);      // body
+          ctx.fillRect(sx - px, sy - px * 2, px * 2, px); // head
+          if (Math.floor(sg.frame / 8) % 2 === 0) {
+            ctx.fillRect(sx - px, sy + px * 2, px, px);   // left foot
+          } else {
+            ctx.fillRect(sx, sy + px * 2, px, px);        // right foot
+          }
+        }
+      }
+
+      /* ── Sync stats to React state every ~1s ── */
       frameRef.current++;
+      if (frameRef.current % 60 === 0) {
+        setStats({
+          built: statsRef.current.built,
+          lost: statsRef.current.lost,
+          standing: castlesRef.current.length,
+        });
+        // Tide direction: positive derivative of surge = tideLine rising = water receding
+        // cos(t * 0.4) < 0 means surge decreasing → tideLine decreasing → more water = tide rising
+        setTideRising(Math.cos(t * 0.4) < 0);
+      }
+
       animId = requestAnimationFrame(() => draw(performance.now() / 1000));
     }
 
@@ -459,7 +534,6 @@ export default function PixelTide() {
       const tideLine = getTideLine(centerCol, time, rows);
       if (centerRow > tideLine + 3) return;
 
-      // Check for overlap with existing castles
       const occupied = new Set<string>();
       for (const c of castlesRef.current) {
         for (const b of c.blocks) {
@@ -467,25 +541,23 @@ export default function PixelTide() {
         }
       }
 
-      // Build a chunky pyramid castle: 7 wide at base, tapering up
-      const height = 8 + Math.floor(Math.random() * 5); // 8-12 tall
+      const height = 8 + Math.floor(Math.random() * 5);
       const blocks: CastleBlock[] = [];
 
       for (let level = 0; level < height; level++) {
         const row = centerRow - level;
         if (row < 0) break;
 
-        // Width tapers: wide base → narrow tower
         const progress = level / height;
         let width: number;
         if (progress < 0.4) {
-          width = 7; // wide base
+          width = 7;
         } else if (progress < 0.6) {
-          width = 5; // mid section
+          width = 5;
         } else if (progress < 0.8) {
-          width = 3; // upper tower
+          width = 3;
         } else {
-          width = 1; // top spire
+          width = 1;
         }
 
         const halfW = Math.floor(width / 2);
@@ -501,6 +573,7 @@ export default function PixelTide() {
 
       if (blocks.length > 0) {
         castlesRef.current.push({ blocks });
+        statsRef.current.built++;
       }
     }
 
@@ -552,6 +625,21 @@ export default function PixelTide() {
           className="w-full rounded-2xl shadow-2xl cursor-crosshair"
           style={{ imageRendering: "pixelated" }}
         />
+      </div>
+
+      {/* Stats row */}
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs tabular-nums" style={{ color: "rgba(245, 198, 160, 0.55)", fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "0.02em" }}>
+        <span>
+          <span style={{ color: "rgba(245, 198, 160, 0.85)" }}>{stats.standing}</span> standing
+        </span>
+        <span style={{ color: "rgba(245, 198, 160, 0.25)" }}>·</span>
+        <span>
+          <span style={{ color: "rgba(245, 198, 160, 0.85)" }}>{stats.lost}</span> claimed by the sea
+        </span>
+        <span style={{ color: "rgba(245, 198, 160, 0.25)" }}>·</span>
+        <span style={{ color: tideRising ? "rgba(130, 190, 255, 0.75)" : "rgba(255, 210, 120, 0.75)" }}>
+          {tideRising ? "↑ tide rising" : "↓ tide falling"}
+        </span>
       </div>
 
       {/* Hint + reset */}
