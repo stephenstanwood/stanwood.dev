@@ -5,6 +5,8 @@ import { CLAUDE_HAIKU, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson } from "../../lib/apiHelpers";
 
+type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
+
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
 const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
@@ -102,7 +104,6 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     }
 
     // Compute stats from all deployments
-    type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
     const allDates = (deployments as VercelDeployment[]).map((d) => new Date(d.created));
 
     // Average days between consecutive deploys

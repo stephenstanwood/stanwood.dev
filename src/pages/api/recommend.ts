@@ -203,7 +203,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
 
     return okJson(recommendation, { "Cache-Control": "public, max-age=300" });
-  } catch (err: unknown) {
+  } catch (err) {
     console.error("recommend error:", err);
     return errJson("Something went wrong", 500);
   }

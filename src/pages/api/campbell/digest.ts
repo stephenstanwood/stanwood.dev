@@ -68,7 +68,7 @@ ${content}`;
 
     return okJson(parsed);
   } catch (err) {
-    console.error("Digest error:", err);
+    console.error("digest error:", err);
     return errJson("Failed to generate digest", 500);
   }
 };
