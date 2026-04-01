@@ -32,12 +32,12 @@
     "url": "https://openai.com/index/image-generation-api/"
   },
   {
-    "name": "Claude Code Channels",
-    "org": "Anthropic",
+    "name": "Gemini Code Assist (free tier)",
+    "org": "Google",
     "date": "2026-03-20",
     "type": "tool",
-    "summary": "send messages from Telegram or Discord into a running Claude Code session — full filesystem, MCP, and git access from your phone",
-    "url": "https://code.claude.com/docs/en/channels"
+    "summary": "Gemini 2.0-powered code assistant now free for individuals — 180,000 completions/month (90x Copilot's free tier), works in VS Code and JetBrains",
+    "url": "https://blog.google/technology/developers/gemini-code-assist-free/"
   },
   {
     "name": "Adobe Firefly Custom Models",
