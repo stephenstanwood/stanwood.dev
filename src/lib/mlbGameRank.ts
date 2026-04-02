@@ -571,6 +571,55 @@ function renderNoGames(events: Game[]): string {
   `;
 }
 
+function renderHowItWorks(): string {
+  const factors = [
+    {
+      icon: "⚡",
+      label: "Closeness",
+      desc: "Tight games score higher. Every extra run of margin cuts the score.",
+    },
+    {
+      icon: "⏱",
+      label: "Late innings",
+      desc: "7th inning on with the game on the line gets a big boost.",
+    },
+    {
+      icon: "🟡",
+      label: "Runners on base",
+      desc: "More traffic on the bases means more tension — and a higher score.",
+    },
+    {
+      icon: "📈",
+      label: "Team quality",
+      desc: "Two .550 teams in a tight game beats a blowout between cellar-dwellers.",
+    },
+    {
+      icon: "🔄",
+      label: "Extra innings",
+      desc: "Any game that goes past the 9th gets a major watchability multiplier.",
+    },
+  ];
+
+  const factorHtml = factors.map((f) => `
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:16px;flex-shrink:0;line-height:1.4;">${f.icon}</span>
+      <div>
+        <span style="font-family:Orbitron,monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);">${f.label}</span>
+        <span style="font-size:12px;color:rgba(255,255,255,0.3);margin-left:6px;">${f.desc}</span>
+      </div>
+    </div>
+  `).join("");
+
+  return `
+    <div style="margin-top:28px;padding:16px 18px;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:10px;">
+      <div style="font-family:Orbitron,monospace;font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(251,191,36,0.5);margin-bottom:12px;">How Watchability Is Scored</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        ${factorHtml}
+      </div>
+    </div>
+  `;
+}
+
 function renderRankedGames(events: Game[], sectionLabel: string): string {
   const preGames = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
@@ -599,7 +648,8 @@ function render(events: Game[]): void {
   if (liveGames.length === 0) {
     content.innerHTML =
       renderNoGames(events) +
-      renderRankedGames(events, dayLabel);
+      renderRankedGames(events, dayLabel) +
+      renderHowItWorks();
     document.fonts.ready.then(fitHeroLines);
     return;
   }
@@ -622,6 +672,7 @@ function render(events: Game[]): void {
   }
 
   html += renderRankedGames(events, "Coming Up");
+  html += renderHowItWorks();
   content.innerHTML = html;
   document.fonts.ready.then(fitHeroLines);
 }

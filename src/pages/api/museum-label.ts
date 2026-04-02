@@ -57,8 +57,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     logEvent("museum-label-generate", { style });
     return okJson(label, { "Cache-Control": "public, max-age=300" });
-  } catch (err) {
-    console.error("museum-label error:", err);
+  } catch (err: unknown) {
+    console.error("Museum label error:", err);
     return errJson("Something went wrong", 500);
   }
 };
