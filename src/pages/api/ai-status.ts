@@ -81,7 +81,6 @@ async function fetchProvider(
     const data: StatusPageSummary = await res.json();
     const status = normalizeStatus(data.status?.indicator ?? "unknown");
 
-    // Extract latest incident if any
     let incidentTitle: string | undefined;
     let incidentSummary: string | undefined;
     if (data.incidents && data.incidents.length > 0) {

@@ -28,7 +28,6 @@ export function rateLimit(
 ): boolean {
   const now = Date.now();
 
-  // Periodic cleanup of stale entries
   if (now - lastCleanup > CLEANUP_INTERVAL_MS) {
     cleanup(windowMs);
   }
