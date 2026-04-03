@@ -36,23 +36,27 @@ function getStatus(days: number): { label: string; tone: string } {
 }
 
 // Build a 28-cell deploy heatmap: newest right, oldest left
-// each cell = one day; returns array of booleans (did a deploy happen?)
+// each cell = one day; returns array of { active, label } for tooltips
 function buildActivityGrid(
   history: HistoryEntry[],
   lastDeploy: string
-): boolean[] {
-  const grid: boolean[] = new Array(28).fill(false);
+): { active: boolean; label: string }[] {
   const now = Date.now();
   const allDates = [lastDeploy, ...history.map((h) => h.date)]
     .map((d) => new Date(d).getTime());
 
-  for (const ts of allDates) {
-    const daysAgo = Math.floor((now - ts) / 86400000);
-    if (daysAgo >= 0 && daysAgo < 28) {
-      grid[27 - daysAgo] = true; // newest = rightmost
-    }
-  }
-  return grid;
+  return Array.from({ length: 28 }, (_, i) => {
+    const daysAgo = 27 - i; // index 0 = oldest, index 27 = today
+    const cellTs = now - daysAgo * 86400000;
+    const active = allDates.some(
+      (ts) => Math.floor((now - ts) / 86400000) === daysAgo
+    );
+    const dateStr = new Date(cellTs).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    return { active, label: active ? `deployed · ${dateStr}` : dateStr };
+  });
 }
 
 function timeAgo(dateStr: string): string {
@@ -76,6 +80,7 @@ function shortDate(dateStr: string): string {
 export default function ShipClock() {
   const [data, setData] = useState<DeployData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     fetch("/api/ship-clock")
@@ -136,6 +141,16 @@ export default function ShipClock() {
   const status = getStatus(days);
   const activityGrid = buildActivityGrid(history, data.lastDeploy!);
 
+  function handleShare() {
+    const text = isToday
+      ? "stanwood.dev shipped today 🚀 — ship-clock.stanwood.dev"
+      : `stanwood.dev: ${days}d since last deploy — "${status.label}" — ship-clock.stanwood.dev`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
   return (
     <div className="sc-wrap">
       {/* Main counter card */}
@@ -159,14 +174,22 @@ export default function ShipClock() {
         <div className="sc-meta">
           {formattedDate} at {formattedTime}
         </div>
+        <button className="sc-share-btn" onClick={handleShare}>
+          {copied ? "copied!" : "copy status"}
+        </button>
       </div>
 
       {/* Activity heatmap */}
       <div className="sc-activity">
         <div className="sc-section-label">last 28 days</div>
         <div className="sc-dots">
-          {activityGrid.map((active, i) => (
-            <span key={i} className={`sc-dot${active ? " sc-dot--active" : ""}`} />
+          {activityGrid.map((cell, i) => (
+            <span
+              key={i}
+              className={`sc-dot${cell.active ? " sc-dot--active" : ""}`}
+              title={cell.label}
+              aria-label={cell.label}
+            />
           ))}
         </div>
       </div>

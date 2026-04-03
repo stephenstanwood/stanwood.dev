@@ -257,10 +257,28 @@ const title = "Ship Clock — stanwood.dev";
         aspect-ratio: 1;
         border-radius: 2px;
         background: #e5e5e5;
+        cursor: default;
       }
       .sc-dot--active {
         background: var(--sc-ink);
       }
+
+      /* ── Share button ── */
+      .sc-share-btn {
+        margin-top: 20px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        background: transparent;
+        border: 1.5px solid var(--sc-ink);
+        padding: 6px 16px;
+        cursor: pointer;
+        opacity: 0.45;
+        transition: opacity 0.15s;
+      }
+      .sc-share-btn:hover { opacity: 1; }
 
       /* ── Stats strip ── */
       .sc-stats {
