@@ -7,7 +7,6 @@ import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import RedesignRolodexTile from "../components/RedesignRolodexTile.tsx";
-import NearestCoffeeTile from "../components/NearestCoffeeTile.tsx";
 import TerminalLoopTile from "../components/TerminalLoopTile.tsx";
 
 const featured = [
@@ -22,13 +21,14 @@ const featured = [
     image: "/images/nba-now.webp",
   },
   {
-    href: "/nearest-coffee",
-    emoji: "☕",
-    tag: "Utility · Location",
-    title: "Nearest Coffee",
-    desc: "Nearest open coffee. That's it.",
+    href: "https://southbaysignal.org",
+    external: true,
+    emoji: "📰",
+    tag: "Local · News",
+    title: "South Bay Signal",
+    desc: "Everything happening in the South Bay — local news, events, and community coverage.",
     bg: "#FAFAF8",
-    editorial: true,
+    image: "/images/south-bay-signal.svg",
   },
   {
     href: "/show-swipe",
@@ -59,7 +59,7 @@ const weirdAndUseful = [
 ];
 
 const local = [
-  { href: "https://southbaysignal.org", emoji: "📰", name: "South Bay Signal", tag: "everything happening in the south bay", image: "/images/south-bay-signal.svg" },
+  { href: "/nearest-coffee", emoji: "☕", name: "Nearest Coffee", tag: "nearest open coffee. that's it.", image: "/images/nearest-coffee.png" },
   { href: "/green-light", emoji: "🟢", name: "Green Light", tag: "taste quiz → menu picks", image: "/images/green-light.webp" },
   { href: "/campbell", emoji: "🏛️", name: "Campbell, CA", tag: "city services, events & permits", image: "/images/campbell.png" },
 ];
@@ -2190,25 +2190,21 @@ const latestMobile = [
 
     <div id="feat-row" class="feat-row">
       {featured.map((f) => (
-        f.editorial ? (
-          <NearestCoffeeTile client:visible />
-        ) : (
-          <a
-            class={`feat-card feat-card--hero${f.dark ? ' feat-card--dark' : ''}`}
-            href={f.href}
-            style={`background: ${f.bg};`}
-            {...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          >
-            {f.image && <img class="feat-img" src={f.image} alt={f.title} loading="lazy" />}
-            <div class="feat-overlay" />
-            <div class="feat-body">
-              <div class="feat-tag">{f.tag}</div>
-              <div class={`feat-title${f.dark ? ' feat-title--showswipe' : ' feat-title--nba'}`}>{f.title}</div>
-              <div class="feat-desc">{f.desc}</div>
-              <div class="feat-arrow">open →</div>
-            </div>
-          </a>
-        )
+        <a
+          class={`feat-card feat-card--hero${f.dark ? ' feat-card--dark' : ''}`}
+          href={f.href}
+          style={`background: ${f.bg};`}
+          {...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
+          {f.image && <img class="feat-img" src={f.image} alt={f.title} loading="lazy" />}
+          <div class="feat-overlay" />
+          <div class="feat-body">
+            <div class="feat-tag">{f.tag}</div>
+            <div class={`feat-title${f.dark ? ' feat-title--showswipe' : ' feat-title--nba'}`}>{f.title}</div>
+            <div class="feat-desc">{f.desc}</div>
+            <div class="feat-arrow">open →</div>
+          </div>
+        </a>
       ))}
     </div>
 
