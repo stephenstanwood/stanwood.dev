@@ -7,11 +7,11 @@ import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout } from 
 function readUrlParams() {
   if (typeof window === "undefined") return null;
   const p = new URLSearchParams(window.location.search);
-  const d = p.get("d") ? parseInt(p.get("d")!) : null;
+  const duration = p.get("d") ? parseInt(p.get("d")!) : null;
   const pace = p.get("p");
   const unit = p.get("u") as "meters" | "yards" | null;
   const s = p.get("s") ? parseInt(p.get("s")!) : null;
-  return { duration: d, pace, unit, seed: s };
+  return { duration, pace, unit, seed: s };
 }
 
 function workoutToText(workout: Workout): string {
