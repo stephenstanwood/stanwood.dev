@@ -32,6 +32,14 @@
     "url": "https://www.anthropic.com/claude-code"
   },
   {
+    "name": "Claude Computer Use (Mac)",
+    "org": "Anthropic",
+    "date": "2026-03-23",
+    "type": "tool",
+    "summary": "Claude can now control your Mac — clicks, types, opens apps — to complete multi-step tasks hands-free, available to Pro/Max subscribers today",
+    "url": "https://claude.com/blog/dispatch-and-computer-use"
+  },
+  {
     "name": "GPT Image 1.5 API",
     "org": "OpenAI",
     "date": "2026-03-22",
@@ -46,21 +54,5 @@
     "type": "tool",
     "summary": "Gemini 2.0-powered code assistant now free for individuals — 180,000 completions/month (90x Copilot's free tier), works in VS Code and JetBrains",
     "url": "https://blog.google/technology/developers/gemini-code-assist-free/"
-  },
-  {
-    "name": "Google Stitch",
-    "org": "Google",
-    "date": "2026-03-19",
-    "type": "tool",
-    "summary": "vibe design tool: describe a UI goal in plain english or voice, get multiple design directions + working prototype — free beta, integrates with Claude Code and Cursor",
-    "url": "https://stitch.withgoogle.com/"
-  },
-  {
-    "name": "Cursor Composer 2",
-    "org": "Cursor",
-    "date": "2026-03-19",
-    "type": "tool",
-    "summary": "Cursor's first in-house coding model — built for long-horizon agentic tasks, 200K context window, cuts costs up to 86% vs prior models, available to all users now",
-    "url": "https://cursor.com/blog/composer-2"
   }
 ]
