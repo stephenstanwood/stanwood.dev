@@ -8,6 +8,10 @@ export interface StreamEvent {
   data: unknown;
 }
 
+// Max directions to extract per chunk — guards against malformed streaming responses
+// that never terminate a direction object, preventing an infinite loop.
+const MAX_DIRECTIONS_PER_CHUNK = 20;
+
 export class ProgressiveJsonParser {
   private buffer = "";
   private analysisExtracted = false;
@@ -32,7 +36,7 @@ export class ProgressiveJsonParser {
 
     // Try to extract directions one by one; cap iterations to prevent runaway loops
     let iterations = 0;
-    while (iterations < 20) {
+    while (iterations < MAX_DIRECTIONS_PER_CHUNK) {
       const dir = this.tryExtractNextDirection();
       if (!dir) break;
       this.directionsExtracted++;

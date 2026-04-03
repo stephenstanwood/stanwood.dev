@@ -43,6 +43,7 @@ export function rateLimit(
   recent.push(now);
   hits.set(ip, recent);
   if (hits.size > MAX_ENTRIES) {
+    // Safe: size > MAX_ENTRIES guarantees at least one entry exists
     hits.delete(hits.keys().next().value!);
   }
   return true;

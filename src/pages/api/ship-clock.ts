@@ -137,16 +137,16 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const stats = { deploysLast30, avgDaysBetween, streakWeeks };
 
     // Build history from remaining deployments (no Claude — just clean raw messages)
-    const history = (deployments as VercelDeployment[]).slice(1).map((d) => {
-      const dMeta = d.meta ?? {};
-      const dRaw = dMeta.githubCommitMessage ?? null;
-      const dSha = (dMeta.githubCommitSha ?? d.uid ?? "").slice(0, 7) || null;
-      const dPrMatch = dRaw?.match(/\(#(\d+)\)/);
+    const history = (deployments as VercelDeployment[]).slice(1).map((dep) => {
+      const depMeta = dep.meta ?? {};
+      const depRaw = depMeta.githubCommitMessage ?? null;
+      const depSha = (depMeta.githubCommitSha ?? dep.uid ?? "").slice(0, 7) || null;
+      const depPrMatch = depRaw?.match(/\(#(\d+)\)/);
       return {
-        date: new Date(d.created).toISOString(),
-        message: dRaw ? cleanRaw(dRaw) : null,
-        sha: dSha,
-        prNumber: dPrMatch ? dPrMatch[1] : null,
+        date: new Date(dep.created).toISOString(),
+        message: depRaw ? cleanRaw(depRaw) : null,
+        sha: depSha,
+        prNumber: depPrMatch ? depPrMatch[1] : null,
       };
     });
 

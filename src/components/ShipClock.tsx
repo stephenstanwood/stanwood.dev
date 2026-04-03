@@ -200,7 +200,7 @@ export default function ShipClock() {
           <div className="sc-stat">
             <span className="sc-stat-num">{stats.streakWeeks}</span>
             <span className="sc-stat-label">
-              {stats.streakWeeks === 1 ? "week streak" : "week streak"}
+              {stats.streakWeeks === 1 ? "week" : "weeks"} streak
             </span>
           </div>
           <div className="sc-stat-divider" />
