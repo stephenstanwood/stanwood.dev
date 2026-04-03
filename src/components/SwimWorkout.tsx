@@ -1,8 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
-import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout } from "../lib/workoutEngine";
+import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus } from "../lib/workoutEngine";
 
 // ─── URL param helpers ──────────────────────────────────────────────────────────
+
+const VALID_FOCUSES: WorkoutFocus[] = ["any", "endurance", "speed", "technique"];
 
 function readUrlParams() {
   if (typeof window === "undefined") return null;
@@ -11,7 +13,9 @@ function readUrlParams() {
   const pace = p.get("p");
   const unit = p.get("u") as "meters" | "yards" | null;
   const s = p.get("s") ? parseInt(p.get("s")!) : null;
-  return { duration, pace, unit, seed: s };
+  const f = p.get("f") as WorkoutFocus | null;
+  const focus = f && VALID_FOCUSES.includes(f) ? f : null;
+  return { duration, pace, unit, seed: s, focus };
 }
 
 function workoutToText(workout: Workout): string {
@@ -54,7 +58,20 @@ interface PaceOption {
   label: string;
 }
 
+interface FocusOption {
+  value: WorkoutFocus;
+  label: string;
+  description: string;
+}
+
 // ─── Constants ─────────────────────────────────────────────────────────────────
+
+const FOCUSES: FocusOption[] = [
+  { value: "any",       label: "Any",        description: "Surprise me" },
+  { value: "endurance", label: "Endurance",  description: "Long, steady sets" },
+  { value: "speed",     label: "Speed",      description: "Intervals & sprints" },
+  { value: "technique", label: "Technique",  description: "Drills, IM & strokes" },
+];
 
 const DURATIONS: DurationOption[] = [
   { value: 30, label: "30 min" },
@@ -302,6 +319,10 @@ export default function SwimWorkout() {
     if (p?.pace && PACES[u].some((x) => x.value === p.pace)) return p.pace!;
     return u === "meters" ? "1:20" : "1:10";
   });
+  const [focus, setFocus] = useState<WorkoutFocus>(() => {
+    const p = readUrlParams();
+    return p?.focus ?? "any";
+  });
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
@@ -315,7 +336,8 @@ export default function SwimWorkout() {
       const u = p.unit === "yards" ? "yards" : "meters";
       const d = p.duration && DURATIONS.some((x) => x.value === p.duration) ? p.duration! : 120;
       const pa = p.pace && PACES[u].some((x) => x.value === p.pace) ? p.pace! : (u === "meters" ? "1:20" : "1:10");
-      setWorkout(generateWorkout({ duration: d, pace: pa, unit: u, seed: p.seed }));
+      const f = p.focus ?? "any";
+      setWorkout(generateWorkout({ duration: d, pace: pa, unit: u, seed: p.seed, focus: f }));
     }
   }, []);
 
@@ -327,7 +349,7 @@ export default function SwimWorkout() {
 
   const generate = useCallback(() => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const w = generateWorkout({ duration, pace, unit, seed });
+    const w = generateWorkout({ duration, pace, unit, seed, focus });
     setAnimating(true);
     setWorkout(w);
     setTimeout(() => setAnimating(false), 400);
@@ -336,15 +358,15 @@ export default function SwimWorkout() {
     setTimeout(() => {
       workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
-  }, [duration, pace, unit]);
+  }, [duration, pace, unit, focus]);
 
   const shuffle = useCallback(() => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const w = generateWorkout({ duration, pace, unit, seed });
+    const w = generateWorkout({ duration, pace, unit, seed, focus });
     setAnimating(true);
     setWorkout(w);
     setTimeout(() => setAnimating(false), 400);
-  }, [duration, pace, unit]);
+  }, [duration, pace, unit, focus]);
 
   const handlePrint = () => {
     window.print();
@@ -353,13 +375,13 @@ export default function SwimWorkout() {
   const copyLink = useCallback(() => {
     if (!workout?.seed) return;
     const url = new URL(window.location.href);
-    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}`;
+    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}`;
     url.hash = "";
     navigator.clipboard.writeText(url.toString()).then(() => {
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     });
-  }, [workout, duration, pace, unit]);
+  }, [workout, duration, pace, unit, focus]);
 
   const copyText = useCallback(() => {
     if (!workout) return;
@@ -437,6 +459,31 @@ export default function SwimWorkout() {
                 }`}
               >
                 {p.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Focus */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
+            Focus
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {FOCUSES.map((f) => (
+              <button
+                key={f.value}
+                onClick={() => setFocus(f.value)}
+                className={`rounded-xl px-4 py-2.5 text-left transition-all ${
+                  focus === f.value
+                    ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
+                    : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"
+                }`}
+              >
+                <div className="text-sm font-semibold">{f.label}</div>
+                <div className={`text-[11px] mt-0.5 ${focus === f.value ? "text-teal-100" : "text-stone-400"}`}>
+                  {f.description}
+                </div>
               </button>
             ))}
           </div>

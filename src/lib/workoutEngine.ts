@@ -37,11 +37,14 @@ export interface Section {
   distance: number;
 }
 
+export type WorkoutFocus = "any" | "endurance" | "speed" | "technique";
+
 export interface WorkoutInput {
   duration: number;
   pace: string;
   unit: "meters" | "yards";
   seed?: number;
+  focus?: WorkoutFocus;
 }
 
 export interface Workout {
@@ -748,42 +751,44 @@ function mainTest(target: number, pace: number, rng: Rng): SetItem[] {
 }
 
 type MainSetFn = (target: number, pace: number, rng: Rng) => SetItem[];
+type FocusTag = "endurance" | "speed" | "technique";
 
 interface MainSetTemplate {
   fn: MainSetFn;
   weight: number;
   name: string;
+  tags: FocusTag[];
 }
 
 const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
-  { fn: mainStraight, weight: 4, name: "Straight Freestyle" },
-  { fn: mainDescend, weight: 4, name: "Descend Set" },
-  { fn: mainLadder, weight: 3, name: "Ladder" },
-  { fn: mainPyramid, weight: 2, name: "Pyramid" },
-  { fn: mainNegSplit, weight: 3, name: "Negative Split" },
-  { fn: mainPullSet, weight: 3, name: "Pull Set" },
-  { fn: mainMixedGear, weight: 2, name: "Mixed Gear" },
-  { fn: mainIMSet, weight: 2, name: "IM Set" },
-  { fn: mainBrokenSwim, weight: 2, name: "Broken Swim" },
-  { fn: mainCombo, weight: 3, name: "Distance Combo" },
-  { fn: mainFinsSet, weight: 2, name: "Fins Set" },
-  { fn: mainSprint, weight: 3, name: "Sprint Set" },
-  { fn: mainThreshold, weight: 3, name: "Threshold" },
-  { fn: mainWave, weight: 2, name: "Wave Set" },
-  { fn: mainOddsEvens, weight: 3, name: "Odds & Evens" },
-  { fn: mainCountdown, weight: 2, name: "Countdown" },
-  { fn: mainBackstroke, weight: 2, name: "Backstroke Focus" },
-  { fn: mainBreaststroke, weight: 2, name: "Breaststroke Focus" },
-  { fn: mainStrokeMix, weight: 2, name: "Stroke Mix" },
-  { fn: mainRacePace, weight: 2, name: "Race Pace" },
-  { fn: mainBuildSet, weight: 3, name: "Build Set" },
-  { fn: mainPaddlesSet, weight: 2, name: "Paddles Power" },
-  { fn: mainBrokenIM, weight: 2, name: "Broken IM" },
-  { fn: mainEndurance, weight: 2, name: "Endurance" },
-  { fn: mainKickMain, weight: 2, name: "Kick Focus" },
-  { fn: mainDescendLadder, weight: 2, name: "Descend Ladder" },
-  { fn: mainSwimPullAlternate, weight: 2, name: "Swim/Pull Alternate" },
-  { fn: mainTest, weight: 1, name: "Time Trial" },
+  { fn: mainStraight,          weight: 4, name: "Straight Freestyle",    tags: ["endurance"] },
+  { fn: mainDescend,           weight: 4, name: "Descend Set",            tags: ["endurance"] },
+  { fn: mainLadder,            weight: 3, name: "Ladder",                 tags: ["endurance"] },
+  { fn: mainPyramid,           weight: 2, name: "Pyramid",                tags: ["endurance"] },
+  { fn: mainNegSplit,          weight: 3, name: "Negative Split",         tags: ["endurance", "speed"] },
+  { fn: mainPullSet,           weight: 3, name: "Pull Set",               tags: ["endurance", "technique"] },
+  { fn: mainMixedGear,         weight: 2, name: "Mixed Gear",             tags: ["technique"] },
+  { fn: mainIMSet,             weight: 2, name: "IM Set",                 tags: ["technique"] },
+  { fn: mainBrokenSwim,        weight: 2, name: "Broken Swim",            tags: ["speed"] },
+  { fn: mainCombo,             weight: 3, name: "Distance Combo",         tags: ["endurance"] },
+  { fn: mainFinsSet,           weight: 2, name: "Fins Set",               tags: ["technique", "speed"] },
+  { fn: mainSprint,            weight: 3, name: "Sprint Set",             tags: ["speed"] },
+  { fn: mainThreshold,         weight: 3, name: "Threshold",              tags: ["speed", "endurance"] },
+  { fn: mainWave,              weight: 2, name: "Wave Set",               tags: ["speed"] },
+  { fn: mainOddsEvens,         weight: 3, name: "Odds & Evens",           tags: ["speed"] },
+  { fn: mainCountdown,         weight: 2, name: "Countdown",              tags: ["endurance", "speed"] },
+  { fn: mainBackstroke,        weight: 2, name: "Backstroke Focus",       tags: ["technique"] },
+  { fn: mainBreaststroke,      weight: 2, name: "Breaststroke Focus",     tags: ["technique"] },
+  { fn: mainStrokeMix,         weight: 2, name: "Stroke Mix",             tags: ["technique"] },
+  { fn: mainRacePace,          weight: 2, name: "Race Pace",              tags: ["speed"] },
+  { fn: mainBuildSet,          weight: 3, name: "Build Set",              tags: ["endurance", "speed"] },
+  { fn: mainPaddlesSet,        weight: 2, name: "Paddles Power",          tags: ["technique"] },
+  { fn: mainBrokenIM,          weight: 2, name: "Broken IM",              tags: ["technique"] },
+  { fn: mainEndurance,         weight: 2, name: "Endurance",              tags: ["endurance"] },
+  { fn: mainKickMain,          weight: 2, name: "Kick Focus",             tags: ["technique"] },
+  { fn: mainDescendLadder,     weight: 2, name: "Descend Ladder",         tags: ["endurance", "speed"] },
+  { fn: mainSwimPullAlternate, weight: 2, name: "Swim/Pull Alternate",    tags: ["endurance", "technique"] },
+  { fn: mainTest,              weight: 1, name: "Time Trial",             tags: ["speed"] },
 ];
 
 // ─── COOLDOWN TEMPLATES ────────────────────────────────────────────────────────
@@ -919,7 +924,7 @@ const PRESET_TEMPLATES: PresetFn[] = [presetKick, presetPull, presetDrill, prese
 
 // ─── MAIN GENERATOR ────────────────────────────────────────────────────────────
 
-export function generateWorkout({ duration, pace, unit, seed }: WorkoutInput): Workout {
+export function generateWorkout({ duration, pace, unit, seed, focus = "any" }: WorkoutInput): Workout {
   const rng = createRng(seed ?? Math.floor(Math.random() * 2147483647));
   const paceSec = parsePace(pace);
   const totalTargetDist = calcTargetDistance(duration, paceSec);
@@ -930,10 +935,15 @@ export function generateWorkout({ duration, pace, unit, seed }: WorkoutInput): W
   const hasPreset = duration > 30 ? rng.chance(0.55) : rng.chance(0.2);
   const presetTargetRaw = hasPreset ? Math.round(totalTargetDist * 0.10 / 100) * 100 : 0;
 
+  // Apply focus biasing: 4x weight boost for templates matching the focus tag
+  const effectiveWeights = MAIN_SET_TEMPLATES.map((t) =>
+    focus === "any" || t.tags.includes(focus as FocusTag) ? t.weight * (focus === "any" ? 1 : 4) : t.weight
+  );
+
   // Generate main set and pre-set
   const mainEntry = weightedPick(
     MAIN_SET_TEMPLATES,
-    MAIN_SET_TEMPLATES.map((t) => t.weight),
+    effectiveWeights,
     rng
   );
   const mainSet = mainEntry.fn(mainTargetRaw, paceSec, rng);
