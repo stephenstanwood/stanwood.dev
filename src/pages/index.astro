@@ -29,6 +29,8 @@ const featured = [
     desc: "Everything happening in the South Bay — local news, events, and community coverage.",
     bg: "#FAFAF8",
     image: "/images/south-bay-signal.svg",
+    light: true,
+    noTitle: true,
   },
   {
     href: "/show-swipe",
@@ -569,6 +571,34 @@ const latestMobile = [
         letter-spacing: 0.02em;
         line-height: 1;
         text-shadow: 0 0 24px rgba(240,160,80,0.3), 0 2px 10px rgba(0,0,0,0.5);
+      }
+
+      /* ── Light/paper hero card (SBS) ── */
+      .feat-card--light .feat-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(250,250,248,0.0) 0%,
+          rgba(250,250,248,0.45) 60%,
+          rgba(250,250,248,0.82) 100%
+        ) !important;
+      }
+      .feat-card--light {
+        color: #1A1A1A;
+        border-color: #C0BDB8 !important;
+        box-shadow: 5px 5px 0 #C0BDB8 !important;
+      }
+      .feat-card--light:hover {
+        border-color: #A0ADB8 !important;
+        box-shadow: 7px 7px 0 #A0ADB8 !important;
+      }
+      .feat-card--light .feat-tag { color: #777 !important; }
+      .feat-card--light .feat-arrow { color: #999 !important; }
+      .feat-card--light:hover .feat-arrow { color: var(--orange) !important; }
+      .feat-card--light .feat-body { justify-content: flex-end; padding-bottom: 20px; }
+      .feat-card--light .feat-arrow {
+        position: absolute;
+        bottom: 16px;
+        right: 22px;
       }
 
       /* ── editorial card (Swiss editorial variant) ── */
@@ -2191,7 +2221,7 @@ const latestMobile = [
     <div id="feat-row" class="feat-row">
       {featured.map((f) => (
         <a
-          class={`feat-card feat-card--hero${f.dark ? ' feat-card--dark' : ''}`}
+          class={`feat-card feat-card--hero${f.dark ? ' feat-card--dark' : ''}${f.light ? ' feat-card--light' : ''}`}
           href={f.href}
           style={`background: ${f.bg};`}
           {...(f.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -2200,7 +2230,7 @@ const latestMobile = [
           <div class="feat-overlay" />
           <div class="feat-body">
             <div class="feat-tag">{f.tag}</div>
-            <div class={`feat-title${f.dark ? ' feat-title--showswipe' : ' feat-title--nba'}`}>{f.title}</div>
+            {!f.noTitle && <div class={`feat-title${f.dark ? ' feat-title--showswipe' : ' feat-title--nba'}`}>{f.title}</div>}
             <div class="feat-desc">{f.desc}</div>
             <div class="feat-arrow">open →</div>
           </div>
