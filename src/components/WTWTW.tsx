@@ -128,7 +128,7 @@ function hitsWindow(isoStart: string, tz: string): boolean {
   const startMin = parseInt(hhStr, 10) * 60 + parseInt(mmStr, 10);
   const endMin = startMin + 180;
   const windowStart = 17 * 60; // 5 PM
-  const windowEnd = 20 * 60; // 8 PM
+  const windowEnd = 23 * 60 + 30; // 11:30 PM — covers NBA late games, West Coast starts
 
   return startMin < windowEnd && endMin > windowStart;
 }
@@ -769,7 +769,7 @@ export default function WTWTW() {
                   className="mt-2 text-sm"
                   style={{ color: "rgba(255,255,255,0.35)" }}
                 >
-                  Nothing in the 5&ndash;8 PM window.
+                  No evening games (5 PM&ndash;11:30 PM).
                 </div>
               )}
             </div>
