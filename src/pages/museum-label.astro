@@ -307,6 +307,45 @@ const title = "Museum Label — stanwood.dev";
         flex: 1;
         margin-top: 0;
       }
+
+      /* ── Examples ── */
+      .ml-examples-section {
+        width: 100%;
+        max-width: 560px;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--ml-border);
+      }
+      .ml-examples-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ml-light-gray);
+        text-align: center;
+        margin-bottom: 1.75rem;
+      }
+      .ml-example-wrap {
+        margin-bottom: 1.75rem;
+      }
+      .ml-example-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .ml-example-style {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--ml-accent);
+        letter-spacing: 0.04em;
+      }
+      .ml-example-object {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        color: var(--ml-light-gray);
+      }
     </style>
   </Fragment>
 
@@ -327,6 +366,58 @@ const title = "Museum Label — stanwood.dev";
         <p class="ml-subtitle">upload any object. get a deadpan placard.</p>
       </div>
       <MuseumLabelApp client:idle />
+
+      <div class="ml-examples-section">
+        <p class="ml-examples-label">example outputs</p>
+
+        <div class="ml-example-wrap">
+          <div class="ml-example-tag">
+            <span class="ml-example-style">🏛️ Museum Classic</span>
+            <span class="ml-example-object">→ coffee mug</span>
+          </div>
+          <div class="ml-placard">
+            <h2 class="ml-placard-title">Cylindrical Vessel for Heated Beverage Conveyance</h2>
+            <p class="ml-placard-artist">Unknown Artisan, American Mass-Production School, ca. 2019</p>
+            <div class="ml-placard-meta">
+              <p>Glazed stoneware with silicone base insert; faded printed logo · H: 9.5 cm × Dia: 8 cm</p>
+            </div>
+            <p class="ml-placard-desc">This remarkably preserved example of domestic ceramic culture reflects the ergonomic concerns and caffeine dependencies of its era. The slightly chipped rim suggests frequent, possibly anxious, use — evidence of a civilization at once productive and deeply tired. The handle, a structural masterstroke, permitted single-handed operation while the other hand presumably managed a device of equal cultural significance.</p>
+            <p class="ml-placard-accession">Acc. No. 2024.331.07</p>
+          </div>
+        </div>
+
+        <div class="ml-example-wrap">
+          <div class="ml-example-tag">
+            <span class="ml-example-style">🎨 Modern Art</span>
+            <span class="ml-example-object">→ desktop stapler</span>
+          </div>
+          <div class="ml-placard">
+            <h2 class="ml-placard-title">Compression Engine / Binding Instrument No. 12</h2>
+            <p class="ml-placard-artist">Anonymous, American Office School</p>
+            <div class="ml-placard-meta">
+              <p>ABS plastic, carbon steel, residual staples · L: 24 cm × H: 5 cm × W: 4.5 cm</p>
+            </div>
+            <p class="ml-placard-desc">In its relentless act of union — steel puncturing paper, forcing disparate sheets into a single bound existence — the work interrogates the violence of administrative consensus. We are all, the artist suggests, stapled together whether we wish it or not. The missing staples signify absence, loss, the perpetual need to refill what has been consumed by the machinery of modern life.</p>
+            <p class="ml-placard-accession">Acc. No. 2024.118.43</p>
+          </div>
+        </div>
+
+        <div class="ml-example-wrap">
+          <div class="ml-example-tag">
+            <span class="ml-example-style">🏺 Archaeology</span>
+            <span class="ml-example-object">→ TV remote</span>
+          </div>
+          <div class="ml-placard">
+            <h2 class="ml-placard-title">Polybutton Command Relay, Domestic Broadcast Type</h2>
+            <p class="ml-placard-artist">Recovered from residential stratum, North American suburban context, c. 2010–2015</p>
+            <div class="ml-placard-meta">
+              <p>ABS housing, rubber membrane keypad, depleted alkaline cells (in situ) · L: 21 cm × W: 5 cm</p>
+            </div>
+            <p class="ml-placard-desc">Recovered from beneath couch cushion stratum (Layer III), consistent with patterns of domestic displacement observed across multiple North American excavation sites. Button wear analysis indicates heavy use of the volume increment and channel advance functions, with the INPUT selector exhibiting near-pristine condition — suggesting this civilization had long since surrendered hope of successfully switching inputs. Further analysis pending.</p>
+            <p class="ml-placard-accession">Acc. No. 2024.209.88</p>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </BaseLayout>
