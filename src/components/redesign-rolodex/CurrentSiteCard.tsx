@@ -11,13 +11,15 @@ export default function CurrentSiteCard({
     <div className="rr-card rr-card-current">
       <div className="rr-card-number">Card 1</div>
       <div className="rr-card-label-tag">Current Site</div>
-      <div className="rr-card-screenshot">
-        <img
-          src={`data:image/jpeg;base64,${screenshotBase64}`}
-          alt={`Screenshot of ${analysis.title}`}
-          draggable={false}
-        />
-      </div>
+      {screenshotBase64 && (
+        <div className="rr-card-screenshot">
+          <img
+            src={`data:image/jpeg;base64,${screenshotBase64}`}
+            alt={`Screenshot of ${analysis.title}`}
+            draggable={false}
+          />
+        </div>
+      )}
       <div className="rr-card-info">
         <h3 className="rr-card-title">{analysis.title}</h3>
         <p className="rr-card-desc">{analysis.description}</p>
