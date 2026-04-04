@@ -32,13 +32,13 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: ChartP
 
 export default function DisengagementChart() {
   return (
-    <div className="dl-panel">
+    <div className="dl-panel dl-full">
       <div className="dl-panel-header">
         <h2 className="dl-panel-title">How Far Without a Human?</h2>
         <span className="dl-panel-subtitle">Miles between human takeovers (CA DMV 2025)</span>
       </div>
       <div className="dl-chart-wrap">
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={180}>
           <BarChart
             data={chartData}
             layout="vertical"

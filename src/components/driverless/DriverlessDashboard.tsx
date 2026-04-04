@@ -5,6 +5,7 @@ import GrowthChart from "./GrowthChart";
 import CompanyCards from "./CompanyCards";
 import StateBreakdown from "./StateBreakdown";
 import DisengagementChart from "./DisengagementChart";
+import AVTimeline from "./AVTimeline";
 
 export default function DriverlessDashboard() {
   return (
@@ -37,44 +38,13 @@ export default function DriverlessDashboard() {
         {/* Disengagement + fun facts side by side */}
         <DisengagementChart />
 
-        {/* Milestones panel */}
-        <div className="dl-panel">
-          <div className="dl-panel-header">
-            <h2 className="dl-panel-title">Milestones</h2>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[
-              { icon: "🎉", text: "20M+ Waymo rides taken so far" },
-              { icon: "🛣️", text: "200M+ miles driven with no human at the wheel" },
-              { icon: "🌍", text: "18M kg of CO\u2082 avoided in 2025 (the whole fleet is electric)" },
-              { icon: "🏭", text: "Waymo is building a self-driving car factory in Mesa, AZ" },
-              { icon: "🚀", text: "Waymo launched its newest vehicle hardware in Feb 2026" },
-              { icon: "📈", text: "Targeting 1M rides/week by end of 2026" },
-            ].map((m, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "flex-start",
-                  gap: 10,
-                  padding: "10px 12px",
-                  background: "var(--dl-bg)",
-                  borderRadius: 8,
-                  fontSize: 13,
-                  lineHeight: 1.5,
-                }}
-              >
-                <span style={{ fontSize: 18, flexShrink: 0 }}>{m.icon}</span>
-                <span>{m.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* AV Timeline — full width */}
+        <AVTimeline />
       </div>
 
       {/* Footer */}
       <footer className="dl-footer">
-        <p>Last updated March 2026. All data is a point-in-time snapshot.</p>
+        <p>Last updated April 2026. All data is a point-in-time snapshot.</p>
         <p>
           Sources:{" "}
           <a href="https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting" target="_blank" rel="noopener noreferrer">NHTSA crash reports</a>,{" "}
