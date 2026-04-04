@@ -5,7 +5,6 @@ const cache = new Map<string, { base64: string; expiresAt: number }>();
 
 /**
  * Translate a thrown error from captureScreenshot into a user-facing message.
- * Both vibe-check and redesign-rolodex use this same translation logic.
  */
 export function screenshotErrorMessage(errMsg: string): string {
   if (errMsg === "Failed to capture screenshot") {
