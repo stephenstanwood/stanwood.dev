@@ -3,6 +3,9 @@ import type { StoredProfile, DietaryConstraints, QuizAnswer, TasteProfile } from
 const LS_KEY = "green-light:v1";
 const MAX_RECENT = 5;
 
+// CLEANUP-FLAG: safeSet() here is functionally identical to the inline save() in showSwipe/storage.ts —
+// both are try-catch wrappers around localStorage.setItem(key, JSON.stringify(value)).
+// Worth extracting a shared localStorage utility if a third module needs the same pattern.
 function safeSet(key: string, value: unknown): void {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
 }

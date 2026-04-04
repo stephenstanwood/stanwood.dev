@@ -178,6 +178,8 @@ export interface CarouselConfig<T> {
   preload?: (item: T) => void;
 }
 
+// CLEANUP-FLAG: setupCarousel() is 130 lines handling HTML generation, dot nav, keyboard, and touch.
+// Split into buildCarouselHtml(), syncNav(), attachKeyboard(), attachTouch() when next touched.
 /**
  * Initializes a carousel inside `container`.
  * Renders the first card immediately and sets up arrows, dots,
