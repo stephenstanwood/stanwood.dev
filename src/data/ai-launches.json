@@ -1,5 +1,21 @@
 [
   {
+    "name": "Microsoft MAI Models",
+    "org": "Microsoft",
+    "date": "2026-04-03",
+    "type": "model",
+    "summary": "three in-house models via Azure Foundry: MAI-Transcribe-1 beats Whisper on 25 languages, MAI-Voice-1 generates 60s audio in under 1s, MAI-Image-2 ranks #3 on Arena image leaderboard",
+    "url": "https://thenextweb.com/news/microsoft-mai-models-openai-independence"
+  },
+  {
+    "name": "Google Gemma 4",
+    "org": "Google",
+    "date": "2026-04-02",
+    "type": "model",
+    "summary": "four open-weight models (2B–31B) with Apache 2.0 license — runs on a Raspberry Pi or Mac Mini, built from Gemini 3 research, most permissive Gemma release yet",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
+  },
+  {
     "name": "Runway Characters API",
     "org": "Runway",
     "date": "2026-03-31",
@@ -46,13 +62,5 @@
     "type": "tool",
     "summary": "image editing and generation in the API at $0.009/image — 4x faster than v1, strong image preservation for in-app editing flows",
     "url": "https://openai.com/index/image-generation-api/"
-  },
-  {
-    "name": "Gemini Code Assist (free tier)",
-    "org": "Google",
-    "date": "2026-03-20",
-    "type": "tool",
-    "summary": "Gemini 2.0-powered code assistant now free for individuals — 180,000 completions/month (90x Copilot's free tier), works in VS Code and JetBrains",
-    "url": "https://blog.google/technology/developers/gemini-code-assist-free/"
   }
 ]
