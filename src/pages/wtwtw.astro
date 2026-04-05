@@ -132,6 +132,62 @@ const title = "WTWTW — stanwood.dev";
       .wtwtw-hero {
         animation: heroFadeIn 1s ease-out both;
       }
+
+      /* ── League badges ── */
+      .league-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid rgba(210, 170, 110, 0.2);
+        color: rgba(210, 170, 110, 0.55);
+        background: rgba(210, 170, 110, 0.06);
+      }
+      .league-badge[data-league="mlb"] { border-color: rgba(200, 60, 60, 0.3); color: rgba(220, 100, 90, 0.7); background: rgba(200, 60, 60, 0.06); }
+      .league-badge[data-league="nba"] { border-color: rgba(200, 100, 20, 0.3); color: rgba(220, 140, 60, 0.7); background: rgba(200, 100, 20, 0.06); }
+      .league-badge[data-league="nhl"] { border-color: rgba(80, 150, 210, 0.3); color: rgba(110, 170, 220, 0.7); background: rgba(80, 150, 210, 0.06); }
+
+      /* ── How it works ── */
+      .how-it-works {
+        border: 1px solid rgba(210, 170, 110, 0.1);
+        border-radius: 10px;
+        padding: 18px 20px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .how-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .how-step {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .how-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(210, 170, 110, 0.3);
+        letter-spacing: 0.05em;
+        padding-top: 2px;
+        flex-shrink: 0;
+        width: 20px;
+      }
+      .how-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(245, 230, 208, 0.75);
+        margin-bottom: 2px;
+      }
+      .how-body {
+        font-size: 12px;
+        color: rgba(210, 170, 110, 0.4);
+        line-height: 1.5;
+      }
     </style>
   </Fragment>
 
@@ -163,9 +219,44 @@ const title = "WTWTW — stanwood.dev";
     </div>
 
     <!-- Description -->
-    <p class="oswald text-sm leading-relaxed mb-2" style="color: rgba(210,170,110,0.55);">
+    <p class="oswald text-sm leading-relaxed mb-6" style="color: rgba(210,170,110,0.55);">
       Pick up to 10 teams across MLB, NBA, and NHL. Every day this week, WTWTW surfaces the one game most worth watching — ranked by how much you care about the teams playing. No noise, just tonight's pick.
     </p>
+
+    <!-- League badges -->
+    <div class="flex gap-2 mb-6 flex-wrap">
+      <span class="league-badge" data-league="mlb">MLB</span>
+      <span class="league-badge" data-league="nba">NBA</span>
+      <span class="league-badge" data-league="nhl">NHL</span>
+    </div>
+
+    <!-- How it works -->
+    <div class="how-it-works mb-8">
+      <p class="mono text-xs mb-3" style="color: rgba(210,170,110,0.35); letter-spacing: 0.1em; text-transform: uppercase;">How it works</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="how-num">01</span>
+          <div>
+            <p class="how-title">Pick your teams</p>
+            <p class="how-body">Choose up to 10 teams you actually care about — sorted by priority.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">02</span>
+          <div>
+            <p class="how-title">We pull the schedule</p>
+            <p class="how-body">Games from 5 PM to 11:30 PM are fetched live from ESPN for the next 7 days.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">03</span>
+          <div>
+            <p class="how-title">Tonight's pick</p>
+            <p class="how-body">One game per night rises to the top — your highest-ranked team playing that day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <WTWTW client:idle />
   </main>
