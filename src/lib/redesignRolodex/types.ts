@@ -1,4 +1,9 @@
 export type WeirdnessMode = "client-safe" | "designer" | "alternate-timeline";
+export const VALID_MODES: WeirdnessMode[] = [
+  "client-safe",
+  "designer",
+  "alternate-timeline",
+];
 
 export interface SiteAnalysis {
   siteType: string;

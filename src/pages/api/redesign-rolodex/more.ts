@@ -7,6 +7,7 @@ import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
 import { errJson, okJson, devErrJson, toErrMsg } from "../../../lib/apiHelpers";
 import { buildMorePrompt } from "../../../lib/redesignRolodex/prompt";
+import { VALID_MODES } from "../../../lib/redesignRolodex/types";
 import type {
   WeirdnessMode,
   DesignDirection,
@@ -16,12 +17,6 @@ import type {
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-const VALID_MODES: WeirdnessMode[] = [
-  "client-safe",
-  "designer",
-  "alternate-timeline",
-];
 const VALID_MODIFIERS: MoreModifier[] = ["more", "weirder", "calmer"];
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
