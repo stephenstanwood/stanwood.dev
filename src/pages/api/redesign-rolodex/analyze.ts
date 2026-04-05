@@ -9,17 +9,12 @@ import { errJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
+import { VALID_MODES } from "../../../lib/redesignRolodex/types";
 import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
 });
-
-const VALID_MODES: WeirdnessMode[] = [
-  "client-safe",
-  "designer",
-  "alternate-timeline",
-];
 
 function sseEvent(event: string, data: unknown): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;

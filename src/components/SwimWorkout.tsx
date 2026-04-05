@@ -315,9 +315,9 @@ export default function SwimWorkout() {
   });
   const [pace, setPace] = useState(() => {
     const p = readUrlParams();
-    const u = p?.unit === "yards" ? "yards" : "meters";
-    if (p?.pace && PACES[u].some((x) => x.value === p.pace)) return p.pace!;
-    return u === "meters" ? "1:20" : "1:10";
+    const urlUnit = p?.unit === "yards" ? "yards" : "meters";
+    if (p?.pace && PACES[urlUnit].some((x) => x.value === p.pace)) return p.pace!;
+    return urlUnit === "meters" ? "1:20" : "1:10";
   });
   const [focus, setFocus] = useState<WorkoutFocus>(() => {
     const p = readUrlParams();
@@ -333,11 +333,11 @@ export default function SwimWorkout() {
   useEffect(() => {
     const p = readUrlParams();
     if (p?.seed) {
-      const u = p.unit === "yards" ? "yards" : "meters";
-      const d = p.duration && DURATIONS.some((x) => x.value === p.duration) ? p.duration! : 120;
-      const pa = p.pace && PACES[u].some((x) => x.value === p.pace) ? p.pace! : (u === "meters" ? "1:20" : "1:10");
-      const f = p.focus ?? "any";
-      setWorkout(generateWorkout({ duration: d, pace: pa, unit: u, seed: p.seed, focus: f }));
+      const urlUnit = p.unit === "yards" ? "yards" : "meters";
+      const urlDuration = p.duration && DURATIONS.some((x) => x.value === p.duration) ? p.duration! : 120;
+      const urlPace = p.pace && PACES[urlUnit].some((x) => x.value === p.pace) ? p.pace! : (urlUnit === "meters" ? "1:20" : "1:10");
+      const urlFocus = p.focus ?? "any";
+      setWorkout(generateWorkout({ duration: urlDuration, pace: urlPace, unit: urlUnit, seed: p.seed, focus: urlFocus }));
     }
   }, []);
 
