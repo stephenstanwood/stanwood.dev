@@ -16,6 +16,10 @@ export const ORG_COLORS: Record<string, string> = {
   OpenAI: "#10a37f",
   Anthropic: "#d97706",
   Google: "#4285f4",
+  Meta: "#1877f2",
+  Microsoft: "#00a1f1",
+  Mistral: "#f1501b",
+  Runway: "#5a5a5a",
   Alibaba: "#ff6a00",
   Lightricks: "#a855f7",
   Apple: "#555",
@@ -44,7 +48,7 @@ export function parseLaunchDate(dateStr: string): Date {
 
 /**
  * How long ago a launch date was, expressed as a human-readable string.
- * Returns "today", "yesterday", "Nd ago", or "Nw ago" for longer spans.
+ * Returns "today", "yesterday", "Nd ago", "Nw ago", "Nmo ago", or "Nyr ago".
  */
 export function relativeAge(dateStr: string): string {
   const d = parseLaunchDate(dateStr);
@@ -53,7 +57,11 @@ export function relativeAge(dateStr: string): string {
   if (diff === 1) return "yesterday";
   if (diff < 7) return `${diff}d ago`;
   if (diff < 14) return "1w ago";
-  return `${Math.floor(diff / 7)}w ago`;
+  if (diff < 60) return `${Math.floor(diff / 7)}w ago`;
+  const months = Math.round(diff / 30.5);
+  if (months < 12) return `${months}mo ago`;
+  const years = Math.round(diff / 365);
+  return `${years}yr ago`;
 }
 
 /** Extract common formatted parts from a parsed Date. Used by formatLaunchDate and formatLaunchDateFull. */
