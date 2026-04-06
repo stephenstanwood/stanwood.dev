@@ -1,5 +1,5 @@
 /**
- * Shared utilities for Nearest Coffee and FunFinder pages.
+ * Shared utilities for Nearest Coffee page.
  * Contains geolocation, progress bar, distance/walk helpers,
  * map styling, and carousel setup logic.
  */
