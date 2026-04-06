@@ -2,6 +2,98 @@
 
 // ── Types ──────────────────────────────────────────────────────────
 
+export type RideAvailability = "available" | "invite-only" | "coming-soon";
+
+export interface CityRideOption {
+  service: string;
+  availability: RideAvailability;
+  howToBook: string;
+  note?: string;
+}
+
+export interface CityRideInfo {
+  city: string;
+  state: string;
+  options: CityRideOption[];
+}
+
+// ── Ride Finder Data ──────────────────────────────────────────────
+
+export const cityRideData: CityRideInfo[] = [
+  {
+    city: "San Francisco",
+    state: "CA",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Full SF + Peninsula coverage" },
+      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com/waitlist", note: "Custom bidirectional vehicle, limited pilot" },
+    ],
+  },
+  {
+    city: "Los Angeles",
+    state: "CA",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Santa Monica, West Hollywood, downtown LA" },
+    ],
+  },
+  {
+    city: "Phoenix",
+    state: "AZ",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Largest Waymo coverage area — Tempe, Chandler, Mesa" },
+    ],
+  },
+  {
+    city: "Austin",
+    state: "TX",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched late 2024" },
+    ],
+  },
+  {
+    city: "Atlanta",
+    state: "GA",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Midtown, Buckhead, Airport area" },
+    ],
+  },
+  {
+    city: "Miami",
+    state: "FL",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched 2025" },
+    ],
+  },
+  {
+    city: "Las Vegas",
+    state: "NV",
+    options: [
+      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com/waitlist", note: "Strip area pilot" },
+    ],
+  },
+  {
+    city: "Dallas",
+    state: "TX",
+    options: [
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Expected 2026" },
+    ],
+  },
+  {
+    city: "Nashville",
+    state: "TN",
+    options: [
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Announced 2025, launching 2026" },
+    ],
+  },
+  {
+    city: "Washington DC",
+    state: "DC",
+    options: [
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Expansion announced for 2026" },
+    ],
+  },
+];
+
+
 export type LegislationStatus = "active" | "permitted" | "testing" | "none";
 
 export interface StateData {

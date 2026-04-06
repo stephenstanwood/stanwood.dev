@@ -1,4 +1,5 @@
 import HeroStats from "./HeroStats";
+import RideFinder from "./RideFinder";
 import USMap from "./USMap";
 import SafetyChart from "./SafetyChart";
 import GrowthChart from "./GrowthChart";
@@ -22,6 +23,8 @@ export default function DriverlessDashboard() {
 
       {/* Main grid */}
       <div className="dl-grid">
+        {/* Ride finder — full width, top of grid */}
+        <RideFinder />
         {/* Map — full width */}
         <USMap />
 
