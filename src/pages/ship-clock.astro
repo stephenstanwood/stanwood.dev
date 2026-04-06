@@ -337,11 +337,88 @@ const title = "Ship Clock — stanwood.dev";
           gap: 2px;
         }
       }
+
+      /* ── Hero image ── */
+      .sc-hero {
+        width: 100%;
+        max-width: 480px;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 24px;
+        position: relative;
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 4px 4px 0 var(--sc-ink);
+      }
+      .sc-hero img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+      }
+      .sc-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 30%, rgba(255, 254, 245, 0.85) 100%);
+        pointer-events: none;
+      }
+
+      /* ── Intro header ── */
+      .sc-intro {
+        text-align: center;
+        margin-bottom: 20px;
+        max-width: 480px;
+        width: 100%;
+      }
+      .sc-intro-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(32px, 9vw, 52px);
+        color: var(--sc-accent);
+        margin: 0 0 4px;
+        line-height: 1.05;
+      }
+      .sc-intro-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 10px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+      }
+      .sc-intro-desc {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.5;
+        margin: 0;
+        line-height: 1.55;
+        max-width: 360px;
+        margin-inline: auto;
+      }
     </style>
   </Fragment>
 
   <div class="sc-page">
     <a href="/" class="sc-back">← stanwood.dev</a>
+
+    <div class="sc-hero">
+      <img
+        src="/images/ship-clock.webp"
+        alt="A wall clock above a developer's desk with code on screen"
+        loading="eager"
+        decoding="async"
+        width="960"
+        height="540"
+      />
+    </div>
+
+    <div class="sc-intro">
+      <h1 class="sc-intro-title">Ship Clock</h1>
+      <p class="sc-intro-sub">stanwood.dev · production deploy tracker</p>
+      <p class="sc-intro-desc">One number on the wall. Days since this site last shipped — no spin, no excuses. Updates every five minutes from Vercel.</p>
+    </div>
+
     <ShipClock client:idle />
   </div>
 </BaseLayout>
