@@ -227,6 +227,42 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </header>
 
+      <!-- How It's Scored -->
+      <section class="mt-7" style="border: 1px solid rgba(251,191,36,0.15); border-radius: 10px; padding: 16px 18px; background: rgba(0,0,0,0.2);">
+        <p class="font-score" style="font-size: 9px; letter-spacing: 0.18em; color: rgba(251,191,36,0.4); text-transform: uppercase; margin-bottom: 12px;">How It's Scored</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px; flex-shrink: 0; margin-top: 1px;">⚾</span>
+            <div>
+              <p style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 2px;">Score closeness</p>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.4;">1-run games rank highest. Every extra run costs points.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px; flex-shrink: 0; margin-top: 1px;">🕐</span>
+            <div>
+              <p style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 2px;">Late innings</p>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.4;">7th inning+ with a close score gets a big urgency boost.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px; flex-shrink: 0; margin-top: 1px;">🏃</span>
+            <div>
+              <p style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 2px;">Runners on base</p>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.4;">Each base runner adds a small bonus — tension is real.</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <span style="font-size: 14px; flex-shrink: 0; margin-top: 1px;">🏆</span>
+            <div>
+              <p style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 2px;">Team quality</p>
+              <p style="font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.4;">Win percentages set a quality floor — good teams, better game.</p>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 10px; color: rgba(251,191,36,0.25); margin-top: 10px; text-align: center; font-family: 'Orbitron', monospace; letter-spacing: 0.05em;">Extra innings? 3.5× multiplier. Score caps at 400.</p>
+      </section>
+
       <div id="app" class="mt-8">
         <!-- Loading skeleton -->
         <div id="loading">
