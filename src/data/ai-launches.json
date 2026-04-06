@@ -8,20 +8,20 @@
     "url": "https://thenextweb.com/news/microsoft-mai-models-openai-independence"
   },
   {
-    "name": "Veo 3.1 Lite",
-    "org": "Google",
-    "date": "2026-04-01",
-    "type": "tool",
-    "summary": "accessible text-to-video and image-to-video model — Veo 3.1 Fast pricing slashed to open up developer access for solo creators and small teams",
-    "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
-  },
-  {
     "name": "Google Gemma 4",
     "org": "Google",
     "date": "2026-04-02",
     "type": "model",
     "summary": "four open-weight models (2B–31B) with Apache 2.0 license — runs on a Raspberry Pi or Mac Mini, built from Gemini 3 research, most permissive Gemma release yet",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
+  },
+  {
+    "name": "Veo 3.1 Lite",
+    "org": "Google",
+    "date": "2026-04-01",
+    "type": "tool",
+    "summary": "accessible text-to-video and image-to-video model — Veo 3.1 Fast pricing slashed to open up developer access for solo creators and small teams",
+    "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
   },
   {
     "name": "Runway Characters API",
@@ -48,99 +48,19 @@
     "url": "https://mistral.ai/news/mistral-speech"
   },
   {
+    "name": "Dreamina Seedance 2.0",
+    "org": "ByteDance",
+    "date": "2026-03-26",
+    "type": "tool",
+    "summary": "audio+video generation model rolling out in CapCut — draft, edit, and sync video/audio from prompts or reference clips; free inside CapCut",
+    "url": "https://techcrunch.com/2026/03/26/bytedances-new-ai-video-generation-model-dreamina-seedance-2-0-comes-to-capcut/"
+  },
+  {
     "name": "Claude Computer Use (Mac)",
     "org": "Anthropic",
     "date": "2026-03-23",
     "type": "tool",
     "summary": "Claude can now control your Mac — clicks, types, opens apps — to complete multi-step tasks hands-free, available to Pro/Max subscribers today",
     "url": "https://claude.com/blog/dispatch-and-computer-use"
-  },
-  {
-    "name": "GPT Image 1.5 API",
-    "org": "OpenAI",
-    "date": "2026-03-22",
-    "type": "tool",
-    "summary": "image editing and generation in the API at $0.009/image — 4x faster than v1, strong image preservation for in-app editing flows",
-    "url": "https://openai.com/index/image-generation-api/"
-  },
-  {
-    "name": "o3 and o4-mini",
-    "org": "OpenAI",
-    "date": "2025-04-16",
-    "type": "model",
-    "summary": "o3 replaces o1 as OpenAI's flagship reasoning model and can think with images mid-reasoning; o4-mini matches near-o3 quality at a fraction of the cost",
-    "url": "https://openai.com/index/o3-and-o4-mini/"
-  },
-  {
-    "name": "Llama 4 Scout & Maverick",
-    "org": "Meta",
-    "date": "2025-04-05",
-    "type": "model",
-    "summary": "first natively multimodal Llama models using MoE architecture — Scout fits on a single GPU, Maverick matches GPT-4o on key benchmarks, both Apache 2.0",
-    "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
-  },
-  {
-    "name": "Gemini 2.5 Pro",
-    "org": "Google",
-    "date": "2025-03-25",
-    "type": "model",
-    "summary": "experimental thinking model that topped the LMArena leaderboard — 1M token context, standout coding and math performance, successor to Gemini 2.0",
-    "url": "https://blog.google/technology/google-deepmind/gemini-model-updates-march-2025/"
-  },
-  {
-    "name": "GPT-4.5",
-    "org": "OpenAI",
-    "date": "2025-02-27",
-    "type": "model",
-    "summary": "OpenAI's largest and most knowledgeable non-reasoning model — improved emotional intelligence, reduced hallucinations, strong at open-ended writing and nuanced tasks",
-    "url": "https://openai.com/index/introducing-gpt-4-5/"
-  },
-  {
-    "name": "Claude 3.7 Sonnet",
-    "org": "Anthropic",
-    "date": "2025-02-24",
-    "type": "model",
-    "summary": "first hybrid reasoning model — toggle between instant responses and extended thinking; strong coding and agentic tasks, with expanded computer use capabilities",
-    "url": "https://www.anthropic.com/news/claude-3-7-sonnet"
-  },
-  {
-    "name": "Grok 3",
-    "org": "xAI",
-    "date": "2025-02-17",
-    "type": "model",
-    "summary": "xAI's flagship trained on 10x compute of Grok 2 — includes DeepSearch for real-time web research and Think mode for step-by-step reasoning",
-    "url": "https://x.ai/blog/grok-3"
-  },
-  {
-    "name": "Deep Research",
-    "org": "OpenAI",
-    "date": "2025-02-02",
-    "type": "tool",
-    "summary": "agentic research tool that browses the web for minutes and synthesizes findings into a detailed report — o3-powered, available in ChatGPT Pro",
-    "url": "https://openai.com/index/introducing-deep-research/"
-  },
-  {
-    "name": "Sora",
-    "org": "OpenAI",
-    "date": "2024-12-09",
-    "type": "tool",
-    "summary": "text-to-video model released publicly after a year of previews — generates up to 20-second HD clips with a Storyboard editor for multi-scene control",
-    "url": "https://openai.com/sora"
-  },
-  {
-    "name": "Gemini 2.0 Flash",
-    "org": "Google",
-    "date": "2024-12-11",
-    "type": "model",
-    "summary": "multimodal model with real-time audio/video streaming, native image generation, and agentic tool use — faster than 1.5 Pro with a 1M token context window",
-    "url": "https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/"
-  },
-  {
-    "name": "Claude 3.5 Haiku",
-    "org": "Anthropic",
-    "date": "2024-10-22",
-    "type": "model",
-    "summary": "fastest and most affordable Claude 3.5 model with vision — outperforms Claude 3 Opus on most benchmarks at a fraction of the cost, available via API",
-    "url": "https://www.anthropic.com/news/claude-3-5-haiku"
   }
 ]
