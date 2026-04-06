@@ -1,6 +1,6 @@
 /**
  * Shared Google Places API helper.
- * Used by nearby-coffee and nearby-fun API routes to dedupe search logic.
+ * Used by the nearby-coffee API route to dedupe search logic.
  */
 
 import { haversineMeters } from "./geo";
