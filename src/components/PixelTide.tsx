@@ -62,10 +62,16 @@ function pick<T>(arr: T[], i: number): T {
   return arr[((i % arr.length) + arr.length) % arr.length];
 }
 
+function hexToRgb(hex: string): [number, number, number] {
+  return [
+    parseInt(hex.slice(1, 3), 16),
+    parseInt(hex.slice(3, 5), 16),
+    parseInt(hex.slice(5, 7), 16),
+  ];
+}
+
 function shiftHue(hex: string, deg: number): string {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const [r, g, b] = hexToRgb(hex).map((c) => c / 255) as [number, number, number];
 
   const max = Math.max(r, g, b),
     min = Math.min(r, g, b);
@@ -338,9 +344,7 @@ export default function PixelTide() {
             const depth = Math.min(1, (block.row - tideLine + 1) / 4);
             const alpha = 0.3 + depth * 0.4;
             const waterColor = pick(theme.shallow, block.col + block.row);
-            const r = parseInt(waterColor.slice(1, 3), 16);
-            const g = parseInt(waterColor.slice(3, 5), 16);
-            const b = parseInt(waterColor.slice(5, 7), 16);
+            const [r, g, b] = hexToRgb(waterColor);
             ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
             ctx.fillRect(bx, by, cellSize, cellSize);
             if (block.row < tideLine + 1 && Math.random() < 0.04) {

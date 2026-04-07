@@ -8,14 +8,14 @@ const VALID_FOCUSES: WorkoutFocus[] = ["any", "endurance", "speed", "technique"]
 
 function readUrlParams() {
   if (typeof window === "undefined") return null;
-  const p = new URLSearchParams(window.location.search);
-  const duration = p.get("d") ? parseInt(p.get("d")!) : null;
-  const pace = p.get("p");
-  const unit = p.get("u") as "meters" | "yards" | null;
-  const s = p.get("s") ? parseInt(p.get("s")!) : null;
-  const f = p.get("f") as WorkoutFocus | null;
-  const focus = f && VALID_FOCUSES.includes(f) ? f : null;
-  return { duration, pace, unit, seed: s, focus };
+  const params = new URLSearchParams(window.location.search);
+  const duration = params.get("d") ? parseInt(params.get("d")!) : null;
+  const pace = params.get("p");
+  const unit = params.get("u") as "meters" | "yards" | null;
+  const seedParam = params.get("s") ? parseInt(params.get("s")!) : null;
+  const focusParam = params.get("f") as WorkoutFocus | null;
+  const focus = focusParam && VALID_FOCUSES.includes(focusParam) ? focusParam : null;
+  return { duration, pace, unit, seed: seedParam, focus };
 }
 
 function workoutToText(workout: Workout): string {
@@ -138,11 +138,11 @@ const EQUIPMENT_CONFIG: Record<string, { label: string; icon: string; bg: string
 };
 
 function EquipmentBadge({ equipment }: { equipment: string }) {
-  const c = EQUIPMENT_CONFIG[equipment];
-  if (!c) return null;
+  const config = EQUIPMENT_CONFIG[equipment];
+  if (!config) return null;
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${c.bg}`}>
-      {c.label}
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${config.bg}`}>
+      {config.label}
     </span>
   );
 }
