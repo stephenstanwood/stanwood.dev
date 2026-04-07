@@ -1,3 +1,4 @@
+import { useState } from "react";
 import launches from "../data/ai-launches.json";
 import {
   type Launch,
@@ -11,10 +12,34 @@ import {
 
 const sorted = sortLaunches(launches as Launch[]);
 
-const latest = sorted[0];
-const grouped = groupByDate(sorted);
-
 export default function AIRadarPage() {
+  const [activeType, setActiveType] = useState<string | null>(null);
+  const [activeOrg, setActiveOrg] = useState<string | null>(null);
+
+  const availableTypes = [...new Set(sorted.map((l) => l.type))].filter(
+    (t) => TYPE_LABELS[t]
+  );
+  const availableOrgs = [...new Set(sorted.map((l) => l.org))];
+
+  const filtered = sorted.filter((l) => {
+    if (activeType && l.type !== activeType) return false;
+    if (activeOrg && l.org !== activeOrg) return false;
+    return true;
+  });
+
+  const latest = filtered[0];
+  const grouped = groupByDate(filtered);
+
+  function toggleType(t: string) {
+    setActiveOrg(null);
+    setActiveType((prev) => (prev === t ? null : t));
+  }
+
+  function toggleOrg(o: string) {
+    setActiveType(null);
+    setActiveOrg((prev) => (prev === o ? null : o));
+  }
+
   return (
     <div className="rp-page">
       <a href="/" className="retro-back">← stanwood.dev</a>
@@ -30,68 +55,108 @@ export default function AIRadarPage() {
         <p className="rp-tagline">What just shipped in AI that's actually worth knowing about.</p>
       </header>
 
-      {/* Lead story */}
-      <a
-        href={latest.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="rp-lead"
-        style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
-      >
-        <div className="rp-lead-top">
-          <span className="rp-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
-          <span className="rp-badge rp-badge--time">{relativeAge(latest.date)}</span>
+      {/* Filter chips */}
+      <div className="rp-filters">
+        <div className="rp-filter-row">
+          {availableTypes.map((t) => (
+            <button
+              key={t}
+              className={`rp-chip rp-chip--type ${activeType === t ? "rp-chip--active" : ""}`}
+              onClick={() => toggleType(t)}
+            >
+              {TYPE_LABELS[t]}
+            </button>
+          ))}
         </div>
-        <h2 className="rp-lead-name">{latest.name}</h2>
-        <p className="rp-lead-summary">
-          <span className="rp-org" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
-          {" — "}{latest.summary}
-        </p>
-        <span className="rp-lead-link">read more →</span>
-      </a>
-
-      {/* Timeline */}
-      <div className="rp-timeline">
-        {grouped.map(({ date, launches: items }, gi) => {
-          const { dayName, dayNum, month } = formatLaunchDateFull(date);
-          const isFirst = gi === 0;
-          // Skip the date group if only the lead story falls in it
-          const visibleItems = isFirst ? items.slice(1) : items;
-          if (visibleItems.length === 0) return null;
-          return (
-            <div key={date} className={`rp-day ${isFirst ? "rp-day--latest" : ""}`}>
-              <div className="rp-day-marker">
-                <div className="rp-day-date">
-                  <span className="rp-day-num">{dayNum}</span>
-                  <span className="rp-day-month">{month}</span>
-                </div>
-                <span className="rp-day-name">{dayName}</span>
-              </div>
-              <div className="rp-day-entries">
-                {visibleItems.map((l) => (
-                  <a
-                    key={l.name}
-                    href={l.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rp-entry"
-                    style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
-                  >
-                    <div className="rp-entry-header">
-                      <span className="rp-entry-name">{l.name}</span>
-                      <span className="rp-entry-badge">{TYPE_LABELS[l.type] || "LAUNCH"}</span>
-                    </div>
-                    <p className="rp-entry-summary">
-                      <span className="rp-org" style={{ color: ORG_COLORS[l.org] || "#888" }}>{l.org}</span>
-                      {" — "}{l.summary}
-                    </p>
-                  </a>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+        <div className="rp-filter-row">
+          {availableOrgs.map((o) => (
+            <button
+              key={o}
+              className={`rp-chip rp-chip--org ${activeOrg === o ? "rp-chip--active" : ""}`}
+              style={activeOrg === o ? { borderColor: ORG_COLORS[o] || "#888", color: ORG_COLORS[o] || "#888" } : {}}
+              onClick={() => toggleOrg(o)}
+            >
+              {o}
+            </button>
+          ))}
+        </div>
+        {(activeType || activeOrg) && (
+          <button
+            className="rp-chip-clear"
+            onClick={() => { setActiveType(null); setActiveOrg(null); }}
+          >
+            clear filter ×
+          </button>
+        )}
       </div>
+
+      {filtered.length === 0 ? (
+        <p className="rp-empty">No launches match this filter.</p>
+      ) : (
+        <>
+          {/* Lead story */}
+          <a
+            href={latest.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rp-lead"
+            style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
+          >
+            <div className="rp-lead-top">
+              <span className="rp-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
+              <span className="rp-badge rp-badge--time">{relativeAge(latest.date)}</span>
+            </div>
+            <h2 className="rp-lead-name">{latest.name}</h2>
+            <p className="rp-lead-summary">
+              <span className="rp-org" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
+              {" — "}{latest.summary}
+            </p>
+            <span className="rp-lead-link">read more →</span>
+          </a>
+
+          {/* Timeline */}
+          <div className="rp-timeline">
+            {grouped.map(({ date, launches: items }, gi) => {
+              const { dayName, dayNum, month } = formatLaunchDateFull(date);
+              const isFirst = gi === 0;
+              const visibleItems = isFirst ? items.slice(1) : items;
+              if (visibleItems.length === 0) return null;
+              return (
+                <div key={date} className={`rp-day ${isFirst ? "rp-day--latest" : ""}`}>
+                  <div className="rp-day-marker">
+                    <div className="rp-day-date">
+                      <span className="rp-day-num">{dayNum}</span>
+                      <span className="rp-day-month">{month}</span>
+                    </div>
+                    <span className="rp-day-name">{dayName}</span>
+                  </div>
+                  <div className="rp-day-entries">
+                    {visibleItems.map((l) => (
+                      <a
+                        key={l.name}
+                        href={l.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rp-entry"
+                        style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
+                      >
+                        <div className="rp-entry-header">
+                          <span className="rp-entry-name">{l.name}</span>
+                          <span className="rp-entry-badge">{TYPE_LABELS[l.type] || "LAUNCH"}</span>
+                        </div>
+                        <p className="rp-entry-summary">
+                          <span className="rp-org" style={{ color: ORG_COLORS[l.org] || "#888" }}>{l.org}</span>
+                          {" — "}{l.summary}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       <footer className="rp-footer">
         <span>curated by stanwood.dev</span>
