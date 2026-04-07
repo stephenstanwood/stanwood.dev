@@ -129,6 +129,53 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
       .back-link:hover { color: rgba(0, 210, 255, 0.8); }
 
+      .desc {
+        font-size: 0.75rem;
+        color: rgba(0, 210, 255, 0.45);
+        line-height: 1.7;
+        max-width: 540px;
+        text-align: center;
+        margin: 0 auto 16px;
+        letter-spacing: 0.02em;
+      }
+
+      /* ── Tips grid ── */
+      .tips {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        max-width: 640px;
+        margin: 16px auto 0;
+      }
+      @media (min-width: 540px) {
+        .tips { grid-template-columns: repeat(4, 1fr); }
+      }
+      .tip {
+        border: 1px solid rgba(0, 180, 255, 0.12);
+        border-radius: 6px;
+        padding: 10px 10px 12px;
+        background: rgba(0, 100, 180, 0.06);
+        text-align: center;
+      }
+      .tip-icon {
+        font-size: 1.2rem;
+        margin-bottom: 6px;
+        display: block;
+      }
+      .tip-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.45rem;
+        color: rgba(0, 210, 255, 0.7);
+        letter-spacing: 0.04em;
+        margin-bottom: 5px;
+        display: block;
+      }
+      .tip-body {
+        font-size: 0.65rem;
+        color: rgba(0, 210, 255, 0.35);
+        line-height: 1.5;
+      }
+
       @media (max-width: 640px) {
         .hero-banner { max-height: 200px; margin-top: 40px; }
         .hero-banner img { height: 200px; }
@@ -154,11 +201,34 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     <div class="container">
       <h1 class="pixel-font">PIXEL AQUARIUM</h1>
-      <p class="subtitle pixel-font">click to drop food</p>
+      <p class="subtitle pixel-font">click anywhere to drop food</p>
+      <p class="desc">A little browser aquarium that runs on its own. Drop colorful food pellets and watch the fish evolve, multiply, and make it theirs.</p>
       <canvas id="aquarium-canvas" role="img" aria-label="Pixel art aquarium with fish swimming around. Click to drop food."></canvas>
       <div class="info-bar pixel-font">
         <span>fish: <span class="val" id="fish-count">0</span></span>
         <span>fed: <span class="val" id="fed-count">0</span></span>
+      </div>
+      <div class="tips">
+        <div class="tip">
+          <span class="tip-icon">🎯</span>
+          <span class="tip-title">Feed them</span>
+          <span class="tip-body">Click the water to drop pellets. Fish swim toward food and eat whatever's closest.</span>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🎨</span>
+          <span class="tip-title">Color evolves</span>
+          <span class="tip-body">Each food color nudges a fish's hue. Feed consistently and watch them change over time.</span>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🐣</span>
+          <span class="tip-title">New arrivals</span>
+          <span class="tip-body">Well-fed fish spawn babies that inherit their parent's colors. Up to 20 fish total.</span>
+        </div>
+        <div class="tip">
+          <span class="tip-icon">🐡</span>
+          <span class="tip-title">Three breeds</span>
+          <span class="tip-body">Classic, angelfish, and pufferfish swim together. Each has a distinct pixel shape.</span>
+        </div>
       </div>
     </div>
 
