@@ -89,14 +89,14 @@ function shiftHue(hex: string, deg: number): string {
   h = (h + deg / 360) % 1;
   if (h < 0) h += 1;
 
-  const i2 = Math.floor(h * 6);
-  const f = h * 6 - i2;
+  const sector = Math.floor(h * 6);
+  const f = h * 6 - sector;
   const p = v * (1 - s);
   const q = v * (1 - f * s);
   const t = v * (1 - (1 - f) * s);
 
   let ro: number, go: number, bo: number;
-  switch (i2 % 6) {
+  switch (sector % 6) {
     case 0: ro = v; go = t; bo = p; break;
     case 1: ro = q; go = v; bo = p; break;
     case 2: ro = p; go = v; bo = t; break;

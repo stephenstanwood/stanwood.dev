@@ -341,7 +341,7 @@ function GameCard({ game }: { game: SportGame }) {
     game.status !== "pre" &&
     localScore != null &&
     oppScore != null &&
-    parseInt(localScore) > parseInt(oppScore);
+    parseInt(localScore, 10) > parseInt(oppScore, 10);
 
   return (
     <div

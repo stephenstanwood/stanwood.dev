@@ -9,10 +9,10 @@ const VALID_FOCUSES: WorkoutFocus[] = ["any", "endurance", "speed", "technique"]
 function readUrlParams() {
   if (typeof window === "undefined") return null;
   const params = new URLSearchParams(window.location.search);
-  const duration = params.get("d") ? parseInt(params.get("d")!) : null;
+  const duration = params.get("d") ? parseInt(params.get("d")!, 10) : null;
   const pace = params.get("p");
   const unit = params.get("u") as "meters" | "yards" | null;
-  const seedParam = params.get("s") ? parseInt(params.get("s")!) : null;
+  const seedParam = params.get("s") ? parseInt(params.get("s")!, 10) : null;
   const focusParam = params.get("f") as WorkoutFocus | null;
   const focus = focusParam && VALID_FOCUSES.includes(focusParam) ? focusParam : null;
   return { duration, pace, unit, seed: seedParam, focus };
