@@ -8,6 +8,14 @@
     "url": "https://thenextweb.com/news/microsoft-mai-models-openai-independence"
   },
   {
+    "name": "Claude Cowork + Dispatch",
+    "org": "Anthropic",
+    "date": "2026-04-04",
+    "type": "tool",
+    "summary": "Claude desktop control now on Windows — clicks, types, opens apps autonomously. Dispatch lets you hand off tasks from your phone while Claude works on your computer",
+    "url": "https://claude.com/blog/dispatch-and-computer-use"
+  },
+  {
     "name": "Google Gemma 4",
     "org": "Google",
     "date": "2026-04-02",
@@ -24,20 +32,20 @@
     "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
   },
   {
-    "name": "Runway Characters API",
-    "org": "Runway",
-    "date": "2026-03-31",
-    "type": "tool",
-    "summary": "real-time video agents with face + voice in the API — generate HD video in ~100ms, Builders Fund with 500K free API credits for early-stage projects",
-    "url": "https://runwayml.com/research/introducing-runway-gen-4.5"
-  },
-  {
     "name": "Gemini 3.1 Flash Live",
     "org": "Google",
     "date": "2026-03-27",
     "type": "model",
     "summary": "real-time voice model in the developer API — build conversational voice apps with low latency, successor to Gemini 2.5 Flash Native Audio",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/"
+  },
+  {
+    "name": "Lyria 3 Pro",
+    "org": "Google",
+    "date": "2026-03-25",
+    "type": "tool",
+    "summary": "AI music generation model in public preview via Gemini API — generates full songs up to 3 mins with vocals, verse/chorus structure, and image-to-music at 48kHz stereo",
+    "url": "https://techcrunch.com/2026/03/25/google-launches-lyria-3-pro-music-generation-model/"
   },
   {
     "name": "Mistral Speech",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "audio+video generation model rolling out in CapCut — draft, edit, and sync video/audio from prompts or reference clips; free inside CapCut",
     "url": "https://techcrunch.com/2026/03/26/bytedances-new-ai-video-generation-model-dreamina-seedance-2-0-comes-to-capcut/"
-  },
-  {
-    "name": "Claude Cowork + Dispatch",
-    "org": "Anthropic",
-    "date": "2026-04-04",
-    "type": "tool",
-    "summary": "Claude desktop control now on Windows — clicks, types, opens apps autonomously. Dispatch lets you hand off tasks from your phone while Claude works on your computer",
-    "url": "https://claude.com/blog/dispatch-and-computer-use"
   }
 ]
