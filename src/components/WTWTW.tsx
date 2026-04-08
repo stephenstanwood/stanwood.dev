@@ -28,13 +28,16 @@ interface ESPNEvent {
   }>;
 }
 
+interface Candidate {
+  priorityIndex: number;
+  team: TeamEntry;
+  event: ESPNEvent;
+}
+
 interface DayPick {
   day: DayInfo;
-  pick: {
-    priorityIndex: number;
-    team: TeamEntry;
-    event: ESPNEvent;
-  } | null;
+  pick: Candidate | null;
+  others: Candidate[];
 }
 
 interface WTWTWPrefs {
@@ -158,16 +161,13 @@ function getUpcoming7Days(tz: string): DayInfo[] {
   return days;
 }
 
-function pickEventForDay(
+function pickEventsForDay(
   dayEvents: Array<{ leaguePath: string; event: ESPNEvent }>,
   teams: TeamEntry[],
   tz: string
-) {
-  const candidates: Array<{
-    priorityIndex: number;
-    team: TeamEntry;
-    event: ESPNEvent;
-  }> = [];
+): { top: Candidate | null; others: Candidate[] } {
+  const candidates: Candidate[] = [];
+  const seenEventIds = new Set<string>();
 
   for (const { leaguePath, event } of dayEvents) {
     const comps = event?.competitions?.[0]?.competitors || [];
@@ -179,19 +179,24 @@ function pickEventForDay(
         return abbr === team.abbreviation.toUpperCase();
       });
       if (matched && hitsWindow(event.date, tz)) {
-        candidates.push({ priorityIndex: idx, team, event });
+        // Use event date+name as a unique key to avoid duplicates when both teams are followed
+        const eventId = `${event.date}|${event.name}`;
+        if (!seenEventIds.has(eventId)) {
+          seenEventIds.add(eventId);
+          candidates.push({ priorityIndex: idx, team, event });
+        }
         break;
       }
     }
   }
 
-  if (candidates.length === 0) return null;
+  if (candidates.length === 0) return { top: null, others: [] };
   candidates.sort(
     (a, b) =>
       a.priorityIndex - b.priorityIndex ||
       new Date(a.event.date).getTime() - new Date(b.event.date).getTime()
   );
-  return candidates[0];
+  return { top: candidates[0], others: candidates.slice(1) };
 }
 
 // ── Settings Panel ─────────────────────────────────────────────────────────
@@ -580,10 +585,10 @@ export default function WTWTW() {
   // Derive picks from cached data + current timezone (instant on tz change)
   const picks = useMemo<DayPick[]>(() => {
     if (teams.length === 0 || rawData.size === 0) return [];
-    return days.map((day) => ({
-      day,
-      pick: pickEventForDay(rawData.get(day.yyyymmdd) || [], teams, prefs.timezone),
-    }));
+    return days.map((day) => {
+      const { top, others } = pickEventsForDay(rawData.get(day.yyyymmdd) || [], teams, prefs.timezone);
+      return { day, pick: top, others };
+    });
   }, [rawData, teams, days, prefs.timezone]);
 
   return (
@@ -701,7 +706,7 @@ export default function WTWTW() {
               {error}
             </div>
           )}
-          {picks.map(({ day, pick }, idx) => (
+          {picks.map(({ day, pick, others }, idx) => (
             <div
               key={day.yyyymmdd}
               className="rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px]"
@@ -731,39 +736,98 @@ export default function WTWTW() {
                 {day.label}
               </div>
               {pick ? (
-                <div className="mt-3">
-                  <div
-                    className="text-xl font-bold text-white"
-                    style={{ fontFamily: "'Oswald', sans-serif" }}
-                  >
-                    {pick.event?.name || "Game"}
-                  </div>
-                  <div className="mt-2 flex items-center gap-3">
-                    <span
-                      className="text-sm font-medium"
-                      style={{
-                        fontFamily: "'JetBrains Mono', monospace",
-                        color: "rgba(255,255,255,0.5)",
-                      }}
+                <>
+                  <div className="mt-3">
+                    <div
+                      className="text-xl font-bold text-white"
+                      style={{ fontFamily: "'Oswald', sans-serif" }}
                     >
-                      {formatTime(pick.event?.date, prefs.timezone)}{" "}
-                      {tzAbbr(prefs.timezone)}
-                    </span>
-                    <span
-                      className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                      style={{
-                        backgroundColor: `${pick.team.color}20`,
-                        color: pick.team.textColor,
-                      }}
+                      {pick.event?.name || "Game"}
+                    </div>
+                    <div className="mt-2 flex items-center gap-3 flex-wrap">
+                      <span
+                        className="text-sm font-medium"
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          color: "rgba(255,255,255,0.5)",
+                        }}
+                      >
+                        {formatTime(pick.event?.date, prefs.timezone)}{" "}
+                        {tzAbbr(prefs.timezone)}
+                      </span>
+                      <span
+                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                        style={{
+                          backgroundColor: `${pick.team.color}20`,
+                          color: pick.team.textColor,
+                        }}
+                      >
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ backgroundColor: pick.team.color }}
+                        />
+                        {pick.team.label}
+                      </span>
+                    </div>
+                  </div>
+                  {others.length > 0 && (
+                    <div
+                      className="mt-3 pt-3 flex flex-col gap-1.5"
+                      style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
                     >
                       <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{ backgroundColor: pick.team.color }}
-                      />
-                      {pick.team.label}
-                    </span>
-                  </div>
-                </div>
+                        className="text-xs uppercase tracking-widest mb-0.5"
+                        style={{
+                          fontFamily: "'JetBrains Mono', monospace",
+                          color: "rgba(255,255,255,0.2)",
+                          letterSpacing: "0.12em",
+                        }}
+                      >
+                        Also tonight
+                      </span>
+                      {others.map((other) => (
+                        <div
+                          key={`${other.event.date}|${other.event.name}`}
+                          className="flex items-center gap-2 flex-wrap"
+                        >
+                          <span
+                            className="text-sm"
+                            style={{
+                              fontFamily: "'Oswald', sans-serif",
+                              color: "rgba(255,255,255,0.5)",
+                              fontWeight: 600,
+                            }}
+                          >
+                            {other.event?.name || "Game"}
+                          </span>
+                          <span
+                            className="text-xs"
+                            style={{
+                              fontFamily: "'JetBrains Mono', monospace",
+                              color: "rgba(255,255,255,0.3)",
+                            }}
+                          >
+                            {formatTime(other.event?.date, prefs.timezone)}
+                          </span>
+                          <span
+                            className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold"
+                            style={{
+                              backgroundColor: `${other.team.color}15`,
+                              color: other.team.textColor,
+                              opacity: 0.75,
+                            }}
+                          >
+                            <span
+                              className="h-1 w-1 rounded-full"
+                              style={{ backgroundColor: other.team.color }}
+                            />
+                            {other.team.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
               ) : (
                 <div
                   className="mt-2 text-sm"
