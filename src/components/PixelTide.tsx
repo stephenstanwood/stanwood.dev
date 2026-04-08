@@ -121,6 +121,7 @@ interface CastleBlock {
 
 interface Castle {
   blocks: CastleBlock[];
+  builtAt: number; // performance.now() timestamp
 }
 
 /* ── Particle ── */
@@ -151,7 +152,7 @@ export default function PixelTide() {
   const reducedMotion = useRef(false);
   const themeRef = useRef<BeachTheme>(THEMES.tropical);
   const [activeTheme, setActiveTheme] = useState<string>("tropical");
-  const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0 });
+  const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   const statsRef = useRef({ built: 0, lost: 0 });
   const [tideRising, setTideRising] = useState(false);
 
@@ -507,10 +508,15 @@ export default function PixelTide() {
       /* ── Sync stats to React state every ~1s ── */
       frameRef.current++;
       if (frameRef.current % 60 === 0) {
+        const now = performance.now();
+        const oldestSec = castlesRef.current.length > 0
+          ? Math.floor(Math.max(...castlesRef.current.map(c => (now - c.builtAt) / 1000)))
+          : 0;
         setStats({
           built: statsRef.current.built,
           lost: statsRef.current.lost,
           standing: castlesRef.current.length,
+          oldestSec,
         });
         // Tide direction: positive derivative of surge = tideLine rising = water receding
         // cos(t * 0.4) < 0 means surge decreasing → tideLine decreasing → more water = tide rising
@@ -576,7 +582,7 @@ export default function PixelTide() {
       }
 
       if (blocks.length > 0) {
-        castlesRef.current.push({ blocks });
+        castlesRef.current.push({ blocks, builtAt: performance.now() });
         statsRef.current.built++;
       }
     }
@@ -640,6 +646,14 @@ export default function PixelTide() {
         <span>
           <span style={{ color: "rgba(245, 198, 160, 0.85)" }}>{stats.lost}</span> claimed by the sea
         </span>
+        {stats.standing > 0 && (
+          <>
+            <span style={{ color: "rgba(245, 198, 160, 0.25)" }}>·</span>
+            <span>
+              oldest <span style={{ color: "rgba(245, 198, 160, 0.85)" }}>{stats.oldestSec}s</span>
+            </span>
+          </>
+        )}
         <span style={{ color: "rgba(245, 198, 160, 0.25)" }}>·</span>
         <span style={{ color: tideRising ? "rgba(130, 190, 255, 0.75)" : "rgba(255, 210, 120, 0.75)" }}>
           {tideRising ? "↑ tide rising" : "↓ tide falling"}

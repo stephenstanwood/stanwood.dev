@@ -123,5 +123,36 @@ const title = "Pixel Tide — stanwood.dev";
         </div>
       </div>
     </section>
+
+    <!-- Behind the Waves -->
+    <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
+      <h2 class="text-xs font-bold uppercase tracking-widest mb-6" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Behind the Waves</h2>
+      <div class="grid sm:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Tide physics</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
+            The tide line is calculated per column using three overlapping sine waves — a slow ~15s surge, a medium lateral sweep, and a fast surface ripple. The result is a waterline that bends and curves differently across the beach rather than moving as a flat wall.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Castle erosion</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
+            Each block under the waterline accumulates erosion over time. Once a block is gone, any blocks above it with no support collapse — so tall thin towers fall faster than wide bases. Erosion debris becomes particles that drift upward and fade out.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Color &amp; themes</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
+            Each theme defines five color palettes: dry sand, wet sand, shallow water, deep water, and castle stone. A slow hue-shift cycle (±10°) animates the water without changing the sand, making the ocean feel alive while the beach stays still.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Seagulls</h3>
+          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
+            Four seagulls wander the canvas. Each tracks the tide line in its column and lerps its vertical position to stay safely above the water. They switch between a flying W-shape silhouette (when moving) and a walking stance with alternating feet.
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 </BaseLayout>
