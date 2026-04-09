@@ -254,15 +254,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="fade-in rounded-2xl border-l-4 border-[#4ADE80] bg-[#0d1117] shadow-lg">
           <div class="px-8 py-8">
             <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono">
-                Summary
-              </h2>
-              <button
-                id="copyBtn"
-                class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#71717A] hover:text-[#00D4FF] hover:bg-[#131a24] transition-colors mono"
-              >
-                copy
-              </button>
+              <div class="flex items-center gap-3">
+                <h2 class="text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono">
+                  Summary
+                </h2>
+                <span id="wordCount" class="text-[10px] text-[#3a3f52] mono"></span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button
+                  id="copyBtn"
+                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#71717A] hover:text-[#00D4FF] hover:bg-[#131a24] transition-colors mono"
+                >
+                  copy
+                </button>
+                <button
+                  id="downloadBtn"
+                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#71717A] hover:text-[#4ADE80] hover:bg-[#131a24] transition-colors mono"
+                  title="Download as .txt"
+                >
+                  download
+                </button>
+              </div>
             </div>
             <p id="summaryText" class="text-base leading-relaxed text-[#E4E4E7]"></p>
           </div>
@@ -301,6 +313,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <span class="text-[10px] text-[#3a3f52] mono">· 22 pages</span>
             </div>
             <p class="text-sm leading-relaxed text-[#a1a1aa]">Researchers tested whether spaced repetition flashcard apps improve long-term retention versus massed practice (cramming) for vocabulary learning. 120 college students studied 200 foreign language words over 4 weeks using one of three methods. Spaced repetition users retained 67% of words at the 6-month follow-up vs. 41% for massed practice and 38% for passive re-reading. The effect was strongest for low-frequency words. Conclusion: spaced repetition significantly outperforms cramming for long-term retention, especially for harder material. Limitations: study used a controlled vocabulary list, not naturalistic learning conditions.</p>
+          </div>
+
+          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#f59e0b]">Employment Offer</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 6 pages</span>
+            </div>
+            <p class="text-sm leading-relaxed text-[#a1a1aa]">Full-time software engineer role at $145k base + 0.15% equity (4-year vest, 1-year cliff). 15 days PTO, standard health/dental/vision. Non-compete covers a 12-month window post-employment and is limited to direct competitors in the same product category. Arbitration clause waives your right to class action suits. Offer expires in 5 business days; start date is flexible within 30 days. IP assignment covers everything built on company time or using company resources — side projects need written approval.</p>
           </div>
 
         </div>
@@ -356,6 +376,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const resultSection = document.getElementById("resultSection")!;
       const summaryText = document.getElementById("summaryText")!;
       const copyBtn = document.getElementById("copyBtn")!;
+      const downloadBtn = document.getElementById("downloadBtn")!;
+      const wordCount = document.getElementById("wordCount")!;
       const errorMsg = document.getElementById("errorMsg")!;
 
       let progressInterval: ReturnType<typeof setInterval> | null = null;
@@ -486,6 +508,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           card.classList.add("fade-in");
           summaryText.textContent = data.summary;
 
+          // Show word count
+          const wc = data.summary.trim().split(/\s+/).filter(Boolean).length;
+          wordCount.textContent = `${wc} words`;
+
           // Move drop zone below the result and make it compact
           resultSection.after(uploadSection);
           dropZone.classList.add("compact");
@@ -518,6 +544,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         const file = fileInput.files?.[0];
         if (file) handleFile(file);
         fileInput.value = "";
+      });
+
+      // Download summary as .txt
+      downloadBtn.addEventListener("click", () => {
+        const text = summaryText.innerText || "";
+        if (!text) return;
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "tldr-summary.txt";
+        a.click();
+        URL.revokeObjectURL(url);
+        downloadBtn.textContent = "saved!";
+        downloadBtn.style.color = "#4ADE80";
+        setTimeout(() => {
+          downloadBtn.textContent = "download";
+          downloadBtn.style.color = "";
+        }, 1500);
       });
 
       // Copy — grab the plain text from the formatted HTML
