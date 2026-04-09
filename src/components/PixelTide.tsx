@@ -177,7 +177,7 @@ export default function PixelTide() {
     castlesRef.current = [];
     particlesRef.current = [];
     statsRef.current = { built: 0, lost: 0 };
-    setStats({ built: 0, lost: 0, standing: 0 });
+    setStats({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   }
 
   /* ── Main setup + animation loop ── */
