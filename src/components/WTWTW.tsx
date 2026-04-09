@@ -500,7 +500,7 @@ function SettingsPanel({
 // ── Main Component ─────────────────────────────────────────────────────────
 
 export default function WTWTW() {
-  const [prefs, setPrefs] = useState<WTWTWPrefs>(() => loadPrefs());
+  const [prefs, setPrefs] = useState<WTWTWPrefs>(loadPrefs);
   const [settingsOpen, setSettingsOpen] = useState(() => loadPrefs().teams.length === 0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
