@@ -1,5 +1,13 @@
 [
   {
+    "name": "Meta Muse Spark",
+    "org": "Meta",
+    "date": "2026-04-08",
+    "type": "model",
+    "summary": "Meta's first closed-source model — voice/text/image input, live on meta.ai now. Can generate minigames, excels at visual STEM, rolling out to WhatsApp and Ray-Ban glasses",
+    "url": "https://ai.meta.com/blog/introducing-muse-spark-msl/"
+  },
+  {
     "name": "Microsoft MAI Models",
     "org": "Microsoft",
     "date": "2026-04-03",
@@ -38,14 +46,6 @@
     "type": "model",
     "summary": "real-time voice model in the developer API — build conversational voice apps with low latency, successor to Gemini 2.5 Flash Native Audio",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/"
-  },
-  {
-    "name": "Lyria 3 Pro",
-    "org": "Google",
-    "date": "2026-03-25",
-    "type": "tool",
-    "summary": "AI music generation model in public preview via Gemini API — generates full songs up to 3 mins with vocals, verse/chorus structure, and image-to-music at 48kHz stereo",
-    "url": "https://techcrunch.com/2026/03/25/google-launches-lyria-3-pro-music-generation-model/"
   },
   {
     "name": "Mistral Speech",
