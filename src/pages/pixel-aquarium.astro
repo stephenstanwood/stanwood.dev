@@ -176,6 +176,49 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         line-height: 1.5;
       }
 
+      /* ── Behind the Glass section ── */
+      .behind-glass {
+        max-width: 640px;
+        margin: 28px auto 0;
+        border-top: 1px solid rgba(0, 180, 255, 0.1);
+        padding-top: 24px;
+      }
+      .behind-glass-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.45rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 210, 255, 0.3);
+        margin-bottom: 16px;
+        text-align: left;
+      }
+      .behind-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      @media (max-width: 540px) {
+        .behind-grid { grid-template-columns: 1fr; }
+      }
+      .behind-card {
+        border: 1px solid rgba(0, 180, 255, 0.1);
+        border-radius: 8px;
+        padding: 14px 14px 16px;
+        background: rgba(0, 60, 120, 0.12);
+      }
+      .behind-card-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: rgba(0, 210, 255, 0.65);
+        margin-bottom: 6px;
+        letter-spacing: 0.02em;
+      }
+      .behind-card-body {
+        font-size: 0.65rem;
+        color: rgba(0, 210, 255, 0.35);
+        line-height: 1.65;
+      }
+
       @media (max-width: 640px) {
         .hero-banner { max-height: 200px; margin-top: 40px; }
         .hero-banner img { height: 200px; }
@@ -228,6 +271,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <span class="tip-icon">🐡</span>
           <span class="tip-title">Three breeds</span>
           <span class="tip-body">Classic, angelfish, and pufferfish swim together. Each has a distinct pixel shape.</span>
+        </div>
+      </div>
+
+      <!-- Behind the Glass -->
+      <div class="behind-glass">
+        <p class="behind-glass-label">Behind the Glass</p>
+        <div class="behind-grid">
+          <div class="behind-card">
+            <p class="behind-card-title">Fish personality</p>
+            <p class="behind-card-body">Every fish spawns with four hidden traits: hunger (how motivated it is to seek food), laziness (idle drift frequency), swim speed, and wiggle rate. These are randomized at birth, so each fish moves a little differently — some are lazy drifters, some dart straight for every pellet.</p>
+          </div>
+          <div class="behind-card">
+            <p class="behind-card-title">Color evolution</p>
+            <p class="behind-card-body">Eating a food pellet lerps the fish's body, tail, and fin colors toward the pellet's RGB value — 25%, 15%, and 10% respectively per meal. A fish needs many consistent feedings to fully shift hue. Drop only red pellets and watch a cyan fish slowly turn coral over dozens of meals.</p>
+          </div>
+          <div class="behind-card">
+            <p class="behind-card-title">Three breeds</p>
+            <p class="behind-card-body">Classic, angelfish, and pufferfish each have a distinct pixel layout defined as arrays of (x, y) offsets for body, tail, fin, and eye. Left-facing versions are computed by mirroring the right-facing pixels across the fish's width — no separate sprite needed. Tail pixels wiggle via a sine function offset by each fish's timer.</p>
+          </div>
+          <div class="behind-card">
+            <p class="behind-card-title">Breeding &amp; spawning</p>
+            <p class="behind-card-body">Every 300 frames the tank checks if a new fish should spawn: the population must be under 20 and the fed count must exceed twice the current headcount. Babies inherit their parent's colors lerped 70% toward a random palette — so lineages gradually drift, but family resemblance persists for a few generations.</p>
+          </div>
         </div>
       </div>
     </div>
