@@ -73,15 +73,9 @@ export const SERVICE_META: Record<
     url: "https://platform.openai.com/usage",
     emoji: "🤖",
   },
-  google_cloud: {
-    label: "Google Cloud",
-    color: "#4285f4",
-    url: "https://console.cloud.google.com/billing",
-    emoji: "🌎",
-  },
 };
 
-export const SERVICE_ORDER = ["vercel", "anthropic", "openai", "google_cloud"];
+export const SERVICE_ORDER = ["vercel", "anthropic", "openai"];
 
 // ── Category colors for subscriptions ────────────────────────────
 

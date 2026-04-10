@@ -255,14 +255,6 @@ async function main() {
   month.services.anthropic = unwrap(anthropic);
   month.services.openai = unwrap(openai);
 
-  // Google Cloud — no programmatic cost without a service account, manual stub
-  if (!month.services.google_cloud) {
-    month.services.google_cloud = {
-      totalCents: null,
-      note: "Manual — GCP needs service account for billing API",
-    };
-  }
-
   month.collectedAt = new Date().toISOString();
   data.lastUpdated = month.collectedAt;
   data.apiSpend.months.sort((a, b) => a.month.localeCompare(b.month));
