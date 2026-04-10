@@ -1,6 +1,11 @@
 ---
 export const prerender = false;
 
+async function hashPassword(pw: string): Promise<string> {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 let error = false;
 
 if (Astro.request.method === 'POST') {
@@ -9,11 +14,12 @@ if (Astro.request.method === 'POST') {
   const expected = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
 
   if (password && expected && password === expected) {
+    const token = await hashPassword(password);
     return new Response(null, {
       status: 302,
       headers: {
         'Location': '/money',
-        'Set-Cookie': `money_session=${expected}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+        'Set-Cookie': `money_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
       },
     });
   }
