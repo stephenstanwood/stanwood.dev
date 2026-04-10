@@ -425,6 +425,37 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         animation: nc-fadeIn 0.45s ease 0.1s both;
       }
 
+      /* ── How it works ── */
+      .nc-how {
+        margin-top: 40px;
+        margin-bottom: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-how { margin-top: 48px; margin-bottom: 48px; }
+      }
+      .nc-how-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      @media (min-width: 640px) {
+        .nc-how-grid { grid-template-columns: repeat(3, 1fr); gap: 40px; }
+      }
+      .nc-how-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #5C4033;
+        margin-bottom: 10px;
+      }
+      .nc-how-body {
+        font-size: 13px;
+        line-height: 1.7;
+        color: #6B6B6B;
+      }
+
       /* ── Reduced motion ── */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
@@ -449,6 +480,24 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       </header>
 
       <hr class="nc-rule">
+
+      <!-- How it works -->
+      <section class="nc-how">
+        <div class="nc-how-grid">
+          <div>
+            <span class="nc-how-label">How it works</span>
+            <p class="nc-how-body">Share your location and it queries Google Places for coffee shops open right now — sorted by walking distance, closest first.</p>
+          </div>
+          <div>
+            <span class="nc-how-label">What you get</span>
+            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby, each linking straight to directions.</p>
+          </div>
+          <div>
+            <span class="nc-how-label">Privacy</span>
+            <p class="nc-how-body">Your coordinates go to the server only to run the Places query. They're never stored, logged, or tied to you in any way.</p>
+          </div>
+        </div>
+      </section>
 
       <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
     </main>
