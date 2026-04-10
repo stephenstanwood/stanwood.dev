@@ -77,11 +77,12 @@ async function collectVercel(range) {
   const lines = text.split("\n").filter((l) => l.trim());
   const charges = lines.map((l) => JSON.parse(l));
 
-  // Usage only — Pro subscription base fee tracked separately in subscriptions
+  // Usage overage only — Pro base fee tracked separately in subscriptions
   const byService = {};
   for (const c of charges) {
     if (c.ChargeCategory !== "Usage") continue;
     const name = c.ServiceName || "Other";
+    if (name === "Pro") continue; // base subscription tracked in subscriptions section
     byService[name] = (byService[name] || 0) + (c.BilledCost || 0);
   }
 

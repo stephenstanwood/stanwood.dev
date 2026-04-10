@@ -133,7 +133,9 @@ function ApiSection({ month, total }: { month: MonthEntry | null; total: number 
         <span className="mo-section-total">{formatCents(total)}</span>
       </div>
       <div className="mo-cards">
-        {SERVICE_ORDER.map((svc) => {
+        {[...SERVICE_ORDER]
+          .sort((a, b) => (month.services[b]?.totalCents ?? -1) - (month.services[a]?.totalCents ?? -1))
+          .map((svc) => {
           const entry = month.services[svc];
           if (!entry) return null;
           const meta = SERVICE_META[svc];
