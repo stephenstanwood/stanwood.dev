@@ -202,7 +202,7 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
         <span className="mo-section-total">{formatCents(total)}/mo</span>
       </div>
       <div className="mo-cards">
-        {subs.map((sub) => {
+        {[...subs].sort((a, b) => (b.cents ?? -1) - (a.cents ?? -1)).map((sub) => {
           const cat = CATEGORY_META[sub.category] || {
             label: sub.category.toUpperCase(),
             color: "#666",

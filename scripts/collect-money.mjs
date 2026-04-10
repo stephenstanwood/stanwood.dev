@@ -122,37 +122,42 @@ async function collectAnthropic(range) {
 
   // usage_report/messages returns token counts scoped to API keys only
   // (excludes Max-covered Claude Code usage, which is what we want for out-of-pocket tracking)
-  const url = new URL("https://api.anthropic.com/v1/organizations/usage_report/messages");
-  url.searchParams.set("starting_at", range.from.toISOString());
-  url.searchParams.set("ending_at", range.to.toISOString());
-  url.searchParams.append("group_by[]", "model");
-  url.searchParams.append("group_by[]", "api_key_id");
-
-  const res = await fetch(url, {
-    headers: { "x-api-key": key, "anthropic-version": "2023-06-01" },
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    return { totalCents: null, note: `Anthropic API ${res.status}: ${body.slice(0, 200)}` };
-  }
-
-  const data = await res.json();
+  const baseUrl = new URL("https://api.anthropic.com/v1/organizations/usage_report/messages");
+  baseUrl.searchParams.set("starting_at", range.from.toISOString());
+  baseUrl.searchParams.set("ending_at", range.to.toISOString());
+  baseUrl.searchParams.append("group_by[]", "model");
+  baseUrl.searchParams.append("group_by[]", "api_key_id");
 
   // Aggregate by model, compute cost manually
   const byModel = {};
-  let unknownTokens = 0;
-  for (const bucket of data.data || []) {
-    for (const result of bucket.results || []) {
-      const model = result.model || "unknown";
-      if (!byModel[model]) byModel[model] = { input: 0, output: 0, cacheRead: 0, cacheCreate: 0 };
-      byModel[model].input += result.uncached_input_tokens || 0;
-      byModel[model].output += result.output_tokens || 0;
-      byModel[model].cacheRead += result.cache_read_input_tokens || 0;
-      const cc = result.cache_creation || {};
-      byModel[model].cacheCreate +=
-        (cc.ephemeral_1h_input_tokens || 0) + (cc.ephemeral_5m_input_tokens || 0);
+  let pageToken = null;
+  do {
+    const url = new URL(baseUrl);
+    if (pageToken) url.searchParams.set("page", pageToken);
+
+    const res = await fetch(url, {
+      headers: { "x-api-key": key, "anthropic-version": "2023-06-01" },
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      return { totalCents: null, note: `Anthropic API ${res.status}: ${body.slice(0, 200)}` };
     }
-  }
+
+    const data = await res.json();
+    for (const bucket of data.data || []) {
+      for (const result of bucket.results || []) {
+        const model = result.model || "unknown";
+        if (!byModel[model]) byModel[model] = { input: 0, output: 0, cacheRead: 0, cacheCreate: 0 };
+        byModel[model].input += result.uncached_input_tokens || 0;
+        byModel[model].output += result.output_tokens || 0;
+        byModel[model].cacheRead += result.cache_read_input_tokens || 0;
+        const cc = result.cache_creation || {};
+        byModel[model].cacheCreate +=
+          (cc.ephemeral_1h_input_tokens || 0) + (cc.ephemeral_5m_input_tokens || 0);
+      }
+    }
+    pageToken = data.has_more ? data.next_page : null;
+  } while (pageToken);
 
   let totalCents = 0;
   const breakdown = [];
