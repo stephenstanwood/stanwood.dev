@@ -92,13 +92,6 @@
       "category": "ai",
       "url": "https://midjourney.com/account",
       "note": "just downgraded to basic"
-    },
-    {
-      "name": "GoDaddy Auctions",
-      "cents": null,
-      "category": "tools",
-      "url": "https://auctions.godaddy.com",
-      "note": "renews 2026-05-25 — track price when known"
     }
   ],
   "domains": [
@@ -148,28 +141,28 @@
       "name": "southbaytoday.org",
       "registrar": "Vercel",
       "renewsAt": "2027-04-08",
-      "annualCents": null,
+      "annualCents": 999,
       "note": "SBS rename target"
     },
     {
       "name": "southbaysignal.org",
       "registrar": "Vercel",
       "renewsAt": "2027-03-28",
-      "annualCents": null,
+      "annualCents": 999,
       "note": null
     },
     {
       "name": "stoa.works",
       "registrar": "Vercel",
-      "renewsAt": "2027-03-26",
-      "annualCents": null,
+      "renewsAt": "2027-03-25",
+      "annualCents": 3200,
       "note": null
     },
     {
       "name": "tmcat.app",
       "registrar": "Vercel",
       "renewsAt": "2027-03-21",
-      "annualCents": null,
+      "annualCents": 1500,
       "note": null
     }
   ]
