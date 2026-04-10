@@ -338,6 +338,117 @@ const title = "Ship Clock — stanwood.dev";
         }
       }
 
+      /* ── How it works / build your own ── */
+      .sc-explainer {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+
+      .sc-explainer-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: var(--sc-ink);
+        margin: 0 0 6px;
+      }
+
+      .sc-explainer-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 20px;
+      }
+
+      .sc-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+
+      .sc-step {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+
+      .sc-step-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--sc-accent);
+        opacity: 0.7;
+        padding-top: 2px;
+        flex-shrink: 0;
+        width: 22px;
+      }
+
+      .sc-step-title {
+        font-family: 'Cabin', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--sc-ink);
+        margin-bottom: 2px;
+      }
+
+      .sc-step-body {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.55;
+        line-height: 1.5;
+      }
+
+      .sc-code-block {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 3px 3px 0 var(--sc-ink);
+        background: #111;
+        color: #fffef5;
+        padding: 16px 18px;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        line-height: 1.7;
+        overflow-x: auto;
+        white-space: pre;
+        margin-bottom: 12px;
+        position: relative;
+      }
+
+      .sc-code-comment { color: rgba(255,254,245,0.3); }
+      .sc-code-key     { color: #ff5c1a; }
+      .sc-code-str     { color: #7dde8a; }
+      .sc-code-var     { color: #ffd06e; }
+
+      .sc-copy-btn {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        background: transparent;
+        border: 1.5px solid var(--sc-ink);
+        padding: 5px 14px;
+        cursor: pointer;
+        opacity: 0.4;
+        transition: opacity 0.15s;
+        margin-bottom: 8px;
+      }
+      .sc-copy-btn:hover { opacity: 1; }
+
+      .sc-explainer-note {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.35;
+        line-height: 1.6;
+        margin-top: 8px;
+      }
+
       /* ── Hero image ── */
       .sc-hero {
         width: 100%;
@@ -420,5 +531,82 @@ const title = "Ship Clock — stanwood.dev";
     </div>
 
     <ShipClock client:idle />
+
+    <!-- How it works / build your own -->
+    <div class="sc-explainer">
+      <h2 class="sc-explainer-heading">Build Your Own</h2>
+      <p class="sc-explainer-sub">three steps · ~30 minutes</p>
+
+      <div class="sc-steps">
+        <div class="sc-step">
+          <span class="sc-step-num">01</span>
+          <div>
+            <p class="sc-step-title">Create a Vercel read token</p>
+            <p class="sc-step-body">In Vercel → Account Settings → Tokens, create a scoped read token. Grab your Project ID from the project settings URL.</p>
+          </div>
+        </div>
+        <div class="sc-step">
+          <span class="sc-step-num">02</span>
+          <div>
+            <p class="sc-step-title">Call the deployments API</p>
+            <p class="sc-step-body">One fetch pulls the last 25 production deploys with commit metadata attached. The rest is arithmetic.</p>
+          </div>
+        </div>
+        <div class="sc-step">
+          <span class="sc-step-num">03</span>
+          <div>
+            <p class="sc-step-title">Mount a counter component</p>
+            <p class="sc-step-body">Compute <code>daysSince</code> from <code>deployments[0].created</code> and display it. Poll every 5 minutes with a <code>setInterval</code> or use stale-while-revalidate caching.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc-code-block" id="sc-snippet"><span class="sc-code-comment">// GET /api/ship-clock</span>
+<span class="sc-code-key">const</span> <span class="sc-code-var">url</span> = &#96;<span class="sc-code-str">https://api.vercel.com/v6/deployments</span>
+<span class="sc-code-str">  ?projectId=&#36;&#123;</span><span class="sc-code-var">VERCEL_PROJECT_ID</span><span class="sc-code-str">&#125;</span>
+<span class="sc-code-str">  &amp;target=production&amp;limit=25&amp;state=READY</span>&#96;;
+
+<span class="sc-code-key">const</span> <span class="sc-code-var">res</span> = <span class="sc-code-key">await</span> fetch(<span class="sc-code-var">url</span>, &#123;
+  headers: &#123; Authorization: &#96;<span class="sc-code-str">Bearer &#36;&#123;</span><span class="sc-code-var">VERCEL_TOKEN</span><span class="sc-code-str">&#125;</span>&#96; &#125;
+&#125;);
+
+<span class="sc-code-key">const</span> &#123; deployments &#125; = <span class="sc-code-key">await</span> <span class="sc-code-var">res</span>.json();
+<span class="sc-code-key">const</span> <span class="sc-code-var">lastDeploy</span> = <span class="sc-code-key">new</span> Date(deployments[0].created);
+<span class="sc-code-key">const</span> <span class="sc-code-var">daysSince</span> = Math.floor(
+  (Date.now() - <span class="sc-code-var">lastDeploy</span>.getTime()) / 86400000
+);</div>
+
+      <button class="sc-copy-btn" id="sc-copy-btn">copy snippet</button>
+
+      <p class="sc-explainer-note">
+        Works with any Vercel project. Swap in GitHub Actions or Fly.io by adapting the deployment source.<br>
+        Commit metadata (message, SHA, PR number) lives in <code>deployments[0].meta</code>.
+      </p>
+    </div>
   </div>
+
+  <script>
+    const btn = document.getElementById('sc-copy-btn');
+    const snippet = document.getElementById('sc-snippet');
+    if (btn && snippet) {
+      btn.addEventListener('click', () => {
+        const code = `// GET /api/ship-clock
+const url = \`https://api.vercel.com/v6/deployments?projectId=\${VERCEL_PROJECT_ID}&target=production&limit=25&state=READY\`;
+
+const res = await fetch(url, {
+  headers: { Authorization: \`Bearer \${VERCEL_TOKEN}\` }
+});
+
+const { deployments } = await res.json();
+const lastDeploy = new Date(deployments[0].created);
+const daysSince = Math.floor(
+  (Date.now() - lastDeploy.getTime()) / 86400000
+);`;
+        navigator.clipboard.writeText(code).then(() => {
+          btn.textContent = 'copied!';
+          setTimeout(() => { btn.textContent = 'copy snippet'; }, 2000);
+        });
+      });
+    }
+  </script>
 </BaseLayout>
