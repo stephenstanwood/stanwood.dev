@@ -7,20 +7,12 @@ import { defineMiddleware } from "astro:middleware";
  */
 
 const PROTECTED_PREFIXES = ['/money', '/api/money'];
+const LOGIN_PATH = '/money-login';
 
 function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some(
     (p) => pathname === p || pathname.startsWith(p + '/'),
   );
-}
-
-function unauthorized(): Response {
-  return new Response('Authentication required', {
-    status: 401,
-    headers: {
-      'WWW-Authenticate': 'Basic realm="money", charset="UTF-8"',
-    },
-  });
 }
 
 export const onRequest = defineMiddleware((context, next) => {
@@ -37,29 +29,23 @@ export const onRequest = defineMiddleware((context, next) => {
     }
   }
 
-  // ── Basic auth for private routes ──
+  // ── Cookie auth for private routes ──
   if (isProtected(url.pathname)) {
     const expected = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
     if (!expected) {
       return new Response('MONEY_PASSWORD not configured', { status: 500 });
     }
 
-    const header = context.request.headers.get('authorization');
-    if (!header || !header.toLowerCase().startsWith('basic ')) {
-      return unauthorized();
-    }
+    const cookies = context.request.headers.get('cookie') || '';
+    const match = cookies.split(';').find((c) => c.trim().startsWith('money_session='));
+    const token = match ? match.split('=')[1].trim() : null;
 
-    let decoded: string;
-    try {
-      decoded = atob(header.slice(6).trim());
-    } catch {
-      return unauthorized();
-    }
-
-    const idx = decoded.indexOf(':');
-    const password = idx >= 0 ? decoded.slice(idx + 1) : decoded;
-    if (password !== expected) {
-      return unauthorized();
+    if (token !== expected) {
+      // API routes return 401; page routes redirect to login
+      if (url.pathname.startsWith('/api/')) {
+        return new Response('Unauthorized', { status: 401 });
+      }
+      return Response.redirect(new URL(LOGIN_PATH, url.origin), 302);
     }
   }
 
