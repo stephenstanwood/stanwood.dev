@@ -102,7 +102,7 @@ export default function MoneyDashboard() {
 
       {/* ── ANNUAL BANNER ── */}
       <div className="mo-annual">
-        <span>annual run rate:</span>
+        <span>estimated annual spend:</span>
         <strong>{formatCents(annualRunRate)}</strong>
         <span>
           (monthly ×12 + {formatCents(annualDomains)} domains)

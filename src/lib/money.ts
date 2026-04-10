@@ -95,7 +95,7 @@ export const CATEGORY_META: Record<
 export function formatCents(cents: number): string {
   if (cents === 0) return "$0";
   const dollars = cents / 100;
-  return dollars < 1 ? `${cents}\u00a2` : `$${dollars.toFixed(2)}`;
+  return dollars < 1 ? `${cents}\u00a2` : `$${dollars.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export function formatDollars(cents: number): string {
