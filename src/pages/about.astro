@@ -155,9 +155,116 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       text-decoration: underline;
     }
 
+    /* ── Now section ── */
+    .now-section {
+      margin-bottom: 36px;
+    }
+
+    .now-heading {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      margin-bottom: 12px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .now-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .now-card {
+      border: 2px solid var(--ink);
+      padding: 12px 14px;
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    .now-card-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 4px;
+    }
+
+    .now-card-value {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    /* ── Stack badges ── */
+    .stack-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .stack-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border: 2px solid var(--ink);
+      background: var(--bg);
+      box-shadow: 2px 2px 0 var(--ink);
+      white-space: nowrap;
+    }
+
+    .stack-badge.highlight {
+      background: var(--yellow);
+    }
+
+    /* ── Connect cards ── */
+    .connect-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .connect-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 2px solid var(--ink);
+      padding: 12px 16px;
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--ink);
+      text-decoration: none;
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+    }
+
+    .connect-card:hover {
+      background: var(--yellow);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .connect-card-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .connect-card-sub {
+      font-weight: 400;
+      opacity: 0.55;
+      font-size: 11px;
+      margin-top: 1px;
+    }
+
     @media (max-width: 600px) {
       .about-header h1 { font-size: 28px; }
       .about-wrap { padding: 32px 16px 60px; }
+      .now-grid { grid-template-columns: 1fr; }
     }
   </style>
 
@@ -181,6 +288,28 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         I've worked at a small law firm, ran my own practice for a while, and also spent time with organizations like City Year and the Electronic Frontier Foundation.
         These days you'll mostly find me swimming pre-dawn laps with a wonderful team, building here, doing yoga, and chasing my two-year-old daughter around the house.
       </p>
+    </div>
+
+    <div class="now-section">
+      <h2 class="now-heading">Now</h2>
+      <div class="now-grid">
+        <div class="now-card">
+          <div class="now-card-label">Location</div>
+          <div class="now-card-value">Campbell, CA</div>
+        </div>
+        <div class="now-card">
+          <div class="now-card-label">Day job</div>
+          <div class="now-card-value">US Government</div>
+        </div>
+        <div class="now-card">
+          <div class="now-card-label">Studying</div>
+          <div class="now-card-value">CS @ Oregon State</div>
+        </div>
+        <div class="now-card">
+          <div class="now-card-label">Side project</div>
+          <div class="now-card-value">stanwood.dev</div>
+        </div>
+      </div>
     </div>
 
     <div class="about-section">
@@ -213,22 +342,46 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="about-section">
       <h2>How I Build</h2>
       <p>
-        Most of what you see here is built with <strong>Astro 5</strong>, <strong>React</strong>, and <strong>Tailwind v4</strong>, deployed on <strong>Vercel</strong>.
-        APIs I lean on most: Claude (Anthropic) for AI features, Google Places for location tools, and ESPN for live sports data.
-      </p>
-      <p>
         I build fast and iterate — ship something that works, then refine. Most projects go from idea to live in a day or two.
-        I use <a href="https://claude.ai/claude-code">Claude Code</a> as a design partner — we iterate quickly through ideas together, riffing back and forth until the vision clicks.
+        I use <a href="https://claude.ai/claude-code">Claude Code</a> as a design partner — riffing back and forth until the vision clicks.
       </p>
+      <div class="stack-row">
+        <span class="stack-badge highlight">Astro 5</span>
+        <span class="stack-badge highlight">React 19</span>
+        <span class="stack-badge highlight">Tailwind v4</span>
+        <span class="stack-badge">Vercel</span>
+        <span class="stack-badge">TypeScript</span>
+        <span class="stack-badge">Claude API</span>
+        <span class="stack-badge">ESPN API</span>
+        <span class="stack-badge">Google Places</span>
+      </div>
     </div>
 
     <div class="about-section">
       <h2>Connect</h2>
-      <ul class="connect-list">
-        <li>&rarr; <a href="mailto:stephen@stanwood.dev">stephen@stanwood.dev</a></li>
-        <li>&rarr; <a href="https://www.linkedin.com/in/stephenstanwood">LinkedIn</a></li>
-        <li>&rarr; <a href="https://github.com/stephenstanwood">GitHub</a></li>
-      </ul>
+      <div class="connect-cards">
+        <a href="mailto:stephen@stanwood.dev" class="connect-card">
+          <span class="connect-card-icon">✉</span>
+          <div>
+            <div>stephen@stanwood.dev</div>
+            <div class="connect-card-sub">email — best way to reach me</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/stephenstanwood" class="connect-card" target="_blank" rel="noopener noreferrer">
+          <span class="connect-card-icon">in</span>
+          <div>
+            <div>LinkedIn</div>
+            <div class="connect-card-sub">stephenstanwood</div>
+          </div>
+        </a>
+        <a href="https://github.com/stephenstanwood" class="connect-card" target="_blank" rel="noopener noreferrer">
+          <span class="connect-card-icon">⌥</span>
+          <div>
+            <div>GitHub</div>
+            <div class="connect-card-sub">stephenstanwood</div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </BaseLayout>
