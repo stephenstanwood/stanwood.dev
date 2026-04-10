@@ -21,7 +21,7 @@ const SAFE_FIELDS = [
 export const GET: APIRoute = async ({ clientAddress, url }) => {
   if (!rateLimit(clientAddress, 30)) return rateLimitResponse();
 
-  const limit = Math.min(parseInt(url.searchParams.get("limit") || "25"), 50);
+  const limit = Math.min(parseInt(url.searchParams.get("limit") || "25", 10) || 25, 50);
 
   const params = new URLSearchParams({
     $order: "datetimearrested DESC",
@@ -53,7 +53,7 @@ export const GET: APIRoute = async ({ clientAddress, url }) => {
       degree: r.arrestdegree || "",
       race: r.race || "",
       gender: r.gender || "",
-      age: parseInt(r.age) || 0,
+      age: parseInt(r.age, 10) || 0,
       agency: r.fullagencyname || "",
     }));
 

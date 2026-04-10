@@ -52,13 +52,13 @@ export default function ArrestBlotter() {
   }
 
   function formatDate(iso: string): string {
-    const d = new Date(iso);
-    return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    const date = new Date(iso);
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }
 
   function formatTime(iso: string): string {
-    const d = new Date(iso);
-    return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+    const date = new Date(iso);
+    return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
   }
 
   if (loading) {

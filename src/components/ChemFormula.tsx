@@ -12,7 +12,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   const [phase, setPhase] = useState<Phase>('idle');
   const [visibleCount, setVisibleCount] = useState(0);
 
-  const s = compact ? 0.6 : 1; // scale factor
+  const scale = compact ? 0.6 : 1;
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
@@ -50,12 +50,12 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   const showElements = phase === 'slide-in' || phase === 'react';
   const showProduct = phase === 'product' || phase === 'hold';
 
-  const tileW = Math.round(86 * s);
-  const tileH = Math.round(108 * s);
-  const symbolSize = Math.round(34 * s);
-  const nameSize = Math.round(12 * s);
-  const numberSize = Math.round(14 * s);
-  const opSize = Math.round(24 * s);
+  const tileW = Math.round(86 * scale);
+  const tileH = Math.round(108 * scale);
+  const symbolSize = Math.round(34 * scale);
+  const nameSize = Math.round(12 * scale);
+  const numberSize = Math.round(14 * scale);
+  const opSize = Math.round(24 * scale);
   const productTitleSize = compact ? 20 : 34;
   const productSubSize = compact ? 8 : 9;
   const gap = compact ? 6 : 10;
@@ -108,8 +108,8 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
               }}>
                 <span style={{
                   position: 'absolute',
-                  top: `${Math.round(5 * s)}px`,
-                  right: `${Math.round(7 * s)}px`,
+                  top: `${Math.round(5 * scale)}px`,
+                  right: `${Math.round(7 * scale)}px`,
                   fontSize: `${numberSize}px`,
                   color: 'rgba(255,255,255,0.85)',
                   fontWeight: 700,
@@ -126,7 +126,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
                   color: 'rgba(255,255,255,0.7)',
                   fontWeight: 600,
                   letterSpacing: '0.08em',
-                  marginTop: `${Math.round(2 * s)}px`,
+                  marginTop: `${Math.round(2 * scale)}px`,
                   textTransform: 'uppercase',
                   whiteSpace: 'pre-line',
                   textAlign: 'center',
@@ -141,7 +141,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
           <span style={{
             fontSize: `${opSize}px`,
             color: '#444',
-            marginLeft: `${Math.round(6 * s)}px`,
+            marginLeft: `${Math.round(6 * scale)}px`,
             animation: 'cfFadeIn 0.3s ease',
             fontWeight: 700,
           }}>=</span>
