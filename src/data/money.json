@@ -1,0 +1,176 @@
+{
+  "lastUpdated": "2026-04-10T16:37:54.197Z",
+  "apiSpend": {
+    "months": [
+      {
+        "month": "2026-04",
+        "collectedAt": "2026-04-10T16:37:54.197Z",
+        "services": {
+          "vercel": {
+            "totalCents": 2010,
+            "breakdown": [
+              {
+                "name": "Pro",
+                "cents": 1974
+              },
+              {
+                "name": "Build Minutes",
+                "cents": 21
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 6
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 5
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 4
+              }
+            ],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 414,
+            "breakdown": [
+              {
+                "name": "claude-haiku-4-5",
+                "cents": 374
+              },
+              {
+                "name": "claude-sonnet-4-6",
+                "cents": 40
+              }
+            ],
+            "note": "API key usage only — excludes Max-covered Claude Code"
+          },
+          "openai": {
+            "totalCents": 4,
+            "breakdown": [
+              {
+                "name": "api",
+                "cents": 4
+              }
+            ],
+            "note": null
+          },
+          "google_cloud": {
+            "totalCents": null,
+            "note": "Manual — GCP needs service account for billing API"
+          }
+        }
+      }
+    ]
+  },
+  "subscriptions": [
+    {
+      "name": "Claude Max",
+      "cents": 10000,
+      "category": "ai",
+      "url": "https://claude.ai/settings/billing",
+      "note": "the big boy"
+    },
+    {
+      "name": "Meetup Pro",
+      "cents": 5500,
+      "category": "data",
+      "url": "https://www.meetup.com/pro",
+      "note": "required for SBS Meetup API"
+    },
+    {
+      "name": "ChatGPT Plus",
+      "cents": 2000,
+      "category": "ai",
+      "url": "https://chat.openai.com",
+      "note": "in case Claude is down or I want a second opinion"
+    },
+    {
+      "name": "Midjourney",
+      "cents": 1000,
+      "category": "ai",
+      "url": "https://midjourney.com/account",
+      "note": "just downgraded to basic"
+    },
+    {
+      "name": "GoDaddy Auctions",
+      "cents": null,
+      "category": "tools",
+      "url": "https://auctions.godaddy.com",
+      "note": "renews 2026-05-25 — track price when known"
+    }
+  ],
+  "domains": [
+    {
+      "name": "stanwood.dev",
+      "registrar": "GoDaddy",
+      "renewsAt": "2026-06-03",
+      "annualCents": 2399,
+      "note": "the main hub"
+    },
+    {
+      "name": "stephenstanwood.com",
+      "registrar": "GoDaddy",
+      "renewsAt": "2026-04-26",
+      "annualCents": 2299,
+      "note": "personal name"
+    },
+    {
+      "name": "sandcat.io",
+      "registrar": "GoDaddy",
+      "renewsAt": null,
+      "annualCents": 0,
+      "note": "set to expire — not renewing"
+    },
+    {
+      "name": "nbanow.app",
+      "registrar": "GoDaddy",
+      "renewsAt": null,
+      "annualCents": 2799,
+      "note": null
+    },
+    {
+      "name": "showswipe.app",
+      "registrar": "GoDaddy",
+      "renewsAt": null,
+      "annualCents": 2799,
+      "note": null
+    },
+    {
+      "name": "sandcat.dev",
+      "registrar": "GoDaddy",
+      "renewsAt": null,
+      "annualCents": null,
+      "note": "domain broker service"
+    },
+    {
+      "name": "southbaytoday.org",
+      "registrar": "Vercel",
+      "renewsAt": "2027-04-08",
+      "annualCents": null,
+      "note": "SBS rename target"
+    },
+    {
+      "name": "southbaysignal.org",
+      "registrar": "Vercel",
+      "renewsAt": "2027-03-28",
+      "annualCents": null,
+      "note": null
+    },
+    {
+      "name": "stoa.works",
+      "registrar": "Vercel",
+      "renewsAt": "2027-03-26",
+      "annualCents": null,
+      "note": null
+    },
+    {
+      "name": "tmcat.app",
+      "registrar": "Vercel",
+      "renewsAt": "2027-03-21",
+      "annualCents": null,
+      "note": null
+    }
+  ]
+}

@@ -1,0 +1,362 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MoneyDashboard from "../components/money/MoneyDashboard.tsx";
+export const prerender = false;
+---
+
+<BaseLayout
+  title="$$$ — stanwood.dev"
+  description="Money out the door."
+  slug="money"
+  favicon="/favicon.svg"
+  themeColor="#fffef5"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&family=Cabin:wght@400;700&display=swap"
+  schemaCategory="DeveloperApplication"
+>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+    <style is:global>
+      :root {
+        --mo-bg: #fffef5;
+        --mo-ink: #111;
+        --mo-pixel: 3px;
+        --mo-orange: #ff5c1a;
+        --mo-pink: #ff3d9a;
+        --mo-blue: #2eb8ff;
+        --mo-green: #a4ff3d;
+        --mo-gold: #ffb938;
+        --mo-purple: #b76dff;
+        --mo-border: #111;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        font-family: 'Cabin', sans-serif;
+        background: var(--mo-bg);
+        background-image:
+          radial-gradient(circle at 20% 15%, rgba(255, 92, 26, 0.08) 0, transparent 40%),
+          radial-gradient(circle at 80% 60%, rgba(255, 61, 154, 0.08) 0, transparent 45%),
+          radial-gradient(circle at 40% 90%, rgba(46, 184, 255, 0.08) 0, transparent 40%);
+        color: var(--mo-ink);
+        min-height: 100vh;
+      }
+
+      .mo-page {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 72px 24px 96px;
+      }
+
+      .mo-back {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        color: var(--mo-ink);
+        text-decoration: none;
+        opacity: 0.6;
+        transition: opacity 0.2s;
+        z-index: 10;
+      }
+      .mo-back:hover { opacity: 1; }
+
+      /* ── MASTHEAD ── */
+      .mo-masthead {
+        margin-bottom: 40px;
+        text-align: center;
+        position: relative;
+      }
+      .mo-title {
+        font-family: 'Rubik Mono One', 'Permanent Marker', sans-serif;
+        font-size: clamp(48px, 12vw, 96px);
+        line-height: 0.9;
+        letter-spacing: -0.02em;
+        margin: 0;
+        color: var(--mo-ink);
+        display: inline-block;
+        position: relative;
+        padding: 8px 24px;
+        background: var(--mo-gold);
+        border: var(--mo-pixel) solid var(--mo-ink);
+        box-shadow: 6px 6px 0 var(--mo-ink);
+        transform: rotate(-1.5deg);
+      }
+      .mo-tagline {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(16px, 3vw, 22px);
+        color: var(--mo-ink);
+        margin-top: 18px;
+        transform: rotate(0.8deg);
+        display: inline-block;
+      }
+      .mo-updated {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.4;
+        margin-top: 14px;
+      }
+
+      /* ── HERO TOTAL ── */
+      .mo-hero {
+        background: var(--mo-pink);
+        border: var(--mo-pixel) solid var(--mo-ink);
+        box-shadow: 6px 6px 0 var(--mo-ink);
+        padding: 32px 24px;
+        text-align: center;
+        margin-bottom: 20px;
+        transform: rotate(-0.4deg);
+      }
+      .mo-hero-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: #fff;
+        opacity: 0.85;
+        margin-bottom: 8px;
+      }
+      .mo-hero-amount {
+        font-family: 'Rubik Mono One', 'Permanent Marker', sans-serif;
+        font-size: clamp(56px, 14vw, 104px);
+        line-height: 1;
+        color: #fff;
+        text-shadow: 4px 4px 0 var(--mo-ink);
+        margin: 0;
+      }
+      .mo-hero-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: #fff;
+        opacity: 0.9;
+        margin-top: 12px;
+      }
+
+      /* ── ANNUAL BANNER ── */
+      .mo-annual {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        background: var(--mo-bg);
+        border: 2px dashed var(--mo-ink);
+        padding: 14px 20px;
+        margin-bottom: 40px;
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        flex-wrap: wrap;
+      }
+      .mo-annual strong {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        font-weight: normal;
+        color: var(--mo-orange);
+      }
+
+      /* ── SECTIONS ── */
+      .mo-section {
+        margin-bottom: 44px;
+      }
+      .mo-section-head {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid var(--mo-ink);
+      }
+      .mo-section-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(24px, 5vw, 34px);
+        line-height: 1;
+        margin: 0;
+      }
+      .mo-section-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        opacity: 0.5;
+        font-style: italic;
+      }
+      .mo-section-total {
+        margin-left: auto;
+        font-family: 'Rubik Mono One', monospace;
+        font-size: 18px;
+      }
+
+      /* ── CARDS ── */
+      .mo-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 14px;
+      }
+
+      .mo-card {
+        border: var(--mo-pixel) solid var(--mo-ink);
+        box-shadow: 4px 4px 0 var(--mo-ink);
+        background: #fff;
+        padding: 16px 18px;
+        position: relative;
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+      }
+      .mo-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 var(--mo-ink);
+      }
+
+      .mo-card--api { background: #fff8f0; }
+      .mo-card--sub { background: #fff; }
+      .mo-card--domain { background: #fafff0; }
+
+      .mo-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .mo-card-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+      .mo-card-amount {
+        font-family: 'Rubik Mono One', 'Permanent Marker', sans-serif;
+        font-size: 26px;
+        line-height: 1;
+        color: var(--mo-ink);
+      }
+      .mo-card-amount--big {
+        font-size: 36px;
+      }
+
+      .mo-chip {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border: 1.5px solid var(--mo-ink);
+      }
+
+      .mo-card-note {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        opacity: 0.5;
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      .mo-card-breakdown {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(0,0,0,0.2);
+        color: #555;
+      }
+      .mo-card-breakdown-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1px 0;
+      }
+      .mo-card-breakdown-row span:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 70%;
+      }
+
+      /* ── DOMAIN ROWS ── */
+      .mo-domains {
+        border: var(--mo-pixel) solid var(--mo-ink);
+        box-shadow: 4px 4px 0 var(--mo-ink);
+        background: #fff;
+      }
+      .mo-domain-row {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 12px;
+        padding: 12px 18px;
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        align-items: center;
+      }
+      .mo-domain-row:last-child { border-bottom: none; }
+      .mo-domain-row:hover { background: #fff8f0; }
+
+      .mo-domain-name {
+        font-weight: 700;
+      }
+      .mo-domain-registrar {
+        font-size: 10px;
+        opacity: 0.5;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .mo-domain-renewal {
+        font-size: 11px;
+      }
+      .mo-domain-renewal--soon { color: var(--mo-orange); font-weight: 700; }
+      .mo-domain-renewal--very-soon { color: #e11; font-weight: 700; }
+      .mo-domain-price {
+        text-align: right;
+        font-weight: 700;
+      }
+      .mo-domain-price--zero {
+        opacity: 0.3;
+        text-decoration: line-through;
+      }
+
+      /* ── EMPTY/LOADING/AUTH STATES ── */
+      .mo-state {
+        text-align: center;
+        padding: 80px 24px;
+      }
+      .mo-state-emoji {
+        font-size: 64px;
+        margin-bottom: 16px;
+      }
+      .mo-state-msg {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 24px;
+      }
+
+      /* ── FOOTER ── */
+      .mo-footer {
+        margin-top: 56px;
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.35;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 640px) {
+        .mo-page { padding: 56px 16px 48px; }
+        .mo-cards { grid-template-columns: 1fr; }
+        .mo-domain-row {
+          grid-template-columns: 1fr 1fr;
+          gap: 6px;
+        }
+        .mo-domain-row > :nth-child(2) { text-align: right; }
+        .mo-back { top: 14px; left: 14px; }
+      }
+    </style>
+  </Fragment>
+
+  <div class="mo-page">
+    <a href="/" class="mo-back">&larr; stanwood.dev</a>
+    <MoneyDashboard client:only="react" />
+  </div>
+</BaseLayout>
