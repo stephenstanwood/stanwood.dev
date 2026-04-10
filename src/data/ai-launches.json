@@ -1,5 +1,21 @@
 [
   {
+    "name": "GLM-5.1",
+    "org": "Z.ai (Zhipu AI)",
+    "date": "2026-04-07",
+    "type": "model",
+    "summary": "MIT-licensed open 744B MoE model (40B active, 200K context) — topped SWE-Bench for coding, first open model to beat all closed rivals on real-world code; weights on Hugging Face",
+    "url": "https://huggingface.co/zai-org/GLM-5"
+  },
+  {
+    "name": "Claude Managed Agents + ant CLI",
+    "org": "Anthropic",
+    "date": "2026-04-08",
+    "type": "tool",
+    "summary": "public beta for building and deploying Claude agents — sandboxed execution, checkpointing, scoped permissions, SSE streaming; new ant CLI lets you ship agents from the terminal",
+    "url": "https://siliconangle.com/2026/04/08/anthropic-launches-claude-managed-agents-speed-ai-agent-development/"
+  },
+  {
     "name": "Meta Muse Spark",
     "org": "Meta",
     "date": "2026-04-08",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "real-time voice model in the developer API — build conversational voice apps with low latency, successor to Gemini 2.5 Flash Native Audio",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/"
-  },
-  {
-    "name": "Mistral Speech",
-    "org": "Mistral",
-    "date": "2026-03-26",
-    "type": "model",
-    "summary": "open-source text-to-speech model for building voice agents — Apache 2.0, competes with ElevenLabs at zero licensing cost",
-    "url": "https://mistral.ai/news/mistral-speech"
-  },
-  {
-    "name": "Dreamina Seedance 2.0",
-    "org": "ByteDance",
-    "date": "2026-03-26",
-    "type": "tool",
-    "summary": "audio+video generation model rolling out in CapCut — draft, edit, and sync video/audio from prompts or reference clips; free inside CapCut",
-    "url": "https://techcrunch.com/2026/03/26/bytedances-new-ai-video-generation-model-dreamina-seedance-2-0-comes-to-capcut/"
   }
 ]
