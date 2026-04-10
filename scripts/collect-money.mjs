@@ -77,10 +77,10 @@ async function collectVercel(range) {
   const lines = text.split("\n").filter((l) => l.trim());
   const charges = lines.map((l) => JSON.parse(l));
 
-  // Include both Usage (pay-as-you-go) AND Purchase (Pro subscription base fee)
+  // Usage only — Pro subscription base fee tracked separately in subscriptions
   const byService = {};
   for (const c of charges) {
-    if (c.ChargeCategory !== "Usage" && c.ChargeCategory !== "Purchase") continue;
+    if (c.ChargeCategory !== "Usage") continue;
     const name = c.ServiceName || "Other";
     byService[name] = (byService[name] || 0) + (c.BilledCost || 0);
   }
