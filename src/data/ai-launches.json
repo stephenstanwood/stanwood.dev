@@ -24,6 +24,14 @@
     "url": "https://ai.meta.com/blog/introducing-muse-spark-msl/"
   },
   {
+    "name": "Microsoft Agent Framework 1.0",
+    "org": "Microsoft",
+    "date": "2026-04-07",
+    "type": "tool",
+    "summary": "open-source, production-ready agent framework for Python and .NET — unifies Semantic Kernel + AutoGen with graph-based multi-agent workflows, MCP interop, and a stable LTS API",
+    "url": "https://devblogs.microsoft.com/foundry/introducing-microsoft-agent-framework-the-open-source-engine-for-agentic-ai-apps/"
+  },
+  {
     "name": "Microsoft MAI Models",
     "org": "Microsoft",
     "date": "2026-04-03",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "accessible text-to-video and image-to-video model — Veo 3.1 Fast pricing slashed to open up developer access for solo creators and small teams",
     "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
-  },
-  {
-    "name": "Gemini 3.1 Flash Live",
-    "org": "Google",
-    "date": "2026-03-27",
-    "type": "model",
-    "summary": "real-time voice model in the developer API — build conversational voice apps with low latency, successor to Gemini 2.5 Flash Native Audio",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/"
   }
 ]
