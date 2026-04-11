@@ -62,5 +62,77 @@
     "type": "tool",
     "summary": "accessible text-to-video and image-to-video model — Veo 3.1 Fast pricing slashed to open up developer access for solo creators and small teams",
     "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
+  },
+  {
+    "name": "GPT-4.1",
+    "org": "OpenAI",
+    "date": "2025-04-14",
+    "type": "model",
+    "summary": "coding-focused model with 1M token context — GPT-4.1 Mini and Nano also launched; sharper at multi-step instruction following, 26% cheaper than GPT-4o for API calls",
+    "url": "https://openai.com/index/gpt-4-1/"
+  },
+  {
+    "name": "Llama 4",
+    "org": "Meta",
+    "date": "2025-04-05",
+    "type": "model",
+    "summary": "first multimodal Llama family — Scout (17B/16 experts, 10M context) and Maverick (17B/128 experts) released open-weight; trained on 30T tokens with early fusion of text and image",
+    "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+  },
+  {
+    "name": "Gemini 2.5 Pro",
+    "org": "Google",
+    "date": "2025-03-25",
+    "type": "model",
+    "summary": "Google's best reasoning model — experimental release hit #1 on LMArena and Aider coding leaderboards; 1M context, extended thinking, available in AI Studio",
+    "url": "https://blog.google/technology/google-deepmind/gemini-2-5-pro-experimental/"
+  },
+  {
+    "name": "Gemma 3",
+    "org": "Google",
+    "date": "2025-03-12",
+    "type": "model",
+    "summary": "open-weight models from 1B to 27B — multimodal (text + image), 128K context, Apache 2.0, runs on a single GPU; 27B variant outperforms Llama 3.3 70B",
+    "url": "https://blog.google/technology/developers/gemma-3/"
+  },
+  {
+    "name": "Claude 3.7 Sonnet",
+    "org": "Anthropic",
+    "date": "2025-02-24",
+    "type": "model",
+    "summary": "first hybrid reasoning model — toggleable extended thinking mode, best-in-class coding and agentic tasks; Claude Code CLI launched alongside for terminal-native development",
+    "url": "https://www.anthropic.com/news/claude-3-7-sonnet"
+  },
+  {
+    "name": "GPT-4.5",
+    "org": "OpenAI",
+    "date": "2025-02-27",
+    "type": "model",
+    "summary": "largest OpenAI model to date — better emotional intelligence, reduced hallucinations, stronger creative and agentic performance; launched in ChatGPT Pro first, then API",
+    "url": "https://openai.com/index/gpt-4-5/"
+  },
+  {
+    "name": "Grok 3",
+    "org": "xAI",
+    "date": "2025-02-17",
+    "type": "model",
+    "summary": "xAI's flagship reasoning model — trained on 10x the compute of Grok 2, topped math and science benchmarks; DeepSearch and Think modes for multi-step reasoning, free on X",
+    "url": "https://x.ai/blog/grok-3"
+  },
+  {
+    "name": "o3-mini",
+    "org": "OpenAI",
+    "date": "2025-01-31",
+    "type": "model",
+    "summary": "cost-efficient reasoning model — three effort levels (low/medium/high), topped AIME math at high effort, available free in ChatGPT; first reasoning model with function calling",
+    "url": "https://openai.com/index/openai-o3-mini/"
+  },
+  {
+    "name": "DeepSeek R1",
+    "org": "DeepSeek",
+    "date": "2025-01-20",
+    "type": "model",
+    "summary": "MIT-licensed open reasoning model matching o1 on math and coding — trained via pure RL with no supervised fine-tuning; distilled 1.5B–70B variants also released; shocked the industry on cost",
+    "url": "https://github.com/deepseek-ai/DeepSeek-R1"
   }
 ]

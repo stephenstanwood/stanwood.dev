@@ -28,6 +28,8 @@ export const ORG_COLORS: Record<string, string> = {
   Inception: "#e63946",
   ByteDance: "#ff004f",
   MiniMax: "#6366f1",
+  DeepSeek: "#4d6bfe",
+  "Z.ai (Zhipu AI)": "#0ea5e9",
 };
 
 /** Display label per launch type — falls back to "LAUNCH" if unknown. */
