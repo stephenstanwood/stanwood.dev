@@ -25,6 +25,8 @@ export function estimateWalk(meters: number): string {
 
 export function computeZoom(distanceMeters: number): number {
   const km = distanceMeters / 1000;
+  // Logarithmic scale calibrated so 0.1 km → zoom 19, 1 km → zoom 15, 10 km → zoom 12.
+  // Clamped to the range visible on the Nearest Coffee static map (12–17).
   const zoom = Math.round(15.5 - Math.log2(Math.max(km, 0.1)));
   return Math.min(Math.max(zoom, 12), 17);
 }
@@ -189,6 +191,14 @@ export function setupCarousel<T>(config: CarouselConfig<T>): void {
   const { container, items, buildCard, preload } = config;
   let currentIdx = 0;
 
+  const buildDots = (activeIdx: number) =>
+    items
+      .map(
+        (_, i) =>
+          `<div class="carousel-dot ${i === activeIdx ? "active" : ""}" data-idx="${i}"></div>`,
+      )
+      .join("");
+
   const navHtml =
     items.length > 1
       ? `
@@ -226,12 +236,7 @@ export function setupCarousel<T>(config: CarouselConfig<T>): void {
   function showCard(idx: number, direction: "left" | "right") {
     viewport.innerHTML = buildCard(items[idx], idx + 1, direction);
 
-    dotsEl.innerHTML = items
-      .map(
-        (_, i) =>
-          `<div class="carousel-dot ${i === idx ? "active" : ""}" data-idx="${i}"></div>`,
-      )
-      .join("");
+    dotsEl.innerHTML = buildDots(idx);
 
     counterEl.textContent = `${idx + 1} of ${items.length}`;
 
@@ -245,12 +250,7 @@ export function setupCarousel<T>(config: CarouselConfig<T>): void {
   }
 
   // Initial dots + counter
-  dotsEl.innerHTML = items
-    .map(
-      (_, i) =>
-        `<div class="carousel-dot ${i === 0 ? "active" : ""}" data-idx="${i}"></div>`,
-    )
-    .join("");
+  dotsEl.innerHTML = buildDots(0);
   counterEl.textContent = `1 of ${items.length}`;
 
   prevBtn.addEventListener("click", () => {
