@@ -1,56 +1,22 @@
 {
-  "lastUpdated": "2026-04-10T18:27:33.358Z",
+  "lastUpdated": "2026-04-11T10:00:02.779Z",
   "apiSpend": {
     "months": [
       {
         "month": "2026-04",
-        "collectedAt": "2026-04-10T18:27:33.358Z",
+        "collectedAt": "2026-04-11T10:00:02.779Z",
         "services": {
           "vercel": {
-            "totalCents": 36,
-            "breakdown": [
-              {
-                "name": "Build Minutes",
-                "cents": 21
-              },
-              {
-                "name": "Fluid Provisioned Memory",
-                "cents": 6
-              },
-              {
-                "name": "Web Analytics Events",
-                "cents": 5
-              },
-              {
-                "name": "Fluid Active CPU",
-                "cents": 4
-              }
-            ],
-            "note": null
+            "totalCents": null,
+            "note": "Missing VERCEL_TOKEN"
           },
           "anthropic": {
-            "totalCents": 1494,
-            "breakdown": [
-              {
-                "name": "claude-sonnet-4-6",
-                "cents": 934
-              },
-              {
-                "name": "claude-haiku-4-5",
-                "cents": 560
-              }
-            ],
-            "note": "computed from API key token usage (excludes Claude Code on Max)"
+            "totalCents": null,
+            "note": "Missing ANTHROPIC_ADMIN_KEY"
           },
           "openai": {
-            "totalCents": 4,
-            "breakdown": [
-              {
-                "name": "api",
-                "cents": 4
-              }
-            ],
-            "note": null
+            "totalCents": null,
+            "note": "Missing OPENAI_ADMIN_KEY"
           }
         }
       }
