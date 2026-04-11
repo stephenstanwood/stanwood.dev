@@ -117,6 +117,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
       .info-bar span { color: rgba(0, 210, 255, 0.35); }
       .info-bar .val { color: #ffd93d; }
+
+      /* ── Food palette ── */
+      .palette {
+        display: flex;
+        gap: 7px;
+        margin-top: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .palette-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.45rem;
+        color: rgba(0, 210, 255, 0.35);
+        letter-spacing: 1px;
+        margin-right: 2px;
+      }
+      .palette-swatch {
+        width: 22px;
+        height: 22px;
+        border-radius: 3px;
+        cursor: pointer;
+        border: 2px solid rgba(255,255,255,0.12);
+        transition: border-color 0.15s, transform 0.12s;
+        image-rendering: pixelated;
+        padding: 0;
+        background-size: cover;
+      }
+      .palette-swatch:hover { transform: scale(1.25); border-color: rgba(255,255,255,0.4); }
+      .palette-swatch.active { border-color: #fff; transform: scale(1.2); box-shadow: 0 0 6px rgba(255,255,255,0.35); }
+      .palette-swatch.swatch-random {
+        background: conic-gradient(#ff4060, #ff9a30, #ffd93d, #43e97b, #00d2ff, #c850c0, #ff6b9d, #ff4060);
+      }
       .back-link {
         position: fixed;
         top: 16px;
@@ -251,6 +284,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <span>fish: <span class="val" id="fish-count">0</span></span>
         <span>fed: <span class="val" id="fed-count">0</span></span>
       </div>
+      <div class="palette" role="group" aria-label="Food color selector">
+        <span class="palette-label">food:</span>
+        <button class="palette-swatch swatch-random active" data-color="random" title="Random color" aria-label="Random food color" aria-pressed="true"></button>
+        <button class="palette-swatch" style="background:#ff4060" data-color="0" title="Red" aria-label="Red food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#ff9a30" data-color="1" title="Orange" aria-label="Orange food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#ffd93d" data-color="2" title="Yellow" aria-label="Yellow food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#43e97b" data-color="3" title="Green" aria-label="Green food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#00d2ff" data-color="4" title="Cyan" aria-label="Cyan food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#c850c0" data-color="5" title="Purple" aria-label="Purple food" aria-pressed="false"></button>
+        <button class="palette-swatch" style="background:#ff6b9d" data-color="6" title="Pink" aria-label="Pink food" aria-pressed="false"></button>
+      </div>
       <div class="tips">
         <div class="tip">
           <span class="tip-icon">🎯</span>
@@ -260,7 +304,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <div class="tip">
           <span class="tip-icon">🎨</span>
           <span class="tip-title">Color evolves</span>
-          <span class="tip-body">Each food color nudges a fish's hue. Feed consistently and watch them change over time.</span>
+          <span class="tip-body">Pick a food color above and feed consistently. Each meal nudges the fish's hue toward it — keep feeding to breed a whole red tank.</span>
         </div>
         <div class="tip">
           <span class="tip-icon">🐣</span>
@@ -737,12 +781,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         };
       }
 
+      // --- Food color selection ---
+      let selectedColorIdx = null; // null = random
+      const swatches = document.querySelectorAll('.palette-swatch');
+      swatches.forEach(swatch => {
+        swatch.addEventListener('click', () => {
+          swatches.forEach(s => { s.classList.remove('active'); s.setAttribute('aria-pressed', 'false'); });
+          swatch.classList.add('active');
+          swatch.setAttribute('aria-pressed', 'true');
+          const c = swatch.dataset.color;
+          selectedColorIdx = c === 'random' ? null : parseInt(c);
+        });
+      });
+
       function dropFood(e) {
         e.preventDefault();
         const pos = getCanvasPos(e);
         if (pos.y >= SAND_LINE) return; // don't drop food in sand
 
-        const color = FOOD_COLORS[Math.floor(Math.random() * FOOD_COLORS.length)];
+        const color = selectedColorIdx !== null
+          ? FOOD_COLORS[selectedColorIdx]
+          : FOOD_COLORS[Math.floor(Math.random() * FOOD_COLORS.length)];
         // Drop 2-4 food pellets near click
         const count = 2 + Math.floor(Math.random() * 3);
         for (let i = 0; i < count; i++) {
