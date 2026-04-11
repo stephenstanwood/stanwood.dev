@@ -18,6 +18,15 @@ export default function DriverlessDashboard() {
         <p className="dl-subtitle">Tracking the self-driving revolution across the US</p>
       </header>
 
+      {/* Milestone callout */}
+      <div className="dl-milestone">
+        <div className="dl-milestone-tag">March 2026 milestone</div>
+        <p className="dl-milestone-headline">Waymo hits 500,000 rides/week</p>
+        <p className="dl-milestone-body">
+          The first self-driving company to reach commercial scale — operating fully driverless across San Francisco, Los Angeles, Phoenix, and Austin. Aurora launched driverless freight on I-45 the same month. The AV industry has now logged 200M+ miles without a human at the wheel.
+        </p>
+      </div>
+
       {/* Hero stats */}
       <HeroStats />
 
