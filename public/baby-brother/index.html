@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="robots" content="noindex, nofollow" />
+<title>baby brother ✦</title>
+<style>
+  :root {
+    --bg: #f6f1e7;
+    --ink: #1a1a1a;
+    --accent: #e84a27;
+    --green: #2d8a52;
+    --paper: #fffaf0;
+    --shadow: rgba(20,20,20,.18);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; height: 100%; overscroll-behavior: none; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Courier New", ui-monospace, monospace;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(232,74,39,.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(45,138,82,.08), transparent 40%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,.025) 0 1px, transparent 1px 3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    min-height: 100dvh;
+    user-select: none;
+  }
+  header {
+    width: 100%;
+    max-width: 440px;
+    text-align: center;
+    padding: 18px 0 8px;
+  }
+  h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    margin: 0;
+    letter-spacing: -.5px;
+    font-style: italic;
+  }
+  h1 .star { color: var(--accent); font-style: normal; }
+  .sub {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: .6;
+    margin-top: 4px;
+  }
+  .stage {
+    width: 100%;
+    max-width: 440px;
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 0;
+  }
+  .cardwrap {
+    position: relative;
+    height: 62vh;
+    min-height: 380px;
+    max-height: 560px;
+  }
+  .card {
+    position: absolute;
+    inset: 0;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    touch-action: none;
+    will-change: transform;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .35s;
+  }
+  .card.back { transform: translateY(10px) scale(.97); box-shadow: 4px 4px 0 var(--ink); }
+  .card.back2 { transform: translateY(20px) scale(.94); box-shadow: 2px 2px 0 var(--ink); opacity: .7; }
+  .name {
+    font-family: Georgia, serif;
+    font-size: clamp(42px, 11vw, 68px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin: 0;
+    text-align: center;
+    padding-top: 20px;
+  }
+  .meaning {
+    text-align: center;
+    font-size: 14px;
+    opacity: .75;
+    line-height: 1.4;
+    padding: 0 4px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  .tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    background: var(--bg);
+  }
+  .stamp {
+    position: absolute;
+    top: 24px;
+    font-family: Georgia, serif;
+    font-weight: 900;
+    font-size: 40px;
+    padding: 4px 14px;
+    border: 4px double currentColor;
+    border-radius: 6px;
+    opacity: 0;
+    transform: rotate(-14deg);
+    transition: opacity .1s;
+    pointer-events: none;
+    letter-spacing: 2px;
+  }
+  .stamp.yes { left: 22px; color: var(--green); transform: rotate(-14deg); }
+  .stamp.no { right: 22px; color: var(--accent); transform: rotate(14deg); }
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 18px;
+  }
+  .btn {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    box-shadow: 3px 3px 0 var(--ink);
+    font-size: 28px;
+    cursor: pointer;
+    transition: transform .1s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+  .btn.no { color: var(--accent); }
+  .btn.yes { color: var(--green); }
+  .btn.small { width: 44px; height: 44px; font-size: 18px; box-shadow: 2px 2px 0 var(--ink); }
+  .topbar {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .who {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    background: var(--paper);
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .counter { opacity: .6; }
+  .linkbtn {
+    background: none;
+    border: none;
+    font-family: inherit;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 4px 8px;
+    text-decoration: underline;
+  }
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 20;
+  }
+  .modal.open { display: flex; }
+  .sheet {
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    border-radius: 14px;
+    padding: 22px;
+    max-width: 420px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .sheet h2 {
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin: 0 0 14px;
+    font-size: 24px;
+  }
+  .matchlist { display: flex; flex-direction: column; gap: 8px; }
+  .matchrow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1.5px solid var(--ink);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  .matchrow.match { background: #e8f5ec; }
+  .matchrow .n { font-family: Georgia, serif; font-size: 20px; font-weight: 700; }
+  .matchrow .k { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; opacity: .6; }
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    opacity: .6;
+    font-style: italic;
+  }
+  .setup {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .setup input {
+    font-family: inherit;
+    font-size: 18px;
+    padding: 10px 14px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--paper);
+    width: 80%;
+    max-width: 260px;
+    margin: 12px 0;
+  }
+  .setup button {
+    font-family: inherit;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 10px 18px;
+    border: 2px solid var(--ink);
+    background: var(--accent);
+    color: var(--paper);
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 var(--ink);
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .done {
+    text-align: center;
+    padding: 40px 20px;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-size: 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>baby boy names <span class="star">✦</span></h1>
+  <div class="sub">swipe · stamp · decide</div>
+</header>
+
+<div class="topbar">
+  <button class="who" id="whoBtn">— who?</button>
+  <span class="counter" id="counter">0 / 0</span>
+  <button class="linkbtn" id="matchesBtn">the list</button>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h2 id="sheetTitle">matches</h2>
+    <div id="sheetBody"></div>
+    <div style="display:flex; gap:8px; margin-top:16px; justify-content:flex-end;">
+      <button class="btn small" id="resetBtn" title="reset">↺</button>
+      <button class="linkbtn" id="closeSheet">close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------- NAME DATA ----------
+// tags drive the learning algorithm. categories: style, origin, length, sound, vibe, ending
+const RAW = [
+  // classic english
+  ["James","steady, timeless","classic english long strong -s"],
+  ["William","resolute protector","classic english long strong -m"],
+  ["Henry","ruler of the home","classic english medium strong -y"],
+  ["Thomas","twin","classic biblical english long soft -s"],
+  ["Edward","wealthy guardian","classic english long strong -d"],
+  ["Charles","free man","classic english long strong -s"],
+  ["George","farmer","classic english medium strong -e"],
+  ["Arthur","bear, noble","classic literary english medium strong -r"],
+  ["Frederick","peaceful ruler","classic english long strong -k"],
+  ["Theodore","gift of god","classic literary greek long soft -e"],
+  ["Benjamin","son of the right hand","classic biblical hebrew long soft -n"],
+  ["Samuel","heard by god","classic biblical hebrew medium soft -l"],
+  ["Daniel","god is my judge","classic biblical hebrew medium soft -l"],
+  ["David","beloved","classic biblical hebrew medium soft -d"],
+  ["Joseph","he will add","classic biblical hebrew medium soft -h"],
+  ["Michael","who is like god","classic biblical hebrew medium strong -l"],
+  ["Matthew","gift of god","classic biblical hebrew medium soft -w"],
+  ["Nathan","given","classic biblical hebrew medium soft -n"],
+  ["Nathaniel","gift of god","classic biblical hebrew long soft -l"],
+  ["Isaac","he will laugh","classic biblical hebrew medium soft -c"],
+  ["Jacob","supplanter","classic biblical hebrew medium soft -b"],
+  ["Andrew","manly","classic biblical greek medium soft -w"],
+  ["Peter","rock","classic biblical greek short strong -r"],
+  ["Simon","he has heard","classic biblical hebrew medium soft -n"],
+  ["Luke","light","classic biblical greek short soft -e"],
+  ["Mark","warlike","classic biblical latin short strong -k"],
+  ["John","god is gracious","classic biblical hebrew short strong -n"],
+  ["Paul","small","classic biblical latin short soft -l"],
+  ["Stephen","crown","classic biblical greek medium soft -n"],
+  ["Philip","lover of horses","classic biblical greek medium soft -p"],
+  ["Christopher","christ-bearer","classic biblical greek long soft -r"],
+  ["Anthony","priceless","classic latin long soft -y"],
+  ["Patrick","nobleman","classic irish latin medium strong -k"],
+  ["Sebastian","venerable","classic latin long soft -n"],
+  ["Vincent","conquering","classic latin medium soft -t"],
+  ["Julian","youthful","classic latin medium soft -n"],
+  ["Adrian","from adria","classic latin medium soft -n"],
+  ["Dominic","belonging to god","classic latin medium strong -c"],
+  ["Nicholas","victory of the people","classic greek long soft -s"],
+  ["Alexander","defender","classic greek long strong -r"],
+  ["Xavier","new house","classic latin medium soft -r"],
+  ["Martin","warlike","classic latin medium soft -n"],
+  ["Louis","famed warrior","classic french medium soft -s"],
+  ["Oliver","olive tree","classic literary english medium soft -r"],
+
+  // biblical / old testament
+  ["Elijah","my god is yahweh","biblical hebrew medium soft -h"],
+  ["Noah","rest, comfort","biblical hebrew short soft -h"],
+  ["Ezra","help","biblical hebrew short soft -a"],
+  ["Ezekiel","god strengthens","biblical hebrew long soft -l"],
+  ["Gideon","mighty warrior","biblical hebrew medium soft -n"],
+  ["Silas","of the forest","biblical literary greek medium soft -s"],
+  ["Caleb","devoted","biblical hebrew medium soft -b"],
+  ["Abel","breath","biblical hebrew short soft -l"],
+  ["Asa","healer","biblical hebrew short soft -a"],
+  ["Levi","joined","biblical hebrew short soft -i"],
+  ["Micah","who is like god","biblical hebrew medium soft -h"],
+  ["Malachi","my messenger","biblical hebrew long soft -i"],
+  ["Judah","praised","biblical hebrew medium soft -h"],
+  ["Tobias","god is good","biblical literary hebrew medium soft -s"],
+  ["Reuben","behold, a son","biblical hebrew medium soft -n"],
+  ["Jonah","dove","biblical hebrew medium soft -h"],
+  ["Josiah","supported by god","biblical hebrew medium soft -h"],
+  ["Solomon","peace","biblical hebrew medium soft -n"],
+  ["Amos","carried by god","biblical hebrew short soft -s"],
+  ["Boaz","swiftness","biblical unique hebrew short strong -z"],
+  ["Enoch","dedicated","biblical hebrew medium soft -h"],
+  ["Hezekiah","god strengthens","biblical unique hebrew long soft -h"],
+  ["Jedidiah","beloved of god","biblical unique hebrew long soft -h"],
+  ["Seth","appointed","biblical hebrew short strong -h"],
+  ["Abraham","father of many","biblical hebrew long soft -m"],
+  ["Isaiah","salvation of god","biblical hebrew medium soft -h"],
+  ["Jeremiah","appointed by god","biblical hebrew long soft -h"],
+
+  // modern / trendy
+  ["Mason","stone worker","modern english medium strong -n"],
+  ["Logan","little hollow","modern irish medium strong -n"],
+  ["Easton","east town","modern english medium strong -n"],
+  ["Hudson","son of hugh","modern english medium strong -n"],
+  ["Lincoln","lake colony","modern english long strong -n"],
+  ["Jackson","son of jack","modern english long strong -n"],
+  ["Carter","cart driver","modern english medium strong -r"],
+  ["Knox","round hill","modern unique short strong -x"],
+  ["Cruz","cross","modern spanish short strong -z"],
+  ["Blake","fair, dark","modern english short soft -e"],
+  ["Chase","hunter","modern english short strong -e"],
+  ["Cash","hollow","modern english short strong -h"],
+  ["Sawyer","woodcutter","modern nature english medium soft -r"],
+  ["Bennett","blessed","modern english medium soft -t"],
+  ["Everett","brave boar","modern literary english medium soft -t"],
+  ["Grayson","son of a steward","modern english long strong -n"],
+  ["Beckett","beehive","modern literary english medium soft -t"],
+  ["Emmett","universal","modern literary english medium soft -t"],
+  ["Wyatt","brave in war","modern english medium soft -t"],
+  ["Parker","park keeper","modern english medium strong -r"],
+  ["Brooks","small stream","modern nature english short soft -s"],
+  ["Reid","red-haired","modern short soft -d"],
+  ["Cole","victorious","modern english short soft -e"],
+  ["Ryder","knight","modern english medium soft -r"],
+  ["Rhett","advice","modern literary short strong -t"],
+  ["Holden","deep valley","modern literary english medium soft -n"],
+  ["Brody","ditch","modern irish medium soft -y"],
+  ["Tate","cheerful","modern english short strong -e"],
+  ["Beau","handsome","modern french short soft -u"],
+  ["Quinn","wise","modern irish short soft -n"],
+
+  // nature
+  ["River","flowing water","nature modern short soft -r"],
+  ["Forest","woodland","nature modern medium soft -t"],
+  ["Cedar","tree","nature modern medium soft -r"],
+  ["Stone","rock","nature modern short strong -e"],
+  ["Wolf","wolf","nature unique short strong -f"],
+  ["Bear","strong bear","nature unique short strong -r"],
+  ["Hawk","hawk","nature unique short strong -k"],
+  ["Sky","sky","nature modern short soft -y"],
+  ["Reed","tall grass","nature modern short soft -d"],
+  ["Birch","tree","nature unique short strong -h"],
+  ["Orion","hunter constellation","nature literary greek medium soft -n"],
+  ["Atlas","bearer of heavens","nature literary greek medium soft -s"],
+  ["Cove","small bay","nature modern short soft -e"],
+  ["Ridge","mountain ridge","nature modern short strong -e"],
+  ["Flint","hard stone","nature unique short strong -t"],
+  ["Ash","ash tree","nature modern short strong -h"],
+  ["Fox","clever fox","nature unique short strong -x"],
+  ["Leo","lion","nature classic latin short soft -o"],
+  ["Phoenix","rising firebird","nature unique greek medium soft -x"],
+  ["Indigo","deep blue","nature unique medium soft -o"],
+
+  // literary / vintage
+  ["Atticus","of attica","literary vintage latin long soft -s"],
+  ["Oscar","god spear","literary vintage english medium soft -r"],
+  ["Walter","army ruler","literary vintage english medium soft -r"],
+  ["Felix","happy, lucky","literary vintage latin medium soft -x"],
+  ["Jasper","treasurer","literary vintage english medium soft -r"],
+  ["Hugo","mind, intellect","literary vintage french short soft -o"],
+  ["Otto","wealth","literary vintage german short strong -o"],
+  ["August","great","literary vintage latin medium soft -t"],
+  ["Archie","bold","literary vintage english medium soft -e"],
+  ["Rupert","bright fame","literary vintage german medium soft -t"],
+  ["Percy","pierce valley","literary vintage french medium soft -y"],
+  ["Clement","mild","literary vintage latin medium soft -t"],
+  ["Wilder","untamed","literary modern english medium soft -r"],
+  ["Barnaby","son of consolation","literary vintage english medium soft -y"],
+  ["Milo","soldier","literary vintage german short soft -o"],
+  ["Casper","treasurer","literary vintage medium soft -r"],
+  ["Ambrose","immortal","literary vintage greek medium soft -e"],
+  ["Cosmo","order, universe","literary vintage greek medium soft -o"],
+
+  // irish / celtic
+  ["Finn","fair","irish celtic short soft -n"],
+  ["Declan","full of goodness","irish celtic medium soft -n"],
+  ["Rowan","little redhead","irish celtic nature medium soft -n"],
+  ["Cillian","war, strife","irish celtic medium soft -n"],
+  ["Conor","lover of hounds","irish celtic medium soft -r"],
+  ["Liam","strong-willed","irish celtic short soft -m"],
+  ["Cormac","charioteer","irish celtic medium strong -c"],
+  ["Ronan","little seal","irish celtic medium soft -n"],
+  ["Aidan","little fire","irish celtic medium soft -n"],
+  ["Callum","dove","irish celtic medium soft -m"],
+  ["Lachlan","from the lake","irish celtic medium soft -n"],
+  ["Desmond","man from south munster","irish celtic medium soft -d"],
+  ["Brennan","drop","irish celtic medium soft -n"],
+  ["Eamon","wealthy protector","irish celtic medium soft -n"],
+  ["Kieran","little dark one","irish celtic medium soft -n"],
+  ["Seamus","supplanter","irish celtic medium soft -s"],
+  ["Niall","champion","irish celtic short soft -l"],
+
+  // italian / spanish / romance
+  ["Luca","bringer of light","italian romance short soft -a"],
+  ["Matteo","gift of god","italian romance medium soft -o"],
+  ["Enzo","ruler of the home","italian romance short soft -o"],
+  ["Marco","warlike","italian romance short soft -o"],
+  ["Dante","enduring","italian literary romance short soft -e"],
+  ["Romeo","pilgrim to rome","italian literary romance medium soft -o"],
+  ["Diego","supplanter","spanish romance medium soft -o"],
+  ["Mateo","gift of god","spanish romance medium soft -o"],
+  ["Rafael","god heals","spanish romance medium soft -l"],
+  ["Emilio","rival","spanish romance medium soft -o"],
+  ["Santiago","saint james","spanish romance long soft -o"],
+  ["Alessandro","defender","italian romance long soft -o"],
+  ["Giovanni","god is gracious","italian romance long soft -i"],
+  ["Lorenzo","laurel","italian romance long soft -o"],
+
+  // greek / international
+  ["Theo","gift of god","greek short soft -o"],
+  ["Nico","victory","greek italian short soft -o"],
+  ["Ari","lion, eagle","greek hebrew short soft -i"],
+  ["Xander","defender","greek modern medium strong -r"],
+  ["Cyrus","sun","persian greek medium soft -s"],
+  ["Lysander","liberator","greek literary long soft -r"],
+  ["Damon","to tame","greek medium soft -n"],
+  ["Jasper","treasurer","persian greek medium soft -r"],
+
+  // unique / short
+  ["Rhys","ardor","welsh unique short strong -s"],
+  ["Remy","oarsman","french unique short soft -y"],
+  ["Arlo","between hills","unique modern short soft -o"],
+  ["Bodhi","enlightenment","unique sanskrit short soft -i"],
+  ["Zephyr","west wind","unique greek nature medium soft -r"],
+  ["Oakley","oak meadow","unique nature english medium soft -y"],
+  ["Ace","number one","unique short soft -e"],
+  ["Wolfgang","wolf path","unique german long strong -g"],
+  ["Ozzy","divine power","unique english short soft -y"],
+  ["Sage","wise","unique nature short soft -e"],
+  ["True","loyal","unique short soft -e"],
+  ["Gray","gray-haired","unique modern short soft -y"],
+  ["Kai","sea","unique hawaiian short soft -i"],
+  ["Jude","praised","biblical unique short soft -e"],
+  ["Ezra","help","biblical unique short soft -a"],
+  ["Huxley","hugh's meadow","literary unique english medium soft -y"],
+  ["Crosby","cross town","unique modern english medium soft -y"],
+  ["Tennyson","son of dennis","literary unique english long soft -n"],
+  ["Sullivan","dark-eyed","irish unique english long soft -n"],
+  ["Donovan","dark warrior","irish unique medium soft -n"],
+  ["Ellis","benevolent","welsh unique short soft -s"],
+  ["Emery","industrious","unique literary medium soft -y"],
+  ["Wesley","west meadow","literary english medium soft -y"],
+  ["Graham","gravel homestead","classic english medium soft -m"],
+  ["Graeme","gravel homestead","classic english medium soft -e"],
+  ["Ira","watchful","biblical unique hebrew short soft -a"],
+  ["Ivor","archer","unique scandinavian short soft -r"],
+  ["Soren","stern","unique scandinavian medium soft -n"],
+  ["Anders","manly","unique scandinavian medium soft -s"],
+  ["Magnus","great","unique scandinavian literary medium soft -s"],
+  ["Axel","father of peace","unique scandinavian short strong -l"],
+  ["Viggo","battle","unique scandinavian short soft -o"],
+  ["Lars","laurel","unique scandinavian short soft -s"],
+
+  // a few more classics to round out
+  ["Edwin","wealthy friend","classic english medium soft -n"],
+  ["Calvin","little bald one","classic english medium soft -n"],
+  ["Dean","valley","classic english short soft -n"],
+  ["Evan","young warrior","classic welsh short soft -n"],
+  ["Elliot","the lord is my god","classic literary english medium soft -t"],
+  ["Owen","young warrior","classic welsh short soft -n"],
+  ["Ian","god is gracious","classic scottish short soft -n"],
+  ["Simon","he has heard","classic biblical hebrew medium soft -n"],
+  ["Miles","merciful, soldier","classic literary english short soft -s"],
+  ["Nolan","champion","classic irish medium soft -n"],
+  ["Victor","conqueror","classic latin medium soft -r"],
+  ["Felix","lucky","classic vintage latin medium soft -x"],
+  ["Roman","citizen of rome","classic latin medium soft -n"],
+  ["Abram","exalted father","biblical hebrew medium soft -m"],
+  ["Franklin","free landholder","classic english long soft -n"],
+  ["Elias","the lord is my god","biblical greek medium soft -s"],
+];
+
+const NAMES = RAW.map(([name, meaning, tagStr], i) => ({
+  id: i,
+  name,
+  meaning,
+  tags: tagStr.split(" "),
+}));
+
+// dedupe by name
+const seen = new Set();
+const UNIQUE = [];
+for (const n of NAMES) {
+  const k = n.name.toLowerCase();
+  if (seen.has(k)) continue;
+  seen.add(k);
+  UNIQUE.push(n);
+}
+
+// ---------- STATE ----------
+const LS_KEY = "babynames.v3";
+const defaultState = {
+  currentUser: null,
+  users: {}, // { name: { liked: [ids], rejected: [ids], order: [ids] } }
+};
+let state = load();
+
+function load() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return structuredClone(defaultState);
+    const parsed = JSON.parse(raw);
+    return { ...structuredClone(defaultState), ...parsed };
+  } catch {
+    return structuredClone(defaultState);
+  }
+}
+function save() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+function ensureUser(name) {
+  if (!state.users[name]) {
+    state.users[name] = { liked: [], rejected: [], order: shuffledIds() };
+  }
+  return state.users[name];
+}
+
+function shuffledIds() {
+  const ids = UNIQUE.map(n => n.id);
+  for (let i = ids.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [ids[i], ids[j]] = [ids[j], ids[i]];
+  }
+  return ids;
+}
+
+// ---------- LEARNING ----------
+// Build weights from rejected/liked: liked tags +1, rejected -1.2
+function scoreFor(user, name) {
+  const weights = {};
+  for (const id of user.liked) {
+    const n = UNIQUE[id]; if (!n) continue;
+    for (const t of n.tags) weights[t] = (weights[t] || 0) + 1;
+  }
+  for (const id of user.rejected) {
+    const n = UNIQUE[id]; if (!n) continue;
+    for (const t of n.tags) weights[t] = (weights[t] || 0) - 1.2;
+  }
+  let s = 0;
+  for (const t of name.tags) s += (weights[t] || 0);
+  return s;
+}
+
+function resortQueue(user) {
+  const seenIds = new Set([...user.liked, ...user.rejected]);
+  const remaining = UNIQUE.filter(n => !seenIds.has(n.id));
+  remaining.sort((a, b) => scoreFor(user, b) - scoreFor(user, a) + (Math.random() - .5) * .4);
+  user.order = remaining.map(n => n.id);
+}
+
+// ---------- RENDER ----------
+const stage = document.getElementById("stage");
+const whoBtn = document.getElementById("whoBtn");
+const counter = document.getElementById("counter");
+const matchesBtn = document.getElementById("matchesBtn");
+const modal = document.getElementById("modal");
+const sheetBody = document.getElementById("sheetBody");
+const sheetTitle = document.getElementById("sheetTitle");
+const closeSheet = document.getElementById("closeSheet");
+const resetBtn = document.getElementById("resetBtn");
+
+function render() {
+  stage.innerHTML = "";
+
+  if (!state.currentUser) {
+    renderSetup();
+    whoBtn.textContent = "— who?";
+    counter.textContent = "";
+    return;
+  }
+  const user = ensureUser(state.currentUser);
+  whoBtn.textContent = state.currentUser + " ▾";
+
+  const queue = user.order.filter(id => !user.liked.includes(id) && !user.rejected.includes(id));
+  counter.textContent = (user.liked.length + user.rejected.length) + " / " + UNIQUE.length;
+
+  if (queue.length === 0) {
+    const d = document.createElement("div");
+    d.className = "done";
+    d.innerHTML = "you've seen them all.<br/><br/><button class='linkbtn' onclick='openMatches()'>see matches →</button>";
+    stage.appendChild(d);
+    return;
+  }
+
+  const wrap = document.createElement("div");
+  wrap.className = "cardwrap";
+  // render up to 3 cards stacked
+  const slice = queue.slice(0, 3);
+  // append back-to-front so the front card ends up last in DOM (on top)
+  for (let i = slice.length - 1; i >= 0; i--) {
+    wrap.appendChild(buildCard(UNIQUE[slice[i]], i));
+  }
+  stage.appendChild(wrap);
+
+  const ctrl = document.createElement("div");
+  ctrl.className = "controls";
+  ctrl.innerHTML = `
+    <button class="btn no" id="noBtn" title="pass">✕</button>
+    <button class="btn yes" id="yesBtn" title="like">♥</button>
+  `;
+  stage.appendChild(ctrl);
+  document.getElementById("noBtn").onclick = () => decideTop(false);
+  document.getElementById("yesBtn").onclick = () => decideTop(true);
+
+  // attach drag to front card
+  const front = wrap.querySelector(".card:not(.back):not(.back2)");
+  if (front) attachDrag(front);
+}
+
+function buildCard(n, depth) {
+  const c = document.createElement("div");
+  c.className = "card" + (depth === 1 ? " back" : depth === 2 ? " back2" : "");
+  c.dataset.id = n.id;
+  const tagHtml = n.tags
+    .filter(t => ["classic","modern","biblical","nature","literary","vintage","unique","irish","italian","spanish","greek","hebrew","french","scandinavian","welsh","romance","celtic","persian","hawaiian","sanskrit","english","german","latin","scottish"].includes(t))
+    .slice(0, 4)
+    .map(t => `<span class="tag">${t}</span>`).join("");
+  c.innerHTML = `
+    <div class="stamp yes">LIKE</div>
+    <div class="stamp no">NOPE</div>
+    <div></div>
+    <h2 class="name">${n.name}</h2>
+    <div class="meaning">${n.meaning}</div>
+    <div class="tags">${tagHtml}</div>
+  `;
+  return c;
+}
+
+// ---------- DRAG / SWIPE ----------
+function attachDrag(card) {
+  let startX = 0, startY = 0, dx = 0, dy = 0, dragging = false;
+  const yesStamp = card.querySelector(".stamp.yes");
+  const noStamp = card.querySelector(".stamp.no");
+  const onDown = (e) => {
+    dragging = true;
+    const p = e.touches ? e.touches[0] : e;
+    startX = p.clientX; startY = p.clientY;
+    card.style.transition = "none";
+  };
+  const onMove = (e) => {
+    if (!dragging) return;
+    const p = e.touches ? e.touches[0] : e;
+    dx = p.clientX - startX;
+    dy = p.clientY - startY;
+    const rot = dx / 18;
+    card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+    yesStamp.style.opacity = Math.max(0, Math.min(1, dx / 100));
+    noStamp.style.opacity = Math.max(0, Math.min(1, -dx / 100));
+  };
+  const onUp = () => {
+    if (!dragging) return;
+    dragging = false;
+    card.style.transition = "";
+    const threshold = 110;
+    if (dx > threshold) {
+      flyOut(card, 1);
+    } else if (dx < -threshold) {
+      flyOut(card, -1);
+    } else {
+      card.style.transform = "";
+      yesStamp.style.opacity = 0;
+      noStamp.style.opacity = 0;
+    }
+  };
+  card.addEventListener("mousedown", onDown);
+  card.addEventListener("touchstart", onDown, { passive: true });
+  window.addEventListener("mousemove", onMove);
+  window.addEventListener("touchmove", onMove, { passive: true });
+  window.addEventListener("mouseup", onUp);
+  window.addEventListener("touchend", onUp);
+}
+
+function flyOut(card, dir) {
+  card.style.transform = `translate(${dir * 600}px, 40px) rotate(${dir * 30}deg)`;
+  card.style.opacity = 0;
+  setTimeout(() => commit(+card.dataset.id, dir > 0), 280);
+}
+
+function decideTop(like) {
+  const front = stage.querySelector(".card:not(.back):not(.back2)");
+  if (!front) return;
+  flyOut(front, like ? 1 : -1);
+}
+
+function commit(id, like) {
+  const user = ensureUser(state.currentUser);
+  if (like) user.liked.push(id);
+  else user.rejected.push(id);
+  // re-sort what's left based on updated weights every few decisions
+  if ((user.liked.length + user.rejected.length) % 5 === 0) {
+    resortQueue(user);
+  }
+  save();
+  render();
+}
+
+// ---------- SETUP / USER SWITCH ----------
+function renderSetup() {
+  const s = document.createElement("div");
+  s.className = "setup sheet";
+  s.style.maxWidth = "340px";
+  s.style.margin = "auto";
+  const existing = Object.keys(state.users);
+  s.innerHTML = `
+    <h2 style="font-family:Georgia,serif;font-style:italic;margin:0 0 8px;">who's swiping?</h2>
+    <div style="font-size:12px;opacity:.7;margin-bottom:10px;">enter your name — decisions are saved per person</div>
+    <input id="nameInput" placeholder="your name" autocomplete="off" />
+    <div><button id="goBtn">start swiping</button></div>
+    ${existing.length ? `<div style="margin-top:18px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;opacity:.6;">or pick saved</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+        ${existing.map(u => `<button class="linkbtn" data-u="${u}" style="border:1.5px solid var(--ink);border-radius:999px;padding:6px 12px;text-decoration:none;">${u}</button>`).join("")}
+      </div>` : ""}
+  `;
+  stage.appendChild(s);
+  const input = document.getElementById("nameInput");
+  input.focus();
+  const go = () => {
+    const v = input.value.trim();
+    if (!v) return;
+    state.currentUser = v;
+    ensureUser(v);
+    save();
+    render();
+  };
+  document.getElementById("goBtn").onclick = go;
+  input.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  s.querySelectorAll("[data-u]").forEach(b => {
+    b.onclick = () => { state.currentUser = b.dataset.u; save(); render(); };
+  });
+}
+
+whoBtn.onclick = () => {
+  state.currentUser = null;
+  save();
+  render();
+};
+
+// ---------- MATCHES SHEET ----------
+function openMatches() {
+  sheetTitle.textContent = "the list";
+  const users = Object.keys(state.users);
+  const currentLiked = state.currentUser ? new Set(state.users[state.currentUser].liked) : new Set();
+  const otherUsers = users.filter(u => u !== state.currentUser);
+
+  // matches = names liked by current user AND all other users that have swiped any
+  const matchIds = [...currentLiked].filter(id =>
+    otherUsers.every(u => state.users[u].liked.includes(id))
+  );
+
+  // also show current user's likes
+  const onlyMine = [...currentLiked].filter(id => !matchIds.includes(id));
+
+  let html = "";
+  if (users.length < 2) {
+    html += `<div class="empty">once ${state.currentUser || "you"} and someone else both swipe, mutual likes show up here.</div>`;
+  }
+  if (matchIds.length) {
+    html += `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin:6px 0;">✦ mutual likes (${matchIds.length})</div>`;
+    html += `<div class="matchlist">` + matchIds.map(id => {
+      const n = UNIQUE[id];
+      return `<div class="matchrow match"><span class="n">${n.name}</span><span class="k">${n.meaning}</span></div>`;
+    }).join("") + `</div>`;
+  }
+  if (onlyMine.length) {
+    html += `<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;margin:16px 0 6px;">${state.currentUser}'s picks (${onlyMine.length})</div>`;
+    html += `<div class="matchlist">` + onlyMine.map(id => {
+      const n = UNIQUE[id];
+      return `<div class="matchrow"><span class="n">${n.name}</span><span class="k">${n.meaning}</span></div>`;
+    }).join("") + `</div>`;
+  }
+  if (!matchIds.length && !onlyMine.length) {
+    html += `<div class="empty">no likes yet.</div>`;
+  }
+  sheetBody.innerHTML = html;
+  modal.classList.add("open");
+}
+
+matchesBtn.onclick = openMatches;
+closeSheet.onclick = () => modal.classList.remove("open");
+modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
+
+resetBtn.onclick = () => {
+  if (!state.currentUser) return;
+  if (!confirm("reset " + state.currentUser + "'s swipes?")) return;
+  state.users[state.currentUser] = { liked: [], rejected: [], order: shuffledIds() };
+  save();
+  modal.classList.remove("open");
+  render();
+};
+
+// keyboard shortcuts
+window.addEventListener("keydown", e => {
+  if (modal.classList.contains("open")) return;
+  if (e.key === "ArrowLeft") decideTop(false);
+  if (e.key === "ArrowRight") decideTop(true);
+});
+
+render();
+</script>
+</body>
+</html>
