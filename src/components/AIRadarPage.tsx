@@ -15,15 +15,18 @@ const sorted = sortLaunches(launches as Launch[]);
 export default function AIRadarPage() {
   const [activeType, setActiveType] = useState<string | null>(null);
   const [activeOrg, setActiveOrg] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
 
   const availableTypes = [...new Set(sorted.map((l) => l.type))].filter(
     (t) => TYPE_LABELS[t]
   );
   const availableOrgs = [...new Set(sorted.map((l) => l.org))];
 
+  const q = query.trim().toLowerCase();
   const filtered = sorted.filter((l) => {
     if (activeType && l.type !== activeType) return false;
     if (activeOrg && l.org !== activeOrg) return false;
+    if (q && !`${l.name} ${l.org} ${l.summary}`.toLowerCase().includes(q)) return false;
     return true;
   });
 
@@ -32,11 +35,13 @@ export default function AIRadarPage() {
 
   function toggleType(t: string) {
     setActiveOrg(null);
+    setQuery("");
     setActiveType((prev) => (prev === t ? null : t));
   }
 
   function toggleOrg(o: string) {
     setActiveType(null);
+    setQuery("");
     setActiveOrg((prev) => (prev === o ? null : o));
   }
 
@@ -57,6 +62,14 @@ export default function AIRadarPage() {
 
       {/* Filter chips */}
       <div className="rp-filters">
+        <input
+          className="rp-search"
+          type="search"
+          placeholder="search launches..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label="Search launches"
+        />
         <div className="rp-filter-row">
           {availableTypes.map((t) => (
             <button
@@ -80,10 +93,10 @@ export default function AIRadarPage() {
             </button>
           ))}
         </div>
-        {(activeType || activeOrg) && (
+        {(activeType || activeOrg || query) && (
           <button
             className="rp-chip-clear"
-            onClick={() => { setActiveType(null); setActiveOrg(null); }}
+            onClick={() => { setActiveType(null); setActiveOrg(null); setQuery(""); }}
           >
             clear filter ×
           </button>

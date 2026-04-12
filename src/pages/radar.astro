@@ -268,6 +268,27 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         flex-direction: column;
         gap: 8px;
       }
+      .rp-search {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        background: #fff;
+        border: 1.5px solid var(--rp-border);
+        color: var(--rp-ink);
+        padding: 7px 12px;
+        border-radius: 2px;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.15s;
+      }
+      .rp-search::placeholder {
+        color: #ccc;
+        letter-spacing: 0.04em;
+      }
+      .rp-search:focus {
+        border-color: #888;
+      }
       .rp-filter-row {
         display: flex;
         flex-wrap: wrap;
