@@ -149,6 +149,11 @@ const title = "WTWTW — stanwood.dev";
       .league-badge[data-league="nba"] { border-color: rgba(200, 100, 20, 0.3); color: rgba(220, 140, 60, 0.7); background: rgba(200, 100, 20, 0.06); }
       .league-badge[data-league="nhl"] { border-color: rgba(80, 150, 210, 0.3); color: rgba(110, 170, 220, 0.7); background: rgba(80, 150, 210, 0.06); }
 
+      @keyframes activePulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.4; transform: scale(0.8); }
+      }
+
       /* ── How it works ── */
       .how-it-works {
         border: 1px solid rgba(210, 170, 110, 0.1);
@@ -251,8 +256,53 @@ const title = "WTWTW — stanwood.dev";
         <div class="how-step">
           <span class="how-num">03</span>
           <div>
-            <p class="how-title">Tonight's pick</p>
-            <p class="how-body">One game per night rises to the top — your highest-ranked team playing that day.</p>
+            <p class="how-title">7 nights, ranked</p>
+            <p class="how-body">One pick per night for the next week — your highest-priority team with a game that evening wins the slot. Drag your team list to change the ranking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What's on now -->
+    <div class="how-it-works mb-8" style="border-color: rgba(34,197,94,0.2); background: rgba(34,197,94,0.04);">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="mono text-xs" style="color: rgba(34,197,94,0.6); letter-spacing: 0.1em; text-transform: uppercase;">Active right now</span>
+        <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#22c55e; animation: activePulse 2s ease-in-out infinite;"></span>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <span class="league-badge" data-league="mlb">MLB regular season</span>
+        <span class="league-badge" data-league="nba">NBA playoffs</span>
+        <span class="league-badge" data-league="nhl">NHL playoffs</span>
+      </div>
+      <p class="mono" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">All three leagues are in season simultaneously — prime time for WTWTW.</p>
+    </div>
+
+    <!-- Rules of the pick -->
+    <div class="how-it-works mb-8">
+      <p class="mono text-xs mb-4" style="color: rgba(210,170,110,0.35); letter-spacing: 0.1em; text-transform: uppercase;">Rules of the pick</p>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="how-num">→</span>
+          <div>
+            <p class="how-body">Your team list is ranked by position — team #1 beats team #2 if both have games tonight.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">→</span>
+          <div>
+            <p class="how-body">If two of your teams play each other, the game shows up once at the higher-priority team's slot.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">→</span>
+          <div>
+            <p class="how-body">Only evening games (5 PM – 11:30 PM your time) count. Afternoon matinees are skipped.</p>
+          </div>
+        </div>
+        <div class="how-step">
+          <span class="how-num">→</span>
+          <div>
+            <p class="how-body">Your picks are saved in your browser — no account needed.</p>
           </div>
         </div>
       </div>
