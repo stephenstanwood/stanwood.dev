@@ -62,14 +62,14 @@ export default function ShowSwipe() {
   }, []);
 
   const loadCards = useCallback(
-    async (mt: MediaType, e: Era) => {
+    async (mt: MediaType, era: Era) => {
       if (fetchingRef.current) return;
       fetchingRef.current = true;
       setError(null);
       setView("loading");
 
       try {
-        const batch = await fetchNextBatch(mt, e, new Set());
+        const batch = await fetchNextBatch(mt, era, new Set());
         if (!aliveRef.current) return;
 
         if (batch.length === 0) {
@@ -99,12 +99,12 @@ export default function ShowSwipe() {
   }, [mediaType, era, loadCards]);
 
   const maybeFetchMore = useCallback(
-    async (currentCards: ShowSwipeCard[], mt: MediaType, e: Era) => {
+    async (currentCards: ShowSwipeCard[], mt: MediaType, era: Era) => {
       if (fetchingRef.current || currentCards.length >= REFETCH_THRESHOLD) return;
       fetchingRef.current = true;
       try {
         const existingIds = new Set(currentCards.map((c) => c.tmdbId));
-        const batch = await fetchNextBatch(mt, e, existingIds);
+        const batch = await fetchNextBatch(mt, era, existingIds);
         if (!aliveRef.current) return;
         setCards((prev) => {
           const ids = new Set(prev.map((c) => c.tmdbId));
@@ -215,9 +215,9 @@ export default function ShowSwipe() {
   );
 
   const handleEraToggle = useCallback(
-    (e: Era) => {
-      setEra(e);
-      saveEra(e);
+    (newEra: Era) => {
+      setEra(newEra);
+      saveEra(newEra);
       setCards([]);
     },
     [],
@@ -261,7 +261,6 @@ export default function ShowSwipe() {
       )
     : null;
 
-  // Liked list screen
   if (screen === "liked") {
     return (
       <div className="ss-app">

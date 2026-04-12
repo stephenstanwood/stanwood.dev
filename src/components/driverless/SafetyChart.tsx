@@ -7,7 +7,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  Cell,
   LabelList,
 } from "recharts";
 import { safetyData } from "../../data/driverless/data";
