@@ -151,7 +151,9 @@ export default function PixelTide() {
   const frameRef = useRef(0);
   const reducedMotion = useRef(false);
   const themeRef = useRef<BeachTheme>(THEMES.tropical);
+  const tideSpeedRef = useRef(1);
   const [activeTheme, setActiveTheme] = useState<string>("tropical");
+  const [tideSpeed, setTideSpeed] = useState<"calm" | "normal" | "surge">("normal");
   const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   const statsRef = useRef({ built: 0, lost: 0 });
   const [tideRising, setTideRising] = useState(false);
@@ -164,12 +166,18 @@ export default function PixelTide() {
     return () => { document.body.style.background = prevBg; };
   }, [activeTheme]);
 
+  // Keep tideSpeedRef in sync with state
+  useEffect(() => {
+    tideSpeedRef.current = tideSpeed === "calm" ? 0.4 : tideSpeed === "surge" ? 2.5 : 1;
+  }, [tideSpeed]);
+
   /* ── Tide line: waves wash UP and DOWN the shore ── */
   const getTideLine = useCallback((col: number, time: number, rows: number) => {
     const base = rows * 0.45;
-    const surge = Math.sin(time * 0.4) * 6;
-    const sweep = Math.sin(time * 0.78 - col * 0.08) * 3;
-    const ripple = Math.sin(time * 1.8 + col * 0.3) * 1;
+    const spd = tideSpeedRef.current;
+    const surge = Math.sin(time * 0.4 * spd) * 6;
+    const sweep = Math.sin(time * 0.78 * spd - col * 0.08) * 3;
+    const ripple = Math.sin(time * 1.8 * spd + col * 0.3) * 1;
     return base + surge + sweep + ripple;
   }, []);
 
@@ -519,8 +527,8 @@ export default function PixelTide() {
           oldestSec,
         });
         // Tide direction: positive derivative of surge = tideLine rising = water receding
-        // cos(t * 0.4) < 0 means surge decreasing → tideLine decreasing → more water = tide rising
-        setTideRising(Math.cos(t * 0.4) < 0);
+        // cos(t * 0.4 * spd) < 0 means surge decreasing → tideLine decreasing → more water = tide rising
+        setTideRising(Math.cos(t * 0.4 * tideSpeedRef.current) < 0);
       }
 
       animId = requestAnimationFrame(() => draw(performance.now() / 1000));
@@ -611,21 +619,44 @@ export default function PixelTide() {
 
   return (
     <div className="w-full flex flex-col items-center gap-4">
-      {/* Theme selector */}
-      <div className="flex items-center gap-2">
-        {THEME_KEYS.map((key) => (
-          <button
-            key={key}
-            onClick={() => setActiveTheme(key)}
-            className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-              activeTheme === key
-                ? "bg-white/20 text-white shadow-sm"
-                : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
-            }`}
-          >
-            {THEMES[key].label}
-          </button>
-        ))}
+      {/* Controls row: theme + speed */}
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+        {/* Theme selector */}
+        <div className="flex items-center gap-2">
+          {THEME_KEYS.map((key) => (
+            <button
+              key={key}
+              onClick={() => setActiveTheme(key)}
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                activeTheme === key
+                  ? "bg-white/20 text-white shadow-sm"
+                  : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
+              }`}
+            >
+              {THEMES[key].label}
+            </button>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <span className="text-white/15 text-xs hidden sm:inline">|</span>
+
+        {/* Tide speed selector */}
+        <div className="flex items-center gap-1">
+          {(["calm", "normal", "surge"] as const).map((s) => (
+            <button
+              key={s}
+              onClick={() => setTideSpeed(s)}
+              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                tideSpeed === s
+                  ? "bg-white/20 text-white shadow-sm"
+                  : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
+              }`}
+            >
+              {s === "calm" ? "🌊 calm" : s === "normal" ? "🌊🌊 normal" : "🌊🌊🌊 surge"}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Canvas */}
