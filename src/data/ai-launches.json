@@ -32,12 +32,12 @@
     "url": "https://devblogs.microsoft.com/foundry/introducing-microsoft-agent-framework-the-open-source-engine-for-agentic-ai-apps/"
   },
   {
-    "name": "Microsoft MAI Models",
-    "org": "Microsoft",
-    "date": "2026-04-03",
-    "type": "model",
-    "summary": "three in-house models via Azure Foundry: MAI-Transcribe-1 beats Whisper on 25 languages, MAI-Voice-1 generates 60s audio in under 1s, MAI-Image-2 ranks #3 on Arena image leaderboard",
-    "url": "https://thenextweb.com/news/microsoft-mai-models-openai-independence"
+    "name": "Cursor 3",
+    "org": "Cursor",
+    "date": "2026-04-02",
+    "type": "tool",
+    "summary": "rebuilt IDE around parallel AI agents — run many agents at once across local, cloud, worktree, and remote SSH; new Design Mode lets you annotate UI elements directly in the browser",
+    "url": "https://cursor.com/blog/cursor-3"
   },
   {
     "name": "Claude Cowork + Dispatch",
