@@ -75,3 +75,13 @@ export function updateTasteProfile(profile: TasteProfile): void {
 export function clearProfile(): void {
   try { localStorage.removeItem(LS_KEY); } catch {}
 }
+
+const CITY_KEY = "green-light:city";
+
+export function loadCity(): string {
+  try { return localStorage.getItem(CITY_KEY) ?? ""; } catch { return ""; }
+}
+
+export function saveCity(city: string): void {
+  try { localStorage.setItem(CITY_KEY, city); } catch {}
+}

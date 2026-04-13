@@ -16,6 +16,8 @@ import {
   updateTasteProfile,
   clearProfile,
   defaultConstraints,
+  loadCity,
+  saveCity,
 } from "../lib/greenLight/storage";
 import TasteQuiz from "./green-light/TasteQuiz";
 import DietaryConstraintsView from "./green-light/DietaryConstraints";
@@ -31,10 +33,14 @@ export default function GreenLight() {
   const [recommendResponse, setRecommendResponse] = useState<RecommendResponse | null>(null);
   const [selectedRec, setSelectedRec] = useState<Recommendation | null>(null);
   const [currentRestaurant, setCurrentRestaurant] = useState("");
+  const [currentCity, setCurrentCity] = useState("");
+  const [savedCity, setSavedCity] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   // Load existing profile on mount
   useEffect(() => {
+    const city = loadCity();
+    setSavedCity(city);
     const stored = loadProfile();
     if (stored) {
       setProfile(stored.profile);
@@ -59,9 +65,12 @@ export default function GreenLight() {
     setView("search");
   }
 
-  async function handleSearch(restaurantName: string) {
+  async function handleSearch(restaurantName: string, city: string) {
     if (!profile) return;
     setCurrentRestaurant(restaurantName);
+    setCurrentCity(city);
+    setSavedCity(city);
+    saveCity(city);
     setError(null);
     setView("loading");
 
@@ -71,7 +80,7 @@ export default function GreenLight() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           restaurantName,
-          location: "Campbell, CA",
+          location: city,
           tasteProfile: profile,
           constraints,
         }),
@@ -115,7 +124,7 @@ export default function GreenLight() {
   }
 
   function handleTryAgain() {
-    if (currentRestaurant) handleSearch(currentRestaurant);
+    if (currentRestaurant && currentCity) handleSearch(currentRestaurant, currentCity);
   }
 
   function handleNewSearch() {
@@ -156,6 +165,7 @@ export default function GreenLight() {
           {error && <p className="he-error">{error}</p>}
           <RestaurantSearch
             recentRestaurants={recentRestaurants}
+            savedCity={savedCity}
             onSearch={handleSearch}
             onRetakeQuiz={handleRetakeQuiz}
           />

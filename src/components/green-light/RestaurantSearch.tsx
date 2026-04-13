@@ -2,27 +2,34 @@ import { useState } from "react";
 
 interface Props {
   recentRestaurants: string[];
-  onSearch: (name: string) => void;
+  savedCity: string;
+  onSearch: (name: string, city: string) => void;
   onRetakeQuiz: () => void;
 }
 
 export default function RestaurantSearch({
   recentRestaurants,
+  savedCity,
   onSearch,
   onRetakeQuiz,
 }: Props) {
   const [query, setQuery] = useState("");
+  const [city, setCity] = useState(savedCity);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const trimmed = query.trim();
-    if (trimmed) onSearch(trimmed);
+    const cityTrimmed = city.trim();
+    if (trimmed && cityTrimmed) onSearch(trimmed, cityTrimmed);
   }
 
   function handleRecent(name: string) {
     setQuery(name);
-    onSearch(name);
+    const cityTrimmed = city.trim();
+    if (cityTrimmed) onSearch(name, cityTrimmed);
   }
+
+  const canSubmit = query.trim() && city.trim();
 
   return (
     <div className="he-search">
@@ -38,10 +45,18 @@ export default function RestaurantSearch({
           autoFocus
           aria-label="Restaurant name"
         />
+        <input
+          type="text"
+          className="he-input"
+          placeholder="City (e.g. Portland, OR)"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          aria-label="City"
+        />
         <button
           type="submit"
           className="he-btn-primary"
-          disabled={!query.trim()}
+          disabled={!canSubmit}
         >
           Get my order
         </button>
