@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import type { TmdbAction } from "../../lib/showSwipe/types";
-import { errJson, okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, fetchWithTimeout, toErrMsg } from "../../lib/apiHelpers";
 
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";
@@ -92,6 +92,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson(data, { "Cache-Control": "public, max-age=300" });
   } catch (err) {
     console.error("show-swipe API error:", err);
-    return errJson("Something went wrong", 500);
+    return devErrJson("Something went wrong", toErrMsg(err));
   }
 };

@@ -1,7 +1,4 @@
-/**
- * Shared geographic utilities (haversine distance).
- * Used by the nearby-coffee API route.
- */
+/** Shared geographic utilities (haversine distance). */
 
 /** Return the great-circle distance in meters between two lat/lng pairs. */
 export function haversineMeters(

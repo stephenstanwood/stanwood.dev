@@ -6,7 +6,7 @@ import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
-import { errJson, okJson } from "../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { logEvent } from "../../lib/logger";
 import type {
   RecommendRequest,
@@ -205,6 +205,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson(recommendation, { "Cache-Control": "public, max-age=300" });
   } catch (err) {
     console.error("recommend error:", err);
-    return errJson("Something went wrong", 500);
+    return devErrJson("Something went wrong", toErrMsg(err));
   }
 };

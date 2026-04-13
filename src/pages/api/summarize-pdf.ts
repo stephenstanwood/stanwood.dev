@@ -4,7 +4,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText } from "../../lib/models";
-import { errJson, okJson } from "../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
@@ -58,6 +58,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson({ summary });
   } catch (err) {
     console.error("summarize-pdf error:", err);
-    return errJson("Something went wrong", 500);
+    return devErrJson("Something went wrong", toErrMsg(err));
   }
 };

@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
-import { errJson, okJson } from "../../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, toErrMsg } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
 import { fetchLatestAgenda, fetchAgendaContent } from "../../../lib/campbell/agendaScraper";
@@ -69,6 +69,6 @@ ${content}`;
     return okJson(parsed);
   } catch (err) {
     console.error("Digest error:", err);
-    return errJson("Failed to generate digest", 500);
+    return devErrJson("Failed to generate digest", toErrMsg(err));
   }
 };

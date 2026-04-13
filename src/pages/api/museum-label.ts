@@ -4,7 +4,7 @@ export const config = { maxDuration: 60 };
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { errJson, okJson } from "../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { extractText, stripFences, CLAUDE_SONNET } from "../../lib/models";
 import { getSystemPrompt, MUSEUM_STYLES } from "../../lib/museumPrompt";
 import { logEvent } from "../../lib/logger";
@@ -59,6 +59,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson(label, { "Cache-Control": "public, max-age=300" });
   } catch (err: unknown) {
     console.error("Museum label error:", err);
-    return errJson("Something went wrong", 500);
+    return devErrJson("Something went wrong", toErrMsg(err));
   }
 };

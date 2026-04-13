@@ -5,7 +5,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET } from "../../../lib/models";
-import { errJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
+import { errJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
@@ -130,6 +130,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
   } catch (err) {
     console.error("redesign-rolodex analyze error:", err);
-    return errJson("Something went wrong. Try again in a moment.", 500);
+    return devErrJson("Something went wrong. Try again in a moment.", toErrMsg(err));
   }
 };

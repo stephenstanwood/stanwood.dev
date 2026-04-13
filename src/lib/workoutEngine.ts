@@ -152,10 +152,10 @@ function groupDuration(items: SetItem[], pacePer100: number): number {
 
 function weightedPick<T>(items: T[], weights: number[], rng: Rng): T {
   const total = weights.reduce((a, b) => a + b, 0);
-  let r = rng.random() * total;
+  let remaining = rng.random() * total;
   for (let i = 0; i < items.length; i++) {
-    r -= weights[i];
-    if (r <= 0) return items[i];
+    remaining -= weights[i];
+    if (remaining <= 0) return items[i];
   }
   return items[items.length - 1];
 }
