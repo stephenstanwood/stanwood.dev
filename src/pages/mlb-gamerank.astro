@@ -232,6 +232,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </header>
 
+      <!-- How scoring works — static, visible before JS loads -->
+      <section class="mt-8" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+        <p class="font-score" style="font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(251,191,36,0.4); margin-bottom: 0.75rem;">How scoring works</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px;">
+            <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Closeness</p>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">100 pts base, −15 per run of margin. A tie game maxes this factor.</p>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px;">
+            <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Late innings</p>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">×1.5 bonus if it's the 7th inning or later with a 2-run game or closer.</p>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px;">
+            <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Runners on base</p>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">+15% per runner. Bases loaded adds 45% to the final score.</p>
+          </div>
+          <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 12px 14px;">
+            <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Team quality</p>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">Win % multiplier (0.5–1.0×). Good teams in a tight game rank higher.</p>
+          </div>
+        </div>
+        <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(251,191,36,0.15); border-radius: 8px; padding: 12px 14px; margin-top: 8px;">
+          <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Extra innings &nbsp;<span style="font-weight: 400; color: rgba(251,191,36,0.5); font-size: 10px;">max score: 400</span></p>
+          <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">×3.5 multiplier. Any close extra-innings game jumps to the top of the list.</p>
+        </div>
+      </section>
+
       <div id="app" class="mt-8">
         <!-- Loading skeleton -->
         <div id="loading">
