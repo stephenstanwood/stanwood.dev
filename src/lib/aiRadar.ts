@@ -30,6 +30,7 @@ export const ORG_COLORS: Record<string, string> = {
   MiniMax: "#6366f1",
   DeepSeek: "#4d6bfe",
   "Z.ai (Zhipu AI)": "#0ea5e9",
+  Cursor: "#6366f1",
 };
 
 /** Display label per launch type — falls back to "LAUNCH" if unknown. */
