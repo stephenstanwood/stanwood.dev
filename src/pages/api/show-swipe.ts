@@ -51,6 +51,7 @@ function buildTmdbUrl(
       throw new Error(`Unknown action: ${action}`);
   }
 
+  // Safe: size >= URL_CACHE_MAX guarantees at least one entry exists
   if (urlCache.size >= URL_CACHE_MAX) urlCache.delete(urlCache.keys().next().value!);
   urlCache.set(cacheKey, url);
   return url;
