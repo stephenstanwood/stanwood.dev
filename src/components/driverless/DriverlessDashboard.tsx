@@ -27,6 +27,29 @@ export default function DriverlessDashboard() {
         </p>
       </div>
 
+      {/* Key context */}
+      <div className="dl-context">
+        <p className="dl-context-label">Reading this dashboard</p>
+        <div className="dl-context-grid">
+          <div className="dl-context-item">
+            <span className="dl-context-term">Disengagement rate</span>
+            <span className="dl-context-def">How often a human had to override the AV per 1,000 miles. Lower is better — it measures how reliably the system handles real-world conditions without intervention.</span>
+          </div>
+          <div className="dl-context-item">
+            <span className="dl-context-term">Driverless miles</span>
+            <span className="dl-context-def">Miles logged with zero safety driver present. The gold standard metric — it proves the system can operate entirely on its own at scale.</span>
+          </div>
+          <div className="dl-context-item">
+            <span className="dl-context-term">Level 4 vs L2+</span>
+            <span className="dl-context-def">Level 4 means fully autonomous within a defined area — no human needed. L2+ (like Tesla FSD) still requires a licensed driver ready to take over at any moment.</span>
+          </div>
+          <div className="dl-context-item">
+            <span className="dl-context-term">Permit status</span>
+            <span className="dl-context-def">States issue permits in tiers: testing (safety driver required), driverless testing, and commercial deployment. Each tier requires a separate application and safety data review.</span>
+          </div>
+        </div>
+      </div>
+
       {/* Hero stats */}
       <HeroStats />
 
