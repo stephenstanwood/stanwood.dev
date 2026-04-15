@@ -46,15 +46,15 @@ export const GET: APIRoute = async ({ clientAddress, url }) => {
     const raw = await res.json();
 
     // Map to clean shape, strip any remaining PII
-    const arrests = (raw as Record<string, string>[]).map((r) => ({
-      date: r.datetimearrested || "",
-      charge: (r.chargedescription || "").replace(/<br\s*\/?>/gi, " | ").trim(),
-      city: r.arrestcity || "",
-      degree: r.arrestdegree || "",
-      race: r.race || "",
-      gender: r.gender || "",
-      age: parseInt(r.age, 10) || 0,
-      agency: r.fullagencyname || "",
+    const arrests = (raw as Record<string, string>[]).map((record) => ({
+      date: record.datetimearrested || "",
+      charge: (record.chargedescription || "").replace(/<br\s*\/?>/gi, " | ").trim(),
+      city: record.arrestcity || "",
+      degree: record.arrestdegree || "",
+      race: record.race || "",
+      gender: record.gender || "",
+      age: parseInt(record.age, 10) || 0,
+      agency: record.fullagencyname || "",
     }));
 
     return okJson(

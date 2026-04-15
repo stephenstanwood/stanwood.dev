@@ -936,9 +936,11 @@ export function generateWorkout({ duration, pace, unit, seed, focus = "any" }: W
   const presetTargetRaw = hasPreset ? Math.round(totalTargetDist * 0.10 / 100) * 100 : 0;
 
   // Apply focus biasing: 4x weight boost for templates matching the focus tag
-  const effectiveWeights = MAIN_SET_TEMPLATES.map((t) =>
-    focus === "any" || t.tags.includes(focus as FocusTag) ? t.weight * (focus === "any" ? 1 : 4) : t.weight
-  );
+  const effectiveWeights = MAIN_SET_TEMPLATES.map((t) => {
+    const matchesFocus = focus === "any" || t.tags.includes(focus as FocusTag);
+    if (!matchesFocus) return t.weight;
+    return t.weight * (focus === "any" ? 1 : 4);
+  });
 
   // Generate main set and pre-set
   const mainEntry = weightedPick(
