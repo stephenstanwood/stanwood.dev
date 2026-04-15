@@ -55,9 +55,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       directions: Omit<DesignDirection, "id">[];
     };
 
-    const directions: DesignDirection[] = result.directions.map((d, i) => ({
-      ...d,
-      id: nextId + i,
+    const directions: DesignDirection[] = result.directions.map((direction, idx) => ({
+      ...direction,
+      id: nextId + idx,
     }));
 
     return okJson({ directions });

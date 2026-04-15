@@ -26,8 +26,8 @@ function buildTmdbUrl(
   if (cached) return cached;
 
   const qs = new URLSearchParams({ language: "en-US" });
-  for (const [k, v] of Object.entries(params)) {
-    if (k !== "id") qs.set(k, String(v));
+  for (const [key, val] of Object.entries(params)) {
+    if (key !== "id") qs.set(key, String(val));
   }
 
   let url: string;

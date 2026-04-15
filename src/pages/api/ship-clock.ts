@@ -104,7 +104,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     }
 
     // Compute stats from all deployments
-    const allDates = (deployments as VercelDeployment[]).map((d) => new Date(d.created));
+    const allDates = (deployments as VercelDeployment[]).map((deployment) => new Date(deployment.created));
 
     // Average days between consecutive deploys
     let avgDaysBetween: number | null = null;
