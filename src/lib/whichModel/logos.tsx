@@ -73,6 +73,18 @@ export function MidjourneyLogo({ size = 24, color = "currentColor", className }:
   );
 }
 
+/** DeepSeek – stylized whale/wave mark */
+export function DeepSeekLogo({ size = 24, color = "currentColor", className }: LogoProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+      <path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c3.9 0 7 3.1 7 7s-3.1 7-7 7-7-3.1-7-7 3.1-7 7-7z" fill={color} opacity="0.4" />
+      <path d="M5 13.5c1.5-1 3.5-2 7-2s5.5 1 7 2c-.5-4-3.2-7-7-7s-6.5 3-7 7z" fill={color} />
+      <circle cx="9" cy="10" r="1" fill={color} opacity="0.6" />
+      <circle cx="15" cy="10" r="1" fill={color} opacity="0.6" />
+    </svg>
+  );
+}
+
 /** Black Forest Labs (Flux) – abstract angular mark */
 export function FluxLogo({ size = 24, color = "currentColor", className }: LogoProps) {
   return (
@@ -93,6 +105,7 @@ export const LOGO_COMPONENTS: Record<string, React.FC<LogoProps>> = {
   Mistral: MistralLogo,
   Midjourney: MidjourneyLogo,
   "Black Forest Labs": FluxLogo,
+  DeepSeek: DeepSeekLogo,
 };
 
 export function ModelLogo({ org, size = 24, color = "currentColor", className }: LogoProps & { org: string }) {
