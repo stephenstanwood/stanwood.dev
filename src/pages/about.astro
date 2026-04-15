@@ -89,35 +89,60 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       color: var(--orange);
     }
 
-    .project-list {
-      list-style: none;
-      padding: 0;
+    /* ── Project grid ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 16px;
     }
 
-    .project-list li {
+    .project-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
       border: 2px solid var(--ink);
-      padding: 12px 16px;
-      margin-bottom: 8px;
+      padding: 12px 13px;
       background: #fff;
       box-shadow: 3px 3px 0 var(--ink);
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
     }
 
-    .project-list li a {
+    .project-card:hover {
+      background: var(--yellow);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .project-card-emoji {
+      font-size: 20px;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .project-card-body {
+      min-width: 0;
+    }
+
+    .project-card-name {
       font-family: 'Space Mono', monospace;
       font-weight: 700;
-      font-size: 14px;
-      color: var(--ink);
-      text-decoration: none;
+      font-size: 11px;
+      line-height: 1.3;
+      margin-bottom: 3px;
     }
 
-    .project-list li a:hover {
-      color: var(--blue);
+    .project-card-tag {
+      font-size: 11px;
+      opacity: 0.5;
+      line-height: 1.4;
     }
 
-    .project-list li .tag {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-left: 8px;
+    @media (max-width: 600px) {
+      .project-grid { grid-template-columns: 1fr; }
     }
 
     .back-link {
@@ -318,25 +343,127 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         Tools for curious people — useful, fun, or both, and small enough to actually finish.
         Everything here is free to use. Here's the full list:
       </p>
-      <ul class="project-list">
-        <li><a href="https://nbanow.app">NBA Now</a> <span class="tag">best NBA game to watch right now</span></li>
-        <li><a href="/wtwtw">What to Watch This Week</a> <span class="tag">best game each night across MLB, NBA &amp; NHL</span></li>
-        <li><a href="/mlb-gamerank">MLB GameRank</a> <span class="tag">best MLB game to watch right now</span></li>
-        <li><a href="/show-swipe">Show Swipe</a> <span class="tag">swipe through movie &amp; TV trailers</span></li>
-        <li><a href="/swim">Lap Lab</a> <span class="tag">custom swim workouts</span></li>
-        <li><a href="/nearest-coffee">Nearest Coffee</a> <span class="tag">nearest open coffee shop</span></li>
-        <li><a href="/radar">AI Radar</a> <span class="tag">curated AI launches for builders</span></li>
-        <li><a href="/which-model">Which Model?</a> <span class="tag">pick the right AI model for your task</span></li>
-        <li><a href="/tldr">TL;DR</a> <span class="tag">drop a PDF, get the short version</span></li>
-        <li><a href="/redesign-rolodex">Redesign Rolodex</a> <span class="tag">alternate-universe redesigns for any website</span></li>
-        <li><a href="/green-light">Green Light</a> <span class="tag">taste quiz → know what to order</span></li>
-        <li><a href="/ship-clock">Ship Clock</a> <span class="tag">days since your last deploy</span></li>
-        <li><a href="/campbell">Campbell, CA</a> <span class="tag">city services, events &amp; permits in one place</span></li>
-        <li><a href="/driverless">Driverless Cars</a> <span class="tag">self-driving, by the numbers</span></li>
-        <li><a href="/museum-label">Museum Label</a> <span class="tag">deadpan museum placard for any object</span></li>
-        <li><a href="/pixel-aquarium">Pixel Aquarium</a> <span class="tag">click to feed the fish</span></li>
-        <li><a href="/pixel-tide">Pixel Tide</a> <span class="tag">no winning, just vibes</span></li>
-      </ul>
+      <div class="project-grid">
+        <a href="https://nbanow.app" class="project-card">
+          <span class="project-card-emoji">🏀</span>
+          <div class="project-card-body">
+            <div class="project-card-name">NBA Now</div>
+            <div class="project-card-tag">best NBA game to watch right now</div>
+          </div>
+        </a>
+        <a href="/wtwtw" class="project-card">
+          <span class="project-card-emoji">📺</span>
+          <div class="project-card-body">
+            <div class="project-card-name">What to Watch This Week</div>
+            <div class="project-card-tag">best game each night across MLB, NBA &amp; NHL</div>
+          </div>
+        </a>
+        <a href="/mlb-gamerank" class="project-card">
+          <span class="project-card-emoji">⚾</span>
+          <div class="project-card-body">
+            <div class="project-card-name">MLB GameRank</div>
+            <div class="project-card-tag">best MLB game to watch right now</div>
+          </div>
+        </a>
+        <a href="/show-swipe" class="project-card">
+          <span class="project-card-emoji">🍿</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Show Swipe</div>
+            <div class="project-card-tag">swipe through movie &amp; TV trailers</div>
+          </div>
+        </a>
+        <a href="/swim" class="project-card">
+          <span class="project-card-emoji">🏊</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Lap Lab</div>
+            <div class="project-card-tag">custom swim workouts</div>
+          </div>
+        </a>
+        <a href="/nearest-coffee" class="project-card">
+          <span class="project-card-emoji">☕</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Nearest Coffee</div>
+            <div class="project-card-tag">nearest open coffee shop</div>
+          </div>
+        </a>
+        <a href="/radar" class="project-card">
+          <span class="project-card-emoji">📡</span>
+          <div class="project-card-body">
+            <div class="project-card-name">AI Radar</div>
+            <div class="project-card-tag">curated AI launches for builders</div>
+          </div>
+        </a>
+        <a href="/which-model" class="project-card">
+          <span class="project-card-emoji">🧠</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Which Model?</div>
+            <div class="project-card-tag">pick the right AI model for your task</div>
+          </div>
+        </a>
+        <a href="/tldr" class="project-card">
+          <span class="project-card-emoji">📄</span>
+          <div class="project-card-body">
+            <div class="project-card-name">TL;DR</div>
+            <div class="project-card-tag">drop a PDF, get the short version</div>
+          </div>
+        </a>
+        <a href="/redesign-rolodex" class="project-card">
+          <span class="project-card-emoji">🎰</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Redesign Rolodex</div>
+            <div class="project-card-tag">alternate-universe redesigns for any website</div>
+          </div>
+        </a>
+        <a href="/green-light" class="project-card">
+          <span class="project-card-emoji">🟢</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Green Light</div>
+            <div class="project-card-tag">taste quiz → know what to order</div>
+          </div>
+        </a>
+        <a href="/ship-clock" class="project-card">
+          <span class="project-card-emoji">🕒</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Ship Clock</div>
+            <div class="project-card-tag">days since your last deploy</div>
+          </div>
+        </a>
+        <a href="/campbell" class="project-card">
+          <span class="project-card-emoji">🏛️</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Campbell, CA</div>
+            <div class="project-card-tag">city services, events &amp; permits</div>
+          </div>
+        </a>
+        <a href="/driverless" class="project-card">
+          <span class="project-card-emoji">🚗</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Driverless Cars</div>
+            <div class="project-card-tag">self-driving, by the numbers</div>
+          </div>
+        </a>
+        <a href="/museum-label" class="project-card">
+          <span class="project-card-emoji">🔖</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Museum Label</div>
+            <div class="project-card-tag">deadpan museum placard for any object</div>
+          </div>
+        </a>
+        <a href="/pixel-aquarium" class="project-card">
+          <span class="project-card-emoji">🐠</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Pixel Aquarium</div>
+            <div class="project-card-tag">click to feed the fish</div>
+          </div>
+        </a>
+        <a href="/pixel-tide" class="project-card">
+          <span class="project-card-emoji">🌊</span>
+          <div class="project-card-body">
+            <div class="project-card-name">Pixel Tide</div>
+            <div class="project-card-tag">no winning, just vibes</div>
+          </div>
+        </a>
+      </div>
     </div>
 
     <div class="about-section">
