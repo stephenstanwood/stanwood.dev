@@ -1,5 +1,13 @@
 [
   {
+    "name": "HuggingFace + GitHub Copilot Chat",
+    "org": "Hugging Face",
+    "date": "2026-04-10",
+    "type": "tool",
+    "summary": "open-source models now plug into GitHub Copilot Chat in VS Code — swap in Qwen, Llama, or any HF model as your in-editor AI assistant without leaving your IDE",
+    "url": "https://huggingface.co/blog/copilot-chat"
+  },
+  {
     "name": "Claude Managed Agents + ant CLI",
     "org": "Anthropic",
     "date": "2026-04-08",
@@ -8,12 +16,12 @@
     "url": "https://siliconangle.com/2026/04/08/anthropic-launches-claude-managed-agents-speed-ai-agent-development/"
   },
   {
-    "name": "Meta Muse Spark",
-    "org": "Meta",
-    "date": "2026-04-08",
+    "name": "Claude Sonnet 4.6",
+    "org": "Anthropic",
+    "date": "2026-04-07",
     "type": "model",
-    "summary": "Meta's first closed-source model — voice/text/image input, live on meta.ai now. Can generate minigames, excels at visual STEM, rolling out to WhatsApp and Ray-Ban glasses",
-    "url": "https://ai.meta.com/blog/introducing-muse-spark-msl/"
+    "summary": "major upgrade to the everyday workhorse model — faster coding, better agent planning, computer use improvements, and 1M token context window in beta",
+    "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
   },
   {
     "name": "GLM-5.1",
@@ -24,12 +32,12 @@
     "url": "https://huggingface.co/zai-org/GLM-5"
   },
   {
-    "name": "Claude Cowork + Dispatch",
-    "org": "Anthropic",
-    "date": "2026-04-04",
-    "type": "product",
-    "summary": "Claude desktop control now on Windows — clicks, types, opens apps autonomously. Dispatch lets you hand off tasks from your phone while Claude works on your computer",
-    "url": "https://claude.com/blog/dispatch-and-computer-use"
+    "name": "Qwen 3",
+    "org": "Alibaba",
+    "date": "2026-04-05",
+    "type": "model",
+    "summary": "two Apache 2.0 releases: 72B dense and 235B MoE — both free to run locally, rival GPT-class performance for coding and reasoning without cloud costs",
+    "url": "https://qwenlm.github.io/blog/qwen3/"
   },
   {
     "name": "Llama 4 Scout + Maverick",
@@ -54,181 +62,5 @@
     "type": "model",
     "summary": "four open-weight models (2B–31B) with Apache 2.0 license — runs on a Raspberry Pi or Mac Mini, built from Gemini 3 research, most permissive Gemma release yet",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
-  },
-  {
-    "name": "Veo 3.1 Lite",
-    "org": "Google",
-    "date": "2026-04-01",
-    "type": "tool",
-    "summary": "accessible text-to-video and image-to-video model — Veo 3.1 Fast pricing slashed to open up developer access for solo creators and small teams",
-    "url": "https://blog.google/innovation-and-ai/technology/ai/veo-3-1-lite/"
-  },
-  {
-    "name": "GPT-4.1",
-    "org": "OpenAI",
-    "date": "2025-04-14",
-    "type": "model",
-    "summary": "instruction-following and long-context improvements over GPT-4o — 1M token context window, reduced hallucinations, and significantly cheaper API pricing aimed at developers",
-    "url": "https://openai.com/index/gpt-4-1/"
-  },
-  {
-    "name": "Gemma 3",
-    "org": "Google",
-    "date": "2025-03-12",
-    "type": "model",
-    "summary": "open-weight family from 1B to 27B parameters — multimodal, 128K context, runs locally on a single GPU; tops Llama 3.3 70B on benchmarks at fraction of the size",
-    "url": "https://blog.google/technology/developers-tools/gemma-3/"
-  },
-  {
-    "name": "GPT-4.5",
-    "org": "OpenAI",
-    "date": "2025-02-27",
-    "type": "model",
-    "summary": "OpenAI's largest and most emotionally intelligent model yet — trained with more compute than any previous GPT, better at following nuanced instructions and open-ended conversation",
-    "url": "https://openai.com/index/introducing-gpt-4-5/"
-  },
-  {
-    "name": "Claude 3.7 Sonnet",
-    "org": "Anthropic",
-    "date": "2025-02-24",
-    "type": "model",
-    "summary": "first model with extended thinking — can spend up to 128K tokens reasoning before answering; best on coding and math of any Claude at launch, sets new bar for agentic tasks",
-    "url": "https://www.anthropic.com/news/claude-3-7-sonnet"
-  },
-  {
-    "name": "o3-mini",
-    "org": "OpenAI",
-    "date": "2025-01-31",
-    "type": "model",
-    "summary": "fast reasoning model at low cost — three effort levels (low/medium/high), beats o1 on AIME math and SWE-Bench coding while running significantly faster and cheaper",
-    "url": "https://openai.com/index/openai-o3-mini/"
-  },
-  {
-    "name": "DeepSeek R1",
-    "org": "DeepSeek",
-    "date": "2025-01-20",
-    "type": "model",
-    "summary": "open-weight reasoning model trained with reinforcement learning — matches o1 on math and coding at a fraction of the cost; MIT licensed, weights freely available",
-    "url": "https://github.com/deepseek-ai/DeepSeek-R1"
-  },
-  {
-    "name": "DeepSeek V3",
-    "org": "DeepSeek",
-    "date": "2024-12-26",
-    "type": "model",
-    "summary": "671B MoE model (37B active) trained on 14.8T tokens for $5.5M — matches or beats GPT-4o and Claude 3.5 Sonnet on most benchmarks; MIT licensed weights on Hugging Face",
-    "url": "https://github.com/deepseek-ai/DeepSeek-V3"
-  },
-  {
-    "name": "Gemini 2.0 Flash",
-    "org": "Google",
-    "date": "2024-12-11",
-    "type": "model",
-    "summary": "next-gen workhorse model from Google — twice the speed of 1.5 Flash, native image and audio output, live API for real-time multimodal streaming; marks the agentic era shift",
-    "url": "https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/"
-  },
-  {
-    "name": "Claude 3.5 Haiku",
-    "org": "Anthropic",
-    "date": "2024-11-04",
-    "type": "model",
-    "summary": "fastest model in the Claude 3.5 family — matches Claude 3 Opus on many tasks, designed for high-volume agentic use cases at significantly lower cost",
-    "url": "https://www.anthropic.com/news/3-5-models-and-computer-use"
-  },
-  {
-    "name": "Claude Computer Use",
-    "org": "Anthropic",
-    "date": "2024-10-22",
-    "type": "product",
-    "summary": "Claude can now see your screen and control mouse and keyboard — first AI to take direct computer actions; public beta in the API with demo agent on GitHub",
-    "url": "https://www.anthropic.com/news/3-5-models-and-computer-use"
-  },
-  {
-    "name": "o1 Preview",
-    "org": "OpenAI",
-    "date": "2024-09-12",
-    "type": "model",
-    "summary": "first OpenAI model to reason before answering — trained with RL to chain-of-thought privately before responding; PhD-level performance on physics/chemistry/bio evals",
-    "url": "https://openai.com/o1"
-  },
-  {
-    "name": "Grok 2",
-    "org": "xAI",
-    "date": "2024-08-13",
-    "type": "model",
-    "summary": "xAI's flagship model with real-time X data access — image generation via FLUX, performance competitive with GPT-4o and Claude 3.5 Sonnet on standard benchmarks",
-    "url": "https://x.ai/blog/grok-2"
-  },
-  {
-    "name": "Llama 3.1 (405B)",
-    "org": "Meta",
-    "date": "2024-07-23",
-    "type": "model",
-    "summary": "Meta's first frontier-class open model at 405B parameters — first to surpass GPT-4 class performance on many benchmarks; 128K context, multilingual, Apache 2.0 license",
-    "url": "https://ai.meta.com/blog/meta-llama-3-1/"
-  },
-  {
-    "name": "Mistral Large 2",
-    "org": "Mistral",
-    "date": "2024-07-24",
-    "type": "model",
-    "summary": "123B model with 128K context and strong code/math performance — beats Llama 3 405B on reasoning, natively multilingual, available under Mistral Research License",
-    "url": "https://mistral.ai/news/mistral-large-2407/"
-  },
-  {
-    "name": "GPT-4o mini",
-    "org": "OpenAI",
-    "date": "2024-07-18",
-    "type": "model",
-    "summary": "small model that replaced GPT-3.5 Turbo as the default — smarter than GPT-4 Turbo at launch, costs 60% less than GPT-3.5, vision built in, target is high-volume tasks",
-    "url": "https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"
-  },
-  {
-    "name": "Claude 3.5 Sonnet",
-    "org": "Anthropic",
-    "date": "2024-06-20",
-    "type": "model",
-    "summary": "sat at #1 on most benchmarks for months after launch — 2× the speed of Claude 3 Opus at 1/5 the cost, new Artifacts feature for inline code preview, introduced Artifacts UI",
-    "url": "https://www.anthropic.com/news/claude-3-5-sonnet"
-  },
-  {
-    "name": "GPT-4o",
-    "org": "OpenAI",
-    "date": "2024-05-13",
-    "type": "model",
-    "summary": "first truly multimodal model — processes text, audio, and images in a single model (not separate pipelines); real-time voice mode with emotional tone, 2× faster than GPT-4 Turbo",
-    "url": "https://openai.com/index/hello-gpt-4o/"
-  },
-  {
-    "name": "Llama 3 (8B + 70B)",
-    "org": "Meta",
-    "date": "2024-04-18",
-    "type": "model",
-    "summary": "Meta's most capable open models to date — 8B matches GPT-3.5, 70B competitive with GPT-4 on many benchmarks; trained on 15T tokens, commercial license for most uses",
-    "url": "https://ai.meta.com/blog/meta-llama-3/"
-  },
-  {
-    "name": "Claude 3 (Haiku, Sonnet, Opus)",
-    "org": "Anthropic",
-    "date": "2024-03-04",
-    "type": "model",
-    "summary": "three-tier model family — Opus topped GPT-4 on most evals at launch, Sonnet matched GPT-4 at half the cost, Haiku the fastest small model on the market; 200K context across all three",
-    "url": "https://www.anthropic.com/news/claude-3-family"
-  },
-  {
-    "name": "Gemini 1.5 Pro",
-    "org": "Google",
-    "date": "2024-02-15",
-    "type": "model",
-    "summary": "breakthrough 1M token context window — can process an hour of video, 700K words, or 30K lines of code in a single prompt; MoE architecture allows near-GPT-4 performance",
-    "url": "https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/"
-  },
-  {
-    "name": "Sora",
-    "org": "OpenAI",
-    "date": "2024-02-15",
-    "type": "tool",
-    "summary": "text-to-video model generating minute-long clips with realistic physics and camera movements — debuted as a research preview; demonstrated characters, scenes, and multiple shots in one take",
-    "url": "https://openai.com/sora"
   }
 ]
