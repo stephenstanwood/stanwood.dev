@@ -380,6 +380,25 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .nc-nearby-item:hover .nc-nearby-arrow {
         color: #5C4033;
       }
+      .nc-nearby-dist-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+      }
+      .nc-nearby-walk {
+        font-size: 11px;
+        color: #C0BDB8;
+        white-space: nowrap;
+      }
+      .nc-nearby-rating {
+        font-size: 12px;
+        color: #9A9A9A;
+        margin-top: 3px;
+      }
+      .nc-nearby-rating-star {
+        color: #5C4033;
+      }
 
       /* ── Footer ── */
       .nc-footer {
@@ -490,7 +509,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           </div>
           <div>
             <span class="nc-how-label">What you get</span>
-            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby, each linking straight to directions.</p>
+            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby with ratings and walk times — each linking straight to directions.</p>
           </div>
           <div>
             <span class="nc-how-label">Privacy</span>
@@ -698,14 +717,22 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             const items = secondary
               .map((shop) => {
                 const url = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+                const walkTime = estimateWalk(shop.distance);
+                const ratingHtml = shop.rating
+                  ? `<div class="nc-nearby-rating"><span class="nc-nearby-rating-star">\u2605</span> ${shop.rating.toFixed(1)}</div>`
+                  : "";
                 return `
                 <a href="${url}" target="_blank" rel="noopener" class="nc-nearby-item">
                   <div>
                     <div class="nc-nearby-name">${esc(shop.name)}</div>
                     <div class="nc-nearby-addr">${esc(shop.address)}</div>
+                    ${ratingHtml}
                   </div>
                   <div class="nc-nearby-right">
-                    <span class="nc-nearby-dist">${formatDistance(shop.distance)}</span>
+                    <div class="nc-nearby-dist-wrap">
+                      <span class="nc-nearby-dist">${formatDistance(shop.distance)}</span>
+                      <span class="nc-nearby-walk">${walkTime}</span>
+                    </div>
                     <span class="nc-nearby-arrow">\u2192</span>
                   </div>
                 </a>`;
