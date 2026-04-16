@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import launches from "../data/ai-launches.json";
 import {
   type Launch,
@@ -16,6 +16,30 @@ export default function AIRadarPage() {
   const [activeType, setActiveType] = useState<string | null>(null);
   const [activeOrg, setActiveOrg] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [urlRead, setUrlRead] = useState(false);
+
+  // Read URL params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const t = params.get("type");
+    const o = params.get("org");
+    const q = params.get("q") ?? "";
+    if (t && TYPE_LABELS[t]) setActiveType(t);
+    if (o) setActiveOrg(o);
+    if (q) setQuery(q);
+    setUrlRead(true);
+  }, []);
+
+  // Sync filters to URL after initial read
+  useEffect(() => {
+    if (!urlRead) return;
+    const params = new URLSearchParams();
+    if (activeType) params.set("type", activeType);
+    if (activeOrg) params.set("org", activeOrg);
+    if (query.trim()) params.set("q", query.trim());
+    const search = params.toString();
+    history.replaceState(null, "", search ? `?${search}` : location.pathname);
+  }, [activeType, activeOrg, query, urlRead]);
 
   const availableTypes = [...new Set(sorted.map((l) => l.type))].filter(
     (t) => TYPE_LABELS[t]
@@ -55,7 +79,12 @@ export default function AIRadarPage() {
             <span className="rp-dot" />
             AI RADAR
           </h1>
-          <span className="rp-count">{sorted.length} tracked</span>
+          <span className="rp-count">
+            {filtered.length < sorted.length
+              ? `${filtered.length} of ${sorted.length}`
+              : sorted.length}{" "}
+            tracked
+          </span>
         </div>
         <p className="rp-tagline">What just shipped in AI that's actually worth knowing about.</p>
       </header>
