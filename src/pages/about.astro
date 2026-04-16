@@ -286,6 +286,55 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       margin-top: 1px;
     }
 
+    /* ── Start here ── */
+    .start-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .start-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border: 2px solid var(--ink);
+      padding: 16px;
+      background: var(--yellow);
+      box-shadow: 3px 3px 0 var(--ink);
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+    }
+
+    .start-card:hover {
+      background: #f0d800;
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .start-card-emoji {
+      font-size: 24px;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .start-card-body { min-width: 0; }
+
+    .start-card-name {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .start-card-desc {
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.75;
+    }
+
     @media (max-width: 600px) {
       .about-header h1 { font-size: 28px; }
       .about-wrap { padding: 32px 16px 60px; }
@@ -334,6 +383,34 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <div class="now-card-label">Side project</div>
           <div class="now-card-value">stanwood.dev</div>
         </div>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>Start here</h2>
+      <p>A few favorites — each does one specific thing and does it well.</p>
+      <div class="start-grid">
+        <a href="/radar" class="start-card">
+          <span class="start-card-emoji">📡</span>
+          <div class="start-card-body">
+            <div class="start-card-name">AI Radar</div>
+            <div class="start-card-desc">A curated daily signal feed of AI launches worth knowing about. No hype, just what matters for builders.</div>
+          </div>
+        </a>
+        <a href="/mlb-gamerank" class="start-card">
+          <span class="start-card-emoji">⚾</span>
+          <div class="start-card-body">
+            <div class="start-card-name">MLB GameRank</div>
+            <div class="start-card-desc">Live MLB scores ranked by watchability — closeness, inning, runners on base, and team quality. Updates every 30 seconds.</div>
+          </div>
+        </a>
+        <a href="/green-light" class="start-card">
+          <span class="start-card-emoji">🟢</span>
+          <div class="start-card-body">
+            <div class="start-card-name">Green Light</div>
+            <div class="start-card-desc">A 60-second taste quiz that tells you exactly what to order — matches the menu to what you actually enjoy.</div>
+          </div>
+        </a>
       </div>
     </div>
 
