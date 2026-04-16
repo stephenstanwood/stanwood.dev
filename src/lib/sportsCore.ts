@@ -114,8 +114,8 @@ export function teamFullName(competitor: Competitor): string {
 }
 
 export function teamColor(competitor: Competitor, fallback = "#888"): string {
-  const c = competitor?.team?.color;
-  return c && /^[0-9a-fA-F]{3,8}$/.test(c) ? `#${c}` : fallback;
+  const color = competitor?.team?.color;
+  return color && /^[0-9a-fA-F]{3,8}$/.test(color) ? `#${color}` : fallback;
 }
 
 export function isLive(status: Status | undefined): boolean {

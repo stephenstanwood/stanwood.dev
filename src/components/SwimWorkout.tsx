@@ -348,25 +348,18 @@ export default function SwimWorkout() {
     setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
   };
 
-  const generate = useCallback(() => {
+  const generate = useCallback((scroll = true) => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const w = generateWorkout({ duration, pace, unit, seed, focus });
+    const workout = generateWorkout({ duration, pace, unit, seed, focus });
     setAnimating(true);
-    setWorkout(w);
+    setWorkout(workout);
     setTimeout(() => setAnimating(false), 400);
-
-    // Scroll to workout after a beat
-    setTimeout(() => {
-      workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  }, [duration, pace, unit, focus]);
-
-  const shuffle = useCallback(() => {
-    const seed = Math.floor(Math.random() * 2147483647);
-    const w = generateWorkout({ duration, pace, unit, seed, focus });
-    setAnimating(true);
-    setWorkout(w);
-    setTimeout(() => setAnimating(false), 400);
+    if (scroll) {
+      // Scroll to workout after a beat
+      setTimeout(() => {
+        workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
   }, [duration, pace, unit, focus]);
 
   const handlePrint = () => {
@@ -492,7 +485,7 @@ export default function SwimWorkout() {
 
         {/* Generate button */}
         <button
-          onClick={generate}
+          onClick={() => generate()}
           className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-400/30 hover:shadow-xl hover:shadow-teal-400/40 transition-all active:scale-[0.98] overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #0d9488, #0891b2, #06b6d4, #0d9488)",
@@ -544,7 +537,7 @@ export default function SwimWorkout() {
           {/* Action buttons */}
           <div className="mt-6 flex flex-wrap gap-3 print:hidden">
             <button
-              onClick={shuffle}
+              onClick={() => generate(false)}
               className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

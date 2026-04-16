@@ -118,14 +118,14 @@ function formatTime(iso: string, tz: string): string {
 }
 
 function hitsWindow(isoStart: string, tz: string): boolean {
-  const d = new Date(isoStart);
+  const startDate = new Date(isoStart);
   const [hhStr, mmStr] = new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
   })
-    .format(d)
+    .format(startDate)
     .split(":");
 
   const startMin = parseInt(hhStr, 10) * 60 + parseInt(mmStr, 10);
@@ -148,13 +148,13 @@ function getUpcoming7Days(tz: string): DayInfo[] {
 
   const days: DayInfo[] = [];
   for (let i = 0; i < 7; i++) {
-    const d = new Date(nowLocal);
-    d.setDate(nowLocal.getDate() + i);
-    const yyyy = d.getFullYear();
-    const mm = String(d.getMonth() + 1).padStart(2, "0");
-    const dd = String(d.getDate()).padStart(2, "0");
+    const dayDate = new Date(nowLocal);
+    dayDate.setDate(nowLocal.getDate() + i);
+    const yyyy = dayDate.getFullYear();
+    const mm = String(dayDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(dayDate.getDate()).padStart(2, "0");
     days.push({
-      label: d.toLocaleDateString("en-US", { weekday: "long" }),
+      label: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
       yyyymmdd: `${yyyy}${mm}${dd}`,
     });
   }

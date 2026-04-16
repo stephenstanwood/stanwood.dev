@@ -21,12 +21,12 @@ export default function AIRadarPage() {
   // Read URL params on mount
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const t = params.get("type");
-    const o = params.get("org");
-    const q = params.get("q") ?? "";
-    if (t && TYPE_LABELS[t]) setActiveType(t);
-    if (o) setActiveOrg(o);
-    if (q) setQuery(q);
+    const typeParam = params.get("type");
+    const orgParam = params.get("org");
+    const initialQuery = params.get("q") ?? "";
+    if (typeParam && TYPE_LABELS[typeParam]) setActiveType(typeParam);
+    if (orgParam) setActiveOrg(orgParam);
+    if (initialQuery) setQuery(initialQuery);
     setUrlRead(true);
   }, []);
 

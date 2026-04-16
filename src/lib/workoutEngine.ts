@@ -104,9 +104,9 @@ function parsePace(str: string): number {
 }
 
 function formatTime(secs: number): string {
-  const m = Math.floor(secs / 60);
-  const s = Math.round(secs % 60);
-  return `${m}:${String(s).padStart(2, "0")}`;
+  const minutes = Math.floor(secs / 60);
+  const seconds = Math.round(secs % 60);
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 function roundTo5(secs: number): number {
