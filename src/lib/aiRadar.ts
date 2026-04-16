@@ -54,8 +54,8 @@ export function parseLaunchDate(dateStr: string): Date {
  * Returns "today", "yesterday", "Nd ago", "Nw ago", "Nmo ago", or "Nyr ago".
  */
 export function relativeAge(dateStr: string): string {
-  const d = parseLaunchDate(dateStr);
-  const diff = Math.floor((Date.now() - d.getTime()) / (1000 * 60 * 60 * 24));
+  const date = parseLaunchDate(dateStr);
+  const diff = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
   if (diff === 0) return "today";
   if (diff === 1) return "yesterday";
   if (diff < 7) return `${diff}d ago`;

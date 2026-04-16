@@ -28,8 +28,8 @@ const TAGLINES = [
 ];
 
 function pickTagline(): string {
-  const i = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7)) % TAGLINES.length;
-  return TAGLINES[i];
+  const weekIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7)) % TAGLINES.length;
+  return TAGLINES[weekIndex];
 }
 
 export default function MoneyDashboard() {

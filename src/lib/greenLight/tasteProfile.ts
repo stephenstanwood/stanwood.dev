@@ -41,9 +41,9 @@ export function computeTasteProfile(
       answer.selected === "A" ? question.optionA : question.optionB;
 
     for (const [dim, value] of Object.entries(choice.dimensions)) {
-      const d = dim as TasteDimension;
-      sums[d] += value as number;
-      counts[d] += 1;
+      const dimension = dim as TasteDimension;
+      sums[dimension] += value as number;
+      counts[dimension] += 1;
     }
   }
 
@@ -71,9 +71,9 @@ export function nudgeProfile(
 ): TasteProfile {
   const updated = { ...current };
   for (const [dim, value] of Object.entries(chosenSignals)) {
-    const d = dim as TasteDimension;
+    const dimension = dim as TasteDimension;
     if (typeof value === "number") {
-      updated[d] = clamp(current[d] + LEARN_RATE * value);
+      updated[dimension] = clamp(current[dimension] + LEARN_RATE * value);
     }
   }
   return updated;

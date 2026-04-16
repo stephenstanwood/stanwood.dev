@@ -147,8 +147,8 @@ export function daysUntil(dateStr: string | null): number | null {
 
 export function formatRenewalDate(dateStr: string | null): string {
   if (!dateStr) return "???";
-  const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString("en-US", {
+  const date = new Date(dateStr + "T00:00:00");
+  return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",

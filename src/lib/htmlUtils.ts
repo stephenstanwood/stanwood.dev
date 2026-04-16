@@ -16,10 +16,10 @@ export function esc(s: unknown): string {
 }
 
 /** Sanitise a URL — only allow http(s) protocol. */
-export function escUrl(u: string): string {
+export function escUrl(url: string): string {
   try {
-    const p = new URL(u);
-    return ["http:", "https:"].includes(p.protocol) ? p.href : "";
+    const parsed = new URL(url);
+    return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
   } catch {
     return "";
   }
