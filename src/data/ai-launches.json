@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini 3.1 Flash TTS",
+    "org": "Google",
+    "date": "2026-04-15",
+    "type": "tool",
+    "summary": "expressive text-to-speech API available now in Gemini API and AI Studio — 200+ audio tags for directing delivery ([slowly, with gravity]), 70-language support, SynthID watermarking; free tier available",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/"
+  },
+  {
     "name": "HuggingFace + GitHub Copilot Chat",
     "org": "Hugging Face",
     "date": "2026-04-10",
@@ -22,14 +30,6 @@
     "type": "model",
     "summary": "major upgrade to the everyday workhorse model — faster coding, better agent planning, computer use improvements, and 1M token context window in beta",
     "url": "https://www.anthropic.com/news/claude-sonnet-4-6"
-  },
-  {
-    "name": "GLM-5.1",
-    "org": "Z.ai (Zhipu AI)",
-    "date": "2026-04-07",
-    "type": "model",
-    "summary": "MIT-licensed open 744B MoE model (40B active, 200K context) — topped SWE-Bench for coding, first open model to beat all closed rivals on real-world code; weights on Hugging Face",
-    "url": "https://huggingface.co/zai-org/GLM-5"
   },
   {
     "name": "Qwen 3",
