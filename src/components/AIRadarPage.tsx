@@ -46,11 +46,11 @@ export default function AIRadarPage() {
   );
   const availableOrgs = [...new Set(sorted.map((l) => l.org))];
 
-  const q = query.trim().toLowerCase();
+  const normalizedQuery = query.trim().toLowerCase();
   const filtered = sorted.filter((l) => {
     if (activeType && l.type !== activeType) return false;
     if (activeOrg && l.org !== activeOrg) return false;
-    if (q && !`${l.name} ${l.org} ${l.summary}`.toLowerCase().includes(q)) return false;
+    if (normalizedQuery && !`${l.name} ${l.org} ${l.summary}`.toLowerCase().includes(normalizedQuery)) return false;
     return true;
   });
 

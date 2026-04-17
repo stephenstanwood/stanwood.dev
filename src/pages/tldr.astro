@@ -400,14 +400,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </main>
 
     <script>
+      async function sleep(ms: number) {
+        return new Promise(r => setTimeout(r, ms));
+      }
+
       // Typewriter animation — type, pause, delete, repeat
       (() => {
         const chars = document.querySelectorAll<HTMLSpanElement>('#typewriter .char');
         const cursor = document.getElementById('cursor')!;
-
-        async function sleep(ms: number) {
-          return new Promise(r => setTimeout(r, ms));
-        }
 
         async function typeAll() {
           for (let i = 0; i < chars.length; i++) {
@@ -583,7 +583,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           stopProgress(true);
 
           // Short delay so user sees 100%
-          await new Promise(r => setTimeout(r, 400));
+          await sleep(400);
 
           setLoading(false);
 
@@ -624,10 +624,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           // Move drop zone below the result and make it compact
           resultSection.after(uploadSection);
           dropZone.classList.add("compact");
-        } catch (e: any) {
+        } catch (err: any) {
           stopProgress(false);
           setLoading(false);
-          showError(e.message || "Failed to summarize. Please try again.");
+          showError(err.message || "Failed to summarize. Please try again.");
         }
       }
 
