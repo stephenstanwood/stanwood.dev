@@ -1,11 +1,31 @@
 {
-  "built_at": "2026-04-17T23:07:16.495963+00:00",
-  "lookback_days": 14,
+  "built_at": "2026-04-17T23:14:59.916480+00:00",
+  "lookback_days": 30,
   "channel_count": 18,
-  "candidate_count": 33,
+  "candidate_count": 78,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
+    {
+      "id": "o3CUCx7mO9k",
+      "title": "AI Interviewers",
+      "url": "https://www.youtube.com/watch?v=o3CUCx7mO9k",
+      "duration": 412,
+      "published_at": "2026-03-30T13:00:55+00:00",
+      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
+      "channel_title": "NNgroup",
+      "channel_handle": "@NNgroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/o3CUCx7mO9k/mqdefault.jpg",
+      "description": "AI interviewers can conduct user interviews on your behalf, but they come with real limitations. Learn how they work, how well they perform, and the best use cases for adding them to your research toolkit.\n\nRead More // https://www.nngroup.com/articles/ai-interviewers/\nWatch Next // https://www.youtube.com/watch?v=ktMVQWdes8Y\n\nLearn more with our courses:\nAccelerating Research with AI (live online",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "score": 20.8,
+      "view_count": 3638
+    },
     {
       "id": "gziRsJcl5_k",
       "title": "Introduction to ClickHouse's Data Storage Architecture (George Larionov)",
@@ -24,7 +44,47 @@
       ],
       "base_score": 11,
       "score": 14.3,
-      "view_count": 1797
+      "view_count": 1796
+    },
+    {
+      "id": "9VNG0h4pLh0",
+      "title": "Never Trust An LLM",
+      "url": "https://www.youtube.com/watch?v=9VNG0h4pLh0",
+      "duration": 841,
+      "published_at": "2026-03-27T18:02:47+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/9VNG0h4pLh0/mqdefault.jpg",
+      "description": "LLMs hallucinate constantly - they lie about facts, invent entities, and ignore context. Learn why this happens, how it works, and how to protect yourself from AI misinformation.\n\n0:00 LLM's Are Liars\n1:33 Factual Errors\n3:22 Fabricated Entities\n4:04 Contextual Inconsistency\n5:24 LLM's Are Compressors\n7:08 Why Do They Guess?\n10:01 How To Fix It\n\nLLM Taxonomy:\nhttps://arxiv.org/abs/2508.01781\n\nWhy ",
+      "categories": [
+        "applied_ai",
+        "systems_db",
+        "swe_craft"
+      ],
+      "base_score": 14,
+      "score": 14.0,
+      "view_count": 34236
+    },
+    {
+      "id": "WGZ2jUvBf1w",
+      "title": "Gestalt Principles: Design Intuitive Interfaces | Course Preview",
+      "url": "https://www.youtube.com/watch?v=WGZ2jUvBf1w",
+      "duration": 306,
+      "published_at": "2026-03-25T13:30:27+00:00",
+      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
+      "channel_title": "NNgroup",
+      "channel_handle": "@NNgroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/WGZ2jUvBf1w/mqdefault.jpg",
+      "description": "Ever look at a design and know something feels off\u2026 but you can't explain why? Gestalt principles give you the language and framework to figure it out.\n\nGestalt principles aren't just design theory \u2014 they're among the most practical tools we have for understanding why interfaces work (or don't).\n\nJoin Tanner Kohler as he walks through proximity, similarity, closure, figure-ground, and more, with r",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "score": 13.0,
+      "view_count": 1752
     },
     {
       "id": "zQBdkeeW6X8",
@@ -43,7 +103,144 @@
       ],
       "base_score": 10,
       "score": 13.0,
-      "view_count": 1498
+      "view_count": 1503
+    },
+    {
+      "id": "vd14EElCRvs",
+      "title": "He just crawled through hell to fix the browser\u2026",
+      "url": "https://www.youtube.com/watch?v=vd14EElCRvs",
+      "duration": 337,
+      "published_at": "2026-04-02T19:18:38+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/vd14EElCRvs/mqdefault.jpg",
+      "description": "Try out the Junie CLI for free - https://jb.gg/fireship-junie-cli\n\nCheng Lou, a former React Core team member and engineer at Midjourney says he \"crawled through depths of hell\" to bring us Pretext \u2013 a fast, accurate, and comprehensive text measurement library that could change UI design forever. Let's run it.\n\n#coding #programming #typescript #javascript\n\n\ud83d\udd16 Topics Covered\n- Who is Cheng Lou?\n- In",
+      "categories": [
+        "hci",
+        "swe_craft"
+      ],
+      "base_score": 13,
+      "score": 9.1,
+      "view_count": 1235077
+    },
+    {
+      "id": "ldxFjLJ3rVY",
+      "title": "How (and why) to take a logarithm of an image",
+      "url": "https://www.youtube.com/watch?v=ldxFjLJ3rVY",
+      "duration": 2692,
+      "published_at": "2026-03-22T12:59:00+00:00",
+      "channel_id": "UCYO_jab_esuFRV4b17AJtAw",
+      "channel_title": "3Blue1Brown",
+      "channel_handle": "@3blue1brown",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/ldxFjLJ3rVY/mqdefault.jpg",
+      "description": "Escher's Print Gallery, and the tour of complex analysis it invites.\nCheck out our virtual career fair: 3b1b.co/talent\nJoin channel supporters to see videos early: 3b1b.co/support\nAn equally valuable form of support is to share the videos.\nHome page: https://www.3blue1brown.com\n\nOriginal paper by de Smit and Lenstra:\nhttps://pub.math.leidenuniv.nl/~smitbde/papers/2003-de_smit-lenstra-escher.pdf\n\nT",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 7.8,
+      "view_count": 1565427
+    },
+    {
+      "id": "iOyaj5u0-DY",
+      "title": "HAI Seminar: Learning by Creating \u2013 A Human-Centered Vision for AI in Education",
+      "url": "https://www.youtube.com/watch?v=iOyaj5u0-DY",
+      "duration": 4304,
+      "published_at": "2026-03-27T19:06:41+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/iOyaj5u0-DY/mqdefault.jpg",
+      "description": "Generative AI is entering classrooms at a breathtaking pace, often presented as a solution for efficiency by automating tasks that risk promoting a shallow, transmission-oriented model of education where teachers become content moderators, students become prompt engineers, and learning collapses into producing answers rather than developing understanding.  \n\nIn this HAI seminar, HAI faculty fellow",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 7.2,
+      "view_count": 433
+    },
+    {
+      "id": "mBHRPeg8zPU",
+      "title": "Tragic mistake... Anthropic leaks Claude\u2019s source code",
+      "url": "https://www.youtube.com/watch?v=mBHRPeg8zPU",
+      "duration": 442,
+      "published_at": "2026-04-01T17:27:05+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/mBHRPeg8zPU/mqdefault.jpg",
+      "description": "Anthropic accidentally leaked Claude Code's source code to the entire internet. Let's take a look...\n\n#coding #programming #claude #ai\n\n\ud83d\udd16 Topics Covered\n- Claude source code leak\n- What's in the leak?\n- Unreleased features\n- Undercover Mode\n- Frustration Detector\n\nWant more Fireship?\n\n\ud83d\uddde\ufe0f Newsletter: https://bytes.dev\n\ud83e\udde0 Courses: https://fireship.dev",
+      "categories": [
+        "applied_ai",
+        "swe_craft",
+        "dev_news_lite"
+      ],
+      "base_score": 10,
+      "score": 7.0,
+      "view_count": 3153974
+    },
+    {
+      "id": "llwTBpPqo9A",
+      "title": "Claude Code tried to improve /init... Is it any better?",
+      "url": "https://www.youtube.com/watch?v=llwTBpPqo9A",
+      "duration": 678,
+      "published_at": "2026-03-23T15:02:28+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/llwTBpPqo9A/mqdefault.jpg",
+      "description": "Claude Code's new Init script has been completely redesigned based on community feedback. In this video, I test drive the new version and give honest feedback to the Claude Code team on whether it's actually useful.\n\nClaude Code for Real Engineers:\nhttps://aihero.dev/s/GpmCBo\n\nSign up for the AI Hero newsletter:\nhttps://aihero.dev/s/ojLDp9\n\nFollow Matt on Twitter\nhttps://twitter.com/mattpocockuk\n\n",
+      "categories": [
+        "applied_ai",
+        "dev_news_lite"
+      ],
+      "base_score": 7,
+      "score": 7.0,
+      "view_count": 25849
+    },
+    {
+      "id": "ZP6Bh3iWklQ",
+      "title": "Temporal Networks, Where Page Rank meets Lord of the Rings - Computerphile",
+      "url": "https://www.youtube.com/watch?v=ZP6Bh3iWklQ",
+      "duration": 1366,
+      "published_at": "2026-03-19T15:46:03+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/ZP6Bh3iWklQ/mqdefault.jpg",
+      "description": "When considering how things connect together in a network, time can be an extremely important factor. Dr Richard G Clegg of Queen Mary University London takes us through networks using Page rank and Lord of the Rings. \n\nnb. this film contains two fellas getting the facts of Lord of the Rings wrong on multiple occasions, we look forward to the inevitable comments.\n\nRichard's github: https://github.",
+      "categories": [
+        "civic_open"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 28790
+    },
+    {
+      "id": "YuEPZlXBImg",
+      "title": "TonicDB: Databases without an OS? Meet QuinineHM (Filip Obradovic)",
+      "url": "https://www.youtube.com/watch?v=YuEPZlXBImg",
+      "duration": 4014,
+      "published_at": "2026-03-24T14:00:54+00:00",
+      "channel_id": "UCHnBsf2rH-K7pn09rb3qvkA",
+      "channel_title": "CMU Database Group",
+      "channel_handle": "@CMUDatabaseGroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/YuEPZlXBImg/mqdefault.jpg",
+      "description": "CMU Database Group \u2014 PostgreSQL vs. The World Seminar Series (Spring 2026)\nSpeakers: Filip Obradovic (https://www.linkedin.com/in/filipbobradovic/)\nMarch 23, 2026\nhttps://db.cs.cmu.edu/seminars/spring2026/#db7\n\nSponsors:\nGoogle DAPA Team (https://google.com)\nSO-YOU-DONT-HAVE-TO (https://sydht.ai)",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 2274
     },
     {
       "id": "-GhNDYCchqc",
@@ -65,6 +262,25 @@
       "view_count": 2060
     },
     {
+      "id": "elLeyFMb7vU",
+      "title": "SpiralDB: Building a Machine-scale Database (Will Manning)",
+      "url": "https://www.youtube.com/watch?v=elLeyFMb7vU",
+      "duration": 633,
+      "published_at": "2026-04-03T01:30:38+00:00",
+      "channel_id": "UCHnBsf2rH-K7pn09rb3qvkA",
+      "channel_title": "CMU Database Group",
+      "channel_handle": "@CMUDatabaseGroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/elLeyFMb7vU/mqdefault.jpg",
+      "description": "Will Manning (https://www.linkedin.com/in/will-manning-maker-of-things/)\nSpiralDB (https://spiraldb.com/)\nApril 1, 2026\nhttps://15445.courses.cs.cmu.edu/spring2026/schedule.html#apr-01-2026",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 1327
+    },
+    {
       "id": "9_kbqi9XYE8",
       "title": "Multigres: Bringing Horizontal Scaling and Enterprise Operations to PostgreSQL (Sugu Sougoumarane)",
       "url": "https://www.youtube.com/watch?v=9_kbqi9XYE8",
@@ -81,7 +297,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1235
+      "view_count": 1234
     },
     {
       "id": "Kq3csHJqgJQ",
@@ -103,6 +319,63 @@
       "view_count": 1120
     },
     {
+      "id": "M62bhgueNjU",
+      "title": "Firebolt: Modern Shuffle @ 100 GBit/second (Mosha Pasumansky)",
+      "url": "https://www.youtube.com/watch?v=M62bhgueNjU",
+      "duration": 1030,
+      "published_at": "2026-03-20T04:15:01+00:00",
+      "channel_id": "UCHnBsf2rH-K7pn09rb3qvkA",
+      "channel_title": "CMU Database Group",
+      "channel_handle": "@CMUDatabaseGroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/M62bhgueNjU/mqdefault.jpg",
+      "description": "Mosha Pasumansky (https://en.wikipedia.org/wiki/Mosha_Pasumansky)\nFirebolt (https://www.firebolt.io/)\nMarch 18, 2026\nhttps://15445.courses.cs.cmu.edu/spring2026/schedule.html#feb-04-2026",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 1088
+    },
+    {
+      "id": "wf82I0UzRoE",
+      "title": "Pixeltable: A DBMS for Multimodal AI Applications (Marcel Kornacker)",
+      "url": "https://www.youtube.com/watch?v=wf82I0UzRoE",
+      "duration": 3811,
+      "published_at": "2026-03-31T13:23:59+00:00",
+      "channel_id": "UCHnBsf2rH-K7pn09rb3qvkA",
+      "channel_title": "CMU Database Group",
+      "channel_handle": "@CMUDatabaseGroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/wf82I0UzRoE/mqdefault.jpg",
+      "description": "CMU Database Group \u2014 PostgreSQL vs. The World Seminar Series (Spring 2026)\nSpeakers: Marcel Kornacker (https://www.linkedin.com/in/marcelkornacker/)\nMarch 30, 2026\nhttps://db.cs.cmu.edu/seminars/spring2026/#db8\n\nSponsors:\nGoogle DAPA Team (https://google.com)\nSO-YOU-DONT-HAVE-TO (https://sydht.ai)",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 1082
+    },
+    {
+      "id": "AbCvWET6rTQ",
+      "title": "RelationalAI: Efficient Iterative and Recursive Computations Inside Databases (Amir Shaikhha)",
+      "url": "https://www.youtube.com/watch?v=AbCvWET6rTQ",
+      "duration": 747,
+      "published_at": "2026-03-26T12:00:27+00:00",
+      "channel_id": "UCHnBsf2rH-K7pn09rb3qvkA",
+      "channel_title": "CMU Database Group",
+      "channel_handle": "@CMUDatabaseGroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/AbCvWET6rTQ/mqdefault.jpg",
+      "description": "Amir Shaikhha (https://amirsh.github.io/)\nRelationalAI (https://www.relational.ai/)\nMarch 25, 2026\nhttps://15445.courses.cs.cmu.edu/spring2026/schedule.html#mar-25-2026",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 6.5,
+      "view_count": 754
+    },
+    {
       "id": "3dT8Wm5oI_o",
       "title": "Lecture 1: Introduction to China's History",
       "url": "https://www.youtube.com/watch?v=3dT8Wm5oI_o",
@@ -119,7 +392,26 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 300537
+      "view_count": 300601
+    },
+    {
+      "id": "IPJC8loEmd4",
+      "title": "1: Introduction to Perception",
+      "url": "https://www.youtube.com/watch?v=IPJC8loEmd4",
+      "duration": 3910,
+      "published_at": "2026-03-30T14:13:40+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/IPJC8loEmd4/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nAn introduction to the structure and topic of the course.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/terms\nMore courses at https://ocw.mit.edu\nS",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 124084
     },
     {
       "id": "QkHh6Y2vrHg",
@@ -138,7 +430,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 43499
+      "view_count": 43509
     },
     {
       "id": "mzqKSewPmCM",
@@ -157,7 +449,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 30481
+      "view_count": 30486
     },
     {
       "id": "0pu1DjsDsLU",
@@ -176,8 +468,130 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 20308
+      "view_count": 20324
     },
+    {
+      "id": "Aave3OyCGPc",
+      "title": "13: Color Perception (cont'd), Motion Perception",
+      "url": "https://www.youtube.com/watch?v=Aave3OyCGPc",
+      "duration": 4651,
+      "published_at": "2026-03-30T14:13:45+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Aave3OyCGPc/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how the brain uses input from the cones to draw conclusions about the world.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/term",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 2042,
+      "exploration": true
+    },
+    {
+      "id": "_Pdlr0jOhbQ",
+      "title": "5: Auditory Scene Analysis",
+      "url": "https://www.youtube.com/watch?v=_Pdlr0jOhbQ",
+      "duration": 4803,
+      "published_at": "2026-03-30T14:13:33+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/_Pdlr0jOhbQ/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how the auditory system interprets a single waveform in terms of the likely different sound sources that contributed to it.\n\nLicense: Creative Commons BY-NC-",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 625,
+      "exploration": true
+    },
+    {
+      "id": "Oq5e_8zvick",
+      "title": "It's all fake",
+      "url": "https://www.youtube.com/watch?v=Oq5e_8zvick",
+      "duration": 737,
+      "published_at": "2026-04-17T12:17:00+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/Oq5e_8zvick/mqdefault.jpg",
+      "description": "Having trouble finding the right developer for your team? Get a 7-day free trial + $1,500 off with The Prime\u2019s discount\n\n https://trm.sh/g2i\n\nAttending AIE Miami in April? Use code Prime50Off\n\n https://trm.sh/AIE\n\nSources\nhttps://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/ \n[https://en.wikipedia.org/wiki/Goodhart's_law](https://en.wikipedia.org/wiki/Goodhart%27s_law) \nhttps://x.com/claudeai",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 157094,
+      "exploration": true
+    },
+    {
+      "id": "G1xqTjoihfo",
+      "title": "A letter to tech CEOs",
+      "url": "https://www.youtube.com/watch?v=G1xqTjoihfo",
+      "duration": 2384,
+      "published_at": "2026-04-15T19:37:35+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/G1xqTjoihfo/mqdefault.jpg",
+      "description": "A lot of people thought that AI would kill open source, but I actually think it's making open source the only viable path forward...\n\nThank you RWX for sponsoring! Check them out at: https://soydev.link/rwx\n\nThank you G2i for sponsoring! Make sure to checkout out AI Engineer Miami as well, you really should go: https://soydev.link/miami\n\nSOURCES\nhttps://www.builder.io/blog/ai-slop-forks\nhttps://x.",
+      "categories": [
+        "civic_open",
+        "swe_craft"
+      ],
+      "base_score": 8,
+      "score": 4.8,
+      "view_count": 47525,
+      "exploration": true
+    },
+    {
+      "id": "zMpn9ICagdE",
+      "title": "Vim Has A 0-Day????",
+      "url": "https://www.youtube.com/watch?v=zMpn9ICagdE",
+      "duration": 612,
+      "published_at": "2026-04-13T12:26:14+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/zMpn9ICagdE/mqdefault.jpg",
+      "description": "https://twitch.tv/ThePrimeagen - I Stream on Twitch\n\nSources\n\nhttps://blog.calif.io/p/mad-bugs-vim-vs-emacs-vs-claude\n\nhttps://twitter.com/terminaldotshop - Want to order coffee over SSH?\nssh terminal.shop\n\nBecome Backend Dev: https://boot.dev/prime\n(plus i make courses for them)\n\nThis is also the best way to support me is to support yourself becoming a better backend engineer.  \n\nGreat News?  Wan",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 3.6,
+      "view_count": 326262,
+      "exploration": true
+    },
+    {
+      "id": "Io_GqmbNBbY",
+      "title": "DeepMind\u2019s New AI Just Changed Science Forever",
+      "url": "https://www.youtube.com/watch?v=Io_GqmbNBbY",
+      "duration": 608,
+      "published_at": "2026-03-27T16:00:57+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Io_GqmbNBbY/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\n\ud83d\udcdd The paper is available here:\nhttps://arxiv.org/abs/2602.10177\n\nSource:\nhttps://www.youtube.com/watch?v=6evUpgCHtOQ\n\nOur Patreon if you wish to support us: https://www.patreon.com/TwoMinutePapers\n\n\ud83d\ude4f We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAdam Bridges, Benji Rabh",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 238935,
+      "exploration": true
+    }
+  ],
+  "pool": [
     {
       "id": "RkhSkE89KJ0",
       "title": "Documentary: \u201cThe Courage to Be Open: MIT OpenCourseWare and the Democratization of Knowledge\u201d",
@@ -195,7 +609,143 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 13013
+      "view_count": 13034
+    },
+    {
+      "id": "qzNJi4AO_Aw",
+      "title": "2: Frequency Selectivity and Nonlinearity in Hearing",
+      "url": "https://www.youtube.com/watch?v=qzNJi4AO_Aw",
+      "duration": 4643,
+      "published_at": "2026-03-30T14:13:34+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/qzNJi4AO_Aw/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers the mechanics of the inner ear and how the hair cells respond to sound stimuli.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/t",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 5001
+    },
+    {
+      "id": "7cEAX5gqd7o",
+      "title": "17: The Generic Viewpoint Assumption; Object Recognition",
+      "url": "https://www.youtube.com/watch?v=7cEAX5gqd7o",
+      "duration": 4594,
+      "published_at": "2026-03-30T14:13:43+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/7cEAX5gqd7o/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers what assumptions the brain makes about potentially ambiguous objects and begins to examine how the brain identifies objects.\n\nLicense: Creative Commons BY-NC",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 1272
+    },
+    {
+      "id": "pTe0A8ZOAGk",
+      "title": "3: Sound Localization, Pitch, Timbre, and Loudness / Psychophysical Methods",
+      "url": "https://www.youtube.com/watch?v=pTe0A8ZOAGk",
+      "duration": 2329,
+      "published_at": "2026-03-30T14:13:36+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/pTe0A8ZOAGk/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how structures in the brain and ear assist in identifying the location of origin of a sound.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 1227
+    },
+    {
+      "id": "Mre84EsXY_Y",
+      "title": "23: Olfaction and Gustation",
+      "url": "https://www.youtube.com/watch?v=Mre84EsXY_Y",
+      "duration": 3208,
+      "published_at": "2026-03-30T14:13:38+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Mre84EsXY_Y/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture discusses the senses of smell and taste, with emphasis on theworking of the sense receptors in the nose and tongue.\n\nLicense: Creative Commons BY-NC-SA\nMore informa",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 6.0,
+      "view_count": 983
+    },
+    {
+      "id": "aFcVKzfkJPk",
+      "title": "Claude Mythos and the end of software",
+      "url": "https://www.youtube.com/watch?v=aFcVKzfkJPk",
+      "duration": 1585,
+      "published_at": "2026-04-08T10:25:53+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/aFcVKzfkJPk/mqdefault.jpg",
+      "description": "I....yeah. It's all over now.\n\nThank you Blacksmith for sponsoring! Check them out at: https://soydev.link/blacksmith\n\nSOURCES\nhttps://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf\nhttps://www.anthropic.com/glasswing\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nEdited by me",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 281534
+    },
+    {
+      "id": "stZr6U_7S90",
+      "title": "Claude Code is unusable now",
+      "url": "https://www.youtube.com/watch?v=stZr6U_7S90",
+      "duration": 1463,
+      "published_at": "2026-04-06T06:14:32+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/stZr6U_7S90/mqdefault.jpg",
+      "description": "I'm tired of talking about Anthropic, but I feel like I have to because things keep getting worse\n\nThank you Clerk for sponsoring! Check them out at: https://soydev.link/clerk\n\nSOURCES\nhttps://x.com/theo/status/2040909058514043111\nhttps://x.com/mattpocockuk/status/2040536403289764275\nhttps://x.com/steipete/status/2040811558427648357\n\nWant to sponsor a video? Learn more here: https://soydev.link/sp",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 208620
+    },
+    {
+      "id": "Wvj1mTqyzsQ",
+      "title": "BREAKING: Claude Code source leaked",
+      "url": "https://www.youtube.com/watch?v=Wvj1mTqyzsQ",
+      "duration": 2367,
+      "published_at": "2026-04-01T04:15:07+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/Wvj1mTqyzsQ/mqdefault.jpg",
+      "description": "Not clickbait, the full claude code source code got leaked\u2026\n\nThank you Greptile for sponsoring! Check them out at: https://soydev.link/greptile\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 193583
     },
     {
       "id": "ZQAz_HrUq68",
@@ -217,24 +767,23 @@
       "view_count": 178025
     },
     {
-      "id": "Oq5e_8zvick",
-      "title": "It's all fake",
-      "url": "https://www.youtube.com/watch?v=Oq5e_8zvick",
-      "duration": 737,
-      "published_at": "2026-04-17T12:17:00+00:00",
-      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
-      "channel_title": "The PrimeTime",
-      "channel_handle": "@ThePrimeTimeagen",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/Oq5e_8zvick/mqdefault.jpg",
-      "description": "Having trouble finding the right developer for your team? Get a 7-day free trial + $1,500 off with The Prime\u2019s discount\n\n https://trm.sh/g2i\n\nAttending AIE Miami in April? Use code Prime50Off\n\n https://trm.sh/AIE\n\nSources\nhttps://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/ \n[https://en.wikipedia.org/wiki/Goodhart's_law](https://en.wikipedia.org/wiki/Goodhart%27s_law) \nhttps://x.com/claudeai",
+      "id": "7YVrb3-ABYE",
+      "title": "Google\u2019s New AI Just Broke My Brain",
+      "url": "https://www.youtube.com/watch?v=7YVrb3-ABYE",
+      "duration": 514,
+      "published_at": "2026-04-01T14:21:33+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/7YVrb3-ABYE/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\n\ud83d\udcdd The TurboQuant paper is available here:\nhttps://arxiv.org/abs/2504.19874\n\nReproductions: \nhttps://github.com/tonbistudio/turboquant-pytorch\nhttps://www.reddit.com/r/LocalLLM/comments/1s6edoi/turboquant_implementation/\nhttps://www.reddit.com/r/LocalLLaMA/comments/1s73yby/implemented_turboquant_in_python_over_weeke",
       "categories": [
-        "applied_ai",
-        "swe_craft"
+        "applied_ai"
       ],
-      "base_score": 9,
+      "base_score": 6,
       "score": 5.4,
-      "view_count": 156060
+      "view_count": 163100
     },
     {
       "id": "Ersv1ogj7Jo",
@@ -253,7 +802,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 151137
+      "view_count": 151205
     },
     {
       "id": "I82j7AzMU80",
@@ -273,7 +822,47 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 139199
+      "view_count": 139253
+    },
+    {
+      "id": "j_kJNYLI6Tw",
+      "title": "We need to talk about the Claude Code rate limits",
+      "url": "https://www.youtube.com/watch?v=j_kJNYLI6Tw",
+      "duration": 1977,
+      "published_at": "2026-04-03T08:56:24+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/j_kJNYLI6Tw/mqdefault.jpg",
+      "description": "Anthropic just made the limits on the Claude Max/Pro plans a lot worse...\n\nThank you Depot for sponsoring! Check them out at: https://soydev.link/depot\n\nSOURCES\nhttps://x.com/trq212/status/2032916661452595648\nhttps://x.com/trq212/status/2037254607001559305\nhttps://x.com/Pranit/status/2037353721047491047\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch,",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 121752
+    },
+    {
+      "id": "icu0GZcSb58",
+      "title": "I got DMCA'd by Anthropic (not a joke)",
+      "url": "https://www.youtube.com/watch?v=icu0GZcSb58",
+      "duration": 977,
+      "published_at": "2026-04-02T02:18:57+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/icu0GZcSb58/mqdefault.jpg",
+      "description": "Well, the Claude Code drama continues. I got DMCA'd by Anthropic. There's a twist though. Enjoy this ride with me.\n\nThank you Clerk for sponsoring! Check them out at: https://soydev.link/clerk\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 112721
     },
     {
       "id": "ysS8GDwsaK8",
@@ -293,7 +882,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 108999
+      "view_count": 109028
     },
     {
       "id": "WkHdkwDQJ5o",
@@ -313,7 +902,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 107669
+      "view_count": 107769
     },
     {
       "id": "zd6tBbCwkks",
@@ -333,7 +922,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 102243
+      "view_count": 103049
     },
     {
       "id": "Sk9tvyRSCgY",
@@ -352,27 +941,86 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 95775
+      "view_count": 95932
     },
     {
-      "id": "G1xqTjoihfo",
-      "title": "A letter to tech CEOs",
-      "url": "https://www.youtube.com/watch?v=G1xqTjoihfo",
-      "duration": 2384,
-      "published_at": "2026-04-15T19:37:35+00:00",
+      "id": "TilDSWeiAlw",
+      "title": "The language holding our agents back.",
+      "url": "https://www.youtube.com/watch?v=TilDSWeiAlw",
+      "duration": 1943,
+      "published_at": "2026-04-07T08:21:20+00:00",
       "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
       "channel_title": "Theo - t3\u2024gg",
       "channel_handle": "@t3dotgg",
       "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/G1xqTjoihfo/mqdefault.jpg",
-      "description": "A lot of people thought that AI would kill open source, but I actually think it's making open source the only viable path forward...\n\nThank you RWX for sponsoring! Check them out at: https://soydev.link/rwx\n\nThank you G2i for sponsoring! Make sure to checkout out AI Engineer Miami as well, you really should go: https://soydev.link/miami\n\nSOURCES\nhttps://www.builder.io/blog/ai-slop-forks\nhttps://x.",
+      "thumb": "https://i.ytimg.com/vi/TilDSWeiAlw/mqdefault.jpg",
+      "description": "Giving agent's a bash tool is great. The things it can do are insane, but what if we went further. What if we let it write and run typescript?\n\nThank you Browserbase for sponsoring! Check them out at: https://soydev.link/browserbase\n\nAnd also Depot! Check them out at: https://soydev.link/depot\n\nSOURCES\n\nhttps://github.com/RhysSullivan/executor\nhttps://x.com/RhysSullivan/status/2030903539871154193\n",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 81791
+    },
+    {
+      "id": "wfeiCZK0mNs",
+      "title": "Anthropic just released the real Claude Bot...",
+      "url": "https://www.youtube.com/watch?v=wfeiCZK0mNs",
+      "duration": 300,
+      "published_at": "2026-03-26T18:11:51+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/wfeiCZK0mNs/mqdefault.jpg",
+      "description": "Try SerpApi for free to get real-time search data from a single API - https://serpapi.com/?utm_source=fireship\n\nAnthropic just dropped Claude Computer Use to try and take down OpenClaw. But is it actually a gamechanger, or just more slop hype? Let's run it.\n\n#coding #ai #programming\n\nWant more Fireship?\n\n\ud83d\uddde\ufe0f Newsletter: https://bytes.dev\n\ud83e\udde0 Courses: https://fireship.dev",
+      "categories": [
+        "applied_ai",
+        "dev_news_lite"
+      ],
+      "base_score": 7,
+      "score": 4.9,
+      "view_count": 1040504
+    },
+    {
+      "id": "08NqrRQArNw",
+      "title": "I\u2019m serious.",
+      "url": "https://www.youtube.com/watch?v=08NqrRQArNw",
+      "duration": 2385,
+      "published_at": "2026-04-04T11:01:42+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/08NqrRQArNw/mqdefault.jpg",
+      "description": "I love open source, but that never stopped me from using a ton of closed source stuff. That's starting to change...\n\nThank you WorkOS for sponsoring! Check them out at: https://soydev.link/workos\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
       "categories": [
         "civic_open",
         "swe_craft"
       ],
       "base_score": 8,
       "score": 4.8,
-      "view_count": 47484
+      "view_count": 91159
+    },
+    {
+      "id": "PAoe7mmmvp0",
+      "title": "The Idea That Made RNNs Work",
+      "url": "https://www.youtube.com/watch?v=PAoe7mmmvp0",
+      "duration": 1128,
+      "published_at": "2026-04-02T03:17:05+00:00",
+      "channel_id": "UCR2uRTQ53V_egXKFflMMaaw",
+      "channel_title": "Artem Kirsanov",
+      "channel_handle": "@ArtemKirsanov",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/PAoe7mmmvp0/mqdefault.jpg",
+      "description": "Get a 20% discount to my favorite book summary service at https://shortform.com/artem\n\n=====\nMy name is Artem, I'm a neuroscience PhD student at Harvard University. \n\ud83c\udf0e Website and Social links: https://kirsanov.ai/\n\ud83d\udce5 \"Receptive Field\" neuro-newsletter: https://artemkirsanov.substack.com/\n\u2728 Support me on Patreon to get access to Discord community: https://patreon.com/artemkirsanov\n=====\n\nMost neura",
+      "categories": [
+        "math_viz"
+      ],
+      "base_score": 4,
+      "score": 4.4,
+      "view_count": 33135
     },
     {
       "id": "d3Qq-rkp_to",
@@ -391,7 +1039,26 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 1004050
+      "view_count": 1004136
+    },
+    {
+      "id": "nxwkn9Dt9-I",
+      "title": "Tech bros optimized war\u2026 and it\u2019s working",
+      "url": "https://www.youtube.com/watch?v=nxwkn9Dt9-I",
+      "duration": 322,
+      "published_at": "2026-03-24T18:22:27+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/nxwkn9Dt9-I/mqdefault.jpg",
+      "description": "Try out Traycer\u2019s Epic Mode so your whole team can ship better software with agents - https://traycer.ai/fireship\n\nThe US Department of War is rolling out the Maven Smart System - an AI-driven military ops platform powered by companies like Palantir and OpenAI. But what else is it running under the hood?\n\n#coding #programming #ai\n\n\ud83d\udd16 Topics Covered\n- What is the Maven Smart System?\n- Claude vs Pete",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 4.2,
+      "view_count": 800325
     },
     {
       "id": "piah4fV_o2Q",
@@ -410,26 +1077,26 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 368967
+      "view_count": 369877
     },
     {
-      "id": "zMpn9ICagdE",
-      "title": "Vim Has A 0-Day????",
-      "url": "https://www.youtube.com/watch?v=zMpn9ICagdE",
-      "duration": 612,
-      "published_at": "2026-04-13T12:26:14+00:00",
-      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
-      "channel_title": "The PrimeTime",
-      "channel_handle": "@ThePrimeTimeagen",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/zMpn9ICagdE/mqdefault.jpg",
-      "description": "https://twitch.tv/ThePrimeagen - I Stream on Twitch\n\nSources\n\nhttps://blog.calif.io/p/mad-bugs-vim-vs-emacs-vs-claude\n\nhttps://twitter.com/terminaldotshop - Want to order coffee over SSH?\nssh terminal.shop\n\nBecome Backend Dev: https://boot.dev/prime\n(plus i make courses for them)\n\nThis is also the best way to support me is to support yourself becoming a better backend engineer.  \n\nGreat News?  Wan",
+      "id": "XL5bq8DRn64",
+      "title": "The Algorithm That Made Me Cry",
+      "url": "https://www.youtube.com/watch?v=XL5bq8DRn64",
+      "duration": 470,
+      "published_at": "2026-03-26T15:47:12+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/XL5bq8DRn64/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\nFree course on Ray Tracing:\nhttps://users.cg.tuwien.ac.at/zsolnai/gfx/rendering-course/\n\nSong only version: https://www.youtube.com/watch?v=KzLsB4W8zMY\n\nOur Patreon if you wish to support us: https://www.patreon.com/TwoMinutePapers\n\n\ud83d\ude4f We would like to thank our generous Patreon supporters who make Two Minute Papers",
       "categories": [
-        "applied_ai"
+        "algorithms"
       ],
-      "base_score": 6,
+      "base_score": 4,
       "score": 3.6,
-      "view_count": 326212
+      "view_count": 34041
     },
     {
       "id": "-01ZCTt-CJw",
@@ -448,7 +1115,7 @@
       ],
       "base_score": 5,
       "score": 3.5,
-      "view_count": 1264606
+      "view_count": 1264639
     },
     {
       "id": "JSuS-zXMVwE",
@@ -486,8 +1153,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 67655,
-      "exploration": true
+      "view_count": 67638
     },
     {
       "id": "ND9CSuzvrIY",
@@ -506,8 +1172,24 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 59539,
-      "exploration": true
+      "view_count": 59539
+    },
+    {
+      "id": "L29q2LRiMRc",
+      "title": "No way this actually works",
+      "url": "https://www.youtube.com/watch?v=L29q2LRiMRc",
+      "duration": 419,
+      "published_at": "2026-04-10T16:15:34+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/L29q2LRiMRc/mqdefault.jpg",
+      "description": "https://twitch.tv/ThePrimeagen - I Stream on Twitch\n\nhttps://twitter.com/terminaldotshop - Want to order coffee over SSH?\nssh terminal.shop\n\nBecome Backend Dev: https://boot.dev/prime\n(plus i make courses for them)\n\nThis is also the best way to support me is to support yourself becoming a better backend engineer.  \n\nGreat News?  Want me to research and create video????: https://www.reddit.com/r/Th",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 531637
     },
     {
       "id": "c6yN06GKRNQ",
@@ -524,8 +1206,109 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 434459,
-      "exploration": true
+      "view_count": 434743
+    },
+    {
+      "id": "DmtoVnTkQnM",
+      "title": "DeepSeek Just Fixed One Of The Biggest Problems With AI",
+      "url": "https://www.youtube.com/watch?v=DmtoVnTkQnM",
+      "duration": 587,
+      "published_at": "2026-03-24T15:17:49+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/DmtoVnTkQnM/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\n\ud83d\udcdd The #DeepSeek paper is available here:\nhttps://github.com/deepseek-ai/Engram\nhttps://arxiv.org/abs/2601.07372\n\nLarry Wheels comment in this video:\nhttps://www.youtube.com/watch?v=7SM816P5G9s&lc=Ugz7yiDrr_8YD7w8gaN4AaABAg\n\nOur Patreon if you wish to support us: https://www.patreon.com/TwoMinutePapers\n\n\ud83d\ude4f We would l",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 166615
+    },
+    {
+      "id": "_MoRcYLN-7U",
+      "title": "Post Quantum Cryptography - Computerphile",
+      "url": "https://www.youtube.com/watch?v=_MoRcYLN-7U",
+      "duration": 807,
+      "published_at": "2026-04-02T13:00:51+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/_MoRcYLN-7U/mqdefault.jpg",
+      "description": "Prepping for Post-Quantum, Mike Pound explains why now! -- Try Jane Street\u2019s neural net puzzle: https://jane-st.co/computerphile-neural-net-puzzle (channel sponsor) -- More links in full description below \u2193\u2193\u2193\n\nComputerphile is supported by Jane Street. Learn more about ML at Jane Street here: https://jane-st.co/Computerphile-JS-ML\n\nAs we move toward a world where Quantum Computing can break certai",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 156138
+    },
+    {
+      "id": "tND-wBBZ8RY",
+      "title": "The Cost of Concurrency Coordination with Jon Gjengset",
+      "url": "https://www.youtube.com/watch?v=tND-wBBZ8RY",
+      "duration": 2795,
+      "published_at": "2026-03-25T14:41:44+00:00",
+      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
+      "channel_title": "Jane Street",
+      "channel_handle": "@janestreet",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/tND-wBBZ8RY/mqdefault.jpg",
+      "description": "In this talk, Jon Gjengset explores the true cost of concurrency coordination \u2013 from Amdahl's law down to CPU cache lines \u2013 and what we can do about it. \n\nModern hardware is moving to more cores rather than faster ones. For application developers, this means that further performance gains require _parallelism_; making progress on many tasks at the same time. But as anyone with experience writing m",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 104390
+    },
+    {
+      "id": "CCBe1shjGOw",
+      "title": "Trash Made a Black Mirror App | The Standup",
+      "url": "https://www.youtube.com/watch?v=CCBe1shjGOw",
+      "duration": 2442,
+      "published_at": "2026-04-12T13:00:16+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/CCBe1shjGOw/mqdefault.jpg",
+      "description": "Download Trash\u2019s App Receipts Here: https://apps.apple.com/us/app/got-receipts/id6760623464\n\nFull episode on Spotify: https://open.spotify.com/episode/4wAFjFkbSPwoTkL6vClhsT\nFull episode on Youtube: https://youtu.be/QD-USE_Vzvs\n\nThanks to this week's sponsor: Code Rabbit If you're tired of developers just replying with LGTM, then you NEED Code Rabbit. An actually useful application of AI where it ",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 61498
+    },
+    {
+      "id": "0jmJdvI6f-A",
+      "title": "Haptic Rendering - Computerphile",
+      "url": "https://www.youtube.com/watch?v=0jmJdvI6f-A",
+      "duration": 1357,
+      "published_at": "2026-03-26T17:20:00+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/0jmJdvI6f-A/mqdefault.jpg",
+      "description": "Haptics, often associated with video game controllers, are systems that provide a touch sensation for users, but how do we calculate the forces involved? Associate Professor of Robotics and Autonomous Systems Dr Ayse Kucukyilmaz is based at the University of Nottingham.\n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/comp",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 56086
+    },
+    {
+      "id": "mFSFvKquXwI",
+      "title": "NVIDIA\u2019s New AI Shouldn\u2019t Work\u2026But It Does",
+      "url": "https://www.youtube.com/watch?v=mFSFvKquXwI",
+      "duration": 549,
+      "published_at": "2026-04-11T16:23:48+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/mFSFvKquXwI/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Weights & Biases and sign up for a free demo here: https://wandb.me/papers\n\n\ud83d\udcdd The paper is available here:\nhttps://dreamdojo-world.github.io/\n\nOur Patreon if you wish to support us: https://www.patreon.com/TwoMinutePapers\n\n\ud83d\ude4f We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAdam Bridges, Benji Rabhan, B Shang, Cameron Navor, Charles Ian Norman",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 50993
     },
     {
       "id": "x_pwyoLsvkw",
@@ -542,8 +1325,92 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 41507,
-      "exploration": true
+      "view_count": 41518
+    },
+    {
+      "id": "cYS57xJuRP8",
+      "title": "Original Hello World in \"B\" Programming Language - Computerphile",
+      "url": "https://www.youtube.com/watch?v=cYS57xJuRP8",
+      "duration": 549,
+      "published_at": "2026-04-17T12:30:53+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/cYS57xJuRP8/mqdefault.jpg",
+      "description": "B is the forerunner to C - but seemed lost - Angelo Papenhoff decided to change it and brought it back from the brink! Here he tries to recreate Brian Kernighan's original 'Hello World' with a few wrinkles!\n\nAngelo's B compiler is here: https://github.com/aap/b\nAngelo's emulators: https://github.com/aap/blincolnlights \n\nThere's a type in the end of the video, it should of course read \"Obsolescence",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 27849
+    },
+    {
+      "id": "kQo30UaEh8I",
+      "title": "The MIT paper that showed space can be more powerful than time in computers",
+      "url": "https://www.youtube.com/watch?v=kQo30UaEh8I",
+      "duration": 334,
+      "published_at": "2026-03-19T16:01:13+00:00",
+      "channel_id": "UCBpxspUNl1Th33XbugiHJzw",
+      "channel_title": "MIT CSAIL",
+      "channel_handle": "@MITCSAIL",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/kQo30UaEh8I/mqdefault.jpg",
+      "description": "Paper: https://arxiv.org/abs/2502.17779\n\nDirector: Rachel Gordon\nVideo: Tim Malieckal\nScript Supervisor: Alex Shipps\nEditor: Tim Malieckal\n\nSpecial Thanks to Avi Wigderson, Ian Mertz and James Cook for their expertise, and Elias Trout @MITMuseumOfficial for providing the vintage floppy disks as critical props for our production!",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 22737
+    },
+    {
+      "id": "d0GgzjCFWq0",
+      "title": "What the font?!?!",
+      "url": "https://www.youtube.com/watch?v=d0GgzjCFWq0",
+      "duration": 1253,
+      "published_at": "2026-03-30T14:02:30+00:00",
+      "channel_id": "UCvjgXvBlbQiydffZU7m1_aw",
+      "channel_title": "The Coding Train",
+      "channel_handle": "@TheCodingTrain",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/d0GgzjCFWq0/mqdefault.jpg",
+      "description": "Let's explore new typography features in p5.js 2.0! In this video, I cover how to work with variable fonts, convert text to 3D models with textModel(), extract contours with textContours(), and control the detail of your typography with sampleFactor and simplifyThreshold. Code: https://thecodingtrain.com/tracks/p5js-2.0/p5js-2.0/typography\n\n\ud83d\ude80 Watch this video ad-free on Nebula https://nebula.tv/vi",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 17149
+    },
+    {
+      "id": "K-mA3MZ_EzU",
+      "title": "LIVE: Watch me build a brand-new project from scratch",
+      "url": "https://www.youtube.com/watch?v=K-mA3MZ_EzU",
+      "duration": 6451,
+      "published_at": "2026-04-17T16:13:34+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/K-mA3MZ_EzU/mqdefault.jpg",
+      "description": "Become an AI Hero with my AI SDK v6 Crash Course:\n\nhttps://www.aihero.dev/workshops/ai-sdk-v6-crash-course\n\nFollow Matt on Twitter\n\nhttps://twitter.com/mattpocockuk\n\nJoin the Discord:\n\nhttps://aihero.dev/discord",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 5907
+    },
+    {
+      "id": "VlQNonLD2sQ",
+      "title": "Getting Hired in UX: What to Do When Apply-and-Wait Isn't Enough | EP 59",
+      "url": "https://www.youtube.com/watch?v=VlQNonLD2sQ",
+      "duration": 2276,
+      "published_at": "2026-04-01T15:00:42+00:00",
+      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
+      "channel_title": "NNgroup",
+      "channel_handle": "@NNgroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/VlQNonLD2sQ/mqdefault.jpg",
+      "description": "Navigating the UX job market has always had its ups and downs, especially with AI reshaping the industry. In this episode, host Laura Klein sits down with Evan Sunwall, NN/G's Director of Self-Paced Training, to share candid advice for UX practitioners trying to actively job search or level up in today's competitive market. With nearly 19 years in the field as both a designer and a hiring manager,",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 2050
     },
     {
       "id": "u1rKQddhxbc",
@@ -560,8 +1427,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 660,
-      "exploration": true
+      "view_count": 660
     },
     {
       "id": "zR9PpXWsKFQ",
@@ -580,8 +1446,46 @@
       ],
       "base_score": -4,
       "score": -4.0,
-      "view_count": 17016,
-      "exploration": true
+      "view_count": 17016
+    },
+    {
+      "id": "sdYDZeXzE5Q",
+      "title": "21: Attention (cont'd)",
+      "url": "https://www.youtube.com/watch?v=sdYDZeXzE5Q",
+      "duration": 4406,
+      "published_at": "2026-03-30T14:13:41+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/sdYDZeXzE5Q/mqdefault.jpg",
+      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture discusses topics such as texture segregation and attentional selection in time, with special focus on how the mechanisms of attention fall short of faithful represe",
+      "categories": [
+        "applied_ai",
+        "politics"
+      ],
+      "base_score": -6,
+      "score": -6.0,
+      "view_count": 698
+    },
+    {
+      "id": "ieDG_GLfsco",
+      "title": "HAI Seminar: Predicting Child Labor in Ghana's Cocoa Industry",
+      "url": "https://www.youtube.com/watch?v=ieDG_GLfsco",
+      "duration": 3116,
+      "published_at": "2026-03-30T20:48:08+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/ieDG_GLfsco/mqdefault.jpg",
+      "description": "Child labor remains prevalent in Ghana\u2019s cocoa sector and is associated with adverse educational and health outcomes for children.\n\nIn this HAI seminar, civil engineering PhD student, Antonio Skillicorn, presented their study on identifying key predictors of child labor risk. They investigated whether district-level satellite indicators, including yield-weighted cocoa-driven deforestation, newly l",
+      "categories": [
+        "climate_grid"
+      ],
+      "base_score": -6,
+      "score": -7.2,
+      "view_count": 147
     }
   ]
 }
