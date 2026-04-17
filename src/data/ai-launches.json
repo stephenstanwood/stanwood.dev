@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Opus 4.7",
+    "org": "Anthropic",
+    "date": "2026-04-16",
+    "type": "model",
+    "summary": "Anthropic's best generally available model — 3x higher vision resolution (3.75MP), 1M token context, new 'xhigh' effort level, 64% on SWE-Bench Pro; same pricing as Opus 4.6",
+    "url": "https://www.anthropic.com/news/claude-opus-4-7"
+  },
+  {
     "name": "Gemini 3.1 Flash TTS",
     "org": "Google",
     "date": "2026-04-15",
@@ -46,21 +54,5 @@
     "type": "model",
     "summary": "Meta's first natively multimodal open models — Scout (17B active/109B total MoE, runs on a single H100) and Maverick (17B active/400B total, beats GPT-4o on most benchmarks); video and image understanding, Apache 2.0",
     "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
-  },
-  {
-    "name": "Cursor 3",
-    "org": "Cursor",
-    "date": "2026-04-02",
-    "type": "tool",
-    "summary": "rebuilt IDE around parallel AI agents — run many agents at once across local, cloud, worktree, and remote SSH; new Design Mode lets you annotate UI elements directly in the browser",
-    "url": "https://cursor.com/blog/cursor-3"
-  },
-  {
-    "name": "Google Gemma 4",
-    "org": "Google",
-    "date": "2026-04-02",
-    "type": "model",
-    "summary": "four open-weight models (2B–31B) with Apache 2.0 license — runs on a Raspberry Pi or Mac Mini, built from Gemini 3 research, most permissive Gemma release yet",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
   }
 ]
