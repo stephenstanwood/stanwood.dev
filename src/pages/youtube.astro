@@ -1,6 +1,7 @@
 ---
 // src/pages/youtube.astro
-// The Stanford Online queue page. Reads public/yt/videos.json at build time.
+// Stanford queue + Around the internet. Both are launchpads — click to open
+// on YouTube (Stanford disabled embedding, so no in-page player).
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -12,7 +13,7 @@ if (fs.existsSync(dataPath)) {
 }
 
 const broaderPath = path.join(process.cwd(), 'public', 'yt', 'broader.json');
-let broader: any = { queue: [], built_at: null, channel_count: 0 };
+let broader: any = { queue: [], pool: [], built_at: null, channel_count: 0 };
 if (fs.existsSync(broaderPath)) {
   broader = JSON.parse(fs.readFileSync(broaderPath, 'utf-8'));
 }
@@ -38,6 +39,15 @@ const builtAt = data.built_at
 const broaderBuiltAt = broader.built_at
   ? new Date(broader.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
   : 'never';
+
+const topSeries = data.series?.[0] ?? null;
+const restSeries = (data.series ?? []).slice(1);
+
+function seriesVideos(series: any) {
+  return series.video_ids
+    .map((id: string) => data.queue.find((v: any) => v.id === id))
+    .filter(Boolean);
+}
 ---
 
 <html lang="en">
@@ -87,84 +97,13 @@ const broaderBuiltAt = broader.built_at
     }
     .subtitle a { color: var(--cool); }
 
-    /* Now-playing card */
-    #now {
-      background: var(--paper);
-      border: var(--border);
-      box-shadow: var(--shadow);
-      padding: 1.25rem;
-      margin-bottom: 2rem;
-    }
-    #now-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: .75rem;
-      flex-wrap: wrap;
-    }
-    #now-label {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 1.1rem;
-      color: var(--hot);
-    }
-    #now-title { font-weight: 700; font-size: 1.1rem; margin: 0 0 .5rem; }
-    #now-meta { font-size: 0.8rem; color: #666; margin-bottom: 1rem; }
-    #controls {
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .btn {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 0.8rem;
-      padding: .4rem .8rem;
-      border: 2px solid var(--ink);
-      background: var(--paper);
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .btn:hover { background: var(--lime); }
-    .btn.active { background: var(--lime); }
-    .btn.hot { background: var(--hot); color: var(--paper); }
-    .btn.hot:hover { background: var(--ink); }
-
-    #player-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border: 2px solid var(--ink);
-    }
-    #player-wrap.audio-mode {
-      aspect-ratio: unset;
-      height: 60px;
-      background: var(--ink);
-    }
-    #player-wrap.audio-mode #player {
-      visibility: hidden;
-      position: absolute;
-      pointer-events: none;
-    }
-    #audio-indicator {
-      display: none;
-      color: var(--paper);
-      font-family: 'Permanent Marker', cursive;
-      padding: 1rem;
-      text-align: center;
-    }
-    #player-wrap.audio-mode #audio-indicator { display: block; }
-    #player { width: 100%; height: 100%; }
-
-    /* Queue */
     h2 {
       font-family: 'Permanent Marker', cursive;
       font-size: 1.8rem;
-      margin: 2rem 0 .5rem;
+      margin: 2.5rem 0 .5rem;
     }
+    h2:first-of-type { margin-top: 0; }
+
     .series {
       border: var(--border);
       background: var(--paper);
@@ -172,6 +111,7 @@ const broaderBuiltAt = broader.built_at
       margin-bottom: 1.5rem;
       padding: 1rem 1.25rem;
     }
+    .series[hidden] { display: none; }
     .series-head {
       display: flex;
       justify-content: space-between;
@@ -210,10 +150,6 @@ const broaderBuiltAt = broader.built_at
     ul.videos li.watched {
       opacity: 0.4;
       text-decoration: line-through;
-    }
-    ul.videos li.playing {
-      background: var(--lime);
-      font-weight: 700;
     }
     .vtitle { flex: 1; font-size: 0.9rem; }
     .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
@@ -331,15 +267,6 @@ const broaderBuiltAt = broader.built_at
       color: #666;
       text-align: center;
     }
-    .kbd {
-      display: inline-block;
-      border: 1px solid #999;
-      border-radius: 3px;
-      padding: 1px 5px;
-      background: var(--paper);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-    }
   </style>
 </head>
 <body>
@@ -348,81 +275,53 @@ const broaderBuiltAt = broader.built_at
     <p class="subtitle">
       auto-ranked lectures from
       <a href="https://www.youtube.com/@stanfordonline" target="_blank" rel="noopener">@stanfordonline</a>
-      · last 6 months · built {builtAt}
+      · last 6 months · built {builtAt} · click any row to open on youtube
     </p>
 
-    {data.queue.length === 0 ? (
+    {data.queue.length === 0 && (
       <div class="empty">
         <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
       </div>
-    ) : (
-      <>
-        <div id="now">
-          <div id="now-header">
-            <span id="now-label">▶ up next</span>
-            <div id="controls">
-              <button class="btn active" id="speed-btn" data-speed="1.5">1.5×</button>
-              <button class="btn" id="audio-btn">audio mode</button>
-              <button class="btn" id="watched-btn">mark watched</button>
-              <button class="btn hot" id="skip-btn">skip →</button>
-            </div>
-          </div>
-          <h3 id="now-title">(select a video from the queue)</h3>
-          <div id="now-meta"></div>
-          <div id="player-wrap">
-            <div id="player"></div>
-            <div id="audio-indicator">
-              audio mode · video hidden · playing at <span id="audio-speed">1.5×</span>
-            </div>
-          </div>
-        </div>
-
-        <h2>the queue</h2>
-
-        {data.series.map((s: any) => {
-          const videos = s.video_ids.map((id: string) =>
-            data.queue.find((v: any) => v.id === id)
-          ).filter(Boolean);
-          if (videos.length === 0) return null;
-          const showScore = s.best_score >= 3;
-          return (
-            <div class="series" data-series={s.key}>
-              <div class="series-head">
-                <div>
-                  <span class="series-name">{s.display_name}</span>
-                  <span class={`score-chip ${showScore ? '' : 'low'}`}>
-                    score {s.best_score}
-                  </span>
-                </div>
-                <span class="series-meta">
-                  {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
-                </span>
-              </div>
-              <ul class="videos">
-                {videos.map((v: any) => (
-                  <li data-video-id={v.id} data-video-title={v.title}>
-                    <span class="vtitle">
-                      {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
-                      {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
-                    </span>
-                    <span class="vmeta">
-                      {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
-                    </span>
-                    <button class="mark-btn" data-toggle-watched={v.id}>✓</button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </>
     )}
+
+    {topSeries && (() => {
+      const videos = seriesVideos(topSeries);
+      return (
+        <div class="series" data-series={topSeries.key}>
+          <div class="series-head">
+            <div>
+              <span class="series-name">{topSeries.display_name}</span>
+              <span class={`score-chip ${topSeries.best_score >= 3 ? '' : 'low'}`}>
+                score {topSeries.best_score}
+              </span>
+            </div>
+            <span class="series-meta">
+              {topSeries.video_count} {topSeries.video_count === 1 ? 'video' : 'videos'}
+            </span>
+          </div>
+          <ul class="videos">
+            {videos.map((v: any) => (
+              <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+                <span class="vtitle">
+                  {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
+                  {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
+                </span>
+                <span class="vmeta">
+                  {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                </span>
+                <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    })()}
 
     {broader.queue.length > 0 && (
       <>
         <h2>around the internet</h2>
         <p class="broader-intro">
-          recent uploads from {broader.channel_count} curated CS / AI / HCI / future-tech channels,
+          recent uploads from curated CS / AI / HCI / future-tech channels,
           scored against my interests · built {broaderBuiltAt} · click a card to open on youtube
         </p>
         <div class="broader-grid" id="broader-grid">
@@ -452,42 +351,64 @@ const broaderBuiltAt = broader.built_at
       </>
     )}
 
+    {restSeries.length > 0 && (
+      <>
+        <h2>more from the queue</h2>
+        {restSeries.map((s: any) => {
+          const videos = seriesVideos(s);
+          if (videos.length === 0) return null;
+          const showScore = s.best_score >= 3;
+          return (
+            <div class="series" data-series={s.key}>
+              <div class="series-head">
+                <div>
+                  <span class="series-name">{s.display_name}</span>
+                  <span class={`score-chip ${showScore ? '' : 'low'}`}>
+                    score {s.best_score}
+                  </span>
+                </div>
+                <span class="series-meta">
+                  {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
+                </span>
+              </div>
+              <ul class="videos">
+                {videos.map((v: any) => (
+                  <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+                    <span class="vtitle">
+                      {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
+                      {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
+                    </span>
+                    <span class="vmeta">
+                      {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                    </span>
+                    <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </>
+    )}
+
     <div class="footer">
-      shortcuts: <span class="kbd">space</span> play/pause ·
-      <span class="kbd">n</span> next ·
-      <span class="kbd">w</span> mark watched ·
-      <span class="kbd">a</span> audio mode
-      <br />
-      also on pocket casts via tailscale-only RSS (see README)
+      click any stanford row or card to open on youtube · ✓ marks watched · × hides a card
     </div>
   </div>
 
-  <!-- Queue data for the client -->
-  <script type="application/json" id="queue-data" set:html={JSON.stringify(data.queue)}></script>
+  <!-- Broader reserve pool, consumed client-side when visible count drops below 10 -->
+  <script type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
 
   <script is:inline>
-    // ------------------------------------------------------------------
-    // Client logic: YouTube IFrame API + watched state + keyboard shortcuts
-    // ------------------------------------------------------------------
-    const QUEUE = JSON.parse(document.getElementById('queue-data').textContent);
-    const STORAGE_KEY = 'stanford-queue-watched-v1';
-    const SPEED = 1.5;
-
-    let player = null;
-    let currentId = null;
+    // ---- Stanford: watched state + auto-hide watched-out series ----
+    const WATCHED_KEY = 'stanford-queue-watched-v1';
 
     function getWatched() {
-      try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+      try { return new Set(JSON.parse(localStorage.getItem(WATCHED_KEY) || '[]')); }
       catch { return new Set(); }
     }
     function saveWatched(set) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
-    }
-    function markWatched(id) {
-      const w = getWatched();
-      w.add(id);
-      saveWatched(w);
-      renderWatched();
+      localStorage.setItem(WATCHED_KEY, JSON.stringify([...set]));
     }
     function toggleWatched(id) {
       const w = getWatched();
@@ -498,79 +419,22 @@ const broaderBuiltAt = broader.built_at
     function renderWatched() {
       const w = getWatched();
       document.querySelectorAll('li[data-video-id]').forEach(li => {
-        const id = li.dataset.videoId;
-        li.classList.toggle('watched', w.has(id));
-        li.classList.toggle('playing', id === currentId);
+        li.classList.toggle('watched', w.has(li.dataset.videoId));
+      });
+      // Hide any series whose videos are all watched
+      document.querySelectorAll('.series').forEach(s => {
+        const lis = s.querySelectorAll('li[data-video-id]');
+        const allWatched = lis.length > 0 && [...lis].every(li => li.classList.contains('watched'));
+        s.hidden = allWatched;
       });
     }
 
-    function nextUnwatched() {
-      const w = getWatched();
-      for (const v of QUEUE) {
-        if (!w.has(v.id) && v.id !== currentId) return v;
-      }
-      return null;
-    }
-
-    // YouTube IFrame API: load script, set callback
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.head.appendChild(tag);
-
-    window.onYouTubeIframeAPIReady = function() {
-      player = new YT.Player('player', {
-        height: '100%',
-        width: '100%',
-        playerVars: {
-          enablejsapi: 1,
-          rel: 0,
-          modestbranding: 1,
-        },
-        events: {
-          onReady: (e) => {
-            e.target.setPlaybackRate(SPEED);
-            // Auto-start first unwatched video
-            const first = nextUnwatched();
-            if (first) play(first);
-          },
-          onStateChange: (e) => {
-            // YT.PlayerState.ENDED === 0
-            if (e.data === 0 && currentId) {
-              markWatched(currentId);
-              const next = nextUnwatched();
-              if (next) play(next);
-            }
-            // Re-apply speed after any state change (YouTube sometimes resets it)
-            if (e.data === 1) { // playing
-              e.target.setPlaybackRate(SPEED);
-            }
-          },
-        },
-      });
-    };
-
-    function play(video) {
-      currentId = video.id;
-      document.getElementById('now-title').textContent = video.title;
-      const durH = Math.floor(video.duration / 3600);
-      const durM = Math.floor((video.duration % 3600) / 60);
-      document.getElementById('now-meta').textContent =
-        `${video.series_display || 'one-off'} · ${durH > 0 ? durH + 'h' : ''}${durM}m`;
-      if (player && player.loadVideoById) {
-        player.loadVideoById(video.id);
-        // Re-apply speed after load (needs slight delay for API readiness)
-        setTimeout(() => { try { player.setPlaybackRate(SPEED); } catch {} }, 500);
-      }
-      renderWatched();
-    }
-
-    // Wire up queue clicks
+    // Row click → open on YouTube (autoplay). Ignore clicks on the ✓ button.
     document.querySelectorAll('li[data-video-id]').forEach(li => {
       li.addEventListener('click', (e) => {
         if (e.target.closest('[data-toggle-watched]')) return;
-        const id = li.dataset.videoId;
-        const v = QUEUE.find(x => x.id === id);
-        if (v) play(v);
+        const url = li.dataset.videoUrl;
+        if (url) window.open(url, '_blank', 'noopener');
       });
     });
     document.querySelectorAll('[data-toggle-watched]').forEach(btn => {
@@ -580,65 +444,12 @@ const broaderBuiltAt = broader.built_at
       });
     });
 
-    // Controls
-    document.getElementById('skip-btn')?.addEventListener('click', () => {
-      if (currentId) markWatched(currentId);
-      const next = nextUnwatched();
-      if (next) play(next);
-    });
-    document.getElementById('watched-btn')?.addEventListener('click', () => {
-      if (currentId) {
-        markWatched(currentId);
-        const next = nextUnwatched();
-        if (next) play(next);
-      }
-    });
-    document.getElementById('audio-btn')?.addEventListener('click', (e) => {
-      const wrap = document.getElementById('player-wrap');
-      wrap.classList.toggle('audio-mode');
-      e.target.classList.toggle('active');
-    });
-    document.getElementById('speed-btn')?.addEventListener('click', (e) => {
-      // Cycle 1.5 → 1.75 → 2 → 1 → 1.25 → 1.5
-      const cycle = [1.5, 1.75, 2, 1, 1.25];
-      const cur = parseFloat(e.target.dataset.speed);
-      const idx = (cycle.indexOf(cur) + 1) % cycle.length;
-      const next = cycle[idx];
-      e.target.dataset.speed = next;
-      e.target.textContent = next + '×';
-      document.getElementById('audio-speed').textContent = next + '×';
-      if (player && player.setPlaybackRate) player.setPlaybackRate(next);
-    });
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      if (e.key === ' ') {
-        e.preventDefault();
-        if (!player) return;
-        const state = player.getPlayerState();
-        if (state === 1) player.pauseVideo(); else player.playVideo();
-      } else if (e.key === 'n') {
-        if (currentId) markWatched(currentId);
-        const next = nextUnwatched();
-        if (next) play(next);
-      } else if (e.key === 'w') {
-        if (currentId) {
-          markWatched(currentId);
-          const next = nextUnwatched();
-          if (next) play(next);
-        }
-      } else if (e.key === 'a') {
-        document.getElementById('audio-btn')?.click();
-      }
-    });
-
     renderWatched();
 
-    // ------------------------------------------------------------------
-    // "Around the internet" — hide state (localStorage only, v1)
-    // ------------------------------------------------------------------
+    // ---- Around the internet: hide + refill from reserve pool ----
     const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
+    const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
+
     function getBroaderHidden() {
       try { return new Set(JSON.parse(localStorage.getItem(BROADER_HIDDEN_KEY) || '[]')); }
       catch { return new Set(); }
@@ -652,7 +463,48 @@ const broaderBuiltAt = broader.built_at
         card.classList.toggle('hidden', h.has(card.dataset.broaderId));
       });
     }
-    document.querySelectorAll('[data-hide-broader]').forEach(btn => {
+
+    function fmtDurationJS(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
+    }
+    function fmtAgoJS(iso) {
+      const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+      if (days < 7) return `${days}d ago`;
+      if (days < 30) return `${Math.floor(days / 7)}w ago`;
+      return `${Math.floor(days / 30)}mo ago`;
+    }
+    function escapeHTML(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function buildCard(v) {
+      const a = document.createElement('a');
+      a.className = 'bcard';
+      a.href = v.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.dataset.broaderId = v.id;
+      const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
+      a.innerHTML = `
+        <div class="bcard-thumb" style="${thumbStyle}">
+          ${v.exploration ? '<span class="explore-badge">explore</span>' : ''}
+          <button class="bhide" data-hide-broader="${escapeHTML(v.id)}" title="hide this video">×</button>
+          <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
+        </div>
+        <div class="bcard-body">
+          <p class="bcard-title">${escapeHTML(v.title)}</p>
+          <div class="bcard-meta">
+            <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
+            <span>${fmtAgoJS(v.published_at)}</span>
+          </div>
+        </div>
+      `;
+      wireHideButton(a.querySelector('[data-hide-broader]'));
+      return a;
+    }
+
+    function wireHideButton(btn) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -660,9 +512,32 @@ const broaderBuiltAt = broader.built_at
         h.add(btn.dataset.hideBroader);
         saveBroaderHidden(h);
         renderBroaderHidden();
+        refillIfNeeded();
       });
-    });
+    }
+
+    function refillIfNeeded() {
+      const grid = document.getElementById('broader-grid');
+      if (!grid) return;
+      const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
+      if (visible >= 10 || POOL.length === 0) return;
+      // Target: visible + 10, rounded up to a multiple of 4
+      const target = Math.ceil((visible + 10) / 4) * 4;
+      const needed = target - visible;
+      const hidden = getBroaderHidden();
+      let added = 0;
+      while (added < needed && POOL.length > 0) {
+        const v = POOL.shift();
+        if (hidden.has(v.id)) continue;
+        grid.appendChild(buildCard(v));
+        added++;
+      }
+    }
+
+    // Wire up any pre-rendered hide buttons
+    document.querySelectorAll('[data-hide-broader]').forEach(wireHideButton);
     renderBroaderHidden();
+    refillIfNeeded();
   </script>
 </body>
 </html>
