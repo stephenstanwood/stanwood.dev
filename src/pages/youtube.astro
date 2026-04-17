@@ -11,6 +11,12 @@ if (fs.existsSync(dataPath)) {
   data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 }
 
+const broaderPath = path.join(process.cwd(), 'public', 'yt', 'broader.json');
+let broader: any = { queue: [], built_at: null, channel_count: 0 };
+if (fs.existsSync(broaderPath)) {
+  broader = JSON.parse(fs.readFileSync(broaderPath, 'utf-8'));
+}
+
 function fmtDuration(seconds: number) {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -28,13 +34,17 @@ function fmtAgo(iso: string) {
 const builtAt = data.built_at
   ? new Date(data.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
   : 'never';
+
+const broaderBuiltAt = broader.built_at
+  ? new Date(broader.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
+  : 'never';
 ---
 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stanford Queue · stanwood.dev</title>
+  <title>YouTube Queue · stanwood.dev</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -224,6 +234,95 @@ const builtAt = data.built_at
       border: var(--border);
     }
 
+    /* Around the internet */
+    .broader-intro {
+      margin: 0 0 1rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+    .broader-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .bcard {
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--ink);
+      position: relative;
+      transition: transform 0.05s ease;
+    }
+    .bcard:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+    .bcard.hidden { display: none; }
+    .bcard-thumb {
+      aspect-ratio: 16 / 9;
+      background: #000 center/cover no-repeat;
+      border-bottom: 2px solid var(--ink);
+      position: relative;
+    }
+    .bcard-dur {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      font-weight: 700;
+    }
+    .bcard-body { padding: .65rem .75rem .75rem; flex: 1; display: flex; flex-direction: column; }
+    .bcard-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 .35rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .bcard-meta {
+      font-size: 0.72rem;
+      color: #666;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+    .bcard-chan { font-weight: 700; color: #333; }
+    .explore-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .bhide {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      cursor: pointer;
+      font-family: inherit;
+      opacity: 0;
+      transition: opacity 0.1s ease;
+    }
+    .bcard:hover .bhide { opacity: 1; }
+    .bhide:hover { background: var(--hot); color: var(--paper); }
+
     .footer {
       margin-top: 3rem;
       padding-top: 1rem;
@@ -316,6 +415,40 @@ const builtAt = data.built_at
             </div>
           );
         })}
+      </>
+    )}
+
+    {broader.queue.length > 0 && (
+      <>
+        <h2>around the internet</h2>
+        <p class="broader-intro">
+          recent uploads from {broader.channel_count} curated CS / AI / HCI / future-tech channels,
+          scored against my interests · built {broaderBuiltAt} · click a card to open on youtube
+        </p>
+        <div class="broader-grid" id="broader-grid">
+          {broader.queue.map((v: any) => (
+            <a
+              class="bcard"
+              href={v.url}
+              target="_blank"
+              rel="noopener"
+              data-broader-id={v.id}
+            >
+              <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
+                {v.exploration && <span class="explore-badge">explore</span>}
+                <button class="bhide" data-hide-broader={v.id} title="hide this video">×</button>
+                <span class="bcard-dur">{fmtDuration(v.duration)}</span>
+              </div>
+              <div class="bcard-body">
+                <p class="bcard-title">{v.title}</p>
+                <div class="bcard-meta">
+                  <span class="bcard-chan">{v.channel_title}</span>
+                  <span>{fmtAgo(v.published_at)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
       </>
     )}
 
@@ -501,6 +634,35 @@ const builtAt = data.built_at
     });
 
     renderWatched();
+
+    // ------------------------------------------------------------------
+    // "Around the internet" — hide state (localStorage only, v1)
+    // ------------------------------------------------------------------
+    const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
+    function getBroaderHidden() {
+      try { return new Set(JSON.parse(localStorage.getItem(BROADER_HIDDEN_KEY) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveBroaderHidden(set) {
+      localStorage.setItem(BROADER_HIDDEN_KEY, JSON.stringify([...set]));
+    }
+    function renderBroaderHidden() {
+      const h = getBroaderHidden();
+      document.querySelectorAll('[data-broader-id]').forEach(card => {
+        card.classList.toggle('hidden', h.has(card.dataset.broaderId));
+      });
+    }
+    document.querySelectorAll('[data-hide-broader]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const h = getBroaderHidden();
+        h.add(btn.dataset.hideBroader);
+        saveBroaderHidden(h);
+        renderBroaderHidden();
+      });
+    });
+    renderBroaderHidden();
   </script>
 </body>
 </html>
