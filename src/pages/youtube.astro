@@ -1,0 +1,506 @@
+---
+// src/pages/youtube.astro
+// The Stanford Online queue page. Reads public/yt/videos.json at build time.
+
+import fs from 'node:fs';
+import path from 'node:path';
+
+const dataPath = path.join(process.cwd(), 'public', 'yt', 'videos.json');
+let data: any = { queue: [], series: [], built_at: null };
+if (fs.existsSync(dataPath)) {
+  data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+}
+
+function fmtDuration(seconds: number) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
+}
+
+function fmtAgo(iso: string) {
+  const then = new Date(iso).getTime();
+  const days = Math.floor((Date.now() - then) / 86400000);
+  if (days < 7) return `${days}d ago`;
+  if (days < 30) return `${Math.floor(days / 7)}w ago`;
+  return `${Math.floor(days / 30)}mo ago`;
+}
+
+const builtAt = data.built_at
+  ? new Date(data.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
+  : 'never';
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stanford Queue · stanwood.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #fdf6e3;
+      --ink: #1a1a1a;
+      --paper: #ffffff;
+      --hot: #ff3b30;
+      --cool: #0a84ff;
+      --lime: #b8e986;
+      --border: 3px solid var(--ink);
+      --shadow: 6px 6px 0 var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+    h1 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      margin: 0 0 .25rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0 0 2rem;
+    }
+    .subtitle a { color: var(--cool); }
+
+    /* Now-playing card */
+    #now {
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    #now-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: .75rem;
+      flex-wrap: wrap;
+    }
+    #now-label {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.1rem;
+      color: var(--hot);
+    }
+    #now-title { font-weight: 700; font-size: 1.1rem; margin: 0 0 .5rem; }
+    #now-meta { font-size: 0.8rem; color: #666; margin-bottom: 1rem; }
+    #controls {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .btn {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: .4rem .8rem;
+      border: 2px solid var(--ink);
+      background: var(--paper);
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .btn:hover { background: var(--lime); }
+    .btn.active { background: var(--lime); }
+    .btn.hot { background: var(--hot); color: var(--paper); }
+    .btn.hot:hover { background: var(--ink); }
+
+    #player-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border: 2px solid var(--ink);
+    }
+    #player-wrap.audio-mode {
+      aspect-ratio: unset;
+      height: 60px;
+      background: var(--ink);
+    }
+    #player-wrap.audio-mode #player {
+      visibility: hidden;
+      position: absolute;
+      pointer-events: none;
+    }
+    #audio-indicator {
+      display: none;
+      color: var(--paper);
+      font-family: 'Permanent Marker', cursive;
+      padding: 1rem;
+      text-align: center;
+    }
+    #player-wrap.audio-mode #audio-indicator { display: block; }
+    #player { width: 100%; height: 100%; }
+
+    /* Queue */
+    h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.8rem;
+      margin: 2rem 0 .5rem;
+    }
+    .series {
+      border: var(--border);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+    }
+    .series-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+    }
+    .series-name {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.3rem;
+    }
+    .series-meta { font-size: 0.75rem; color: #666; }
+    .score-chip {
+      display: inline-block;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: .5rem;
+    }
+    .score-chip.low { background: #fff; color: #999; }
+    ul.videos { list-style: none; margin: 0; padding: 0; }
+    ul.videos li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: .5rem 0;
+      border-top: 1px dashed #ccc;
+      cursor: pointer;
+    }
+    ul.videos li:first-child { border-top: none; }
+    ul.videos li:hover { background: #faf0d0; }
+    ul.videos li.watched {
+      opacity: 0.4;
+      text-decoration: line-through;
+    }
+    ul.videos li.playing {
+      background: var(--lime);
+      font-weight: 700;
+    }
+    .vtitle { flex: 1; font-size: 0.9rem; }
+    .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
+    .mark-btn {
+      border: 1px solid #999;
+      background: transparent;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .mark-btn:hover { background: var(--hot); color: var(--paper); border-color: var(--hot); }
+
+    .empty {
+      padding: 2rem;
+      text-align: center;
+      background: var(--paper);
+      border: var(--border);
+    }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--ink);
+      font-size: 0.75rem;
+      color: #666;
+      text-align: center;
+    }
+    .kbd {
+      display: inline-block;
+      border: 1px solid #999;
+      border-radius: 3px;
+      padding: 1px 5px;
+      background: var(--paper);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>stanford queue</h1>
+    <p class="subtitle">
+      auto-ranked lectures from
+      <a href="https://www.youtube.com/@stanfordonline" target="_blank" rel="noopener">@stanfordonline</a>
+      · last 6 months · built {builtAt}
+    </p>
+
+    {data.queue.length === 0 ? (
+      <div class="empty">
+        <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
+      </div>
+    ) : (
+      <>
+        <div id="now">
+          <div id="now-header">
+            <span id="now-label">▶ up next</span>
+            <div id="controls">
+              <button class="btn active" id="speed-btn" data-speed="1.5">1.5×</button>
+              <button class="btn" id="audio-btn">audio mode</button>
+              <button class="btn" id="watched-btn">mark watched</button>
+              <button class="btn hot" id="skip-btn">skip →</button>
+            </div>
+          </div>
+          <h3 id="now-title">(select a video from the queue)</h3>
+          <div id="now-meta"></div>
+          <div id="player-wrap">
+            <div id="player"></div>
+            <div id="audio-indicator">
+              audio mode · video hidden · playing at <span id="audio-speed">1.5×</span>
+            </div>
+          </div>
+        </div>
+
+        <h2>the queue</h2>
+
+        {data.series.map((s: any) => {
+          const videos = s.video_ids.map((id: string) =>
+            data.queue.find((v: any) => v.id === id)
+          ).filter(Boolean);
+          if (videos.length === 0) return null;
+          const showScore = s.best_score >= 3;
+          return (
+            <div class="series" data-series={s.key}>
+              <div class="series-head">
+                <div>
+                  <span class="series-name">{s.display_name}</span>
+                  <span class={`score-chip ${showScore ? '' : 'low'}`}>
+                    score {s.best_score}
+                  </span>
+                </div>
+                <span class="series-meta">
+                  {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
+                </span>
+              </div>
+              <ul class="videos">
+                {videos.map((v: any) => (
+                  <li data-video-id={v.id} data-video-title={v.title}>
+                    <span class="vtitle">
+                      {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
+                      {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
+                    </span>
+                    <span class="vmeta">
+                      {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                    </span>
+                    <button class="mark-btn" data-toggle-watched={v.id}>✓</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </>
+    )}
+
+    <div class="footer">
+      shortcuts: <span class="kbd">space</span> play/pause ·
+      <span class="kbd">n</span> next ·
+      <span class="kbd">w</span> mark watched ·
+      <span class="kbd">a</span> audio mode
+      <br />
+      also on pocket casts via tailscale-only RSS (see README)
+    </div>
+  </div>
+
+  <!-- Queue data for the client -->
+  <script type="application/json" id="queue-data" set:html={JSON.stringify(data.queue)}></script>
+
+  <script is:inline>
+    // ------------------------------------------------------------------
+    // Client logic: YouTube IFrame API + watched state + keyboard shortcuts
+    // ------------------------------------------------------------------
+    const QUEUE = JSON.parse(document.getElementById('queue-data').textContent);
+    const STORAGE_KEY = 'stanford-queue-watched-v1';
+    const SPEED = 1.5;
+
+    let player = null;
+    let currentId = null;
+
+    function getWatched() {
+      try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveWatched(set) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+    }
+    function markWatched(id) {
+      const w = getWatched();
+      w.add(id);
+      saveWatched(w);
+      renderWatched();
+    }
+    function toggleWatched(id) {
+      const w = getWatched();
+      if (w.has(id)) w.delete(id); else w.add(id);
+      saveWatched(w);
+      renderWatched();
+    }
+    function renderWatched() {
+      const w = getWatched();
+      document.querySelectorAll('li[data-video-id]').forEach(li => {
+        const id = li.dataset.videoId;
+        li.classList.toggle('watched', w.has(id));
+        li.classList.toggle('playing', id === currentId);
+      });
+    }
+
+    function nextUnwatched() {
+      const w = getWatched();
+      for (const v of QUEUE) {
+        if (!w.has(v.id) && v.id !== currentId) return v;
+      }
+      return null;
+    }
+
+    // YouTube IFrame API: load script, set callback
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      player = new YT.Player('player', {
+        height: '100%',
+        width: '100%',
+        playerVars: {
+          enablejsapi: 1,
+          rel: 0,
+          modestbranding: 1,
+        },
+        events: {
+          onReady: (e) => {
+            e.target.setPlaybackRate(SPEED);
+            // Auto-start first unwatched video
+            const first = nextUnwatched();
+            if (first) play(first);
+          },
+          onStateChange: (e) => {
+            // YT.PlayerState.ENDED === 0
+            if (e.data === 0 && currentId) {
+              markWatched(currentId);
+              const next = nextUnwatched();
+              if (next) play(next);
+            }
+            // Re-apply speed after any state change (YouTube sometimes resets it)
+            if (e.data === 1) { // playing
+              e.target.setPlaybackRate(SPEED);
+            }
+          },
+        },
+      });
+    };
+
+    function play(video) {
+      currentId = video.id;
+      document.getElementById('now-title').textContent = video.title;
+      const durH = Math.floor(video.duration / 3600);
+      const durM = Math.floor((video.duration % 3600) / 60);
+      document.getElementById('now-meta').textContent =
+        `${video.series_display || 'one-off'} · ${durH > 0 ? durH + 'h' : ''}${durM}m`;
+      if (player && player.loadVideoById) {
+        player.loadVideoById(video.id);
+        // Re-apply speed after load (needs slight delay for API readiness)
+        setTimeout(() => { try { player.setPlaybackRate(SPEED); } catch {} }, 500);
+      }
+      renderWatched();
+    }
+
+    // Wire up queue clicks
+    document.querySelectorAll('li[data-video-id]').forEach(li => {
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('[data-toggle-watched]')) return;
+        const id = li.dataset.videoId;
+        const v = QUEUE.find(x => x.id === id);
+        if (v) play(v);
+      });
+    });
+    document.querySelectorAll('[data-toggle-watched]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleWatched(btn.dataset.toggleWatched);
+      });
+    });
+
+    // Controls
+    document.getElementById('skip-btn')?.addEventListener('click', () => {
+      if (currentId) markWatched(currentId);
+      const next = nextUnwatched();
+      if (next) play(next);
+    });
+    document.getElementById('watched-btn')?.addEventListener('click', () => {
+      if (currentId) {
+        markWatched(currentId);
+        const next = nextUnwatched();
+        if (next) play(next);
+      }
+    });
+    document.getElementById('audio-btn')?.addEventListener('click', (e) => {
+      const wrap = document.getElementById('player-wrap');
+      wrap.classList.toggle('audio-mode');
+      e.target.classList.toggle('active');
+    });
+    document.getElementById('speed-btn')?.addEventListener('click', (e) => {
+      // Cycle 1.5 → 1.75 → 2 → 1 → 1.25 → 1.5
+      const cycle = [1.5, 1.75, 2, 1, 1.25];
+      const cur = parseFloat(e.target.dataset.speed);
+      const idx = (cycle.indexOf(cur) + 1) % cycle.length;
+      const next = cycle[idx];
+      e.target.dataset.speed = next;
+      e.target.textContent = next + '×';
+      document.getElementById('audio-speed').textContent = next + '×';
+      if (player && player.setPlaybackRate) player.setPlaybackRate(next);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === ' ') {
+        e.preventDefault();
+        if (!player) return;
+        const state = player.getPlayerState();
+        if (state === 1) player.pauseVideo(); else player.playVideo();
+      } else if (e.key === 'n') {
+        if (currentId) markWatched(currentId);
+        const next = nextUnwatched();
+        if (next) play(next);
+      } else if (e.key === 'w') {
+        if (currentId) {
+          markWatched(currentId);
+          const next = nextUnwatched();
+          if (next) play(next);
+        }
+      } else if (e.key === 'a') {
+        document.getElementById('audio-btn')?.click();
+      }
+    });
+
+    renderWatched();
+  </script>
+</body>
+</html>
