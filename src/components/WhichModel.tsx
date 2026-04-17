@@ -78,7 +78,7 @@ export default function WhichModel() {
 
       <footer className="wm-footer">
         <p>
-          Opinionated recommendations, not gospel. Model landscape changes fast.
+          Opinionated recommendations, not gospel. Model landscape changes fast. Last updated April 2026.
         </p>
       </footer>
     </div>

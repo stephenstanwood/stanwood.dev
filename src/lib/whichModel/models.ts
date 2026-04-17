@@ -3,7 +3,7 @@ import type { ModelProfile } from "./types";
 export const MODELS: ModelProfile[] = [
   {
     id: "claude-opus",
-    name: "Claude Opus 4.6",
+    name: "Claude Opus 4.7",
     org: "Anthropic",
     emoji: "🏆",
     shortLabel: "OP",
@@ -159,6 +159,38 @@ export const MODELS: ModelProfile[] = [
       "writing is functional, not stylish",
     ],
     tagline: "The heavyweight thinker. Bring your hard problems.",
+  },
+  {
+    id: "o4-mini",
+    name: "o4-mini",
+    org: "OpenAI",
+    emoji: "🧮",
+    shortLabel: "o4m",
+    color: "#10a37f",
+    traits: {
+      writing: 5,
+      coding: 9,
+      image_gen: 0,
+      image_understanding: 6,
+      speed: 7,
+      cost: 8,
+      reasoning: 9,
+      long_context: 7,
+      multimodal: 4,
+      open_source: 0,
+      ecosystem: 8,
+    },
+    bestFor: [
+      "reasoning on a budget",
+      "hard math and code",
+      "high-volume reasoning tasks",
+      "STEM problems",
+    ],
+    watchOuts: [
+      "weaker creative writing",
+      "no image generation",
+    ],
+    tagline: "The smart cheap one. Reasoning without the o3 price tag.",
   },
   {
     id: "gemini-pro",
