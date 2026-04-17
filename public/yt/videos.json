@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-17T21:33:09.904868+00:00",
+  "built_at": "2026-04-17T21:49:56.367077+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -74,16 +74,6 @@
         "NMFyMlwmwP8",
         "popjDuA-whA",
         "D7e7oUbtkFM"
-      ]
-    },
-    {
-      "key": "__single__KGl076xkxG4",
-      "is_single": true,
-      "display_name": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "best_score": 11,
-      "video_count": 1,
-      "video_ids": [
-        "KGl076xkxG4"
       ]
     },
     {
@@ -217,6 +207,16 @@
       ]
     },
     {
+      "key": "__single__KGl076xkxG4",
+      "is_single": true,
+      "display_name": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
+      "best_score": 4,
+      "video_count": 1,
+      "video_ids": [
+        "KGl076xkxG4"
+      ]
+    },
+    {
       "key": "__single__AbezbsrNMZU",
       "is_single": true,
       "display_name": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
@@ -224,16 +224,6 @@
       "video_count": 1,
       "video_ids": [
         "AbezbsrNMZU"
-      ]
-    },
-    {
-      "key": "__single__TfAJZJTPBoY",
-      "is_single": true,
-      "display_name": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "best_score": 3,
-      "video_count": 1,
-      "video_ids": [
-        "TfAJZJTPBoY"
       ]
     },
     {
@@ -398,16 +388,6 @@
       ]
     },
     {
-      "key": "__single__x0aLBWTBOuQ",
-      "is_single": true,
-      "display_name": "Stanford Webinar - AI Safety",
-      "best_score": 0,
-      "video_count": 1,
-      "video_ids": [
-        "x0aLBWTBOuQ"
-      ]
-    },
-    {
       "key": "__single__940zih5bee4",
       "is_single": true,
       "display_name": "AI & Cybersecurity: Dan Boneh Interviews Sam Altman",
@@ -439,10 +419,20 @@
       ]
     },
     {
+      "key": "__single__TfAJZJTPBoY",
+      "is_single": true,
+      "display_name": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
+      "best_score": -4,
+      "video_count": 1,
+      "video_ids": [
+        "TfAJZJTPBoY"
+      ]
+    },
+    {
       "key": "__single__LF7Wi_2fJVM",
       "is_single": true,
       "display_name": "Innovation for Growth and Sustainability in the Era of AI",
-      "best_score": -2,
+      "best_score": -6,
       "video_count": 1,
       "video_ids": [
         "LF7Wi_2fJVM"
@@ -452,7 +442,7 @@
       "key": "__single___B8aNrsy09Y",
       "is_single": true,
       "display_name": "Climate Innovation: Digital Technology for Sustainable Agriculture and Infrastructure Development",
-      "best_score": -2,
+      "best_score": -6,
       "video_count": 1,
       "video_ids": [
         "_B8aNrsy09Y"
@@ -462,7 +452,7 @@
       "key": "__single__vaRO69Qv_hc",
       "is_single": true,
       "display_name": "AI and Climate: From Grids to Data Centers \u2014 AI Strategy & Innovation",
-      "best_score": -2,
+      "best_score": -6,
       "video_count": 1,
       "video_ids": [
         "vaRO69Qv_hc"
@@ -472,7 +462,7 @@
       "key": "__single__36jf3D85VIk",
       "is_single": true,
       "display_name": "AI in Healthcare: Why Hospitals Are Moving Cautiously Toward Consolidation with Bob Wachter, MD",
-      "best_score": -3,
+      "best_score": -10,
       "video_count": 1,
       "video_ids": [
         "36jf3D85VIk"
@@ -482,17 +472,27 @@
       "key": "__single__xHSqr7jAciM",
       "is_single": true,
       "display_name": "AI in Healthcare Series: AI as Your Personal Health Partner",
-      "best_score": -3,
+      "best_score": -10,
       "video_count": 1,
       "video_ids": [
         "xHSqr7jAciM"
       ]
     },
     {
+      "key": "__single__x0aLBWTBOuQ",
+      "is_single": true,
+      "display_name": "Stanford Webinar - AI Safety",
+      "best_score": -10,
+      "video_count": 1,
+      "video_ids": [
+        "x0aLBWTBOuQ"
+      ]
+    },
+    {
       "key": "__single__cpN-Bu5L6xg",
       "is_single": true,
       "display_name": "AI in Healthcare Series: Tracking and Trusting AI in Medicine, Dr. Shantanu Nundy",
-      "best_score": -3,
+      "best_score": -10,
       "video_count": 1,
       "video_ids": [
         "cpN-Bu5L6xg"
@@ -1189,9 +1189,10 @@
       "series": "Robotics Seminar",
       "series_display": "Robotics Seminar",
       "lecture_num": null,
-      "score": 2,
+      "score": -8,
       "categories": [
-        "robotics"
+        "robotics",
+        "healthcare_ai"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 23, 2026\nAutonomous Navigation in Complex Outdoor Environments: Towards Companion Robots for Longevity\n\nThis seminar covers: \n\u2022 Deploying mobile robots in unstructured outdoor environments\n\u2022 Robots going beyond simple navigation to also understand human behavior and enhance perso"
     },
@@ -1239,24 +1240,6 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 27, 2026\nThis seminar covers: \n\u2022 Mathematical evidence for Moravec\u2019s claim\n\u2022 Key innovations in modern robot learning\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nMax Simchowitz is an Assistant Professor at the Machine Learn"
-    },
-    {
-      "id": "KGl076xkxG4",
-      "title": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "url": "https://www.youtube.com/watch?v=KGl076xkxG4",
-      "duration": 2381.0,
-      "published_at": "2026-01-29T00:00:00+00:00",
-      "series": null,
-      "series_display": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "lecture_num": null,
-      "score": 11,
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "swe_career",
-        "healthcare_ai"
-      ],
-      "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
     },
     {
       "id": "B42CuI0RO7Y",
@@ -1327,7 +1310,7 @@
       "series": "CS193",
       "series_display": "CS193",
       "lecture_num": null,
-      "score": 3,
+      "score": -1,
       "categories": [
         "climate_grid",
         "series:CS193"
@@ -2160,6 +2143,24 @@
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
     },
     {
+      "id": "KGl076xkxG4",
+      "title": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
+      "url": "https://www.youtube.com/watch?v=KGl076xkxG4",
+      "duration": 2381.0,
+      "published_at": "2026-01-29T00:00:00+00:00",
+      "series": null,
+      "series_display": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
+      "lecture_num": null,
+      "score": 4,
+      "categories": [
+        "applied_ai",
+        "civic_open",
+        "swe_career",
+        "healthcare_ai"
+      ],
+      "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
+    },
+    {
       "id": "AbezbsrNMZU",
       "title": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
       "url": "https://www.youtube.com/watch?v=AbezbsrNMZU",
@@ -2173,22 +2174,6 @@
         "swe_career"
       ],
       "description": "Learn more about decision-making strategies: https://online.stanford.edu/courses/xelp240-making-high-quality-decisions?utm_medium=social&utm_term=&utm_campaign=XELP240Webinar&utm_source=Youtube\n\nWatch an in-depth conversation on decision-making strategies with Amin Saberi, Professor of Management Science and Engineering, and Farnaz Ronaghi, Co-Founder and Chief of Product and Technology at NovoEd."
-    },
-    {
-      "id": "TfAJZJTPBoY",
-      "title": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "url": "https://www.youtube.com/watch?v=TfAJZJTPBoY",
-      "duration": 3653.0,
-      "published_at": "2025-10-29T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "description": "Check out our AI Security course:\nhttps://online.stanford.edu/courses/xacs134-ai-security\n\nAI has become a defining technology of our time, with generative and autonomous agents now potentially reshaping business, healthcare, education, and beyond. Yet alongside its promise comes a new wave of risks that demand fresh thinking about safety and security.\n\nModerated by Stanford Online\u2019s Petra Parikov"
     },
     {
       "id": "FfT5VTfHj_s",
@@ -2214,9 +2199,10 @@
       "series": "AA228",
       "series_display": "AA228",
       "lecture_num": null,
-      "score": 2,
+      "score": -8,
       "categories": [
-        "robotics"
+        "robotics",
+        "healthcare_ai"
       ],
       "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nNovember 13, 2025\nThis lecture covers offline belief-state planning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow alo"
     },
@@ -2420,19 +2406,6 @@
       "description": "July 28, 1982\n\nProfessor Knuth is the Professor Emeritus at Stanford University. Dr. Knuth's classic programming texts include his seminal work The Art of Computer Programming, Volumes 1-3, widely considered to be among the best scientific writings of the century."
     },
     {
-      "id": "x0aLBWTBOuQ",
-      "title": "Stanford Webinar - AI Safety",
-      "url": "https://www.youtube.com/watch?v=x0aLBWTBOuQ",
-      "duration": 3064.0,
-      "published_at": "2025-11-13T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - AI Safety",
-      "lecture_num": null,
-      "score": 0,
-      "categories": [],
-      "description": "View course details:\nhttps://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nWhen autonomous systems make high-stakes decisions, how do we know they're safe?\n\nJoin Sydney Katz, a postdoctoral researcher in the Stanford Intelligent Systems Laboratory, for an overview of the methods used to build safety cases for AI-powered decision-making systems operating in high-stakes envi"
-    },
-    {
       "id": "940zih5bee4",
       "title": "AI & Cybersecurity: Dan Boneh Interviews Sam Altman",
       "url": "https://www.youtube.com/watch?v=940zih5bee4",
@@ -2489,6 +2462,22 @@
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:33 Motivation behind score matching\n00:14:30 Lanvegin sampling\n00:18:43 Score estimation\n00:19:50 Implicit score matching, sliced score matching\n"
     },
     {
+      "id": "TfAJZJTPBoY",
+      "title": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
+      "url": "https://www.youtube.com/watch?v=TfAJZJTPBoY",
+      "duration": 3653.0,
+      "published_at": "2025-10-29T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
+      "lecture_num": null,
+      "score": -4,
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "description": "Check out our AI Security course:\nhttps://online.stanford.edu/courses/xacs134-ai-security\n\nAI has become a defining technology of our time, with generative and autonomous agents now potentially reshaping business, healthcare, education, and beyond. Yet alongside its promise comes a new wave of risks that demand fresh thinking about safety and security.\n\nModerated by Stanford Online\u2019s Petra Parikov"
+    },
+    {
       "id": "LF7Wi_2fJVM",
       "title": "Innovation for Growth and Sustainability in the Era of AI",
       "url": "https://www.youtube.com/watch?v=LF7Wi_2fJVM",
@@ -2497,7 +2486,7 @@
       "series": null,
       "series_display": "Innovation for Growth and Sustainability in the Era of AI",
       "lecture_num": null,
-      "score": -2,
+      "score": -6,
       "categories": [
         "climate_grid"
       ],
@@ -2512,7 +2501,7 @@
       "series": null,
       "series_display": "Climate Innovation: Digital Technology for Sustainable Agriculture and Infrastructure Development",
       "lecture_num": null,
-      "score": -2,
+      "score": -6,
       "categories": [
         "climate_grid"
       ],
@@ -2527,7 +2516,7 @@
       "series": null,
       "series_display": "AI and Climate: From Grids to Data Centers \u2014 AI Strategy & Innovation",
       "lecture_num": null,
-      "score": -2,
+      "score": -6,
       "categories": [
         "climate_grid"
       ],
@@ -2542,7 +2531,7 @@
       "series": null,
       "series_display": "AI in Healthcare: Why Hospitals Are Moving Cautiously Toward Consolidation with Bob Wachter, MD",
       "lecture_num": null,
-      "score": -3,
+      "score": -10,
       "categories": [
         "healthcare_ai"
       ],
@@ -2557,11 +2546,26 @@
       "series": null,
       "series_display": "AI in Healthcare Series: AI as Your Personal Health Partner",
       "lecture_num": null,
-      "score": -3,
+      "score": -10,
       "categories": [
         "healthcare_ai"
       ],
       "description": "Learn more about Stanford's Healthcare AI programs: https://stanford.io/3ETLFCx\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nHosts:\nMatt Lungren, Stanford University: https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University: https://med.stanford.edu/profiles/justin-norden\nGuest Speaker: Dr. Syed Mohiuddin, SVP, Chief AI Transfor"
+    },
+    {
+      "id": "x0aLBWTBOuQ",
+      "title": "Stanford Webinar - AI Safety",
+      "url": "https://www.youtube.com/watch?v=x0aLBWTBOuQ",
+      "duration": 3064.0,
+      "published_at": "2025-11-13T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford Webinar - AI Safety",
+      "lecture_num": null,
+      "score": -10,
+      "categories": [
+        "healthcare_ai"
+      ],
+      "description": "View course details:\nhttps://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nWhen autonomous systems make high-stakes decisions, how do we know they're safe?\n\nJoin Sydney Katz, a postdoctoral researcher in the Stanford Intelligent Systems Laboratory, for an overview of the methods used to build safety cases for AI-powered decision-making systems operating in high-stakes envi"
     },
     {
       "id": "cpN-Bu5L6xg",
@@ -2572,7 +2576,7 @@
       "series": null,
       "series_display": "AI in Healthcare Series: Tracking and Trusting AI in Medicine, Dr. Shantanu Nundy",
       "lecture_num": null,
-      "score": -3,
+      "score": -10,
       "categories": [
         "healthcare_ai"
       ],
