@@ -183,6 +183,56 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
       }
 
+      /* format toggle */
+      .format-toggle {
+        display: inline-flex;
+        border: 1px solid rgba(0, 212, 255, 0.15);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #0d1117;
+      }
+      .format-btn {
+        padding: 6px 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        color: #71717A;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: color 0.15s, background 0.15s;
+      }
+      .format-btn:hover { color: #E4E4E7; }
+      .format-btn.active {
+        color: #00D4FF;
+        background: rgba(0, 212, 255, 0.08);
+      }
+
+      /* bullet summary list */
+      .summary-bullets {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .summary-bullets li {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 15px;
+        line-height: 1.55;
+        color: #E4E4E7;
+      }
+      .summary-bullets li::before {
+        content: '•';
+        color: #4ADE80;
+        flex-shrink: 0;
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
     </style>
   </Fragment>
 
@@ -210,8 +260,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </p>
       </header>
 
+      <!-- Format toggle -->
+      <div class="mt-8 flex items-center gap-3">
+        <span class="text-xs text-[#3a3f52] mono uppercase tracking-widest">output</span>
+        <div class="format-toggle" role="group" aria-label="Summary format">
+          <button class="format-btn active" data-format="paragraph" id="btnParagraph">paragraph</button>
+          <button class="format-btn" data-format="bullets" id="btnBullets">bullets</button>
+        </div>
+      </div>
+
       <!-- Upload zone -->
-      <section id="uploadSection" class="mt-10">
+      <section id="uploadSection" class="mt-6">
         <div
           id="dropZone"
           class="drop-zone relative flex flex-col items-center justify-center rounded-2xl bg-[#0d1117] px-8 py-20 text-center cursor-pointer"
@@ -276,7 +335,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 </button>
               </div>
             </div>
-            <p id="summaryText" class="text-base leading-relaxed text-[#E4E4E7]"></p>
+            <div id="summaryContent"></div>
           </div>
         </div>
       </section>
@@ -294,7 +353,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#00D4FF]">Residential Lease</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 14 pages</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 14 pages · paragraph</span>
             </div>
             <p class="text-sm leading-relaxed text-[#a1a1aa]">12-month lease for a 2BR apartment at $2,400/mo. Rent is due the 1st; $75 late fee after the 5th. Security deposit is one month ($2,400), returned within 21 days of move-out minus documented deductions. No pets, no subletting without written approval. Landlord gives 24-hour notice before entry except emergencies. Tenant pays electricity and internet; landlord covers water and trash. Early termination requires 60 days notice and forfeits the deposit.</p>
           </div>
@@ -302,15 +361,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#4ADE80]">Privacy Policy</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 8 pages</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 8 pages · bullets</span>
             </div>
-            <p class="text-sm leading-relaxed text-[#a1a1aa]">They collect your name, email, usage data, and device info when you sign up or use the app. Data is used for service delivery, product improvement, and "personalized advertising" (read: targeted ads). They share data with analytics vendors, payment processors, and "business partners" — a deliberately vague category. You can request deletion, but it takes up to 30 days and may not cover data already shared with third parties. California residents get extra rights under CCPA. No data is sold outright, but sharing with ad partners achieves roughly the same result.</p>
+            <ul class="summary-bullets">
+              <li>The service collects your name, email, usage data, and device info at signup and during normal app use.</li>
+              <li>Data is used for service delivery, product improvement, and targeted advertising via third-party ad partners.</li>
+              <li>Information is shared with analytics vendors, payment processors, and a vaguely defined "business partners" category.</li>
+              <li>You can request data deletion, but it may take up to 30 days and won't cover data already shared with third parties.</li>
+              <li>California residents have additional rights under CCPA; no data is sold outright, but ad-partner sharing achieves roughly the same result.</li>
+            </ul>
           </div>
 
           <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#a78bfa]">Research Paper</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 22 pages</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 22 pages · paragraph</span>
             </div>
             <p class="text-sm leading-relaxed text-[#a1a1aa]">Researchers tested whether spaced repetition flashcard apps improve long-term retention versus massed practice (cramming) for vocabulary learning. 120 college students studied 200 foreign language words over 4 weeks using one of three methods. Spaced repetition users retained 67% of words at the 6-month follow-up vs. 41% for massed practice and 38% for passive re-reading. The effect was strongest for low-frequency words. Conclusion: spaced repetition significantly outperforms cramming for long-term retention, especially for harder material. Limitations: study used a controlled vocabulary list, not naturalistic learning conditions.</p>
           </div>
@@ -318,9 +383,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#f59e0b]">Employment Offer</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 6 pages</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 6 pages · bullets</span>
             </div>
-            <p class="text-sm leading-relaxed text-[#a1a1aa]">Full-time software engineer role at $145k base + 0.15% equity (4-year vest, 1-year cliff). 15 days PTO, standard health/dental/vision. Non-compete covers a 12-month window post-employment and is limited to direct competitors in the same product category. Arbitration clause waives your right to class action suits. Offer expires in 5 business days; start date is flexible within 30 days. IP assignment covers everything built on company time or using company resources — side projects need written approval.</p>
+            <ul class="summary-bullets">
+              <li>Full-time software engineer role at $145k base salary plus 0.15% equity with a 4-year vest and 1-year cliff.</li>
+              <li>Benefits include 15 days PTO, standard health/dental/vision, and a flexible start date within 30 days.</li>
+              <li>Non-compete restricts working for direct competitors for 12 months post-employment.</li>
+              <li>Arbitration clause waives your right to participate in class action lawsuits.</li>
+              <li>IP assignment covers all work built on company time or with company resources — side projects require written approval.</li>
+            </ul>
           </div>
 
         </div>
@@ -374,13 +445,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const progressFill = document.getElementById("progressFill")!;
       const progressLabel = document.getElementById("progressLabel")!;
       const resultSection = document.getElementById("resultSection")!;
-      const summaryText = document.getElementById("summaryText")!;
+      const summaryContent = document.getElementById("summaryContent")!;
       const copyBtn = document.getElementById("copyBtn")!;
       const downloadBtn = document.getElementById("downloadBtn")!;
       const wordCount = document.getElementById("wordCount")!;
       const errorMsg = document.getElementById("errorMsg")!;
+      const btnParagraph = document.getElementById("btnParagraph")!;
+      const btnBullets = document.getElementById("btnBullets")!;
 
       let progressInterval: ReturnType<typeof setInterval> | null = null;
+      let selectedFormat: "paragraph" | "bullets" = "paragraph";
+      let lastSummaryText = "";
+
+      // Format toggle
+      btnParagraph.addEventListener("click", () => {
+        selectedFormat = "paragraph";
+        btnParagraph.classList.add("active");
+        btnBullets.classList.remove("active");
+      });
+      btnBullets.addEventListener("click", () => {
+        selectedFormat = "bullets";
+        btnBullets.classList.add("active");
+        btnParagraph.classList.remove("active");
+      });
 
       function showError(msg: string) {
         errorMsg.querySelector("p")!.textContent = msg;
@@ -484,7 +571,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           const res = await fetch("/api/summarize-pdf", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pdf: base64, name: file.name }),
+            body: JSON.stringify({ pdf: base64, name: file.name, format: selectedFormat }),
           });
 
           const data = await res.json();
@@ -500,13 +587,35 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
           setLoading(false);
 
-          // Show result
+          // Render result
+          lastSummaryText = data.summary;
           resultSection.classList.remove("hidden");
           const card = resultSection.querySelector(".fade-in")!;
           card.classList.remove("fade-in");
           void (card as HTMLElement).offsetWidth;
           card.classList.add("fade-in");
-          summaryText.textContent = data.summary;
+
+          if (data.format === "bullets") {
+            const lines = data.summary
+              .split("\n")
+              .map((l: string) => l.replace(/^[•\-]\s*/, "").trim())
+              .filter(Boolean);
+            const ul = document.createElement("ul");
+            ul.className = "summary-bullets";
+            lines.forEach((line: string) => {
+              const li = document.createElement("li");
+              li.textContent = line;
+              ul.appendChild(li);
+            });
+            summaryContent.innerHTML = "";
+            summaryContent.appendChild(ul);
+          } else {
+            const p = document.createElement("p");
+            p.className = "text-base leading-relaxed text-[#E4E4E7]";
+            p.textContent = data.summary;
+            summaryContent.innerHTML = "";
+            summaryContent.appendChild(p);
+          }
 
           // Show word count
           const wc = data.summary.trim().split(/\s+/).filter(Boolean).length;
@@ -548,7 +657,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       // Download summary as .txt
       downloadBtn.addEventListener("click", () => {
-        const text = summaryText.innerText || "";
+        const text = lastSummaryText;
         if (!text) return;
         const blob = new Blob([text], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
@@ -565,9 +674,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         }, 1500);
       });
 
-      // Copy — grab the plain text from the formatted HTML
+      // Copy — grab the plain text
       copyBtn.addEventListener("click", async () => {
-        const text = summaryText.innerText || "";
+        const text = lastSummaryText;
         await navigator.clipboard.writeText(text);
         copyBtn.textContent = "copied!";
         copyBtn.style.color = "#4ADE80";
