@@ -151,8 +151,10 @@ function seriesVideos(series: any) {
       opacity: 0.4;
       text-decoration: line-through;
     }
+    ul.videos li.hidden-row { display: none; }
     .vtitle { flex: 1; font-size: 0.9rem; }
     .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
+    .row-btns { display: flex; gap: 4px; }
     .mark-btn {
       border: 1px solid #999;
       background: transparent;
@@ -309,7 +311,10 @@ function seriesVideos(series: any) {
                 <span class="vmeta">
                   {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
                 </span>
-                <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                <span class="row-btns">
+                  <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                  <button class="mark-btn" data-hide-stanford={v.id} title="hide everywhere">×</button>
+                </span>
               </li>
             ))}
           </ul>
@@ -381,7 +386,10 @@ function seriesVideos(series: any) {
                     <span class="vmeta">
                       {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
                     </span>
-                    <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                    <span class="row-btns">
+                      <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                      <button class="mark-btn" data-hide-stanford={v.id} title="hide everywhere">×</button>
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -392,7 +400,7 @@ function seriesVideos(series: any) {
     )}
 
     <div class="footer">
-      click any stanford row or card to open on youtube · ✓ marks watched · × hides a card
+      click any row or card to open on youtube · ✓ marks watched · × hides it everywhere (future builds too)
     </div>
   </div>
 
@@ -400,8 +408,22 @@ function seriesVideos(series: any) {
   <script type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
 
   <script is:inline>
+    // ---- Hide-sync: tell the Mini to drop a video from future builds ----
+    const HIDE_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net/api/hide';
+    function sendHide(id, kind) {
+      try {
+        fetch(HIDE_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, kind }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch {}
+    }
+
     // ---- Stanford: watched state + auto-hide watched-out series ----
     const WATCHED_KEY = 'stanford-queue-watched-v1';
+    const STANFORD_HIDDEN_KEY = 'stanford-hidden-v1';
 
     function getWatched() {
       try { return new Set(JSON.parse(localStorage.getItem(WATCHED_KEY) || '[]')); }
@@ -416,23 +438,41 @@ function seriesVideos(series: any) {
       saveWatched(w);
       renderWatched();
     }
+    function getStanfordHidden() {
+      try { return new Set(JSON.parse(localStorage.getItem(STANFORD_HIDDEN_KEY) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveStanfordHidden(set) {
+      localStorage.setItem(STANFORD_HIDDEN_KEY, JSON.stringify([...set]));
+    }
+    function hideStanford(id) {
+      const h = getStanfordHidden();
+      h.add(id);
+      saveStanfordHidden(h);
+      sendHide(id, 'stanford');
+      renderWatched();
+    }
     function renderWatched() {
       const w = getWatched();
+      const hidden = getStanfordHidden();
       document.querySelectorAll('li[data-video-id]').forEach(li => {
         li.classList.toggle('watched', w.has(li.dataset.videoId));
+        li.classList.toggle('hidden-row', hidden.has(li.dataset.videoId));
       });
-      // Hide any series whose videos are all watched
+      // Hide any series whose videos are all watched or hidden
       document.querySelectorAll('.series').forEach(s => {
         const lis = s.querySelectorAll('li[data-video-id]');
-        const allWatched = lis.length > 0 && [...lis].every(li => li.classList.contains('watched'));
-        s.hidden = allWatched;
+        const allGone = lis.length > 0 && [...lis].every(li =>
+          li.classList.contains('watched') || li.classList.contains('hidden-row')
+        );
+        s.hidden = allGone;
       });
     }
 
-    // Row click → open on YouTube (autoplay). Ignore clicks on the ✓ button.
+    // Row click → open on YouTube (autoplay). Ignore clicks on the row buttons.
     document.querySelectorAll('li[data-video-id]').forEach(li => {
       li.addEventListener('click', (e) => {
-        if (e.target.closest('[data-toggle-watched]')) return;
+        if (e.target.closest('[data-toggle-watched]') || e.target.closest('[data-hide-stanford]')) return;
         const url = li.dataset.videoUrl;
         if (url) window.open(url, '_blank', 'noopener');
       });
@@ -441,6 +481,12 @@ function seriesVideos(series: any) {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleWatched(btn.dataset.toggleWatched);
+      });
+    });
+    document.querySelectorAll('[data-hide-stanford]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hideStanford(btn.dataset.hideStanford);
       });
     });
 
@@ -508,9 +554,11 @@ function seriesVideos(series: any) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
+        const id = btn.dataset.hideBroader;
         const h = getBroaderHidden();
-        h.add(btn.dataset.hideBroader);
+        h.add(id);
         saveBroaderHidden(h);
+        sendHide(id, 'broader');
         renderBroaderHidden();
         refillIfNeeded();
       });
