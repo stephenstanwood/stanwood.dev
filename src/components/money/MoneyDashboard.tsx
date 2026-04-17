@@ -109,6 +109,9 @@ export default function MoneyDashboard() {
         </span>
       </div>
 
+      {/* ── SPENDING BREAKDOWN ── */}
+      <SpendingBreakdown subs={data.subscriptions} apiTotal={apiTotal} />
+
       {/* ── VARIABLE APIs ── */}
       <ApiSection month={latest} total={apiTotal} />
 
@@ -249,6 +252,62 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
         })}
       </div>
     </section>
+  );
+}
+
+function SpendingBreakdown({ subs, apiTotal }: { subs: Subscription[]; apiTotal: number }) {
+  const byCategory: Record<string, number> = {};
+  for (const sub of subs) {
+    if (sub.cents) {
+      byCategory[sub.category] = (byCategory[sub.category] || 0) + sub.cents;
+    }
+  }
+  if (apiTotal > 0) {
+    byCategory["_api"] = apiTotal;
+  }
+
+  const total = Object.values(byCategory).reduce((s, v) => s + v, 0);
+  if (total === 0) return null;
+
+  const API_META = { label: "APIs", color: "#b76dff", bg: "#f0e8ff" };
+
+  const categories = Object.entries(byCategory)
+    .sort((a, b) => b[1] - a[1])
+    .map(([cat, cents]) => ({
+      cat,
+      cents,
+      pct: (cents / total) * 100,
+      pctRound: Math.round((cents / total) * 100),
+      meta: cat === "_api" ? API_META : (CATEGORY_META[cat] || { label: cat.toUpperCase(), color: "#666", bg: "#f0f0f0" }),
+    }));
+
+  return (
+    <div className="mo-breakdown">
+      <div className="mo-breakdown-header">
+        <span className="mo-breakdown-title">where it goes</span>
+        <span className="mo-breakdown-sub">monthly subscriptions by category</span>
+      </div>
+      <div className="mo-breakdown-bar">
+        {categories.map(({ cat, pct, meta }) => (
+          <div
+            key={cat}
+            className="mo-breakdown-segment"
+            style={{ width: `${pct}%`, background: meta.color }}
+            title={`${meta.label}: ${Math.round(pct)}%`}
+          />
+        ))}
+      </div>
+      <div className="mo-breakdown-legend">
+        {categories.map(({ cat, cents, pctRound, meta }) => (
+          <div key={cat} className="mo-breakdown-item">
+            <div className="mo-breakdown-dot" style={{ background: meta.color }} />
+            <span className="mo-breakdown-label">{meta.label}</span>
+            <span className="mo-breakdown-amount">{formatCents(cents)}</span>
+            <span className="mo-breakdown-pct">{pctRound}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
