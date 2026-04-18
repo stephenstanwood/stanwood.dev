@@ -568,9 +568,11 @@ function seriesVideos(series: any) {
       const grid = document.getElementById('broader-grid');
       if (!grid) return;
       const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
-      if (visible >= 10 || POOL.length === 0) return;
-      // Target: visible + 10, rounded up to a multiple of 4
-      const target = Math.ceil((visible + 10) / 4) * 4;
+      // Keep at least 10 visible, and always round up to a multiple of 4
+      // so the last row is full.
+      const minTarget = Math.max(visible < 10 ? visible + 10 : visible, 10);
+      const target = Math.ceil(minTarget / 4) * 4;
+      if (target <= visible || POOL.length === 0) return;
       const needed = target - visible;
       const hidden = getBroaderHidden();
       let added = 0;
