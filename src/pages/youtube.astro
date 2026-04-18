@@ -61,6 +61,15 @@ function seriesVideos(series: any) {
     href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet"
   />
+  <script is:inline>
+    (function () {
+      try {
+        if (localStorage.getItem('yt-gate-v1') === 'meow') {
+          document.documentElement.classList.add('yt-unlocked');
+        }
+      } catch {}
+    })();
+  </script>
   <style>
     :root {
       --bg: #fdf6e3;
@@ -83,6 +92,40 @@ function seriesVideos(series: any) {
       line-height: 1.5;
     }
     .wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* Password gate */
+    html:not(.yt-unlocked) .wrap { display: none; }
+    html.yt-unlocked #yt-gate { display: none; }
+    #yt-gate {
+      max-width: 360px;
+      margin: 4rem auto;
+      padding: 2rem 1.5rem;
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    #yt-gate h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.6rem;
+      margin: 0 0 1rem;
+    }
+    #yt-gate input {
+      width: 100%;
+      padding: .6rem .8rem;
+      border: var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    #yt-gate input:focus { outline: none; background: var(--paper); }
+    #yt-gate.shake { animation: gate-shake 0.3s; }
+    @keyframes gate-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
     h1 {
       font-family: 'Permanent Marker', cursive;
       font-size: clamp(2.4rem, 6vw, 3.6rem);
@@ -147,10 +190,7 @@ function seriesVideos(series: any) {
     }
     ul.videos li:first-child { border-top: none; }
     ul.videos li:hover { background: #faf0d0; }
-    ul.videos li.watched {
-      opacity: 0.4;
-      text-decoration: line-through;
-    }
+    ul.videos li.watched,
     ul.videos li.hidden-row { display: none; }
     .vtitle { flex: 1; font-size: 0.9rem; }
     .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
@@ -272,6 +312,12 @@ function seriesVideos(series: any) {
   </style>
 </head>
 <body>
+  <div id="yt-gate">
+    <h2>meow?</h2>
+    <form id="yt-gate-form">
+      <input id="yt-gate-input" type="password" autocomplete="off" autofocus />
+    </form>
+  </div>
   <div class="wrap">
     <h1>stanford queue</h1>
     <p class="subtitle">
@@ -408,6 +454,26 @@ function seriesVideos(series: any) {
   <script type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
 
   <script is:inline>
+    // ---- Password gate ----
+    (function () {
+      const form = document.getElementById('yt-gate-form');
+      const input = document.getElementById('yt-gate-input');
+      const gate = document.getElementById('yt-gate');
+      if (!form || !input || !gate) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value.trim().toLowerCase() === 'meow') {
+          try { localStorage.setItem('yt-gate-v1', 'meow'); } catch {}
+          document.documentElement.classList.add('yt-unlocked');
+        } else {
+          gate.classList.remove('shake');
+          void gate.offsetWidth;
+          gate.classList.add('shake');
+          input.value = '';
+        }
+      });
+    })();
+
     // ---- Hide-sync: tell the Mini to drop a video from future builds ----
     const HIDE_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net/api/hide';
     function sendHide(id, kind) {
