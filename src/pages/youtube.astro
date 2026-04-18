@@ -43,10 +43,20 @@ const broaderBuiltAt = broader.built_at
 const topSeries = data.series?.[0] ?? null;
 const restSeries = (data.series ?? []).slice(1);
 
+// Series where videos are independent (seminars, talk series) — show newest first.
+// Sequential courses (lectures 1, 2, 3...) stay in original order.
+const REVERSE_ORDER_KEYS = new Set(['CS547', 'Robotics Seminar']);
+
 function seriesVideos(series: any) {
-  return series.video_ids
+  const vids = series.video_ids
     .map((id: string) => data.queue.find((v: any) => v.id === id))
     .filter(Boolean);
+  if (REVERSE_ORDER_KEYS.has(series.key)) {
+    return [...vids].sort((a: any, b: any) =>
+      new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+    );
+  }
+  return vids;
 }
 ---
 
