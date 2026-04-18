@@ -310,6 +310,8 @@ function seriesVideos(series: any) {
     }
     .bcard:hover .bhide { opacity: 1; }
     .bhide:hover { background: var(--hot); color: var(--paper); }
+    .bhide.like { right: 40px; }
+    .bhide.like:hover { background: var(--lime); color: var(--ink); }
 
     .footer {
       margin-top: 3rem;
@@ -396,7 +398,8 @@ function seriesVideos(series: any) {
             >
               <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
                 {v.exploration && <span class="explore-badge">explore</span>}
-                <button class="bhide" data-hide-broader={v.id} title="hide this video">×</button>
+                <button class="bhide like" data-mark-broader={v.id} data-action="like" title="liked / watched">✓</button>
+                <button class="bhide" data-mark-broader={v.id} data-action="pass" title="pass / hide">×</button>
                 <span class="bcard-dur">{fmtDuration(v.duration)}</span>
               </div>
               <div class="bcard-body">
@@ -484,14 +487,15 @@ function seriesVideos(series: any) {
       });
     })();
 
-    // ---- Hide-sync: tell the Mini to drop a video from future builds ----
-    const HIDE_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net/api/hide';
-    function sendHide(id, kind) {
+    // ---- Mark-sync: tell the Mini about likes + passes (drops from feed +
+    // future builds, feeds back into scoring). ----
+    const MARK_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net/api/mark';
+    function sendMark(id, kind, action) {
       try {
-        fetch(HIDE_API_URL, {
+        fetch(MARK_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, kind }),
+          body: JSON.stringify({ id, kind, action }),
           keepalive: true,
         }).catch(() => {});
       } catch {}
@@ -510,8 +514,10 @@ function seriesVideos(series: any) {
     }
     function toggleWatched(id) {
       const w = getWatched();
-      if (w.has(id)) w.delete(id); else w.add(id);
+      const adding = !w.has(id);
+      if (adding) w.add(id); else w.delete(id);
       saveWatched(w);
+      if (adding) sendMark(id, 'stanford', 'like');
       renderWatched();
     }
     function getStanfordHidden() {
@@ -525,7 +531,7 @@ function seriesVideos(series: any) {
       const h = getStanfordHidden();
       h.add(id);
       saveStanfordHidden(h);
-      sendHide(id, 'stanford');
+      sendMark(id, 'stanford', 'pass');
       renderWatched();
     }
     function renderWatched() {
@@ -608,10 +614,12 @@ function seriesVideos(series: any) {
       a.rel = 'noopener';
       a.dataset.broaderId = v.id;
       const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
+      const safeId = escapeHTML(v.id);
       a.innerHTML = `
         <div class="bcard-thumb" style="${thumbStyle}">
           ${v.exploration ? '<span class="explore-badge">explore</span>' : ''}
-          <button class="bhide" data-hide-broader="${escapeHTML(v.id)}" title="hide this video">×</button>
+          <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="liked / watched">✓</button>
+          <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="pass / hide">×</button>
           <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
         </div>
         <div class="bcard-body">
@@ -622,19 +630,20 @@ function seriesVideos(series: any) {
           </div>
         </div>
       `;
-      wireHideButton(a.querySelector('[data-hide-broader]'));
+      a.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
       return a;
     }
 
-    function wireHideButton(btn) {
+    function wireMarkButton(btn) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const id = btn.dataset.hideBroader;
+        const id = btn.dataset.markBroader;
+        const action = btn.dataset.action || 'pass';
         const h = getBroaderHidden();
         h.add(id);
         saveBroaderHidden(h);
-        sendHide(id, 'broader');
+        sendMark(id, 'broader', action);
         renderBroaderHidden();
         refillIfNeeded();
       });
@@ -660,8 +669,8 @@ function seriesVideos(series: any) {
       }
     }
 
-    // Wire up any pre-rendered hide buttons
-    document.querySelectorAll('[data-hide-broader]').forEach(wireHideButton);
+    // Wire up any pre-rendered mark buttons
+    document.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
     renderBroaderHidden();
     refillIfNeeded();
   </script>
