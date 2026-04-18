@@ -166,6 +166,7 @@ export default function GreenLight() {
           <RestaurantSearch
             recentRestaurants={recentRestaurants}
             savedCity={savedCity}
+            profile={profile}
             onSearch={handleSearch}
             onRetakeQuiz={handleRetakeQuiz}
           />
