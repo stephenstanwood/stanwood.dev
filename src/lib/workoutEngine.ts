@@ -19,6 +19,12 @@
 type Stroke = "free" | "back" | "breast" | "fly" | "IM" | "choice" | "mixed";
 type Equipment = "pull" | "kickboard" | "fins";
 
+export interface EquipmentOptions {
+  pull: boolean;
+  kickboard: boolean;
+  fins: boolean;
+}
+
 export interface SetItem {
   reps: number;
   distance: number;
@@ -45,6 +51,7 @@ export interface WorkoutInput {
   unit: "meters" | "yards";
   seed?: number;
   focus?: WorkoutFocus;
+  equipment?: EquipmentOptions;
 }
 
 export interface Workout {
@@ -174,7 +181,7 @@ function calcTargetDistance(durationMin: number, paceSec: number): number {
 // Warmup always starts with 200+ plain free, then an optional second piece.
 // Total warmup never exceeds 1000.
 
-function buildWarmup(target: number, pace: number, rng: Rng): SetItem[] {
+function buildWarmup(target: number, pace: number, rng: Rng, eq: EquipmentOptions = { pull: true, kickboard: true, fins: true }): SetItem[] {
   target = Math.min(target, 1000); // cap warmup at 1000
 
   // Always lead with at least 200 plain free
@@ -188,8 +195,14 @@ function buildWarmup(target: number, pace: number, rng: Rng): SetItem[] {
 
   const secondDist = Math.round(remaining / 50) * 50;
 
+  // Build flavor pool based on available equipment
+  const flavorPool: string[] = ["choice", "build", "IM", "kansas", "reverseIM", "drill"];
+  if (eq.kickboard && eq.pull) flavorPool.push("SKPS");
+  if (eq.kickboard) flavorPool.push("kick");
+  if (eq.pull) flavorPool.push("pull");
+
   // Pick a flavor for the second piece
-  const flavor = rng.pick(["choice", "SKPS", "build", "IM", "kansas", "reverseIM", "kick", "pull", "drill"]);
+  const flavor = rng.pick(flavorPool);
 
   switch (flavor) {
     case "choice":
@@ -758,6 +771,7 @@ interface MainSetTemplate {
   weight: number;
   name: string;
   tags: FocusTag[];
+  requires?: Array<keyof EquipmentOptions>;
 }
 
 const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
@@ -766,12 +780,12 @@ const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
   { fn: mainLadder,            weight: 3, name: "Ladder",                 tags: ["endurance"] },
   { fn: mainPyramid,           weight: 2, name: "Pyramid",                tags: ["endurance"] },
   { fn: mainNegSplit,          weight: 3, name: "Negative Split",         tags: ["endurance", "speed"] },
-  { fn: mainPullSet,           weight: 3, name: "Pull Set",               tags: ["endurance", "technique"] },
-  { fn: mainMixedGear,         weight: 2, name: "Mixed Gear",             tags: ["technique"] },
+  { fn: mainPullSet,           weight: 3, name: "Pull Set",               tags: ["endurance", "technique"], requires: ["pull"] },
+  { fn: mainMixedGear,         weight: 2, name: "Mixed Gear",             tags: ["technique"], requires: ["pull", "kickboard"] },
   { fn: mainIMSet,             weight: 2, name: "IM Set",                 tags: ["technique"] },
   { fn: mainBrokenSwim,        weight: 2, name: "Broken Swim",            tags: ["speed"] },
   { fn: mainCombo,             weight: 3, name: "Distance Combo",         tags: ["endurance"] },
-  { fn: mainFinsSet,           weight: 2, name: "Fins Set",               tags: ["technique", "speed"] },
+  { fn: mainFinsSet,           weight: 2, name: "Fins Set",               tags: ["technique", "speed"], requires: ["fins"] },
   { fn: mainSprint,            weight: 3, name: "Sprint Set",             tags: ["speed"] },
   { fn: mainThreshold,         weight: 3, name: "Threshold",              tags: ["speed", "endurance"] },
   { fn: mainWave,              weight: 2, name: "Wave Set",               tags: ["speed"] },
@@ -782,12 +796,12 @@ const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
   { fn: mainStrokeMix,         weight: 2, name: "Stroke Mix",             tags: ["technique"] },
   { fn: mainRacePace,          weight: 2, name: "Race Pace",              tags: ["speed"] },
   { fn: mainBuildSet,          weight: 3, name: "Build Set",              tags: ["endurance", "speed"] },
-  { fn: mainPaddlesSet,        weight: 2, name: "Paddles Power",          tags: ["technique"] },
+  { fn: mainPaddlesSet,        weight: 2, name: "Paddles Power",          tags: ["technique"], requires: ["pull"] },
   { fn: mainBrokenIM,          weight: 2, name: "Broken IM",              tags: ["technique"] },
   { fn: mainEndurance,         weight: 2, name: "Endurance",              tags: ["endurance"] },
-  { fn: mainKickMain,          weight: 2, name: "Kick Focus",             tags: ["technique"] },
+  { fn: mainKickMain,          weight: 2, name: "Kick Focus",             tags: ["technique"], requires: ["kickboard"] },
   { fn: mainDescendLadder,     weight: 2, name: "Descend Ladder",         tags: ["endurance", "speed"] },
-  { fn: mainSwimPullAlternate, weight: 2, name: "Swim/Pull Alternate",    tags: ["endurance", "technique"] },
+  { fn: mainSwimPullAlternate, weight: 2, name: "Swim/Pull Alternate",    tags: ["endurance", "technique"], requires: ["pull"] },
   { fn: mainTest,              weight: 1, name: "Time Trial",             tags: ["speed"] },
 ];
 
@@ -870,6 +884,11 @@ function buildCooldown(target: number, pace: number, rng: Rng): SetItem[] {
 
 type PresetFn = (target: number, pace: number, rng: Rng) => SetItem[];
 
+interface PresetTemplate {
+  fn: PresetFn;
+  requires?: Array<keyof EquipmentOptions>;
+}
+
 function presetKick(target: number, pace: number, rng: Rng): SetItem[] {
   const dist = rng.pick([50, 100]);
   const reps = Math.min(niceReps(target / dist), 12);
@@ -920,11 +939,20 @@ function presetScull(target: number, pace: number, rng: Rng): SetItem[] {
   return [{ reps, distance: 50, interval, description: "Scull 25 / swim 25 — feel the water", stroke: "free" }];
 }
 
-const PRESET_TEMPLATES: PresetFn[] = [presetKick, presetPull, presetDrill, presetSprintPrep, presetIMDrill, presetFinsKick, presetScull];
+const PRESET_TEMPLATES: PresetTemplate[] = [
+  { fn: presetKick, requires: ["kickboard"] },
+  { fn: presetPull, requires: ["pull"] },
+  { fn: presetDrill },
+  { fn: presetSprintPrep },
+  { fn: presetIMDrill },
+  { fn: presetFinsKick, requires: ["fins"] },
+  { fn: presetScull },
+];
 
 // ─── MAIN GENERATOR ────────────────────────────────────────────────────────────
 
-export function generateWorkout({ duration, pace, unit, seed, focus = "any" }: WorkoutInput): Workout {
+export function generateWorkout({ duration, pace, unit, seed, focus = "any", equipment }: WorkoutInput): Workout {
+  const eq: EquipmentOptions = equipment ?? { pull: true, kickboard: true, fins: true };
   const rng = createRng(seed ?? Math.floor(Math.random() * 2147483647));
   const paceSec = parsePace(pace);
   const totalTargetDist = calcTargetDistance(duration, paceSec);
@@ -935,26 +963,30 @@ export function generateWorkout({ duration, pace, unit, seed, focus = "any" }: W
   const hasPreset = duration > 30 ? rng.chance(0.55) : rng.chance(0.2);
   const presetTargetRaw = hasPreset ? Math.round(totalTargetDist * 0.10 / 100) * 100 : 0;
 
+  // Filter templates based on available equipment
+  const eligibleMain = MAIN_SET_TEMPLATES.filter(t =>
+    !t.requires || t.requires.every(r => eq[r])
+  );
+  const eligiblePresets = PRESET_TEMPLATES.filter(t =>
+    !t.requires || t.requires.every(r => eq[r])
+  );
+
   // Apply focus biasing: 4x weight boost for templates matching the focus tag
-  const effectiveWeights = MAIN_SET_TEMPLATES.map((t) => {
+  const effectiveWeights = eligibleMain.map((t) => {
     const matchesFocus = focus === "any" || t.tags.includes(focus as FocusTag);
     if (!matchesFocus) return t.weight;
     return t.weight * (focus === "any" ? 1 : 4);
   });
 
   // Generate main set and pre-set
-  const mainEntry = weightedPick(
-    MAIN_SET_TEMPLATES,
-    effectiveWeights,
-    rng
-  );
+  const mainEntry = weightedPick(eligibleMain, effectiveWeights, rng);
   const mainSet = mainEntry.fn(mainTargetRaw, paceSec, rng);
   const mainDist = groupDistance(mainSet);
 
   let preset: SetItem[] = [];
   let presetDist = 0;
-  if (hasPreset) {
-    preset = rng.pick(PRESET_TEMPLATES)(presetTargetRaw, paceSec, rng);
+  if (hasPreset && eligiblePresets.length > 0) {
+    preset = rng.pick(eligiblePresets).fn(presetTargetRaw, paceSec, rng);
     presetDist = groupDistance(preset);
   }
 
@@ -967,7 +999,7 @@ export function generateWorkout({ duration, pace, unit, seed, focus = "any" }: W
   const warmupDistFinal = Math.min(1000, Math.round(warmupDist / 50) * 50);
   const cooldownDistFinal = Math.round(cooldownDist / 50) * 50;
 
-  const warmup = buildWarmup(warmupDistFinal, paceSec, rng);
+  const warmup = buildWarmup(warmupDistFinal, paceSec, rng, eq);
   const cooldown = buildCooldown(cooldownDistFinal, paceSec, rng);
 
   // Calculate actual totals

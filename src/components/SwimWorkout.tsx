@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
-import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus } from "../lib/workoutEngine";
+import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
 
 // ─── URL param helpers ──────────────────────────────────────────────────────────
 
@@ -15,7 +15,17 @@ function readUrlParams() {
   const seedParam = params.get("s") ? parseInt(params.get("s")!, 10) : null;
   const focusParam = params.get("f") as WorkoutFocus | null;
   const focus = focusParam && VALID_FOCUSES.includes(focusParam) ? focusParam : null;
-  return { duration, pace, unit, seed: seedParam, focus };
+  const eqParam = params.get("eq");
+  let equipment: EquipmentOptions | null = null;
+  if (eqParam !== null) {
+    const gears = eqParam.split(",");
+    equipment = {
+      pull: gears.includes("pull"),
+      kickboard: gears.includes("kickboard"),
+      fins: gears.includes("fins"),
+    };
+  }
+  return { duration, pace, unit, seed: seedParam, focus, equipment };
 }
 
 function workoutToText(workout: Workout): string {
@@ -75,6 +85,7 @@ const FOCUSES: FocusOption[] = [
 
 const DURATIONS: DurationOption[] = [
   { value: 30, label: "30 min" },
+  { value: 45, label: "45 min" },
   { value: 60, label: "1 hour" },
   { value: 90, label: "1.5 hours" },
   { value: 120, label: "2 hours" },
@@ -311,17 +322,21 @@ export default function SwimWorkout() {
   });
   const [duration, setDuration] = useState(() => {
     const params = readUrlParams();
-    return params?.duration && DURATIONS.some((d) => d.value === params.duration) ? params.duration! : 120;
+    return params?.duration && DURATIONS.some((d) => d.value === params.duration) ? params.duration! : 60;
   });
   const [pace, setPace] = useState(() => {
     const params = readUrlParams();
     const urlUnit = params?.unit === "yards" ? "yards" : "meters";
     if (params?.pace && PACES[urlUnit].some((x) => x.value === params.pace)) return params.pace!;
-    return urlUnit === "meters" ? "1:20" : "1:10";
+    return urlUnit === "meters" ? "1:45" : "1:35";
   });
   const [focus, setFocus] = useState<WorkoutFocus>(() => {
     const params = readUrlParams();
     return params?.focus ?? "any";
+  });
+  const [equipment, setEquipment] = useState<EquipmentOptions>(() => {
+    const params = readUrlParams();
+    return params?.equipment ?? { pull: true, kickboard: true, fins: true };
   });
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
@@ -334,11 +349,12 @@ export default function SwimWorkout() {
     const params = readUrlParams();
     if (params?.seed) {
       const urlUnit = params.unit === "yards" ? "yards" : "meters";
-      const urlDuration = params.duration && DURATIONS.some((x) => x.value === params.duration) ? params.duration! : 120;
-      const defaultPace = urlUnit === "meters" ? "1:20" : "1:10";
+      const urlDuration = params.duration && DURATIONS.some((x) => x.value === params.duration) ? params.duration! : 60;
+      const defaultPace = urlUnit === "meters" ? "1:45" : "1:35";
       const urlPace = params.pace && PACES[urlUnit].some((x) => x.value === params.pace) ? params.pace! : defaultPace;
       const urlFocus = params.focus ?? "any";
-      setWorkout(generateWorkout({ duration: urlDuration, pace: urlPace, unit: urlUnit, seed: params.seed, focus: urlFocus }));
+      const urlEquipment = params.equipment ?? { pull: true, kickboard: true, fins: true };
+      setWorkout(generateWorkout({ duration: urlDuration, pace: urlPace, unit: urlUnit, seed: params.seed, focus: urlFocus, equipment: urlEquipment }));
     }
   }, []);
 
@@ -350,7 +366,7 @@ export default function SwimWorkout() {
 
   const generate = useCallback((scroll = true) => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const workout = generateWorkout({ duration, pace, unit, seed, focus });
+    const workout = generateWorkout({ duration, pace, unit, seed, focus, equipment });
     setAnimating(true);
     setWorkout(workout);
     setTimeout(() => setAnimating(false), 400);
@@ -360,7 +376,7 @@ export default function SwimWorkout() {
         workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
-  }, [duration, pace, unit, focus]);
+  }, [duration, pace, unit, focus, equipment]);
 
   const handlePrint = () => {
     window.print();
@@ -369,13 +385,15 @@ export default function SwimWorkout() {
   const copyLink = useCallback(() => {
     if (!workout?.seed) return;
     const url = new URL(window.location.href);
-    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}`;
+    const eqKeys = (Object.keys(equipment) as Array<keyof EquipmentOptions>).filter(k => equipment[k]);
+    const allEnabled = eqKeys.length === 3;
+    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}${!allEnabled ? `&eq=${eqKeys.join(",")}` : ""}`;
     url.hash = "";
     navigator.clipboard.writeText(url.toString()).then(() => {
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     });
-  }, [workout, duration, pace, unit, focus]);
+  }, [workout, duration, pace, unit, focus, equipment]);
 
   const copyText = useCallback(() => {
     if (!workout) return;
@@ -481,6 +499,34 @@ export default function SwimWorkout() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Equipment */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
+            Equipment available
+          </label>
+          <div className="flex gap-2">
+            {([
+              { key: "pull" as const, label: "Pull Buoy" },
+              { key: "kickboard" as const, label: "Kickboard" },
+              { key: "fins" as const, label: "Fins" },
+            ] as const).map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => setEquipment(prev => ({ ...prev, [key]: !prev[key] }))}
+                title={label}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
+                  equipment[key]
+                    ? "bg-teal-600 text-white shadow-sm"
+                    : "bg-white/70 text-stone-400 border border-stone-200 line-through decoration-stone-400"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-[11px] text-stone-400">Uncheck gear you don't have — we'll skip those sets.</p>
         </div>
 
         {/* Generate button */}
