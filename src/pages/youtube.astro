@@ -501,6 +501,23 @@ function seriesVideos(series: any) {
       } catch {}
     }
 
+    // One-shot: flush existing localStorage state to the Mini so feed.xml
+    // drops items already marked before /api/mark existed. Runs once per browser.
+    const SYNC_FLAG = 'mark-sync-v1';
+    function bootstrapSync() {
+      if (localStorage.getItem(SYNC_FLAG)) return;
+      try {
+        const watched = JSON.parse(localStorage.getItem('stanford-queue-watched-v1') || '[]');
+        const sHidden = JSON.parse(localStorage.getItem('stanford-hidden-v1') || '[]');
+        const bHidden = JSON.parse(localStorage.getItem('broader-hidden-v1') || '[]');
+        watched.forEach(id => sendMark(id, 'stanford', 'like'));
+        sHidden.forEach(id => sendMark(id, 'stanford', 'pass'));
+        bHidden.forEach(id => sendMark(id, 'broader', 'pass'));
+        localStorage.setItem(SYNC_FLAG, String(Date.now()));
+      } catch {}
+    }
+    bootstrapSync();
+
     // ---- Stanford: watched state + auto-hide watched-out series ----
     const WATCHED_KEY = 'stanford-queue-watched-v1';
     const STANFORD_HIDDEN_KEY = 'stanford-hidden-v1';
