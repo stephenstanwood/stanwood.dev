@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Blinkist Play All</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        width: 280px;
+        margin: 0;
+        padding: 16px;
+        background: #fafafa;
+        color: #111;
+      }
+      h1 {
+        font-size: 15px;
+        margin: 0 0 12px;
+      }
+      .status {
+        font-size: 12px;
+        color: #555;
+        margin-bottom: 12px;
+        padding: 8px 10px;
+        background: #fff;
+        border: 1px solid #e5e5e5;
+        border-radius: 6px;
+        line-height: 1.4;
+      }
+      .row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      button {
+        flex: 1;
+        padding: 8px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #d0d0d0;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      button.primary {
+        background: #0365F2;
+        color: #fff;
+        border-color: #0365F2;
+      }
+      button:hover { filter: brightness(0.97); }
+      .hint {
+        font-size: 11px;
+        color: #888;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Blinkist Play All</h1>
+    <div id="status" class="status">Loading…</div>
+    <div class="row">
+      <button id="pause">Pause</button>
+      <button id="resume" class="primary">Resume</button>
+    </div>
+    <div class="row">
+      <button id="skip">Skip book</button>
+      <button id="clear">Clear queue</button>
+    </div>
+    <p class="hint">
+      Open your Blinkist library, click the floating <b>▶ Play all saved</b> button to start.
+    </p>
+    <script src="popup.js"></script>
+  </body>
+</html>

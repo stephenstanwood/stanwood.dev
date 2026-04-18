@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Blinkist Play All",
+  "version": "0.1.0",
+  "description": "Queue your saved Blinkist library and auto-play in order, skipping finished titles and auto-advancing through chapters.",
+  "permissions": ["storage", "tabs", "scripting"],
+  "host_permissions": ["https://www.blinkist.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Blinkist Play All"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.blinkist.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}
