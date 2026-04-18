@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-17T21:49:56.367077+00:00",
+  "built_at": "2026-04-18T11:30:06.788490+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -58,9 +58,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 14,
+      "video_count": 13,
       "video_ids": [
-        "eztufZ3xM4c",
         "99wIpauDEmY",
         "3iIPRBi2K2w",
         "5uWtpDON7Vs",
@@ -131,11 +130,8 @@
       "is_single": false,
       "display_name": "CME295",
       "best_score": 9,
-      "video_count": 9,
+      "video_count": 6,
       "video_ids": [
-        "Ub3GoFaUcds",
-        "yT84Y5zCnaA",
-        "Q5baLehv5So",
         "VlA_jt_3Qc4",
         "PmW_TMQ3l0I",
         "k5Fh-UgTuCo",
@@ -395,16 +391,6 @@
       "video_count": 1,
       "video_ids": [
         "940zih5bee4"
-      ]
-    },
-    {
-      "key": "__single__sMB4YYJDeIg",
-      "is_single": true,
-      "display_name": "Stanford Global Alumni Webinar | August 2025 | AI Agent Simulation of Human Behavior",
-      "best_score": 0,
-      "video_count": 1,
-      "video_ids": [
-        "sMB4YYJDeIg"
       ]
     },
     {
@@ -1027,21 +1013,6 @@
       "description": "View course details: https://online.stanford.edu/courses/xcs224r-deep-reinforcement-learning\n\nApril 18, 2025\nThis tutorial covers:\n\u2022 Review of Markov Decision Processes (MDP)\n\u2022 Exact MDPs\n\u2022 Parametric Q-Learning\n\u2022 Practical Details \n\u2022 Q-Learning/Actor Critic Algorithm Walkthrough \n\nTo learn more about enrolling in the graduate course, visit: https://online.stanford.edu/courses/cs224r-deep-reinforc"
     },
     {
-      "id": "eztufZ3xM4c",
-      "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Make Every Step an Experiment",
-      "url": "https://www.youtube.com/watch?v=eztufZ3xM4c",
-      "duration": 3802.0,
-      "published_at": "2025-10-17T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nSeptember 26, 2025\nThis seminar shows:\n\u2022 By strategically eliciting the force responses from loose regolith, robots could generate desired ground reaction forces and achieve substantially improved locomotion performance on deformable substrates\n\u2022 By leveraging the high force transparency"
-    },
-    {
       "id": "99wIpauDEmY",
       "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Manipulation Data Pyramid",
       "url": "https://www.youtube.com/watch?v=99wIpauDEmY",
@@ -1597,54 +1568,6 @@
         "hci"
       ],
       "description": "View the details of our Generative AI: Technology, Business, and Society Program https://online.stanford.edu/programs/generative-ai-technology-business-and-society-program\n\nTune into this engaging discussion with Professor James Landay, Co-Director of the Stanford Institute for Human-Centered Artificial Intelligence (HAI), and Vanessa Parli, Managing Director of Programs and External Engagement fo"
-    },
-    {
-      "id": "Ub3GoFaUcds",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 1 - Transformer",
-      "url": "https://www.youtube.com/watch?v=Ub3GoFaUcds",
-      "duration": 6119.0,
-      "published_at": "2025-10-17T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 1,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nSeptember 26, 2025\nThis lecture covers: \n\u2022 Background on NLP and tasks\n\u2022 Tokenization\n\u2022 Embeddings\n\u2022 Word2vec, RNN, LSTM\n\u2022 Attention mechanism\n\u2022 Transformer architecture\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:"
-    },
-    {
-      "id": "yT84Y5zCnaA",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 2 - Transformer-Based Models & Tricks",
-      "url": "https://www.youtube.com/watch?v=yT84Y5zCnaA",
-      "duration": 6440.0,
-      "published_at": "2025-10-17T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 2,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 3, 2025\nThis lecture covers: \n\u2022 Attention approximation\n\u2022 MHA, MQA, GQA\n\u2022 Position embeddings (regular, learned)\n\u2022 RoPE and applications\n\u2022 Transformer-based architectures\n\u2022 BERT and its derivatives\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stan"
-    },
-    {
-      "id": "Q5baLehv5So",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 3 - Tranformers & Large Language Models",
-      "url": "https://www.youtube.com/watch?v=Q5baLehv5So",
-      "duration": 6525.0,
-      "published_at": "2025-10-17T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 3,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 10, 2025\nThis lecture covers: \n\u2022 Definition and architecture\n\u2022 Mixture of experts\n\u2022 Context length, temperature\n\u2022 Sampling strategies\n\u2022 Prompting, in-context learning\n\u2022 Chain of thought\n\u2022 Self-consistency\n\nTo follow along with the course schedule and syllabus, visit: https://cme2"
     },
     {
       "id": "VlA_jt_3Qc4",
@@ -2417,19 +2340,6 @@
       "score": 0,
       "categories": [],
       "description": "Watch Dan Boneh, the Co-Academic Director of the Stanford Advanced Cybersecurity Program, interview OpenAI CEO, Sam Altman, one of the industry experts featured in our newest course on AI Security.\n\nThe two thought leaders discuss the future of AI, necessary AI skills, AI security, the impact of AI on computer science, and more.\n\nLearn more about our AI Security course: https://online.stanford.edu"
-    },
-    {
-      "id": "sMB4YYJDeIg",
-      "title": "Stanford Global Alumni Webinar | August 2025 | AI Agent Simulation of Human Behavior",
-      "url": "https://www.youtube.com/watch?v=sMB4YYJDeIg",
-      "duration": 2761.0,
-      "published_at": "2025-10-17T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Global Alumni Webinar | August 2025 | AI Agent Simulation of Human Behavior",
-      "lecture_num": null,
-      "score": 0,
-      "categories": [],
-      "description": "What if you had a \u201cwhat-if\u201d machine that could simulate human behavior?\nImagine testing decisions before you make them or doing instant consumer research. In this webinar, we\u2019ll explore how AI agent simulations are reshaping organizational leadership \u2014 from team dynamics to org design and predictive decision-making. Discover how AI-augmented management is not just possible, but actionable today.\n\n"
     },
     {
       "id": "tr-CUpw--ck",
