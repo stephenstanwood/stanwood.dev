@@ -32,6 +32,7 @@ function fmtDuration(seconds: number) {
 function fmtAgo(iso: string) {
   const then = new Date(iso).getTime();
   const days = Math.floor((Date.now() - then) / 86400000);
+  if (days === 0) return 'today';
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
   return `${Math.floor(days / 30)}mo ago`;
@@ -651,6 +652,7 @@ function seriesVideos(series: any) {
     }
     function fmtAgoJS(iso) {
       const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+      if (days === 0) return 'today';
       if (days < 7) return `${days}d ago`;
       if (days < 30) return `${Math.floor(days / 7)}w ago`;
       return `${Math.floor(days / 30)}mo ago`;
