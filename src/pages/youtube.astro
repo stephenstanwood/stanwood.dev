@@ -389,8 +389,7 @@ function seriesVideos(series: any) {
       <>
         <h2>around the internet</h2>
         <p class="broader-intro">
-          recent uploads from curated CS / AI / HCI / future-tech channels,
-          scored against my interests · built {broaderBuiltAt} · click a card to open on youtube
+          recent uploads from curated CS / AI / HCI / future-tech channels
         </p>
         <div class="broader-grid" id="broader-grid">
           {broader.queue.map((v: any) => (
@@ -400,6 +399,7 @@ function seriesVideos(series: any) {
               target="_blank"
               rel="noopener"
               data-broader-id={v.id}
+              data-published-at={v.published_at}
             >
               <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
                 {v.exploration && <span class="explore-badge">explore</span>}
@@ -635,6 +635,7 @@ function seriesVideos(series: any) {
       a.target = '_blank';
       a.rel = 'noopener';
       a.dataset.broaderId = v.id;
+      a.dataset.publishedAt = v.published_at;
       const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
       const safeId = escapeHTML(v.id);
       a.innerHTML = `
@@ -686,7 +687,15 @@ function seriesVideos(series: any) {
       while (added < needed && POOL.length > 0) {
         const v = POOL.shift();
         if (hidden.has(v.id)) continue;
-        grid.appendChild(buildCard(v));
+        const card = buildCard(v);
+        const newTs = new Date(v.published_at).getTime();
+        const existing = Array.from(grid.querySelectorAll('.bcard'));
+        const before = existing.find(el => {
+          const ts = new Date(el.dataset.publishedAt || 0).getTime();
+          return ts < newTs;
+        });
+        if (before) grid.insertBefore(card, before);
+        else grid.appendChild(card);
         added++;
       }
     }
