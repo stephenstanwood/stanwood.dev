@@ -299,6 +299,18 @@ function seriesVideos(series: any) {
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+    .series-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: #ffd86b;
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
     .bhide {
       position: absolute;
       top: 6px;
@@ -400,11 +412,14 @@ function seriesVideos(series: any) {
               rel="noopener"
               data-broader-id={v.id}
               data-published-at={v.published_at}
+              data-series-key={v.series_key || ''}
+              data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
             >
               <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
                 {v.exploration && <span class="explore-badge">explore</span>}
-                <button class="bhide like" data-mark-broader={v.id} data-action="like" title="liked / watched">✓</button>
-                <button class="bhide" data-mark-broader={v.id} data-action="pass" title="pass / hide">×</button>
+                {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
+                <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow series (adds a block below)' : 'liked / watched'}>✓</button>
+                <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide series forever' : 'pass / hide'}>×</button>
                 <span class="bcard-dur">{fmtDuration(v.duration)}</span>
               </div>
               <div class="bcard-body">
@@ -417,6 +432,7 @@ function seriesVideos(series: any) {
             </a>
           ))}
         </div>
+        <div id="followed-series-container"></div>
       </>
     )}
 
@@ -470,6 +486,7 @@ function seriesVideos(series: any) {
 
   <!-- Broader reserve pool, consumed client-side when visible count drops below 10 -->
   <script type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
+  <script type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
 
   <script is:inline>
     // ---- Password gate ----
@@ -598,19 +615,32 @@ function seriesVideos(series: any) {
 
     // ---- Around the internet: hide + refill from reserve pool ----
     const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
+    const BROADER_FOLLOWED_SERIES_KEY = 'broader-followed-series-v1';
+    const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
     const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
+    const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
 
-    function getBroaderHidden() {
-      try { return new Set(JSON.parse(localStorage.getItem(BROADER_HIDDEN_KEY) || '[]')); }
+    function getSet(key) {
+      try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
       catch { return new Set(); }
     }
-    function saveBroaderHidden(set) {
-      localStorage.setItem(BROADER_HIDDEN_KEY, JSON.stringify([...set]));
+    function saveSet(key, set) {
+      localStorage.setItem(key, JSON.stringify([...set]));
     }
+    const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
+    const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
+    const getFollowedSeries = () => getSet(BROADER_FOLLOWED_SERIES_KEY);
+    const saveFollowedSeries = (s) => saveSet(BROADER_FOLLOWED_SERIES_KEY, s);
+    const getBannedSeries = () => getSet(BROADER_BANNED_SERIES_KEY);
+    const saveBannedSeries = (s) => saveSet(BROADER_BANNED_SERIES_KEY, s);
+
     function renderBroaderHidden() {
       const h = getBroaderHidden();
+      const banned = getBannedSeries();
       document.querySelectorAll('[data-broader-id]').forEach(card => {
-        card.classList.toggle('hidden', h.has(card.dataset.broaderId));
+        const byId = h.has(card.dataset.broaderId);
+        const bySeries = card.dataset.seriesKey && banned.has(card.dataset.seriesKey);
+        card.classList.toggle('hidden', byId || bySeries);
       });
     }
 
@@ -636,13 +666,20 @@ function seriesVideos(series: any) {
       a.rel = 'noopener';
       a.dataset.broaderId = v.id;
       a.dataset.publishedAt = v.published_at;
+      if (v.series_key) a.dataset.seriesKey = v.series_key;
+      if (v.episode_number != null) a.dataset.episodeNumber = String(v.episode_number);
       const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
       const safeId = escapeHTML(v.id);
+      const seriesBadge = v.series_key
+        ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';
+      const likeTitle = v.series_key ? 'follow series (adds a block below)' : 'liked / watched';
+      const passTitle = v.series_key ? 'hide series forever' : 'pass / hide';
       a.innerHTML = `
         <div class="bcard-thumb" style="${thumbStyle}">
           ${v.exploration ? '<span class="explore-badge">explore</span>' : ''}
-          <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="liked / watched">✓</button>
-          <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="pass / hide">×</button>
+          ${seriesBadge}
+          <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="${likeTitle}">✓</button>
+          <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="${passTitle}">×</button>
           <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
         </div>
         <div class="bcard-body">
@@ -663,12 +700,106 @@ function seriesVideos(series: any) {
         e.stopPropagation();
         const id = btn.dataset.markBroader;
         const action = btn.dataset.action || 'pass';
+        const card = btn.closest('[data-broader-id]');
+        const seriesKey = card && card.dataset.seriesKey;
+
+        if (seriesKey) {
+          if (action === 'like') {
+            const f = getFollowedSeries();
+            f.add(seriesKey);
+            saveFollowedSeries(f);
+          } else {
+            const b = getBannedSeries();
+            b.add(seriesKey);
+            saveBannedSeries(b);
+          }
+          sendMark(id, 'broader', action);
+          renderFollowedSeries();
+          renderBroaderHidden();
+          refillIfNeeded();
+          return;
+        }
+
         const h = getBroaderHidden();
         h.add(id);
         saveBroaderHidden(h);
         sendMark(id, 'broader', action);
         renderBroaderHidden();
         refillIfNeeded();
+      });
+    }
+
+    function renderFollowedSeries() {
+      const container = document.getElementById('followed-series-container');
+      if (!container) return;
+      const followed = getFollowedSeries();
+      const watched = getWatched();
+      const stanfordHidden = getStanfordHidden();
+      container.innerHTML = '';
+      followed.forEach(key => {
+        const eps = SERIES_EPISODES[key];
+        if (!eps || eps.length === 0) return;
+        const section = document.createElement('div');
+        section.className = 'series';
+        section.dataset.series = key;
+        const channelTitle = eps[0].channel_title || 'series';
+        const head = document.createElement('div');
+        head.className = 'series-head';
+        head.innerHTML = `
+          <div>
+            <span class="series-name">${escapeHTML(channelTitle)}</span>
+            <span class="score-chip">followed</span>
+          </div>
+          <span class="series-meta">${eps.length} ${eps.length === 1 ? 'video' : 'videos'} · <button class="mark-btn" data-unfollow-series="${escapeHTML(key)}" title="unfollow">×</button></span>
+        `;
+        const ul = document.createElement('ul');
+        ul.className = 'videos';
+        eps.forEach(v => {
+          const li = document.createElement('li');
+          li.dataset.videoId = v.id;
+          li.dataset.videoUrl = v.url;
+          if (watched.has(v.id)) li.classList.add('watched');
+          if (stanfordHidden.has(v.id)) li.classList.add('hidden-row');
+          const ep = v.episode_number != null ? `#${v.episode_number} · ` : '';
+          li.innerHTML = `
+            <span class="vtitle">${ep}${escapeHTML(v.title)}</span>
+            <span class="vmeta">${fmtDurationJS(v.duration)} · ${fmtAgoJS(v.published_at)}</span>
+            <span class="row-btns">
+              <button class="mark-btn" data-toggle-watched="${escapeHTML(v.id)}" title="toggle watched">✓</button>
+              <button class="mark-btn" data-hide-stanford="${escapeHTML(v.id)}" title="hide everywhere">×</button>
+            </span>
+          `;
+          li.addEventListener('click', (e) => {
+            if (e.target.closest('[data-toggle-watched]') || e.target.closest('[data-hide-stanford]')) return;
+            window.open(v.url, '_blank', 'noopener');
+          });
+          ul.appendChild(li);
+        });
+        section.appendChild(head);
+        section.appendChild(ul);
+        container.appendChild(section);
+      });
+      container.querySelectorAll('[data-toggle-watched]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleWatched(btn.dataset.toggleWatched);
+        });
+      });
+      container.querySelectorAll('[data-hide-stanford]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hideStanford(btn.dataset.hideStanford);
+        });
+      });
+      container.querySelectorAll('[data-unfollow-series]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const key = btn.dataset.unfollowSeries;
+          const f = getFollowedSeries();
+          f.delete(key);
+          saveFollowedSeries(f);
+          renderFollowedSeries();
+        });
       });
     }
 
@@ -683,10 +814,19 @@ function seriesVideos(series: any) {
       if (target <= visible || POOL.length === 0) return;
       const needed = target - visible;
       const hidden = getBroaderHidden();
+      const banned = getBannedSeries();
+      const followed = getFollowedSeries();
+      const seenSeriesOnGrid = new Set(
+        Array.from(grid.querySelectorAll('[data-series-key]'))
+          .map(el => el.dataset.seriesKey)
+          .filter(Boolean)
+      );
       let added = 0;
       while (added < needed && POOL.length > 0) {
         const v = POOL.shift();
         if (hidden.has(v.id)) continue;
+        if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
+        if (v.series_key) seenSeriesOnGrid.add(v.series_key);
         const card = buildCard(v);
         const newTs = new Date(v.published_at).getTime();
         const existing = Array.from(grid.querySelectorAll('.bcard'));
@@ -702,6 +842,7 @@ function seriesVideos(series: any) {
 
     // Wire up any pre-rendered mark buttons
     document.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
+    renderFollowedSeries();
     renderBroaderHidden();
     refillIfNeeded();
   </script>
