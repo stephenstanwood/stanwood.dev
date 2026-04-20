@@ -30,10 +30,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return errJson(`unknown style: ${style}`, 400);
   }
 
-  const match = image.match(/^data:(image\/\w+);base64,(.+)$/);
+  const match = image.match(/^data:(image\/[\w+.-]+);base64,(.+)$/);
   if (!match) return errJson("invalid image format — send a base64 data URL", 400);
 
-  const mediaType = match[1] as "image/jpeg" | "image/png" | "image/gif" | "image/webp";
+  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"] as const;
+  type AllowedType = (typeof ALLOWED_TYPES)[number];
+  if (!ALLOWED_TYPES.includes(match[1] as AllowedType)) {
+    return errJson("unsupported image type — use JPEG, PNG, GIF, or WebP", 400);
+  }
+  const mediaType = match[1] as AllowedType;
   const imageData = match[2];
 
   try {

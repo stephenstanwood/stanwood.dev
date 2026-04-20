@@ -159,7 +159,7 @@ export default function MuseumLabel() {
           {error && <div className="ml-error"><p>{error}</p></div>}
 
           {preview && (
-            <button onClick={generate} className="ml-btn-primary">
+            <button onClick={() => generate()} className="ml-btn-primary">
               Generate Label
             </button>
           )}
