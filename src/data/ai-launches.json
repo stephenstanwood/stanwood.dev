@@ -62,5 +62,149 @@
     "type": "model",
     "summary": "Meta's first natively multimodal open models — Scout (17B active/109B total MoE, runs on a single H100) and Maverick (17B active/400B total, beats GPT-4o on most benchmarks); video and image understanding, Apache 2.0",
     "url": "https://ai.meta.com/blog/llama-4-multimodal-intelligence/"
+  },
+  {
+    "name": "OpenAI o3 + o4-mini",
+    "org": "OpenAI",
+    "date": "2025-04-16",
+    "type": "model",
+    "summary": "o3 matches or beats o1 on most benchmarks; o4-mini is the fastest reasoning model available via API — both support image input, web search, and tool use; o3 available in ChatGPT Plus/Pro",
+    "url": "https://openai.com/index/introducing-o3-and-o4-mini/"
+  },
+  {
+    "name": "GPT-4.1",
+    "org": "OpenAI",
+    "date": "2025-04-14",
+    "type": "model",
+    "summary": "API-only model with 1M token context and significantly better instruction following than GPT-4o — strong coding benchmark results, cheaper than GPT-4o; includes mini and nano variants",
+    "url": "https://openai.com/index/gpt-4-1/"
+  },
+  {
+    "name": "Gemini 2.5 Pro",
+    "org": "Google",
+    "date": "2025-03-25",
+    "type": "model",
+    "summary": "thinking model that leads on reasoning and coding benchmarks — deep 1M context, runs natively on video and audio, available in AI Studio as an experimental preview before general release",
+    "url": "https://blog.google/technology/google-deepmind/gemini-model-updates-march-2025/"
+  },
+  {
+    "name": "GPT-4.5",
+    "org": "OpenAI",
+    "date": "2025-02-27",
+    "type": "model",
+    "summary": "OpenAI's largest pre-o1 model — significantly stronger emotional intelligence and conversational naturalness, though not a reasoning model; released as a research preview before broader rollout",
+    "url": "https://openai.com/index/introducing-gpt-4-5/"
+  },
+  {
+    "name": "Claude 3.7 Sonnet",
+    "org": "Anthropic",
+    "date": "2025-02-24",
+    "type": "model",
+    "summary": "first Claude model with extended thinking — toggle on to see reasoning traces up to 64K tokens; leads on SWE-bench and Aider polyglot coding benchmarks; computer use capability now available in the API",
+    "url": "https://www.anthropic.com/news/claude-3-7-sonnet"
+  },
+  {
+    "name": "Grok 3",
+    "org": "xAI",
+    "date": "2025-02-17",
+    "type": "model",
+    "summary": "xAI's flagship model trained on 200K H100 cluster — beats GPT-4o and Gemini 2 on math and science benchmarks; includes a fast 'mini' variant and DeepSearch mode for live web browsing",
+    "url": "https://x.ai/blog/grok-3"
+  },
+  {
+    "name": "DeepSeek R1",
+    "org": "DeepSeek",
+    "date": "2025-01-20",
+    "type": "model",
+    "summary": "fully open reasoning model (MIT license) that matches o1 on math and code — training cost under $6M; triggered a major market conversation about US–China AI competition and Nvidia stock selloff",
+    "url": "https://github.com/deepseek-ai/DeepSeek-R1"
+  },
+  {
+    "name": "DeepSeek V3",
+    "org": "DeepSeek",
+    "date": "2024-12-26",
+    "type": "model",
+    "summary": "671B MoE open-weights model from China — tops most code and math benchmarks, trained for ~$6M total; runs on consumer hardware via quantized versions; raised major questions about compute efficiency",
+    "url": "https://github.com/deepseek-ai/DeepSeek-V3"
+  },
+  {
+    "name": "Sora",
+    "org": "OpenAI",
+    "date": "2024-12-09",
+    "type": "product",
+    "summary": "text-to-video model finally available to the public after a year of previews — up to 1080p/20s clips, image-to-video, video extension; built-in C2PA watermarking; $20/mo for 50 priority videos",
+    "url": "https://openai.com/sora"
+  },
+  {
+    "name": "Gemini 2.0 Flash",
+    "org": "Google",
+    "date": "2024-12-11",
+    "type": "model",
+    "summary": "2x faster than 1.5 Pro at similar quality — first Gemini model with native image and audio output; available in AI Studio with Multimodal Live API for real-time streaming",
+    "url": "https://blog.google/technology/google-deepmind/google-gemini-ai-update-december-2024/"
+  },
+  {
+    "name": "Claude 3.5 Sonnet v2 + Computer Use",
+    "org": "Anthropic",
+    "date": "2024-10-22",
+    "type": "model",
+    "summary": "updated Sonnet outperforms Claude 3 Opus on coding benchmarks; introduces Computer Use API beta — Claude can control a desktop, browse the web, and run code autonomously via screenshots",
+    "url": "https://www.anthropic.com/news/3-5-models-and-computer-use"
+  },
+  {
+    "name": "Claude 3.5 Haiku",
+    "org": "Anthropic",
+    "date": "2024-10-22",
+    "type": "model",
+    "summary": "fastest model in the Claude 3.5 family — matches Claude 3 Opus performance at a fraction of the cost; strong on coding with text-only input; vision support rolling out in November",
+    "url": "https://www.anthropic.com/news/3-5-models-and-computer-use"
+  },
+  {
+    "name": "OpenAI o1",
+    "org": "OpenAI",
+    "date": "2024-09-12",
+    "type": "model",
+    "summary": "first publicly released reasoning model from OpenAI — 'thinks before it answers' using chain-of-thought; PhDs on hard math and science; much slower and pricier than GPT-4o by design",
+    "url": "https://openai.com/index/introducing-openai-o1-preview/"
+  },
+  {
+    "name": "Mistral Large 2",
+    "org": "Mistral",
+    "date": "2024-07-24",
+    "type": "model",
+    "summary": "123B parameter model with 128K context — strong code generation, multi-step reasoning, and 80-language support; released under a research license with API access; challenges GPT-4o on code benchmarks",
+    "url": "https://mistral.ai/news/mistral-large-2407/"
+  },
+  {
+    "name": "GPT-4o mini",
+    "org": "OpenAI",
+    "date": "2024-07-18",
+    "type": "model",
+    "summary": "replaces GPT-3.5 Turbo across the API — smarter, faster, and 60% cheaper; handles text and vision; small models race effectively over as OpenAI's primary low-cost tier",
+    "url": "https://openai.com/index/gpt-4o-mini-advancing-cost-efficient-intelligence/"
+  },
+  {
+    "name": "Claude 3.5 Sonnet",
+    "org": "Anthropic",
+    "date": "2024-06-20",
+    "type": "model",
+    "summary": "first Claude 3.5 model — outperforms Claude 3 Opus at 2× the speed; sets new records on coding (HumanEval 92%), grad-level reasoning, and vision; free on Claude.ai, available in the API",
+    "url": "https://www.anthropic.com/news/claude-3-5-sonnet"
+  },
+  {
+    "name": "GPT-4o",
+    "org": "OpenAI",
+    "date": "2024-05-13",
+    "type": "model",
+    "summary": "omni model that unifies text, vision, and audio natively — real-time voice with emotions, reads facial expressions, 2× faster and 50% cheaper than GPT-4 Turbo; available free in ChatGPT",
+    "url": "https://openai.com/index/hello-gpt-4o/"
+  },
+  {
+    "name": "Llama 3",
+    "org": "Meta",
+    "date": "2024-04-18",
+    "type": "model",
+    "summary": "two open-weights models: 8B and 70B — both fine-tuned on 15T tokens, outperform Gemma and Mistral at similar scale; 4x bigger pre-training dataset than Llama 2; Apache 2.0 license",
+    "url": "https://ai.meta.com/blog/meta-llama-3/"
   }
 ]
