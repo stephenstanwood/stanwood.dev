@@ -59,8 +59,9 @@ export default function MuseumLabel() {
     [handleFile],
   );
 
-  const generate = async () => {
+  const generate = async (styleOverride?: string) => {
     if (!preview) return;
+    const styleToUse = styleOverride ?? style;
     setPhase("loading");
     setError(null);
     setLabel(null);
@@ -69,7 +70,7 @@ export default function MuseumLabel() {
       const res = await fetch("/api/museum-label", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ image: preview, style }),
+        body: JSON.stringify({ image: preview, style: styleToUse }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -108,7 +109,10 @@ export default function MuseumLabel() {
         {MUSEUM_STYLES.map((s) => (
           <button
             key={s.id}
-            onClick={() => setStyle(s.id)}
+            onClick={() => {
+              setStyle(s.id);
+              if (phase === "result" && s.id !== style) generate(s.id);
+            }}
             className={`ml-style-btn ${style === s.id ? "ml-style-btn--active" : ""}`}
             title={s.description}
           >
@@ -195,6 +199,7 @@ export default function MuseumLabel() {
 
           <div className="ml-actions">
             <button onClick={reset} className="ml-btn-secondary">New Object</button>
+            <button onClick={() => generate()} className="ml-btn-secondary">Regenerate</button>
             <button onClick={copyText} className="ml-btn-primary">
               {copied ? "Copied!" : "Copy Text"}
             </button>
