@@ -389,7 +389,7 @@ function renderHeroCard(game: Game): string {
         : "color:#e5e7eb;";
 
   return `
-    <div class="hero-card p-5">
+    <div class="hero-card p-5" data-away="${teamAbbr(away)}" data-home="${teamAbbr(home)}">
       <div class="hero-sentence">
         <div class="hero-line">the best game</div>
         <div class="hero-line">right now is the</div>
@@ -485,7 +485,7 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
         : "color:#e5e7eb;";
 
   return `
-    <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;gap:12px;">
+    <div class="game-row px-3 py-2.5" data-away="${awayAbbrStr}" data-home="${homeAbbrStr}" style="display:flex;align-items:center;gap:12px;">
       <div style="font-family:Orbitron,monospace;font-size:10px;color:rgba(255,255,255,0.3);width:24px;text-align:right;flex-shrink:0;">${rank}</div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center justify-between">
@@ -650,6 +650,7 @@ function render(events: Game[]): void {
       renderNoGames(events) +
       renderRankedGames(events, dayLabel) +
       renderHowItWorks();
+    highlightFavorites();
     document.fonts.ready.then(fitHeroLines);
     return;
   }
@@ -674,12 +675,26 @@ function render(events: Game[]): void {
   html += renderRankedGames(events, "Coming Up");
   html += renderHowItWorks();
   content.innerHTML = html;
+  highlightFavorites();
   document.fonts.ready.then(fitHeroLines);
+}
+
+// ── Favorite teams highlight ──
+
+export function highlightFavorites(): void {
+  let favs: string[] = [];
+  try { favs = JSON.parse(localStorage.getItem("mlb-fav-teams") || "[]"); } catch {}
+  document.querySelectorAll<HTMLElement>("[data-home][data-away]").forEach((el) => {
+    const home = el.getAttribute("data-home") || "";
+    const away = el.getAttribute("data-away") || "";
+    el.classList.toggle("fav-game", favs.includes(home) || favs.includes(away));
+  });
 }
 
 // ── Public init ──
 
 export function init(): void {
+  (window as unknown as Record<string, unknown>).__mlbHighlight = highlightFavorites;
   initSportsApp(API_URL, render, {
     errorBtnId: "mlb-retry-btn",
     retryBtnStyle: "background:rgba(0,0,0,0.3);color:#fbbf24;border:1px solid rgba(255,255,255,0.1);cursor:pointer;",
