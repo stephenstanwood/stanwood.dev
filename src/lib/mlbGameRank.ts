@@ -422,6 +422,8 @@ function renderHeroCard(game: Game): string {
         </div>
       </div>
 
+      ${hasScores ? renderRHE(away, home) : ""}
+
       ${
         live && situation
           ? `
@@ -635,6 +637,20 @@ function renderRankedGames(events: Game[], sectionLabel: string): string {
   `;
 }
 
+function renderFinalScores(events: Game[]): string {
+  const finished = events
+    .filter((e) => e.competitions?.[0]?.status?.type?.state === "post")
+    .map((g) => ({ game: g, score: computeWatchScore(g) }))
+    .sort((a, b) => b.score - a.score);
+  if (finished.length === 0) return "";
+  return `
+    <div class="section-header mt-8 mb-3">Final Scores</div>
+    <div class="space-y-1.5">
+      ${finished.map((g, i) => renderGameRow(g.game, i + 1, false, Math.min(100, Math.round((g.score / MAX_WATCH_SCORE) * 100)))).join("")}
+    </div>
+  `;
+}
+
 function render(events: Game[]): void {
   const content = document.getElementById("content");
   if (!content) return;
@@ -648,6 +664,7 @@ function render(events: Game[]): void {
   if (liveGames.length === 0) {
     content.innerHTML =
       renderNoGames(events) +
+      renderFinalScores(events) +
       renderRankedGames(events, dayLabel) +
       renderHowItWorks();
     highlightFavorites();
@@ -673,6 +690,7 @@ function render(events: Game[]): void {
   }
 
   html += renderRankedGames(events, "Coming Up");
+  html += renderFinalScores(events);
   html += renderHowItWorks();
   content.innerHTML = html;
   highlightFavorites();
