@@ -707,6 +707,93 @@ const title = "Green Light — stanwood.dev";
         flex-wrap: wrap;
       }
       .he-actions .he-btn-primary { margin-top: 0; }
+
+      /* ─── Examples Section ───────────────────────────────────────── */
+      .he-examples {
+        width: 100%;
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+        border-top: 1px solid var(--he-border);
+      }
+      .he-examples-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .he-example {
+        margin-bottom: 2rem;
+        background: var(--he-card-bg);
+        border: 1.5px solid var(--he-border);
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+      }
+      .he-example-profile {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+      }
+      .he-example-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+        padding: 0.25rem 0.65rem;
+        border-radius: 999px;
+        background: var(--he-sage-faint);
+        color: var(--he-rosemary);
+        border: 1px solid rgba(92,122,82,0.2);
+      }
+      .he-example-restaurant {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--he-light-gray);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.6rem;
+      }
+      .he-example-picks {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .he-example-pick {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+      .he-example-pick-num {
+        flex-shrink: 0;
+        width: 1.4rem;
+        height: 1.4rem;
+        border-radius: 50%;
+        background: var(--he-sage);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0.1rem;
+      }
+      .he-example-pick-name {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--he-charcoal);
+        line-height: 1.3;
+      }
+      .he-example-pick-why {
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        line-height: 1.5;
+        margin-top: 0.15rem;
+      }
     </style>
   </Fragment>
 
@@ -737,5 +824,87 @@ const title = "Green Light — stanwood.dev";
     <main id="main-content" class="he-main">
       <GreenLight client:idle />
     </main>
+
+    <section class="he-examples" aria-label="Example outputs">
+      <p class="he-examples-label">example outputs</p>
+
+      <div class="he-example">
+        <div class="he-example-profile">
+          <span class="he-example-chip">🌶️ spicy</span>
+          <span class="he-example-chip">🍋 bold & bright</span>
+          <span class="he-example-chip">no red meat</span>
+          <span class="he-example-chip">sharing plates</span>
+        </div>
+        <p class="he-example-restaurant">Thai restaurant</p>
+        <div class="he-example-picks">
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">1</div>
+            <div>
+              <div class="he-example-pick-name">Larb Gai (spicy chicken salad)</div>
+              <div class="he-example-pick-why">Toasted rice, lime, fish sauce, and chili hit every note in your profile — bright, punchy, and made for sharing from the center of the table.</div>
+            </div>
+          </div>
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">2</div>
+            <div>
+              <div class="he-example-pick-name">Pad See Ew (wide rice noodles)</div>
+              <div class="he-example-pick-why">Wok char and sweet soy give you depth without heaviness — balances the larb and keeps the table interesting without going near red meat.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="he-example">
+        <div class="he-example-profile">
+          <span class="he-example-chip">🥩 meat-forward</span>
+          <span class="he-example-chip">🧄 umami & savory</span>
+          <span class="he-example-chip">solo meal</span>
+          <span class="he-example-chip">no shellfish</span>
+        </div>
+        <p class="he-example-restaurant">Korean BBQ spot</p>
+        <div class="he-example-picks">
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">1</div>
+            <div>
+              <div class="he-example-pick-name">Galbi-jjim (braised short rib)</div>
+              <div class="he-example-pick-why">Slow-braised in soy, garlic, and Asian pear — deeply savory, single-serving, no grill required. The umami-forward pick for solo dining.</div>
+            </div>
+          </div>
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">2</div>
+            <div>
+              <div class="he-example-pick-name">Doenjang jjigae (fermented soybean stew)</div>
+              <div class="he-example-pick-why">A warming, funky counterpoint — tofu, zucchini, anchovy broth. Satisfies the savory craving and pairs with banchan without touching shellfish.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="he-example">
+        <div class="he-example-profile">
+          <span class="he-example-chip">🌿 vegetarian</span>
+          <span class="he-example-chip">🍫 rich & comforting</span>
+          <span class="he-example-chip">date night</span>
+          <span class="he-example-chip">no nuts</span>
+        </div>
+        <p class="he-example-restaurant">Italian trattoria</p>
+        <div class="he-example-picks">
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">1</div>
+            <div>
+              <div class="he-example-pick-name">Cacio e Pepe</div>
+              <div class="he-example-pick-why">Two ingredients, infinite satisfaction — Pecorino and black pepper deliver the richness you want without crossing into anything heavy or nut-adjacent.</div>
+            </div>
+          </div>
+          <div class="he-example-pick">
+            <div class="he-example-pick-num">2</div>
+            <div>
+              <div class="he-example-pick-name">Burrata with roasted tomatoes</div>
+              <div class="he-example-pick-why">Creamy, date-night-ready, and vegetarian all the way. The acidity of the tomatoes cuts through the richness — makes the pasta hit better.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </BaseLayout>
