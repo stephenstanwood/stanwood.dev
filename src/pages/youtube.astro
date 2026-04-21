@@ -1,24 +1,66 @@
 ---
-// src/pages/youtube.astro
 // Stanford queue + Around the internet. Both are launchpads — click to open
 // on YouTube (Stanford disabled embedding, so no in-page player).
 
 import fs from 'node:fs';
 import path from 'node:path';
 
+interface QueueVideo {
+  id: string;
+  title: string;
+  url?: string;
+  duration: number;
+  published_at: string;
+  lecture_num: number | null;
+}
+
+interface Series {
+  key: string;
+  display_name: string;
+  best_score: number;
+  video_count: number;
+  video_ids: string[];
+}
+
+interface BroaderVideo {
+  id: string;
+  title: string;
+  url: string;
+  duration: number;
+  published_at: string;
+  channel_title: string;
+  thumb?: string;
+  series_key?: string;
+  episode_number?: number;
+  exploration?: boolean;
+}
+
+interface YouTubeData {
+  queue: QueueVideo[];
+  series: Series[];
+  built_at: string | null;
+}
+
+interface BroaderData {
+  queue: BroaderVideo[];
+  pool: BroaderVideo[];
+  built_at: string | null;
+  channel_count: number;
+}
+
 const dataPath = path.join(process.cwd(), 'public', 'yt', 'videos.json');
-let data: any = { queue: [], series: [], built_at: null };
+let data: YouTubeData = { queue: [], series: [], built_at: null };
 if (fs.existsSync(dataPath)) {
   data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
 }
 
 const broaderPath = path.join(process.cwd(), 'public', 'yt', 'broader.json');
-let broader: any = { queue: [], pool: [], built_at: null, channel_count: 0 };
+let broader: BroaderData = { queue: [], pool: [], built_at: null, channel_count: 0 };
 if (fs.existsSync(broaderPath)) {
   broader = JSON.parse(fs.readFileSync(broaderPath, 'utf-8'));
 }
 
-const byRecency = (a: any, b: any) =>
+const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
 broader.queue = [...(broader.queue ?? [])].sort(byRecency);
 broader.pool = [...(broader.pool ?? [])].sort(byRecency);
@@ -53,12 +95,12 @@ const restSeries = (data.series ?? []).slice(1);
 // Sequential courses (lectures 1, 2, 3...) stay in original order.
 const REVERSE_ORDER_KEYS = new Set(['CS547', 'Robotics Seminar']);
 
-function seriesVideos(series: any) {
+function seriesVideos(series: Series): QueueVideo[] {
   const vids = series.video_ids
-    .map((id: string) => data.queue.find((v: any) => v.id === id))
-    .filter(Boolean);
+    .map((id) => data.queue.find((v) => v.id === id))
+    .filter((v): v is QueueVideo => v !== undefined);
   if (REVERSE_ORDER_KEYS.has(series.key)) {
-    return [...vids].sort((a: any, b: any) =>
+    return [...vids].sort((a, b) =>
       new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
     );
   }
@@ -378,7 +420,7 @@ function seriesVideos(series: any) {
             </span>
           </div>
           <ul class="videos">
-            {videos.map((v: any) => (
+            {videos.map((v) => (
               <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
                 <span class="vtitle">
                   {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
@@ -405,7 +447,7 @@ function seriesVideos(series: any) {
           recent uploads from curated CS / AI / HCI / future-tech channels
         </p>
         <div class="broader-grid" id="broader-grid">
-          {broader.queue.map((v: any) => (
+          {broader.queue.map((v) => (
             <a
               class="bcard"
               href={v.url}
@@ -440,7 +482,7 @@ function seriesVideos(series: any) {
     {restSeries.length > 0 && (
       <>
         <h2>more from the queue</h2>
-        {restSeries.map((s: any) => {
+        {restSeries.map((s) => {
           const videos = seriesVideos(s);
           if (videos.length === 0) return null;
           const showScore = s.best_score >= 3;
@@ -458,7 +500,7 @@ function seriesVideos(series: any) {
                 </span>
               </div>
               <ul class="videos">
-                {videos.map((v: any) => (
+                {videos.map((v) => (
                   <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
                     <span class="vtitle">
                       {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}

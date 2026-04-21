@@ -1,5 +1,4 @@
-import type { DesignDirection, WeirdnessMode } from "../../lib/redesignRolodex/types";
-import type { SiteAnalysis } from "../../lib/redesignRolodex/types";
+import type { DesignDirection, WeirdnessMode, SiteAnalysis } from "../../lib/redesignRolodex/types";
 import { buildCopyPrompt } from "../../lib/redesignRolodex/buildCopyPrompt";
 import CopyPromptButton from "./CopyPromptButton";
 

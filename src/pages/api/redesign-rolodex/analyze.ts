@@ -9,8 +9,7 @@ import { errJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpe
 import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
-import { VALID_MODES } from "../../../lib/redesignRolodex/types";
-import type { WeirdnessMode } from "../../../lib/redesignRolodex/types";
+import { VALID_MODES, type WeirdnessMode } from "../../../lib/redesignRolodex/types";
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
