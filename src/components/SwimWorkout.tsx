@@ -2,6 +2,51 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
 import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
 
+// ─── History helpers ────────────────────────────────────────────────────────────
+
+interface HistoryEntry {
+  name: string;
+  totalDistance: number;
+  estimatedMinutes: number;
+  unit: "meters" | "yards";
+  pace: string;
+  duration: number;
+  focus: WorkoutFocus;
+  seed: number;
+  timestamp: number;
+  equipment: EquipmentOptions;
+}
+
+const HISTORY_KEY = "laplab_history";
+const HISTORY_MAX = 5;
+
+function loadHistory(): HistoryEntry[] {
+  try {
+    if (typeof localStorage === "undefined") return [];
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToHistory(entry: HistoryEntry) {
+  try {
+    const existing = loadHistory().filter((e) => e.seed !== entry.seed);
+    const updated = [entry, ...existing].slice(0, HISTORY_MAX);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+  } catch {}
+}
+
+function formatRelativeDate(timestamp: number): string {
+  const d = new Date(timestamp);
+  const now = new Date();
+  const diffDays = Math.floor((now.getTime() - d.getTime()) / 86400000);
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+
 // ─── URL param helpers ──────────────────────────────────────────────────────────
 
 const VALID_FOCUSES: WorkoutFocus[] = ["any", "endurance", "speed", "technique"];
@@ -342,7 +387,12 @@ export default function SwimWorkout() {
   const [animating, setAnimating] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const workoutRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setHistory(loadHistory());
+  }, []);
 
   // Auto-generate from URL seed on first mount
   useEffect(() => {
@@ -366,17 +416,54 @@ export default function SwimWorkout() {
 
   const generate = useCallback((scroll = true) => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const workout = generateWorkout({ duration, pace, unit, seed, focus, equipment });
+    const w = generateWorkout({ duration, pace, unit, seed, focus, equipment });
     setAnimating(true);
-    setWorkout(workout);
+    setWorkout(w);
     setTimeout(() => setAnimating(false), 400);
+
+    const entry: HistoryEntry = {
+      name: w.name,
+      totalDistance: w.totalDistance,
+      estimatedMinutes: w.estimatedMinutes,
+      unit,
+      pace,
+      duration,
+      focus,
+      seed,
+      timestamp: Date.now(),
+      equipment,
+    };
+    saveToHistory(entry);
+    setHistory(loadHistory());
+
     if (scroll) {
-      // Scroll to workout after a beat
       setTimeout(() => {
         workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 100);
     }
   }, [duration, pace, unit, focus, equipment]);
+
+  const loadFromHistory = useCallback((entry: HistoryEntry) => {
+    setUnit(entry.unit);
+    setDuration(entry.duration);
+    setPace(entry.pace);
+    setFocus(entry.focus);
+    setEquipment(entry.equipment);
+    const w = generateWorkout({
+      duration: entry.duration,
+      pace: entry.pace,
+      unit: entry.unit,
+      seed: entry.seed,
+      focus: entry.focus,
+      equipment: entry.equipment,
+    });
+    setAnimating(true);
+    setWorkout(w);
+    setTimeout(() => setAnimating(false), 400);
+    setTimeout(() => {
+      workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  }, []);
 
   const handlePrint = () => {
     window.print();
@@ -528,6 +615,42 @@ export default function SwimWorkout() {
           </div>
           <p className="mt-1.5 text-[11px] text-stone-400">Uncheck gear you don't have — we'll skip those sets.</p>
         </div>
+
+        {/* Recent workouts */}
+        {history.length > 0 && (
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
+              Recent
+            </label>
+            <div className="space-y-1.5">
+              {history.map((entry, i) => {
+                const unitLabel = entry.unit === "meters" ? "m" : "y";
+                return (
+                  <button
+                    key={i}
+                    onClick={() => loadFromHistory(entry)}
+                    className="w-full flex items-center justify-between gap-3 rounded-xl bg-white/70 border border-stone-200 px-4 py-2.5 text-left hover:border-teal-300 hover:bg-white transition-all group"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-semibold text-stone-700 group-hover:text-teal-700 truncate">
+                        {entry.name}
+                      </div>
+                      <div className="text-[11px] text-stone-400 mt-0.5">
+                        {entry.totalDistance.toLocaleString()}{unitLabel} · ~{entry.estimatedMinutes} min · {entry.pace}/100{unitLabel}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[11px] text-stone-400">{formatRelativeDate(entry.timestamp)}</span>
+                      <svg className="w-3.5 h-3.5 text-stone-300 group-hover:text-teal-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Generate button */}
         <button
