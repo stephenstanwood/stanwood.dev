@@ -8,12 +8,28 @@
     "url": "https://techcrunch.com/2026/04/17/anthropic-launches-claude-design-a-new-product-for-creating-quick-visuals/"
   },
   {
+    "name": "Codex Desktop 2.0",
+    "org": "OpenAI",
+    "date": "2026-04-16",
+    "type": "tool",
+    "summary": "major update adds computer use (sees and controls your whole desktop), in-app browser, integrated image gen, 90+ new plugins (GitHub, CircleCI, SSH devboxes), and persistent memory across sessions",
+    "url": "https://venturebeat.com/technology/openai-drastically-updates-codex-desktop-app-to-use-all-other-apps-on-your-computer-generate-images-preview-webpages/"
+  },
+  {
     "name": "Claude Opus 4.7",
     "org": "Anthropic",
     "date": "2026-04-16",
     "type": "model",
     "summary": "Anthropic's best generally available model — 3x higher vision resolution (3.75MP), 1M token context, new 'xhigh' effort level, 64% on SWE-Bench Pro; same pricing as Opus 4.6",
     "url": "https://www.anthropic.com/news/claude-opus-4-7"
+  },
+  {
+    "name": "Fathom 3.0",
+    "org": "Fathom",
+    "date": "2026-04-15",
+    "type": "tool",
+    "summary": "bot-free meeting capture (no Zoom bot), account-wide AI search across your full meeting history, Claude/ChatGPT integrations via MCP — #1 Product of the Day on Product Hunt",
+    "url": "https://techcrunch.com/2026/04/15/fathom-adds-a-bot-less-meeting-mode-in-a-bid-to-take-on-granola/"
   },
   {
     "name": "Gemini 3.1 Flash TTS",
@@ -32,27 +48,19 @@
     "url": "https://huggingface.co/blog/copilot-chat"
   },
   {
+    "name": "Mistral Medium 3",
+    "org": "Mistral",
+    "date": "2026-04-09",
+    "type": "model",
+    "summary": "open-weights model hitting ~90% of Claude Sonnet quality at $0.40/1M input tokens — self-hostable on 4 GPUs or via API, great for cost-sensitive high-volume apps",
+    "url": "https://mistral.ai/news/mistral-medium-3"
+  },
+  {
     "name": "Gemini 3.1 Flash-Lite",
     "org": "Google",
     "date": "2026-04-09",
     "type": "model",
     "summary": "Google's cheapest capable model — $0.25/1M input tokens with a 1,500 req/day free tier; 2.5× faster than Flash at similar quality; solid for high-volume solo-builder apps",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
-  },
-  {
-    "name": "Claude Managed Agents + ant CLI",
-    "org": "Anthropic",
-    "date": "2026-04-08",
-    "type": "tool",
-    "summary": "public beta for building and deploying Claude agents — sandboxed execution, checkpointing, scoped permissions, SSE streaming; new ant CLI lets you ship agents from the terminal",
-    "url": "https://siliconangle.com/2026/04/08/anthropic-launches-claude-managed-agents-speed-ai-agent-development/"
-  },
-  {
-    "name": "Google AI Edge Eloquent",
-    "org": "Google",
-    "date": "2026-04-06",
-    "type": "tool",
-    "summary": "free offline-first voice dictation app for iOS powered by on-device Gemma — transcribes in real time, strips filler words, reformats to bullet points or formal prose; no subscription, no cloud required",
-    "url": "https://techcrunch.com/2026/04/07/google-quietly-releases-an-offline-first-ai-dictation-app-on-ios/"
   }
 ]
