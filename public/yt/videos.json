@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-20T11:55:11.723845+00:00",
+  "built_at": "2026-04-21T10:30:16.463622+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -57,7 +57,7 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 13,
+      "video_count": 14,
       "video_ids": [
         "99wIpauDEmY",
         "3iIPRBi2K2w",
@@ -71,7 +71,8 @@
         "o5bW3C5OD6U",
         "NMFyMlwmwP8",
         "popjDuA-whA",
-        "D7e7oUbtkFM"
+        "D7e7oUbtkFM",
+        "NUtaN10cVDc"
       ]
     },
     {
@@ -144,12 +145,13 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 4,
+      "video_count": 5,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
         "lVynu4bo1rY",
-        "cKSwj_qZ8Jg"
+        "cKSwj_qZ8Jg",
+        "izZba4UA7iY"
       ]
     },
     {
@@ -277,10 +279,11 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": -1,
-      "video_count": 2,
+      "video_count": 3,
       "video_ids": [
         "tr-CUpw--ck",
-        "_WaR2fjZpEQ"
+        "_WaR2fjZpEQ",
+        "agN3AlfGFrk"
       ]
     },
     {
@@ -1045,6 +1048,21 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 27, 2026\nThis seminar covers: \n\u2022 Mathematical evidence for Moravec\u2019s claim\n\u2022 Key innovations in modern robot learning\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nMax Simchowitz is an Assistant Professor at the Machine Learn"
     },
     {
+      "id": "NUtaN10cVDc",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Robot Learning from Human Experience",
+      "url": "https://www.youtube.com/watch?v=NUtaN10cVDc",
+      "duration": 4148.0,
+      "published_at": "2026-04-21T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis seminar covers: \n\u2022 How human-to-robot transfer can be understood as two coupled problems: extracting priors about physical intelligence from human experience, and grounding those priors into a robot\u2019s embodiment\n\u2022 Recent results showing emergent human-to-robot transfe"
+    },
+    {
       "id": "B42CuI0RO7Y",
       "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L3: Model and UI & Swift Type System",
       "url": "https://www.youtube.com/watch?v=B42CuI0RO7Y",
@@ -1563,6 +1581,22 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "izZba4UA7iY",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 5: GPUs, TPUs",
+      "url": "https://www.youtube.com/watch?v=izZba4UA7iY",
+      "duration": 4719.0,
+      "published_at": "2026-04-20T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 5,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
       "id": "qCBfc8sfAJo",
       "title": "AI & Cybersecurity: Dan Boneh Interviews Nicolas Carlini",
       "url": "https://www.youtube.com/watch?v=qCBfc8sfAJo",
@@ -2046,6 +2080,21 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:33 Motivation behind score matching\n00:14:30 Lanvegin sampling\n00:18:43 Score estimation\n00:19:50 Implicit score matching, sliced score matching\n"
+    },
+    {
+      "id": "agN3AlfGFrk",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 3 - Flow matching",
+      "url": "https://www.youtube.com/watch?v=agN3AlfGFrk",
+      "duration": 6454.0,
+      "published_at": "2026-04-20T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 3,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:00:55 Recap of last episodes\n00:06:58 Problem formulation\n00:10:53 Trajectory\n00:11:54 Flow\n00:13:59 Probability path\n00:15:05 Vector field\n00:18:42"
     },
     {
       "id": "TfAJZJTPBoY",
