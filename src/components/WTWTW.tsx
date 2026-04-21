@@ -14,17 +14,32 @@ interface DayInfo {
   yyyymmdd: string;
 }
 
+interface ESPNCompetitor {
+  team?: {
+    displayName?: string;
+    abbreviation?: string;
+  };
+  homeAway?: string;
+  score?: string;
+}
+
+interface ESPNGameStatus {
+  type?: {
+    name?: string;
+    shortDetail?: string;
+    description?: string;
+  };
+  displayClock?: string;
+  period?: number;
+}
+
 interface ESPNEvent {
   date: string;
   name?: string;
   competitions?: Array<{
-    competitors?: Array<{
-      team?: {
-        displayName?: string;
-        abbreviation?: string;
-      };
-      homeAway?: string;
-    }>;
+    competitors?: ESPNCompetitor[];
+    status?: ESPNGameStatus;
+    broadcasts?: Array<{ names?: string[] }>;
   }>;
 }
 
@@ -79,7 +94,6 @@ function loadPrefs(): WTWTWPrefs {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed.teams) && typeof parsed.timezone === "string") {
-        // Validate that all team keys still exist
         const valid = parsed.teams.filter(
           (k: string) => TEAM_REGISTRY[k] !== undefined
         );
@@ -130,8 +144,8 @@ function hitsWindow(isoStart: string, tz: string): boolean {
 
   const startMin = parseInt(hhStr, 10) * 60 + parseInt(mmStr, 10);
   const endMin = startMin + 180;
-  const windowStart = 17 * 60; // 5 PM
-  const windowEnd = 23 * 60 + 30; // 11:30 PM — covers NBA late games, West Coast starts
+  const windowStart = 17 * 60;
+  const windowEnd = 23 * 60 + 30;
 
   return startMin < windowEnd && endMin > windowStart;
 }
@@ -179,7 +193,6 @@ function pickEventsForDay(
         return abbr === team.abbreviation.toUpperCase();
       });
       if (matched && hitsWindow(event.date, tz)) {
-        // Use event date+name as a unique key to avoid duplicates when both teams are followed
         const eventId = `${event.date}|${event.name}`;
         if (!seenEventIds.has(eventId)) {
           seenEventIds.add(eventId);
@@ -197,6 +210,154 @@ function pickEventsForDay(
       new Date(a.event.date).getTime() - new Date(b.event.date).getTime()
   );
   return { top: candidates[0], others: candidates.slice(1) };
+}
+
+// ── Game status helpers ────────────────────────────────────────────────────
+
+type GameState = "live" | "final" | "scheduled";
+
+function getGameState(event: ESPNEvent): GameState {
+  const statusName = event.competitions?.[0]?.status?.type?.name || "";
+  if (statusName.includes("IN_PROGRESS")) return "live";
+  if (statusName.includes("FINAL") || statusName.includes("OVER") || statusName.includes("COMPLETE")) return "final";
+  return "scheduled";
+}
+
+function getScores(event: ESPNEvent): { away: string; home: string } | null {
+  const comps = event.competitions?.[0]?.competitors;
+  if (!comps || comps.length < 2) return null;
+  const home = comps.find((c) => c.homeAway === "home");
+  const away = comps.find((c) => c.homeAway === "away");
+  if (!home?.score || !away?.score) return null;
+  return { home: home.score, away: away.score };
+}
+
+function getStatusDetail(event: ESPNEvent): string {
+  return event.competitions?.[0]?.status?.type?.shortDetail || "";
+}
+
+function getBroadcasts(event: ESPNEvent): string[] {
+  const broadcasts = event.competitions?.[0]?.broadcasts || [];
+  const names: string[] = [];
+  for (const b of broadcasts) {
+    for (const n of b.names || []) {
+      if (!names.includes(n)) names.push(n);
+    }
+  }
+  return names.slice(0, 3);
+}
+
+// ── Game Status Badge ──────────────────────────────────────────────────────
+
+function GameStatusBadge({ event }: { event: ESPNEvent }) {
+  const state = getGameState(event);
+  const detail = getStatusDetail(event);
+
+  if (state === "live") {
+    return (
+      <span
+        className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-full"
+        style={{
+          background: "rgba(34,197,94,0.15)",
+          color: "#22c55e",
+          border: "1px solid rgba(34,197,94,0.3)",
+          fontFamily: "'JetBrains Mono', monospace",
+        }}
+      >
+        <span
+          style={{
+            display: "inline-block",
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: "#22c55e",
+            animation: "activePulse 2s ease-in-out infinite",
+          }}
+        />
+        {detail || "LIVE"}
+      </span>
+    );
+  }
+
+  if (state === "final") {
+    return (
+      <span
+        className="inline-flex items-center text-xs font-bold px-2.5 py-1 rounded-full"
+        style={{
+          background: "rgba(255,255,255,0.05)",
+          color: "rgba(255,255,255,0.35)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          fontFamily: "'JetBrains Mono', monospace",
+        }}
+      >
+        {detail || "FINAL"}
+      </span>
+    );
+  }
+
+  return null;
+}
+
+// ── Score Display ──────────────────────────────────────────────────────────
+
+function ScoreDisplay({ event, teamColor }: { event: ESPNEvent; teamColor: string }) {
+  const scores = getScores(event);
+  if (!scores) return null;
+
+  const comps = event.competitions?.[0]?.competitors || [];
+  const awayTeam = comps.find((c) => c.homeAway === "away");
+  const homeTeam = comps.find((c) => c.homeAway === "home");
+
+  const awayScore = parseInt(scores.away, 10);
+  const homeScore = parseInt(scores.home, 10);
+  const state = getGameState(event);
+
+  return (
+    <div
+      className="flex items-center gap-3 mt-2 rounded-lg px-3 py-2"
+      style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+    >
+      <div className="flex items-center gap-2 flex-1">
+        <span
+          className="text-xs uppercase tracking-wide"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)", minWidth: 28 }}
+        >
+          {awayTeam?.team?.abbreviation || "AWY"}
+        </span>
+        <span
+          className="text-lg font-bold"
+          style={{
+            fontFamily: "'Oswald', sans-serif",
+            color: state === "final" && awayScore < homeScore
+              ? "rgba(255,255,255,0.35)"
+              : "rgba(255,255,255,0.9)",
+          }}
+        >
+          {scores.away}
+        </span>
+      </div>
+      <span style={{ color: "rgba(255,255,255,0.15)", fontSize: "0.75rem" }}>—</span>
+      <div className="flex items-center gap-2 flex-1 justify-end">
+        <span
+          className="text-lg font-bold"
+          style={{
+            fontFamily: "'Oswald', sans-serif",
+            color: state === "final" && homeScore < awayScore
+              ? "rgba(255,255,255,0.35)"
+              : "rgba(255,255,255,0.9)",
+          }}
+        >
+          {scores.home}
+        </span>
+        <span
+          className="text-xs uppercase tracking-wide"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)", minWidth: 28, textAlign: "right" }}
+        >
+          {homeTeam?.team?.abbreviation || "HME"}
+        </span>
+      </div>
+    </div>
+  );
 }
 
 // ── Settings Panel ─────────────────────────────────────────────────────────
@@ -372,7 +533,6 @@ function SettingsPanel({
                     cursor: "grab",
                   }}
                 >
-                  {/* Drag handle */}
                   <span
                     className="text-xs shrink-0 select-none"
                     style={{ color: "rgba(255,255,255,0.2)" }}
@@ -447,7 +607,6 @@ function SettingsPanel({
           ))}
         </div>
 
-        {/* Team Grid */}
         <div
           className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-64 overflow-y-auto pr-1"
           style={{
@@ -504,17 +663,16 @@ export default function WTWTW() {
   const [settingsOpen, setSettingsOpen] = useState(() => loadPrefs().teams.length === 0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // Raw ESPN data cache — only refetched when teams change
   const [rawData, setRawData] = useState<
     Map<string, Array<{ leaguePath: string; event: ESPNEvent }>>
   >(new Map());
+  const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // Persist prefs to localStorage
   useEffect(() => {
     savePrefs(prefs);
   }, [prefs]);
 
-  // Resolve team objects from keys
   const teams = useMemo(
     () =>
       prefs.teams
@@ -523,66 +681,55 @@ export default function WTWTW() {
     [prefs.teams]
   );
 
-  // Days depend on timezone (for "today" boundary), but we fetch based
-  // on a stable set of dates computed from the current timezone.
   const days = useMemo(() => getUpcoming7Days(prefs.timezone), [prefs.timezone]);
 
-  // Fetch ESPN data when teams change — timezone changes don't re-fetch
   const teamKeys = prefs.teams.join(",");
-  useEffect(() => {
-    if (teams.length === 0) {
+
+  async function fetchData(currentTeams: TeamEntry[], currentDays: DayInfo[], isRefresh = false) {
+    if (currentTeams.length === 0) {
       setRawData(new Map());
       return;
     }
-
-    let alive = true;
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const leaguePaths = [...new Set(teams.map((t) => t.league))];
-        const result = new Map<
-          string,
-          Array<{ leaguePath: string; event: ESPNEvent }>
-        >();
-        for (const day of days) {
-          const jsons = await Promise.all(
-            leaguePaths.map((lp) =>
-              fetchScoreboard(lp, day.yyyymmdd)
-                .then((j) => ({ lp, j }))
-                .catch(
-                  () =>
-                    ({
-                      lp,
-                      j: null as { events?: ESPNEvent[] } | null,
-                    })
-                )
-            )
-          );
-          const dayEvents: Array<{
-            leaguePath: string;
-            event: ESPNEvent;
-          }> = [];
-          for (const { lp, j } of jsons) {
-            for (const ev of j?.events || [])
-              dayEvents.push({ leaguePath: lp, event: ev });
-          }
-          result.set(day.yyyymmdd, dayEvents);
+    isRefresh ? setRefreshing(true) : setLoading(true);
+    setError(null);
+    try {
+      const leaguePaths = [...new Set(currentTeams.map((t) => t.league))];
+      const result = new Map<string, Array<{ leaguePath: string; event: ESPNEvent }>>();
+      for (const day of currentDays) {
+        const jsons = await Promise.all(
+          leaguePaths.map((lp) =>
+            fetchScoreboard(lp, day.yyyymmdd)
+              .then((j) => ({ lp, j }))
+              .catch(() => ({ lp, j: null as { events?: ESPNEvent[] } | null }))
+          )
+        );
+        const dayEvents: Array<{ leaguePath: string; event: ESPNEvent }> = [];
+        for (const { lp, j } of jsons) {
+          for (const ev of j?.events || [])
+            dayEvents.push({ leaguePath: lp, event: ev });
         }
-        if (alive) setRawData(result);
-      } catch (err) {
-        if (alive) setError(err instanceof Error ? err.message : String(err));
-      } finally {
-        if (alive) setLoading(false);
+        result.set(day.yyyymmdd, dayEvents);
       }
-    })();
-    return () => {
-      alive = false;
+      setRawData(result);
+      setLastRefresh(new Date());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      isRefresh ? setRefreshing(false) : setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    let alive = true;
+    const run = async () => {
+      if (!alive) return;
+      await fetchData(teams, days);
     };
+    run();
+    return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamKeys]);
 
-  // Derive picks from cached data + current timezone (instant on tz change)
   const picks = useMemo<DayPick[]>(() => {
     if (teams.length === 0 || rawData.size === 0) return [];
     return days.map((day) => {
@@ -590,6 +737,8 @@ export default function WTWTW() {
       return { day, pick: top, others };
     });
   }, [rawData, teams, days, prefs.timezone]);
+
+  const isToday = (yyyymmdd: string) => days[0]?.yyyymmdd === yyyymmdd;
 
   return (
     <div className="mt-8">
@@ -615,34 +764,65 @@ export default function WTWTW() {
         </div>
       )}
 
-      {/* Gear toggle */}
-      <div className="flex justify-end mb-3">
-        <button
-          onClick={() => setSettingsOpen((o) => !o)}
-          className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-all"
-          style={{
-            background: settingsOpen
-              ? "rgba(99, 102, 241, 0.2)"
-              : "rgba(255,255,255,0.05)",
-            color: settingsOpen ? "#a5b4fc" : "rgba(255,255,255,0.4)",
-          }}
-          aria-label="Toggle settings"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      {/* Controls row */}
+      <div className="flex items-center justify-between mb-3 gap-2">
+        {lastRefresh && !loading && (
+          <button
+            onClick={() => fetchData(teams, days, true)}
+            disabled={refreshing}
+            className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all"
+            style={{
+              color: "rgba(255,255,255,0.3)",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.07)",
+            }}
+            title="Refresh scores"
           >
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
-          {settingsOpen ? "Close" : "Settings"}
-        </button>
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ opacity: refreshing ? 0.5 : 1, animation: refreshing ? "spin 1s linear infinite" : "none" }}
+            >
+              <path d="M23 4v6h-6" /><path d="M1 20v-6h6" />
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+            </svg>
+            {refreshing ? "Refreshing…" : `Updated ${formatRefreshTime(lastRefresh)}`}
+          </button>
+        )}
+        <div className="ml-auto">
+          <button
+            onClick={() => setSettingsOpen((o) => !o)}
+            className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full transition-all"
+            style={{
+              background: settingsOpen
+                ? "rgba(99, 102, 241, 0.2)"
+                : "rgba(255,255,255,0.05)",
+              color: settingsOpen ? "#a5b4fc" : "rgba(255,255,255,0.4)",
+            }}
+            aria-label="Toggle settings"
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+            {settingsOpen ? "Close" : "Settings"}
+          </button>
+        </div>
       </div>
 
       {/* Settings Panel */}
@@ -691,7 +871,7 @@ export default function WTWTW() {
                 fontSize: "0.875rem",
               }}
             >
-              Loading schedules...
+              Loading schedules…
             </div>
           )}
           {error && (
@@ -706,140 +886,222 @@ export default function WTWTW() {
               {error}
             </div>
           )}
-          {picks.map(({ day, pick, others }, idx) => (
-            <div
-              key={day.yyyymmdd}
-              className="rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px]"
-              style={{
-                background: pick ? "#111D32" : "#0f1a2e",
-                borderLeft: pick
-                  ? `4px solid ${pick.team.color}`
-                  : "4px solid #1a2744",
-                boxShadow: pick
-                  ? `0 4px 20px ${pick.team.color}10`
-                  : "none",
-                animation: `fadeSlideIn 0.4s ease both`,
-                animationDelay: `${idx * 80}ms`,
-              }}
-            >
+          {picks.map(({ day, pick, others }, idx) => {
+            const broadcasts = pick ? getBroadcasts(pick.event) : [];
+            const gameState = pick ? getGameState(pick.event) : "scheduled";
+            const today = isToday(day.yyyymmdd);
+
+            return (
               <div
-                className="text-sm font-bold uppercase tracking-widest"
+                key={day.yyyymmdd}
+                className="rounded-2xl p-5 transition-all duration-200 hover:translate-y-[-2px]"
                 style={{
-                  fontFamily: "'Oswald', sans-serif",
-                  color: pick
-                    ? "rgba(255,255,255,0.7)"
-                    : "rgba(255,255,255,0.25)",
-                  fontSize: "0.8rem",
-                  letterSpacing: "0.15em",
+                  background: pick ? "#111D32" : "#0f1a2e",
+                  borderLeft: pick
+                    ? `4px solid ${pick.team.color}`
+                    : "4px solid #1a2744",
+                  boxShadow: pick
+                    ? `0 4px 20px ${pick.team.color}10`
+                    : "none",
+                  animation: `fadeSlideIn 0.4s ease both`,
+                  animationDelay: `${idx * 80}ms`,
+                  outline: today && pick ? `1px solid ${pick.team.color}30` : "none",
                 }}
               >
-                {day.label}
-              </div>
-              {pick ? (
-                <>
-                  <div className="mt-3">
-                    <div
-                      className="text-xl font-bold text-white"
-                      style={{ fontFamily: "'Oswald', sans-serif" }}
-                    >
-                      {pick.event?.name || "Game"}
-                    </div>
-                    <div className="mt-2 flex items-center gap-3 flex-wrap">
+                {/* Day header row */}
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div
+                    className="text-sm font-bold uppercase tracking-widest"
+                    style={{
+                      fontFamily: "'Oswald', sans-serif",
+                      color: pick
+                        ? "rgba(255,255,255,0.7)"
+                        : "rgba(255,255,255,0.25)",
+                      fontSize: "0.8rem",
+                      letterSpacing: "0.15em",
+                    }}
+                  >
+                    {today ? "Today" : day.label}
+                    {today && (
                       <span
-                        className="text-sm font-medium"
-                        style={{
-                          fontFamily: "'JetBrains Mono', monospace",
-                          color: "rgba(255,255,255,0.5)",
-                        }}
+                        className="ml-2 text-xs font-normal normal-case tracking-normal"
+                        style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}
                       >
-                        {formatTime(pick.event?.date, prefs.timezone)}{" "}
-                        {tzAbbr(prefs.timezone)}
+                        {day.label}
                       </span>
-                      <span
-                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
-                        style={{
-                          backgroundColor: `${pick.team.color}20`,
-                          color: pick.team.textColor,
-                        }}
-                      >
-                        <span
-                          className="h-1.5 w-1.5 rounded-full"
-                          style={{ backgroundColor: pick.team.color }}
-                        />
-                        {pick.team.label}
-                      </span>
-                    </div>
+                    )}
                   </div>
-                  {others.length > 0 && (
-                    <div
-                      className="mt-3 pt-3 flex flex-col gap-1.5"
-                      style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
-                    >
-                      <span
-                        className="text-xs uppercase tracking-widest mb-0.5"
-                        style={{
-                          fontFamily: "'JetBrains Mono', monospace",
-                          color: "rgba(255,255,255,0.2)",
-                          letterSpacing: "0.12em",
-                        }}
+                  {pick && <GameStatusBadge event={pick.event} />}
+                </div>
+
+                {pick ? (
+                  <>
+                    <div className="mt-3">
+                      <div
+                        className="text-xl font-bold text-white"
+                        style={{ fontFamily: "'Oswald', sans-serif" }}
                       >
-                        Also tonight
-                      </span>
-                      {others.map((other) => (
-                        <div
-                          key={`${other.event.date}|${other.event.name}`}
-                          className="flex items-center gap-2 flex-wrap"
-                        >
+                        {pick.event?.name || "Game"}
+                      </div>
+
+                      {/* Time + team badge row */}
+                      <div className="mt-2 flex items-center gap-3 flex-wrap">
+                        {gameState === "scheduled" && (
                           <span
-                            className="text-sm"
-                            style={{
-                              fontFamily: "'Oswald', sans-serif",
-                              color: "rgba(255,255,255,0.5)",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {other.event?.name || "Game"}
-                          </span>
-                          <span
-                            className="text-xs"
+                            className="text-sm font-medium"
                             style={{
                               fontFamily: "'JetBrains Mono', monospace",
-                              color: "rgba(255,255,255,0.3)",
+                              color: "rgba(255,255,255,0.5)",
                             }}
                           >
-                            {formatTime(other.event?.date, prefs.timezone)}
+                            {formatTime(pick.event?.date, prefs.timezone)}{" "}
+                            {tzAbbr(prefs.timezone)}
                           </span>
+                        )}
+                        <span
+                          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
+                          style={{
+                            backgroundColor: `${pick.team.color}20`,
+                            color: pick.team.textColor,
+                          }}
+                        >
                           <span
-                            className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold"
+                            className="h-1.5 w-1.5 rounded-full"
+                            style={{ backgroundColor: pick.team.color }}
+                          />
+                          {pick.team.label}
+                        </span>
+                        {/* Broadcast badges */}
+                        {broadcasts.map((ch) => (
+                          <span
+                            key={ch}
+                            className="text-xs px-2 py-0.5 rounded font-medium"
                             style={{
-                              backgroundColor: `${other.team.color}15`,
-                              color: other.team.textColor,
-                              opacity: 0.75,
+                              background: "rgba(255,255,255,0.07)",
+                              color: "rgba(255,255,255,0.45)",
+                              fontFamily: "'JetBrains Mono', monospace",
+                              border: "1px solid rgba(255,255,255,0.1)",
                             }}
                           >
-                            <span
-                              className="h-1 w-1 rounded-full"
-                              style={{ backgroundColor: other.team.color }}
-                            />
-                            {other.team.label}
+                            {ch}
                           </span>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+
+                      {/* Score display for live/final games */}
+                      {(gameState === "live" || gameState === "final") && (
+                        <ScoreDisplay event={pick.event} teamColor={pick.team.color} />
+                      )}
                     </div>
-                  )}
-                </>
-              ) : (
-                <div
-                  className="mt-2 text-sm"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
-                >
-                  No evening games (5 PM&ndash;11:30 PM).
-                </div>
-              )}
-            </div>
-          ))}
+
+                    {/* Also tonight */}
+                    {others.length > 0 && (
+                      <div
+                        className="mt-3 pt-3 flex flex-col gap-1.5"
+                        style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                      >
+                        <span
+                          className="text-xs uppercase tracking-widest mb-0.5"
+                          style={{
+                            fontFamily: "'JetBrains Mono', monospace",
+                            color: "rgba(255,255,255,0.2)",
+                            letterSpacing: "0.12em",
+                          }}
+                        >
+                          Also tonight
+                        </span>
+                        {others.map((other) => {
+                          const otherState = getGameState(other.event);
+                          const otherScores = otherState !== "scheduled" ? getScores(other.event) : null;
+                          const otherDetail = getStatusDetail(other.event);
+                          return (
+                            <div
+                              key={`${other.event.date}|${other.event.name}`}
+                              className="flex items-center gap-2 flex-wrap"
+                            >
+                              <span
+                                className="text-sm"
+                                style={{
+                                  fontFamily: "'Oswald', sans-serif",
+                                  color: "rgba(255,255,255,0.5)",
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {other.event?.name || "Game"}
+                              </span>
+                              {otherScores ? (
+                                <span
+                                  className="text-xs font-bold"
+                                  style={{
+                                    fontFamily: "'JetBrains Mono', monospace",
+                                    color: otherState === "live" ? "#22c55e" : "rgba(255,255,255,0.3)",
+                                  }}
+                                >
+                                  {otherScores.away}–{otherScores.home}
+                                  {otherDetail ? ` · ${otherDetail}` : ""}
+                                </span>
+                              ) : (
+                                <span
+                                  className="text-xs"
+                                  style={{
+                                    fontFamily: "'JetBrains Mono', monospace",
+                                    color: "rgba(255,255,255,0.3)",
+                                  }}
+                                >
+                                  {formatTime(other.event?.date, prefs.timezone)}
+                                </span>
+                              )}
+                              <span
+                                className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold"
+                                style={{
+                                  backgroundColor: `${other.team.color}15`,
+                                  color: other.team.textColor,
+                                  opacity: 0.75,
+                                }}
+                              >
+                                <span
+                                  className="h-1 w-1 rounded-full"
+                                  style={{ backgroundColor: other.team.color }}
+                                />
+                                {other.team.label}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div
+                    className="mt-2 text-sm"
+                    style={{ color: "rgba(255,255,255,0.35)" }}
+                  >
+                    No evening games (5 PM&ndash;11:30 PM).
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fadeSlideIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
+}
+
+function formatRefreshTime(d: Date): string {
+  const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 }
