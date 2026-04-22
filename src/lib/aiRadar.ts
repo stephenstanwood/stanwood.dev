@@ -94,6 +94,20 @@ export function sortLaunches(launches: Launch[]): Launch[] {
   return launches.slice().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
+/** Human-readable date range for a sorted (newest-first) Launch array. */
+export function getDateRange(items: Launch[]): string {
+  if (items.length === 0) return "";
+  const dates = items.map((l) => parseLaunchDate(l.date));
+  const oldest = dates[dates.length - 1];
+  const newest = dates[0];
+  const fmt = (d: Date) =>
+    d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  if (oldest.toDateString() === newest.toDateString()) return fmt(newest);
+  if (oldest.getFullYear() !== newest.getFullYear())
+    return `${fmt(oldest)} ${oldest.getFullYear()} – ${fmt(newest)} ${newest.getFullYear()}`;
+  return `${fmt(oldest)} – ${fmt(newest)}`;
+}
+
 /** Group an array of launches by date, newest first. */
 export function groupByDate(items: Launch[]): { date: string; launches: Launch[] }[] {
   const groups: Record<string, Launch[]> = {};

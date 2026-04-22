@@ -6,25 +6,12 @@ import {
   TYPE_LABELS,
   relativeAge,
   formatLaunchDateFull,
-  parseLaunchDate,
+  getDateRange,
   groupByDate,
   sortLaunches,
 } from "../lib/aiRadar";
 
 const sorted = sortLaunches(launches as Launch[]);
-
-function getDateRange(items: Launch[]): string {
-  if (items.length === 0) return "";
-  const dates = items.map((l) => parseLaunchDate(l.date));
-  const oldest = dates[dates.length - 1];
-  const newest = dates[0];
-  const fmt = (d: Date) =>
-    d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  if (oldest.toDateString() === newest.toDateString()) return fmt(newest);
-  if (oldest.getFullYear() !== newest.getFullYear())
-    return `${fmt(oldest)} ${oldest.getFullYear()} – ${fmt(newest)} ${newest.getFullYear()}`;
-  return `${fmt(oldest)} – ${fmt(newest)}`;
-}
 
 export default function AIRadarPage() {
   const [activeType, setActiveType] = useState<string | null>(null);
