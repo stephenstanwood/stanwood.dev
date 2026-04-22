@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-21T10:30:16.463622+00:00",
+  "built_at": "2026-04-22T10:30:06.433200+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -105,9 +105,8 @@
       "is_single": false,
       "display_name": "CS230",
       "best_score": 10,
-      "video_count": 6,
+      "video_count": 5,
       "video_ids": [
-        "aWlRtOlacYM",
         "4E27qlfYw0A",
         "s6JVGzABKho",
         "k1njvbBmfsw",
@@ -126,21 +125,6 @@
       ]
     },
     {
-      "key": "CME295",
-      "is_single": false,
-      "display_name": "CME295",
-      "best_score": 9,
-      "video_count": 6,
-      "video_ids": [
-        "VlA_jt_3Qc4",
-        "PmW_TMQ3l0I",
-        "k5Fh-UgTuCo",
-        "h-7S6HNq0Vg",
-        "8fNP4N46RRo",
-        "Q86qzJ1K1Ss"
-      ]
-    },
-    {
       "key": "CS336",
       "is_single": false,
       "display_name": "CS336",
@@ -152,6 +136,20 @@
         "lVynu4bo1rY",
         "cKSwj_qZ8Jg",
         "izZba4UA7iY"
+      ]
+    },
+    {
+      "key": "CME295",
+      "is_single": false,
+      "display_name": "CME295",
+      "best_score": 9,
+      "video_count": 5,
+      "video_ids": [
+        "PmW_TMQ3l0I",
+        "k5Fh-UgTuCo",
+        "h-7S6HNq0Vg",
+        "8fNP4N46RRo",
+        "Q86qzJ1K1Ss"
       ]
     },
     {
@@ -1308,22 +1306,6 @@
       "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 13th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Using SwiftData to make an app's data persistent. Shows how to convert a Model from structs to @Model classes. Explains the "
     },
     {
-      "id": "aWlRtOlacYM",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 4: Adversarial Robustness and Generative Models",
-      "url": "https://www.youtube.com/watch?v=aWlRtOlacYM",
-      "duration": 6437.0,
-      "published_at": "2025-10-21T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 4,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nOctober 14, 2025\nThis lecture covers adversarial robustness and generative models.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nTo follow along with the course schedule and syllabus, visit: https://cs230.s"
-    },
-    {
       "id": "4E27qlfYw0A",
       "title": "Stanford CS230 | Autumn 2025 | Lecture 5: Deep Reinforcement Learning",
       "url": "https://www.youtube.com/watch?v=4E27qlfYw0A",
@@ -1420,20 +1402,84 @@
       "description": "View the details of our Generative AI: Technology, Business, and Society Program https://online.stanford.edu/programs/generative-ai-technology-business-and-society-program\n\nTune into this engaging discussion with Professor James Landay, Co-Director of the Stanford Institute for Human-Centered Artificial Intelligence (HAI), and Vanessa Parli, Managing Director of Programs and External Engagement fo"
     },
     {
-      "id": "VlA_jt_3Qc4",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 4 - LLM Training",
-      "url": "https://www.youtube.com/watch?v=VlA_jt_3Qc4",
-      "duration": 6447.0,
-      "published_at": "2025-10-21T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 4,
-      "score": 4,
+      "id": "JuoVZkPBiKk",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 1: Overview, Tokenization",
+      "url": "https://www.youtube.com/watch?v=JuoVZkPBiKk",
+      "duration": 4762.0,
+      "published_at": "2026-04-14T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 1,
+      "score": 9,
       "categories": [
         "applied_ai",
-        "series:CME295"
+        "series:CS336"
       ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 17, 2025\nThis lecture covers: \n\u2022 Pretraining\n\u2022 Quantization\n\u2022 Hardware optimization\n\u2022 Supervised finetuning (SFT)\n\u2022 Parameter-efficient finetuning (LoRA)\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Intro"
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "kuYAsz7zspQ",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 2: PyTorch (einops)",
+      "url": "https://www.youtube.com/watch?v=kuYAsz7zspQ",
+      "duration": 4645.0,
+      "published_at": "2026-04-14T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 2,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
+    },
+    {
+      "id": "lVynu4bo1rY",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 3: Architectures",
+      "url": "https://www.youtube.com/watch?v=lVynu4bo1rY",
+      "duration": 5354.0,
+      "published_at": "2026-04-15T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 3,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "cKSwj_qZ8Jg",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 4: Attention Alternatives",
+      "url": "https://www.youtube.com/watch?v=cKSwj_qZ8Jg",
+      "duration": 5181.0,
+      "published_at": "2026-04-15T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 4,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "izZba4UA7iY",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 5: GPUs, TPUs",
+      "url": "https://www.youtube.com/watch?v=izZba4UA7iY",
+      "duration": 4719.0,
+      "published_at": "2026-04-20T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 5,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
       "id": "PmW_TMQ3l0I",
@@ -1515,86 +1561,6 @@
         "series:CME295"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
-    },
-    {
-      "id": "JuoVZkPBiKk",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 1: Overview, Tokenization",
-      "url": "https://www.youtube.com/watch?v=JuoVZkPBiKk",
-      "duration": 4762.0,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 1,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
-    },
-    {
-      "id": "kuYAsz7zspQ",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 2: PyTorch (einops)",
-      "url": "https://www.youtube.com/watch?v=kuYAsz7zspQ",
-      "duration": 4645.0,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 2,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
-    },
-    {
-      "id": "lVynu4bo1rY",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 3: Architectures",
-      "url": "https://www.youtube.com/watch?v=lVynu4bo1rY",
-      "duration": 5354.0,
-      "published_at": "2026-04-15T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 3,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
-    },
-    {
-      "id": "cKSwj_qZ8Jg",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 4: Attention Alternatives",
-      "url": "https://www.youtube.com/watch?v=cKSwj_qZ8Jg",
-      "duration": 5181.0,
-      "published_at": "2026-04-15T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 4,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
-    },
-    {
-      "id": "izZba4UA7iY",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 5: GPUs, TPUs",
-      "url": "https://www.youtube.com/watch?v=izZba4UA7iY",
-      "duration": 4719.0,
-      "published_at": "2026-04-20T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 5,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
       "id": "qCBfc8sfAJo",
