@@ -143,20 +143,34 @@ interface Seagull {
   frame: number;  // animation counter
 }
 
+function readUrlParams(): { theme: string; speed: "calm" | "normal" | "surge" } {
+  if (typeof window === "undefined") return { theme: "tropical", speed: "normal" };
+  const p = new URLSearchParams(window.location.search);
+  const theme = THEME_KEYS.includes(p.get("theme") as keyof typeof THEMES)
+    ? (p.get("theme") as string)
+    : "tropical";
+  const speedRaw = p.get("speed");
+  const speed: "calm" | "normal" | "surge" =
+    speedRaw === "calm" || speedRaw === "surge" ? speedRaw : "normal";
+  return { theme, speed };
+}
+
 export default function PixelTide() {
+  const initParams = readUrlParams();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const castlesRef = useRef<Castle[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const seagullsRef = useRef<Seagull[]>([]);
   const frameRef = useRef(0);
   const reducedMotion = useRef(false);
-  const themeRef = useRef<BeachTheme>(THEMES.tropical);
+  const themeRef = useRef<BeachTheme>(THEMES[initParams.theme] ?? THEMES.tropical);
   const tideSpeedRef = useRef(1);
-  const [activeTheme, setActiveTheme] = useState<string>("tropical");
-  const [tideSpeed, setTideSpeed] = useState<"calm" | "normal" | "surge">("normal");
+  const [activeTheme, setActiveTheme] = useState<string>(initParams.theme);
+  const [tideSpeed, setTideSpeed] = useState<"calm" | "normal" | "surge">(initParams.speed);
   const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   const statsRef = useRef({ built: 0, lost: 0 });
   const [tideRising, setTideRising] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Keep themeRef in sync & update page bg (restore on unmount)
   useEffect(() => {
@@ -694,13 +708,27 @@ export default function PixelTide() {
       {/* Hint + reset */}
       <div className="flex items-center gap-4">
         <p className="text-white/40 text-sm tracking-wide">
-          click anywhere to build a sandcastle
+          tap or click anywhere to build a sandcastle
         </p>
         <button
           onClick={handleReset}
           className="text-white/25 text-xs hover:text-white/50 transition-colors"
         >
           reset
+        </button>
+        <button
+          onClick={() => {
+            const url = new URL(window.location.href);
+            url.searchParams.set("theme", activeTheme);
+            url.searchParams.set("speed", tideSpeed);
+            navigator.clipboard.writeText(url.toString()).then(() => {
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            });
+          }}
+          className="text-white/25 text-xs hover:text-white/50 transition-colors"
+        >
+          {copied ? "copied!" : "share"}
         </button>
       </div>
     </div>
