@@ -30,6 +30,7 @@ const events: TimelineEvent[] = [
   { date: "Oct 2025", title: "Waymo crosses 300K rides/week", detail: "Ride volume hits a new high. The company announces Miami as its next market. Total cumulative rides top 20 million.", type: "milestone" },
   { date: "Feb 2026", title: "Waymo launches 6th-generation hardware", detail: "The newest Waymo Driver platform brings improved sensor range and full hardware redundancy. Retrofits begin across the existing fleet.", type: "milestone" },
   { date: "Mar 2026", title: "500K rides per week", detail: "Waymo reaches half a million rides per week across San Francisco, Los Angeles, Phoenix, Austin, Atlanta, and Miami. Expansion to Dallas and Nashville is next.", type: "milestone" },
+  { date: "Apr 2026", title: "Tesla launches paid unsupervised robotaxi rides", detail: "Tesla begins offering paid robotaxi service in Austin with no safety driver — the company's first true Level 4 deployment after years of driver-assist (L2+). The geo-fenced pilot uses a fleet of Cybercabs and marks Tesla's entry into fully driverless commercial rides.", type: "launch" },
 ];
 
 const typeConfig = {

@@ -47,6 +47,7 @@ export const cityRideData: CityRideInfo[] = [
     state: "TX",
     options: [
       { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched late 2024" },
+      { service: "Tesla Cybercab", availability: "invite-only", howToBook: "Request access via the Tesla app", note: "Paid unsupervised robotaxi pilot launched April 2026" },
     ],
   },
   {
@@ -151,7 +152,7 @@ export const LEGISLATION_LABELS: Record<LegislationStatus, string> = {
 
 export const heroStats = [
   { label: "Self-Driving Cars", value: "4,500+", icon: "🚗" },
-  { label: "Rides / Week", value: "500K", icon: "🚕" },
+  { label: "Rides / Week", value: "550K+", icon: "🚕" },
   { label: "Miles Driven", value: "200M+", icon: "🛣️" },
   { label: "Safer Than Human Drivers", value: "10x", icon: "🛡️" },
 ];
@@ -185,7 +186,8 @@ export const growthData: GrowthPoint[] = [
   { date: "Jun '25", ridesK: 210 },
   { date: "Sep '25", ridesK: 320 },
   { date: "Dec '25", ridesK: 400 },
-  { date: "Mar '26", ridesK: 500 },   // today
+  { date: "Mar '26", ridesK: 500 },
+  { date: "Apr '26", ridesK: 550 },   // current
 ];
 
 // ── Companies ──────────────────────────────────────────────────────
@@ -224,12 +226,12 @@ export const companies: Company[] = [
     note: "Shut down by GM after incidents in San Francisco",
   },
   {
-    name: "Tesla FSD",
-    type: "Driver-assist (still needs a human at the wheel)",
+    name: "Tesla Cybercab",
+    type: "Self-driving rides (limited pilot) + driver-assist fleet",
     vehicles: 2900000,
-    cities: ["Austin (robotaxi pilot)"],
-    status: "l2-only",
-    note: "Not truly driverless \u2014 a human must be ready to take over",
+    cities: ["Austin (Cybercab pilot)"],
+    status: "active",
+    note: "Paid unsupervised Cybercab rides launched in Austin, Apr 2026 — broader fleet still requires a human at the wheel",
   },
 ];
 
