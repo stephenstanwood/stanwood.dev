@@ -344,6 +344,58 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         text-align: center;
       }
 
+      /* ── Stats bar ── */
+      .rp-stats {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--rp-muted);
+        letter-spacing: 0.04em;
+        margin-top: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0 4px;
+        align-items: center;
+        line-height: 1.8;
+      }
+      .rp-stats-sep {
+        color: #ddd;
+        margin: 0 1px;
+      }
+
+      /* ── Share button ── */
+      .rp-share-btn {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: none;
+        border: 1.5px solid var(--rp-border);
+        color: var(--rp-muted);
+        padding: 2px 8px;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background 0.1s, color 0.1s, border-color 0.1s;
+        white-space: nowrap;
+      }
+      .rp-share-btn:hover {
+        background: var(--rp-subtle);
+        color: var(--rp-ink);
+        border-color: #bbb;
+      }
+
+      /* ── Count badge on chip ── */
+      .rp-chip-count {
+        display: inline-block;
+        font-size: 8px;
+        font-weight: 400;
+        letter-spacing: 0;
+        opacity: 0.6;
+        margin-left: 4px;
+      }
+      .rp-chip--active .rp-chip-count {
+        opacity: 0.75;
+      }
+
       /* ── Footer ── */
       .rp-footer {
         margin-top: 48px;

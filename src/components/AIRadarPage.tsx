@@ -6,17 +6,32 @@ import {
   TYPE_LABELS,
   relativeAge,
   formatLaunchDateFull,
+  parseLaunchDate,
   groupByDate,
   sortLaunches,
 } from "../lib/aiRadar";
 
 const sorted = sortLaunches(launches as Launch[]);
 
+function getDateRange(items: Launch[]): string {
+  if (items.length === 0) return "";
+  const dates = items.map((l) => parseLaunchDate(l.date));
+  const oldest = dates[dates.length - 1];
+  const newest = dates[0];
+  const fmt = (d: Date) =>
+    d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  if (oldest.toDateString() === newest.toDateString()) return fmt(newest);
+  if (oldest.getFullYear() !== newest.getFullYear())
+    return `${fmt(oldest)} ${oldest.getFullYear()} – ${fmt(newest)} ${newest.getFullYear()}`;
+  return `${fmt(oldest)} – ${fmt(newest)}`;
+}
+
 export default function AIRadarPage() {
   const [activeType, setActiveType] = useState<string | null>(null);
   const [activeOrg, setActiveOrg] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [urlRead, setUrlRead] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Read URL params on mount
   useEffect(() => {
@@ -57,6 +72,25 @@ export default function AIRadarPage() {
   const latest = filtered[0];
   const grouped = groupByDate(filtered);
 
+  // Count badges: type counts from full dataset; org counts filtered by active type
+  const typeCountBase = sorted;
+  const orgCountBase = activeType ? sorted.filter((l) => l.type === activeType) : sorted;
+  const typeCounts: Record<string, number> = {};
+  for (const l of typeCountBase) typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
+  const orgCounts: Record<string, number> = {};
+  for (const l of orgCountBase) orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
+
+  // Stats bar
+  const uniqueOrgs = new Set(sorted.map((l) => l.org)).size;
+  const dateRange = getDateRange(sorted);
+
+  function handleShare() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    });
+  }
+
   function toggleType(t: string) {
     setActiveOrg(null);
     setQuery("");
@@ -79,14 +113,36 @@ export default function AIRadarPage() {
             <span className="rp-dot" />
             AI RADAR
           </h1>
-          <span className="rp-count">
-            {filtered.length < sorted.length
-              ? `${filtered.length} of ${sorted.length}`
-              : sorted.length}{" "}
-            tracked
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span className="rp-count">
+              {filtered.length < sorted.length
+                ? `${filtered.length} of ${sorted.length}`
+                : sorted.length}{" "}
+              tracked
+            </span>
+            <button
+              className="rp-share-btn"
+              onClick={handleShare}
+              title="Copy link to this view"
+            >
+              {copied ? "copied!" : "share →"}
+            </button>
+          </div>
         </div>
         <p className="rp-tagline">What just shipped in AI that's actually worth knowing about.</p>
+        <div className="rp-stats">
+          <span>{sorted.length} launches</span>
+          <span className="rp-stats-sep">·</span>
+          <span>{uniqueOrgs} orgs</span>
+          <span className="rp-stats-sep">·</span>
+          <span>{dateRange}</span>
+          {availableTypes.map((t) => (
+            <span key={t}>
+              <span className="rp-stats-sep">·</span>
+              <span style={{ color: "#555" }}>{typeCounts[t] || 0} {TYPE_LABELS[t].toLowerCase()}{typeCounts[t] !== 1 ? "s" : ""}</span>
+            </span>
+          ))}
+        </div>
       </header>
 
       {/* Filter chips */}
@@ -107,6 +163,7 @@ export default function AIRadarPage() {
               onClick={() => toggleType(t)}
             >
               {TYPE_LABELS[t]}
+              <span className="rp-chip-count">{typeCounts[t] || 0}</span>
             </button>
           ))}
         </div>
@@ -119,6 +176,9 @@ export default function AIRadarPage() {
               onClick={() => toggleOrg(o)}
             >
               {o}
+              {(orgCounts[o] || 0) > 0 && (
+                <span className="rp-chip-count">{orgCounts[o]}</span>
+              )}
             </button>
           ))}
         </div>
