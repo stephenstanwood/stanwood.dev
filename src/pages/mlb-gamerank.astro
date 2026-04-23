@@ -1,5 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const mlbTeams: Array<[string, string]> = [
+  ["ARI", "Arizona Diamondbacks"], ["ATL", "Atlanta Braves"], ["BAL", "Baltimore Orioles"],
+  ["BOS", "Boston Red Sox"], ["CHC", "Chicago Cubs"], ["CHW", "Chicago White Sox"],
+  ["CIN", "Cincinnati Reds"], ["CLE", "Cleveland Guardians"], ["COL", "Colorado Rockies"],
+  ["DET", "Detroit Tigers"], ["HOU", "Houston Astros"], ["KC", "Kansas City Royals"],
+  ["LAA", "Los Angeles Angels"], ["LAD", "Los Angeles Dodgers"], ["MIA", "Miami Marlins"],
+  ["MIL", "Milwaukee Brewers"], ["MIN", "Minnesota Twins"], ["NYM", "New York Mets"],
+  ["NYY", "New York Yankees"], ["OAK", "Oakland Athletics"], ["PHI", "Philadelphia Phillies"],
+  ["PIT", "Pittsburgh Pirates"], ["SD", "San Diego Padres"], ["SEA", "Seattle Mariners"],
+  ["SF", "San Francisco Giants"], ["STL", "St. Louis Cardinals"], ["TB", "Tampa Bay Rays"],
+  ["TEX", "Texas Rangers"], ["TOR", "Toronto Blue Jays"], ["WSH", "Washington Nationals"],
+];
 ---
 
 <BaseLayout
@@ -295,36 +308,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <section class="mt-8" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
         <p class="font-score" style="font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(251,191,36,0.4); margin-bottom: 10px;">Your Teams</p>
         <div id="mlb-chips" style="display:flex;flex-wrap:wrap;gap:5px;">
-          <button class="mlb-chip" data-abbr="ARI">ARI</button>
-          <button class="mlb-chip" data-abbr="ATL">ATL</button>
-          <button class="mlb-chip" data-abbr="BAL">BAL</button>
-          <button class="mlb-chip" data-abbr="BOS">BOS</button>
-          <button class="mlb-chip" data-abbr="CHC">CHC</button>
-          <button class="mlb-chip" data-abbr="CHW">CHW</button>
-          <button class="mlb-chip" data-abbr="CIN">CIN</button>
-          <button class="mlb-chip" data-abbr="CLE">CLE</button>
-          <button class="mlb-chip" data-abbr="COL">COL</button>
-          <button class="mlb-chip" data-abbr="DET">DET</button>
-          <button class="mlb-chip" data-abbr="HOU">HOU</button>
-          <button class="mlb-chip" data-abbr="KC">KC</button>
-          <button class="mlb-chip" data-abbr="LAA">LAA</button>
-          <button class="mlb-chip" data-abbr="LAD">LAD</button>
-          <button class="mlb-chip" data-abbr="MIA">MIA</button>
-          <button class="mlb-chip" data-abbr="MIL">MIL</button>
-          <button class="mlb-chip" data-abbr="MIN">MIN</button>
-          <button class="mlb-chip" data-abbr="NYM">NYM</button>
-          <button class="mlb-chip" data-abbr="NYY">NYY</button>
-          <button class="mlb-chip" data-abbr="OAK">OAK</button>
-          <button class="mlb-chip" data-abbr="PHI">PHI</button>
-          <button class="mlb-chip" data-abbr="PIT">PIT</button>
-          <button class="mlb-chip" data-abbr="SD">SD</button>
-          <button class="mlb-chip" data-abbr="SEA">SEA</button>
-          <button class="mlb-chip" data-abbr="SF">SF</button>
-          <button class="mlb-chip" data-abbr="STL">STL</button>
-          <button class="mlb-chip" data-abbr="TB">TB</button>
-          <button class="mlb-chip" data-abbr="TEX">TEX</button>
-          <button class="mlb-chip" data-abbr="TOR">TOR</button>
-          <button class="mlb-chip" data-abbr="WSH">WSH</button>
+          {mlbTeams.map(([abbr, name]) => (
+            <button class="mlb-chip" data-abbr={abbr} aria-label={`Toggle favorite: ${name}`}>{abbr}</button>
+          ))}
         </div>
         <p style="font-size:10px;color:rgba(255,255,255,0.18);margin-top:8px;line-height:1.5;">Select teams to highlight their games in the ranking below.</p>
       </section>

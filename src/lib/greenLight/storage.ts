@@ -1,14 +1,8 @@
 import type { StoredProfile, DietaryConstraints, QuizAnswer, TasteProfile } from "./types";
+import { safeSet, safeGet, safeRemove, safeGetString, safeSetString } from "../localStorage";
 
 const LS_KEY = "green-light:v1";
 const MAX_RECENT = 5;
-
-// CLEANUP-FLAG: safeSet() here is functionally identical to the inline save() in showSwipe/storage.ts —
-// both are try-catch wrappers around localStorage.setItem(key, JSON.stringify(value)).
-// Worth extracting a shared localStorage utility if a third module needs the same pattern.
-function safeSet(key: string, value: unknown): void {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
-}
 
 export const defaultConstraints: DietaryConstraints = {
   dietary: [],
@@ -17,15 +11,9 @@ export const defaultConstraints: DietaryConstraints = {
 };
 
 export function loadProfile(): StoredProfile | null {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw) as StoredProfile;
-    if (data.version !== 1) return null;
-    return data;
-  } catch {
-    return null;
-  }
+  const data = safeGet<StoredProfile>(LS_KEY);
+  if (!data || data.version !== 1) return null;
+  return data;
 }
 
 export function saveProfile(
@@ -73,15 +61,15 @@ export function updateTasteProfile(profile: TasteProfile): void {
 }
 
 export function clearProfile(): void {
-  try { localStorage.removeItem(LS_KEY); } catch {}
+  safeRemove(LS_KEY);
 }
 
 const CITY_KEY = "green-light:city";
 
 export function loadCity(): string {
-  try { return localStorage.getItem(CITY_KEY) ?? ""; } catch { return ""; }
+  return safeGetString(CITY_KEY);
 }
 
 export function saveCity(city: string): void {
-  try { localStorage.setItem(CITY_KEY, city); } catch {}
+  safeSetString(CITY_KEY, city);
 }

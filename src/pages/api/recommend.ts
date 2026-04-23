@@ -1,6 +1,7 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
+import { z } from "zod";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
@@ -13,6 +14,23 @@ import type {
   TasteProfile,
   DietaryConstraints,
 } from "../../lib/greenLight/types";
+
+const OptionSchema = z.object({
+  order: z.string(),
+  quickMods: z.array(z.string()).default([]),
+  whyItWorks: z.array(z.string()).default([]),
+  signals: z.record(z.string(), z.number()).default({}),
+  photoQuery: z.string().optional(),
+  photoUrl: z.string().optional(),
+});
+
+const RecommendationSchema = z.object({
+  optionA: OptionSchema,
+  optionB: OptionSchema,
+  restaurantMatched: z.boolean(),
+});
+
+type Recommendation = z.infer<typeof RecommendationSchema>;
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,
@@ -146,10 +164,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (!text) return errJson("Could not generate a recommendation", 500);
 
     const cleaned = stripFences(text);
-    let recommendation;
+    let recommendation: Recommendation;
     try {
-      recommendation = JSON.parse(cleaned);
-    } catch {
+      const parsed = JSON.parse(cleaned);
+      recommendation = RecommendationSchema.parse(parsed);
+    } catch (err) {
+      console.error("recommend schema error:", err);
       return errJson("Failed to parse AI response", 502);
     }
 

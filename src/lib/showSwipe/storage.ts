@@ -1,4 +1,5 @@
 import type { ShowSwipeStorage, SwipedItem, MediaType, Era } from "./types";
+import { safeGet, safeSet } from "../localStorage";
 
 const LS_KEY = "show-swipe:v1";
 const MAX_HISTORY = 200;
@@ -18,20 +19,14 @@ function getDefault(): ShowSwipeStorage {
 }
 
 export function loadStorage(): ShowSwipeStorage | null {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return null;
-    const data = JSON.parse(raw) as ShowSwipeStorage;
-    if (data.version !== 1) return null;
-    return data;
-  } catch {
-    return null;
-  }
+  const data = safeGet<ShowSwipeStorage>(LS_KEY);
+  if (!data || data.version !== 1) return null;
+  return data;
 }
 
 function save(data: ShowSwipeStorage): void {
   data.lastUpdated = new Date().toISOString();
-  try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch {}
+  safeSet(LS_KEY, data);
 }
 
 export function recordSwipe(
