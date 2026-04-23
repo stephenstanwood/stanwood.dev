@@ -9,7 +9,7 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
   slug="radar"
   favicon="/favicon-radar.svg"
   themeColor="#fffef5"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&family=Cabin:wght@400;700&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
   schemaCategory="ReferenceApplication"
 >
   <Fragment slot="head">
@@ -19,7 +19,7 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         --rp-ink: #111;
         --rp-accent: #ff5c1a;
         --rp-border: #e8e4d9;
-        --rp-muted: #999;
+        --rp-muted: #666;
         --rp-subtle: #f8f6f0;
       }
 
@@ -203,7 +203,7 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
       .rp-day-name {
         font-family: 'Space Mono', monospace;
         font-size: 8px;
-        color: #ccc;
+        color: var(--rp-muted);
         letter-spacing: 0.08em;
         text-transform: uppercase;
         margin-top: 4px;
@@ -283,7 +283,7 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         transition: border-color 0.15s;
       }
       .rp-search::placeholder {
-        color: #ccc;
+        color: var(--rp-muted);
         letter-spacing: 0.04em;
       }
       .rp-search:focus {
@@ -407,7 +407,7 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         font-size: 9px;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: #ccc;
+        color: var(--rp-muted);
       }
 
       /* ── Responsive ── */

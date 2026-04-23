@@ -411,7 +411,8 @@ function seriesVideos(series: Series): QueueVideo[] {
   <div id="yt-gate">
     <h2>🐱</h2>
     <form id="yt-gate-form">
-      <input id="yt-gate-input" type="password" autocomplete="off" autofocus />
+      <label for="yt-gate-input" class="sr-only">Password</label>
+      <input id="yt-gate-input" type="password" autocomplete="off" autofocus aria-label="Password" />
     </form>
   </div>
   <div class="wrap">

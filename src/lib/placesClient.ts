@@ -112,7 +112,7 @@ export async function searchNearbyPlaces(
     }
 
     const data = await res.json();
-    const places = (data.places || []) as GooglePlace[];
+    const places: GooglePlace[] = Array.isArray(data?.places) ? data.places : [];
 
     const results: PlaceResult[] = places
       .filter((p) => !p.businessStatus || p.businessStatus === "OPERATIONAL")

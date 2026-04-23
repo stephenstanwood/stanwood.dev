@@ -14,15 +14,17 @@
     "@astrojs/react": "^5.0.0",
     "@astrojs/sitemap": "^3.7.1",
     "@astrojs/vercel": "^10.0.0",
+    "@fontsource-variable/cabin": "^5.2.8",
+    "@fontsource/space-mono": "^5.2.9",
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/analytics": "^2.0.1",
     "@vercel/og": "^0.10.0",
     "astro": "^6.0.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-is": "^19.2.4",
     "recharts": "^3.8.1",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.7",
