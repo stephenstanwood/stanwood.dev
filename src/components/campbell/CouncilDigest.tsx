@@ -98,7 +98,7 @@ export default function CouncilDigest() {
           View full agenda →
         </a>
         <span className="cb-digest-gen">
-          AI-generated summary &middot; {new Date(digest.generatedAt).toLocaleDateString()}
+          AI-generated summary &middot; {new Date(digest.generatedAt).toLocaleDateString("en-US")}
         </span>
       </div>
     </div>
