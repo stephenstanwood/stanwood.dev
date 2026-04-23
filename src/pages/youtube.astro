@@ -269,6 +269,30 @@ function seriesVideos(series: Series): QueueVideo[] {
       background: var(--paper);
       border: var(--border);
     }
+    .queue-stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: .55rem .8rem;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .queue-stats[hidden] { display: none; }
+    .progress-chip {
+      display: inline-block;
+      background: #e8f4fd;
+      border: 2px solid var(--ink);
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: .5rem;
+      opacity: 0;
+    }
+    .progress-chip:not(:empty) { opacity: 1; }
+    .progress-chip.done { background: var(--lime); }
 
     /* Around the internet */
     .broader-intro {
@@ -398,6 +422,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       · last 6 months · built {builtAt} · click any row to open on youtube
     </p>
 
+    <div id="queue-stats" class="queue-stats" hidden></div>
+
     {data.queue.length === 0 && (
       <div class="empty">
         <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
@@ -414,6 +440,7 @@ function seriesVideos(series: Series): QueueVideo[] {
               <span class={`score-chip ${topSeries.best_score >= 3 ? '' : 'low'}`}>
                 score {topSeries.best_score}
               </span>
+              <span class="progress-chip" data-progress-series={topSeries.key}></span>
             </div>
             <span class="series-meta">
               {topSeries.video_count} {topSeries.video_count === 1 ? 'video' : 'videos'}
@@ -421,7 +448,7 @@ function seriesVideos(series: Series): QueueVideo[] {
           </div>
           <ul class="videos">
             {videos.map((v) => (
-              <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+              <li data-video-id={v.id} data-duration={v.duration} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
                 <span class="vtitle">
                   {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
                   {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
@@ -494,6 +521,7 @@ function seriesVideos(series: Series): QueueVideo[] {
                   <span class={`score-chip ${showScore ? '' : 'low'}`}>
                     score {s.best_score}
                   </span>
+                  <span class="progress-chip" data-progress-series={s.key}></span>
                 </div>
                 <span class="series-meta">
                   {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
@@ -501,7 +529,7 @@ function seriesVideos(series: Series): QueueVideo[] {
               </div>
               <ul class="videos">
                 {videos.map((v) => (
-                  <li data-video-id={v.id} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+                  <li data-video-id={v.id} data-duration={v.duration} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
                     <span class="vtitle">
                       {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
                       {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
@@ -630,6 +658,49 @@ function seriesVideos(series: Series): QueueVideo[] {
           li.classList.contains('watched') || li.classList.contains('hidden-row')
         );
         s.hidden = allGone;
+      });
+      renderStats();
+      renderSeriesProgress();
+    }
+
+    function renderStats() {
+      const statsEl = document.getElementById('queue-stats');
+      if (!statsEl) return;
+      const w = getWatched();
+      const h = getStanfordHidden();
+      let total = 0, watched = 0, remainSecs = 0;
+      document.querySelectorAll('li[data-video-id][data-duration]').forEach(li => {
+        total++;
+        const id = li.dataset.videoId;
+        const dur = parseInt(li.dataset.duration || '0', 10);
+        if (w.has(id)) {
+          watched++;
+        } else if (!h.has(id)) {
+          remainSecs += dur;
+        }
+      });
+      if (total === 0) { statsEl.hidden = true; return; }
+      statsEl.hidden = false;
+      const hrs = Math.floor(remainSecs / 3600);
+      const mins = Math.floor((remainSecs % 3600) / 60);
+      const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+      statsEl.innerHTML =
+        `<span>${watched}/${total} watched</span>` +
+        `<span>${timeStr} left in queue</span>`;
+    }
+
+    function renderSeriesProgress() {
+      const w = getWatched();
+      document.querySelectorAll('[data-progress-series]').forEach(el => {
+        const key = el.dataset.progressSeries;
+        const seriesDiv = document.querySelector(`.series[data-series="${CSS.escape(key)}"]`);
+        if (!seriesDiv) return;
+        const lis = seriesDiv.querySelectorAll('li[data-video-id]');
+        const total = lis.length;
+        if (total === 0) return;
+        const done = [...lis].filter(li => w.has(li.dataset.videoId)).length;
+        el.textContent = `${done}/${total}`;
+        el.classList.toggle('done', done === total);
       });
     }
 
