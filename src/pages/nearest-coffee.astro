@@ -332,7 +332,39 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         letter-spacing: 0.15em;
         text-transform: uppercase;
         color: #9A9A9A;
+      }
+      .nc-nearby-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         margin-bottom: 16px;
+      }
+      .nc-sort-toggle {
+        display: flex;
+        gap: 4px;
+      }
+      .nc-sort-btn {
+        background: none;
+        border: 1px solid #E5E3DF;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        padding: 4px 10px;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .nc-sort-btn:hover {
+        border-color: #5C4033;
+        color: #5C4033;
+      }
+      .nc-sort-btn--active {
+        background: #1A1A1A;
+        border-color: #1A1A1A;
+        color: #FAFAF8;
       }
       .nc-nearby-item {
         display: flex;
@@ -555,6 +587,8 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       let userLat: number;
       let userLng: number;
+      let secondaryShops: CoffeeShop[] = [];
+      let currentSort: "distance" | "rating" = "distance";
 
       // ── Light map styles ──
 
@@ -665,6 +699,38 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       // ── Results ──
 
+      function buildNearbyItems(shops: CoffeeShop[]): string {
+        const sorted = [...shops].sort((a, b) =>
+          currentSort === "rating"
+            ? (b.rating ?? -1) - (a.rating ?? -1)
+            : a.distance - b.distance,
+        );
+        return sorted
+          .map((shop) => {
+            const url = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
+            const walkTime = estimateWalk(shop.distance);
+            const ratingHtml = shop.rating
+              ? `<div class="nc-nearby-rating"><span class="nc-nearby-rating-star">\u2605</span> ${shop.rating.toFixed(1)}</div>`
+              : "";
+            return `
+              <a href="${url}" target="_blank" rel="noopener" class="nc-nearby-item">
+                <div>
+                  <div class="nc-nearby-name">${esc(shop.name)}</div>
+                  <div class="nc-nearby-addr">${esc(shop.address)}</div>
+                  ${ratingHtml}
+                </div>
+                <div class="nc-nearby-right">
+                  <div class="nc-nearby-dist-wrap">
+                    <span class="nc-nearby-dist">${formatDistance(shop.distance)}</span>
+                    <span class="nc-nearby-walk">${walkTime}</span>
+                  </div>
+                  <span class="nc-nearby-arrow">\u2192</span>
+                </div>
+              </a>`;
+          })
+          .join("");
+      }
+
       function renderResults(shops: CoffeeShop[]) {
         progress.finish();
 
@@ -712,37 +778,22 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           }
 
           // Secondary list
+          secondaryShops = secondary;
+          currentSort = "distance";
           let nearbyHtml = "";
           if (secondary.length > 0) {
-            const items = secondary
-              .map((shop) => {
-                const url = `https://www.google.com/maps/dir/?api=1&destination=${shop.lat},${shop.lng}&travelmode=walking`;
-                const walkTime = estimateWalk(shop.distance);
-                const ratingHtml = shop.rating
-                  ? `<div class="nc-nearby-rating"><span class="nc-nearby-rating-star">\u2605</span> ${shop.rating.toFixed(1)}</div>`
-                  : "";
-                return `
-                <a href="${url}" target="_blank" rel="noopener" class="nc-nearby-item">
-                  <div>
-                    <div class="nc-nearby-name">${esc(shop.name)}</div>
-                    <div class="nc-nearby-addr">${esc(shop.address)}</div>
-                    ${ratingHtml}
-                  </div>
-                  <div class="nc-nearby-right">
-                    <div class="nc-nearby-dist-wrap">
-                      <span class="nc-nearby-dist">${formatDistance(shop.distance)}</span>
-                      <span class="nc-nearby-walk">${walkTime}</span>
-                    </div>
-                    <span class="nc-nearby-arrow">\u2192</span>
-                  </div>
-                </a>`;
-              })
-              .join("");
-
             nearbyHtml = `
               <div class="nc-nearby nc-fade-in-delay">
-                <div class="nc-nearby-label">Nearby</div>
-                ${items}
+                <div class="nc-nearby-header">
+                  <div class="nc-nearby-label">Nearby</div>
+                  <div class="nc-sort-toggle">
+                    <button class="nc-sort-btn nc-sort-btn--active" data-sort="distance">Distance</button>
+                    <button class="nc-sort-btn" data-sort="rating">Rating</button>
+                  </div>
+                </div>
+                <div id="nearby-list">
+                  ${buildNearbyItems(secondary)}
+                </div>
               </div>`;
           }
 
@@ -783,7 +834,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
               <div class="nc-footer">
                 <button id="refresh-btn" class="nc-refresh">\u21bb Refresh</button>
-                <p class="nc-location-note">Based on your current location</p>
+                <p class="nc-location-note">Found ${shops.length} open nearby \u00b7 Last checked: ${new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</p>
               </div>
             </div>
           `);
@@ -791,6 +842,24 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           document
             .getElementById("refresh-btn")!
             .addEventListener("click", doRequestLocation);
+
+          document
+            .querySelectorAll<HTMLButtonElement>(".nc-sort-btn")
+            .forEach((btn) => {
+              btn.addEventListener("click", () => {
+                currentSort = btn.dataset.sort as "distance" | "rating";
+                document
+                  .querySelectorAll<HTMLButtonElement>(".nc-sort-btn")
+                  .forEach((b) => {
+                    b.classList.toggle(
+                      "nc-sort-btn--active",
+                      b.dataset.sort === currentSort,
+                    );
+                  });
+                const list = document.getElementById("nearby-list");
+                if (list) list.innerHTML = buildNearbyItems(secondaryShops);
+              });
+            });
         }, 300);
       }
 
