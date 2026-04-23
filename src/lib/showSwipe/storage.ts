@@ -48,6 +48,7 @@ export function recordSwipe(
   } else {
     stored.disliked = [item, ...stored.disliked].slice(0, MAX_HISTORY);
     for (const gid of item.genreIds) {
+      // Half-weight penalty: dislikes don't fully cancel likes, so mixed-genre results still surface
       stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) - 0.5;
     }
   }
