@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-22T10:30:06.433200+00:00",
+  "built_at": "2026-04-23T10:30:19.863202+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -57,7 +57,7 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 14,
+      "video_count": 15,
       "video_ids": [
         "99wIpauDEmY",
         "3iIPRBi2K2w",
@@ -72,7 +72,8 @@
         "NMFyMlwmwP8",
         "popjDuA-whA",
         "D7e7oUbtkFM",
-        "NUtaN10cVDc"
+        "NUtaN10cVDc",
+        "b6uxaRL_ipw"
       ]
     },
     {
@@ -153,16 +154,6 @@
       ]
     },
     {
-      "key": "__single__qCBfc8sfAJo",
-      "is_single": true,
-      "display_name": "AI & Cybersecurity: Dan Boneh Interviews Nicolas Carlini",
-      "best_score": 9,
-      "video_count": 1,
-      "video_ids": [
-        "qCBfc8sfAJo"
-      ]
-    },
-    {
       "key": "CS221",
       "is_single": false,
       "display_name": "CS221",
@@ -209,6 +200,17 @@
       "video_count": 1,
       "video_ids": [
         "KGl076xkxG4"
+      ]
+    },
+    {
+      "key": "CS25",
+      "is_single": false,
+      "display_name": "CS25",
+      "best_score": 3,
+      "video_count": 2,
+      "video_ids": [
+        "GBd7iuJkW08",
+        "bHSDPgZYie0"
       ]
     },
     {
@@ -1061,6 +1063,21 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis seminar covers: \n\u2022 How human-to-robot transfer can be understood as two coupled problems: extracting priors about physical intelligence from human experience, and grounding those priors into a robot\u2019s embodiment\n\u2022 Recent results showing emergent human-to-robot transfe"
     },
     {
+      "id": "b6uxaRL_ipw",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Mechanical Intelligence in Locomotion",
+      "url": "https://www.youtube.com/watch?v=b6uxaRL_ipw",
+      "duration": 3104.0,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 3, 2026\nThis seminar covers: \n\u2022 Additional legs, with higher control dimensions, can enable a broader spectrum of capabilities\n\u2022 The inclusion of CI (feedback controls) can enhance multi-legged locomotion speed while preserving the feature of robustness\n\u2022 CI might reduce the number"
+    },
+    {
       "id": "B42CuI0RO7Y",
       "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L3: Model and UI & Swift Type System",
       "url": "https://www.youtube.com/watch?v=B42CuI0RO7Y",
@@ -1563,22 +1580,6 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
     },
     {
-      "id": "qCBfc8sfAJo",
-      "title": "AI & Cybersecurity: Dan Boneh Interviews Nicolas Carlini",
-      "url": "https://www.youtube.com/watch?v=qCBfc8sfAJo",
-      "duration": 4628.0,
-      "published_at": "2025-10-22T00:00:00+00:00",
-      "series": null,
-      "series_display": "AI & Cybersecurity: Dan Boneh Interviews Nicolas Carlini",
-      "lecture_num": null,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "swe_career"
-      ],
-      "description": "Watch Dan Boneh, the Co-Academic Director of the Stanford Advanced Cybersecurity Program, interview Machine Learning and AI Security Researcher, Nicolas Carlini, one of the industry experts featured in our newest course on AI Security.\n\nThese two cybersecurity experts discuss the history of AI Security, adversarial training, model training, and more. \n\nLearn more about our AI Security course: http"
-    },
-    {
       "id": "yaLEGZuIIgE",
       "title": "Stanford CS221 | Autumn 2025 | Lecture 1: Course Overview and AI Foundations",
       "url": "https://www.youtube.com/watch?v=yaLEGZuIIgE",
@@ -1914,6 +1915,36 @@
         "healthcare_ai"
       ],
       "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
+    },
+    {
+      "id": "GBd7iuJkW08",
+      "title": "Stanford CS25: Transformers United V6 I From Representation Learning to World Modeling",
+      "url": "https://www.youtube.com/watch?v=GBd7iuJkW08",
+      "duration": 4263.0,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 9, 2026\nThis seminar covers: \n\u2022 How world models are increasingly moving away from reconstruction and toward prediction in latent space\n\u2022 Two recent JEPA-based approaches that illustrate this shift from complementary angles\n\nFollow along with the seminar schedule. Visit: https://we"
+    },
+    {
+      "id": "bHSDPgZYie0",
+      "title": "Stanford CS25: Transformers United V6 I Overview of Transformers",
+      "url": "https://www.youtube.com/watch?v=bHSDPgZYie0",
+      "duration": 4606.0,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 2, 2026\nThis seminar covers: \n\u2022 Overview of the history of ML/NLP, Transformers, and how they work\n\u2022 Recent trends, breakthroughs, applications, and current challenges\n\nFollow along with the seminar schedule. Visit: https://web.stanford.edu/class/cs25/\n\nInstructors: \n\u2022 Steven Feng,"
     },
     {
       "id": "AbezbsrNMZU",

@@ -1,8 +1,8 @@
 {
-  "built_at": "2026-04-22T10:30:16.211227+00:00",
+  "built_at": "2026-04-23T10:35:28.232338+00:00",
   "lookback_days": 30,
   "channel_count": 28,
-  "candidate_count": 107,
+  "candidate_count": 105,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
@@ -25,7 +25,7 @@
       ],
       "base_score": 14,
       "score": 8.4,
-      "view_count": 76144,
+      "view_count": 123851,
       "episode_number": null,
       "series_key": null
     },
@@ -47,13 +47,13 @@
       ],
       "base_score": 16,
       "score": 11.2,
-      "view_count": 486198,
+      "view_count": 682626,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "2zhchG0r6iI",
-      "title": "This Agent Self-Evolves (Fully explained)",
+      "title": "Okay, this unleashed my agent",
       "url": "https://www.youtube.com/watch?v=2zhchG0r6iI",
       "duration": 1069,
       "published_at": "2026-04-21T12:04:32+00:00",
@@ -68,7 +68,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 4646,
+      "view_count": 7885,
       "episode_number": null,
       "series_key": null
     },
@@ -89,7 +89,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 27909,
+      "view_count": 32163,
       "episode_number": null,
       "series_key": null
     },
@@ -112,7 +112,7 @@
       ],
       "base_score": 13,
       "score": 13.0,
-      "view_count": 41255,
+      "view_count": 47627,
       "episode_number": null,
       "series_key": null
     },
@@ -131,7 +131,52 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 21580,
+      "view_count": 22932,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "qN7Tgt9TnXY",
+      "title": "Agents of Chaos: When Helpful AI Agents Go Rogue [Paper Review]",
+      "url": "https://www.youtube.com/watch?v=qN7Tgt9TnXY",
+      "duration": 3186,
+      "published_at": "2026-04-16T22:47:46+00:00",
+      "channel_id": "UCvi5jNRoRVm436TVAXet1kQ",
+      "channel_title": "Latent Space TV (see @LatentSpacePod for Pod)",
+      "channel_handle": "@LatentSpaceTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/qN7Tgt9TnXY/mqdefault.jpg",
+      "description": "Paper review and walkthrough of \"Agents of Chaos\" \u2014 a red-teaming study of autonomous LLM-powered agents deployed in a live lab environment with persistent memory, email, Discord, file systems, and shell access.\n\nResearchers from Harvard, MIT, Stanford, Carnegie Mellon, Northeastern, and other institutions documented 11 representative failure cases when 20 AI researchers interacted with autonomous",
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "base_score": -4,
+      "score": -4.4,
+      "view_count": 86,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "Sk9tvyRSCgY",
+      "title": "DeepMind\u2019s New AI: A Gift To Humanity",
+      "url": "https://www.youtube.com/watch?v=Sk9tvyRSCgY",
+      "duration": 716,
+      "published_at": "2026-04-16T17:44:48+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Sk9tvyRSCgY/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\nLinks:\nhttps://deepmind.google/models/gemma/gemma-4/\nhttps://ai.google.dev/gemma/docs/core/model_card_4\n\nFine tuning with Matt Mireles: https://x.com/mattmireles/status/2041606508220489786\n\nOther sources:\nhttps://x.com/googlegemma/status/2041256042882105666?s=46\nhttps://x.com/nakazakifam/status/2041286410930446370\n",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 5.4,
+      "view_count": 134170,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -153,7 +198,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 51604,
+      "view_count": 53788,
       "episode_number": null,
       "series_key": null
     },
@@ -176,7 +221,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 13415,
+      "view_count": 13764,
       "episode_number": null,
       "series_key": null
     },
@@ -197,7 +242,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 160182,
+      "view_count": 160656,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -219,7 +264,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 26256,
+      "view_count": 28458,
       "episode_number": null,
       "series_key": null
     },
@@ -240,7 +285,7 @@
       ],
       "base_score": 10,
       "score": 13.0,
-      "view_count": 2043,
+      "view_count": 2099,
       "episode_number": null,
       "series_key": null
     },
@@ -263,7 +308,7 @@
       ],
       "base_score": 10,
       "score": 12.0,
-      "view_count": 17271,
+      "view_count": 17431,
       "episode_number": null,
       "series_key": null
     },
@@ -285,7 +330,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 284227,
+      "view_count": 284559,
       "episode_number": null,
       "series_key": null
     },
@@ -307,7 +352,7 @@
       ],
       "base_score": 16,
       "score": 17.6,
-      "view_count": 14669,
+      "view_count": 15256,
       "episode_number": null,
       "series_key": null
     },
@@ -328,7 +373,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 2192,
+      "view_count": 2208,
       "episode_number": null,
       "series_key": null
     },
@@ -351,7 +396,29 @@
       ],
       "base_score": 16,
       "score": 16.0,
-      "view_count": 102387,
+      "view_count": 104222,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "stZr6U_7S90",
+      "title": "Claude Code is unusable now",
+      "url": "https://www.youtube.com/watch?v=stZr6U_7S90",
+      "duration": 1463,
+      "published_at": "2026-04-06T06:14:32+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/stZr6U_7S90/mqdefault.jpg",
+      "description": "I'm tired of talking about Anthropic, but I feel like I have to because things keep getting worse\n\nThank you Clerk for sponsoring! Check them out at: https://soydev.link/clerk\n\nSOURCES\nhttps://x.com/theo/status/2040909058514043111\nhttps://x.com/mattpocockuk/status/2040536403289764275\nhttps://x.com/steipete/status/2040811558427648357\n\nWant to sponsor a video? Learn more here: https://soydev.link/sp",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 209858,
       "episode_number": null,
       "series_key": null
     },
@@ -373,32 +440,9 @@
       ],
       "base_score": 9,
       "score": 9.0,
-      "view_count": 101106,
+      "view_count": 102106,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "08NqrRQArNw",
-      "title": "I\u2019m serious.",
-      "url": "https://www.youtube.com/watch?v=08NqrRQArNw",
-      "duration": 2385,
-      "published_at": "2026-04-04T11:01:42+00:00",
-      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
-      "channel_title": "Theo - t3\u2024gg",
-      "channel_handle": "@t3dotgg",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/08NqrRQArNw/mqdefault.jpg",
-      "description": "I love open source, but that never stopped me from using a ton of closed source stuff. That's starting to change...\n\nThank you WorkOS for sponsoring! Check them out at: https://soydev.link/workos\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
-      "categories": [
-        "civic_open",
-        "swe_craft"
-      ],
-      "base_score": 8,
-      "score": 4.8,
-      "view_count": 91847,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "PAoe7mmmvp0",
@@ -417,7 +461,7 @@
       ],
       "base_score": 4,
       "score": 4.4,
-      "view_count": 34001,
+      "view_count": 34182,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -441,31 +485,9 @@
       ],
       "base_score": 10,
       "score": 7.0,
-      "view_count": 3164657,
+      "view_count": 3166898,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "qKqrmS6dKDg",
-      "title": "How The Internet\u2019s Favourite AI Employee Went Rogue",
-      "url": "https://www.youtube.com/watch?v=qKqrmS6dKDg",
-      "duration": 1780,
-      "published_at": "2026-04-01T03:33:09+00:00",
-      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
-      "channel_title": "ColdFusion",
-      "channel_handle": "@ColdFusion",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/qKqrmS6dKDg/mqdefault.jpg",
-      "description": "Visit https://brilliant.org/coldfusion for 20% off a premium subscription.\nThe OpenClaw saga is one of the wildest events in recent tech history. It simultaneously proved agentic computing can be the future but also a huge disaster. \n\nColdFusion Music: \n\nhttps://www.youtube.com/@ColdFusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusion\nhttps://facebook.c",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "score": 4.2,
-      "view_count": 781954,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "R9mBpeiCMM0",
@@ -485,9 +507,29 @@
       ],
       "base_score": 16,
       "score": 17.6,
-      "view_count": 26356,
+      "view_count": 26670,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "DoPq7pH1BKg",
+      "title": "Stop fighting with CSS, forever",
+      "url": "https://www.youtube.com/watch?v=DoPq7pH1BKg",
+      "duration": 554,
+      "published_at": "2026-03-31T17:01:02+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/DoPq7pH1BKg/mqdefault.jpg",
+      "description": "\ud83d\udc49 CSS Demystified V2 is here - 20% off through April 7th: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=launch\n\nThe original course was still great (in my opinion anyway \ud83d\ude05), but it was old and needed a refresh. Instead of updating it, I completely rebuilt the course from scratch, and on top of that, I built a custom course platform to host it on ",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 9552,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "IPJC8loEmd4",
@@ -506,7 +548,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 128326,
+      "view_count": 128963,
       "episode_number": 1,
       "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
     },
@@ -527,7 +569,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 477,
+      "view_count": 492,
       "episode_number": null,
       "series_key": null
     },
@@ -549,7 +591,7 @@
       ],
       "base_score": 7,
       "score": 7.7,
-      "view_count": 9360,
+      "view_count": 9388,
       "episode_number": null,
       "series_key": null
     },
@@ -571,7 +613,7 @@
       ],
       "base_score": 11,
       "score": 13.2,
-      "view_count": 38331,
+      "view_count": 38593,
       "episode_number": null,
       "series_key": null
     },
@@ -593,29 +635,9 @@
       ],
       "base_score": 7,
       "score": 7.7,
-      "view_count": 30652,
+      "view_count": 30787,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "tND-wBBZ8RY",
-      "title": "The Cost of Concurrency Coordination with Jon Gjengset",
-      "url": "https://www.youtube.com/watch?v=tND-wBBZ8RY",
-      "duration": 2795,
-      "published_at": "2026-03-25T14:41:44+00:00",
-      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
-      "channel_title": "Jane Street",
-      "channel_handle": "@janestreet",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/tND-wBBZ8RY/mqdefault.jpg",
-      "description": "In this talk, Jon Gjengset explores the true cost of concurrency coordination \u2013 from Amdahl's law down to CPU cache lines \u2013 and what we can do about it. \n\nModern hardware is moving to more cores rather than faster ones. For application developers, this means that further performance gains require _parallelism_; making progress on many tasks at the same time. But as anyone with experience writing m",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 107249,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "YuEPZlXBImg",
@@ -634,34 +656,99 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 2319,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "llwTBpPqo9A",
-      "title": "Claude Code tried to improve /init... Is it any better?",
-      "url": "https://www.youtube.com/watch?v=llwTBpPqo9A",
-      "duration": 678,
-      "published_at": "2026-03-23T15:02:28+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/llwTBpPqo9A/mqdefault.jpg",
-      "description": "Claude Code's new Init script has been completely redesigned based on community feedback. In this video, I test drive the new version and give honest feedback to the Claude Code team on whether it's actually useful.\n\nClaude Code for Real Engineers:\nhttps://aihero.dev/s/GpmCBo\n\nSign up for the AI Hero newsletter:\nhttps://aihero.dev/s/ojLDp9\n\nFollow Matt on Twitter\nhttps://twitter.com/mattpocockuk\n\n",
-      "categories": [
-        "applied_ai",
-        "dev_news_lite"
-      ],
-      "base_score": 7,
-      "score": 7.0,
-      "view_count": 26241,
+      "view_count": 2335,
       "episode_number": null,
       "series_key": null
     }
   ],
   "pool": [
+    {
+      "id": "rFGlJ4oIlhw",
+      "title": "Parallel Claude Code + Git Worktrees: This Setup Will Change How You Ship",
+      "url": "https://www.youtube.com/watch?v=rFGlJ4oIlhw",
+      "duration": 1434,
+      "published_at": "2026-04-23T00:01:05+00:00",
+      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
+      "channel_title": "Cole Medin",
+      "channel_handle": "@colemedin",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/rFGlJ4oIlhw/mqdefault.jpg",
+      "description": "Getting better at AI coding isn't really about better prompts or context engineering alone. After over a year of using AI coding assistants constantly every single day (especially Claude Code), the thing that actually changed my output was rebuilding the workflow around parallel coding agents. That's the setup I'll walk you through in this video!\n\nI often have 3-10 Claude Code agents running in pa",
+      "categories": [
+        "applied_ai",
+        "systems_db",
+        "swe_craft"
+      ],
+      "base_score": 14,
+      "score": 14.0,
+      "view_count": 3864,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "4DqIW-gZbHA",
+      "title": "No more magic numbers for your breakpoints",
+      "url": "https://www.youtube.com/watch?v=4DqIW-gZbHA",
+      "duration": 352,
+      "published_at": "2026-04-22T16:33:33+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/4DqIW-gZbHA/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Code from this video: https://codepen.io/editor/kevinpowell/pen/019daad5-af9a-7abd-8f10-c80f0983ddee\n\u2705 CSS Day: https://cssday.nl/\n\u2705 Web you want (free conference!): https://the-web-you-want.org/\n\n\u2709 Keep up to date with everything I'm up to",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 5.0,
+      "view_count": 11472,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "ypzNhwpmOD4",
+      "title": "How Stripe Built Their New Website",
+      "url": "https://www.youtube.com/watch?v=ypzNhwpmOD4",
+      "duration": 2617,
+      "published_at": "2026-04-22T14:01:37+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/ypzNhwpmOD4/mqdefault.jpg",
+      "description": "Even the most successful websites eventually need a redesign. Take Stripe for example. After six years with the same homepage, they recently unveiled a brand new site that reflects how the fintech giant has evolved over the past few years. So when is the time right for a new landing page? And what should you prioritize in the redesign? In this episode of Design Review YC\u2019s Aaron Epstein sat down S",
+      "categories": [
+        "swe_craft"
+      ],
+      "base_score": 3,
+      "score": 3.6,
+      "view_count": 10423,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "YY04jVCKeB4",
+      "title": "Open source is dead now?",
+      "url": "https://www.youtube.com/watch?v=YY04jVCKeB4",
+      "duration": 1581,
+      "published_at": "2026-04-22T13:54:08+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/YY04jVCKeB4/mqdefault.jpg",
+      "description": "Cal.com is no longer fully open source. So where is this going...\n\nThank you WorkOS for sponsoring! Check them out at: soydev.link/workos\n\nSOURCES:\nhttps://x.com/tannerlinsley/status/2044537567757144241\nhttps://x.com/pumfleet/status/2044406553508274554\nhttps://www.dbreunig.com/2026/04/14/cybersecurity-is-proof-of-work-now.html\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-",
+      "categories": [
+        "civic_open",
+        "swe_craft"
+      ],
+      "base_score": 8,
+      "score": 4.8,
+      "view_count": 59277,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "dQ_1DkoOzG4",
       "title": "Introduction to Floe (Kurt Westerfeld)",
@@ -679,7 +766,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 243,
+      "view_count": 345,
       "episode_number": null,
       "series_key": null
     },
@@ -701,7 +788,7 @@
       ],
       "base_score": 7,
       "score": 7.7,
-      "view_count": 5596,
+      "view_count": 7660,
       "episode_number": null,
       "series_key": null
     },
@@ -722,7 +809,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 351,
+      "view_count": 458,
       "episode_number": null,
       "series_key": null
     },
@@ -744,7 +831,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 90601,
+      "view_count": 105745,
       "episode_number": null,
       "series_key": null
     },
@@ -766,13 +853,13 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 9723,
+      "view_count": 11956,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "eIIWyoy4aF8",
-      "title": "Hey, Whatever Happened to NFTs?",
+      "title": "The Spectacular Collapse of NFTs",
       "url": "https://www.youtube.com/watch?v=eIIWyoy4aF8",
       "duration": 1114,
       "published_at": "2026-04-20T16:31:16+00:00",
@@ -787,7 +874,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 501583,
+      "view_count": 564560,
       "episode_number": null,
       "series_key": null
     },
@@ -809,7 +896,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 98040,
+      "view_count": 103203,
       "episode_number": null,
       "series_key": null
     },
@@ -831,7 +918,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 248711,
+      "view_count": 258034,
       "episode_number": null,
       "series_key": null
     },
@@ -854,50 +941,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 6166,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "qN7Tgt9TnXY",
-      "title": "Agents of Chaos: When Helpful AI Agents Go Rogue [Paper Review]",
-      "url": "https://www.youtube.com/watch?v=qN7Tgt9TnXY",
-      "duration": 3186,
-      "published_at": "2026-04-16T22:47:46+00:00",
-      "channel_id": "UCvi5jNRoRVm436TVAXet1kQ",
-      "channel_title": "Latent Space TV (see @LatentSpacePod for Pod)",
-      "channel_handle": "@LatentSpaceTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/qN7Tgt9TnXY/mqdefault.jpg",
-      "description": "Paper review and walkthrough of \"Agents of Chaos\" \u2014 a red-teaming study of autonomous LLM-powered agents deployed in a live lab environment with persistent memory, email, Discord, file systems, and shell access.\n\nResearchers from Harvard, MIT, Stanford, Carnegie Mellon, Northeastern, and other institutions documented 11 representative failure cases when 20 AI researchers interacted with autonomous",
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "base_score": -4,
-      "score": -4.4,
-      "view_count": 78,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Sk9tvyRSCgY",
-      "title": "DeepMind\u2019s New AI: A Gift To Humanity",
-      "url": "https://www.youtube.com/watch?v=Sk9tvyRSCgY",
-      "duration": 716,
-      "published_at": "2026-04-16T17:44:48+00:00",
-      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
-      "channel_title": "Two Minute Papers",
-      "channel_handle": "@TwoMinutePapers",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Sk9tvyRSCgY/mqdefault.jpg",
-      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\nLinks:\nhttps://deepmind.google/models/gemma/gemma-4/\nhttps://ai.google.dev/gemma/docs/core/model_card_4\n\nFine tuning with Matt Mireles: https://x.com/mattmireles/status/2041606508220489786\n\nOther sources:\nhttps://x.com/googlegemma/status/2041256042882105666?s=46\nhttps://x.com/nakazakifam/status/2041286410930446370\n",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "score": 5.4,
-      "view_count": 131607,
+      "view_count": 6481,
       "episode_number": null,
       "series_key": null
     },
@@ -916,7 +960,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 1724,
+      "view_count": 1750,
       "episode_number": null,
       "series_key": null
     },
@@ -937,7 +981,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 8593,
+      "view_count": 8853,
       "episode_number": null,
       "series_key": null
     },
@@ -959,7 +1003,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 118567,
+      "view_count": 119288,
       "episode_number": null,
       "series_key": null
     },
@@ -982,7 +1026,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 7425,
+      "view_count": 7573,
       "episode_number": null,
       "series_key": null
     },
@@ -1004,7 +1048,7 @@
       ],
       "base_score": 8,
       "score": 4.8,
-      "view_count": 55372,
+      "view_count": 56048,
       "episode_number": null,
       "series_key": null
     },
@@ -1025,7 +1069,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1728,
+      "view_count": 1772,
       "episode_number": null,
       "series_key": null
     },
@@ -1046,7 +1090,7 @@
       ],
       "base_score": 5,
       "score": 5.0,
-      "view_count": 12594,
+      "view_count": 12968,
       "episode_number": null,
       "series_key": null
     },
@@ -1065,7 +1109,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 476630,
+      "view_count": 481954,
       "episode_number": null,
       "series_key": null
     },
@@ -1087,7 +1131,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 115210,
+      "view_count": 116312,
       "episode_number": null,
       "series_key": null
     },
@@ -1108,7 +1152,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 6388,
+      "view_count": 6457,
       "episode_number": null,
       "series_key": null
     },
@@ -1129,7 +1173,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1544,
+      "view_count": 1579,
       "episode_number": null,
       "series_key": null
     },
@@ -1148,7 +1192,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 531557,
+      "view_count": 535694,
       "episode_number": null,
       "series_key": null
     },
@@ -1169,7 +1213,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 6480,
+      "view_count": 6786,
       "episode_number": null,
       "series_key": null
     },
@@ -1190,7 +1234,7 @@
       ],
       "base_score": 6,
       "score": 3.6,
-      "view_count": 336298,
+      "view_count": 337803,
       "episode_number": null,
       "series_key": null
     },
@@ -1212,7 +1256,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 152569,
+      "view_count": 154589,
       "episode_number": null,
       "series_key": null
     },
@@ -1234,7 +1278,7 @@
       ],
       "base_score": 9,
       "score": 9.0,
-      "view_count": 62170,
+      "view_count": 63381,
       "episode_number": null,
       "series_key": null
     },
@@ -1256,7 +1300,7 @@
       ],
       "base_score": -6,
       "score": -6.0,
-      "view_count": 13853,
+      "view_count": 14340,
       "episode_number": null,
       "series_key": null
     },
@@ -1275,7 +1319,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 52695,
+      "view_count": 52882,
       "episode_number": null,
       "series_key": null
     },
@@ -1296,7 +1340,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 1025663,
+      "view_count": 1029781,
       "episode_number": null,
       "series_key": null
     },
@@ -1317,7 +1361,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 60213,
+      "view_count": 60319,
       "episode_number": null,
       "series_key": null
     },
@@ -1336,7 +1380,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 43845,
+      "view_count": 44318,
       "episode_number": null,
       "series_key": null
     },
@@ -1355,7 +1399,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 983471,
+      "view_count": 988150,
       "episode_number": null,
       "series_key": null
     },
@@ -1376,7 +1420,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 69059,
+      "view_count": 69337,
       "episode_number": null,
       "series_key": null
     },
@@ -1398,7 +1442,7 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 36299,
+      "view_count": 36898,
       "episode_number": null,
       "series_key": null
     },
@@ -1419,7 +1463,7 @@
       ],
       "base_score": 5,
       "score": 3.5,
-      "view_count": 1287401,
+      "view_count": 1291600,
       "episode_number": null,
       "series_key": null
     },
@@ -1438,7 +1482,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 31229,
+      "view_count": 31500,
       "episode_number": null,
       "series_key": null
     },
@@ -1459,7 +1503,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 179591,
+      "view_count": 179788,
       "episode_number": null,
       "series_key": null
     },
@@ -1481,7 +1525,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 83585,
+      "view_count": 83909,
       "episode_number": null,
       "series_key": null
     },
@@ -1502,7 +1546,7 @@
       ],
       "base_score": 3,
       "score": 2.1,
-      "view_count": 839140,
+      "view_count": 841076,
       "episode_number": null,
       "series_key": null
     },
@@ -1523,7 +1567,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 25891,
+      "view_count": 25957,
       "episode_number": null,
       "series_key": null
     },
@@ -1544,7 +1588,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 34758,
+      "view_count": 35005,
       "episode_number": null,
       "series_key": null
     },
@@ -1567,29 +1611,29 @@
       ],
       "base_score": 5,
       "score": 6.0,
-      "view_count": 29957,
+      "view_count": 30295,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "stZr6U_7S90",
-      "title": "Claude Code is unusable now",
-      "url": "https://www.youtube.com/watch?v=stZr6U_7S90",
-      "duration": 1463,
-      "published_at": "2026-04-06T06:14:32+00:00",
+      "id": "08NqrRQArNw",
+      "title": "I\u2019m serious.",
+      "url": "https://www.youtube.com/watch?v=08NqrRQArNw",
+      "duration": 2385,
+      "published_at": "2026-04-04T11:01:42+00:00",
       "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
       "channel_title": "Theo - t3\u2024gg",
       "channel_handle": "@t3dotgg",
       "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/stZr6U_7S90/mqdefault.jpg",
-      "description": "I'm tired of talking about Anthropic, but I feel like I have to because things keep getting worse\n\nThank you Clerk for sponsoring! Check them out at: https://soydev.link/clerk\n\nSOURCES\nhttps://x.com/theo/status/2040909058514043111\nhttps://x.com/mattpocockuk/status/2040536403289764275\nhttps://x.com/steipete/status/2040811558427648357\n\nWant to sponsor a video? Learn more here: https://soydev.link/sp",
+      "thumb": "https://i.ytimg.com/vi/08NqrRQArNw/mqdefault.jpg",
+      "description": "I love open source, but that never stopped me from using a ton of closed source stuff. That's starting to change...\n\nThank you WorkOS for sponsoring! Check them out at: https://soydev.link/workos\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
       "categories": [
-        "applied_ai",
+        "civic_open",
         "swe_craft"
       ],
-      "base_score": 9,
-      "score": 5.4,
-      "view_count": 209688,
+      "base_score": 8,
+      "score": 4.8,
+      "view_count": 92009,
       "episode_number": null,
       "series_key": null
     },
@@ -1610,7 +1654,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 8002,
+      "view_count": 8029,
       "episode_number": null,
       "series_key": null
     },
@@ -1632,7 +1676,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 122853,
+      "view_count": 123131,
       "episode_number": null,
       "series_key": null
     },
@@ -1653,7 +1697,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1351,
+      "view_count": 1359,
       "episode_number": null,
       "series_key": null
     },
@@ -1674,7 +1718,7 @@
       ],
       "base_score": 10,
       "score": 11.0,
-      "view_count": 3341,
+      "view_count": 3417,
       "episode_number": null,
       "series_key": null
     },
@@ -1693,7 +1737,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 26371,
+      "view_count": 26515,
       "episode_number": null,
       "series_key": null
     },
@@ -1714,7 +1758,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 8824,
+      "view_count": 8963,
       "episode_number": null,
       "series_key": null
     },
@@ -1733,29 +1777,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 158413,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "icu0GZcSb58",
-      "title": "I got DMCA'd by Anthropic (not a joke)",
-      "url": "https://www.youtube.com/watch?v=icu0GZcSb58",
-      "duration": 977,
-      "published_at": "2026-04-02T02:18:57+00:00",
-      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
-      "channel_title": "Theo - t3\u2024gg",
-      "channel_handle": "@t3dotgg",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/icu0GZcSb58/mqdefault.jpg",
-      "description": "Well, the Claude Code drama continues. I got DMCA'd by Anthropic. There's a twist though. Enjoy this ride with me.\n\nThank you Clerk for sponsoring! Check them out at: https://soydev.link/clerk\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord more at https://t3.gg\n\nS/O @Ph4seon3 for the awesome edit \ud83d\ude4f",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "score": 5.4,
-      "view_count": 112955,
+      "view_count": 158818,
       "episode_number": null,
       "series_key": null
     },
@@ -1776,7 +1798,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 52239,
+      "view_count": 53201,
       "episode_number": null,
       "series_key": null
     },
@@ -1795,26 +1817,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 2809,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "VlQNonLD2sQ",
-      "title": "Getting Hired in UX: What to Do When Apply-and-Wait Isn't Enough | EP 59",
-      "url": "https://www.youtube.com/watch?v=VlQNonLD2sQ",
-      "duration": 2276,
-      "published_at": "2026-04-01T15:00:42+00:00",
-      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
-      "channel_title": "NNgroup",
-      "channel_handle": "@NNgroup",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/VlQNonLD2sQ/mqdefault.jpg",
-      "description": "Navigating the UX job market has always had its ups and downs, especially with AI reshaping the industry. In this episode, host Laura Klein sits down with Evan Sunwall, NN/G's Director of Self-Paced Training, to share candid advice for UX practitioners trying to actively job search or level up in today's competitive market. With nearly 19 years in the field as both a designer and a hiring manager,",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 2164,
+      "view_count": 2814,
       "episode_number": null,
       "series_key": null
     },
@@ -1835,26 +1838,28 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 163944,
+      "view_count": 164080,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "DoPq7pH1BKg",
-      "title": "Stop fighting with CSS, forever",
-      "url": "https://www.youtube.com/watch?v=DoPq7pH1BKg",
-      "duration": 554,
-      "published_at": "2026-03-31T17:01:02+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/DoPq7pH1BKg/mqdefault.jpg",
-      "description": "\ud83d\udc49 CSS Demystified V2 is here - 20% off through April 7th: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=launch\n\nThe original course was still great (in my opinion anyway \ud83d\ude05), but it was old and needed a refresh. Instead of updating it, I completely rebuilt the course from scratch, and on top of that, I built a custom course platform to host it on ",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 9502,
+      "id": "qKqrmS6dKDg",
+      "title": "How The Internet\u2019s Favourite AI Employee Went Rogue",
+      "url": "https://www.youtube.com/watch?v=qKqrmS6dKDg",
+      "duration": 1780,
+      "published_at": "2026-04-01T03:33:09+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/qKqrmS6dKDg/mqdefault.jpg",
+      "description": "Visit https://brilliant.org/coldfusion for 20% off a premium subscription.\nThe OpenClaw saga is one of the wildest events in recent tech history. It simultaneously proved agentic computing can be the future but also a huge disaster. \n\nColdFusion Music: \n\nhttps://www.youtube.com/@ColdFusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusion\nhttps://facebook.c",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 4.2,
+      "view_count": 787742,
       "episode_number": null,
       "series_key": null
     },
@@ -1875,7 +1880,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 14793,
+      "view_count": 14903,
       "episode_number": null,
       "series_key": null
     },
@@ -1896,7 +1901,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1111,
+      "view_count": 1117,
       "episode_number": null,
       "series_key": null
     },
@@ -1917,7 +1922,7 @@
       ],
       "base_score": -6,
       "score": -7.2,
-      "view_count": 163,
+      "view_count": 164,
       "episode_number": null,
       "series_key": null
     },
@@ -1939,7 +1944,7 @@
       ],
       "base_score": 4,
       "score": 4.4,
-      "view_count": 5792,
+      "view_count": 5884,
       "episode_number": null,
       "series_key": null
     },
@@ -1960,7 +1965,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 10536,
+      "view_count": 10557,
       "episode_number": null,
       "series_key": null
     },
@@ -1979,7 +1984,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 2061,
+      "view_count": 2063,
       "episode_number": null,
       "series_key": null
     },
@@ -1998,7 +2003,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 17454,
+      "view_count": 17521,
       "episode_number": null,
       "series_key": null
     },
@@ -2020,7 +2025,7 @@
       ],
       "base_score": 2,
       "score": 2.4,
-      "view_count": 27391,
+      "view_count": 27564,
       "episode_number": null,
       "series_key": null
     },
@@ -2039,7 +2044,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 239750,
+      "view_count": 239917,
       "episode_number": null,
       "series_key": null
     },
@@ -2061,7 +2066,7 @@
       ],
       "base_score": 7,
       "score": 4.9,
-      "view_count": 1045358,
+      "view_count": 1046312,
       "episode_number": null,
       "series_key": null
     },
@@ -2080,7 +2085,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 56646,
+      "view_count": 56733,
       "episode_number": null,
       "series_key": null
     },
@@ -2101,7 +2106,7 @@
       ],
       "base_score": 4,
       "score": 3.6,
-      "view_count": 34312,
+      "view_count": 34384,
       "episode_number": null,
       "series_key": null
     },
@@ -2122,7 +2127,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 766,
+      "view_count": 773,
       "episode_number": null,
       "series_key": null
     },
@@ -2144,29 +2149,26 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 23187,
+      "view_count": 23276,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "vWxP56eUR-o",
-      "title": "Dog apparel ad campaign with no preparation I Design Roulette Ep 3",
-      "url": "https://www.youtube.com/watch?v=vWxP56eUR-o",
-      "duration": 699,
-      "published_at": "2026-03-25T11:01:35+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
+      "id": "tND-wBBZ8RY",
+      "title": "The Cost of Concurrency Coordination with Jon Gjengset",
+      "url": "https://www.youtube.com/watch?v=tND-wBBZ8RY",
+      "duration": 2795,
+      "published_at": "2026-03-25T14:41:44+00:00",
+      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
+      "channel_title": "Jane Street",
+      "channel_handle": "@janestreet",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/vWxP56eUR-o/mqdefault.jpg",
-      "description": "Join Nikolas Klein (Product Manager, Figma) and Gui Seiz (Director, Design, Figma) in episode 3 of Design Roulette, where we challenge designers to create designs with no preparation. The twist? They'll also have to spin the wheel and incorporate the chosen random design prompt into their design. In this episode, they'll conceptualize ads and branding for the mythical dog sporting good brand, Zoom",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "score": 17.6,
-      "view_count": 13072,
+      "thumb": "https://i.ytimg.com/vi/tND-wBBZ8RY/mqdefault.jpg",
+      "description": "In this talk, Jon Gjengset explores the true cost of concurrency coordination \u2013 from Amdahl's law down to CPU cache lines \u2013 and what we can do about it. \n\nModern hardware is moving to more cores rather than faster ones. For application developers, this means that further performance gains require _parallelism_; making progress on many tasks at the same time. But as anyone with experience writing m",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 107751,
       "episode_number": null,
       "series_key": null
     },
@@ -2187,7 +2189,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 802357,
+      "view_count": 802785,
       "episode_number": null,
       "series_key": null
     },
@@ -2206,7 +2208,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 167561,
+      "view_count": 167709,
       "episode_number": null,
       "series_key": null
     },
@@ -2225,51 +2227,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 1054657,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "uegyRTOrXSU",
-      "title": "You're Hardly Using What Claude Code Has to Offer, it's Insane",
-      "url": "https://www.youtube.com/watch?v=uegyRTOrXSU",
-      "duration": 882,
-      "published_at": "2026-03-23T16:37:20+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/uegyRTOrXSU/mqdefault.jpg",
-      "description": "Claude Code has been shipping features at a ridiculous pace. In just the last couple of months, we've gotten agent teams that coordinate across multiple sessions, git worktree isolation for parallel development, voice mode, a 1 million token context window, and a ton of new slash commands.\n\nAnd here's the thing - you're probably only using a fraction of what Claude Code can actually do right now!\n",
-      "categories": [
-        "applied_ai",
-        "dev_news_lite"
-      ],
-      "base_score": 7,
-      "score": 7.0,
-      "view_count": 17605,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "TqjmTZRL31E",
-      "title": "Pi CEO Agents. Claude 1M Context. Multi-Agent Teams.",
-      "url": "https://www.youtube.com/watch?v=TqjmTZRL31E",
-      "duration": 2404,
-      "published_at": "2026-03-23T13:00:00+00:00",
-      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
-      "channel_title": "IndyDevDan",
-      "channel_handle": "@IndyDevDan",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/TqjmTZRL31E/mqdefault.jpg",
-      "description": "Everyone is still using AI agents as worker bees. The engineers running CEO Agents are deploying them at the HIGHEST leverage activity in all of knowledge work \u2014 strategic decision making. This changes what you, the engineer, can do with agents.\n\n\ud83d\udca1 MASTER AGENTIC CODING\nUnlock your CEO & Board: https://agenticengineer.com/tactical-agentic-coding?y=TqjmTZRL31E\n\n\ud83c\udfa5 VIDEO REFERENCES\n\n- Pi VS Claude Co",
-      "categories": [
-        "applied_ai",
-        "webinar_fluff"
-      ],
-      "base_score": 2,
-      "score": 2.4,
-      "view_count": 25460,
+      "view_count": 1071445,
       "episode_number": null,
       "series_key": null
     }
@@ -2293,7 +2251,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 128326,
+        "view_count": 128963,
         "episode_number": 1,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2314,7 +2272,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 1390,
+        "view_count": 1417,
         "episode_number": 3,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2335,7 +2293,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 701,
+        "view_count": 708,
         "episode_number": 5,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2356,7 +2314,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 2194,
+        "view_count": 2219,
         "episode_number": 13,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2377,7 +2335,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 1326,
+        "view_count": 1338,
         "episode_number": 17,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2399,7 +2357,7 @@
         ],
         "base_score": -6,
         "score": -6.0,
-        "view_count": 759,
+        "view_count": 772,
         "episode_number": 21,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -2420,7 +2378,7 @@
         ],
         "base_score": 6,
         "score": 6.0,
-        "view_count": 1076,
+        "view_count": 1095,
         "episode_number": 23,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       }
