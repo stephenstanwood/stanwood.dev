@@ -26,6 +26,8 @@ interface DeployData {
   error?: string;
 }
 
+const GITHUB_REPO = "https://github.com/stephenstanwood/stanwood.dev";
+
 function getStatus(days: number): { label: string; tone: string } {
   if (days === 0) return { label: "shipped today", tone: "hot" };
   if (days === 1) return { label: "shipped yesterday", tone: "good" };
@@ -232,10 +234,20 @@ export default function ShipClock() {
           </div>
           <div className="sc-shipped-meta">
             {data.sha && (
-              <span className="sc-sha">{data.sha}</span>
+              <a
+                className="sc-sha sc-meta-link"
+                href={`${GITHUB_REPO}/commit/${data.sha}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{data.sha}</a>
             )}
             {data.prNumber && (
-              <span className="sc-pr">PR #{data.prNumber}</span>
+              <a
+                className="sc-pr sc-meta-link"
+                href={`${GITHUB_REPO}/pull/${data.prNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >PR #{data.prNumber}</a>
             )}
           </div>
         </div>
@@ -255,7 +267,23 @@ export default function ShipClock() {
                   </span>
                   <span className="sc-history-time">
                     {timeAgo(entry.date)} · {shortDate(entry.date)}
-                    {entry.sha && <span className="sc-history-sha"> · {entry.sha}</span>}
+                    {entry.sha && (
+                      <a
+                        className="sc-history-sha sc-meta-link"
+                        href={`${GITHUB_REPO}/commit/${entry.sha}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      > · {entry.sha}</a>
+                    )}
+                    {entry.prNumber && (
+                      <a
+                        className="sc-meta-link"
+                        href={`${GITHUB_REPO}/pull/${entry.prNumber}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ marginLeft: "6px" }}
+                      >PR #{entry.prNumber}</a>
+                    )}
                   </span>
                 </div>
               </div>
