@@ -52,6 +52,68 @@ const title = "Pixel Tide — stanwood.dev";
       @media (min-width: 640px) {
         .hero-banner { height: 280px; }
       }
+
+      /* ── Tips cards ── */
+      .tips-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        max-width: 640px;
+        margin: 0 auto;
+      }
+      @media (min-width: 540px) {
+        .tips-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+      .tip-card {
+        border: 1px solid rgba(245, 198, 160, 0.12);
+        border-radius: 6px;
+        padding: 10px 10px 12px;
+        background: rgba(232, 149, 106, 0.05);
+        text-align: center;
+      }
+      .tip-icon { font-size: 1.2rem; margin-bottom: 6px; display: block; }
+      .tip-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.42rem;
+        color: rgba(245, 198, 160, 0.65);
+        letter-spacing: 0.04em;
+        margin-bottom: 5px;
+        display: block;
+      }
+      .tip-body {
+        font-size: 0.65rem;
+        color: rgba(245, 198, 160, 0.45);
+        line-height: 1.5;
+      }
+
+      /* ── Behind the Waves cards ── */
+      .behind-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 540px) {
+        .behind-grid { grid-template-columns: 1fr; }
+      }
+      .behind-card {
+        border: 1px solid rgba(245, 198, 160, 0.1);
+        border-radius: 8px;
+        padding: 14px 14px 16px;
+        background: rgba(232, 149, 106, 0.05);
+      }
+      .behind-card-title {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: rgba(245, 198, 160, 0.7);
+        margin-bottom: 6px;
+        letter-spacing: 0.02em;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .behind-card-body {
+        font-size: 0.65rem;
+        color: rgba(245, 198, 160, 0.45);
+        line-height: 1.65;
+      }
     </style>
   </Fragment>
 
@@ -104,53 +166,50 @@ const title = "Pixel Tide — stanwood.dev";
 
     <!-- Tips -->
     <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-        <div>
-          <p class="text-2xl mb-2">🏖️</p>
-          <p class="text-xs leading-snug" style="color: rgba(245, 198, 160, 0.5);">Click dry sand to drop a castle. The closer to the water, the faster it goes.</p>
+      <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">How to Play</h2>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <span class="tip-icon">🏖️</span>
+          <span class="tip-title">Build a Castle</span>
+          <span class="tip-body">Click dry sand to place a castle. Closer to the waterline means faster erosion — risky spots are more fun.</span>
         </div>
-        <div>
-          <p class="text-2xl mb-2">🌊</p>
-          <p class="text-xs leading-snug" style="color: rgba(245, 198, 160, 0.5);">The tide rises and falls on its own ~15-second cycle. Watch the indicator.</p>
+        <div class="tip-card">
+          <span class="tip-icon">🌊</span>
+          <span class="tip-title">Watch the Tide</span>
+          <span class="tip-body">The tide rises and falls on its own ~15-second cycle. Watch the indicator to time your builds.</span>
         </div>
-        <div>
-          <p class="text-2xl mb-2">🏰</p>
-          <p class="text-xs leading-snug" style="color: rgba(245, 198, 160, 0.5);">Castles erode block by block from the base up. Towers collapse when support disappears.</p>
+        <div class="tip-card">
+          <span class="tip-icon">🏰</span>
+          <span class="tip-title">Erosion</span>
+          <span class="tip-body">Blocks under the waterline erode first. Towers collapse when their base disappears — tall and thin falls fastest.</span>
         </div>
-        <div>
-          <p class="text-2xl mb-2">🎨</p>
-          <p class="text-xs leading-snug" style="color: rgba(245, 198, 160, 0.5);">Four themes (Tropical, Sunset, Arctic, Night) and three tide speeds — Calm, Normal, or Surge. Hit share to copy a link with your settings.</p>
+        <div class="tip-card">
+          <span class="tip-icon">🎨</span>
+          <span class="tip-title">Themes & Speed</span>
+          <span class="tip-body">Four themes (Tropical, Sunset, Arctic, Night) and three speeds — Calm, Normal, Surge. Share copies a link with your exact settings.</span>
         </div>
       </div>
     </section>
 
     <!-- Behind the Waves -->
     <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
-      <h2 class="text-xs font-bold uppercase tracking-widest mb-6" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Behind the Waves</h2>
-      <div class="grid sm:grid-cols-2 gap-8">
-        <div>
-          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Tide physics</h3>
-          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
-            The tide line is calculated per column using three overlapping sine waves — a slow ~15s surge, a medium lateral sweep, and a fast surface ripple. The result is a waterline that bends and curves differently across the beach rather than moving as a flat wall.
-          </p>
+      <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Behind the Waves</h2>
+      <div class="behind-grid">
+        <div class="behind-card">
+          <p class="behind-card-title">Tide physics</p>
+          <p class="behind-card-body">The waterline is calculated per column using three overlapping sine waves — a slow ~15s surge, a medium lateral sweep, and a fast surface ripple. Each column gets a slightly different phase, so the water bends and curves across the beach rather than moving as a flat wall.</p>
         </div>
-        <div>
-          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Castle erosion</h3>
-          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
-            Each block under the waterline accumulates erosion over time. Once a block is gone, any blocks above it with no support collapse — so tall thin towers fall faster than wide bases. Erosion debris becomes particles that drift upward and fade out.
-          </p>
+        <div class="behind-card">
+          <p class="behind-card-title">Castle erosion</p>
+          <p class="behind-card-body">Each block under the waterline accumulates erosion damage over time. Once a block crumbles, any blocks above it with no lateral support collapse — tall thin towers fall faster than wide bases. Debris becomes particles that drift upward and fade.</p>
         </div>
-        <div>
-          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Color &amp; themes</h3>
-          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
-            Each theme defines five color palettes: dry sand, wet sand, shallow water, deep water, and castle stone. A slow hue-shift cycle (±10°) animates the water without changing the sand, making the ocean feel alive while the beach stays still.
-          </p>
+        <div class="behind-card">
+          <p class="behind-card-title">Color &amp; themes</p>
+          <p class="behind-card-body">Each theme defines five color palettes: dry sand, wet sand, shallow water, deep water, and castle stone. A slow hue-shift cycle (±10°) animates the water over time without touching the sand — the ocean feels alive while the beach stays still.</p>
         </div>
-        <div>
-          <h3 class="text-xs font-semibold mb-2" style="color: rgba(245, 198, 160, 0.7); font-family: 'Space Grotesk', sans-serif;">Seagulls</h3>
-          <p class="text-xs leading-relaxed" style="color: rgba(245, 198, 160, 0.45);">
-            Four seagulls wander the canvas. Each tracks the tide line in its column and lerps its vertical position to stay safely above the water. They switch between a flying W-shape silhouette (when moving) and a walking stance with alternating feet.
-          </p>
+        <div class="behind-card">
+          <p class="behind-card-title">Seagulls</p>
+          <p class="behind-card-body">Four seagulls wander the canvas. Each tracks the tide line in its column and lerps its position to stay above the water. They switch between a flying W-shape silhouette and a walking stance with alternating feet depending on whether they're moving or standing still.</p>
         </div>
       </div>
     </section>
