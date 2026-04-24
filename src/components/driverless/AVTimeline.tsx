@@ -1,4 +1,4 @@
-// AV Timeline — key moments in autonomous vehicle history
+import { useState } from "react";
 
 interface TimelineEvent {
   date: string;
@@ -40,7 +40,17 @@ const typeConfig = {
   policy:    { color: "#d97706", bg: "#fffbeb", label: "Policy" },
 };
 
+type EventType = keyof typeof typeConfig;
+
+const ALL_TYPES: EventType[] = ["milestone", "launch", "setback", "policy"];
+
 export default function AVTimeline() {
+  const [activeFilter, setActiveFilter] = useState<EventType | null>(null);
+
+  const filtered = activeFilter ? events.filter((e) => e.type === activeFilter) : events;
+
+  const countOf = (type: EventType) => events.filter((e) => e.type === type).length;
+
   return (
     <div className="dl-panel dl-full">
       <div className="dl-panel-header">
@@ -48,14 +58,62 @@ export default function AVTimeline() {
         <span className="dl-panel-subtitle">Key moments in autonomous vehicle history, 2004–2026</span>
       </div>
 
-      {/* Legend */}
-      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-        {(Object.entries(typeConfig) as [keyof typeof typeConfig, (typeof typeConfig)[keyof typeof typeConfig]][]).map(([key, cfg]) => (
-          <div key={key} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: cfg.color, flexShrink: 0 }} />
-            <span style={{ color: "var(--dl-muted)" }}>{cfg.label}</span>
-          </div>
-        ))}
+      {/* Filter buttons */}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <button
+          onClick={() => setActiveFilter(null)}
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            padding: "5px 12px",
+            borderRadius: 6,
+            border: "1.5px solid",
+            cursor: "pointer",
+            transition: "all 0.12s",
+            borderColor: activeFilter === null ? "var(--dl-ink)" : "var(--dl-border)",
+            background: activeFilter === null ? "var(--dl-ink)" : "transparent",
+            color: activeFilter === null ? "#fff" : "var(--dl-muted)",
+          }}
+        >
+          All {events.length}
+        </button>
+        {ALL_TYPES.map((type) => {
+          const cfg = typeConfig[type];
+          const isActive = activeFilter === type;
+          return (
+            <button
+              key={type}
+              onClick={() => setActiveFilter(isActive ? null : type)}
+              style={{
+                fontSize: 12,
+                fontWeight: 600,
+                padding: "5px 12px",
+                borderRadius: 6,
+                border: "1.5px solid",
+                cursor: "pointer",
+                transition: "all 0.12s",
+                borderColor: isActive ? cfg.color : "var(--dl-border)",
+                background: isActive ? cfg.bg : "transparent",
+                color: isActive ? cfg.color : "var(--dl-muted)",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: cfg.color, flexShrink: 0, display: "inline-block" }} />
+              {cfg.label}
+              <span style={{
+                fontSize: 10,
+                fontFamily: "JetBrains Mono, monospace",
+                background: isActive ? cfg.color : "var(--dl-border)",
+                color: isActive ? "#fff" : "var(--dl-muted)",
+                borderRadius: 10,
+                padding: "1px 6px",
+                lineHeight: 1.4,
+              }}>{countOf(type)}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Timeline */}
@@ -71,7 +129,7 @@ export default function AVTimeline() {
         }} />
 
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-          {events.map((ev, i) => {
+          {filtered.map((ev, i) => {
             const cfg = typeConfig[ev.type];
             return (
               <div key={i} style={{ display: "flex", gap: 16, paddingBottom: 16, alignItems: "flex-start" }}>
