@@ -25,6 +25,10 @@ async function hashPassword(password: string): Promise<string> {
     .join('');
 }
 
+// Hash once per cold start — MONEY_PASSWORD is fixed at deploy time
+const password = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
+const expectedTokenPromise = password ? hashPassword(password) : null;
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const host = context.request.headers.get("host") || "";
   const url = new URL(context.request.url);
@@ -41,12 +45,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // ── Cookie auth for private routes ──
   if (isProtected(url.pathname)) {
-    const password = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
-    if (!password) {
+    if (!expectedTokenPromise) {
       return new Response('MONEY_PASSWORD not configured', { status: 500 });
     }
 
-    const expectedToken = await hashPassword(password);
+    const expectedToken = await expectedTokenPromise;
     const cookies = context.request.headers.get('cookie') || '';
     const match = cookies.split(';').find((c) => c.trim().startsWith('money_session='));
     const token = match ? match.split('=')[1].trim() : null;
