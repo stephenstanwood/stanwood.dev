@@ -65,6 +65,9 @@ export const GET: APIRoute = async ({ url }) => {
     };
     const sunriseHour = parseLocalHour(sunriseRaw);
     const sunsetHour = parseLocalHour(sunsetRaw);
+    // CLEANUP-FLAG: new Date("2026-03-12T06:23") is parsed as local time — on a UTC server this
+    // is 06:23 UTC, then toLocaleTimeString with America/Los_Angeles converts it to 22:23 PT (wrong).
+    // Fix: parse the time components directly instead of relying on the Date constructor timezone.
     const sunriseDate = new Date(sunriseRaw);
     const sunsetDate = new Date(sunsetRaw);
 

@@ -4,7 +4,6 @@ import {
   type Game,
   type Status,
   type Competition,
-  type Competitor,
   esc,
   escUrl,
   parseRecord,
