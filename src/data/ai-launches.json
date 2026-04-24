@@ -1,5 +1,29 @@
 [
   {
+    "name": "ChatGPT Images 2.0",
+    "org": "OpenAI",
+    "date": "2026-04-21",
+    "type": "tool",
+    "summary": "new gpt-image-2 model with native reasoning, 2K resolution output, and multi-image consistency — generates product shots, brand visuals, and illustrations that stay coherent across a set",
+    "url": "https://thenewstack.io/chatgpt-images-20-openai/"
+  },
+  {
+    "name": "Google MCP for Google Services",
+    "org": "Google",
+    "date": "2026-04-22",
+    "type": "tool",
+    "summary": "official managed MCP servers for Google Maps, BigQuery, Cloud Run, Compute Engine, and more — plug Google services directly into your AI agent without building your own integrations",
+    "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-official-mcp-support-for-google-services"
+  },
+  {
+    "name": "Grok STT + TTS APIs",
+    "org": "xAI",
+    "date": "2026-04-18",
+    "type": "tool",
+    "summary": "standalone speech-to-text ($0.10/hr batch) and text-to-speech ($4.20/1M chars) APIs — word-level timestamps, speaker diarization, 25+ languages, available immediately to all developers",
+    "url": "https://x.ai/news/grok-stt-and-tts-apis"
+  },
+  {
     "name": "Claude Design",
     "org": "Anthropic",
     "date": "2026-04-17",
@@ -38,29 +62,5 @@
     "type": "tool",
     "summary": "expressive text-to-speech API available now in Gemini API and AI Studio — 200+ audio tags for directing delivery ([slowly, with gravity]), 70-language support, SynthID watermarking; free tier available",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/"
-  },
-  {
-    "name": "HuggingFace + GitHub Copilot Chat",
-    "org": "Hugging Face",
-    "date": "2026-04-10",
-    "type": "tool",
-    "summary": "open-source models now plug into GitHub Copilot Chat in VS Code — swap in Qwen, Llama, or any HF model as your in-editor AI assistant without leaving your IDE",
-    "url": "https://huggingface.co/blog/copilot-chat"
-  },
-  {
-    "name": "Mistral Medium 3",
-    "org": "Mistral",
-    "date": "2026-04-09",
-    "type": "model",
-    "summary": "open-weights model hitting ~90% of Claude Sonnet quality at $0.40/1M input tokens — self-hostable on 4 GPUs or via API, great for cost-sensitive high-volume apps",
-    "url": "https://mistral.ai/news/mistral-medium-3"
-  },
-  {
-    "name": "ChatGPT Images 2.0",
-    "org": "OpenAI",
-    "date": "2026-04-21",
-    "type": "tool",
-    "summary": "new gpt-image-2 model with native reasoning, 2K resolution output, and multi-image consistency — generates product shots, brand visuals, and illustrations that stay coherent across a set",
-    "url": "https://thenewstack.io/chatgpt-images-20-openai/"
   }
 ]
