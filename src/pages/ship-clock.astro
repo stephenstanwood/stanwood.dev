@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ShipClock from "../components/ShipClock.tsx";
+import RepoTracker from "../components/RepoTracker.tsx";
 const title = "Ship Clock — stanwood.dev";
 ---
 
@@ -457,6 +458,72 @@ const title = "Ship Clock — stanwood.dev";
         margin-top: 8px;
       }
 
+      /* ── Repo tracker ── */
+      .sc-rt-wrap {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+      .sc-rt-row {
+        display: flex;
+        gap: 0;
+      }
+      .sc-rt-input {
+        flex: 1;
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        padding: 10px 14px;
+        border: var(--sc-pixel) solid var(--sc-ink);
+        background: #fff;
+        color: var(--sc-ink);
+        outline: none;
+        min-width: 0;
+      }
+      .sc-rt-input::placeholder { opacity: 0.3; }
+      .sc-rt-input:focus { background: #fffef5; }
+      .sc-rt-btn {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        padding: 10px 18px;
+        border: var(--sc-pixel) solid var(--sc-ink);
+        border-left: none;
+        background: var(--sc-ink);
+        color: var(--sc-bg);
+        cursor: pointer;
+        transition: background 0.15s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .sc-rt-btn:hover:not(:disabled) {
+        background: var(--sc-accent);
+        border-color: var(--sc-accent);
+      }
+      .sc-rt-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+      .sc-rt-error {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--sc-accent);
+        margin: 8px 0 0;
+        opacity: 0.8;
+      }
+      .sc-rt-result {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .sc-rt-meta-card {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 4px 4px 0 var(--sc-ink);
+        background: #fff;
+        padding: 16px 20px;
+      }
+
       /* ── Hero image ── */
       .sc-hero {
         width: 100%;
@@ -539,6 +606,8 @@ const title = "Ship Clock — stanwood.dev";
     </div>
 
     <ShipClock client:idle />
+
+    <RepoTracker client:idle />
 
     <!-- How it works / build your own -->
     <div class="sc-explainer">
