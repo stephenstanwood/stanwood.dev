@@ -1,11 +1,19 @@
 [
   {
-    "name": "ChatGPT Images 2.0",
+    "name": "DeepSeek V4",
+    "org": "DeepSeek",
+    "date": "2026-04-24",
+    "type": "model",
+    "summary": "open-source flagship in two sizes (V4-Pro 1.6T params, V4-Flash 284B) with 1M token context and Hybrid Attention — preview weights on Hugging Face, API at $0.28/M tokens for Flash and $3.48/M for Pro",
+    "url": "https://api-docs.deepseek.com/news/news260424"
+  },
+  {
+    "name": "GPT-5.5",
     "org": "OpenAI",
-    "date": "2026-04-21",
-    "type": "tool",
-    "summary": "new gpt-image-2 model with native reasoning, 2K resolution output, and multi-image consistency — generates product shots, brand visuals, and illustrations that stay coherent across a set",
-    "url": "https://thenewstack.io/chatgpt-images-20-openai/"
+    "date": "2026-04-23",
+    "type": "model",
+    "summary": "OpenAI's new flagship — better at coding, deep research, and multi-step agentic tasks; rolling out to Plus/Pro/Business in ChatGPT and Codex, with GPT-5.5 and 5.5 Pro live in the API",
+    "url": "https://openai.com/index/introducing-gpt-5-5/"
   },
   {
     "name": "Google MCP for Google Services",
@@ -14,6 +22,14 @@
     "type": "tool",
     "summary": "official managed MCP servers for Google Maps, BigQuery, Cloud Run, Compute Engine, and more — plug Google services directly into your AI agent without building your own integrations",
     "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-official-mcp-support-for-google-services"
+  },
+  {
+    "name": "ChatGPT Images 2.0",
+    "org": "OpenAI",
+    "date": "2026-04-21",
+    "type": "tool",
+    "summary": "new gpt-image-2 model with native reasoning, 2K resolution output, and multi-image consistency — generates product shots, brand visuals, and illustrations that stay coherent across a set",
+    "url": "https://thenewstack.io/chatgpt-images-20-openai/"
   },
   {
     "name": "Grok STT + TTS APIs",
@@ -32,14 +48,6 @@
     "url": "https://techcrunch.com/2026/04/17/anthropic-launches-claude-design-a-new-product-for-creating-quick-visuals/"
   },
   {
-    "name": "Codex Desktop 2.0",
-    "org": "OpenAI",
-    "date": "2026-04-16",
-    "type": "tool",
-    "summary": "major update adds computer use (sees and controls your whole desktop), in-app browser, integrated image gen, 90+ new plugins (GitHub, CircleCI, SSH devboxes), and persistent memory across sessions",
-    "url": "https://venturebeat.com/technology/openai-drastically-updates-codex-desktop-app-to-use-all-other-apps-on-your-computer-generate-images-preview-webpages/"
-  },
-  {
     "name": "Claude Opus 4.7",
     "org": "Anthropic",
     "date": "2026-04-16",
@@ -48,19 +56,11 @@
     "url": "https://www.anthropic.com/news/claude-opus-4-7"
   },
   {
-    "name": "Fathom 3.0",
-    "org": "Fathom",
-    "date": "2026-04-15",
+    "name": "Canva AI 2.0",
+    "org": "Canva",
+    "date": "2026-04-16",
     "type": "tool",
-    "summary": "bot-free meeting capture (no Zoom bot), account-wide AI search across your full meeting history, Claude/ChatGPT integrations via MCP — #1 Product of the Day on Product Hunt",
-    "url": "https://techcrunch.com/2026/04/15/fathom-adds-a-bot-less-meeting-mode-in-a-bid-to-take-on-granola/"
-  },
-  {
-    "name": "Gemini 3.1 Flash TTS",
-    "org": "Google",
-    "date": "2026-04-15",
-    "type": "tool",
-    "summary": "expressive text-to-speech API available now in Gemini API and AI Studio — 200+ audio tags for directing delivery ([slowly, with gravity]), 70-language support, SynthID watermarking; free tier available",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-tts/"
+    "summary": "agentic redesign — chat-driven design with iterative editing, brand intelligence, web research, scheduling, Sheets AI, and Canva Code 2.0; research preview rolling to first million users",
+    "url": "https://www.canva.com/newsroom/news/canva-create-2026-ai/"
   }
 ]
