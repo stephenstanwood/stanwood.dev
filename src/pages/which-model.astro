@@ -1,7 +1,11 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WhichModel from "../components/WhichModel.tsx";
+import { MODELS } from "../lib/whichModel/models";
 const title = "Which Model? — stanwood.dev";
+
+const imageModels = MODELS.filter((m) => m.traits.image_gen >= 7 && m.traits.writing === 0);
+const textModels = MODELS.filter((m) => !imageModels.includes(m));
 ---
 
 <BaseLayout
@@ -708,6 +712,147 @@ const title = "Which Model? — stanwood.dev";
         }
       }
 
+      /* ─── Model Directory ─────────────────────────────────────── */
+      .wm-directory {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 24px 64px;
+      }
+
+      .wm-directory-head {
+        text-align: center;
+        margin-bottom: 28px;
+        padding: 40px 0 24px;
+        border-top: 2px dashed var(--wm-border);
+      }
+
+      .wm-directory-title {
+        font-family: 'Bangers', cursive;
+        font-size: clamp(30px, 6vw, 42px);
+        letter-spacing: 1.5px;
+        margin: 0 0 8px;
+        color: var(--wm-ink);
+        line-height: 1;
+      }
+
+      .wm-directory-sub {
+        font-size: 14px;
+        color: var(--wm-muted);
+        max-width: 520px;
+        margin: 0 auto;
+        line-height: 1.55;
+      }
+
+      .wm-directory-cat {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--wm-muted);
+        margin: 32px 0 14px;
+        font-weight: 700;
+      }
+
+      .wm-directory-cat:first-of-type {
+        margin-top: 0;
+      }
+
+      .wm-directory-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 14px;
+      }
+
+      .wm-mod-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 16px 16px;
+        border-top: 5px solid var(--mod-color, var(--wm-purple));
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .wm-mod-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 var(--wm-ink);
+      }
+
+      .wm-mod-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .wm-mod-emoji {
+        font-size: 22px;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 2px;
+      }
+
+      .wm-mod-name {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        margin: 0;
+        color: var(--wm-ink);
+        line-height: 1.2;
+      }
+
+      .wm-mod-org {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--wm-light);
+        margin: 3px 0 0;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .wm-mod-tag {
+        font-size: 13px;
+        color: var(--wm-ink);
+        line-height: 1.45;
+        margin: 0;
+        font-style: italic;
+      }
+
+      .wm-mod-best {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .wm-mod-best li {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--wm-muted);
+        background: var(--wm-bg);
+        border: 1px solid var(--wm-border);
+        padding: 2px 7px;
+        border-radius: 999px;
+      }
+
+      .wm-directory-foot {
+        text-align: center;
+        font-size: 13px;
+        color: var(--wm-muted);
+        margin-top: 32px;
+        padding-top: 18px;
+        border-top: 1px solid var(--wm-border);
+      }
+
+      .wm-directory-foot a {
+        color: var(--wm-coral);
+        font-weight: 600;
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -763,10 +908,64 @@ const title = "Which Model? — stanwood.dev";
         .wm-section-title {
           font-size: 28px;
         }
+
+        .wm-directory { padding: 0 16px 40px; }
+        .wm-directory-grid { grid-template-columns: 1fr; }
       }
 
     </style>
   </Fragment>
 
   <WhichModel client:idle />
+
+  <section class="wm-directory" id="model-directory" aria-labelledby="directory-heading">
+    <div class="wm-directory-head">
+      <h2 class="wm-directory-title" id="directory-heading">All {MODELS.length} models we compare</h2>
+      <p class="wm-directory-sub">
+        Hand-curated from the live frontier as of April 2026. Each is rated across 11 traits — coding, writing, reasoning, speed, cost, image gen, long context, and more — then matched to whatever you describe.
+      </p>
+    </div>
+
+    <h3 class="wm-directory-cat">💬 Text &amp; Reasoning &nbsp;·&nbsp; {textModels.length} models</h3>
+    <div class="wm-directory-grid">
+      {textModels.map((m) => (
+        <article class="wm-mod-card" style={`--mod-color: ${m.color}`}>
+          <header class="wm-mod-head">
+            <span class="wm-mod-emoji" aria-hidden="true">{m.emoji}</span>
+            <div>
+              <h4 class="wm-mod-name">{m.name}</h4>
+              <p class="wm-mod-org">{m.org}</p>
+            </div>
+          </header>
+          <p class="wm-mod-tag">{m.tagline}</p>
+          <ul class="wm-mod-best">
+            {m.bestFor.slice(0, 3).map((b) => <li>{b}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <h3 class="wm-directory-cat">🎨 Image Generation &nbsp;·&nbsp; {imageModels.length} models</h3>
+    <div class="wm-directory-grid">
+      {imageModels.map((m) => (
+        <article class="wm-mod-card" style={`--mod-color: ${m.color}`}>
+          <header class="wm-mod-head">
+            <span class="wm-mod-emoji" aria-hidden="true">{m.emoji}</span>
+            <div>
+              <h4 class="wm-mod-name">{m.name}</h4>
+              <p class="wm-mod-org">{m.org}</p>
+            </div>
+          </header>
+          <p class="wm-mod-tag">{m.tagline}</p>
+          <ul class="wm-mod-best">
+            {m.bestFor.slice(0, 3).map((b) => <li>{b}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+
+    <p class="wm-directory-foot">
+      Models retire and new ones land. Spot something missing? <a href="mailto:stephen@stanwood.dev">let me know</a>.
+    </p>
+  </section>
 </BaseLayout>
