@@ -247,6 +247,52 @@ export default function AIRadarPage() {
         </>
       )}
 
+      <section className="rp-about" aria-labelledby="rp-about-title">
+        <h2 id="rp-about-title" className="rp-about-title">About this radar</h2>
+        <p className="rp-about-intro">
+          A hand-curated log of AI launches that actually move the field — new flagship models,
+          agentic products, developer APIs, and infrastructure shifts. No press releases.
+          No minor patches. No prerelease beta noise.
+        </p>
+
+        <div className="rp-about-types">
+          <div className="rp-about-type">
+            <span className="rp-about-type-label">MODEL</span>
+            <span className="rp-about-type-desc">A new foundation model — capabilities, benchmarks, pricing.</span>
+          </div>
+          <div className="rp-about-type">
+            <span className="rp-about-type-label">PRODUCT</span>
+            <span className="rp-about-type-desc">A consumer-facing app or feature — what users actually touch.</span>
+          </div>
+          <div className="rp-about-type">
+            <span className="rp-about-type-label">TOOL</span>
+            <span className="rp-about-type-desc">A developer-facing API or capability — what builders plug into.</span>
+          </div>
+          <div className="rp-about-type">
+            <span className="rp-about-type-label">INFRA</span>
+            <span className="rp-about-type-desc">Hardware, platforms, or backbone — chips, cloud, the rails.</span>
+          </div>
+        </div>
+
+        <dl className="rp-about-meta">
+          <div className="rp-about-meta-row">
+            <dt>Updated</dt>
+            <dd>Daily — new entries land when something ships.</dd>
+          </div>
+          <div className="rp-about-meta-row">
+            <dt>Sources</dt>
+            <dd>Official announcements first, trusted reporting second.</dd>
+          </div>
+          <div className="rp-about-meta-row">
+            <dt>Suggest</dt>
+            <dd>
+              Spot something missing?{" "}
+              <a href="mailto:stephen@stanwood.dev?subject=AI Radar suggestion">email it in</a>.
+            </dd>
+          </div>
+        </dl>
+      </section>
+
       <footer className="rp-footer">
         <span>curated by stanwood.dev</span>
         <span>signal over noise</span>

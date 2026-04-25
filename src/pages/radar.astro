@@ -396,6 +396,93 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         opacity: 0.75;
       }
 
+      /* ── About this radar ── */
+      .rp-about {
+        margin-top: 56px;
+        padding: 22px 22px 20px;
+        border: 2px solid var(--rp-ink);
+        border-left: 5px solid var(--rp-accent);
+        box-shadow: 3px 3px 0 var(--rp-ink);
+        background: #fff;
+      }
+      .rp-about-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        line-height: 1;
+        margin: 0 0 10px;
+        letter-spacing: 0.02em;
+      }
+      .rp-about-intro {
+        font-size: 13px;
+        line-height: 1.55;
+        color: #555;
+        margin: 0 0 18px;
+      }
+      .rp-about-types {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px 14px;
+        margin-bottom: 18px;
+        padding-bottom: 18px;
+        border-bottom: 1px dashed var(--rp-border);
+      }
+      .rp-about-type {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .rp-about-type-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        background: var(--rp-subtle);
+        color: var(--rp-ink);
+        padding: 3px 7px;
+        border-radius: 2px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .rp-about-type-desc {
+        font-size: 11px;
+        color: var(--rp-muted);
+        line-height: 1.45;
+      }
+      .rp-about-meta {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .rp-about-meta-row {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 12px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .rp-about-meta-row dt {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+        padding-top: 1px;
+      }
+      .rp-about-meta-row dd {
+        margin: 0;
+        color: #555;
+      }
+      .rp-about-meta-row a {
+        color: var(--rp-accent);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+      .rp-about-meta-row a:hover {
+        text-decoration: none;
+      }
+
       /* ── Footer ── */
       .rp-footer {
         margin-top: 48px;
@@ -420,6 +507,10 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         .rp-day-marker { width: 36px; }
         .rp-day-num { font-size: 18px; }
         .retro-back { top: 14px; left: 14px; }
+        .rp-about { padding: 18px 16px; }
+        .rp-about-title { font-size: 20px; }
+        .rp-about-types { grid-template-columns: 1fr; }
+        .rp-about-meta-row { grid-template-columns: 70px 1fr; gap: 10px; }
       }
     </style>
   </Fragment>
