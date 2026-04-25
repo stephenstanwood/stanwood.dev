@@ -84,10 +84,6 @@ const builtAt = data.built_at
   ? new Date(data.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
   : 'never';
 
-const broaderBuiltAt = broader.built_at
-  ? new Date(broader.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
-  : 'never';
-
 const topSeries = data.series?.[0] ?? null;
 const restSeries = (data.series ?? []).slice(1);
 

@@ -326,7 +326,6 @@ export interface HourlyForecast {
 
 export function computeLaterToday(
   currentTemp: number,
-  currentHour: number,
   forecast: HourlyForecast
 ): string | null {
   // Look 4-6 hours ahead
@@ -430,7 +429,7 @@ export function buildResponse(
     isDay: input.isDay,
     sunrise: sunriseStr,
     sunset: sunsetStr,
-    laterToday: computeLaterToday(input.temp, input.currentHour, forecast),
+    laterToday: computeLaterToday(input.temp, forecast),
     bestWindow: computeBestWindow(input.currentHour, forecast),
   };
 }

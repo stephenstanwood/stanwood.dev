@@ -26,29 +26,6 @@ function barsFromSha(sha: string): number[] {
   return bars;
 }
 
-function formatTimestamp(iso: string): string {
-  const date = new Date(iso);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  const time = date.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  }).toLowerCase();
-
-  if (diffDays === 0) return `today at ${time}`;
-  if (diffDays === 1) return `yesterday at ${time}`;
-  if (diffDays < 7) {
-    const day = date.toLocaleDateString("en-US", { weekday: "long" });
-    return `${day} at ${time}`;
-  }
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  }) + ` at ${time}`;
-}
-
 function formatElapsed(ms: number): string {
   const totalMin = Math.floor(ms / 60000);
   const totalHr = Math.floor(totalMin / 60);
@@ -117,7 +94,6 @@ export default function ShipClockTile() {
     );
   }
 
-  const timestamp = formatTimestamp(data.lastDeploy);
   const deployDate = new Date(data.lastDeploy);
   const dayName = deployDate.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();
   const dateStr = deployDate.toLocaleDateString("en-US", {

@@ -6,6 +6,7 @@ import {
   getTeam,
   getTeamsByLeague,
 } from "../lib/teamRegistry";
+import { safeGet, safeSet } from "../lib/localStorage";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -89,25 +90,18 @@ function tzAbbr(iana: string): string {
 const LS_KEY = "wtwtw:v1";
 
 function loadPrefs(): WTWTWPrefs {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed.teams) && typeof parsed.timezone === "string") {
-        const valid = parsed.teams.filter(
-          (k: string) => TEAM_REGISTRY[k] !== undefined
-        );
-        return { teams: valid, timezone: parsed.timezone };
-      }
-    }
-  } catch {}
+  const parsed = safeGet<{ teams: unknown; timezone: unknown }>(LS_KEY);
+  if (parsed && Array.isArray(parsed.teams) && typeof parsed.timezone === "string") {
+    const valid = (parsed.teams as string[]).filter(
+      (k) => TEAM_REGISTRY[k] !== undefined
+    );
+    return { teams: valid, timezone: parsed.timezone };
+  }
   return { teams: [], timezone: getDefaultTimezone() };
 }
 
 function savePrefs(prefs: WTWTWPrefs): void {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(prefs));
-  } catch {}
+  safeSet(LS_KEY, prefs);
 }
 
 // ── ESPN helpers ────────────────────────────────────────────────────────────
@@ -300,7 +294,7 @@ function GameStatusBadge({ event }: { event: ESPNEvent }) {
 
 // ── Score Display ──────────────────────────────────────────────────────────
 
-function ScoreDisplay({ event, teamColor }: { event: ESPNEvent; teamColor: string }) {
+function ScoreDisplay({ event }: { event: ESPNEvent }) {
   const scores = getScores(event);
   if (!scores) return null;
 
@@ -990,7 +984,7 @@ export default function WTWTW() {
 
                       {/* Score display for live/final games */}
                       {(gameState === "live" || gameState === "final") && (
-                        <ScoreDisplay event={pick.event} teamColor={pick.team.color} />
+                        <ScoreDisplay event={pick.event} />
                       )}
                     </div>
 
