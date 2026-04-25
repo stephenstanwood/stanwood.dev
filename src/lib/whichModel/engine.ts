@@ -78,14 +78,12 @@ export function recommend(taskWeights: TaskWeights): RecommendResult {
     whySentence: generateWhy(s.model, label, weights),
   }));
 
-  const ifYouCareMore = buildIfYouCareMore(scored, weights, primary.model);
+  const ifYouCareMore = buildIfYouCareMore(primary.model);
 
   return { primary, alternates, ifYouCareMore, taskLabel: label };
 }
 
 function buildIfYouCareMore(
-  scored: { model: ModelProfile; score: number }[],
-  weights: Partial<TraitScores>,
   primaryModel: ModelProfile,
 ): RecommendResult["ifYouCareMore"] {
   const result: RecommendResult["ifYouCareMore"] = [];

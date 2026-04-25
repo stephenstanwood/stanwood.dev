@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import type { AestheticWeatherResponse } from "../lib/aestheticWeather";
+import { safeGet, safeSet, safeRemove } from "../lib/localStorage";
 
 const LS_KEY = "aw-location";
 
@@ -9,14 +10,10 @@ interface SavedLocation {
 }
 
 function getSavedLocation(): SavedLocation | null {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (typeof parsed.lat === "number" && typeof parsed.lon === "number") {
-      return parsed;
-    }
-  } catch {}
+  const parsed = safeGet<SavedLocation>(LS_KEY);
+  if (parsed && typeof parsed.lat === "number" && typeof parsed.lon === "number") {
+    return parsed;
+  }
   return null;
 }
 
@@ -64,7 +61,7 @@ export default function AestheticWeatherPage() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const coords = { lat: pos.coords.latitude, lon: pos.coords.longitude };
-        localStorage.setItem(LS_KEY, JSON.stringify(coords));
+        safeSet(LS_KEY, coords);
         setLocating(false);
         fetchWeather(coords);
       },
@@ -77,7 +74,7 @@ export default function AestheticWeatherPage() {
   };
 
   const handleResetLocation = () => {
-    localStorage.removeItem(LS_KEY);
+    safeRemove(LS_KEY);
     setUsingCustom(false);
     setGeoError(null);
     fetchWeather();

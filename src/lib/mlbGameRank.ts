@@ -9,7 +9,6 @@ import {
   getBroadcasts,
   teamAbbr,
   teamMascot,
-  teamColor,
   isLive,
   getGameDayLabel,
   fitHeroLines,
@@ -18,6 +17,7 @@ import {
   parseRecord,
   winPct,
 } from "./sportsCore";
+import { safeGet } from "./localStorage";
 
 // ── MLB-specific types ──
 
@@ -305,47 +305,6 @@ function statusLabel(status: Status | undefined): string {
 
 function formatFirstPitch(dateStr: string): string {
   return formatGameTime(dateStr, true);
-}
-
-function renderHeroTeam(
-  competitor: Competitor,
-  status: Status | undefined,
-  label: string,
-  isWinning: boolean,
-  isLosing: boolean,
-): string {
-  const abbr = teamAbbr(competitor);
-  const city = esc(competitor?.team?.location || abbr);
-  const name = esc(competitor?.team?.name || "");
-  const record = esc(competitor?.records?.[0]?.summary || "");
-  const logoUrl = escUrl(competitor?.team?.logo || "");
-  const color = teamColor(competitor, "#d97706");
-  const state = status?.type?.state;
-  const showScore = state && state !== "pre";
-  const score = showScore ? (competitor?.score ?? "\u2013") : "";
-
-  let scoreStyle = "color: #e5e7eb;";
-  if (isWinning)
-    scoreStyle = `color: #fbbf24; text-shadow: 0 0 12px rgba(251, 191, 36, 0.5);`;
-  else if (isLosing) scoreStyle = "color: rgba(255, 255, 255, 0.3);";
-
-  return `
-    <div class="flex items-center justify-between py-1.5">
-      <div class="flex items-center gap-3">
-        ${
-          logoUrl
-            ? `<img src="${logoUrl}" alt="${abbr}" width="32" height="32" style="object-fit: contain;" />`
-            : `<div style="width:32px;height:32px;border-radius:50%;background:${color};"></div>`
-        }
-        <div>
-          <div style="font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); text-transform: uppercase;">${label}</div>
-          <div class="font-score text-xl font-bold tracking-wider" style="color: #e5e7eb;">${name}</div>
-          <div style="font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 1px;">${record}</div>
-        </div>
-      </div>
-      ${score ? `<div class="font-score text-4xl font-black tracking-wider" style="${scoreStyle}">${score}</div>` : ""}
-    </div>
-  `;
 }
 
 function renderHeroCard(game: Game): string {
@@ -700,8 +659,7 @@ function render(events: Game[]): void {
 // ── Favorite teams highlight ──
 
 export function highlightFavorites(): void {
-  let favs: string[] = [];
-  try { favs = JSON.parse(localStorage.getItem("mlb-fav-teams") || "[]"); } catch {}
+  const favs = safeGet<string[]>("mlb-fav-teams") ?? [];
   document.querySelectorAll<HTMLElement>("[data-home][data-away]").forEach((el) => {
     const home = el.getAttribute("data-home") || "";
     const away = el.getAttribute("data-away") || "";

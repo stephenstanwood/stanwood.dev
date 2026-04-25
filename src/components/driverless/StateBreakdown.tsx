@@ -8,12 +8,6 @@ function formatVehicles(n: number): string {
   return n.toLocaleString();
 }
 
-function avPercent(av: number, total: number): string {
-  const pct = (av / total) * 100;
-  if (pct < 0.0001) return "<0.0001%";
-  return pct.toFixed(4) + "%";
-}
-
 export default function StateBreakdown() {
   return (
     <div className="dl-panel dl-full">

@@ -330,7 +330,6 @@ function LiveDot() {
 }
 
 function GameCard({ game }: { game: SportGame }) {
-  const localTeam = game.localTeamHome ? game.homeTeam : game.awayTeam;
   const localAbbr = game.localTeamHome ? game.homeAbbr : game.awayAbbr;
   const localScore = game.localTeamHome ? game.homeScore : game.awayScore;
   const oppAbbr = game.localTeamHome ? game.awayAbbr : game.homeAbbr;
@@ -406,40 +405,6 @@ function GameCard({ game }: { game: SportGame }) {
           📺 {game.broadcasts.slice(0, 2).join(", ")}
         </div>
       )}
-    </div>
-  );
-}
-
-function WeatherWidget({ weather }: { weather: WeatherData }) {
-  return (
-    <div
-      style={{
-        background: "#fff",
-        border: "1.5px solid #E2E8F0",
-        borderRadius: "10px",
-        padding: "14px 16px",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "6px" }}>
-            <span style={{ fontSize: "32px", fontWeight: 800, color: "#0F172A", fontFamily: "'Space Mono', monospace", lineHeight: 1 }}>
-              {weather.temp}°
-            </span>
-            <span style={{ fontSize: "14px", color: "#64748B" }}>F</span>
-          </div>
-          <div style={{ fontSize: "13px", color: "#475569", marginTop: "2px" }}>
-            {weather.emoji} {weather.description}
-          </div>
-          <div style={{ fontSize: "11px", color: "#94A3B8", marginTop: "3px", fontFamily: "'Space Mono', monospace" }}>
-            H:{weather.tempHigh}° L:{weather.tempLow}°
-          </div>
-        </div>
-        <div style={{ textAlign: "right", fontSize: "11px", color: "#64748B", fontFamily: "'Space Mono', monospace", lineHeight: 1.9 }}>
-          <div>{weather.humidity}% humidity</div>
-          <div>{weather.windSpeed} mph wind</div>
-        </div>
-      </div>
     </div>
   );
 }

@@ -407,7 +407,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       // Typewriter animation — type, pause, delete, repeat
       (() => {
         const chars = document.querySelectorAll<HTMLSpanElement>('#typewriter .char');
-        const cursor = document.getElementById('cursor')!;
 
         async function typeAll() {
           for (let i = 0; i < chars.length; i++) {

@@ -615,7 +615,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       }
 
       // --- Draw bubbles ---
-      function drawBubbles(time) {
+      function drawBubbles() {
         for (const b of bubbles) {
           const alpha = Math.max(0, 0.5 - b.y / 20);
           px(Math.round(b.x), Math.round(b.y), rgbStr(100, 180, 255, alpha));
@@ -859,7 +859,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         // Bubbles
         spawnIdleBubble();
         updateBubbles();
-        drawBubbles(timestamp);
+        drawBubbles();
 
         maybeSpawnFish();
 

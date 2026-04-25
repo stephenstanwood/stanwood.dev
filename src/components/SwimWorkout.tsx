@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
 import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
+import { safeGet, safeSet } from "../lib/localStorage";
 
 // ─── History helpers ────────────────────────────────────────────────────────────
 
@@ -21,21 +22,14 @@ const HISTORY_KEY = "laplab_history";
 const HISTORY_MAX = 5;
 
 function loadHistory(): HistoryEntry[] {
-  try {
-    if (typeof localStorage === "undefined") return [];
-    const raw = localStorage.getItem(HISTORY_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
+  if (typeof localStorage === "undefined") return [];
+  return safeGet<HistoryEntry[]>(HISTORY_KEY) ?? [];
 }
 
 function saveToHistory(entry: HistoryEntry) {
-  try {
-    const existing = loadHistory().filter((e) => e.seed !== entry.seed);
-    const updated = [entry, ...existing].slice(0, HISTORY_MAX);
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
-  } catch {}
+  const existing = loadHistory().filter((e) => e.seed !== entry.seed);
+  const updated = [entry, ...existing].slice(0, HISTORY_MAX);
+  safeSet(HISTORY_KEY, updated);
 }
 
 function formatRelativeDate(timestamp: number): string {

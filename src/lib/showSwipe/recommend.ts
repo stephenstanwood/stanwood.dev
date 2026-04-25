@@ -90,7 +90,6 @@ function topGenres(n: number): number[] {
 async function fetchFromSource(
   source: FetchPlan["source"],
   mediaType: MediaType,
-  era: Era,
   page: number,
 ): Promise<TmdbMediaItem[]> {
   const currentYear = new Date().getFullYear();
@@ -221,7 +220,7 @@ export async function fetchNextBatch(
     for (let pageAttempt = 0; pageAttempt < 5 && candidates.length < BUFFER_SIZE; pageAttempt++) {
       const page = Math.floor(Math.random() * 10) + 1;
       try {
-        const rawItems = await fetchFromSource(entry.source, mediaType, era, page);
+        const rawItems = await fetchFromSource(entry.source, mediaType, page);
         const filtered = filterCandidates(rawItems, allSeen, mediaType, era, entry.source);
         // Add new candidates (dedup against what we already have)
         const existingIds = new Set(candidates.map((c) => c.id));
