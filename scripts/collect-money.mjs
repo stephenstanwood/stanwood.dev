@@ -214,7 +214,7 @@ async function collectOpenAI(range) {
   const byLine = {};
   for (const bucket of buckets) {
     for (const result of bucket.results || []) {
-      const dollars = result.amount?.value || 0;
+      const dollars = Number(result.amount?.value) || 0;
       totalDollars += dollars;
       const line = result.line_item || "api";
       byLine[line] = (byLine[line] || 0) + dollars;
@@ -226,6 +226,12 @@ async function collectOpenAI(range) {
     .sort((a, b) => b.cents - a.cents);
 
   return { totalCents: Math.round(totalDollars * 100), breakdown, note: null };
+}
+
+// ── Recraft ──────────────────────────────────────────────────────
+// Recraft has no public usage/billing API. Track manually via dashboard.
+async function collectRecraft() {
+  return { totalCents: null, note: "track manually at recraft.ai" };
 }
 
 // ── Main ─────────────────────────────────────────────────────────
@@ -247,10 +253,11 @@ async function main() {
     data.apiSpend.months.push(month);
   }
 
-  const [vercel, anthropic, openai] = await Promise.allSettled([
+  const [vercel, anthropic, openai, recraft] = await Promise.allSettled([
     collectVercel(range),
     collectAnthropic(range),
     collectOpenAI(range),
+    collectRecraft(),
   ]);
 
   const unwrap = (r) =>
@@ -261,6 +268,7 @@ async function main() {
   month.services.vercel = unwrap(vercel);
   month.services.anthropic = unwrap(anthropic);
   month.services.openai = unwrap(openai);
+  month.services.recraft = unwrap(recraft);
 
   month.collectedAt = new Date().toISOString();
   data.lastUpdated = month.collectedAt;

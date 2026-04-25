@@ -73,9 +73,15 @@ export const SERVICE_META: Record<
     url: "https://platform.openai.com/usage",
     emoji: "🤖",
   },
+  recraft: {
+    label: "Recraft",
+    color: "#7c3aed",
+    url: "https://www.recraft.ai/account/billing",
+    emoji: "🎨",
+  },
 };
 
-export const SERVICE_ORDER = ["vercel", "anthropic", "openai"];
+export const SERVICE_ORDER = ["vercel", "anthropic", "openai", "recraft"];
 
 // ── Category colors for subscriptions ────────────────────────────
 

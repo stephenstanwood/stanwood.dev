@@ -1,22 +1,64 @@
 {
-  "lastUpdated": "2026-04-25T10:00:02.092Z",
+  "lastUpdated": "2026-04-25T22:11:07.327Z",
   "apiSpend": {
     "months": [
       {
         "month": "2026-04",
-        "collectedAt": "2026-04-25T10:00:02.092Z",
+        "collectedAt": "2026-04-25T22:11:07.327Z",
         "services": {
           "vercel": {
-            "totalCents": null,
-            "note": "Missing VERCEL_TOKEN"
+            "totalCents": 50,
+            "breakdown": [
+              {
+                "name": "Build Minutes",
+                "cents": 28
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 11
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 5
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 5
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 1
+              }
+            ],
+            "note": null
           },
           "anthropic": {
-            "totalCents": null,
-            "note": "Missing ANTHROPIC_ADMIN_KEY"
+            "totalCents": 7027,
+            "breakdown": [
+              {
+                "name": "claude-sonnet-4-6",
+                "cents": 5519
+              },
+              {
+                "name": "claude-haiku-4-5",
+                "cents": 1508
+              }
+            ],
+            "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
+            "totalCents": 10095,
+            "breakdown": [
+              {
+                "name": "api",
+                "cents": 10095
+              }
+            ],
+            "note": null
+          },
+          "recraft": {
             "totalCents": null,
-            "note": "Missing OPENAI_ADMIN_KEY"
+            "note": "track manually at recraft.ai"
           }
         }
       }
