@@ -812,6 +812,194 @@ const title = "Redesign Rolodex — stanwood.dev";
         0% { background-position: 200% 200%; }
         100% { background-position: 0% 0%; }
       }
+
+      /* ─── Example Outputs (static, on the Astro page) ────────── */
+      .rr-examples-section {
+        max-width: 1100px;
+        margin: 4rem auto 0;
+        padding: 3rem 1.5rem 0;
+        border-top: 1px solid var(--rr-border);
+      }
+      .rr-examples-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--rr-accent);
+        text-align: center;
+        margin: 0 0 0.75rem;
+      }
+      .rr-examples-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.75rem;
+        text-align: center;
+        color: var(--rr-ink);
+        margin: 0 0 1rem;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      @media (min-width: 640px) {
+        .rr-examples-heading { font-size: 2.25rem; }
+      }
+      .rr-examples-intro {
+        max-width: 560px;
+        margin: 0 auto 2.5rem;
+        font-size: 0.95rem;
+        color: var(--rr-gray);
+        text-align: center;
+        line-height: 1.55;
+      }
+      .rr-examples-intro strong {
+        color: var(--rr-ink);
+        font-weight: 600;
+      }
+      .rr-example-target {
+        display: block;
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--rr-light-gray);
+        margin: 0 0 1.5rem;
+        letter-spacing: 0.04em;
+      }
+      .rr-example-target span {
+        color: var(--rr-accent);
+        background: var(--rr-accent-light);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+      }
+      .rr-example-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 2.5rem;
+      }
+      @media (min-width: 720px) {
+        .rr-example-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
+        }
+      }
+      .rr-example-card {
+        background: var(--rr-card-bg);
+        border: 2px solid var(--rr-border);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(28, 25, 23, 0.06), 0 1px 3px rgba(28, 25, 23, 0.04);
+        display: flex;
+        flex-direction: column;
+      }
+      .rr-example-preview {
+        margin: 0.75rem 0.75rem 0;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--rr-border);
+        aspect-ratio: 7 / 5;
+        background: #f5f5f5;
+      }
+      .rr-example-preview svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .rr-example-body {
+        padding: 0.85rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .rr-example-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--rr-light-gray);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .rr-example-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--rr-ink);
+        margin: 0;
+        line-height: 1.2;
+      }
+      .rr-example-tagline {
+        font-size: 0.85rem;
+        color: var(--rr-gray);
+        font-style: italic;
+        margin: 0;
+        line-height: 1.4;
+      }
+      .rr-example-palette {
+        display: flex;
+        gap: 4px;
+        margin: 0.25rem 0 0.1rem;
+      }
+      .rr-example-swatch {
+        width: 22px;
+        height: 22px;
+        border-radius: 4px;
+        border: 1px solid rgba(0,0,0,0.08);
+        flex-shrink: 0;
+      }
+      .rr-example-font {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        color: var(--rr-light-gray);
+        line-height: 1.45;
+        margin: 0;
+      }
+      .rr-examples-howto {
+        max-width: 560px;
+        margin: 0 auto;
+        padding-bottom: 1rem;
+      }
+      .rr-howto-title {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--rr-light-gray);
+        text-align: center;
+        margin: 0 0 1.25rem;
+      }
+      .rr-howto-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+      @media (min-width: 540px) {
+        .rr-howto-grid { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+      }
+      .rr-howto-step {
+        background: var(--rr-card-bg);
+        border: 1.5px solid var(--rr-border);
+        border-radius: 10px;
+        padding: 0.85rem 1rem 1rem;
+      }
+      .rr-howto-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--rr-accent);
+        letter-spacing: 0.12em;
+        margin-bottom: 0.35rem;
+      }
+      .rr-howto-step h4 {
+        font-family: 'Cabin', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--rr-ink);
+        margin: 0 0 0.25rem;
+      }
+      .rr-howto-step p {
+        font-size: 0.78rem;
+        color: var(--rr-gray);
+        line-height: 1.45;
+        margin: 0;
+      }
     </style>
   </Fragment>
 
@@ -830,6 +1018,144 @@ const title = "Redesign Rolodex — stanwood.dev";
       <div class="rr-app">
         <RedesignRolodexPage client:load />
       </div>
+
+      <section class="rr-examples-section" aria-label="Example rolodex outputs">
+        <p class="rr-examples-eyebrow">a peek at the rolodex</p>
+        <h2 class="rr-examples-heading">What a spin actually gives you.</h2>
+        <p class="rr-examples-intro">
+          Each spin returns <strong>three to nine design directions</strong> — every card is a fresh take on
+          the same site, with a concept screenshot, a color palette, font notes, and a copy-paste prompt
+          you can hand to ChatGPT, Claude, or your code editor. Below: three sample directions from a
+          fictional run.
+        </p>
+        <p class="rr-example-target">redesigning <span>example.com</span></p>
+
+        <div class="rr-example-grid">
+          <article class="rr-example-card">
+            <div class="rr-example-preview">
+              <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brutalist Library concept preview">
+                <rect width="280" height="200" fill="#fafaf5"/>
+                <rect width="280" height="34" fill="#0a0a0a"/>
+                <rect x="14" y="13" width="62" height="8" fill="#fafaf5"/>
+                <rect x="194" y="13" width="50" height="8" fill="#fafaf5"/>
+                <rect x="252" y="13" width="14" height="8" fill="#cc3333"/>
+                <text x="14" y="80" font-family="Georgia, serif" font-size="22" fill="#0a0a0a" font-weight="700">On Reading.</text>
+                <line x1="14" y1="92" x2="92" y2="92" stroke="#cc3333" stroke-width="2"/>
+                <rect x="14" y="106" width="252" height="3" fill="#666"/>
+                <rect x="14" y="114" width="240" height="3" fill="#666"/>
+                <rect x="14" y="122" width="252" height="3" fill="#666"/>
+                <rect x="14" y="130" width="180" height="3" fill="#666"/>
+                <rect x="14" y="158" width="118" height="22" fill="#0a0a0a"/>
+                <text x="22" y="173" font-family="Georgia, serif" font-size="9" fill="#fafaf5" letter-spacing="0.5">CONTINUE READING →</text>
+              </svg>
+            </div>
+            <div class="rr-example-body">
+              <span class="rr-example-num">Card 01</span>
+              <h3 class="rr-example-name">Brutalist Library</h3>
+              <p class="rr-example-tagline">Everything in service of reading. Decoration is suspect.</p>
+              <div class="rr-example-palette">
+                <span class="rr-example-swatch" style="background:#0a0a0a" title="#0a0a0a"></span>
+                <span class="rr-example-swatch" style="background:#fafaf5" title="#fafaf5"></span>
+                <span class="rr-example-swatch" style="background:#cc3333" title="#cc3333"></span>
+                <span class="rr-example-swatch" style="background:#666666" title="#666666"></span>
+                <span class="rr-example-swatch" style="background:#dddddd" title="#dddddd"></span>
+              </div>
+              <p class="rr-example-font">Stark serifs. Generous body type. No flourishes, no rounded corners.</p>
+            </div>
+          </article>
+
+          <article class="rr-example-card">
+            <div class="rr-example-preview">
+              <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sunset Arcade concept preview">
+                <defs>
+                  <linearGradient id="sa-bg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#1a0033"/>
+                    <stop offset="0.6" stop-color="#3a0855"/>
+                    <stop offset="1" stop-color="#1a0033"/>
+                  </linearGradient>
+                </defs>
+                <rect width="280" height="200" fill="url(#sa-bg)"/>
+                <text x="14" y="62" font-family="'Courier New', monospace" font-size="28" fill="#ff00aa" font-weight="700" letter-spacing="2">RETRO</text>
+                <text x="14" y="94" font-family="'Courier New', monospace" font-size="28" fill="#00f0ff" font-weight="700" letter-spacing="2">.PIXEL</text>
+                <rect x="14" y="118" width="128" height="32" fill="none" stroke="#ffcc00" stroke-width="2"/>
+                <text x="32" y="139" font-family="'Courier New', monospace" font-size="11" fill="#ffcc00" letter-spacing="1">[ INSERT COIN ]</text>
+                <line x1="0" y1="170" x2="280" y2="170" stroke="#ff00aa" stroke-width="1" opacity="0.5"/>
+                <line x1="0" y1="180" x2="280" y2="180" stroke="#00f0ff" stroke-width="1" opacity="0.5"/>
+                <line x1="0" y1="190" x2="280" y2="190" stroke="#ff5c1a" stroke-width="1" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="rr-example-body">
+              <span class="rr-example-num">Card 02</span>
+              <h3 class="rr-example-name">Sunset Arcade</h3>
+              <p class="rr-example-tagline">Your site at 2am — neon humming, scanlines, a quarter on the cabinet.</p>
+              <div class="rr-example-palette">
+                <span class="rr-example-swatch" style="background:#1a0033" title="#1a0033"></span>
+                <span class="rr-example-swatch" style="background:#ff00aa" title="#ff00aa"></span>
+                <span class="rr-example-swatch" style="background:#00f0ff" title="#00f0ff"></span>
+                <span class="rr-example-swatch" style="background:#ffcc00" title="#ffcc00"></span>
+                <span class="rr-example-swatch" style="background:#ff5c1a" title="#ff5c1a"></span>
+              </div>
+              <p class="rr-example-font">Bold display monospace. Glowing buttons. Subtle CRT scanlines on top.</p>
+            </div>
+          </article>
+
+          <article class="rr-example-card">
+            <div class="rr-example-preview">
+              <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Botanical Press concept preview">
+                <rect width="280" height="200" fill="#fdfbf6"/>
+                <text x="140" y="34" font-family="Georgia, serif" font-size="9" fill="#a26d4e" text-anchor="middle" letter-spacing="3">— WINTER ISSUE —</text>
+                <text x="140" y="84" font-family="Georgia, serif" font-size="36" font-style="italic" fill="#3d4f3a" text-anchor="middle">Bloom</text>
+                <line x1="100" y1="98" x2="180" y2="98" stroke="#a26d4e" stroke-width="1"/>
+                <text x="140" y="116" font-family="Georgia, serif" font-size="10" fill="#1c1c1c" text-anchor="middle">A quarterly almanac of slow things.</text>
+                <circle cx="40" cy="160" r="14" fill="#e8d9c0"/>
+                <circle cx="40" cy="160" r="7" fill="#3d4f3a" opacity="0.75"/>
+                <line x1="40" y1="174" x2="40" y2="190" stroke="#3d4f3a" stroke-width="1.5"/>
+                <line x1="40" y1="180" x2="32" y2="184" stroke="#3d4f3a" stroke-width="1"/>
+                <line x1="40" y1="180" x2="48" y2="184" stroke="#3d4f3a" stroke-width="1"/>
+                <rect x="100" y="155" width="80" height="2" fill="#1c1c1c"/>
+                <rect x="100" y="162" width="60" height="2" fill="#1c1c1c"/>
+                <rect x="100" y="169" width="80" height="2" fill="#1c1c1c"/>
+                <rect x="100" y="176" width="40" height="2" fill="#1c1c1c"/>
+                <text x="240" y="190" font-family="Georgia, serif" font-size="8" fill="#a26d4e" font-style="italic">vol. 4</text>
+              </svg>
+            </div>
+            <div class="rr-example-body">
+              <span class="rr-example-num">Card 03</span>
+              <h3 class="rr-example-name">Botanical Press</h3>
+              <p class="rr-example-tagline">Slow design. Pressed flowers between pages. Hand-set type.</p>
+              <div class="rr-example-palette">
+                <span class="rr-example-swatch" style="background:#fdfbf6" title="#fdfbf6"></span>
+                <span class="rr-example-swatch" style="background:#3d4f3a" title="#3d4f3a"></span>
+                <span class="rr-example-swatch" style="background:#a26d4e" title="#a26d4e"></span>
+                <span class="rr-example-swatch" style="background:#e8d9c0" title="#e8d9c0"></span>
+                <span class="rr-example-swatch" style="background:#1c1c1c" title="#1c1c1c"></span>
+              </div>
+              <p class="rr-example-font">Editorial italic serif. Warm cream paper. Hand-drawn botanical accents.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="rr-examples-howto">
+          <p class="rr-howto-title">how to spin one</p>
+          <div class="rr-howto-grid">
+            <div class="rr-howto-step">
+              <div class="rr-howto-num">01</div>
+              <h4>Paste a URL</h4>
+              <p>Any landing page, product, portfolio, or marketing site. We screenshot it.</p>
+            </div>
+            <div class="rr-howto-step">
+              <div class="rr-howto-num">02</div>
+              <h4>Pick a mode</h4>
+              <p>Designer mode stays plausible. Weirdness mode goes off the rails.</p>
+            </div>
+            <div class="rr-howto-step">
+              <div class="rr-howto-num">03</div>
+              <h4>Copy the prompt</h4>
+              <p>Each card has a ready-made prompt to paste into your favorite AI assistant.</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 </BaseLayout>
