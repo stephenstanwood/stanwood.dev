@@ -200,6 +200,12 @@ function seriesVideos(series: Series): QueueVideo[] {
       margin: 2.5rem 0 .5rem;
     }
     h2:first-of-type { margin-top: 0; }
+    h2.section-title {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin: 2.5rem 0 .25rem;
+    }
 
     .series {
       border: var(--border);
@@ -265,18 +271,6 @@ function seriesVideos(series: Series): QueueVideo[] {
       background: var(--paper);
       border: var(--border);
     }
-    .queue-stats {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      padding: .55rem .8rem;
-      background: var(--ink);
-      color: var(--bg);
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-    .queue-stats[hidden] { display: none; }
     .progress-chip {
       display: inline-block;
       background: #e8f4fd;
@@ -412,14 +406,12 @@ function seriesVideos(series: Series): QueueVideo[] {
     </form>
   </div>
   <div class="wrap">
-    <h1>stanford queue</h1>
+    <h1>stanford talks</h1>
     <p class="subtitle">
       auto-ranked lectures from
       <a href="https://www.youtube.com/@stanfordonline" target="_blank" rel="noopener">@stanfordonline</a>
       · last 6 months · built {builtAt} · click any row to open on youtube
     </p>
-
-    <div id="queue-stats" class="queue-stats" hidden></div>
 
     {data.queue.length === 0 && (
       <div class="empty">
@@ -466,7 +458,7 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     {broader.queue.length > 0 && (
       <>
-        <h2>around the internet</h2>
+        <h2 class="section-title">around the internet</h2>
         <p class="broader-intro">
           recent uploads from curated CS / AI / HCI / future-tech channels
         </p>
@@ -656,34 +648,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         );
         s.hidden = allGone;
       });
-      renderStats();
       renderSeriesProgress();
-    }
-
-    function renderStats() {
-      const statsEl = document.getElementById('queue-stats');
-      if (!statsEl) return;
-      const w = getWatched();
-      const h = getStanfordHidden();
-      let total = 0, watched = 0, remainSecs = 0;
-      document.querySelectorAll('li[data-video-id][data-duration]').forEach(li => {
-        total++;
-        const id = li.dataset.videoId;
-        const dur = parseInt(li.dataset.duration || '0', 10);
-        if (w.has(id)) {
-          watched++;
-        } else if (!h.has(id)) {
-          remainSecs += dur;
-        }
-      });
-      if (total === 0) { statsEl.hidden = true; return; }
-      statsEl.hidden = false;
-      const hrs = Math.floor(remainSecs / 3600);
-      const mins = Math.floor((remainSecs % 3600) / 60);
-      const timeStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
-      statsEl.innerHTML =
-        `<span>${watched}/${total} watched</span>` +
-        `<span>${timeStr} left in queue</span>`;
     }
 
     function renderSeriesProgress() {
