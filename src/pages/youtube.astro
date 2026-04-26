@@ -395,9 +395,65 @@ function seriesVideos(series: Series): QueueVideo[] {
       color: #666;
       text-align: center;
     }
+
+    .corner-launchers {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 1rem;
+      z-index: 50;
+      color: var(--ink);
+    }
+    .corner-launchers a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      opacity: 0.55;
+      transition: opacity 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+    .corner-launchers a:hover {
+      opacity: 1;
+      color: var(--hot);
+      transform: translateY(-1px) rotate(-2deg);
+    }
+    .corner-launchers svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
   </style>
 </head>
 <body>
+  <div class="corner-launchers" aria-label="quick launchers">
+    <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="4.5" width="19" height="13" rx="1.5"/>
+        <path d="M8 21h8M12 17.5V21"/>
+        <path d="M10.5 8.5l4.5 2.5-4.5 2.5z" fill="currentColor"/>
+      </svg>
+    </a>
+    <a href="https://www.youtube.com/feed/history" target="_blank" rel="noopener" title="YouTube History" aria-label="YouTube History">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5.5" width="19" height="13" rx="3"/>
+        <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a href="https://www.mlb.com/tv" target="_blank" rel="noopener" title="MLB.tv" aria-label="MLB.tv">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M5 8 Q9.5 12 5 16"/>
+        <path d="M19 8 Q14.5 12 19 16"/>
+      </svg>
+    </a>
+    <a href="https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc" target="_blank" rel="noopener" title="Prime Video" aria-label="Prime Video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 13c3.5 4 6.5 5.5 9.5 5.5s6-1.5 8.5-4"/>
+        <path d="M17 14.5l4-1 1 4"/>
+      </svg>
+    </a>
+  </div>
   <div id="yt-gate">
     <h2>🐱</h2>
     <form id="yt-gate-form">
