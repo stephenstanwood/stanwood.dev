@@ -271,19 +271,6 @@ function seriesVideos(series: Series): QueueVideo[] {
       background: var(--paper);
       border: var(--border);
     }
-    .progress-chip {
-      display: inline-block;
-      background: #e8f4fd;
-      border: 2px solid var(--ink);
-      padding: 1px 6px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      margin-left: .5rem;
-      opacity: 0;
-    }
-    .progress-chip:not(:empty) { opacity: 1; }
-    .progress-chip.done { background: var(--lime); }
-
     /* Around the internet */
     .broader-intro {
       margin: 0 0 1rem;
@@ -485,7 +472,6 @@ function seriesVideos(series: Series): QueueVideo[] {
               <span class={`score-chip ${topSeries.best_score >= 3 ? '' : 'low'}`}>
                 score {topSeries.best_score}
               </span>
-              <span class="progress-chip" data-progress-series={topSeries.key}></span>
             </div>
             <span class="series-meta">
               {topSeries.video_count} {topSeries.video_count === 1 ? 'video' : 'videos'}
@@ -566,7 +552,6 @@ function seriesVideos(series: Series): QueueVideo[] {
                   <span class={`score-chip ${showScore ? '' : 'low'}`}>
                     score {s.best_score}
                   </span>
-                  <span class="progress-chip" data-progress-series={s.key}></span>
                 </div>
                 <span class="series-meta">
                   {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
@@ -703,22 +688,6 @@ function seriesVideos(series: Series): QueueVideo[] {
           li.classList.contains('watched') || li.classList.contains('hidden-row')
         );
         s.hidden = allGone;
-      });
-      renderSeriesProgress();
-    }
-
-    function renderSeriesProgress() {
-      const w = getWatched();
-      document.querySelectorAll('[data-progress-series]').forEach(el => {
-        const key = el.dataset.progressSeries;
-        const seriesDiv = document.querySelector(`.series[data-series="${CSS.escape(key)}"]`);
-        if (!seriesDiv) return;
-        const lis = seriesDiv.querySelectorAll('li[data-video-id]');
-        const total = lis.length;
-        if (total === 0) return;
-        const done = [...lis].filter(li => w.has(li.dataset.videoId)).length;
-        el.textContent = `${done}/${total}`;
-        el.classList.toggle('done', done === total);
       });
     }
 
