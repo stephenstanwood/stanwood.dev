@@ -457,11 +457,6 @@ function seriesVideos(series: Series): QueueVideo[] {
         </a>
       </div>
     </div>
-    <p class="subtitle">
-      auto-ranked lectures from
-      <a href="https://www.youtube.com/@stanfordonline" target="_blank" rel="noopener">@stanfordonline</a>
-      · last 6 months · built {builtAt} · click any row to open on youtube
-    </p>
 
     {data.queue.length === 0 && (
       <div class="empty">
@@ -508,9 +503,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     {broader.queue.length > 0 && (
       <>
         <h2 class="section-title">around the internet</h2>
-        <p class="broader-intro">
-          recent uploads from curated CS / AI / HCI / future-tech channels
-        </p>
         <div class="broader-grid" id="broader-grid">
           {broader.queue.map((v) => (
             <a
