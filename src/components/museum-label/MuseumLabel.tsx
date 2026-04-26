@@ -29,6 +29,8 @@ export default function MuseumLabel() {
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((file: File) => {
@@ -100,6 +102,180 @@ export default function MuseumLabel() {
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const downloadImage = async () => {
+    if (!label || !preview || downloading) return;
+    setDownloading(true);
+    try {
+      // Wait for the placard fonts (Cormorant Garamond, Space Mono) to be ready
+      // so canvas text rendering picks them up instead of falling back to serif.
+      if (document.fonts?.ready) await document.fonts.ready;
+
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const i = new Image();
+        i.onload = () => resolve(i);
+        i.onerror = reject;
+        i.src = preview;
+      });
+
+      const W = 1080;
+      const PHOTO_H = 540;
+      const PADDING = 64;
+      const innerW = W - PADDING * 2;
+
+      const TITLE_FONT = '600 56px "Cormorant Garamond", Georgia, serif';
+      const ARTIST_FONT = 'italic 30px "Cormorant Garamond", Georgia, serif';
+      const META_FONT = '22px "Cormorant Garamond", Georgia, serif';
+      const DESC_FONT = '26px "Cormorant Garamond", Georgia, serif';
+      const ACC_FONT = 'bold 16px "Space Mono", monospace';
+      const BRAND_FONT = 'bold 14px "Space Mono", monospace';
+
+      const probe = document.createElement("canvas").getContext("2d")!;
+      const wrap = (text: string, font: string, maxWidth: number): string[] => {
+        probe.font = font;
+        const words = text.split(/\s+/);
+        const lines: string[] = [];
+        let line = "";
+        for (const w of words) {
+          const test = line ? `${line} ${w}` : w;
+          if (probe.measureText(test).width <= maxWidth) {
+            line = test;
+          } else {
+            if (line) lines.push(line);
+            line = w;
+          }
+        }
+        if (line) lines.push(line);
+        return lines;
+      };
+
+      const titleLines = wrap(label.title, TITLE_FONT, innerW);
+      const artistLines = wrap(label.artist, ARTIST_FONT, innerW);
+      const metaLines = wrap(
+        `${label.period}  ·  ${label.materials}  ·  ${label.dimensions}`,
+        META_FONT,
+        innerW,
+      );
+      const descLines = wrap(label.description, DESC_FONT, innerW);
+
+      const TITLE_LH = 64;
+      const ARTIST_LH = 38;
+      const META_LH = 30;
+      const DESC_LH = 38;
+
+      const bodyH =
+        PADDING +
+        titleLines.length * TITLE_LH +
+        12 +
+        artistLines.length * ARTIST_LH +
+        24 +
+        metaLines.length * META_LH +
+        28 +
+        descLines.length * DESC_LH +
+        36 +
+        24 +
+        PADDING;
+
+      const H = PHOTO_H + bodyH;
+      const canvas = document.createElement("canvas");
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext("2d")!;
+      ctx.textBaseline = "alphabetic";
+
+      ctx.fillStyle = "#FFFDF9";
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = "#1a1612";
+      ctx.fillRect(0, 0, W, PHOTO_H);
+
+      const imgRatio = img.width / img.height;
+      const stripRatio = W / PHOTO_H;
+      let sx: number, sy: number, sw: number, sh: number;
+      if (imgRatio > stripRatio) {
+        sh = img.height;
+        sw = img.height * stripRatio;
+        sx = (img.width - sw) / 2;
+        sy = 0;
+      } else {
+        sw = img.width;
+        sh = img.width / stripRatio;
+        sx = 0;
+        sy = (img.height - sh) / 2;
+      }
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, PHOTO_H);
+
+      let y = PHOTO_H + PADDING + 48;
+
+      ctx.fillStyle = "#1A1612";
+      ctx.font = TITLE_FONT;
+      for (const line of titleLines) {
+        ctx.fillText(line, PADDING, y);
+        y += TITLE_LH;
+      }
+      y += 12 - 16;
+
+      ctx.fillStyle = "#5E5244";
+      ctx.font = ARTIST_FONT;
+      for (const line of artistLines) {
+        ctx.fillText(line, PADDING, y);
+        y += ARTIST_LH;
+      }
+      y += 24;
+
+      ctx.fillStyle = "#9C8E7E";
+      ctx.font = META_FONT;
+      for (const line of metaLines) {
+        ctx.fillText(line, PADDING, y);
+        y += META_LH;
+      }
+      y += 28;
+
+      ctx.fillStyle = "#1A1612";
+      ctx.font = DESC_FONT;
+      for (const line of descLines) {
+        ctx.fillText(line, PADDING, y);
+        y += DESC_LH;
+      }
+      y += 36;
+
+      ctx.fillStyle = "#9C8E7E";
+      ctx.font = ACC_FONT;
+      ctx.fillText(label.accession.toUpperCase(), PADDING, y);
+
+      ctx.fillStyle = "#A8A29E";
+      ctx.font = BRAND_FONT;
+      ctx.textAlign = "right";
+      ctx.fillText("stanwood.dev/museum-label", W - PADDING, H - 28);
+      ctx.textAlign = "left";
+
+      await new Promise<void>((resolve) => {
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            resolve();
+            return;
+          }
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          const slug = label.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "placard";
+          a.download = `${slug}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(() => URL.revokeObjectURL(url), 2000);
+          resolve();
+        }, "image/png");
+      });
+
+      setDownloaded(true);
+      setTimeout(() => setDownloaded(false), 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save image");
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -200,8 +376,16 @@ export default function MuseumLabel() {
           <div className="ml-actions">
             <button onClick={reset} className="ml-btn-secondary">New Object</button>
             <button onClick={() => generate()} className="ml-btn-secondary">Regenerate</button>
-            <button onClick={copyText} className="ml-btn-primary">
+            <button onClick={copyText} className="ml-btn-secondary">
               {copied ? "Copied!" : "Copy Text"}
+            </button>
+            <button
+              onClick={downloadImage}
+              className="ml-btn-primary"
+              disabled={downloading}
+              aria-busy={downloading}
+            >
+              {downloading ? "Saving…" : downloaded ? "Saved!" : "Download Image"}
             </button>
           </div>
         </div>
