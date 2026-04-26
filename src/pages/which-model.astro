@@ -1,11 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WhichModel from "../components/WhichModel.tsx";
-import { MODELS } from "../lib/whichModel/models";
+import BrowseDirectory from "../components/which-model/BrowseDirectory.tsx";
 const title = "Which Model? — stanwood.dev";
-
-const imageModels = MODELS.filter((m) => m.traits.image_gen >= 7 && m.traits.writing === 0);
-const textModels = MODELS.filter((m) => !imageModels.includes(m));
 ---
 
 <BaseLayout
@@ -774,6 +771,7 @@ const textModels = MODELS.filter((m) => !imageModels.includes(m));
         display: flex;
         flex-direction: column;
         gap: 10px;
+        position: relative;
       }
 
       .wm-mod-card:hover {
@@ -781,10 +779,109 @@ const textModels = MODELS.filter((m) => !imageModels.includes(m));
         box-shadow: 4px 4px 0 var(--wm-ink);
       }
 
+      .wm-mod-rank {
+        position: absolute;
+        top: -1px;
+        right: 10px;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--wm-light);
+        background: var(--wm-card);
+        padding: 0 6px;
+        line-height: 1;
+        transform: translateY(-50%);
+      }
+
       .wm-mod-head {
         display: flex;
         align-items: flex-start;
         gap: 10px;
+      }
+
+      .wm-mod-sortbadge {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1px;
+        flex-shrink: 0;
+      }
+
+      .wm-mod-sortbadge-num {
+        font-family: 'Bangers', cursive;
+        font-size: 22px;
+        line-height: 1;
+        color: var(--mod-color, var(--wm-ink));
+        letter-spacing: 1px;
+      }
+
+      .wm-mod-sortbadge-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--wm-light);
+      }
+
+      /* Trait bars */
+      .wm-mod-traits {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 2px;
+      }
+
+      .wm-trait-row {
+        display: grid;
+        grid-template-columns: 80px 1fr 18px;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .wm-trait-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--wm-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .wm-trait-track {
+        height: 8px;
+        background: var(--wm-bg);
+        border: 1.5px solid var(--wm-ink);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .wm-trait-fill {
+        height: 100%;
+        transition: width 0.25s ease;
+      }
+
+      .wm-trait-score {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        text-align: right;
+      }
+
+      .wm-trait-row--hot .wm-trait-label {
+        color: var(--wm-ink);
+        font-weight: 700;
+      }
+      .wm-trait-row--hot .wm-trait-track {
+        border-color: var(--mod-color, var(--wm-ink));
+      }
+      .wm-trait-row--hot .wm-trait-score {
+        color: var(--mod-color, var(--wm-ink));
       }
 
       .wm-mod-emoji {
@@ -853,6 +950,144 @@ const textModels = MODELS.filter((m) => !imageModels.includes(m));
         font-weight: 600;
       }
 
+      /* ─── Directory controls ──────────────────────────────────── */
+      .wm-dir-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin-bottom: 14px;
+      }
+
+      .wm-dir-controls-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .wm-dir-controls-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--wm-light);
+        font-weight: 700;
+        flex-shrink: 0;
+        min-width: 50px;
+      }
+
+      .wm-dir-chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .wm-dir-chip {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--wm-bg);
+        border: 1.5px solid var(--wm-border);
+        color: var(--wm-muted);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: border-color 0.12s, color 0.12s, background 0.12s;
+      }
+      .wm-dir-chip:hover {
+        border-color: var(--wm-ink);
+        color: var(--wm-ink);
+      }
+      .wm-dir-chip--active {
+        background: var(--wm-ink);
+        border-color: var(--wm-ink);
+        color: var(--wm-bg);
+      }
+      .wm-dir-chip--active:hover {
+        color: var(--wm-bg);
+      }
+
+      .wm-dir-chip-emoji {
+        font-size: 13px;
+        line-height: 1;
+      }
+
+      .wm-dir-chip-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        background: var(--wm-border);
+        color: var(--wm-muted);
+        padding: 1px 6px;
+        border-radius: 6px;
+        line-height: 1.4;
+      }
+      .wm-dir-chip--active .wm-dir-chip-count {
+        background: rgba(255,255,255,0.2);
+        color: var(--wm-bg);
+      }
+
+      .wm-dir-sort-wrap {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .wm-dir-sort {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 28px 6px 12px;
+        border: 1.5px solid var(--wm-ink);
+        background: var(--wm-bg);
+        color: var(--wm-ink);
+        border-radius: 6px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23111' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }
+      .wm-dir-sort:focus {
+        outline: 2px solid var(--wm-purple);
+        outline-offset: 1px;
+      }
+
+      .wm-dir-sort-hint {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+      }
+
+      .wm-dir-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        color: var(--wm-muted);
+        margin: 0 0 14px;
+        padding-left: 4px;
+      }
+      .wm-dir-count strong {
+        color: var(--wm-ink);
+        font-weight: 700;
+      }
+
+      .wm-dir-empty {
+        text-align: center;
+        font-size: 14px;
+        color: var(--wm-muted);
+        padding: 32px 0;
+        font-family: 'Space Mono', monospace;
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -911,6 +1146,10 @@ const textModels = MODELS.filter((m) => !imageModels.includes(m));
 
         .wm-directory { padding: 0 16px 40px; }
         .wm-directory-grid { grid-template-columns: 1fr; }
+        .wm-trait-row { grid-template-columns: 70px 1fr 18px; gap: 6px; }
+        .wm-dir-controls-label { min-width: auto; }
+        .wm-dir-chip { font-size: 11.5px; padding: 5px 9px; }
+        .wm-mod-sortbadge-num { font-size: 20px; }
       }
 
     </style>
@@ -918,54 +1157,5 @@ const textModels = MODELS.filter((m) => !imageModels.includes(m));
 
   <WhichModel client:idle />
 
-  <section class="wm-directory" id="model-directory" aria-labelledby="directory-heading">
-    <div class="wm-directory-head">
-      <h2 class="wm-directory-title" id="directory-heading">All {MODELS.length} models we compare</h2>
-      <p class="wm-directory-sub">
-        Hand-curated from the live frontier as of April 2026. Each is rated across 11 traits — coding, writing, reasoning, speed, cost, image gen, long context, and more — then matched to whatever you describe.
-      </p>
-    </div>
-
-    <h3 class="wm-directory-cat">💬 Text &amp; Reasoning &nbsp;·&nbsp; {textModels.length} models</h3>
-    <div class="wm-directory-grid">
-      {textModels.map((m) => (
-        <article class="wm-mod-card" style={`--mod-color: ${m.color}`}>
-          <header class="wm-mod-head">
-            <span class="wm-mod-emoji" aria-hidden="true">{m.emoji}</span>
-            <div>
-              <h4 class="wm-mod-name">{m.name}</h4>
-              <p class="wm-mod-org">{m.org}</p>
-            </div>
-          </header>
-          <p class="wm-mod-tag">{m.tagline}</p>
-          <ul class="wm-mod-best">
-            {m.bestFor.slice(0, 3).map((b) => <li>{b}</li>)}
-          </ul>
-        </article>
-      ))}
-    </div>
-
-    <h3 class="wm-directory-cat">🎨 Image Generation &nbsp;·&nbsp; {imageModels.length} models</h3>
-    <div class="wm-directory-grid">
-      {imageModels.map((m) => (
-        <article class="wm-mod-card" style={`--mod-color: ${m.color}`}>
-          <header class="wm-mod-head">
-            <span class="wm-mod-emoji" aria-hidden="true">{m.emoji}</span>
-            <div>
-              <h4 class="wm-mod-name">{m.name}</h4>
-              <p class="wm-mod-org">{m.org}</p>
-            </div>
-          </header>
-          <p class="wm-mod-tag">{m.tagline}</p>
-          <ul class="wm-mod-best">
-            {m.bestFor.slice(0, 3).map((b) => <li>{b}</li>)}
-          </ul>
-        </article>
-      ))}
-    </div>
-
-    <p class="wm-directory-foot">
-      Models retire and new ones land. Spot something missing? <a href="mailto:stephen@stanwood.dev">let me know</a>.
-    </p>
-  </section>
+  <BrowseDirectory client:visible />
 </BaseLayout>
