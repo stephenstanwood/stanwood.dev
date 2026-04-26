@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="Pixel Aquarium — stanwood.dev"
-  description="Little pixel fish swim around your screen. Click to drop food pellets and watch them change color based on what they eat. A chill zero-stakes aquarium in your browser."
+  description="Little pixel fish swim around your screen. Drop food pellets, switch between day, sunset, and night scenes, and watch the colors evolve. A chill zero-stakes aquarium in your browser."
   slug="pixel-aquarium"
   favicon="/favicon-aquarium.svg"
   themeColor="#041230"
@@ -150,6 +150,37 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       .palette-swatch.swatch-random {
         background: conic-gradient(#ff4060, #ff9a30, #ffd93d, #43e97b, #00d2ff, #c850c0, #ff6b9d, #ff4060);
       }
+
+      /* ── Scene selector ── */
+      .scene-row {
+        display: flex;
+        gap: 6px;
+        margin-top: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .scene-btn {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.45rem;
+        letter-spacing: 1px;
+        background: transparent;
+        color: rgba(0, 210, 255, 0.4);
+        border: 2px solid rgba(0, 180, 255, 0.18);
+        padding: 6px 10px;
+        cursor: pointer;
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+        text-transform: uppercase;
+      }
+      .scene-btn:hover {
+        color: rgba(0, 210, 255, 0.85);
+        border-color: rgba(0, 210, 255, 0.45);
+      }
+      .scene-btn.active {
+        background: rgba(0, 210, 255, 0.12);
+        border-color: rgba(0, 210, 255, 0.7);
+        color: #fff;
+      }
       .back-link {
         position: fixed;
         top: 16px;
@@ -278,7 +309,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="container">
       <h1 class="pixel-font">PIXEL AQUARIUM</h1>
       <p class="subtitle pixel-font">click anywhere to drop food</p>
-      <p class="desc">A little browser aquarium that runs on its own. Drop colorful food pellets and watch the fish evolve, multiply, and make it theirs.</p>
+      <p class="desc">A little browser aquarium that runs on its own. Drop colorful food pellets, switch the scene, and watch the fish evolve, multiply, and make it theirs.</p>
       <canvas id="aquarium-canvas" role="img" aria-label="Pixel art aquarium with fish swimming around. Click to drop food."></canvas>
       <div class="info-bar pixel-font">
         <span>fish: <span class="val" id="fish-count">0</span></span>
@@ -294,6 +325,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <button class="palette-swatch" style="background:#00d2ff" data-color="4" title="Cyan" aria-label="Cyan food" aria-pressed="false"></button>
         <button class="palette-swatch" style="background:#c850c0" data-color="5" title="Purple" aria-label="Purple food" aria-pressed="false"></button>
         <button class="palette-swatch" style="background:#ff6b9d" data-color="6" title="Pink" aria-label="Pink food" aria-pressed="false"></button>
+      </div>
+      <div class="scene-row" role="group" aria-label="Aquarium scene selector">
+        <span class="palette-label">scene:</span>
+        <button class="scene-btn active" data-scene="day" aria-pressed="true">Day</button>
+        <button class="scene-btn" data-scene="sunset" aria-pressed="false">Sunset</button>
+        <button class="scene-btn" data-scene="night" aria-pressed="false">Night</button>
       </div>
       <div class="tips">
         <div class="tip">
@@ -353,10 +390,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       canvas.width = COLS * PIXEL;
       canvas.height = ROWS * PIXEL;
 
-      // --- Colors ---
-      const WATER_TOP = [10, 20, 60];
-      const WATER_BOT = [5, 10, 35];
-      const SAND_COLORS = ['#c2a64e', '#b89840', '#d4b85a', '#a08030'];
+      // --- Scenes (water gradient, sand tones, light rays) ---
+      const SCENES = {
+        day: {
+          waterTop: [10, 20, 60],
+          waterBot: [5, 10, 35],
+          sand: ['#c2a64e', '#b89840', '#d4b85a', '#a08030'],
+          rayColor: 'rgba(150,200,255,1)',
+          rayAlpha: 0.03,
+          plantSat: 60,
+          bubbleColor: [100, 180, 255],
+        },
+        sunset: {
+          waterTop: [80, 35, 90],
+          waterBot: [25, 10, 50],
+          sand: ['#a06535', '#8d4f2a', '#b4793f', '#7a4220'],
+          rayColor: 'rgba(255,180,120,1)',
+          rayAlpha: 0.07,
+          plantSat: 45,
+          bubbleColor: [255, 180, 200],
+        },
+        night: {
+          waterTop: [4, 8, 28],
+          waterBot: [2, 3, 12],
+          sand: ['#3a3322', '#2e2818', '#43391d', '#231d12'],
+          rayColor: 'rgba(120,180,255,1)',
+          rayAlpha: 0.015,
+          plantSat: 35,
+          bubbleColor: [140, 200, 255],
+        },
+      };
+      let currentScene = 'day';
+      function scene() { return SCENES[currentScene]; }
+
       const FOOD_COLORS = [
         { name: 'red',    hex: '#ff4060', rgb: [255, 64, 96] },
         { name: 'orange', hex: '#ff9a30', rgb: [255, 154, 48] },
@@ -497,12 +563,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         }
       }
 
+      function plantLightness(base) {
+        // Night dims plants; sunset warms slightly via lightness drop too
+        if (currentScene === 'night') return Math.max(12, base - 14);
+        if (currentScene === 'sunset') return Math.max(20, base - 6);
+        return base;
+      }
+
       // --- Draw background ---
       function drawBackground() {
+        const sc = scene();
+
         // Water gradient
         for (let y = 0; y < SAND_LINE; y++) {
           const t = y / SAND_LINE;
-          const c = lerpColor(WATER_TOP, WATER_BOT, t);
+          const c = lerpColor(sc.waterTop, sc.waterBot, t);
           ctx.fillStyle = rgbStr(c[0], c[1], c[2]);
           ctx.fillRect(0, y * PIXEL, COLS * PIXEL, PIXEL);
         }
@@ -510,34 +585,48 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         // Sand
         for (let y = SAND_LINE; y < ROWS; y++) {
           for (let x = 0; x < COLS; x++) {
-            const ci = (x * 7 + y * 13) % SAND_COLORS.length;
-            px(x, y, SAND_COLORS[ci]);
+            const ci = (x * 7 + y * 13) % sc.sand.length;
+            px(x, y, sc.sand[ci]);
           }
         }
 
-        // Light rays
+        // Light rays (or moonlight)
         const time = Date.now() * 0.0003;
-        ctx.globalAlpha = 0.03;
+        ctx.globalAlpha = sc.rayAlpha;
+        const rayBase = sc.rayColor.replace(/,1\)$/, '');
         for (let i = 0; i < 5; i++) {
           const rx = (Math.sin(time + i * 1.8) * 0.3 + 0.5) * COLS * PIXEL;
           const grad = ctx.createLinearGradient(rx, 0, rx + 80, ROWS * PIXEL * 0.6);
-          grad.addColorStop(0, 'rgba(150,200,255,1)');
-          grad.addColorStop(1, 'rgba(150,200,255,0)');
+          grad.addColorStop(0, sc.rayColor);
+          grad.addColorStop(1, `${rayBase},0)`);
           ctx.fillStyle = grad;
           ctx.fillRect(rx - 20, 0, 60, ROWS * PIXEL * 0.6);
         }
         ctx.globalAlpha = 1;
+
+        // Stars at night
+        if (currentScene === 'night') {
+          ctx.globalAlpha = 0.55;
+          for (let i = 0; i < 24; i++) {
+            const sx = (i * 37 + 11) % COLS;
+            const sy = (i * 13 + 5) % Math.floor(SAND_LINE * 0.55);
+            const tw = 0.55 + Math.sin(time * 4 + i) * 0.45;
+            px(sx, sy, rgbStr(220, 230, 255, tw));
+          }
+          ctx.globalAlpha = 1;
+        }
       }
 
       // --- Draw plants ---
       function drawPlants(time) {
+        const sat = scene().plantSat;
         for (const p of plants) {
           for (let i = 0; i < p.height; i++) {
             const sway = Math.sin(time * 0.001 + p.sway + i * 0.3) * (i * 0.15);
             const x = Math.round(p.x + sway);
             const y = SAND_LINE - i;
-            const lightness = 30 + (i / p.height) * 25;
-            const [r, g, b] = hslToRgb(p.hue, 60, lightness);
+            const lightness = plantLightness(30 + (i / p.height) * 25);
+            const [r, g, b] = hslToRgb(p.hue, sat, lightness);
             px(x, y, rgbStr(r, g, b));
             if (i > 2 && i % 3 === 0) {
               px(x + (i % 2 === 0 ? 1 : -1), y, rgbStr(r, g + 20, b, 0.7));
@@ -616,9 +705,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       // --- Draw bubbles ---
       function drawBubbles() {
+        const [br, bg, bb] = scene().bubbleColor;
         for (const b of bubbles) {
           const alpha = Math.max(0, 0.5 - b.y / 20);
-          px(Math.round(b.x), Math.round(b.y), rgbStr(100, 180, 255, alpha));
+          px(Math.round(b.x), Math.round(b.y), rgbStr(br, bg, bb, alpha));
         }
       }
 
@@ -793,6 +883,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           selectedColorIdx = c === 'random' ? null : parseInt(c);
         });
       });
+
+      // --- Scene selection (persisted to URL) ---
+      const sceneBtns = document.querySelectorAll('.scene-btn');
+      function applyScene(name, push) {
+        if (!SCENES[name]) name = 'day';
+        currentScene = name;
+        sceneBtns.forEach(b => {
+          const active = b.dataset.scene === name;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        if (push) {
+          const url = new URL(window.location.href);
+          if (name === 'day') url.searchParams.delete('scene');
+          else url.searchParams.set('scene', name);
+          history.replaceState(null, '', url.toString());
+        }
+      }
+      sceneBtns.forEach(btn => {
+        btn.addEventListener('click', () => applyScene(btn.dataset.scene, true));
+      });
+      const initialScene = new URLSearchParams(window.location.search).get('scene');
+      if (initialScene && SCENES[initialScene]) applyScene(initialScene, false);
 
       function dropFood(e) {
         e.preventDefault();
