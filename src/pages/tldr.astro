@@ -233,6 +233,59 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         line-height: 1.45;
       }
 
+      /* red-flag list */
+      .summary-flags {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .summary-flags li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        font-size: 14px;
+        line-height: 1.55;
+        color: #E4E4E7;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(239, 68, 68, 0.05);
+        border-left: 3px solid rgba(239, 68, 68, 0.5);
+      }
+      .summary-flags li.is-fact {
+        background: rgba(0, 212, 255, 0.04);
+        border-left-color: rgba(0, 212, 255, 0.5);
+      }
+      .summary-flags .flag-icon {
+        flex-shrink: 0;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+      .summary-flags .flag-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .summary-flags .flag-label {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #fca5a5;
+        margin-bottom: 4px;
+      }
+      .summary-flags li.is-fact .flag-label {
+        color: #7dd3fc;
+      }
+      .summary-flags .flag-text {
+        color: #d4d4d8;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
     </style>
   </Fragment>
 
@@ -255,17 +308,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </h1>
         <p class="mt-4 text-[#a1a1aa] leading-relaxed max-w-lg">
           You got a long PDF and you don't want to read it. Same.
-          Drop it here and get the short version &mdash; plain language,
-          no jargon, just what it actually says.
+          Drop it here and get the short version &mdash; or scan it for
+          red flags before you sign anything.
         </p>
       </header>
 
       <!-- Format toggle -->
-      <div class="mt-8 flex items-center gap-3">
+      <div class="mt-8 flex items-center gap-3 flex-wrap">
         <span class="text-xs text-[#3a3f52] mono uppercase tracking-widest">output</span>
         <div class="format-toggle" role="group" aria-label="Summary format">
           <button class="format-btn active" data-format="paragraph" id="btnParagraph">paragraph</button>
           <button class="format-btn" data-format="bullets" id="btnBullets">bullets</button>
+          <button class="format-btn" data-format="red-flags" id="btnRedFlags">🚩 red flags</button>
         </div>
       </div>
 
@@ -314,7 +368,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           <div class="px-8 py-8">
             <div class="flex items-center justify-between mb-4">
               <div class="flex items-center gap-3">
-                <h2 class="text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono">
+                <h2 id="resultLabel" class="text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono">
                   Summary
                 </h2>
                 <span id="wordCount" class="text-[10px] text-[#3a3f52] mono"></span>
@@ -369,6 +423,50 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <li>Information is shared with analytics vendors, payment processors, and a vaguely defined "business partners" category.</li>
               <li>You can request data deletion, but it may take up to 30 days and won't cover data already shared with third parties.</li>
               <li>California residents have additional rights under CCPA; no data is sold outright, but ad-partner sharing achieves roughly the same result.</li>
+            </ul>
+          </div>
+
+          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#fca5a5]">Gym Membership</span>
+              <span class="text-[10px] text-[#3a3f52] mono">· 9 pages · 🚩 red flags</span>
+            </div>
+            <ul class="summary-flags">
+              <li>
+                <span class="flag-icon">🚩</span>
+                <div class="flag-body">
+                  <span class="flag-label">Auto-renewal trap</span>
+                  <span class="flag-text">Membership rolls over to month-to-month at a 12% rate hike unless you mail a written cancellation 30 days before term ends — calls and emails don't count.</span>
+                </div>
+              </li>
+              <li>
+                <span class="flag-icon">🚩</span>
+                <div class="flag-body">
+                  <span class="flag-label">Annual maintenance fee</span>
+                  <span class="flag-text">A $59 "facility upkeep" charge hits every September on top of monthly dues — buried on page 6, not mentioned at sign-up.</span>
+                </div>
+              </li>
+              <li>
+                <span class="flag-icon">🚩</span>
+                <div class="flag-body">
+                  <span class="flag-label">Early-cancel penalty</span>
+                  <span class="flag-text">Leaving before month 12 forfeits any prepaid balance and adds a flat $150 fee, even with a documented medical reason.</span>
+                </div>
+              </li>
+              <li>
+                <span class="flag-icon">🚩</span>
+                <div class="flag-body">
+                  <span class="flag-label">Liability waiver</span>
+                  <span class="flag-text">You waive the right to sue for injuries — including those caused by faulty equipment or staff negligence. Disputes go to arbitration in their home county.</span>
+                </div>
+              </li>
+              <li>
+                <span class="flag-icon">🚩</span>
+                <div class="flag-body">
+                  <span class="flag-label">Personal-trainer auto-charge</span>
+                  <span class="flag-text">A free intro session enrolls you in a $89/session monthly package unless you opt out in writing within 7 days.</span>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -448,25 +546,33 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const copyBtn = document.getElementById("copyBtn")!;
       const downloadBtn = document.getElementById("downloadBtn")!;
       const wordCount = document.getElementById("wordCount")!;
+      const resultLabel = document.getElementById("resultLabel")!;
       const errorMsg = document.getElementById("errorMsg")!;
       const btnParagraph = document.getElementById("btnParagraph")!;
       const btnBullets = document.getElementById("btnBullets")!;
+      const btnRedFlags = document.getElementById("btnRedFlags")!;
 
       let progressInterval: ReturnType<typeof setInterval> | null = null;
-      let selectedFormat: "paragraph" | "bullets" = "paragraph";
+      type Format = "paragraph" | "bullets" | "red-flags";
+      let selectedFormat: Format = "paragraph";
       let lastSummaryText = "";
 
-      // Format toggle
-      btnParagraph.addEventListener("click", () => {
-        selectedFormat = "paragraph";
-        btnParagraph.classList.add("active");
-        btnBullets.classList.remove("active");
-      });
-      btnBullets.addEventListener("click", () => {
-        selectedFormat = "bullets";
-        btnBullets.classList.add("active");
-        btnParagraph.classList.remove("active");
-      });
+      const formatBtns: Record<Format, HTMLElement> = {
+        paragraph: btnParagraph,
+        bullets: btnBullets,
+        "red-flags": btnRedFlags,
+      };
+
+      function setFormat(f: Format) {
+        selectedFormat = f;
+        (Object.keys(formatBtns) as Format[]).forEach((key) => {
+          formatBtns[key].classList.toggle("active", key === f);
+        });
+      }
+
+      btnParagraph.addEventListener("click", () => setFormat("paragraph"));
+      btnBullets.addEventListener("click", () => setFormat("bullets"));
+      btnRedFlags.addEventListener("click", () => setFormat("red-flags"));
 
       function showError(msg: string) {
         errorMsg.querySelector("p")!.textContent = msg;
@@ -608,6 +714,49 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             });
             summaryContent.innerHTML = "";
             summaryContent.appendChild(ul);
+          } else if (data.format === "red-flags") {
+            const lines = (data.summary as string)
+              .split("\n")
+              .map((l) => l.trim())
+              .filter(Boolean);
+            const ul = document.createElement("ul");
+            ul.className = "summary-flags";
+            lines.forEach((line) => {
+              // Match leading icon (🚩 or 📌), then optional separator
+              const iconMatch = line.match(/^(🚩|📌)\s*(.*)$/u);
+              const isFact = iconMatch?.[1] === "📌";
+              const rest = iconMatch?.[2] ?? line;
+              // Split on first em-dash, en-dash, hyphen-with-spaces, or colon
+              const splitMatch = rest.match(/^(.+?)\s*(?:—|–|--|-|:)\s+(.+)$/);
+              const label = splitMatch ? splitMatch[1].trim() : "";
+              const text = splitMatch ? splitMatch[2].trim() : rest;
+
+              const li = document.createElement("li");
+              if (isFact) li.classList.add("is-fact");
+
+              const icon = document.createElement("span");
+              icon.className = "flag-icon";
+              icon.textContent = isFact ? "📌" : "🚩";
+              li.appendChild(icon);
+
+              const body = document.createElement("div");
+              body.className = "flag-body";
+              if (label) {
+                const lbl = document.createElement("span");
+                lbl.className = "flag-label";
+                lbl.textContent = label;
+                body.appendChild(lbl);
+              }
+              const txt = document.createElement("span");
+              txt.className = "flag-text";
+              txt.textContent = text;
+              body.appendChild(txt);
+
+              li.appendChild(body);
+              ul.appendChild(li);
+            });
+            summaryContent.innerHTML = "";
+            summaryContent.appendChild(ul);
           } else {
             const p = document.createElement("p");
             p.className = "text-base leading-relaxed text-[#E4E4E7]";
@@ -616,7 +765,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             summaryContent.appendChild(p);
           }
 
-          // Show word count
+          // Update label + word count
+          if (data.format === "red-flags") {
+            // If output starts with 📌, this is benign — call it "Key Facts" instead
+            const isBenign = data.summary.trimStart().startsWith("📌");
+            resultLabel.textContent = isBenign ? "Key Facts" : "Red Flags";
+            resultLabel.className = isBenign
+              ? "text-xs font-semibold uppercase tracking-widest text-[#7dd3fc] mono"
+              : "text-xs font-semibold uppercase tracking-widest text-[#fca5a5] mono";
+          } else {
+            resultLabel.textContent = "Summary";
+            resultLabel.className = "text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono";
+          }
           const wc = data.summary.trim().split(/\s+/).filter(Boolean).length;
           wordCount.textContent = `${wc} words`;
 
