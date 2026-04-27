@@ -60,7 +60,7 @@ function RedesignRolodexTileInner() {
     [stream.analyze],
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const finalUrl = ghost && url.length >= 2 ? ghost : url;

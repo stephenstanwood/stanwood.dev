@@ -1,7 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const products = [
+type ShirtColor = "white" | "black";
+type Product = {
+  id: string;
+  name: string;
+  stackedName: string;
+  price: number;
+  defaultColor: ShirtColor;
+  buyUrls: Record<ShirtColor, string>;
+};
+
+const products: Product[] = [
   {
     id: "love",
     name: "LOVE OVER HATE",

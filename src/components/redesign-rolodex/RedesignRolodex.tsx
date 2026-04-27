@@ -54,7 +54,7 @@ export default function RedesignRolodex() {
   const allDirections = [...stream.directions, ...extraDirections];
 
   const handleSubmit = useCallback(
-    async (e?: React.FormEvent) => {
+    async (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       const finalUrl = ghost && url.length >= 2 ? ghost : url;
       const trimmed = finalUrl.trim();

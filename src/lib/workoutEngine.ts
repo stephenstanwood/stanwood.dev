@@ -181,7 +181,7 @@ function calcTargetDistance(durationMin: number, paceSec: number): number {
 // Warmup always starts with 200+ plain free, then an optional second piece.
 // Total warmup never exceeds 1000.
 
-function buildWarmup(target: number, pace: number, rng: Rng, eq: EquipmentOptions = { pull: true, kickboard: true, fins: true }): SetItem[] {
+function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptions = { pull: true, kickboard: true, fins: true }): SetItem[] {
   target = Math.min(target, 1000); // cap warmup at 1000
 
   // Always lead with at least 200 plain free
@@ -808,7 +808,7 @@ const MAIN_SET_TEMPLATES: MainSetTemplate[] = [
 // ─── COOLDOWN TEMPLATES ────────────────────────────────────────────────────────
 // NO rest intervals — cooldown is continuous
 
-function buildCooldown(target: number, pace: number, rng: Rng): SetItem[] {
+function buildCooldown(target: number, _pace: number, rng: Rng): SetItem[] {
   const freeEnd = 200;
   const remaining = target - freeEnd;
 
@@ -919,7 +919,7 @@ function presetSprintPrep(target: number, pace: number, rng: Rng): SetItem[] {
   return [{ reps, distance: 25, interval, description: desc, stroke: "free" }];
 }
 
-function presetIMDrill(target: number, pace: number, rng: Rng): SetItem[] {
+function presetIMDrill(target: number, pace: number, _rng: Rng): SetItem[] {
   const reps = niceReps(target / 100);
   const interval = calcInterval(100, pace, 15);
   return [{ reps, distance: 100, interval, description: "IM — 25 each stroke", stroke: "IM" }];
@@ -933,7 +933,7 @@ function presetFinsKick(target: number, pace: number, rng: Rng): SetItem[] {
   return [{ reps, distance: dist, interval, description: desc, stroke: "free", equipment: "fins" }];
 }
 
-function presetScull(target: number, pace: number, rng: Rng): SetItem[] {
+function presetScull(target: number, pace: number, _rng: Rng): SetItem[] {
   const reps = niceReps(target / 50);
   const interval = calcInterval(50, pace, 20);
   return [{ reps, distance: 50, interval, description: "Scull 25 / swim 25 — feel the water", stroke: "free" }];

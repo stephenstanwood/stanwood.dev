@@ -46,6 +46,7 @@ interface BroaderData {
   pool: BroaderVideo[];
   built_at: string | null;
   channel_count: number;
+  series_episodes?: Record<string, BroaderVideo[]>;
 }
 
 const dataPath = path.join(process.cwd(), 'public', 'yt', 'videos.json');
@@ -79,10 +80,6 @@ function fmtAgo(iso: string) {
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
   return `${Math.floor(days / 30)}mo ago`;
 }
-
-const builtAt = data.built_at
-  ? new Date(data.built_at).toLocaleString('en-US', { month: 'short', day: 'numeric' })
-  : 'never';
 
 const topSeries = data.series?.[0] ?? null;
 const restSeries = (data.series ?? []).slice(1);
@@ -585,8 +582,8 @@ function seriesVideos(series: Series): QueueVideo[] {
   </div>
 
   <!-- Broader reserve pool, consumed client-side when visible count drops below 10 -->
-  <script type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
-  <script type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
+  <script is:inline type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
+  <script is:inline type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
 
   <script is:inline>
     // ---- Password gate ----

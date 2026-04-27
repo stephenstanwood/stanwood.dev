@@ -3,7 +3,7 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { CLAUDE_HAIKU, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { okJson } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
 
@@ -65,10 +65,9 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
   try {
     const url = `https://api.vercel.com/v6/deployments?projectId=${VERCEL_PROJECT_ID}&target=production&limit=25&state=READY`;
-    const res = await fetch(url, {
+    const res = await fetchWithTimeout(url, {
       headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
-      signal: AbortSignal.timeout(5000),
-    });
+    }, 5000);
 
     if (!res.ok) throw new Error(`Vercel API ${res.status}`);
 
