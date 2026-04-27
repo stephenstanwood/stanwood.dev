@@ -165,7 +165,7 @@ async function runScrapeAndStart(btn) {
   );
 }
 
-function injectPlayAllButton(scrapeFn) {
+function injectPlayAllButton() {
   if (document.getElementById('bpa-play-all')) return;
   const btn = document.createElement('button');
   btn.id = 'bpa-play-all';
@@ -209,7 +209,7 @@ async function runLibraryMode() {
     log('Saved section found', section);
     const items = scrapeSavedItems(section);
     log(`initial scrape: ${items.length} items`, items);
-    injectPlayAllButton(() => scrapeSavedItems(findSavedSection() || document));
+    injectPlayAllButton();
     return true;
   };
   if (!tryInject()) {

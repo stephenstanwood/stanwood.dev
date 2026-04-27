@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import WhichModel from "../components/WhichModel.tsx";
+import WhichModelApp from "../components/WhichModel.tsx";
 import BrowseDirectory from "../components/which-model/BrowseDirectory.tsx";
 const title = "Which Model? — stanwood.dev";
 ---
@@ -1155,7 +1155,7 @@ const title = "Which Model? — stanwood.dev";
     </style>
   </Fragment>
 
-  <WhichModel client:idle />
+  <WhichModelApp client:idle />
 
   <BrowseDirectory client:visible />
 </BaseLayout>

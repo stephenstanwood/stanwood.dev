@@ -19,7 +19,7 @@ const EXAMPLES = [
 export default function FreeTextInput({ onSubmit, onBack }: Props) {
   const [text, setText] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (text.trim()) onSubmit(text.trim());
   }

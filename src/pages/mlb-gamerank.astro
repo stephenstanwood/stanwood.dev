@@ -371,7 +371,7 @@ const mlbTeams: Array<[string, string]> = [
         if (idx >= 0) favs.splice(idx, 1); else favs.push(chip.dataset.abbr);
         localStorage.setItem(FAVS_KEY, JSON.stringify(favs));
         syncChips(favs);
-        (window as unknown as Record<string, unknown>).__mlbHighlight?.();
+        (window as unknown as { __mlbHighlight?: () => void }).__mlbHighlight?.();
       });
     </script>
 </BaseLayout>

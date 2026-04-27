@@ -2,7 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aestheticWeather";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { okJson } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
 /**
  * Lightweight weather proxy for the homepage terminal card.
@@ -18,9 +18,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_WEATHER_LAT}&longitude=${DEFAULT_WEATHER_LON}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America/Los_Angeles`;
 
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(4000),
-    });
+    const res = await fetchWithTimeout(url, {}, 4000);
 
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 

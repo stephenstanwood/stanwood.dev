@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ShipClock from "../components/ShipClock.tsx";
+import ShipClockApp from "../components/ShipClock.tsx";
 import RepoTracker from "../components/RepoTracker.tsx";
 const title = "Ship Clock — stanwood.dev";
 ---
@@ -605,7 +605,7 @@ const title = "Ship Clock — stanwood.dev";
       <p class="sc-intro-desc">One number on the wall. Days since this site last shipped — no spin, no excuses. Updates every five minutes from Vercel.</p>
     </div>
 
-    <ShipClock client:idle />
+    <ShipClockApp client:idle />
 
     <RepoTracker client:idle />
 

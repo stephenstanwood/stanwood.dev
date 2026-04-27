@@ -102,7 +102,7 @@ export default function RestaurantSearch({
   const [query, setQuery] = useState("");
   const [city, setCity] = useState(savedCity);
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const trimmed = query.trim();
     const cityTrimmed = city.trim();

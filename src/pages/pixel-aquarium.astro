@@ -465,6 +465,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         return pixels.map(([x, y]) => [w - 1 - x, y]);
       }
 
+      /**
+       * @typedef {{ bodyR: number[][]; tailR: number[][]; eyeR: number[]; finR: number[][]; w: number; stripeY: number[]; bodyL?: number[][]; tailL?: number[][]; eyeL?: number[]; finL?: number[][] }} FishShape
+       * @type {FishShape[]}
+       */
       const FISH_SHAPES = [
         { // Classic — compact diamond
           bodyR: [[2,0],[3,0],[4,0],[1,1],[2,1],[3,1],[4,1],[5,1],[0,2],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[1,3],[2,3],[3,3],[4,3],[5,3],[2,4],[3,4],[4,4]],

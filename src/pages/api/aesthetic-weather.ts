@@ -7,7 +7,7 @@ import {
   type WeatherInput,
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
-import { okJson } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
 export const prerender = false;
 
@@ -44,9 +44,7 @@ export const GET: APIRoute = async ({ url }) => {
       `&hourly=temperature_2m,weather_code,cloud_cover,precipitation_probability` +
       `&temperature_unit=fahrenheit&timezone=America/Los_Angeles&forecast_days=1`;
 
-    const res = await fetch(apiUrl, {
-      signal: AbortSignal.timeout(5000),
-    });
+    const res = await fetchWithTimeout(apiUrl, {}, 5000);
 
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 
