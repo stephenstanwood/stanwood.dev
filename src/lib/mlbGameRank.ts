@@ -125,6 +125,15 @@ function computeWatchScore(game: Game): number {
   );
 }
 
+// ── MLB-specific helpers ──
+
+function formatRecord(comp: Competitor | undefined): string {
+  if (!comp) return "";
+  const r = parseRecord(comp);
+  if (r.wins === 0 && r.losses === 0) return "";
+  return `${r.wins}-${r.losses}`;
+}
+
 // ── MLB-specific broadcast rendering ──
 
 function renderBroadcastBadges(competition: Competition, compact: boolean): string {
@@ -135,9 +144,12 @@ function renderBroadcastBadges(competition: Competition, compact: boolean): stri
   const mlbTvStyle =
     "display:inline-flex;align-items:center;font-family:Inter,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.03em;padding:2px 5px;border-radius:3px;white-space:nowrap;line-height:1;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.1);";
 
+  // ESPN lists MLB.TV under "National" — prefer a real network if one is also present.
+  const realNational = national.find((n) => n.toUpperCase() !== "MLB.TV");
+
   let badge;
-  if (national.length > 0) {
-    badge = `<span style="${nationalStyle}">${esc(national[0])}</span>`;
+  if (realNational) {
+    badge = `<span style="${nationalStyle}">${esc(realNational)}</span>`;
   } else {
     badge = `<span style="${mlbTvStyle}">MLB.TV</span>`;
   }
@@ -347,6 +359,13 @@ function renderHeroCard(game: Game): string {
         ? "color:rgba(255,255,255,0.3);"
         : "color:#e5e7eb;";
 
+  const awayRec = formatRecord(away);
+  const homeRec = formatRecord(home);
+  const recordsLine =
+    awayRec && homeRec
+      ? `<div class="hero-line" style="font-family:Orbitron,monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);margin-top:8px;">${esc(teamAbbr(away))} ${awayRec} &middot; ${esc(teamAbbr(home))} ${homeRec}</div>`
+      : "";
+
   return `
     <div class="hero-card p-5" data-away="${teamAbbr(away)}" data-home="${teamAbbr(home)}">
       <div class="hero-sentence">
@@ -356,6 +375,7 @@ function renderHeroCard(game: Game): string {
         <div class="hero-line">versus the</div>
         <div class="hero-line hl-team">${teamMascot(home)}</div>
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+        ${recordsLine}
       </div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
@@ -427,6 +447,10 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
   const homeAbbrStr = teamAbbr(home);
   const awayLogo = escUrl(away?.team?.logo || "");
   const homeLogo = escUrl(home?.team?.logo || "");
+  const awayRec = formatRecord(away);
+  const homeRec = formatRecord(home);
+  const recStyle =
+    "font-family:Orbitron,monospace;font-size:9px;font-weight:500;letter-spacing:0.05em;color:rgba(255,255,255,0.32);margin-left:6px;";
 
   const showScores = !isPreGame;
   const firstPitch = isPreGame ? formatFirstPitch(game.date!) : "";
@@ -457,6 +481,7 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
                 : `<div style="width:16px;height:16px;border-radius:50%;background:#d97706;"></div>`
             }
             <span class="font-score text-xs font-semibold tracking-wider" style="color:#e5e7eb;">${awayAbbrStr}</span>
+            ${awayRec ? `<span style="${recStyle}">${awayRec}</span>` : ""}
           </div>
           ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${awayScoreStyle}">${awayScore}</span>` : ""}
         </div>
@@ -468,6 +493,7 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
                 : `<div style="width:16px;height:16px;border-radius:50%;background:#d97706;"></div>`
             }
             <span class="font-score text-xs font-semibold tracking-wider" style="color:#e5e7eb;">${homeAbbrStr}</span>
+            ${homeRec ? `<span style="${recStyle}">${homeRec}</span>` : ""}
           </div>
           ${showScores ? `<span class="font-score text-sm font-bold tracking-wider" style="${homeScoreStyle}">${homeScore}</span>` : ""}
         </div>
@@ -502,6 +528,13 @@ function renderNoGames(events: Game[]): string {
     const awayLogo = escUrl(away?.team?.logo || "");
     const homeLogo = escUrl(home?.team?.logo || "");
 
+    const awayRecPre = formatRecord(away);
+    const homeRecPre = formatRecord(home);
+    const recordsLinePre =
+      awayRecPre && homeRecPre
+        ? `<div class="hero-line" style="font-family:Orbitron,monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);margin-top:8px;">${esc(teamAbbr(away!))} ${awayRecPre} &middot; ${esc(teamAbbr(home!))} ${homeRecPre}</div>`
+        : "";
+
     return `
       <div class="hero-card p-5">
         <div class="hero-sentence">
@@ -512,6 +545,7 @@ function renderNoGames(events: Game[]): string {
           <div class="hero-line hl-team">${teamMascot(home!)}</div>
           <div class="hero-line hl-time">${esc(time)} pacific</div>
           <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
+          ${recordsLinePre}
         </div>
 
         <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
@@ -581,6 +615,85 @@ function renderHowItWorks(): string {
   `;
 }
 
+function renderSlateOverview(events: Game[], sectionLabel: string): string {
+  if (events.length === 0) return "";
+
+  let twoWinningTeams = 0;
+  let nationalTV = 0;
+  let topQualityScore = -1;
+  let topGame: Game | null = null;
+
+  for (const game of events) {
+    const comp = game.competitions?.[0];
+    if (!comp) continue;
+    const competitors = comp.competitors || [];
+    if (competitors.length < 2) continue;
+
+    const r1 = parseRecord(competitors[0]);
+    const r2 = parseRecord(competitors[1]);
+    const wp1 = winPct(r1);
+    const wp2 = winPct(r2);
+    if (wp1 > 0.5 && wp2 > 0.5) twoWinningTeams++;
+
+    const { national } = getBroadcasts(comp);
+    const realNational = national.filter((n) => n.toUpperCase() !== "MLB.TV");
+    if (realNational.length > 0) nationalTV++;
+
+    const qualityScore = (wp1 + wp2) / 2 - Math.abs(wp1 - wp2) * 0.5;
+    if (qualityScore > topQualityScore) {
+      topQualityScore = qualityScore;
+      topGame = game;
+    }
+  }
+
+  let topMatchupHtml = "";
+  if (topGame) {
+    const comp = topGame.competitions?.[0];
+    const away = comp?.competitors?.find((c: Competitor) => c.homeAway === "away") || comp?.competitors?.[0];
+    const home = comp?.competitors?.find((c: Competitor) => c.homeAway === "home") || comp?.competitors?.[1];
+    if (away && home) {
+      const ar = formatRecord(away);
+      const hr = formatRecord(home);
+      const recs = ar && hr ? ` <span style="color:rgba(255,255,255,0.32);font-weight:500;">(${ar} &middot; ${hr})</span>` : "";
+      topMatchupHtml = `${teamAbbr(away)} @ ${teamAbbr(home)}${recs}`;
+    }
+  }
+
+  const cellStyle =
+    "background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:10px 12px;";
+  const labelStyle =
+    "font-family:Orbitron,monospace;font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(251,191,36,0.55);margin-bottom:4px;";
+  const valueStyle =
+    "font-family:Orbitron,monospace;font-size:16px;font-weight:700;color:#fbbf24;line-height:1.1;";
+  const subStyle =
+    "font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px;line-height:1.3;";
+
+  const slateLabel = sectionLabel.replace(/'s Games$/, "") + "'s Slate";
+
+  return `
+    <div class="section-header mt-6 mb-3">${esc(slateLabel)}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+      <div style="${cellStyle}">
+        <div style="${labelStyle}">Games</div>
+        <div style="${valueStyle}">${events.length}</div>
+        <div style="${subStyle}">${twoWinningTeams} feature two winning teams</div>
+      </div>
+      <div style="${cellStyle}">
+        <div style="${labelStyle}">National TV</div>
+        <div style="${valueStyle}">${nationalTV}</div>
+        <div style="${subStyle}">${nationalTV === 0 ? "all on MLB.TV tonight" : `${events.length - nationalTV} on MLB.TV only`}</div>
+      </div>
+    </div>
+    ${topMatchupHtml ? `
+      <div style="${cellStyle}margin-top:6px;">
+        <div style="${labelStyle}">Top Matchup By Team Quality</div>
+        <div style="font-family:Orbitron,monospace;font-size:13px;font-weight:700;color:#fbbf24;line-height:1.2;letter-spacing:0.04em;">${topMatchupHtml}</div>
+        <div style="${subStyle}">closest to a balanced .500-plus showdown</div>
+      </div>
+    ` : ""}
+  `;
+}
+
 function renderRankedGames(events: Game[], sectionLabel: string): string {
   const preGames = events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
@@ -623,6 +736,7 @@ function render(events: Game[]): void {
   if (liveGames.length === 0) {
     content.innerHTML =
       renderNoGames(events) +
+      renderSlateOverview(events, dayLabel) +
       renderFinalScores(events) +
       renderRankedGames(events, dayLabel) +
       renderHowItWorks();
@@ -648,6 +762,7 @@ function render(events: Game[]): void {
     `;
   }
 
+  html += renderSlateOverview(events, dayLabel);
   html += renderRankedGames(events, "Coming Up");
   html += renderFinalScores(events);
   html += renderHowItWorks();
