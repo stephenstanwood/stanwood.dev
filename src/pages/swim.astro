@@ -256,6 +256,98 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider"></div>
     </section>
 
+    <!-- Sample workout preview -->
+    <section class="mt-8" aria-label="Example workout">
+      <div class="flex items-baseline justify-between mb-3">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">A real workout looks like this</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">example</span>
+      </div>
+      <div class="rounded-xl border border-teal-100 bg-white/70 backdrop-blur-sm p-4 sm:p-5">
+        <div class="text-center mb-4 pb-3 border-b border-stone-200/70">
+          <p class="text-base font-bold text-slate-900">Threshold Builder</p>
+          <p class="text-xs font-mono text-stone-500 mt-1">2,800 m · ~60 min · Pace: 1:45/100m · Endurance</p>
+        </div>
+
+        <!-- Warmup -->
+        <div class="border-l-4 border-l-amber-400 bg-amber-50/60 rounded-r-lg p-3 mb-2">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber-500/90 text-white">Warmup</span>
+            <span class="text-[11px] font-mono text-stone-400">600 m</span>
+          </div>
+          <div class="space-y-1 text-[13px]">
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">400 m</span>
+              <span class="flex-1 text-stone-600">easy free, smooth and loose</span>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">4 × 50 m</span>
+              <span class="flex-1 text-stone-600">build by 25 — cruise, then strong</span>
+              <span class="font-mono text-teal-600 text-[11px]">@ 1:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pre-set -->
+        <div class="border-l-4 border-l-orange-400 bg-orange-50/60 rounded-r-lg p-3 mb-2">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-orange-500/90 text-white">Pre-Set</span>
+            <span class="text-[11px] font-mono text-stone-400">400 m</span>
+          </div>
+          <div class="space-y-1 text-[13px]">
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">8 × 50 m</span>
+              <span class="flex-1 text-stone-600 flex items-center gap-1.5 flex-wrap">
+                kick — strong flutter, head down
+                <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 text-emerald-800 px-2 py-0.5 font-bold uppercase tracking-wider text-[9px]">Kick</span>
+              </span>
+              <span class="font-mono text-teal-600 text-[11px]">@ 1:15</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Set -->
+        <div class="border-l-4 border-l-teal-500 bg-teal-50/70 rounded-r-lg p-3 mb-2">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-teal-600 text-white">Main Set</span>
+            <span class="text-[11px] font-mono text-stone-400">1,600 m</span>
+          </div>
+          <div class="space-y-1 text-[13px]">
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">4 × 200 m</span>
+              <span class="flex-1 text-stone-600">free — descend 1→4, build effort each one</span>
+              <span class="font-mono text-teal-600 text-[11px]">@ 3:30</span>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">8 × 100 m</span>
+              <span class="flex-1 text-stone-600">free — hold threshold pace, even splits</span>
+              <span class="font-mono text-teal-600 text-[11px]">@ 1:50</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cooldown -->
+        <div class="border-l-4 border-l-cyan-400 bg-cyan-50/60 rounded-r-lg p-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="inline-block rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-cyan-500/90 text-white">Cooldown</span>
+            <span class="text-[11px] font-mono text-stone-400">200 m</span>
+          </div>
+          <div class="space-y-1 text-[13px]">
+            <div class="flex items-baseline gap-2">
+              <span class="font-mono font-semibold min-w-[64px] text-right text-slate-700">200 m</span>
+              <span class="flex-1 text-stone-600">choice — easy, breathe, shake out</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+          Your workout is generated fresh every time — different sets, intervals, and drills tuned to your duration and pace.
+          Don't love what you got? Hit shuffle.
+        </p>
+      </div>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- App -->
     <SwimWorkout client:idle />
   </main>
