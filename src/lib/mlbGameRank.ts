@@ -302,6 +302,15 @@ function renderRHE(away: Competitor, home: Competitor): string {
 
 // ── Rendering helpers ──
 
+// Gold for the leader, dim for the trailer, neutral when tied or no score yet.
+// Matches both hero and row styles — `glowBlur` controls the text-shadow size.
+function scoreColorStyle(myScore: number, theirScore: number, showScores: boolean, glowBlur: number): string {
+  if (!showScores) return "color:#e5e7eb;";
+  if (myScore > theirScore) return `color:#fbbf24;text-shadow:0 0 ${glowBlur}px rgba(251,191,36,0.4);`;
+  if (myScore < theirScore) return "color:rgba(255,255,255,0.3);";
+  return "color:#e5e7eb;";
+}
+
 function statusLabel(status: Status | undefined): string {
   const period = status?.period || 0;
   const state = status?.type?.state || "";
@@ -345,19 +354,8 @@ function renderHeroCard(game: Game): string {
   const awayLogo = escUrl(away?.team?.logo || "");
   const homeLogo = escUrl(home?.team?.logo || "");
 
-  // Score colors: gold for winning, dim for losing
-  const awayScoreColor =
-    hasScores && awayScore > homeScore
-      ? "color:#fbbf24;text-shadow:0 0 10px rgba(251,191,36,0.4);"
-      : hasScores && awayScore < homeScore
-        ? "color:rgba(255,255,255,0.3);"
-        : "color:#e5e7eb;";
-  const homeScoreColor =
-    hasScores && homeScore > awayScore
-      ? "color:#fbbf24;text-shadow:0 0 10px rgba(251,191,36,0.4);"
-      : hasScores && homeScore < awayScore
-        ? "color:rgba(255,255,255,0.3);"
-        : "color:#e5e7eb;";
+  const awayScoreColor = scoreColorStyle(awayScore, homeScore, !!hasScores, 10);
+  const homeScoreColor = scoreColorStyle(homeScore, awayScore, !!hasScores, 10);
 
   const awayRec = formatRecord(away);
   const homeRec = formatRecord(home);
@@ -456,18 +454,8 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
   const firstPitch = isPreGame ? formatFirstPitch(game.date!) : "";
   const statusText = isPreGame ? firstPitch + " PT" : statusLabel(status);
 
-  const awayScoreStyle =
-    showScores && awayNum > homeNum
-      ? "color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,0.4);"
-      : showScores && awayNum < homeNum
-        ? "color:rgba(255,255,255,0.3);"
-        : "color:#e5e7eb;";
-  const homeScoreStyle =
-    showScores && homeNum > awayNum
-      ? "color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,0.4);"
-      : showScores && homeNum < awayNum
-        ? "color:rgba(255,255,255,0.3);"
-        : "color:#e5e7eb;";
+  const awayScoreStyle = scoreColorStyle(awayNum, homeNum, showScores, 8);
+  const homeScoreStyle = scoreColorStyle(homeNum, awayNum, showScores, 8);
 
   return `
     <div class="game-row px-3 py-2.5" data-away="${awayAbbrStr}" data-home="${homeAbbrStr}" style="display:flex;align-items:center;gap:12px;">
