@@ -94,6 +94,79 @@ const title = "Green Light — stanwood.dev";
         .he-hero-tagline { font-size: 1.25rem; bottom: 1.5rem; }
       }
 
+      /* ─── Intro & How it works ───────────────────────────────────── */
+      .he-intro {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 1.5rem 1.5rem 0;
+      }
+      .he-intro p {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        color: var(--he-gray);
+        margin: 0;
+        text-align: center;
+      }
+
+      .he-howitworks {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 1.75rem 1.25rem 0;
+      }
+      .he-howitworks-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        margin: 0 0 1rem;
+        text-align: center;
+      }
+      .he-steps {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+      @media (max-width: 480px) {
+        .he-steps { grid-template-columns: 1fr; }
+      }
+      .he-step {
+        display: flex;
+        gap: 0.7rem;
+        padding: 0.85rem 1rem;
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-radius: 10px;
+        align-items: flex-start;
+      }
+      .he-step-num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--he-sage);
+        background: var(--he-sage-faint);
+        border-radius: 999px;
+        width: 1.6rem;
+        height: 1.6rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .he-step-title {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--he-charcoal);
+        margin: 0 0 0.2rem;
+        line-height: 1.3;
+      }
+      .he-step-desc {
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        line-height: 1.55;
+        margin: 0;
+      }
+
       /* ─── Animations ─────────────────────────────────────────────── */
       @keyframes heFadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -819,6 +892,44 @@ const title = "Green Light — stanwood.dev";
       />
       <div class="he-hero-overlay"></div>
       <p class="he-hero-tagline">Never stare at a menu again.</p>
+    </section>
+
+    <section class="he-intro" aria-label="What Green Light does">
+      <p>Pick the right thing to order before you sit down. Take a quick taste quiz, paste in any restaurant, and Green Light reads the menu and surfaces two picks that match what you actually like.</p>
+    </section>
+
+    <section class="he-howitworks" aria-label="How it works">
+      <p class="he-howitworks-label">How it works</p>
+      <div class="he-steps">
+        <div class="he-step">
+          <span class="he-step-num">1</span>
+          <div>
+            <p class="he-step-title">Quick taste quiz</p>
+            <p class="he-step-desc">~60 seconds — heat tolerance, flavor leanings, mood. Saved on your device so you only do it once.</p>
+          </div>
+        </div>
+        <div class="he-step">
+          <span class="he-step-num">2</span>
+          <div>
+            <p class="he-step-title">Set constraints</p>
+            <p class="he-step-desc">Vegetarian, gluten-free, allergies, ingredients to skip tonight. Picky eaters welcome.</p>
+          </div>
+        </div>
+        <div class="he-step">
+          <span class="he-step-num">3</span>
+          <div>
+            <p class="he-step-title">Tell us where</p>
+            <p class="he-step-desc">Type a restaurant and city. The live menu is fetched on the spot — no app, no account.</p>
+          </div>
+        </div>
+        <div class="he-step">
+          <span class="he-step-num">4</span>
+          <div>
+            <p class="he-step-title">Two picks, you choose</p>
+            <p class="he-step-desc">Two dishes with a one-line "why this one." Your pick nudges the taste profile toward what you chose.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <main id="main-content" class="he-main">
