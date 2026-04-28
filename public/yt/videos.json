@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-27T10:30:05.662869+00:00",
+  "built_at": "2026-04-28T10:30:09.502882+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -207,10 +207,11 @@
       "is_single": false,
       "display_name": "CS25",
       "best_score": 3,
-      "video_count": 2,
+      "video_count": 3,
       "video_ids": [
         "GBd7iuJkW08",
-        "bHSDPgZYie0"
+        "bHSDPgZYie0",
+        "OyimE74UMF8"
       ]
     },
     {
@@ -1945,6 +1946,21 @@
         "swe_career"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 2, 2026\nThis seminar covers: \n\u2022 Overview of the history of ML/NLP, Transformers, and how they work\n\u2022 Recent trends, breakthroughs, applications, and current challenges\n\nFollow along with the seminar schedule. Visit: https://web.stanford.edu/class/cs25/\n\nInstructors: \n\u2022 Steven Feng,"
+    },
+    {
+      "id": "OyimE74UMF8",
+      "title": "Stanford CS25: Transformers United V6 I On the Tradeoffs of State Space Models and Transformers",
+      "url": "https://www.youtube.com/watch?v=OyimE74UMF8",
+      "duration": 4628.0,
+      "published_at": "2026-04-27T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 16, 2026\nThis seminar covers: \n\u2022  A high-level overview of a recently popular subquadratic alternative to the Transformer, the state space model (SSM)\n\u2022 The core characteristics and design choices of SSMs and other related modern linear models\n\nFollow along with the seminar schedul"
     },
     {
       "id": "AbezbsrNMZU",
