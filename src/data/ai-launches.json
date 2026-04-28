@@ -56,11 +56,11 @@
     "url": "https://www.anthropic.com/news/claude-opus-4-7"
   },
   {
-    "name": "Canva AI 2.0",
-    "org": "Canva",
+    "name": "Qwen 3.6-35B-A3B",
+    "org": "Alibaba",
     "date": "2026-04-16",
-    "type": "tool",
-    "summary": "agentic redesign — chat-driven design with iterative editing, brand intelligence, web research, scheduling, Sheets AI, and Canva Code 2.0; research preview rolling to first million users",
-    "url": "https://www.canva.com/newsroom/news/canva-create-2026-ai/"
+    "type": "model",
+    "summary": "open-source MoE model (35B total / 3B active params, Apache 2.0) that runs locally on a single RTX 3090 at ~50–65 tok/s — 73.4% SWE-Bench, solid agentic coding, weights on Hugging Face",
+    "url": "https://qwen.ai/blog?id=qwen3.6-35b-a3b"
   }
 ]
