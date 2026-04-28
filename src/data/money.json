@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-04-27T10:00:55.046Z",
+  "lastUpdated": "2026-04-28T10:00:28.377Z",
   "apiSpend": {
     "months": [
       {
         "month": "2026-04",
-        "collectedAt": "2026-04-27T10:00:55.046Z",
+        "collectedAt": "2026-04-28T10:00:28.377Z",
         "services": {
           "vercel": {
             "totalCents": 50,
@@ -33,25 +33,25 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 8251,
+            "totalCents": 8455,
             "breakdown": [
               {
                 "name": "claude-sonnet-4-6",
-                "cents": 6276
+                "cents": 6291
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 1975
+                "cents": 2164
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
-            "totalCents": 16911,
+            "totalCents": 20012,
             "breakdown": [
               {
                 "name": "api",
-                "cents": 16911
+                "cents": 20012
               }
             ],
             "note": null
