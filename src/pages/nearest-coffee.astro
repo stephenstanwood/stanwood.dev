@@ -44,13 +44,41 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       }
       .nc-back:hover { color: #1A1A1A; }
 
+      /* ── Hero ── */
+      .nc-hero {
+        margin-top: 28px;
+        margin-bottom: 8px;
+        border-radius: 2px;
+        overflow: hidden;
+        background: #F2F0EC;
+        aspect-ratio: 16 / 7;
+        position: relative;
+      }
+      @media (min-width: 768px) {
+        .nc-hero { aspect-ratio: 24 / 7; margin-top: 36px; }
+      }
+      .nc-hero img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: contrast(0.97) saturate(0.92);
+      }
+      .nc-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 60%, rgba(250,250,248,0.55));
+        pointer-events: none;
+      }
+
       /* ── Header ── */
       .nc-header {
-        margin-top: 56px;
+        margin-top: 32px;
         margin-bottom: 40px;
       }
       @media (min-width: 768px) {
-        .nc-header { margin-top: 72px; margin-bottom: 48px; }
+        .nc-header { margin-top: 40px; margin-bottom: 48px; }
       }
       .nc-label {
         display: block;
@@ -476,6 +504,58 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         animation: nc-fadeIn 0.45s ease 0.1s both;
       }
 
+      /* ── For moments like ── */
+      .nc-forwhen {
+        margin-top: 40px;
+        margin-bottom: 8px;
+      }
+      @media (min-width: 768px) {
+        .nc-forwhen { margin-top: 48px; }
+      }
+      .nc-forwhen-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        margin-bottom: 22px;
+      }
+      .nc-forwhen-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      @media (min-width: 640px) {
+        .nc-forwhen-grid { grid-template-columns: 1fr 1fr; gap: 22px 44px; }
+      }
+      .nc-forwhen-item {
+        display: flex;
+        gap: 14px;
+        align-items: baseline;
+      }
+      .nc-forwhen-num {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 18px;
+        color: #C0BDB8;
+        font-weight: 400;
+        flex-shrink: 0;
+        min-width: 22px;
+      }
+      .nc-forwhen-text {
+        font-size: 14px;
+        line-height: 1.65;
+        color: #4A4A4A;
+        margin: 0;
+      }
+      .nc-forwhen-text em {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 500;
+        color: #1A1A1A;
+      }
+
       /* ── How it works ── */
       .nc-how {
         margin-top: 40px;
@@ -525,6 +605,17 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         <a href="/" class="nc-back">&larr; Back</a>
       </nav>
 
+      <div class="nc-hero">
+        <img
+          src="/images/nearest-coffee.webp"
+          alt="A quiet cafe morning with golden light through the window"
+          width="800"
+          height="449"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
       <header class="nc-header">
         <span class="nc-label">Nearest Coffee</span>
         <h1 class="nc-title">Your nearest open coffee.</h1>
@@ -532,20 +623,45 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       <hr class="nc-rule">
 
+      <!-- For moments like -->
+      <section class="nc-forwhen" aria-label="Why this exists">
+        <span class="nc-forwhen-label">Built for moments like</span>
+        <div class="nc-forwhen-grid">
+          <div class="nc-forwhen-item">
+            <span class="nc-forwhen-num">i.</span>
+            <p class="nc-forwhen-text"><em>You&rsquo;re early for a meeting</em> in a strange neighborhood and need somewhere to land for twenty minutes.</p>
+          </div>
+          <div class="nc-forwhen-item">
+            <span class="nc-forwhen-num">ii.</span>
+            <p class="nc-forwhen-text"><em>The cafe you wanted is closed</em> and you need a fast Plan B before the morning slips away.</p>
+          </div>
+          <div class="nc-forwhen-item">
+            <span class="nc-forwhen-num">iii.</span>
+            <p class="nc-forwhen-text"><em>You&rsquo;re visiting a friend</em> and want to suggest somewhere walkable instead of staring at Google Maps.</p>
+          </div>
+          <div class="nc-forwhen-item">
+            <span class="nc-forwhen-num">iv.</span>
+            <p class="nc-forwhen-text"><em>You just need a desk for an hour</em> and don&rsquo;t care which chain &mdash; closest open seat wins.</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="nc-rule" style="margin-top: 40px;">
+
       <!-- How it works -->
       <section class="nc-how">
         <div class="nc-how-grid">
           <div>
             <span class="nc-how-label">How it works</span>
-            <p class="nc-how-body">Share your location and it queries Google Places for coffee shops open right now — sorted by walking distance, closest first.</p>
+            <p class="nc-how-body">Share your location and it queries Google Places for coffee shops open right now &mdash; sorted by walking distance, closest first.</p>
           </div>
           <div>
             <span class="nc-how-label">What you get</span>
-            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby with ratings and walk times — each linking straight to directions.</p>
+            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby with ratings and walk times &mdash; each linking straight to directions.</p>
           </div>
           <div>
             <span class="nc-how-label">Privacy</span>
-            <p class="nc-how-body">Your coordinates go to the server only to run the Places query. They're never stored, logged, or tied to you in any way.</p>
+            <p class="nc-how-body">Your coordinates go to the server only to run the Places query. They&rsquo;re never stored, logged, or tied to you in any way.</p>
           </div>
         </div>
       </section>
