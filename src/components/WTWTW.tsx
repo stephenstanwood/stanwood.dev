@@ -7,6 +7,7 @@ import {
   getTeamsByLeague,
 } from "../lib/teamRegistry";
 import { safeGet, safeSet } from "../lib/localStorage";
+import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -106,16 +107,6 @@ function savePrefs(prefs: WTWTWPrefs): void {
 
 // ── ESPN helpers ────────────────────────────────────────────────────────────
 
-async function fetchScoreboard(
-  leaguePath: string,
-  yyyymmdd: string
-): Promise<{ events?: ESPNEvent[] }> {
-  const url = `https://site.api.espn.com/apis/site/v2/sports/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed ${leaguePath} ${yyyymmdd}`);
-  return res.json();
-}
-
 function formatTime(iso: string, tz: string): string {
   return new Intl.DateTimeFormat("en-US", {
     hour: "numeric",
@@ -158,12 +149,9 @@ function getUpcoming7Days(tz: string): DayInfo[] {
   for (let i = 0; i < 7; i++) {
     const dayDate = new Date(nowLocal);
     dayDate.setDate(nowLocal.getDate() + i);
-    const yyyy = dayDate.getFullYear();
-    const mm = String(dayDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(dayDate.getDate()).padStart(2, "0");
     days.push({
       label: dayDate.toLocaleDateString("en-US", { weekday: "long" }),
-      yyyymmdd: `${yyyy}${mm}${dd}`,
+      yyyymmdd: formatYYYYMMDD(dayDate),
     });
   }
   return days;
@@ -692,7 +680,7 @@ export default function WTWTW() {
       for (const day of currentDays) {
         const jsons = await Promise.all(
           leaguePaths.map((lp) =>
-            fetchScoreboard(lp, day.yyyymmdd)
+            fetchEspnScoreboard<ESPNEvent>(lp, day.yyyymmdd)
               .then((j) => ({ lp, j }))
               .catch(() => ({ lp, j: null as { events?: ESPNEvent[] } | null }))
           )

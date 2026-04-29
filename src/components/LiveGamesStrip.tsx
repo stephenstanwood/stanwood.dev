@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { TEAM_REGISTRY, type TeamEntry } from "../lib/teamRegistry";
+import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 
 interface ESPNCompetitor {
   team?: { abbreviation?: string; displayName?: string };
@@ -90,24 +91,6 @@ function competitors(ev: ESPNEvent): ESPNCompetitor[] {
   return ev.competitions?.[0]?.competitors || [];
 }
 
-function todayYYYYMMDD(): string {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}${mm}${dd}`;
-}
-
-async function fetchScoreboard(
-  leaguePath: string,
-  yyyymmdd: string
-): Promise<{ events?: ESPNEvent[] }> {
-  const url = `https://site.api.espn.com/apis/site/v2/sports/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("fetch failed");
-  return res.json();
-}
-
 function readUserTeamKeys(): string[] {
   try {
     const raw = localStorage.getItem(LS_KEY);
@@ -135,10 +118,10 @@ export default function LiveGamesStrip() {
       }
       for (const lp of PLAYOFF_LEAGUES) leaguesToFetch.add(lp);
 
-      const yyyymmdd = todayYYYYMMDD();
+      const yyyymmdd = formatYYYYMMDD();
       const results = await Promise.all(
         [...leaguesToFetch].map((lp) =>
-          fetchScoreboard(lp, yyyymmdd)
+          fetchEspnScoreboard<ESPNEvent>(lp, yyyymmdd)
             .then((r) => ({ lp, events: r.events || [] }))
             .catch(() => ({ lp, events: [] as ESPNEvent[] }))
         )

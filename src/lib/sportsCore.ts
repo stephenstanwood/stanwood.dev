@@ -164,6 +164,30 @@ export function formatGameTime(dateStr: string, includeAmPm = false): string {
   return includeAmPm ? formatted : formatted.replace(/\s*[AP]M$/i, "");
 }
 
+/** ESPN scoreboard URLs use a YYYYMMDD `dates` param. */
+export function formatYYYYMMDD(d: Date = new Date()): string {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}${mm}${dd}`;
+}
+
+// ── ESPN fetch helpers ──
+
+/**
+ * Fetch ESPN's public scoreboard JSON for a given league + date. The event shape
+ * varies by league and consumer needs, so callers parameterize the type.
+ */
+export async function fetchEspnScoreboard<T = unknown>(
+  leaguePath: string,
+  yyyymmdd: string,
+): Promise<{ events?: T[] }> {
+  const url = `https://site.api.espn.com/apis/site/v2/sports/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`ESPN ${leaguePath} ${yyyymmdd} failed (${res.status})`);
+  return res.json();
+}
+
 // ── DOM helpers ──
 
 /** Scale each .hero-line to fill the container width, creating a boxy block. */
