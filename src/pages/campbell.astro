@@ -72,6 +72,36 @@ const title = "Campbell — stanwood.dev";
       }
       .cb-back:hover { color: var(--cb-blue); }
 
+      /* ── Hero image ── */
+      .cb-hero-img {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+      }
+      .cb-hero-img-wrap {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 7;
+        border-radius: var(--cb-radius);
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(27, 79, 138, 0.12);
+      }
+      .cb-hero-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .cb-hero-img-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(27, 79, 138, 0) 50%, rgba(27, 79, 138, 0.35) 100%);
+        pointer-events: none;
+      }
+
       .cb-hero {
         max-width: 800px;
         width: 100%;
@@ -124,6 +154,151 @@ const title = "Campbell — stanwood.dev";
         margin: 0;
         line-height: 1.5;
         position: relative;
+      }
+
+      /* ── Built for residents like ── */
+      .cb-forwhen {
+        max-width: 800px;
+        width: 100%;
+        margin: 1.75rem auto 0;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+      }
+      .cb-forwhen-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+        margin: 0 0 1rem;
+      }
+      .cb-forwhen-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      @media (min-width: 640px) {
+        .cb-forwhen-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+      }
+      .cb-forwhen-card {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+        padding: 0.85rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-left: 3px solid var(--cb-blue);
+        border-radius: 8px;
+      }
+      .cb-forwhen-num {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        border-radius: 4px;
+        padding: 0.15rem 0.4rem;
+        flex-shrink: 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .cb-forwhen-text {
+        font-size: 0.85rem;
+        line-height: 1.55;
+        color: var(--cb-ink);
+        margin: 0;
+      }
+      .cb-forwhen-text em {
+        font-style: normal;
+        font-weight: 600;
+        color: var(--cb-ink);
+      }
+      .cb-forwhen-text span {
+        color: var(--cb-gray);
+      }
+
+      /* ── What's inside (preview cards) ── */
+      .cb-preview {
+        max-width: 800px;
+        width: 100%;
+        margin: 2rem auto 0;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+      }
+      .cb-preview-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+        margin: 0 0 1rem;
+      }
+      .cb-preview-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      @media (min-width: 640px) {
+        .cb-preview-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-preview-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem 1.1rem 1.1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+      }
+      .cb-preview-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+      }
+      .cb-preview-icon { font-size: 1.15rem; }
+      .cb-preview-name {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+      }
+      .cb-preview-pill {
+        margin-left: auto;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--cb-gray);
+        background: var(--cb-bg);
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+      }
+      .cb-preview-desc {
+        font-size: 0.82rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .cb-preview-stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.15rem;
+      }
+      .cb-preview-stat {
+        font-size: 0.72rem;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        padding: 0.18rem 0.55rem;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .cb-preview-stat--gold {
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+      }
+      .cb-preview-stat--green {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
       }
 
       .cb-main {
@@ -792,12 +967,105 @@ const title = "Campbell — stanwood.dev";
       <a href="/" class="cb-back">← stanwood.dev</a>
     </header>
 
+    <div class="cb-hero-img">
+      <div class="cb-hero-img-wrap">
+        <img
+          src="/images/campbell.webp"
+          alt="Sun-dappled tree-lined street in downtown Campbell, California"
+          width="1456"
+          height="816"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </div>
+
     <div class="cb-hero">
       <div class="cb-hero-inner">
         <h1><span>Campbell</span> Resident Portal</h1>
         <p class="cb-hero-sub">One front door for everything City of Campbell — no more hunting through five different portals.</p>
       </div>
     </div>
+
+    <section class="cb-forwhen" aria-label="Why this exists">
+      <span class="cb-forwhen-label">Built for residents like</span>
+      <div class="cb-forwhen-grid">
+        <div class="cb-forwhen-card">
+          <span class="cb-forwhen-num">01</span>
+          <p class="cb-forwhen-text"><em>Reporting a pothole</em> <span>before your tire eats it — straight to the right city form, no tab-hunting.</span></p>
+        </div>
+        <div class="cb-forwhen-card">
+          <span class="cb-forwhen-num">02</span>
+          <p class="cb-forwhen-text"><em>Catching up on Council</em> <span>without watching a 3-hour meeting — plain-English digest of what got decided.</span></p>
+        </div>
+        <div class="cb-forwhen-card">
+          <span class="cb-forwhen-num">03</span>
+          <p class="cb-forwhen-text"><em>Signing your kid up for swim</em> <span>or a soccer camp — search recreation classes by age and season.</span></p>
+        </div>
+        <div class="cb-forwhen-card">
+          <span class="cb-forwhen-num">04</span>
+          <p class="cb-forwhen-text"><em>Picking dinner downtown</em> <span>tonight — local restaurants with the vibe, not the franchise list.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cb-preview" aria-label="What's inside">
+      <span class="cb-preview-label">What's inside</span>
+      <div class="cb-preview-grid">
+        <div class="cb-preview-card">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">🔗</span>
+            <span class="cb-preview-name">Quick Links</span>
+            <span class="cb-preview-pill">8 shortcuts</span>
+          </div>
+          <p class="cb-preview-desc">The eight city services residents actually open: report a concern, building permits, recreation, council agendas, police, GIS, bill pay, and downtown.</p>
+        </div>
+        <div class="cb-preview-card">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">📰</span>
+            <span class="cb-preview-name">Council Digest</span>
+            <span class="cb-preview-pill">AI summary</span>
+          </div>
+          <p class="cb-preview-desc">Plain-English summary of the latest City Council agenda — key topics, votes, and what's on the docket next. Meetings run the 1st and 3rd Tuesday.</p>
+        </div>
+        <div class="cb-preview-card">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">🏊</span>
+            <span class="cb-preview-name">Activities</span>
+            <span class="cb-preview-pill">searchable</span>
+          </div>
+          <p class="cb-preview-desc">Filterable view of city rec classes — swim lessons, sports, kids' camps. Search by keyword or browse current sessions in one place.</p>
+        </div>
+        <div class="cb-preview-card">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">🍕</span>
+            <span class="cb-preview-name">Eat Local</span>
+            <span class="cb-preview-pill">curated</span>
+          </div>
+          <p class="cb-preview-desc">Hand-picked Campbell restaurants by area and vibe — downtown date-night, weekday lunch, takeout-only. Direct links to order or reserve.</p>
+        </div>
+        <div class="cb-preview-card">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">📊</span>
+            <span class="cb-preview-name">City Data</span>
+            <span class="cb-preview-pill">9 stats</span>
+          </div>
+          <p class="cb-preview-desc">The numbers behind the city: 42,924 residents, 5.8 sq mi, $1.32M median home, incorporated 1952. Plus open data and GIS layers for the curious.</p>
+          <div class="cb-preview-stats">
+            <span class="cb-preview-stat">42,924 residents</span>
+            <span class="cb-preview-stat cb-preview-stat--gold">est. 1952</span>
+            <span class="cb-preview-stat cb-preview-stat--green">5.8 sq mi</span>
+          </div>
+        </div>
+        <div class="cb-preview-card" style="background: rgba(27, 79, 138, 0.04); border-style: dashed;">
+          <div class="cb-preview-head">
+            <span class="cb-preview-icon">↓</span>
+            <span class="cb-preview-name">Pick a tab below</span>
+          </div>
+          <p class="cb-preview-desc">All five sections live on this page — switch between them without leaving. Bookmark this once and the rest of the city is two clicks away.</p>
+        </div>
+      </div>
+    </section>
 
     <main class="cb-main">
       <CampbellPortal client:load />
