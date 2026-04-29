@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-28T10:30:09.502882+00:00",
+  "built_at": "2026-04-29T10:30:23.256124+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -130,13 +130,16 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 5,
+      "video_count": 8,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
         "lVynu4bo1rY",
         "cKSwj_qZ8Jg",
-        "izZba4UA7iY"
+        "izZba4UA7iY",
+        "xnDHaNUvHBg",
+        "SzpOcwdIL0Y",
+        "6-cXp-aOmdg"
       ]
     },
     {
@@ -280,11 +283,12 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": -1,
-      "video_count": 3,
+      "video_count": 4,
       "video_ids": [
         "tr-CUpw--ck",
         "_WaR2fjZpEQ",
-        "agN3AlfGFrk"
+        "agN3AlfGFrk",
+        "WUUq6TVAu8U"
       ]
     },
     {
@@ -1500,6 +1504,54 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "xnDHaNUvHBg",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 6: Kernels, Triton, XLA",
+      "url": "https://www.youtube.com/watch?v=xnDHaNUvHBg",
+      "duration": 5201.0,
+      "published_at": "2026-04-28T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 6,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "SzpOcwdIL0Y",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 7: Parallelism",
+      "url": "https://www.youtube.com/watch?v=SzpOcwdIL0Y",
+      "duration": 4863.0,
+      "published_at": "2026-04-28T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 7,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "6-cXp-aOmdg",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 8: Parallelism",
+      "url": "https://www.youtube.com/watch?v=6-cXp-aOmdg",
+      "duration": 4811.0,
+      "published_at": "2026-04-28T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 8,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
       "id": "PmW_TMQ3l0I",
       "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 5 - LLM tuning",
       "url": "https://www.youtube.com/watch?v=PmW_TMQ3l0I",
@@ -2108,6 +2160,21 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:00:55 Recap of last episodes\n00:06:58 Problem formulation\n00:10:53 Trajectory\n00:11:54 Flow\n00:13:59 Probability path\n00:15:05 Vector field\n00:18:42"
+    },
+    {
+      "id": "WUUq6TVAu8U",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 4 - Latent Space & Guidance",
+      "url": "https://www.youtube.com/watch?v=WUUq6TVAu8U",
+      "duration": 6058.0,
+      "published_at": "2026-04-28T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 4,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:05 Pixel space\n00:12:39 Semantic vs perceptual similarity\n00:14:27 Autoencoder\n00:22:56 Variational autoencoders\n00:31:19 ELBO derivation\n00:46:4"
     },
     {
       "id": "TfAJZJTPBoY",
