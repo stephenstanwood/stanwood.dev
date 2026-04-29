@@ -6,6 +6,7 @@ import GrowthChart from "./GrowthChart";
 import CompanyCards from "./CompanyCards";
 import StateBreakdown from "./StateBreakdown";
 import DisengagementChart from "./DisengagementChart";
+import L4Race from "./L4Race";
 import AVTimeline from "./AVTimeline";
 
 export default function DriverlessDashboard() {
@@ -20,10 +21,10 @@ export default function DriverlessDashboard() {
 
       {/* Milestone callout */}
       <div className="dl-milestone">
-        <div className="dl-milestone-tag">March 2026 milestone</div>
-        <p className="dl-milestone-headline">Waymo hits 500,000 rides/week</p>
+        <div className="dl-milestone-tag">April 2026 milestone</div>
+        <p className="dl-milestone-headline">Tesla finally goes driverless in Austin</p>
         <p className="dl-milestone-body">
-          The first self-driving company to reach commercial scale — operating fully driverless across San Francisco, Los Angeles, Phoenix, and Austin. Aurora launched driverless freight on I-45 the same month. The AV industry has now logged 200M+ miles without a human at the wheel.
+          After years of L2+ "Full Self-Driving" with a human at the wheel, Tesla begins paid Cybercab rides in Austin with no safety driver — its first true Level 4 deployment. Waymo crosses 550K rides/week the same month. Five companies are now operating commercial driverless rides in the US, eight years after Waymo became the first.
         </p>
       </div>
 
@@ -66,6 +67,9 @@ export default function DriverlessDashboard() {
 
         {/* Companies — full width */}
         <CompanyCards />
+
+        {/* L4 Race — full width */}
+        <L4Race />
 
         {/* State breakdown — full width */}
         <StateBreakdown />
