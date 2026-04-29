@@ -193,6 +193,228 @@ const title = "WTWTW — stanwood.dev";
         color: rgba(210, 170, 110, 0.4);
         line-height: 1.5;
       }
+
+      /* ── Example schedule preview ── */
+      .example-eyebrow {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .example-eyebrow-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.35);
+      }
+      .example-eyebrow-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(180, 120, 50, 0.45);
+        padding: 2px 8px;
+        border: 1px solid rgba(180, 120, 50, 0.18);
+        border-radius: 4px;
+        background: rgba(180, 120, 50, 0.05);
+      }
+      .example-day {
+        background: #111D32;
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+        position: relative;
+        border-left: 4px solid #1a2744;
+      }
+      .example-day-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .example-day-label {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .example-day-date {
+        margin-left: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+        color: rgba(255, 255, 255, 0.25);
+      }
+      .example-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(34, 197, 94, 0.15);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+      .example-status-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: activePulse 2s ease-in-out infinite;
+      }
+      .example-status--scheduled {
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+      .example-game-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.2;
+      }
+      .example-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .example-time {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .example-team-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .example-team-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .example-broadcast {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.07);
+        color: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .example-score-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+        padding: 8px 14px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .example-score-team {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+      }
+      .example-score-team--home { justify-content: flex-end; }
+      .example-score-abbr {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        min-width: 28px;
+      }
+      .example-score-num {
+        font-family: 'Oswald', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .example-score-num--losing { color: rgba(255, 255, 255, 0.35); }
+      .example-score-dash {
+        color: rgba(255, 255, 255, 0.15);
+        font-size: 12px;
+      }
+      .example-also {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .example-also-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+        margin-bottom: 6px;
+      }
+      .example-also-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .example-also-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .example-also-time {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.3);
+      }
+      .example-empty-day {
+        background: #0f1a2e;
+        border-left-color: #1a2744;
+      }
+      .example-empty-msg {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .example-overlay-tag {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(180, 120, 50, 0.5);
+        padding: 2px 6px;
+        background: rgba(13, 17, 23, 0.6);
+        border-radius: 3px;
+      }
+      .example-footnote {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: rgba(210, 170, 110, 0.3);
+        text-align: center;
+        margin-top: 10px;
+        line-height: 1.6;
+      }
     </style>
   </Fragment>
 
@@ -306,6 +528,90 @@ const title = "WTWTW — stanwood.dev";
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Example schedule preview -->
+    <div class="mb-8" aria-label="Example schedule preview">
+      <div class="example-eyebrow">
+        <span class="example-eyebrow-label">A real schedule looks like this</span>
+        <span class="example-eyebrow-tag">example</span>
+      </div>
+
+      <!-- Tonight: live NBA playoff -->
+      <div class="example-day" style="border-left-color: #1D428A; box-shadow: 0 4px 20px rgba(29, 66, 138, 0.06);">
+        <span class="example-overlay-tag">sample</span>
+        <div class="example-day-header">
+          <div>
+            <span class="example-day-label">Today</span>
+            <span class="example-day-date">Tuesday</span>
+          </div>
+          <span class="example-status">
+            <span class="example-status-dot"></span>
+            Q3 4:22
+          </span>
+        </div>
+        <div class="example-game-name">Lakers @ Warriors</div>
+        <div class="example-meta-row">
+          <span class="example-team-badge" style="background: rgba(29, 66, 138, 0.2); color: #4477CC;">
+            <span class="example-team-dot" style="background: #1D428A;"></span>
+            Warriors
+          </span>
+          <span class="example-broadcast">ESPN</span>
+          <span class="example-broadcast">ABC</span>
+        </div>
+        <div class="example-score-row">
+          <div class="example-score-team">
+            <span class="example-score-abbr">LAL</span>
+            <span class="example-score-num example-score-num--losing">87</span>
+          </div>
+          <span class="example-score-dash">—</span>
+          <div class="example-score-team example-score-team--home">
+            <span class="example-score-num">91</span>
+            <span class="example-score-abbr" style="text-align: right;">GSW</span>
+          </div>
+        </div>
+        <div class="example-also">
+          <p class="example-also-label">Also tonight</p>
+          <div class="example-also-row">
+            <span class="example-also-name">Mets @ Phillies</span>
+            <span class="example-also-time">7:05 PM</span>
+            <span class="example-team-badge" style="background: rgba(0, 45, 114, 0.15); color: #3366CC; opacity: 0.75;">
+              <span class="example-team-dot" style="background: #002D72;"></span>
+              Mets
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tomorrow: scheduled MLB -->
+      <div class="example-day" style="border-left-color: #003087; box-shadow: 0 4px 20px rgba(0, 48, 135, 0.04);">
+        <span class="example-overlay-tag">sample</span>
+        <div class="example-day-header">
+          <span class="example-day-label">Wednesday</span>
+        </div>
+        <div class="example-game-name">Yankees @ Red Sox</div>
+        <div class="example-meta-row">
+          <span class="example-time">7:10 PM ET</span>
+          <span class="example-team-badge" style="background: rgba(0, 48, 135, 0.2); color: #4466CC;">
+            <span class="example-team-dot" style="background: #003087;"></span>
+            Yankees
+          </span>
+          <span class="example-broadcast">YES</span>
+        </div>
+      </div>
+
+      <!-- Day with no game -->
+      <div class="example-day example-empty-day">
+        <span class="example-overlay-tag">sample</span>
+        <div class="example-day-header">
+          <span class="example-day-label" style="color: rgba(255,255,255,0.25);">Thursday</span>
+        </div>
+        <p class="example-empty-msg">No evening games (5 PM&ndash;11:30 PM).</p>
+      </div>
+
+      <p class="example-footnote">
+        Once you pick teams, this fills in with real games and live scores. The pick updates each night.
+      </p>
     </div>
 
     <WTWTW client:idle />
