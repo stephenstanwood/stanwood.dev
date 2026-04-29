@@ -1,5 +1,21 @@
 [
   {
+    "name": "NVIDIA Nemotron 3 Nano Omni",
+    "org": "NVIDIA",
+    "date": "2026-04-28",
+    "type": "model",
+    "summary": "open multimodal model unifying vision, audio, and language → text with 9x higher throughput than other open omni models — weights live on Hugging Face and OpenRouter, also via NVIDIA NIM",
+    "url": "https://blogs.nvidia.com/blog/nemotron-3-nano-omni-multimodal-ai-agents/"
+  },
+  {
+    "name": "Xiaomi MiMo-V2.5-Pro",
+    "org": "Xiaomi",
+    "date": "2026-04-27",
+    "type": "model",
+    "summary": "open-source 1.02T MoE (42B active, 1M context, MIT license) that benchmarks alongside Claude Opus 4.6 on coding — full weights and tokenizer on Hugging Face",
+    "url": "https://mimo.xiaomi.com/mimo-v2-5-pro/"
+  },
+  {
     "name": "DeepSeek V4",
     "org": "DeepSeek",
     "date": "2026-04-24",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "text-to-visual prototyping tool that generates mockups, slides, and one-pagers from prompts — reads your codebase and design files for brand consistency, exports to PDF/PPTX/Canva; available in Claude Pro/Max",
     "url": "https://techcrunch.com/2026/04/17/anthropic-launches-claude-design-a-new-product-for-creating-quick-visuals/"
-  },
-  {
-    "name": "Claude Opus 4.7",
-    "org": "Anthropic",
-    "date": "2026-04-16",
-    "type": "model",
-    "summary": "Anthropic's best generally available model — 3x higher vision resolution (3.75MP), 1M token context, new 'xhigh' effort level, 64% on SWE-Bench Pro; same pricing as Opus 4.6",
-    "url": "https://www.anthropic.com/news/claude-opus-4-7"
-  },
-  {
-    "name": "Qwen 3.6-35B-A3B",
-    "org": "Alibaba",
-    "date": "2026-04-16",
-    "type": "model",
-    "summary": "open-source MoE model (35B total / 3B active params, Apache 2.0) that runs locally on a single RTX 3090 at ~50–65 tok/s — 73.4% SWE-Bench, solid agentic coding, weights on Hugging Face",
-    "url": "https://qwen.ai/blog?id=qwen3.6-35b-a3b"
   }
 ]
