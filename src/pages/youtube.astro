@@ -4,6 +4,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import LiveGamesStrip from '../components/LiveGamesStrip.tsx';
 
 interface QueueVideo {
   id: string;
@@ -412,6 +413,93 @@ function seriesVideos(series: Series): QueueVideo[] {
       height: 22px;
       display: block;
     }
+
+    .live-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin: -1rem 0 2rem;
+    }
+    .live-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--hot);
+    }
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--hot);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    .live-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .live-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.7rem 0.35rem 0.55rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-left-width: 5px;
+      text-decoration: none;
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      white-space: nowrap;
+    }
+    .live-chip:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .live-chip-teams {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 700;
+    }
+    .live-chip-team {
+      letter-spacing: 0.02em;
+    }
+    .live-chip-score {
+      font-weight: 700;
+    }
+    .live-chip-sep {
+      color: #999;
+      font-weight: 400;
+    }
+    .live-chip-detail {
+      color: #555;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+    }
+    .live-chip-platform {
+      color: #888;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-left: 1px dashed #ccc;
+      padding-left: 0.55rem;
+    }
+    @media (max-width: 480px) {
+      .live-chip-platform { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -454,6 +542,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         </a>
       </div>
     </div>
+    <LiveGamesStrip client:only="react" />
 
     {data.queue.length === 0 && (
       <div class="empty">
