@@ -121,6 +121,9 @@ function seriesVideos(series: Series): QueueVideo[] {
         }
       } catch {}
     })();
+    // Frame-friendly: full reload every 20 min so static content (videos, broader)
+    // stays fresh and the live strip resyncs even if the tab has been backgrounded.
+    setTimeout(function () { window.location.reload(); }, 20 * 60 * 1000);
   </script>
   <style is:global>
     :root {
@@ -419,7 +422,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       align-items: center;
       gap: 0.75rem;
       flex-wrap: wrap;
-      margin: -1rem 0 2rem;
+      margin: 0 0 1.25rem;
     }
     .live-label {
       display: inline-flex;
@@ -511,6 +514,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     </form>
   </div>
   <div class="wrap">
+    <LiveGamesStrip client:only="react" />
     <div class="page-head">
       <h1>stanford talks</h1>
       <div class="corner-launchers" aria-label="quick launchers">
@@ -542,7 +546,6 @@ function seriesVideos(series: Series): QueueVideo[] {
         </a>
       </div>
     </div>
-    <LiveGamesStrip client:only="react" />
 
     {data.queue.length === 0 && (
       <div class="empty">
