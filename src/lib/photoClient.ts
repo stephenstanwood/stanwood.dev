@@ -3,15 +3,8 @@
  * Google Places photos with Pexels fallback.
  */
 
-/** Fisher-Yates shuffle — unbiased, unlike sort(() => Math.random() - 0.5) */
-function shuffle<T>(arr: T[]): T[] {
-  const result = arr.slice();
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-}
+import { shuffle } from "./arrays";
+import { fetchWithTimeout } from "./apiHelpers";
 
 export async function fetchRestaurantPhotos(
   restaurant: string,
@@ -20,7 +13,7 @@ export async function fetchRestaurantPhotos(
 ): Promise<string[]> {
   if (!placesKey) return [];
   try {
-    const searchRes = await fetch(
+    const searchRes = await fetchWithTimeout(
       "https://places.googleapis.com/v1/places:searchText",
       {
         method: "POST",
@@ -33,8 +26,8 @@ export async function fetchRestaurantPhotos(
           textQuery: `${restaurant} restaurant ${location}`,
           maxResultCount: 1,
         }),
-        signal: AbortSignal.timeout(4000),
       },
+      4000,
     );
     if (!searchRes.ok) return [];
     const data = await searchRes.json();
@@ -47,9 +40,10 @@ export async function fetchRestaurantPhotos(
     const urls = await Promise.all(
       selected.map(async (p) => {
         try {
-          const photoRes = await fetch(
+          const photoRes = await fetchWithTimeout(
             `https://places.googleapis.com/v1/${p.name}/media?maxWidthPx=400&skipHttpRedirect=true&key=${placesKey}`,
-            { signal: AbortSignal.timeout(3000) },
+            {},
+            3000,
           );
           if (!photoRes.ok) return null;
           const photoData = await photoRes.json();
@@ -72,12 +66,10 @@ export async function fetchPexelsPhoto(
 ): Promise<string | null> {
   if (!pexelsKey) return null;
   try {
-    const res = await fetch(
+    const res = await fetchWithTimeout(
       `https://api.pexels.com/v1/search?query=${encodeURIComponent(query + " food")}&per_page=3&orientation=landscape`,
-      {
-        headers: { Authorization: pexelsKey },
-        signal: AbortSignal.timeout(3000),
-      },
+      { headers: { Authorization: pexelsKey } },
+      3000,
     );
     if (!res.ok) return null;
     const data = await res.json();

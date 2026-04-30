@@ -6,6 +6,7 @@ import {
   fetchDiscover,
   resolveCard,
 } from "./tmdbClient";
+import { shuffle } from "../arrays";
 
 const BUFFER_SIZE = 8;
 
@@ -241,9 +242,7 @@ export async function fetchNextBatch(
     if (candidates.length >= BUFFER_SIZE) break;
   }
 
-  const shuffled = candidates.sort(() => Math.random() - 0.5);
-
-  const batch = shuffled.slice(0, BUFFER_SIZE + 4);
+  const batch = shuffle(candidates).slice(0, BUFFER_SIZE + 4);
   const results = await Promise.allSettled(
     batch.map((item) => resolveCard(item, mediaType)),
   );
