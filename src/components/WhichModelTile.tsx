@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ModelLogo } from "../lib/whichModel/logos";
 import { useCycling } from "../hooks/useCycling";
+import { shuffle } from "../lib/arrays";
 
 const BRAND_COLORS: Record<string, string> = {
   Anthropic: "#d97706",
@@ -75,17 +76,8 @@ const ALL_EXAMPLES = [
   { task: "icon sets", model: "Flux", org: "Black Forest Labs" },
 ];
 
-function shuffleArray<T>(arr: T[]): T[] {
-  const copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
-}
-
 export default function WhichModelTile() {
-  const [examples] = useState(() => shuffleArray(ALL_EXAMPLES));
+  const [examples] = useState(() => shuffle(ALL_EXAMPLES));
   const { value: ex, fading } = useCycling(examples, 3000, 300);
   const brandColor = BRAND_COLORS[ex.org] || "#666";
 
