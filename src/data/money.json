@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "2026-04-29T10:00:35.099Z",
+  "lastUpdated": "2026-04-30T10:00:32.211Z",
   "apiSpend": {
     "months": [
       {
         "month": "2026-04",
-        "collectedAt": "2026-04-29T10:00:35.099Z",
+        "collectedAt": "2026-04-30T10:00:32.211Z",
         "services": {
           "vercel": {
             "totalCents": 50,
@@ -33,22 +33,28 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 8661,
+            "totalCents": 8854,
             "breakdown": [
               {
                 "name": "claude-sonnet-4-6",
-                "cents": 6298
+                "cents": 6303
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 2363
+                "cents": 2551
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
-            "totalCents": null,
-            "note": "OpenAI API 500: {\n  \"error\": {\n    \"message\": \"The server had an error processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if you keep seein"
+            "totalCents": 20012,
+            "breakdown": [
+              {
+                "name": "api",
+                "cents": 20012
+              }
+            ],
+            "note": null
           },
           "recraft": {
             "totalCents": null,
