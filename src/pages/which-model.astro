@@ -1088,6 +1088,177 @@ const title = "Which Model? — stanwood.dev";
         font-family: 'Space Mono', monospace;
       }
 
+      /* ─── Quick Picks cheat sheet ─────────────────────────────── */
+      .wm-quick {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 8px;
+      }
+
+      .wm-quick-head {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .wm-quick-head h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 38px;
+        letter-spacing: 1.5px;
+        color: var(--wm-ink);
+        margin: 0 0 6px;
+        line-height: 1;
+      }
+
+      .wm-quick-head p {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .wm-quick-head p strong {
+        color: var(--wm-ink);
+      }
+
+      .wm-quick-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      @media (min-width: 800px) {
+        .wm-quick-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      .wm-quick-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-left: 5px solid var(--card-color, var(--wm-gold));
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 16px 16px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .wm-quick-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--wm-ink);
+      }
+
+      .wm-quick-task {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--wm-ink);
+        line-height: 1.35;
+      }
+
+      .wm-quick-task-icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        line-height: 1;
+        margin-top: 1px;
+      }
+
+      .wm-quick-pick {
+        background: var(--wm-bg);
+        border: 1.5px solid var(--wm-border);
+        border-radius: 6px;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .wm-quick-pick-emoji {
+        font-size: 22px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
+      .wm-quick-pick-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .wm-quick-pick-name {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        line-height: 1.15;
+      }
+
+      .wm-quick-pick-org {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--wm-light);
+      }
+
+      .wm-quick-why {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--wm-muted);
+        line-height: 1.5;
+        margin: 0;
+        flex: 1;
+      }
+
+      .wm-quick-alt {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--wm-light);
+        margin: 0;
+        padding-top: 8px;
+        border-top: 1px dashed var(--wm-border);
+        line-height: 1.4;
+      }
+
+      .wm-quick-alt span {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+        color: var(--wm-muted);
+        margin-right: 4px;
+      }
+
+      .wm-quick-foot {
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+        margin: 22px 0 0;
+        line-height: 1.6;
+      }
+
+      .wm-quick-foot a {
+        color: var(--wm-purple);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        font-weight: 600;
+      }
+
+      .wm-quick-foot a:hover {
+        color: var(--wm-coral);
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -1150,6 +1321,10 @@ const title = "Which Model? — stanwood.dev";
         .wm-dir-controls-label { min-width: auto; }
         .wm-dir-chip { font-size: 11.5px; padding: 5px 9px; }
         .wm-mod-sortbadge-num { font-size: 20px; }
+
+        .wm-quick { padding: 40px 16px 0; }
+        .wm-quick-head h2 { font-size: 30px; }
+        .wm-quick-head p { font-size: 13px; }
       }
 
     </style>
@@ -1157,5 +1332,155 @@ const title = "Which Model? — stanwood.dev";
 
   <WhichModelApp client:idle />
 
+  <section class="wm-quick" aria-labelledby="quick-picks-heading">
+    <div class="wm-quick-head">
+      <h2 id="quick-picks-heading">Quick picks</h2>
+      <p>Skip the quiz. <strong>Eight common asks, eight straight answers.</strong></p>
+    </div>
+
+    <div class="wm-quick-grid">
+      <article class="wm-quick-card" style="--card-color: #d97706;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">✍️</span>
+          <span>Write polished prose — essay, blog, marketing email</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🧠</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Claude Sonnet 4.6</span>
+            <span class="wm-quick-pick-org">Anthropic</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Best writing voice in the affordable tier — careful, less generic than GPT-4o.</p>
+        <p class="wm-quick-alt"><span>Backup</span>GPT-4o for tighter ChatGPT integration.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #d97706;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">💻</span>
+          <span>Code a feature in your app</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🧠</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Claude Sonnet 4.6</span>
+            <span class="wm-quick-pick-org">Anthropic</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Tops the daily-driver coding charts — fast enough to iterate, smart enough to architect.</p>
+        <p class="wm-quick-alt"><span>Backup</span>o4-mini if you need step-by-step reasoning on a budget.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #10a37f;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">🧮</span>
+          <span>Crack a hard math, logic, or research problem</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🔬</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">o3</span>
+            <span class="wm-quick-pick-org">OpenAI</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Heavyweight reasoning. It thinks longer and gets there when other models give up.</p>
+        <p class="wm-quick-alt"><span>Backup</span>Claude Opus 4.7 if you also need polished writing in the answer.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #4285f4;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">📚</span>
+          <span>Summarize a 200-page document or whole codebase</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">💎</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Gemini 2.5 Pro</span>
+            <span class="wm-quick-pick-org">Google</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Massive context window — feed it everything at once instead of chunking.</p>
+        <p class="wm-quick-alt"><span>Backup</span>Claude Opus 4.7 — same context depth, sharper synthesis.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #e84393;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">🎨</span>
+          <span>Generate a stunning image or product visual</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🎨</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Midjourney</span>
+            <span class="wm-quick-pick-org">Midjourney</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Still the artist. Composition, mood, photographic detail — best in class.</p>
+        <p class="wm-quick-alt"><span>Backup</span>Flux Pro for photorealism with open weights.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #4285f4;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">⚡</span>
+          <span>High-volume tasks where every penny counts</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">✨</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Gemini 2.5 Flash</span>
+            <span class="wm-quick-pick-org">Google</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Fastest cheap model that still handles long context — perfect for production pipelines.</p>
+        <p class="wm-quick-alt"><span>Backup</span>Claude Haiku 4.5 if you want Anthropic's tone.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #4f88c6;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">🔓</span>
+          <span>Run it open-source or self-host</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🐋</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">DeepSeek R1</span>
+            <span class="wm-quick-pick-org">DeepSeek</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Frontier-level reasoning, fully open weights, dirt cheap to run.</p>
+        <p class="wm-quick-alt"><span>Backup</span>Llama 4 for multimodal open-source.</p>
+      </article>
+
+      <article class="wm-quick-card" style="--card-color: #b45309;">
+        <div class="wm-quick-task">
+          <span class="wm-quick-task-icon" aria-hidden="true">🏆</span>
+          <span>Best at almost everything — price no object</span>
+        </div>
+        <div class="wm-quick-pick">
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🏆</span>
+          <div class="wm-quick-pick-body">
+            <span class="wm-quick-pick-name">Claude Opus 4.7</span>
+            <span class="wm-quick-pick-org">Anthropic</span>
+          </div>
+        </div>
+        <p class="wm-quick-why">Top scores across reasoning, coding, writing, and long context. The flagship.</p>
+        <p class="wm-quick-alt"><span>Backup</span>o3 for the hardest pure-reasoning problems.</p>
+      </article>
+    </div>
+
+    <p class="wm-quick-foot">
+      Don't see your ask? <a href="#" data-wm-restart>Take the quiz</a> or scroll to the full directory below.
+    </p>
+  </section>
+
   <BrowseDirectory client:visible />
+
+  <script>
+    document.addEventListener("click", (e) => {
+      const target = (e.target as HTMLElement).closest<HTMLElement>("[data-wm-restart]");
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
 </BaseLayout>
