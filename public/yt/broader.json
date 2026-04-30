@@ -1,30 +1,95 @@
 {
-  "built_at": "2026-04-29T10:39:20.562185+00:00",
+  "built_at": "2026-04-30T10:31:44.753689+00:00",
   "lookback_days": 30,
   "channel_count": 28,
-  "candidate_count": 105,
+  "candidate_count": 104,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
     {
-      "id": "QfUb5MEAOXA",
-      "title": "Apple CEO Resigns, What Now?",
-      "url": "https://www.youtube.com/watch?v=QfUb5MEAOXA",
-      "duration": 999,
-      "published_at": "2026-04-28T00:05:38+00:00",
-      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
-      "channel_title": "ColdFusion",
-      "channel_handle": "@ColdFusion",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/QfUb5MEAOXA/mqdefault.jpg",
-      "description": "Visit https://brilliant.org/coldfusion for 20% off a premium subscription.\n\nTim Cook has been at the helm of Apple since the passing of Steve Jobs in 2011. He's now stepping down from the lead role to be replaced by a little known mechanical engineer, John Ternus. So what's next for Apple and what changes could we see under his leadership? In this episode we find out.\n\nWatch or listen to ColdFusio",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 429834,
+      "id": "umbtFGPzdAM",
+      "title": "MIT CSAIL Explains: Recursive Language Models",
+      "url": "https://www.youtube.com/watch?v=umbtFGPzdAM",
+      "duration": 843,
+      "published_at": "2026-04-29T18:15:05+00:00",
+      "channel_id": "UCBpxspUNl1Th33XbugiHJzw",
+      "channel_title": "MIT CSAIL",
+      "channel_handle": "@MITCSAIL",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/umbtFGPzdAM/mqdefault.jpg",
+      "description": "Alex Zhang, Graduate Student | MIT EECS CSAIL\nhttps://alexzhang13.github.io/blog/2025/rlm/\n\nDIrector: Rachel Gordon\nPreditor: Tim Malieckal\nScript Supervisor: Alex Shipps\n\nChapters:\n\n00:00 - Introduction\n00:27 - LMs are more capable than we\u2019ve realized\n01:27 - What is a Recursive Language Model?\n02:41 - What does your approach do that people are missing?\n04:00 - What does treating a prompt as an e",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 7.2,
+      "view_count": 601,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "R1kiLX-Z-Io",
+      "title": "Handy CSS layout patterns, and fun ways to elevate them",
+      "url": "https://www.youtube.com/watch?v=R1kiLX-Z-Io",
+      "duration": 1145,
+      "published_at": "2026-04-29T13:00:49+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/R1kiLX-Z-Io/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence with my course CSS Demystified: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Code from this video: https://codepen.io/editor/kevinpowell/pen/019dab2d-dfd3-7988-86c5-69986ea33e4c\n\u2705 More info on corner shape: https://frontendmasters.com/blog/understanding-css-corner-shape-and-the-power-o",
+      "categories": [
+        "climate_grid"
+      ],
+      "base_score": -6,
+      "score": -6.0,
+      "view_count": 9364,
       "episode_number": null,
       "series_key": null,
       "exploration": true
+    },
+    {
+      "id": "G1VgXqKZMZE",
+      "title": "Finding Hardware Bugs - Computerphile",
+      "url": "https://www.youtube.com/watch?v=G1VgXqKZMZE",
+      "duration": 1090,
+      "published_at": "2026-04-29T13:00:28+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/G1VgXqKZMZE/mqdefault.jpg",
+      "description": "When you're setting your hardware design out using automated tools is essential, but what if the tools themselves have bugs in them? John P Wickerson is based at Imperial College London.\n\nThe paper that John's team wrote about the work: https://johnwickerson.github.io/papers/fuzzing_pnr.pdf\n\nAn accessible blogpost John wrote about the work: https://johnwickerson.wordpress.com/2026/01/06/finding-bu",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 17913,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "P-nMVkBcNAE",
+      "title": "Conversational Design and UI: Why Language Matters More Than Ever | EP 60",
+      "url": "https://www.youtube.com/watch?v=P-nMVkBcNAE",
+      "duration": 2709,
+      "published_at": "2026-04-29T12:00:46+00:00",
+      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
+      "channel_title": "NNgroup",
+      "channel_handle": "@NNgroup",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/P-nMVkBcNAE/mqdefault.jpg",
+      "description": "What does it actually mean to design conversationally? Not \"add a chatbot\" \u2014 but genuinely apply the principles of human conversation to the systems we build?\n\nIn this episode, host Laura Klein sits down with Erika Hall, author of *Conversational Design* and *Just Enough Research*, to re-visit a topic that's only gotten more relevant since her book came out in 2018. They dig into why language has ",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "score": 20.8,
+      "view_count": 321,
+      "episode_number": null,
+      "series_key": null
     },
     {
       "id": "s2jm2Z22ibA",
@@ -45,7 +110,7 @@
       ],
       "base_score": 15,
       "score": 15.0,
-      "view_count": 10611,
+      "view_count": 12530,
       "episode_number": null,
       "series_key": null
     },
@@ -67,7 +132,7 @@
       ],
       "base_score": 11,
       "score": 13.2,
-      "view_count": 12223,
+      "view_count": 13507,
       "episode_number": null,
       "series_key": null
     },
@@ -89,7 +154,7 @@
       ],
       "base_score": 7,
       "score": 7.7,
-      "view_count": 4749,
+      "view_count": 4886,
       "episode_number": null,
       "series_key": null
     },
@@ -111,7 +176,7 @@
       ],
       "base_score": 11,
       "score": 13.2,
-      "view_count": 107102,
+      "view_count": 117618,
       "episode_number": null,
       "series_key": null
     },
@@ -133,9 +198,31 @@
       ],
       "base_score": 9,
       "score": 9.0,
-      "view_count": 137762,
+      "view_count": 148339,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "4DqIW-gZbHA",
+      "title": "No more magic numbers for your breakpoints",
+      "url": "https://www.youtube.com/watch?v=4DqIW-gZbHA",
+      "duration": 352,
+      "published_at": "2026-04-22T16:33:33+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/4DqIW-gZbHA/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Code from this video: https://codepen.io/editor/kevinpowell/pen/019daad5-af9a-7abd-8f10-c80f0983ddee\n\u2705 CSS Day: https://cssday.nl/\n\u2705 Web you want (free conference!): https://the-web-you-want.org/\n\n\u2709 Keep up to date with everything I'm up to",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 5.0,
+      "view_count": 26354,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "rAREqdtUN48",
@@ -156,7 +243,7 @@
       ],
       "base_score": 14,
       "score": 8.4,
-      "view_count": 162774,
+      "view_count": 164293,
       "episode_number": null,
       "series_key": null
     },
@@ -178,7 +265,7 @@
       ],
       "base_score": 16,
       "score": 11.2,
-      "view_count": 843024,
+      "view_count": 849186,
       "episode_number": null,
       "series_key": null
     },
@@ -200,7 +287,7 @@
       ],
       "base_score": 7,
       "score": 7.7,
-      "view_count": 9601,
+      "view_count": 9734,
       "episode_number": null,
       "series_key": null
     },
@@ -221,7 +308,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 15907,
+      "view_count": 16197,
       "episode_number": null,
       "series_key": null
     },
@@ -244,9 +331,29 @@
       ],
       "base_score": 13,
       "score": 13.0,
-      "view_count": 64060,
+      "view_count": 65924,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "K-mA3MZ_EzU",
+      "title": "LIVE: Watch me build a brand-new project from scratch",
+      "url": "https://www.youtube.com/watch?v=K-mA3MZ_EzU",
+      "duration": 6451,
+      "published_at": "2026-04-17T16:13:34+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/K-mA3MZ_EzU/mqdefault.jpg",
+      "description": "Become an AI Hero with my AI SDK v6 Crash Course:\n\nhttps://www.aihero.dev/workshops/ai-sdk-v6-crash-course\n\nFollow Matt on Twitter\n\nhttps://twitter.com/mattpocockuk\n\nJoin the Discord:\n\nhttps://aihero.dev/discord",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 29062,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "4EsUaur0nsQ",
@@ -265,32 +372,9 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 58071,
+      "view_count": 58481,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "WkHdkwDQJ5o",
-      "title": "Claude's new Cursor killer just dropped",
-      "url": "https://www.youtube.com/watch?v=WkHdkwDQJ5o",
-      "duration": 1807,
-      "published_at": "2026-04-16T08:34:42+00:00",
-      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
-      "channel_title": "Theo - t3\u2024gg",
-      "channel_handle": "@t3dotgg",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/WkHdkwDQJ5o/mqdefault.jpg",
-      "description": "The Claude Code desktop app is here, and it's a total disaster...\n\nThank you CodeRabbit for sponsoring! Check them out at: https://soydev.link/coderabbit\n\nIf you want a much better desktop app for Claude Code: https://soydev.link/code\n\nSOURCES\nhttps://claude.com/blog/claude-code-desktop-redesign\nhttps://x.com/claudeai/status/2044131493966909862\n\nCOMPETENT VIBE CODING GUIS\nhttps://t3.codes/\n\nWant t",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "score": 5.4,
-      "view_count": 121265,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "G1xqTjoihfo",
@@ -310,7 +394,7 @@
       ],
       "base_score": 8,
       "score": 4.8,
-      "view_count": 57415,
+      "view_count": 57619,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -332,31 +416,9 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1971,
+      "view_count": 1988,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "9XKWnvpdSlU",
-      "title": "Wrap detection with a few lines of CSS",
-      "url": "https://www.youtube.com/watch?v=9XKWnvpdSlU",
-      "duration": 581,
-      "published_at": "2026-04-15T13:00:31+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/9XKWnvpdSlU/mqdefault.jpg",
-      "description": "If you thought this was good, then you should check out CSS Demystified! Want to step up your CSS game? https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The blog post by Andy Bell that I mentioned: https://piccalil.li/blog/reality-check-1-building-out-a-furniture-site-from-dribbble/\n\n\u231a Timestamps\n00:00 - Introduction\n0:30 - ",
-      "categories": [
-        "systems_db"
-      ],
-      "base_score": 5,
-      "score": 5.0,
-      "view_count": 14540,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "Xg0tNz9pICI",
@@ -377,7 +439,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 16209,
+      "view_count": 16571,
       "episode_number": null,
       "series_key": null
     },
@@ -398,28 +460,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 35737,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "zQBdkeeW6X8",
-      "title": "Field Guide to Explaining UX Strategy",
-      "url": "https://www.youtube.com/watch?v=zQBdkeeW6X8",
-      "duration": 348,
-      "published_at": "2026-04-13T13:01:51+00:00",
-      "channel_id": "UC2oCugzU6W8-h95W7eBTUEg",
-      "channel_title": "NNgroup",
-      "channel_handle": "@NNgroup",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/zQBdkeeW6X8/mqdefault.jpg",
-      "description": "Simple, relatable ways to explain complex UX strategy concepts like UX vision, goals, OKRs, and outcomes. Translate UX strategy into language anyone on your team can understand.\n\nRead More // https://www.nngroup.com/articles/ux-strategy/\nWatch Next // https://www.youtube.com/watch?v=HALd9OsQw_A\n\nLearn more with our courses:\n**Becoming a UX Strategist** (live online) // https://link.nngroup.com/yt-",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "score": 13.0,
-      "view_count": 2407,
+      "view_count": 36066,
       "episode_number": null,
       "series_key": null
     },
@@ -442,26 +483,29 @@
       ],
       "base_score": 10,
       "score": 12.0,
-      "view_count": 18177,
+      "view_count": 18262,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "bwn1lIQUPLE",
-      "title": "Can I code up this UI in 10 minutes?",
-      "url": "https://www.youtube.com/watch?v=bwn1lIQUPLE",
-      "duration": 842,
-      "published_at": "2026-04-08T13:42:24+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/bwn1lIQUPLE/mqdefault.jpg",
-      "description": "Want to step up your CSS game? https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Can you beat me at the challenge? https://cssdaily.dev/challenge/2026-03-13/\n\n\u231a Timestamps\n00:00 - Introduction\n00:55 - Analyzing and planning\n02:20 - Writing the code\n\n#css\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 32457,
+      "id": "I82j7AzMU80",
+      "title": "How does Claude Code *actually* work?",
+      "url": "https://www.youtube.com/watch?v=I82j7AzMU80",
+      "duration": 2363,
+      "published_at": "2026-04-13T07:13:31+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/I82j7AzMU80/mqdefault.jpg",
+      "description": "We keep talking about Codex, Claude Code, Cursor, etc. But how do they actually work?\n\nThank you Macroscope for sponsoring! Check them out at: https://soydev.link/macroscope\n\nSOURCES\nhttps://ampcode.com/notes/how-to-build-an-agent\nhttps://www.mihaileric.com/The-Emperor-Has-No-Clothes/\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord m",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 164614,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -483,7 +527,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 180782,
+      "view_count": 180920,
       "episode_number": null,
       "series_key": null
     },
@@ -505,7 +549,7 @@
       ],
       "base_score": 16,
       "score": 17.6,
-      "view_count": 17780,
+      "view_count": 18311,
       "episode_number": null,
       "series_key": null
     },
@@ -526,7 +570,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 2331,
+      "view_count": 2341,
       "episode_number": null,
       "series_key": null
     },
@@ -549,7 +593,7 @@
       ],
       "base_score": 16,
       "score": 16.0,
-      "view_count": 113316,
+      "view_count": 114621,
       "episode_number": null,
       "series_key": null
     },
@@ -572,7 +616,7 @@
       ],
       "base_score": 10,
       "score": 7.0,
-      "view_count": 3176375,
+      "view_count": 3177735,
       "episode_number": null,
       "series_key": null
     },
@@ -593,7 +637,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 164845,
+      "view_count": 164947,
       "episode_number": null,
       "series_key": null
     },
@@ -615,53 +659,115 @@
       ],
       "base_score": 16,
       "score": 17.6,
-      "view_count": 27957,
+      "view_count": 28232,
+      "episode_number": null,
+      "series_key": null
+    }
+  ],
+  "pool": [
+    {
+      "id": "R7ex-Gt8dtw",
+      "title": "The painful death of Github",
+      "url": "https://www.youtube.com/watch?v=R7ex-Gt8dtw",
+      "duration": 2111,
+      "published_at": "2026-04-30T09:55:10+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/R7ex-Gt8dtw/mqdefault.jpg",
+      "description": "Github is a platform that means a lot to me. It hurts to see it fall apart like this.\n\nThank you blacksmith for sponsoring! Check them out at: https://soydev.link/blacksmith\n\nSOURCES:\nhttps://x.com/mitchellh/status/2049213597419774026\nhttps://x.com/sagitz_/status/2049153217385111608\nhttps://x.com/GergelyOrosz/status/2048834949667537369\nhttps://x.com/stevederico/status/2048835443601592680/photo/1 \n",
+      "categories": [
+        "swe_craft"
+      ],
+      "base_score": 3,
+      "score": 1.8,
+      "view_count": 3249,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "IPJC8loEmd4",
-      "title": "1: Introduction to Perception",
-      "url": "https://www.youtube.com/watch?v=IPJC8loEmd4",
-      "duration": 3910,
-      "published_at": "2026-03-30T14:13:40+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
+      "id": "luBkbzjo-TA",
+      "title": "FULL Guide to Becoming a Principled Agentic Engineer (Build Anything with AI)",
+      "url": "https://www.youtube.com/watch?v=luBkbzjo-TA",
+      "duration": 4021,
+      "published_at": "2026-04-30T00:00:50+00:00",
+      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
+      "channel_title": "Cole Medin",
+      "channel_handle": "@colemedin",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/IPJC8loEmd4/mqdefault.jpg",
-      "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nAn introduction to the structure and topic of the course.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/terms\nMore courses at https://ocw.mit.edu\nS",
+      "thumb": "https://i.ytimg.com/vi/luBkbzjo-TA/mqdefault.jpg",
+      "description": "This is the foundational AI coding workflow I run on every project! Works for Claude Code, Codex, Pi, any coding agent. The one I think every engineer should have in their tool belt, regardless of stack or team size. It's a three-phase process: Planning, the PIV Loop, and System Evolution.\n\nPlanning is how you turn a brain dump into structured work automatically, using your coding agent plus your ",
       "categories": [
         "applied_ai"
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 133104,
-      "episode_number": 1,
-      "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
+      "view_count": 2969,
+      "episode_number": null,
+      "series_key": null
     },
     {
-      "id": "d0GgzjCFWq0",
-      "title": "What the font?!?!",
-      "url": "https://www.youtube.com/watch?v=d0GgzjCFWq0",
-      "duration": 1253,
-      "published_at": "2026-03-30T14:02:30+00:00",
-      "channel_id": "UCvjgXvBlbQiydffZU7m1_aw",
-      "channel_title": "The Coding Train",
-      "channel_handle": "@TheCodingTrain",
+      "id": "TJxziFGc3HA",
+      "title": "DeepSeek-V4: Towards Highly Efficient Million-Token Context Intelligence",
+      "url": "https://www.youtube.com/watch?v=TJxziFGc3HA",
+      "duration": 2828,
+      "published_at": "2026-04-29T21:05:59+00:00",
+      "channel_id": "UCvi5jNRoRVm436TVAXet1kQ",
+      "channel_title": "Latent Space TV (see @LatentSpacePod for Pod)",
+      "channel_handle": "@LatentSpaceTV",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/d0GgzjCFWq0/mqdefault.jpg",
-      "description": "Let's explore new typography features in p5.js 2.0! In this video, I cover how to work with variable fonts, convert text to 3D models with textModel(), extract contours with textContours(), and control the detail of your typography with sampleFactor and simplifyThreshold. Code: https://thecodingtrain.com/tracks/p5js-2.0/p5js-2.0/typography\n\n\ud83d\ude80 Watch this video ad-free on Nebula https://nebula.tv/vi",
+      "thumb": "https://i.ytimg.com/vi/TJxziFGc3HA/mqdefault.jpg",
+      "description": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro/blob/main/DeepSeek_V4.pdf\n\nhttps://x.com/picocreator/status/2047626012419313889?s=20",
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 17850,
+      "view_count": 31,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
-    }
-  ],
-  "pool": [
+      "series_key": null
+    },
+    {
+      "id": "3MP8D-mdheA",
+      "title": "How To De-Slop A Codebase Ruined By AI (with one skill)",
+      "url": "https://www.youtube.com/watch?v=3MP8D-mdheA",
+      "duration": 679,
+      "published_at": "2026-04-29T15:09:12+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/3MP8D-mdheA/mqdefault.jpg",
+      "description": "AI has accelerated software entropy, making codebases fall apart faster than ever. Learn how to rescue a messy codebase using deep modules, good architecture, and AI-assisted refactoring fundamentals.\n\nLearn more about my skills:\n\nhttps://www.aihero.dev/s/CI1MjO\n\nFollow Matt on Twitter\n\nhttps://twitter.com/mattpocockuk\n\nJoin the Discord:\n\nhttps://aihero.dev/discord",
+      "categories": [
+        "swe_craft"
+      ],
+      "base_score": 3,
+      "score": 3.0,
+      "view_count": 32906,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "JNyuX1zoOgU",
+      "title": "Demis Hassabis: Agents, AGI & The Next Big Scientific Breakthrough",
+      "url": "https://www.youtube.com/watch?v=JNyuX1zoOgU",
+      "duration": 2457,
+      "published_at": "2026-04-29T14:00:34+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/JNyuX1zoOgU/mqdefault.jpg",
+      "description": "Demis Hassabis has had one of the most extraordinary careers in tech. He started as a chess prodigy and video game designer at 17 before getting a PhD in neuroscience and going on to found DeepMind. His lab cracked Go, solved protein structure prediction with AlphaFold, and then gave it away free to every scientist on earth. That work won him the 2024 Nobel Prize in Chemistry. Today he leads Googl",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "score": 7.2,
+      "view_count": 52068,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "v1MptV67kSI",
       "title": "Claude Code's favorite tech stack",
@@ -680,7 +786,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 10085,
+      "view_count": 60885,
       "episode_number": null,
       "series_key": null
     },
@@ -701,7 +807,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 2884,
+      "view_count": 4028,
       "episode_number": null,
       "series_key": null
     },
@@ -720,7 +826,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 26204,
+      "view_count": 34720,
       "episode_number": null,
       "series_key": null
     },
@@ -741,7 +847,7 @@
       ],
       "base_score": 6,
       "score": 3.6,
-      "view_count": 313580,
+      "view_count": 455622,
       "episode_number": null,
       "series_key": null
     },
@@ -762,7 +868,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 674,
+      "view_count": 1026,
       "episode_number": null,
       "series_key": null
     },
@@ -783,7 +889,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 85874,
+      "view_count": 103074,
       "episode_number": null,
       "series_key": null
     },
@@ -804,7 +910,26 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 2732,
+      "view_count": 2857,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "QfUb5MEAOXA",
+      "title": "Apple CEO Resigns, What Now?",
+      "url": "https://www.youtube.com/watch?v=QfUb5MEAOXA",
+      "duration": 999,
+      "published_at": "2026-04-28T00:05:38+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/QfUb5MEAOXA/mqdefault.jpg",
+      "description": "Visit https://brilliant.org/coldfusion for 20% off a premium subscription.\n\nTim Cook has been at the helm of Apple since the passing of Steve Jobs in 2011. He's now stepping down from the lead role to be replaced by a little known mechanical engineer, John Ternus. So what's next for Apple and what changes could we see under his leadership? In this episode we find out.\n\nWatch or listen to ColdFusio",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 482464,
       "episode_number": null,
       "series_key": null
     },
@@ -825,7 +950,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 97715,
+      "view_count": 110014,
       "episode_number": null,
       "series_key": null
     },
@@ -847,7 +972,7 @@
       ],
       "base_score": 9,
       "score": 9.0,
-      "view_count": 31654,
+      "view_count": 35281,
       "episode_number": null,
       "series_key": null
     },
@@ -869,7 +994,7 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 6502,
+      "view_count": 6666,
       "episode_number": null,
       "series_key": null
     },
@@ -888,7 +1013,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 66012,
+      "view_count": 67320,
       "episode_number": null,
       "series_key": null
     },
@@ -910,7 +1035,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 49556,
+      "view_count": 50447,
       "episode_number": null,
       "series_key": null
     },
@@ -931,7 +1056,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 23726,
+      "view_count": 25138,
       "episode_number": null,
       "series_key": null
     },
@@ -952,7 +1077,7 @@
       ],
       "base_score": 5,
       "score": 3.0,
-      "view_count": 394057,
+      "view_count": 415778,
       "episode_number": null,
       "series_key": null
     },
@@ -974,7 +1099,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 126589,
+      "view_count": 127327,
       "episode_number": null,
       "series_key": null
     },
@@ -993,7 +1118,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 524250,
+      "view_count": 535534,
       "episode_number": null,
       "series_key": null
     },
@@ -1017,7 +1142,7 @@
       ],
       "base_score": 2,
       "score": 2.4,
-      "view_count": 115480,
+      "view_count": 122595,
       "episode_number": null,
       "series_key": null
     },
@@ -1040,28 +1165,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 13337,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "4DqIW-gZbHA",
-      "title": "No more magic numbers for your breakpoints",
-      "url": "https://www.youtube.com/watch?v=4DqIW-gZbHA",
-      "duration": 352,
-      "published_at": "2026-04-22T16:33:33+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/4DqIW-gZbHA/mqdefault.jpg",
-      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Code from this video: https://codepen.io/editor/kevinpowell/pen/019daad5-af9a-7abd-8f10-c80f0983ddee\n\u2705 CSS Day: https://cssday.nl/\n\u2705 Web you want (free conference!): https://the-web-you-want.org/\n\n\u2709 Keep up to date with everything I'm up to",
-      "categories": [
-        "systems_db"
-      ],
-      "base_score": 5,
-      "score": 5.0,
-      "view_count": 25911,
+      "view_count": 13808,
       "episode_number": null,
       "series_key": null
     },
@@ -1082,7 +1186,7 @@
       ],
       "base_score": 3,
       "score": 3.6,
-      "view_count": 47093,
+      "view_count": 49399,
       "episode_number": null,
       "series_key": null
     },
@@ -1104,7 +1208,7 @@
       ],
       "base_score": 8,
       "score": 4.8,
-      "view_count": 77681,
+      "view_count": 78090,
       "episode_number": null,
       "series_key": null
     },
@@ -1125,7 +1229,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 554,
+      "view_count": 565,
       "episode_number": null,
       "series_key": null
     },
@@ -1146,7 +1250,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 641,
+      "view_count": 652,
       "episode_number": null,
       "series_key": null
     },
@@ -1168,7 +1272,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 118422,
+      "view_count": 118896,
       "episode_number": null,
       "series_key": null
     },
@@ -1190,7 +1294,7 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 17338,
+      "view_count": 17804,
       "episode_number": null,
       "series_key": null
     },
@@ -1211,7 +1315,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 715631,
+      "view_count": 729340,
       "episode_number": null,
       "series_key": null
     },
@@ -1233,7 +1337,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 109139,
+      "view_count": 109544,
       "episode_number": null,
       "series_key": null
     },
@@ -1254,7 +1358,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 55194,
+      "view_count": 59590,
       "episode_number": null,
       "series_key": null
     },
@@ -1276,7 +1380,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 280343,
+      "view_count": 282462,
       "episode_number": null,
       "series_key": null
     },
@@ -1299,26 +1403,7 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 7521,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "K-mA3MZ_EzU",
-      "title": "LIVE: Watch me build a brand-new project from scratch",
-      "url": "https://www.youtube.com/watch?v=K-mA3MZ_EzU",
-      "duration": 6451,
-      "published_at": "2026-04-17T16:13:34+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/K-mA3MZ_EzU/mqdefault.jpg",
-      "description": "Become an AI Hero with my AI SDK v6 Crash Course:\n\nhttps://www.aihero.dev/workshops/ai-sdk-v6-crash-course\n\nFollow Matt on Twitter\n\nhttps://twitter.com/mattpocockuk\n\nJoin the Discord:\n\nhttps://aihero.dev/discord",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 28093,
+      "view_count": 7669,
       "episode_number": null,
       "series_key": null
     },
@@ -1340,7 +1425,7 @@
       ],
       "base_score": -4,
       "score": -4.4,
-      "view_count": 136,
+      "view_count": 144,
       "episode_number": null,
       "series_key": null
     },
@@ -1361,7 +1446,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 138956,
+      "view_count": 139250,
       "episode_number": null,
       "series_key": null
     },
@@ -1380,7 +1465,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 1840,
+      "view_count": 1850,
       "episode_number": null,
       "series_key": null
     },
@@ -1401,7 +1486,29 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 9646,
+      "view_count": 9749,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "WkHdkwDQJ5o",
+      "title": "Claude's new Cursor killer just dropped",
+      "url": "https://www.youtube.com/watch?v=WkHdkwDQJ5o",
+      "duration": 1807,
+      "published_at": "2026-04-16T08:34:42+00:00",
+      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
+      "channel_title": "Theo - t3\u2024gg",
+      "channel_handle": "@t3dotgg",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/WkHdkwDQJ5o/mqdefault.jpg",
+      "description": "The Claude Code desktop app is here, and it's a total disaster...\n\nThank you CodeRabbit for sponsoring! Check them out at: https://soydev.link/coderabbit\n\nIf you want a much better desktop app for Claude Code: https://soydev.link/code\n\nSOURCES\nhttps://claude.com/blog/claude-code-desktop-redesign\nhttps://x.com/claudeai/status/2044131493966909862\n\nCOMPETENT VIBE CODING GUIS\nhttps://t3.codes/\n\nWant t",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "score": 5.4,
+      "view_count": 121460,
       "episode_number": null,
       "series_key": null
     },
@@ -1424,7 +1531,28 @@
       ],
       "base_score": 14,
       "score": 14.0,
-      "view_count": 8461,
+      "view_count": 8536,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "9XKWnvpdSlU",
+      "title": "Wrap detection with a few lines of CSS",
+      "url": "https://www.youtube.com/watch?v=9XKWnvpdSlU",
+      "duration": 581,
+      "published_at": "2026-04-15T13:00:31+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/9XKWnvpdSlU/mqdefault.jpg",
+      "description": "If you thought this was good, then you should check out CSS Demystified! Want to step up your CSS game? https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The blog post by Andy Bell that I mentioned: https://piccalil.li/blog/reality-check-1-building-out-a-furniture-site-from-dribbble/\n\n\u231a Timestamps\n00:00 - Introduction\n0:30 - ",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "score": 5.0,
+      "view_count": 14662,
       "episode_number": null,
       "series_key": null
     },
@@ -1446,7 +1574,7 @@
       ],
       "base_score": 9,
       "score": 5.4,
-      "view_count": 118485,
+      "view_count": 118614,
       "episode_number": null,
       "series_key": null
     },
@@ -1467,7 +1595,7 @@
       ],
       "base_score": 6,
       "score": 5.4,
-      "view_count": 162354,
+      "view_count": 162524,
       "episode_number": null,
       "series_key": null
     },
@@ -1488,7 +1616,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 6792,
+      "view_count": 6833,
       "episode_number": null,
       "series_key": null
     },
@@ -1509,7 +1637,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1749,
+      "view_count": 1765,
       "episode_number": null,
       "series_key": null
     },
@@ -1528,7 +1656,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 552626,
+      "view_count": 554254,
       "episode_number": null,
       "series_key": null
     },
@@ -1549,29 +1677,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 8291,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "I82j7AzMU80",
-      "title": "How does Claude Code *actually* work?",
-      "url": "https://www.youtube.com/watch?v=I82j7AzMU80",
-      "duration": 2363,
-      "published_at": "2026-04-13T07:13:31+00:00",
-      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
-      "channel_title": "Theo - t3\u2024gg",
-      "channel_handle": "@t3dotgg",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/I82j7AzMU80/mqdefault.jpg",
-      "description": "We keep talking about Codex, Claude Code, Cursor, etc. But how do they actually work?\n\nThank you Macroscope for sponsoring! Check them out at: https://soydev.link/macroscope\n\nSOURCES\nhttps://ampcode.com/notes/how-to-build-an-agent\nhttps://www.mihaileric.com/The-Emperor-Has-No-Clothes/\n\nWant to sponsor a video? Learn more here: https://soydev.link/sponsor-me\n\nCheck out my Twitch, Twitter, Discord m",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "score": 5.4,
-      "view_count": 163162,
+      "view_count": 8566,
       "episode_number": null,
       "series_key": null
     },
@@ -1593,7 +1699,7 @@
       ],
       "base_score": 9,
       "score": 9.0,
-      "view_count": 67421,
+      "view_count": 67997,
       "episode_number": null,
       "series_key": null
     },
@@ -1615,7 +1721,7 @@
       ],
       "base_score": -6,
       "score": -6.0,
-      "view_count": 17301,
+      "view_count": 17826,
       "episode_number": null,
       "series_key": null
     },
@@ -1634,7 +1740,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 53834,
+      "view_count": 53900,
       "episode_number": null,
       "series_key": null
     },
@@ -1655,7 +1761,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 1046398,
+      "view_count": 1048297,
       "episode_number": null,
       "series_key": null
     },
@@ -1676,7 +1782,7 @@
       ],
       "base_score": 3,
       "score": 1.8,
-      "view_count": 60627,
+      "view_count": 60658,
       "episode_number": null,
       "series_key": null
     },
@@ -1695,7 +1801,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 45383,
+      "view_count": 45489,
       "episode_number": null,
       "series_key": null
     },
@@ -1714,28 +1820,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 1006983,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "3DNkDIVKtK8",
-      "title": "Crashing out at Anthropic and getting Pi pilled",
-      "url": "https://www.youtube.com/watch?v=3DNkDIVKtK8",
-      "duration": 4908,
-      "published_at": "2026-04-09T02:24:30+00:00",
-      "channel_id": "UCbRP3c757lWg9M-U7TyEkXA",
-      "channel_title": "Theo - t3\u2024gg",
-      "channel_handle": "@t3dotgg",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/3DNkDIVKtK8/mqdefault.jpg",
-      "description": "Talking about everything that went wrong with Anthropic last week (source code leak, rate limits, banning openclaw, and so much more) + our new favorite coding agent Pi.\n\nThank you to this episode's sponsors!\n\nCoderabbit\nThe AI code reviewer that deeply understands your codebase: https://nerdsnipe.link/coderabbit\n\nClerk\nThe auth platform we always either use, or regret not using: https://nerdsnipe",
-      "categories": [
-        "swe_craft"
-      ],
-      "base_score": 3,
-      "score": 1.8,
-      "view_count": 70127,
+      "view_count": 1010344,
       "episode_number": null,
       "series_key": null
     },
@@ -1757,7 +1842,7 @@
       ],
       "base_score": 11,
       "score": 11.0,
-      "view_count": 39519,
+      "view_count": 39943,
       "episode_number": null,
       "series_key": null
     },
@@ -1778,7 +1863,26 @@
       ],
       "base_score": 5,
       "score": 3.5,
-      "view_count": 1305331,
+      "view_count": 1306932,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "bwn1lIQUPLE",
+      "title": "Can I code up this UI in 10 minutes?",
+      "url": "https://www.youtube.com/watch?v=bwn1lIQUPLE",
+      "duration": 842,
+      "published_at": "2026-04-08T13:42:24+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/bwn1lIQUPLE/mqdefault.jpg",
+      "description": "Want to step up your CSS game? https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Can you beat me at the challenge? https://cssdaily.dev/challenge/2026-03-13/\n\n\u231a Timestamps\n00:00 - Introduction\n00:55 - Analyzing and planning\n02:20 - Writing the code\n\n#css\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co",
+      "categories": [],
+      "base_score": 0,
+      "score": 0.0,
+      "view_count": 32597,
       "episode_number": null,
       "series_key": null
     },
@@ -1799,7 +1903,7 @@
       ],
       "base_score": 3,
       "score": 2.1,
-      "view_count": 850395,
+      "view_count": 851871,
       "episode_number": null,
       "series_key": null
     },
@@ -1820,7 +1924,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 26302,
+      "view_count": 26357,
       "episode_number": null,
       "series_key": null
     },
@@ -1841,7 +1945,7 @@
       ],
       "base_score": 6,
       "score": 7.2,
-      "view_count": 35829,
+      "view_count": 35964,
       "episode_number": null,
       "series_key": null
     },
@@ -1864,7 +1968,7 @@
       ],
       "base_score": 5,
       "score": 6.0,
-      "view_count": 32515,
+      "view_count": 32826,
       "episode_number": null,
       "series_key": null
     },
@@ -1885,7 +1989,7 @@
       ],
       "base_score": 6,
       "score": 6.6,
-      "view_count": 8169,
+      "view_count": 8186,
       "episode_number": null,
       "series_key": null
     },
@@ -1906,7 +2010,7 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1382,
+      "view_count": 1389,
       "episode_number": null,
       "series_key": null
     },
@@ -1927,7 +2031,7 @@
       ],
       "base_score": 10,
       "score": 11.0,
-      "view_count": 3758,
+      "view_count": 3840,
       "episode_number": null,
       "series_key": null
     },
@@ -1946,7 +2050,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 27200,
+      "view_count": 27283,
       "episode_number": null,
       "series_key": null
     },
@@ -1967,7 +2071,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 9985,
+      "view_count": 10120,
       "episode_number": null,
       "series_key": null
     },
@@ -1986,7 +2090,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 160827,
+      "view_count": 161209,
       "episode_number": null,
       "series_key": null
     },
@@ -2007,7 +2111,7 @@
       ],
       "base_score": 4,
       "score": 4.4,
-      "view_count": 35107,
+      "view_count": 35210,
       "episode_number": null,
       "series_key": null
     },
@@ -2028,7 +2132,7 @@
       ],
       "base_score": 6,
       "score": 6.0,
-      "view_count": 57977,
+      "view_count": 58696,
       "episode_number": null,
       "series_key": null
     },
@@ -2047,7 +2151,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 2863,
+      "view_count": 2869,
       "episode_number": null,
       "series_key": null
     },
@@ -2068,7 +2172,7 @@
       ],
       "base_score": 6,
       "score": 4.2,
-      "view_count": 815846,
+      "view_count": 818924,
       "episode_number": null,
       "series_key": null
     },
@@ -2087,28 +2191,7 @@
       "categories": [],
       "base_score": 0,
       "score": 0.0,
-      "view_count": 9730,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "JF6XIixstmQ",
-      "title": "This Startup Catches Fraud at Scale",
-      "url": "https://www.youtube.com/watch?v=JF6XIixstmQ",
-      "duration": 1884,
-      "published_at": "2026-03-31T16:00:18+00:00",
-      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
-      "channel_title": "Y Combinator",
-      "channel_handle": "@ycombinator",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/JF6XIixstmQ/mqdefault.jpg",
-      "description": "In this episode of Founder Firesides, YC Managing Partner Jared Friedman talks to Karine Mellata, co-founder of Variance (W23), who is coming out of stealth and announcing their $21 million Series A. Variance builds purpose-built AI agents for risk and compliance \u2014 automating fraud detection, content review, and identity verification for Fortune 500 companies and platforms like GoFundMe. They disc",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "score": 7.2,
-      "view_count": 15290,
+      "view_count": 9743,
       "episode_number": null,
       "series_key": null
     },
@@ -2129,268 +2212,12 @@
       ],
       "base_score": 5,
       "score": 6.5,
-      "view_count": 1136,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "ieDG_GLfsco",
-      "title": "HAI Seminar: Predicting Child Labor in Ghana's Cocoa Industry",
-      "url": "https://www.youtube.com/watch?v=ieDG_GLfsco",
-      "duration": 3116,
-      "published_at": "2026-03-30T20:48:08+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/ieDG_GLfsco/mqdefault.jpg",
-      "description": "Child labor remains prevalent in Ghana\u2019s cocoa sector and is associated with adverse educational and health outcomes for children.\n\nIn this HAI seminar, civil engineering PhD student, Antonio Skillicorn, presented their study on identifying key predictors of child labor risk. They investigated whether district-level satellite indicators, including yield-weighted cocoa-driven deforestation, newly l",
-      "categories": [
-        "climate_grid"
-      ],
-      "base_score": -6,
-      "score": -7.2,
-      "view_count": 171,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "iEjKZWxN56w",
-      "title": "Figma for Edu: Resizing with Auto layout and Grid in Figma",
-      "url": "https://www.youtube.com/watch?v=iEjKZWxN56w",
-      "duration": 3851,
-      "published_at": "2026-03-30T19:36:17+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/iEjKZWxN56w/mqdefault.jpg",
-      "description": "Get the workshop file here: https://www.figma.com/community/file/1616882915242962728/resizing-with-auto-layout-and-grid-in-figma\n\nIn this workshop we will hone in on the concept of resizing when using Auto layout and grid frames to better understand how to build responsive design layouts. We will build common component patterns and demonstrate how they resize and flex to respond to different devic",
-      "categories": [
-        "hci",
-        "climate_grid"
-      ],
-      "base_score": 4,
-      "score": 4.4,
-      "view_count": 6230,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "HAkSUBdsd6M",
-      "title": "Coding Agent Reliability EXPLODES When They Argue (New Adversarial Dev Technique)",
-      "url": "https://www.youtube.com/watch?v=HAkSUBdsd6M",
-      "duration": 1056,
-      "published_at": "2026-03-30T16:30:05+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/HAkSUBdsd6M/mqdefault.jpg",
-      "description": "Your AI coding agents fail on complex tasks not because the model is insufficient, but because you aren't separating the planning, building, and evaluation into distinct roles. The building and evaluation agents essentially have to fight each other to get the best results.\n\nAnthropic just published a deep engineering article breaking down exactly how they solved this for multi-hour coding sessions",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "score": 6.0,
-      "view_count": 10720,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "nEHT-ACu-1w",
-      "title": "KaneAI - The Answer to Vibe Coders who Don't Test!",
-      "url": "https://www.youtube.com/watch?v=nEHT-ACu-1w",
-      "duration": 387,
-      "published_at": "2026-03-30T14:24:20+00:00",
-      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
-      "channel_title": "DesignCourse",
-      "channel_handle": "@DesignCourse",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/nEHT-ACu-1w/mqdefault.jpg",
-      "description": "https://bit.ly/4tg25ZC - Try KaneAI \n-- Hey all, today I'm going to show you a very crucial test that most vibe coders miss: testing. What happens to your app when you integrate a new feature? Well, unless you're testing, you don't know. That's where KaneAI comes in. In this video, I'll show you a couple different ways to help automate your test environment.\n\n#ai #testing \n\n- - - - - - - - - - - -",
-      "categories": [],
-      "base_score": 0,
-      "score": 0.0,
-      "view_count": 2084,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "M30gp1315Y4",
-      "title": "One Agent Is NOT ENOUGH: Agentic Coding BEYOND Claude Code",
-      "url": "https://www.youtube.com/watch?v=M30gp1315Y4",
-      "duration": 2097,
-      "published_at": "2026-03-30T13:00:00+00:00",
-      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
-      "channel_title": "IndyDevDan",
-      "channel_handle": "@IndyDevDan",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/M30gp1315Y4/mqdefault.jpg",
-      "description": "One agent is a CEILING and most engineers don't even realize they've hit it. If you're still re-prompting a single AI coding agent over and over, YOU are the orchestrator and that's the problem.\n\n\ud83d\ude80 MASTER AGENTIC CODING\nUnlock your Teams of Agents:  https://agenticengineer.com/tactical-agentic-coding?y=M30gp1315Y4\n\n\u2b50\ufe0f RESOURCES FOR YOU\n\n- CEO Agents: https://youtu.be/TqjmTZRL31E\n- Pi Vs Claude Cod",
-      "categories": [
-        "applied_ai",
-        "webinar_fluff"
-      ],
-      "base_score": 2,
-      "score": 2.4,
-      "view_count": 28706,
+      "view_count": 1140,
       "episode_number": null,
       "series_key": null
     }
   ],
-  "series_episodes": {
-    "UCEBb1b_L6zDS3xTUrIALZOw": [
-      {
-        "id": "IPJC8loEmd4",
-        "title": "1: Introduction to Perception",
-        "url": "https://www.youtube.com/watch?v=IPJC8loEmd4",
-        "duration": 3910,
-        "published_at": "2026-03-30T14:13:40+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/IPJC8loEmd4/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nAn introduction to the structure and topic of the course.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/terms\nMore courses at https://ocw.mit.edu\nS",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 133104,
-        "episode_number": 1,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "pTe0A8ZOAGk",
-        "title": "3: Sound Localization, Pitch, Timbre, and Loudness / Psychophysical Methods",
-        "url": "https://www.youtube.com/watch?v=pTe0A8ZOAGk",
-        "duration": 2329,
-        "published_at": "2026-03-30T14:13:36+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/pTe0A8ZOAGk/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how structures in the brain and ear assist in identifying the location of origin of a sound.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 1560,
-        "episode_number": 3,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "_Pdlr0jOhbQ",
-        "title": "5: Auditory Scene Analysis",
-        "url": "https://www.youtube.com/watch?v=_Pdlr0jOhbQ",
-        "duration": 4803,
-        "published_at": "2026-03-30T14:13:33+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/_Pdlr0jOhbQ/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how the auditory system interprets a single waveform in terms of the likely different sound sources that contributed to it.\n\nLicense: Creative Commons BY-NC-",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 809,
-        "episode_number": 5,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "Aave3OyCGPc",
-        "title": "13: Color Perception (cont'd), Motion Perception",
-        "url": "https://www.youtube.com/watch?v=Aave3OyCGPc",
-        "duration": 4651,
-        "published_at": "2026-03-30T14:13:45+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/Aave3OyCGPc/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers how the brain uses input from the cones to draw conclusions about the world.\n\nLicense: Creative Commons BY-NC-SA\nMore information at https://ocw.mit.edu/term",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 2367,
-        "episode_number": 13,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "7cEAX5gqd7o",
-        "title": "17: The Generic Viewpoint Assumption; Object Recognition",
-        "url": "https://www.youtube.com/watch?v=7cEAX5gqd7o",
-        "duration": 4594,
-        "published_at": "2026-03-30T14:13:43+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/7cEAX5gqd7o/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture covers what assumptions the brain makes about potentially ambiguous objects and begins to examine how the brain identifies objects.\n\nLicense: Creative Commons BY-NC",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 1423,
-        "episode_number": 17,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "sdYDZeXzE5Q",
-        "title": "21: Attention (cont'd)",
-        "url": "https://www.youtube.com/watch?v=sdYDZeXzE5Q",
-        "duration": 4406,
-        "published_at": "2026-03-30T14:13:41+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/sdYDZeXzE5Q/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture discusses topics such as texture segregation and attentional selection in time, with special focus on how the mechanisms of attention fall short of faithful represe",
-        "categories": [
-          "applied_ai",
-          "politics"
-        ],
-        "base_score": -6,
-        "score": -6.0,
-        "view_count": 863,
-        "episode_number": 21,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "Mre84EsXY_Y",
-        "title": "23: Olfaction and Gustation",
-        "url": "https://www.youtube.com/watch?v=Mre84EsXY_Y",
-        "duration": 3208,
-        "published_at": "2026-03-30T14:13:38+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/Mre84EsXY_Y/mqdefault.jpg",
-        "description": "MIT 9.35, Spring 2024\nInstructor: Josh McDermott\nView the complete course: https://ocw.mit.edu/courses/9-35-perception-spring-2024\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP62-9RweyYBIpkqfo5dfcuS8\n\nThis lecture discusses the senses of smell and taste, with emphasis on theworking of the sense receptors in the nose and tongue.\n\nLicense: Creative Commons BY-NC-SA\nMore informa",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "score": 6.0,
-        "view_count": 1193,
-        "episode_number": 23,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      }
-    ]
-  },
+  "series_episodes": {},
   "banned_series": [],
   "followed_series": []
 }

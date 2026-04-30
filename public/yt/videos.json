@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-29T10:30:23.256124+00:00",
+  "built_at": "2026-04-30T10:30:10.193502+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,7 +8,7 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 12,
+      "video_count": 13,
       "video_ids": [
         "yJkLOzuvse0",
         "IZk3ynP5474",
@@ -21,7 +21,8 @@
         "IydslKdqzYo",
         "F-OxHWWg59o",
         "yhfuDD3hprA",
-        "bpeU4EfBpTM"
+        "bpeU4EfBpTM",
+        "QZ61wToFILM"
       ]
     },
     {
@@ -292,16 +293,6 @@
       ]
     },
     {
-      "key": "__single__TfAJZJTPBoY",
-      "is_single": true,
-      "display_name": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "best_score": -4,
-      "video_count": 1,
-      "video_ids": [
-        "TfAJZJTPBoY"
-      ]
-    },
-    {
       "key": "__single__LF7Wi_2fJVM",
       "is_single": true,
       "display_name": "Innovation for Growth and Sustainability in the Era of AI",
@@ -538,6 +529,24 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis lecture covers:\n\u2022  An introduction to the idea of \"reading games\" as the evocation of personal player responses\n\u2022  Example readings as well as games and curriculum designed to enhance the potential for effective student readings of games\n\u2022  The ways that personal play"
+    },
+    {
+      "id": "QZ61wToFILM",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Observing the User Experience in 2026",
+      "url": "https://www.youtube.com/watch?v=QZ61wToFILM",
+      "duration": 3718.0,
+      "published_at": "2026-04-29T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 11,
+      "categories": [
+        "hci",
+        "swe_career",
+        "healthcare_ai",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis lecture covers:\n\u2022  How research jobs have changed\n\u2022  The new power dynamics of tech development\n\u2022  The rise of AI\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nElizabeth Goodman is a design and strategy leader who works to improve healt"
     },
     {
       "id": "EvHRQhMX7_w",
@@ -2175,22 +2184,6 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:05 Pixel space\n00:12:39 Semantic vs perceptual similarity\n00:14:27 Autoencoder\n00:22:56 Variational autoencoders\n00:31:19 ELBO derivation\n00:46:4"
-    },
-    {
-      "id": "TfAJZJTPBoY",
-      "title": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "url": "https://www.youtube.com/watch?v=TfAJZJTPBoY",
-      "duration": 3653.0,
-      "published_at": "2025-10-29T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - Building Trustworthy AI: Navigating Security in the Agentic Era",
-      "lecture_num": null,
-      "score": -4,
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "description": "Check out our AI Security course:\nhttps://online.stanford.edu/courses/xacs134-ai-security\n\nAI has become a defining technology of our time, with generative and autonomous agents now potentially reshaping business, healthcare, education, and beyond. Yet alongside its promise comes a new wave of risks that demand fresh thinking about safety and security.\n\nModerated by Stanford Online\u2019s Petra Parikov"
     },
     {
       "id": "LF7Wi_2fJVM",
