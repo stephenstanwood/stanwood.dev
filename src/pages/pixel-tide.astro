@@ -114,6 +114,89 @@ const title = "Pixel Tide — stanwood.dev";
         color: rgba(245, 198, 160, 0.45);
         line-height: 1.65;
       }
+
+      /* ── Beach gallery ── */
+      .beach-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 540px) {
+        .beach-grid { grid-template-columns: 1fr; }
+      }
+      .beach-card {
+        position: relative;
+        border: 1px solid rgba(245, 198, 160, 0.12);
+        border-radius: 10px;
+        padding: 14px 14px 16px;
+        background: rgba(232, 149, 106, 0.04);
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: border-color 0.18s, background 0.18s, transform 0.18s;
+      }
+      .beach-card:hover,
+      .beach-card:focus-visible {
+        border-color: rgba(245, 198, 160, 0.32);
+        background: rgba(232, 149, 106, 0.08);
+        transform: translateY(-1px);
+        outline: none;
+      }
+      .beach-card.is-active {
+        border-color: rgba(232, 149, 106, 0.55);
+        background: rgba(232, 149, 106, 0.12);
+        box-shadow: 0 0 0 1px rgba(232, 149, 106, 0.35) inset;
+      }
+      .beach-swatches {
+        display: flex;
+        gap: 0;
+        height: 36px;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+      }
+      .beach-swatches > span {
+        flex: 1;
+        display: block;
+      }
+      .beach-card-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .beach-card-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.05em;
+        color: rgba(245, 198, 160, 0.85);
+      }
+      .beach-card-active {
+        font-size: 0.55rem;
+        color: rgba(232, 149, 106, 0.7);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .beach-card-vibe {
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.55);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .beach-card-cta {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.6rem;
+        color: rgba(245, 198, 160, 0.35);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-top: auto;
+      }
+      .beach-card:hover .beach-card-cta,
+      .beach-card:focus-visible .beach-card-cta {
+        color: rgba(245, 198, 160, 0.7);
+      }
     </style>
   </Fragment>
 
@@ -191,6 +274,77 @@ const title = "Pixel Tide — stanwood.dev";
       </div>
     </section>
 
+    <!-- Pick your beach -->
+    <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
+      <div class="flex items-baseline justify-between mb-5 gap-3 flex-wrap">
+        <h2 class="text-xs font-bold uppercase tracking-widest" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Pick your beach</h2>
+        <span class="text-[10px]" style="color: rgba(245, 198, 160, 0.3); font-family: 'Space Grotesk', sans-serif;">tap to load it above</span>
+      </div>
+      <div class="beach-grid">
+        <a href="?theme=tropical" class="beach-card" data-theme="tropical" aria-label="Switch to Tropical theme">
+          <div class="beach-swatches" aria-hidden="true">
+            <span style="background:#F5E6C8;"></span>
+            <span style="background:#C4A97D;"></span>
+            <span style="background:#5BB5D5;"></span>
+            <span style="background:#2E86AB;"></span>
+            <span style="background:#D4A76A;"></span>
+          </div>
+          <div class="beach-card-row">
+            <span class="beach-card-name">Tropical</span>
+            <span class="beach-card-active" data-active-label hidden>now playing</span>
+          </div>
+          <p class="beach-card-vibe">Bright midday sun. Crystal water, pale sand, the noisiest seagulls of the bunch.</p>
+          <span class="beach-card-cta">Open this beach →</span>
+        </a>
+        <a href="?theme=sunset" class="beach-card" data-theme="sunset" aria-label="Switch to Sunset theme">
+          <div class="beach-swatches" aria-hidden="true">
+            <span style="background:#F0D9A0;"></span>
+            <span style="background:#C49060;"></span>
+            <span style="background:#E8956A;"></span>
+            <span style="background:#C05050;"></span>
+            <span style="background:#D4A76A;"></span>
+          </div>
+          <div class="beach-card-row">
+            <span class="beach-card-name">Sunset</span>
+            <span class="beach-card-active" data-active-label hidden>now playing</span>
+          </div>
+          <p class="beach-card-vibe">Golden hour. Warm waves and long shadows pulling everything sideways.</p>
+          <span class="beach-card-cta">Open this beach →</span>
+        </a>
+        <a href="?theme=arctic" class="beach-card" data-theme="arctic" aria-label="Switch to Arctic theme">
+          <div class="beach-swatches" aria-hidden="true">
+            <span style="background:#E8E8F0;"></span>
+            <span style="background:#A0A0B8;"></span>
+            <span style="background:#5588AA;"></span>
+            <span style="background:#1A4060;"></span>
+            <span style="background:#C0C0D0;"></span>
+          </div>
+          <div class="beach-card-row">
+            <span class="beach-card-name">Arctic</span>
+            <span class="beach-card-active" data-active-label hidden>now playing</span>
+          </div>
+          <p class="beach-card-vibe">Cold-water coast. Pale sand, blue-grey tide, castles that look carved from ice.</p>
+          <span class="beach-card-cta">Open this beach →</span>
+        </a>
+        <a href="?theme=night" class="beach-card" data-theme="night" aria-label="Switch to Night theme">
+          <div class="beach-swatches" aria-hidden="true">
+            <span style="background:#4A4050;"></span>
+            <span style="background:#302830;"></span>
+            <span style="background:#2A3060;"></span>
+            <span style="background:#141830;"></span>
+            <span style="background:#686070;"></span>
+          </div>
+          <div class="beach-card-row">
+            <span class="beach-card-name">Night</span>
+            <span class="beach-card-active" data-active-label hidden>now playing</span>
+          </div>
+          <p class="beach-card-vibe">Moonlit shore. Quiet, slow, and the foam catches starlight on its way out.</p>
+          <span class="beach-card-cta">Open this beach →</span>
+        </a>
+      </div>
+      <p class="mt-4 text-[10px] text-center" style="color: rgba(245, 198, 160, 0.3);">Add <code style="color: rgba(245, 198, 160, 0.5);">&amp;speed=calm</code>, <code style="color: rgba(245, 198, 160, 0.5);">normal</code>, or <code style="color: rgba(245, 198, 160, 0.5);">surge</code> to any link to set the tide pace.</p>
+    </section>
+
     <!-- Behind the Waves -->
     <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
       <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Behind the Waves</h2>
@@ -214,4 +368,17 @@ const title = "Pixel Tide — stanwood.dev";
       </div>
     </section>
   </main>
+
+  <script>
+    const validThemes = ['tropical', 'sunset', 'arctic', 'night'];
+    const params = new URLSearchParams(window.location.search);
+    const requested = params.get('theme');
+    const active = validThemes.includes(requested ?? '') ? requested : 'tropical';
+    const card = document.querySelector(`.beach-card[data-theme="${active}"]`);
+    if (card) {
+      card.classList.add('is-active');
+      const label = card.querySelector('[data-active-label]');
+      if (label) label.removeAttribute('hidden');
+    }
+  </script>
 </BaseLayout>
