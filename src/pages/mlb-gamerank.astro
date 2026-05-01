@@ -233,6 +233,159 @@ const mlbTeams: Array<[string, string]> = [
         border-color: rgba(251,191,36,0.4) !important;
         box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 0 12px rgba(251,191,36,0.07) !important;
       }
+
+      /* ── Anatomy: example games ── */
+      .anatomy-card {
+        background: #0c3a1b;
+        border: 2px solid #1a5c30;
+        border-radius: 10px;
+        padding: 14px 16px 16px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.15);
+        position: relative;
+      }
+      .anatomy-card + .anatomy-card { margin-top: 10px; }
+      .anatomy-card.top {
+        border-color: rgba(251,191,36,0.45);
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.25), 0 0 16px rgba(251,191,36,0.08);
+      }
+      .anatomy-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .anatomy-tag {
+        font-family: 'Orbitron', monospace;
+        font-size: 8.5px;
+        letter-spacing: 0.18em;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 3px 7px;
+        border-radius: 3px;
+        background: rgba(251,191,36,0.08);
+        color: rgba(251,191,36,0.7);
+        border: 1px solid rgba(251,191,36,0.18);
+      }
+      .anatomy-tag.dim {
+        color: rgba(255,255,255,0.35);
+        background: rgba(255,255,255,0.04);
+        border-color: rgba(255,255,255,0.1);
+      }
+      .anatomy-rank {
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.3);
+      }
+      .anatomy-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px 0;
+      }
+      .anatomy-row + .anatomy-row {
+        border-top: 1px dashed rgba(255,255,255,0.06);
+      }
+      .anatomy-team {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .anatomy-abbr {
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #fbbf24;
+        width: 38px;
+      }
+      .anatomy-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.75);
+      }
+      .anatomy-runs {
+        font-family: 'Orbitron', monospace;
+        font-size: 18px;
+        font-weight: 800;
+        color: #e5e7eb;
+        min-width: 22px;
+        text-align: right;
+      }
+      .anatomy-status {
+        margin-top: 10px;
+        padding: 7px 10px;
+        border-radius: 6px;
+        background: rgba(0,0,0,0.22);
+        border: 1px solid rgba(255,255,255,0.06);
+        font-size: 11px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.45;
+      }
+      .anatomy-meter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .anatomy-meter-track {
+        flex: 1;
+        height: 5px;
+        background: rgba(0,0,0,0.32);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .anatomy-meter-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+        border-radius: 3px;
+      }
+      .anatomy-meter-fill.cool {
+        background: linear-gradient(90deg, #475569, #64748b);
+      }
+      .anatomy-meter-pct {
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fbbf24;
+        min-width: 36px;
+        text-align: right;
+      }
+      .anatomy-meter-pct.cool { color: rgba(255,255,255,0.4); }
+      .anatomy-factors {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        margin-top: 10px;
+      }
+      .anatomy-factor {
+        font-size: 10px;
+        font-weight: 600;
+        color: rgba(255,255,255,0.55);
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.06);
+        padding: 3px 7px;
+        border-radius: 3px;
+        line-height: 1.3;
+      }
+      .anatomy-factor.hot {
+        color: #fcd34d;
+        background: rgba(251,191,36,0.07);
+        border-color: rgba(251,191,36,0.2);
+      }
+      .anatomy-factor.cold {
+        color: rgba(255,255,255,0.3);
+        text-decoration: line-through;
+        text-decoration-color: rgba(255,255,255,0.15);
+      }
+      .anatomy-note {
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        line-height: 1.55;
+        margin-top: 10px;
+        font-style: italic;
+      }
     </style>
   </Fragment>
 
@@ -301,6 +454,100 @@ const mlbTeams: Array<[string, string]> = [
         <div style="background: rgba(0,0,0,0.25); border: 1px solid rgba(251,191,36,0.15); border-radius: 8px; padding: 12px 14px; margin-top: 8px;">
           <p style="font-size: 11px; font-weight: 700; color: #fbbf24; margin-bottom: 4px;">Extra innings &nbsp;<span style="font-weight: 400; color: rgba(251,191,36,0.5); font-size: 10px;">max score: 400</span></p>
           <p style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">×3.5 multiplier. Any close extra-innings game jumps to the top of the list.</p>
+        </div>
+      </section>
+
+      <!-- What it looks like — example games scored by the formula -->
+      <section class="mt-8" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+        <p class="font-score" style="font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(251,191,36,0.4); margin-bottom: 6px;">What it looks like</p>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; margin-bottom: 14px;">Three example games scored by the formula above. Same situation, very different numbers.</p>
+
+        <!-- Top: extras, bases loaded -->
+        <div class="anatomy-card top">
+          <div class="anatomy-head">
+            <span class="anatomy-tag">Top of the list</span>
+            <span class="anatomy-rank">#1</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">LAD</span><span class="anatomy-name">Dodgers</span></span>
+            <span class="anatomy-runs">6</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">SF</span><span class="anatomy-name">Giants</span></span>
+            <span class="anatomy-runs">5</span>
+          </div>
+          <div class="anatomy-status">Top 11th &middot; bases loaded &middot; 1 out</div>
+          <div class="anatomy-meter">
+            <span class="watch-meter-label" style="color: rgba(255,255,255,0.3);">WATCH</span>
+            <div class="anatomy-meter-track"><div class="anatomy-meter-fill" style="width: 100%;"></div></div>
+            <span class="anatomy-meter-pct">100%</span>
+          </div>
+          <div class="anatomy-factors">
+            <span class="anatomy-factor hot">extras &times;3.5</span>
+            <span class="anatomy-factor hot">1-run game (closeness 85)</span>
+            <span class="anatomy-factor hot">bases loaded +45%</span>
+            <span class="anatomy-factor hot">late tie bonus &times;1.5</span>
+            <span class="anatomy-factor">two .620 contenders</span>
+          </div>
+          <p class="anatomy-note">Every multiplier hits at once. This is the rare game that pegs the meter — the page would tell you to drop everything.</p>
+        </div>
+
+        <!-- Mid: tight 7th -->
+        <div class="anatomy-card">
+          <div class="anatomy-head">
+            <span class="anatomy-tag dim">Worth flipping to</span>
+            <span class="anatomy-rank">#3</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">NYM</span><span class="anatomy-name">Mets</span></span>
+            <span class="anatomy-runs">5</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">PHI</span><span class="anatomy-name">Phillies</span></span>
+            <span class="anatomy-runs">3</span>
+          </div>
+          <div class="anatomy-status">Bottom 7th &middot; runner on 1st &middot; 2 outs</div>
+          <div class="anatomy-meter">
+            <span class="watch-meter-label" style="color: rgba(255,255,255,0.3);">WATCH</span>
+            <div class="anatomy-meter-track"><div class="anatomy-meter-fill" style="width: 86%;"></div></div>
+            <span class="anatomy-meter-pct">86%</span>
+          </div>
+          <div class="anatomy-factors">
+            <span class="anatomy-factor hot">7th-inning bonus &times;1.5</span>
+            <span class="anatomy-factor">2-run game (closeness 70)</span>
+            <span class="anatomy-factor">1 runner +15%</span>
+            <span class="anatomy-factor">two .520 teams</span>
+          </div>
+          <p class="anatomy-note">Late and within reach. A solo home run reopens it — exactly the kind of game the formula wants you to catch.</p>
+        </div>
+
+        <!-- Bottom: blowout -->
+        <div class="anatomy-card">
+          <div class="anatomy-head">
+            <span class="anatomy-tag dim">Bottom of the list</span>
+            <span class="anatomy-rank">#14</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">COL</span><span class="anatomy-name">Rockies</span></span>
+            <span class="anatomy-runs">8</span>
+          </div>
+          <div class="anatomy-row">
+            <span class="anatomy-team"><span class="anatomy-abbr">MIA</span><span class="anatomy-name">Marlins</span></span>
+            <span class="anatomy-runs">2</span>
+          </div>
+          <div class="anatomy-status">Bottom 4th &middot; bases empty &middot; 1 out</div>
+          <div class="anatomy-meter">
+            <span class="watch-meter-label" style="color: rgba(255,255,255,0.3);">WATCH</span>
+            <div class="anatomy-meter-track"><div class="anatomy-meter-fill cool" style="width: 5%;"></div></div>
+            <span class="anatomy-meter-pct cool">5%</span>
+          </div>
+          <div class="anatomy-factors">
+            <span class="anatomy-factor">6-run gap (closeness 10)</span>
+            <span class="anatomy-factor cold">no late bonus</span>
+            <span class="anatomy-factor cold">no runners</span>
+            <span class="anatomy-factor">two .420 teams</span>
+          </div>
+          <p class="anatomy-note">Big margin, mid-game, empty basepaths. Nothing left for the multipliers to grab onto — it sinks to the bottom.</p>
         </div>
       </section>
 
