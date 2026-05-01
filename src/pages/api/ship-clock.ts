@@ -20,6 +20,19 @@ function cleanRaw(raw: string): string {
   return raw.split("\n")[0].trim().replace(/\s*\(#\d+\)\s*$/g, "");
 }
 
+/** Extract raw commit message, short SHA, and PR number from a Vercel deployment. */
+function extractCommitMeta(dep: VercelDeployment): {
+  raw: string | null;
+  sha: string | null;
+  prNumber: string | null;
+} {
+  const meta = dep.meta ?? {};
+  const raw = meta.githubCommitMessage ?? null;
+  const sha = (meta.githubCommitSha ?? dep.uid ?? "").slice(0, 7) || null;
+  const prMatch = raw?.match(/\(#(\d+)\)/);
+  return { raw, sha, prNumber: prMatch ? prMatch[1] : null };
+}
+
 /** Ask Claude to turn a raw commit message into a nice one-liner */
 async function summarizeCommit(raw: string): Promise<{ project: string | null; summary: string }> {
   const cleaned = cleanRaw(raw);
@@ -87,11 +100,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const hoursSince = Math.floor(diffMs / (1000 * 60 * 60));
     const daysSince = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-    const meta = deployments[0].meta ?? {};
-    const rawCommit = meta.githubCommitMessage ?? null;
-    const sha = (meta.githubCommitSha ?? deployments[0].uid ?? "").slice(0, 7) || null;
-    const prMatch = rawCommit?.match(/\(#(\d+)\)/);
-    const prNumber = prMatch ? prMatch[1] : null;
+    const { raw: rawCommit, sha, prNumber } = extractCommitMeta(deployments[0]);
 
     // Summarize via Claude (cached for 5 min by s-maxage anyway)
     let project: string | null = null;
@@ -137,15 +146,12 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
     // Build history from remaining deployments (no Claude — just clean raw messages)
     const history = (deployments as VercelDeployment[]).slice(1).map((dep) => {
-      const depMeta = dep.meta ?? {};
-      const depRaw = depMeta.githubCommitMessage ?? null;
-      const depSha = (depMeta.githubCommitSha ?? dep.uid ?? "").slice(0, 7) || null;
-      const depPrMatch = depRaw?.match(/\(#(\d+)\)/);
+      const { raw, sha: depSha, prNumber: depPr } = extractCommitMeta(dep);
       return {
         date: new Date(dep.created).toISOString(),
-        message: depRaw ? cleanRaw(depRaw) : null,
+        message: raw ? cleanRaw(raw) : null,
         sha: depSha,
-        prNumber: depPrMatch ? depPrMatch[1] : null,
+        prNumber: depPr,
       };
     });
 
