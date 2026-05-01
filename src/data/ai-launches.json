@@ -1,19 +1,27 @@
 [
   {
+    "name": "Cursor SDK",
+    "org": "Cursor",
+    "date": "2026-04-29",
+    "type": "tool",
+    "summary": "TypeScript SDK that turns Cursor's coding agent into programmable infrastructure — npm install @cursor/sdk, run agents locally or on Cursor's sandboxed cloud VMs from CI, backend services, or your own product, billed per-token",
+    "url": "https://cursor.com/blog/typescript-sdk"
+  },
+  {
+    "name": "Amazon Quick",
+    "org": "AWS",
+    "date": "2026-04-29",
+    "type": "tool",
+    "summary": "always-on desktop AI assistant that watches across your Google Workspace, Zoom, Airtable, Dropbox, and Teams and surfaces what needs attention — free tier, sign up with a personal Google/Apple/GitHub email, no AWS account required",
+    "url": "https://www.aboutamazon.com/news/aws/amazon-quick-desktop-ai-assistant"
+  },
+  {
     "name": "NVIDIA Nemotron 3 Nano Omni",
     "org": "NVIDIA",
     "date": "2026-04-28",
     "type": "model",
     "summary": "open multimodal model unifying vision, audio, and language → text with 9x higher throughput than other open omni models — weights live on Hugging Face and OpenRouter, also via NVIDIA NIM",
     "url": "https://blogs.nvidia.com/blog/nemotron-3-nano-omni-multimodal-ai-agents/"
-  },
-  {
-    "name": "Cursor 3.2 /multitask",
-    "org": "Cursor",
-    "date": "2026-04-24",
-    "type": "tool",
-    "summary": "new /multitask command spins up async subagents that parallelize a single request across a fleet of agents — break a large task into chunks and let them run side-by-side without juggling tabs",
-    "url": "https://cursor.com/changelog"
   },
   {
     "name": "DeepSeek V4",
@@ -32,28 +40,20 @@
     "url": "https://openai.com/index/introducing-gpt-5-5/"
   },
   {
+    "name": "Qwen3.6-27B",
+    "org": "Alibaba",
+    "date": "2026-04-22",
+    "type": "model",
+    "summary": "Apache-2.0 dense 27B coding model that beats Qwen's prior 397B MoE on SWE-bench Verified (77.2) and matches Claude 4.5 Opus on Terminal-Bench — small enough to run on a single GPU, weights on Hugging Face",
+    "url": "https://qwen.ai/blog?id=qwen3.6-27b"
+  },
+  {
     "name": "Google MCP for Google Services",
     "org": "Google",
     "date": "2026-04-22",
     "type": "tool",
     "summary": "official managed MCP servers for Google Maps, BigQuery, Cloud Run, Compute Engine, and more — plug Google services directly into your AI agent without building your own integrations",
     "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-official-mcp-support-for-google-services"
-  },
-  {
-    "name": "ChatGPT Images 2.0",
-    "org": "OpenAI",
-    "date": "2026-04-21",
-    "type": "tool",
-    "summary": "new gpt-image-2 model with native reasoning, 2K resolution output, and multi-image consistency — generates product shots, brand visuals, and illustrations that stay coherent across a set",
-    "url": "https://thenewstack.io/chatgpt-images-20-openai/"
-  },
-  {
-    "name": "Grok STT + TTS APIs",
-    "org": "xAI",
-    "date": "2026-04-18",
-    "type": "tool",
-    "summary": "standalone speech-to-text ($0.10/hr batch) and text-to-speech ($4.20/1M chars) APIs — word-level timestamps, speaker diarization, 25+ languages, available immediately to all developers",
-    "url": "https://x.ai/news/grok-stt-and-tts-apis"
   },
   {
     "name": "Claude Design",
