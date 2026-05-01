@@ -46,6 +46,7 @@ interface LiveGame {
 const LS_KEY = "wtwtw:v1";
 const POLL_MS = 60_000;
 const PLAYOFF_LEAGUES = ["basketball/nba"];
+const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants"];
 
 const PRIME_URL = "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc";
 const YOUTUBE_TV_URL = "https://tv.youtube.com/";
@@ -108,10 +109,12 @@ export default function LiveGamesStrip() {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     async function tick() {
-      const userTeamKeys = readUserTeamKeys();
+      const teamKeys = Array.from(
+        new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS])
+      );
 
       const leaguesToFetch = new Set<string>();
-      for (const k of userTeamKeys) {
+      for (const k of teamKeys) {
         const t = TEAM_REGISTRY[k];
         if (t) leaguesToFetch.add(t.league);
       }
@@ -126,10 +129,10 @@ export default function LiveGamesStrip() {
         )
       );
 
-      const userTeamByLeagueAbbr = new Map<string, TeamEntry>();
-      for (const k of userTeamKeys) {
+      const teamByLeagueAbbr = new Map<string, TeamEntry>();
+      for (const k of teamKeys) {
         const t = TEAM_REGISTRY[k];
-        if (t) userTeamByLeagueAbbr.set(`${t.league}|${t.abbreviation.toUpperCase()}`, t);
+        if (t) teamByLeagueAbbr.set(`${t.league}|${t.abbreviation.toUpperCase()}`, t);
       }
 
       const next: LiveGame[] = [];
@@ -142,7 +145,7 @@ export default function LiveGamesStrip() {
           let matched: TeamEntry | null = null;
           for (const c of competitors(ev)) {
             const abbr = (c.team?.abbreviation || "").toUpperCase();
-            const t = userTeamByLeagueAbbr.get(`${lp}|${abbr}`);
+            const t = teamByLeagueAbbr.get(`${lp}|${abbr}`);
             if (t) {
               matched = t;
               break;
