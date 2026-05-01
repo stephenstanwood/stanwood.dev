@@ -458,6 +458,112 @@ const title = "Ship Clock — stanwood.dev";
         margin-top: 8px;
       }
 
+      /* ── Cadence ladder ── */
+      .sc-cadence {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+
+      .sc-cadence-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: var(--sc-ink);
+        margin: 0 0 6px;
+      }
+
+      .sc-cadence-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 18px;
+      }
+
+      .sc-tier-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .sc-tier {
+        display: grid;
+        grid-template-columns: 78px 1fr;
+        gap: 14px;
+        align-items: center;
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 3px 3px 0 var(--sc-ink);
+        background: #fff;
+        padding: 14px 16px;
+      }
+
+      .sc-tier-days {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 26px;
+        line-height: 1;
+        text-align: center;
+        padding: 6px 8px;
+        border: 2px solid currentColor;
+      }
+
+      .sc-tier-body {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .sc-tier-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: lowercase;
+      }
+
+      .sc-tier-text {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.6;
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .sc-tier--hot  .sc-tier-days,
+      .sc-tier--hot  .sc-tier-label { color: var(--sc-accent); }
+      .sc-tier--good .sc-tier-days,
+      .sc-tier--good .sc-tier-label { color: #1a9d3f; }
+      .sc-tier--warn .sc-tier-days,
+      .sc-tier--warn .sc-tier-label { color: #c97718; }
+      .sc-tier--cool .sc-tier-days,
+      .sc-tier--cool .sc-tier-label { color: #8a6cb5; }
+      .sc-tier--bad  .sc-tier-days,
+      .sc-tier--bad  .sc-tier-label { color: #c52727; }
+
+      .sc-cadence-note {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 480px) {
+        .sc-tier {
+          grid-template-columns: 64px 1fr;
+          padding: 12px 14px;
+          gap: 12px;
+        }
+        .sc-tier-days { font-size: 20px; padding: 5px 6px; }
+        .sc-tier-text { font-size: 12px; }
+      }
+
       /* ── Repo tracker ── */
       .sc-rt-wrap {
         max-width: 480px;
@@ -606,6 +712,52 @@ const title = "Ship Clock — stanwood.dev";
     </div>
 
     <ShipClockApp client:idle />
+
+    <!-- Cadence ladder -->
+    <div class="sc-cadence">
+      <h2 class="sc-cadence-heading">The Cadence Ladder</h2>
+      <p class="sc-cadence-sub">how to read your number · five tiers</p>
+
+      <div class="sc-tier-list">
+        <div class="sc-tier sc-tier--hot">
+          <div class="sc-tier-days">0d</div>
+          <div class="sc-tier-body">
+            <span class="sc-tier-label">shipped today 🚀</span>
+            <p class="sc-tier-text">In the zone. Daily-driver project — every day is a build day.</p>
+          </div>
+        </div>
+        <div class="sc-tier sc-tier--good">
+          <div class="sc-tier-days">1–3d</div>
+          <div class="sc-tier-body">
+            <span class="sc-tier-label">fresh off the line</span>
+            <p class="sc-tier-text">Active development. Healthy side-project rhythm — most indie shippers live here.</p>
+          </div>
+        </div>
+        <div class="sc-tier sc-tier--warn">
+          <div class="sc-tier-days">4–6d</div>
+          <div class="sc-tier-body">
+            <span class="sc-tier-label">clock is ticking</span>
+            <p class="sc-tier-text">Between sprints. Not bad — but block out a shipping day before momentum slips.</p>
+          </div>
+        </div>
+        <div class="sc-tier sc-tier--cool">
+          <div class="sc-tier-days">1–2w</div>
+          <div class="sc-tier-body">
+            <span class="sc-tier-label">getting rusty</span>
+            <p class="sc-tier-text">Probably waiting on a decision or a review. A typo fix or version bump resets the clock — momentum compounds.</p>
+          </div>
+        </div>
+        <div class="sc-tier sc-tier--bad">
+          <div class="sc-tier-days">14d+</div>
+          <div class="sc-tier-body">
+            <span class="sc-tier-label">dust is collecting</span>
+            <p class="sc-tier-text">Abandonment risk. Even a README polish counts — ship something, anything, today.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="sc-cadence-note">Status labels match the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
+    </div>
 
     <RepoTracker client:idle />
 
