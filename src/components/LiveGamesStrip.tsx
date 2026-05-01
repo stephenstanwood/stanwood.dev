@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TEAM_REGISTRY, type TeamEntry } from "../lib/teamRegistry";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
+import { safeGet } from "../lib/localStorage";
 
 interface ESPNCompetitor {
   team?: { abbreviation?: string; displayName?: string };
@@ -92,12 +93,10 @@ function competitors(ev: ESPNEvent): ESPNCompetitor[] {
 }
 
 function readUserTeamKeys(): string[] {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return [];
-    const p = JSON.parse(raw) as { teams?: unknown };
-    if (Array.isArray(p.teams)) return p.teams.filter((k): k is string => typeof k === "string");
-  } catch {}
+  const stored = safeGet<{ teams?: unknown }>(LS_KEY);
+  if (stored && Array.isArray(stored.teams)) {
+    return stored.teams.filter((k): k is string => typeof k === "string");
+  }
   return [];
 }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetchWithTimeout } from "../../lib/apiHelpers";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -188,9 +189,7 @@ const CITIES = [
 
 async function fetchSportGames(sport: "nba" | "nhl" | "mlb" | "nfl"): Promise<SportGame[]> {
   try {
-    const res = await fetch(ESPN_ENDPOINTS[sport], {
-      signal: AbortSignal.timeout(6000),
-    });
+    const res = await fetchWithTimeout(ESPN_ENDPOINTS[sport], {}, 6000);
     if (!res.ok) return [];
     const data = await res.json();
     const events = data.events || [];
@@ -262,7 +261,7 @@ async function fetchWeather(): Promise<WeatherData | null> {
       "&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m" +
       "&daily=temperature_2m_max,temperature_2m_min" +
       "&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America/Los_Angeles&forecast_days=1";
-    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    const res = await fetchWithTimeout(url, {}, 5000);
     if (!res.ok) return null;
     const weather = await res.json();
     const code = weather.current.weather_code as number;
