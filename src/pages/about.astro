@@ -1,5 +1,129 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { execSync } from "node:child_process";
+
+// ── Recently shipped: pulled from git log at build time ────────────
+type Ship = {
+  hash: string;
+  project: string;
+  message: string;
+  date: string;       // ISO
+  iso: string;        // YYYY-MM-DD
+  href: string | null;
+  emoji: string;
+  display: string;
+};
+
+// Project key → public link, emoji, and display name
+const PROJECT_META: Record<string, { href: string | null; emoji: string; display: string }> = {
+  "pixel-tide":      { href: "/pixel-tide",       emoji: "🌊", display: "Pixel Tide" },
+  "pixel-aquarium":  { href: "/pixel-aquarium",   emoji: "🐠", display: "Pixel Aquarium" },
+  "mlb-gamerank":    { href: "/mlb-gamerank",     emoji: "⚾", display: "MLB GameRank" },
+  "swim":            { href: "/swim",             emoji: "🏊", display: "Lap Lab" },
+  "ship-clock":      { href: "/ship-clock",       emoji: "🕒", display: "Ship Clock" },
+  "which-model":     { href: "/which-model",      emoji: "🧠", display: "Which Model?" },
+  "driverless":      { href: "/driverless",       emoji: "🚗", display: "Driverless" },
+  "campbell":        { href: "/campbell",         emoji: "🏛️", display: "Campbell, CA" },
+  "wtwtw":           { href: "/wtwtw",            emoji: "📺", display: "WTWTW" },
+  "nearest-coffee":  { href: "/nearest-coffee",   emoji: "☕", display: "Nearest Coffee" },
+  "green-light":     { href: "/green-light",      emoji: "🟢", display: "Green Light" },
+  "museum-label":    { href: "/museum-label",     emoji: "🔖", display: "Museum Label" },
+  "tldr":            { href: "/tldr",             emoji: "📄", display: "TL;DR" },
+  "redesign-rolodex":{ href: "/redesign-rolodex", emoji: "🎰", display: "Redesign Rolodex" },
+  "show-swipe":      { href: "/show-swipe",       emoji: "🍿", display: "Show Swipe" },
+  "nba-now":         { href: "https://nbanow.app", emoji: "🏀", display: "NBA Now" },
+  "radar":           { href: "/radar",            emoji: "📡", display: "AI Radar" },
+  "about":           { href: "/about",            emoji: "👤", display: "About" },
+  "shop":            { href: "/shop",             emoji: "🛍️", display: "Shop" },
+  "youtube":         { href: null,                emoji: "📺", display: "YouTube Queue" },
+  "money":           { href: null,                emoji: "💰", display: "Money" },
+  "index":           { href: "/",                 emoji: "🏠", display: "Homepage" },
+  "home":            { href: "/",                 emoji: "🏠", display: "Homepage" },
+  "homepage":        { href: "/",                 emoji: "🏠", display: "Homepage" },
+};
+
+// Skip non-project commits
+const SKIP_PREFIXES = /^(chore|daily cleanup|data|fix|refactor|docs|test|build|ci|style|deps|deps-dev):/i;
+
+let recentShips: Ship[] = [];
+try {
+  const raw = execSync("git log --pretty=format:%h%x09%s%x09%cI -n 200", {
+    cwd: process.cwd(),
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+
+  const seenProjects = new Set<string>();
+  for (const line of raw.split("\n")) {
+    const [hash, subject, iso] = line.split("\t");
+    if (!hash || !subject || !iso) continue;
+    if (SKIP_PREFIXES.test(subject)) continue;
+    // Strip trailing "(#123)" PR refs
+    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
+    const m = cleanSubject.match(/^([a-z0-9-]+):\s*(.+)$/i);
+    if (!m) continue;
+    const project = m[1].toLowerCase();
+    const message = m[2].trim();
+    const meta = PROJECT_META[project];
+    if (!meta) continue;
+    // Limit to one entry per project so the feed shows breadth, not just the last project touched
+    if (seenProjects.has(project)) continue;
+    seenProjects.add(project);
+    recentShips.push({
+      hash,
+      project,
+      message,
+      date: iso,
+      iso: iso.slice(0, 10),
+      href: meta.href,
+      emoji: meta.emoji,
+      display: meta.display,
+    });
+    if (recentShips.length >= 8) break;
+  }
+} catch {
+  // Build environment without git history → render section empty (gracefully hidden)
+  recentShips = [];
+}
+
+function relTime(iso: string): string {
+  const then = new Date(iso).getTime();
+  const days = Math.floor((Date.now() - then) / 86400000);
+  if (days <= 0) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 7) return `${days}d ago`;
+  if (days < 30) return `${Math.floor(days / 7)}w ago`;
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
+  return `${Math.floor(days / 365)}y ago`;
+}
+
+// Stats: project count and ship count over last 30 days (from same log scan)
+let shipsLast30 = 0;
+let activeProjects = 0;
+try {
+  const raw = execSync("git log --pretty=format:%s%x09%cI -n 500 --since='30 days ago'", {
+    cwd: process.cwd(),
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+  const projects = new Set<string>();
+  for (const line of raw.split("\n")) {
+    const [subject] = line.split("\t");
+    if (!subject) continue;
+    if (SKIP_PREFIXES.test(subject)) continue;
+    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
+    const m = cleanSubject.match(/^([a-z0-9-]+):\s*/i);
+    if (!m) continue;
+    const project = m[1].toLowerCase();
+    if (!PROJECT_META[project]) continue;
+    projects.add(project);
+    shipsLast30++;
+  }
+  activeProjects = projects.size;
+} catch {
+  shipsLast30 = 0;
+  activeProjects = 0;
+}
 ---
 
 <BaseLayout
@@ -178,6 +302,130 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     .connect-list a:hover {
       color: var(--orange);
       text-decoration: underline;
+    }
+
+    /* ── Recently shipped ── */
+    .ships-section {
+      margin-bottom: 36px;
+    }
+
+    .ships-heading-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .ships-heading {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .ships-stats {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.55;
+    }
+
+    .ships-stats strong {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .ships-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--ink);
+      background: #fff;
+    }
+
+    .ship-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px dashed rgba(0,0,0,0.12);
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.1s;
+    }
+    .ship-row:last-child { border-bottom: none; }
+    .ship-row:hover {
+      background: var(--yellow);
+    }
+    .ship-row.no-link {
+      cursor: default;
+    }
+    .ship-row.no-link:hover {
+      background: transparent;
+    }
+
+    .ship-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 3px 8px;
+      border: 1.5px solid var(--ink);
+      background: var(--bg);
+      flex-shrink: 0;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 1px;
+    }
+
+    .ship-tag-emoji {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .ship-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ship-msg {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .ship-time {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      opacity: 0.45;
+    }
+
+    .ships-foot {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      color: var(--ink);
+      opacity: 0.45;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 600px) {
+      .ship-row { flex-direction: column; gap: 6px; padding: 11px 12px; }
+      .ship-tag { font-size: 10px; padding: 2px 6px; }
     }
 
     /* ── Now section ── */
@@ -385,6 +633,47 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
       </div>
     </div>
+
+    {recentShips.length > 0 && (
+      <div class="ships-section">
+        <div class="ships-heading-row">
+          <h2 class="ships-heading">Recently Shipped</h2>
+          {(shipsLast30 > 0 || activeProjects > 0) && (
+            <span class="ships-stats">
+              <strong>{shipsLast30}</strong> ships across <strong>{activeProjects}</strong> projects · last 30 days
+            </span>
+          )}
+        </div>
+        <div class="ships-list">
+          {recentShips.map((s) => (
+            s.href ? (
+              <a href={s.href} class="ship-row" aria-label={`${s.display}: ${s.message}`}>
+                <span class="ship-tag">
+                  <span class="ship-tag-emoji">{s.emoji}</span>
+                  {s.display}
+                </span>
+                <span class="ship-body">
+                  <span class="ship-msg">{s.message}</span>
+                  <span class="ship-time">{relTime(s.date)}</span>
+                </span>
+              </a>
+            ) : (
+              <div class="ship-row no-link">
+                <span class="ship-tag">
+                  <span class="ship-tag-emoji">{s.emoji}</span>
+                  {s.display}
+                </span>
+                <span class="ship-body">
+                  <span class="ship-msg">{s.message}</span>
+                  <span class="ship-time">{relTime(s.date)}</span>
+                </span>
+              </div>
+            )
+          ))}
+        </div>
+        <p class="ships-foot">live from git · one row per project, most recent first</p>
+      </div>
+    )}
 
     <div class="about-section">
       <h2>Start here</h2>
