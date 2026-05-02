@@ -8,6 +8,7 @@ import {
 } from "../lib/teamRegistry";
 import { safeGet, safeSet } from "../lib/localStorage";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
+import { toErrMsg } from "../lib/apiHelpers";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -695,7 +696,7 @@ export default function WTWTW() {
       setRawData(result);
       setLastRefresh(new Date());
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      setError(toErrMsg(err));
     } finally {
       isRefresh ? setRefreshing(false) : setLoading(false);
     }
