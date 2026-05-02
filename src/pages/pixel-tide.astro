@@ -197,6 +197,93 @@ const title = "Pixel Tide — stanwood.dev";
       .beach-card:focus-visible .beach-card-cta {
         color: rgba(245, 198, 160, 0.7);
       }
+
+      /* ── Real-tide wonders gallery ── */
+      .wonder-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 540px) {
+        .wonder-grid { grid-template-columns: 1fr; }
+      }
+      .wonder-card {
+        position: relative;
+        border: 1px solid rgba(245, 198, 160, 0.12);
+        border-radius: 10px;
+        padding: 0;
+        background: rgba(232, 149, 106, 0.04);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .wonder-svg-wrap {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: rgba(26, 21, 32, 0.5);
+        border-bottom: 1px solid rgba(245, 198, 160, 0.08);
+        display: block;
+      }
+      .wonder-svg-wrap svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .wonder-body {
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .wonder-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .wonder-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.04em;
+        color: rgba(245, 198, 160, 0.85);
+        line-height: 1.3;
+      }
+      .wonder-range {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #e8956a;
+        white-space: nowrap;
+      }
+      .wonder-place {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.6rem;
+        color: rgba(245, 198, 160, 0.45);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .wonder-fact {
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.55);
+        line-height: 1.5;
+        margin: 4px 0 0;
+      }
+
+      /* ── Vs your beach scale strip ── */
+      .scale-strip {
+        margin-top: 14px;
+        padding: 14px 16px;
+        border: 1px dashed rgba(245, 198, 160, 0.18);
+        border-radius: 8px;
+        background: rgba(232, 149, 106, 0.03);
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.55);
+        line-height: 1.6;
+      }
+      .scale-strip strong {
+        color: rgba(245, 198, 160, 0.85);
+        font-weight: 600;
+      }
     </style>
   </Fragment>
 
@@ -343,6 +430,215 @@ const title = "Pixel Tide — stanwood.dev";
         </a>
       </div>
       <p class="mt-4 text-[10px] text-center" style="color: rgba(245, 198, 160, 0.3);">Add <code style="color: rgba(245, 198, 160, 0.5);">&amp;speed=calm</code>, <code style="color: rgba(245, 198, 160, 0.5);">normal</code>, or <code style="color: rgba(245, 198, 160, 0.5);">surge</code> to any link to set the tide pace.</p>
+    </section>
+
+    <!-- Real Tide Wonders -->
+    <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
+      <div class="flex items-baseline justify-between mb-5 gap-3 flex-wrap">
+        <h2 class="text-xs font-bold uppercase tracking-widest" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Real Tide Wonders</h2>
+        <span class="text-[10px]" style="color: rgba(245, 198, 160, 0.3); font-family: 'Space Grotesk', sans-serif;">tides that eat beaches</span>
+      </div>
+      <p class="text-xs leading-relaxed mb-5" style="color: rgba(245, 198, 160, 0.5); max-width: 540px;">
+        Pixel Tide compresses ~12 hours of real tide into a 15-second loop. Out in the world, some coasts swing
+        so far between high and low that the beach itself disappears twice a day. Here are six of the most
+        extreme.
+      </p>
+
+      <div class="wonder-grid">
+        <!-- Bay of Fundy -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bay of Fundy with tall tide range">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <rect x="0" y="120" width="320" height="60" fill="#2e4a5a"/>
+              <rect x="0" y="156" width="320" height="24" fill="#1a3548"/>
+              <line x1="20" y1="40" x2="20" y2="156" stroke="#e8956a" stroke-width="1.5" stroke-dasharray="3 3"/>
+              <polygon points="14,40 26,40 20,32" fill="#e8956a"/>
+              <polygon points="14,156 26,156 20,164" fill="#e8956a"/>
+              <text x="32" y="46" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#e8956a">HIGH</text>
+              <text x="32" y="160" font-family="'Space Grotesk', sans-serif" font-size="9" fill="#e8956a">LOW</text>
+              <rect x="180" y="92" width="50" height="64" fill="#3d2a1f"/>
+              <rect x="186" y="98" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="200" y="98" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="214" y="98" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="186" y="112" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="200" y="112" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="214" y="112" width="6" height="6" fill="#f5c6a0"/>
+              <rect x="244" y="116" width="60" height="40" fill="#4a3525"/>
+              <text x="160" y="20" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle">53 ft swing</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Bay of Fundy</span>
+              <span class="wonder-range">53 ft</span>
+            </div>
+            <p class="wonder-place">Nova Scotia / New Brunswick</p>
+            <p class="wonder-fact">The world record. 160 billion tonnes of water flow in and out twice a day — more than every river on Earth combined. Boats sit on mud six hours later.</p>
+          </div>
+        </article>
+
+        <!-- Bristol Channel -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Bristol Channel with second-highest tides">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <path d="M0,140 Q80,138 160,142 T320,140 L320,180 L0,180 Z" fill="#2a4252"/>
+              <rect x="0" y="156" width="320" height="24" fill="#5a4528"/>
+              <rect x="40" y="80" width="80" height="76" fill="#2a2a35"/>
+              <rect x="46" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="60" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="74" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="88" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="46" y="100" width="6" height="6" fill="#ffd966"/>
+              <rect x="74" y="100" width="6" height="6" fill="#ffd966"/>
+              <rect x="46" y="114" width="6" height="6" fill="#ffd966"/>
+              <rect x="60" y="114" width="6" height="6" fill="#ffd966"/>
+              <rect x="46" y="128" width="6" height="6" fill="#ffd966"/>
+              <rect x="88" y="128" width="6" height="6" fill="#ffd966"/>
+              <path d="M150,140 Q160,128 170,140" fill="none" stroke="#5bb5d5" stroke-width="2"/>
+              <path d="M180,140 Q195,124 210,140" fill="none" stroke="#5bb5d5" stroke-width="2"/>
+              <path d="M220,140 Q235,130 250,140" fill="none" stroke="#5bb5d5" stroke-width="2"/>
+              <text x="160" y="20" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle">49 ft swing</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Bristol Channel</span>
+              <span class="wonder-range">49 ft</span>
+            </div>
+            <p class="wonder-place">England / Wales</p>
+            <p class="wonder-fact">A funnel-shaped estuary that squeezes the Atlantic into a narrowing channel — physics amplifies the tide to nearly five-story heights. Powers the world's first tidal-energy plant.</p>
+          </div>
+        </article>
+
+        <!-- Mont-Saint-Michel -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mont-Saint-Michel surrounded by tide">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <rect x="0" y="120" width="320" height="60" fill="#3a4a5e"/>
+              <rect x="0" y="146" width="320" height="34" fill="#5a6a7a" opacity="0.6"/>
+              <polygon points="160,40 130,140 190,140" fill="#3d3325"/>
+              <polygon points="160,40 145,80 175,80" fill="#5a4a35"/>
+              <rect x="156" y="28" width="8" height="14" fill="#c4a05a"/>
+              <polygon points="156,28 164,28 160,20" fill="#ffd966"/>
+              <rect x="142" y="100" width="4" height="8" fill="#c4a05a"/>
+              <rect x="174" y="100" width="4" height="8" fill="#c4a05a"/>
+              <rect x="158" y="92" width="4" height="8" fill="#c4a05a"/>
+              <line x1="40" y1="135" x2="60" y2="135" stroke="#a0b8c8" stroke-width="1"/>
+              <line x1="80" y1="138" x2="100" y2="138" stroke="#a0b8c8" stroke-width="1"/>
+              <line x1="220" y1="135" x2="240" y2="135" stroke="#a0b8c8" stroke-width="1"/>
+              <line x1="260" y1="138" x2="280" y2="138" stroke="#a0b8c8" stroke-width="1"/>
+              <text x="160" y="170" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle" opacity="0.5">"Like a galloping horse"</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Mont-Saint-Michel</span>
+              <span class="wonder-range">46 ft</span>
+            </div>
+            <p class="wonder-place">Normandy, France</p>
+            <p class="wonder-fact">Victor Hugo said the tide rushes in "as swiftly as a galloping horse" — about 1m per second. The medieval abbey is an island at high tide and a hilltop at low.</p>
+          </div>
+        </article>
+
+        <!-- Cook Inlet -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cook Inlet Alaska with bore tide">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <rect x="0" y="40" width="320" height="40" fill="#2a3a4a"/>
+              <polygon points="0,80 40,60 80,72 120,55 160,68 200,52 240,65 280,50 320,62 320,80" fill="#5a7080"/>
+              <rect x="0" y="115" width="320" height="65" fill="#2e4a5e"/>
+              <path d="M0,112 Q40,108 80,114 Q120,118 160,110 Q200,104 240,112 Q280,118 320,110 L320,118 L0,118 Z" fill="#7ac4e0"/>
+              <path d="M40,108 L60,98 L80,108" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+              <path d="M120,114 L145,102 L170,114" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+              <path d="M210,108 L235,96 L260,108" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+              <text x="160" y="155" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle">surfable wall of water</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Cook Inlet</span>
+              <span class="wonder-range">40 ft</span>
+            </div>
+            <p class="wonder-place">Anchorage, Alaska</p>
+            <p class="wonder-fact">Home to a "bore tide" — when an incoming tide forms a single rolling wave up to 6 feet tall, racing 30 miles up the inlet at 15 mph. Surfers chase it.</p>
+          </div>
+        </article>
+
+        <!-- Río Gallegos -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Patagonia tide flats">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <rect x="0" y="50" width="320" height="50" fill="#3a2a4a"/>
+              <rect x="0" y="100" width="320" height="80" fill="#6a5230"/>
+              <rect x="0" y="146" width="320" height="34" fill="#5a4525" opacity="0.7"/>
+              <ellipse cx="60" cy="125" rx="14" ry="3" fill="#3a2818"/>
+              <ellipse cx="120" cy="135" rx="20" ry="4" fill="#3a2818"/>
+              <ellipse cx="200" cy="128" rx="16" ry="3" fill="#3a2818"/>
+              <ellipse cx="270" cy="140" rx="22" ry="4" fill="#3a2818"/>
+              <ellipse cx="100" cy="155" rx="18" ry="3" fill="#3a2818"/>
+              <ellipse cx="240" cy="158" rx="20" ry="3" fill="#3a2818"/>
+              <rect x="158" y="76" width="2" height="24" fill="#ffd966"/>
+              <polygon points="158,80 158,90 168,85" fill="#ff5c5c"/>
+              <text x="160" y="20" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle">38 ft, then mud</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Río Gallegos</span>
+              <span class="wonder-range">38 ft</span>
+            </div>
+            <p class="wonder-place">Patagonia, Argentina</p>
+            <p class="wonder-fact">South America's biggest tide. At low tide the river retreats so far that boats lie on dry mud miles from the channel — by morning they float again, no engines needed.</p>
+          </div>
+        </article>
+
+        <!-- Inchon -->
+        <article class="wonder-card">
+          <div class="wonder-svg-wrap">
+            <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Inchon Korea tide port">
+              <rect width="320" height="180" fill="#1a1520"/>
+              <rect x="0" y="100" width="320" height="80" fill="#2a3848"/>
+              <rect x="0" y="140" width="320" height="40" fill="#1a2838" opacity="0.5"/>
+              <rect x="40" y="76" width="60" height="24" fill="#3a3a4a"/>
+              <rect x="46" y="80" width="6" height="6" fill="#ffd966"/>
+              <rect x="60" y="80" width="6" height="6" fill="#ffd966"/>
+              <rect x="74" y="80" width="6" height="6" fill="#ffd966"/>
+              <rect x="88" y="80" width="6" height="6" fill="#ffd966"/>
+              <rect x="46" y="92" width="6" height="6" fill="#ffd966"/>
+              <rect x="74" y="92" width="6" height="6" fill="#ffd966"/>
+              <rect x="220" y="68" width="50" height="32" fill="#3a3a4a"/>
+              <rect x="226" y="74" width="6" height="6" fill="#ffd966"/>
+              <rect x="240" y="74" width="6" height="6" fill="#ffd966"/>
+              <rect x="254" y="74" width="6" height="6" fill="#ffd966"/>
+              <rect x="226" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="254" y="86" width="6" height="6" fill="#ffd966"/>
+              <rect x="120" y="106" width="60" height="20" fill="#5a4a35" rx="2"/>
+              <rect x="125" y="100" width="50" height="6" fill="#7a6555"/>
+              <rect x="148" y="90" width="4" height="14" fill="#9a8060"/>
+              <text x="160" y="20" font-family="'Press Start 2P', monospace" font-size="7" fill="#f5c6a0" text-anchor="middle">port at the edge</text>
+            </svg>
+          </div>
+          <div class="wonder-body">
+            <div class="wonder-row">
+              <span class="wonder-name">Incheon</span>
+              <span class="wonder-range">36 ft</span>
+            </div>
+            <p class="wonder-place">South Korea</p>
+            <p class="wonder-fact">A working megacity port that swings 30+ feet daily. Engineered around a tidal lock so cargo ships keep loading even when half the harbor is exposed seabed.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="scale-strip">
+        For comparison, your simulated beach swings about <strong>20 pixels</strong> top to bottom — call it
+        a humble <strong>3 ft</strong> if each pixel were an inch. Most of us live with tides this size and
+        never notice them. Imagine a beach where the parking lot vanishes by lunchtime.
+      </p>
     </section>
 
     <!-- Behind the Waves -->
