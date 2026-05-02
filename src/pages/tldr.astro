@@ -286,6 +286,93 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         line-height: 1.55;
       }
 
+      /* ── What you can drop ── */
+      .tldr-uses {
+        margin-top: 28px;
+      }
+      .tldr-uses-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #3a3f52;
+        margin: 0 0 14px;
+      }
+      .tldr-uses-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tldr-use {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 12.5px;
+        color: #d4d4d8;
+        background: #0d1117;
+        border: 1px solid #1a1f2e;
+        border-radius: 999px;
+        transition: border-color 0.18s, color 0.18s;
+      }
+      .tldr-use:hover {
+        border-color: rgba(0, 212, 255, 0.4);
+        color: #00D4FF;
+      }
+      .tldr-use-icon {
+        font-size: 13px;
+        line-height: 1;
+      }
+
+      /* ── Pick a format ── */
+      .tldr-formats {
+        margin-top: 28px;
+      }
+      .tldr-formats-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #3a3f52;
+        margin: 0 0 14px;
+      }
+      .tldr-formats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 640px) {
+        .tldr-formats-grid { grid-template-columns: 1fr; }
+      }
+      .tldr-format {
+        background: #0d1117;
+        border: 1px solid #1a1f2e;
+        border-left-width: 3px;
+        border-radius: 10px;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .tldr-format-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .tldr-format-text {
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: #a1a1aa;
+        margin: 0;
+      }
+      .tldr-format-text strong {
+        color: #d4d4d8;
+        font-weight: 600;
+      }
+
     </style>
   </Fragment>
 
@@ -312,6 +399,41 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           red flags before you sign anything.
         </p>
       </header>
+
+      <!-- What you can drop -->
+      <section class="tldr-uses" aria-label="What you can drop">
+        <p class="tldr-uses-label">What you can drop</p>
+        <div class="tldr-uses-grid">
+          <span class="tldr-use"><span class="tldr-use-icon">📄</span> contracts</span>
+          <span class="tldr-use"><span class="tldr-use-icon">🏠</span> leases</span>
+          <span class="tldr-use"><span class="tldr-use-icon">⚖️</span> terms of service</span>
+          <span class="tldr-use"><span class="tldr-use-icon">🔒</span> privacy policies</span>
+          <span class="tldr-use"><span class="tldr-use-icon">💼</span> job offers</span>
+          <span class="tldr-use"><span class="tldr-use-icon">📊</span> research papers</span>
+          <span class="tldr-use"><span class="tldr-use-icon">📚</span> manuals</span>
+          <span class="tldr-use"><span class="tldr-use-icon">📰</span> long articles</span>
+          <span class="tldr-use"><span class="tldr-use-icon">🏛️</span> court filings</span>
+        </div>
+      </section>
+
+      <!-- Pick a format -->
+      <section class="tldr-formats" aria-label="Pick a format">
+        <p class="tldr-formats-label">Three formats. Pick what fits the doc.</p>
+        <div class="tldr-formats-grid">
+          <div class="tldr-format" style="border-left-color: #4ADE80;">
+            <span class="tldr-format-tag" style="color: #4ADE80;">paragraph</span>
+            <p class="tldr-format-text">One tight read. <strong>Best for</strong> research, articles, dense reports — when you just want the gist.</p>
+          </div>
+          <div class="tldr-format" style="border-left-color: #00D4FF;">
+            <span class="tldr-format-tag" style="color: #00D4FF;">bullets</span>
+            <p class="tldr-format-text">Five clean takeaways. <strong>Best for</strong> policies, manuals, RFPs — anything you'd skim, not read.</p>
+          </div>
+          <div class="tldr-format" style="border-left-color: #fca5a5;">
+            <span class="tldr-format-tag" style="color: #fca5a5;">🚩 red flags</span>
+            <p class="tldr-format-text">Just the gotchas. <strong>Best for</strong> contracts, leases, ToS — before you sign anything.</p>
+          </div>
+        </div>
+      </section>
 
       <!-- Format toggle -->
       <div class="mt-8 flex items-center gap-3 flex-wrap">
