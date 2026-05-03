@@ -3,6 +3,7 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import type { ArrestYear } from "../../lib/sonoma/types";
+import { percent } from "../../lib/sonoma/utils";
 import StatCard from "./StatCard";
 
 interface Props {
@@ -14,10 +15,10 @@ type ViewMode = "total" | "type";
 export default function CaseLoadPanel({ data }: Props) {
   const [view, setView] = useState<ViewMode>("total");
 
-  const latest = data[data.length - 1];
-  const prev = data[data.length - 2];
-  const yoyChange = prev ? ((latest.total - prev.total) / prev.total) * 100 : 0;
-  const felonyPct = latest ? ((latest.felony / latest.total) * 100).toFixed(0) : "0";
+  const latest = data.at(-1);
+  const prev = data.at(-2);
+  const yoyChange = prev && latest ? ((latest.total - prev.total) / prev.total) * 100 : 0;
+  const felonyPct = percent(latest?.felony ?? 0, latest?.total, 0);
 
   return (
     <div className="da-panel">
