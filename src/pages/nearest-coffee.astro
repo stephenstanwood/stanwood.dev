@@ -587,6 +587,120 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         color: #6B6B6B;
       }
 
+      /* ── Glossary ── */
+      .nc-glossary {
+        margin-top: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-glossary { margin-top: 48px; }
+      }
+      .nc-section-eyebrow {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #9A9A9A;
+        margin-bottom: 8px;
+      }
+      .nc-section-intro {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 16px;
+        color: #4A4A4A;
+        margin: 0 0 28px;
+        line-height: 1.5;
+        max-width: 560px;
+      }
+      .nc-glossary-block {
+        margin-bottom: 28px;
+      }
+      .nc-glossary-block:last-child {
+        margin-bottom: 0;
+      }
+      .nc-glossary-heading {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 18px;
+        font-weight: 500;
+        font-style: italic;
+        color: #5C4033;
+        margin: 0 0 14px;
+        letter-spacing: -0.01em;
+      }
+      .nc-glossary-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px 32px;
+        margin: 0;
+      }
+      @media (min-width: 640px) {
+        .nc-glossary-list { grid-template-columns: 1fr 1fr; }
+      }
+      .nc-glossary-list > div {
+        display: grid;
+        grid-template-columns: 118px 1fr;
+        gap: 12px;
+        align-items: baseline;
+      }
+      .nc-glossary-list dt {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #1A1A1A;
+        letter-spacing: 0.01em;
+      }
+      .nc-glossary-list dd {
+        font-size: 13px;
+        line-height: 1.55;
+        color: #6B6B6B;
+        margin: 0;
+      }
+      @media (max-width: 460px) {
+        .nc-glossary-list > div {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+      }
+
+      /* ── Tips callout ── */
+      .nc-tips {
+        margin: 40px 0 0;
+        background: #F5F2EC;
+        border-radius: 4px;
+        padding: 22px 24px 24px;
+        border-left: 3px solid #5C4033;
+      }
+      @media (min-width: 768px) {
+        .nc-tips { margin-top: 48px; }
+      }
+      .nc-tips-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #5C4033;
+        margin-bottom: 14px;
+      }
+      .nc-tips ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+      }
+      .nc-tips li {
+        font-size: 13.5px;
+        line-height: 1.65;
+        color: #4A4A4A;
+      }
+      .nc-tips em {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-weight: 500;
+        color: #1A1A1A;
+      }
+
       /* ── Reduced motion ── */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
@@ -665,6 +779,74 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           </div>
         </div>
       </section>
+
+      <hr class="nc-rule" style="margin-top: 40px;">
+
+      <!-- Decode the menu -->
+      <section class="nc-glossary" aria-label="Coffee menu glossary">
+        <span class="nc-section-eyebrow">Decode the menu</span>
+        <p class="nc-section-intro">A pocket primer for whatever cafe shows up first.</p>
+
+        <div class="nc-glossary-block">
+          <p class="nc-glossary-heading">Espresso, neat</p>
+          <dl class="nc-glossary-list">
+            <div><dt>Espresso</dt><dd>A 1 oz shot &mdash; bitter, syrupy, the base for everything else.</dd></div>
+            <div><dt>Doppio</dt><dd>Double shot. Same cup, twice the punch.</dd></div>
+            <div><dt>Ristretto</dt><dd>Short pull. Sweeter, more concentrated than a regular shot.</dd></div>
+            <div><dt>Lungo</dt><dd>Long pull. Mellower, but more bitter than an americano.</dd></div>
+            <div><dt>Macchiato</dt><dd>Shot &ldquo;stained&rdquo; with foam &mdash; not the syrupy chain version.</dd></div>
+            <div><dt>Affogato</dt><dd>Shot poured over a scoop of vanilla gelato. Dessert and caffeine in one cup.</dd></div>
+          </dl>
+        </div>
+
+        <div class="nc-glossary-block">
+          <p class="nc-glossary-heading">Espresso + milk</p>
+          <dl class="nc-glossary-list">
+            <div><dt>Cappuccino</dt><dd>Equal espresso, steamed milk, and foam. Drier and foamier than a latte.</dd></div>
+            <div><dt>Latte</dt><dd>Shot with steamed milk and a thin foam cap. Smoothest of the milk drinks.</dd></div>
+            <div><dt>Flat white</dt><dd>Stronger pull, microfoam, smaller cup. Less foam, more coffee.</dd></div>
+            <div><dt>Cortado</dt><dd>Equal espresso and warm milk. Cuts the bite without watering down.</dd></div>
+            <div><dt>Gibraltar</dt><dd>Bay Area cortado, named for the rocks glass it&rsquo;s served in.</dd></div>
+            <div><dt>Mocha</dt><dd>Latte plus chocolate. Dessert in a cup.</dd></div>
+            <div><dt>Breve</dt><dd>Latte with half-and-half. Richer, heavier, sneaky strong.</dd></div>
+            <div><dt>Con panna</dt><dd>Espresso topped with whipped cream. Tiny indulgence, no froth required.</dd></div>
+          </dl>
+        </div>
+
+        <div class="nc-glossary-block">
+          <p class="nc-glossary-heading">Brewed coffee</p>
+          <dl class="nc-glossary-list">
+            <div><dt>Drip</dt><dd>Batch-brewed. The house default. Refills are usually free.</dd></div>
+            <div><dt>Pour-over</dt><dd>Single cup made by hand. Cleaner and brighter &mdash; what indie cafes show off.</dd></div>
+            <div><dt>French press</dt><dd>Steeped, then plunged. Full-bodied with a little sediment.</dd></div>
+            <div><dt>Cold brew</dt><dd>Steeped 12+ hours in cold water. Low acid, smooth, naturally sweet.</dd></div>
+            <div><dt>Nitro</dt><dd>Cold brew on tap with nitrogen. Creamy head, almost like a stout.</dd></div>
+            <div><dt>Americano</dt><dd>Espresso topped with hot water. Drip&rsquo;s bolder cousin.</dd></div>
+          </dl>
+        </div>
+
+        <div class="nc-glossary-block">
+          <p class="nc-glossary-heading">Tweaks &amp; mods</p>
+          <dl class="nc-glossary-list">
+            <div><dt>Half-caf</dt><dd>Half regular, half decaf. Less jitter, same ritual.</dd></div>
+            <div><dt>Decaf</dt><dd>Caffeine mostly removed. Doesn&rsquo;t taste worse &mdash; just calmer.</dd></div>
+            <div><dt>Oat / oat M</dt><dd>Alt-milk swap. Oat steams best for lattes &mdash; creamy without the dairy.</dd></div>
+            <div><dt>Extra shot</dt><dd>The cheapest upgrade on the menu.</dd></div>
+            <div><dt>2-pump / 4-pump</dt><dd>Fewer or more pumps of syrup. Default is 3 small / 4 large.</dd></div>
+            <div><dt>Kid temp</dt><dd>Steamed milk drink, served lukewarm. Works for adults too.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <aside class="nc-tips" aria-label="Pro tips">
+        <span class="nc-tips-label">Pro tips</span>
+        <ul>
+          <li><em>Indie spot?</em> Order the pour-over or whatever&rsquo;s on the espresso menu &mdash; that&rsquo;s where they show off.</li>
+          <li><em>Chain drive-thru?</em> Stick to drip or a basic latte. Built for volume, not nuance.</li>
+          <li><em>&ldquo;Open now&rdquo; lies sometimes.</em> Google&rsquo;s hours are usually right, but call ahead for tiny shops with weird hours.</li>
+          <li><em>Switch to &ldquo;Rating&rdquo;</em> in unfamiliar neighborhoods &mdash; the closest one isn&rsquo;t always the right one.</li>
+        </ul>
+      </aside>
 
       <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
     </main>
