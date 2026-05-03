@@ -4,6 +4,7 @@ import {
   ReferenceLine, Legend,
 } from "recharts";
 import type { CrimeYear } from "../../lib/sonoma/types";
+import { percent } from "../../lib/sonoma/utils";
 import StatCard from "./StatCard";
 
 interface Props {
@@ -27,12 +28,10 @@ export default function PropImpactPanel({ data }: Props) {
   const prop47Change = pre47Avg ? ((post47Avg - pre47Avg) / pre47Avg) * 100 : 0;
 
   // Clearance rate for latest year
-  const latest = data[data.length - 1];
-  const clearanceRate = latest
-    ? crimeType === "violent"
-      ? ((latest.violentCleared / latest.totalViolent) * 100).toFixed(1)
-      : ((latest.propertyCleared / latest.totalProperty) * 100).toFixed(1)
-    : "0";
+  const latest = data.at(-1);
+  const clearanceRate = crimeType === "violent"
+    ? percent(latest?.violentCleared ?? 0, latest?.totalViolent)
+    : percent(latest?.propertyCleared ?? 0, latest?.totalProperty);
 
   return (
     <div className="da-panel">

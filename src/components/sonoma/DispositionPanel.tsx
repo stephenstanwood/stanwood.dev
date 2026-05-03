@@ -2,6 +2,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from "recharts";
 import type { DispositionYear } from "../../lib/sonoma/types";
+import { percent } from "../../lib/sonoma/utils";
 import StatCard from "./StatCard";
 
 interface Props {
@@ -9,13 +10,12 @@ interface Props {
 }
 
 export default function DispositionPanel({ data }: Props) {
-  const latest = data[data.length - 1];
-  const prev = data[data.length - 2];
+  const latest = data.at(-1);
+  const prev = data.at(-2);
 
-  const pct = (n: number) => latest ? ((n / latest.total) * 100).toFixed(1) : "0";
-  const prevPct = (n: number) => prev ? ((n / prev.total) * 100) : 0;
-  const complaintPct = parseFloat(pct(latest?.complaintSought ?? 0));
-  const prevComplaintPct = prevPct(prev?.complaintSought ?? 0);
+  const pct = (n: number) => percent(n, latest?.total);
+  const complaintPct = pct(latest?.complaintSought ?? 0);
+  const prevComplaintPct = percent(prev?.complaintSought ?? 0, prev?.total);
 
   return (
     <div className="da-panel">

@@ -4,6 +4,7 @@ import {
 } from "recharts";
 import type { ArrestYear, CountyData, CountyKey } from "../../lib/sonoma/types";
 import { COUNTY_COLORS, COUNTY_LABELS } from "../../lib/sonoma/types";
+import { percent } from "../../lib/sonoma/utils";
 import StatCard from "./StatCard";
 
 interface Props {
@@ -21,7 +22,7 @@ const METRIC_LABELS: Record<Metric, string> = {
 function calcMetricValue(entry: ArrestYear, metric: Metric): number {
   if (metric === "total") return entry.total;
   const part = metric === "felonyRate" ? entry.felony : entry.violent;
-  return parseFloat(((part / entry.total) * 100).toFixed(1));
+  return percent(part, entry.total);
 }
 
 export default function CountyComparisonPanel({ data }: Props) {
@@ -44,7 +45,7 @@ export default function CountyComparisonPanel({ data }: Props) {
   const metricLabel = METRIC_LABELS[metric];
 
   const latestStats = counties.map((county) => {
-    const latest = data[county][data[county].length - 1];
+    const latest = data[county].at(-1)!;
     return { county, val: calcMetricValue(latest, metric) };
   });
 
