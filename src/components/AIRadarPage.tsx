@@ -9,9 +9,11 @@ import {
   getDateRange,
   groupByDate,
   sortLaunches,
+  computePulse,
 } from "../lib/aiRadar";
 
 const sorted = sortLaunches(launches as Launch[]);
+const pulse = computePulse(sorted);
 
 export default function AIRadarPage() {
   const [activeType, setActiveType] = useState<string | null>(null);
@@ -131,6 +133,114 @@ export default function AIRadarPage() {
           ))}
         </div>
       </header>
+
+      {/* Pulse — at-a-glance read of the last 7 / 30 days */}
+      {pulse.totalLast30 > 0 && (
+        <section className="rp-pulse" aria-labelledby="rp-pulse-title">
+          <div className="rp-pulse-head">
+            <h2 id="rp-pulse-title" className="rp-pulse-title">The Pulse</h2>
+            <span className="rp-pulse-sub">last 7 days · last 30 days</span>
+          </div>
+          <div className="rp-pulse-grid">
+            <div className="rp-pulse-stat">
+              <div className="rp-pulse-num">
+                {pulse.thisWeek}
+                {pulse.weekDelta !== 0 && (
+                  <span
+                    className={`rp-pulse-delta rp-pulse-delta--${pulse.weekDelta > 0 ? "up" : "down"}`}
+                    aria-label={`${pulse.weekDelta > 0 ? "up" : "down"} ${Math.abs(pulse.weekDelta)} from prior week`}
+                  >
+                    {pulse.weekDelta > 0 ? "▲" : "▼"}
+                    {Math.abs(pulse.weekDelta)}
+                  </span>
+                )}
+              </div>
+              <div className="rp-pulse-label">this week</div>
+              <div className="rp-pulse-foot">vs {pulse.priorWeek} prior</div>
+            </div>
+            <div className="rp-pulse-stat">
+              <div className="rp-pulse-num">
+                {pulse.daysSinceLast === null
+                  ? "—"
+                  : pulse.daysSinceLast === 0
+                  ? "0d"
+                  : `${pulse.daysSinceLast}d`}
+              </div>
+              <div className="rp-pulse-label">since last drop</div>
+              <div className="rp-pulse-foot">
+                {pulse.daysSinceLast === null
+                  ? "no recent launches"
+                  : pulse.daysSinceLast === 0
+                  ? "shipped today"
+                  : pulse.daysSinceLast === 1
+                  ? "yesterday"
+                  : "freshness signal"}
+              </div>
+            </div>
+            {pulse.topOrg && (
+              <button
+                className={`rp-pulse-stat rp-pulse-stat--clickable ${activeOrg === pulse.topOrg.name ? "rp-pulse-stat--active" : ""}`}
+                onClick={() => toggleOrg(pulse.topOrg!.name)}
+                style={{
+                  borderColor:
+                    activeOrg === pulse.topOrg.name
+                      ? ORG_COLORS[pulse.topOrg.name] || "#888"
+                      : undefined,
+                }}
+                title={`Filter to ${pulse.topOrg.name}`}
+              >
+                <div
+                  className="rp-pulse-num rp-pulse-num--text"
+                  style={{ color: ORG_COLORS[pulse.topOrg.name] || "var(--rp-ink)" }}
+                >
+                  {pulse.topOrg.name}
+                </div>
+                <div className="rp-pulse-label">on a tear</div>
+                <div className="rp-pulse-foot">
+                  {pulse.topOrg.count} in 30d · tap to filter
+                </div>
+              </button>
+            )}
+            {pulse.topType && (
+              <button
+                className={`rp-pulse-stat rp-pulse-stat--clickable ${activeType === pulse.topType.type ? "rp-pulse-stat--active" : ""}`}
+                onClick={() => toggleType(pulse.topType!.type)}
+                title={`Filter to ${TYPE_LABELS[pulse.topType.type] || "LAUNCH"}`}
+              >
+                <div className="rp-pulse-num rp-pulse-num--text">
+                  {TYPE_LABELS[pulse.topType.type] || "LAUNCH"}
+                </div>
+                <div className="rp-pulse-label">most this month</div>
+                <div className="rp-pulse-foot">
+                  {pulse.topType.count} of {pulse.totalLast30} · tap to filter
+                </div>
+              </button>
+            )}
+          </div>
+          {pulse.typeBreakdown.length > 1 && (
+            <div className="rp-pulse-bar-wrap" aria-label="Launch type breakdown for the last 30 days">
+              <div className="rp-pulse-bar">
+                {pulse.typeBreakdown.map(({ type, pct }) => (
+                  <span
+                    key={type}
+                    className={`rp-pulse-bar-seg rp-pulse-bar-seg--${type}`}
+                    style={{ width: `${pct}%` }}
+                    title={`${TYPE_LABELS[type] || type}: ${pct}%`}
+                  />
+                ))}
+              </div>
+              <div className="rp-pulse-legend">
+                {pulse.typeBreakdown.map(({ type, count }) => (
+                  <span key={type} className="rp-pulse-legend-item">
+                    <span className={`rp-pulse-legend-dot rp-pulse-bar-seg--${type}`} />
+                    {TYPE_LABELS[type] || type} <span className="rp-pulse-legend-count">{count}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Filter chips */}
       <div className="rp-filters">

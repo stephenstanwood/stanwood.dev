@@ -119,3 +119,66 @@ export function groupByDate(items: Launch[]): { date: string; launches: Launch[]
     .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
     .map(([date, launches]) => ({ date, launches }));
 }
+
+export interface PulseStats {
+  thisWeek: number;
+  priorWeek: number;
+  weekDelta: number;
+  daysSinceLast: number | null;
+  topOrg: { name: string; count: number } | null;
+  topType: { type: string; count: number } | null;
+  totalLast30: number;
+  typeBreakdown: { type: string; count: number; pct: number }[];
+}
+
+/**
+ * Compute at-a-glance stats for the radar — pace this week vs prior, freshness,
+ * top org and type over the last 30 days, plus a stacked breakdown of types.
+ * Pass the unsorted or sorted launches; ordering doesn't matter.
+ */
+export function computePulse(launches: Launch[]): PulseStats {
+  const now = Date.now();
+  const day = 1000 * 60 * 60 * 24;
+  const dayDiff = (d: string) => Math.floor((now - parseLaunchDate(d).getTime()) / day);
+
+  let thisWeek = 0;
+  let priorWeek = 0;
+  let totalLast30 = 0;
+  let minDaysAgo: number | null = null;
+  const orgCounts: Record<string, number> = {};
+  const typeCounts: Record<string, number> = {};
+
+  for (const l of launches) {
+    const d = dayDiff(l.date);
+    if (d < 0) continue; // skip future-dated entries
+    if (d < minDaysAgo! || minDaysAgo === null) minDaysAgo = d;
+    if (d < 7) thisWeek++;
+    else if (d < 14) priorWeek++;
+    if (d < 30) {
+      totalLast30++;
+      orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
+      typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
+    }
+  }
+
+  const topOrgEntry = Object.entries(orgCounts).sort((a, b) => b[1] - a[1])[0];
+  const topTypeEntry = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0];
+  const typeBreakdown = Object.entries(typeCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([type, count]) => ({
+      type,
+      count,
+      pct: totalLast30 > 0 ? Math.round((count / totalLast30) * 100) : 0,
+    }));
+
+  return {
+    thisWeek,
+    priorWeek,
+    weekDelta: thisWeek - priorWeek,
+    daysSinceLast: minDaysAgo,
+    topOrg: topOrgEntry ? { name: topOrgEntry[0], count: topOrgEntry[1] } : null,
+    topType: topTypeEntry ? { type: topTypeEntry[0], count: topTypeEntry[1] } : null,
+    totalLast30,
+    typeBreakdown,
+  };
+}

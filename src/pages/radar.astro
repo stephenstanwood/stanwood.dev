@@ -344,6 +344,172 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         text-align: center;
       }
 
+      /* ── Pulse panel ── */
+      .rp-pulse {
+        margin: 24px 0 28px;
+        padding: 18px 18px 16px;
+        border: 2px solid var(--rp-ink);
+        border-left: 5px solid var(--rp-accent);
+        background: #fff;
+        box-shadow: 3px 3px 0 var(--rp-ink);
+      }
+      .rp-pulse-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .rp-pulse-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        line-height: 1;
+        margin: 0;
+        letter-spacing: 0.02em;
+      }
+      .rp-pulse-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+      }
+      .rp-pulse-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      @media (min-width: 520px) {
+        .rp-pulse-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .rp-pulse-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding: 10px 12px;
+        background: var(--rp-subtle);
+        border: 1.5px solid var(--rp-border);
+        border-radius: 3px;
+        font: inherit;
+        color: inherit;
+        min-width: 0;
+      }
+      button.rp-pulse-stat--clickable {
+        cursor: pointer;
+        transition: background 0.12s, border-color 0.12s, transform 0.1s;
+      }
+      button.rp-pulse-stat--clickable:hover {
+        background: #fff;
+        border-color: #bbb;
+        transform: translateY(-1px);
+      }
+      .rp-pulse-stat--active {
+        background: #fff;
+        border-color: var(--rp-accent) !important;
+      }
+      .rp-pulse-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 26px;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        color: var(--rp-ink);
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .rp-pulse-num--text {
+        font-family: 'Cabin', sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: 1.2;
+        word-break: break-word;
+        text-align: left;
+      }
+      .rp-pulse-delta {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+      .rp-pulse-delta--up {
+        color: #1a9d3f;
+        background: rgba(26, 157, 63, 0.1);
+      }
+      .rp-pulse-delta--down {
+        color: var(--rp-accent);
+        background: #fff5ef;
+      }
+      .rp-pulse-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+        margin-top: 4px;
+      }
+      .rp-pulse-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--rp-muted);
+        opacity: 0.75;
+        margin-top: 2px;
+        line-height: 1.4;
+      }
+      .rp-pulse-bar-wrap {
+        margin-top: 14px;
+      }
+      .rp-pulse-bar {
+        display: flex;
+        height: 8px;
+        border-radius: 2px;
+        overflow: hidden;
+        background: var(--rp-subtle);
+        gap: 2px;
+      }
+      .rp-pulse-bar-seg {
+        height: 100%;
+        min-width: 2px;
+        transition: opacity 0.15s;
+      }
+      .rp-pulse-bar-seg--model   { background: #ff5c1a; }
+      .rp-pulse-bar-seg--product { background: #2563eb; }
+      .rp-pulse-bar-seg--tool    { background: #16a34a; }
+      .rp-pulse-bar-seg--infra   { background: #7c3aed; }
+      .rp-pulse-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 14px;
+        margin-top: 8px;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--rp-muted);
+      }
+      .rp-pulse-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        letter-spacing: 0.04em;
+      }
+      .rp-pulse-legend-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+      }
+      .rp-pulse-legend-count {
+        opacity: 0.6;
+      }
+
       /* ── Stats bar ── */
       .rp-stats {
         font-family: 'Space Mono', monospace;
@@ -511,6 +677,10 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         .rp-about-title { font-size: 20px; }
         .rp-about-types { grid-template-columns: 1fr; }
         .rp-about-meta-row { grid-template-columns: 70px 1fr; gap: 10px; }
+        .rp-pulse { padding: 14px 14px 12px; }
+        .rp-pulse-title { font-size: 18px; }
+        .rp-pulse-num { font-size: 22px; }
+        .rp-pulse-num--text { font-size: 15px; }
       }
     </style>
   </Fragment>
