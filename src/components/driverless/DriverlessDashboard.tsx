@@ -7,6 +7,7 @@ import CompanyCards from "./CompanyCards";
 import StateBreakdown from "./StateBreakdown";
 import DisengagementChart from "./DisengagementChart";
 import L4Race from "./L4Race";
+import FirstRide from "./FirstRide";
 import AVTimeline from "./AVTimeline";
 
 export default function DriverlessDashboard() {
@@ -67,6 +68,9 @@ export default function DriverlessDashboard() {
 
         {/* Companies — full width */}
         <CompanyCards />
+
+        {/* First ride walkthrough — full width */}
+        <FirstRide />
 
         {/* L4 Race — full width */}
         <L4Race />
