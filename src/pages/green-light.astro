@@ -167,6 +167,109 @@ const title = "Green Light — stanwood.dev";
         margin: 0;
       }
 
+      /* ─── What the quiz captures ─────────────────────────────────── */
+      .he-dimensions {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 1.75rem 1.25rem 0;
+      }
+      .he-dimensions-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        margin: 0 0 0.4rem;
+        text-align: center;
+      }
+      .he-dimensions-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.4rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .he-dimensions-sub {
+        font-size: 0.85rem;
+        color: var(--he-gray);
+        line-height: 1.55;
+        margin: 0 0 1.25rem;
+        text-align: center;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .he-dimensions-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+      }
+      @media (min-width: 540px) {
+        .he-dimensions-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .he-dim {
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-radius: 10px;
+        padding: 0.75rem 0.9rem 0.85rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .he-dim-head {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .he-dim-emoji {
+        font-size: 1rem;
+        line-height: 1;
+      }
+      .he-dim-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+      }
+      .he-dim-spectrum {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.72rem;
+        color: var(--he-gray);
+      }
+      .he-dim-pole {
+        font-weight: 600;
+      }
+      .he-dim-pole--left { color: var(--he-rosemary); }
+      .he-dim-pole--right { color: var(--he-wood); }
+      .he-dim-arrow {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(to right, var(--he-sage-light), var(--he-gold-light));
+        border-radius: 1px;
+        opacity: 0.55;
+      }
+      .he-dim-eg {
+        font-size: 0.72rem;
+        color: var(--he-light-gray);
+        line-height: 1.45;
+        margin: 0.1rem 0 0;
+      }
+      .he-dim-foot {
+        margin: 1rem 0 0;
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        text-align: center;
+        line-height: 1.5;
+      }
+      .he-dim-foot strong {
+        color: var(--he-rosemary);
+        font-weight: 700;
+      }
+
       /* ─── Animations ─────────────────────────────────────────────── */
       @keyframes heFadeIn {
         from { opacity: 0; transform: translateY(10px); }
@@ -930,6 +1033,120 @@ const title = "Green Light — stanwood.dev";
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="he-dimensions" aria-label="What the taste quiz captures">
+      <p class="he-dimensions-label">what the quiz captures</p>
+      <h2 class="he-dimensions-heading">Eight ways your taste shows up.</h2>
+      <p class="he-dimensions-sub">Every quiz pair contrasts on at least one of these dimensions — so the picks the AI returns can sit on opposite ends and learn from which one you choose.</p>
+
+      <div class="he-dimensions-grid">
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🌶️</span>
+            <span class="he-dim-name">Spice tolerance</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">mild</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">chili-forward</span>
+          </div>
+          <p class="he-dim-eg">Margherita pizza vs jerk chicken with habanero slaw.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🥣</span>
+            <span class="he-dim-name">Meal format</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">bowls</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">handhelds</span>
+          </div>
+          <p class="he-dim-eg">Build-your-own grain bowl vs a smashburger you eat with two hands.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🌍</span>
+            <span class="he-dim-name">Cuisine leaning</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">Western</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">Asian / Latin</span>
+          </div>
+          <p class="he-dim-eg">Roast chicken with herbs vs bún chả with nuoc cham.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🥩</span>
+            <span class="he-dim-name">Protein preference</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">plant-leaning</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">meat-forward</span>
+          </div>
+          <p class="he-dim-eg">Roasted veg + farro plate vs braised short rib.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🔥</span>
+            <span class="he-dim-name">Cooking style</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">light / raw</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">cooked / crispy</span>
+          </div>
+          <p class="he-dim-eg">Tuna crudo vs blistered Brussels sprouts with crispy edges.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">📏</span>
+            <span class="he-dim-name">Portion size</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">lighter</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">hearty</span>
+          </div>
+          <p class="he-dim-eg">A few small plates vs an entree that earns leftovers.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">✨</span>
+            <span class="he-dim-name">Flavor profile</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">clean &amp; bright</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">rich &amp; indulgent</span>
+          </div>
+          <p class="he-dim-eg">Citrus salad with herbs vs cacio e pepe with extra pecorino.</p>
+        </div>
+
+        <div class="he-dim">
+          <div class="he-dim-head">
+            <span class="he-dim-emoji" aria-hidden="true">🥗</span>
+            <span class="he-dim-name">Dietary leaning</span>
+          </div>
+          <div class="he-dim-spectrum">
+            <span class="he-dim-pole he-dim-pole--left">health-conscious</span>
+            <span class="he-dim-arrow" aria-hidden="true"></span>
+            <span class="he-dim-pole he-dim-pole--right">comfort-forward</span>
+          </div>
+          <p class="he-dim-eg">Grilled fish + greens vs a proper plate of mac and cheese.</p>
+        </div>
+      </div>
+
+      <p class="he-dim-foot">Every pick you make nudges these eight sliders — <strong>so the next restaurant gets a sharper read on what you actually want tonight.</strong></p>
     </section>
 
     <main id="main-content" class="he-main">
