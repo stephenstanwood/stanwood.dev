@@ -500,6 +500,92 @@ const title = "Museum Label — stanwood.dev";
         font-size: 0.65rem;
         color: var(--ml-light-gray);
       }
+
+      /* ── Decode the placard ── */
+      .ml-decode {
+        width: 100%;
+        max-width: 560px;
+        margin: 2.5rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--ml-border);
+      }
+      .ml-decode-intro {
+        font-size: 0.78rem;
+        color: var(--ml-gray);
+        line-height: 1.6;
+        margin: 0 auto 1.25rem;
+        text-align: center;
+        max-width: 460px;
+      }
+      .ml-decode-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+      @media (min-width: 540px) {
+        .ml-decode-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .ml-decode-card {
+        background: var(--ml-card-bg);
+        border: 1px solid var(--ml-border);
+        border-radius: 10px;
+        padding: 0.85rem 1rem 0.95rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .ml-decode-term {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ml-ink);
+        margin: 0;
+        line-height: 1.1;
+      }
+      .ml-decode-term-en {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ml-light-gray);
+        margin-bottom: 0.15rem;
+      }
+      .ml-decode-meaning {
+        font-size: 0.78rem;
+        color: var(--ml-gray);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .ml-decode-example {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 0.8rem;
+        color: var(--ml-light-gray);
+        line-height: 1.45;
+        font-style: italic;
+        margin: 0.2rem 0 0;
+        padding-top: 0.5rem;
+        border-top: 1px dashed var(--ml-border);
+      }
+      .ml-decode-example::before {
+        content: "real-world ";
+        font-style: normal;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ml-accent);
+        margin-right: 0.35rem;
+        opacity: 0.85;
+      }
+      .ml-decode-foot {
+        font-size: 0.72rem;
+        color: var(--ml-light-gray);
+        line-height: 1.55;
+        text-align: center;
+        margin: 1.25rem auto 0;
+        max-width: 480px;
+      }
     </style>
   </Fragment>
 
@@ -596,6 +682,69 @@ const title = "Museum Label — stanwood.dev";
       <section class="ml-how" aria-label="How it works">
         <p class="ml-section-label" style="margin-bottom: 0.65rem;">how it works</p>
         <p class="ml-how-text">Claude Vision reads what's in your photo, then a deadpan-curator system prompt rewrites it as a museum placard in the style you picked. Photos are sent only to generate the response — nothing is stored on the server.</p>
+      </section>
+
+      <section class="ml-decode" aria-label="Decode the placard">
+        <p class="ml-section-label">decode the placard</p>
+        <p class="ml-decode-intro">Real museums and auction houses run on a tight vocabulary. Here's what the recurring terms actually mean — so the parody hits harder when you spot them.</p>
+        <div class="ml-decode-grid">
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Acc. No.</p>
+            <span class="ml-decode-term-en">Accession Number</span>
+            <p class="ml-decode-meaning">The museum's unique catalog ID. Format is usually year.batch.item — so 1985.227.4 is the fourth object in acquisition lot 227, taken in 1985.</p>
+            <p class="ml-decode-example">Every Met label has one tucked in the bottom corner. Ours invent plausible ones.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Attributed to</p>
+            <span class="ml-decode-term-en">Confidence ladder</span>
+            <p class="ml-decode-meaning">A graded scale: by → attributed to → workshop of → school of → after → in the manner of. Each step downgrades how sure scholars are about the maker.</p>
+            <p class="ml-decode-example">"School of Florence" means same period and place — but no one thinks Botticelli touched it.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">ca.</p>
+            <span class="ml-decode-term-en">Circa — approximately</span>
+            <p class="ml-decode-meaning">Used when the date is uncertain but provable to within a few years. Stronger than "Late 18th Century," weaker than a hard date.</p>
+            <p class="ml-decode-example">"ca. 1665" tells you we're sure within a decade — not the exact year.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Provenance</p>
+            <span class="ml-decode-term-en">The chain of custody</span>
+            <p class="ml-decode-meaning">Every owner the object has had, in order. Long, clean provenance raises value; gaps raise eyebrows. Auction houses lean on it heavily.</p>
+            <p class="ml-decode-example">"Thence by descent" = stayed in one family across generations.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Stratum</p>
+            <span class="ml-decode-term-en">Archaeological layer</span>
+            <p class="ml-decode-meaning">A horizontal layer in a dig, each one corresponding to a historical period. Lower = older. Field catalogs reference strata to date a find.</p>
+            <p class="ml-decode-example">"Recovered from Layer III" places the object in a specific era of the site.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Recto / verso</p>
+            <span class="ml-decode-term-en">Front / back</span>
+            <p class="ml-decode-meaning">The two sides of a flat object — paintings, drawings, manuscripts, coins. Used so curators can specify which side a feature appears on without ambiguity.</p>
+            <p class="ml-decode-example">"Verso: artist's signature in pencil" — signed on the back.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Lot &amp; Estimate</p>
+            <span class="ml-decode-term-en">Auction-house only</span>
+            <p class="ml-decode-meaning">Lot is the item being sold; estimate is the house's expected price range. Below the estimate sits a private reserve — the minimum the seller will accept.</p>
+            <p class="ml-decode-example">"Lot 47 · Estimate $40,000–$60,000" — Christie's catalog format.</p>
+          </div>
+
+          <div class="ml-decode-card">
+            <p class="ml-decode-term">Patina</p>
+            <span class="ml-decode-term-en">Aged surface</span>
+            <p class="ml-decode-meaning">Discoloration, oxidation, and wear that builds up on metal, wood, or stone over time. Real placards prize it as proof of age — strip it off and the value drops.</p>
+            <p class="ml-decode-example">"Solid brass with patinated highlights" = a fancy way to say "old and tarnished."</p>
+          </div>
+        </div>
+        <p class="ml-decode-foot">Now scroll the example outputs below — every "Acc. No.", "ca.", and "American School" is doing real curatorial work, just in service of a joke.</p>
       </section>
 
       <div class="ml-examples-section">
