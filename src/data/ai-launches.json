@@ -16,6 +16,14 @@
     "url": "https://cursor.com/blog/typescript-sdk"
   },
   {
+    "name": "Mistral Medium 3.5",
+    "org": "Mistral",
+    "date": "2026-04-29",
+    "type": "model",
+    "summary": "open-weight 128B dense model with 256k context — folds chat, reasoning, and coding into one set of weights, scores 77.6% on SWE-Bench Verified, self-hostable on 4 GPUs; new default in Mistral's Vibe CLI cloud coding agents and Le Chat Work Mode",
+    "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5"
+  },
+  {
     "name": "Amazon Quick",
     "org": "AWS",
     "date": "2026-04-29",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Apache-2.0 dense 27B coding model that beats Qwen's prior 397B MoE on SWE-bench Verified (77.2) and matches Claude 4.5 Opus on Terminal-Bench — small enough to run on a single GPU, weights on Hugging Face",
     "url": "https://qwen.ai/blog?id=qwen3.6-27b"
-  },
-  {
-    "name": "GPT Image 2",
-    "org": "OpenAI",
-    "date": "2026-04-21",
-    "type": "model",
-    "summary": "OpenAI's most capable image gen yet — near-perfect multilingual text rendering, surgical multi-turn edits, 4K resolution (beta), and strong layout for slides, infographics, and maps; live in the API, Codex, and ChatGPT",
-    "url": "https://openai.com/index/introducing-chatgpt-images-2-0/"
   }
 ]
