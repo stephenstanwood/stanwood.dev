@@ -21,12 +21,4 @@ export interface Activity {
   description: string;
 }
 
-export interface GisLayer {
-  id: string;
-  name: string;
-  description: string;
-  count: number | null;
-  url: string;
-}
-
 export type Section = "links" | "digest" | "activities" | "eat" | "data";

@@ -1,16 +1,14 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
-import { rateLimit } from "../../lib/rateLimit";
-import { okJson, errJson } from "../../lib/apiHelpers";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { okJson } from "../../lib/apiHelpers";
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   // 3 reports per IP per 10 minutes
-  if (!rateLimit(clientAddress, 3, 10 * 60_000)) {
-    return errJson("Too many requests", 429);
-  }
+  if (!rateLimit(clientAddress, 3, 10 * 60_000)) return rateLimitResponse();
 
   let page = "unknown";
   let context = "";
