@@ -31,18 +31,6 @@ export function computeZoom(distanceMeters: number): number {
   return Math.min(Math.max(zoom, 12), 17);
 }
 
-/** Dark map styles for Nearest Coffee map display. */
-export const DARK_MAP_STYLES = [
-  "feature:all|element:geometry|color:0x1a1c2e",
-  "feature:all|element:labels.text.fill|color:0x8a8f9e",
-  "feature:all|element:labels.text.stroke|color:0x111318",
-  "feature:road|element:geometry|color:0x2a2d40",
-  "feature:road|element:geometry.stroke|color:0x1a1c2e",
-  "feature:water|element:geometry|color:0x141628",
-  "feature:poi|visibility:off",
-  "feature:transit|visibility:off",
-];
-
 // ── Progress bar ──
 
 export interface ProgressController {
