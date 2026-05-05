@@ -386,6 +386,159 @@ const mlbTeams: Array<[string, string]> = [
         margin-top: 10px;
         font-style: italic;
       }
+
+      /* ── Decode the live card ── */
+      .decode-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      @media (min-width: 480px) {
+        .decode-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .decode-card {
+        background: rgba(0,0,0,0.25);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 8px;
+        padding: 12px 14px 14px;
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .decode-visual {
+        flex-shrink: 0;
+        width: 56px;
+        min-height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.35);
+        border-radius: 6px;
+        padding: 6px;
+      }
+      .decode-visual svg { display: block; }
+      .decode-body { flex: 1; min-width: 0; }
+      .decode-term {
+        font-family: 'Orbitron', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fbbf24;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+      }
+      .decode-desc {
+        font-size: 11px;
+        color: rgba(255,255,255,0.45);
+        line-height: 1.55;
+      }
+      .decode-desc strong {
+        color: rgba(255,255,255,0.7);
+        font-weight: 600;
+      }
+
+      /* Mini B/S/O dots — visual matches the live count */
+      .decode-bso { display: flex; flex-direction: column; gap: 3px; }
+      .decode-bso-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'Orbitron', monospace;
+        font-size: 8px;
+      }
+      .decode-bso-label { color: rgba(255,255,255,0.4); width: 8px; }
+      .decode-bso-dots { display: flex; gap: 2px; }
+      .decode-bso-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+      }
+      .decode-bso-dot.on-b { background: #22c55e; box-shadow: 0 0 3px #22c55e; }
+      .decode-bso-dot.on-s { background: #dc2626; box-shadow: 0 0 3px #dc2626; }
+      .decode-bso-dot.on-o { background: #fbbf24; box-shadow: 0 0 3px #fbbf24; }
+
+      /* Mini RHE table */
+      .decode-rhe {
+        font-family: 'Orbitron', monospace;
+        font-size: 8px;
+        color: rgba(255,255,255,0.5);
+        border-collapse: collapse;
+      }
+      .decode-rhe th {
+        color: rgba(255,255,255,0.3);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 1px 4px;
+      }
+      .decode-rhe td { padding: 1px 4px; text-align: center; }
+      .decode-rhe td.team { text-align: left; color: rgba(255,255,255,0.45); }
+      .decode-rhe td.run { color: #fbbf24; font-weight: 700; font-size: 9px; }
+
+      /* Mini status pill */
+      .decode-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-family: 'Orbitron', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        padding: 3px 6px;
+        border-radius: 3px;
+        background: rgba(239,68,68,0.12);
+        border: 1px solid rgba(239,68,68,0.3);
+        color: #fca5a5;
+      }
+      .decode-pill::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #ef4444;
+        box-shadow: 0 0 4px #ef4444;
+      }
+
+      /* Mini watch bar */
+      .decode-watchbar {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+      }
+      .decode-watchbar-label {
+        font-family: 'Orbitron', monospace;
+        font-size: 7px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: rgba(255,255,255,0.3);
+      }
+      .decode-watchbar-track {
+        height: 4px;
+        background: rgba(0,0,0,0.4);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .decode-watchbar-fill {
+        height: 100%;
+        width: 78%;
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+        border-radius: 2px;
+      }
+      .decode-watchbar-pct {
+        font-family: 'Orbitron', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        color: #fbbf24;
+      }
+
+      .decode-foot {
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        line-height: 1.55;
+        margin-top: 12px;
+        font-style: italic;
+        text-align: center;
+      }
     </style>
   </Fragment>
 
@@ -549,6 +702,137 @@ const mlbTeams: Array<[string, string]> = [
           </div>
           <p class="anatomy-note">Big margin, mid-game, empty basepaths. Nothing left for the multipliers to grab onto — it sinks to the bottom.</p>
         </div>
+      </section>
+
+      <!-- Decode the live card — what every icon and column means -->
+      <section class="mt-8" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+        <p class="font-score" style="font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(251,191,36,0.4); margin-bottom: 6px;">Decode the live card</p>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; margin-bottom: 14px;">Once a game goes live, the top card packs in a lot of dense baseball shorthand. Here's what each piece means.</p>
+
+        <div class="decode-grid">
+          <!-- The diamond -->
+          <div class="decode-card">
+            <div class="decode-visual">
+              <svg width="40" height="40" viewBox="0 0 48 48" role="img" aria-label="Bases diamond, runner on second">
+                <defs>
+                  <filter id="decodeGlow">
+                    <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fbbf24" flood-opacity="0.7"/>
+                  </filter>
+                </defs>
+                <path d="M24 6 L42 24 L24 42 L6 24 Z" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+                <rect x="21" y="39" width="6" height="4" rx="1" fill="rgba(255,255,255,0.2)"/>
+                <rect x="37" y="20" width="8" height="8" rx="2" fill="rgba(255,255,255,0.12)"/>
+                <rect x="20" y="2" width="8" height="8" rx="2" fill="#fbbf24" filter="url(#decodeGlow)"/>
+                <rect x="3" y="20" width="8" height="8" rx="2" fill="rgba(255,255,255,0.12)"/>
+              </svg>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">The diamond</p>
+              <p class="decode-desc">Each square is a base — <strong>1st</strong> on the right, <strong>2nd</strong> at the top, <strong>3rd</strong> on the left. Lit gold means a runner is there. Bases loaded turns it into a fireworks show: any single can score multiple runs.</p>
+            </div>
+          </div>
+
+          <!-- B / S / O -->
+          <div class="decode-card">
+            <div class="decode-visual">
+              <div class="decode-bso">
+                <div class="decode-bso-row">
+                  <span class="decode-bso-label">B</span>
+                  <div class="decode-bso-dots">
+                    <span class="decode-bso-dot on-b"></span>
+                    <span class="decode-bso-dot on-b"></span>
+                    <span class="decode-bso-dot"></span>
+                    <span class="decode-bso-dot"></span>
+                  </div>
+                </div>
+                <div class="decode-bso-row">
+                  <span class="decode-bso-label">S</span>
+                  <div class="decode-bso-dots">
+                    <span class="decode-bso-dot on-s"></span>
+                    <span class="decode-bso-dot on-s"></span>
+                    <span class="decode-bso-dot"></span>
+                  </div>
+                </div>
+                <div class="decode-bso-row">
+                  <span class="decode-bso-label">O</span>
+                  <div class="decode-bso-dots">
+                    <span class="decode-bso-dot on-o"></span>
+                    <span class="decode-bso-dot"></span>
+                    <span class="decode-bso-dot"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">B / S / O</p>
+              <p class="decode-desc"><strong>Balls</strong> (green, 4 = walk), <strong>Strikes</strong> (red, 3 = strikeout), <strong>Outs</strong> (yellow, 3 = inning over). A 3-2 count with two outs means the next pitch decides the at-bat — every neuron firing.</p>
+            </div>
+          </div>
+
+          <!-- Top vs Bot -->
+          <div class="decode-card">
+            <div class="decode-visual">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-family:Orbitron,monospace;font-size:9px;color:rgba(255,255,255,0.6);">
+                <div style="display:flex;align-items:center;gap:4px;">
+                  <span style="color:#fbbf24;">▲</span>
+                  <span>TOP 7</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:4px;color:rgba(255,255,255,0.3);">
+                  <span>▼</span>
+                  <span>BOT 7</span>
+                </div>
+              </div>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">Top &middot; Bot</p>
+              <p class="decode-desc"><strong>Top</strong> of the inning = away team batting, <strong>Bot</strong> = home team. Home always bats second, so "Bot 9" is the latest possible at-bat — the home team's last shot, or a walk-off in waiting.</p>
+            </div>
+          </div>
+
+          <!-- R / H / E -->
+          <div class="decode-card">
+            <div class="decode-visual">
+              <table class="decode-rhe">
+                <tr><th></th><th>R</th><th>H</th><th>E</th></tr>
+                <tr><td class="team">LAD</td><td class="run">4</td><td>7</td><td>0</td></tr>
+                <tr><td class="team">SF</td><td class="run">3</td><td>9</td><td>1</td></tr>
+              </table>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">R / H / E</p>
+              <p class="decode-desc">Box-score classics: <strong>Runs</strong>, <strong>Hits</strong>, <strong>Errors</strong>. More hits than runs means the offense is stranding people. Errors give the other team free outs back — a quiet drama.</p>
+            </div>
+          </div>
+
+          <!-- LIVE pill -->
+          <div class="decode-card">
+            <div class="decode-visual">
+              <span class="decode-pill">LIVE</span>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">Status pill</p>
+              <p class="decode-desc">Pulses red when a game is in progress. Otherwise it shows <strong>FINAL</strong> (or FINAL/10 for extras), the first-pitch <strong>time</strong> for upcoming games, or a delay reason. Pre-game cards stay grey.</p>
+            </div>
+          </div>
+
+          <!-- Watchability bar -->
+          <div class="decode-card">
+            <div class="decode-visual" style="width:64px;">
+              <div class="decode-watchbar">
+                <div class="decode-watchbar-label">WATCH</div>
+                <div class="decode-watchbar-track">
+                  <div class="decode-watchbar-fill"></div>
+                </div>
+                <div class="decode-watchbar-pct" style="text-align:right;">78%</div>
+              </div>
+            </div>
+            <div class="decode-body">
+              <p class="decode-term">Watchability bar</p>
+              <p class="decode-desc">The same 0–100% read from the formula above, surfaced on the top card. Glance at it to decide if it's worth flipping to — high <strong>and</strong> climbing means something's brewing.</p>
+            </div>
+          </div>
+        </div>
+        <p class="decode-foot">Network badges (FOX, ESPN, FS1, MLBN) sit on the hero too — that's where the game's actually playing.</p>
       </section>
 
       <!-- Favorite teams -->
