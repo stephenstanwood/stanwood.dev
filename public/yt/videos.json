@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-04-30T10:30:10.193502+00:00",
+  "built_at": "2026-05-05T13:46:54.396869+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -60,7 +60,6 @@
       "best_score": 11,
       "video_count": 15,
       "video_ids": [
-        "99wIpauDEmY",
         "3iIPRBi2K2w",
         "5uWtpDON7Vs",
         "CHD6DS6f21Y",
@@ -74,7 +73,8 @@
         "popjDuA-whA",
         "D7e7oUbtkFM",
         "NUtaN10cVDc",
-        "b6uxaRL_ipw"
+        "b6uxaRL_ipw",
+        "xvLTAm2cecY"
       ]
     },
     {
@@ -107,9 +107,8 @@
       "is_single": false,
       "display_name": "CS230",
       "best_score": 10,
-      "video_count": 5,
+      "video_count": 4,
       "video_ids": [
-        "4E27qlfYw0A",
         "s6JVGzABKho",
         "k1njvbBmfsw",
         "AuZoDsNmG_s",
@@ -131,7 +130,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 8,
+      "video_count": 9,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -140,7 +139,8 @@
         "izZba4UA7iY",
         "xnDHaNUvHBg",
         "SzpOcwdIL0Y",
-        "6-cXp-aOmdg"
+        "6-cXp-aOmdg",
+        "Q15rhEWZPQ4"
       ]
     },
     {
@@ -155,6 +155,18 @@
         "h-7S6HNq0Vg",
         "8fNP4N46RRo",
         "Q86qzJ1K1Ss"
+      ]
+    },
+    {
+      "key": "CS153",
+      "is_single": false,
+      "display_name": "CS153",
+      "best_score": 9,
+      "video_count": 3,
+      "video_ids": [
+        "O5PfU_uDhS0",
+        "CBaLU0dDEY8",
+        "vfF011ko89o"
       ]
     },
     {
@@ -257,6 +269,16 @@
       "video_count": 1,
       "video_ids": [
         "VRpK2YtWZ4I"
+      ]
+    },
+    {
+      "key": "__single__smSp11lXLJI",
+      "is_single": true,
+      "display_name": "Stanford's Code in Place Info Session with Mehran Sahami",
+      "best_score": 0,
+      "video_count": 1,
+      "video_ids": [
+        "smSp11lXLJI"
       ]
     },
     {
@@ -862,21 +884,6 @@
       "description": "View course details: https://online.stanford.edu/courses/xcs224r-deep-reinforcement-learning\n\nApril 18, 2025\nThis tutorial covers:\n\u2022 Review of Markov Decision Processes (MDP)\n\u2022 Exact MDPs\n\u2022 Parametric Q-Learning\n\u2022 Practical Details \n\u2022 Q-Learning/Actor Critic Algorithm Walkthrough \n\nTo learn more about enrolling in the graduate course, visit: https://online.stanford.edu/courses/cs224r-deep-reinforc"
     },
     {
-      "id": "99wIpauDEmY",
-      "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Manipulation Data Pyramid",
-      "url": "https://www.youtube.com/watch?v=99wIpauDEmY",
-      "duration": 3831.0,
-      "published_at": "2025-10-31T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 3, 2025\nThis seminar covers: \n\u2022 An introduction to a data pyramid strategy designed to tackle this challenge by making the most of diverse data sources\n\u2022 A simple but powerful idea: combine internet-scale datasets, human teleoperation data, and robot-collected experiences so that"
-    },
-    {
       "id": "3iIPRBi2K2w",
       "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Adaptive Robots",
       "url": "https://www.youtube.com/watch?v=3iIPRBi2K2w",
@@ -1090,6 +1097,21 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 3, 2026\nThis seminar covers: \n\u2022 Additional legs, with higher control dimensions, can enable a broader spectrum of capabilities\n\u2022 The inclusion of CI (feedback controls) can enhance multi-legged locomotion speed while preserving the feature of robustness\n\u2022 CI might reduce the number"
+    },
+    {
+      "id": "xvLTAm2cecY",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Ingredientsfor Long-Horizon Robot Autonomy",
+      "url": "https://www.youtube.com/watch?v=xvLTAm2cecY",
+      "duration": 3946.0,
+      "published_at": "2026-04-30T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis seminar covers: \n\u2022 Developing the ingredientsfor long-horizon robot autonomy, which are giving robot policies a sense of memory, and training generalist behaviors that are both broadly capable and high-performing\n\u2022 Recent progress on both fronts through two works: \u03c00."
     },
     {
       "id": "B42CuI0RO7Y",
@@ -1337,22 +1359,6 @@
       "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 13th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Using SwiftData to make an app's data persistent. Shows how to convert a Model from structs to @Model classes. Explains the "
     },
     {
-      "id": "4E27qlfYw0A",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 5: Deep Reinforcement Learning",
-      "url": "https://www.youtube.com/watch?v=4E27qlfYw0A",
-      "duration": 6301.0,
-      "published_at": "2025-10-31T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 5,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nOctober 21, 2025\nThis lecture covers deep reinforcement learning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nTo follow along with the course schedule and syllabus, visit: https://cs230.stanford.edu/sylla"
-    },
-    {
       "id": "s6JVGzABKho",
       "title": "Stanford CS230 | Autumn 2025 | Lecture 6: AI Project Strategy",
       "url": "https://www.youtube.com/watch?v=s6JVGzABKho",
@@ -1561,6 +1567,22 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "Q15rhEWZPQ4",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 9: Scaling Laws",
+      "url": "https://www.youtube.com/watch?v=Q15rhEWZPQ4",
+      "duration": 4677.0,
+      "published_at": "2026-04-30T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 9,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
       "id": "PmW_TMQ3l0I",
       "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 5 - LLM tuning",
       "url": "https://www.youtube.com/watch?v=PmW_TMQ3l0I",
@@ -1640,6 +1662,54 @@
         "series:CME295"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
+    },
+    {
+      "id": "O5PfU_uDhS0",
+      "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
+      "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
+      "duration": 3955.0,
+      "published_at": "2026-04-30T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha opens the quarter of Stanford\u2019s CS153 Frontier Systems by framing the course as a speaker-led \u201cAI Coachella,\u201d emphasizing relationships, fun, and \u201cobsessing over what you love\u201d as a life he"
+    },
+    {
+      "id": "CBaLU0dDEY8",
+      "title": "Stanford CS153 Frontier Systems | Andreas Blattmann from Black Forest Labs on Visual Intelligence",
+      "url": "https://www.youtube.com/watch?v=CBaLU0dDEY8",
+      "duration": 3674.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": -5,
+      "categories": [
+        "swe_career",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 \u201cFrontier Systems\u201d session, Anjney Midha welcomes Andreas Blattmann, co-founder of Black Forest Labs and co-creator of Stable Diffusion, for a discussion on the visual intelligence frontie"
+    },
+    {
+      "id": "vfF011ko89o",
+      "title": "Stanford CS153 Frontier Systems | Mati Staniszewski from ElevenLabs on The Future of Voice Systems",
+      "url": "https://www.youtube.com/watch?v=vfF011ko89o",
+      "duration": 3986.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
     },
     {
       "id": "yaLEGZuIIgE",
@@ -2098,6 +2168,19 @@
         "robotics"
       ],
       "description": "As artificial intelligence fuses with robotics, we\u2019re on the brink of a new era in how we interact with technology. Assistant Professors Renee Zhao and Monroe Kennedy III unpack what\u2019s real now and what\u2019s next and explore the breakthroughs bringing these systems out of the lab into real-world applications.\n\nRenee Zhao\nStanford Assistant Professor of Mechanical Engineering and, by courtesy, of Bioe"
+    },
+    {
+      "id": "smSp11lXLJI",
+      "title": "Stanford's Code in Place Info Session with Mehran Sahami",
+      "url": "https://www.youtube.com/watch?v=smSp11lXLJI",
+      "duration": 3337.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford's Code in Place Info Session with Mehran Sahami",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": ""
     },
     {
       "id": "dyb_cFywuik",
