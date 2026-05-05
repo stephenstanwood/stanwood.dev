@@ -564,6 +564,133 @@ const title = "Ship Clock — stanwood.dev";
         .sc-tier-text { font-size: 12px; }
       }
 
+      /* ── Unstick the clock ── */
+      .sc-unstick {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+
+      .sc-unstick-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: var(--sc-ink);
+        margin: 0 0 6px;
+      }
+
+      .sc-unstick-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 18px;
+      }
+
+      .sc-unstick-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .sc-unstick-row {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 3px 3px 0 var(--sc-ink);
+        background: #fff;
+        padding: 14px 16px 16px;
+        position: relative;
+      }
+
+      .sc-unstick-row::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: currentColor;
+      }
+
+      .sc-unstick-row--scope { color: #c97718; }
+      .sc-unstick-row--review { color: #8a6cb5; }
+      .sc-unstick-row--spread { color: #c52727; }
+      .sc-unstick-row--perfect { color: #1a9d3f; }
+      .sc-unstick-row--debt { color: var(--sc-accent); }
+
+      .sc-unstick-head {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+
+      .sc-unstick-num {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 18px;
+        line-height: 1;
+        color: currentColor;
+        flex-shrink: 0;
+      }
+
+      .sc-unstick-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: lowercase;
+        color: currentColor;
+      }
+
+      .sc-unstick-symptom {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--sc-ink);
+        opacity: 0.65;
+        margin: 0 0 8px;
+      }
+
+      .sc-unstick-fix {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--sc-ink);
+        margin: 0;
+        padding: 8px 10px;
+        background: rgba(0,0,0,0.03);
+        border-left: 2px solid currentColor;
+      }
+
+      .sc-unstick-fix-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: currentColor;
+        margin-right: 6px;
+      }
+
+      .sc-unstick-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 480px) {
+        .sc-unstick-row { padding: 12px 14px 14px; }
+        .sc-unstick-row::before { width: 4px; }
+        .sc-unstick-symptom { font-size: 12.5px; }
+        .sc-unstick-fix { font-size: 12.5px; padding: 7px 9px; }
+      }
+
       /* ── Repo tracker ── */
       .sc-rt-wrap {
         max-width: 480px;
@@ -757,6 +884,61 @@ const title = "Ship Clock — stanwood.dev";
       </div>
 
       <p class="sc-cadence-note">Status labels match the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
+    </div>
+
+    <!-- Unstick the clock -->
+    <div class="sc-unstick">
+      <h2 class="sc-unstick-heading">When the clock is high</h2>
+      <p class="sc-unstick-sub">five common reasons · the smallest move that resets it</p>
+
+      <div class="sc-unstick-list">
+        <div class="sc-unstick-row sc-unstick-row--scope">
+          <div class="sc-unstick-head">
+            <span class="sc-unstick-num">01</span>
+            <span class="sc-unstick-label">scope keeps growing</span>
+          </div>
+          <p class="sc-unstick-symptom">The PR has been open for days. Every fix uncovers another. You can't ship until the whole thing is right.</p>
+          <p class="sc-unstick-fix"><span class="sc-unstick-fix-label">fix</span>Cut a tracer-bullet — the smallest slice that proves the path. Stub the rest behind a feature flag, deploy, then layer in. Shipping a quarter beats sitting on the whole.</p>
+        </div>
+
+        <div class="sc-unstick-row sc-unstick-row--review">
+          <div class="sc-unstick-head">
+            <span class="sc-unstick-num">02</span>
+            <span class="sc-unstick-label">waiting on a review</span>
+          </div>
+          <p class="sc-unstick-symptom">PR's been sitting for two days. The reviewer's busy. You're blocked on the main work.</p>
+          <p class="sc-unstick-fix"><span class="sc-unstick-fix-label">fix</span>Ship a side fix — a typo, a README polish, a dep bump. The clock resets while the big PR waits, and you stay in the habit.</p>
+        </div>
+
+        <div class="sc-unstick-row sc-unstick-row--spread">
+          <div class="sc-unstick-head">
+            <span class="sc-unstick-num">03</span>
+            <span class="sc-unstick-label">spread too thin</span>
+          </div>
+          <p class="sc-unstick-symptom">Three projects, all half-done. You context-switch every hour. Nothing crosses the finish line.</p>
+          <p class="sc-unstick-fix"><span class="sc-unstick-fix-label">fix</span>Pick one for the day and ignore the rest. A 10-line PR on the chosen project counts. Tomorrow you can switch — but ship one thing today.</p>
+        </div>
+
+        <div class="sc-unstick-row sc-unstick-row--perfect">
+          <div class="sc-unstick-head">
+            <span class="sc-unstick-num">04</span>
+            <span class="sc-unstick-label">it's not ready yet</span>
+          </div>
+          <p class="sc-unstick-symptom">Works locally, but the copy isn't right, the empty state's ugly, and you found one more edge case. So the branch sits another night.</p>
+          <p class="sc-unstick-fix"><span class="sc-unstick-fix-label">fix</span>Ship behind a flag. Out the door, off by default — production-shaped feedback beats local polish, and the clock thanks you.</p>
+        </div>
+
+        <div class="sc-unstick-row sc-unstick-row--debt">
+          <div class="sc-unstick-head">
+            <span class="sc-unstick-num">05</span>
+            <span class="sc-unstick-label">old code in the way</span>
+          </div>
+          <p class="sc-unstick-symptom">You can't add the new thing because the old thing is tangled. You keep planning the rewrite. Nothing ships.</p>
+          <p class="sc-unstick-fix"><span class="sc-unstick-fix-label">fix</span>Ship a deletion. Removing dead code is a deploy too — same green tick, same clock reset. Subtraction is shipping.</p>
+        </div>
+      </div>
+
+      <p class="sc-unstick-foot">The pattern across all five: the move that unsticks you is smaller than you think. Whatever lands today wins.</p>
     </div>
 
     <RepoTracker client:idle />
