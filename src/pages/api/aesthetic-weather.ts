@@ -7,7 +7,7 @@ import {
   type WeatherInput,
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
-import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout, validateLatLon } from "../../lib/apiHelpers";
 
 export const prerender = false;
 
@@ -21,18 +21,10 @@ export const GET: APIRoute = async ({ url }) => {
     let location = DEFAULT_WEATHER_LOCATION;
 
     if (latParam && lonParam) {
-      const parsedLat = parseFloat(latParam);
-      const parsedLon = parseFloat(lonParam);
-      if (
-        !isNaN(parsedLat) &&
-        !isNaN(parsedLon) &&
-        parsedLat >= -90 &&
-        parsedLat <= 90 &&
-        parsedLon >= -180 &&
-        parsedLon <= 180
-      ) {
-        lat = parsedLat;
-        lon = parsedLon;
+      const coords = validateLatLon(parseFloat(latParam), parseFloat(lonParam));
+      if (coords) {
+        lat = coords.latitude;
+        lon = coords.longitude;
         location = "Your Location";
       }
     }

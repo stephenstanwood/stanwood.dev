@@ -151,7 +151,7 @@ export function computePulse(launches: Launch[]): PulseStats {
   for (const l of launches) {
     const d = dayDiff(l.date);
     if (d < 0) continue; // skip future-dated entries
-    if (d < minDaysAgo! || minDaysAgo === null) minDaysAgo = d;
+    if (minDaysAgo === null || d < minDaysAgo) minDaysAgo = d;
     if (d < 7) thisWeek++;
     else if (d < 14) priorWeek++;
     if (d < 30) {
