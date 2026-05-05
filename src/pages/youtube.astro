@@ -245,6 +245,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       padding: 0 .25rem 0 0;
       max-height: 220px;
       overflow-y: auto;
+      -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
     }
     ul.videos::-webkit-scrollbar { width: 8px; }
     ul.videos::-webkit-scrollbar-track { background: transparent; }
