@@ -510,6 +510,168 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         opacity: 0.6;
       }
 
+      /* ── Field map ── */
+      .rp-fieldmap {
+        margin: 0 0 28px;
+      }
+      .rp-fieldmap-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .rp-fieldmap-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        line-height: 1;
+        margin: 0;
+        letter-spacing: 0.02em;
+      }
+      .rp-fieldmap-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+      }
+      .rp-fieldmap-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      @media (min-width: 540px) {
+        .rp-fieldmap-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .rp-fieldmap-card {
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        background: #fff;
+        border: 2px solid var(--rp-ink);
+        border-left: 4px solid #888;
+        box-shadow: 2px 2px 0 var(--rp-ink);
+        padding: 12px 12px 13px;
+        cursor: pointer;
+        transition: transform 0.1s, box-shadow 0.1s;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      .rp-fieldmap-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--rp-ink);
+      }
+      .rp-fieldmap-card:active {
+        transform: translate(0, 0);
+        box-shadow: 1px 1px 0 var(--rp-ink);
+      }
+      .rp-fieldmap-card--model { border-left-color: #ff5c1a; }
+      .rp-fieldmap-card--product { border-left-color: #2563eb; }
+      .rp-fieldmap-card--tool { border-left-color: #16a34a; }
+      .rp-fieldmap-card--infra { border-left-color: #7c3aed; }
+      .rp-fieldmap-card--active {
+        background: #fffaf0;
+      }
+      .rp-fieldmap-card--active::after {
+        content: "filtered ✓";
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--rp-accent);
+        margin-top: 2px;
+      }
+      .rp-fieldmap-card-head {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .rp-fieldmap-emoji {
+        font-size: 16px;
+        line-height: 1;
+      }
+      .rp-fieldmap-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--rp-ink);
+        flex: 1;
+      }
+      .rp-fieldmap-label--model { color: #ff5c1a; }
+      .rp-fieldmap-label--product { color: #2563eb; }
+      .rp-fieldmap-label--tool { color: #16a34a; }
+      .rp-fieldmap-label--infra { color: #7c3aed; }
+      .rp-fieldmap-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--rp-muted);
+        background: var(--rp-subtle);
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+      .rp-fieldmap-what {
+        font-size: 12px;
+        line-height: 1.4;
+        color: var(--rp-ink);
+        margin: 0;
+        font-weight: 600;
+      }
+      .rp-fieldmap-why {
+        font-size: 11px;
+        line-height: 1.45;
+        color: #666;
+        margin: 0;
+      }
+      .rp-fieldmap-eg {
+        margin: 4px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed var(--rp-border);
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        font-size: 11px;
+        line-height: 1.35;
+      }
+      .rp-fieldmap-eg-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #999;
+      }
+      .rp-fieldmap-eg-name {
+        font-weight: 700;
+        color: var(--rp-ink);
+        word-break: break-word;
+      }
+      .rp-fieldmap-eg-org {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .rp-fieldmap-card--empty {
+        cursor: default;
+        opacity: 0.85;
+      }
+      .rp-fieldmap-card--empty:hover {
+        transform: none;
+        box-shadow: 2px 2px 0 var(--rp-ink);
+      }
+      .rp-fieldmap-eg-empty {
+        font-size: 10.5px;
+        color: #888;
+        line-height: 1.4;
+        font-style: italic;
+      }
+
       /* ── Stats bar ── */
       .rp-stats {
         font-family: 'Space Mono', monospace;
@@ -681,6 +843,8 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         .rp-pulse-title { font-size: 18px; }
         .rp-pulse-num { font-size: 22px; }
         .rp-pulse-num--text { font-size: 15px; }
+        .rp-fieldmap-title { font-size: 18px; }
+        .rp-fieldmap-card { padding: 10px 11px 11px; }
       }
     </style>
   </Fragment>

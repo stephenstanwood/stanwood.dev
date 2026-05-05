@@ -73,6 +73,21 @@ export default function AIRadarPage() {
   const uniqueOrgs = new Set(sorted.map((l) => l.org)).size;
   const dateRange = getDateRange(sorted);
 
+  // Latest example per type — sorted is already newest-first
+  const latestByType: Record<string, Launch | undefined> = {
+    model: sorted.find((l) => l.type === "model"),
+    product: sorted.find((l) => l.type === "product"),
+    tool: sorted.find((l) => l.type === "tool"),
+    infra: sorted.find((l) => l.type === "infra"),
+  };
+
+  const fieldMapTypes: { type: string; emoji: string; whatItIs: string; whyMatters: string }[] = [
+    { type: "model", emoji: "🧠", whatItIs: "A new foundation model — the brain.", whyMatters: "Shifts what's possible. New ceiling on reasoning, coding, context." },
+    { type: "product", emoji: "📱", whatItIs: "A consumer app or feature.", whyMatters: "How non-builders actually feel AI in their day." },
+    { type: "tool", emoji: "🔧", whatItIs: "A developer API, SDK, or capability.", whyMatters: "What you can build with this week — the new primitives." },
+    { type: "infra", emoji: "⚙️", whatItIs: "Hardware, platforms, the backbone.", whyMatters: "Who runs what at what price — the rails everyone shares." },
+  ];
+
   function handleShare() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -241,6 +256,52 @@ export default function AIRadarPage() {
           )}
         </section>
       )}
+
+      {/* Field map — explains the launch types with a real recent example */}
+      <section className="rp-fieldmap" aria-labelledby="rp-fieldmap-title">
+        <div className="rp-fieldmap-head">
+          <h2 id="rp-fieldmap-title" className="rp-fieldmap-title">The Field</h2>
+          <span className="rp-fieldmap-sub">what we track · tap to filter</span>
+        </div>
+        <div className="rp-fieldmap-grid">
+          {fieldMapTypes.map(({ type, emoji, whatItIs, whyMatters }) => {
+            const example = latestByType[type];
+            const count = typeCounts[type] || 0;
+            const hasExample = !!example;
+            const isActive = activeType === type;
+            return (
+              <button
+                key={type}
+                className={`rp-fieldmap-card rp-fieldmap-card--${type} ${isActive ? "rp-fieldmap-card--active" : ""} ${!hasExample ? "rp-fieldmap-card--empty" : ""}`}
+                onClick={() => hasExample && toggleType(type)}
+                disabled={!hasExample}
+                aria-pressed={isActive}
+                title={hasExample ? `Filter to ${TYPE_LABELS[type]}` : `No ${TYPE_LABELS[type].toLowerCase()} launches tracked yet`}
+              >
+                <div className="rp-fieldmap-card-head">
+                  <span className="rp-fieldmap-emoji" aria-hidden="true">{emoji}</span>
+                  <span className={`rp-fieldmap-label rp-fieldmap-label--${type}`}>{TYPE_LABELS[type]}</span>
+                  <span className="rp-fieldmap-count">{count}</span>
+                </div>
+                <p className="rp-fieldmap-what">{whatItIs}</p>
+                <p className="rp-fieldmap-why">{whyMatters}</p>
+                {hasExample ? (
+                  <p className="rp-fieldmap-eg">
+                    <span className="rp-fieldmap-eg-label">latest</span>
+                    <span className="rp-fieldmap-eg-name">{example!.name}</span>
+                    <span className="rp-fieldmap-eg-org" style={{ color: ORG_COLORS[example!.org] || "#888" }}>{example!.org}</span>
+                  </p>
+                ) : (
+                  <p className="rp-fieldmap-eg rp-fieldmap-eg--empty">
+                    <span className="rp-fieldmap-eg-label">watching</span>
+                    <span className="rp-fieldmap-eg-empty">none in feed yet — when one ships, it lands here</span>
+                  </p>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Filter chips */}
       <div className="rp-filters">
