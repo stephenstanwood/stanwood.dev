@@ -11,6 +11,7 @@ interface ESPNCompetitor {
 
 interface ESPNStatusType {
   name?: string;
+  state?: string;
   shortDetail?: string;
   detail?: string;
 }
@@ -71,8 +72,9 @@ function platformFor(
 }
 
 function isLive(ev: ESPNEvent): boolean {
-  const n = ev.competitions?.[0]?.status?.type?.name || "";
-  return n.includes("IN_PROGRESS");
+  const t = ev.competitions?.[0]?.status?.type;
+  if ((t?.state || "") === "in") return true;
+  return (t?.name || "").includes("IN_PROGRESS");
 }
 
 function isNbaPlayoff(ev: ESPNEvent): boolean {
