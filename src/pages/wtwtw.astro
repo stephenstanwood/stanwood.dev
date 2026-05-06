@@ -194,6 +194,118 @@ const title = "WTWTW — stanwood.dev";
         line-height: 1.5;
       }
 
+      /* ── Three leagues, three vibes ── */
+      .vibes-eyebrow {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .vibes-eyebrow-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.35);
+      }
+      .vibes-eyebrow-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(180, 120, 50, 0.45);
+        padding: 2px 8px;
+        border: 1px solid rgba(180, 120, 50, 0.18);
+        border-radius: 4px;
+        background: rgba(180, 120, 50, 0.05);
+      }
+      .vibes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 640px) {
+        .vibes-grid { grid-template-columns: 1fr; }
+      }
+      .vibe-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(210, 170, 110, 0.12);
+        border-radius: 12px;
+        padding: 14px 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .vibe-card[data-league="mlb"] { border-top: 3px solid rgba(200, 60, 60, 0.55); }
+      .vibe-card[data-league="nba"] { border-top: 3px solid rgba(200, 100, 20, 0.55); }
+      .vibe-card[data-league="nhl"] { border-top: 3px solid rgba(80, 150, 210, 0.55); }
+      .vibe-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .vibe-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: rgba(245, 230, 208, 0.95);
+        text-transform: uppercase;
+      }
+      .vibe-emoji {
+        font-size: 1rem;
+        line-height: 1;
+        opacity: 0.75;
+      }
+      .vibe-tagline {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.05em;
+        color: rgba(210, 170, 110, 0.55);
+        line-height: 1.5;
+        font-style: italic;
+        margin-top: -4px;
+      }
+      .vibe-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .vibe-row {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .vibe-row-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.35);
+      }
+      .vibe-row-value {
+        font-size: 12px;
+        line-height: 1.5;
+        color: rgba(245, 230, 208, 0.75);
+      }
+      .vibe-row-value strong {
+        color: rgba(245, 230, 208, 0.95);
+        font-weight: 600;
+      }
+      .vibe-foot {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: rgba(210, 170, 110, 0.32);
+        text-align: center;
+        margin-top: 12px;
+        line-height: 1.6;
+      }
+
       /* ── Example schedule preview ── */
       .example-eyebrow {
         display: flex;
@@ -498,6 +610,116 @@ const title = "WTWTW — stanwood.dev";
       </div>
       <p class="mono" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">All three leagues are in season simultaneously — prime time for WTWTW.</p>
     </div>
+
+    <!-- Three leagues, three vibes -->
+    <section class="mb-8" aria-label="What each league feels like to watch">
+      <div class="vibes-eyebrow">
+        <span class="vibes-eyebrow-label">Three leagues, three vibes</span>
+        <span class="vibes-eyebrow-tag">cross-sport guide</span>
+      </div>
+      <p class="text-xs leading-relaxed mb-4" style="color: rgba(210, 170, 110, 0.5);">
+        Picking teams across leagues you don't follow as closely? Here's what you're signing up for when WTWTW puts each one on your screen.
+      </p>
+
+      <div class="vibes-grid">
+        <!-- MLB -->
+        <article class="vibe-card" data-league="mlb">
+          <div class="vibe-head">
+            <span class="vibe-name">MLB</span>
+            <span class="vibe-emoji" aria-hidden="true">⚾</span>
+          </div>
+          <p class="vibe-tagline">slow burn, late spike</p>
+          <div class="vibe-rows">
+            <div class="vibe-row">
+              <span class="vibe-row-label">Length</span>
+              <span class="vibe-row-value">~3 hrs · extras can run long</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Score range</span>
+              <span class="vibe-row-value">2–8 runs · <strong>1-run finishes are common</strong></span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Drama beats</span>
+              <span class="vibe-row-value">Late innings, runners on with two outs, walk-off range</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Rhythm</span>
+              <span class="vibe-row-value">Breath between pitches — lets the tension build</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Where it lives</span>
+              <span class="vibe-row-value">ESPN, FOX, Apple TV+, MLB.tv, regional networks (YES, SNLA)</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- NBA -->
+        <article class="vibe-card" data-league="nba">
+          <div class="vibe-head">
+            <span class="vibe-name">NBA</span>
+            <span class="vibe-emoji" aria-hidden="true">🏀</span>
+          </div>
+          <p class="vibe-tagline">closing minutes are the show</p>
+          <div class="vibe-rows">
+            <div class="vibe-row">
+              <span class="vibe-row-label">Length</span>
+              <span class="vibe-row-value">~2.5 hrs · 5-min OT each round</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Score range</span>
+              <span class="vibe-row-value">95–125 a side · <strong>blowouts split from nail-biters early</strong></span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Drama beats</span>
+              <span class="vibe-row-value">Last 5 min of Q4 — clutch time. Free throws, full timeouts, intentional fouls</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Rhythm</span>
+              <span class="vibe-row-value">Constant scoring, TV breaks every few minutes</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Where it lives</span>
+              <span class="vibe-row-value">ESPN, ABC, TNT, NBA TV; playoffs go national</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- NHL -->
+        <article class="vibe-card" data-league="nhl">
+          <div class="vibe-head">
+            <span class="vibe-name">NHL</span>
+            <span class="vibe-emoji" aria-hidden="true">🏒</span>
+          </div>
+          <p class="vibe-tagline">tight all night, sudden death</p>
+          <div class="vibe-rows">
+            <div class="vibe-row">
+              <span class="vibe-row-label">Length</span>
+              <span class="vibe-row-value">~2.5 hrs · <strong>playoff OT can go all night</strong></span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Score range</span>
+              <span class="vibe-row-value">3–7 goals · 1-goal finishes the norm</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Drama beats</span>
+              <span class="vibe-row-value">Third period, power plays, pulled goalies, OT</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Rhythm</span>
+              <span class="vibe-row-value">Shift change every minute — intensity never drops</span>
+            </div>
+            <div class="vibe-row">
+              <span class="vibe-row-label">Where it lives</span>
+              <span class="vibe-row-value">ESPN+, TNT, Hulu, regional networks</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="vibe-foot">
+        WTWTW doesn't pick by sport — your team rank decides. Mix all three and you'll get a different feel each night.
+      </p>
+    </section>
 
     <!-- Rules of the pick -->
     <div class="how-it-works mb-8">
