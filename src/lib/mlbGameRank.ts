@@ -16,6 +16,7 @@ import {
   initSportsApp,
   parseRecord,
   winPct,
+  scoreToPercent,
 } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
@@ -154,7 +155,9 @@ function renderBroadcastBadges(competition: Competition, compact: boolean): stri
     badge = `<span style="${mlbTvStyle}">MLB.TV</span>`;
   }
 
-  return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${compact ? "flex-end" : "center"};${compact ? "" : "margin-top:8px;"}">${badge}</div>`;
+  const justify = compact ? "flex-end" : "center";
+  const marginTop = compact ? "" : "margin-top:8px;";
+  return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${justify};${marginTop}">${badge}</div>`;
 }
 
 // ── Baseball-specific rendering ──
@@ -334,14 +337,13 @@ function renderHeroCard(game: Game): string {
   const status = comp?.status;
   const live = isLive(status);
   const watchScore = computeWatchScore(game);
-  const maxScore = MAX_WATCH_SCORE;
   const situation = comp?.situation as MLBSituation | undefined;
 
   const away =
     competitors.find((c: Competitor) => c.homeAway === "away") || competitors[0];
   const home =
     competitors.find((c: Competitor) => c.homeAway === "home") || competitors[1];
-  const barPct = Math.min(100, Math.round((watchScore / maxScore) * 100));
+  const barPct = scoreToPercent(watchScore, MAX_WATCH_SCORE);
 
   const awayScore = parseInt(away?.score || "0", 10);
   const homeScore = parseInt(home?.score || "0", 10);
@@ -706,7 +708,7 @@ function renderFinalScores(events: Game[]): string {
   return `
     <div class="section-header mt-8 mb-3">Final Scores</div>
     <div class="space-y-1.5">
-      ${finished.map((g, i) => renderGameRow(g.game, i + 1, false, Math.min(100, Math.round((g.score / MAX_WATCH_SCORE) * 100)))).join("")}
+      ${finished.map((g, i) => renderGameRow(g.game, i + 1, false, scoreToPercent(g.score, MAX_WATCH_SCORE))).join("")}
     </div>
   `;
 }
@@ -745,7 +747,7 @@ function render(events: Game[]): void {
     html += `
       <div class="section-header mt-6 mb-3">Also Live, Ranked by Watchability</div>
       <div class="space-y-1.5">
-        ${others.map((o, i) => renderGameRow(o.game, i + 2, false, Math.min(100, Math.round((o.score / MAX_WATCH_SCORE) * 100)))).join("")}
+        ${others.map((o, i) => renderGameRow(o.game, i + 2, false, scoreToPercent(o.score, MAX_WATCH_SCORE))).join("")}
       </div>
     `;
   }

@@ -19,6 +19,7 @@ import {
   formatGameTime,
   fitHeroLines,
   initSportsApp,
+  scoreToPercent,
 } from "./sportsCore";
 
 // --- Constants ---
@@ -125,10 +126,7 @@ function renderHeroCard(game: Game): string {
   const status = comp?.status!;
   const live = isLive(status);
   const watchScore = computeWatchScore(game);
-  const barPct = Math.min(
-    100,
-    Math.round((watchScore / MAX_WATCH_SCORE) * 100),
-  );
+  const barPct = scoreToPercent(watchScore, MAX_WATCH_SCORE);
 
   const away =
     competitors.find((c) => c.homeAway === "away") || competitors[0];
@@ -393,7 +391,7 @@ function render(events: Game[]): void {
     html += `
       <div class="section-header mt-6 mb-3">Also Live</div>
       <div class="space-y-1.5">
-        ${others.map((o, i) => renderGameRow(o.game, i + 2, false, Math.min(100, Math.round((o.score / MAX_WATCH_SCORE) * 100)))).join("")}
+        ${others.map((o, i) => renderGameRow(o.game, i + 2, false, scoreToPercent(o.score, MAX_WATCH_SCORE))).join("")}
       </div>
     `;
   }
