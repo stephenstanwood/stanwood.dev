@@ -395,6 +395,125 @@ const breeds: Breed[] = [
         line-height: 1.5;
       }
 
+      /* ── Famous Tank Fish section ── */
+      .fame {
+        max-width: 640px;
+        margin: 28px auto 0;
+        border-top: 1px solid rgba(0, 180, 255, 0.1);
+        padding-top: 24px;
+      }
+      .fame-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .fame-label {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.45rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(0, 210, 255, 0.3);
+      }
+      .fame-tag {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.4rem;
+        letter-spacing: 0.08em;
+        color: rgba(255, 217, 61, 0.5);
+      }
+      .fame-intro {
+        font-size: 0.7rem;
+        color: rgba(0, 210, 255, 0.4);
+        line-height: 1.6;
+        margin-bottom: 16px;
+        max-width: 540px;
+      }
+      .fame-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      @media (max-width: 540px) {
+        .fame-grid { grid-template-columns: 1fr; }
+      }
+      .fame-card {
+        border: 1px solid rgba(0, 180, 255, 0.12);
+        border-radius: 8px;
+        padding: 12px 12px 14px;
+        background: rgba(0, 60, 120, 0.18);
+        display: flex;
+        flex-direction: column;
+      }
+      .fame-svg-wrap {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: linear-gradient(180deg, rgba(0, 30, 70, 0.55) 0%, rgba(0, 50, 90, 0.4) 100%);
+        border-radius: 4px;
+        margin-bottom: 10px;
+        position: relative;
+        overflow: hidden;
+      }
+      .fame-svg-wrap::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0) 0,
+          rgba(0, 0, 0, 0) 3px,
+          rgba(0, 0, 0, 0.06) 3px,
+          rgba(0, 0, 0, 0.06) 4px
+        );
+        pointer-events: none;
+      }
+      .fame-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        shape-rendering: crispEdges;
+      }
+      .fame-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 6px;
+        margin-bottom: 2px;
+      }
+      .fame-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.5rem;
+        letter-spacing: 0.04em;
+        color: rgba(0, 210, 255, 0.9);
+      }
+      .fame-range {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.42rem;
+        color: rgba(255, 217, 61, 0.7);
+        white-space: nowrap;
+      }
+      .fame-sci {
+        font-size: 0.6rem;
+        color: rgba(0, 210, 255, 0.45);
+        font-style: italic;
+        margin-bottom: 6px;
+      }
+      .fame-fact {
+        font-size: 0.65rem;
+        color: rgba(0, 210, 255, 0.4);
+        line-height: 1.55;
+      }
+      .fame-foot {
+        font-size: 0.62rem;
+        color: rgba(255, 217, 61, 0.4);
+        line-height: 1.6;
+        margin-top: 14px;
+        padding: 10px 12px;
+        border: 1px dashed rgba(255, 217, 61, 0.2);
+        border-radius: 6px;
+      }
+
       /* ── Behind the Glass section ── */
       .behind-glass {
         max-width: 640px;
@@ -537,6 +656,420 @@ const breeds: Breed[] = [
           ))}
         </div>
       </div>
+
+      <!-- Famous Tank Fish -->
+      <section class="fame" aria-label="Famous real-world aquarium fish">
+        <div class="fame-head">
+          <p class="fame-label">Famous Tank Fish</p>
+          <span class="fame-tag">six aquarium icons</span>
+        </div>
+        <p class="fame-intro">The pixel breeds above are pure invention. Out in the world, a few species do the heavy lifting in nearly every public aquarium and fish tank. Here are six you've almost certainly met.</p>
+
+        <div class="fame-grid">
+          <!-- Goldfish -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Goldfish pixel art with bubbles">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <circle cx="40" cy="22" r="3" fill="#7ac4e0" opacity="0.6"/>
+                <circle cx="60" cy="14" r="2" fill="#7ac4e0" opacity="0.5"/>
+                <circle cx="160" cy="20" r="3" fill="#7ac4e0" opacity="0.5"/>
+                <g fill="#ff8a30">
+                  <rect x="80" y="48" width="8" height="8"/>
+                  <rect x="80" y="56" width="8" height="8"/>
+                  <rect x="88" y="40" width="8" height="8"/>
+                  <rect x="88" y="48" width="8" height="8"/>
+                  <rect x="88" y="56" width="8" height="8"/>
+                  <rect x="88" y="64" width="8" height="8"/>
+                  <rect x="96" y="40" width="8" height="8"/>
+                  <rect x="96" y="48" width="8" height="8"/>
+                  <rect x="96" y="56" width="8" height="8"/>
+                  <rect x="96" y="64" width="8" height="8"/>
+                  <rect x="104" y="48" width="8" height="8"/>
+                  <rect x="104" y="56" width="8" height="8"/>
+                  <rect x="112" y="48" width="8" height="8"/>
+                  <rect x="112" y="56" width="8" height="8"/>
+                </g>
+                <g fill="#ffb050">
+                  <rect x="120" y="48" width="8" height="8"/>
+                  <rect x="120" y="56" width="8" height="8"/>
+                  <rect x="128" y="40" width="8" height="8"/>
+                  <rect x="128" y="64" width="8" height="8"/>
+                  <rect x="136" y="32" width="8" height="8"/>
+                  <rect x="136" y="72" width="8" height="8"/>
+                </g>
+                <rect x="80" y="64" width="8" height="8" fill="#ffb050"/>
+                <rect x="112" y="48" width="8" height="8" fill="#fff"/>
+                <rect x="64" y="32" width="120" height="2" fill="#ffd93d" opacity="0.18"/>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Goldfish</span>
+              <span class="fame-range">~ 1,000 yrs</span>
+            </div>
+            <p class="fame-sci">Carassius auratus &middot; East Asia</p>
+            <p class="fame-fact">The original pet fish. Bred in Chinese ponds since the Tang dynasty for the rare red mutation, then traded to Japan and Europe by the 1600s. A wild goldfish is silver-grey — the orange is entirely human-made.</p>
+          </article>
+
+          <!-- Clownfish -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clownfish nestled in anemone">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <g fill="#c850c0" opacity="0.55">
+                  <rect x="20" y="92" width="10" height="20"/>
+                  <rect x="34" y="88" width="10" height="24"/>
+                  <rect x="48" y="94" width="10" height="18"/>
+                  <rect x="148" y="90" width="10" height="22"/>
+                  <rect x="162" y="86" width="10" height="26"/>
+                  <rect x="176" y="92" width="10" height="20"/>
+                </g>
+                <g fill="#ff5c1a">
+                  <rect x="80" y="48" width="8" height="8"/>
+                  <rect x="80" y="56" width="8" height="8"/>
+                  <rect x="88" y="40" width="8" height="8"/>
+                  <rect x="88" y="48" width="8" height="8"/>
+                  <rect x="88" y="56" width="8" height="8"/>
+                  <rect x="88" y="64" width="8" height="8"/>
+                  <rect x="96" y="40" width="8" height="8"/>
+                  <rect x="96" y="48" width="8" height="8"/>
+                  <rect x="96" y="56" width="8" height="8"/>
+                  <rect x="96" y="64" width="8" height="8"/>
+                  <rect x="104" y="40" width="8" height="8"/>
+                  <rect x="104" y="48" width="8" height="8"/>
+                  <rect x="104" y="56" width="8" height="8"/>
+                  <rect x="104" y="64" width="8" height="8"/>
+                  <rect x="112" y="40" width="8" height="8"/>
+                  <rect x="112" y="48" width="8" height="8"/>
+                  <rect x="112" y="56" width="8" height="8"/>
+                  <rect x="112" y="64" width="8" height="8"/>
+                  <rect x="120" y="48" width="8" height="8"/>
+                  <rect x="120" y="56" width="8" height="8"/>
+                </g>
+                <g fill="#fff">
+                  <rect x="96" y="40" width="8" height="32"/>
+                  <rect x="112" y="40" width="8" height="32"/>
+                </g>
+                <g fill="#1a1520">
+                  <rect x="92" y="44" width="4" height="32"/>
+                  <rect x="108" y="44" width="4" height="32"/>
+                  <rect x="124" y="44" width="2" height="24"/>
+                </g>
+                <rect x="84" y="48" width="4" height="4" fill="#fff"/>
+                <g fill="#ff5c1a">
+                  <rect x="128" y="48" width="6" height="4"/>
+                  <rect x="128" y="60" width="6" height="4"/>
+                  <rect x="132" y="44" width="6" height="4"/>
+                  <rect x="132" y="64" width="6" height="4"/>
+                </g>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Clownfish</span>
+              <span class="fame-range">stings &equals; safe</span>
+            </div>
+            <p class="fame-sci">Amphiprion ocellaris &middot; Indo-Pacific reefs</p>
+            <p class="fame-fact">Lives inside anemones whose tentacles paralyse most fish on contact. A layer of mucus tricks the anemone into reading clownfish as part of itself. Every clownfish is born male; when the female dies, the largest male flips sex to take her spot.</p>
+          </article>
+
+          <!-- Betta -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Betta with bubble nest">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <g fill="#a0d8ee" opacity="0.85">
+                  <circle cx="44" cy="14" r="4"/>
+                  <circle cx="56" cy="10" r="3"/>
+                  <circle cx="68" cy="14" r="4"/>
+                  <circle cx="80" cy="10" r="3"/>
+                  <circle cx="92" cy="14" r="4"/>
+                  <circle cx="104" cy="10" r="3"/>
+                  <circle cx="116" cy="14" r="4"/>
+                  <circle cx="128" cy="10" r="3"/>
+                  <circle cx="140" cy="14" r="4"/>
+                </g>
+                <rect x="0" y="20" width="200" height="2" fill="#7ac4e0" opacity="0.4"/>
+                <g fill="#c8324a">
+                  <rect x="68" y="48" width="6" height="6"/>
+                  <rect x="68" y="60" width="6" height="6"/>
+                  <rect x="74" y="40" width="6" height="6"/>
+                  <rect x="74" y="48" width="6" height="6"/>
+                  <rect x="74" y="54" width="6" height="6"/>
+                  <rect x="74" y="60" width="6" height="6"/>
+                  <rect x="74" y="68" width="6" height="6"/>
+                  <rect x="80" y="36" width="6" height="6"/>
+                  <rect x="80" y="42" width="6" height="6"/>
+                  <rect x="80" y="48" width="6" height="6"/>
+                  <rect x="80" y="54" width="6" height="6"/>
+                  <rect x="80" y="60" width="6" height="6"/>
+                  <rect x="80" y="66" width="6" height="6"/>
+                  <rect x="80" y="72" width="6" height="6"/>
+                  <rect x="86" y="40" width="6" height="6"/>
+                  <rect x="86" y="48" width="6" height="6"/>
+                  <rect x="86" y="54" width="6" height="6"/>
+                  <rect x="86" y="60" width="6" height="6"/>
+                  <rect x="86" y="68" width="6" height="6"/>
+                  <rect x="92" y="48" width="6" height="6"/>
+                  <rect x="92" y="54" width="6" height="6"/>
+                  <rect x="92" y="60" width="6" height="6"/>
+                </g>
+                <g fill="#ff5c8a" opacity="0.8">
+                  <rect x="98" y="42" width="6" height="6"/>
+                  <rect x="98" y="48" width="6" height="6"/>
+                  <rect x="98" y="60" width="6" height="6"/>
+                  <rect x="98" y="66" width="6" height="6"/>
+                  <rect x="104" y="36" width="6" height="6"/>
+                  <rect x="104" y="42" width="6" height="6"/>
+                  <rect x="104" y="66" width="6" height="6"/>
+                  <rect x="104" y="72" width="6" height="6"/>
+                  <rect x="110" y="36" width="6" height="6"/>
+                  <rect x="110" y="42" width="6" height="6"/>
+                  <rect x="110" y="66" width="6" height="6"/>
+                  <rect x="110" y="72" width="6" height="6"/>
+                  <rect x="116" y="42" width="6" height="6"/>
+                  <rect x="116" y="48" width="6" height="6"/>
+                  <rect x="116" y="60" width="6" height="6"/>
+                  <rect x="116" y="66" width="6" height="6"/>
+                  <rect x="122" y="48" width="6" height="6"/>
+                  <rect x="122" y="60" width="6" height="6"/>
+                </g>
+                <rect x="64" y="48" width="4" height="4" fill="#fff"/>
+                <g fill="#ff5c8a" opacity="0.7">
+                  <rect x="80" y="84" width="6" height="6"/>
+                  <rect x="86" y="78" width="6" height="6"/>
+                  <rect x="92" y="84" width="6" height="6"/>
+                </g>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Betta</span>
+              <span class="fame-range">breathes air</span>
+            </div>
+            <p class="fame-sci">Betta splendens &middot; Thailand rice paddies</p>
+            <p class="fame-fact">Survives in puddles and stagnant water by gulping air through a "labyrinth organ" — a primitive lung above the gills. Males build floating nests of saliva-coated bubbles to hold their eggs, then guard them alone.</p>
+          </article>
+
+          <!-- Pufferfish -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pufferfish with spikes">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <g fill="#ffd966" stroke="#c89a30" stroke-width="0.5">
+                  <polygon points="62,42 56,38 64,38"/>
+                  <polygon points="62,72 56,76 64,76"/>
+                  <polygon points="138,42 132,38 144,38"/>
+                  <polygon points="138,72 132,76 144,76"/>
+                  <polygon points="100,28 96,22 104,22"/>
+                  <polygon points="100,86 96,92 104,92"/>
+                </g>
+                <g fill="#e8a040">
+                  <rect x="70" y="44" width="6" height="6"/>
+                  <rect x="76" y="38" width="6" height="6"/>
+                  <rect x="82" y="32" width="6" height="6"/>
+                  <rect x="88" y="32" width="6" height="6"/>
+                  <rect x="94" y="32" width="6" height="6"/>
+                  <rect x="100" y="32" width="6" height="6"/>
+                  <rect x="106" y="32" width="6" height="6"/>
+                  <rect x="112" y="38" width="6" height="6"/>
+                  <rect x="118" y="44" width="6" height="6"/>
+                  <rect x="124" y="50" width="6" height="6"/>
+                  <rect x="124" y="56" width="6" height="6"/>
+                  <rect x="124" y="62" width="6" height="6"/>
+                  <rect x="118" y="68" width="6" height="6"/>
+                  <rect x="112" y="74" width="6" height="6"/>
+                  <rect x="106" y="80" width="6" height="6"/>
+                  <rect x="100" y="80" width="6" height="6"/>
+                  <rect x="94" y="80" width="6" height="6"/>
+                  <rect x="88" y="80" width="6" height="6"/>
+                  <rect x="82" y="80" width="6" height="6"/>
+                  <rect x="76" y="74" width="6" height="6"/>
+                  <rect x="70" y="68" width="6" height="6"/>
+                  <rect x="64" y="62" width="6" height="6"/>
+                  <rect x="64" y="56" width="6" height="6"/>
+                  <rect x="64" y="50" width="6" height="6"/>
+                </g>
+                <g fill="#ffd966">
+                  <rect x="76" y="44" width="6" height="6"/>
+                  <rect x="82" y="38" width="6" height="6"/>
+                  <rect x="88" y="38" width="6" height="6"/>
+                  <rect x="94" y="38" width="6" height="6"/>
+                  <rect x="100" y="38" width="6" height="6"/>
+                  <rect x="106" y="38" width="6" height="6"/>
+                  <rect x="112" y="44" width="6" height="6"/>
+                  <rect x="118" y="50" width="6" height="6"/>
+                  <rect x="118" y="56" width="6" height="6"/>
+                  <rect x="118" y="62" width="6" height="6"/>
+                  <rect x="112" y="68" width="6" height="6"/>
+                  <rect x="106" y="74" width="6" height="6"/>
+                  <rect x="100" y="74" width="6" height="6"/>
+                  <rect x="94" y="74" width="6" height="6"/>
+                  <rect x="88" y="74" width="6" height="6"/>
+                  <rect x="82" y="68" width="6" height="6"/>
+                  <rect x="76" y="62" width="6" height="6"/>
+                  <rect x="76" y="56" width="6" height="6"/>
+                  <rect x="76" y="50" width="6" height="6"/>
+                  <rect x="82" y="44" width="36" height="24"/>
+                </g>
+                <rect x="112" y="50" width="4" height="4" fill="#1a1520"/>
+                <rect x="114" y="50" width="2" height="2" fill="#fff"/>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Pufferfish</span>
+              <span class="fame-range">1,200&times; cyanide</span>
+            </div>
+            <p class="fame-sci">Tetraodontidae &middot; tropical seas</p>
+            <p class="fame-fact">Inflates by gulping water until it's the size of a softball, with spines that pop out as armour. Its tetrodotoxin is one of the deadliest poisons known — yet Japanese chefs train two years to serve it as fugu, and roughly one diner a year still dies from a bad cut.</p>
+          </article>
+
+          <!-- Discus -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Discus fish disc shape">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <g fill="#3a8050" opacity="0.55">
+                  <rect x="14" y="40" width="6" height="48"/>
+                  <rect x="20" y="34" width="4" height="54"/>
+                  <rect x="24" y="42" width="4" height="46"/>
+                  <rect x="174" y="38" width="6" height="50"/>
+                  <rect x="180" y="32" width="4" height="56"/>
+                </g>
+                <g fill="#e8956a">
+                  <rect x="78" y="34" width="6" height="6"/>
+                  <rect x="84" y="28" width="6" height="6"/>
+                  <rect x="90" y="22" width="6" height="6"/>
+                  <rect x="96" y="22" width="6" height="6"/>
+                  <rect x="102" y="22" width="6" height="6"/>
+                  <rect x="108" y="22" width="6" height="6"/>
+                  <rect x="114" y="28" width="6" height="6"/>
+                  <rect x="120" y="34" width="6" height="6"/>
+                  <rect x="126" y="40" width="6" height="6"/>
+                  <rect x="126" y="46" width="6" height="6"/>
+                  <rect x="126" y="52" width="6" height="6"/>
+                  <rect x="126" y="58" width="6" height="6"/>
+                  <rect x="120" y="64" width="6" height="6"/>
+                  <rect x="114" y="70" width="6" height="6"/>
+                  <rect x="108" y="76" width="6" height="6"/>
+                  <rect x="102" y="76" width="6" height="6"/>
+                  <rect x="96" y="76" width="6" height="6"/>
+                  <rect x="90" y="76" width="6" height="6"/>
+                  <rect x="84" y="70" width="6" height="6"/>
+                  <rect x="78" y="64" width="6" height="6"/>
+                  <rect x="72" y="58" width="6" height="6"/>
+                  <rect x="72" y="52" width="6" height="6"/>
+                  <rect x="72" y="46" width="6" height="6"/>
+                  <rect x="72" y="40" width="6" height="6"/>
+                </g>
+                <g fill="#ff8a30">
+                  <rect x="84" y="34" width="36" height="36"/>
+                </g>
+                <g fill="#c85020" opacity="0.85">
+                  <rect x="84" y="34" width="3" height="36"/>
+                  <rect x="90" y="34" width="3" height="36"/>
+                  <rect x="96" y="34" width="3" height="36"/>
+                  <rect x="102" y="34" width="3" height="36"/>
+                  <rect x="108" y="34" width="3" height="36"/>
+                  <rect x="114" y="34" width="3" height="36"/>
+                </g>
+                <rect x="120" y="44" width="4" height="4" fill="#1a1520"/>
+                <rect x="121" y="44" width="2" height="2" fill="#fff"/>
+                <g fill="#ff8a30">
+                  <rect x="132" y="46" width="6" height="6"/>
+                  <rect x="132" y="52" width="6" height="6"/>
+                </g>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Discus</span>
+              <span class="fame-range">slime milk</span>
+            </div>
+            <p class="fame-sci">Symphysodon &middot; Amazon basin</p>
+            <p class="fame-fact">Called the "king of aquarium fish" — flat as a coin, painted in hairline patterns no two share. Both parents secrete a thick body slime that the newborn fry feed on for the first two weeks, the closest thing to milk in the fish world.</p>
+          </article>
+
+          <!-- Mandarin Dragonet -->
+          <article class="fame-card">
+            <div class="fame-svg-wrap">
+              <svg class="fame-svg" viewBox="0 0 200 112" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mandarin dragonet bright color blocks">
+                <rect width="200" height="112" fill="#0a2244"/>
+                <g fill="#3a3325" opacity="0.5">
+                  <rect x="20" y="92" width="160" height="20"/>
+                </g>
+                <g fill="#a26d4e" opacity="0.6">
+                  <rect x="24" y="94" width="8" height="6"/>
+                  <rect x="48" y="98" width="6" height="4"/>
+                  <rect x="74" y="92" width="6" height="6"/>
+                  <rect x="160" y="96" width="8" height="6"/>
+                </g>
+                <g fill="#43e97b">
+                  <rect x="76" y="48" width="6" height="6"/>
+                  <rect x="76" y="60" width="6" height="6"/>
+                  <rect x="82" y="42" width="6" height="6"/>
+                  <rect x="82" y="48" width="6" height="6"/>
+                  <rect x="82" y="60" width="6" height="6"/>
+                  <rect x="82" y="66" width="6" height="6"/>
+                  <rect x="88" y="42" width="6" height="6"/>
+                  <rect x="88" y="48" width="6" height="6"/>
+                  <rect x="88" y="60" width="6" height="6"/>
+                  <rect x="88" y="66" width="6" height="6"/>
+                </g>
+                <g fill="#00d2ff">
+                  <rect x="82" y="54" width="6" height="6"/>
+                  <rect x="88" y="54" width="6" height="6"/>
+                  <rect x="94" y="42" width="6" height="6"/>
+                  <rect x="94" y="48" width="6" height="6"/>
+                  <rect x="94" y="54" width="6" height="6"/>
+                  <rect x="94" y="60" width="6" height="6"/>
+                  <rect x="94" y="66" width="6" height="6"/>
+                  <rect x="100" y="42" width="6" height="6"/>
+                  <rect x="100" y="48" width="6" height="6"/>
+                  <rect x="100" y="60" width="6" height="6"/>
+                  <rect x="100" y="66" width="6" height="6"/>
+                </g>
+                <g fill="#ff8a30">
+                  <rect x="100" y="54" width="6" height="6"/>
+                  <rect x="106" y="42" width="6" height="6"/>
+                  <rect x="106" y="48" width="6" height="6"/>
+                  <rect x="106" y="54" width="6" height="6"/>
+                  <rect x="106" y="60" width="6" height="6"/>
+                  <rect x="106" y="66" width="6" height="6"/>
+                  <rect x="112" y="42" width="6" height="6"/>
+                  <rect x="112" y="48" width="6" height="6"/>
+                  <rect x="112" y="60" width="6" height="6"/>
+                  <rect x="112" y="66" width="6" height="6"/>
+                </g>
+                <g fill="#c850c0">
+                  <rect x="112" y="54" width="6" height="6"/>
+                  <rect x="118" y="48" width="6" height="6"/>
+                  <rect x="118" y="54" width="6" height="6"/>
+                  <rect x="118" y="60" width="6" height="6"/>
+                  <rect x="124" y="54" width="6" height="6"/>
+                </g>
+                <rect x="76" y="54" width="4" height="4" fill="#1a1520"/>
+                <rect x="76" y="55" width="2" height="2" fill="#fff"/>
+                <g fill="#43e97b">
+                  <rect x="68" y="50" width="6" height="4"/>
+                  <rect x="68" y="60" width="6" height="4"/>
+                </g>
+                <g fill="#00d2ff" opacity="0.9">
+                  <rect x="130" y="50" width="6" height="4"/>
+                  <rect x="130" y="60" width="6" height="4"/>
+                  <rect x="136" y="46" width="6" height="4"/>
+                  <rect x="136" y="64" width="6" height="4"/>
+                </g>
+              </svg>
+            </div>
+            <div class="fame-row">
+              <span class="fame-name">Mandarin Dragonet</span>
+              <span class="fame-range">true blue</span>
+            </div>
+            <p class="fame-sci">Synchiropus splendidus &middot; Western Pacific</p>
+            <p class="fame-fact">One of only two animals known to make true blue pigment in their skin (the rest fake it with light tricks). Refuses anything but live copepods plucked from rubble — beautiful, near-impossible to keep, and the holy grail of saltwater hobbyists.</p>
+          </article>
+        </div>
+
+        <p class="fame-foot">None of these are in the simulator above — yet. The pixel breeds are loose silhouettes, but if a generic angelfish reminds you of a real one you've seen behind glass, that's the connection.</p>
+      </section>
 
       <!-- Behind the Glass -->
       <div class="behind-glass">
