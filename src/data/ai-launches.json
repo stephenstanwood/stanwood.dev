@@ -1,5 +1,13 @@
 [
   {
+    "name": "Novi Long Video Agent",
+    "org": "Novi AI",
+    "date": "2026-04-30",
+    "type": "tool",
+    "summary": "creative agent that turns a script or story idea into a complete narrative video up to 5 minutes — bundles script generation, multi-scene visuals across Seedance 2.0, PixVerse C1, and Wan 2.7, and synced voiceover into one workflow",
+    "url": "https://martechseries.com/video/novi-ai-launches-long-video-agent-for-ai-narrative-video-creation-up-to-5-minutes/"
+  },
+  {
     "name": "Midjourney V8.1",
     "org": "Midjourney",
     "date": "2026-04-30",
@@ -14,14 +22,6 @@
     "type": "tool",
     "summary": "TypeScript SDK that turns Cursor's coding agent into programmable infrastructure — npm install @cursor/sdk, run agents locally or on Cursor's sandboxed cloud VMs from CI, backend services, or your own product, billed per-token",
     "url": "https://cursor.com/blog/typescript-sdk"
-  },
-  {
-    "name": "Mistral Medium 3.5",
-    "org": "Mistral",
-    "date": "2026-04-29",
-    "type": "model",
-    "summary": "open-weight 128B dense model with 256k context — folds chat, reasoning, and coding into one set of weights, scores 77.6% on SWE-Bench Verified, self-hostable on 4 GPUs; new default in Mistral's Vibe CLI cloud coding agents and Le Chat Work Mode",
-    "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5"
   },
   {
     "name": "Pika Agents",
