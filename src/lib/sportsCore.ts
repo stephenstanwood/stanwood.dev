@@ -73,6 +73,11 @@ export function winPct({ wins, losses }: TeamRecord): number {
   return total > 0 ? wins / total : 0.5;
 }
 
+/** Clamp a raw watch-score into a 0–100 percentage of its max. */
+export function scoreToPercent(score: number, maxScore: number): number {
+  return Math.min(100, Math.round((score / maxScore) * 100));
+}
+
 export function computePreGameScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
