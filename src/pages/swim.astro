@@ -477,6 +477,86 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider mt-6"></div>
     </section>
 
+    <!-- Classic sets — swim history backbone -->
+    <section class="mt-8" aria-label="Classic sets from swimming tradition">
+      <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Classic sets every pool deck knows</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">tradition</span>
+      </div>
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        The generator below builds something fresh each time, but every coach pulls from the same canon.
+        Six sets that have stuck around — try one outright when you want a benchmark, or recognize them when they show up in your random workout.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- The Hour Swim -->
+        <div class="rounded-xl border border-amber-200 bg-amber-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-amber-900 text-sm leading-tight">The Hour Swim</p>
+            <span class="font-mono text-[10px] text-amber-700/70 whitespace-nowrap">~ 3,000–6,000 m</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Swim continuously for 60:00. Count yards.</p>
+          <p class="text-[12px] text-stone-500 leading-snug">A USMS national event since 1977 — the purest aerobic test there is. No intervals, no clock-watching beyond the wall, just one number at the end. Most lap swimmers fall between 3,000 and 4,500 yards; world records sit above 6,000.</p>
+        </div>
+
+        <!-- The Mile -->
+        <div class="rounded-xl border border-sky-200 bg-sky-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-sky-900 text-sm leading-tight">The Mile</p>
+            <span class="font-mono text-[10px] text-sky-700/70 whitespace-nowrap">1,650 y / 1,500 m</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">1 × 1650 free — for time.</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Pool swimming's standard distance event. Sub-25:00 is a fitness milestone; collegiate D-I cuts sit under 16:00. Negative-split it (second half faster than the first) and you'll have paced it right.</p>
+        </div>
+
+        <!-- 20 × 100 Free -->
+        <div class="rounded-xl border border-teal-200 bg-teal-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-teal-900 text-sm leading-tight">The 20 × 100</p>
+            <span class="font-mono text-[10px] text-teal-700/70 whitespace-nowrap">2,000 m · ~30 min</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">20 × 100 free @ 1:30 — hold the same time on every one.</p>
+          <p class="text-[12px] text-stone-500 leading-snug">The Masters main set. Drop the interval to find your aerobic threshold — the pace you can hold across all 20 with ~10 sec rest is your "T-pace," the number every distance coach builds around.</p>
+        </div>
+
+        <!-- 100 × 100s -->
+        <div class="rounded-xl border border-rose-200 bg-rose-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-rose-900 text-sm leading-tight">The 100 × 100s</p>
+            <span class="font-mono text-[10px] text-rose-700/70 whitespace-nowrap">10,000 y · ~3 hrs</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">100 × 100 free @ 1:30 — Christmas Day or New Year's morning.</p>
+          <p class="text-[12px] text-stone-500 leading-snug">A Masters tradition stretching back decades — clubs around the country gather on a holiday morning to grind through 10K yards as a group. The Olympic Club in San Francisco has hosted theirs every Christmas Eve since 1973. Equal parts ritual and rite of passage.</p>
+        </div>
+
+        <!-- 5 × 500 descend -->
+        <div class="rounded-xl border border-orange-200 bg-orange-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-orange-900 text-sm leading-tight">5 × 500 Descend</p>
+            <span class="font-mono text-[10px] text-orange-700/70 whitespace-nowrap">2,500 m · ~45 min</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">5 × 500 free @ 7:00 — descend 1→5 (each one faster than the last).</p>
+          <p class="text-[12px] text-stone-500 leading-snug">A Bob Bowman staple — the coach who built Phelps's distance base. The first 500 should feel almost lazy; the last is at threshold. Teaches pacing, patience, and how to find another gear when your arms don't want to.</p>
+        </div>
+
+        <!-- Broken 200 -->
+        <div class="rounded-xl border border-purple-200 bg-purple-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-purple-900 text-sm leading-tight">The Broken 200</p>
+            <span class="font-mono text-[10px] text-purple-700/70 whitespace-nowrap">200 m · taper</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">4 × 50 race-pace, 10 sec rest between each. Add the splits — that's your projected 200.</p>
+          <p class="text-[12px] text-stone-500 leading-snug">The taper-week fixture. Lets you swim race-pace effort without race-pace fatigue. Add the four 50 splits and you have a credible prediction of next weekend's 200 — coaches set lineups around it.</p>
+        </div>
+      </div>
+
+      <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+        Want any of these built into a full warm-up / main / cooldown? Set the duration below and the generator will land near it.
+      </p>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- App -->
     <SwimWorkout client:idle />
   </main>
