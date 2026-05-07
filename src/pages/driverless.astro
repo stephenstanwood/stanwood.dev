@@ -738,6 +738,97 @@ const slug = "driverless";
     border-top: 1px dashed var(--dl-border);
   }
 
+  /* ── Limits ──────────────────────────────────────────── */
+  .dl-limits {
+    background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+    border: 1px solid var(--dl-border);
+    gap: 18px;
+  }
+
+  .dl-limits-lead {
+    font-size: 13px;
+    color: var(--dl-ink);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 720px;
+  }
+
+  .dl-limits-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  @media (min-width: 720px) {
+    .dl-limits-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .dl-limits-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .dl-limit {
+    background: var(--dl-card);
+    border: 1px solid var(--dl-border);
+    border-left: 3px solid var(--dl-red);
+    border-radius: 10px;
+    padding: 14px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dl-limit-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dl-limit-emoji {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .dl-limit-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--dl-ink);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .dl-limit-reality {
+    font-size: 12.5px;
+    color: var(--dl-ink);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .dl-limit-workaround {
+    font-size: 12px;
+    color: var(--dl-muted);
+    line-height: 1.5;
+    margin: 0;
+    padding-top: 8px;
+    border-top: 1px dashed var(--dl-border);
+  }
+
+  .dl-limit-workaround-label {
+    display: inline-block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dl-accent);
+    margin-right: 8px;
+  }
+
   /* ── Recharts tooltip override ───────────────────────── */
   .recharts-default-tooltip {
     font-size: 12px !important;
