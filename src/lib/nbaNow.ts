@@ -20,6 +20,7 @@ import {
   fitHeroLines,
   initSportsApp,
   scoreToPercent,
+  parseScore,
 } from "./sportsCore";
 
 // --- Constants ---
@@ -58,8 +59,8 @@ function computeWatchScore(game: Game): number {
   const competitors = comp.competitors || [];
   if (competitors.length < 2) return 0;
 
-  const score1 = parseInt(competitors[0].score || "0", 10);
-  const score2 = parseInt(competitors[1].score || "0", 10);
+  const score1 = parseScore(competitors[0].score);
+  const score2 = parseScore(competitors[1].score);
   const scoreDelta = Math.abs(score1 - score2);
 
   const rec1 = parseRecord(competitors[0]);
@@ -133,8 +134,8 @@ function renderHeroCard(game: Game): string {
   const home =
     competitors.find((c) => c.homeAway === "home") || competitors[1];
 
-  const awayScore = parseInt(away?.score || "0", 10);
-  const homeScore = parseInt(home?.score || "0", 10);
+  const awayScore = parseScore(away?.score);
+  const homeScore = parseScore(home?.score);
   const state = status?.type?.state;
   const hasScores = !!(state && state !== "pre");
 
@@ -222,8 +223,8 @@ function renderGameRow(
 
   const awayScore = away?.score ?? "";
   const homeScore = home?.score ?? "";
-  const awayNum = parseInt(awayScore || "0", 10);
-  const homeNum = parseInt(homeScore || "0", 10);
+  const awayNum = parseScore(awayScore);
+  const homeNum = parseScore(homeScore);
   const awayAbbr = teamAbbr(away);
   const homeAbbr = teamAbbr(home);
   const awayFull = teamFullName(away);
