@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-06T10:30:06.451518+00:00",
+  "built_at": "2026-05-07T10:30:08.472772+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -107,9 +107,8 @@
       "is_single": false,
       "display_name": "CS230",
       "best_score": 10,
-      "video_count": 4,
+      "video_count": 3,
       "video_ids": [
-        "s6JVGzABKho",
         "k1njvbBmfsw",
         "AuZoDsNmG_s",
         "Ozb1AR_F5MU"
@@ -162,11 +161,12 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 9,
-      "video_count": 3,
+      "video_count": 4,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
-        "vfF011ko89o"
+        "vfF011ko89o",
+        "6nUl_w5W9Wk"
       ]
     },
     {
@@ -1359,22 +1359,6 @@
       "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 13th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Using SwiftData to make an app's data persistent. Shows how to convert a Model from structs to @Model classes. Explains the "
     },
     {
-      "id": "s6JVGzABKho",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 6: AI Project Strategy",
-      "url": "https://www.youtube.com/watch?v=s6JVGzABKho",
-      "duration": 4518.0,
-      "published_at": "2025-11-05T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 6,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nOctober 28, 2025\nThis lecture provides walkthroughs of examples of AI projects and making day-to-day decisions in building AI systems.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nTo follow along with the "
-    },
-    {
       "id": "k1njvbBmfsw",
       "title": "Stanford CS230 | Autumn 2025 | Lecture 8: Agents, Prompts, and RAG",
       "url": "https://www.youtube.com/watch?v=k1njvbBmfsw",
@@ -1710,6 +1694,21 @@
         "swe_career"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
+    },
+    {
+      "id": "6nUl_w5W9Wk",
+      "title": "Stanford CS153 Frontier Systems | Amit Jain from Luma AI on Unified Intelligence Systems",
+      "url": "https://www.youtube.com/watch?v=6nUl_w5W9Wk",
+      "duration": 3462.0,
+      "published_at": "2026-05-06T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week three of CS153, the instructor hosts Amit Jain from Luma to discuss \u201cUnified Intelligence Systems\u201d as a follow-up to a prior lecture on visual intelligence. Jain recounts his Apple work on LiDAR"
     },
     {
       "id": "yaLEGZuIIgE",
