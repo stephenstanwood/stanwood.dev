@@ -1,5 +1,21 @@
 [
   {
+    "name": "GPT-5.5 Instant",
+    "org": "OpenAI",
+    "date": "2026-05-05",
+    "type": "model",
+    "summary": "ChatGPT's new default model — 52.5% fewer hallucinations, 30% shorter responses, and personalization from past chats, files, and connected Gmail; live for all ChatGPT users and as chat-latest in the API",
+    "url": "https://openai.com/index/gpt-5-5-instant/"
+  },
+  {
+    "name": "Cloudflare + Stripe Agent Provisioning",
+    "org": "Cloudflare",
+    "date": "2026-04-30",
+    "type": "tool",
+    "summary": "open protocol that lets coding agents create Cloudflare accounts, register domains, grab API tokens, and deploy code with no human in the loop — Stripe handles payment with a default $100/month per-provider cap",
+    "url": "https://blog.cloudflare.com/agents-stripe-projects/"
+  },
+  {
     "name": "Novi Long Video Agent",
     "org": "Novi AI",
     "date": "2026-04-30",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "open-source flagship in two sizes (V4-Pro 1.6T params, V4-Flash 284B) with 1M token context and Hybrid Attention — preview weights on Hugging Face, API at $0.28/M tokens for Flash and $3.48/M for Pro",
     "url": "https://api-docs.deepseek.com/news/news260424"
-  },
-  {
-    "name": "GPT-5.5",
-    "org": "OpenAI",
-    "date": "2026-04-23",
-    "type": "model",
-    "summary": "OpenAI's new flagship — better at coding, deep research, and multi-step agentic tasks; rolling out to Plus/Pro/Business in ChatGPT and Codex, with GPT-5.5 and 5.5 Pro live in the API",
-    "url": "https://openai.com/index/introducing-gpt-5-5/"
-  },
-  {
-    "name": "Qwen3.6-27B",
-    "org": "Alibaba",
-    "date": "2026-04-22",
-    "type": "model",
-    "summary": "Apache-2.0 dense 27B coding model that beats Qwen's prior 397B MoE on SWE-bench Verified (77.2) and matches Claude 4.5 Opus on Terminal-Bench — small enough to run on a single GPU, weights on Hugging Face",
-    "url": "https://qwen.ai/blog?id=qwen3.6-27b"
   }
 ]
