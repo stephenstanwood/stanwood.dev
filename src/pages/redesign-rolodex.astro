@@ -1119,6 +1119,179 @@ const title = "Redesign Rolodex — stanwood.dev";
         opacity: 0.8;
         margin-right: 0.35rem;
       }
+
+      /* ─── Three modes panel ──────────────────────────────────── */
+      .rr-modes-section {
+        max-width: 1100px;
+        margin: 4rem auto 0;
+        padding: 3rem 1.5rem 0;
+        border-top: 1px solid var(--rr-border);
+      }
+      .rr-modes-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--rr-accent);
+        text-align: center;
+        margin: 0 0 0.75rem;
+      }
+      .rr-modes-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.75rem;
+        text-align: center;
+        color: var(--rr-ink);
+        margin: 0 0 1rem;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      @media (min-width: 640px) {
+        .rr-modes-heading { font-size: 2.25rem; }
+      }
+      .rr-modes-intro {
+        max-width: 580px;
+        margin: 0 auto 2.5rem;
+        font-size: 0.95rem;
+        color: var(--rr-gray);
+        text-align: center;
+        line-height: 1.55;
+      }
+      .rr-modes-intro strong {
+        color: var(--rr-ink);
+        font-weight: 600;
+      }
+      .rr-modes-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 720px) {
+        .rr-modes-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.1rem;
+        }
+      }
+      .rr-mode-card {
+        background: var(--rr-card-bg);
+        border: 2px solid var(--rr-border);
+        border-radius: 14px;
+        padding: 1.25rem 1.35rem 1.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        position: relative;
+        border-top-width: 6px;
+        transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      }
+      .rr-mode-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(28, 25, 23, 0.06);
+      }
+      .rr-mode-card--safe { border-top-color: #5b6c93; }
+      .rr-mode-card--safe:hover { border-color: #5b6c93; }
+      .rr-mode-card--designer { border-top-color: #ea580c; }
+      .rr-mode-card--designer:hover { border-color: #ea580c; }
+      .rr-mode-card--wild { border-top-color: #c026d3; }
+      .rr-mode-card--wild:hover { border-color: #c026d3; }
+      .rr-mode-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
+      .rr-mode-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--rr-light-gray);
+        letter-spacing: 0.12em;
+      }
+      .rr-mode-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 0.18rem 0.5rem;
+        border-radius: 4px;
+      }
+      .rr-mode-card--safe .rr-mode-tag { background: rgba(91, 108, 147, 0.12); color: #4a5a82; }
+      .rr-mode-card--designer .rr-mode-tag { background: var(--rr-warm-light); color: var(--rr-warm); }
+      .rr-mode-card--wild .rr-mode-tag { background: rgba(192, 38, 211, 0.12); color: #a51eb1; }
+      .rr-mode-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--rr-ink);
+        margin: 0;
+        line-height: 1.2;
+      }
+      .rr-mode-body {
+        font-size: 0.88rem;
+        color: var(--rr-gray);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .rr-mode-when {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.78rem;
+        color: var(--rr-gray);
+        line-height: 1.4;
+        padding-top: 0.65rem;
+        border-top: 1px dashed var(--rr-border);
+      }
+      .rr-mode-when-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--rr-light-gray);
+      }
+      .rr-mode-samples {
+        margin-top: 0.25rem;
+      }
+      .rr-mode-sample-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--rr-light-gray);
+        display: block;
+        margin-bottom: 0.4rem;
+      }
+      .rr-mode-sample-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      .rr-mode-sample-list li {
+        font-family: 'Playfair Display', serif;
+        font-size: 0.88rem;
+        color: var(--rr-ink);
+        font-style: italic;
+      }
+      .rr-mode-sample-list li::before {
+        content: '— ';
+        color: var(--rr-light-gray);
+        font-style: normal;
+        margin-right: 0.15rem;
+      }
+      .rr-modes-foot {
+        max-width: 600px;
+        margin: 2rem auto 0;
+        font-size: 0.82rem;
+        color: var(--rr-light-gray);
+        text-align: center;
+        line-height: 1.5;
+        font-style: italic;
+      }
     </style>
   </Fragment>
 
@@ -1186,6 +1359,93 @@ const title = "Redesign Rolodex — stanwood.dev";
             <p class="rr-use-card-tip"><strong>tip</strong>The prompts include palette + font notes, so the first render lands close.</p>
           </article>
         </div>
+      </section>
+
+      <section class="rr-modes-section" aria-label="Three modes of weirdness">
+        <p class="rr-modes-eyebrow">pick your weirdness</p>
+        <h2 class="rr-modes-heading">Three dials. One spin.</h2>
+        <p class="rr-modes-intro">
+          Same URL, three very different stacks of cards. The mode toggle right above the URL field
+          decides how far the rolodex strays from the original — <strong>pitch-deck-safe to fever-dream.</strong>
+        </p>
+
+        <div class="rr-modes-grid">
+          <article class="rr-mode-card rr-mode-card--safe">
+            <div class="rr-mode-head">
+              <span class="rr-mode-num">01</span>
+              <span class="rr-mode-tag">client-safe</span>
+            </div>
+            <h3 class="rr-mode-name">Polished &amp; plausible</h3>
+            <p class="rr-mode-body">
+              Reads like real agency comps. Familiar grids, restrained palettes, tight type pairings.
+              You could screenshare these in a kickoff with no caveats.
+            </p>
+            <div class="rr-mode-when">
+              <span class="rr-mode-when-label">when to spin</span>
+              <span>real client work, three-direction pitches, conservative brands</span>
+            </div>
+            <div class="rr-mode-samples">
+              <span class="rr-mode-sample-label">Sample directions</span>
+              <ul class="rr-mode-sample-list">
+                <li>Modern Editorial</li>
+                <li>Minimal SaaS</li>
+                <li>Coastal Boutique</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="rr-mode-card rr-mode-card--designer">
+            <div class="rr-mode-head">
+              <span class="rr-mode-num">02</span>
+              <span class="rr-mode-tag">designer</span>
+            </div>
+            <h3 class="rr-mode-name">Daring &amp; expressive</h3>
+            <p class="rr-mode-body">
+              The default. Real moves, strong opinions, but still sellable.
+              Editorial stretches, branded systems with personality, layouts that take a stance.
+            </p>
+            <div class="rr-mode-when">
+              <span class="rr-mode-when-label">when to spin</span>
+              <span>portfolio refreshes, side projects, anything that needs a point of view</span>
+            </div>
+            <div class="rr-mode-samples">
+              <span class="rr-mode-sample-label">Sample directions</span>
+              <ul class="rr-mode-sample-list">
+                <li>Brutalist Library</li>
+                <li>Botanical Press</li>
+                <li>Sunset Arcade</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="rr-mode-card rr-mode-card--wild">
+            <div class="rr-mode-head">
+              <span class="rr-mode-num">03</span>
+              <span class="rr-mode-tag">alt timeline</span>
+            </div>
+            <h3 class="rr-mode-name">Weird &amp; wonderful</h3>
+            <p class="rr-mode-body">
+              The version no committee would approve. Anti-design, ASCII webrings,
+              Memphis grids on speed, Geocities-by-way-of-2026. Use sparingly — but use it.
+            </p>
+            <div class="rr-mode-when">
+              <span class="rr-mode-when-label">when to spin</span>
+              <span>creative warmups, art experiments, escaping a stale brief</span>
+            </div>
+            <div class="rr-mode-samples">
+              <span class="rr-mode-sample-label">Sample directions</span>
+              <ul class="rr-mode-sample-list">
+                <li>Chrome Cathedral</li>
+                <li>Tape Loop Bulletin</li>
+                <li>Liquid Aughts</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <p class="rr-modes-foot">
+          Flip the toggle before you spin — or hit "more" with a different mode to layer takes from all three on the same site.
+        </p>
       </section>
 
       <section class="rr-examples-section" aria-label="Example rolodex outputs">
