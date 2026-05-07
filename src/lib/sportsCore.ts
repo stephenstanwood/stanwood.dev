@@ -78,6 +78,11 @@ export function scoreToPercent(score: number, maxScore: number): number {
   return Math.min(100, Math.round((score / maxScore) * 100));
 }
 
+/** Parse an ESPN competitor score string. Missing/empty values resolve to 0. */
+export function parseScore(score: string | undefined | null): number {
+  return parseInt(score || "0", 10);
+}
+
 export function computePreGameScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;

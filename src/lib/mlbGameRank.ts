@@ -17,6 +17,7 @@ import {
   parseRecord,
   winPct,
   scoreToPercent,
+  parseScore,
 } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
@@ -86,8 +87,8 @@ function computeWatchScore(game: Game): number {
   const competitors = comp.competitors || [];
   if (competitors.length < 2) return 0;
 
-  const score1 = parseInt(competitors[0].score || "0", 10);
-  const score2 = parseInt(competitors[1].score || "0", 10);
+  const score1 = parseScore(competitors[0].score);
+  const score2 = parseScore(competitors[1].score);
   const scoreDelta = Math.abs(score1 - score2);
 
   const rec1 = parseRecord(competitors[0]);
@@ -345,8 +346,8 @@ function renderHeroCard(game: Game): string {
     competitors.find((c: Competitor) => c.homeAway === "home") || competitors[1];
   const barPct = scoreToPercent(watchScore, MAX_WATCH_SCORE);
 
-  const awayScore = parseInt(away?.score || "0", 10);
-  const homeScore = parseInt(home?.score || "0", 10);
+  const awayScore = parseScore(away?.score);
+  const homeScore = parseScore(home?.score);
   const state = status?.type?.state;
   const hasScores = state && state !== "pre";
 
@@ -441,8 +442,8 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
 
   const awayScore = away?.score ?? "";
   const homeScore = home?.score ?? "";
-  const awayNum = parseInt(awayScore || "0", 10);
-  const homeNum = parseInt(homeScore || "0", 10);
+  const awayNum = parseScore(awayScore);
+  const homeNum = parseScore(homeScore);
   const awayAbbrStr = teamAbbr(away);
   const homeAbbrStr = teamAbbr(home);
   const awayLogo = escUrl(away?.team?.logo || "");
