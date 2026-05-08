@@ -11,12 +11,12 @@ interface CommitData {
 }
 
 function parseRepo(raw: string): string | null {
-  const s = raw.trim()
+  const cleaned = raw.trim()
     .replace(/^https?:\/\/github\.com\//, "")
     .replace(/\.git$/, "")
     .replace(/\/$/, "");
-  if (!s || !s.includes("/")) return null;
-  const parts = s.split("/");
+  if (!cleaned || !cleaned.includes("/")) return null;
+  const parts = cleaned.split("/");
   if (parts.length < 2 || !parts[0] || !parts[1]) return null;
   return `${parts[0]}/${parts[1]}`;
 }

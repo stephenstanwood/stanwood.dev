@@ -132,6 +132,21 @@ export function isLive(status: Status | undefined): boolean {
   return (status?.type?.state || "") === "in";
 }
 
+/**
+ * Resolve away/home competitors from an ESPN competitor array. Falls back to
+ * positional ordering ([0]=away, [1]=home) if `homeAway` flags are missing.
+ * Caller is responsible for ensuring the array has at least 2 entries.
+ */
+export function getAwayHome(competitors: Competitor[]): {
+  away: Competitor;
+  home: Competitor;
+} {
+  return {
+    away: competitors.find((c) => c.homeAway === "away") || competitors[0],
+    home: competitors.find((c) => c.homeAway === "home") || competitors[1],
+  };
+}
+
 // ── Date helpers ──
 
 export function getGameDayLabel(events: Game[]): string {
