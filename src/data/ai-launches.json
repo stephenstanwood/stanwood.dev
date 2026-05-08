@@ -1,5 +1,13 @@
 [
   {
+    "name": "GPT-Realtime-2 + Voice API",
+    "org": "OpenAI",
+    "date": "2026-05-07",
+    "type": "tool",
+    "summary": "three voice models in the API — GPT-Realtime-2 brings GPT-5-class reasoning and 128K context to live speech-to-speech, GPT-Realtime-Translate covers 70 input / 13 output languages, GPT-Realtime-Whisper streams transcription; $32/M audio input, built for production voice agents",
+    "url": "https://openai.com/index/introducing-gpt-realtime/"
+  },
+  {
     "name": "Gemini 3.1 Flash-Lite",
     "org": "Google",
     "date": "2026-05-07",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "TypeScript SDK that turns Cursor's coding agent into programmable infrastructure — npm install @cursor/sdk, run agents locally or on Cursor's sandboxed cloud VMs from CI, backend services, or your own product, billed per-token",
     "url": "https://cursor.com/blog/typescript-sdk"
-  },
-  {
-    "name": "Pika Agents",
-    "org": "Pika",
-    "date": "2026-04-28",
-    "type": "tool",
-    "summary": "creative AI partner with a face, voice, and personality you design — orchestrates Pika, Kling, MiniMax, and Veo from natural-language chat with persistent memory across sessions; runs in the web app and connected messaging apps",
-    "url": "https://pika.art/"
   }
 ]
