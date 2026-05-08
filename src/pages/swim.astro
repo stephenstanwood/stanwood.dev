@@ -557,6 +557,164 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider mt-6"></div>
     </section>
 
+    <!-- Pool etiquette — sharing the lane like you've been doing it for years -->
+    <section class="mt-8" aria-label="Lane sharing and pool etiquette">
+      <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Sharing a lane without thinking about it</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">unwritten rules</span>
+      </div>
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        Lane etiquette is mostly invisible — until you violate it. Every regular pool runs on the same six conventions.
+        Read these once and you'll fit in the first day, even at a pool you've never visited.
+      </p>
+
+      <!-- Top: lane choice diagram -->
+      <div class="rounded-xl border border-teal-100 bg-white/70 backdrop-blur-sm p-4 sm:p-5 mb-3">
+        <div class="flex items-baseline justify-between mb-3">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-teal-700/70">Pick the right lane</p>
+          <span class="text-[10px] font-mono text-stone-400">step one</span>
+        </div>
+        <p class="text-[12px] text-stone-500 leading-relaxed mb-3">
+          Most pools post pace signs but plenty don't. When in doubt, watch a 100 from each lane before you climb in — the right home picks itself.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[12px]">
+          <div class="rounded-lg bg-amber-50 border border-amber-100 px-3 py-2.5">
+            <div class="flex items-baseline justify-between mb-1">
+              <span class="font-bold text-amber-900">Slow lane</span>
+              <span class="font-mono text-[10px] text-amber-700/70">2:00+</span>
+            </div>
+            <p class="text-stone-500 leading-snug">Recovery, drills, recreational laps. Often the wall lane — easier to pause at the side.</p>
+          </div>
+          <div class="rounded-lg bg-teal-50 border border-teal-100 px-3 py-2.5">
+            <div class="flex items-baseline justify-between mb-1">
+              <span class="font-bold text-teal-900">Medium lane</span>
+              <span class="font-mono text-[10px] text-teal-700/70">1:35–2:00</span>
+            </div>
+            <p class="text-stone-500 leading-snug">Most regulars live here. Steady freestyle with the occasional set. The default if you're unsure.</p>
+          </div>
+          <div class="rounded-lg bg-sky-50 border border-sky-100 px-3 py-2.5">
+            <div class="flex items-baseline justify-between mb-1">
+              <span class="font-bold text-sky-900">Fast lane</span>
+              <span class="font-mono text-[10px] text-sky-700/70">sub-1:35</span>
+            </div>
+            <p class="text-stone-500 leading-snug">Masters, club swimmers, race pace work. Don't drop in for an easy 500 — pick the lane next door.</p>
+          </div>
+        </div>
+        <p class="mt-3 text-[11px] text-stone-400 leading-relaxed">
+          Better to start one lane slow than one lane fast. You can always move up — moving down feels like a demotion.
+        </p>
+      </div>
+
+      <!-- Circle swim diagram -->
+      <div class="rounded-xl border border-teal-100 bg-teal-50/40 backdrop-blur-sm p-4 sm:p-5 mb-3">
+        <div class="flex items-baseline justify-between mb-3">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-teal-700/70">Circle swim like driving</p>
+          <span class="text-[10px] font-mono text-stone-400">3+ swimmers</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-4 sm:gap-5 items-center">
+          <!-- SVG diagram -->
+          <div class="rounded-lg bg-white/70 border border-teal-100 p-3 mx-auto" style="width: 100%; max-width: 220px;">
+            <svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down view of a swim lane with arrows showing counter-clockwise circle swimming">
+              <!-- lane outline -->
+              <rect x="6" y="20" width="208" height="90" fill="#e0f2f1" stroke="#0d9488" stroke-width="1.5" rx="6"/>
+              <!-- center dashed line -->
+              <line x1="6" y1="65" x2="214" y2="65" stroke="#0d9488" stroke-width="1" stroke-dasharray="4 4" opacity="0.5"/>
+              <!-- arrows: top half going right, bottom half going left -->
+              <path d="M 30 42 L 90 42" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+              <path d="M 110 42 L 170 42" stroke="#0d9488" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+              <path d="M 190 88 L 130 88" stroke="#e11d48" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+              <path d="M 110 88 L 50 88" stroke="#e11d48" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+              <!-- swimmers as circles -->
+              <circle cx="60" cy="42" r="5" fill="#0d9488"/>
+              <circle cx="140" cy="42" r="5" fill="#0d9488"/>
+              <circle cx="160" cy="88" r="5" fill="#e11d48"/>
+              <circle cx="80" cy="88" r="5" fill="#e11d48"/>
+              <!-- wall labels -->
+              <text x="2" y="14" font-family="'Inter', system-ui, sans-serif" font-size="9" fill="#64748b" font-weight="600">START WALL</text>
+              <text x="170" y="125" font-family="'Inter', system-ui, sans-serif" font-size="9" fill="#64748b" font-weight="600">FAR WALL</text>
+              <defs>
+                <marker id="arr" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M 0 0 L 8 4 L 0 8 z" fill="#0d9488"/>
+                </marker>
+                <marker id="arr2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M 0 0 L 8 4 L 0 8 z" fill="#e11d48"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[12px] text-stone-600 leading-relaxed mb-2">
+              Three or more in a lane and you switch from <strong class="text-slate-800">splitting</strong> (each pick a side, swim straight up and down) to <strong class="text-slate-800">circle swimming</strong>.
+            </p>
+            <p class="text-[12px] text-stone-500 leading-relaxed">
+              Stay <strong>right of the lane line</strong> in both directions — same as driving in the US. Out on the right, back on the right. The center line is the divider, not a target.
+            </p>
+            <p class="mt-2 text-[11px] text-stone-400 italic leading-snug">
+              Two swimmers? Splitting works fine — one takes each half. Add a third and everyone circles by silent agreement.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- The five rules grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 01</span>
+            <span class="font-bold text-slate-800 text-[13px]">Ask before you join</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Hop down, catch the swimmer's eye on a flip, point at the lane and give a thumbs up. They'll nod and you slide in. No one says no — just don't drop in mid-set without the courtesy.</p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 02</span>
+            <span class="font-bold text-slate-800 text-[13px]">Tap the foot to pass</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Catching someone slower? <strong>One gentle tap on the toes</strong> on the second-to-last 25. They'll pull into the corner at the wall and let you go. Don't tap repeatedly — once is enough.</p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 03</span>
+            <span class="font-bold text-slate-800 text-[13px]">Hug the corner at the wall</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Resting between sets? Stand or hang on the corner of the lane line, not the middle of the wall. Leaves the center clear for swimmers turning, and nobody pushes off into your face.</p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 04</span>
+            <span class="font-bold text-slate-800 text-[13px]">Leave a 5-second gap</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Pushing off behind another swimmer? Wait <strong>five seconds</strong> on the wall. Anything closer and you're in their feet bubbles all 50 — bad for them, bad for you.</p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 05</span>
+            <span class="font-bold text-slate-800 text-[13px]">No backstroke surprises</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Backstroke in a shared lane? Glance over your shoulder every few strokes and aim down the line. Most lane collisions happen here — the swimmer going forward won't see you coming.</p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200 bg-white/60 backdrop-blur-sm p-4">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="inline-block rounded-full bg-slate-700 text-white text-[9px] font-bold uppercase tracking-wider px-2 py-0.5">Rule 06</span>
+            <span class="font-bold text-slate-800 text-[13px]">Gear stays in the corner</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug">Pull buoy, fins, kickboard? Stack them on <strong>your half</strong> of the deck behind the lane, not floating in the lane. Floating gear gets kicked, lost, or in someone's face on the next push-off.</p>
+        </div>
+      </div>
+
+      <!-- Closing line -->
+      <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+        None of this is in a rulebook — it's just how regulars share water. Do these and you'll be invisible in the best way: nobody notices you because nothing's out of place.
+      </p>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- App -->
     <SwimWorkout client:idle />
   </main>
