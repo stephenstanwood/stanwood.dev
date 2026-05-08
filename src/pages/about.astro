@@ -583,10 +583,119 @@ try {
       opacity: 0.75;
     }
 
+    /* ── Lessons section ── */
+    .lessons-section {
+      margin-bottom: 36px;
+    }
+
+    .lessons-heading {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      margin-bottom: 6px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .lessons-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .lesson-card {
+      position: relative;
+      border: 2px solid var(--ink);
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .lesson-card:nth-child(2) { background: #fef9d8; }
+    .lesson-card:nth-child(3) { background: #f4f8ff; }
+    .lesson-card:nth-child(5) { background: #fff0e0; }
+    .lesson-card:nth-child(6) { background: #ecf9ec; }
+
+    .lesson-num {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      opacity: 0.35;
+    }
+
+    .lesson-rule {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      padding-right: 24px;
+    }
+
+    .lesson-rule .accent {
+      background: var(--yellow);
+      padding: 0 4px;
+      box-shadow: 2px 2px 0 var(--ink);
+      display: inline-block;
+      margin: 2px 0;
+    }
+
+    .lesson-body {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink);
+      opacity: 0.78;
+      margin: 0;
+    }
+
+    .lesson-body em {
+      font-style: normal;
+      font-weight: 700;
+      opacity: 1;
+    }
+
+    .lesson-body a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .lesson-body a:hover {
+      color: var(--orange);
+    }
+
+    .lessons-foot {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-top: 14px;
+      text-align: center;
+    }
+
     @media (max-width: 600px) {
       .about-header h1 { font-size: 28px; }
       .about-wrap { padding: 32px 16px 60px; }
       .now-grid { grid-template-columns: 1fr; }
+      .lessons-grid { grid-template-columns: 1fr; }
+      .lesson-rule { font-size: 17px; }
     }
   </style>
 
@@ -848,6 +957,51 @@ try {
         <span class="stack-badge">ESPN API</span>
         <span class="stack-badge">Google Places</span>
       </div>
+    </div>
+
+    <div class="lessons-section">
+      <h2 class="lessons-heading">Lessons from Shipping</h2>
+      <p class="lessons-sub">six rules from running this site · earned the hard way</p>
+
+      <div class="lessons-grid">
+        <article class="lesson-card">
+          <span class="lesson-num">01</span>
+          <p class="lesson-rule">Ship the <span class="accent">smallest</span> version first.</p>
+          <p class="lesson-body">Cut the tracer-bullet — the simplest thing that proves the path. <a href="/mlb-gamerank">MLB GameRank</a> launched as a hard-coded list of three games before the live formula existed. The full version came later. The launch came first.</p>
+        </article>
+
+        <article class="lesson-card">
+          <span class="lesson-num">02</span>
+          <p class="lesson-rule">Same-day live or it <span class="accent">dies.</span></p>
+          <p class="lesson-body">Most ideas don't survive the night. If I can't get a real, working version in front of someone before bed, it usually never finishes. <a href="/pixel-tide">Pixel Tide</a> went idea → live in eight hours, no second day required.</p>
+        </article>
+
+        <article class="lesson-card">
+          <span class="lesson-num">03</span>
+          <p class="lesson-rule">Boring stack, <span class="accent">weird</span> front end.</p>
+          <p class="lesson-body">Astro + React + Vercel everywhere. The ten minutes I save not picking a stack go straight into making the page itself feel like something — same skeleton, eighteen different vibes.</p>
+        </article>
+
+        <article class="lesson-card">
+          <span class="lesson-num">04</span>
+          <p class="lesson-rule">One <span class="accent">specific</span> thing, done well.</p>
+          <p class="lesson-body">Every page does one thing. <a href="/nearest-coffee">Nearest Coffee</a> finds the nearest open coffee shop. That's it. No accounts, no reviews, no map filters. The narrower the scope, the easier it is to make it actually good.</p>
+        </article>
+
+        <article class="lesson-card">
+          <span class="lesson-num">05</span>
+          <p class="lesson-rule">Keep the clock <span class="accent">visible.</span></p>
+          <p class="lesson-body">The <a href="/ship-clock">Ship Clock</a> sits on the homepage on purpose. Watching the number creep up is uncomfortable enough that scheduling the next deploy feels easier than skipping it.</p>
+        </article>
+
+        <article class="lesson-card">
+          <span class="lesson-num">06</span>
+          <p class="lesson-rule">Steal from <span class="accent">museums</span>, not Dribbble.</p>
+          <p class="lesson-body">Most software borrows from other software. I've gotten more mileage from staring at vintage matchbooks, gallery placards, and obscure print zines than from screenshots of whatever shipped this week.</p>
+        </article>
+      </div>
+
+      <p class="lessons-foot">none of this is original — it's just what survived contact with the schedule.</p>
     </div>
 
     <div class="about-section">
