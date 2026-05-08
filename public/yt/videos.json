@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-07T10:30:08.472772+00:00",
+  "built_at": "2026-05-08T10:30:07.516436+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -143,6 +143,20 @@
       ]
     },
     {
+      "key": "CS153",
+      "is_single": false,
+      "display_name": "CS153",
+      "best_score": 9,
+      "video_count": 5,
+      "video_ids": [
+        "O5PfU_uDhS0",
+        "CBaLU0dDEY8",
+        "vfF011ko89o",
+        "6nUl_w5W9Wk",
+        "BQrJ4lHAjhc"
+      ]
+    },
+    {
       "key": "CME295",
       "is_single": false,
       "display_name": "CME295",
@@ -154,19 +168,6 @@
         "h-7S6HNq0Vg",
         "8fNP4N46RRo",
         "Q86qzJ1K1Ss"
-      ]
-    },
-    {
-      "key": "CS153",
-      "is_single": false,
-      "display_name": "CS153",
-      "best_score": 9,
-      "video_count": 4,
-      "video_ids": [
-        "O5PfU_uDhS0",
-        "CBaLU0dDEY8",
-        "vfF011ko89o",
-        "6nUl_w5W9Wk"
       ]
     },
     {
@@ -241,17 +242,6 @@
       ]
     },
     {
-      "key": "AA228",
-      "is_single": false,
-      "display_name": "AA228",
-      "best_score": 2,
-      "video_count": 2,
-      "video_ids": [
-        "FfT5VTfHj_s",
-        "vmwq4w53e9Q"
-      ]
-    },
-    {
       "key": "__single___gqYKyfYCCM",
       "is_single": true,
       "display_name": "Choosing Your Path: AI Professional Program Course Selection Guide",
@@ -259,16 +249,6 @@
       "video_count": 1,
       "video_ids": [
         "_gqYKyfYCCM"
-      ]
-    },
-    {
-      "key": "__single__VRpK2YtWZ4I",
-      "is_single": true,
-      "display_name": "AI-Robotics Frontier",
-      "best_score": 2,
-      "video_count": 1,
-      "video_ids": [
-        "VRpK2YtWZ4I"
       ]
     },
     {
@@ -342,6 +322,16 @@
       "video_count": 1,
       "video_ids": [
         "vaRO69Qv_hc"
+      ]
+    },
+    {
+      "key": "AA228",
+      "is_single": false,
+      "display_name": "AA228",
+      "best_score": -8,
+      "video_count": 1,
+      "video_ids": [
+        "vmwq4w53e9Q"
       ]
     },
     {
@@ -1567,6 +1557,84 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "O5PfU_uDhS0",
+      "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
+      "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
+      "duration": 3955.0,
+      "published_at": "2026-04-30T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha opens the quarter of Stanford\u2019s CS153 Frontier Systems by framing the course as a speaker-led \u201cAI Coachella,\u201d emphasizing relationships, fun, and \u201cobsessing over what you love\u201d as a life he"
+    },
+    {
+      "id": "CBaLU0dDEY8",
+      "title": "Stanford CS153 Frontier Systems | Andreas Blattmann from Black Forest Labs on Visual Intelligence",
+      "url": "https://www.youtube.com/watch?v=CBaLU0dDEY8",
+      "duration": 3674.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": -5,
+      "categories": [
+        "swe_career",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 \u201cFrontier Systems\u201d session, Anjney Midha welcomes Andreas Blattmann, co-founder of Black Forest Labs and co-creator of Stable Diffusion, for a discussion on the visual intelligence frontie"
+    },
+    {
+      "id": "vfF011ko89o",
+      "title": "Stanford CS153 Frontier Systems | Mati Staniszewski from ElevenLabs on The Future of Voice Systems",
+      "url": "https://www.youtube.com/watch?v=vfF011ko89o",
+      "duration": 3986.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
+    },
+    {
+      "id": "6nUl_w5W9Wk",
+      "title": "Stanford CS153 Frontier Systems | Amit Jain from Luma AI on Unified Intelligence Systems",
+      "url": "https://www.youtube.com/watch?v=6nUl_w5W9Wk",
+      "duration": 3462.0,
+      "published_at": "2026-05-06T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week three of CS153, the instructor hosts Amit Jain from Luma to discuss \u201cUnified Intelligence Systems\u201d as a follow-up to a prior lecture on visual intelligence. Jain recounts his Apple work on LiDAR"
+    },
+    {
+      "id": "BQrJ4lHAjhc",
+      "title": "Stanford CS153 Frontier Systems | Nikhyl Singhal from Skip on Product Management in the AI Era",
+      "url": "https://www.youtube.com/watch?v=BQrJ4lHAjhc",
+      "duration": 3794.0,
+      "published_at": "2026-05-07T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 guest lecture, Professor Mike Abbott shifts from technical topics to product, tracing how software moved from PRD-driven project management to founder-led consumer product building, and argui"
+    },
+    {
       "id": "PmW_TMQ3l0I",
       "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 5 - LLM tuning",
       "url": "https://www.youtube.com/watch?v=PmW_TMQ3l0I",
@@ -1646,69 +1714,6 @@
         "series:CME295"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
-    },
-    {
-      "id": "O5PfU_uDhS0",
-      "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
-      "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
-      "duration": 3955.0,
-      "published_at": "2026-04-30T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha opens the quarter of Stanford\u2019s CS153 Frontier Systems by framing the course as a speaker-led \u201cAI Coachella,\u201d emphasizing relationships, fun, and \u201cobsessing over what you love\u201d as a life he"
-    },
-    {
-      "id": "CBaLU0dDEY8",
-      "title": "Stanford CS153 Frontier Systems | Andreas Blattmann from Black Forest Labs on Visual Intelligence",
-      "url": "https://www.youtube.com/watch?v=CBaLU0dDEY8",
-      "duration": 3674.0,
-      "published_at": "2026-05-04T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": -5,
-      "categories": [
-        "swe_career",
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 \u201cFrontier Systems\u201d session, Anjney Midha welcomes Andreas Blattmann, co-founder of Black Forest Labs and co-creator of Stable Diffusion, for a discussion on the visual intelligence frontie"
-    },
-    {
-      "id": "vfF011ko89o",
-      "title": "Stanford CS153 Frontier Systems | Mati Staniszewski from ElevenLabs on The Future of Voice Systems",
-      "url": "https://www.youtube.com/watch?v=vfF011ko89o",
-      "duration": 3986.0,
-      "published_at": "2026-05-04T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
-    },
-    {
-      "id": "6nUl_w5W9Wk",
-      "title": "Stanford CS153 Frontier Systems | Amit Jain from Luma AI on Unified Intelligence Systems",
-      "url": "https://www.youtube.com/watch?v=6nUl_w5W9Wk",
-      "duration": 3462.0,
-      "published_at": "2026-05-06T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week three of CS153, the instructor hosts Amit Jain from Luma to discuss \u201cUnified Intelligence Systems\u201d as a follow-up to a prior lecture on visual intelligence. Jain recounts his Apple work on LiDAR"
     },
     {
       "id": "yaLEGZuIIgE",
@@ -2108,37 +2113,6 @@
       "description": "Learn more about decision-making strategies: https://online.stanford.edu/courses/xelp240-making-high-quality-decisions?utm_medium=social&utm_term=&utm_campaign=XELP240Webinar&utm_source=Youtube\n\nWatch an in-depth conversation on decision-making strategies with Amin Saberi, Professor of Management Science and Engineering, and Farnaz Ronaghi, Co-Founder and Chief of Product and Technology at NovoEd."
     },
     {
-      "id": "FfT5VTfHj_s",
-      "title": "Stanford AA228 Decision Making Under Uncertainty | Autumn 2025 | Bayesian Structure Learning",
-      "url": "https://www.youtube.com/watch?v=FfT5VTfHj_s",
-      "duration": 4795.0,
-      "published_at": "2025-11-06T00:00:00+00:00",
-      "series": "AA228",
-      "series_display": "AA228",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nOctober 7, 2025\nThis lecture covers Bayesian structure learning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow along w"
-    },
-    {
-      "id": "vmwq4w53e9Q",
-      "title": "Stanford AA228 Decision Making Under Uncertainty | Autumn 2025 | Offline Belief State Planning",
-      "url": "https://www.youtube.com/watch?v=vmwq4w53e9Q",
-      "duration": 4548.0,
-      "published_at": "2026-02-25T00:00:00+00:00",
-      "series": "AA228",
-      "series_display": "AA228",
-      "lecture_num": null,
-      "score": -8,
-      "categories": [
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nNovember 13, 2025\nThis lecture covers offline belief-state planning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow alo"
-    },
-    {
       "id": "_gqYKyfYCCM",
       "title": "Choosing Your Path: AI Professional Program Course Selection Guide",
       "url": "https://www.youtube.com/watch?v=_gqYKyfYCCM",
@@ -2152,21 +2126,6 @@
         "robotics"
       ],
       "description": "Chart your course in Artificial Intelligence! This information session unpacks our comprehensive AI Professional Program, guiding you through each course option. Course Developer and Facilitator, Armando Banuelos, spotlights various learning tracks, helping you curate a personalized path that aligns with your preferences, interests, or backgrounds.\n\nExplore the program: https://online.stanford.edu"
-    },
-    {
-      "id": "VRpK2YtWZ4I",
-      "title": "AI-Robotics Frontier",
-      "url": "https://www.youtube.com/watch?v=VRpK2YtWZ4I",
-      "duration": 2768.0,
-      "published_at": "2025-11-06T00:00:00+00:00",
-      "series": null,
-      "series_display": "AI-Robotics Frontier",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "As artificial intelligence fuses with robotics, we\u2019re on the brink of a new era in how we interact with technology. Assistant Professors Renee Zhao and Monroe Kennedy III unpack what\u2019s real now and what\u2019s next and explore the breakthroughs bringing these systems out of the lab into real-world applications.\n\nRenee Zhao\nStanford Assistant Professor of Mechanical Engineering and, by courtesy, of Bioe"
     },
     {
       "id": "smSp11lXLJI",
@@ -2311,6 +2270,22 @@
         "climate_grid"
       ],
       "description": "Join Professor Ines Azevedo and Kion Ahadi as they unpack how AI is accelerating efficiency and innovation across energy grids, data centers, and sustainability initiatives. The session includes lightning talks and an interactive Q&A. It also features a quick overview of Stanford Doerr School of Sustainability\u2019s External Education programs for Spring and Summer 2026, including:\n- AI and Climate Ma"
+    },
+    {
+      "id": "vmwq4w53e9Q",
+      "title": "Stanford AA228 Decision Making Under Uncertainty | Autumn 2025 | Offline Belief State Planning",
+      "url": "https://www.youtube.com/watch?v=vmwq4w53e9Q",
+      "duration": 4548.0,
+      "published_at": "2026-02-25T00:00:00+00:00",
+      "series": "AA228",
+      "series_display": "AA228",
+      "lecture_num": null,
+      "score": -8,
+      "categories": [
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nNovember 13, 2025\nThis lecture covers offline belief-state planning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow alo"
     },
     {
       "id": "x0aLBWTBOuQ",
