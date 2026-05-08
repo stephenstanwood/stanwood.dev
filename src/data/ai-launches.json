@@ -1,5 +1,21 @@
 [
   {
+    "name": "Gemini 3.1 Flash-Lite",
+    "org": "Google",
+    "date": "2026-05-07",
+    "type": "model",
+    "summary": "cheapest Gemini 3 model now generally available — $0.25/M input and $1.50/M output, sub-second classification latency, multimodal inputs (text/image/video/audio/PDF); live in AI Studio and Vertex AI",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
+  },
+  {
+    "name": "Claude Dreaming + Multi-Agent Orchestration",
+    "org": "Anthropic",
+    "date": "2026-05-06",
+    "type": "tool",
+    "summary": "at Code with Claude, Anthropic shipped 'dreaming' — a scheduled process that mines past agent sessions for patterns and curates them into reusable skills — and moved outcomes and multi-agent orchestration into public beta on Claude Managed Agents",
+    "url": "https://www.anthropic.com/news/code-with-claude-2026"
+  },
+  {
     "name": "GPT-5.5 Instant",
     "org": "OpenAI",
     "date": "2026-05-05",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "creative AI partner with a face, voice, and personality you design — orchestrates Pika, Kling, MiniMax, and Veo from natural-language chat with persistent memory across sessions; runs in the web app and connected messaging apps",
     "url": "https://pika.art/"
-  },
-  {
-    "name": "NVIDIA Nemotron 3 Nano Omni",
-    "org": "NVIDIA",
-    "date": "2026-04-28",
-    "type": "model",
-    "summary": "open multimodal model unifying vision, audio, and language → text with 9x higher throughput than other open omni models — weights live on Hugging Face and OpenRouter, also via NVIDIA NIM",
-    "url": "https://blogs.nvidia.com/blog/nemotron-3-nano-omni-multimodal-ai-agents/"
-  },
-  {
-    "name": "DeepSeek V4",
-    "org": "DeepSeek",
-    "date": "2026-04-24",
-    "type": "model",
-    "summary": "open-source flagship in two sizes (V4-Pro 1.6T params, V4-Flash 284B) with 1M token context and Hybrid Attention — preview weights on Hugging Face, API at $0.28/M tokens for Flash and $3.48/M for Pro",
-    "url": "https://api-docs.deepseek.com/news/news260424"
   }
 ]
