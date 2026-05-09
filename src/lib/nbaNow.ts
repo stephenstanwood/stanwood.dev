@@ -21,6 +21,7 @@ import {
   initSportsApp,
   scoreToPercent,
   parseScore,
+  getAwayHome,
 } from "./sportsCore";
 
 // --- Constants ---
@@ -103,6 +104,17 @@ function renderBroadcastBadges(
 
 // --- Rendering helpers ---
 
+const SCORE_WIN_STYLE = "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);";
+const SCORE_LOSS_STYLE = "color:#71717a;";
+const SCORE_NEUTRAL_STYLE = "color:#e4e4e7;";
+
+function scoreColorStyle(myScore: number, otherScore: number, active: boolean): string {
+  if (!active) return SCORE_NEUTRAL_STYLE;
+  if (myScore > otherScore) return SCORE_WIN_STYLE;
+  if (myScore < otherScore) return SCORE_LOSS_STYLE;
+  return SCORE_NEUTRAL_STYLE;
+}
+
 function statusLabel(status: Status): string {
   const period = status?.period || 0;
   const clock = status?.displayClock || "";
@@ -129,10 +141,7 @@ function renderHeroCard(game: Game): string {
   const watchScore = computeWatchScore(game);
   const barPct = scoreToPercent(watchScore, MAX_WATCH_SCORE);
 
-  const away =
-    competitors.find((c) => c.homeAway === "away") || competitors[0];
-  const home =
-    competitors.find((c) => c.homeAway === "home") || competitors[1];
+  const { away, home } = getAwayHome(competitors);
 
   const awayScore = parseScore(away?.score);
   const homeScore = parseScore(home?.score);
@@ -144,19 +153,8 @@ function renderHeroCard(game: Game): string {
   const { national } = getBroadcasts(comp);
   const network = national.length > 0 ? national[0] : "League Pass";
 
-  // Score detail colors
-  const awayScoreColor =
-    hasScores && awayScore > homeScore
-      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
-      : hasScores && awayScore < homeScore
-        ? "color:#71717a;"
-        : "color:#e4e4e7;";
-  const homeScoreColor =
-    hasScores && homeScore > awayScore
-      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
-      : hasScores && homeScore < awayScore
-        ? "color:#71717a;"
-        : "color:#e4e4e7;";
+  const awayScoreColor = scoreColorStyle(awayScore, homeScore, hasScores);
+  const homeScoreColor = scoreColorStyle(homeScore, awayScore, hasScores);
 
   const awayLogo = escUrl(away?.team?.logo || "");
   const homeLogo = escUrl(home?.team?.logo || "");
@@ -216,10 +214,7 @@ function renderGameRow(
   const status = comp?.status!;
   const live = isLive(status);
 
-  const away =
-    competitors.find((c) => c.homeAway === "away") || competitors[0];
-  const home =
-    competitors.find((c) => c.homeAway === "home") || competitors[1];
+  const { away, home } = getAwayHome(competitors);
 
   const awayScore = away?.score ?? "";
   const homeScore = home?.score ?? "";
@@ -238,18 +233,8 @@ function renderGameRow(
   const tipoff = isPreGame ? formatTipoff(game.date!) : "";
   const statusText = isPreGame ? tipoff + " Pacific" : statusLabel(status);
 
-  const awayScoreStyle =
-    showScores && awayNum > homeNum
-      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
-      : showScores && awayNum < homeNum
-        ? "color:#71717a;"
-        : "color:#e4e4e7;";
-  const homeScoreStyle =
-    showScores && homeNum > awayNum
-      ? "color:#4ade80;text-shadow:0 0 10px rgba(74,222,128,0.3);"
-      : showScores && homeNum < awayNum
-        ? "color:#71717a;"
-        : "color:#e4e4e7;";
+  const awayScoreStyle = scoreColorStyle(awayNum, homeNum, showScores);
+  const homeScoreStyle = scoreColorStyle(homeNum, awayNum, showScores);
 
   return `
     <div class="game-row px-3 py-2.5" style="display:flex;align-items:center;gap:12px;">
@@ -309,11 +294,7 @@ function renderNoGames(events: Game[]): string {
 
   const best = preGames[0].game;
   const comp = best.competitions?.[0];
-  const competitors = comp?.competitors || [];
-  const away =
-    competitors.find((c) => c.homeAway === "away") || competitors[0];
-  const home =
-    competitors.find((c) => c.homeAway === "home") || competitors[1];
+  const { away, home } = getAwayHome(comp?.competitors || []);
   const time = formatTipoff(best.date!);
   const { national } = getBroadcasts(comp!);
   const network = national.length > 0 ? national[0] : "League Pass";

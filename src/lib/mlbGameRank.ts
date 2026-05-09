@@ -18,6 +18,7 @@ import {
   winPct,
   scoreToPercent,
   parseScore,
+  getAwayHome,
 } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
@@ -334,16 +335,12 @@ function formatFirstPitch(dateStr: string): string {
 
 function renderHeroCard(game: Game): string {
   const comp = game.competitions?.[0];
-  const competitors = comp?.competitors || [];
   const status = comp?.status;
   const live = isLive(status);
   const watchScore = computeWatchScore(game);
   const situation = comp?.situation as MLBSituation | undefined;
 
-  const away =
-    competitors.find((c: Competitor) => c.homeAway === "away") || competitors[0];
-  const home =
-    competitors.find((c: Competitor) => c.homeAway === "home") || competitors[1];
+  const { away, home } = getAwayHome(comp?.competitors || []);
   const barPct = scoreToPercent(watchScore, MAX_WATCH_SCORE);
 
   const awayScore = parseScore(away?.score);
@@ -431,14 +428,10 @@ function renderHeroCard(game: Game): string {
 
 function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: number): string {
   const comp = game.competitions?.[0];
-  const competitors = comp?.competitors || [];
   const status = comp?.status;
   const live = isLive(status);
 
-  const away =
-    competitors.find((c: Competitor) => c.homeAway === "away") || competitors[0];
-  const home =
-    competitors.find((c: Competitor) => c.homeAway === "home") || competitors[1];
+  const { away, home } = getAwayHome(comp?.competitors || []);
 
   const awayScore = away?.score ?? "";
   const homeScore = home?.score ?? "";
@@ -510,8 +503,7 @@ function renderNoGames(events: Game[]): string {
   if (scheduled.length > 0) {
     const best = scheduled[0].game;
     const comp = best.competitions?.[0];
-    const away = comp?.competitors?.find((c: Competitor) => c.homeAway === "away");
-    const home = comp?.competitors?.find((c: Competitor) => c.homeAway === "home");
+    const { away, home } = getAwayHome(comp?.competitors || []);
     const time = formatFirstPitch(best.date!);
     const { national } = getBroadcasts(comp!);
     const network = national.length > 0 ? national[0] : "MLB.TV";
@@ -640,12 +632,11 @@ function renderSlateOverview(events: Game[], sectionLabel: string): string {
   let topMatchupHtml = "";
   if (topGame) {
     const comp = topGame.competitions?.[0];
-    const away = comp?.competitors?.find((c: Competitor) => c.homeAway === "away") || comp?.competitors?.[0];
-    const home = comp?.competitors?.find((c: Competitor) => c.homeAway === "home") || comp?.competitors?.[1];
+    const { away, home } = getAwayHome(comp?.competitors || []);
     if (away && home) {
-      const ar = formatRecord(away);
-      const hr = formatRecord(home);
-      const recs = ar && hr ? ` <span style="color:rgba(255,255,255,0.32);font-weight:500;">(${ar} &middot; ${hr})</span>` : "";
+      const awayRec = formatRecord(away);
+      const homeRec = formatRecord(home);
+      const recs = awayRec && homeRec ? ` <span style="color:rgba(255,255,255,0.32);font-weight:500;">(${awayRec} &middot; ${homeRec})</span>` : "";
       topMatchupHtml = `${teamAbbr(away)} @ ${teamAbbr(home)}${recs}`;
     }
   }
