@@ -373,6 +373,118 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         font-weight: 600;
       }
 
+      /* ── Red flags, decoded ── */
+      .tldr-decode {
+        margin-top: 64px;
+        padding-top: 40px;
+        border-top: 1px solid #1a1f2e;
+      }
+      .tldr-decode-eyebrow {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .tldr-decode-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #fca5a5;
+      }
+      .tldr-decode-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #71717A;
+        padding: 2px 8px;
+        border: 1px solid #1a1f2e;
+        border-radius: 4px;
+      }
+      .tldr-decode-intro {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #a1a1aa;
+        margin: 0 0 22px;
+        max-width: 520px;
+      }
+      .tldr-decode-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 640px) {
+        .tldr-decode-grid { grid-template-columns: 1fr; }
+      }
+      .tldr-decode-card {
+        background: #0d1117;
+        border: 1px solid #1a1f2e;
+        border-left: 3px solid rgba(239, 68, 68, 0.55);
+        border-radius: 10px;
+        padding: 14px 16px 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tldr-decode-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tldr-decode-emoji {
+        font-size: 16px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .tldr-decode-name {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #fca5a5;
+      }
+      .tldr-decode-what {
+        font-size: 13px;
+        line-height: 1.55;
+        color: #E4E4E7;
+        margin: 0;
+      }
+      .tldr-decode-why {
+        font-size: 12px;
+        line-height: 1.55;
+        color: #a1a1aa;
+        margin: 0;
+      }
+      .tldr-decode-trigger {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #71717A;
+        margin: 4px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed #1a1f2e;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .tldr-decode-trigger-label {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #fca5a5;
+        margin-right: 8px;
+      }
+      .tldr-decode-foot {
+        margin-top: 18px;
+        font-size: 11px;
+        font-family: 'JetBrains Mono', monospace;
+        color: #3a3f52;
+        line-height: 1.6;
+      }
+
     </style>
   </Fragment>
 
@@ -520,6 +632,111 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div id="errorMsg" class="mt-6 hidden">
         <p class="text-sm text-[#f87171] text-center mono"></p>
       </div>
+
+      <!-- Red flags, decoded -->
+      <section class="tldr-decode" aria-label="Common red flag categories">
+        <div class="tldr-decode-eyebrow">
+          <span class="tldr-decode-label">🚩 Red flags, decoded</span>
+          <span class="tldr-decode-tag">9 things to scan for</span>
+        </div>
+        <p class="tldr-decode-intro">
+          Most contracts hide the same handful of moves. Once you can name them, a 40-page PDF skims in five minutes — and the 🚩 output below makes a lot more sense.
+        </p>
+
+        <div class="tldr-decode-grid">
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">🔁</span>
+              <span class="tldr-decode-name">Auto-renewal</span>
+            </div>
+            <p class="tldr-decode-what">Locks you into another full term unless you cancel in a specific window — usually with a price hike on the second cycle.</p>
+            <p class="tldr-decode-why">The default isn't "ends when the term ends." The default is "rolls over forever, paid by you."</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"shall automatically renew", "30 days written notice", "evergreen"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">⚖️</span>
+              <span class="tldr-decode-name">Forced arbitration</span>
+            </div>
+            <p class="tldr-decode-what">You agree disputes go to a private arbitrator, not court — and you waive the right to join class actions.</p>
+            <p class="tldr-decode-why">Almost every consumer ToS has this now. It strips your single biggest piece of leverage when something goes wrong.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"binding arbitration", "class action waiver", "JAMS / AAA rules"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">🚫</span>
+              <span class="tldr-decode-name">Non-compete / non-solicit</span>
+            </div>
+            <p class="tldr-decode-what">Restricts where you can work, who you can hire, or which clients you can call after the contract ends.</p>
+            <p class="tldr-decode-why">Often unenforceable, often signed anyway. Worth flagging in any job offer, contractor agreement, or partnership doc.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"shall not engage", "for a period of 12 months", "directly or indirectly"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">💡</span>
+              <span class="tldr-decode-name">IP assignment</span>
+            </div>
+            <p class="tldr-decode-what">Anything you make on company time — and sometimes off it — belongs to the company. Side projects can get swept in.</p>
+            <p class="tldr-decode-why">Read this once before signing any employment offer. The carve-out for personal projects is the part that matters.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"work for hire", "all rights, title, and interest", "prior inventions schedule"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">🛡️</span>
+              <span class="tldr-decode-name">Liability waiver</span>
+            </div>
+            <p class="tldr-decode-what">You agree not to sue for injury, damage, or losses — sometimes including ones caused by their own negligence.</p>
+            <p class="tldr-decode-why">Standard for gyms, tours, and rentals. The line to scrutinize is whether "gross negligence" is also waived.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"hold harmless", "release from any and all claims", "assumption of risk"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">✏️</span>
+              <span class="tldr-decode-name">Unilateral changes</span>
+            </div>
+            <p class="tldr-decode-what">The other side can rewrite the terms whenever they want. Your only remedy is usually to stop using the service.</p>
+            <p class="tldr-decode-why">Means the deal you signed is not the deal you have. Pricing, scope, and policies can all shift mid-flight.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"may modify these terms at any time", "continued use constitutes acceptance"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">💸</span>
+              <span class="tldr-decode-name">Hidden fees</span>
+            </div>
+            <p class="tldr-decode-what">Annual maintenance charges, "facility upgrade" fees, processing fees, late fees stacked with grace periods that don't actually grant grace.</p>
+            <p class="tldr-decode-why">Buried deep, never mentioned at signup. Add them all up and the headline price is a polite fiction.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"administrative fee", "subject to applicable fees", "in addition to"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">🔓</span>
+              <span class="tldr-decode-name">Cancellation friction</span>
+            </div>
+            <p class="tldr-decode-what">Must cancel in writing, by mail, with 30+ days notice, in a 14-day window — calls and emails don't count.</p>
+            <p class="tldr-decode-why">The harder it is to leave, the more revenue is captured by people who try and give up. Pair this with auto-renewal and you've got the whole gym-membership trap.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"written notice via certified mail", "must be received by", "no exceptions"</p>
+          </article>
+
+          <article class="tldr-decode-card">
+            <div class="tldr-decode-head">
+              <span class="tldr-decode-emoji" aria-hidden="true">📡</span>
+              <span class="tldr-decode-name">Broad data sharing</span>
+            </div>
+            <p class="tldr-decode-what">"We may share your information with partners and affiliates" — a phrase that covers ad networks, data brokers, and anyone they're paid to share with.</p>
+            <p class="tldr-decode-why">"We don't sell your data" can be technically true while the same data flows to third parties through ad-tech sharing instead.</p>
+            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"affiliates and business partners", "for marketing purposes", "service providers"</p>
+          </article>
+        </div>
+
+        <p class="tldr-decode-foot">Drop a contract above and the 🚩 mode will surface the ones that actually appear in your doc — by name, with the exact language they used.</p>
+      </section>
 
       <!-- Examples -->
       <section class="mt-16 pt-10 border-t border-[#1a1f2e]">
