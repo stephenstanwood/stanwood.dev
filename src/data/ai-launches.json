@@ -16,6 +16,14 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-lite/"
   },
   {
+    "name": "GitHub Spec Kit",
+    "org": "GitHub",
+    "date": "2026-05-07",
+    "type": "tool",
+    "summary": "open-source toolkit for spec-driven development — turns vague prompts into a four-phase workflow (Specify → Plan → Tasks → Implement) that runs against Claude Code, Copilot, Gemini CLI, and 30+ other agents; free, MIT, hit 90K+ stars in days",
+    "url": "https://github.com/github/spec-kit"
+  },
+  {
     "name": "Claude Dreaming + Multi-Agent Orchestration",
     "org": "Anthropic",
     "date": "2026-05-06",
@@ -38,14 +46,6 @@
     "type": "tool",
     "summary": "open protocol that lets coding agents create Cloudflare accounts, register domains, grab API tokens, and deploy code with no human in the loop — Stripe handles payment with a default $100/month per-provider cap",
     "url": "https://blog.cloudflare.com/agents-stripe-projects/"
-  },
-  {
-    "name": "Novi Long Video Agent",
-    "org": "Novi AI",
-    "date": "2026-04-30",
-    "type": "tool",
-    "summary": "creative agent that turns a script or story idea into a complete narrative video up to 5 minutes — bundles script generation, multi-scene visuals across Seedance 2.0, PixVerse C1, and Wan 2.7, and synced voiceover into one workflow",
-    "url": "https://martechseries.com/video/novi-ai-launches-long-video-agent-for-ai-narrative-video-creation-up-to-5-minutes/"
   },
   {
     "name": "Midjourney V8.1",
