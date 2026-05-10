@@ -661,6 +661,102 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         }
       }
 
+      /* ── World coffee customs ── */
+      .nc-world {
+        margin-top: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-world { margin-top: 48px; }
+      }
+      .nc-world-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 4px;
+      }
+      @media (min-width: 640px) {
+        .nc-world-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 1024px) {
+        .nc-world-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .nc-world-card {
+        background: #FFFEFB;
+        border: 1px solid #ECE8E0;
+        border-top: 3px solid #5C4033;
+        border-radius: 4px;
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nc-world-card:nth-child(2) { border-top-color: #8B5A3C; }
+      .nc-world-card:nth-child(3) { border-top-color: #C97B4F; }
+      .nc-world-card:nth-child(4) { border-top-color: #4A6B5A; }
+      .nc-world-card:nth-child(5) { border-top-color: #B8843A; }
+      .nc-world-card:nth-child(6) { border-top-color: #7A4628; }
+      .nc-world-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .nc-world-place {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: #1A1A1A;
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+      }
+      .nc-world-flag {
+        font-size: 16px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .nc-world-order {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #5C4033;
+        margin: 2px 0 4px;
+        line-height: 1.35;
+      }
+      .nc-world-body {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #4A4A4A;
+        margin: 0;
+      }
+      .nc-world-rule {
+        font-size: 11.5px;
+        line-height: 1.5;
+        color: #8A8378;
+        margin: 6px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed #E5E1D7;
+      }
+      .nc-world-rule-label {
+        display: inline-block;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #5C4033;
+        margin-right: 6px;
+      }
+      .nc-world-foot {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #6B6B6B;
+        line-height: 1.55;
+        margin: 18px 0 0;
+        text-align: center;
+        max-width: 580px;
+        margin-inline: auto;
+      }
+
       /* ── Tips callout ── */
       .nc-tips {
         margin: 40px 0 0;
@@ -836,6 +932,78 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             <div><dt>Kid temp</dt><dd>Steamed milk drink, served lukewarm. Works for adults too.</dd></div>
           </dl>
         </div>
+      </section>
+
+      <hr class="nc-rule" style="margin-top: 40px;">
+
+      <!-- World coffee customs -->
+      <section class="nc-world" aria-label="Coffee customs around the world">
+        <span class="nc-section-eyebrow">How the world drinks coffee</span>
+        <p class="nc-section-intro">Six places where coffee isn&rsquo;t just a drink &mdash; it&rsquo;s a script. Useful if your nearest cafe is pulling from one of these traditions.</p>
+
+        <div class="nc-world-grid">
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">Italy</span>
+              <span class="nc-world-flag" aria-hidden="true">🇮🇹</span>
+            </div>
+            <p class="nc-world-order">Espresso al banco &mdash; standing at the counter, gone in two sips.</p>
+            <p class="nc-world-body">A cappuccino is a morning drink. Order one after 11 a.m. and you&rsquo;ll get a polite eyebrow &mdash; espresso, macchiato, or corretto (with grappa) is the afternoon move. Sit-down service at a table costs more, sometimes double.</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>Pay the cashier first, take the receipt to the bar.</p>
+          </article>
+
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">France</span>
+              <span class="nc-world-flag" aria-hidden="true">🇫🇷</span>
+            </div>
+            <p class="nc-world-order">Un caf&eacute; &mdash; means an espresso. A caf&eacute; cr&egrave;me is the morning latte.</p>
+            <p class="nc-world-body">The terrace is the point. You&rsquo;re renting a chair as much as buying a coffee, and no one will rush you out of it. Asking for filter or drip coffee gets you a confused look outside the third-wave shops.</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>The waiter brings the bill only when you ask &mdash; never on their own clock.</p>
+          </article>
+
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">Australia</span>
+              <span class="nc-world-flag" aria-hidden="true">🇦🇺</span>
+            </div>
+            <p class="nc-world-order">Flat white &mdash; double shot, silky microfoam, smaller than a latte.</p>
+            <p class="nc-world-body">Melbourne and Sydney built the modern third-wave style: Italian espresso technique with milk dialed to a precise texture. Drip coffee barely exists. &ldquo;Long black&rdquo; is the closest thing &mdash; espresso poured over hot water (in that order, not flipped like an americano).</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>Tipping isn&rsquo;t expected. The price on the board is the price you pay.</p>
+          </article>
+
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">Japan</span>
+              <span class="nc-world-flag" aria-hidden="true">🇯🇵</span>
+            </div>
+            <p class="nc-world-order">Kissaten pour-over &mdash; siphon or hand-drip, served with a small cake.</p>
+            <p class="nc-world-body">Old-school kissaten are dim, jazz-soundtracked, and run by a single master who&rsquo;s been brewing the same way for decades. Conversation is hushed, no laptops, no calls. The newer specialty wave (Blue Bottle started here, then went stateside) is faster but still quiet.</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>Phone on silent. Speak at half-volume. Stay as long as you want.</p>
+          </article>
+
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">Vietnam</span>
+              <span class="nc-world-flag" aria-hidden="true">🇻🇳</span>
+            </div>
+            <p class="nc-world-order">C&agrave; ph&ecirc; s&#7919;a &#273;&aacute; &mdash; phin-dripped robusta over sweetened condensed milk and ice.</p>
+            <p class="nc-world-body">The little stainless phin filter sits on top of the glass and drips for five minutes &mdash; that wait is part of the ritual. Robusta beans punch harder than arabica, which is why the condensed milk works. Egg coffee in Hanoi is the dessert version: whipped yolk and sugar floated on top.</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>Watch the drip, don&rsquo;t stir until it&rsquo;s done. Tiny plastic stools are the seat.</p>
+          </article>
+
+          <article class="nc-world-card">
+            <div class="nc-world-head">
+              <span class="nc-world-place">Ethiopia</span>
+              <span class="nc-world-flag" aria-hidden="true">🇪🇹</span>
+            </div>
+            <p class="nc-world-order">Bunna &mdash; a three-round ceremony with green beans roasted in front of you.</p>
+            <p class="nc-world-body">Coffee&rsquo;s birthplace, and still where it&rsquo;s most ceremonial. Beans are washed, pan-roasted, ground in a mortar, and brewed in a clay jebena pot &mdash; all while you sit. Three rounds (abol, tona, baraka) get progressively weaker; leaving after the first is rude. Popcorn or roasted barley on the side.</p>
+            <p class="nc-world-rule"><span class="nc-world-rule-label">code</span>The host pours, never the guest. Plan an hour, minimum.</p>
+          </article>
+        </div>
+
+        <p class="nc-world-foot">If your nearest result above is a chain, none of this applies &mdash; but it&rsquo;s why the indie place two blocks farther might be worth the walk.</p>
       </section>
 
       <aside class="nc-tips" aria-label="Pro tips">
