@@ -1259,6 +1259,138 @@ const title = "Which Model? — stanwood.dev";
         color: var(--wm-coral);
       }
 
+      /* ─── Decode the lingo ───────────────────────────────────── */
+      .wm-decode {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 8px;
+      }
+
+      .wm-decode-head {
+        text-align: center;
+        margin-bottom: 26px;
+      }
+
+      .wm-decode-head h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 38px;
+        letter-spacing: 1.5px;
+        color: var(--wm-ink);
+        margin: 0 0 6px;
+        line-height: 1;
+      }
+
+      .wm-decode-head p {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .wm-decode-head p strong {
+        color: var(--wm-ink);
+      }
+
+      .wm-decode-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 600px) {
+        .wm-decode-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (min-width: 920px) {
+        .wm-decode-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      .wm-decode-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-left: 5px solid var(--card-accent, var(--wm-purple));
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 14px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .wm-decode-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--wm-ink);
+      }
+
+      .wm-decode-icon {
+        font-size: 18px;
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+
+      .wm-decode-term {
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        margin: 0;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+
+      .wm-decode-en {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--wm-light);
+        margin: 0 0 2px;
+      }
+
+      .wm-decode-meaning {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--wm-muted);
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .wm-decode-example {
+        font-family: 'Space Mono', monospace;
+        font-size: 10.5px;
+        color: var(--wm-ink);
+        opacity: 0.78;
+        line-height: 1.5;
+        margin: 4px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed var(--wm-border);
+      }
+
+      .wm-decode-example::before {
+        content: "in practice ";
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--wm-purple);
+        margin-right: 4px;
+      }
+
+      .wm-decode-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+        text-align: center;
+        margin: 22px auto 0;
+        max-width: 540px;
+        line-height: 1.6;
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -1325,6 +1457,10 @@ const title = "Which Model? — stanwood.dev";
         .wm-quick { padding: 40px 16px 0; }
         .wm-quick-head h2 { font-size: 30px; }
         .wm-quick-head p { font-size: 13px; }
+
+        .wm-decode { padding: 40px 16px 0; }
+        .wm-decode-head h2 { font-size: 30px; }
+        .wm-decode-head p { font-size: 13px; }
       }
 
     </style>
@@ -1470,6 +1606,83 @@ const title = "Which Model? — stanwood.dev";
 
     <p class="wm-quick-foot">
       Don't see your ask? <a href="#" data-wm-restart>Take the quiz</a> or scroll to the full directory below.
+    </p>
+  </section>
+
+  <section class="wm-decode" aria-labelledby="decode-heading">
+    <div class="wm-decode-head">
+      <h2 id="decode-heading">Decode the AI lingo</h2>
+      <p>Why these picks are these picks. <strong>Eight terms that quietly decide every choice.</strong></p>
+    </div>
+
+    <div class="wm-decode-grid">
+      <article class="wm-decode-card" style="--card-accent: #7c5cff;">
+        <span class="wm-decode-icon" aria-hidden="true">📄</span>
+        <p class="wm-decode-en">working memory</p>
+        <p class="wm-decode-term">Context window</p>
+        <p class="wm-decode-meaning">Everything you paste — prompt, attachments, prior chat — has to fit. Bigger window means more code or more pages of a contract before you start chunking.</p>
+        <p class="wm-decode-example">Gemini 2.5 Pro: 2M tokens (~5,000 pages). Claude Opus 4.7: 1M (~2,500). GPT-4o: 128K (~300).</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #ff6b4a;">
+        <span class="wm-decode-icon" aria-hidden="true">🧠</span>
+        <p class="wm-decode-en">thinks before it answers</p>
+        <p class="wm-decode-term">Reasoning model</p>
+        <p class="wm-decode-meaning">A second class of model that runs an internal "scratchpad" before responding. Slower and pricier per query, but lands harder problems — math, multi-step logic, code refactors.</p>
+        <p class="wm-decode-example">o3, Claude Opus 4.7 with extended thinking, DeepSeek R1, Gemini 2.5 Deep Think.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #f5c542;">
+        <span class="wm-decode-icon" aria-hidden="true">🎨</span>
+        <p class="wm-decode-en">handles more than text</p>
+        <p class="wm-decode-term">Multimodal</p>
+        <p class="wm-decode-meaning">Reads images, audio, video, or PDFs as input — not just text. Native multimodal models trained on all four feel sharper than ones bolted onto text-only bases.</p>
+        <p class="wm-decode-example">Gemini eats video natively; Claude reads photos and PDFs; GPT-4o adds voice in / voice out.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #10a37f;">
+        <span class="wm-decode-icon" aria-hidden="true">🪙</span>
+        <p class="wm-decode-en">the unit you pay by</p>
+        <p class="wm-decode-term">Tokens</p>
+        <p class="wm-decode-meaning">Sub-words the model reads and writes — roughly 0.75 word per token. Pricing is "$X per million input tokens / $Y per million output." Output is usually 3–5× more expensive than input.</p>
+        <p class="wm-decode-example">A 200-page PDF ≈ 100K input tokens. At $3/M, that's $0.30 to read it once.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #4285f4;">
+        <span class="wm-decode-icon" aria-hidden="true">⚡</span>
+        <p class="wm-decode-en">fast vs. flagship</p>
+        <p class="wm-decode-term">Tier (Fast · Mid · Flagship)</p>
+        <p class="wm-decode-meaning">Each lab ships a tiered family. Fast tiers are 5–20× cheaper and answer in &lt;1s — built for production pipelines. Flagship tiers cost more, think harder, and only make sense when quality matters more than latency.</p>
+        <p class="wm-decode-example">Anthropic: Haiku → Sonnet → Opus. Google: Flash-Lite → Flash → Pro. OpenAI: 4o-mini → 4o → o3.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #4f88c6;">
+        <span class="wm-decode-icon" aria-hidden="true">🔓</span>
+        <p class="wm-decode-en">can you run it yourself</p>
+        <p class="wm-decode-term">Open vs. closed weights</p>
+        <p class="wm-decode-meaning">Open-weight models publish the trained parameters — you can self-host, fine-tune, or run offline. Closed-weight models live behind an API only. Open trades some quality for full control and zero per-call cost.</p>
+        <p class="wm-decode-example">Open: Llama 4, DeepSeek R1, Mistral. Closed: anything from OpenAI, Anthropic, Google.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #d97706;">
+        <span class="wm-decode-icon" aria-hidden="true">🛠️</span>
+        <p class="wm-decode-en">can it call other things</p>
+        <p class="wm-decode-term">Tool use / agents</p>
+        <p class="wm-decode-meaning">Whether the model can call APIs, run code, search the web, or read files mid-conversation — instead of just generating text. The foundation under every "agent" headline.</p>
+        <p class="wm-decode-example">Claude's MCP, OpenAI's function calling, Gemini's tool use — all the same idea, slightly different APIs.</p>
+      </article>
+
+      <article class="wm-decode-card" style="--card-accent: #b76dff;">
+        <span class="wm-decode-icon" aria-hidden="true">📅</span>
+        <p class="wm-decode-en">how recent its world is</p>
+        <p class="wm-decode-term">Knowledge cutoff</p>
+        <p class="wm-decode-meaning">The date training data ends. Anything after — a release, a news event, a library version — the model has to be told or look up. Models with web search smooth this over; pure-LLM answers don't.</p>
+        <p class="wm-decode-example">Claude Opus 4.7: Jan 2026. GPT-5.5: late 2025. Older models can be 12+ months stale.</p>
+      </article>
+    </div>
+
+    <p class="wm-decode-foot">
+      Match the term to the task. The Quick Picks above are shorthand — these are the dials underneath them.
     </p>
   </section>
 
