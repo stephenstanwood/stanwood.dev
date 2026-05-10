@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, type SyntheticEvent } from "react";
 import type {
   WeirdnessMode,
   MoreModifier,
@@ -54,7 +54,7 @@ export default function RedesignRolodex() {
   const allDirections = [...stream.directions, ...extraDirections];
 
   const handleSubmit = useCallback(
-    async (e?: React.FormEvent<HTMLFormElement>) => {
+    async (e?: SyntheticEvent<HTMLFormElement>) => {
       e?.preventDefault();
       const finalUrl = ghost && url.length >= 2 ? ghost : url;
       const trimmed = finalUrl.trim();

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, type SyntheticEvent } from "react";
 import { useLoadingMessages } from "../lib/redesignRolodex/useLoadingMessages";
 import { pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
@@ -60,7 +60,7 @@ function RedesignRolodexTileInner() {
     [stream.analyze],
   );
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const finalUrl = ghost && url.length >= 2 ? ghost : url;

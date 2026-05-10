@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 
 interface Props {
   onSubmit: (text: string) => void;
@@ -19,7 +19,7 @@ const EXAMPLES = [
 export default function FreeTextInput({ onSubmit, onBack }: Props) {
   const [text, setText] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     if (text.trim()) onSubmit(text.trim());
   }
