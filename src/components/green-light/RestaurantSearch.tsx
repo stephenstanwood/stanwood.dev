@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import type { TasteProfile } from "../../lib/greenLight/types";
 
 interface Props {
@@ -102,7 +102,7 @@ export default function RestaurantSearch({
   const [query, setQuery] = useState("");
   const [city, setCity] = useState(savedCity);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     const trimmed = query.trim();
     const cityTrimmed = city.trim();
