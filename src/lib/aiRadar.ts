@@ -43,6 +43,105 @@ export const TYPE_LABELS: Record<string, string> = {
 };
 
 /**
+ * Curated profiles for the major AI labs. The radar's org chips reference these
+ * by exact name so click-to-filter keeps working — keep names in sync with the
+ * launch data and ORG_COLORS above.
+ */
+export interface LabProfile {
+  name: string;
+  founded: string;
+  hq: string;
+  oneLine: string;
+  signature: string;
+  flag: string;
+  stance: "closed" | "open" | "mixed" | "infra";
+}
+
+export const LAB_PROFILES: LabProfile[] = [
+  {
+    name: "OpenAI",
+    founded: "2015",
+    hq: "San Francisco",
+    oneLine: "Set the pace for the modern wave — ChatGPT made conversational AI a household tool overnight.",
+    signature: "GPT-5 · ChatGPT · Sora · Realtime API",
+    flag: "🇺🇸",
+    stance: "closed",
+  },
+  {
+    name: "Anthropic",
+    founded: "2021",
+    hq: "San Francisco",
+    oneLine: "Founded by ex-OpenAI safety researchers; Claude is the model coding tools quietly standardize on.",
+    signature: "Claude Sonnet · Claude Opus · MCP · Skills",
+    flag: "🇺🇸",
+    stance: "closed",
+  },
+  {
+    name: "Google",
+    founded: "2014",
+    hq: "Mountain View / London",
+    oneLine: "DeepMind + Brain merged into the Gemini team; the only lab with the chips, the data, and the products.",
+    signature: "Gemini 3 · AI Studio · Vertex · Veo",
+    flag: "🇺🇸",
+    stance: "mixed",
+  },
+  {
+    name: "Meta",
+    founded: "2013",
+    hq: "Menlo Park",
+    oneLine: "Open-weights leader in the West — Llama set the floor every other open lab is measured against.",
+    signature: "Llama · Movie Gen · Ray-Ban Display",
+    flag: "🇺🇸",
+    stance: "open",
+  },
+  {
+    name: "xAI",
+    founded: "2023",
+    hq: "Palo Alto",
+    oneLine: "Musk's lab. Massive Memphis training cluster, edgier brand voice, integrated tightly with X.",
+    signature: "Grok · Colossus supercluster",
+    flag: "🇺🇸",
+    stance: "mixed",
+  },
+  {
+    name: "Mistral",
+    founded: "2023",
+    hq: "Paris",
+    oneLine: "Europe's flagship lab — punches above its weight on small, efficient, mostly open-weights models.",
+    signature: "Mistral Large · Mixtral · Codestral",
+    flag: "🇫🇷",
+    stance: "open",
+  },
+  {
+    name: "DeepSeek",
+    founded: "2023",
+    hq: "Hangzhou",
+    oneLine: "Sparked the 2025 cost-collapse — frontier-class reasoning at a fraction of the price, weights and all.",
+    signature: "DeepSeek-R1 · V3 · open weights",
+    flag: "🇨🇳",
+    stance: "open",
+  },
+  {
+    name: "Alibaba",
+    founded: "2023",
+    hq: "Hangzhou",
+    oneLine: "Qwen team ships open-weights models at every size with ruthless cadence — the workhorse of Chinese AI.",
+    signature: "Qwen 3 · Qwen-VL · Qwen-Coder",
+    flag: "🇨🇳",
+    stance: "open",
+  },
+  {
+    name: "NVIDIA",
+    founded: "1993",
+    hq: "Santa Clara",
+    oneLine: "Sells the picks and shovels. Every other lab on this list trains on its chips — H100, B200, GB200, and counting.",
+    signature: "Blackwell · CUDA · NeMo · Nemotron",
+    flag: "🇺🇸",
+    stance: "infra",
+  },
+];
+
+/**
  * Parse a YYYY-MM-DD date string at noon local time so that formatting
  * functions reflect the correct calendar day regardless of timezone offset.
  */

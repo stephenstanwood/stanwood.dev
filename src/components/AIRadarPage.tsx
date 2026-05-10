@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import launches from "../data/ai-launches.json";
 import {
   type Launch,
+  LAB_PROFILES,
   ORG_COLORS,
   TYPE_LABELS,
   relativeAge,
@@ -11,6 +12,13 @@ import {
   sortLaunches,
   computePulse,
 } from "../lib/aiRadar";
+
+const STANCE_LABELS: Record<string, string> = {
+  closed: "closed weights",
+  open: "open weights",
+  mixed: "mixed",
+  infra: "infrastructure",
+};
 
 const sorted = sortLaunches(launches as Launch[]);
 const pulse = computePulse(sorted);
@@ -301,6 +309,63 @@ export default function AIRadarPage() {
             );
           })}
         </div>
+      </section>
+
+      {/* The Labs — who actually ships in this space */}
+      <section className="rp-labs" aria-labelledby="rp-labs-title">
+        <div className="rp-labs-head">
+          <h2 id="rp-labs-title" className="rp-labs-title">The Labs</h2>
+          <span className="rp-labs-sub">nine you'll see most · tap to filter</span>
+        </div>
+        <p className="rp-labs-intro">
+          Most launches in this feed come from the same handful of labs. Here's who they are, where
+          they're based, and what they're actually known for — so the org chips below stop being acronym soup.
+        </p>
+        <div className="rp-labs-grid">
+          {LAB_PROFILES.map((lab) => {
+            const count = orgCounts[lab.name] ?? 0;
+            const inFeed = sorted.some((l) => l.org === lab.name);
+            const isActive = activeOrg === lab.name;
+            const color = ORG_COLORS[lab.name] || "#888";
+            return (
+              <button
+                key={lab.name}
+                className={`rp-lab-card ${isActive ? "rp-lab-card--active" : ""} ${!inFeed ? "rp-lab-card--quiet" : ""}`}
+                onClick={() => inFeed && toggleOrg(lab.name)}
+                disabled={!inFeed}
+                aria-pressed={isActive}
+                title={inFeed ? `Filter to ${lab.name}` : `${lab.name} — no launches tracked yet`}
+                style={{ borderTopColor: color }}
+              >
+                <div className="rp-lab-head">
+                  <span className="rp-lab-name" style={{ color }}>{lab.name}</span>
+                  <span className="rp-lab-flag" aria-hidden="true">{lab.flag}</span>
+                </div>
+                <div className="rp-lab-meta">
+                  <span>est. {lab.founded}</span>
+                  <span className="rp-lab-meta-sep">·</span>
+                  <span>{lab.hq}</span>
+                </div>
+                <p className="rp-lab-oneline">{lab.oneLine}</p>
+                <div className="rp-lab-foot">
+                  <span className={`rp-lab-stance rp-lab-stance--${lab.stance}`}>
+                    {STANCE_LABELS[lab.stance]}
+                  </span>
+                  {inFeed && (
+                    <span className="rp-lab-count">
+                      {count > 0 ? `${count} in feed` : "in feed"}
+                    </span>
+                  )}
+                </div>
+                <p className="rp-lab-sig">{lab.signature}</p>
+              </button>
+            );
+          })}
+        </div>
+        <p className="rp-labs-foot">
+          Plenty of others ship too — Cursor, GitHub, Cloudflare, Midjourney, Hugging Face, Runway,
+          ByteDance, MiniMax, Z.ai. They show up in the chips below as their launches land.
+        </p>
       </section>
 
       {/* Filter chips */}

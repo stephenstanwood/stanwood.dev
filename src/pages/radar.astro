@@ -672,6 +672,177 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         font-style: italic;
       }
 
+      /* ── The Labs ── */
+      .rp-labs {
+        margin-top: 40px;
+        padding-top: 28px;
+        border-top: 1px dashed var(--rp-border);
+      }
+      .rp-labs-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+      }
+      .rp-labs-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        margin: 0;
+      }
+      .rp-labs-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--rp-muted);
+      }
+      .rp-labs-intro {
+        font-size: 12px;
+        line-height: 1.55;
+        color: #666;
+        margin: 0 0 16px;
+      }
+      .rp-labs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      @media (min-width: 540px) {
+        .rp-labs-grid {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+      }
+      .rp-lab-card {
+        font-family: inherit;
+        text-align: left;
+        background: #fff;
+        border: 2px solid var(--rp-ink);
+        border-top-width: 5px;
+        box-shadow: 2px 2px 0 var(--rp-ink);
+        padding: 10px 12px 11px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        transition: transform 0.08s, box-shadow 0.08s, background 0.1s;
+      }
+      .rp-lab-card:hover:not(:disabled) {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--rp-ink);
+        background: #fffef5;
+      }
+      .rp-lab-card--active {
+        background: var(--rp-subtle);
+        box-shadow: inset 0 0 0 2px var(--rp-accent), 2px 2px 0 var(--rp-ink);
+      }
+      .rp-lab-card--quiet {
+        cursor: default;
+        opacity: 0.7;
+      }
+      .rp-lab-card--quiet:hover {
+        transform: none;
+        box-shadow: 2px 2px 0 var(--rp-ink);
+        background: #fff;
+      }
+      .rp-lab-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .rp-lab-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+      }
+      .rp-lab-flag {
+        font-size: 12px;
+        line-height: 1;
+        opacity: 0.85;
+      }
+      .rp-lab-meta {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        line-height: 1.2;
+      }
+      .rp-lab-meta-sep {
+        margin: 0 4px;
+        color: #ccc;
+      }
+      .rp-lab-oneline {
+        font-size: 11.5px;
+        line-height: 1.45;
+        color: var(--rp-ink);
+        margin: 2px 0 0;
+      }
+      .rp-lab-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        margin-top: auto;
+        padding-top: 6px;
+      }
+      .rp-lab-stance {
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 2px 6px;
+        border-radius: 2px;
+        background: var(--rp-subtle);
+        color: var(--rp-ink);
+      }
+      .rp-lab-stance--open {
+        background: #e6f7ec;
+        color: #1f7a3a;
+      }
+      .rp-lab-stance--closed {
+        background: #fdecea;
+        color: #b03a2e;
+      }
+      .rp-lab-stance--mixed {
+        background: #fff4d6;
+        color: #8a6611;
+      }
+      .rp-lab-stance--infra {
+        background: #ecf0fa;
+        color: #3d4d80;
+      }
+      .rp-lab-count {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: var(--rp-muted);
+        letter-spacing: 0.04em;
+      }
+      .rp-lab-sig {
+        font-family: 'Space Mono', monospace;
+        font-size: 9.5px;
+        color: #888;
+        line-height: 1.4;
+        margin: 4px 0 0;
+        padding-top: 6px;
+        border-top: 1px dashed var(--rp-border);
+        word-break: break-word;
+      }
+      .rp-labs-foot {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #888;
+        margin: 12px 0 0;
+        font-style: italic;
+      }
+
       /* ── Stats bar ── */
       .rp-stats {
         font-family: 'Space Mono', monospace;
@@ -845,6 +1016,8 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         .rp-pulse-num--text { font-size: 15px; }
         .rp-fieldmap-title { font-size: 18px; }
         .rp-fieldmap-card { padding: 10px 11px 11px; }
+        .rp-labs-title { font-size: 18px; }
+        .rp-lab-card { padding: 9px 10px 10px; }
       }
     </style>
   </Fragment>
