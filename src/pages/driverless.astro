@@ -46,6 +46,136 @@ const slug = "driverless";
     padding: 24px 20px 48px;
   }
 
+  /* ── Hero image ─────────────────────────────────────── */
+  .dl-hero-img {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 8px 0 24px;
+    aspect-ratio: 24 / 9;
+    background: #e2e8f0;
+  }
+  .dl-hero-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .dl-hero-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(248, 250, 248, 0) 35%,
+      rgba(248, 250, 248, 0.5) 75%,
+      rgba(248, 250, 248, 0.95) 100%
+    );
+    pointer-events: none;
+  }
+  .dl-hero-overlay {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 20px;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .dl-hero-overlay-title {
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(36px, 6vw, 56px);
+    color: var(--dl-accent);
+    line-height: 1;
+    margin: 0;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.6);
+  }
+  .dl-hero-overlay-sub {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--dl-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .dl-hero-img {
+      aspect-ratio: 16 / 10;
+      margin-top: 4px;
+    }
+    .dl-hero-overlay {
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+    }
+  }
+
+  /* ── Built for moments like ─────────────────────────── */
+  .dl-forwhen {
+    margin: 0 0 24px;
+  }
+  .dl-forwhen-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--dl-muted);
+    margin: 0 0 12px;
+  }
+  .dl-forwhen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 860px) {
+    .dl-forwhen-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 480px) {
+    .dl-forwhen-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .dl-forwhen-card {
+    background: var(--dl-card);
+    border: 1px solid var(--dl-border);
+    border-top: 3px solid var(--dl-accent);
+    border-radius: 8px;
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .dl-forwhen-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--dl-accent);
+  }
+  .dl-forwhen-text {
+    font-size: 13px;
+    color: var(--dl-ink);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .dl-forwhen-text strong {
+    font-weight: 600;
+    color: var(--dl-ink);
+  }
+  .dl-forwhen-text span {
+    color: var(--dl-muted);
+  }
+
   /* ── Header ─────────────────────────────────────────── */
   .dl-header {
     margin-bottom: 32px;
@@ -54,22 +184,15 @@ const slug = "driverless";
   }
 
   .dl-back {
+    display: inline-block;
     font-size: 13px;
     color: var(--dl-muted);
     text-decoration: none;
     transition: color 0.15s;
+    margin-bottom: 4px;
   }
   .dl-back:hover {
     color: var(--dl-accent);
-  }
-
-  .dl-title {
-    font-family: "Permanent Marker", cursive;
-    font-size: 42px;
-    margin: 12px 0 4px;
-    color: var(--dl-accent);
-    letter-spacing: 0.01em;
-    line-height: 1.1;
   }
 
   .dl-subtitle {
@@ -931,9 +1054,6 @@ const slug = "driverless";
   @media (max-width: 600px) {
     .dl-page {
       padding: 16px 12px 32px;
-    }
-    .dl-title {
-      font-size: 32px;
     }
     .dl-hero-row {
       grid-template-columns: repeat(2, 1fr);

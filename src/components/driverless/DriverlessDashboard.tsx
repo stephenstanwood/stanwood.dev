@@ -15,12 +15,51 @@ import AVTimeline from "./AVTimeline";
 export default function DriverlessDashboard() {
   return (
     <div className="dl-page">
+      <a href="/" className="dl-back">&larr; stanwood.dev</a>
+
+      {/* Hero image */}
+      <div className="dl-hero-img">
+        <img
+          src="/images/self-driving.webp"
+          alt="Driverless robotaxi waiting at a curb with no one in the driver's seat"
+          loading="eager"
+          decoding="async"
+          width="1456"
+          height="546"
+        />
+        <div className="dl-hero-overlay">
+          <h1 className="dl-hero-overlay-title">Driverless</h1>
+          <span className="dl-hero-overlay-sub">live · self-driving by the numbers</span>
+        </div>
+      </div>
+
       {/* Header */}
       <header className="dl-header">
-        <a href="/" className="dl-back">&larr; stanwood.dev</a>
-        <h1 className="dl-title">Driverless</h1>
-        <p className="dl-subtitle">Tracking the self-driving revolution across the US</p>
+        <p className="dl-subtitle">A running snapshot of the autonomous-vehicle landscape — fleets, safety data, where you can ride today, and what's coming next.</p>
       </header>
+
+      {/* Built for moments like */}
+      <section className="dl-forwhen" aria-label="Who this dashboard is for">
+        <p className="dl-forwhen-label">Built for moments like</p>
+        <div className="dl-forwhen-grid">
+          <div className="dl-forwhen-card">
+            <span className="dl-forwhen-num">01</span>
+            <p className="dl-forwhen-text"><strong>Your first robotaxi ride</strong> <span>— what to expect when the car shows up with no one in it, and which service to try first in your city.</span></p>
+          </div>
+          <div className="dl-forwhen-card">
+            <span className="dl-forwhen-num">02</span>
+            <p className="dl-forwhen-text"><strong>The dinner-table argument</strong> <span>— a fact-checked answer to "are these things actually safe?" with the real numbers and sources.</span></p>
+          </div>
+          <div className="dl-forwhen-card">
+            <span className="dl-forwhen-num">03</span>
+            <p className="dl-forwhen-text"><strong>Watching the buildout</strong> <span>— which states allow what, who's racing Waymo, and when the next city is likely to flip on.</span></p>
+          </div>
+          <div className="dl-forwhen-card">
+            <span className="dl-forwhen-num">04</span>
+            <p className="dl-forwhen-text"><strong>Cutting through the hype</strong> <span>— Tesla FSD vs. Waymo, L2+ vs. L4, and what "driverless" actually means in 2026.</span></p>
+          </div>
+        </div>
+      </section>
 
       {/* Milestone callout */}
       <div className="dl-milestone">
