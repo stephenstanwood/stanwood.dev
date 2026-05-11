@@ -915,6 +915,106 @@ const title = "Campbell — stanwood.dev";
       }
       .cb-eat-order:hover { text-decoration: underline; }
 
+      /* ── Heritage panel ── */
+      .cb-history {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto 1rem;
+        padding: 2rem 1.5rem 0.5rem;
+        box-sizing: border-box;
+      }
+      .cb-history-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+        margin: 0 0 0.5rem;
+      }
+      .cb-history-heading {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0 0 0.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .cb-history-sub {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0 0 1.25rem;
+        max-width: 620px;
+      }
+      .cb-history-timeline {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      @media (min-width: 640px) {
+        .cb-history-timeline {
+          grid-template-columns: 1fr 1fr;
+          gap: 0.85rem;
+        }
+      }
+      .cb-history-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 0.95rem 1.05rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-top: 3px solid var(--cb-gold);
+        border-radius: var(--cb-radius);
+        overflow: hidden;
+      }
+      .cb-history-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle at top right, var(--cb-gold-light) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .cb-history-year {
+        font-family: 'Space Mono', monospace;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--cb-gold);
+        letter-spacing: 0.02em;
+        font-variant-numeric: tabular-nums;
+        z-index: 1;
+      }
+      .cb-history-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0;
+        line-height: 1.3;
+      }
+      .cb-history-desc {
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .cb-history-desc strong {
+        color: var(--cb-ink);
+        font-weight: 600;
+      }
+      .cb-history-foot {
+        font-size: 0.78rem;
+        color: var(--cb-light-gray);
+        line-height: 1.55;
+        margin: 1.1rem 0 0;
+        font-style: italic;
+      }
+
       /* ── Footer ── */
       .cb-footer {
         max-width: 800px;
@@ -1070,6 +1170,64 @@ const title = "Campbell — stanwood.dev";
     <main class="cb-main">
       <CampbellPortal client:load />
     </main>
+
+    <section class="cb-history" aria-label="Campbell history at a glance">
+      <span class="cb-history-label">Before Silicon Valley</span>
+      <h2 class="cb-history-heading">Campbell was the Orchard City.</h2>
+      <p class="cb-history-sub">Eight turning points that built today's town — from a wheat farm bought for a dollar an acre to the courtroom decision that still gets cited in mall free-speech cases. "The Orchard City" is still the official motto.</p>
+
+      <div class="cb-history-timeline">
+        <article class="cb-history-card">
+          <span class="cb-history-year">1851</span>
+          <h3 class="cb-history-title">Benjamin Campbell buys 160 acres</h3>
+          <p class="cb-history-desc">He pays roughly <strong>$1 per acre</strong> for wheat-and-hay land where downtown stands today. He works it for 27 years before selling — and the place quietly takes his name.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1878</span>
+          <h3 class="cb-history-title">Sells the farm to a railroad</h3>
+          <p class="cb-history-desc">The South Pacific Coast Railroad pays <strong>$5/acre</strong> and lays track through the property. A depot, drying yards, and the original "Campbell's Place" cluster up around the line.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1895</span>
+          <h3 class="cb-history-title">Bank of Campbell opens</h3>
+          <p class="cb-history-desc">The oldest commercial building in town goes up downtown. It's still standing — and the same shell was later converted into a 1938 movie house and then the Gaslighter Theater.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1925</span>
+          <h3 class="cb-history-title">The Ainsley House is built</h3>
+          <p class="cb-history-desc">John Ainsley, who runs a fruit cannery in town, finishes an <strong>English Tudor</strong> next to his orchard. Decades later (1990) the whole house is rolled through downtown on flatbeds and restored as a city museum.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1928</span>
+          <h3 class="cb-history-title">Water tower goes up</h3>
+          <p class="cb-history-desc">A <strong>75,000-gallon</strong> tank perches above downtown — the tallest thing for miles. It stays in service for decades and becomes the town's de facto skyline.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1952</span>
+          <h3 class="cb-history-title">Campbell incorporates</h3>
+          <p class="cb-history-desc">After a century as an unincorporated farm town, Campbell formally becomes a city on <strong>March 28</strong> — late by Bay Area standards. The first city seal carries an orchard tree.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">1969</span>
+          <h3 class="cb-history-title">The Pruneyard opens</h3>
+          <p class="cb-history-desc">A 36-acre shopping center named for the orchard it paved over. In 1980 the Supreme Court rules in <strong>PruneYard v. Robins</strong> that California malls can't bar peaceful leafletting — still cited today.</p>
+        </article>
+
+        <article class="cb-history-card">
+          <span class="cb-history-year">2005</span>
+          <h3 class="cb-history-title">Light rail arrives</h3>
+          <p class="cb-history-desc">VTA's Vasona line opens on <strong>October 1</strong>, with two stops in Campbell. The depot's old railroad alignment matters again for the first time in nearly a century.</p>
+        </article>
+      </div>
+
+      <p class="cb-history-foot">The orchards are gone, but the names stick: Pruneyard, Orchard Supply, the Heritage Theatre. Every parking lot used to be a row of trees.</p>
+    </section>
 
     <footer class="cb-footer">
       <p>Built with care by <a href="/">stanwood.dev</a> · Not affiliated with the City of Campbell</p>
