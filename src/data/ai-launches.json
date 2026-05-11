@@ -1,5 +1,13 @@
 [
   {
+    "name": "HiDream-O1-Image",
+    "org": "HiDream",
+    "date": "2026-05-08",
+    "type": "model",
+    "summary": "open-source 8B pixel-native image model — single checkpoint handles text-to-image, image editing, and subject-driven personalization up to 2,048×2,048; MIT-licensed, debuted at #8 on the Artificial Analysis Text-to-Image Arena and is now the top open-weights image model",
+    "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image"
+  },
+  {
     "name": "GPT-Realtime-2 + Voice API",
     "org": "OpenAI",
     "date": "2026-05-07",
@@ -22,14 +30,6 @@
     "type": "tool",
     "summary": "open-source toolkit for spec-driven development — turns vague prompts into a four-phase workflow (Specify → Plan → Tasks → Implement) that runs against Claude Code, Copilot, Gemini CLI, and 30+ other agents; free, MIT, hit 90K+ stars in days",
     "url": "https://github.com/github/spec-kit"
-  },
-  {
-    "name": "Claude Dreaming + Multi-Agent Orchestration",
-    "org": "Anthropic",
-    "date": "2026-05-06",
-    "type": "tool",
-    "summary": "at Code with Claude, Anthropic shipped 'dreaming' — a scheduled process that mines past agent sessions for patterns and curates them into reusable skills — and moved outcomes and multi-agent orchestration into public beta on Claude Managed Agents",
-    "url": "https://www.anthropic.com/news/code-with-claude-2026"
   },
   {
     "name": "GPT-5.5 Instant",
