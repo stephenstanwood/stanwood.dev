@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-11T10:30:07.577793+00:00",
+  "built_at": "2026-05-12T10:30:20.484751+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -53,11 +53,40 @@
       ]
     },
     {
+      "key": "CS25",
+      "is_single": false,
+      "display_name": "CS25",
+      "best_score": 13,
+      "video_count": 5,
+      "video_ids": [
+        "GBd7iuJkW08",
+        "bHSDPgZYie0",
+        "OyimE74UMF8",
+        "e_H_tkpCAK4",
+        "I5BKi32IEa8"
+      ]
+    },
+    {
+      "key": "CS153",
+      "is_single": false,
+      "display_name": "CS153",
+      "best_score": 12,
+      "video_count": 6,
+      "video_ids": [
+        "O5PfU_uDhS0",
+        "CBaLU0dDEY8",
+        "vfF011ko89o",
+        "6nUl_w5W9Wk",
+        "BQrJ4lHAjhc",
+        "B8NvdfssGac"
+      ]
+    },
+    {
       "key": "Robotics Seminar",
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 15,
+      "video_count": 16,
       "video_ids": [
         "3iIPRBi2K2w",
         "5uWtpDON7Vs",
@@ -73,7 +102,8 @@
         "D7e7oUbtkFM",
         "NUtaN10cVDc",
         "b6uxaRL_ipw",
-        "xvLTAm2cecY"
+        "xvLTAm2cecY",
+        "r3x_w3tEmB4"
       ]
     },
     {
@@ -128,7 +158,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 9,
+      "video_count": 10,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -138,21 +168,8 @@
         "xnDHaNUvHBg",
         "SzpOcwdIL0Y",
         "6-cXp-aOmdg",
-        "Q15rhEWZPQ4"
-      ]
-    },
-    {
-      "key": "CS153",
-      "is_single": false,
-      "display_name": "CS153",
-      "best_score": 9,
-      "video_count": 5,
-      "video_ids": [
-        "O5PfU_uDhS0",
-        "CBaLU0dDEY8",
-        "vfF011ko89o",
-        "6nUl_w5W9Wk",
-        "BQrJ4lHAjhc"
+        "Q15rhEWZPQ4",
+        "EfM546A79aM"
       ]
     },
     {
@@ -219,18 +236,6 @@
       ]
     },
     {
-      "key": "CS25",
-      "is_single": false,
-      "display_name": "CS25",
-      "best_score": 3,
-      "video_count": 3,
-      "video_ids": [
-        "GBd7iuJkW08",
-        "bHSDPgZYie0",
-        "OyimE74UMF8"
-      ]
-    },
-    {
       "key": "__single__AbezbsrNMZU",
       "is_single": true,
       "display_name": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
@@ -238,16 +243,6 @@
       "video_count": 1,
       "video_ids": [
         "AbezbsrNMZU"
-      ]
-    },
-    {
-      "key": "__single___gqYKyfYCCM",
-      "is_single": true,
-      "display_name": "Choosing Your Path: AI Professional Program Course Selection Guide",
-      "best_score": 2,
-      "video_count": 1,
-      "video_ids": [
-        "_gqYKyfYCCM"
       ]
     },
     {
@@ -285,12 +280,13 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": -1,
-      "video_count": 4,
+      "video_count": 5,
       "video_ids": [
         "tr-CUpw--ck",
         "_WaR2fjZpEQ",
         "agN3AlfGFrk",
-        "WUUq6TVAu8U"
+        "WUUq6TVAu8U",
+        "HpFdSlMeXzQ"
       ]
     },
     {
@@ -857,6 +853,178 @@
       "description": "View course details: https://online.stanford.edu/courses/xcs224r-deep-reinforcement-learning\n\nApril 18, 2025\nThis tutorial covers:\n\u2022 Review of Markov Decision Processes (MDP)\n\u2022 Exact MDPs\n\u2022 Parametric Q-Learning\n\u2022 Practical Details \n\u2022 Q-Learning/Actor Critic Algorithm Walkthrough \n\nTo learn more about enrolling in the graduate course, visit: https://online.stanford.edu/courses/cs224r-deep-reinforc"
     },
     {
+      "id": "GBd7iuJkW08",
+      "title": "Stanford CS25: Transformers United V6 I From Representation Learning to World Modeling",
+      "url": "https://www.youtube.com/watch?v=GBd7iuJkW08",
+      "duration": 4263.0,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 9, 2026\nThis seminar covers: \n\u2022 How world models are increasingly moving away from reconstruction and toward prediction in latent space\n\u2022 Two recent JEPA-based approaches that illustrate this shift from complementary angles\n\nFollow along with the seminar schedule. Visit: https://we"
+    },
+    {
+      "id": "bHSDPgZYie0",
+      "title": "Stanford CS25: Transformers United V6 I Overview of Transformers",
+      "url": "https://www.youtube.com/watch?v=bHSDPgZYie0",
+      "duration": 4606.0,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 2, 2026\nThis seminar covers: \n\u2022 Overview of the history of ML/NLP, Transformers, and how they work\n\u2022 Recent trends, breakthroughs, applications, and current challenges\n\nFollow along with the seminar schedule. Visit: https://web.stanford.edu/class/cs25/\n\nInstructors: \n\u2022 Steven Feng,"
+    },
+    {
+      "id": "OyimE74UMF8",
+      "title": "Stanford CS25: Transformers United V6 I On the Tradeoffs of State Space Models and Transformers",
+      "url": "https://www.youtube.com/watch?v=OyimE74UMF8",
+      "duration": 4628.0,
+      "published_at": "2026-04-27T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 16, 2026\nThis seminar covers: \n\u2022  A high-level overview of a recently popular subquadratic alternative to the Transformer, the state space model (SSM)\n\u2022 The core characteristics and design choices of SSMs and other related modern linear models\n\nFollow along with the seminar schedul"
+    },
+    {
+      "id": "e_H_tkpCAK4",
+      "title": "Stanford CS25: Transformers United V6 I From Next-Token Prediction to Next-Generation Intelligence",
+      "url": "https://www.youtube.com/watch?v=e_H_tkpCAK4",
+      "duration": 3477.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 13,
+      "categories": [
+        "applied_ai",
+        "algorithms",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 30, 2026\nThis seminar covers: \n\u2022  Recent progress in pretraining algorithm design for large language models (LLMs), emphasizing the role of data ordering, reasoning-centric data integration, and reinforcement-based objectives in shaping model capability.\n\u2022 The introduction of a two"
+    },
+    {
+      "id": "I5BKi32IEa8",
+      "title": "Stanford CS25: Transformers United V6 I The Ultra-Scale Talk: Scaling Training to Thousands of GPUs",
+      "url": "https://www.youtube.com/watch?v=I5BKi32IEa8",
+      "duration": 3708.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 23, 2026\nThis seminar covers: \n\u2022 The practicalities of ultra-scale training\n\u2022 How 5D parallelism makes it possible to stretch a single run across massive GPU clusters\n\u2022 How Mixture-of-Experts architectures introduce new scaling dimensions and stability challenges, and the performan"
+    },
+    {
+      "id": "O5PfU_uDhS0",
+      "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
+      "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
+      "duration": 3955.0,
+      "published_at": "2026-04-30T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha opens the quarter of Stanford\u2019s CS153 Frontier Systems by framing the course as a speaker-led \u201cAI Coachella,\u201d emphasizing relationships, fun, and \u201cobsessing over what you love\u201d as a life he"
+    },
+    {
+      "id": "CBaLU0dDEY8",
+      "title": "Stanford CS153 Frontier Systems | Andreas Blattmann from Black Forest Labs on Visual Intelligence",
+      "url": "https://www.youtube.com/watch?v=CBaLU0dDEY8",
+      "duration": 3674.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": -5,
+      "categories": [
+        "swe_career",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 \u201cFrontier Systems\u201d session, Anjney Midha welcomes Andreas Blattmann, co-founder of Black Forest Labs and co-creator of Stable Diffusion, for a discussion on the visual intelligence frontie"
+    },
+    {
+      "id": "vfF011ko89o",
+      "title": "Stanford CS153 Frontier Systems | Mati Staniszewski from ElevenLabs on The Future of Voice Systems",
+      "url": "https://www.youtube.com/watch?v=vfF011ko89o",
+      "duration": 3986.0,
+      "published_at": "2026-05-04T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
+    },
+    {
+      "id": "6nUl_w5W9Wk",
+      "title": "Stanford CS153 Frontier Systems | Amit Jain from Luma AI on Unified Intelligence Systems",
+      "url": "https://www.youtube.com/watch?v=6nUl_w5W9Wk",
+      "duration": 3462.0,
+      "published_at": "2026-05-06T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week three of CS153, the instructor hosts Amit Jain from Luma to discuss \u201cUnified Intelligence Systems\u201d as a follow-up to a prior lecture on visual intelligence. Jain recounts his Apple work on LiDAR"
+    },
+    {
+      "id": "BQrJ4lHAjhc",
+      "title": "Stanford CS153 Frontier Systems | Nikhyl Singhal from Skip on Product Management in the AI Era",
+      "url": "https://www.youtube.com/watch?v=BQrJ4lHAjhc",
+      "duration": 3794.0,
+      "published_at": "2026-05-07T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 guest lecture, Professor Mike Abbott shifts from technical topics to product, tracing how software moved from PRD-driven project management to founder-led consumer product building, and argui"
+    },
+    {
+      "id": "B8NvdfssGac",
+      "title": "Stanford CS153 Frontier Systems | Ben Horowitz from a16z on Venture Capital Systems, Network Effects",
+      "url": "https://www.youtube.com/watch?v=B8NvdfssGac",
+      "duration": 3978.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 12,
+      "categories": [
+        "civic_open",
+        "algorithms",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha welcomes Ben Horowitz, rewinding to the 2009 founding of Andreessen Horowitz as a venture capital \u201csystems\u201d innovation. Horowitz explains building a better product for entrepreneurs, scalin"
+    },
+    {
       "id": "3iIPRBi2K2w",
       "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Adaptive Robots",
       "url": "https://www.youtube.com/watch?v=3iIPRBi2K2w",
@@ -1085,6 +1253,22 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis seminar covers: \n\u2022 Developing the ingredientsfor long-horizon robot autonomy, which are giving robot policies a sense of memory, and training generalist behaviors that are both broadly capable and high-performing\n\u2022 Recent progress on both fronts through two works: \u03c00."
+    },
+    {
+      "id": "r3x_w3tEmB4",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Unlocking Autonomous Medical Robotics",
+      "url": "https://www.youtube.com/watch?v=r3x_w3tEmB4",
+      "duration": 3752.0,
+      "published_at": "2026-05-12T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": -8,
+      "categories": [
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis seminar covers: \n\u2022 Research on enabling greater surgical autonomy through the lens of robot learning\n\u2022 Recent work on human-robot teaming using humanoid systems, examining the limitations of the current state of the art and the opportunities ahead for research and dep"
     },
     {
       "id": "B42CuI0RO7Y",
@@ -1540,82 +1724,20 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
-      "id": "O5PfU_uDhS0",
-      "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
-      "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
-      "duration": 3955.0,
-      "published_at": "2026-04-30T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nAnjney Midha opens the quarter of Stanford\u2019s CS153 Frontier Systems by framing the course as a speaker-led \u201cAI Coachella,\u201d emphasizing relationships, fun, and \u201cobsessing over what you love\u201d as a life he"
-    },
-    {
-      "id": "CBaLU0dDEY8",
-      "title": "Stanford CS153 Frontier Systems | Andreas Blattmann from Black Forest Labs on Visual Intelligence",
-      "url": "https://www.youtube.com/watch?v=CBaLU0dDEY8",
-      "duration": 3674.0,
-      "published_at": "2026-05-04T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": -5,
-      "categories": [
-        "swe_career",
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 \u201cFrontier Systems\u201d session, Anjney Midha welcomes Andreas Blattmann, co-founder of Black Forest Labs and co-creator of Stable Diffusion, for a discussion on the visual intelligence frontie"
-    },
-    {
-      "id": "vfF011ko89o",
-      "title": "Stanford CS153 Frontier Systems | Mati Staniszewski from ElevenLabs on The Future of Voice Systems",
-      "url": "https://www.youtube.com/watch?v=vfF011ko89o",
-      "duration": 3986.0,
-      "published_at": "2026-05-04T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
+      "id": "EfM546A79aM",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 10: Inference",
+      "url": "https://www.youtube.com/watch?v=EfM546A79aM",
+      "duration": 5130.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 10,
       "score": 9,
       "categories": [
         "applied_ai",
-        "swe_career"
+        "series:CS336"
       ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week two of CS153 (\"AI Coachella\"), Anjney Midha interviews Mati Staniszewski, founder and CEO of ElevenLabs, tracing the company\u2019s origins from an early Discord text-to-speech bot to a fast-growing "
-    },
-    {
-      "id": "6nUl_w5W9Wk",
-      "title": "Stanford CS153 Frontier Systems | Amit Jain from Luma AI on Unified Intelligence Systems",
-      "url": "https://www.youtube.com/watch?v=6nUl_w5W9Wk",
-      "duration": 3462.0,
-      "published_at": "2026-05-06T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn week three of CS153, the instructor hosts Amit Jain from Luma to discuss \u201cUnified Intelligence Systems\u201d as a follow-up to a prior lecture on visual intelligence. Jain recounts his Apple work on LiDAR"
-    },
-    {
-      "id": "BQrJ4lHAjhc",
-      "title": "Stanford CS153 Frontier Systems | Nikhyl Singhal from Skip on Product Management in the AI Era",
-      "url": "https://www.youtube.com/watch?v=BQrJ4lHAjhc",
-      "duration": 3794.0,
-      "published_at": "2026-05-07T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 guest lecture, Professor Mike Abbott shifts from technical topics to product, tracing how software moved from PRD-driven project management to founder-led consumer product building, and argui"
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
       "id": "PmW_TMQ3l0I",
@@ -2036,51 +2158,6 @@
       "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
     },
     {
-      "id": "GBd7iuJkW08",
-      "title": "Stanford CS25: Transformers United V6 I From Representation Learning to World Modeling",
-      "url": "https://www.youtube.com/watch?v=GBd7iuJkW08",
-      "duration": 4263.0,
-      "published_at": "2026-04-22T00:00:00+00:00",
-      "series": "CS25",
-      "series_display": "CS25",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 9, 2026\nThis seminar covers: \n\u2022 How world models are increasingly moving away from reconstruction and toward prediction in latent space\n\u2022 Two recent JEPA-based approaches that illustrate this shift from complementary angles\n\nFollow along with the seminar schedule. Visit: https://we"
-    },
-    {
-      "id": "bHSDPgZYie0",
-      "title": "Stanford CS25: Transformers United V6 I Overview of Transformers",
-      "url": "https://www.youtube.com/watch?v=bHSDPgZYie0",
-      "duration": 4606.0,
-      "published_at": "2026-04-22T00:00:00+00:00",
-      "series": "CS25",
-      "series_display": "CS25",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 2, 2026\nThis seminar covers: \n\u2022 Overview of the history of ML/NLP, Transformers, and how they work\n\u2022 Recent trends, breakthroughs, applications, and current challenges\n\nFollow along with the seminar schedule. Visit: https://web.stanford.edu/class/cs25/\n\nInstructors: \n\u2022 Steven Feng,"
-    },
-    {
-      "id": "OyimE74UMF8",
-      "title": "Stanford CS25: Transformers United V6 I On the Tradeoffs of State Space Models and Transformers",
-      "url": "https://www.youtube.com/watch?v=OyimE74UMF8",
-      "duration": 4628.0,
-      "published_at": "2026-04-27T00:00:00+00:00",
-      "series": "CS25",
-      "series_display": "CS25",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 16, 2026\nThis seminar covers: \n\u2022  A high-level overview of a recently popular subquadratic alternative to the Transformer, the state space model (SSM)\n\u2022 The core characteristics and design choices of SSMs and other related modern linear models\n\nFollow along with the seminar schedul"
-    },
-    {
       "id": "AbezbsrNMZU",
       "title": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
       "url": "https://www.youtube.com/watch?v=AbezbsrNMZU",
@@ -2094,21 +2171,6 @@
         "swe_career"
       ],
       "description": "Learn more about decision-making strategies: https://online.stanford.edu/courses/xelp240-making-high-quality-decisions?utm_medium=social&utm_term=&utm_campaign=XELP240Webinar&utm_source=Youtube\n\nWatch an in-depth conversation on decision-making strategies with Amin Saberi, Professor of Management Science and Engineering, and Farnaz Ronaghi, Co-Founder and Chief of Product and Technology at NovoEd."
-    },
-    {
-      "id": "_gqYKyfYCCM",
-      "title": "Choosing Your Path: AI Professional Program Course Selection Guide",
-      "url": "https://www.youtube.com/watch?v=_gqYKyfYCCM",
-      "duration": 1111.0,
-      "published_at": "2025-11-10T00:00:00+00:00",
-      "series": null,
-      "series_display": "Choosing Your Path: AI Professional Program Course Selection Guide",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "Chart your course in Artificial Intelligence! This information session unpacks our comprehensive AI Professional Program, guiding you through each course option. Course Developer and Facilitator, Armando Banuelos, spotlights various learning tracks, helping you curate a personalized path that aligns with your preferences, interests, or backgrounds.\n\nExplore the program: https://online.stanford.edu"
     },
     {
       "id": "smSp11lXLJI",
@@ -2208,6 +2270,21 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:05 Pixel space\n00:12:39 Semantic vs perceptual similarity\n00:14:27 Autoencoder\n00:22:56 Variational autoencoders\n00:31:19 ELBO derivation\n00:46:4"
+    },
+    {
+      "id": "HpFdSlMeXzQ",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 5 - Architectures",
+      "url": "https://www.youtube.com/watch?v=HpFdSlMeXzQ",
+      "duration": 6386.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 5,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:05:26 Objective\n00:09:58 Convolutions, filters\n00:14:44 Receptive field\n00:17:14 Pooling\n00:19:06 U-Net\n00:27:52 Timestep representation\n00:30:31 Cl"
     },
     {
       "id": "LF7Wi_2fJVM",
