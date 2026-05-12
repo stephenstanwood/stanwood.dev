@@ -182,10 +182,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       placesKey,
     );
 
-    if (restaurantPhotos.length >= 2) {
+    const photoCount = restaurantPhotos.length;
+
+    if (photoCount >= 2) {
       recommendation.optionA.photoUrl = restaurantPhotos[0];
       recommendation.optionB.photoUrl = restaurantPhotos[1];
-    } else if (restaurantPhotos.length === 1) {
+    } else if (photoCount === 1) {
       recommendation.optionA.photoUrl = restaurantPhotos[0];
       if (recommendation.optionB.photoQuery) {
         const fallback = await fetchPexelsPhoto(
@@ -207,19 +209,17 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       if (photoB) recommendation.optionB.photoUrl = photoB;
     }
 
-    const photoSource =
-      restaurantPhotos.length >= 2
-        ? "google-places"
-        : restaurantPhotos.length === 1
-          ? "google-places+pexels"
-          : "pexels";
+    let photoSource: string;
+    if (photoCount >= 2) photoSource = "google-places";
+    else if (photoCount === 1) photoSource = "google-places+pexels";
+    else photoSource = "pexels";
 
     logEvent("green-light-recommend", {
       restaurant: trimmedName,
       matched: recommendation.restaurantMatched,
       constraints: constraints.dietary,
       photoSource,
-      photosFound: restaurantPhotos.length,
+      photosFound: photoCount,
     });
 
     return okJson(recommendation, { "Cache-Control": "public, max-age=300" });
