@@ -306,6 +306,89 @@ const title = "WTWTW — stanwood.dev";
         line-height: 1.6;
       }
 
+      /* ── Rivalries on the calendar ── */
+      .rivals-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 640px) {
+        .rivals-grid { grid-template-columns: 1fr; }
+      }
+      .rival-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(210, 170, 110, 0.12);
+        border-radius: 12px;
+        padding: 13px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        position: relative;
+      }
+      .rival-card[data-league="mlb"] { border-left: 3px solid rgba(200, 60, 60, 0.55); }
+      .rival-card[data-league="nba"] { border-left: 3px solid rgba(200, 100, 20, 0.55); }
+      .rival-card[data-league="nhl"] { border-left: 3px solid rgba(80, 150, 210, 0.55); }
+      .rival-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .rival-matchup {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: rgba(245, 230, 208, 0.95);
+        text-transform: uppercase;
+        line-height: 1.1;
+      }
+      .rival-vs {
+        color: rgba(210, 170, 110, 0.45);
+        font-weight: 500;
+        margin: 0 0.2em;
+      }
+      .rival-since {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.4);
+        white-space: nowrap;
+      }
+      .rival-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.55);
+        font-style: italic;
+      }
+      .rival-body {
+        font-size: 12px;
+        line-height: 1.55;
+        color: rgba(245, 230, 208, 0.72);
+      }
+      .rival-body strong {
+        color: rgba(245, 230, 208, 0.95);
+        font-weight: 600;
+      }
+      .rival-moment {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        line-height: 1.5;
+        color: rgba(210, 170, 110, 0.5);
+        padding-top: 7px;
+        margin-top: 2px;
+        border-top: 1px dashed rgba(210, 170, 110, 0.15);
+      }
+      .rival-moment-label {
+        color: rgba(210, 170, 110, 0.35);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-right: 6px;
+      }
+
       /* ── Example schedule preview ── */
       .example-eyebrow {
         display: flex;
@@ -718,6 +801,107 @@ const title = "WTWTW — stanwood.dev";
 
       <p class="vibe-foot">
         WTWTW doesn't pick by sport — your team rank decides. Mix all three and you'll get a different feel each night.
+      </p>
+    </section>
+
+    <!-- Rivalries on the calendar -->
+    <section class="mb-8" aria-label="Classic league rivalries WTWTW naturally surfaces">
+      <div class="vibes-eyebrow">
+        <span class="vibes-eyebrow-label">Rivalries on the calendar</span>
+        <span class="vibes-eyebrow-tag">classic matchups</span>
+      </div>
+      <p class="text-xs leading-relaxed mb-4" style="color: rgba(210, 170, 110, 0.5);">
+        Some games carry weight before anyone throws a pitch or drops a puck. Pick both halves of one of these and WTWTW will hand you that night every time they meet — no rivalry boost in the math, just two top-ranked teams colliding.
+      </p>
+
+      <div class="rivals-grid">
+        <article class="rival-card" data-league="mlb">
+          <div class="rival-head">
+            <span class="rival-matchup">Yankees <span class="rival-vs">vs</span> Red Sox</span>
+            <span class="rival-since">since 1919</span>
+          </div>
+          <span class="rival-tag">East Coast prime time · 19 games a year minimum</span>
+          <p class="rival-body">
+            Born the moment Boston sold Babe Ruth to New York. A century of <strong>Bucky Dent</strong>, <strong>Aaron Boone</strong>, and the only 0-3 ALCS comeback in baseball history.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>2004 ALCS Game 7 — Boston completes the comeback at Yankee Stadium.
+          </p>
+        </article>
+
+        <article class="rival-card" data-league="mlb">
+          <div class="rival-head">
+            <span class="rival-matchup">Dodgers <span class="rival-vs">vs</span> Giants</span>
+            <span class="rival-since">since 1890</span>
+          </div>
+          <span class="rival-tag">West Coast late games · oldest rivalry in baseball</span>
+          <p class="rival-body">
+            Started in Brooklyn and Manhattan, hauled itself coast to coast in 1958, and didn't lose a thing in the move. Division crowns and brawls every August.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>The Shot Heard 'Round the World — Bobby Thomson, 1951 NL playoff.
+          </p>
+        </article>
+
+        <article class="rival-card" data-league="nba">
+          <div class="rival-head">
+            <span class="rival-matchup">Lakers <span class="rival-vs">vs</span> Celtics</span>
+            <span class="rival-since">since 1959</span>
+          </div>
+          <span class="rival-tag">12 Finals meetings · most of any pair</span>
+          <p class="rival-body">
+            Showtime vs the Garden parquet. Russell vs Chamberlain, then <strong>Magic vs Bird</strong>, then Kobe vs Pierce. Every era of the league has had a Lakers-Celtics chapter.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>2010 Finals Game 7 — Kobe's fifth ring, last Finals meeting (so far).
+          </p>
+        </article>
+
+        <article class="rival-card" data-league="nba">
+          <div class="rival-head">
+            <span class="rival-matchup">Warriors <span class="rival-vs">vs</span> Cavaliers</span>
+            <span class="rival-since">since 2015</span>
+          </div>
+          <span class="rival-tag">four straight Finals · the modern blood feud</span>
+          <p class="rival-body">
+            Met in the Finals every year from 2015 to 2018 — a quartet of series no one will repeat soon. <strong>The Block, The Shot, the 3-1 lead</strong>, Durant's arrival — the whole story is one matchup.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>2016 Finals Game 7 — LeBron's block, Kyrie's three, 3-1 reversed.
+          </p>
+        </article>
+
+        <article class="rival-card" data-league="nhl">
+          <div class="rival-head">
+            <span class="rival-matchup">Bruins <span class="rival-vs">vs</span> Canadiens</span>
+            <span class="rival-since">since 1924</span>
+          </div>
+          <span class="rival-tag">Original Six · 35 playoff series, most in NHL history</span>
+          <p class="rival-body">
+            The two oldest active franchises in hockey have played each other in the playoffs more than any other pair on the planet. Every regular-season meeting feels like a referendum.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>1979 Stanley Cup semifinal Game 7 — the "too many men on the ice" penalty.
+          </p>
+        </article>
+
+        <article class="rival-card" data-league="nhl">
+          <div class="rival-head">
+            <span class="rival-matchup">Penguins <span class="rival-vs">vs</span> Capitals</span>
+            <span class="rival-since">since 2005</span>
+          </div>
+          <span class="rival-tag">Crosby vs Ovechkin · three playoff series in five years</span>
+          <p class="rival-body">
+            Drafted first overall in consecutive years and handed each other a permanent argument. Met three times in five postseasons — every series decided by one bounce, one missed assignment, one save.
+          </p>
+          <p class="rival-moment">
+            <span class="rival-moment-label">peak game</span>2009 Eastern semifinal Game 7 — Crosby's first conference final, OT classic.
+          </p>
+        </article>
+      </div>
+
+      <p class="vibe-foot">
+        Pick a rivalry's two halves and put them at #1 and #2 — every regular-season meeting wins that night automatically.
       </p>
     </section>
 
