@@ -7,6 +7,9 @@ import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
 
+const MS_PER_DAY = 86_400_000;
+const MS_PER_WEEK = 7 * MS_PER_DAY;
+
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
 const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
@@ -119,21 +122,20 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     if (allDates.length > 1) {
       let totalGap = 0;
       for (let i = 0; i < allDates.length - 1; i++) {
-        totalGap += (allDates[i].getTime() - allDates[i + 1].getTime()) / 86400000;
+        totalGap += (allDates[i].getTime() - allDates[i + 1].getTime()) / MS_PER_DAY;
       }
       avgDaysBetween = Math.round((totalGap / (allDates.length - 1)) * 10) / 10;
     }
 
     // Deploys in the last 30 days
-    const thirtyDaysAgo = new Date(now.getTime() - 30 * 86400000);
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * MS_PER_DAY);
     const deploysLast30 = allDates.filter((d) => d > thirtyDaysAgo).length;
 
     // Streak: consecutive weeks (ending now) that had at least one deploy
-    const oneWeekMs = 7 * 86400000;
     let streakWeeks = 0;
     for (let week = 0; week < 12; week++) {
-      const weekEnd = new Date(now.getTime() - week * oneWeekMs);
-      const weekStart = new Date(now.getTime() - (week + 1) * oneWeekMs);
+      const weekEnd = new Date(now.getTime() - week * MS_PER_WEEK);
+      const weekStart = new Date(now.getTime() - (week + 1) * MS_PER_WEEK);
       const hasDeployInWeek = allDates.some((d) => d >= weekStart && d < weekEnd);
       if (hasDeployInWeek) {
         streakWeeks++;
