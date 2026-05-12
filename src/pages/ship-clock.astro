@@ -691,6 +691,156 @@ const title = "Ship Clock — stanwood.dev";
         .sc-unstick-fix { font-size: 12.5px; padding: 7px 9px; }
       }
 
+      /* ── Cadences in the wild ── */
+      .sc-wild {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+
+      .sc-wild-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: var(--sc-ink);
+        margin: 0 0 6px;
+      }
+
+      .sc-wild-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 18px;
+      }
+
+      .sc-wild-intro {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.65;
+        line-height: 1.55;
+        margin: 0 0 18px;
+      }
+
+      .sc-wild-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .sc-wild-card {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 3px 3px 0 var(--sc-ink);
+        background: #fff;
+        padding: 12px 14px 14px;
+        display: grid;
+        grid-template-columns: 88px 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .sc-wild-stat {
+        background: rgba(0,0,0,0.04);
+        border: 2px solid currentColor;
+        padding: 6px 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .sc-wild-stat-num {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 18px;
+        line-height: 1;
+        color: currentColor;
+      }
+
+      .sc-wild-stat-unit {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: currentColor;
+        opacity: 0.85;
+        margin-top: 4px;
+      }
+
+      .sc-wild-body {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+
+      .sc-wild-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .sc-wild-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--sc-ink);
+        letter-spacing: 0.02em;
+      }
+
+      .sc-wild-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: currentColor;
+        opacity: 0.7;
+        white-space: nowrap;
+      }
+
+      .sc-wild-text {
+        font-family: 'Cabin', sans-serif;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: var(--sc-ink);
+        opacity: 0.7;
+        margin: 0;
+      }
+
+      .sc-wild-text strong {
+        color: var(--sc-ink);
+        opacity: 1;
+        font-weight: 700;
+      }
+
+      .sc-wild-card--blazing { color: var(--sc-accent); }
+      .sc-wild-card--fast    { color: #1a9d3f; }
+      .sc-wild-card--steady  { color: #c97718; }
+      .sc-wild-card--cycle   { color: #2563a0; }
+      .sc-wild-card--annual  { color: #8a6cb5; }
+      .sc-wild-card--glacial { color: #c52727; }
+
+      .sc-wild-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 480px) {
+        .sc-wild-card { grid-template-columns: 72px 1fr; padding: 10px 12px 12px; gap: 10px; }
+        .sc-wild-stat-num { font-size: 15px; }
+        .sc-wild-text { font-size: 12px; }
+      }
+
       /* ── Repo tracker ── */
       .sc-rt-wrap {
         max-width: 480px;
@@ -939,6 +1089,101 @@ const title = "Ship Clock — stanwood.dev";
       </div>
 
       <p class="sc-unstick-foot">The pattern across all five: the move that unsticks you is smaller than you think. Whatever lands today wins.</p>
+    </div>
+
+    <!-- Cadences in the wild -->
+    <div class="sc-wild">
+      <h2 class="sc-wild-heading">Cadences in the wild</h2>
+      <p class="sc-wild-sub">six teams · how their clocks tick</p>
+      <p class="sc-wild-intro">Your number isn't right or wrong — it depends on what you ship. Continuous deployment makes sense for a web service and would be malpractice for a spacecraft. Six well-known cadences, slowest to fastest, to triangulate against.</p>
+
+      <div class="sc-wild-list">
+        <article class="sc-wild-card sc-wild-card--blazing">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">11s</span>
+            <span class="sc-wild-stat-unit">per deploy</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Amazon</span>
+              <span class="sc-wild-tag">continuous · web</span>
+            </div>
+            <p class="sc-wild-text">A 2011 internal talk put production deploys at roughly <strong>one every 11 seconds</strong> across all services — about 130,000/day. Each commit ships behind its own pipeline and rolls back automatically if a metric drifts.</p>
+          </div>
+        </article>
+
+        <article class="sc-wild-card sc-wild-card--fast">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">~50</span>
+            <span class="sc-wild-stat-unit">per day</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Etsy</span>
+              <span class="sc-wild-tag">continuous · marketplace</span>
+            </div>
+            <p class="sc-wild-text">Wrote the playbook the rest of the industry copied. <strong>50+ deploys a day</strong> from a single trunk branch, fronted by the "Deployinator" — anyone in engineering can press the button.</p>
+          </div>
+        </article>
+
+        <article class="sc-wild-card sc-wild-card--steady">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">4</span>
+            <span class="sc-wild-stat-unit">weeks</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Google Chrome</span>
+              <span class="sc-wild-tag">release train · browser</span>
+            </div>
+            <p class="sc-wild-text">Stable channel cuts every <strong>four weeks</strong> since 2021 (was six since 2010). Anything that misses the train waits for the next one — features are flag-gated behind it.</p>
+          </div>
+        </article>
+
+        <article class="sc-wild-card sc-wild-card--cycle">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">~9</span>
+            <span class="sc-wild-stat-unit">weeks</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Linux kernel</span>
+              <span class="sc-wild-tag">merge windows · OS</span>
+            </div>
+            <p class="sc-wild-text">Torvalds runs a <strong>two-week merge window</strong> followed by ~seven weeks of release candidates. Mainline lands every nine or ten weeks; the daily commit volume in between is enormous.</p>
+          </div>
+        </article>
+
+        <article class="sc-wild-card sc-wild-card--annual">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">1</span>
+            <span class="sc-wild-stat-unit">year</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Apple iOS</span>
+              <span class="sc-wild-tag">tentpole · mobile OS</span>
+            </div>
+            <p class="sc-wild-text">A major version every September, walking out of the Steve Jobs Theater. Point releases fill the year (.1, .2, .3 every month or two), but the headline number only moves once — keynote-shaped cadence.</p>
+          </div>
+        </article>
+
+        <article class="sc-wild-card sc-wild-card--glacial">
+          <div class="sc-wild-stat">
+            <span class="sc-wild-stat-num">~10</span>
+            <span class="sc-wild-stat-unit">years</span>
+          </div>
+          <div class="sc-wild-body">
+            <div class="sc-wild-head">
+              <span class="sc-wild-name">Voyager 1</span>
+              <span class="sc-wild-tag">remote patch · spacecraft</span>
+            </div>
+            <p class="sc-wild-text">Launched 1977, still flying. NASA last patched the flight software in <strong>2024</strong> when a chip failed 15 billion miles out — a one-way uplink that takes 22 hours to arrive. Roughly one code drop per decade.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="sc-wild-foot">The right cadence is the one your blast radius can absorb. Etsy ships 50/day because a bad checkout commit reverts in three minutes. Voyager ships once a decade because the round-trip light delay is two days and the original team is mostly retired. Match the clock to the cost of being wrong.</p>
     </div>
 
     <RepoTracker client:idle />
