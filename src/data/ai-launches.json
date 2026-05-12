@@ -32,20 +32,20 @@
     "url": "https://github.com/github/spec-kit"
   },
   {
+    "name": "Claude Code Higher Limits + SpaceX Compute",
+    "org": "Anthropic",
+    "date": "2026-05-06",
+    "type": "tool",
+    "summary": "Anthropic doubled Claude Code's 5-hour usage limits for Pro, Max, Team, and seat-based Enterprise plans and removed peak-hour reductions for Pro and Max — fueled by a new SpaceX deal that adds 220K+ NVIDIA GPUs and 300MW of capacity via Colossus 1",
+    "url": "https://www.anthropic.com/news/higher-limits-spacex"
+  },
+  {
     "name": "GPT-5.5 Instant",
     "org": "OpenAI",
     "date": "2026-05-05",
     "type": "model",
     "summary": "ChatGPT's new default model — 52.5% fewer hallucinations, 30% shorter responses, and personalization from past chats, files, and connected Gmail; live for all ChatGPT users and as chat-latest in the API",
     "url": "https://openai.com/index/gpt-5-5-instant/"
-  },
-  {
-    "name": "Cloudflare + Stripe Agent Provisioning",
-    "org": "Cloudflare",
-    "date": "2026-04-30",
-    "type": "tool",
-    "summary": "open protocol that lets coding agents create Cloudflare accounts, register domains, grab API tokens, and deploy code with no human in the loop — Stripe handles payment with a default $100/month per-provider cap",
-    "url": "https://blog.cloudflare.com/agents-stripe-projects/"
   },
   {
     "name": "Midjourney V8.1",
@@ -56,11 +56,11 @@
     "url": "https://updates.midjourney.com/v8-1-updates/"
   },
   {
-    "name": "Cursor SDK",
-    "org": "Cursor",
+    "name": "Gemini File Generation",
+    "org": "Google",
     "date": "2026-04-29",
     "type": "tool",
-    "summary": "TypeScript SDK that turns Cursor's coding agent into programmable infrastructure — npm install @cursor/sdk, run agents locally or on Cursor's sandboxed cloud VMs from CI, backend services, or your own product, billed per-token",
-    "url": "https://cursor.com/blog/typescript-sdk"
+    "summary": "the Gemini app can now turn a prompt into a downloadable Google Doc, Sheet, Slide, PDF, DOCX, XLSX, CSV, LaTeX, RTF, or Markdown file — bridges brainstorm-to-ship for solo builders without leaving the chat; rolled out globally to all Gemini users",
+    "url": "https://blog.google/innovation-and-ai/products/gemini-app/generate-files-in-gemini/"
   }
 ]
