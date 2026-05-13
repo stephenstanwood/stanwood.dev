@@ -183,11 +183,7 @@ export default function AIRadarPage() {
             </div>
             <div className="rp-pulse-stat">
               <div className="rp-pulse-num">
-                {pulse.daysSinceLast === null
-                  ? "—"
-                  : pulse.daysSinceLast === 0
-                  ? "0d"
-                  : `${pulse.daysSinceLast}d`}
+                {pulse.daysSinceLast === null ? "—" : `${pulse.daysSinceLast}d`}
               </div>
               <div className="rp-pulse-label">since last drop</div>
               <div className="rp-pulse-foot">

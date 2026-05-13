@@ -2,6 +2,8 @@
  * Shared constants and helpers for the AI Radar components (tile + page).
  */
 
+import { MS_PER_DAY } from "./time";
+
 export interface Launch {
   name: string;
   org: string;
@@ -155,7 +157,7 @@ export function parseLaunchDate(dateStr: string): Date {
  */
 export function relativeAge(dateStr: string): string {
   const date = parseLaunchDate(dateStr);
-  const diff = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
+  const diff = Math.floor((Date.now() - date.getTime()) / MS_PER_DAY);
   if (diff === 0) return "today";
   if (diff === 1) return "yesterday";
   if (diff < 7) return `${diff}d ago`;
@@ -237,8 +239,7 @@ export interface PulseStats {
  */
 export function computePulse(launches: Launch[]): PulseStats {
   const now = Date.now();
-  const day = 1000 * 60 * 60 * 24;
-  const dayDiff = (d: string) => Math.floor((now - parseLaunchDate(d).getTime()) / day);
+  const dayDiff = (d: string) => Math.floor((now - parseLaunchDate(d).getTime()) / MS_PER_DAY);
 
   let thisWeek = 0;
   let priorWeek = 0;

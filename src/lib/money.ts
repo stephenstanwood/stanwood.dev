@@ -1,3 +1,5 @@
+import { MS_PER_DAY } from "./time";
+
 // ── Types ────────────────────────────────────────────────────────
 
 export interface BreakdownItem {
@@ -148,7 +150,7 @@ export function daysUntil(dateStr: string | null): number | null {
   const target = new Date(dateStr + "T00:00:00");
   const now = new Date();
   const ms = target.getTime() - now.getTime();
-  return Math.ceil(ms / (1000 * 60 * 60 * 24));
+  return Math.ceil(ms / MS_PER_DAY);
 }
 
 export function formatRenewalDate(dateStr: string | null): string {

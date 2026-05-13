@@ -18,6 +18,7 @@ import {
   formatRenewalDate,
   sortDomainsByRenewal,
 } from "../../lib/money";
+import { MS_PER_WEEK } from "../../lib/time";
 
 const TAGLINES = [
   "money out the door 💸",
@@ -28,7 +29,7 @@ const TAGLINES = [
 ];
 
 function pickTagline(): string {
-  const weekIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7)) % TAGLINES.length;
+  const weekIndex = Math.floor(Date.now() / MS_PER_WEEK) % TAGLINES.length;
   return TAGLINES[weekIndex];
 }
 
