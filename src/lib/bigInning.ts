@@ -1,6 +1,12 @@
 // MLB Big Inning schedule: parse ET wall-clock times into UTC instants,
-// scrape MLB support page when possible, fall back to a hardcoded list.
+// scrape MLB support page when possible, fall back to a bundled list
+// kept in src/data/bigInningSchedule.ts (regenerated nightly on the Mini).
 // Source: https://support.mlb.com/s/article/What-Is-MLB-Big-Inning
+
+import {
+  BIG_INNING_GENERATED_AT,
+  BIG_INNING_RAW,
+} from "../data/bigInningSchedule";
 
 export interface BigInningWindow {
   start: string; // ISO 8601 UTC
@@ -12,59 +18,6 @@ export interface BigInningSchedule {
   source: "mlb" | "fallback";
   windows: BigInningWindow[];
 }
-
-// Hardcoded April/May 2026 schedule from MLB support page (pulled 2026-05-13).
-// Update when MLB publishes the next month's slate.
-const FALLBACK_RAW: ReadonlyArray<readonly [string, string, string]> = [
-  ["04/20/26", "8:30 PM", "11:30 PM"],
-  ["04/21/26", "7:00 PM", "10:00 PM"],
-  ["04/21/26", "10:00 PM", "12:30 AM"],
-  ["04/22/26", "8:00 PM", "10:30 PM"],
-  ["04/23/26", "4:00 PM", "6:30 PM"],
-  ["04/24/26", "8:30 PM", "11:30 PM"],
-  ["04/25/26", "7:30 PM", "10:00 PM"],
-  ["04/26/26", "2:00 PM", "5:00 PM"],
-  ["04/27/26", "8:00 PM", "10:30 PM"],
-  ["04/28/26", "7:00 PM", "10:00 PM"],
-  ["04/28/26", "10:00 PM", "12:30 AM"],
-  ["04/29/26", "3:00 PM", "5:30 PM"],
-  ["04/30/26", "1:00 PM", "4:00 PM"],
-  ["05/01/26", "8:30 PM", "11:30 PM"],
-  ["05/02/26", "7:30 PM", "10:00 PM"],
-  ["05/03/26", "2:00 PM", "5:00 PM"],
-  ["05/04/26", "8:30 PM", "11:30 PM"],
-  ["05/05/26", "7:00 PM", "10:00 PM"],
-  ["05/05/26", "10:00 PM", "12:30 AM"],
-  ["05/06/26", "7:30 PM", "10:00 PM"],
-  ["05/07/26", "2:00 PM", "4:30 PM"],
-  ["05/08/26", "8:30 PM", "11:30 PM"],
-  ["05/09/26", "7:30 PM", "10:00 PM"],
-  ["05/10/26", "2:00 PM", "5:00 PM"],
-  ["05/11/26", "8:00 PM", "10:30 PM"],
-  ["05/12/26", "7:00 PM", "10:00 PM"],
-  ["05/12/26", "10:00 PM", "12:30 AM"],
-  ["05/13/26", "8:00 PM", "10:30 PM"],
-  ["05/14/26", "2:00 PM", "5:00 PM"],
-  ["05/15/26", "8:30 PM", "11:30 PM"],
-  ["05/16/26", "7:30 PM", "10:00 PM"],
-  ["05/17/26", "2:00 PM", "5:00 PM"],
-  ["05/18/26", "8:30 PM", "11:30 PM"],
-  ["05/19/26", "7:00 PM", "10:00 PM"],
-  ["05/19/26", "10:00 PM", "12:30 AM"],
-  ["05/20/26", "8:00 PM", "10:30 PM"],
-  ["05/21/26", "9:30 PM", "11:00 PM"],
-  ["05/22/26", "8:30 PM", "11:30 PM"],
-  ["05/23/26", "4:00 PM", "6:30 PM"],
-  ["05/24/26", "2:00 PM", "5:00 PM"],
-  ["05/25/26", "3:30 PM", "6:30 PM"],
-  ["05/26/26", "7:00 PM", "10:00 PM"],
-  ["05/26/26", "10:00 PM", "12:30 AM"],
-  ["05/27/26", "8:00 PM", "10:30 PM"],
-  ["05/28/26", "7:00 PM", "9:00 PM"],
-  ["05/29/26", "8:30 PM", "11:30 PM"],
-  ["05/30/26", "4:00 PM", "6:30 PM"],
-  ["05/31/26", "2:00 PM", "5:00 PM"],
-];
 
 function isEdt(year: number, month: number, day: number): boolean {
   if (month < 3 || month > 11) return false;
@@ -128,11 +81,11 @@ export function buildWindow(
 
 export function buildFallbackSchedule(): BigInningSchedule {
   return {
-    generated_at: new Date().toISOString(),
+    generated_at: BIG_INNING_GENERATED_AT,
     source: "fallback",
-    windows: FALLBACK_RAW
-      .map(([d, s, e]) => buildWindow(d, s, e))
-      .filter((w): w is BigInningWindow => w !== null),
+    windows: BIG_INNING_RAW.map(([d, s, e]) => buildWindow(d, s, e)).filter(
+      (w): w is BigInningWindow => w !== null
+    ),
   };
 }
 
