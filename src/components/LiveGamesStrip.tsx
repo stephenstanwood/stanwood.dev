@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TEAM_REGISTRY, type TeamEntry } from "../lib/teamRegistry";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { safeGet } from "../lib/localStorage";
+import {
+  findActiveWindow,
+  type BigInningSchedule,
+} from "../lib/bigInning";
 
 interface ESPNCompetitor {
   team?: { abbreviation?: string; displayName?: string };
@@ -34,10 +38,11 @@ interface ESPNEvent {
 interface LiveGame {
   id: string;
   league: string;
-  awayAbbr: string;
-  awayScore: string;
-  homeAbbr: string;
-  homeScore: string;
+  awayAbbr?: string;
+  awayScore?: string;
+  homeAbbr?: string;
+  homeScore?: string;
+  label?: string;
   detail: string;
   href: string;
   platform: string;
@@ -46,12 +51,22 @@ interface LiveGame {
 
 const LS_KEY = "wtwtw:v1";
 const POLL_MS = 60_000;
+const SCHEDULE_REFRESH_MS = 30 * 60_000;
 const PLAYOFF_LEAGUES = ["basketball/nba"];
 const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants"];
 
 const PRIME_URL = "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc";
 const YOUTUBE_TV_URL = "https://tv.youtube.com/";
 const MLB_TV_URL = "https://www.mlb.com/tv";
+const BIG_INNING_ACCENT = "#bf0d3e";
+
+const fmtEt = (iso: string) =>
+  new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone: "America/New_York",
+  }).format(new Date(iso));
 
 function platformFor(
   matched: TeamEntry | null,
@@ -105,6 +120,52 @@ function readUserTeamKeys(): string[] {
 
 export default function LiveGamesStrip() {
   const [games, setGames] = useState<LiveGame[]>([]);
+  const [schedule, setSchedule] = useState<BigInningSchedule | null>(null);
+  const [now, setNow] = useState<number>(() => Date.now());
+
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const r = await fetch("/api/big-inning", { cache: "no-store" });
+        if (!r.ok) return;
+        const j: BigInningSchedule = await r.json();
+        if (!cancelled) setSchedule(j);
+      } catch {
+        /* keep prior schedule */
+      }
+    }
+    load();
+    const id = setInterval(load, SCHEDULE_REFRESH_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), POLL_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const bigInningChip = useMemo<LiveGame | null>(() => {
+    const active = findActiveWindow(schedule, now);
+    if (!active) return null;
+    return {
+      id: "mlb-big-inning",
+      league: "baseball/mlb",
+      label: "MLB Big Inning",
+      detail: `until ${fmtEt(active.end)} ET`,
+      href: MLB_TV_URL,
+      platform: "MLB.tv",
+      accentColor: BIG_INNING_ACCENT,
+    };
+  }, [schedule, now]);
+
+  const visibleGames = useMemo<LiveGame[]>(() => {
+    if (!bigInningChip) return games;
+    return [...games, bigInningChip];
+  }, [games, bigInningChip]);
 
   useEffect(() => {
     let cancelled = false;
@@ -218,7 +279,7 @@ export default function LiveGamesStrip() {
     };
   }, []);
 
-  if (games.length === 0) return null;
+  if (visibleGames.length === 0) return null;
 
   return (
     <div className="live-strip" aria-label="Currently playing">
@@ -227,27 +288,38 @@ export default function LiveGamesStrip() {
         Live now
       </span>
       <div className="live-chips">
-        {games.map((g) => (
-          <a
-            key={g.id}
-            href={g.href}
-            target="_blank"
-            rel="noopener"
-            className="live-chip"
-            style={{ borderLeftColor: g.accentColor }}
-            title={`${g.awayAbbr} ${g.awayScore} – ${g.homeAbbr} ${g.homeScore} · ${g.detail} · ${g.platform}`}
-          >
-            <span className="live-chip-teams">
-              <span className="live-chip-team">{g.awayAbbr}</span>
-              <span className="live-chip-score">{g.awayScore}</span>
-              <span className="live-chip-sep">–</span>
-              <span className="live-chip-team">{g.homeAbbr}</span>
-              <span className="live-chip-score">{g.homeScore}</span>
-            </span>
-            <span className="live-chip-detail">{g.detail}</span>
-            <span className="live-chip-platform">{g.platform}</span>
-          </a>
-        ))}
+        {visibleGames.map((g) => {
+          const titleText = g.label
+            ? `${g.label} · ${g.detail} · ${g.platform}`
+            : `${g.awayAbbr} ${g.awayScore} – ${g.homeAbbr} ${g.homeScore} · ${g.detail} · ${g.platform}`;
+          return (
+            <a
+              key={g.id}
+              href={g.href}
+              target="_blank"
+              rel="noopener"
+              className="live-chip"
+              style={{ borderLeftColor: g.accentColor }}
+              title={titleText}
+            >
+              <span className="live-chip-teams">
+                {g.label ? (
+                  <span className="live-chip-team">{g.label}</span>
+                ) : (
+                  <>
+                    <span className="live-chip-team">{g.awayAbbr}</span>
+                    <span className="live-chip-score">{g.awayScore}</span>
+                    <span className="live-chip-sep">–</span>
+                    <span className="live-chip-team">{g.homeAbbr}</span>
+                    <span className="live-chip-score">{g.homeScore}</span>
+                  </>
+                )}
+              </span>
+              <span className="live-chip-detail">{g.detail}</span>
+              <span className="live-chip-platform">{g.platform}</span>
+            </a>
+          );
+        })}
       </div>
     </div>
   );
