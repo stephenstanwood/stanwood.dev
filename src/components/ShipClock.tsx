@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
+import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from "../lib/time";
 
 interface HistoryEntry {
   date: string;
@@ -41,9 +42,9 @@ function buildActivityGrid(
 
   return Array.from({ length: 28 }, (_, i) => {
     const daysAgo = 27 - i; // index 0 = oldest, index 27 = today
-    const cellTs = now - daysAgo * 86400000;
+    const cellTs = now - daysAgo * MS_PER_DAY;
     const active = allDates.some(
-      (ts) => Math.floor((now - ts) / 86400000) === daysAgo
+      (ts) => Math.floor((now - ts) / MS_PER_DAY) === daysAgo
     );
     const dateStr = new Date(cellTs).toLocaleDateString("en-US", {
       month: "short",
@@ -55,9 +56,9 @@ function buildActivityGrid(
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
-  const mins = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
+  const mins = Math.floor(diff / MS_PER_MINUTE);
+  const hours = Math.floor(diff / MS_PER_HOUR);
+  const days = Math.floor(diff / MS_PER_DAY);
   if (mins < 60) return `${mins}m ago`;
   if (hours < 24) return `${hours}h ago`;
   if (days === 1) return "yesterday";

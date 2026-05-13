@@ -4,11 +4,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { CLAUDE_HAIKU, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
-
-const MS_PER_DAY = 86_400_000;
-const MS_PER_WEEK = 7 * MS_PER_DAY;
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
@@ -100,8 +98,8 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const createdAt = new Date(deployments[0].created);
     const now = new Date();
     const diffMs = now.getTime() - createdAt.getTime();
-    const hoursSince = Math.floor(diffMs / (1000 * 60 * 60));
-    const daysSince = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const hoursSince = Math.floor(diffMs / MS_PER_HOUR);
+    const daysSince = Math.floor(diffMs / MS_PER_DAY);
 
     const { raw: rawCommit, sha, prNumber } = extractCommitMeta(deployments[0]);
 

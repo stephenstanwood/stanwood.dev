@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { MS_PER_MINUTE } from "../lib/time";
 
 interface DeployData {
   lastDeploy: string | null;
@@ -27,7 +28,7 @@ function barsFromSha(sha: string): number[] {
 }
 
 function formatElapsed(ms: number): string {
-  const totalMin = Math.floor(ms / 60000);
+  const totalMin = Math.floor(ms / MS_PER_MINUTE);
   const totalHr = Math.floor(totalMin / 60);
   const totalDays = Math.floor(totalHr / 24);
 
