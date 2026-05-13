@@ -586,6 +586,101 @@ const title = "Museum Label — stanwood.dev";
         margin: 1.25rem auto 0;
         max-width: 480px;
       }
+
+      /* ── Museums got there first (real exhibits) ── */
+      .ml-real {
+        width: 100%;
+        max-width: 560px;
+        margin: 2.75rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--ml-border);
+      }
+      .ml-real-intro {
+        font-size: 0.78rem;
+        color: var(--ml-gray);
+        line-height: 1.6;
+        margin: 0 auto 1.5rem;
+        text-align: center;
+        max-width: 480px;
+      }
+      .ml-real-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .ml-real-card {
+        background: var(--ml-card-bg);
+        border: 1.5px solid var(--ml-border);
+        border-radius: 4px;
+        padding: 1.25rem 1.4rem 1.35rem;
+        box-shadow: 0 2px 14px rgba(26, 22, 18, 0.05);
+        font-family: 'Cormorant Garamond', Georgia, serif;
+      }
+      .ml-real-eyebrow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        margin-bottom: 0.7rem;
+        flex-wrap: wrap;
+      }
+      .ml-real-where {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ml-accent);
+        font-weight: 700;
+      }
+      .ml-real-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ml-light-gray);
+        padding: 0.18rem 0.5rem;
+        border: 1px solid var(--ml-border);
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .ml-real-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--ml-ink);
+        margin: 0 0 0.15rem;
+        letter-spacing: 0.01em;
+        line-height: 1.22;
+      }
+      .ml-real-artist {
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--ml-gray);
+        margin: 0 0 0.55rem;
+      }
+      .ml-real-meta {
+        font-family: 'Cabin', sans-serif;
+        font-size: 0.7rem;
+        color: var(--ml-light-gray);
+        margin: 0 0 0.75rem;
+        letter-spacing: 0.02em;
+        padding-bottom: 0.7rem;
+        border-bottom: 1px dashed var(--ml-border);
+      }
+      .ml-real-desc {
+        font-size: 0.88rem;
+        color: var(--ml-ink);
+        line-height: 1.65;
+        margin: 0;
+      }
+      .ml-real-foot {
+        font-size: 0.74rem;
+        color: var(--ml-light-gray);
+        line-height: 1.6;
+        text-align: center;
+        margin: 1.5rem auto 0;
+        max-width: 480px;
+        font-style: italic;
+      }
     </style>
   </Fragment>
 
@@ -830,6 +925,81 @@ const title = "Museum Label — stanwood.dev";
           </div>
         </div>
       </div>
+
+      <section class="ml-real" aria-label="Real museum exhibits that read like the bit">
+        <p class="ml-section-label">museums got there first</p>
+        <p class="ml-real-intro">Six exhibits whose actual wall placards already read like the bit. Bananas, beds, urinals, a working helicopter — every one of them is on display somewhere right now, with a curator explaining, with a straight face, why it deserves to be there.</p>
+
+        <div class="ml-real-grid">
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">Pérez Art Museum Miami · acquired 2024</span>
+              <span class="ml-real-tag">sold $6.2M</span>
+            </div>
+            <h3 class="ml-real-title">Comedian</h3>
+            <p class="ml-real-artist">Maurizio Cattelan, 2019</p>
+            <p class="ml-real-meta">Banana, gray duct tape, gallery wall · edition of 3 plus 2 artist proofs</p>
+            <p class="ml-real-desc">A grocery-store banana, taped to the wall with a single strip of duct tape. The fruit is swapped out every few days; what changes hands is a certificate of authenticity. Sotheby's auctioned an edition for $6.2M in November 2024 — the buyer ate the banana on stage.</p>
+          </article>
+
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">Tate Britain · long-term loan</span>
+              <span class="ml-real-tag">sold £2.5M</span>
+            </div>
+            <h3 class="ml-real-title">My Bed</h3>
+            <p class="ml-real-artist">Tracey Emin, 1998</p>
+            <p class="ml-real-meta">Mattress, linens, pillows, miscellaneous debris · dimensions variable</p>
+            <p class="ml-real-desc">The artist's actual bed after several days of post-breakup depression — empty bottles, used tissues, stained sheets, cigarette butts. Christie's sold it for £2.5M in 2014 to Count Christian Duerckheim, who immediately loaned it back to Tate. Conservation involves replenishing certain consumables.</p>
+          </article>
+
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">MoMA · Tate · Centre Pompidou</span>
+              <span class="ml-real-tag">17 authorized replicas</span>
+            </div>
+            <h3 class="ml-real-title">Fountain</h3>
+            <p class="ml-real-artist">Marcel Duchamp, 1917</p>
+            <p class="ml-real-meta">Porcelain urinal, signed "R. Mutt 1917" · 36 × 48 × 61 cm</p>
+            <p class="ml-real-desc">A standard men's-room fixture, signed with a pseudonym and submitted to the 1917 Society of Independent Artists exhibition, which refused to show it. The original is lost. Seventeen authorized replicas now sit on plinths in major museums. A 2004 Turner Prize panel voted it the most influential modern artwork.</p>
+          </article>
+
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">Art Institute of Chicago</span>
+              <span class="ml-real-tag">175 lbs · restocked daily</span>
+            </div>
+            <h3 class="ml-real-title">"Untitled" (Portrait of Ross in L.A.)</h3>
+            <p class="ml-real-artist">Felix Gonzalez-Torres, 1991</p>
+            <p class="ml-real-meta">Wrapped candies, endless supply · dimensions variable</p>
+            <p class="ml-real-desc">A pile of brightly wrapped candies spilled into a gallery corner, weighing exactly 175 pounds — the ideal body weight of the artist's partner, Ross Laycock, who died of AIDS-related complications that year. Visitors are invited to take a piece. Staff refill the pile every morning so the work never finishes.</p>
+          </article>
+
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">Museum of Modern Art, NYC · design wing</span>
+              <span class="ml-real-tag">acquired 1984</span>
+            </div>
+            <h3 class="ml-real-title">Bell-47D1 Helicopter</h3>
+            <p class="ml-real-artist">Arthur Young (designer), Bell Aircraft Corp., 1945</p>
+            <p class="ml-real-meta">Aluminum, acrylic, steel · 2.83 × 2.41 × 12.62 m</p>
+            <p class="ml-real-desc">A working civilian helicopter, suspended from the ceiling of MoMA's design galleries. The museum acquired it because the transparent acrylic bubble cockpit was considered an exemplar of postwar industrial design. It is, in fact, just the helicopter — fully assembled, no longer airworthy, hanging above the escalators.</p>
+          </article>
+
+          <article class="ml-real-card">
+            <div class="ml-real-eyebrow">
+              <span class="ml-real-where">Steven A. Cohen collection · loaned to Met Breuer</span>
+              <span class="ml-real-tag">sold ~$12M</span>
+            </div>
+            <h3 class="ml-real-title">The Physical Impossibility of Death in the Mind of Someone Living</h3>
+            <p class="ml-real-artist">Damien Hirst, 1991</p>
+            <p class="ml-real-meta">Tiger shark, glass, steel, 5% formaldehyde solution · 2.17 × 5.42 × 1.80 m</p>
+            <p class="ml-real-desc">A 14-foot tiger shark suspended in a vitrine of formaldehyde. The original specimen began to decompose inside the tank within a decade; in 2006 Hirst replaced it with a fresh shark, with the buyer's blessing. The work is whichever shark is currently in the tank — a Ship-of-Theseus argument with teeth.</p>
+          </article>
+        </div>
+
+        <p class="ml-real-foot">Every one of these gets a wall placard. The bit isn't the placard — it's that the placard exists. Your toothbrush deserves the same treatment.</p>
+      </section>
     </main>
   </div>
 </BaseLayout>
