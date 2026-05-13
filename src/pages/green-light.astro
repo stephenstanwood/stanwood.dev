@@ -970,6 +970,115 @@ const title = "Green Light — stanwood.dev";
         line-height: 1.5;
         margin-top: 0.15rem;
       }
+
+      /* ─── Menu glossary ──────────────────────────────────────────── */
+      .he-glossary {
+        width: 100%;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+        border-top: 1px solid var(--he-border);
+      }
+      .he-glossary-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        text-align: center;
+        margin: 0 0 0.4rem;
+      }
+      .he-glossary-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.4rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .he-glossary-sub {
+        font-size: 0.85rem;
+        color: var(--he-gray);
+        line-height: 1.55;
+        margin: 0 auto 1.5rem;
+        text-align: center;
+        max-width: 460px;
+      }
+      .he-glossary-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+      }
+      @media (min-width: 540px) {
+        .he-glossary-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (min-width: 820px) {
+        .he-glossary-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .he-gloss-card {
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-radius: 12px;
+        padding: 0.95rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+      .he-gloss-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-bottom: 0.55rem;
+        border-bottom: 1px dashed var(--he-border);
+      }
+      .he-gloss-flag {
+        font-size: 1.15rem;
+        line-height: 1;
+      }
+      .he-gloss-cuisine {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+      }
+      .he-gloss-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .he-gloss-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+      .he-gloss-term {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--he-rosemary);
+        letter-spacing: 0.005em;
+      }
+      .he-gloss-def {
+        font-size: 0.76rem;
+        color: var(--he-gray);
+        line-height: 1.45;
+      }
+      .he-glossary-foot {
+        margin: 1.5rem auto 0;
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        text-align: center;
+        line-height: 1.55;
+        max-width: 480px;
+      }
+      .he-glossary-foot strong {
+        color: var(--he-rosemary);
+        font-weight: 700;
+      }
     </style>
   </Fragment>
 
@@ -1233,6 +1342,166 @@ const title = "Green Light — stanwood.dev";
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="he-glossary" aria-label="Menu words decoded">
+      <p class="he-glossary-label">field guide</p>
+      <h2 class="he-glossary-heading">Menu words, demystified.</h2>
+      <p class="he-glossary-sub">A short cheat sheet to the terms that quietly do the work on a menu. Skim before you sit down — useful even when Green Light isn't open.</p>
+
+      <div class="he-glossary-grid">
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇯🇵</span>
+            <span class="he-gloss-cuisine">Japanese</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">omakase</span>
+              <span class="he-gloss-def">"I leave it to you." No menu — the chef picks every course. Usually pricier, almost always worth it if the place is good.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">izakaya</span>
+              <span class="he-gloss-def">Japanese pub. Lots of small shared plates designed to keep pace with drinks — think tapas, but with skewers and karaage.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">donburi</span>
+              <span class="he-gloss-def">Anything served over a bowl of rice. Gyudon = beef. Oyakodon = chicken + egg. Cheap, fast, satisfying.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">robata</span>
+              <span class="he-gloss-def">Flame-grilled skewers and vegetables, charred over binchotan. Smoky, simple, ingredient-forward.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇰🇷</span>
+            <span class="he-gloss-cuisine">Korean</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">banchan</span>
+              <span class="he-gloss-def">The half-dozen little side dishes that arrive free with your meal — kimchi, pickled radish, marinated spinach. Refills usually free too.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">jjigae</span>
+              <span class="he-gloss-def">Stew, served bubbling in a stone pot. Kimchi jjigae, sundubu jjigae (soft tofu), doenjang jjigae (fermented soybean).</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">bulgogi</span>
+              <span class="he-gloss-def">Thin-sliced beef in a soy-pear-sesame marinade, grilled or pan-cooked. The sweet, accessible gateway to Korean BBQ.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">ssam</span>
+              <span class="he-gloss-def">Means "wrapped." Grilled meat tucked into lettuce or perilla leaves with garlic, ssamjang paste, rice. Eat with hands.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇹🇭</span>
+            <span class="he-gloss-cuisine">Thai</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">gaeng</span>
+              <span class="he-gloss-def">Curry. Red, green, yellow, massaman, panang — each one is a gaeng with a different paste base. Heat varies wildly.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">yam</span>
+              <span class="he-gloss-def">Thai-style salad — punchy with lime, fish sauce, chili, herbs. Yam woon sen = glass noodle. Yam nua = grilled beef.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">pad</span>
+              <span class="he-gloss-def">"Stir-fried." Pad thai, pad see ew (wide noodles, soy), pad krapao (basil + chili). Always wok-charred.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">larb</span>
+              <span class="he-gloss-def">Minced meat salad with toasted rice powder, lime, fish sauce, chili, mint. Northeastern (Isaan) staple, ferociously bright.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇲🇽</span>
+            <span class="he-gloss-cuisine">Mexican</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">mole</span>
+              <span class="he-gloss-def">A slow-cooked sauce stacked with chilies, seeds, spices, and sometimes chocolate. Mole negro is the classic — complex, not sweet.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">al pastor</span>
+              <span class="he-gloss-def">Pork shaved off a vertical spit, marinated in chili and citrus, kissed with pineapple. Lebanese shawarma's Mexican cousin.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">antojito</span>
+              <span class="he-gloss-def">"Little craving." Street snacks — sopes, tlacoyos, elote, esquites. Often the most fun part of any menu.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">aguachile</span>
+              <span class="he-gloss-def">Raw shrimp drowned in chili-lime juice. Faster, hotter, and greener than ceviche — usually served immediately.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇮🇹</span>
+            <span class="he-gloss-cuisine">Italian</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">primo / secondo</span>
+              <span class="he-gloss-def">First course (pasta, risotto, soup) and second (the protein). Italian menus are sectioned this way — you can order either or both.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">antipasti</span>
+              <span class="he-gloss-def">Starters before the pasta — cured meats, cheeses, marinated vegetables, bruschetta. Designed for sharing.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">agrodolce</span>
+              <span class="he-gloss-def">"Sour-sweet." A vinegar-and-sugar reduction glazed over meat, fish, or vegetables. Sicilian roots, vivid on the tongue.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">cacio e pepe</span>
+              <span class="he-gloss-def">Three ingredients: pasta water, Pecorino, black pepper. Looks plain on a menu, slaps you when it lands. Order it.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="he-gloss-card">
+          <div class="he-gloss-head">
+            <span class="he-gloss-flag" aria-hidden="true">🇮🇳</span>
+            <span class="he-gloss-cuisine">Indian</span>
+          </div>
+          <ul class="he-gloss-list">
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">biryani</span>
+              <span class="he-gloss-def">Layered rice cooked with marinated meat, saffron, fried onions, and whole spices. Each region has its own — Hyderabadi is the famous one.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">masala</span>
+              <span class="he-gloss-def">Spice blend, not a single thing. Garam masala is the warm finishing one. Tikka masala = grilled, then in a creamy tomato sauce.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">saag / palak</span>
+              <span class="he-gloss-def">Both mean greens. Palak is specifically spinach; saag can include mustard, fenugreek, and other leaves blended down.</span>
+            </li>
+            <li class="he-gloss-row">
+              <span class="he-gloss-term">thali</span>
+              <span class="he-gloss-def">Sampler platter — several small curries, rice, breads, chutneys, dal, dessert. The best way to taste a kitchen's whole hand.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="he-glossary-foot">Six cuisines worth of <strong>menu-fluency</strong> in 30 seconds. The next unfamiliar dish you spot might already be on this list.</p>
     </section>
   </div>
 </BaseLayout>
