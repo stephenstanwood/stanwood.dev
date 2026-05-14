@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-13T10:30:06.582936+00:00",
+  "built_at": "2026-05-14T10:30:07.616629+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 12,
+      "video_count": 11,
       "video_ids": [
-        "IZk3ynP5474",
         "JbX98G2sSEQ",
         "IKpRUQFOzpU",
         "B9WsVMGtIuk",
@@ -71,7 +70,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 7,
+      "video_count": 8,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -79,7 +78,8 @@
         "6nUl_w5W9Wk",
         "BQrJ4lHAjhc",
         "B8NvdfssGac",
-        "wisccQYTRQc"
+        "wisccQYTRQc",
+        "tsQB0n0YV3k"
       ]
     },
     {
@@ -87,9 +87,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 16,
+      "video_count": 15,
       "video_ids": [
-        "3iIPRBi2K2w",
         "5uWtpDON7Vs",
         "CHD6DS6f21Y",
         "MoI6yxW6fuE",
@@ -332,23 +331,6 @@
     }
   ],
   "queue": [
-    {
-      "id": "IZk3ynP5474",
-      "title": "Stanford CS547 HCI Seminar | Autumn 2025 | Going Beyond Linear Conversation",
-      "url": "https://www.youtube.com/watch?v=IZk3ynP5474",
-      "duration": 3424.0,
-      "published_at": "2025-11-12T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 24,
-      "categories": [
-        "hci",
-        "applied_ai",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 24, 2025\nThis lecture covers:\n\u2022 Enhancing AI-assisted programming via mutual grounding\n\u2022 Methods that enable the LLM to explain its generated code and ask clarification questions\n\u2022 Enabling humans to emphasize important instructions via attention steering\n\nTo follow along with th"
-    },
     {
       "id": "JbX98G2sSEQ",
       "title": "Stanford CS547 HCI Seminar | Autumn 2025 | What Is a (Future) Designer?",
@@ -1031,19 +1013,23 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class zooms out from AI model labs to examine energy and electricity as upstream bottlenecks to compute and data center growth, intensified since ChatGPT\u2019s 2022 "
     },
     {
-      "id": "3iIPRBi2K2w",
-      "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | Adaptive Robots",
-      "url": "https://www.youtube.com/watch?v=3iIPRBi2K2w",
-      "duration": 3091.0,
-      "published_at": "2025-11-12T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
+      "id": "tsQB0n0YV3k",
+      "title": "Stanford CS153 Frontier Systems | Jensen Huang from NVIDIA on the Compute Behind Intelligence",
+      "url": "https://www.youtube.com/watch?v=tsQB0n0YV3k",
+      "duration": 4104.0,
+      "published_at": "2026-05-13T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
       "lecture_num": null,
-      "score": 2,
+      "score": -3,
       "categories": [
-        "robotics"
+        "applied_ai",
+        "algorithms",
+        "swe_career",
+        "healthcare_ai",
+        "climate_grid"
       ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 17, 2025\nThis seminar covers: \n\u2022 Adaptive robots through reconfiguration, compliance, and contact\n\u2022 Creating robots capable of emergent adaptive behaviors\n\u2022 Identifying opportunities for adaptive behavior in robots from engineered emergent phenomena\n\nTo follow along with the semi"
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class hosts Jensen Huang, CEO of NVIDIA, who argues computing is being reinvented for the first time in 64 years as software shifts from prerecorded execution to"
     },
     {
       "id": "5uWtpDON7Vs",
