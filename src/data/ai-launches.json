@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Code Agent View + /goal",
+    "org": "Anthropic",
+    "date": "2026-05-11",
+    "type": "tool",
+    "summary": "Claude Code 2.1 ships a CLI dashboard for parallel sessions — `claude agents` opens one list of every running, blocked, or done agent; pair it with the new /goal command and Claude keeps iterating across turns until a completion condition is met; research preview on Pro, Max, Team, Enterprise, and API plans",
+    "url": "https://claude.com/blog/agent-view-in-claude-code"
+  },
+  {
     "name": "HiDream-O1-Image",
     "org": "HiDream",
     "date": "2026-05-08",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "image gen update — HD mode 3x faster and 3x cheaper than V8.0, standard renders 50% faster and 25% cheaper, brings back image prompts and adds a Prompt Shortener; live on midjourney.com and Discord",
     "url": "https://updates.midjourney.com/v8-1-updates/"
-  },
-  {
-    "name": "Gemini File Generation",
-    "org": "Google",
-    "date": "2026-04-29",
-    "type": "tool",
-    "summary": "the Gemini app can now turn a prompt into a downloadable Google Doc, Sheet, Slide, PDF, DOCX, XLSX, CSV, LaTeX, RTF, or Markdown file — bridges brainstorm-to-ship for solo builders without leaving the chat; rolled out globally to all Gemini users",
-    "url": "https://blog.google/innovation-and-ai/products/gemini-app/generate-files-in-gemini/"
   }
 ]
