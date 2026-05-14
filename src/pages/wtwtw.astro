@@ -389,6 +389,120 @@ const title = "WTWTW — stanwood.dev";
         margin-right: 6px;
       }
 
+      /* ── Starter team kits ── */
+      .packs-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 640px) {
+        .packs-grid { grid-template-columns: 1fr; }
+      }
+      .pack-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(210, 170, 110, 0.12);
+        border-radius: 12px;
+        padding: 13px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+      }
+      .pack-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 28px;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(200, 60, 60, 0.6), rgba(200, 100, 20, 0.6), rgba(80, 150, 210, 0.6));
+        border-radius: 12px 0 12px 0;
+      }
+      .pack-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .pack-name {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: rgba(245, 230, 208, 0.95);
+        text-transform: uppercase;
+        line-height: 1.1;
+      }
+      .pack-count {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.4);
+        white-space: nowrap;
+      }
+      .pack-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(210, 170, 110, 0.55);
+        font-style: italic;
+      }
+      .pack-teams {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 1px;
+      }
+      .pack-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(210, 170, 110, 0.12);
+        color: rgba(245, 230, 208, 0.78);
+      }
+      .pack-chip-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .pack-chip[data-league="mlb"] .pack-chip-dot { background: rgba(200, 60, 60, 0.85); }
+      .pack-chip[data-league="nba"] .pack-chip-dot { background: rgba(200, 100, 20, 0.85); }
+      .pack-chip[data-league="nhl"] .pack-chip-dot { background: rgba(80, 150, 210, 0.85); }
+      .pack-body {
+        font-size: 12px;
+        line-height: 1.55;
+        color: rgba(245, 230, 208, 0.72);
+      }
+      .pack-body strong {
+        color: rgba(245, 230, 208, 0.95);
+        font-weight: 600;
+      }
+      .pack-when {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        line-height: 1.5;
+        color: rgba(210, 170, 110, 0.5);
+        padding-top: 7px;
+        margin-top: 2px;
+        border-top: 1px dashed rgba(210, 170, 110, 0.15);
+      }
+      .pack-when-label {
+        color: rgba(210, 170, 110, 0.35);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-right: 6px;
+      }
+
       /* ── Example schedule preview ── */
       .example-eyebrow {
         display: flex;
@@ -801,6 +915,143 @@ const title = "WTWTW — stanwood.dev";
 
       <p class="vibe-foot">
         WTWTW doesn't pick by sport — your team rank decides. Mix all three and you'll get a different feel each night.
+      </p>
+    </section>
+
+    <!-- Starter team kits -->
+    <section class="mb-8" aria-label="Preset team combinations for first-time viewers">
+      <div class="vibes-eyebrow">
+        <span class="vibes-eyebrow-label">Starter team kits</span>
+        <span class="vibes-eyebrow-tag">six rosters that work</span>
+      </div>
+      <p class="text-xs leading-relaxed mb-4" style="color: rgba(210, 170, 110, 0.5);">
+        Not sure who to pick? Copy one of these. Each kit is a four-team lineup tuned for a specific way of watching — geography, drama, or pure dynasty diet. Drop them in, in order, and the rest is automatic.
+      </p>
+
+      <div class="packs-grid">
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">Bay Area Lock-In</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">one metro, three leagues</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Warriors</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Giants</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Athletics</span>
+            <span class="pack-chip" data-league="nhl"><span class="pack-chip-dot"></span>Sharks</span>
+          </div>
+          <p class="pack-body">
+            Everything in <strong>local time</strong>, every night. Two MLB clubs covers April–September; Warriors and Sharks bridge the winter. Earliest tip is 7 PM PT — no late-night East Coast windows to ignore.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">heaviest stretch</span>April–June: baseball ramps up while the NBA &amp; NHL postseasons run.
+          </p>
+        </article>
+
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">East Coast Marquee</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">for the 7 PM ET nightly hit</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Yankees</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Red Sox</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Knicks</span>
+            <span class="pack-chip" data-league="nhl"><span class="pack-chip-dot"></span>Rangers</span>
+          </div>
+          <p class="pack-body">
+            New York and Boston do <strong>more national TV games than any other pair of cities</strong>. Every Yankees–Red Sox is a series; Knicks and Rangers split Madison Square Garden and rarely overlap.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">heaviest stretch</span>October: MLB postseason rolls into NBA &amp; NHL openers.
+          </p>
+        </article>
+
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">Dynasty Diet</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">always playoff-bound</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Dodgers</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Celtics</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Nuggets</span>
+            <span class="pack-chip" data-league="nhl"><span class="pack-chip-dot"></span>Panthers</span>
+          </div>
+          <p class="pack-body">
+            Recent champions across the leagues. You're <strong>never watching a tank</strong> — these teams play meaningful games into the last week and almost always into the postseason.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">heaviest stretch</span>April–June: three postseasons stacked, defending champs in all of them.
+          </p>
+        </article>
+
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">Underdog Slate</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">small market, big heart</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Royals</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Brewers</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Pacers</span>
+            <span class="pack-chip" data-league="nhl"><span class="pack-chip-dot"></span>Predators</span>
+          </div>
+          <p class="pack-body">
+            Four cities with one team per sport and full-throated home crowds. The Pacers just made a Finals run; Kauffman and Bridgestone are two of the <strong>loudest stadiums in their leagues</strong>.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">drama spike</span>any year one of these makes a deep run — the whole city goes.
+          </p>
+        </article>
+
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">Coast-to-Coast Programming</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">7 PM ET into 10 PM ET</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Cubs</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Mariners</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Lakers</span>
+            <span class="pack-chip" data-league="nhl"><span class="pack-chip-dot"></span>Kings</span>
+          </div>
+          <p class="pack-body">
+            A Central-time MLB game wraps as the West-coast tip starts. <strong>Back-to-back nightly programming</strong>, no overlap, no awkward 4 PM start times. Built for the night-owl viewer or the time-zone-hopper.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">best for</span>insomniacs, recent transplants, anyone who works late.
+          </p>
+        </article>
+
+        <article class="pack-card">
+          <div class="pack-head">
+            <span class="pack-name">Rivalry Stack</span>
+            <span class="pack-count">4 teams</span>
+          </div>
+          <span class="pack-tag">both halves of two classic feuds</span>
+          <div class="pack-teams">
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Yankees</span>
+            <span class="pack-chip" data-league="mlb"><span class="pack-chip-dot"></span>Red Sox</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Lakers</span>
+            <span class="pack-chip" data-league="nba"><span class="pack-chip-dot"></span>Celtics</span>
+          </div>
+          <p class="pack-body">
+            Top-rank the rivalry pairs and every Yankees–Sox or Lakers–Celtics night <strong>wins its slot automatically</strong>. Off-nights you still get individual matchups from any of the four.
+          </p>
+          <p class="pack-when">
+            <span class="pack-when-label">locked nights</span>~19 Yankees–Sox a year plus every Lakers–Celtics meeting.
+          </p>
+        </article>
+      </div>
+
+      <p class="vibe-foot">
+        Treat these as starting points — once a kit is in, swap, reorder, or add a tenth team however you want. The pick logic respects whatever order you leave behind.
       </p>
     </section>
 
