@@ -4,6 +4,7 @@ import {
   parseScheduleFromHtml,
   type BigInningSchedule,
 } from "../../lib/bigInning";
+import { fetchWithTimeout, okJson } from "../../lib/apiHelpers";
 
 export const prerender = false;
 
@@ -12,16 +13,16 @@ const MLB_URL =
 
 async function fetchAndParse(): Promise<BigInningSchedule | null> {
   try {
-    const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 5000);
-    const res = await fetch(MLB_URL, {
-      headers: {
-        "User-Agent": "stanwood.dev (+https://stanwood.dev)",
-        Accept: "text/html,application/xhtml+xml",
+    const res = await fetchWithTimeout(
+      MLB_URL,
+      {
+        headers: {
+          "User-Agent": "stanwood.dev (+https://stanwood.dev)",
+          Accept: "text/html,application/xhtml+xml",
+        },
       },
-      signal: ctrl.signal,
-    });
-    clearTimeout(t);
+      5000,
+    );
     if (!res.ok) return null;
     return parseScheduleFromHtml(await res.text());
   } catch {
@@ -32,12 +33,8 @@ async function fetchAndParse(): Promise<BigInningSchedule | null> {
 export const GET: APIRoute = async () => {
   const scraped = await fetchAndParse();
   const schedule = scraped ?? buildFallbackSchedule();
-  return new Response(JSON.stringify(schedule), {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-      "Cache-Control":
-        "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-    },
+  return okJson(schedule, {
+    "Cache-Control":
+      "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
   });
 };
