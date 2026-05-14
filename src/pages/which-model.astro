@@ -1391,6 +1391,220 @@ const title = "Which Model? — stanwood.dev";
         line-height: 1.6;
       }
 
+      /* ─── Benchmarks, decoded ────────────────────────────────── */
+      .wm-bench {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 8px;
+      }
+
+      .wm-bench-head {
+        text-align: center;
+        margin-bottom: 26px;
+      }
+
+      .wm-bench-head h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 38px;
+        letter-spacing: 1.5px;
+        color: var(--wm-ink);
+        margin: 0 0 6px;
+        line-height: 1;
+      }
+
+      .wm-bench-head p {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .wm-bench-head p strong {
+        color: var(--wm-ink);
+      }
+
+      .wm-bench-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      @media (min-width: 640px) {
+        .wm-bench-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (min-width: 980px) {
+        .wm-bench-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      .wm-bench-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-left: 5px solid var(--card-accent, var(--wm-purple));
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 16px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .wm-bench-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--wm-ink);
+      }
+
+      .wm-bench-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .wm-bench-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        margin: 0;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .wm-bench-name-emoji {
+        font-size: 16px;
+        line-height: 1;
+      }
+
+      .wm-bench-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--card-accent, var(--wm-purple));
+        white-space: nowrap;
+      }
+
+      .wm-bench-meaning {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--wm-muted);
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .wm-bench-scoreboard {
+        margin-top: 4px;
+        padding: 10px 12px 12px;
+        background: #faf8ee;
+        border: 1px dashed var(--wm-border);
+        border-radius: 6px;
+      }
+
+      .wm-bench-bar-label {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--wm-ink);
+        margin-bottom: 6px;
+      }
+
+      .wm-bench-bar-label span:last-child {
+        color: var(--card-accent, var(--wm-purple));
+        font-size: 11px;
+        letter-spacing: 0.02em;
+        text-transform: none;
+      }
+
+      .wm-bench-bar {
+        position: relative;
+        height: 10px;
+        background: #fff;
+        border: 1.5px solid var(--wm-ink);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .wm-bench-bar-fill {
+        height: 100%;
+        background: var(--card-accent, var(--wm-purple));
+        transition: width 0.4s ease;
+      }
+
+      .wm-bench-bar-marker {
+        position: absolute;
+        top: -3px;
+        bottom: -3px;
+        width: 2px;
+        background: var(--wm-ink);
+      }
+
+      .wm-bench-bar-marker::after {
+        content: attr(data-label);
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--wm-muted);
+        white-space: nowrap;
+      }
+
+      .wm-bench-bar-wrap {
+        position: relative;
+        padding-bottom: 16px;
+      }
+
+      .wm-bench-why {
+        font-family: 'Space Mono', monospace;
+        font-size: 10.5px;
+        color: var(--wm-ink);
+        opacity: 0.78;
+        line-height: 1.5;
+        margin: 4px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed var(--wm-border);
+      }
+
+      .wm-bench-why::before {
+        content: "why it matters ";
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--card-accent, var(--wm-purple));
+        margin-right: 4px;
+      }
+
+      .wm-bench-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+        text-align: center;
+        margin: 22px auto 0;
+        max-width: 600px;
+        line-height: 1.6;
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -1461,6 +1675,11 @@ const title = "Which Model? — stanwood.dev";
         .wm-decode { padding: 40px 16px 0; }
         .wm-decode-head h2 { font-size: 30px; }
         .wm-decode-head p { font-size: 13px; }
+
+        .wm-bench { padding: 40px 16px 0; }
+        .wm-bench-head h2 { font-size: 30px; }
+        .wm-bench-head p { font-size: 13px; }
+        .wm-bench-card { padding: 13px 14px 14px; }
       }
 
     </style>
@@ -1683,6 +1902,115 @@ const title = "Which Model? — stanwood.dev";
 
     <p class="wm-decode-foot">
       Match the term to the task. The Quick Picks above are shorthand — these are the dials underneath them.
+    </p>
+  </section>
+
+  <section class="wm-bench" aria-labelledby="bench-heading">
+    <div class="wm-bench-head">
+      <h2 id="bench-heading">Benchmarks, decoded</h2>
+      <p>Every model brags about scores. <strong>Six tests that actually decide who's winning</strong> — and what "82%" really means.</p>
+    </div>
+
+    <div class="wm-bench-grid">
+      <article class="wm-bench-card" style="--card-accent: #7c5cff;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">📚</span>MMLU</span>
+          <span class="wm-bench-tag">broad knowledge</span>
+        </div>
+        <p class="wm-bench-meaning">15,000 multiple-choice questions across 57 subjects — law, medicine, history, math. The "general intelligence" benchmark every lab still cites.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top score</span><span>~89% · Claude Opus 4.7</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 89%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 90%;" data-label="human expert"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">Frontier models are saturated here — everyone scores 85–90%. If a model is below 80%, it's a tier behind.</p>
+      </article>
+
+      <article class="wm-bench-card" style="--card-accent: #10a37f;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">💻</span>SWE-Bench Verified</span>
+          <span class="wm-bench-tag">real coding</span>
+        </div>
+        <p class="wm-bench-meaning">500 real GitHub issues from popular Python repos. The model gets the codebase and the bug report — and has to write a patch that passes the project's tests.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top score</span><span>~75% · Claude Sonnet 4.6</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 75%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 50%;" data-label="last year's best"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">Closest thing to "can it do my job" for coding. Doubled in 18 months — the chart everyone watches.</p>
+      </article>
+
+      <article class="wm-bench-card" style="--card-accent: #ff6b4a;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🔬</span>GPQA Diamond</span>
+          <span class="wm-bench-tag">PhD science</span>
+        </div>
+        <p class="wm-bench-meaning">198 graduate-level physics, chemistry, and biology questions. Designed to be Google-proof — even PhDs in adjacent fields struggle without their own field's training.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top score</span><span>~83% · Claude Opus 4.7</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 83%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 65%;" data-label="domain PhD"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">Where reasoning models pull away. If you need real research depth, scores below 70% mean you'll be checking the work.</p>
+      </article>
+
+      <article class="wm-bench-card" style="--card-accent: #f5c542;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🧮</span>AIME 2025</span>
+          <span class="wm-bench-tag">math olympiad</span>
+        </div>
+        <p class="wm-bench-meaning">30 integer-answer questions from the American Invitational Math Exam — the test that picks the US team for the IMO. Pure, no-calculator problem-solving.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top score</span><span>~93% · o3</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 93%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 33%;" data-label="top US high schooler"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">Reasoning models smashed this in 2025 — non-reasoning models still cap around 40%. Best single signal for "does it actually think."</p>
+      </article>
+
+      <article class="wm-bench-card" style="--card-accent: #4285f4;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🗳️</span>Chatbot Arena</span>
+          <span class="wm-bench-tag">human votes</span>
+        </div>
+        <p class="wm-bench-meaning">Millions of head-to-head blind votes from real users at LMArena. Two responses, same prompt, you pick the better one. Aggregated into an Elo score — chess-style ranking.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top Elo</span><span>~1480 · Gemini 2.5 Pro</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 88%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 75%;" data-label="frontier line ~1400"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">The only benchmark that measures vibes — tone, helpfulness, format. A model can ace MMLU and still lose here if it's annoying.</p>
+      </article>
+
+      <article class="wm-bench-card" style="--card-accent: #e84393;">
+        <div class="wm-bench-row">
+          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🧩</span>ARC-AGI-2</span>
+          <span class="wm-bench-tag">fluid reasoning</span>
+        </div>
+        <p class="wm-bench-meaning">Visual grid puzzles where each is a brand-new pattern — no two are alike. Trivial for a smart kid; nearly impossible for an LLM that hasn't seen the trick before.</p>
+        <div class="wm-bench-scoreboard">
+          <div class="wm-bench-bar-label"><span>Top score</span><span>~16% · o3 (private)</span></div>
+          <div class="wm-bench-bar-wrap">
+            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 16%;"></div></div>
+            <div class="wm-bench-bar-marker" style="left: 95%;" data-label="humans"></div>
+          </div>
+        </div>
+        <p class="wm-bench-why">The benchmark AI hasn't conquered. Useful as a sanity check — when this number is high, every other score will look very different.</p>
+      </article>
+    </div>
+
+    <p class="wm-bench-foot">
+      Benchmarks compress thousands of hours of testing into a single number — they're directional, not gospel. The same model can top one and place fourth on another.
     </p>
   </section>
 
