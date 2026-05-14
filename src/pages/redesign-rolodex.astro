@@ -1292,6 +1292,156 @@ const title = "Redesign Rolodex — stanwood.dev";
         line-height: 1.5;
         font-style: italic;
       }
+
+      /* ─── Decode the aesthetics ──────────────────────────── */
+      .rr-decode-section {
+        max-width: 1100px;
+        margin: 4rem auto 0;
+        padding: 3rem 1.5rem 0;
+        border-top: 1px solid var(--rr-border);
+      }
+      .rr-decode-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--rr-accent);
+        text-align: center;
+        margin: 0 0 0.75rem;
+      }
+      .rr-decode-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.75rem;
+        text-align: center;
+        color: var(--rr-ink);
+        margin: 0 0 1rem;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      @media (min-width: 640px) {
+        .rr-decode-heading { font-size: 2.25rem; }
+      }
+      .rr-decode-intro {
+        max-width: 620px;
+        margin: 0 auto 2.5rem;
+        font-size: 0.95rem;
+        color: var(--rr-gray);
+        text-align: center;
+        line-height: 1.55;
+      }
+      .rr-decode-intro strong {
+        color: var(--rr-ink);
+        font-weight: 600;
+      }
+      .rr-decode-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .rr-decode-grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+      }
+      @media (min-width: 920px) {
+        .rr-decode-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .rr-decode-card {
+        --card-accent: var(--rr-accent);
+        background: var(--rr-card-bg);
+        border: 2px solid var(--rr-border);
+        border-radius: 14px;
+        border-left-width: 6px;
+        border-left-color: var(--card-accent);
+        padding: 1.1rem 1.2rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      }
+      .rr-decode-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(28, 25, 23, 0.06);
+        border-color: var(--card-accent);
+      }
+      .rr-decode-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+      }
+      .rr-decode-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--rr-ink);
+        line-height: 1.15;
+        margin: 0;
+      }
+      .rr-decode-era {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--card-accent);
+        white-space: nowrap;
+      }
+      .rr-decode-tagline {
+        font-size: 0.88rem;
+        color: var(--rr-gray);
+        line-height: 1.5;
+        margin: 0;
+        font-style: italic;
+      }
+      .rr-decode-tell {
+        font-size: 0.82rem;
+        color: var(--rr-ink);
+        line-height: 1.5;
+        margin: 0;
+        padding-top: 0.55rem;
+        border-top: 1px dashed var(--rr-border);
+      }
+      .rr-decode-tell-label {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.58rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--rr-light-gray);
+        margin-right: 0.4rem;
+      }
+      .rr-decode-cards {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--rr-light-gray);
+        line-height: 1.5;
+        margin: 0;
+        padding-top: 0.35rem;
+      }
+      .rr-decode-cards-label {
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--rr-light-gray);
+        margin-right: 0.35rem;
+      }
+      .rr-decode-cards em {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 0.85rem;
+        color: var(--rr-ink);
+        margin-right: 0.4rem;
+      }
+      .rr-decode-foot {
+        max-width: 620px;
+        margin: 2rem auto 0;
+        font-size: 0.82rem;
+        color: var(--rr-light-gray);
+        text-align: center;
+        line-height: 1.55;
+        font-style: italic;
+      }
     </style>
   </Fragment>
 
@@ -1445,6 +1595,166 @@ const title = "Redesign Rolodex — stanwood.dev";
 
         <p class="rr-modes-foot">
           Flip the toggle before you spin — or hit "more" with a different mode to layer takes from all three on the same site.
+        </p>
+      </section>
+
+      <section class="rr-decode-section" aria-label="Field guide to design aesthetics">
+        <p class="rr-decode-eyebrow">decode the rolodex</p>
+        <h2 class="rr-decode-heading">Field guide to design vibes.</h2>
+        <p class="rr-decode-intro">
+          The rolodex names every direction after a real aesthetic movement — so the cards aren't random,
+          they're <strong>nine schools of taste in trench coats</strong>. Spot the vibe, steal the moves,
+          know what to ask for next time.
+        </p>
+
+        <div class="rr-decode-grid">
+          <article class="rr-decode-card" style="--card-accent: #1c1c1c;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Brutalist</h3>
+              <span class="rr-decode-era">1950s · revived 2014</span>
+            </div>
+            <p class="rr-decode-tagline">Raw structure as honesty. Decoration is suspect.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              monospace type, exposed grids, default browser blue, zero border-radius, jarring color blocks.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Brutalist Library</em><em>Naked HTML</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #3d4f3a;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Editorial</h3>
+              <span class="rr-decode-era">print → web, ongoing</span>
+            </div>
+            <p class="rr-decode-tagline">Magazine logic, rendered in HTML. Reading is the product.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              display italic serif, drop caps, narrow text columns, lots of breathing room, captioned images.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Modern Editorial</em><em>Botanical Press</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #5b6c93;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Swiss / Modernist</h3>
+              <span class="rr-decode-era">Zurich, 1950s</span>
+            </div>
+            <p class="rr-decode-tagline">Grid is god. Form follows function. Helvetica forever.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              geometric sans, ruthless alignment, mostly black-white-grey, one screaming accent color.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Minimal SaaS</em><em>The Grid</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #ea580c;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Memphis</h3>
+              <span class="rr-decode-era">Milan, 1981</span>
+            </div>
+            <p class="rr-decode-tagline">Geometric chaos. Squiggles, dots, primary shapes overlapping.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              terrazzo speckles, pastel + neon clashes, mismatched patterns, no straight horizon line.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Italo Disco</em><em>Memphis Reboot</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #c026d3;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Vaporwave</h3>
+              <span class="rr-decode-era">Tumblr, 2010s</span>
+            </div>
+            <p class="rr-decode-tagline">90s mall-computer nostalgia. Plastic palms, plastic dreams.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              magenta + teal gradients, Windows 95 chrome, kanji decoration, Greek statue cutouts, CRT scanlines.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Sunset Arcade</em><em>Mall Computer</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #0ea5e9;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Frutiger Aero</h3>
+              <span class="rr-decode-era">2004–2013</span>
+            </div>
+            <p class="rr-decode-tagline">Optimistic chrome. Glass orbs, blue sky, eternal sunny morning.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              gradient skies, frosted glass UI, soft glow, dewdrops, lens flares, blue-and-grass palette.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Liquid Aughts</em><em>Chrome Cathedral</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #a26d4e;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Naturalist</h3>
+              <span class="rr-decode-era">cottagecore, late 2010s</span>
+            </div>
+            <p class="rr-decode-tagline">Hand-drawn warmth. Pressed flowers between pages.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              watercolor textures, botanical line art, cream paper, sage / clay / terracotta palette, soft italic serifs.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Coastal Boutique</em><em>Pressed Almanac</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #ff00aa;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Anti-design</h3>
+              <span class="rr-decode-era">Geocities, revisited</span>
+            </div>
+            <p class="rr-decode-tagline">Deliberately rough. The version no committee would approve.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              tiled GIF backgrounds, mismatched fonts, hand-coded HR rules, web safe palette, blink-tag energy.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Tape Loop Bulletin</em><em>Webring '98</em>
+            </p>
+          </article>
+
+          <article class="rr-decode-card" style="--card-accent: #16a34a;">
+            <div class="rr-decode-head">
+              <h3 class="rr-decode-name">Terminal</h3>
+              <span class="rr-decode-era">CRT era, never died</span>
+            </div>
+            <p class="rr-decode-tagline">Command-line aesthetic. Black background, glowing type.</p>
+            <p class="rr-decode-tell">
+              <span class="rr-decode-tell-label">tells</span>
+              phosphor green or neon cyan, monospace everywhere, ASCII art, blinking cursors, prompt-style nav.
+            </p>
+            <p class="rr-decode-cards">
+              <span class="rr-decode-cards-label">in the rolodex</span>
+              <em>Console Cathedral</em><em>Hex Stream</em>
+            </p>
+          </article>
+        </div>
+
+        <p class="rr-decode-foot">
+          The rolodex blends, breaks, and recombines these on the fly — but every spin draws from this DNA. Recognize the move, name it, ask the next one for more of the good stuff.
         </p>
       </section>
 
