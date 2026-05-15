@@ -5,6 +5,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import LiveGamesStrip from '../components/LiveGamesStrip.tsx';
+import { MS_PER_DAY } from '../lib/time';
 
 interface QueueVideo {
   id: string;
@@ -75,7 +76,7 @@ function fmtDuration(seconds: number) {
 
 function fmtAgo(iso: string) {
   const then = new Date(iso).getTime();
-  const days = Math.floor((Date.now() - then) / 86400000);
+  const days = Math.floor((Date.now() - then) / MS_PER_DAY);
   if (days === 0) return 'today';
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;

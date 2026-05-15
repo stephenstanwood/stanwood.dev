@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TEAM_REGISTRY, type TeamEntry } from "../lib/teamRegistry";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { safeGet } from "../lib/localStorage";
+import { MS_PER_MINUTE } from "../lib/time";
 import {
   findActiveWindow,
   type BigInningSchedule,
@@ -50,8 +51,8 @@ interface LiveGame {
 }
 
 const LS_KEY = "wtwtw:v1";
-const POLL_MS = 60_000;
-const SCHEDULE_REFRESH_MS = 30 * 60_000;
+const POLL_MS = MS_PER_MINUTE;
+const SCHEDULE_REFRESH_MS = 30 * MS_PER_MINUTE;
 const PLAYOFF_LEAGUES = ["basketball/nba"];
 const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants"];
 
