@@ -557,6 +557,86 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider mt-6"></div>
     </section>
 
+    <!-- Race events at a glance — what every workout points at -->
+    <section class="mt-8" aria-label="Pool race events and what they train">
+      <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Race events at a glance</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">what training points at</span>
+      </div>
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        Every set you grind through is sized to a race somewhere. Six event groups make up almost all pool swimming —
+        what each one tests, who's known for it, and where it shows up in your workout.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- The 50s -->
+        <div class="rounded-xl border border-amber-200 bg-amber-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-amber-900 text-sm leading-tight">The 50s</p>
+            <span class="font-mono text-[10px] text-amber-700/70 whitespace-nowrap">~ 21–30 sec elite</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">50 free · 50 back · 50 breast · 50 fly</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Pure speed — almost no aerobic component. Won by underwaters, reactions, and stroke turnover. The 50 free crowns the fastest swimmer alive; Caeleb Dressel and Sarah Sjöström are the modern reference points. In your workout: <em>sprint sets at full rest</em>, build 25s, descending ladders.</p>
+        </div>
+
+        <!-- The 100s -->
+        <div class="rounded-xl border border-teal-200 bg-teal-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-teal-900 text-sm leading-tight">The 100s</p>
+            <span class="font-mono text-[10px] text-teal-700/70 whitespace-nowrap">~ :46–1:05 elite</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">100 free · 100 back · 100 breast · 100 fly</p>
+          <p class="text-[12px] text-stone-500 leading-snug">The marquee distance. 100 free is the prestige race of the meet; 100 fly was Phelps's signature. Half speed, half pain tolerance — the back fifty is where everything is decided. In your workout: <em>8 × 100 descending</em>, broken 100s, the 20 × 100 maps directly here.</p>
+        </div>
+
+        <!-- The 200s -->
+        <div class="rounded-xl border border-sky-200 bg-sky-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-sky-900 text-sm leading-tight">The 200s</p>
+            <span class="font-mono text-[10px] text-sky-700/70 whitespace-nowrap">~ 1:40–2:20 elite</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">200 free · 200 back · 200 breast · 200 fly · 200 IM</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Where pacing decides everything — long enough to need an engine, short enough that going out too hard ends you in the third 50. The 200 IM tests all four strokes in two minutes flat. In your workout: <em>5 × 200 descend</em>, broken 200s (the namesake), 4 × 50 race-pace add-the-splits.</p>
+        </div>
+
+        <!-- Distance freestyle -->
+        <div class="rounded-xl border border-purple-200 bg-purple-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-purple-900 text-sm leading-tight">Distance freestyle</p>
+            <span class="font-mono text-[10px] text-purple-700/70 whitespace-nowrap">400 – 1,650</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500 free (SCY) · 1,000 free · 1,650 / 1,500 free · 800 free</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Pure aerobic — won by whoever keeps form when their arms are done. The 1,500 LCM is "the mile," Katie Ledecky's terrain; sub-25:00 for the SCY mile is a fitness milestone, D-I cuts sit under 16:00. In your workout: <em>20 × 100 hold pace</em>, 5 × 500 descend, The Hour Swim.</p>
+        </div>
+
+        <!-- The IMs -->
+        <div class="rounded-xl border border-rose-200 bg-rose-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-rose-900 text-sm leading-tight">The IMs</p>
+            <span class="font-mono text-[10px] text-rose-700/70 whitespace-nowrap">all four strokes, one race</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">200 IM (50 of each) · 400 IM (100 of each)</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Fly → back → breast → free, every time. The 400 IM is nicknamed "The Beast" — Phelps's signature event because it punishes any weak stroke. The transitions matter more than the laps: lose the breast leg and the race is gone. In your workout: <em>kicked IMs, stroke-rotation pre-sets</em>, IM-order drill ladders.</p>
+        </div>
+
+        <!-- The relays -->
+        <div class="rounded-xl border border-orange-200 bg-orange-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-orange-900 text-sm leading-tight">The relays</p>
+            <span class="font-mono text-[10px] text-orange-700/70 whitespace-nowrap">team events · faster splits</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">4 × 100 free · 4 × 100 medley · 4 × 200 free</p>
+          <p class="text-[12px] text-stone-500 leading-snug">The only events you swim for someone else. Flying-start splits run ~0.7 sec faster than open times — coaches build lineups around it: leadoff (steady), legs 2–3 (workhorses), anchor (the closer). Medley relays go back / breast / fly / free, each leg's specialist. In your workout: <em>flying-start 50s</em>, take-off practice, relay race-pace sets.</p>
+        </div>
+      </div>
+
+      <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+        No race on the horizon? The same events still define your training — they're the units coaches build pace, rest, and progression around.
+      </p>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- Pool etiquette — sharing the lane like you've been doing it for years -->
     <section class="mt-8" aria-label="Lane sharing and pool etiquette">
       <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
