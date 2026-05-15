@@ -9,8 +9,8 @@ export { esc, escUrl };
 
 // ── Constants ──
 
-export const REFRESH_MS = 30_000;
-export const TIMEZONE = "America/Los_Angeles";
+const REFRESH_MS = 30_000;
+const TIMEZONE = "America/Los_Angeles";
 
 // ── Shared ESPN types ──
 
@@ -243,7 +243,7 @@ export function fitHeroLines(): void {
  * Standard fetch→render loop used by all sports engines.
  * Handles loading/content/error element visibility and retry button.
  */
-export function createFetchLoop(
+function createFetchLoop(
   apiUrl: string,
   renderFn: (events: Game[]) => void,
   opts: { errorBtnId?: string; retryBtnStyle?: string } = {},

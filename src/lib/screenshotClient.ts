@@ -1,6 +1,7 @@
 import { fetchWithTimeout } from "./apiHelpers";
+import { MS_PER_MINUTE } from "./time";
 
-const CACHE_TTL_MS = 10 * 60_000; // 10 minutes
+const CACHE_TTL_MS = 10 * MS_PER_MINUTE;
 const cache = new Map<string, { base64: string; expiresAt: number }>();
 
 /**

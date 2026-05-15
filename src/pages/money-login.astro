@@ -8,6 +8,8 @@ async function hashPassword(pw: string): Promise<string> {
 
 let error = false;
 
+// CLEANUP-FLAG: password compared with === — vulnerable to timing attacks.
+// Use a constant-time compare (cf. middleware.ts:timingSafeEqual) or compare hashes instead.
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
   const password = form.get('password') as string | null;

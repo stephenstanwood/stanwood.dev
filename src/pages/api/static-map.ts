@@ -2,6 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { fetchWithTimeout } from "../../lib/apiHelpers";
 
 const MAPS_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
@@ -42,7 +43,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   // Append the API key (never sent to client)
   target.searchParams.set("key", MAPS_API_KEY);
 
-  const res = await fetch(target.toString());
+  const res = await fetchWithTimeout(target.toString(), {}, 8000);
 
   if (!res.ok) {
     return new Response("Map image unavailable", {

@@ -3,12 +3,13 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson } from "../../lib/apiHelpers";
+import { MS_PER_MINUTE } from "../../lib/time";
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   // 3 reports per IP per 10 minutes
-  if (!rateLimit(clientAddress, 3, 10 * 60_000)) return rateLimitResponse();
+  if (!rateLimit(clientAddress, 3, 10 * MS_PER_MINUTE)) return rateLimitResponse();
 
   let page = "unknown";
   let context = "";

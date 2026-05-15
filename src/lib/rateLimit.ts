@@ -1,8 +1,10 @@
+import { MS_PER_MINUTE } from "./time";
+
 const hits = new Map<string, number[]>();
 
 const DEFAULT_MAX = 200;
-const DEFAULT_WINDOW_MS = 60_000; // 1 minute
-const CLEANUP_INTERVAL_MS = 5 * 60_000; // 5 minutes
+const DEFAULT_WINDOW_MS = MS_PER_MINUTE;
+const CLEANUP_INTERVAL_MS = 5 * MS_PER_MINUTE;
 const MAX_ENTRIES = 10_000;
 
 let lastCleanup = Date.now();
