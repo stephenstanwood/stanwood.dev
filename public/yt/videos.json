@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-14T10:30:07.616629+00:00",
+  "built_at": "2026-05-15T10:30:08.420635+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -317,16 +317,6 @@
       "video_count": 1,
       "video_ids": [
         "vmwq4w53e9Q"
-      ]
-    },
-    {
-      "key": "__single__x0aLBWTBOuQ",
-      "is_single": true,
-      "display_name": "Stanford Webinar - AI Safety",
-      "best_score": -10,
-      "video_count": 1,
-      "video_ids": [
-        "x0aLBWTBOuQ"
       ]
     }
   ],
@@ -2325,21 +2315,6 @@
         "healthcare_ai"
       ],
       "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nNovember 13, 2025\nThis lecture covers offline belief-state planning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow alo"
-    },
-    {
-      "id": "x0aLBWTBOuQ",
-      "title": "Stanford Webinar - AI Safety",
-      "url": "https://www.youtube.com/watch?v=x0aLBWTBOuQ",
-      "duration": 3064.0,
-      "published_at": "2025-11-13T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - AI Safety",
-      "lecture_num": null,
-      "score": -10,
-      "categories": [
-        "healthcare_ai"
-      ],
-      "description": "View course details:\nhttps://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nWhen autonomous systems make high-stakes decisions, how do we know they're safe?\n\nJoin Sydney Katz, a postdoctoral researcher in the Stanford Intelligent Systems Laboratory, for an overview of the methods used to build safety cases for AI-powered decision-making systems operating in high-stakes envi"
     }
   ]
 }
