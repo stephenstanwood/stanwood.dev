@@ -1,5 +1,21 @@
 [
   {
+    "name": "Codex in ChatGPT Mobile",
+    "org": "OpenAI",
+    "date": "2026-05-14",
+    "type": "tool",
+    "summary": "Codex lands in the ChatGPT mobile app on iOS and Android — kick off coding tasks, review diffs, redirect runs, and approve agent actions from your phone while Codex executes on a connected Mac; preview across all plans including free, with 4M+ weekly Codex users",
+    "url": "https://techcrunch.com/2026/05/14/openai-says-codex-is-coming-to-your-phone/"
+  },
+  {
+    "name": "Claude for Small Business",
+    "org": "Anthropic",
+    "date": "2026-05-13",
+    "type": "tool",
+    "summary": "packaged Claude for solopreneurs and small teams — prebuilt agentic workflows and one-click connectors into QuickBooks, PayPal, HubSpot, Canva, DocuSign, Google Workspace, and Microsoft 365 to handle payroll, month-end close, invoice chasing, and campaign creation; bundled with a free AI fluency course",
+    "url": "https://techcrunch.com/2026/05/13/anthropic-courts-a-new-kind-of-customer-small-business-owners/"
+  },
+  {
     "name": "Claude Code Agent View + /goal",
     "org": "Anthropic",
     "date": "2026-05-11",
@@ -24,12 +40,12 @@
     "url": "https://openai.com/index/introducing-gpt-realtime/"
   },
   {
-    "name": "GitHub Spec Kit",
-    "org": "GitHub",
-    "date": "2026-05-07",
+    "name": "Claude Managed Agents: Dreaming + Outcomes",
+    "org": "Anthropic",
+    "date": "2026-05-06",
     "type": "tool",
-    "summary": "open-source toolkit for spec-driven development — turns vague prompts into a four-phase workflow (Specify → Plan → Tasks → Implement) that runs against Claude Code, Copilot, Gemini CLI, and 30+ other agents; free, MIT, hit 90K+ stars in days",
-    "url": "https://github.com/github/spec-kit"
+    "summary": "three upgrades to Managed Agents at Code with Claude — Dreaming reviews past sessions overnight to extract patterns and curate memories, Outcomes lets you write a success rubric that an external grader scores against, and Multiagent Orchestration delegates subtasks to specialist agents on a shared filesystem",
+    "url": "https://claude.com/blog/new-in-claude-managed-agents"
   },
   {
     "name": "GPT-5.5 Instant",
@@ -40,27 +56,11 @@
     "url": "https://openai.com/index/gpt-5-5-instant/"
   },
   {
-    "name": "Grok 4.3 + Custom Voices",
-    "org": "xAI",
-    "date": "2026-05-03",
-    "type": "model",
-    "summary": "always-on reasoning, 1M-token context, and API prices cut 40–60%; Custom Voices clones a user's voice from ~1 minute of audio behind a consent gate, with voice-agent pricing at $0.05/min — well below comparable speech-to-speech APIs",
-    "url": "https://venturebeat.com/technology/xai-launches-grok-4-3-at-an-aggressively-low-price-and-a-new-fast-powerful-voice-cloning-suite"
-  },
-  {
     "name": "Mistral Medium 3.5 + Le Chat Work Mode",
     "org": "Mistral",
     "date": "2026-05-02",
     "type": "model",
     "summary": "open-weights 128B dense model (modified MIT) folding chat, reasoning, coding, and vision into one checkpoint — 256K context, configurable reasoning effort, 77.6% on SWE-Bench Verified; powers the new Work mode in Le Chat and remote async agents in Mistral Vibe",
     "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5"
-  },
-  {
-    "name": "Midjourney V8.1",
-    "org": "Midjourney",
-    "date": "2026-04-30",
-    "type": "tool",
-    "summary": "image gen update — HD mode 3x faster and 3x cheaper than V8.0, standard renders 50% faster and 25% cheaper, brings back image prompts and adds a Prompt Shortener; live on midjourney.com and Discord",
-    "url": "https://updates.midjourney.com/v8-1-updates/"
   }
 ]
