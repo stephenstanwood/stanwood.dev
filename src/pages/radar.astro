@@ -843,6 +843,113 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         font-style: italic;
       }
 
+      /* ── Signal vs. Noise (tells) ── */
+      .rp-tells {
+        margin-top: 40px;
+        padding-top: 28px;
+        border-top: 1px dashed var(--rp-border);
+      }
+      .rp-tells-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+      }
+      .rp-tells-title {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 22px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        margin: 0;
+      }
+      .rp-tells-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--rp-muted);
+      }
+      .rp-tells-intro {
+        font-size: 12px;
+        line-height: 1.55;
+        color: #666;
+        margin: 0 0 16px;
+      }
+      .rp-tells-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      @media (min-width: 540px) {
+        .rp-tells-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .rp-tell-card {
+        background: #fff;
+        border: 2px solid var(--rp-ink);
+        border-left: 5px solid var(--rp-accent);
+        box-shadow: 2px 2px 0 var(--rp-ink);
+        padding: 14px 16px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition: transform 0.08s, box-shadow 0.08s;
+      }
+      .rp-tell-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--rp-ink);
+      }
+      .rp-tell-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .rp-tell-emoji {
+        font-size: 18px;
+        line-height: 1;
+      }
+      .rp-tell-name {
+        font-family: 'Cabin', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        line-height: 1.2;
+      }
+      .rp-tell-label {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--rp-muted);
+        margin-bottom: 3px;
+      }
+      .rp-tell-watch,
+      .rp-tell-means {
+        margin: 0;
+        font-size: 11.5px;
+        line-height: 1.5;
+      }
+      .rp-tell-watch {
+        color: var(--rp-ink);
+      }
+      .rp-tell-means {
+        color: #555;
+        padding-top: 7px;
+        border-top: 1px dashed var(--rp-border);
+      }
+      .rp-tells-foot {
+        font-size: 11px;
+        line-height: 1.5;
+        color: #888;
+        margin: 12px 0 0;
+        font-style: italic;
+      }
+
       /* ── Stats bar ── */
       .rp-stats {
         font-family: 'Space Mono', monospace;
@@ -1018,6 +1125,8 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         .rp-fieldmap-card { padding: 10px 11px 11px; }
         .rp-labs-title { font-size: 18px; }
         .rp-lab-card { padding: 9px 10px 10px; }
+        .rp-tells-title { font-size: 18px; }
+        .rp-tell-card { padding: 12px 13px; }
       }
     </style>
   </Fragment>

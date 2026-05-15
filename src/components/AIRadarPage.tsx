@@ -96,6 +96,45 @@ export default function AIRadarPage() {
     { type: "infra", emoji: "⚙️", whatItIs: "Hardware, platforms, the backbone.", whyMatters: "Who runs what at what price — the rails everyone shares." },
   ];
 
+  const tells: { emoji: string; name: string; watch: string; means: string }[] = [
+    {
+      emoji: "🎯",
+      name: "Benchmark cherry-picking",
+      watch: "Charts that only show the benchmarks they win. Comparisons against last year's model, not this week's.",
+      means: "Real on a narrow slice — often weaker on the harder evals (GPQA, ARC-AGI, Humanity's Last Exam) that didn't make the slide.",
+    },
+    {
+      emoji: "🚀",
+      name: "Available soon vs. now",
+      watch: "\"Rolling out over the coming weeks.\" Waitlists. A blog post but no API page, no pricing, no model ID.",
+      means: "Marketing landed today; the product might land later. Treat the date as when it became real to journalists, not to you.",
+    },
+    {
+      emoji: "💰",
+      name: "Cheaper, dressed as a leap",
+      watch: "Headlines built on \"10× cheaper\" or \"3× faster\" with no matching jump on capability evals.",
+      means: "Big win if you're spending on inference. Not a new ceiling — same model territory at a better price.",
+    },
+    {
+      emoji: "🎬",
+      name: "Demo magic vs. ship",
+      watch: "Highlight reels, narrator voiceover, \"hand-picked examples,\" only logged-out demos.",
+      means: "Stage version ≠ API version. The cherry-picked scene is the ceiling, not the median run you'll get.",
+    },
+    {
+      emoji: "🪪",
+      name: "Open-weights ≠ open-source",
+      watch: "\"Llama community license,\" commercial caps (\"700M monthly users\"), custom acceptable-use clauses.",
+      means: "Free to download. Not free to ship. Read the license before betting a product on a model.",
+    },
+    {
+      emoji: "📋",
+      name: "Model card vs. blog post",
+      watch: "Performance claims with no methodology. \"Internal evals\" footnotes. No system card on launch day.",
+      means: "If they didn't publish the eval setup, the numbers are vibes. Wait a week for independent runs (Artificial Analysis, LMSYS).",
+    },
+  ];
+
   function handleShare() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -361,6 +400,41 @@ export default function AIRadarPage() {
         <p className="rp-labs-foot">
           Plenty of others ship too — Cursor, GitHub, Cloudflare, Midjourney, Hugging Face, Runway,
           ByteDance, MiniMax, Z.ai. They show up in the chips below as their launches land.
+        </p>
+      </section>
+
+      {/* Signal vs. Noise — how to read a launch announcement */}
+      <section className="rp-tells" aria-labelledby="rp-tells-title">
+        <div className="rp-tells-head">
+          <h2 id="rp-tells-title" className="rp-tells-title">Signal vs. Noise</h2>
+          <span className="rp-tells-sub">six tells in AI launches · spot the spin fast</span>
+        </div>
+        <p className="rp-tells-intro">
+          Most launches are real. Some are framing. These are the six tells that separate "actually
+          ships" from "press release with a roadmap" — handy when a headline beats the feed below
+          to your inbox.
+        </p>
+        <div className="rp-tells-grid">
+          {tells.map((t) => (
+            <article key={t.name} className="rp-tell-card">
+              <div className="rp-tell-head">
+                <span className="rp-tell-emoji" aria-hidden="true">{t.emoji}</span>
+                <span className="rp-tell-name">{t.name}</span>
+              </div>
+              <p className="rp-tell-watch">
+                <span className="rp-tell-label">watch for</span>
+                {t.watch}
+              </p>
+              <p className="rp-tell-means">
+                <span className="rp-tell-label">what it means</span>
+                {t.means}
+              </p>
+            </article>
+          ))}
+        </div>
+        <p className="rp-tells-foot">
+          None of these mean a launch is fake — just that the spin is doing work. The feed below
+          tries to flag the spin in the summary when it spots it.
         </p>
       </section>
 
