@@ -373,6 +373,114 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         font-weight: 600;
       }
 
+      /* ── How it works / privacy ── */
+      .tldr-how {
+        margin-top: 28px;
+      }
+      .tldr-how-eyebrow {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+      .tldr-how-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #4ADE80;
+      }
+      .tldr-how-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #71717A;
+        padding: 2px 8px;
+        border: 1px solid #1a1f2e;
+        border-radius: 4px;
+      }
+      .tldr-how-intro {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #a1a1aa;
+        margin: 0 0 16px;
+        max-width: 520px;
+      }
+      .tldr-how-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      @media (max-width: 640px) {
+        .tldr-how-grid { grid-template-columns: 1fr; }
+      }
+      .tldr-how-card {
+        position: relative;
+        background: #0d1117;
+        border: 1px solid #1a1f2e;
+        border-left: 3px solid rgba(74, 222, 128, 0.55);
+        border-radius: 10px;
+        padding: 14px 16px 13px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .tldr-how-step {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: #3a3f52;
+      }
+      .tldr-how-title {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #4ADE80;
+        margin: 0;
+        padding-right: 28px;
+      }
+      .tldr-how-body {
+        font-size: 13px;
+        line-height: 1.55;
+        color: #d4d4d8;
+        margin: 0;
+      }
+      .tldr-how-body strong {
+        color: #E4E4E7;
+        font-weight: 600;
+      }
+      .tldr-how-fine {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #71717A;
+      }
+      .tldr-how-fine-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .tldr-how-fine-item::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #3a3f52;
+        flex-shrink: 0;
+      }
+
       /* ── Red flags, decoded ── */
       .tldr-decode {
         margin-top: 64px;
@@ -544,6 +652,44 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <span class="tldr-format-tag" style="color: #fca5a5;">🚩 red flags</span>
             <p class="tldr-format-text">Just the gotchas. <strong>Best for</strong> contracts, leases, ToS — before you sign anything.</p>
           </div>
+        </div>
+      </section>
+
+      <!-- How it works / privacy story -->
+      <section class="tldr-how" aria-label="How it works and what happens to your file">
+        <div class="tldr-how-eyebrow">
+          <span class="tldr-how-label">How it works</span>
+          <span class="tldr-how-tag">no sign-up · no storage</span>
+        </div>
+        <p class="tldr-how-intro">
+          Your PDF might be a lease, a job offer, or a contract you'd rather no one else read. Here's the whole path it takes when you drop it — four stops, then it's gone.
+        </p>
+        <div class="tldr-how-grid">
+          <div class="tldr-how-card">
+            <span class="tldr-how-step">01</span>
+            <p class="tldr-how-title">Stays in your browser</p>
+            <p class="tldr-how-body">When you drop a file, it loads into <strong>this tab</strong> as base64. No upload happens yet, no copy hits a server. Close the tab and it's already forgotten.</p>
+          </div>
+          <div class="tldr-how-card">
+            <span class="tldr-how-step">02</span>
+            <p class="tldr-how-title">One call to Claude</p>
+            <p class="tldr-how-body">The PDF is sent to <strong>Anthropic's API</strong> with a single prompt — paragraph, bullets, or red flags. Anthropic's API terms say it isn't kept for model training.</p>
+          </div>
+          <div class="tldr-how-card">
+            <span class="tldr-how-step">03</span>
+            <p class="tldr-how-title">Summary comes back</p>
+            <p class="tldr-how-body">A short answer streams back through the page — usually in <strong>5–15 seconds</strong>. You can copy it, download it as text, or just close the tab. Nothing waits for you.</p>
+          </div>
+          <div class="tldr-how-card">
+            <span class="tldr-how-step">04</span>
+            <p class="tldr-how-title">Then it's gone</p>
+            <p class="tldr-how-body">stanwood.dev <strong>never stores</strong> the PDF, the summary, your IP, or any account. There's no database to leak from — because there's no database.</p>
+          </div>
+        </div>
+        <div class="tldr-how-fine">
+          <span class="tldr-how-fine-item">25 MB max</span>
+          <span class="tldr-how-fine-item">text PDFs work best — scanned pages need OCR first</span>
+          <span class="tldr-how-fine-item">not legal advice — run anything binding past a human too</span>
         </div>
       </section>
 
