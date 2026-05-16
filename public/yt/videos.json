@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-15T10:30:08.420635+00:00",
+  "built_at": "2026-05-16T10:30:05.956331+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -111,11 +111,8 @@
       "is_single": false,
       "display_name": "CS193",
       "best_score": 10,
-      "video_count": 16,
+      "video_count": 13,
       "video_ids": [
-        "B42CuI0RO7Y",
-        "63UHypFKRRM",
-        "kCjDulwChRQ",
         "tvVj6MSBhBA",
         "u6cgk1W6EXE",
         "IvOF3Bmk-94",
@@ -173,20 +170,6 @@
       ]
     },
     {
-      "key": "CME295",
-      "is_single": false,
-      "display_name": "CME295",
-      "best_score": 9,
-      "video_count": 5,
-      "video_ids": [
-        "PmW_TMQ3l0I",
-        "k5Fh-UgTuCo",
-        "h-7S6HNq0Vg",
-        "8fNP4N46RRo",
-        "Q86qzJ1K1Ss"
-      ]
-    },
-    {
       "key": "CS221",
       "is_single": false,
       "display_name": "CS221",
@@ -213,6 +196,18 @@
         "071zJXhvNfM",
         "lPx5PF1ttkc",
         "5u5I5jvWR5k"
+      ]
+    },
+    {
+      "key": "CME295",
+      "is_single": false,
+      "display_name": "CME295",
+      "best_score": 4,
+      "video_count": 3,
+      "video_ids": [
+        "h-7S6HNq0Vg",
+        "8fNP4N46RRo",
+        "Q86qzJ1K1Ss"
       ]
     },
     {
@@ -1253,51 +1248,6 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis seminar covers: \n\u2022 Research on enabling greater surgical autonomy through the lens of robot learning\n\u2022 Recent work on human-robot teaming using humanoid systems, examining the limitations of the current state of the art and the opportunities ahead for research and dep"
     },
     {
-      "id": "B42CuI0RO7Y",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L3: Model and UI & Swift Type System",
-      "url": "https://www.youtube.com/watch?v=B42CuI0RO7Y",
-      "duration": 4127.0,
-      "published_at": "2025-11-14T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 3rd lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  This lecture focuses on Swift's type system fundamentals and explains the Model-UI separation principle in SwiftUI, emphasizi"
-    },
-    {
-      "id": "63UHypFKRRM",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L2: Code Breaker App",
-      "url": "https://www.youtube.com/watch?v=63UHypFKRRM",
-      "duration": 4000.0,
-      "published_at": "2025-11-14T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 2nd lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI). Continues explanation of SwiftUI development by introducing View modifiers, the second major pillar of UI building, alongside "
-    },
-    {
-      "id": "kCjDulwChRQ",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L1: Intro to Xcode and SwiftUI",
-      "url": "https://www.youtube.com/watch?v=kCjDulwChRQ",
-      "duration": 4204.0,
-      "published_at": "2025-11-14T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe first lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Instructor Paul Hegarty provides a course overview, prerequisites (comfort with writing lots of code, structured programmin"
-    },
-    {
       "id": "tvVj6MSBhBA",
       "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L6: Demonstrating Data Flow",
       "url": "https://www.youtube.com/watch?v=tvVj6MSBhBA",
@@ -1722,87 +1672,6 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
-      "id": "PmW_TMQ3l0I",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 5 - LLM tuning",
-      "url": "https://www.youtube.com/watch?v=PmW_TMQ3l0I",
-      "duration": 6462.0,
-      "published_at": "2025-11-14T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 5,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 31, 2025\nThis lecture covers: \n\u2022 Preference tuning\n\u2022 RLHF overview\n\u2022 Reward modeling\n\u2022 RL approaches (PPO and variants)\n\u2022 DPO\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:50 Preference "
-    },
-    {
-      "id": "k5Fh-UgTuCo",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 6 - LLM Reasoning",
-      "url": "https://www.youtube.com/watch?v=k5Fh-UgTuCo",
-      "duration": 6430.0,
-      "published_at": "2025-11-14T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 6,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 7, 2025\nThis lecture covers: \n\u2022 Reasoning models\n\u2022 RL for reasoning\n\u2022 GRPO\n\u2022 Scaling\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:12:43 Reasoning models\n00:27:49 Benchmarks\n00:32:04 Pass@"
-    },
-    {
-      "id": "h-7S6HNq0Vg",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 7 - Agentic LLMs",
-      "url": "https://www.youtube.com/watch?v=h-7S6HNq0Vg",
-      "duration": 6563.0,
-      "published_at": "2025-11-18T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 7,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 14, 2025\nThis lecture covers: \n\u2022 Retrieval-augmented generation\n\u2022 Advanced RAG techniques\n\u2022 Function calling\n\u2022 Agents\n\u2022 ReAct framework\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:38 "
-    },
-    {
-      "id": "8fNP4N46RRo",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 8 - LLM Evaluation",
-      "url": "https://www.youtube.com/watch?v=8fNP4N46RRo",
-      "duration": 6565.0,
-      "published_at": "2025-12-02T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 8,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 21, 2025\nThis lecture covers: \n\u2022 LLM-as-a-judge overview\n\u2022 Best practices and benefits\n\u2022 Biases and pitfalls\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:08 Inter-rater agreement metri"
-    },
-    {
-      "id": "Q86qzJ1K1Ss",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 9 - Recap & Current Trends",
-      "url": "https://www.youtube.com/watch?v=Q86qzJ1K1Ss",
-      "duration": 6691.0,
-      "published_at": "2025-12-09T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 9,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "series:CME295"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
-    },
-    {
       "id": "yaLEGZuIIgE",
       "title": "Stanford CS221 | Autumn 2025 | Lecture 1: Course Overview and AI Foundations",
       "url": "https://www.youtube.com/watch?v=yaLEGZuIIgE",
@@ -2103,6 +1972,54 @@
         "series:CS221"
       ],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs221-artificial-intelligence-principles-and-techniques\n\nPlease follow along with the course schedule: https://stanford-cs221.github.io/autumn2025/\n\nFollow the playlist: https://yout"
+    },
+    {
+      "id": "h-7S6HNq0Vg",
+      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 7 - Agentic LLMs",
+      "url": "https://www.youtube.com/watch?v=h-7S6HNq0Vg",
+      "duration": 6563.0,
+      "published_at": "2025-11-18T00:00:00+00:00",
+      "series": "CME295",
+      "series_display": "CME295",
+      "lecture_num": 7,
+      "score": 4,
+      "categories": [
+        "applied_ai",
+        "series:CME295"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 14, 2025\nThis lecture covers: \n\u2022 Retrieval-augmented generation\n\u2022 Advanced RAG techniques\n\u2022 Function calling\n\u2022 Agents\n\u2022 ReAct framework\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:38 "
+    },
+    {
+      "id": "8fNP4N46RRo",
+      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 8 - LLM Evaluation",
+      "url": "https://www.youtube.com/watch?v=8fNP4N46RRo",
+      "duration": 6565.0,
+      "published_at": "2025-12-02T00:00:00+00:00",
+      "series": "CME295",
+      "series_display": "CME295",
+      "lecture_num": 8,
+      "score": 4,
+      "categories": [
+        "applied_ai",
+        "series:CME295"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 21, 2025\nThis lecture covers: \n\u2022 LLM-as-a-judge overview\n\u2022 Best practices and benefits\n\u2022 Biases and pitfalls\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:08 Inter-rater agreement metri"
+    },
+    {
+      "id": "Q86qzJ1K1Ss",
+      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 9 - Recap & Current Trends",
+      "url": "https://www.youtube.com/watch?v=Q86qzJ1K1Ss",
+      "duration": 6691.0,
+      "published_at": "2025-12-09T00:00:00+00:00",
+      "series": "CME295",
+      "series_display": "CME295",
+      "lecture_num": 9,
+      "score": 4,
+      "categories": [
+        "applied_ai",
+        "series:CME295"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers: \n\u2022 Recap\n\u2022 Trending topics\n\u2022 Closing thoughts\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:12 Transformer\n00:06:35 Transformer-based models & tricks\n00:11:"
     },
     {
       "id": "_U0EUX2E3k0",
