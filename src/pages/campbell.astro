@@ -1015,6 +1015,153 @@ const title = "Campbell — stanwood.dev";
         font-style: italic;
       }
 
+      /* ── Compare panel ── */
+      .cb-compare {
+        max-width: 800px;
+        width: 100%;
+        margin: 2rem auto 0;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+      }
+      .cb-compare-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+        margin: 0 0 0.5rem;
+      }
+      .cb-compare-heading {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0 0 0.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .cb-compare-sub {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0 0 1.25rem;
+        max-width: 620px;
+      }
+      .cb-compare-sub strong {
+        color: var(--cb-ink);
+        font-weight: 600;
+      }
+      .cb-compare-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+      @media (min-width: 640px) {
+        .cb-compare-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .cb-compare-card {
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: var(--cb-radius);
+        padding: 1rem 1.1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .cb-compare-card-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .cb-compare-card-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0;
+        letter-spacing: 0.01em;
+      }
+      .cb-compare-card-rank {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .cb-compare-rows {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .cb-compare-row {
+        display: grid;
+        grid-template-columns: 86px 1fr auto;
+        align-items: center;
+        gap: 0.55rem;
+      }
+      .cb-compare-city {
+        font-size: 0.78rem;
+        color: var(--cb-gray);
+        white-space: nowrap;
+      }
+      .cb-compare-track {
+        position: relative;
+        height: 8px;
+        background: var(--cb-bg);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .cb-compare-bar {
+        position: absolute;
+        inset: 0;
+        width: var(--w);
+        background: var(--cb-light-gray);
+        border-radius: 999px;
+      }
+      .cb-compare-val {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.74rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .cb-compare-row--cmb .cb-compare-city {
+        color: var(--cb-blue);
+        font-weight: 700;
+      }
+      .cb-compare-row--cmb .cb-compare-bar {
+        background: var(--cb-blue);
+      }
+      .cb-compare-row--cmb .cb-compare-val {
+        color: var(--cb-blue);
+      }
+      .cb-compare-note {
+        font-size: 0.78rem;
+        color: var(--cb-gray);
+        line-height: 1.5;
+        margin: 0;
+        padding-top: 0.4rem;
+        border-top: 1px dashed var(--cb-border);
+      }
+      .cb-compare-foot {
+        font-size: 0.72rem;
+        color: var(--cb-light-gray);
+        line-height: 1.55;
+        margin: 1.1rem 0 0;
+        font-style: italic;
+      }
+
       /* ── Footer ── */
       .cb-footer {
         max-width: 800px;
@@ -1170,6 +1317,103 @@ const title = "Campbell — stanwood.dev";
     <main class="cb-main">
       <CampbellPortal client:load />
     </main>
+
+    <section class="cb-compare" aria-label="Campbell compared to neighboring cities">
+      <span class="cb-compare-label">In the neighborhood</span>
+      <h2 class="cb-compare-heading">How Campbell stacks up.</h2>
+      <p class="cb-compare-sub">Five core numbers, benchmarked against four neighbors. Short version: Campbell is the <strong>smallest in land area, the densest of the bunch</strong>, and the cheapest median home in West Valley — the urban Silicon Valley mix, not the estate-lot suburb.</p>
+
+      <div class="cb-compare-grid">
+        <article class="cb-compare-card">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">Population</h3>
+            <span class="cb-compare-card-rank">Campbell #3 of 5</span>
+          </header>
+          <ul class="cb-compare-rows">
+            <li class="cb-compare-row"><span class="cb-compare-city">San Jose</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 100%"></span></span><span class="cb-compare-val">1.01M</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Santa Clara</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 12.6%"></span></span><span class="cb-compare-val">127,647</span></li>
+            <li class="cb-compare-row cb-compare-row--cmb"><span class="cb-compare-city">Campbell</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 4.2%"></span></span><span class="cb-compare-val">42,924</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Los Gatos</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 3.3%"></span></span><span class="cb-compare-val">33,529</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Saratoga</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 3.1%"></span></span><span class="cb-compare-val">31,068</span></li>
+          </ul>
+          <p class="cb-compare-note">Bigger than the West Valley towns, a third the size of Santa Clara. San Jose dwarfs everyone.</p>
+        </article>
+
+        <article class="cb-compare-card">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">Land area</h3>
+            <span class="cb-compare-card-rank">Campbell #5 of 5</span>
+          </header>
+          <ul class="cb-compare-rows">
+            <li class="cb-compare-row"><span class="cb-compare-city">San Jose</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 100%"></span></span><span class="cb-compare-val">178.2 mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Santa Clara</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 10.3%"></span></span><span class="cb-compare-val">18.4 mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Saratoga</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 7.0%"></span></span><span class="cb-compare-val">12.4 mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Los Gatos</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 6.2%"></span></span><span class="cb-compare-val">11.1 mi²</span></li>
+            <li class="cb-compare-row cb-compare-row--cmb"><span class="cb-compare-city">Campbell</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 3.3%"></span></span><span class="cb-compare-val">5.8 mi²</span></li>
+          </ul>
+          <p class="cb-compare-note">The smallest footprint in West Valley — you can drive across town in 10 minutes.</p>
+        </article>
+
+        <article class="cb-compare-card">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">Density</h3>
+            <span class="cb-compare-card-rank">Campbell #1 of 5</span>
+          </header>
+          <ul class="cb-compare-rows">
+            <li class="cb-compare-row cb-compare-row--cmb"><span class="cb-compare-city">Campbell</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 100%"></span></span><span class="cb-compare-val">7,400/mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Santa Clara</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 94%"></span></span><span class="cb-compare-val">6,940/mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">San Jose</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 77%"></span></span><span class="cb-compare-val">5,690/mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Los Gatos</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 41%"></span></span><span class="cb-compare-val">3,020/mi²</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Saratoga</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 34%"></span></span><span class="cb-compare-val">2,506/mi²</span></li>
+          </ul>
+          <p class="cb-compare-note">More people per square mile than anywhere nearby — apartments and small lots, not acreage.</p>
+        </article>
+
+        <article class="cb-compare-card">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">Median home value</h3>
+            <span class="cb-compare-card-rank">Campbell #5 of 5</span>
+          </header>
+          <ul class="cb-compare-rows">
+            <li class="cb-compare-row"><span class="cb-compare-city">Saratoga</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 100%"></span></span><span class="cb-compare-val">$3.65M</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Los Gatos</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 67%"></span></span><span class="cb-compare-val">$2.45M</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Santa Clara</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 44%"></span></span><span class="cb-compare-val">$1.62M</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">San Jose</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 39%"></span></span><span class="cb-compare-val">$1.43M</span></li>
+            <li class="cb-compare-row cb-compare-row--cmb"><span class="cb-compare-city">Campbell</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 36%"></span></span><span class="cb-compare-val">$1.32M</span></li>
+          </ul>
+          <p class="cb-compare-note">The most accessible West Valley address — roughly a third of Saratoga, half of Los Gatos.</p>
+        </article>
+
+        <article class="cb-compare-card">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">Median household income</h3>
+            <span class="cb-compare-card-rank">Campbell #5 of 5</span>
+          </header>
+          <ul class="cb-compare-rows">
+            <li class="cb-compare-row"><span class="cb-compare-city">Saratoga</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 100%"></span></span><span class="cb-compare-val">$230K</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Los Gatos</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 89%"></span></span><span class="cb-compare-val">$204K</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">Santa Clara</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 64%"></span></span><span class="cb-compare-val">$148K</span></li>
+            <li class="cb-compare-row"><span class="cb-compare-city">San Jose</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 60%"></span></span><span class="cb-compare-val">$137K</span></li>
+            <li class="cb-compare-row cb-compare-row--cmb"><span class="cb-compare-city">Campbell</span><span class="cb-compare-track"><span class="cb-compare-bar" style="--w: 48%"></span></span><span class="cb-compare-val">$111K</span></li>
+          </ul>
+          <p class="cb-compare-note">Bay Area comfortable, but well below West Valley peers — closer to the South Bay average.</p>
+        </article>
+
+        <article class="cb-compare-card" style="background: rgba(27, 79, 138, 0.04); border-style: dashed;">
+          <header class="cb-compare-card-head">
+            <h3 class="cb-compare-card-title">The takeaway</h3>
+            <span class="cb-compare-card-rank">In one line</span>
+          </header>
+          <p style="font-size: 0.85rem; line-height: 1.55; color: var(--cb-ink); margin: 0;">
+            Campbell is the West Valley's <strong>smallest, densest, most affordable</strong> town —
+            it sits next door to Los Gatos and Saratoga but feels closer to Santa Clara on the day-to-day:
+            tighter lots, mixed-use downtown, light rail. The "small-town-with-a-Trader-Joe's" version of Silicon Valley.
+          </p>
+        </article>
+      </div>
+
+      <p class="cb-compare-foot">Sources: U.S. Census 2020 (population, land area); ACS 5-year 2019–2023 (household income); Zillow Home Value Index, late 2024 (median home value). All figures rounded.</p>
+    </section>
 
     <section class="cb-history" aria-label="Campbell history at a glance">
       <span class="cb-history-label">Before Silicon Valley</span>
