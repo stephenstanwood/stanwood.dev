@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
 import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from "../lib/time";
+import { formatMonthDay } from "../lib/dateFormat";
 
 interface HistoryEntry {
   date: string;
@@ -46,10 +47,7 @@ function buildActivityGrid(
     const active = allDates.some(
       (ts) => Math.floor((now - ts) / MS_PER_DAY) === daysAgo
     );
-    const dateStr = new Date(cellTs).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
+    const dateStr = formatMonthDay(cellTs);
     return { active, label: active ? `deployed · ${dateStr}` : dateStr };
   });
 }
@@ -63,13 +61,6 @@ function timeAgo(dateStr: string): string {
   if (hours < 24) return `${hours}h ago`;
   if (days === 1) return "yesterday";
   return `${days}d ago`;
-}
-
-function shortDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
 }
 
 export default function ShipClock() {
@@ -259,7 +250,7 @@ export default function ShipClock() {
                     {entry.message ?? "deploy"}
                   </span>
                   <span className="sc-history-time">
-                    {timeAgo(entry.date)} · {shortDate(entry.date)}
+                    {timeAgo(entry.date)} · {formatMonthDay(entry.date)}
                     {entry.sha && (
                       <a
                         className="sc-history-sha sc-meta-link"
