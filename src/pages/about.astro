@@ -125,6 +125,81 @@ try {
   shipsLast30 = 0;
   activeProjects = 0;
 }
+
+// ── stanwood.dev by the numbers: all-time git stats ────────────────
+type SiteStats = {
+  totalShips: number;
+  daysSinceFirstShip: number;
+  projectsShipped: number;
+  topProject: { name: string; count: number; href: string | null; emoji: string } | null;
+  busiestMonth: { label: string; count: number } | null;
+  recentPerWeek: string;
+  recentDays: number;
+};
+
+let siteStats: SiteStats | null = null;
+try {
+  const raw = execSync("git log --pretty=format:%s%x09%cI -n 5000", {
+    cwd: process.cwd(),
+    encoding: "utf-8",
+    timeout: 5000,
+  });
+  const perProject = new Map<string, number>();
+  const perMonth = new Map<string, number>();
+  let firstMs: number | null = null;
+  let total = 0;
+  const RECENT_WINDOW_DAYS = 90;
+  const recentCutoff = Date.now() - RECENT_WINDOW_DAYS * MS_PER_DAY;
+  let recentCount = 0;
+  for (const line of raw.split("\n")) {
+    const [subject, iso] = line.split("\t");
+    if (!subject || !iso) continue;
+    if (SKIP_PREFIXES.test(subject)) continue;
+    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
+    const m = cleanSubject.match(/^([a-z0-9-]+):\s*/i);
+    if (!m) continue;
+    const project = m[1].toLowerCase();
+    if (!PROJECT_META[project]) continue;
+    total++;
+    perProject.set(project, (perProject.get(project) ?? 0) + 1);
+    const monthKey = iso.slice(0, 7);
+    perMonth.set(monthKey, (perMonth.get(monthKey) ?? 0) + 1);
+    const t = new Date(iso).getTime();
+    if (firstMs === null || t < firstMs) firstMs = t;
+    if (t >= recentCutoff) recentCount++;
+  }
+  if (total > 0 && firstMs !== null) {
+    // Top-project leaderboard only features publicly-visible projects (href set).
+    // Private pages (youtube, money) ship often but aren't on the visitor's tour.
+    const topEntry = [...perProject.entries()]
+      .filter(([key]) => PROJECT_META[key]?.href != null)
+      .sort((a, b) => b[1] - a[1])[0];
+    const topMeta = topEntry ? PROJECT_META[topEntry[0]] : null;
+    const monthEntry = [...perMonth.entries()].sort((a, b) => b[1] - a[1])[0];
+    const monthLabel = monthEntry
+      ? new Date(monthEntry[0] + "-01T00:00:00Z").toLocaleString("en-US", {
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC",
+        })
+      : null;
+    const days = Math.max(1, Math.floor((Date.now() - firstMs) / MS_PER_DAY));
+    siteStats = {
+      totalShips: total,
+      daysSinceFirstShip: days,
+      projectsShipped: perProject.size,
+      topProject:
+        topEntry && topMeta
+          ? { name: topMeta.display, count: topEntry[1], href: topMeta.href, emoji: topMeta.emoji }
+          : null,
+      busiestMonth: monthEntry && monthLabel ? { label: monthLabel, count: monthEntry[1] } : null,
+      recentPerWeek: ((recentCount / RECENT_WINDOW_DAYS) * 7).toFixed(1),
+      recentDays: RECENT_WINDOW_DAYS,
+    };
+  }
+} catch {
+  siteStats = null;
+}
 ---
 
 <BaseLayout
@@ -584,6 +659,113 @@ try {
       opacity: 0.75;
     }
 
+    /* ── By the Numbers ── */
+    .numbers-section {
+      margin-bottom: 36px;
+    }
+
+    .numbers-heading {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      margin-bottom: 6px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .numbers-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+      margin: 0 0 18px;
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .numbers-card {
+      position: relative;
+      border: 2px solid var(--ink);
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--ink);
+      padding: 14px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
+    }
+
+    .numbers-card:nth-child(1) { background: #fff8c4; }
+    .numbers-card:nth-child(2) { background: #f4f8ff; }
+    .numbers-card:nth-child(3) { background: #fff0e0; }
+    .numbers-card:nth-child(4) { background: #ecf9ec; }
+    .numbers-card:nth-child(5) { background: #ffe8f1; }
+    .numbers-card:nth-child(6) { background: #fff; }
+
+    a.numbers-card:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .numbers-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+
+    .numbers-figure {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 30px;
+      line-height: 1;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      word-break: break-word;
+    }
+
+    .numbers-figure--text {
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .numbers-figure .numbers-emoji {
+      font-family: inherit;
+      font-size: 22px;
+      margin-right: 4px;
+    }
+
+    .numbers-figure-unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      opacity: 0.55;
+      margin-left: 4px;
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+
+    .numbers-foot {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      opacity: 0.45;
+      margin-top: 12px;
+    }
+
     /* ── Lessons section ── */
     .lessons-section {
       margin-bottom: 36px;
@@ -697,6 +879,9 @@ try {
       .now-grid { grid-template-columns: 1fr; }
       .lessons-grid { grid-template-columns: 1fr; }
       .lesson-rule { font-size: 17px; }
+      .numbers-grid { grid-template-columns: 1fr 1fr; }
+      .numbers-figure { font-size: 26px; }
+      .numbers-figure--text { font-size: 14px; }
     }
   </style>
 
@@ -959,6 +1144,73 @@ try {
         <span class="stack-badge">Google Places</span>
       </div>
     </div>
+
+    {siteStats && (
+      <div class="numbers-section">
+        <h2 class="numbers-heading">By the Numbers</h2>
+        <p class="numbers-sub">stanwood.dev at a glance · live from git</p>
+
+        <div class="numbers-grid">
+          <div class="numbers-card">
+            <span class="numbers-label">Ships, all-time</span>
+            <span class="numbers-figure">{siteStats.totalShips}</span>
+          </div>
+
+          <div class="numbers-card">
+            <span class="numbers-label">Live projects</span>
+            <span class="numbers-figure">{siteStats.projectsShipped}</span>
+          </div>
+
+          <div class="numbers-card">
+            <span class="numbers-label">Building for</span>
+            <span class="numbers-figure">
+              {siteStats.daysSinceFirstShip}
+              <span class="numbers-figure-unit">days</span>
+            </span>
+          </div>
+
+          {siteStats.topProject && (
+            siteStats.topProject.href ? (
+              <a class="numbers-card" href={siteStats.topProject.href} aria-label={`Most-shipped project: ${siteStats.topProject.name}`}>
+                <span class="numbers-label">Most-shipped</span>
+                <span class="numbers-figure numbers-figure--text">
+                  <span class="numbers-emoji">{siteStats.topProject.emoji}</span>{siteStats.topProject.name}
+                  <span class="numbers-figure-unit">{siteStats.topProject.count} ships</span>
+                </span>
+              </a>
+            ) : (
+              <div class="numbers-card">
+                <span class="numbers-label">Most-shipped</span>
+                <span class="numbers-figure numbers-figure--text">
+                  <span class="numbers-emoji">{siteStats.topProject.emoji}</span>{siteStats.topProject.name}
+                  <span class="numbers-figure-unit">{siteStats.topProject.count} ships</span>
+                </span>
+              </div>
+            )
+          )}
+
+          {siteStats.busiestMonth && (
+            <div class="numbers-card">
+              <span class="numbers-label">Busiest month</span>
+              <span class="numbers-figure numbers-figure--text">
+                {siteStats.busiestMonth.label}
+                <span class="numbers-figure-unit">{siteStats.busiestMonth.count} ships</span>
+              </span>
+            </div>
+          )}
+
+          <div class="numbers-card">
+            <span class="numbers-label">Recent pace</span>
+            <span class="numbers-figure">
+              {siteStats.recentPerWeek}
+              <span class="numbers-figure-unit">/wk · last {siteStats.recentDays}d</span>
+            </span>
+          </div>
+        </div>
+
+        <p class="numbers-foot">computed at build from git log · excludes chores, cleanup, and refactors</p>
+      </div>
+    )}
 
     <div class="lessons-section">
       <h2 class="lessons-heading">Lessons from Shipping</h2>
