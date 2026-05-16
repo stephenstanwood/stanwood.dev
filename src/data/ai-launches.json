@@ -1,5 +1,13 @@
 [
   {
+    "name": "Higgsfield Supercomputer",
+    "org": "Higgsfield",
+    "date": "2026-05-14",
+    "type": "tool",
+    "summary": "cloud-native agent for end-to-end media production — describe a reel, ad, product shot, or a week of content and it picks the right LLMs and image/video models, orchestrates 40+ built-in tools, and remembers your brand identity across campaigns; access via browser or Telegram with no local setup, paid tiers start at $15/mo",
+    "url": "https://higgsfield.ai/supercomputer-intro"
+  },
+  {
     "name": "Codex in ChatGPT Mobile",
     "org": "OpenAI",
     "date": "2026-05-14",
@@ -37,7 +45,7 @@
     "date": "2026-05-07",
     "type": "tool",
     "summary": "three voice models in the API — GPT-Realtime-2 brings GPT-5-class reasoning and 128K context to live speech-to-speech, GPT-Realtime-Translate covers 70 input / 13 output languages, GPT-Realtime-Whisper streams transcription; $32/M audio input, built for production voice agents",
-    "url": "https://openai.com/index/introducing-gpt-realtime/"
+    "url": "https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/"
   },
   {
     "name": "Claude Managed Agents: Dreaming + Outcomes",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "ChatGPT's new default model — 52.5% fewer hallucinations, 30% shorter responses, and personalization from past chats, files, and connected Gmail; live for all ChatGPT users and as chat-latest in the API",
     "url": "https://openai.com/index/gpt-5-5-instant/"
-  },
-  {
-    "name": "Mistral Medium 3.5 + Le Chat Work Mode",
-    "org": "Mistral",
-    "date": "2026-05-02",
-    "type": "model",
-    "summary": "open-weights 128B dense model (modified MIT) folding chat, reasoning, coding, and vision into one checkpoint — 256K context, configurable reasoning effort, 77.6% on SWE-Bench Verified; powers the new Work mode in Le Chat and remote async agents in Mistral Vibe",
-    "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5"
   }
 ]
