@@ -757,6 +757,100 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         margin-inline: auto;
       }
 
+      /* ── Read the room (tells) ── */
+      .nc-tells {
+        margin-top: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-tells { margin-top: 48px; }
+      }
+      .nc-tells-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 4px;
+      }
+      @media (min-width: 640px) {
+        .nc-tells-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 1024px) {
+        .nc-tells-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .nc-tell-card {
+        background: #FFFEFB;
+        border: 1px solid #ECE8E0;
+        border-radius: 4px;
+        padding: 16px 18px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+      }
+      .nc-tell-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: #B8843A;
+        display: block;
+      }
+      .nc-tell-title {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: #1A1A1A;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        margin: 2px 0 0;
+      }
+      .nc-tell-sign {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #5C4033;
+        margin: 2px 0 4px;
+        line-height: 1.4;
+      }
+      .nc-tell-body {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #4A4A4A;
+        margin: 0;
+      }
+      .nc-tell-verdict {
+        font-size: 11.5px;
+        line-height: 1.5;
+        margin: 6px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed #E5E1D7;
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .nc-tell-verdict-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+      }
+      .nc-tell-verdict--green .nc-tell-verdict-label { color: #4A6B5A; }
+      .nc-tell-verdict--red   .nc-tell-verdict-label { color: #9B3A2E; }
+      .nc-tell-verdict-text {
+        color: #6B6B6B;
+      }
+      .nc-tells-foot {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #6B6B6B;
+        line-height: 1.55;
+        margin: 18px 0 0;
+        text-align: center;
+        max-width: 580px;
+        margin-inline: auto;
+      }
+
       /* ── Tips callout ── */
       .nc-tips {
         margin: 40px 0 0;
@@ -1004,6 +1098,66 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         </div>
 
         <p class="nc-world-foot">If your nearest result above is a chain, none of this applies &mdash; but it&rsquo;s why the indie place two blocks farther might be worth the walk.</p>
+      </section>
+
+      <hr class="nc-rule" style="margin-top: 40px;">
+
+      <!-- Read the room — six tells -->
+      <section class="nc-tells" aria-label="How to read a cafe in 60 seconds">
+        <span class="nc-section-eyebrow">Read the room</span>
+        <p class="nc-section-intro">You walked in. The bell hasn&rsquo;t finished ringing. Six tells decide if you stay or push the door back open.</p>
+
+        <div class="nc-tells-grid">
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">01</span>
+            <h3 class="nc-tell-title">The espresso machine</h3>
+            <p class="nc-tell-sign">Glance at the bar before you order.</p>
+            <p class="nc-tell-body">La Marzocco, Synesso, Slayer, or a Modbar in-counter setup means somebody dropped $15k+ on the espresso program. A pod machine or a chain-issued superautomatic means the espresso is an afterthought.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--green"><span class="nc-tell-verdict-label">Green</span><span class="nc-tell-verdict-text">Manual paddles, multiple group heads, a real grinder on each side.</span></p>
+          </article>
+
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">02</span>
+            <h3 class="nc-tell-title">The roast date</h3>
+            <p class="nc-tell-sign">Find the retail bags on the shelf.</p>
+            <p class="nc-tell-body">Specialty roasters stamp the roast date on every bag. Inside three weeks of that date is the flavor sweet spot &mdash; bright, not yet flat. No date at all (just a use-by sticker) means the supply chain is wholesale and slow.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--red"><span class="nc-tell-verdict-label">Red</span><span class="nc-tell-verdict-text">&ldquo;Best by&rdquo; with no roast date, or bags older than a month.</span></p>
+          </article>
+
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">03</span>
+            <h3 class="nc-tell-title">The menu board</h3>
+            <p class="nc-tell-sign">Look up, not at the syrup wall.</p>
+            <p class="nc-tell-body">Two or three single-origin pour-overs listed by farm or region means the bar cups daily and respects the beans. A board ruled by sweet seasonal drinks with no origin info means the espresso is a vehicle for syrup.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--green"><span class="nc-tell-verdict-label">Green</span><span class="nc-tell-verdict-text">Origin, process, and tasting notes &mdash; even briefly &mdash; on the board.</span></p>
+          </article>
+
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">04</span>
+            <h3 class="nc-tell-title">The pastry case</h3>
+            <p class="nc-tell-sign">Read the labels, not the croissants.</p>
+            <p class="nc-tell-body">A local bakery name on the case (or a sheet pan of obviously hand-cut things behind the bar) is a vote for the neighborhood. Shrink-wrapped muffins from a Sysco truck mean the coffee is probably the same story.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--red"><span class="nc-tell-verdict-label">Red</span><span class="nc-tell-verdict-text">Wrapped pastries with no bakery credit, identical to the gas station&rsquo;s.</span></p>
+          </article>
+
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">05</span>
+            <h3 class="nc-tell-title">The regulars</h3>
+            <p class="nc-tell-sign">Who&rsquo;s at the bar at 10 a.m.?</p>
+            <p class="nc-tell-body">Two or three people on a first-name basis with the barista, talking about somebody&rsquo;s kid, means this place is somebody&rsquo;s third place. An empty bar at peak hours, no chatter &mdash; the locals already voted with their feet.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--green"><span class="nc-tell-verdict-label">Green</span><span class="nc-tell-verdict-text">Names exchanged, drinks started before they&rsquo;re ordered.</span></p>
+          </article>
+
+          <article class="nc-tell-card">
+            <span class="nc-tell-num">06</span>
+            <h3 class="nc-tell-title">Time to pour</h3>
+            <p class="nc-tell-sign">Watch the clock once you order.</p>
+            <p class="nc-tell-body">A proper double-shot espresso takes 25&ndash;32 seconds to extract, and a cappuccino comes together in under 90 seconds total. Anything in your hand in 20 seconds is pulled wrong or pre-pulled. Anything over four minutes for one drink means the bar is overrun, not careful.</p>
+            <p class="nc-tell-verdict nc-tell-verdict--green"><span class="nc-tell-verdict-label">Green</span><span class="nc-tell-verdict-text">Barista watches the shot pour and times it &mdash; not just the line behind you.</span></p>
+          </article>
+        </div>
+
+        <p class="nc-tells-foot">Three greens and you&rsquo;re sitting down. Three reds and the next cafe on your list above is suddenly worth the extra block.</p>
       </section>
 
       <aside class="nc-tips" aria-label="Pro tips">
