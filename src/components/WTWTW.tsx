@@ -9,6 +9,7 @@ import {
 import { safeGet, safeSet } from "../lib/localStorage";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { toErrMsg } from "../lib/apiHelpers";
+import { formatHourMinute } from "../lib/dateFormat";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -1086,5 +1087,5 @@ function formatRefreshTime(d: Date): string {
   const diff = Math.floor((Date.now() - d.getTime()) / 1000);
   if (diff < 60) return "just now";
   if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
-  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  return formatHourMinute(d);
 }

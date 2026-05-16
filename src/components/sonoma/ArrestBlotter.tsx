@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import type { RecentArrest } from "../../lib/sonoma/types";
+import { formatMonthDay, formatHourMinute } from "../../lib/dateFormat";
 
 export default function ArrestBlotter() {
   const [arrests, setArrests] = useState<RecentArrest[]>([]);
@@ -51,15 +52,6 @@ export default function ArrestBlotter() {
       .trim();
   }
 
-  function formatDate(iso: string): string {
-    const date = new Date(iso);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  }
-
-  function formatTime(iso: string): string {
-    const date = new Date(iso);
-    return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-  }
 
   if (loading) {
     return (
@@ -163,8 +155,8 @@ export default function ArrestBlotter() {
           {filtered.map((a, i) => (
             <div key={i} className="da-arrest-row">
               <div className="da-arrest-meta">
-                <span className="da-arrest-date">{formatDate(a.date)}</span>
-                <span className="da-arrest-time">{formatTime(a.date)}</span>
+                <span className="da-arrest-date">{formatMonthDay(a.date)}</span>
+                <span className="da-arrest-time">{formatHourMinute(a.date)}</span>
                 <span className={`da-degree ${a.degree.toLowerCase().includes("felony") ? "felony" : "misd"}`}>
                   {a.degree}
                 </span>

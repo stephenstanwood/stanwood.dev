@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { MS_PER_MINUTE } from "../lib/time";
+import { formatHourMinute } from "../lib/dateFormat";
 
 interface DeployData {
   lastDeploy: string | null;
@@ -102,10 +103,7 @@ export default function ShipClockTile() {
     day: "2-digit",
     year: "2-digit",
   });
-  const timeStr = deployDate.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  }).toLowerCase();
+  const timeStr = formatHourMinute(deployDate).toLowerCase();
 
   return (
     <div className="proj-tile sct-tile">

@@ -3,6 +3,7 @@
  */
 
 import { MS_PER_DAY } from "./time";
+import { formatMonthDay } from "./dateFormat";
 
 export interface Launch {
   name: string;
@@ -201,12 +202,10 @@ export function getDateRange(items: Launch[]): string {
   const dates = items.map((l) => parseLaunchDate(l.date));
   const oldest = dates[dates.length - 1];
   const newest = dates[0];
-  const fmt = (d: Date) =>
-    d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  if (oldest.toDateString() === newest.toDateString()) return fmt(newest);
+  if (oldest.toDateString() === newest.toDateString()) return formatMonthDay(newest);
   if (oldest.getFullYear() !== newest.getFullYear())
-    return `${fmt(oldest)} ${oldest.getFullYear()} – ${fmt(newest)} ${newest.getFullYear()}`;
-  return `${fmt(oldest)} – ${fmt(newest)}`;
+    return `${formatMonthDay(oldest)} ${oldest.getFullYear()} – ${formatMonthDay(newest)} ${newest.getFullYear()}`;
+  return `${formatMonthDay(oldest)} – ${formatMonthDay(newest)}`;
 }
 
 /** Group an array of launches by date, newest first. */
