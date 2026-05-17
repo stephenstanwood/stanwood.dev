@@ -149,7 +149,7 @@ export default function LiveGamesStrip() {
       id: "mlb-big-inning",
       league: "baseball/mlb",
       label: "MLB Big Inning",
-      detail: `until ${formatHourMinuteInTz(active.end, "America/New_York")} ET`,
+      detail: `until ${formatHourMinuteInTz(active.end, "America/Los_Angeles")} PT`,
       href: MLB_TV_URL,
       platform: "MLB.tv",
       accentColor: BIG_INNING_ACCENT,
