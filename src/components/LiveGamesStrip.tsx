@@ -3,6 +3,7 @@ import { TEAM_REGISTRY, type TeamEntry } from "../lib/teamRegistry";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { safeGet } from "../lib/localStorage";
 import { MS_PER_MINUTE } from "../lib/time";
+import { formatHourMinuteInTz } from "../lib/dateFormat";
 import {
   findActiveWindow,
   type BigInningSchedule,
@@ -60,14 +61,6 @@ const PRIME_URL = "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc"
 const YOUTUBE_TV_URL = "https://tv.youtube.com/";
 const MLB_TV_URL = "https://www.mlb.com/tv";
 const BIG_INNING_ACCENT = "#bf0d3e";
-
-const fmtEt = (iso: string) =>
-  new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "America/New_York",
-  }).format(new Date(iso));
 
 function platformFor(
   matched: TeamEntry | null,
@@ -156,7 +149,7 @@ export default function LiveGamesStrip() {
       id: "mlb-big-inning",
       league: "baseball/mlb",
       label: "MLB Big Inning",
-      detail: `until ${fmtEt(active.end)} ET`,
+      detail: `until ${formatHourMinuteInTz(active.end, "America/New_York")} ET`,
       href: MLB_TV_URL,
       platform: "MLB.tv",
       accentColor: BIG_INNING_ACCENT,

@@ -9,7 +9,7 @@ import {
 import { safeGet, safeSet } from "../lib/localStorage";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { toErrMsg } from "../lib/apiHelpers";
-import { formatHourMinute } from "../lib/dateFormat";
+import { formatHourMinute, formatHourMinuteInTz } from "../lib/dateFormat";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -108,15 +108,6 @@ function savePrefs(prefs: WTWTWPrefs): void {
 }
 
 // ── ESPN helpers ────────────────────────────────────────────────────────────
-
-function formatTime(iso: string, tz: string): string {
-  return new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: tz,
-  }).format(new Date(iso));
-}
 
 function hitsWindow(isoStart: string, tz: string): boolean {
   const startDate = new Date(isoStart);
@@ -938,7 +929,7 @@ export default function WTWTW() {
                               color: "rgba(255,255,255,0.5)",
                             }}
                           >
-                            {formatTime(pick.event?.date, prefs.timezone)}{" "}
+                            {formatHourMinuteInTz(pick.event?.date, prefs.timezone)}{" "}
                             {tzAbbr(prefs.timezone)}
                           </span>
                         )}
@@ -1032,7 +1023,7 @@ export default function WTWTW() {
                                     color: "rgba(255,255,255,0.3)",
                                   }}
                                 >
-                                  {formatTime(other.event?.date, prefs.timezone)}
+                                  {formatHourMinuteInTz(other.event?.date, prefs.timezone)}
                                 </span>
                               )}
                               <span
