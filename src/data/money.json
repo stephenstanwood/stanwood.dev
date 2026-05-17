@@ -58,7 +58,7 @@
           },
           "recraft": {
             "totalCents": null,
-            "note": "track manually at recraft.ai"
+            "note": "manual top-ups only — no auto-billing"
           }
         }
       }
@@ -95,10 +95,38 @@
     },
     {
       "name": "Midjourney",
-      "cents": 1000,
+      "cents": 6000,
       "category": "ai",
       "url": "https://midjourney.com/account",
-      "note": "just downgraded to basic"
+      "note": "back on Pro"
+    },
+    {
+      "name": "Adobe Acrobat Pro",
+      "cents": 2999,
+      "category": "media",
+      "url": "https://account.adobe.com/plans",
+      "note": "PDF wrangling — AI Assistant tier cancelled"
+    },
+    {
+      "name": "Google Workspace",
+      "cents": 840,
+      "category": "infra",
+      "url": "https://admin.google.com/ac/billing/subscriptions",
+      "note": "stoa.works — stanwoodventures is on free cap"
+    },
+    {
+      "name": "Wave Pro",
+      "cents": 1900,
+      "category": "tools",
+      "url": "https://next.waveapps.com",
+      "note": "Stoa Works bookkeeping"
+    },
+    {
+      "name": "Flickr Pro",
+      "cents": 1100,
+      "category": "media",
+      "url": "https://www.flickr.com/account",
+      "note": "verify cadence — single $11 charge in 2026 so far"
     },
     {
       "name": "ImprovMX Pro",
