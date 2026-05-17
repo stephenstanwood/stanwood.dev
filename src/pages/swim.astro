@@ -795,6 +795,92 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider mt-6"></div>
     </section>
 
+    <!-- Starter workouts — preset launch pads into the generator -->
+    <section class="mt-8" aria-label="Starter workouts you can launch with one click">
+      <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Skip the dials — start here</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">one-click launch</span>
+      </div>
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        Six starter workouts already configured. Tap a card and the generator below builds it instantly —
+        every link is just a preset of the dials, so once it lands you can still nudge anything before you print.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- First swim back -->
+        <a href="?d=30&p=2:00&u=yards&f=any&eq=" class="starter-card rounded-xl border border-amber-200 bg-amber-50/50 p-4 block hover:border-amber-400 hover:bg-amber-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-amber-900 text-sm leading-tight">First swim back</p>
+            <span class="font-mono text-[10px] text-amber-700/70 whitespace-nowrap">30 min · 2:00</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Any focus · no equipment · gentle pace</p>
+          <p class="text-[12px] text-stone-500 leading-snug">For the layoff comeback. Easy aerobic mix that wakes the feel for the water back up without smoking your shoulders on day one.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-amber-700 group-hover:text-amber-900">Generate this →</p>
+        </a>
+
+        <!-- Lunchbreak crusher -->
+        <a href="?d=30&p=1:30&u=yards&f=speed&eq=" class="starter-card rounded-xl border border-rose-200 bg-rose-50/50 p-4 block hover:border-rose-400 hover:bg-rose-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-rose-900 text-sm leading-tight">Lunchbreak crusher</p>
+            <span class="font-mono text-[10px] text-rose-700/70 whitespace-nowrap">30 min · 1:30</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Speed · no equipment · in and out</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Forty-five minutes of pool time, thirty in the water. Short sprint set sandwiched between brief warm-up and cooldown — fits a real lunch hour.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-rose-700">Generate this →</p>
+        </a>
+
+        <!-- The aerobic build -->
+        <a href="?d=60&p=1:40&u=yards&f=endurance&eq=pull" class="starter-card rounded-xl border border-teal-200 bg-teal-50/50 p-4 block hover:border-teal-400 hover:bg-teal-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-teal-900 text-sm leading-tight">The aerobic build</p>
+            <span class="font-mono text-[10px] text-teal-700/70 whitespace-nowrap">1 hr · 1:40</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Endurance · pull buoy · weeknight default</p>
+          <p class="text-[12px] text-stone-500 leading-snug">The bread-and-butter hour. Long steady sets at threshold-ish pace — the kind of workout that quietly stacks fitness over a season without ever feeling heroic.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-teal-700">Generate this →</p>
+        </a>
+
+        <!-- Long Sunday -->
+        <a href="?d=90&p=1:45&u=yards&f=endurance&eq=pull,kickboard,fins" class="starter-card rounded-xl border border-sky-200 bg-sky-50/50 p-4 block hover:border-sky-400 hover:bg-sky-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-sky-900 text-sm leading-tight">Long Sunday</p>
+            <span class="font-mono text-[10px] text-sky-700/70 whitespace-nowrap">1.5 hr · 1:45</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Endurance · all gear · the weekend grind</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Saturday-or-Sunday distance work. Big pull and kick blocks woven through the main set — when you've got the morning and want yardage in the log.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-sky-700">Generate this →</p>
+        </a>
+
+        <!-- Form reset -->
+        <a href="?d=45&p=2:00&u=yards&f=technique&eq=pull,kickboard,fins" class="starter-card rounded-xl border border-purple-200 bg-purple-50/50 p-4 block hover:border-purple-400 hover:bg-purple-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-purple-900 text-sm leading-tight">Form reset</p>
+            <span class="font-mono text-[10px] text-purple-700/70 whitespace-nowrap">45 min · 2:00</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Technique · all gear · drill day</p>
+          <p class="text-[12px] text-stone-500 leading-snug">When your stroke feels stuck. Catch-up, fingertip drag, 6-kick switch, IM rotations — slow yards that fix what hard yards can't.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-purple-700">Generate this →</p>
+        </a>
+
+        <!-- Triathlon brick prep -->
+        <a href="?d=45&p=1:50&u=yards&f=endurance&eq=pull" class="starter-card rounded-xl border border-orange-200 bg-orange-50/50 p-4 block hover:border-orange-400 hover:bg-orange-50/80 transition-colors">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-orange-900 text-sm leading-tight">Triathlon brick prep</p>
+            <span class="font-mono text-[10px] text-orange-700/70 whitespace-nowrap">45 min · 1:50</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">Endurance · pull buoy · race-leg pace</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Half-Ironman swim leg in your head. Pull-heavy sets at sustainable race pace — trains the upper body for the bike-after-swim shock and builds a calm 750-to-1900m engine.</p>
+          <p class="mt-2 text-[11px] font-mono uppercase tracking-wider text-orange-700">Generate this →</p>
+        </a>
+      </div>
+
+      <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+        Every starter is just a shareable URL. Tweak the dials below before printing, or copy the link to send tonight's workout to a lane mate.
+      </p>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- App -->
     <SwimWorkout client:idle />
   </main>
