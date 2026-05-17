@@ -1,5 +1,21 @@
 [
   {
+    "name": "Grok Build",
+    "org": "xAI",
+    "date": "2026-05-15",
+    "type": "tool",
+    "summary": "xAI's first agentic coding CLI — spawns up to 8 concurrent agents that plan, search docs, write files, and run shell commands; powered by Grok 4.3 beta with a 2M-token context; beta is SuperGrok Heavy-only at $300/mo, with a $99/mo intro deal for the first six months",
+    "url": "https://www.engadget.com/2173482/xai-coding-agent-grok-build/"
+  },
+  {
+    "name": "ChatGPT Personal Finance + Plaid",
+    "org": "OpenAI",
+    "date": "2026-05-15",
+    "type": "tool",
+    "summary": "ChatGPT Pro can now link bank, brokerage, and card accounts through Plaid across 12,000+ institutions — get a live dashboard of portfolio, spending, subscriptions, and upcoming bills, plus tailored answers grounded in your actual numbers; preview on web and iOS for US Pro users, read-only access",
+    "url": "https://techcrunch.com/2026/05/15/openai-launches-chatgpt-for-personal-finance-will-let-you-connect-bank-accounts/"
+  },
+  {
     "name": "Higgsfield Supercomputer",
     "org": "Higgsfield",
     "date": "2026-05-14",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "three voice models in the API — GPT-Realtime-2 brings GPT-5-class reasoning and 128K context to live speech-to-speech, GPT-Realtime-Translate covers 70 input / 13 output languages, GPT-Realtime-Whisper streams transcription; $32/M audio input, built for production voice agents",
     "url": "https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/"
-  },
-  {
-    "name": "Claude Managed Agents: Dreaming + Outcomes",
-    "org": "Anthropic",
-    "date": "2026-05-06",
-    "type": "tool",
-    "summary": "three upgrades to Managed Agents at Code with Claude — Dreaming reviews past sessions overnight to extract patterns and curate memories, Outcomes lets you write a success rubric that an external grader scores against, and Multiagent Orchestration delegates subtasks to specialist agents on a shared filesystem",
-    "url": "https://claude.com/blog/new-in-claude-managed-agents"
-  },
-  {
-    "name": "GPT-5.5 Instant",
-    "org": "OpenAI",
-    "date": "2026-05-05",
-    "type": "model",
-    "summary": "ChatGPT's new default model — 52.5% fewer hallucinations, 30% shorter responses, and personalization from past chats, files, and connected Gmail; live for all ChatGPT users and as chat-latest in the API",
-    "url": "https://openai.com/index/gpt-5-5-instant/"
   }
 ]
