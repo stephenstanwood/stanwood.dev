@@ -90,7 +90,7 @@ export default function ShipClock() {
     );
   }
 
-  if (!data || data.error === "api error" || data.error === "fetch failed" || data.error === "missing config") {
+  if (!data || (data.error && data.error !== "no deploys")) {
     return (
       <div className="sc-card">
         <div className="sc-error">couldn't reach mission control</div>

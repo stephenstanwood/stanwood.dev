@@ -18,3 +18,13 @@ export function formatMonthDay(d: DateInput): string {
 export function formatHourMinute(d: DateInput): string {
   return HOUR_MINUTE.format(toDate(d));
 }
+
+/** e.g. "3:45 PM" — formatted in the given IANA timezone. */
+export function formatHourMinuteInTz(d: DateInput, timeZone: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+    timeZone,
+  }).format(toDate(d));
+}
