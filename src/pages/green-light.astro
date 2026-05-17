@@ -1079,6 +1079,130 @@ const title = "Green Light — stanwood.dev";
         color: var(--he-rosemary);
         font-weight: 700;
       }
+
+      /* ─── Read the menu like a regular ─────────────────────────────── */
+      .he-tells {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 0;
+        border-top: 1px solid var(--he-border);
+      }
+      .he-tells-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        text-align: center;
+        margin: 0 0 0.4rem;
+      }
+      .he-tells-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.4rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .he-tells-sub {
+        font-size: 0.85rem;
+        color: var(--he-gray);
+        line-height: 1.55;
+        margin: 0 auto 1.5rem;
+        text-align: center;
+        max-width: 520px;
+      }
+      .he-tells-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+      }
+      @media (min-width: 540px) {
+        .he-tells-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (min-width: 820px) {
+        .he-tells-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .he-tell-card {
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-radius: 12px;
+        padding: 1rem 1rem 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        position: relative;
+      }
+      .he-tell-head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        padding-bottom: 0.55rem;
+        border-bottom: 1px dashed var(--he-border);
+      }
+      .he-tell-num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--he-card-bg);
+        background: var(--he-sage);
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
+      }
+      .he-tell-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        line-height: 1.25;
+      }
+      .he-tell-body {
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .he-tell-body strong {
+        color: var(--he-charcoal);
+        font-weight: 700;
+      }
+      .he-tell-tip {
+        font-size: 0.74rem;
+        color: var(--he-rosemary);
+        line-height: 1.45;
+        background: var(--he-sage-faint);
+        border-left: 2px solid var(--he-sage-light);
+        padding: 0.5rem 0.65rem;
+        border-radius: 0 6px 6px 0;
+        margin-top: auto;
+      }
+      .he-tell-tip-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--he-rosemary);
+        display: block;
+        margin-bottom: 0.2rem;
+        opacity: 0.85;
+      }
+      .he-tells-foot {
+        margin: 1.5rem auto 0;
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        text-align: center;
+        line-height: 1.55;
+        max-width: 520px;
+      }
+      .he-tells-foot strong {
+        color: var(--he-rosemary);
+        font-weight: 700;
+      }
     </style>
   </Fragment>
 
@@ -1342,6 +1466,88 @@ const title = "Green Light — stanwood.dev";
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="he-tells" aria-label="How to read a menu like a regular">
+      <p class="he-tells-label">read the menu like a regular</p>
+      <h2 class="he-tells-heading">Six tells in 30 seconds.</h2>
+      <p class="he-tells-sub">Before you decide what to eat, the menu already told you where the kitchen shines. Six patterns experienced diners read on autopilot — once you see them, you can't unsee them.</p>
+
+      <div class="he-tells-grid">
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">01</span>
+            <span class="he-tell-title">Menu length</span>
+          </div>
+          <p class="he-tell-body"><strong>8–15 mains</strong> = focused kitchen, confident in what it does. <strong>30+ items across four pages</strong> = volume operation. The freezer is doing most of the work; only the bestsellers will be great.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            Short menu? Trust the chef and pick what catches your eye. Long menu? Order the dish the place is <em>named for</em> — that's the one they can't afford to miss.
+          </div>
+        </div>
+
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">02</span>
+            <span class="he-tell-title">Sourcing callouts</span>
+          </div>
+          <p class="he-tell-body">"<strong>Tajima wagyu</strong>," "<strong>Frog Hollow peaches</strong>," "<strong>Monterey Bay halibut</strong>" = the kitchen pays attention and can defend the price. Generic "<em>fresh fish</em>," "<em>premium beef</em>," "<em>house-made</em>" = they don't.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            The dish that drops a name is the dish to order. They wouldn't print the supplier if they couldn't back it up.
+          </div>
+        </div>
+
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">03</span>
+            <span class="he-tell-title">How specials show up</span>
+          </div>
+          <p class="he-tell-body"><strong>Chalkboard, handwritten card, or verbal-only</strong> = real specials, changing nightly with what came in the door. <strong>Glossy printed insert</strong> that's been there a month? That's marketing dressed as specials.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            Real specials are where the freshest, most seasonal stuff lands. Always ask: <em>"What's actually special tonight?"</em>
+          </div>
+        </div>
+
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">04</span>
+            <span class="he-tell-title">Description length</span>
+          </div>
+          <p class="he-tell-body">"<strong>Cacio e pepe — $24</strong>" trusts you to know what it is. A <strong>six-line description</strong> with adjectives stacked three-deep is selling, not feeding.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            Short, plain descriptions = signature dishes the kitchen is proud of. Long flowery ones = "<em>please believe this will be good.</em>"
+          </div>
+        </div>
+
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">05</span>
+            <span class="he-tell-title">The cheapest main</span>
+          </div>
+          <p class="he-tell-body">The cheapest entrée is the menu's <strong>honesty check</strong>. Creative, interesting, something you'd actually order? The kitchen has range top to bottom. A <strong>defensive Caesar with grilled chicken</strong>? They're playing it safe.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            If the entry-level main is dull, build dinner from the apps and sides — that's usually where the kitchen is having more fun anyway.
+          </div>
+        </div>
+
+        <div class="he-tell-card">
+          <div class="he-tell-head">
+            <span class="he-tell-num">06</span>
+            <span class="he-tell-title">The dish that doesn't fit</span>
+          </div>
+          <p class="he-tell-body">One Korean spot has <strong>bucatini</strong>. One Italian trattoria has <strong>bibimbap</strong>. That's a dish the chef brought from somewhere else they cooked for a long time — they're not putting it on the menu unless they nailed it.</p>
+          <div class="he-tell-tip">
+            <span class="he-tell-tip-label">Order tip</span>
+            The "<em>wait, why is THAT on the menu?</em>" dish is almost always a chef's pet. Order it and ask about it — you'll get the story too.
+          </div>
+        </div>
+      </div>
+
+      <p class="he-tells-foot">Six tells, every menu, no app required. <strong>Green Light reads with you</strong> — but once you can read the menu yourself, dinner gets a lot easier.</p>
     </section>
 
     <section class="he-glossary" aria-label="Menu words decoded">
