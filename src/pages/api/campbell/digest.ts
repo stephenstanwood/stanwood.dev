@@ -5,12 +5,13 @@ import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
 import { fetchLatestAgenda, fetchAgendaContent } from "../../../lib/campbell/agendaScraper";
 import type { DigestSummary } from "../../../lib/campbell/types";
+import { MS_PER_DAY } from "../../../lib/time";
 
 export const prerender = false;
 
 // Cache the digest for 24 hours (agendas don't change after posting)
 let cached: { data: DigestSummary; ts: number } | null = null;
-const CACHE_TTL = 24 * 60 * 60 * 1000;
+const CACHE_TTL = MS_PER_DAY;
 
 const client = new Anthropic({
   apiKey: import.meta.env.ANTHROPIC_API_KEY,

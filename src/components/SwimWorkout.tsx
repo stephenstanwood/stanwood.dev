@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { generateWorkout } from "../lib/workoutEngine";
 import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
 import { safeGet, safeSet } from "../lib/localStorage";
-import { MS_PER_DAY } from "../lib/time";
+import { daysSince } from "../lib/time";
 import { formatMonthDay } from "../lib/dateFormat";
 
 // ─── History helpers ────────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ function saveToHistory(entry: HistoryEntry) {
 }
 
 function formatRelativeDate(timestamp: number): string {
-  const diffDays = Math.floor((Date.now() - timestamp) / MS_PER_DAY);
+  const diffDays = daysSince(timestamp);
   if (diffDays === 0) return "Today";
   if (diffDays === 1) return "Yesterday";
   return formatMonthDay(timestamp);

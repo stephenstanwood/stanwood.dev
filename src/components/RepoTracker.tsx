@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
-import { MS_PER_DAY } from "../lib/time";
+import { daysSince } from "../lib/time";
 
 interface CommitData {
   days: number;
@@ -50,7 +50,7 @@ export default function RepoTracker() {
       const commit = commits[0];
       const dateStr = commit.commit?.author?.date ?? commit.commit?.committer?.date;
       if (!dateStr) throw new Error("no commit date found");
-      const days = Math.floor((Date.now() - new Date(dateStr).getTime()) / MS_PER_DAY);
+      const days = daysSince(dateStr);
       setData({
         days,
         message: commit.commit?.message?.split("\n")[0].slice(0, 72) ?? null,

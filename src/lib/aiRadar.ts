@@ -2,7 +2,7 @@
  * Shared constants and helpers for the AI Radar components (tile + page).
  */
 
-import { MS_PER_DAY } from "./time";
+import { daysSince } from "./time";
 import { formatMonthDay } from "./dateFormat";
 
 export interface Launch {
@@ -157,8 +157,7 @@ export function parseLaunchDate(dateStr: string): Date {
  * Returns "today", "yesterday", "Nd ago", "Nw ago", "Nmo ago", or "Nyr ago".
  */
 export function relativeAge(dateStr: string): string {
-  const date = parseLaunchDate(dateStr);
-  const diff = Math.floor((Date.now() - date.getTime()) / MS_PER_DAY);
+  const diff = daysSince(parseLaunchDate(dateStr));
   if (diff === 0) return "today";
   if (diff === 1) return "yesterday";
   if (diff < 7) return `${diff}d ago`;
@@ -238,7 +237,7 @@ export interface PulseStats {
  */
 export function computePulse(launches: Launch[]): PulseStats {
   const now = Date.now();
-  const dayDiff = (d: string) => Math.floor((now - parseLaunchDate(d).getTime()) / MS_PER_DAY);
+  const dayDiff = (d: string) => daysSince(parseLaunchDate(d), now);
 
   let thisWeek = 0;
   let priorWeek = 0;

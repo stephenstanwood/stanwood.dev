@@ -7,6 +7,7 @@ import {
   BIG_INNING_GENERATED_AT,
   BIG_INNING_RAW,
 } from "../data/bigInningSchedule";
+import { MS_PER_DAY } from "./time";
 
 export interface BigInningWindow {
   start: string; // ISO 8601 UTC
@@ -74,7 +75,7 @@ export function buildWindow(
   let endUtc = etWallToUtc(year, month, day, e.h, e.m);
   // End at 12:30 AM after a 10 PM start rolls into the next day in ET.
   if (endUtc.getTime() <= startUtc.getTime()) {
-    endUtc = new Date(endUtc.getTime() + 24 * 60 * 60 * 1000);
+    endUtc = new Date(endUtc.getTime() + MS_PER_DAY);
   }
   return { start: startUtc.toISOString(), end: endUtc.toISOString() };
 }
