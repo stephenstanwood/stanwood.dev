@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { execSync } from "node:child_process";
-import { MS_PER_DAY } from "../lib/time";
+import { MS_PER_DAY, daysSince } from "../lib/time";
 
 // ── Recently shipped: pulled from git log at build time ────────────
 type Ship = {
@@ -88,8 +88,7 @@ try {
 }
 
 function relTime(iso: string): string {
-  const then = new Date(iso).getTime();
-  const days = Math.floor((Date.now() - then) / MS_PER_DAY);
+  const days = daysSince(iso);
   if (days <= 0) return "today";
   if (days === 1) return "yesterday";
   if (days < 7) return `${days}d ago`;
@@ -183,7 +182,7 @@ try {
           timeZone: "UTC",
         })
       : null;
-    const days = Math.max(1, Math.floor((Date.now() - firstMs) / MS_PER_DAY));
+    const days = Math.max(1, daysSince(firstMs));
     siteStats = {
       totalShips: total,
       daysSinceFirstShip: days,

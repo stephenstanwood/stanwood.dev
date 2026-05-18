@@ -326,7 +326,7 @@ export interface HourlyForecast {
   precipProbs: number[];
 }
 
-export function computeLaterToday(
+function computeLaterToday(
   currentTemp: number,
   forecast: HourlyForecast
 ): string | null {
@@ -356,7 +356,7 @@ export function computeLaterToday(
   return null;
 }
 
-export function computeBestWindow(
+function computeBestWindow(
   currentHour: number,
   forecast: HourlyForecast
 ): string | null {
