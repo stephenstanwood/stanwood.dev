@@ -10,6 +10,7 @@ import L4Race from "./L4Race";
 import FirstRide from "./FirstRide";
 import Limits from "./Limits";
 import Myths from "./Myths";
+import SensorStack from "./SensorStack";
 import AVTimeline from "./AVTimeline";
 
 export default function DriverlessDashboard() {
@@ -118,6 +119,9 @@ export default function DriverlessDashboard() {
 
         {/* Myths — full width */}
         <Myths />
+
+        {/* Sensor stack — full width, pairs with Tesla-vs-Waymo angle */}
+        <SensorStack />
 
         {/* L4 Race — full width */}
         <L4Race />
