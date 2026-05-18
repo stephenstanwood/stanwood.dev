@@ -841,6 +841,213 @@ const title = "Ship Clock — stanwood.dev";
         .sc-wild-text { font-size: 12px; }
       }
 
+      /* ── DORA: where this number fits ── */
+      .sc-dora {
+        max-width: 480px;
+        width: 100%;
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1.5px solid rgba(0,0,0,0.08);
+      }
+
+      .sc-dora-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(20px, 5vw, 28px);
+        color: var(--sc-ink);
+        margin: 0 0 6px;
+      }
+
+      .sc-dora-sub {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: lowercase;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        margin: 0 0 18px;
+      }
+
+      .sc-dora-intro {
+        font-family: 'Cabin', sans-serif;
+        font-size: 13px;
+        color: var(--sc-ink);
+        opacity: 0.65;
+        line-height: 1.55;
+        margin: 0 0 18px;
+      }
+
+      .sc-dora-intro strong {
+        color: var(--sc-ink);
+        opacity: 1;
+        font-weight: 700;
+      }
+
+      .sc-dora-intro em {
+        font-style: normal;
+        background: rgba(255, 92, 26, 0.12);
+        color: var(--sc-accent);
+        padding: 1px 5px;
+        font-weight: 700;
+      }
+
+      .sc-dora-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .sc-dora-card {
+        border: var(--sc-pixel) solid var(--sc-ink);
+        box-shadow: 3px 3px 0 var(--sc-ink);
+        background: #fff;
+        padding: 14px 16px 14px;
+        position: relative;
+      }
+
+      .sc-dora-card::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        background: currentColor;
+      }
+
+      .sc-dora-card--ship   { color: var(--sc-accent); }
+      .sc-dora-card--lead   { color: #1a9d3f; }
+      .sc-dora-card--fail   { color: #c97718; }
+      .sc-dora-card--mttr   { color: #8a6cb5; }
+
+      .sc-dora-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 6px;
+      }
+
+      .sc-dora-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--sc-ink);
+      }
+
+      .sc-dora-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: currentColor;
+        opacity: 0.8;
+      }
+
+      .sc-dora-mine {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: var(--sc-accent);
+        color: #fff;
+        padding: 2px 6px;
+        margin-left: 6px;
+      }
+
+      .sc-dora-what {
+        font-family: 'Cabin', sans-serif;
+        font-size: 12.5px;
+        line-height: 1.5;
+        color: var(--sc-ink);
+        opacity: 0.7;
+        margin: 0 0 10px;
+      }
+
+      .sc-dora-tiers {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4px;
+        margin-bottom: 10px;
+      }
+
+      .sc-dora-tier {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        padding: 6px 8px;
+        border: 1.5px solid rgba(0,0,0,0.08);
+        background: rgba(0,0,0,0.02);
+      }
+
+      .sc-dora-tier-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: currentColor;
+        opacity: 0.85;
+      }
+
+      .sc-dora-tier-val {
+        font-family: 'Cabin', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--sc-ink);
+        opacity: 0.75;
+      }
+
+      .sc-dora-fix {
+        font-family: 'Cabin', sans-serif;
+        font-size: 12.5px;
+        line-height: 1.55;
+        color: var(--sc-ink);
+        margin: 0;
+        padding: 8px 10px;
+        background: rgba(0,0,0,0.03);
+        border-left: 2px solid currentColor;
+      }
+
+      .sc-dora-fix-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: currentColor;
+        margin-right: 6px;
+      }
+
+      .sc-dora-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--sc-ink);
+        opacity: 0.4;
+        line-height: 1.6;
+        margin-top: 14px;
+      }
+
+      .sc-dora-foot a {
+        color: inherit;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 2px;
+      }
+      .sc-dora-foot a:hover { opacity: 1; }
+
+      @media (max-width: 480px) {
+        .sc-dora-card { padding: 12px 14px; }
+        .sc-dora-card::before { width: 4px; }
+        .sc-dora-tiers { grid-template-columns: 1fr 1fr; }
+        .sc-dora-tier { padding: 5px 7px; }
+        .sc-dora-tier-val { font-size: 11.5px; }
+        .sc-dora-fix { font-size: 12px; padding: 7px 9px; }
+      }
+
       /* ── Repo tracker ── */
       .sc-rt-wrap {
         max-width: 480px;
@@ -1184,6 +1391,77 @@ const title = "Ship Clock — stanwood.dev";
       </div>
 
       <p class="sc-wild-foot">The right cadence is the one your blast radius can absorb. Etsy ships 50/day because a bad checkout commit reverts in three minutes. Voyager ships once a decade because the round-trip light delay is two days and the original team is mostly retired. Match the clock to the cost of being wrong.</p>
+    </div>
+
+    <!-- Where this number fits — DORA -->
+    <div class="sc-dora">
+      <h2 class="sc-dora-heading">Where this number fits</h2>
+      <p class="sc-dora-sub">the clock vs. the four DORA metrics</p>
+      <p class="sc-dora-intro">Ship Clock is one number. <em>Deployment frequency</em> is the canonical industry-standard version of it — and the first of <strong>four DORA metrics</strong> the DevOps research team has used to grade software delivery since 2014. Daily-to-multiple-per-day is "elite." Less than monthly is "low." Here's how the clock fits with the other three.</p>
+
+      <div class="sc-dora-list">
+        <article class="sc-dora-card sc-dora-card--ship">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Deployment frequency<span class="sc-dora-mine">this clock</span></span>
+            <span class="sc-dora-tag">throughput</span>
+          </div>
+          <p class="sc-dora-what">How often code reaches production. The Ship Clock counts the inverse — days since the last one.</p>
+          <div class="sc-dora-tiers">
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">on demand · multi/day</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">daily–weekly</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">weekly–monthly</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">less than monthly</span></div>
+          </div>
+          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Shrink the unit. Trunk-based development, feature flags, and a one-command deploy do most of the work — every commit that lands is a deploy.</p>
+        </article>
+
+        <article class="sc-dora-card sc-dora-card--lead">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Lead time for changes</span>
+            <span class="sc-dora-tag">speed</span>
+          </div>
+          <p class="sc-dora-what">Time from first commit to that code running in production. The "from idea-shaped to user-visible" gap.</p>
+          <div class="sc-dora-tiers">
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">under 1 hour</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">1 hour – 1 day</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">1 day – 1 week</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">1 week – 1 month+</span></div>
+          </div>
+          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Cut PR size. A 50-line PR merges before lunch; a 500-line one sits all week. Smaller surface area, faster review, shorter lead time.</p>
+        </article>
+
+        <article class="sc-dora-card sc-dora-card--fail">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Change failure rate</span>
+            <span class="sc-dora-tag">stability</span>
+          </div>
+          <p class="sc-dora-what">Share of deploys that cause an incident, rollback, hotfix, or degraded service. The "did we break prod" rate.</p>
+          <div class="sc-dora-tiers">
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">0 – 5%</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">5 – 10%</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">10 – 15%</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">over 15%</span></div>
+          </div>
+          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Tests close to production, canaries on the riskiest paths, and a default of "ship behind a flag." Failure rate drops when each deploy ships less raw new behavior.</p>
+        </article>
+
+        <article class="sc-dora-card sc-dora-card--mttr">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Time to restore service</span>
+            <span class="sc-dora-tag">recovery</span>
+          </div>
+          <p class="sc-dora-what">From "production is broken" to "production is fixed." Detect plus diagnose plus deploy the fix.</p>
+          <div class="sc-dora-tiers">
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">under 1 hour</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">1 hour – 1 day</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">1 day – 1 week</span></div>
+            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">1 week – 1 month+</span></div>
+          </div>
+          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>A one-click rollback beats a perfect post-mortem. If revert is the same button as deploy, restore time is measured in minutes — not meetings.</p>
+        </article>
+      </div>
+
+      <p class="sc-dora-foot">Source: <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">DORA / Accelerate State of DevOps</a> · ten years of survey data from tens of thousands of engineers. The headline finding: elite teams ship more often <strong>and</strong> break things less — speed and stability move together, not against each other.</p>
     </div>
 
     <RepoTracker client:idle />
