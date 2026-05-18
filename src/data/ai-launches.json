@@ -32,6 +32,22 @@
     "url": "https://techcrunch.com/2026/05/14/openai-says-codex-is-coming-to-your-phone/"
   },
   {
+    "name": "Raindrop Workshop",
+    "org": "Raindrop",
+    "date": "2026-05-14",
+    "type": "tool",
+    "summary": "open-source local debugger and eval tool for AI agents — streams every token, tool call, and decision to a localhost dashboard the moment it happens, then writes traces to a single SQL file your coding agent can query to write its own evals; MIT-licensed, one-line install, works with Vercel AI SDK, OpenAI Agents, Anthropic SDK, LangChain, LangGraph, CrewAI, Pydantic AI",
+    "url": "https://www.raindrop.ai/workshop/"
+  },
+  {
+    "name": "Cursor 3.4",
+    "org": "Cursor",
+    "date": "2026-05-13",
+    "type": "tool",
+    "summary": "ships dev environment configuration for cloud agent fleets — multi-repo workspaces, Dockerfile-based envs with build secrets for private registries, and a new PR review experience; click \"Build in Parallel\" and Cursor identifies independent parts of a plan and runs them simultaneously via async subagents",
+    "url": "https://cursor.com/changelog"
+  },
+  {
     "name": "Claude for Small Business",
     "org": "Anthropic",
     "date": "2026-05-13",
@@ -40,27 +56,11 @@
     "url": "https://techcrunch.com/2026/05/13/anthropic-courts-a-new-kind-of-customer-small-business-owners/"
   },
   {
-    "name": "Claude Code Agent View + /goal",
-    "org": "Anthropic",
-    "date": "2026-05-11",
-    "type": "tool",
-    "summary": "Claude Code 2.1 ships a CLI dashboard for parallel sessions — `claude agents` opens one list of every running, blocked, or done agent; pair it with the new /goal command and Claude keeps iterating across turns until a completion condition is met; research preview on Pro, Max, Team, Enterprise, and API plans",
-    "url": "https://claude.com/blog/agent-view-in-claude-code"
-  },
-  {
-    "name": "HiDream-O1-Image",
-    "org": "HiDream",
-    "date": "2026-05-08",
+    "name": "Krea 2",
+    "org": "Krea",
+    "date": "2026-05-12",
     "type": "model",
-    "summary": "open-source 8B pixel-native image model — single checkpoint handles text-to-image, image editing, and subject-driven personalization up to 2,048×2,048; MIT-licensed, debuted at #8 on the Artificial Analysis Text-to-Image Arena and is now the top open-weights image model",
-    "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image"
-  },
-  {
-    "name": "GPT-Realtime-2 + Voice API",
-    "org": "OpenAI",
-    "date": "2026-05-07",
-    "type": "tool",
-    "summary": "three voice models in the API — GPT-Realtime-2 brings GPT-5-class reasoning and 128K context to live speech-to-speech, GPT-Realtime-Translate covers 70 input / 13 output languages, GPT-Realtime-Whisper streams transcription; $32/M audio input, built for production voice agents",
-    "url": "https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/"
+    "summary": "Krea's first in-house foundation image model — built from scratch for aesthetic diversity, with a style-transfer system you can pass any image into and tune its strength, plus multi-style blending; rolling out to Max and Business tiers starting May 13, scored within 0.14 points of GPT Image 2 on Style Fidelity benchmarks",
+    "url": "https://www.krea.ai/krea-2"
   }
 ]
