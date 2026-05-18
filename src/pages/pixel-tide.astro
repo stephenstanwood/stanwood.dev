@@ -198,6 +198,150 @@ const title = "Pixel Tide — stanwood.dev";
         color: rgba(245, 198, 160, 0.7);
       }
 
+      /* ── Sandcastles, IRL ── */
+      .sand-intro {
+        font-size: 0.78rem;
+        color: rgba(245, 198, 160, 0.6);
+        line-height: 1.7;
+        margin: 0 0 18px;
+        max-width: 560px;
+      }
+      .sand-intro strong {
+        color: rgba(245, 198, 160, 0.95);
+        font-weight: 600;
+      }
+      .sand-record {
+        position: relative;
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: 18px;
+        align-items: stretch;
+        border: 1px solid rgba(232, 149, 106, 0.35);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        background:
+          linear-gradient(135deg, rgba(232, 149, 106, 0.10), rgba(91, 181, 213, 0.04));
+        overflow: hidden;
+      }
+      @media (max-width: 540px) {
+        .sand-record { grid-template-columns: 1fr; gap: 10px; }
+      }
+      .sand-record-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: rgba(15, 12, 22, 0.4);
+        border-radius: 8px;
+        padding: 14px 6px;
+        border: 1px dashed rgba(232, 149, 106, 0.4);
+      }
+      .sand-record-num {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 1.5rem;
+        color: #e8956a;
+        line-height: 1;
+        letter-spacing: 0.02em;
+      }
+      .sand-record-unit {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.65);
+        margin-top: 8px;
+        letter-spacing: 0.04em;
+      }
+      .sand-record-eyebrow {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: rgba(232, 149, 106, 0.85);
+        margin-bottom: 4px;
+      }
+      .sand-record-name {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.95);
+        line-height: 1.4;
+        margin: 0 0 8px;
+      }
+      .sand-record-place {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.55);
+        margin: 0 0 8px;
+      }
+      .sand-record-place strong {
+        color: rgba(245, 198, 160, 0.85);
+        font-weight: 600;
+      }
+      .sand-record-body {
+        font-size: 0.72rem;
+        color: rgba(245, 198, 160, 0.65);
+        line-height: 1.6;
+        margin: 0;
+      }
+      .sand-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      @media (min-width: 540px) {
+        .sand-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (min-width: 840px) {
+        .sand-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .sand-card {
+        border: 1px solid rgba(245, 198, 160, 0.12);
+        border-radius: 8px;
+        padding: 12px 13px 14px;
+        background: rgba(232, 149, 106, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .sand-card-head {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .sand-card-icon {
+        font-size: 1.05rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .sand-card-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 0.5rem;
+        color: rgba(245, 198, 160, 0.85);
+        line-height: 1.4;
+        letter-spacing: 0.04em;
+      }
+      .sand-card-body {
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.55);
+        line-height: 1.6;
+        margin: 0;
+      }
+      .sand-card-body strong {
+        color: rgba(245, 198, 160, 0.85);
+        font-weight: 600;
+      }
+      .sand-foot {
+        margin-top: 14px;
+        font-size: 0.7rem;
+        color: rgba(245, 198, 160, 0.5);
+        line-height: 1.6;
+        max-width: 560px;
+      }
+      .sand-foot strong {
+        color: rgba(245, 198, 160, 0.85);
+        font-weight: 600;
+      }
+
       /* ── Real-tide wonders gallery ── */
       .wonder-grid {
         display: grid;
@@ -572,6 +716,118 @@ const title = "Pixel Tide — stanwood.dev";
         </a>
       </div>
       <p class="mt-4 text-[10px] text-center" style="color: rgba(245, 198, 160, 0.3);">Add <code style="color: rgba(245, 198, 160, 0.5);">&amp;speed=calm</code>, <code style="color: rgba(245, 198, 160, 0.5);">normal</code>, or <code style="color: rgba(245, 198, 160, 0.5);">surge</code> to any link to set the tide pace.</p>
+    </section>
+
+    <!-- Sandcastles, IRL -->
+    <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
+      <div class="flex items-baseline justify-between mb-5 gap-3 flex-wrap">
+        <h2 class="text-xs font-bold uppercase tracking-widest" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Sandcastles, IRL</h2>
+        <span class="text-[10px]" style="color: rgba(245, 198, 160, 0.3); font-family: 'Space Grotesk', sans-serif;">the craft, done well</span>
+      </div>
+
+      <p class="sand-intro">
+        You're stacking pixel blocks the tide knocks down in seconds. Out in the world, sand sculptors push the
+        same material toward stadium-scale towers — and the same tide is still the timer. Here's what the real
+        craft looks like, and why your tower keeps falling.
+      </p>
+
+      <article class="sand-record">
+        <div class="sand-record-stat">
+          <span class="sand-record-num">21.16</span>
+          <span class="sand-record-unit">m / 69 ft 5 in</span>
+        </div>
+        <div>
+          <p class="sand-record-eyebrow">The world record</p>
+          <p class="sand-record-name">The Skagen Sandcastle</p>
+          <p class="sand-record-place"><strong>Skagen, Denmark</strong> · July 2021 · Wilfred Stijger &amp; international team</p>
+          <p class="sand-record-body">
+            About <strong>5,000 tonnes</strong> of local sand, mixed with roughly 10% clay for cohesion, packed
+            into a tapered cone over three weeks. Sat under a protective tarp through the off-season — until the
+            weather did the inevitable. Guinness-certified as the tallest sandcastle on Earth at completion.
+          </p>
+        </div>
+      </article>
+
+      <div class="sand-grid">
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">💧</span>
+            <span class="sand-card-title">The magic ratio</span>
+          </div>
+          <p class="sand-card-body">
+            Beach lore: <strong>one cup water, eight cups sand</strong>. Lab studies put the sweet spot lower —
+            a few percent water by volume — but the principle is the same: thin films of water bridge the grains
+            and pull them together. Too dry and they slide; too wet and the structure liquefies.
+          </p>
+        </div>
+
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">🧪</span>
+            <span class="sand-card-title">Why your tower falls</span>
+          </div>
+          <p class="sand-card-body">
+            Those water films are called <strong>capillary bridges</strong>. Sun evaporates the moisture, the
+            bridges snap, friction drops, and grains slide. Add a rising tide that soaks the lower courses and
+            the heavier top collapses into the softened base — fast.
+          </p>
+        </div>
+
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">🏗️</span>
+            <span class="sand-card-title">Pack vs. drip</span>
+          </div>
+          <p class="sand-card-body">
+            Two techniques sculptors blend. <strong>Pack</strong>: compress soaked sand inside open-bottomed
+            forms, then carve down with knives and straws. <strong>Drip</strong>: drizzle a thin sand-water
+            slurry like a wet pancake batter — it freezes into spires and stalagmites no mold can make.
+          </p>
+        </div>
+
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">🏖️</span>
+            <span class="sand-card-title">The festival circuit</span>
+          </div>
+          <p class="sand-card-body">
+            Pro circuits run all summer: <strong>Hampton Beach</strong> (NH), <strong>Harrison Hot
+            Springs</strong> (BC), <strong>Weston-super-Mare</strong> (UK), <strong>Imperial Beach</strong>
+            (CA). Same dozen sculptors turn up year after year, chasing master-class titles and a few thousand
+            dollars in prize money.
+          </p>
+        </div>
+
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">🪨</span>
+            <span class="sand-card-title">Sand isn't sand</span>
+          </div>
+          <p class="sand-card-body">
+            <strong>Angular river sand</strong> grips itself; round desert grains roll right past each other.
+            Why competition beaches truck in inland sand for the build site, and why the Sahara — endless sand,
+            zero cohesion — is the worst place on Earth to sculpt.
+          </p>
+        </div>
+
+        <div class="sand-card">
+          <div class="sand-card-head">
+            <span class="sand-card-icon" aria-hidden="true">⏱️</span>
+            <span class="sand-card-title">Tide is the deadline</span>
+          </div>
+          <p class="sand-card-body">
+            Most beach builds get <strong>one tide cycle</strong> — six hours up, six hours back. Competitions
+            either site themselves above the high-tide line, build inside roped-off saltwater pools, or accept
+            that the photo <em>is</em> the artifact. Same rule your pixel castle plays by, just slower.
+          </p>
+        </div>
+      </div>
+
+      <p class="sand-foot">
+        Click a fresh stretch of dry sand below the wave line and you've just done what every sculptor on the
+        circuit also does — start a structure the ocean has already decided will lose. <strong>That's the
+        appeal.</strong>
+      </p>
     </section>
 
     <!-- Real Tide Wonders -->
