@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-18T10:30:04.684913+00:00",
+  "built_at": "2026-05-19T10:30:09.618184+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 11,
+      "video_count": 10,
       "video_ids": [
-        "JbX98G2sSEQ",
         "IKpRUQFOzpU",
         "B9WsVMGtIuk",
         "IH-hRdNMIq0",
@@ -231,16 +230,6 @@
       ]
     },
     {
-      "key": "__single__AbezbsrNMZU",
-      "is_single": true,
-      "display_name": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
-      "best_score": 3,
-      "video_count": 1,
-      "video_ids": [
-        "AbezbsrNMZU"
-      ]
-    },
-    {
       "key": "__single__smSp11lXLJI",
       "is_single": true,
       "display_name": "Stanford's Code in Place Info Session with Mehran Sahami",
@@ -316,22 +305,6 @@
     }
   ],
   "queue": [
-    {
-      "id": "JbX98G2sSEQ",
-      "title": "Stanford CS547 HCI Seminar | Autumn 2025 | What Is a (Future) Designer?",
-      "url": "https://www.youtube.com/watch?v=JbX98G2sSEQ",
-      "duration": 3403.0,
-      "published_at": "2025-11-17T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 18,
-      "categories": [
-        "hci",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 31, 2025\nThis lecture covers:\n\u2022 What a designer is today, and what the designer of tomorrow will become\n\u2022 How design can transcend traditional categories to shape emerging technologies and ecological futures\n\nTo follow along with the seminar schedule, visit: https://hci.stanford."
-    },
     {
       "id": "IKpRUQFOzpU",
       "title": "Stanford CS547 HCI Seminar | Autumn 2025 | Towards Globally Equitable AI",
@@ -2055,21 +2028,6 @@
         "healthcare_ai"
       ],
       "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
-    },
-    {
-      "id": "AbezbsrNMZU",
-      "title": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
-      "url": "https://www.youtube.com/watch?v=AbezbsrNMZU",
-      "duration": 3391.0,
-      "published_at": "2025-11-17T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - A Toolkit for Decision-Making: Navigating Complex Choices",
-      "lecture_num": null,
-      "score": 3,
-      "categories": [
-        "swe_career"
-      ],
-      "description": "Learn more about decision-making strategies: https://online.stanford.edu/courses/xelp240-making-high-quality-decisions?utm_medium=social&utm_term=&utm_campaign=XELP240Webinar&utm_source=Youtube\n\nWatch an in-depth conversation on decision-making strategies with Amin Saberi, Professor of Management Science and Engineering, and Farnaz Ronaghi, Co-Founder and Chief of Product and Technology at NovoEd."
     },
     {
       "id": "smSp11lXLJI",
