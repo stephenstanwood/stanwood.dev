@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
-import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY } from "../lib/time";
+import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY, msSince } from "../lib/time";
 import { formatMonthDay } from "../lib/dateFormat";
 
 interface HistoryEntry {
@@ -53,7 +53,7 @@ function buildActivityGrid(
 }
 
 function timeAgo(dateStr: string): string {
-  const diff = Date.now() - new Date(dateStr).getTime();
+  const diff = msSince(dateStr);
   const mins = Math.floor(diff / MS_PER_MINUTE);
   const hours = Math.floor(diff / MS_PER_HOUR);
   const days = Math.floor(diff / MS_PER_DAY);

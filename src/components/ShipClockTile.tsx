@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MS_PER_MINUTE } from "../lib/time";
+import { MS_PER_MINUTE, msSince } from "../lib/time";
 import { formatHourMinute } from "../lib/dateFormat";
 
 interface DeployData {
@@ -55,8 +55,7 @@ export default function ShipClockTile() {
   useEffect(() => {
     if (!data?.lastDeploy) return;
     const update = () => {
-      const ms = Date.now() - new Date(data.lastDeploy!).getTime();
-      setElapsed(formatElapsed(ms));
+      setElapsed(formatElapsed(msSince(data.lastDeploy!)));
     };
     update();
     const id = setInterval(update, 30000);
