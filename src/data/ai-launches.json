@@ -16,14 +16,6 @@
     "url": "https://techcrunch.com/2026/05/15/openai-launches-chatgpt-for-personal-finance-will-let-you-connect-bank-accounts/"
   },
   {
-    "name": "Higgsfield Supercomputer",
-    "org": "Higgsfield",
-    "date": "2026-05-14",
-    "type": "tool",
-    "summary": "cloud-native agent for end-to-end media production — describe a reel, ad, product shot, or a week of content and it picks the right LLMs and image/video models, orchestrates 40+ built-in tools, and remembers your brand identity across campaigns; access via browser or Telegram with no local setup, paid tiers start at $15/mo",
-    "url": "https://higgsfield.ai/supercomputer-intro"
-  },
-  {
     "name": "Codex in ChatGPT Mobile",
     "org": "OpenAI",
     "date": "2026-05-14",
@@ -56,11 +48,19 @@
     "url": "https://techcrunch.com/2026/05/13/anthropic-courts-a-new-kind-of-customer-small-business-owners/"
   },
   {
-    "name": "Krea 2",
-    "org": "Krea",
-    "date": "2026-05-12",
+    "name": "Realtime API GA + GPT-Realtime-2",
+    "org": "OpenAI",
+    "date": "2026-05-08",
+    "type": "tool",
+    "summary": "voice AI exits beta — GPT-Realtime-2 brings GPT-5-class reasoning to speech with 128K context, parallel tool calls, and narrated 'let me check that' preambles; ships alongside GPT-Realtime-Translate (70 input / 13 output languages at $0.034/min) and GPT-Realtime-Whisper streaming transcription at $0.017/min for live captions and meeting notes",
+    "url": "https://techcrunch.com/2026/05/07/openai-launches-new-voice-intelligence-features-in-its-api/"
+  },
+  {
+    "name": "HiDream-O1-Image",
+    "org": "HiDream",
+    "date": "2026-05-08",
     "type": "model",
-    "summary": "Krea's first in-house foundation image model — built from scratch for aesthetic diversity, with a style-transfer system you can pass any image into and tune its strength, plus multi-style blending; rolling out to Max and Business tiers starting May 13, scored within 0.14 points of GPT Image 2 on Style Fidelity benchmarks",
-    "url": "https://www.krea.ai/krea-2"
+    "summary": "open-source 8B image model that beats 32B FLUX.2 on five standard benchmarks — works directly in pixel space with no VAE or separate text encoder, supports text-to-image, editing, and subject-driven personalization up to 2048×2048; ships with a reasoning prompt agent that thinks through layout and physics before drawing, MIT-licensed for commercial use, weights on Hugging Face",
+    "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image"
   }
 ]
