@@ -1605,6 +1605,219 @@ const title = "Which Model? — stanwood.dev";
         line-height: 1.6;
       }
 
+      /* ─── Price ladder ─────────────────────────────────────────── */
+      .wm-price {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 8px;
+      }
+
+      .wm-price-head {
+        text-align: center;
+        margin-bottom: 26px;
+      }
+
+      .wm-price-head h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 38px;
+        letter-spacing: 1.5px;
+        color: var(--wm-ink);
+        margin: 0 0 6px;
+        line-height: 1;
+      }
+
+      .wm-price-head p {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .wm-price-head p strong { color: var(--wm-ink); }
+
+      .wm-price-tiers {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      @media (min-width: 820px) {
+        .wm-price-tiers { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      .wm-price-tier {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-top: 6px solid var(--tier-accent, var(--wm-purple));
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .wm-price-tier-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        padding-bottom: 6px;
+        border-bottom: 1px dashed var(--wm-border);
+      }
+
+      .wm-price-tier-label {
+        font-family: 'Bangers', cursive;
+        font-size: 22px;
+        letter-spacing: 1px;
+        color: var(--wm-ink);
+        line-height: 1;
+      }
+
+      .wm-price-tier-tag {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--tier-accent, var(--wm-purple));
+        white-space: nowrap;
+      }
+
+      .wm-price-tier-blurb {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12px;
+        color: var(--wm-muted);
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      .wm-price-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .wm-price-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 6px 10px;
+        align-items: baseline;
+        padding: 8px 10px 9px;
+        background: #faf8ee;
+        border: 1px solid var(--wm-border);
+        border-left: 3px solid var(--tier-accent, var(--wm-purple));
+        border-radius: 4px;
+      }
+
+      .wm-price-model {
+        font-family: 'Space Mono', monospace;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+
+      .wm-price-org {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--wm-light);
+        margin-top: 2px;
+      }
+
+      .wm-price-cost {
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--tier-accent, var(--wm-purple));
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .wm-price-cost-label {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--wm-light);
+        margin-top: 2px;
+      }
+
+      .wm-price-tokens {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 10px;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: var(--wm-muted);
+        line-height: 1.4;
+        padding-top: 4px;
+        border-top: 1px dotted var(--wm-border);
+        margin-top: 2px;
+      }
+
+      .wm-price-tokens span strong {
+        color: var(--wm-ink);
+        font-weight: 700;
+      }
+
+      .wm-price-scenario {
+        margin-top: 18px;
+        padding: 14px 16px 12px;
+        background: #fff;
+        border: 2px solid var(--wm-ink);
+        border-radius: 8px;
+        box-shadow: var(--wm-shadow-sm);
+      }
+
+      .wm-price-scenario-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--wm-coral);
+        margin-bottom: 6px;
+      }
+
+      .wm-price-scenario-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        margin: 0 0 4px;
+      }
+
+      .wm-price-scenario-body {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--wm-muted);
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .wm-price-scenario-body strong { color: var(--wm-ink); }
+
+      .wm-price-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+        text-align: center;
+        margin: 22px auto 0;
+        max-width: 620px;
+        line-height: 1.6;
+      }
+
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -1680,6 +1893,12 @@ const title = "Which Model? — stanwood.dev";
         .wm-bench-head h2 { font-size: 30px; }
         .wm-bench-head p { font-size: 13px; }
         .wm-bench-card { padding: 13px 14px 14px; }
+
+        .wm-price { padding: 40px 16px 0; }
+        .wm-price-head h2 { font-size: 30px; }
+        .wm-price-head p { font-size: 13px; }
+        .wm-price-tier { padding: 12px 12px 14px; }
+        .wm-price-tier-label { font-size: 20px; }
       }
 
     </style>
@@ -2011,6 +2230,132 @@ const title = "Which Model? — stanwood.dev";
 
     <p class="wm-bench-foot">
       Benchmarks compress thousands of hours of testing into a single number — they're directional, not gospel. The same model can top one and place fourth on another.
+    </p>
+  </section>
+
+  <section class="wm-price" aria-labelledby="price-heading">
+    <div class="wm-price-head">
+      <h2 id="price-heading">Price tag, decoded</h2>
+      <p>Capability is one axis. The bill is the other. <strong>Nine common models, side by side</strong> — and what a 200-page PDF actually costs to summarize.</p>
+    </div>
+
+    <div class="wm-price-tiers">
+      {/* ── Fast tier ── */}
+      <div class="wm-price-tier" style="--tier-accent: #10a37f;">
+        <div class="wm-price-tier-head">
+          <span class="wm-price-tier-label">Pocket money</span>
+          <span class="wm-price-tier-tag">Fast tier</span>
+        </div>
+        <p class="wm-price-tier-blurb">For pipelines, classifiers, simple Q&amp;A — anything you'll call thousands of times and want under a second.</p>
+        <div class="wm-price-list">
+          <div class="wm-price-row">
+            <span class="wm-price-model">Gemini 2.5 Flash<span class="wm-price-org">Google</span></span>
+            <span class="wm-price-cost">$0.02<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$0.30</strong>/M</span>
+              <span>out <strong>$2.50</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">GPT-4o mini<span class="wm-price-org">OpenAI</span></span>
+            <span class="wm-price-cost">$0.01<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$0.15</strong>/M</span>
+              <span>out <strong>$0.60</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">Claude Haiku 4.5<span class="wm-price-org">Anthropic</span></span>
+            <span class="wm-price-cost">$0.06<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$1.00</strong>/M</span>
+              <span>out <strong>$5.00</strong>/M</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Mid tier ── */}
+      <div class="wm-price-tier" style="--tier-accent: #d97706;">
+        <div class="wm-price-tier-head">
+          <span class="wm-price-tier-label">Daily driver</span>
+          <span class="wm-price-tier-tag">Mid tier</span>
+        </div>
+        <p class="wm-price-tier-blurb">The sweet spot for most real work — coding, writing, research. 5–20× pricier than the fast tier, but not stupid.</p>
+        <div class="wm-price-list">
+          <div class="wm-price-row">
+            <span class="wm-price-model">Gemini 2.5 Pro<span class="wm-price-org">Google</span></span>
+            <span class="wm-price-cost">$0.08<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$1.25</strong>/M</span>
+              <span>out <strong>$10</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">GPT-4o<span class="wm-price-org">OpenAI</span></span>
+            <span class="wm-price-cost">$0.14<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$2.50</strong>/M</span>
+              <span>out <strong>$10</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">Claude Sonnet 4.6<span class="wm-price-org">Anthropic</span></span>
+            <span class="wm-price-cost">$0.17<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$3.00</strong>/M</span>
+              <span>out <strong>$15</strong>/M</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Flagship tier ── */}
+      <div class="wm-price-tier" style="--tier-accent: #7c5cff;">
+        <div class="wm-price-tier-head">
+          <span class="wm-price-tier-label">Flagship</span>
+          <span class="wm-price-tier-tag">heavyweights</span>
+        </div>
+        <p class="wm-price-tier-blurb">Hard math, deep research, gnarly refactors. Slow, premium-priced, and worth it when an answer has to be right the first time.</p>
+        <div class="wm-price-list">
+          <div class="wm-price-row">
+            <span class="wm-price-model">o3<span class="wm-price-org">OpenAI</span></span>
+            <span class="wm-price-cost">$0.11<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$2.00</strong>/M</span>
+              <span>out <strong>$8.00</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">DeepSeek R1<span class="wm-price-org">DeepSeek · open</span></span>
+            <span class="wm-price-cost">$0.03<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$0.55</strong>/M</span>
+              <span>out <strong>$2.19</strong>/M</span>
+            </span>
+          </div>
+          <div class="wm-price-row">
+            <span class="wm-price-model">Claude Opus 4.7<span class="wm-price-org">Anthropic</span></span>
+            <span class="wm-price-cost">$0.83<span class="wm-price-cost-label">200-pg PDF</span></span>
+            <span class="wm-price-tokens">
+              <span>in <strong>$15</strong>/M</span>
+              <span>out <strong>$75</strong>/M</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wm-price-scenario">
+      <p class="wm-price-scenario-label">How we read it</p>
+      <p class="wm-price-scenario-title">"Summarize a 200-page PDF" ≈ 50K input + 1K output tokens</p>
+      <p class="wm-price-scenario-body">
+        A 200-page document is roughly <strong>50,000 input tokens</strong> (≈ 0.75 word per token, both ways). A typical summary back is ~1,000 output tokens. The per-call cost above multiplies those by each model's input/output rates. Tier breakdown — <strong>4¢ vs. 17¢ vs. 83¢</strong> for the same task across Haiku, Sonnet, and Opus. That's the price you actually pay for the extra IQ.
+      </p>
+    </div>
+
+    <p class="wm-price-foot">
+      Public API list prices, late 2025 / early 2026. Batch and cache discounts can knock 30–75% off. Reasoning models burn extra "thinking" tokens you don't see — figure 2–5× the output bill for o3 on hard problems.
     </p>
   </section>
 
