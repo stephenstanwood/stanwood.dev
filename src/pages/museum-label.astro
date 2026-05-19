@@ -587,6 +587,122 @@ const title = "Museum Label — stanwood.dev";
         max-width: 480px;
       }
 
+      /* ── Translation table ── */
+      .ml-translate {
+        width: 100%;
+        max-width: 560px;
+        margin: 2.5rem auto 0;
+        padding-top: 2rem;
+        border-top: 1px solid var(--ml-border);
+      }
+      .ml-translate-intro {
+        font-size: 0.78rem;
+        color: var(--ml-gray);
+        line-height: 1.6;
+        margin: 0 auto 1.25rem;
+        text-align: center;
+        max-width: 460px;
+      }
+      .ml-translate-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      .ml-translate-card {
+        background: var(--ml-card-bg);
+        border: 1px solid var(--ml-border);
+        border-radius: 10px;
+        padding: 0.9rem 1.05rem 1rem;
+      }
+      .ml-translate-row {
+        display: grid;
+        grid-template-columns: 1fr 16px 1.4fr;
+        align-items: center;
+        gap: 0.55rem;
+      }
+      .ml-translate-plain {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.72rem;
+        color: var(--ml-gray);
+        line-height: 1.4;
+        margin: 0;
+      }
+      .ml-translate-plain::before {
+        content: "you see ";
+        display: block;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ml-light-gray);
+        margin-bottom: 0.2rem;
+        font-weight: 700;
+      }
+      .ml-translate-arrow {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.2rem;
+        color: var(--ml-accent);
+        text-align: center;
+        line-height: 1;
+        opacity: 0.7;
+      }
+      .ml-translate-fancy {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 0.95rem;
+        font-style: italic;
+        color: var(--ml-ink);
+        line-height: 1.3;
+        margin: 0;
+      }
+      .ml-translate-fancy::before {
+        content: "placard reads ";
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-style: normal;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ml-accent);
+        margin-bottom: 0.2rem;
+        font-weight: 700;
+        opacity: 0.85;
+      }
+      .ml-translate-move {
+        font-size: 0.74rem;
+        color: var(--ml-gray);
+        line-height: 1.5;
+        margin: 0.7rem 0 0;
+        padding-top: 0.55rem;
+        border-top: 1px dashed var(--ml-border);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .ml-translate-move-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.55rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ml-light-gray);
+        flex-shrink: 0;
+        padding-top: 0.15rem;
+        font-weight: 700;
+      }
+      .ml-translate-foot {
+        font-size: 0.72rem;
+        color: var(--ml-light-gray);
+        line-height: 1.55;
+        text-align: center;
+        margin: 1.25rem auto 0;
+        max-width: 480px;
+      }
+      @media (max-width: 480px) {
+        .ml-translate-row {
+          grid-template-columns: 1fr;
+          gap: 0.4rem;
+        }
+        .ml-translate-arrow { text-align: left; }
+      }
+
       /* ── Museums got there first (real exhibits) ── */
       .ml-real {
         width: 100%;
@@ -840,6 +956,69 @@ const title = "Museum Label — stanwood.dev";
           </div>
         </div>
         <p class="ml-decode-foot">Now scroll the example outputs below — every "Acc. No.", "ca.", and "American School" is doing real curatorial work, just in service of a joke.</p>
+      </section>
+
+      <section class="ml-translate" aria-label="How curators translate the mundane into the magnificent">
+        <p class="ml-section-label">the translation</p>
+        <p class="ml-translate-intro">Every great placard is a small act of translation. The object hasn't changed — just how you describe it has. Here's the trick, six ways.</p>
+
+        <div class="ml-translate-grid">
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"It got scuffed."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Surface bearing significant evidence of historical use.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Damage becomes documentation. Wear is the only proof an object was ever held — once you name it, it stops being a flaw and starts being a record.</p>
+          </div>
+
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"They made a million of these."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Exemplar of late industrial democracy.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Generic becomes exemplary. The very fact something was mass-produced gets rebranded as its scholarly point — the object is no longer cheap, it's <em>representative</em>.</p>
+          </div>
+
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"No idea who made it."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Attributed to a regional workshop.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Anonymous becomes a school. A whole tradition sounds more important than one forgotten maker — and there's nobody to disprove it.</p>
+          </div>
+
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"The colors faded."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Soft passage of time across the pigment field.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Decay becomes poetry. Time is reframed as the second artist on every old object — co-author, not vandal.</p>
+          </div>
+
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"Found it in the basement."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Recently recovered from a domestic stratum.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Storage becomes archaeology. "Under the stairs" is renamed Layer III, and suddenly the object has a dig site.</p>
+          </div>
+
+          <div class="ml-translate-card">
+            <div class="ml-translate-row">
+              <p class="ml-translate-plain">"It's a toaster."</p>
+              <span class="ml-translate-arrow" aria-hidden="true">→</span>
+              <p class="ml-translate-fancy">Vessel for the controlled application of thermal energy.</p>
+            </div>
+            <p class="ml-translate-move"><span class="ml-translate-move-label">the move</span>Function becomes ritual. Every appliance is a ceremony once you describe it slowly enough and refuse to use the brand name.</p>
+          </div>
+        </div>
+
+        <p class="ml-translate-foot">Run a placard through this filter and you'll see the same six moves on repeat. The object is just the prop — the prestige is in the verbs.</p>
       </section>
 
       <div class="ml-examples-section">
