@@ -17,3 +17,8 @@ function toMs(d: DateInput): number {
 export function daysSince(from: DateInput, now: number = Date.now()): number {
   return Math.floor((now - toMs(from)) / MS_PER_DAY);
 }
+
+/** Milliseconds between `from` and now. Negative if `from` is in the future. */
+export function msSince(from: DateInput, now: number = Date.now()): number {
+  return now - toMs(from);
+}
