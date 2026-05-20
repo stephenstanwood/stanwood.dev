@@ -477,6 +477,96 @@ const title = "Lap Lab — stanwood.dev";
       <div class="lane-divider mt-6"></div>
     </section>
 
+    <!-- Find your pace — what the pace dial actually means -->
+    <section class="mt-8" aria-label="Pick the right pace for the workout generator">
+      <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
+        <p class="text-xs font-bold uppercase tracking-wider text-stone-400">Find your pace</p>
+        <span class="text-[10px] font-mono uppercase tracking-wider text-teal-600/70">what the dial means</span>
+      </div>
+      <p class="text-xs text-stone-500 leading-relaxed mb-4">
+        The pace dial below asks for seconds per 100. Don't guess too fast — the generator builds intervals that assume you can hold this for 30+ minutes. Pick the band you'd cruise, not the one you'd sprint.
+        500 and mile times are at the band's anchor pace, in yards.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- The comeback -->
+        <div class="rounded-xl border border-amber-200 bg-amber-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-amber-900 text-sm leading-tight">First month back</p>
+            <span class="font-mono text-[10px] text-amber-700/70 whitespace-nowrap">2:15 – 2:30 / 100y</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500: ~11:15 &nbsp;·&nbsp; mile: ~37:00</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Just back from a layoff, or new to lap swimming. Two-stroke breathing is the default, walls are a real stop, and 200 straight is a stretch. Pick 2:30 to start — the generator will give you walkable rest.</p>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2 pt-2 border-t border-amber-100"><span class="font-mono uppercase tracking-wider text-amber-700/70">tells</span> &nbsp;You stop at the wall every length without meaning to.</p>
+        </div>
+
+        <!-- Recreational -->
+        <div class="rounded-xl border border-teal-200 bg-teal-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-teal-900 text-sm leading-tight">Fitness regular</p>
+            <span class="font-mono text-[10px] text-teal-700/70 whitespace-nowrap">1:55 – 2:10 / 100y</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500: ~10:00 &nbsp;·&nbsp; mile: ~33:00</p>
+          <p class="text-[12px] text-stone-500 leading-snug">A steady 30–60 minutes in your home lane, two or three times a week. Bilateral breathing on easy swims, flip turns most walls. The middle lane regular at any rec pool.</p>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2 pt-2 border-t border-teal-100"><span class="font-mono uppercase tracking-wider text-teal-700/70">tells</span> &nbsp;A 60-minute hour swim lands you around <strong>3,000 yards</strong>.</p>
+        </div>
+
+        <!-- Steady masters -->
+        <div class="rounded-xl border border-sky-200 bg-sky-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-sky-900 text-sm leading-tight">Steady masters</p>
+            <span class="font-mono text-[10px] text-sky-700/70 whitespace-nowrap">1:35 – 1:50 / 100y</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500: ~8:30 &nbsp;·&nbsp; mile: ~28:00</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Showing up to a coached masters lane on the regular, or pulling open-water 1500s for a triathlon. Can hold threshold for 20 × 100 without unraveling. Knows the difference between cruise pace and race pace.</p>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2 pt-2 border-t border-sky-100"><span class="font-mono uppercase tracking-wider text-sky-700/70">tells</span> &nbsp;You quote your hundred pace casually. "I was on 1:40s tonight."</p>
+        </div>
+
+        <!-- Trained competitor -->
+        <div class="rounded-xl border border-purple-200 bg-purple-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-purple-900 text-sm leading-tight">Trained competitor</p>
+            <span class="font-mono text-[10px] text-purple-700/70 whitespace-nowrap">1:15 – 1:30 / 100y</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500: ~7:00 &nbsp;·&nbsp; mile: ~23:00</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Former club or college swimmer keeping it up, or a top-of-the-pyramid masters athlete chasing age-group records. Underwater dolphin kick off every wall, stroke count under 14 per 25, race-pace 100s in the 1:00s.</p>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2 pt-2 border-t border-purple-100"><span class="font-mono uppercase tracking-wider text-purple-700/70">tells</span> &nbsp;Holds a stroke count, knows their tempo, ends sets right at the interval.</p>
+        </div>
+
+        <!-- Elite -->
+        <div class="rounded-xl border border-rose-200 bg-rose-50/50 p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-rose-900 text-sm leading-tight">D-I / national level</p>
+            <span class="font-mono text-[10px] text-rose-700/70 whitespace-nowrap">sub-1:10 / 100y</span>
+          </div>
+          <p class="font-mono text-[12px] text-stone-700 bg-white/60 rounded-md px-2.5 py-1.5 mt-2 mb-2">500: ~5:30 &nbsp;·&nbsp; mile: ~18:30</p>
+          <p class="text-[12px] text-stone-500 leading-snug">Collegiate distance swimmers and Olympic trials qualifiers. NCAA D-I women's 500 cut is around 4:50; men's mile cut is around 14:50. Ledecky's NCAA mile record sits at 15:03 — about 55 seconds per 100 yards.</p>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2 pt-2 border-t border-rose-100"><span class="font-mono uppercase tracking-wider text-rose-700/70">tells</span> &nbsp;15-meter underwaters off every wall, sub-15s flip turns.</p>
+        </div>
+
+        <!-- Convert / context -->
+        <div class="rounded-xl border-dashed border-2 border-stone-200 bg-white/40 backdrop-blur-sm p-4">
+          <div class="flex items-baseline justify-between gap-2 mb-1">
+            <p class="font-bold text-stone-700 text-sm leading-tight">Yards vs. meters</p>
+            <span class="font-mono text-[10px] text-stone-400 whitespace-nowrap">quick convert</span>
+          </div>
+          <p class="text-[12px] text-stone-500 leading-snug mt-2">A short-course yards pool is ~9% shorter than a short-course meters pool, and shorter than long-course meters by ~18%. Same swimmer, different number on the wall clock.</p>
+          <div class="font-mono text-[11px] text-stone-600 bg-white/70 rounded-md px-2.5 py-2 mt-3 leading-relaxed">
+            1:30 / 100 yd&nbsp; ≈&nbsp; 1:38 / 100 m (SCM)<br/>
+            1:30 / 100 yd&nbsp; ≈&nbsp; 1:43 / 100 m (LCM)<br/>
+            mile = 1,650 yd&nbsp; ≈&nbsp; 1,500 m (LCM)
+          </div>
+          <p class="text-[11px] text-stone-400 leading-snug mt-2">Different generators use different defaults. Lap Lab assumes yards unless you flip the unit toggle below.</p>
+        </div>
+      </div>
+
+      <p class="mt-4 text-[11px] text-stone-400 text-center leading-relaxed">
+        Honest pace beats ambitious pace. The intervals are math — too fast and you blow up by rep three, too slow and you spend the set staring at the pace clock.
+      </p>
+
+      <div class="lane-divider mt-6"></div>
+    </section>
+
     <!-- Classic sets — swim history backbone -->
     <section class="mt-8" aria-label="Classic sets from swimming tradition">
       <div class="flex items-baseline justify-between mb-3 gap-3 flex-wrap">
