@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-19T10:30:09.618184+00:00",
+  "built_at": "2026-05-20T10:30:20.339999+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,7 +8,7 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 10,
+      "video_count": 9,
       "video_ids": [
         "IKpRUQFOzpU",
         "B9WsVMGtIuk",
@@ -18,8 +18,7 @@
         "IydslKdqzYo",
         "F-OxHWWg59o",
         "yhfuDD3hprA",
-        "bpeU4EfBpTM",
-        "QZ61wToFILM"
+        "bpeU4EfBpTM"
       ]
     },
     {
@@ -154,7 +153,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 10,
+      "video_count": 13,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -165,7 +164,10 @@
         "SzpOcwdIL0Y",
         "6-cXp-aOmdg",
         "Q15rhEWZPQ4",
-        "EfM546A79aM"
+        "EfM546A79aM",
+        "vTfEyOyzV9E",
+        "JpAxdTWQJxM",
+        "-qm0ln33G24"
       ]
     },
     {
@@ -198,13 +200,27 @@
       ]
     },
     {
+      "key": "CME296",
+      "is_single": false,
+      "display_name": "CME296",
+      "best_score": 5,
+      "video_count": 6,
+      "video_ids": [
+        "tr-CUpw--ck",
+        "_WaR2fjZpEQ",
+        "agN3AlfGFrk",
+        "WUUq6TVAu8U",
+        "HpFdSlMeXzQ",
+        "IvXTl3yj-4Y"
+      ]
+    },
+    {
       "key": "CME295",
       "is_single": false,
       "display_name": "CME295",
       "best_score": 4,
-      "video_count": 3,
+      "video_count": 2,
       "video_ids": [
-        "h-7S6HNq0Vg",
         "8fNP4N46RRo",
         "Q86qzJ1K1Ss"
       ]
@@ -247,20 +263,6 @@
       "video_count": 1,
       "video_ids": [
         "dyb_cFywuik"
-      ]
-    },
-    {
-      "key": "CME296",
-      "is_single": false,
-      "display_name": "CME296",
-      "best_score": -1,
-      "video_count": 5,
-      "video_ids": [
-        "tr-CUpw--ck",
-        "_WaR2fjZpEQ",
-        "agN3AlfGFrk",
-        "WUUq6TVAu8U",
-        "HpFdSlMeXzQ"
       ]
     },
     {
@@ -451,24 +453,6 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis lecture covers:\n\u2022  An introduction to the idea of \"reading games\" as the evocation of personal player responses\n\u2022  Example readings as well as games and curriculum designed to enhance the potential for effective student readings of games\n\u2022  The ways that personal play"
-    },
-    {
-      "id": "QZ61wToFILM",
-      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Observing the User Experience in 2026",
-      "url": "https://www.youtube.com/watch?v=QZ61wToFILM",
-      "duration": 3718.0,
-      "published_at": "2026-04-29T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 11,
-      "categories": [
-        "hci",
-        "swe_career",
-        "healthcare_ai",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis lecture covers:\n\u2022  How research jobs have changed\n\u2022  The new power dynamics of tech development\n\u2022  The rise of AI\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nElizabeth Goodman is a design and strategy leader who works to improve healt"
     },
     {
       "id": "EvHRQhMX7_w",
@@ -1645,6 +1629,54 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "vTfEyOyzV9E",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 11:  Scaling Laws",
+      "url": "https://www.youtube.com/watch?v=vTfEyOyzV9E",
+      "duration": 4624.0,
+      "published_at": "2026-05-19T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 11,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "JpAxdTWQJxM",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 12: Evaluation",
+      "url": "https://www.youtube.com/watch?v=JpAxdTWQJxM",
+      "duration": 4714.0,
+      "published_at": "2026-05-19T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 12,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "-qm0ln33G24",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 13: Data (Sources, Datasets)",
+      "url": "https://www.youtube.com/watch?v=-qm0ln33G24",
+      "duration": 4922.0,
+      "published_at": "2026-05-19T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 13,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
       "id": "yaLEGZuIIgE",
       "title": "Stanford CS221 | Autumn 2025 | Lecture 1: Course Overview and AI Foundations",
       "url": "https://www.youtube.com/watch?v=yaLEGZuIIgE",
@@ -1947,20 +1979,95 @@
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs221-artificial-intelligence-principles-and-techniques\n\nPlease follow along with the course schedule: https://stanford-cs221.github.io/autumn2025/\n\nFollow the playlist: https://yout"
     },
     {
-      "id": "h-7S6HNq0Vg",
-      "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 7 - Agentic LLMs",
-      "url": "https://www.youtube.com/watch?v=h-7S6HNq0Vg",
-      "duration": 6563.0,
-      "published_at": "2025-11-18T00:00:00+00:00",
-      "series": "CME295",
-      "series_display": "CME295",
-      "lecture_num": 7,
-      "score": 4,
+      "id": "tr-CUpw--ck",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 1 - Diffusion",
+      "url": "https://www.youtube.com/watch?v=tr-CUpw--ck",
+      "duration": 6386.0,
+      "published_at": "2026-04-10T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 1,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:04 Class logistics\n00:12:23 Outline of the class\n00:17:47 Motivating example\n00:23:31 Intuition behind diffusion\n00:26:33 Image representation\n00"
+    },
+    {
+      "id": "_WaR2fjZpEQ",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 2 - Score matching",
+      "url": "https://www.youtube.com/watch?v=_WaR2fjZpEQ",
+      "duration": 6528.0,
+      "published_at": "2026-04-14T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 2,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:33 Motivation behind score matching\n00:14:30 Lanvegin sampling\n00:18:43 Score estimation\n00:19:50 Implicit score matching, sliced score matching\n"
+    },
+    {
+      "id": "agN3AlfGFrk",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 3 - Flow matching",
+      "url": "https://www.youtube.com/watch?v=agN3AlfGFrk",
+      "duration": 6454.0,
+      "published_at": "2026-04-20T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 3,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:00:55 Recap of last episodes\n00:06:58 Problem formulation\n00:10:53 Trajectory\n00:11:54 Flow\n00:13:59 Probability path\n00:15:05 Vector field\n00:18:42"
+    },
+    {
+      "id": "WUUq6TVAu8U",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 4 - Latent Space & Guidance",
+      "url": "https://www.youtube.com/watch?v=WUUq6TVAu8U",
+      "duration": 6058.0,
+      "published_at": "2026-04-28T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 4,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:05 Pixel space\n00:12:39 Semantic vs perceptual similarity\n00:14:27 Autoencoder\n00:22:56 Variational autoencoders\n00:31:19 ELBO derivation\n00:46:4"
+    },
+    {
+      "id": "HpFdSlMeXzQ",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 5 - Architectures",
+      "url": "https://www.youtube.com/watch?v=HpFdSlMeXzQ",
+      "duration": 6386.0,
+      "published_at": "2026-05-11T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 5,
+      "score": -1,
+      "categories": [
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:05:26 Objective\n00:09:58 Convolutions, filters\n00:14:44 Receptive field\n00:17:14 Pooling\n00:19:06 U-Net\n00:27:52 Timestep representation\n00:30:31 Cl"
+    },
+    {
+      "id": "IvXTl3yj-4Y",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 6 - Model Training",
+      "url": "https://www.youtube.com/watch?v=IvXTl3yj-4Y",
+      "duration": 6058.0,
+      "published_at": "2026-05-19T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 6,
+      "score": 5,
       "categories": [
         "applied_ai",
-        "series:CME295"
+        "series:CME296"
       ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 14, 2025\nThis lecture covers: \n\u2022 Retrieval-augmented generation\n\u2022 Advanced RAG techniques\n\u2022 Function calling\n\u2022 Agents\n\u2022 ReAct framework\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:38 "
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:45 Training lifecycle overview\n00:10:39 Loss parameterization\n00:16:08 Timestep sampling\n00:22:27 Logit normal distribution\n00:25:44 Sampling shi"
     },
     {
       "id": "8fNP4N46RRo",
@@ -2054,81 +2161,6 @@
       "score": 0,
       "categories": [],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nAndrew Ng \nAdjunct Professor of Computer Science\nhttps://www.andrewng.org/\n \nTo follow along with the course schedule and syllabus, visit: \nhttp://cs229.stanford.edu/syllabus-autumn2018.html"
-    },
-    {
-      "id": "tr-CUpw--ck",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 1 - Diffusion",
-      "url": "https://www.youtube.com/watch?v=tr-CUpw--ck",
-      "duration": 6386.0,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 1,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:04 Class logistics\n00:12:23 Outline of the class\n00:17:47 Motivating example\n00:23:31 Intuition behind diffusion\n00:26:33 Image representation\n00"
-    },
-    {
-      "id": "_WaR2fjZpEQ",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 2 - Score matching",
-      "url": "https://www.youtube.com/watch?v=_WaR2fjZpEQ",
-      "duration": 6528.0,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 2,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:33 Motivation behind score matching\n00:14:30 Lanvegin sampling\n00:18:43 Score estimation\n00:19:50 Implicit score matching, sliced score matching\n"
-    },
-    {
-      "id": "agN3AlfGFrk",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 3 - Flow matching",
-      "url": "https://www.youtube.com/watch?v=agN3AlfGFrk",
-      "duration": 6454.0,
-      "published_at": "2026-04-20T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 3,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:00:55 Recap of last episodes\n00:06:58 Problem formulation\n00:10:53 Trajectory\n00:11:54 Flow\n00:13:59 Probability path\n00:15:05 Vector field\n00:18:42"
-    },
-    {
-      "id": "WUUq6TVAu8U",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 4 - Latent Space & Guidance",
-      "url": "https://www.youtube.com/watch?v=WUUq6TVAu8U",
-      "duration": 6058.0,
-      "published_at": "2026-04-28T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 4,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:05 Pixel space\n00:12:39 Semantic vs perceptual similarity\n00:14:27 Autoencoder\n00:22:56 Variational autoencoders\n00:31:19 ELBO derivation\n00:46:4"
-    },
-    {
-      "id": "HpFdSlMeXzQ",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 5 - Architectures",
-      "url": "https://www.youtube.com/watch?v=HpFdSlMeXzQ",
-      "duration": 6386.0,
-      "published_at": "2026-05-11T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 5,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:05:26 Objective\n00:09:58 Convolutions, filters\n00:14:44 Receptive field\n00:17:14 Pooling\n00:19:06 U-Net\n00:27:52 Timestep representation\n00:30:31 Cl"
     },
     {
       "id": "LF7Wi_2fJVM",
