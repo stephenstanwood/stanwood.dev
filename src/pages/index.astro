@@ -2113,11 +2113,13 @@ const latestMobile = [
   </div>
 
   <script>
+    import { daysSince } from '../lib/time';
+    import { shuffle } from '../lib/arrays';
 
     // ── Terminal typewriter ──
     const termOutput = document.getElementById('term-output');
-    const termPairs: [string, string][] = [
-      ['uptime', `${Math.floor((Date.now() - new Date('2026-03-01').getTime()) / 86400000)}d since launch`],
+    const termPairs: [string, string][] = shuffle([
+      ['uptime', `${daysSince('2026-03-01')}d since launch`],
       ['curl wttr.in/campbell', '…'],
       ['git log --oneline -1', 'one more commit...'],
       ['echo $MOOD', 'optimistic'],
@@ -2126,13 +2128,7 @@ const latestMobile = [
       ['cat /dev/motivation', 'keep shipping'],
       ['git diff --stat', '3 files changed, +42 -0'],
       ['date +"%A"', 'another good day to build'],
-    ];
-
-    // Shuffle terminal commands (Fisher-Yates)
-    for (let i = termPairs.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [termPairs[i], termPairs[j]] = [termPairs[j], termPairs[i]];
-    }
+    ]);
 
     // Find the weather entry and patch with real data
     const weatherEntry = termPairs.find(p => p[0].includes('wttr'));
