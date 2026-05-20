@@ -1,5 +1,21 @@
 [
   {
+    "name": "Antigravity 2.0",
+    "org": "Google",
+    "date": "2026-05-19",
+    "type": "tool",
+    "summary": "Google's new agent-first dev platform unveiled at I/O — standalone desktop app for orchestrating parallel agents, Go-based CLI, SDK, and Managed Agents in the Gemini API that spin up isolated Linux sandboxes in one call; scheduled tasks turn agents into persistent background pipelines, native Android app generation from a prompt, and Google Play Console publishing baked into AI Studio; $100/mo AI Ultra plan adds 5x usage limits",
+    "url": "https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/"
+  },
+  {
+    "name": "Gemini Omni Flash",
+    "org": "Google",
+    "date": "2026-05-19",
+    "type": "model",
+    "summary": "Google's first unified multimodal generation model — accepts image, audio, video, and text in a single prompt and reasons across them to produce video you can keep editing through conversation; rolling out worldwide to Gemini app subscribers (AI Plus/Pro/Ultra) and the Flow creative tool, plus free access for YouTube Shorts and YouTube Create users",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/"
+  },
+  {
     "name": "Grok Build",
     "org": "xAI",
     "date": "2026-05-15",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "packaged Claude for solopreneurs and small teams — prebuilt agentic workflows and one-click connectors into QuickBooks, PayPal, HubSpot, Canva, DocuSign, Google Workspace, and Microsoft 365 to handle payroll, month-end close, invoice chasing, and campaign creation; bundled with a free AI fluency course",
     "url": "https://techcrunch.com/2026/05/13/anthropic-courts-a-new-kind-of-customer-small-business-owners/"
-  },
-  {
-    "name": "Realtime API GA + GPT-Realtime-2",
-    "org": "OpenAI",
-    "date": "2026-05-08",
-    "type": "tool",
-    "summary": "voice AI exits beta — GPT-Realtime-2 brings GPT-5-class reasoning to speech with 128K context, parallel tool calls, and narrated 'let me check that' preambles; ships alongside GPT-Realtime-Translate (70 input / 13 output languages at $0.034/min) and GPT-Realtime-Whisper streaming transcription at $0.017/min for live captions and meeting notes",
-    "url": "https://techcrunch.com/2026/05/07/openai-launches-new-voice-intelligence-features-in-its-api/"
-  },
-  {
-    "name": "HiDream-O1-Image",
-    "org": "HiDream",
-    "date": "2026-05-08",
-    "type": "model",
-    "summary": "open-source 8B image model that beats 32B FLUX.2 on five standard benchmarks — works directly in pixel space with no VAE or separate text encoder, supports text-to-image, editing, and subject-driven personalization up to 2048×2048; ships with a reasoning prompt agent that thinks through layout and physics before drawing, MIT-licensed for commercial use, weights on Hugging Face",
-    "url": "https://huggingface.co/HiDream-ai/HiDream-O1-Image"
   }
 ]
