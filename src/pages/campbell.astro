@@ -915,6 +915,135 @@ const title = "Campbell — stanwood.dev";
       }
       .cb-eat-order:hover { text-decoration: underline; }
 
+      /* ── Who handles that panel ── */
+      .cb-who {
+        max-width: 800px;
+        width: 100%;
+        margin: 2rem auto 0;
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+      }
+      .cb-who-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+        margin: 0 0 0.5rem;
+      }
+      .cb-who-heading {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0 0 0.5rem;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+      }
+      .cb-who-sub {
+        font-size: 0.85rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0 0 1.25rem;
+        max-width: 620px;
+      }
+      .cb-who-sub strong {
+        color: var(--cb-ink);
+        font-weight: 600;
+      }
+      .cb-who-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      @media (min-width: 640px) {
+        .cb-who-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+      }
+      .cb-who-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        padding: 0.95rem 1.05rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-left: 3px solid var(--cb-blue);
+        border-radius: var(--cb-radius);
+      }
+      .cb-who-issue {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+        margin: 0;
+        line-height: 1.25;
+      }
+      .cb-who-icon {
+        font-size: 1.1rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .cb-who-agency {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        padding: 0.22rem 0.55rem;
+        border-radius: 999px;
+        width: fit-content;
+      }
+      .cb-who-agency--gold {
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+      }
+      .cb-who-agency--green {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+      }
+      .cb-who-agency--red {
+        color: var(--cb-red);
+        background: var(--cb-red-light);
+      }
+      .cb-who-why {
+        font-size: 0.8rem;
+        color: var(--cb-gray);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .cb-who-why strong {
+        color: var(--cb-ink);
+        font-weight: 600;
+      }
+      .cb-who-action {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.72rem;
+        color: var(--cb-gray);
+        margin: 0;
+        padding-top: 0.4rem;
+        border-top: 1px dashed var(--cb-border);
+      }
+      .cb-who-action a {
+        color: var(--cb-blue);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .cb-who-action a:hover { text-decoration: underline; }
+      .cb-who-foot {
+        font-size: 0.78rem;
+        color: var(--cb-light-gray);
+        line-height: 1.55;
+        margin: 1.1rem 0 0;
+        font-style: italic;
+      }
+
       /* ── Heritage panel ── */
       .cb-history {
         max-width: 800px;
@@ -1413,6 +1542,79 @@ const title = "Campbell — stanwood.dev";
       </div>
 
       <p class="cb-compare-foot">Sources: U.S. Census 2020 (population, land area); ACS 5-year 2019–2023 (household income); Zillow Home Value Index, late 2024 (median home value). All figures rounded.</p>
+    </section>
+
+    <section class="cb-who" aria-label="Which agency handles common Campbell issues">
+      <span class="cb-who-label">Who actually fixes that?</span>
+      <h2 class="cb-who-heading">Half the city isn't the city.</h2>
+      <p class="cb-who-sub">Living in Campbell means dealing with <strong>seven different agencies</strong> wearing similar uniforms. Use this when your first instinct ("call the city") is wrong — and you'd spend 20 minutes on hold to learn it.</p>
+
+      <div class="cb-who-grid">
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🕳️</span>Pothole on a neighborhood street</p>
+          <span class="cb-who-agency">City of Campbell · Public Works</span>
+          <p class="cb-who-why">Most residential streets, sidewalks, and street trees are city-maintained. But <strong>Hamilton Ave, Bascom, San Tomas Expy</strong> get handed off — see the next card.</p>
+          <p class="cb-who-action">Report online: <a href="https://www.campbellca.gov/Report" target="_blank" rel="noopener">campbellca.gov/Report</a></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🛣️</span>Pothole on SR-17, San Tomas Expy, or Hamilton</p>
+          <span class="cb-who-agency cb-who-agency--gold">CalTrans + County Roads</span>
+          <p class="cb-who-why">SR-17 is state (<strong>CalTrans District 4</strong>). Expressways like San Tomas + Lawrence are <strong>Santa Clara County</strong>. The city can't fix what it doesn't own.</p>
+          <p class="cb-who-action">SR-17: <a href="https://csr.dot.ca.gov" target="_blank" rel="noopener">csr.dot.ca.gov</a> · County: <a href="https://www.sccgov.org/sites/rda" target="_blank" rel="noopener">sccgov.org/rda</a></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🚨</span>Theft, noise, traffic stop, welfare check</p>
+          <span class="cb-who-agency cb-who-agency--red">Campbell PD (in-house)</span>
+          <p class="cb-who-why">One of the few Bay Area cities still running its <strong>own</strong> police department. Non-emergency dispatch is staffed 24/7 — you don't have to wait for 911 for parking gripes.</p>
+          <p class="cb-who-action">Non-emergency: <strong>408-866-2101</strong> · 911 for in-progress</p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🔥</span>House fire, medical call, gas leak</p>
+          <span class="cb-who-agency cb-who-agency--red">Santa Clara County Fire</span>
+          <p class="cb-who-why">Surprise — Campbell <strong>contracts</strong> fire and EMS from County Fire (same engines that cover Los Gatos, Saratoga, Cupertino). Station 14 is the in-city house.</p>
+          <p class="cb-who-action">911 only · Info: <a href="https://sccfd.org" target="_blank" rel="noopener">sccfd.org</a></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">💧</span>Water service or a leaking main</p>
+          <span class="cb-who-agency">San Jose Water Co.</span>
+          <p class="cb-who-why">The water utility is a <strong>private company</strong> — confusingly named for a different city. The bill, the meter, the pipe under the street: all SJW, not Campbell.</p>
+          <p class="cb-who-action">24/7 emergencies: <strong>408-279-7900</strong></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🗑️</span>Trash, recycling, yard waste, bulky pickup</p>
+          <span class="cb-who-agency cb-who-agency--green">West Valley Collection (Recology)</span>
+          <p class="cb-who-why">A four-city joint authority handles your bins. The city sets the rates; Recology runs the trucks. Each household gets <strong>two free bulky-item pickups</strong> a year.</p>
+          <p class="cb-who-action">Schedule pickup: <a href="https://www.recology.com/recology-south-bay" target="_blank" rel="noopener">recology.com/south-bay</a></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🚆</span>Vasona light rail, bus, or paratransit</p>
+          <span class="cb-who-agency">VTA (Santa Clara County)</span>
+          <p class="cb-who-why">VTA runs the <strong>Vasona line</strong> (two Campbell stops: Downtown and Winchester) and every bus in town. The city has zero say in schedule or fare — that's VTA's board.</p>
+          <p class="cb-who-action">Trip planner: <a href="https://www.vta.org" target="_blank" rel="noopener">vta.org</a></p>
+        </article>
+
+        <article class="cb-who-card">
+          <p class="cb-who-issue"><span class="cb-who-icon">🎒</span>School registration — K-8 vs. high school</p>
+          <span class="cb-who-agency cb-who-agency--gold">Two separate districts</span>
+          <p class="cb-who-why"><strong>Campbell Union</strong> (K-8) and <strong>Campbell Union High</strong> (9-12) are <strong>different agencies with different boundaries</strong>. Your address can be in one and not the other — verify before you tour.</p>
+          <p class="cb-who-action">K-8: <a href="https://www.campbellusd.org" target="_blank" rel="noopener">campbellusd.org</a> · HS: <a href="https://www.cuhsd.org" target="_blank" rel="noopener">cuhsd.org</a></p>
+        </article>
+
+        <article class="cb-who-card" style="background: rgba(192, 57, 43, 0.04); border-left-color: var(--cb-red); border-style: dashed;">
+          <p class="cb-who-issue"><span class="cb-who-icon">⚠️</span>"My address says Campbell but…"</p>
+          <span class="cb-who-agency cb-who-agency--red">95008 ≠ City of Campbell</span>
+          <p class="cb-who-why">The <strong>95008 ZIP</strong> covers chunks of unincorporated county and bits of San Jose. If you're in a county pocket, the sheriff polices you, the county permits your remodel, and city forms won't go anywhere.</p>
+          <p class="cb-who-action">Check status: <a href="https://www.sccplanning.org" target="_blank" rel="noopener">sccplanning.org</a> parcel lookup</p>
+        </article>
+      </div>
+
+      <p class="cb-who-foot">If the agency you're calling shrugs and says "not us," you're probably one rung off on this chart — try the next-most-likely owner before giving up.</p>
     </section>
 
     <section class="cb-history" aria-label="Campbell history at a glance">
