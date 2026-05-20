@@ -1442,6 +1442,175 @@ const title = "Redesign Rolodex — stanwood.dev";
         line-height: 1.55;
         font-style: italic;
       }
+
+      /* ─── Redesigns in the wild ──────────────────────────── */
+      .rr-history-section {
+        max-width: 1100px;
+        margin: 4rem auto 0;
+        padding: 3rem 1.5rem 0;
+        border-top: 1px solid var(--rr-border);
+      }
+      .rr-history-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--rr-warm);
+        text-align: center;
+        margin: 0 0 0.75rem;
+      }
+      .rr-history-heading {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.75rem;
+        text-align: center;
+        color: var(--rr-ink);
+        margin: 0 0 1rem;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      @media (min-width: 640px) {
+        .rr-history-heading { font-size: 2.25rem; }
+      }
+      .rr-history-intro {
+        max-width: 640px;
+        margin: 0 auto 2.5rem;
+        font-size: 0.95rem;
+        color: var(--rr-gray);
+        text-align: center;
+        line-height: 1.55;
+      }
+      .rr-history-intro strong {
+        color: var(--rr-ink);
+        font-weight: 600;
+      }
+      .rr-history-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.25rem;
+        margin: -1rem auto 2rem;
+        flex-wrap: wrap;
+      }
+      .rr-history-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--rr-light-gray);
+      }
+      .rr-history-legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .rr-history-legend-dot--win { background: #15803d; }
+      .rr-history-legend-dot--loss { background: #b91c1c; }
+      .rr-history-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 640px) {
+        .rr-history-grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+      }
+      @media (min-width: 920px) {
+        .rr-history-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .rr-history-card {
+        --card-accent: #b91c1c;
+        --card-accent-light: #fef2f2;
+        background: var(--rr-card-bg);
+        border: 2px solid var(--rr-border);
+        border-radius: 14px;
+        border-left-width: 6px;
+        border-left-color: var(--card-accent);
+        padding: 1.1rem 1.2rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+      }
+      .rr-history-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(28, 25, 23, 0.06);
+      }
+      .rr-history-card[data-tone="win"] {
+        --card-accent: #15803d;
+        --card-accent-light: #f0fdf4;
+      }
+      .rr-history-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+      }
+      .rr-history-name {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--rr-ink);
+        line-height: 1.15;
+        margin: 0;
+      }
+      .rr-history-year {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--card-accent);
+        white-space: nowrap;
+      }
+      .rr-history-stat {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--card-accent);
+        background: var(--card-accent-light);
+        padding: 0.3rem 0.55rem;
+        border-radius: 4px;
+        align-self: flex-start;
+        line-height: 1.3;
+      }
+      .rr-history-row {
+        font-size: 0.84rem;
+        color: var(--rr-ink);
+        line-height: 1.5;
+        margin: 0;
+        padding-top: 0.55rem;
+        border-top: 1px dashed var(--rr-border);
+      }
+      .rr-history-row--lesson {
+        color: var(--rr-gray);
+        font-style: italic;
+      }
+      .rr-history-label {
+        display: inline-block;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.58rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--rr-light-gray);
+        margin-right: 0.4rem;
+        font-style: normal;
+      }
+      .rr-history-foot {
+        max-width: 620px;
+        margin: 2.5rem auto 0;
+        font-size: 0.82rem;
+        color: var(--rr-light-gray);
+        text-align: center;
+        line-height: 1.55;
+        font-style: italic;
+      }
     </style>
   </Fragment>
 
@@ -1756,6 +1925,90 @@ const title = "Redesign Rolodex — stanwood.dev";
         <p class="rr-decode-foot">
           The rolodex blends, breaks, and recombines these on the fly — but every spin draws from this DNA. Recognize the move, name it, ask the next one for more of the good stuff.
         </p>
+      </section>
+
+      <section class="rr-history-section" aria-label="Famous redesigns and what they taught">
+        <p class="rr-history-eyebrow">redesigns in the wild</p>
+        <h2 class="rr-history-heading">Six redesigns. Six free lessons.</h2>
+        <p class="rr-history-intro">
+          The rolodex's whole pitch is <strong>brainstorm radical without shipping radical</strong>. Below: six real teams that
+          shipped it anyway — three home runs, three meltdowns. Every one of them paid for the lesson so you don't have to.
+        </p>
+
+        <div class="rr-history-legend" aria-hidden="true">
+          <span class="rr-history-legend-item"><span class="rr-history-legend-dot rr-history-legend-dot--win"></span>paid off</span>
+          <span class="rr-history-legend-item"><span class="rr-history-legend-dot rr-history-legend-dot--loss"></span>detonated</span>
+        </div>
+
+        <div class="rr-history-grid">
+          <article class="rr-history-card" data-tone="loss">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">Digg v4</h3>
+              <span class="rr-history-year">Aug 2010</span>
+            </div>
+            <span class="rr-history-stat">half the userbase to Reddit · one week</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>Killed user-submitted upvoting on the front page. Replaced the community feed with publisher-driven streams that looked a lot like ads.</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>Site traffic cratered. Reddit saw a 230% spike the same month. Digg's $164M valuation became a $500K sale in 2012.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>A redesign is also a rewrite of the social contract. Touch the upvote and the village burns.</p>
+          </article>
+
+          <article class="rr-history-card" data-tone="loss">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">Snapchat</h3>
+              <span class="rr-history-year">Feb 2018</span>
+            </div>
+            <span class="rr-history-stat">$1.3B wiped in one Kylie tweet</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>Merged friends and publishers into one feed, broke a year of muscle memory for where to find Stories. Marketed as "more personal."</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>3M user drop in Q1. A change.org petition for the old design hit 1.2M signatures. Kylie Jenner tweeted "does anyone else not open Snapchat anymore" and the stock dropped 6% that day.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>Muscle memory is a feature. Move a button by a thumb's width and you've moved every habit it sits inside.</p>
+          </article>
+
+          <article class="rr-history-card" data-tone="loss">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">Tropicana</h3>
+              <span class="rr-history-year">Jan 2009</span>
+            </div>
+            <span class="rr-history-stat">20% sales drop · reverted in 45 days</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>Arnell Group rebrand swapped the orange-with-a-straw icon for a minimalist all-text carton with a glass of juice on the side.</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>Shoppers stopped recognizing it on the shelf. Sales fell off a cliff in two months. PepsiCo killed the new packaging and shipped the old one back to stores by spring.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>Don't redesign the part the customer uses to <em>find</em> you. Recognition beats taste every time.</p>
+          </article>
+
+          <article class="rr-history-card" data-tone="win">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">Apple.com</h3>
+              <span class="rr-history-year">Sep 1997</span>
+            </div>
+            <span class="rr-history-stat">two years of free attention</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>Jobs killed the rainbow apple, dumped the product catalog homepage, and replaced both with the all-black "Think Different" frame and almost nothing else.</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>The site was so visibly different the press covered the redesign itself for months. Bought Apple a runway of attention before the iMac shipped in May 1998 and earnings followed.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>A redesign can <em>be</em> the press release. The change communicates before any of the new product does.</p>
+          </article>
+
+          <article class="rr-history-card" data-tone="win">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">The Guardian</h3>
+              <span class="rr-history-year">Jan 2018</span>
+            </div>
+            <span class="rr-history-stat">no thinkpieces written</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>Cut the paper from Berliner to tabloid the same week the site relaunched. New deep-green identity, narrower text columns, cleaner type stack, faster load times.</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>Reader complaints were a trickle, not a wave. Digital subscriptions kept climbing through the year — passed 1M paying members in 2019, two years ahead of plan.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>If the redesign is genuinely better, nobody writes about the redesign. Silence is the high score.</p>
+          </article>
+
+          <article class="rr-history-card" data-tone="win">
+            <div class="rr-history-head">
+              <h3 class="rr-history-name">Reddit</h3>
+              <span class="rr-history-year">Apr 2018</span>
+            </div>
+            <span class="rr-history-stat">old.reddit.com · still online in 2026</span>
+            <p class="rr-history-row"><span class="rr-history-label">what shipped</span>New card-based desktop site optimized for casual readers and image content. Power users hated it on sight.</p>
+            <p class="rr-history-row"><span class="rr-history-label">what happened</span>Reddit left <code>old.reddit.com</code> running as an opt-in. Seven years and an IPO later, the old version is still up and the new one carries the growth — both populations happy.</p>
+            <p class="rr-history-row rr-history-row--lesson"><span class="rr-history-label">the lesson</span>Leave the door behind you open. The redesign you love and the version your power users love can be the same URL on two routes.</p>
+          </article>
+        </div>
+
+        <p class="rr-history-foot">A rolodex card costs you nothing. A live redesign costs the goodwill of everyone who already knew where the buttons were.</p>
       </section>
 
       <section class="rr-examples-section" aria-label="Example rolodex outputs">
