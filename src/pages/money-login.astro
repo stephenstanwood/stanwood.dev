@@ -1,29 +1,30 @@
 ---
-export const prerender = false;
+import { hashPassword, timingSafeEqual } from '../lib/auth';
 
-async function hashPassword(pw: string): Promise<string> {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
-  return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('');
-}
+export const prerender = false;
 
 let error = false;
 
-// CLEANUP-FLAG: password compared with === — vulnerable to timing attacks.
-// Use a constant-time compare (cf. middleware.ts:timingSafeEqual) or compare hashes instead.
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
   const password = form.get('password') as string | null;
   const expected = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
 
-  if (password && expected && password === expected) {
-    const token = await hashPassword(password);
-    return new Response(null, {
-      status: 302,
-      headers: {
-        'Location': '/money',
-        'Set-Cookie': `money_session=${token}; Path=/; HttpOnly; Secure; SameSite=Strict`,
-      },
-    });
+  if (password && expected) {
+    // Compare hashes in constant time — `password === expected` would be timing-leaky.
+    const [submittedHash, expectedHash] = await Promise.all([
+      hashPassword(password),
+      hashPassword(expected),
+    ]);
+    if (timingSafeEqual(submittedHash, expectedHash)) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          'Location': '/money',
+          'Set-Cookie': `money_session=${expectedHash}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+        },
+      });
+    }
   }
   error = true;
 }

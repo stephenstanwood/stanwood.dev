@@ -43,23 +43,20 @@ export const GET: APIRoute = async ({ url }) => {
     const data = await res.json();
     const current = data.current;
 
-    // Parse sunrise/sunset times
-    // Open-Meteo returns times in the requested timezone (America/Los_Angeles)
-    // Parse as Pacific time to avoid UTC conversion issues on server
-    const sunriseRaw = data.daily.sunrise[0]; // e.g. "2026-03-12T06:23"
+    // Open-Meteo returns times in the requested timezone (America/Los_Angeles) with no
+    // offset suffix, e.g. "2026-03-12T06:23". Parse the components directly — passing the
+    // string to `new Date()` would interpret it as the server's local zone (UTC on Vercel).
+    const sunriseRaw = data.daily.sunrise[0];
     const sunsetRaw = data.daily.sunset[0];
-    const parseLocalHour = (iso: string) => {
+    const parseLocalTime = (iso: string) => {
       const [, time] = iso.split("T");
       const [h, m] = time.split(":").map(Number);
-      return h + m / 60;
+      return { hour: h, minute: m };
     };
-    const sunriseHour = parseLocalHour(sunriseRaw);
-    const sunsetHour = parseLocalHour(sunsetRaw);
-    // CLEANUP-FLAG: new Date("2026-03-12T06:23") is parsed as local time — on a UTC server this
-    // is 06:23 UTC, then toLocaleTimeString with America/Los_Angeles converts it to 22:23 PT (wrong).
-    // Fix: parse the time components directly instead of relying on the Date constructor timezone.
-    const sunriseDate = new Date(sunriseRaw);
-    const sunsetDate = new Date(sunsetRaw);
+    const sunriseParts = parseLocalTime(sunriseRaw);
+    const sunsetParts = parseLocalTime(sunsetRaw);
+    const sunriseHour = sunriseParts.hour + sunriseParts.minute / 60;
+    const sunsetHour = sunsetParts.hour + sunsetParts.minute / 60;
 
     // Use Pacific time — server may be UTC
     const now = new Date();
@@ -94,16 +91,13 @@ export const GET: APIRoute = async ({ url }) => {
       ),
     };
 
-    const sunriseStr = sunriseDate.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      timeZone: "America/Los_Angeles",
-    });
-    const sunsetStr = sunsetDate.toLocaleTimeString("en-US", {
-      hour: "numeric",
-      minute: "2-digit",
-      timeZone: "America/Los_Angeles",
-    });
+    const formatTime = ({ hour, minute }: { hour: number; minute: number }) => {
+      const period = hour >= 12 ? "PM" : "AM";
+      const h12 = hour % 12 === 0 ? 12 : hour % 12;
+      return `${h12}:${String(minute).padStart(2, "0")} ${period}`;
+    };
+    const sunriseStr = formatTime(sunriseParts);
+    const sunsetStr = formatTime(sunsetParts);
 
     const response = buildResponse(
       input,

@@ -1,4 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
+import { hashPassword, timingSafeEqual } from "./lib/auth";
 
 /**
  * Middleware — runs as Vercel Edge Middleware (before filesystem):
@@ -13,26 +14,6 @@ function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some(
     (p) => pathname === p || pathname.startsWith(p + '/'),
   );
-}
-
-async function hashPassword(password: string): Promise<string> {
-  const buf = await crypto.subtle.digest(
-    'SHA-256',
-    new TextEncoder().encode(password),
-  );
-  return Array.from(new Uint8Array(buf))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-// Constant-time string equality — both inputs are SHA-256 hex (fixed length 64)
-function timingSafeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) {
-    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return diff === 0;
 }
 
 // Hash once per cold start — MONEY_PASSWORD is fixed at deploy time
