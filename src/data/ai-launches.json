@@ -1,5 +1,21 @@
 [
   {
+    "name": "Figma AI Agent",
+    "org": "Figma",
+    "date": "2026-05-20",
+    "type": "tool",
+    "summary": "purpose-built AI agent embedded in Figma's canvas — natural-language prompts generate and remix designs, automate rote work, and respect your design system; fire up multiple agents to do different tasks in parallel, plus new partnerships baking Claude Code and Codex into the design surface; rolling out in beta for Full seats on Pro/Org/Enterprise",
+    "url": "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/"
+  },
+  {
+    "name": "Stitch 2.0",
+    "org": "Google",
+    "date": "2026-05-20",
+    "type": "tool",
+    "summary": "Google Labs' AI-native UI design tool gets 'vibe design' — a real-time streaming agent that renders components onto an infinite canvas as you type or speak, plus multiplayer editing; voice input lets you say 'show me three menu options' and watch the canvas respond; free, no credit card, runs on Gemini 2.5 Flash/Pro",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/"
+  },
+  {
     "name": "Antigravity 2.0",
     "org": "Google",
     "date": "2026-05-19",
@@ -16,20 +32,12 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/"
   },
   {
-    "name": "Grok Build",
-    "org": "xAI",
-    "date": "2026-05-15",
-    "type": "tool",
-    "summary": "xAI's first agentic coding CLI — spawns up to 8 concurrent agents that plan, search docs, write files, and run shell commands; powered by Grok 4.3 beta with a 2M-token context; beta is SuperGrok Heavy-only at $300/mo, with a $99/mo intro deal for the first six months",
-    "url": "https://www.engadget.com/2173482/xai-coding-agent-grok-build/"
-  },
-  {
-    "name": "ChatGPT Personal Finance + Plaid",
-    "org": "OpenAI",
-    "date": "2026-05-15",
-    "type": "tool",
-    "summary": "ChatGPT Pro can now link bank, brokerage, and card accounts through Plaid across 12,000+ institutions — get a live dashboard of portfolio, spending, subscriptions, and upcoming bills, plus tailored answers grounded in your actual numbers; preview on web and iOS for US Pro users, read-only access",
-    "url": "https://techcrunch.com/2026/05/15/openai-launches-chatgpt-for-personal-finance-will-let-you-connect-bank-accounts/"
+    "name": "Cursor Composer 2.5",
+    "org": "Cursor",
+    "date": "2026-05-18",
+    "type": "model",
+    "summary": "Cursor's in-house coding model — matches Claude Opus 4.7 and GPT-5.5 on SWE-Bench Multilingual at $0.50/M input tokens, roughly a tenth of Anthropic's pricing; built for long tool-heavy sessions across files, terminal, and tests; included usage doubled the first week post-launch (~May 25)",
+    "url": "https://devtoolpicks.com/blog/cursor-composer-2-5-launch-indie-hackers-2026"
   },
   {
     "name": "Codex in ChatGPT Mobile",
@@ -46,14 +54,6 @@
     "type": "tool",
     "summary": "open-source local debugger and eval tool for AI agents — streams every token, tool call, and decision to a localhost dashboard the moment it happens, then writes traces to a single SQL file your coding agent can query to write its own evals; MIT-licensed, one-line install, works with Vercel AI SDK, OpenAI Agents, Anthropic SDK, LangChain, LangGraph, CrewAI, Pydantic AI",
     "url": "https://www.raindrop.ai/workshop/"
-  },
-  {
-    "name": "Cursor 3.4",
-    "org": "Cursor",
-    "date": "2026-05-13",
-    "type": "tool",
-    "summary": "ships dev environment configuration for cloud agent fleets — multi-repo workspaces, Dockerfile-based envs with build secrets for private registries, and a new PR review experience; click \"Build in Parallel\" and Cursor identifies independent parts of a plan and runs them simultaneously via async subagents",
-    "url": "https://cursor.com/changelog"
   },
   {
     "name": "Claude for Small Business",
