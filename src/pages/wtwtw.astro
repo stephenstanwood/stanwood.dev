@@ -724,6 +724,147 @@ const title = "WTWTW — stanwood.dev";
         margin-top: 10px;
         line-height: 1.6;
       }
+
+      /* ── Year in WTWTW ── */
+      .year-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+      }
+      @media (max-width: 760px) {
+        .year-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 380px) {
+        .year-grid { grid-template-columns: minmax(0, 1fr); }
+      }
+      .year-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(210, 170, 110, 0.12);
+        border-radius: 10px;
+        padding: 11px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-height: 172px;
+      }
+      .year-card--peak {
+        background: rgba(180, 120, 50, 0.06);
+        border-color: rgba(180, 120, 50, 0.28);
+      }
+      .year-card--quiet {
+        opacity: 0.78;
+      }
+      .year-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 6px;
+      }
+      .year-month {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: rgba(245, 230, 208, 0.95);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+      .year-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 8.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: rgba(180, 120, 50, 0.55);
+        white-space: nowrap;
+      }
+      .year-card--peak .year-tag {
+        color: rgba(230, 175, 95, 0.95);
+      }
+      .year-leagues {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .year-league {
+        display: grid;
+        grid-template-columns: 28px 24px minmax(0, 1fr);
+        align-items: center;
+        gap: 6px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9.5px;
+        letter-spacing: 0.04em;
+      }
+      .year-league-name {
+        text-transform: uppercase;
+        font-weight: 700;
+        color: rgba(245, 230, 208, 0.55);
+      }
+      .year-league[data-league="mlb"] .year-league-name { color: rgba(220, 100, 90, 0.9); }
+      .year-league[data-league="nba"] .year-league-name { color: rgba(220, 140, 60, 0.9); }
+      .year-league[data-league="nhl"] .year-league-name { color: rgba(110, 170, 220, 0.9); }
+      .year-pips {
+        display: inline-flex;
+        gap: 2px;
+        justify-content: flex-start;
+      }
+      .year-pip {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(245, 230, 208, 0.1);
+      }
+      .year-league[data-league="mlb"] .year-pip--on { background: rgba(220, 100, 90, 0.55); }
+      .year-league[data-league="mlb"] .year-pip--peak { background: rgba(220, 100, 90, 0.95); }
+      .year-league[data-league="nba"] .year-pip--on { background: rgba(220, 140, 60, 0.55); }
+      .year-league[data-league="nba"] .year-pip--peak { background: rgba(220, 140, 60, 0.95); }
+      .year-league[data-league="nhl"] .year-pip--on { background: rgba(110, 170, 220, 0.55); }
+      .year-league[data-league="nhl"] .year-pip--peak { background: rgba(110, 170, 220, 0.95); }
+      .year-league-label {
+        font-size: 9.5px;
+        line-height: 1.3;
+        color: rgba(245, 230, 208, 0.5);
+        word-break: break-word;
+      }
+      .year-marquee {
+        margin-top: auto;
+        padding-top: 8px;
+        border-top: 1px dashed rgba(210, 170, 110, 0.15);
+        font-size: 11px;
+        line-height: 1.45;
+        color: rgba(245, 230, 208, 0.72);
+      }
+      .year-marquee strong {
+        color: rgba(245, 230, 208, 0.95);
+        font-weight: 600;
+      }
+      .year-legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 18px;
+        margin-top: 14px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        color: rgba(210, 170, 110, 0.5);
+      }
+      .year-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .year-legend-pips {
+        display: inline-flex;
+        gap: 2px;
+      }
+      .year-legend-pip {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(245, 230, 208, 0.55);
+      }
+      .year-legend-pip--peak { background: rgba(230, 175, 95, 0.95); }
+      .year-legend-pip--off  { background: rgba(245, 230, 208, 0.12); }
     </style>
   </Fragment>
 
@@ -1153,6 +1294,338 @@ const title = "WTWTW — stanwood.dev";
 
       <p class="vibe-foot">
         Pick a rivalry's two halves and put them at #1 and #2 — every regular-season meeting wins that night automatically.
+      </p>
+    </section>
+
+    <!-- The WTWTW year -->
+    <section class="mb-8" aria-label="What each month of the year looks like through WTWTW">
+      <div class="vibes-eyebrow">
+        <span class="vibes-eyebrow-label">The WTWTW year</span>
+        <span class="vibes-eyebrow-tag">when your picks actually fire</span>
+      </div>
+      <p class="text-xs leading-relaxed mb-4" style="color: rgba(210, 170, 110, 0.5);">
+        Three seasons stack and split across twelve months. Here's what your kit will surface each month — three filled pips means playoff-level nightly, dim means dark. The four glowing cards are the months WTWTW has the most to choose from.
+      </p>
+
+      <div class="year-grid">
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Jan</span>
+            <span class="year-tag">deep winter</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">offseason</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">midseason</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">midseason</span>
+            </div>
+          </div>
+          <p class="year-marquee"><strong>NFL playoffs</strong> eat Sundays; weeknights belong to NBA &amp; NHL.</p>
+        </article>
+
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Feb</span>
+            <span class="year-tag">all-star month</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">spring camps</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">all-star break</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">all-star break</span>
+            </div>
+          </div>
+          <p class="year-marquee">Super Bowl week, then <strong>NBA &amp; NHL all-stars</strong> back to back.</p>
+        </article>
+
+        <article class="year-card">
+          <div class="year-head">
+            <span class="year-month">Mar</span>
+            <span class="year-tag">tighten up</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">opening week (late)</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span></span>
+              <span class="year-league-label">stretch run</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span></span>
+              <span class="year-league-label">stretch run</span>
+            </div>
+          </div>
+          <p class="year-marquee">Seeding battles every night; <strong>March Madness</strong> eats weekends.</p>
+        </article>
+
+        <article class="year-card year-card--peak">
+          <div class="year-head">
+            <span class="year-month">Apr</span>
+            <span class="year-tag">postseason ignites</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">opening month</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">first round</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">first round</span>
+            </div>
+          </div>
+          <p class="year-marquee"><strong>16 playoff series</strong> running at once, plus opening-month baseball.</p>
+        </article>
+
+        <article class="year-card year-card--peak">
+          <div class="year-head">
+            <span class="year-month">May</span>
+            <span class="year-tag">three-league stack</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">regular</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">semis &amp; conf finals</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">semis &amp; conf finals</span>
+            </div>
+          </div>
+          <p class="year-marquee">Every night is a <strong>Game N</strong>; baseball fills any open slot.</p>
+        </article>
+
+        <article class="year-card year-card--peak">
+          <div class="year-head">
+            <span class="year-month">Jun</span>
+            <span class="year-tag">trophy month</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">regular</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">NBA Finals</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">Stanley Cup</span>
+            </div>
+          </div>
+          <p class="year-marquee">The only month with <strong>two championships overlapping</strong>.</p>
+        </article>
+
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Jul</span>
+            <span class="year-tag">baseball solo</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">all-star + regular</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">summer league</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">draft &amp; free agency</span>
+            </div>
+          </div>
+          <p class="year-marquee"><strong>All-Star Game + Home Run Derby</strong>; MLB carries every weeknight.</p>
+        </article>
+
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Aug</span>
+            <span class="year-tag">pennant chase</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span></span>
+              <span class="year-league-label">trade-deadline glow</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">offseason</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">offseason</span>
+            </div>
+          </div>
+          <p class="year-marquee">Wild-card races sharpen; every <strong>1-run game</strong> matters.</p>
+        </article>
+
+        <article class="year-card">
+          <div class="year-head">
+            <span class="year-month">Sep</span>
+            <span class="year-tag">wild-card week</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">playoff push</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">training camps</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">preseason</span>
+            </div>
+          </div>
+          <p class="year-marquee">Tiebreakers, eliminations, <strong>wild-card weekend</strong> on the way.</p>
+        </article>
+
+        <article class="year-card year-card--peak">
+          <div class="year-head">
+            <span class="year-month">Oct</span>
+            <span class="year-tag">three-league stack</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">LDS → World Series</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">opening week</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">opening week</span>
+            </div>
+          </div>
+          <p class="year-marquee"><strong>World Series</strong> while NBA &amp; NHL drop the puck and tip off.</p>
+        </article>
+
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Nov</span>
+            <span class="year-tag">settle in</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">offseason</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">regular</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">regular</span>
+            </div>
+          </div>
+          <p class="year-marquee">Thanksgiving slates &amp; <strong>NBA Cup group play</strong> spike weekdays.</p>
+        </article>
+
+        <article class="year-card year-card--quiet">
+          <div class="year-head">
+            <span class="year-month">Dec</span>
+            <span class="year-tag">christmas slate</span>
+          </div>
+          <div class="year-leagues">
+            <div class="year-league" data-league="mlb">
+              <span class="year-league-name">MLB</span>
+              <span class="year-pips"><span class="year-pip"></span><span class="year-pip"></span><span class="year-pip"></span></span>
+              <span class="year-league-label">winter meetings</span>
+            </div>
+            <div class="year-league" data-league="nba">
+              <span class="year-league-name">NBA</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">Christmas Day five</span>
+            </div>
+            <div class="year-league" data-league="nhl">
+              <span class="year-league-name">NHL</span>
+              <span class="year-pips"><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--on"></span><span class="year-pip year-pip--peak"></span></span>
+              <span class="year-league-label">Winter Classic NYE</span>
+            </div>
+          </div>
+          <p class="year-marquee"><strong>NBA Christmas Day</strong> five-game marathon, then <strong>Winter Classic</strong>.</p>
+        </article>
+      </div>
+
+      <div class="year-legend" aria-label="How the pip indicators map to league activity">
+        <span class="year-legend-item">
+          <span class="year-legend-pips"><span class="year-legend-pip year-legend-pip--off"></span><span class="year-legend-pip year-legend-pip--off"></span><span class="year-legend-pip year-legend-pip--off"></span></span>
+          offseason
+        </span>
+        <span class="year-legend-item">
+          <span class="year-legend-pips"><span class="year-legend-pip"></span><span class="year-legend-pip"></span><span class="year-legend-pip year-legend-pip--off"></span></span>
+          regular
+        </span>
+        <span class="year-legend-item">
+          <span class="year-legend-pips"><span class="year-legend-pip year-legend-pip--peak"></span><span class="year-legend-pip year-legend-pip--peak"></span><span class="year-legend-pip year-legend-pip--peak"></span></span>
+          playoff / marquee
+        </span>
+      </div>
+
+      <p class="vibe-foot">
+        Pick your kit for the months you actually watch. The peak quartet (April, May, June, October) covers WTWTW's busiest weeks — anything you put in surfaces almost nightly.
       </p>
     </section>
 
