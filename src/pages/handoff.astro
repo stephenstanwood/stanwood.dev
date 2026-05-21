@@ -1,0 +1,338 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Handoff from "../components/handoff/Handoff.tsx";
+const title = "Handoff — live translation, hand the phone across the desk";
+---
+
+<BaseLayout
+  title={title}
+  description="Real-time two-way voice translation for clinics, schools, libraries, and any front desk where a non-English-speaking family walks in. Tap your language, talk, hand the phone over."
+  slug="handoff"
+  themeColor="#faf6ec"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Cabin:wght@500;600;700&family=Permanent+Marker&display=swap"
+  schemaCategory="UtilitiesApplication"
+  schemaName="Handoff"
+>
+  <Fragment slot="head">
+    <style is:global>
+      :root {
+        --ho-bg: #faf6ec;
+        --ho-ink: #1a1a1a;
+        --ho-ink-soft: #4a4a4a;
+        --ho-ink-dim: #8a8a8a;
+        --ho-line: #1a1a1a;
+        --ho-paper: #fffdf6;
+        --ho-en: #1e5a8a;       /* deep blue */
+        --ho-en-soft: #e6eef5;
+        --ho-other: #b8420f;    /* burnt orange */
+        --ho-other-soft: #fbe9dd;
+        --ho-active-glow: rgba(184, 66, 15, 0.18);
+        --ho-en-glow: rgba(30, 90, 138, 0.18);
+      }
+
+      html, body {
+        background: var(--ho-bg);
+        color: var(--ho-ink);
+        margin: 0;
+        min-height: 100dvh;
+      }
+      body {
+        font-family: 'Cabin', system-ui, sans-serif;
+        background-image:
+          radial-gradient(circle at 25% 30%, rgba(184, 66, 15, 0.04) 0%, transparent 40%),
+          radial-gradient(circle at 75% 70%, rgba(30, 90, 138, 0.04) 0%, transparent 40%);
+      }
+
+      .ho-page {
+        max-width: 480px;
+        margin: 0 auto;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        padding: 0 0.75rem 1.25rem;
+        position: relative;
+      }
+
+      .ho-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 0.25rem;
+        flex-shrink: 0;
+      }
+      .ho-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        color: var(--ho-ink-dim);
+        text-decoration: none;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      .ho-back:hover { color: var(--ho-ink); }
+      .ho-back svg { width: 14px; height: 14px; }
+      .ho-brand {
+        font-family: 'Permanent Marker', cursive;
+        font-size: 1.4rem;
+        color: var(--ho-ink);
+        letter-spacing: 0.04em;
+        transform: rotate(-2deg);
+      }
+
+      .ho-app {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        min-height: 0;
+      }
+
+      /* Big talk buttons */
+      .ho-btn {
+        width: 100%;
+        border: 3px solid var(--ho-line);
+        border-radius: 18px;
+        background: var(--ho-paper);
+        cursor: pointer;
+        padding: 1.25rem 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: 'Cabin', sans-serif;
+        color: var(--ho-ink);
+        box-shadow: 4px 4px 0 var(--ho-line);
+        transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s;
+        position: relative;
+        overflow: hidden;
+      }
+      .ho-btn:active:not(:disabled) {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0 var(--ho-line);
+      }
+      .ho-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .ho-btn-label {
+        font-size: 1.4rem;
+        font-weight: 700;
+        line-height: 1.1;
+        text-align: center;
+      }
+      .ho-btn-hint {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--ho-ink-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .ho-btn-en {
+        background: var(--ho-paper);
+      }
+      .ho-btn-en .ho-btn-label { color: var(--ho-en); }
+
+      .ho-btn-other {
+        background: var(--ho-paper);
+      }
+      .ho-btn-other .ho-btn-label { color: var(--ho-other); }
+
+      .ho-btn-active {
+        background: var(--ho-other-soft);
+        animation: hoBreathe 1.6s ease-in-out infinite;
+      }
+      .ho-btn-en.ho-btn-active {
+        background: var(--ho-en-soft);
+      }
+      @keyframes hoBreathe {
+        0%, 100% { box-shadow: 4px 4px 0 var(--ho-line); }
+        50%      { box-shadow: 4px 4px 0 var(--ho-line), 0 0 32px var(--ho-active-glow); }
+      }
+      .ho-btn-en.ho-btn-active {
+        animation-name: hoBreatheEn;
+      }
+      @keyframes hoBreatheEn {
+        0%, 100% { box-shadow: 4px 4px 0 var(--ho-line); }
+        50%      { box-shadow: 4px 4px 0 var(--ho-line), 0 0 32px var(--ho-en-glow); }
+      }
+
+      /* Mic icon */
+      .ho-mic {
+        width: 36px;
+        height: 36px;
+        color: var(--ho-ink-soft);
+        transition: color 0.2s;
+      }
+      .ho-btn-en .ho-mic { color: var(--ho-en); }
+      .ho-btn-other .ho-mic { color: var(--ho-other); }
+      .ho-mic-active {
+        animation: hoMicPulse 1.4s ease-in-out infinite;
+      }
+      @keyframes hoMicPulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.12); }
+      }
+
+      /* Captions */
+      .ho-captions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        background: var(--ho-paper);
+        border: 2px solid var(--ho-line);
+        border-radius: 14px;
+        padding: 0.75rem;
+        min-height: 110px;
+        box-shadow: 3px 3px 0 var(--ho-line);
+      }
+      .ho-caption {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .ho-caption-lang {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ho-ink-dim);
+      }
+      .ho-caption-en .ho-caption-lang { color: var(--ho-en); }
+      .ho-caption-other .ho-caption-lang { color: var(--ho-other); }
+      .ho-caption-text {
+        font-size: 1rem;
+        line-height: 1.4;
+        color: var(--ho-ink);
+        min-height: 1.4em;
+        word-wrap: break-word;
+      }
+      .ho-caption-empty {
+        color: var(--ho-ink-dim);
+        font-family: 'Space Mono', monospace;
+      }
+      .ho-rtl {
+        direction: rtl;
+        text-align: right;
+      }
+      .ho-rtl .ho-caption-lang { direction: ltr; text-align: left; }
+
+      /* Footer */
+      .ho-footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 0.25rem;
+      }
+      .ho-status {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--ho-ink-dim);
+      }
+      .ho-error {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        color: var(--ho-other);
+        background: var(--ho-other-soft);
+        border: 1px solid var(--ho-other);
+        border-radius: 8px;
+        padding: 0.4rem 0.75rem;
+        text-align: center;
+      }
+      .ho-lang-toggle {
+        background: none;
+        border: 1px dashed var(--ho-line);
+        border-radius: 10px;
+        padding: 0.5rem 0.85rem;
+        cursor: pointer;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--ho-ink);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .ho-lang-toggle:hover {
+        background: var(--ho-paper);
+      }
+      .ho-lang-caret {
+        font-size: 0.7rem;
+        color: var(--ho-ink-dim);
+      }
+      .ho-lang-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.5rem;
+        width: 100%;
+        margin-top: 0.25rem;
+      }
+      .ho-lang-option {
+        background: var(--ho-paper);
+        border: 2px solid var(--ho-line);
+        border-radius: 10px;
+        padding: 0.6rem 0.4rem;
+        cursor: pointer;
+        font-family: 'Cabin', sans-serif;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        transition: transform 0.08s;
+      }
+      .ho-lang-option:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 2px 2px 0 var(--ho-line);
+      }
+      .ho-lang-selected {
+        background: var(--ho-other-soft);
+        box-shadow: 2px 2px 0 var(--ho-other);
+      }
+      .ho-lang-native {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--ho-ink);
+      }
+      .ho-lang-english {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        color: var(--ho-ink-dim);
+        letter-spacing: 0.04em;
+      }
+      .ho-tagline {
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        color: var(--ho-ink-dim);
+        line-height: 1.4;
+        max-width: 280px;
+        margin-top: 0.5rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .ho-btn-active,
+        .ho-btn-en.ho-btn-active { animation: none; }
+        .ho-mic-active { animation: none; }
+      }
+    </style>
+  </Fragment>
+
+  <div class="ho-page">
+    <a href="#main-content" class="skip-nav">Skip to content</a>
+    <header class="ho-header">
+      <a href="https://stanwood.dev" class="ho-back" aria-label="Back to stanwood.dev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        stanwood.dev
+      </a>
+      <span class="ho-brand">Handoff</span>
+    </header>
+    <main id="main-content" style="flex:1; display:flex; flex-direction:column; min-height:0;">
+      <Handoff client:only="react" />
+    </main>
+  </div>
+</BaseLayout>
