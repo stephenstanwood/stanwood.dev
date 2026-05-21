@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-20T10:30:20.339999+00:00",
+  "built_at": "2026-05-21T10:30:20.318629+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -18,7 +18,7 @@
         "IydslKdqzYo",
         "F-OxHWWg59o",
         "yhfuDD3hprA",
-        "bpeU4EfBpTM"
+        "Q_UxyEepuQA"
       ]
     },
     {
@@ -54,13 +54,14 @@
       "is_single": false,
       "display_name": "CS25",
       "best_score": 13,
-      "video_count": 5,
+      "video_count": 6,
       "video_ids": [
         "GBd7iuJkW08",
         "bHSDPgZYie0",
         "OyimE74UMF8",
         "e_H_tkpCAK4",
-        "I5BKi32IEa8"
+        "I5BKi32IEa8",
+        "dJtHauhRasc"
       ]
     },
     {
@@ -68,7 +69,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 8,
+      "video_count": 9,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -77,7 +78,8 @@
         "BQrJ4lHAjhc",
         "B8NvdfssGac",
         "wisccQYTRQc",
-        "tsQB0n0YV3k"
+        "tsQB0n0YV3k",
+        "Lri2LNYtERM"
       ]
     },
     {
@@ -85,7 +87,7 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 15,
+      "video_count": 17,
       "video_ids": [
         "5uWtpDON7Vs",
         "CHD6DS6f21Y",
@@ -101,7 +103,9 @@
         "NUtaN10cVDc",
         "b6uxaRL_ipw",
         "xvLTAm2cecY",
-        "r3x_w3tEmB4"
+        "r3x_w3tEmB4",
+        "3W36pd50Wqw",
+        "dI8pLC1BLSM"
       ]
     },
     {
@@ -136,6 +140,16 @@
         "k1njvbBmfsw",
         "AuZoDsNmG_s",
         "Ozb1AR_F5MU"
+      ]
+    },
+    {
+      "key": "__single__ODj7ndsKnts",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "best_score": 10,
+      "video_count": 1,
+      "video_ids": [
+        "ODj7ndsKnts"
       ]
     },
     {
@@ -439,20 +453,21 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 6, 2026\nThis lecture covers:\n\u2022  Advancing human values through integrative computing and changing practice\n\u2022  Examples of computational ecosystems built over the last decade that transform how we plan, coordinate, connect, learn, and innovate\n\u2022  Recent efforts to support human prac"
     },
     {
-      "id": "bpeU4EfBpTM",
-      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Reading Games Well",
-      "url": "https://www.youtube.com/watch?v=bpeU4EfBpTM",
-      "duration": 3582.0,
-      "published_at": "2026-04-15T00:00:00+00:00",
+      "id": "Q_UxyEepuQA",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | HCI and Human-Centered AI for Digital Health",
+      "url": "https://www.youtube.com/watch?v=Q_UxyEepuQA",
+      "duration": 3008.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
       "series": "CS547",
       "series_display": "CS547",
       "lecture_num": null,
-      "score": 18,
+      "score": 8,
       "categories": [
         "hci",
+        "healthcare_ai",
         "series:CS547"
       ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis lecture covers:\n\u2022  An introduction to the idea of \"reading games\" as the evocation of personal player responses\n\u2022  Example readings as well as games and curriculum designed to enhance the potential for effective student readings of games\n\u2022  The ways that personal play"
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 8, 2026\nThis lecture covers:\n\u2022  HCI issues related to the design, evaluation, and deployment of AI-enabled systems in digital health\n\u2022  How \"easy to implement\" AI engineering decisions that are usually default parameters in Python machine learning code can have dramatic effects on th"
     },
     {
       "id": "EvHRQhMX7_w",
@@ -845,6 +860,22 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 23, 2026\nThis seminar covers: \n\u2022 The practicalities of ultra-scale training\n\u2022 How 5D parallelism makes it possible to stretch a single run across massive GPU clusters\n\u2022 How Mixture-of-Experts architectures introduce new scaling dimensions and stability challenges, and the performan"
     },
     {
+      "id": "dJtHauhRasc",
+      "title": "Stanford CS25: Transformers United V6 I Distinct Modes of Generalization from Parameters and Context",
+      "url": "https://www.youtube.com/watch?v=dJtHauhRasc",
+      "duration": 4350.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 7, 2026\nThis seminar covers: \n\u2022  Two methods for teaching information to language models: training (updating parameters) or in-context learning (providing information in prompts)\n\u2022 Striking differences in the types of generalization that models make when they learn information via th"
+    },
+    {
       "id": "O5PfU_uDhS0",
       "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
       "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
@@ -972,6 +1003,23 @@
         "climate_grid"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class hosts Jensen Huang, CEO of NVIDIA, who argues computing is being reinvented for the first time in 64 years as software shifts from prerecorded execution to"
+    },
+    {
+      "id": "Lri2LNYtERM",
+      "title": "Stanford CS153 Frontier Systems | The AI Native Company: How One Founder Becomes a 1000x Engineer",
+      "url": "https://www.youtube.com/watch?v=Lri2LNYtERM",
+      "duration": 2835.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": -1,
+      "categories": [
+        "swe_career",
+        "robotics",
+        "climate_grid"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class shifts from upstream bottlenecks like power and compute to the capital and company-formation layer, framing YC's 2010s introduction of the SAFE as a standa"
     },
     {
       "id": "5uWtpDON7Vs",
@@ -1203,6 +1251,37 @@
         "healthcare_ai"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis seminar covers: \n\u2022 Research on enabling greater surgical autonomy through the lens of robot learning\n\u2022 Recent work on human-robot teaming using humanoid systems, examining the limitations of the current state of the art and the opportunities ahead for research and dep"
+    },
+    {
+      "id": "3W36pd50Wqw",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Integrated Learning and Planning",
+      "url": "https://www.youtube.com/watch?v=3W36pd50Wqw",
+      "duration": 3473.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 8,
+      "categories": [
+        "applied_ai",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 8, 2026\nThis seminar covers: \n\u2022 Integrated learning and planning with neuro-symbolic concepts\n\u2022 A general learning and reasoning framework based on neuro-symbolic concepts\n\u2022 Systems that leverage neuro-symbolic concepts demonstrate superior data efficiency, enable agents to reason an"
+    },
+    {
+      "id": "dI8pLC1BLSM",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Interactive Autonomy",
+      "url": "https://www.youtube.com/watch?v=dI8pLC1BLSM",
+      "duration": 4272.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
     },
     {
       "id": "tvVj6MSBhBA",
@@ -1452,6 +1531,21 @@
         "series:CS230"
       ],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nDecember 2, 2025\nThis lecture covers what's happening inside your model and provides a class wrap-up.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus:"
+    },
+    {
+      "id": "ODj7ndsKnts",
+      "title": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "url": "https://www.youtube.com/watch?v=ODj7ndsKnts",
+      "duration": 2053.0,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "lecture_num": null,
+      "score": 10,
+      "categories": [
+        "hci"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nAI is the biggest technology supercycle since the PC, Internet, and Mobile. MS&E435 is a seminar that unpacks the economics at each layer of the AI stack. Each week, we learn from a practitioner with a unique va"
     },
     {
       "id": "5UJ0uWqO1Ho",
