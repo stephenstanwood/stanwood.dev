@@ -135,6 +135,73 @@ export default function AIRadarPage() {
     },
   ];
 
+  const milestones: { date: string; era: string; name: string; org: string; shift: string; after: string }[] = [
+    {
+      date: "Nov 2022",
+      era: "the spark",
+      name: "ChatGPT",
+      org: "OpenAI",
+      shift: "A research preview wraps GPT-3.5 in a chat box and ships it free. 100M users in two months — the fastest consumer app launch in history.",
+      after: "Every other lab pivots to chat. The phrase \"prompt engineering\" enters the vocabulary. AI stops being a research demo and becomes a product category.",
+    },
+    {
+      date: "Mar 2023",
+      era: "the frontier",
+      name: "GPT-4",
+      org: "OpenAI",
+      shift: "First model that reliably crosses the bar lawyers, doctors, and software engineers use to measure each other. Bar exam in the 90th percentile, multimodal image input.",
+      after: "\"Frontier model\" becomes a real category. The race to match GPT-4 defines the next 18 months. Microsoft Copilot launches the same week.",
+    },
+    {
+      date: "Jul 2023",
+      era: "the opening",
+      name: "Llama 2",
+      org: "Meta",
+      shift: "Meta releases an open-weights model with a permissive license — the first time a credible frontier-class base was actually downloadable, fine-tunable, and shippable.",
+      after: "Mistral, DeepSeek, Qwen, and the entire open-source toolchain (vLLM, Ollama, LM Studio) get a usable starting point. The closed/open split becomes structural.",
+    },
+    {
+      date: "Feb 2024",
+      era: "the long view",
+      name: "Gemini 1.5 Pro",
+      org: "Google",
+      shift: "First production model with a 1M-token context window. Drop in an entire codebase, a 700-page PDF, or three hours of video and ask questions across all of it.",
+      after: "RAG starts looking optional for many workflows. \"Just paste the docs\" becomes a valid retrieval strategy. Anthropic and OpenAI follow within months.",
+    },
+    {
+      date: "Sep 2024",
+      era: "the rethink",
+      name: "OpenAI o1",
+      org: "OpenAI",
+      shift: "First widely-shipped model that visibly \"thinks before it answers\" — RL-trained chain-of-thought inside the model. Math and code scores jump a tier overnight.",
+      after: "Reasoning becomes the new axis. Claude, Gemini, DeepSeek-R1, Grok all ship reasoning modes within six months. \"Inference-time compute\" enters every pricing page.",
+    },
+    {
+      date: "Jan 2025",
+      era: "the collapse",
+      name: "DeepSeek R1",
+      org: "DeepSeek",
+      shift: "Open-weights reasoning model trained for ~$6M matches o1 on hard math and code, then they post the recipe. NVIDIA loses $600B of market cap on the news.",
+      after: "The cost floor of frontier-class capability craters. Every closed lab cuts prices within weeks. \"How much did this cost to train?\" becomes a normal question to ask.",
+    },
+    {
+      date: "Aug 2025",
+      era: "the router",
+      name: "GPT-5",
+      org: "OpenAI",
+      shift: "Ships as a unified router that picks reasoning depth per request — no more choosing between fast and smart. Frontier benchmarks across coding, math, and multimodal in one product.",
+      after: "Multi-model menus start collapsing into single endpoints with internal routing. The user-facing model picker quietly disappears across most consumer surfaces.",
+    },
+    {
+      date: "Nov 2025",
+      era: "the catch-up",
+      name: "Gemini 3",
+      org: "Google",
+      shift: "Google's first launch where the model, the chips, the cloud, the consumer app, and the developer platform all land on the same day at the frontier.",
+      after: "The \"only one company has the full stack\" pitch finally lands. Antigravity, Stitch, and Veo follow within months — the agentic-by-default era begins.",
+    },
+  ];
+
   function handleShare() {
     navigator.clipboard.writeText(window.location.href).then(() => {
       setCopied(true);
@@ -435,6 +502,48 @@ export default function AIRadarPage() {
         <p className="rp-tells-foot">
           None of these mean a launch is fake — just that the spin is doing work. The feed below
           tries to flag the spin in the summary when it spots it.
+        </p>
+      </section>
+
+      {/* How we got here — historical anchor for the daily churn */}
+      <section className="rp-mile" aria-labelledby="rp-mile-title">
+        <div className="rp-mile-head">
+          <h2 id="rp-mile-title" className="rp-mile-title">How we got here</h2>
+          <span className="rp-mile-sub">eight moments that shaped the field</span>
+        </div>
+        <p className="rp-mile-intro">
+          The feed below ships fast. The arc underneath ships slow. These are the eight launches
+          since 2022 that actually moved the field — each one bent what came next, and every entry
+          you'll read further down is downstream of one of them.
+        </p>
+        <ol className="rp-mile-list">
+          {milestones.map((m, i) => {
+            const color = ORG_COLORS[m.org] || "#888";
+            return (
+              <li key={m.name} className="rp-mile-item" style={{ borderLeftColor: color }}>
+                <div className="rp-mile-marker">
+                  <span className="rp-mile-num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="rp-mile-date">{m.date}</span>
+                </div>
+                <div className="rp-mile-body">
+                  <div className="rp-mile-row">
+                    <span className="rp-mile-era">{m.era}</span>
+                    <span className="rp-mile-org" style={{ color }}>{m.org}</span>
+                  </div>
+                  <h3 className="rp-mile-name">{m.name}</h3>
+                  <p className="rp-mile-shift">{m.shift}</p>
+                  <p className="rp-mile-after">
+                    <span className="rp-mile-after-label">aftershock</span>
+                    {m.after}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="rp-mile-foot">
+          Not a ranking — a list of inflection points. The next one is somewhere in the feed below,
+          probably misread for a routine launch on the day it lands.
         </p>
       </section>
 
