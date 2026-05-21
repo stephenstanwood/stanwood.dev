@@ -615,6 +615,115 @@ const mlbTeams: Array<[string, string]> = [
         color: #60a5fa;
         margin-right: 6px;
       }
+
+      /* ── Where MLB lives — broadcast guide ── */
+      .broadcast-card {
+        background: #0c3a1b;
+        border: 1px solid rgba(255,255,255,0.08);
+        border-left: 3px solid #fbbf24;
+        border-radius: 8px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+      }
+      .broadcast-card + .broadcast-card { margin-top: 10px; }
+      .broadcast-card.free { border-left-color: #4ade80; }
+      .broadcast-card.subscribe { border-left-color: #fbbf24; }
+      .broadcast-card.cable { border-left-color: #f97316; }
+      .broadcast-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .broadcast-name {
+        font-family: 'Orbitron', monospace;
+        font-size: 13.5px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #e5e7eb;
+        line-height: 1.2;
+        margin: 0;
+        text-transform: uppercase;
+      }
+      .broadcast-pill {
+        font-family: 'Orbitron', monospace;
+        font-size: 8.5px;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 3px;
+        white-space: nowrap;
+      }
+      .broadcast-pill.free {
+        background: rgba(74,222,128,0.1);
+        color: #86efac;
+        border: 1px solid rgba(74,222,128,0.28);
+      }
+      .broadcast-pill.subscribe {
+        background: rgba(251,191,36,0.1);
+        color: #fcd34d;
+        border: 1px solid rgba(251,191,36,0.25);
+      }
+      .broadcast-pill.cable {
+        background: rgba(249,115,22,0.1);
+        color: #fdba74;
+        border: 1px solid rgba(249,115,22,0.25);
+      }
+      .broadcast-body {
+        font-size: 12px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.55;
+        margin: 0;
+      }
+      .broadcast-body strong {
+        color: rgba(255,255,255,0.85);
+        font-weight: 600;
+      }
+      .broadcast-when {
+        font-size: 11px;
+        color: rgba(255,255,255,0.4);
+        line-height: 1.5;
+        margin: 0;
+        padding-top: 8px;
+        border-top: 1px dashed rgba(255,255,255,0.08);
+      }
+      .broadcast-when-label {
+        display: inline-block;
+        font-family: 'Orbitron', monospace;
+        font-size: 8.5px;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #fbbf24;
+        margin-right: 6px;
+      }
+      .broadcast-legend {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-family: 'Orbitron', monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        color: rgba(255,255,255,0.4);
+        text-transform: uppercase;
+        margin: 8px 0 14px;
+      }
+      .broadcast-legend-dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+      .broadcast-legend-dot.free { background: #4ade80; box-shadow: 0 0 4px rgba(74,222,128,0.4); }
+      .broadcast-legend-dot.subscribe { background: #fbbf24; box-shadow: 0 0 4px rgba(251,191,36,0.4); }
+      .broadcast-legend-dot.cable { background: #f97316; box-shadow: 0 0 4px rgba(249,115,22,0.4); }
     </style>
   </Fragment>
 
@@ -998,6 +1107,91 @@ const mlbTeams: Array<[string, string]> = [
         </div>
 
         <p class="decode-foot">The formula picks tonight's most-watchable shape. These are the games where you trust the announcers, the standings, or the player chasing something — and ignore the rank.</p>
+      </section>
+
+      <!-- Where MLB lives — broadcast guide -->
+      <section class="mt-8" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem;">
+        <p class="font-score" style="font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(251,191,36,0.4); margin-bottom: 6px;">Where MLB lives</p>
+        <p style="font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.55; margin-bottom: 6px;">The ranked game above is only useful if you can find it. Eight places MLB games actually air in 2026 — what each one carries, and what it'll cost you to tune in.</p>
+        <div class="broadcast-legend" aria-label="Subscription legend">
+          <span><span class="broadcast-legend-dot free"></span>free w/ account</span>
+          <span><span class="broadcast-legend-dot subscribe"></span>streaming sub</span>
+          <span><span class="broadcast-legend-dot cable"></span>cable / RSN</span>
+        </div>
+
+        <article class="broadcast-card cable">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">Local RSN</h3>
+            <span class="broadcast-pill cable">cable / streaming sub</span>
+          </div>
+          <p class="broadcast-body">Your home team's <strong>140+ regular-season games</strong> live on a regional sports network — YES (Yankees), NESN (Red Sox), SNY (Mets), SNLA (Dodgers), NBC Sports Bay Area (Giants/A's), and so on. Carried on cable, YouTube TV, Fubo, Hulu Live, and the team's own DTC app.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>You only get <strong>your local team</strong>. Try to stream another market's RSN through MLB.tv and it blacks out — the league's been chipping away at this, but it still rules out most direct-to-consumer plans.</p>
+        </article>
+
+        <article class="broadcast-card subscribe">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">MLB.tv</h3>
+            <span class="broadcast-pill subscribe">$30/mo or $150/yr</span>
+          </div>
+          <p class="broadcast-body">Every <strong>out-of-market</strong> game, home and away feeds, full archive, condensed games the morning after. The default for transplants and fans who follow a team three time zones away.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>The big one: <strong>local team is blacked out</strong>, full stop. Nationally televised games (ESPN/Fox/Apple/TBS) are also blacked out until the broadcast window closes — you watch them on those services instead.</p>
+        </article>
+
+        <article class="broadcast-card cable">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">MLB Network</h3>
+            <span class="broadcast-pill cable">cable</span>
+          </div>
+          <p class="broadcast-body">League-owned cable channel. Roughly <strong>25 exclusive live games</strong> a season (mostly weekday afternoons), plus MLB Tonight — the highlights-and-analysis show that runs as the night's games end.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>Cable tier required; no standalone streaming option. The exclusive games are blacked out on MLB.tv during the live window.</p>
+        </article>
+
+        <article class="broadcast-card subscribe">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">ESPN</h3>
+            <span class="broadcast-pill subscribe">cable or ESPN+</span>
+          </div>
+          <p class="broadcast-body"><strong>Sunday Night Baseball</strong> — the marquee weekly slot, 7 PM ET, one game the whole country watches together. Plus the Home Run Derby, the Little League Classic, and ESPN+ exclusive weekday games.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>ESPN's MLB rights end after 2025; the Sunday Night slot is up for grabs. Worth checking the badge — the brand on the hero card is the source of truth.</p>
+        </article>
+
+        <article class="broadcast-card cable">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">Fox / FS1</h3>
+            <span class="broadcast-pill cable">broadcast / cable</span>
+          </div>
+          <p class="broadcast-body"><strong>Saturday Game of the Week</strong> — afternoon and primetime windows, regionalized so different markets see different matchups. Plus the All-Star Game, the NLCS in odd years, and <strong>every World Series</strong> through 2028.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>Fox is over-the-air free with an antenna. FS1 needs cable or a live-TV streaming bundle (YouTube TV, Hulu Live, Fubo).</p>
+        </article>
+
+        <article class="broadcast-card cable">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">TBS / truTV</h3>
+            <span class="broadcast-pill cable">cable</span>
+          </div>
+          <p class="broadcast-body"><strong>Tuesday Night Baseball</strong> in the regular season, then a heavy postseason load — Wild Card Series, all of the ALDS, and the ALCS in even years. Where most of the October bracket lives.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>No standalone streaming. Cable or a live-TV bundle. truTV is the overflow channel when two postseason games run at once.</p>
+        </article>
+
+        <article class="broadcast-card free">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">Apple TV+</h3>
+            <span class="broadcast-pill free">free, no sub</span>
+          </div>
+          <p class="broadcast-body"><strong>Friday Night Baseball</strong> — a doubleheader every Friday all season. Two games, two booths, one global feed. Streams to anyone with a free Apple account — no subscription required since 2024.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>Apple TV app, anywhere it runs (iPhone, Roku, Fire TV, browser). Games are exclusive — not on MLB.tv or the local RSN that night.</p>
+        </article>
+
+        <article class="broadcast-card subscribe">
+          <div class="broadcast-head">
+            <h3 class="broadcast-name">Peacock / Roku</h3>
+            <span class="broadcast-pill subscribe">streaming sub</span>
+          </div>
+          <p class="broadcast-body">The Sunday-morning shift. <strong>Peacock</strong> airs an exclusive 11:30 AM ET game most weeks during its window; <strong>Roku Channel</strong> picked up Sunday afternoon doubleheaders. Both are exclusive — blacked out everywhere else for the duration.</p>
+          <p class="broadcast-when"><span class="broadcast-when-label">catch</span>Peacock needs a $8/mo sub; Roku Channel is free with any Roku account. Schedules shift year-to-year — check the hero badge.</p>
+        </article>
+
+        <p class="decode-foot">Look at the network badge on the hero card above — it's the single source of truth for tonight. If it says <strong>APPLE</strong>, you can watch free; if it says your team's <strong>RSN</strong> and you're out-of-market, MLB.tv won't help.</p>
       </section>
 
       <!-- Decode the live card — what every icon and column means -->
