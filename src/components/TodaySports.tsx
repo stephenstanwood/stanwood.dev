@@ -22,8 +22,6 @@ interface TodayGame {
   startSortKey: number;
   isPlayoff: boolean;
   accent: string;
-  statusText?: string;
-  isLive: boolean;
 }
 
 function competitors(ev: ESPNEvent): ESPNCompetitor[] {
@@ -56,10 +54,9 @@ export default function TodaySports() {
       for (const { league, events } of results) {
         for (const ev of events) {
           const state = stateOf(ev);
-          // Show pre-game and in-progress; skip already-final games (those
-          // are in the Yesterday rail tomorrow, and live games show in the
-          // strip at the top).
-          if (state === "post") continue;
+          // Upcoming only — live games show as big tiles in LiveSports,
+          // finished games are in the Yesterday rail tomorrow.
+          if (state !== "pre") continue;
 
           const matched = matchUserTeam(ev, league, lookup);
           const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
@@ -75,13 +72,8 @@ export default function TodaySports() {
           if (!away || !home) continue;
 
           const startSortKey = new Date(ev.date).getTime();
-          const isLive = state === "in";
-          const statusText =
-            ev.competitions?.[0]?.status?.type?.shortDetail ||
-            ev.competitions?.[0]?.status?.type?.detail;
-          const startTime = isLive
-            ? statusText || "Live"
-            : formatHourMinuteInTz(ev.date, "America/Los_Angeles") + " PT";
+          const startTime =
+            formatHourMinuteInTz(ev.date, "America/Los_Angeles") + " PT";
 
           next.push({
             id,
@@ -92,8 +84,6 @@ export default function TodaySports() {
             startSortKey,
             isPlayoff: playoff,
             accent: matched?.color || "#1a1a1a",
-            statusText,
-            isLive,
           });
         }
       }
@@ -129,10 +119,7 @@ export default function TodaySports() {
             <span className="schedule-at">@</span>
             <span>{g.homeAbbr}</span>
           </span>
-          <span className={`schedule-time ${g.isLive ? "live" : ""}`}>
-            {g.isLive && <span className="schedule-live-dot" />}
-            {g.startTime}
-          </span>
+          <span className="schedule-time">{g.startTime}</span>
         </span>
       ))}
     </div>

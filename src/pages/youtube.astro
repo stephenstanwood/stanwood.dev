@@ -4,7 +4,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import LiveGamesStrip from '../components/LiveGamesStrip.tsx';
+import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
 import YesterdaySports from '../components/YesterdaySports.tsx';
 import { daysSince } from '../lib/time';
@@ -614,6 +614,25 @@ function seriesVideos(series: Series): QueueVideo[] {
     .recap-final { font-weight: 700; color: #444; }
     .recap-watch { font-weight: 700; color: var(--cool); }
 
+    /* Live tile variant — same big-tile chrome, with pulsing LIVE indicator
+       and no winner/loser score emphasis (no winner yet). */
+    .recap-tile.live .recap-score.live { color: var(--ink); }
+    .recap-live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      color: var(--hot);
+    }
+    .recap-live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hot);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
     /* Today schedule strip — small horizontal row under yesterday tiles */
     .schedule-row {
       display: flex;
@@ -672,7 +691,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     </form>
   </div>
   <div class="wrap">
-    <LiveGamesStrip client:only="react" />
     <div class="page-head launchers-only">
       <div class="corner-launchers" aria-label="quick launchers">
         <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
@@ -721,6 +739,7 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     <section class="sports-section" aria-label="Sports">
       <h2 class="section-title">sports</h2>
+      <LiveSports client:only="react" />
       <YesterdaySports client:only="react" />
       <TodaySports client:only="react" />
     </section>
