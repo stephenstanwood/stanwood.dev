@@ -1374,10 +1374,9 @@ const mlbTeams: Array<[string, string]> = [
     </script>
 
     <script>
+      import { safeGet, safeSet } from "../lib/localStorage";
       const FAVS_KEY = "mlb-fav-teams";
-      function loadFavs(): string[] {
-        try { return JSON.parse(localStorage.getItem(FAVS_KEY) || "[]"); } catch { return []; }
-      }
+      const loadFavs = (): string[] => safeGet<string[]>(FAVS_KEY) ?? [];
       function syncChips(favs: string[]): void {
         document.querySelectorAll<HTMLElement>(".mlb-chip").forEach((chip) => {
           chip.classList.toggle("active", favs.includes(chip.dataset.abbr!));
@@ -1390,7 +1389,7 @@ const mlbTeams: Array<[string, string]> = [
         const favs = loadFavs();
         const idx = favs.indexOf(chip.dataset.abbr);
         if (idx >= 0) favs.splice(idx, 1); else favs.push(chip.dataset.abbr);
-        localStorage.setItem(FAVS_KEY, JSON.stringify(favs));
+        safeSet(FAVS_KEY, favs);
         syncChips(favs);
         (window as unknown as { __mlbHighlight?: () => void }).__mlbHighlight?.();
       });

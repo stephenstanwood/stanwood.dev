@@ -94,9 +94,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     .map((id) => data.queue.find((v) => v.id === id))
     .filter((v): v is QueueVideo => v !== undefined);
   if (REVERSE_ORDER_KEYS.has(series.key)) {
-    return [...vids].sort((a, b) =>
-      new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
-    );
+    return [...vids].sort(byRecency);
   }
   return vids;
 }
