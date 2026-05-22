@@ -520,12 +520,13 @@ function seriesVideos(series: Series): QueueVideo[] {
       .live-chip-platform { display: none; }
     }
 
-    /* Yesterday recap tiles */
-    .recap-section { margin: 0 0 2.5rem; }
+    /* Sports section (yesterday recap tiles + today strip together) */
+    .sports-section { margin: 0 0 2.5rem; }
     .recap-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 1rem;
+      margin-bottom: 0.85rem;
     }
     @media (min-width: 720px) {
       .recap-grid { grid-template-columns: 1fr 1fr; }
@@ -614,9 +615,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     .recap-watch { font-weight: 700; color: var(--cool); }
 
     /* Today schedule strip — small horizontal row under yesterday tiles */
-    .schedule-section {
-      margin: -1.25rem 0 2.5rem;
-    }
     .schedule-row {
       display: flex;
       flex-wrap: wrap;
@@ -721,8 +719,11 @@ function seriesVideos(series: Series): QueueVideo[] {
       </div>
     </div>
 
-    <YesterdaySports client:only="react" />
-    <TodaySports client:only="react" />
+    <section class="sports-section" aria-label="Sports">
+      <h2 class="section-title">sports</h2>
+      <YesterdaySports client:only="react" />
+      <TodaySports client:only="react" />
+    </section>
 
     {data.queue.length === 0 && (
       <div class="empty">

@@ -115,30 +115,26 @@ export default function TodaySports() {
   if (!ready || games.length === 0) return null;
 
   return (
-    <section className="schedule-section" aria-label="Today's sports">
-      <div className="schedule-row">
-        <span className="schedule-leader">today ·</span>
-        {games.map((g) => (
-          <span
-            key={g.id}
-            className="schedule-chip"
-            style={{ borderLeftColor: g.accent }}
-            title={
-              g.isPlayoff ? "NBA Playoffs · " + g.startTime : g.startTime
-            }
-          >
-            <span className="schedule-teams">
-              <span>{g.awayAbbr}</span>
-              <span className="schedule-at">@</span>
-              <span>{g.homeAbbr}</span>
-            </span>
-            <span className={`schedule-time ${g.isLive ? "live" : ""}`}>
-              {g.isLive && <span className="schedule-live-dot" />}
-              {g.startTime}
-            </span>
+    <div className="schedule-row" aria-label="Today's sports">
+      <span className="schedule-leader">today ·</span>
+      {games.map((g) => (
+        <span
+          key={g.id}
+          className="schedule-chip"
+          style={{ borderLeftColor: g.accent }}
+          title={g.isPlayoff ? "NBA Playoffs · " + g.startTime : g.startTime}
+        >
+          <span className="schedule-teams">
+            <span>{g.awayAbbr}</span>
+            <span className="schedule-at">@</span>
+            <span>{g.homeAbbr}</span>
           </span>
-        ))}
-      </div>
-    </section>
+          <span className={`schedule-time ${g.isLive ? "live" : ""}`}>
+            {g.isLive && <span className="schedule-live-dot" />}
+            {g.startTime}
+          </span>
+        </span>
+      ))}
+    </div>
   );
 }

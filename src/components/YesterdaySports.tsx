@@ -158,9 +158,7 @@ export default function YesterdaySports() {
   if (!ready || games.length === 0) return null;
 
   return (
-    <section className="recap-section" aria-label="Sports">
-      <h2 className="section-title">sports</h2>
-      <div className="recap-grid">
+    <div className="recap-grid">
         {games.map((g) => (
           <a
             key={g.id}
@@ -220,7 +218,6 @@ export default function YesterdaySports() {
             </div>
           </a>
         ))}
-      </div>
-    </section>
+    </div>
   );
 }
