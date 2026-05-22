@@ -35,6 +35,7 @@ export interface ESPNStatusType {
 export interface ESPNCompetition {
   competitors?: ESPNCompetitor[];
   status?: { type?: ESPNStatusType };
+  broadcasts?: Array<{ names?: string[] }>;
 }
 
 export interface ESPNEvent {
@@ -77,6 +78,14 @@ export function isNbaPlayoff(ev: ESPNEvent): boolean {
   if (ev.season?.type === 3) return true;
   if (ev.season?.slug === "post-season") return true;
   return false;
+}
+
+export function broadcastsOf(ev: ESPNEvent): string[] {
+  const out: string[] = [];
+  for (const b of ev.competitions?.[0]?.broadcasts || []) {
+    for (const n of b.names || []) out.push(n);
+  }
+  return out;
 }
 
 export function matchUserTeam(
@@ -211,21 +220,56 @@ export interface WatchTarget {
   label: string;
 }
 
+const PRIME_URL =
+  "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc";
+const YOUTUBE_TV_URL = "https://tv.youtube.com/";
+const MLB_TV_ROOT = "https://www.mlb.com/tv";
+
 export function watchRecordingUrl(opts: {
   league: string;
   awayAbbr?: string;
   homeAbbr?: string;
   isoDate?: string; // YYYY-MM-DD, used for NBA daily listing + WNBA gameCode
+  isLive?: boolean; // live games route around in-market MLB.tv/League Pass blackouts
+  broadcasts?: string[]; // ESPN broadcaster names — drives NBA Prime vs YTTV routing
+  matchedKey?: string; // user team key (e.g. "mlb-cubs") for blackout-aware routing
   mlbGamePks?: Map<string, number>;
   wnbaGameIds?: Map<string, string>;
 }): WatchTarget {
+  // ── LIVE: route around in-market blackouts. Stephen watches the local
+  // Giants/Valkyries live on YouTube TV (NBC Sports Bay Area carries them),
+  // out-of-market Cubs on MLB.tv, and NBA games by broadcaster (Prime when
+  // it's an Amazon broadcast, otherwise cable via YTTV).
+  if (opts.isLive) {
+    if (opts.league === "basketball/nba") {
+      const onPrime = (opts.broadcasts || []).some((b) => /prime/i.test(b));
+      return onPrime
+        ? { href: PRIME_URL, label: "Prime" }
+        : { href: YOUTUBE_TV_URL, label: "YouTube TV" };
+    }
+    if (opts.matchedKey === "mlb-cubs") {
+      return { href: MLB_TV_ROOT, label: "MLB.tv" };
+    }
+    if (opts.matchedKey === "mlb-giants") {
+      return { href: YOUTUBE_TV_URL, label: "YouTube TV" };
+    }
+    if (opts.matchedKey === "wnba-valkyries") {
+      return { href: YOUTUBE_TV_URL, label: "YouTube TV" };
+    }
+    if (opts.league === "baseball/mlb") {
+      return { href: MLB_TV_ROOT, label: "MLB.tv" };
+    }
+    return { href: YOUTUBE_TV_URL, label: "YouTube TV" };
+  }
+
+  // ── REPLAY: deep links into MLB.tv/WNBA game pages or NBA daily listing.
   if (opts.league === "baseball/mlb") {
     const key = `${(opts.awayAbbr || "").toUpperCase()}|${(opts.homeAbbr || "").toUpperCase()}`;
     const gamePk = opts.mlbGamePks?.get(key);
     if (gamePk) {
       return { href: `https://www.mlb.com/tv/g${gamePk}`, label: "MLB.tv" };
     }
-    return { href: "https://www.mlb.com/tv", label: "MLB.tv" };
+    return { href: MLB_TV_ROOT, label: "MLB.tv" };
   }
   if (opts.league === "basketball/nba") {
     if (opts.isoDate) {
@@ -254,5 +298,5 @@ export function watchRecordingUrl(opts: {
       label: "WNBA League Pass",
     };
   }
-  return { href: "https://tv.youtube.com/", label: "YouTube TV" };
+  return { href: YOUTUBE_TV_URL, label: "YouTube TV" };
 }

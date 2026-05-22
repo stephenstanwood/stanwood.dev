@@ -633,6 +633,49 @@ function seriesVideos(series: Series): QueueVideo[] {
       animation: livePulse 1.5s ease-in-out infinite;
     }
 
+    /* MLB Big Inning live indicator — small pill above the live tile grid
+       when the broadcast window is active. */
+    .big-inning-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.45rem 0.8rem 0.45rem 0.7rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-left-width: 5px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+    .big-inning-pill:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .big-inning-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #bf0d3e;
+      animation: livePulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .big-inning-label { font-weight: 700; }
+    .big-inning-detail {
+      color: #555;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+    }
+    .big-inning-platform {
+      margin-left: auto;
+      color: var(--cool);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
     /* Today schedule strip — small horizontal row under yesterday tiles */
     .schedule-row {
       display: flex;

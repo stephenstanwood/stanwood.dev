@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ALWAYS_SHOW_TEAMS,
+  broadcastsOf,
   buildTeamLookup,
   fetchEventsForLeagues,
-  fetchMlbGamePks,
-  fetchWnbaGameIds,
   getRelevantLeagues,
   isNbaPlayoff,
   isoDateInPT,
@@ -16,8 +15,13 @@ import {
   type ESPNEvent,
 } from "../lib/wtwtwSports";
 import { MS_PER_MINUTE } from "../lib/time";
+import { formatHourMinuteInTz } from "../lib/dateFormat";
+import { findActiveWindow, type BigInningSchedule } from "../lib/bigInning";
 
 const POLL_MS = MS_PER_MINUTE;
+const SCHEDULE_REFRESH_MS = 30 * MS_PER_MINUTE;
+const BIG_INNING_ACCENT = "#bf0d3e";
+const MLB_TV_URL = "https://www.mlb.com/tv";
 
 interface LiveGame {
   id: string;
@@ -29,6 +33,11 @@ interface LiveGame {
   watchHref: string;
   watchLabel: string;
   accent: string;
+}
+
+interface BigInningPill {
+  detail: string;
+  href: string;
 }
 
 interface TeamSide {
@@ -64,7 +73,47 @@ function teamSide(c: ESPNCompetitor): TeamSide {
 
 export default function LiveSports() {
   const [games, setGames] = useState<LiveGame[]>([]);
+  const [schedule, setSchedule] = useState<BigInningSchedule | null>(null);
+  const [now, setNow] = useState<number>(() => Date.now());
   const cancelledRef = useRef(false);
+
+  // Big Inning schedule — fetched from our /api/big-inning endpoint and
+  // refreshed every 30 minutes. Schedule data is small and stable.
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        const r = await fetch("/api/big-inning", { cache: "no-store" });
+        if (!r.ok) return;
+        const j: BigInningSchedule = await r.json();
+        if (!cancelled) setSchedule(j);
+      } catch {
+        /* keep prior schedule */
+      }
+    }
+    load();
+    const id = setInterval(load, SCHEDULE_REFRESH_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  // Wall-clock ticker so the Big Inning pill appears/disappears as windows
+  // open and close without waiting for a full page reload.
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), POLL_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const bigInning = useMemo<BigInningPill | null>(() => {
+    const active = findActiveWindow(schedule, now);
+    if (!active) return null;
+    return {
+      detail: `until ${formatHourMinuteInTz(active.end, "America/Los_Angeles")} PT`,
+      href: MLB_TV_URL,
+    };
+  }, [schedule, now]);
 
   useEffect(() => {
     cancelledRef.current = false;
@@ -77,19 +126,9 @@ export default function LiveSports() {
       const leagues = getRelevantLeagues(teamKeys);
       const lookup = buildTeamLookup(teamKeys);
 
-      const now = new Date();
-      const ymd = yyyymmddInPT(now);
-      const iso = isoDateInPT(now);
+      const ymd = yyyymmddInPT(new Date());
 
-      const [results, mlbGamePks, wnbaGameIds] = await Promise.all([
-        fetchEventsForLeagues(leagues, ymd),
-        leagues.has("baseball/mlb")
-          ? fetchMlbGamePks(iso)
-          : Promise.resolve(new Map<string, number>()),
-        leagues.has("basketball/wnba")
-          ? fetchWnbaGameIds()
-          : Promise.resolve(new Map<string, string>()),
-      ]);
+      const results = await fetchEventsForLeagues(leagues, ymd);
 
       const next: LiveGame[] = [];
       const seen = new Set<string>();
@@ -116,9 +155,9 @@ export default function LiveSports() {
             league,
             awayAbbr: awaySide.abbr,
             homeAbbr: homeSide.abbr,
-            isoDate: iso,
-            mlbGamePks,
-            wnbaGameIds,
+            isLive: true,
+            broadcasts: broadcastsOf(ev),
+            matchedKey: matched?.key,
           });
 
           const statusText =
@@ -160,11 +199,28 @@ export default function LiveSports() {
     };
   }, []);
 
-  if (games.length === 0) return null;
+  if (games.length === 0 && !bigInning) return null;
 
   return (
-    <div className="recap-grid">
-      {games.map((g) => (
+    <>
+      {bigInning && (
+        <a
+          className="big-inning-pill"
+          href={bigInning.href}
+          target="_blank"
+          rel="noopener"
+          style={{ borderLeftColor: BIG_INNING_ACCENT }}
+          title={`MLB Big Inning is broadcasting now · ${bigInning.detail}`}
+        >
+          <span className="big-inning-dot" />
+          <span className="big-inning-label">MLB Big Inning on now</span>
+          <span className="big-inning-detail">{bigInning.detail}</span>
+          <span className="big-inning-platform">MLB.tv ↗</span>
+        </a>
+      )}
+      {games.length > 0 && (
+        <div className="recap-grid">
+          {games.map((g) => (
         <a
           key={g.id}
           className="recap-tile live"
@@ -218,7 +274,9 @@ export default function LiveSports() {
             <span className="recap-watch">Watch on {g.watchLabel} ↗</span>
           </div>
         </a>
-      ))}
-    </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
