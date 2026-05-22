@@ -132,7 +132,6 @@ export default function TodaySports() {
               <span className="schedule-at">@</span>
               <span>{g.homeAbbr}</span>
             </span>
-            {g.isPlayoff && <span className="schedule-tag">PO</span>}
             <span className={`schedule-time ${g.isLive ? "live" : ""}`}>
               {g.isLive && <span className="schedule-live-dot" />}
               {g.startTime}
