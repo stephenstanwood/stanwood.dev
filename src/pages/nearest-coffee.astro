@@ -851,6 +851,113 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         margin-inline: auto;
       }
 
+      /* ── Order like a regular ── */
+      .nc-order {
+        margin-top: 40px;
+      }
+      @media (min-width: 768px) {
+        .nc-order { margin-top: 48px; }
+      }
+      .nc-order-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 4px;
+      }
+      @media (min-width: 640px) {
+        .nc-order-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 1024px) {
+        .nc-order-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .nc-order-card {
+        background: #FFFEFB;
+        border: 1px solid #ECE8E0;
+        border-left: 3px solid #5C4033;
+        border-radius: 4px;
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .nc-order-card:nth-child(2) { border-left-color: #8B5A3C; }
+      .nc-order-card:nth-child(3) { border-left-color: #C97B4F; }
+      .nc-order-card:nth-child(4) { border-left-color: #4A6B5A; }
+      .nc-order-card:nth-child(5) { border-left-color: #B8843A; }
+      .nc-order-card:nth-child(6) { border-left-color: #7A4628; }
+      .nc-order-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .nc-order-type {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: #1A1A1A;
+        letter-spacing: -0.01em;
+        line-height: 1.15;
+      }
+      .nc-order-icon {
+        font-size: 16px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .nc-order-vibe {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #5C4033;
+        margin: 0;
+        line-height: 1.35;
+      }
+      .nc-order-body {
+        font-size: 13px;
+        line-height: 1.6;
+        color: #4A4A4A;
+        margin: 0;
+      }
+      .nc-order-pick {
+        font-size: 11.5px;
+        line-height: 1.5;
+        margin: 6px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed #E5E1D7;
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .nc-order-pick + .nc-order-pick {
+        border-top: none;
+        margin-top: 2px;
+        padding-top: 0;
+      }
+      .nc-order-pick-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        flex-shrink: 0;
+        min-width: 36px;
+      }
+      .nc-order-pick--order .nc-order-pick-label { color: #4A6B5A; }
+      .nc-order-pick--skip  .nc-order-pick-label { color: #9B3A2E; }
+      .nc-order-pick-text {
+        color: #6B6B6B;
+      }
+      .nc-order-foot {
+        font-family: 'Playfair Display', Georgia, serif;
+        font-style: italic;
+        font-size: 13.5px;
+        color: #6B6B6B;
+        line-height: 1.55;
+        margin: 18px 0 0;
+        text-align: center;
+        max-width: 580px;
+        margin-inline: auto;
+      }
+
       /* ── Tips callout ── */
       .nc-tips {
         margin: 40px 0 0;
@@ -1158,6 +1265,84 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         </div>
 
         <p class="nc-tells-foot">Three greens and you&rsquo;re sitting down. Three reds and the next cafe on your list above is suddenly worth the extra block.</p>
+      </section>
+
+      <hr class="nc-rule" style="margin-top: 40px;">
+
+      <!-- Order like a regular -->
+      <section class="nc-order" aria-label="Six kinds of cafe and what to order at each">
+        <span class="nc-section-eyebrow">Order like a regular</span>
+        <p class="nc-section-intro">The nearest open shop might be a roastery or a diner &mdash; the menu, the speed, and the right move at the counter are different at each. Six kinds of cafe and how to order without giving yourself away.</p>
+
+        <div class="nc-order-grid">
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Third-wave specialty</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x2615;</span>
+            </div>
+            <p class="nc-order-vibe">Bar program first, syrup wall last.</p>
+            <p class="nc-order-body">Single-origin pour-overs, manual paddles, baristas in aprons calling out tasting notes. Roast dates on every retail bag, $5&ndash;7 espresso drinks, brew bar runs alongside the espresso bar.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">A cappuccino or a hand-drip &mdash; that&rsquo;s where the bar shows off. Ask which origin is brightest today.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">Anything with caramel pumps. The flavored drinks here are a tax, not a love language.</span></p>
+          </article>
+
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Big chain</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x1F4F1;</span>
+            </div>
+            <p class="nc-order-vibe">Predictable, fast, app-friendly.</p>
+            <p class="nc-order-body">Starbucks, Peet&rsquo;s, Philz, Blue Bottle once it scaled. Mobile order works, hours are wide, recipes are identical from Boise to Brooklyn. Dark roast is the house default.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">A latte, americano, or the seasonal drink. Mobile-order it five minutes out and skip the line.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">A pour-over or anything marketed as &ldquo;reserve.&rdquo; The volume model isn&rsquo;t built to do it well.</span></p>
+          </article>
+
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Neighborhood indie</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x1F3E1;</span>
+            </div>
+            <p class="nc-order-vibe">Regulars know the dog&rsquo;s name.</p>
+            <p class="nc-order-body">One owner, two group heads, a hand-written board. Pastry from the bakery down the street. The barista has been here since 2018 and remembers your face after two visits.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">Whatever&rsquo;s on the board as the seasonal pick, or a cortado. A pastry brings out the recommendations.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">Asking what their &ldquo;fall menu&rdquo; is. The menu is what&rsquo;s on the chalk.</span></p>
+          </article>
+
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Roastery / brew bar</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x1FAD8;</span>
+            </div>
+            <p class="nc-order-vibe">Bags of beans on every wall.</p>
+            <p class="nc-order-body">They roast in the back or down the road. The brew bar runs side-by-side methods &mdash; V60, Chemex, Kalita, sometimes a siphon. Half the customers walk out with whole beans, not a drink.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">A flight if it&rsquo;s offered, or the brew method they&rsquo;re pushing today. Take home a bag of the one you liked.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">A 20oz iced anything. This is the place to drink small, hot, and slow.</span></p>
+          </article>
+
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Cafe + bakery</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x1F950;</span>
+            </div>
+            <p class="nc-order-vibe">The pastry case is the headliner.</p>
+            <p class="nc-order-body">Croissant program with espresso underneath. Brunch line on weekends, laptop crowd Mon&ndash;Thu. Coffee&rsquo;s solid but it&rsquo;s the supporting act &mdash; the bar runs milk drinks at speed.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">A drip or basic latte and whatever the case is loudest about. Ask which pastry came out of the oven last.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">A complicated espresso modification when there&rsquo;s a line behind you. Save it for off-peak.</span></p>
+          </article>
+
+          <article class="nc-order-card">
+            <div class="nc-order-head">
+              <span class="nc-order-type">Diner / counter spot</span>
+              <span class="nc-order-icon" aria-hidden="true">&#x2615;&#xFE0F;</span>
+            </div>
+            <p class="nc-order-vibe">Bottomless mug, real plates.</p>
+            <p class="nc-order-body">Vinyl booths, regulars on stools, a half-full carafe circulating the room. Drip is the menu &mdash; the refill is free and the mug is ceramic. Open early, often 24 hours.</p>
+            <p class="nc-order-pick nc-order-pick--order"><span class="nc-order-pick-label">Order</span><span class="nc-order-pick-text">Black coffee, one cream if needed. Let the waitress top you off without asking.</span></p>
+            <p class="nc-order-pick nc-order-pick--skip"><span class="nc-order-pick-label">Skip</span><span class="nc-order-pick-text">An espresso drink. The machine, if there is one, is probably dusty.</span></p>
+          </article>
+        </div>
+
+        <p class="nc-order-foot">Match the order to the kind of place and you&rsquo;ll get the best version of what they actually do &mdash; not their least confident attempt at something else.</p>
       </section>
 
       <aside class="nc-tips" aria-label="Pro tips">
