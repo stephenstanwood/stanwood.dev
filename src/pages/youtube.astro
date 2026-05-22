@@ -5,6 +5,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import LiveGamesStrip from '../components/LiveGamesStrip.tsx';
+import TodaySports from '../components/TodaySports.tsx';
+import YesterdaySports from '../components/YesterdaySports.tsx';
 import { daysSince } from '../lib/time';
 
 interface QueueVideo {
@@ -516,6 +518,154 @@ function seriesVideos(series: Series): QueueVideo[] {
     @media (max-width: 480px) {
       .live-chip-platform { display: none; }
     }
+
+    /* Yesterday recap tiles */
+    .recap-section { margin: 0 0 2.5rem; }
+    .recap-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 720px) {
+      .recap-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .recap-tile {
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      border-left-width: 8px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+    .recap-tile:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .recap-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .recap-team {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .recap-team.home { flex-direction: row-reverse; text-align: right; }
+    .recap-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .recap-team-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.15;
+    }
+    .recap-team-name {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .recap-team-abbr {
+      font-size: 0.65rem;
+      color: #888;
+      letter-spacing: 0.06em;
+    }
+    .recap-score {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.7rem;
+      line-height: 1;
+      padding: 0 0.3rem;
+      color: #aaa;
+    }
+    .recap-score.win { color: var(--ink); }
+    .recap-vs {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.85rem;
+      color: #888;
+      flex-shrink: 0;
+    }
+    .recap-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-top: 1px dashed #ccc;
+      padding-top: 0.55rem;
+    }
+    .recap-final { font-weight: 700; color: #444; }
+    .recap-watch { font-weight: 700; color: var(--cool); }
+
+    /* Today schedule chips */
+    .schedule-section { margin: 0 0 2rem; }
+    .schedule-title {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.4rem;
+      margin: 0 0 0.6rem;
+      letter-spacing: -0.01em;
+    }
+    .schedule-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .schedule-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem 0.7rem 0.35rem 0.55rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-left-width: 5px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+    }
+    .schedule-teams {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 700;
+    }
+    .schedule-at { color: #999; font-weight: 400; }
+    .schedule-tag {
+      background: var(--lime);
+      border: 1.5px solid var(--ink);
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0 4px;
+      letter-spacing: 0.06em;
+    }
+    .schedule-time { color: #555; font-size: 0.72rem; letter-spacing: 0.04em; }
+    .schedule-time.live {
+      color: var(--hot);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .schedule-live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--hot);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
   </style>
 </head>
 <body>
@@ -529,7 +679,7 @@ function seriesVideos(series: Series): QueueVideo[] {
   <div class="wrap">
     <LiveGamesStrip client:only="react" />
     <div class="page-head">
-      <h1>stanford talks</h1>
+      <h1>queue</h1>
       <div class="corner-launchers" aria-label="quick launchers">
         <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -575,10 +725,53 @@ function seriesVideos(series: Series): QueueVideo[] {
       </div>
     </div>
 
+    <TodaySports client:only="react" />
+    <YesterdaySports client:only="react" />
+
     {data.queue.length === 0 && (
       <div class="empty">
         <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
       </div>
+    )}
+
+    {broader.queue.length > 0 && (
+      <>
+        <h2 class="section-title">around the internet</h2>
+        <div class="broader-grid" id="broader-grid">
+          {broader.queue.map((v) => (
+            <a
+              class="bcard"
+              href={v.url}
+              target="_blank"
+              rel="noopener"
+              data-broader-id={v.id}
+              data-published-at={v.published_at}
+              data-series-key={v.series_key || ''}
+              data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
+            >
+              <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
+                {v.exploration && <span class="explore-badge">explore</span>}
+                {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
+                <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow series (adds a block below)' : 'liked / watched'}>✓</button>
+                <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide series forever' : 'pass / hide'}>×</button>
+                <span class="bcard-dur">{fmtDuration(v.duration)}</span>
+              </div>
+              <div class="bcard-body">
+                <p class="bcard-title">{v.title}</p>
+                <div class="bcard-meta">
+                  <span class="bcard-chan">{v.channel_title}</span>
+                  <span>{fmtAgo(v.published_at)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div id="followed-series-container"></div>
+      </>
+    )}
+
+    {(topSeries || restSeries.length > 0) && (
+      <h2 class="section-title">stanford talks</h2>
     )}
 
     {topSeries && (() => {
@@ -616,42 +809,6 @@ function seriesVideos(series: Series): QueueVideo[] {
         </div>
       );
     })()}
-
-    {broader.queue.length > 0 && (
-      <>
-        <h2 class="section-title">around the internet</h2>
-        <div class="broader-grid" id="broader-grid">
-          {broader.queue.map((v) => (
-            <a
-              class="bcard"
-              href={v.url}
-              target="_blank"
-              rel="noopener"
-              data-broader-id={v.id}
-              data-published-at={v.published_at}
-              data-series-key={v.series_key || ''}
-              data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
-            >
-              <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
-                {v.exploration && <span class="explore-badge">explore</span>}
-                {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
-                <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow series (adds a block below)' : 'liked / watched'}>✓</button>
-                <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide series forever' : 'pass / hide'}>×</button>
-                <span class="bcard-dur">{fmtDuration(v.duration)}</span>
-              </div>
-              <div class="bcard-body">
-                <p class="bcard-title">{v.title}</p>
-                <div class="bcard-meta">
-                  <span class="bcard-chan">{v.channel_title}</span>
-                  <span>{fmtAgo(v.published_at)}</span>
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
-        <div id="followed-series-container"></div>
-      </>
-    )}
 
     {restSeries.length > 0 && (
       <>
