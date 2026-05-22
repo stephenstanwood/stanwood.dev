@@ -55,7 +55,7 @@ const LS_KEY = "wtwtw:v1";
 const POLL_MS = MS_PER_MINUTE;
 const SCHEDULE_REFRESH_MS = 30 * MS_PER_MINUTE;
 const PLAYOFF_LEAGUES = ["basketball/nba"];
-const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants"];
+const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants", "wnba-valkyries"];
 
 const PRIME_URL = "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc";
 const YOUTUBE_TV_URL = "https://tv.youtube.com/";
