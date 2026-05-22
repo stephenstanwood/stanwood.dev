@@ -1203,6 +1203,154 @@ const title = "Green Light — stanwood.dev";
         color: var(--he-rosemary);
         font-weight: 700;
       }
+
+      /* ─── By-Occasion Section ──────────────────────────────────────── */
+      .he-occas {
+        width: 100%;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 0;
+        border-top: 1px solid var(--he-border);
+      }
+      .he-occas-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+        text-align: center;
+        margin: 0 0 0.4rem;
+      }
+      .he-occas-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        margin: 0 0 0.4rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .he-occas-sub {
+        font-size: 0.85rem;
+        color: var(--he-gray);
+        line-height: 1.55;
+        margin: 0 auto 1.5rem;
+        text-align: center;
+        max-width: 540px;
+      }
+      .he-occas-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+      @media (min-width: 540px) {
+        .he-occas-grid { grid-template-columns: 1fr 1fr; }
+      }
+      @media (min-width: 820px) {
+        .he-occas-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      .he-occas-card {
+        background: var(--he-card-bg);
+        border: 1px solid var(--he-border);
+        border-radius: 12px;
+        padding: 1rem 1rem 1.05rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        position: relative;
+      }
+      .he-occas-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding-bottom: 0.55rem;
+        border-bottom: 1px dashed var(--he-border);
+      }
+      .he-occas-emoji {
+        font-size: 1.4rem;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .he-occas-title-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        min-width: 0;
+      }
+      .he-occas-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--he-light-gray);
+      }
+      .he-occas-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--he-charcoal);
+        line-height: 1.2;
+      }
+      .he-occas-body {
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        line-height: 1.5;
+        margin: 0;
+      }
+      .he-occas-body strong {
+        color: var(--he-charcoal);
+        font-weight: 700;
+      }
+      .he-occas-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+        margin-top: auto;
+      }
+      .he-occas-pill {
+        font-size: 0.72rem;
+        line-height: 1.45;
+        padding: 0.5rem 0.6rem;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .he-occas-pill--lean {
+        background: var(--he-sage-faint);
+        border-left: 2px solid var(--he-sage-light);
+        color: var(--he-rosemary);
+      }
+      .he-occas-pill--skip {
+        background: #FBF1E8;
+        border-left: 2px solid var(--he-gold-light);
+        color: #8C6A2A;
+      }
+      .he-occas-pill-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        opacity: 0.85;
+      }
+      .he-occas-pill-text {
+        color: var(--he-charcoal);
+        font-weight: 500;
+      }
+      .he-occas-foot {
+        margin: 1.5rem auto 0;
+        font-size: 0.78rem;
+        color: var(--he-gray);
+        text-align: center;
+        line-height: 1.55;
+        max-width: 540px;
+      }
+      .he-occas-foot strong {
+        color: var(--he-rosemary);
+        font-weight: 700;
+      }
     </style>
   </Fragment>
 
@@ -1548,6 +1696,142 @@ const title = "Green Light — stanwood.dev";
       </div>
 
       <p class="he-tells-foot">Six tells, every menu, no app required. <strong>Green Light reads with you</strong> — but once you can read the menu yourself, dinner gets a lot easier.</p>
+    </section>
+
+    <section class="he-occas" aria-label="What to order by occasion">
+      <p class="he-occas-label">by occasion</p>
+      <h2 class="he-occas-heading">Six dinners, six game plans.</h2>
+      <p class="he-occas-sub">What suits your taste matters — what suits the moment matters too. Six common scenarios, each with what to lean into and what to skip.</p>
+
+      <div class="he-occas-grid">
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">🌹</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">01</span>
+              <span class="he-occas-title">First date</span>
+            </div>
+          </div>
+          <p class="he-occas-body">You're trying to talk, read each other, and not look like you're wrestling dinner. Pick food that <strong>doesn't fight you</strong> — fork-friendly, no shells to crack, no sauce that wants to land on your shirt.</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">A shared small plate to break the ice, then mid-sized mains you both could finish.</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Whole fish, soup dumplings, raw garlic anything, the messiest tacos on the menu.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">💼</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">02</span>
+              <span class="he-occas-title">Business lunch</span>
+            </div>
+          </div>
+          <p class="he-occas-body">You have a clock and a counterpart watching. The dish should <strong>arrive fast, eat clean, and not put you in a coma</strong> by the 2 p.m. meeting.</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">Composed salads with a protein on top, grain bowls, sandwiches with a knife and fork.</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Pasta you can't twirl politely, anything braised "low and slow," wine if they didn't order it first.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">🍳</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">03</span>
+              <span class="he-occas-title">Hangover brunch</span>
+            </div>
+          </div>
+          <p class="he-occas-body">Your body wants <strong>salt, fat, carbs, and water</strong> — in that order, in volume. Today is not the day to "try the new thing."</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">Eggs over a starch (hash, biscuit, tortilla), bacon or chorizo, a side of pickled anything, ice water before coffee.</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Raw oysters, anything labeled "bowl of greens," another mimosa before food lands.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">🪑</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">04</span>
+              <span class="he-occas-title">Solo at the bar</span>
+            </div>
+          </div>
+          <p class="he-occas-body">The best seat in the house and nobody to share with. Order <strong>two small things instead of one big thing</strong> — and tell the bartender it's your first visit. They'll point you at what's actually good tonight.</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">Bar snacks + one app, the chef's counter dish, anything labeled "we ran out yesterday."</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Whole-fish, tomahawk-for-two, family-style — anything that's been ordering for a table since the menu was written.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">🥂</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">05</span>
+              <span class="he-occas-title">Celebration dinner</span>
+            </div>
+          </div>
+          <p class="he-occas-body">Anniversary, raise, birthday, last night in town. You're not optimizing for value — you're optimizing for a <strong>story you'll tell next week</strong>. Order the dish you wouldn't make at home.</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">The chef's tasting, the dish the restaurant is named for, one bottle nicer than usual, dessert + a digestif.</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Your usual safe order, splitting plates to "save room," anything you ate this week already.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="he-occas-card">
+          <div class="he-occas-head">
+            <span class="he-occas-emoji" aria-hidden="true">👯</span>
+            <div class="he-occas-title-wrap">
+              <span class="he-occas-num">06</span>
+              <span class="he-occas-title">Big group, mixed eaters</span>
+            </div>
+          </div>
+          <p class="he-occas-body">Six people, three diets, one vegan, one toddler. Don't try to thread the needle — <strong>order wide, order family-style</strong>, and let everyone hit what they want.</p>
+          <div class="he-occas-split">
+            <div class="he-occas-pill he-occas-pill--lean">
+              <span class="he-occas-pill-label">Lean into</span>
+              <span class="he-occas-pill-text">Shareables, a pile of sides, two proteins (one plant), bread/rice for the room. Order in two rounds so nothing sits cold.</span>
+            </div>
+            <div class="he-occas-pill he-occas-pill--skip">
+              <span class="he-occas-pill-label">Skip</span>
+              <span class="he-occas-pill-text">Six identical entrées, a tasting menu, anything that needs to be split exactly in half on a single plate.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="he-occas-foot">Pick the moment first, then the dish. <strong>Green Light's quiz reads your taste — these six read the room.</strong></p>
     </section>
 
     <section class="he-glossary" aria-label="Menu words decoded">
