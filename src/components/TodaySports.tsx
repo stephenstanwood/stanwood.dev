@@ -55,7 +55,7 @@ export default function TodaySports() {
         for (const ev of events) {
           const state = stateOf(ev);
           // Upcoming only — live games show as big tiles in LiveSports,
-          // finished games are in the Yesterday rail tomorrow.
+          // finished games move into the recap grid.
           if (state !== "pre") continue;
 
           const matched = matchUserTeam(ev, league, lookup);

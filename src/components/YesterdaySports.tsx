@@ -20,6 +20,7 @@ import { MS_PER_DAY } from "../lib/time";
 interface YesterdayGame {
   id: string;
   league: string;
+  daySortKey: number;
   away: TeamSide;
   home: TeamSide;
   isPlayoff: boolean;
@@ -76,15 +77,27 @@ export default function YesterdaySports() {
       const leagues = getRelevantLeagues(teamKeys);
       const lookup = buildTeamLookup(teamKeys);
 
-      const yesterday = new Date(Date.now() - MS_PER_DAY);
-      const ymd = yyyymmddInPT(yesterday);
-      const iso = isoDateInPT(yesterday);
+      const days = [new Date(), new Date(Date.now() - MS_PER_DAY)].map((d) => {
+        const ymd = yyyymmddInPT(d);
+        return {
+          ymd,
+          iso: isoDateInPT(d),
+          sortKey: parseInt(ymd, 10),
+        };
+      });
 
-      const [results, mlbGamePks, wnbaGameIds] = await Promise.all([
-        fetchEventsForLeagues(leagues, ymd),
-        leagues.has("baseball/mlb")
-          ? fetchMlbGamePks(iso)
-          : Promise.resolve(new Map<string, number>()),
+      const [dayResults, wnbaGameIds] = await Promise.all([
+        Promise.all(
+          days.map(async (day) => {
+            const [results, mlbGamePks] = await Promise.all([
+              fetchEventsForLeagues(leagues, day.ymd),
+              leagues.has("baseball/mlb")
+                ? fetchMlbGamePks(day.iso)
+                : Promise.resolve(new Map<string, number>()),
+            ]);
+            return { ...day, results, mlbGamePks };
+          }),
+        ),
         leagues.has("basketball/wnba")
           ? fetchWnbaGameIds()
           : Promise.resolve(new Map<string, string>()),
@@ -92,53 +105,57 @@ export default function YesterdaySports() {
 
       const next: YesterdayGame[] = [];
       const seen = new Set<string>();
-      for (const { league, events } of results) {
-        for (const ev of events) {
-          if (!isFinal(ev)) continue;
-          const matched = matchUserTeam(ev, league, lookup);
-          const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
-          if (!matched && !playoff) continue;
+      for (const { iso, sortKey, results, mlbGamePks } of dayResults) {
+        for (const { league, events } of results) {
+          for (const ev of events) {
+            if (!isFinal(ev)) continue;
+            const matched = matchUserTeam(ev, league, lookup);
+            const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
+            if (!matched && !playoff) continue;
 
-          const id = ev.id || `${league}|${ev.date}|${ev.shortName}`;
-          if (seen.has(id)) continue;
-          seen.add(id);
+            const id = ev.id || `${league}|${iso}|${ev.date}|${ev.shortName}`;
+            if (seen.has(id)) continue;
+            seen.add(id);
 
-          const cs = competitors(ev);
-          const away = cs.find((c) => c.homeAway === "away");
-          const home = cs.find((c) => c.homeAway === "home");
-          if (!away || !home) continue;
+            const cs = competitors(ev);
+            const away = cs.find((c) => c.homeAway === "away");
+            const home = cs.find((c) => c.homeAway === "home");
+            if (!away || !home) continue;
 
-          const awaySide = teamSide(away);
-          const homeSide = teamSide(home);
-          const watch = watchRecordingUrl({
-            league,
-            awayAbbr: awaySide.abbr,
-            homeAbbr: homeSide.abbr,
-            isoDate: iso,
-            mlbGamePks,
-            wnbaGameIds,
-          });
+            const awaySide = teamSide(away);
+            const homeSide = teamSide(home);
+            const watch = watchRecordingUrl({
+              league,
+              awayAbbr: awaySide.abbr,
+              homeAbbr: homeSide.abbr,
+              isoDate: iso,
+              mlbGamePks,
+              wnbaGameIds,
+            });
 
-          const statusText =
-            ev.competitions?.[0]?.status?.type?.shortDetail ||
-            ev.competitions?.[0]?.status?.type?.detail ||
-            "Final";
+            const statusText =
+              ev.competitions?.[0]?.status?.type?.shortDetail ||
+              ev.competitions?.[0]?.status?.type?.detail ||
+              "Final";
 
-          next.push({
-            id,
-            league,
-            away: awaySide,
-            home: homeSide,
-            isPlayoff: playoff,
-            statusText,
-            watchHref: watch.href,
-            watchLabel: watch.label,
-            accent: matched?.color || (playoff ? "#1a1a1a" : "#1a1a1a"),
-          });
+            next.push({
+              id,
+              league,
+              daySortKey: sortKey,
+              away: awaySide,
+              home: homeSide,
+              isPlayoff: playoff,
+              statusText,
+              watchHref: watch.href,
+              watchLabel: watch.label,
+              accent: matched?.color || (playoff ? "#1a1a1a" : "#1a1a1a"),
+            });
+          }
         }
       }
 
       next.sort((a, b) => {
+        if (a.daySortKey !== b.daySortKey) return b.daySortKey - a.daySortKey;
         if (a.league !== b.league) return a.league.localeCompare(b.league);
         return a.id.localeCompare(b.id);
       });

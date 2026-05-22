@@ -134,8 +134,8 @@ export async function fetchEventsForLeagues(
 interface StatsApiGame {
   gamePk: number;
   teams: {
-    away: { team: { abbreviation?: string } };
-    home: { team: { abbreviation?: string } };
+    away: { team: { id?: number; name?: string; abbreviation?: string } };
+    home: { team: { id?: number; name?: string; abbreviation?: string } };
   };
 }
 
@@ -145,13 +145,54 @@ interface StatsApiSchedule {
 
 const STATS_API_TEAM_ABBR_OVERRIDES: Record<string, string> = {
   AZ: "ARI",
-  ATH: "OAK",
   CWS: "CHW",
+  OAK: "ATH",
+};
+
+const STATS_API_TEAM_ABBR_BY_ID: Record<number, string> = {
+  108: "LAA",
+  109: "ARI",
+  110: "BAL",
+  111: "BOS",
+  112: "CHC",
+  113: "CIN",
+  114: "CLE",
+  115: "COL",
+  116: "DET",
+  117: "HOU",
+  118: "KC",
+  119: "LAD",
+  120: "WSH",
+  121: "NYM",
+  133: "ATH",
+  134: "PIT",
+  135: "SD",
+  136: "SEA",
+  137: "SF",
+  138: "STL",
+  139: "TB",
+  140: "TEX",
+  141: "TOR",
+  142: "MIN",
+  143: "PHI",
+  144: "ATL",
+  145: "CHW",
+  146: "MIA",
+  147: "NYY",
+  158: "MIL",
 };
 
 function normalizeMlbAbbr(raw: string | undefined): string {
   const up = (raw || "").toUpperCase();
   return STATS_API_TEAM_ABBR_OVERRIDES[up] || up;
+}
+
+function statsApiTeamAbbr(team: StatsApiGame["teams"]["away"]["team"]): string {
+  if (typeof team?.id === "number") {
+    const mapped = STATS_API_TEAM_ABBR_BY_ID[team.id];
+    if (mapped) return mapped;
+  }
+  return normalizeMlbAbbr(team?.abbreviation);
 }
 
 export async function fetchMlbGamePks(
@@ -166,8 +207,8 @@ export async function fetchMlbGamePks(
     const map = new Map<string, number>();
     for (const day of j.dates || []) {
       for (const g of day.games || []) {
-        const away = normalizeMlbAbbr(g.teams?.away?.team?.abbreviation);
-        const home = normalizeMlbAbbr(g.teams?.home?.team?.abbreviation);
+        const away = statsApiTeamAbbr(g.teams?.away?.team);
+        const home = statsApiTeamAbbr(g.teams?.home?.team);
         if (away && home) map.set(`${away}|${home}`, g.gamePk);
       }
     }

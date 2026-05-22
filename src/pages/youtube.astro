@@ -531,6 +531,11 @@ function seriesVideos(series: Series): QueueVideo[] {
     @media (min-width: 720px) {
       .recap-grid { grid-template-columns: 1fr 1fr; }
     }
+    @media (min-width: 1000px) {
+      .recap-grid:has(> .recap-tile:nth-child(3):last-child) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
     .recap-tile {
       background: var(--paper);
       border: var(--border);
