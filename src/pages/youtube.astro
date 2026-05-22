@@ -547,6 +547,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
+      container-type: inline-size;
       transition: transform 0.05s ease, box-shadow 0.05s ease;
     }
     .recap-tile:hover {
@@ -591,6 +592,17 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-size: 0.65rem;
       color: #888;
       letter-spacing: 0.06em;
+    }
+    @container (max-width: 430px) {
+      .recap-team-name { display: none; }
+      .recap-team-abbr {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 0.85rem;
+        line-height: 1.15;
+        color: var(--ink);
+        letter-spacing: 0;
+      }
     }
     .recap-score {
       font-family: 'Permanent Marker', cursive;
