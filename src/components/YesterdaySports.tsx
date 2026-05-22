@@ -4,6 +4,7 @@ import {
   buildTeamLookup,
   fetchEventsForLeagues,
   fetchMlbGamePks,
+  fetchWnbaGameIds,
   getRelevantLeagues,
   isNbaPlayoff,
   isoDateInPT,
@@ -79,9 +80,14 @@ export default function YesterdaySports() {
       const ymd = yyyymmddInPT(yesterday);
       const iso = isoDateInPT(yesterday);
 
-      const [results, mlbGamePks] = await Promise.all([
+      const [results, mlbGamePks, wnbaGameIds] = await Promise.all([
         fetchEventsForLeagues(leagues, ymd),
-        leagues.has("baseball/mlb") ? fetchMlbGamePks(iso) : Promise.resolve(new Map<string, number>()),
+        leagues.has("baseball/mlb")
+          ? fetchMlbGamePks(iso)
+          : Promise.resolve(new Map<string, number>()),
+        leagues.has("basketball/wnba")
+          ? fetchWnbaGameIds()
+          : Promise.resolve(new Map<string, string>()),
       ]);
 
       const next: YesterdayGame[] = [];
@@ -108,7 +114,9 @@ export default function YesterdaySports() {
             league,
             awayAbbr: awaySide.abbr,
             homeAbbr: homeSide.abbr,
+            isoDate: iso,
             mlbGamePks,
+            wnbaGameIds,
           });
 
           const statusText =

@@ -168,6 +168,42 @@ export async function fetchMlbGamePks(
   }
 }
 
+// ── WNBA gameId lookup ──────────────────────────────────────────────────────
+// wnba.com/game/{gameId} is the most specific watch URL. The static schedule
+// CDN exposes a `gameCode` like "20260521/GSVNYL" — date + away triCode +
+// home triCode. We map ESPN's 2-letter abbreviations to WNBA's 3-letter
+// triCodes so a lookup against the schedule succeeds.
+
+const ESPN_TO_WNBA_TRI: Record<string, string> = {
+  CONN: "CON",
+  GS: "GSV",
+  LV: "LVA",
+  LA: "LAS",
+  NY: "NYL",
+  WSH: "WAS",
+};
+
+export function espnToWnbaTri(abbr: string | undefined): string {
+  const up = (abbr || "").toUpperCase();
+  return ESPN_TO_WNBA_TRI[up] || up;
+}
+
+/**
+ * Returns a Map keyed by gameCode ("20260521/GSVNYL") → gameId. The
+ * upstream WNBA CDN doesn't send CORS headers, so we hit our own proxy
+ * at `/api/wnba-schedule` which mirrors the data with CORS + caching.
+ */
+export async function fetchWnbaGameIds(): Promise<Map<string, string>> {
+  try {
+    const res = await fetch("/api/wnba-schedule");
+    if (!res.ok) return new Map();
+    const j: Record<string, string> = await res.json();
+    return new Map(Object.entries(j));
+  } catch {
+    return new Map();
+  }
+}
+
 // ── Watch links ─────────────────────────────────────────────────────────────
 
 export interface WatchTarget {
@@ -179,7 +215,9 @@ export function watchRecordingUrl(opts: {
   league: string;
   awayAbbr?: string;
   homeAbbr?: string;
+  isoDate?: string; // YYYY-MM-DD, used for NBA daily listing + WNBA gameCode
   mlbGamePks?: Map<string, number>;
+  wnbaGameIds?: Map<string, string>;
 }): WatchTarget {
   if (opts.league === "baseball/mlb") {
     const key = `${(opts.awayAbbr || "").toUpperCase()}|${(opts.homeAbbr || "").toUpperCase()}`;
@@ -190,9 +228,27 @@ export function watchRecordingUrl(opts: {
     return { href: "https://www.mlb.com/tv", label: "MLB.tv" };
   }
   if (opts.league === "basketball/nba") {
-    return { href: "https://www.nba.com/watch", label: "League Pass" };
+    if (opts.isoDate) {
+      return {
+        href: `https://www.nba.com/games?date=${opts.isoDate}`,
+        label: "League Pass",
+      };
+    }
+    return { href: "https://www.nba.com/games", label: "League Pass" };
   }
   if (opts.league === "basketball/wnba") {
+    if (opts.isoDate && opts.wnbaGameIds) {
+      const awayTri = espnToWnbaTri(opts.awayAbbr);
+      const homeTri = espnToWnbaTri(opts.homeAbbr);
+      const code = `${opts.isoDate.replace(/-/g, "")}/${awayTri}${homeTri}`;
+      const gameId = opts.wnbaGameIds.get(code);
+      if (gameId) {
+        return {
+          href: `https://www.wnba.com/game/${gameId}`,
+          label: "WNBA League Pass",
+        };
+      }
+    }
     return {
       href: "https://www.wnba.com/league-pass-stream/",
       label: "WNBA League Pass",
