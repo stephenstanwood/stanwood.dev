@@ -116,8 +116,8 @@ export default function TodaySports() {
 
   return (
     <section className="schedule-section" aria-label="Today's sports">
-      <h2 className="schedule-title">today</h2>
       <div className="schedule-row">
+        <span className="schedule-leader">today ·</span>
         {games.map((g) => (
           <span
             key={g.id}

@@ -158,8 +158,8 @@ export default function YesterdaySports() {
   if (!ready || games.length === 0) return null;
 
   return (
-    <section className="recap-section" aria-label="Yesterday's sports">
-      <h2 className="section-title">yesterday</h2>
+    <section className="recap-section" aria-label="Sports">
+      <h2 className="section-title">sports</h2>
       <div className="recap-grid">
         {games.map((g) => (
           <a

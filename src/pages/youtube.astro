@@ -407,6 +407,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       margin: 0 0 2rem;
     }
     .page-head h1 { margin: 0; }
+    .page-head.launchers-only { justify-content: flex-end; margin: 0 0 1.5rem; }
     .corner-launchers {
       display: flex;
       gap: 1rem;
@@ -612,42 +613,42 @@ function seriesVideos(series: Series): QueueVideo[] {
     .recap-final { font-weight: 700; color: #444; }
     .recap-watch { font-weight: 700; color: var(--cool); }
 
-    /* Today schedule chips — stacked, right-aligned column */
+    /* Today schedule strip — small horizontal row under yesterday tiles */
     .schedule-section {
-      margin: 0 0 2rem;
-      text-align: right;
-    }
-    .schedule-title {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 1.4rem;
-      margin: 0 0 0.6rem;
-      letter-spacing: -0.01em;
+      margin: -1.25rem 0 2.5rem;
     }
     .schedule-row {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .schedule-leader {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.95rem;
+      color: #555;
+      letter-spacing: 0.02em;
+      margin-right: 0.15rem;
     }
     .schedule-chip {
       display: inline-flex;
       align-items: center;
-      gap: 0.55rem;
-      padding: 0.35rem 0.7rem 0.35rem 0.55rem;
+      gap: 0.45rem;
+      padding: 0.25rem 0.55rem 0.25rem 0.45rem;
       background: var(--paper);
       border: 2px solid var(--ink);
-      border-left-width: 5px;
+      border-left-width: 4px;
       font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
     .schedule-teams {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       font-weight: 700;
     }
     .schedule-at { color: #999; font-weight: 400; }
-    .schedule-time { color: #555; font-size: 0.72rem; letter-spacing: 0.04em; }
+    .schedule-time { color: #555; font-size: 0.7rem; letter-spacing: 0.03em; }
     .schedule-time.live {
       color: var(--hot);
       font-weight: 700;
@@ -674,8 +675,7 @@ function seriesVideos(series: Series): QueueVideo[] {
   </div>
   <div class="wrap">
     <LiveGamesStrip client:only="react" />
-    <div class="page-head">
-      <h1>queue</h1>
+    <div class="page-head launchers-only">
       <div class="corner-launchers" aria-label="quick launchers">
         <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -721,8 +721,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       </div>
     </div>
 
-    <TodaySports client:only="react" />
     <YesterdaySports client:only="react" />
+    <TodaySports client:only="react" />
 
     {data.queue.length === 0 && (
       <div class="empty">
