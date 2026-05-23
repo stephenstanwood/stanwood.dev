@@ -520,21 +520,22 @@ function seriesVideos(series: Series): QueueVideo[] {
       .live-chip-platform { display: none; }
     }
 
-    /* Sports section (yesterday recap tiles + today strip together) */
+    /* Sports section (live recap tiles + yesterday recap tiles + today strip) */
     .sports-section { margin: 0 0 2.5rem; }
+    .sports-recap-shell,
     .recap-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 1rem;
       margin-bottom: 0.85rem;
     }
-    @media (min-width: 720px) {
-      .recap-grid { grid-template-columns: 1fr 1fr; }
+    .sports-recap-shell > astro-island,
+    .sports-recap-shell .recap-grid {
+      display: contents;
     }
-    @media (min-width: 1000px) {
-      .recap-grid:has(> .recap-tile:nth-child(3):last-child) {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
+    @media (min-width: 720px) {
+      .sports-recap-shell,
+      .recap-grid { grid-template-columns: 1fr 1fr; }
     }
     .recap-tile {
       background: var(--paper);
@@ -664,8 +665,10 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-size: 0.8rem;
       text-decoration: none;
       color: var(--ink);
-      margin-bottom: 1rem;
       transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+    .sports-recap-shell .big-inning-pill {
+      grid-column: 1 / -1;
     }
     .big-inning-pill:hover {
       transform: translate(-1px, -1px);
@@ -799,8 +802,10 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     <section class="sports-section" aria-label="Sports">
       <h2 class="section-title">sports</h2>
-      <LiveSports client:only="react" />
-      <YesterdaySports client:only="react" />
+      <div class="sports-recap-shell">
+        <LiveSports client:only="react" />
+        <YesterdaySports client:only="react" />
+      </div>
       <TodaySports client:only="react" />
     </section>
 

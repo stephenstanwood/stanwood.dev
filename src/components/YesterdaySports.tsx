@@ -6,7 +6,9 @@ import {
   fetchMlbGamePks,
   fetchWnbaGameIds,
   getRelevantLeagues,
+  isLatestStartedEventForTrackedTeams,
   isNbaPlayoff,
+  latestStartedAtByTrackedTeam,
   isoDateInPT,
   matchUserTeam,
   readUserTeamKeys,
@@ -102,6 +104,14 @@ export default function YesterdaySports() {
           ? fetchWnbaGameIds()
           : Promise.resolve(new Map<string, string>()),
       ]);
+      const latestStartedAtByTeam = latestStartedAtByTrackedTeam(
+        dayResults.flatMap(({ results }) =>
+          results.flatMap(({ league, events }) =>
+            events.map((event) => ({ league, event })),
+          ),
+        ),
+        lookup,
+      );
 
       const next: YesterdayGame[] = [];
       const seen = new Set<string>();
@@ -109,6 +119,16 @@ export default function YesterdaySports() {
         for (const { league, events } of results) {
           for (const ev of events) {
             if (!isFinal(ev)) continue;
+            if (
+              !isLatestStartedEventForTrackedTeams(
+                ev,
+                league,
+                lookup,
+                latestStartedAtByTeam,
+              )
+            ) {
+              continue;
+            }
             const matched = matchUserTeam(ev, league, lookup);
             const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
             if (!matched && !playoff) continue;

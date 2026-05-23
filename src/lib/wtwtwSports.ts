@@ -80,6 +80,19 @@ export function isNbaPlayoff(ev: ESPNEvent): boolean {
   return false;
 }
 
+export function eventStartSortKey(ev: ESPNEvent): number {
+  const ms = Date.parse(ev.date);
+  return Number.isFinite(ms) ? ms : 0;
+}
+
+export function eventHasStarted(ev: ESPNEvent): boolean {
+  const t = ev.competitions?.[0]?.status?.type;
+  if (t?.completed) return true;
+  if (t?.state === "in" || t?.state === "post") return true;
+  if ((t?.name || "").includes("IN_PROGRESS")) return true;
+  return false;
+}
+
 export function broadcastsOf(ev: ESPNEvent): string[] {
   const out: string[] = [];
   for (const b of ev.competitions?.[0]?.broadcasts || []) {
@@ -93,13 +106,77 @@ export function matchUserTeam(
   league: string,
   lookup: Map<string, TeamEntry>,
 ): TeamEntry | null {
+  return matchUserTeams(ev, league, lookup)[0] || null;
+}
+
+export function matchUserTeams(
+  ev: ESPNEvent,
+  league: string,
+  lookup: Map<string, TeamEntry>,
+): TeamEntry[] {
+  const out: TeamEntry[] = [];
+  const seen = new Set<string>();
   const cs = ev.competitions?.[0]?.competitors || [];
   for (const c of cs) {
     const abbr = (c.team?.abbreviation || "").toUpperCase();
     const t = lookup.get(`${league}|${abbr}`);
-    if (t) return t;
+    if (t && !seen.has(t.key)) {
+      seen.add(t.key);
+      out.push(t);
+    }
   }
-  return null;
+  return out;
+}
+
+export function trackedEventTeamKeys(
+  ev: ESPNEvent,
+  league: string,
+  lookup: Map<string, TeamEntry>,
+): string[] {
+  const out = new Set<string>();
+  for (const t of matchUserTeams(ev, league, lookup)) out.add(t.key);
+
+  if (league === "basketball/nba" && isNbaPlayoff(ev)) {
+    for (const c of ev.competitions?.[0]?.competitors || []) {
+      const abbr = (c.team?.abbreviation || "").toUpperCase();
+      if (abbr) out.add(`${league}|${abbr}`);
+    }
+  }
+
+  return [...out];
+}
+
+export function latestStartedAtByTrackedTeam(
+  games: Iterable<{ league: string; event: ESPNEvent }>,
+  lookup: Map<string, TeamEntry>,
+): Map<string, number> {
+  const latest = new Map<string, number>();
+  for (const { league, event } of games) {
+    if (!eventHasStarted(event)) continue;
+    const startSortKey = eventStartSortKey(event);
+    if (!startSortKey) continue;
+
+    for (const key of trackedEventTeamKeys(event, league, lookup)) {
+      const prev = latest.get(key) || 0;
+      if (startSortKey > prev) latest.set(key, startSortKey);
+    }
+  }
+  return latest;
+}
+
+export function isLatestStartedEventForTrackedTeams(
+  ev: ESPNEvent,
+  league: string,
+  lookup: Map<string, TeamEntry>,
+  latestStartedAtByTeam: Map<string, number>,
+): boolean {
+  const keys = trackedEventTeamKeys(ev, league, lookup);
+  const startSortKey = eventStartSortKey(ev);
+  return (
+    keys.length > 0 &&
+    startSortKey > 0 &&
+    keys.every((key) => latestStartedAtByTeam.get(key) === startSortKey)
+  );
 }
 
 /** YYYYMMDD for ESPN, computed in Pacific Time. */
