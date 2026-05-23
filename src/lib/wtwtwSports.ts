@@ -1,4 +1,4 @@
-// Shared helpers for the /youtube sports rails (yesterday recap + today schedule).
+// Shared helpers for the /tv sports rails (yesterday recap + today schedule).
 // Pulls user team prefs from WTWTW localStorage, fans out to ESPN scoreboards,
 // and resolves watch-recording links per league.
 

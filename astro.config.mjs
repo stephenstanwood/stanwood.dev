@@ -9,6 +9,12 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://stanwood.dev',
   trailingSlash: 'never',
+  redirects: {
+    '/youtube': {
+      status: 301,
+      destination: '/tv',
+    },
+  },
   output: 'static',
   adapter: vercel(),
   integrations: [react(), sitemap()],
