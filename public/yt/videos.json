@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-22T10:30:05.288038+00:00",
+  "built_at": "2026-05-23T10:30:09.407972+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -131,21 +131,19 @@
       ]
     },
     {
-      "key": "CS230",
-      "is_single": false,
-      "display_name": "CS230",
+      "key": "__single__LRGX-gTegVA",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
       "best_score": 10,
-      "video_count": 3,
+      "video_count": 1,
       "video_ids": [
-        "k1njvbBmfsw",
-        "AuZoDsNmG_s",
-        "Ozb1AR_F5MU"
+        "LRGX-gTegVA"
       ]
     },
     {
       "key": "__single__ODj7ndsKnts",
       "is_single": true,
-      "display_name": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
       "best_score": 10,
       "video_count": 1,
       "video_ids": [
@@ -226,6 +224,17 @@
         "WUUq6TVAu8U",
         "HpFdSlMeXzQ",
         "IvXTl3yj-4Y"
+      ]
+    },
+    {
+      "key": "CS230",
+      "is_single": false,
+      "display_name": "CS230",
+      "best_score": 4,
+      "video_count": 2,
+      "video_ids": [
+        "AuZoDsNmG_s",
+        "Ozb1AR_F5MU"
       ]
     },
     {
@@ -1484,62 +1493,28 @@
       "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 13th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Using SwiftData to make an app's data persistent. Shows how to convert a Model from structs to @Model classes. Explains the "
     },
     {
-      "id": "k1njvbBmfsw",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 8: Agents, Prompts, and RAG",
-      "url": "https://www.youtube.com/watch?v=k1njvbBmfsw",
-      "duration": 6594.0,
-      "published_at": "2025-11-21T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 8,
+      "id": "LRGX-gTegVA",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
+      "url": "https://www.youtube.com/watch?v=LRGX-gTegVA",
+      "duration": 2890.0,
+      "published_at": "2026-05-22T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
+      "lecture_num": null,
       "score": 10,
       "categories": [
-        "applied_ai",
-        "swe_career",
-        "series:CS230"
+        "hci"
       ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 11, 2025\nThis lecture covers agents, prompts, and RAG. \n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/syllabus/"
-    },
-    {
-      "id": "AuZoDsNmG_s",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI",
-      "url": "https://www.youtube.com/watch?v=AuZoDsNmG_s",
-      "duration": 6309.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 9,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 18, 2025\nThis lecture covers career advice and a guest speaker.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/s"
-    },
-    {
-      "id": "Ozb1AR_F5MU",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 10: What\u2019s Going On Inside My Model?",
-      "url": "https://www.youtube.com/watch?v=Ozb1AR_F5MU",
-      "duration": 6414.0,
-      "published_at": "2025-12-15T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 10,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nDecember 2, 2025\nThis lecture covers what's happening inside your model and provides a class wrap-up.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus:"
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nThis seminar covers intelligence and unlocking enterprise internal knowledge.\n\nGuest speaker: Yash Patil, CEO of Applied Compute\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science a"
     },
     {
       "id": "ODj7ndsKnts",
-      "title": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
       "url": "https://www.youtube.com/watch?v=ODj7ndsKnts",
       "duration": 2053.0,
       "published_at": "2026-05-20T00:00:00+00:00",
       "series": null,
-      "series_display": "Stanford MS&E435 | Spring 2026 | Economics of Generative AI",
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
       "lecture_num": null,
       "score": 10,
       "categories": [
@@ -2162,6 +2137,38 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:45 Training lifecycle overview\n00:10:39 Loss parameterization\n00:16:08 Timestep sampling\n00:22:27 Logit normal distribution\n00:25:44 Sampling shi"
+    },
+    {
+      "id": "AuZoDsNmG_s",
+      "title": "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI",
+      "url": "https://www.youtube.com/watch?v=AuZoDsNmG_s",
+      "duration": 6309.0,
+      "published_at": "2025-12-17T00:00:00+00:00",
+      "series": "CS230",
+      "series_display": "CS230",
+      "lecture_num": 9,
+      "score": 4,
+      "categories": [
+        "swe_career",
+        "series:CS230"
+      ],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 18, 2025\nThis lecture covers career advice and a guest speaker.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/s"
+    },
+    {
+      "id": "Ozb1AR_F5MU",
+      "title": "Stanford CS230 | Autumn 2025 | Lecture 10: What\u2019s Going On Inside My Model?",
+      "url": "https://www.youtube.com/watch?v=Ozb1AR_F5MU",
+      "duration": 6414.0,
+      "published_at": "2025-12-15T00:00:00+00:00",
+      "series": "CS230",
+      "series_display": "CS230",
+      "lecture_num": 10,
+      "score": 4,
+      "categories": [
+        "swe_career",
+        "series:CS230"
+      ],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nDecember 2, 2025\nThis lecture covers what's happening inside your model and provides a class wrap-up.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus:"
     },
     {
       "id": "8fNP4N46RRo",
