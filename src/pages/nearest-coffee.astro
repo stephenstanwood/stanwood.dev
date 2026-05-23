@@ -1367,6 +1367,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         initGeolocation,
         requestGeolocation,
       } from "../lib/nearbyUtils";
+      import { esc } from "../lib/htmlUtils";
 
       type CoffeeShop = {
         id: string;
@@ -1414,14 +1415,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       function render(html: string) {
         app.innerHTML = html;
-      }
-
-      function esc(s: string) {
-        return s
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
       }
 
       function parseDistance(meters: number): { value: string; unit: string } {
