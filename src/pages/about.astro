@@ -765,6 +765,147 @@ try {
       margin-top: 12px;
     }
 
+    /* ── Pipeline section ── */
+    .pipeline-section {
+      margin-bottom: 36px;
+    }
+
+    .pipeline-heading {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      margin-bottom: 6px;
+      border-bottom: 3px solid var(--ink);
+      padding-bottom: 6px;
+      display: inline-block;
+    }
+
+    .pipeline-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.5;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    .pipeline-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .pipeline-step {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 0;
+      border: 2px solid var(--ink);
+      background: #fff;
+      box-shadow: 3px 3px 0 var(--ink);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .pipeline-step:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .pipeline-step-bar {
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .pipeline-step--idea .pipeline-step-bar { background: #1a4fff; }
+    .pipeline-step--sketch .pipeline-step-bar { background: #111; }
+    .pipeline-step--proto .pipeline-step-bar { background: #1db842; }
+    .pipeline-step--polish .pipeline-step-bar { background: #ff3aac; }
+    .pipeline-step--ship .pipeline-step-bar { background: var(--orange); }
+
+    .pipeline-step-num {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 22px;
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .pipeline-step-time {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    .pipeline-step-body {
+      padding: 14px 16px 16px;
+      position: relative;
+      background: #fff;
+    }
+
+    .pipeline-step--idea .pipeline-step-body { background: #f4f8ff; }
+    .pipeline-step--proto .pipeline-step-body { background: #ecf9ec; }
+    .pipeline-step--polish .pipeline-step-body { background: #fff0f6; }
+    .pipeline-step--ship .pipeline-step-body { background: #fff0e0; }
+
+    .pipeline-step-emoji {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 18px;
+      line-height: 1;
+      opacity: 0.85;
+    }
+
+    .pipeline-step-rule {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 17px;
+      line-height: 1.2;
+      margin: 0 0 4px;
+      padding-right: 28px;
+    }
+
+    .pipeline-step-text {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--ink);
+      opacity: 0.78;
+      margin: 0;
+    }
+
+    .pipeline-step-text a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .pipeline-step-text a:hover {
+      color: var(--orange);
+    }
+
+    .pipeline-foot {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      opacity: 0.55;
+      margin-top: 14px;
+      text-align: center;
+      line-height: 1.55;
+    }
+
     /* ── Lessons section ── */
     .lessons-section {
       margin-bottom: 36px;
@@ -881,6 +1022,9 @@ try {
       .numbers-grid { grid-template-columns: 1fr 1fr; }
       .numbers-figure { font-size: 26px; }
       .numbers-figure--text { font-size: 14px; }
+      .pipeline-step { grid-template-columns: 64px 1fr; }
+      .pipeline-step-num { font-size: 18px; }
+      .pipeline-step-rule { font-size: 16px; }
     }
   </style>
 
@@ -1142,6 +1286,75 @@ try {
         <span class="stack-badge">ESPN API</span>
         <span class="stack-badge">Google Places</span>
       </div>
+    </div>
+
+    <div class="pipeline-section">
+      <h2 class="pipeline-heading">From idea to live</h2>
+      <p class="pipeline-sub">how a project actually ships here · five stages, usually one evening</p>
+
+      <ol class="pipeline-list">
+        <li class="pipeline-step pipeline-step--idea">
+          <div class="pipeline-step-bar">
+            <span class="pipeline-step-num">01</span>
+            <span class="pipeline-step-time">~5 min</span>
+          </div>
+          <div class="pipeline-step-body">
+            <span class="pipeline-step-emoji" aria-hidden="true">🧠</span>
+            <p class="pipeline-step-rule">Spot it in the wild.</p>
+            <p class="pipeline-step-text">Best ideas show up waiting somewhere — pool deck, coffee line, stuck in a meeting. Voice memo before it evaporates. If it doesn't survive the night, it wasn't the one.</p>
+          </div>
+        </li>
+
+        <li class="pipeline-step pipeline-step--sketch">
+          <div class="pipeline-step-bar">
+            <span class="pipeline-step-num">02</span>
+            <span class="pipeline-step-time">~20 min</span>
+          </div>
+          <div class="pipeline-step-body">
+            <span class="pipeline-step-emoji" aria-hidden="true">✏️</span>
+            <p class="pipeline-step-rule">Describe it to Claude.</p>
+            <p class="pipeline-step-text">A 200-word brief in <a href="https://claude.ai/claude-code">Claude Code</a>: what it does, who it's for, the smallest version that proves the idea. A scaffold lands before the coffee finishes brewing.</p>
+          </div>
+        </li>
+
+        <li class="pipeline-step pipeline-step--proto">
+          <div class="pipeline-step-bar">
+            <span class="pipeline-step-num">03</span>
+            <span class="pipeline-step-time">1–2 hrs</span>
+          </div>
+          <div class="pipeline-step-body">
+            <span class="pipeline-step-emoji" aria-hidden="true">⚙️</span>
+            <p class="pipeline-step-rule">Wire the real data.</p>
+            <p class="pipeline-step-text">Swap placeholder mocks for the actual API — ESPN, Google Places, Claude, whatever the page actually needs. Until live data flows on the localhost screen, polish is a distraction.</p>
+          </div>
+        </li>
+
+        <li class="pipeline-step pipeline-step--polish">
+          <div class="pipeline-step-bar">
+            <span class="pipeline-step-num">04</span>
+            <span class="pipeline-step-time">2–3 hrs</span>
+          </div>
+          <div class="pipeline-step-body">
+            <span class="pipeline-step-emoji" aria-hidden="true">🎨</span>
+            <p class="pipeline-step-rule">One font, two borrowed colors.</p>
+            <p class="pipeline-step-text">Vibe comes last and lands fast. Palette and font usually steal from one specific reference — a vintage matchbook, a Penguin paperback, a Memphis ad. Mobile breakpoint is the final check, not the first.</p>
+          </div>
+        </li>
+
+        <li class="pipeline-step pipeline-step--ship">
+          <div class="pipeline-step-bar">
+            <span class="pipeline-step-num">05</span>
+            <span class="pipeline-step-time">~5 min</span>
+          </div>
+          <div class="pipeline-step-body">
+            <span class="pipeline-step-emoji" aria-hidden="true">🚀</span>
+            <p class="pipeline-step-rule">Push, deploy, share with one person.</p>
+            <p class="pipeline-step-text">git push, Vercel takes 45 seconds. Open the live URL on my phone, send it to exactly one person, watch how they hold the screen. The next morning's first task is whatever they tripped on.</p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="pipeline-foot">Total: usually four to six hours, one or two evenings. The shipped version is rarely the one I described in step two — the trick is starting before that bothers me.</p>
     </div>
 
     {siteStats && (
