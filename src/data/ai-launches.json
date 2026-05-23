@@ -12,7 +12,7 @@
     "org": "Google",
     "date": "2026-05-20",
     "type": "tool",
-    "summary": "Google Labs' AI-native UI design tool gets 'vibe design' — a real-time streaming agent that renders components onto an infinite canvas as you type or speak, plus multiplayer editing; voice input lets you say 'show me three menu options' and watch the canvas respond; free, no credit card, runs on Gemini 2.5 Flash/Pro",
+    "summary": "Google Labs' AI-native UI design tool gets 'vibe design' — a real-time streaming agent that renders components onto an infinite canvas as you type or speak, plus multiplayer editing and voice input for quick design exploration",
     "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/"
   },
   {
@@ -20,7 +20,7 @@
     "org": "Google",
     "date": "2026-05-19",
     "type": "tool",
-    "summary": "Google's new agent-first dev platform unveiled at I/O — standalone desktop app for orchestrating parallel agents, Go-based CLI, SDK, and Managed Agents in the Gemini API that spin up isolated Linux sandboxes in one call; scheduled tasks turn agents into persistent background pipelines, native Android app generation from a prompt, and Google Play Console publishing baked into AI Studio; $100/mo AI Ultra plan adds 5x usage limits",
+    "summary": "Google's agent-first dev platform expands into a broader toolkit — a desktop app for orchestrating parallel agents, a CLI, an SDK, and managed agent workflows for building and running longer software tasks",
     "url": "https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/"
   },
   {
@@ -36,7 +36,7 @@
     "org": "Cursor",
     "date": "2026-05-18",
     "type": "model",
-    "summary": "Cursor's in-house coding model — matches Claude Opus 4.7 and GPT-5.5 on SWE-Bench Multilingual at $0.50/M input tokens, roughly a tenth of Anthropic's pricing; built for long tool-heavy sessions across files, terminal, and tests; included usage doubled the first week post-launch (~May 25)",
+    "summary": "Cursor's in-house coding model is aimed at long, tool-heavy sessions across files, terminal, and tests; the pitch is frontier-style coding performance at a lower cost inside the editor where Cursor already has context",
     "url": "https://devtoolpicks.com/blog/cursor-composer-2-5-launch-indie-hackers-2026"
   },
   {
@@ -44,7 +44,7 @@
     "org": "OpenAI",
     "date": "2026-05-14",
     "type": "tool",
-    "summary": "Codex lands in the ChatGPT mobile app on iOS and Android — kick off coding tasks, review diffs, redirect runs, and approve agent actions from your phone while Codex executes on a connected Mac; preview across all plans including free, with 4M+ weekly Codex users",
+    "summary": "Codex lands in the ChatGPT mobile app on iOS and Android — kick off coding tasks, review diffs, redirect runs, and approve agent actions from your phone while Codex works against a connected development machine",
     "url": "https://techcrunch.com/2026/05/14/openai-says-codex-is-coming-to-your-phone/"
   },
   {

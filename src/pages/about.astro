@@ -1,1499 +1,617 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { execSync } from "node:child_process";
-import { MS_PER_DAY, daysSince } from "../lib/time";
 
-// ── Recently shipped: pulled from git log at build time ────────────
-type Ship = {
-  hash: string;
-  project: string;
-  message: string;
-  date: string;       // ISO
-  iso: string;        // YYYY-MM-DD
-  href: string | null;
-  emoji: string;
-  display: string;
-};
+const featuredWork = [
+  {
+    href: "https://southbaysignal.org",
+    label: "Local",
+    title: "South Bay Signal",
+    description: "Local news, events, and useful civic information for the South Bay.",
+  },
+  {
+    href: "https://nbanow.app",
+    label: "Sports",
+    title: "NBA Now",
+    description: "The best NBA game to watch right now, ranked live so you do not have to channel surf.",
+  },
+  {
+    href: "/radar",
+    label: "AI",
+    title: "AI Radar",
+    description: "A short daily read on what changed in AI and whether it is worth your time.",
+  },
+  {
+    href: "/green-light",
+    label: "Food",
+    title: "Green Light",
+    description: "A taste quiz that helps you pick what to order at a nearby restaurant.",
+  },
+];
 
-// Project key → public link, emoji, and display name
-const PROJECT_META: Record<string, { href: string | null; emoji: string; display: string }> = {
-  "pixel-tide":      { href: "/pixel-tide",       emoji: "🌊", display: "Pixel Tide" },
-  "pixel-aquarium":  { href: "/pixel-aquarium",   emoji: "🐠", display: "Pixel Aquarium" },
-  "mlb-gamerank":    { href: "/mlb-gamerank",     emoji: "⚾", display: "MLB GameRank" },
-  "swim":            { href: "/swim",             emoji: "🏊", display: "Lap Lab" },
-  "ship-clock":      { href: "/ship-clock",       emoji: "🕒", display: "Ship Clock" },
-  "which-model":     { href: "/which-model",      emoji: "🧠", display: "Which Model?" },
-  "driverless":      { href: "/driverless",       emoji: "🚗", display: "Driverless" },
-  "campbell":        { href: "/campbell",         emoji: "🏛️", display: "Campbell, CA" },
-  "wtwtw":           { href: "/wtwtw",            emoji: "📺", display: "WTWTW" },
-  "nearest-coffee":  { href: "/nearest-coffee",   emoji: "☕", display: "Nearest Coffee" },
-  "green-light":     { href: "/green-light",      emoji: "🟢", display: "Green Light" },
-  "museum-label":    { href: "/museum-label",     emoji: "🔖", display: "Museum Label" },
-  "tldr":            { href: "/tldr",             emoji: "📄", display: "TL;DR" },
-  "redesign-rolodex":{ href: "/redesign-rolodex", emoji: "🎰", display: "Redesign Rolodex" },
-  "show-swipe":      { href: "/show-swipe",       emoji: "🍿", display: "Show Swipe" },
-  "nba-now":         { href: "https://nbanow.app", emoji: "🏀", display: "NBA Now" },
-  "radar":           { href: "/radar",            emoji: "📡", display: "AI Radar" },
-  "about":           { href: "/about",            emoji: "👤", display: "About" },
-  "shop":            { href: "/shop",             emoji: "🛍️", display: "Shop" },
-  "youtube":         { href: null,                emoji: "📺", display: "TV Queue" },
-  "money":           { href: null,                emoji: "💰", display: "Money" },
-  "index":           { href: "/",                 emoji: "🏠", display: "Homepage" },
-  "home":            { href: "/",                 emoji: "🏠", display: "Homepage" },
-  "homepage":        { href: "/",                 emoji: "🏠", display: "Homepage" },
-};
-
-// Skip non-project commits
-const SKIP_PREFIXES = /^(chore|daily cleanup|data|fix|refactor|docs|test|build|ci|style|deps|deps-dev):/i;
-
-let recentShips: Ship[] = [];
-try {
-  const raw = execSync("git log --pretty=format:%h%x09%s%x09%cI -n 200", {
-    cwd: process.cwd(),
-    encoding: "utf-8",
-    timeout: 5000,
-  });
-
-  const seenProjects = new Set<string>();
-  for (const line of raw.split("\n")) {
-    const [hash, subject, iso] = line.split("\t");
-    if (!hash || !subject || !iso) continue;
-    if (SKIP_PREFIXES.test(subject)) continue;
-    // Strip trailing "(#123)" PR refs
-    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
-    const m = cleanSubject.match(/^([a-z0-9-]+):\s*(.+)$/i);
-    if (!m) continue;
-    const project = m[1].toLowerCase();
-    const message = m[2].trim();
-    const meta = PROJECT_META[project];
-    if (!meta) continue;
-    // Limit to one entry per project so the feed shows breadth, not just the last project touched
-    if (seenProjects.has(project)) continue;
-    seenProjects.add(project);
-    recentShips.push({
-      hash,
-      project,
-      message,
-      date: iso,
-      iso: iso.slice(0, 10),
-      href: meta.href,
-      emoji: meta.emoji,
-      display: meta.display,
-    });
-    if (recentShips.length >= 8) break;
-  }
-} catch {
-  // Build environment without git history → render section empty (gracefully hidden)
-  recentShips = [];
-}
-
-function relTime(iso: string): string {
-  const days = daysSince(iso);
-  if (days <= 0) return "today";
-  if (days === 1) return "yesterday";
-  if (days < 7) return `${days}d ago`;
-  if (days < 30) return `${Math.floor(days / 7)}w ago`;
-  if (days < 365) return `${Math.floor(days / 30)}mo ago`;
-  return `${Math.floor(days / 365)}y ago`;
-}
-
-// Stats: project count and ship count over last 30 days (from same log scan)
-let shipsLast30 = 0;
-let activeProjects = 0;
-try {
-  const raw = execSync("git log --pretty=format:%s%x09%cI -n 500 --since='30 days ago'", {
-    cwd: process.cwd(),
-    encoding: "utf-8",
-    timeout: 5000,
-  });
-  const projects = new Set<string>();
-  for (const line of raw.split("\n")) {
-    const [subject] = line.split("\t");
-    if (!subject) continue;
-    if (SKIP_PREFIXES.test(subject)) continue;
-    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
-    const m = cleanSubject.match(/^([a-z0-9-]+):\s*/i);
-    if (!m) continue;
-    const project = m[1].toLowerCase();
-    if (!PROJECT_META[project]) continue;
-    projects.add(project);
-    shipsLast30++;
-  }
-  activeProjects = projects.size;
-} catch {
-  shipsLast30 = 0;
-  activeProjects = 0;
-}
-
-// ── stanwood.dev by the numbers: all-time git stats ────────────────
-type SiteStats = {
-  totalShips: number;
-  daysSinceFirstShip: number;
-  projectsShipped: number;
-  topProject: { name: string; count: number; href: string | null; emoji: string } | null;
-  busiestMonth: { label: string; count: number } | null;
-  recentPerWeek: string;
-  recentDays: number;
-};
-
-let siteStats: SiteStats | null = null;
-try {
-  const raw = execSync("git log --pretty=format:%s%x09%cI -n 5000", {
-    cwd: process.cwd(),
-    encoding: "utf-8",
-    timeout: 5000,
-  });
-  const perProject = new Map<string, number>();
-  const perMonth = new Map<string, number>();
-  let firstMs: number | null = null;
-  let total = 0;
-  const RECENT_WINDOW_DAYS = 90;
-  const recentCutoff = Date.now() - RECENT_WINDOW_DAYS * MS_PER_DAY;
-  let recentCount = 0;
-  for (const line of raw.split("\n")) {
-    const [subject, iso] = line.split("\t");
-    if (!subject || !iso) continue;
-    if (SKIP_PREFIXES.test(subject)) continue;
-    const cleanSubject = subject.replace(/\s*\(#\d+\)\s*$/, "");
-    const m = cleanSubject.match(/^([a-z0-9-]+):\s*/i);
-    if (!m) continue;
-    const project = m[1].toLowerCase();
-    if (!PROJECT_META[project]) continue;
-    total++;
-    perProject.set(project, (perProject.get(project) ?? 0) + 1);
-    const monthKey = iso.slice(0, 7);
-    perMonth.set(monthKey, (perMonth.get(monthKey) ?? 0) + 1);
-    const t = new Date(iso).getTime();
-    if (firstMs === null || t < firstMs) firstMs = t;
-    if (t >= recentCutoff) recentCount++;
-  }
-  if (total > 0 && firstMs !== null) {
-    // Top-project leaderboard only features publicly-visible projects (href set).
-    // Private pages (youtube, money) ship often but aren't on the visitor's tour.
-    const topEntry = [...perProject.entries()]
-      .filter(([key]) => PROJECT_META[key]?.href != null)
-      .sort((a, b) => b[1] - a[1])[0];
-    const topMeta = topEntry ? PROJECT_META[topEntry[0]] : null;
-    const monthEntry = [...perMonth.entries()].sort((a, b) => b[1] - a[1])[0];
-    const monthLabel = monthEntry
-      ? new Date(monthEntry[0] + "-01T00:00:00Z").toLocaleString("en-US", {
-          month: "short",
-          year: "numeric",
-          timeZone: "UTC",
-        })
-      : null;
-    const days = Math.max(1, daysSince(firstMs));
-    siteStats = {
-      totalShips: total,
-      daysSinceFirstShip: days,
-      projectsShipped: perProject.size,
-      topProject:
-        topEntry && topMeta
-          ? { name: topMeta.display, count: topEntry[1], href: topMeta.href, emoji: topMeta.emoji }
-          : null,
-      busiestMonth: monthEntry && monthLabel ? { label: monthLabel, count: monthEntry[1] } : null,
-      recentPerWeek: ((recentCount / RECENT_WINDOW_DAYS) * 7).toFixed(1),
-      recentDays: RECENT_WINDOW_DAYS,
-    };
-  }
-} catch {
-  siteStats = null;
-}
+const elsewhere = [
+  { href: "mailto:stephen@stanwood.dev", label: "Email", value: "stephen@stanwood.dev" },
+  { href: "https://github.com/stephenstanwood", label: "GitHub", value: "stephenstanwood" },
+  { href: "https://www.linkedin.com/in/stephenstanwood", label: "LinkedIn", value: "stephenstanwood" },
+];
 ---
 
 <BaseLayout
-  title="About Stephen Stanwood — stanwood.dev"
-  description="Builder and designer in Campbell, California. Makes apps, games, and tools that solve small everyday problems or just look cool. Shipping fast and keeping it fun."
+  title="Stephen Stanwood — About"
+  description="Stephen Stanwood is a builder in Campbell, California. He makes small, useful web tools for local information, sports, food, and everyday decisions."
   slug="about"
-  themeColor="#fffef5"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+  themeColor="#faf7ed"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;650;700&display=swap"
   schemaType="WebSite"
   schemaName="Stephen Stanwood"
 >
   <style is:global>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #fffef5;
-      --ink: #111;
-      --yellow: #f5e642;
-      --orange: #ff5c1a;
-      --blue: #1a4fff;
-      --pixel: 3px;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    html { scroll-behavior: smooth; }
+    :root {
+      --about-paper: #faf7ed;
+      --about-ink: #171511;
+      --about-muted: #6f6a5f;
+      --about-line: #d8d0bf;
+      --about-panel: #fffdf6;
+      --about-gold: #e9c46a;
+      --about-green: #55745d;
+      --about-blue: #244f8f;
+    }
 
     body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Cabin', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
+      background: var(--about-paper);
+      color: var(--about-ink);
+      font-family: "Cabin", system-ui, sans-serif;
+      font-size: 17px;
+      line-height: 1.65;
       overflow-x: hidden;
     }
 
-    .about-wrap {
-      max-width: 640px;
+    a {
+      color: inherit;
+    }
+
+    .about-page {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(216, 208, 191, 0.32) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(216, 208, 191, 0.26) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .about-shell {
+      width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 48px 24px 80px;
+      padding: 28px 0 72px;
     }
 
-    .about-header {
-      background: var(--yellow);
-      border: var(--pixel) solid var(--ink);
-      box-shadow: 6px 6px 0 var(--ink);
-      padding: 32px;
-      margin-bottom: 40px;
-    }
-
-    .about-header h1 {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 36px;
-      line-height: 1.2;
-      margin-bottom: 8px;
-    }
-
-    .about-header .subtitle {
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      opacity: 0.7;
-    }
-
-    .about-section {
-      margin-bottom: 36px;
-    }
-
-    .about-section h2 {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      margin-bottom: 12px;
-      border-bottom: var(--pixel) solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .about-section p {
-      margin-bottom: 14px;
-    }
-
-    .about-section a {
-      color: var(--blue);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .about-section a:hover {
-      color: var(--orange);
-    }
-
-    /* ── Project grid ── */
-    .project-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .project-card {
+    .about-nav {
       display: flex;
-      align-items: flex-start;
-      gap: 11px;
-      border: 2px solid var(--ink);
-      padding: 12px 13px;
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
-      text-decoration: none;
-      color: var(--ink);
-      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
-    }
-
-    .project-card:hover {
-      background: var(--yellow);
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .project-card-emoji {
-      font-size: 20px;
-      flex-shrink: 0;
-      line-height: 1;
-      margin-top: 2px;
-    }
-
-    .project-card-body {
-      min-width: 0;
-    }
-
-    .project-card-name {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 11px;
-      line-height: 1.3;
-      margin-bottom: 3px;
-    }
-
-    .project-card-tag {
-      font-size: 11px;
-      opacity: 0.5;
-      line-height: 1.4;
-    }
-
-    @media (max-width: 600px) {
-      .project-grid { grid-template-columns: 1fr; }
-    }
-
-    .back-link {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: var(--ink);
-      text-decoration: none;
-      margin-bottom: 24px;
-      opacity: 0.6;
-    }
-
-    .back-link:hover {
-      opacity: 1;
-    }
-
-    .connect-list {
-      list-style: none;
-      padding: 0;
-      font-family: 'Space Mono', monospace;
-      font-size: 14px;
-    }
-
-    .connect-list li {
-      margin-bottom: 6px;
-    }
-
-    .connect-list a {
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .connect-list a:hover {
-      color: var(--orange);
-      text-decoration: underline;
-    }
-
-    /* ── Recently shipped ── */
-    .ships-section {
-      margin-bottom: 36px;
-    }
-
-    .ships-heading-row {
-      display: flex;
-      align-items: baseline;
+      align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .ships-heading {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      border-bottom: 3px solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .ships-stats {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--ink);
-      opacity: 0.55;
-    }
-
-    .ships-stats strong {
-      color: var(--orange);
-      font-weight: 700;
-    }
-
-    .ships-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border: 2px solid var(--ink);
-      box-shadow: 4px 4px 0 var(--ink);
-      background: #fff;
-    }
-
-    .ship-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 14px;
-      border-bottom: 1px dashed rgba(0,0,0,0.12);
-      text-decoration: none;
-      color: var(--ink);
-      transition: background 0.1s;
-    }
-    .ship-row:last-child { border-bottom: none; }
-    .ship-row:hover {
-      background: var(--yellow);
-    }
-    .ship-row.no-link {
-      cursor: default;
-    }
-    .ship-row.no-link:hover {
-      background: transparent;
-    }
-
-    .ship-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      padding: 3px 8px;
-      border: 1.5px solid var(--ink);
-      background: var(--bg);
-      flex-shrink: 0;
-      white-space: nowrap;
-      align-self: flex-start;
-      margin-top: 1px;
-    }
-
-    .ship-tag-emoji {
+      gap: 16px;
+      color: var(--about-muted);
+      font-family: "Space Mono", ui-monospace, monospace;
       font-size: 12px;
-      line-height: 1;
+      line-height: 1.3;
     }
 
-    .ship-body {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .about-home {
+      text-decoration: none;
     }
 
-    .ship-msg {
-      font-size: 13px;
-      line-height: 1.45;
-      color: var(--ink);
+    .about-home:hover,
+    .about-nav-link:hover {
+      color: var(--about-ink);
     }
 
-    .ship-time {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      color: var(--ink);
-      opacity: 0.45;
-    }
-
-    .ships-foot {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      color: var(--ink);
-      opacity: 0.45;
-      margin-top: 10px;
-      letter-spacing: 0.05em;
-    }
-
-    @media (max-width: 600px) {
-      .ship-row { flex-direction: column; gap: 6px; padding: 11px 12px; }
-      .ship-tag { font-size: 10px; padding: 2px 6px; }
-    }
-
-    /* ── Now section ── */
-    .now-section {
-      margin-bottom: 36px;
-    }
-
-    .now-heading {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      margin-bottom: 12px;
-      border-bottom: 3px solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .now-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .now-card {
-      border: 2px solid var(--ink);
-      padding: 12px 14px;
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
-    }
-
-    .now-card-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0.45;
-      margin-bottom: 4px;
-    }
-
-    .now-card-value {
-      font-size: 14px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    /* ── Stack badges ── */
-    .stack-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .stack-badge {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border: 2px solid var(--ink);
-      background: var(--bg);
-      box-shadow: 2px 2px 0 var(--ink);
-      white-space: nowrap;
-    }
-
-    .stack-badge.highlight {
-      background: var(--yellow);
-    }
-
-    /* ── Connect cards ── */
-    .connect-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .connect-card {
+    .about-nav-links {
       display: flex;
       align-items: center;
-      gap: 12px;
-      border: 2px solid var(--ink);
-      padding: 12px 16px;
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
+      gap: 18px;
+    }
+
+    .about-nav-link {
       text-decoration: none;
-      color: var(--ink);
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
     }
 
-    .connect-card:hover {
-      background: var(--yellow);
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .connect-card-icon {
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .connect-card-sub {
-      font-weight: 400;
-      opacity: 0.55;
-      font-size: 11px;
-      margin-top: 1px;
-    }
-
-    /* ── Start here ── */
-    .start-grid {
+    .about-hero {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-top: 16px;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+      align-items: center;
+      gap: 64px;
+      min-height: calc(100svh - 104px);
+      padding: 48px 0 64px;
+      border-bottom: 1px solid var(--about-line);
     }
 
-    .start-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      border: 2px solid var(--ink);
-      padding: 16px;
-      background: var(--yellow);
-      box-shadow: 3px 3px 0 var(--ink);
-      text-decoration: none;
-      color: var(--ink);
-      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
-    }
-
-    .start-card:hover {
-      background: #f0d800;
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .start-card-emoji {
-      font-size: 24px;
-      flex-shrink: 0;
-      line-height: 1;
-      margin-top: 2px;
-    }
-
-    .start-card-body { min-width: 0; }
-
-    .start-card-name {
-      font-family: 'Space Mono', monospace;
+    .about-kicker {
+      color: var(--about-green);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 12px;
       font-weight: 700;
-      font-size: 13px;
-      margin-bottom: 5px;
+      letter-spacing: 0;
+      margin-bottom: 18px;
     }
 
-    .start-card-desc {
-      font-size: 13px;
-      line-height: 1.6;
-      opacity: 0.75;
-    }
-
-    /* ── By the Numbers ── */
-    .numbers-section {
-      margin-bottom: 36px;
-    }
-
-    .numbers-heading {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      margin-bottom: 6px;
-      border-bottom: 3px solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .numbers-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--ink);
-      opacity: 0.5;
-      margin: 0 0 18px;
-    }
-
-    .numbers-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
-    }
-
-    .numbers-card {
-      position: relative;
-      border: 2px solid var(--ink);
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
-      padding: 14px 14px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-      text-decoration: none;
-      color: var(--ink);
-      transition: background 0.1s, transform 0.1s, box-shadow 0.1s;
-    }
-
-    .numbers-card:nth-child(1) { background: #fff8c4; }
-    .numbers-card:nth-child(2) { background: #f4f8ff; }
-    .numbers-card:nth-child(3) { background: #fff0e0; }
-    .numbers-card:nth-child(4) { background: #ecf9ec; }
-    .numbers-card:nth-child(5) { background: #ffe8f1; }
-    .numbers-card:nth-child(6) { background: #fff; }
-
-    a.numbers-card:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .numbers-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0.55;
-    }
-
-    .numbers-figure {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 30px;
-      line-height: 1;
-      color: var(--ink);
-      letter-spacing: 0.01em;
-      word-break: break-word;
-    }
-
-    .numbers-figure--text {
-      font-family: 'Space Mono', monospace;
-      font-size: 15px;
+    .about-title {
+      max-width: 780px;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 74px;
       font-weight: 700;
-      line-height: 1.15;
+      line-height: 0.98;
       letter-spacing: 0;
     }
 
-    .numbers-figure .numbers-emoji {
-      font-family: inherit;
-      font-size: 22px;
-      margin-right: 4px;
+    .about-lede {
+      max-width: 690px;
+      margin-top: 28px;
+      color: #312d25;
+      font-size: 25px;
+      line-height: 1.38;
     }
 
-    .numbers-figure-unit {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      font-weight: 400;
-      opacity: 0.55;
-      margin-left: 4px;
-      text-transform: lowercase;
-      letter-spacing: 0.04em;
+    .about-intro {
+      max-width: 650px;
+      margin-top: 22px;
+      color: var(--about-muted);
+      font-size: 18px;
     }
 
-    .numbers-foot {
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      color: var(--ink);
-      opacity: 0.45;
-      margin-top: 12px;
-    }
-
-    /* ── Pipeline section ── */
-    .pipeline-section {
-      margin-bottom: 36px;
-    }
-
-    .pipeline-heading {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      margin-bottom: 6px;
-      border-bottom: 3px solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .pipeline-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--ink);
-      opacity: 0.5;
-      margin-top: 0;
-      margin-bottom: 18px;
-    }
-
-    .pipeline-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .about-actions {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       gap: 12px;
+      margin-top: 34px;
     }
 
-    .pipeline-step {
-      display: grid;
-      grid-template-columns: 84px 1fr;
-      gap: 0;
-      border: 2px solid var(--ink);
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-
-    .pipeline-step:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0 var(--ink);
-    }
-
-    .pipeline-step-bar {
-      background: var(--ink);
-      color: #fff;
-      padding: 12px 8px;
-      display: flex;
-      flex-direction: column;
+    .about-button {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      text-align: center;
-    }
-
-    .pipeline-step--idea .pipeline-step-bar { background: #1a4fff; }
-    .pipeline-step--sketch .pipeline-step-bar { background: #111; }
-    .pipeline-step--proto .pipeline-step-bar { background: #1db842; }
-    .pipeline-step--polish .pipeline-step-bar { background: #ff3aac; }
-    .pipeline-step--ship .pipeline-step-bar { background: var(--orange); }
-
-    .pipeline-step-num {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      line-height: 1;
-      letter-spacing: 0.02em;
-    }
-
-    .pipeline-step-time {
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
+      min-height: 44px;
+      border: 1px solid var(--about-ink);
+      border-radius: 999px;
+      padding: 10px 18px;
+      background: var(--about-ink);
+      color: var(--about-panel);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      white-space: nowrap;
-    }
-
-    .pipeline-step-body {
-      padding: 14px 16px 16px;
-      position: relative;
-      background: #fff;
-    }
-
-    .pipeline-step--idea .pipeline-step-body { background: #f4f8ff; }
-    .pipeline-step--proto .pipeline-step-body { background: #ecf9ec; }
-    .pipeline-step--polish .pipeline-step-body { background: #fff0f6; }
-    .pipeline-step--ship .pipeline-step-body { background: #fff0e0; }
-
-    .pipeline-step-emoji {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      font-size: 18px;
       line-height: 1;
-      opacity: 0.85;
+      text-decoration: none;
+      transition: background 0.16s ease, color 0.16s ease, transform 0.16s ease;
     }
 
-    .pipeline-step-rule {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 17px;
-      line-height: 1.2;
-      margin: 0 0 4px;
-      padding-right: 28px;
+    .about-button:hover {
+      transform: translateY(-1px);
     }
 
-    .pipeline-step-text {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--ink);
-      opacity: 0.78;
-      margin: 0;
+    .about-button.secondary {
+      background: transparent;
+      color: var(--about-ink);
     }
 
-    .pipeline-step-text a {
-      color: var(--blue);
-      text-decoration: underline;
-      text-underline-offset: 2px;
+    .about-button.secondary:hover {
+      background: var(--about-panel);
     }
 
-    .pipeline-step-text a:hover {
-      color: var(--orange);
-    }
-
-    .pipeline-foot {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      opacity: 0.55;
-      margin-top: 14px;
-      text-align: center;
-      line-height: 1.55;
-    }
-
-    /* ── Lessons section ── */
-    .lessons-section {
-      margin-bottom: 36px;
-    }
-
-    .lessons-heading {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 22px;
-      margin-bottom: 6px;
-      border-bottom: 3px solid var(--ink);
-      padding-bottom: 6px;
-      display: inline-block;
-    }
-
-    .lessons-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--ink);
-      opacity: 0.5;
-      margin-top: 0;
-      margin-bottom: 18px;
-    }
-
-    .lessons-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .lesson-card {
+    .about-portrait {
       position: relative;
-      border: 2px solid var(--ink);
-      background: #fff;
-      box-shadow: 3px 3px 0 var(--ink);
-      padding: 14px 16px 16px;
+      justify-self: end;
+      width: 100%;
+      max-width: 360px;
+      border: 1px solid var(--about-ink);
+      border-radius: 8px;
+      background: var(--about-panel);
+      padding: 12px;
+      box-shadow: 18px 18px 0 rgba(23, 21, 17, 0.08);
+    }
+
+    .about-portrait::before {
+      content: "";
+      position: absolute;
+      inset: 18px -18px -18px 18px;
+      z-index: -1;
+      border-radius: 8px;
+      background: var(--about-gold);
+    }
+
+    .about-portrait img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 6px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .about-caption {
       display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .lesson-card:nth-child(2) { background: #fef9d8; }
-    .lesson-card:nth-child(3) { background: #f4f8ff; }
-    .lesson-card:nth-child(5) { background: #fff0e0; }
-    .lesson-card:nth-child(6) { background: #ecf9ec; }
-
-    .lesson-num {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 9px;
-      letter-spacing: 0.1em;
-      opacity: 0.35;
-    }
-
-    .lesson-rule {
-      font-family: 'Permanent Marker', cursive;
-      font-size: 18px;
-      line-height: 1.15;
-      letter-spacing: 0.01em;
-      padding-right: 24px;
-    }
-
-    .lesson-rule .accent {
-      background: var(--yellow);
-      padding: 0 4px;
-      box-shadow: 2px 2px 0 var(--ink);
-      display: inline-block;
-      margin: 2px 0;
-    }
-
-    .lesson-body {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--ink);
-      opacity: 0.78;
-      margin: 0;
-    }
-
-    .lesson-body em {
-      font-style: normal;
-      font-weight: 700;
-      opacity: 1;
-    }
-
-    .lesson-body a {
-      color: var(--blue);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-
-    .lesson-body a:hover {
-      color: var(--orange);
-    }
-
-    .lessons-foot {
-      font-family: 'Space Mono', monospace;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 2px 0;
+      color: var(--about-muted);
+      font-family: "Space Mono", ui-monospace, monospace;
       font-size: 11px;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      opacity: 0.5;
-      margin-top: 14px;
-      text-align: center;
+      line-height: 1.35;
     }
 
-    @media (max-width: 600px) {
-      .about-header h1 { font-size: 28px; }
-      .about-wrap { padding: 32px 16px 60px; }
-      .now-grid { grid-template-columns: 1fr; }
-      .lessons-grid { grid-template-columns: 1fr; }
-      .lesson-rule { font-size: 17px; }
-      .numbers-grid { grid-template-columns: 1fr 1fr; }
-      .numbers-figure { font-size: 26px; }
-      .numbers-figure--text { font-size: 14px; }
-      .pipeline-step { grid-template-columns: 64px 1fr; }
-      .pipeline-step-num { font-size: 18px; }
-      .pipeline-step-rule { font-size: 16px; }
+    .about-section {
+      padding: 70px 0;
+      border-bottom: 1px solid var(--about-line);
+    }
+
+    .about-section:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .about-split {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 56px;
+      align-items: start;
+    }
+
+    .section-label {
+      color: var(--about-green);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    .about-copy {
+      max-width: 760px;
+    }
+
+    .about-copy p + p {
+      margin-top: 20px;
+    }
+
+    .about-copy a {
+      color: var(--about-blue);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .about-copy a:hover {
+      color: var(--about-green);
+    }
+
+    .about-facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 34px;
+    }
+
+    .about-fact {
+      border: 1px solid var(--about-line);
+      border-radius: 8px;
+      background: rgba(255, 253, 246, 0.78);
+      padding: 16px;
+    }
+
+    .about-fact dt {
+      color: var(--about-muted);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 11px;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    .about-fact dd {
+      color: var(--about-ink);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .work-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .work-card {
+      min-height: 188px;
+      border: 1px solid var(--about-line);
+      border-radius: 8px;
+      background: rgba(255, 253, 246, 0.9);
+      padding: 22px;
+      color: var(--about-ink);
+      text-decoration: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+    }
+
+    .work-card:hover {
+      border-color: var(--about-ink);
+      box-shadow: 0 16px 32px rgba(23, 21, 17, 0.08);
+      transform: translateY(-2px);
+    }
+
+    .work-label {
+      color: var(--about-green);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .work-title {
+      margin-top: 22px;
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 28px;
+      font-weight: 650;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .work-description {
+      margin-top: 12px;
+      color: var(--about-muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .elsewhere-list {
+      display: grid;
+      gap: 10px;
+      max-width: 620px;
+    }
+
+    .elsewhere-link {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      border-bottom: 1px solid var(--about-line);
+      padding: 14px 0;
+      color: var(--about-ink);
+      text-decoration: none;
+    }
+
+    .elsewhere-link:hover .elsewhere-value {
+      color: var(--about-blue);
+    }
+
+    .elsewhere-label {
+      color: var(--about-green);
+      font-family: "Space Mono", ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .elsewhere-value {
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.25;
+      word-break: break-word;
+      transition: color 0.16s ease;
+    }
+
+    @media (max-width: 860px) {
+      .about-shell {
+        width: min(100% - 32px, 680px);
+        padding-top: 22px;
+      }
+
+      .about-nav {
+        align-items: flex-start;
+      }
+
+      .about-nav-links {
+        gap: 12px;
+      }
+
+      .about-hero {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        min-height: auto;
+        padding: 42px 0 54px;
+      }
+
+      .about-title {
+        font-size: 48px;
+      }
+
+      .about-lede {
+        font-size: 21px;
+      }
+
+      .about-intro {
+        font-size: 17px;
+      }
+
+      .about-portrait {
+        justify-self: start;
+        max-width: 300px;
+      }
+
+      .about-section {
+        padding: 52px 0;
+      }
+
+      .about-split {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .about-facts,
+      .work-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      body {
+        font-size: 16px;
+      }
+
+      .about-shell {
+        width: min(100% - 28px, 680px);
+      }
+
+      .about-title {
+        font-size: 40px;
+      }
+
+      .about-lede {
+        font-size: 20px;
+      }
+
+      .about-actions {
+        flex-direction: column;
+      }
+
+      .about-button {
+        width: 100%;
+      }
+
+      .about-portrait {
+        max-width: none;
+        box-shadow: 10px 10px 0 rgba(23, 21, 17, 0.08);
+      }
+
+      .about-portrait::before {
+        inset: 12px -10px -10px 12px;
+      }
+
+      .about-caption,
+      .elsewhere-link {
+        grid-template-columns: 1fr;
+      }
+
+      .about-caption {
+        display: grid;
+        gap: 4px;
+      }
+
+      .work-card {
+        min-height: 0;
+      }
     }
   </style>
 
-  <div class="about-wrap">
-    <a href="/" class="back-link">&larr; stanwood.dev</a>
+  <div class="about-page">
+    <div class="about-shell">
+      <nav class="about-nav" aria-label="About page navigation">
+        <a class="about-home" href="/">stanwood.dev</a>
+        <div class="about-nav-links">
+          <a class="about-nav-link" href="#work">Work</a>
+          <a class="about-nav-link" href="#connect">Contact</a>
+        </div>
+      </nav>
 
-    <div class="about-header">
-      <h1>Stephen Stanwood</h1>
-      <div class="subtitle">builder &middot; designer &middot; developer &middot; campbell, ca</div>
-    </div>
+      <header class="about-hero">
+        <div>
+          <p class="about-kicker">Campbell, California</p>
+          <h1 class="about-title">Stephen Stanwood</h1>
+          <p class="about-lede">
+            I build small, useful things for the internet: tools for watching sports,
+            finding dinner, following local news, and making sense of what just changed.
+          </p>
+          <p class="about-intro">
+            My favorite projects have a narrow promise and a little personality. You should
+            know what they do in five seconds, use them without an account, and leave with a
+            real answer.
+          </p>
+          <div class="about-actions" aria-label="Primary links">
+            <a class="about-button" href="#work">See selected work</a>
+            <a class="about-button secondary" href="mailto:stephen@stanwood.dev">Email me</a>
+          </div>
+        </div>
 
-    <div class="about-section">
-      <h2>Who I Am</h2>
-      <p>
-        I'm Stephen Stanwood, a builder and designer based in Campbell, California (just south of San Jose).
-        I make apps, games, and tools that make life a little simpler or a little more fun.
-        Everything on <a href="/">stanwood.dev</a> is something I built because I wanted it to exist.
-      </p>
-      <p>
-        I studied public policy at the University of Chicago and law and business at Georgetown and Santa Clara.
-        I've worked at a small law firm, ran my own practice for a while, and also spent time with organizations like City Year and the Electronic Frontier Foundation.
-        These days you'll mostly find me swimming pre-dawn laps with a wonderful team, building here, doing yoga, and chasing my two-year-old daughter around the house.
-      </p>
-    </div>
+        <figure class="about-portrait">
+          <img src="/images/headshot.png" alt="Stephen Stanwood" width="400" height="400" />
+          <figcaption class="about-caption">
+            <span>Builder, designer, developer</span>
+            <span>Bay Area</span>
+          </figcaption>
+        </figure>
+      </header>
 
-    <div class="now-section">
-      <h2 class="now-heading">Now</h2>
-      <div class="now-grid">
-        <div class="now-card">
-          <div class="now-card-label">Location</div>
-          <div class="now-card-value">Campbell, CA</div>
-        </div>
-        <div class="now-card">
-          <div class="now-card-label">Day job</div>
-          <div class="now-card-value">US Government</div>
-        </div>
-        <div class="now-card">
-          <div class="now-card-label">Studying</div>
-          <div class="now-card-value">CS @ Oregon State</div>
-        </div>
-        <div class="now-card">
-          <div class="now-card-label">Side project</div>
-          <div class="now-card-value">stanwood.dev</div>
-        </div>
-      </div>
-    </div>
+      <section class="about-section" aria-labelledby="about-story-title">
+        <div class="about-split">
+          <h2 id="about-story-title" class="section-label">About</h2>
+          <div class="about-copy">
+            <p>
+              I am a builder based in Campbell, just south of San Jose. I studied public
+              policy at the University of Chicago, then law and business at Georgetown and
+              Santa Clara. Before I got this deep into building software, I worked around
+              law, public policy, education, civil liberties, and local institutions.
+            </p>
+            <p>
+              That background still shows up in the work. I like making complicated
+              information feel easier to act on, whether that is a city agenda, a game
+              schedule, a restaurant menu, or a flood of new AI tools.
+            </p>
+            <p>
+              Outside the laptop, I am usually swimming early, doing yoga, or hanging out
+              with my family.
+            </p>
 
-    {recentShips.length > 0 && (
-      <div class="ships-section">
-        <div class="ships-heading-row">
-          <h2 class="ships-heading">Recently Shipped</h2>
-          {(shipsLast30 > 0 || activeProjects > 0) && (
-            <span class="ships-stats">
-              <strong>{shipsLast30}</strong> ships across <strong>{activeProjects}</strong> projects · last 30 days
-            </span>
-          )}
-        </div>
-        <div class="ships-list">
-          {recentShips.map((s) => (
-            s.href ? (
-              <a href={s.href} class="ship-row" aria-label={`${s.display}: ${s.message}`}>
-                <span class="ship-tag">
-                  <span class="ship-tag-emoji">{s.emoji}</span>
-                  {s.display}
-                </span>
-                <span class="ship-body">
-                  <span class="ship-msg">{s.message}</span>
-                  <span class="ship-time">{relTime(s.date)}</span>
-                </span>
-              </a>
-            ) : (
-              <div class="ship-row no-link">
-                <span class="ship-tag">
-                  <span class="ship-tag-emoji">{s.emoji}</span>
-                  {s.display}
-                </span>
-                <span class="ship-body">
-                  <span class="ship-msg">{s.message}</span>
-                  <span class="ship-time">{relTime(s.date)}</span>
-                </span>
+            <dl class="about-facts" aria-label="Quick facts">
+              <div class="about-fact">
+                <dt>Based in</dt>
+                <dd>Campbell, CA</dd>
               </div>
-            )
-          ))}
-        </div>
-        <p class="ships-foot">live from git · one row per project, most recent first</p>
-      </div>
-    )}
-
-    <div class="about-section">
-      <h2>Start here</h2>
-      <p>A few favorites — each does one specific thing and does it well.</p>
-      <div class="start-grid">
-        <a href="/radar" class="start-card">
-          <span class="start-card-emoji">📡</span>
-          <div class="start-card-body">
-            <div class="start-card-name">AI Radar</div>
-            <div class="start-card-desc">A curated daily signal feed of AI launches worth knowing about. No hype, just what matters for builders.</div>
-          </div>
-        </a>
-        <a href="/mlb-gamerank" class="start-card">
-          <span class="start-card-emoji">⚾</span>
-          <div class="start-card-body">
-            <div class="start-card-name">MLB GameRank</div>
-            <div class="start-card-desc">Live MLB scores ranked by watchability — closeness, inning, runners on base, and team quality. Updates every 30 seconds.</div>
-          </div>
-        </a>
-        <a href="/green-light" class="start-card">
-          <span class="start-card-emoji">🟢</span>
-          <div class="start-card-body">
-            <div class="start-card-name">Green Light</div>
-            <div class="start-card-desc">A 60-second taste quiz that tells you exactly what to order — matches the menu to what you actually enjoy.</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="about-section">
-      <h2>What I Build</h2>
-      <p>
-        Tools for curious people — useful, fun, or both, and small enough to actually finish.
-        Everything here is free to use. Here's the full list:
-      </p>
-      <div class="project-grid">
-        <a href="https://nbanow.app" class="project-card">
-          <span class="project-card-emoji">🏀</span>
-          <div class="project-card-body">
-            <div class="project-card-name">NBA Now</div>
-            <div class="project-card-tag">best NBA game to watch right now</div>
-          </div>
-        </a>
-        <a href="/wtwtw" class="project-card">
-          <span class="project-card-emoji">📺</span>
-          <div class="project-card-body">
-            <div class="project-card-name">What to Watch This Week</div>
-            <div class="project-card-tag">best game each night across MLB, NBA &amp; NHL</div>
-          </div>
-        </a>
-        <a href="/mlb-gamerank" class="project-card">
-          <span class="project-card-emoji">⚾</span>
-          <div class="project-card-body">
-            <div class="project-card-name">MLB GameRank</div>
-            <div class="project-card-tag">best MLB game to watch right now</div>
-          </div>
-        </a>
-        <a href="/show-swipe" class="project-card">
-          <span class="project-card-emoji">🍿</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Show Swipe</div>
-            <div class="project-card-tag">swipe through movie &amp; TV trailers</div>
-          </div>
-        </a>
-        <a href="/swim" class="project-card">
-          <span class="project-card-emoji">🏊</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Lap Lab</div>
-            <div class="project-card-tag">custom swim workouts</div>
-          </div>
-        </a>
-        <a href="/nearest-coffee" class="project-card">
-          <span class="project-card-emoji">☕</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Nearest Coffee</div>
-            <div class="project-card-tag">nearest open coffee shop</div>
-          </div>
-        </a>
-        <a href="/radar" class="project-card">
-          <span class="project-card-emoji">📡</span>
-          <div class="project-card-body">
-            <div class="project-card-name">AI Radar</div>
-            <div class="project-card-tag">curated AI launches for builders</div>
-          </div>
-        </a>
-        <a href="/which-model" class="project-card">
-          <span class="project-card-emoji">🧠</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Which Model?</div>
-            <div class="project-card-tag">pick the right AI model for your task</div>
-          </div>
-        </a>
-        <a href="/tldr" class="project-card">
-          <span class="project-card-emoji">📄</span>
-          <div class="project-card-body">
-            <div class="project-card-name">TL;DR</div>
-            <div class="project-card-tag">drop a PDF, get the short version</div>
-          </div>
-        </a>
-        <a href="/redesign-rolodex" class="project-card">
-          <span class="project-card-emoji">🎰</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Redesign Rolodex</div>
-            <div class="project-card-tag">alternate-universe redesigns for any website</div>
-          </div>
-        </a>
-        <a href="/green-light" class="project-card">
-          <span class="project-card-emoji">🟢</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Green Light</div>
-            <div class="project-card-tag">taste quiz → know what to order</div>
-          </div>
-        </a>
-        <a href="/ship-clock" class="project-card">
-          <span class="project-card-emoji">🕒</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Ship Clock</div>
-            <div class="project-card-tag">days since your last deploy</div>
-          </div>
-        </a>
-        <a href="/campbell" class="project-card">
-          <span class="project-card-emoji">🏛️</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Campbell, CA</div>
-            <div class="project-card-tag">city services, events &amp; permits</div>
-          </div>
-        </a>
-        <a href="/driverless" class="project-card">
-          <span class="project-card-emoji">🚗</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Driverless Cars</div>
-            <div class="project-card-tag">self-driving, by the numbers</div>
-          </div>
-        </a>
-        <a href="/museum-label" class="project-card">
-          <span class="project-card-emoji">🔖</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Museum Label</div>
-            <div class="project-card-tag">deadpan museum placard for any object</div>
-          </div>
-        </a>
-        <a href="/pixel-aquarium" class="project-card">
-          <span class="project-card-emoji">🐠</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Pixel Aquarium</div>
-            <div class="project-card-tag">feed the fish, day to night</div>
-          </div>
-        </a>
-        <a href="/pixel-tide" class="project-card">
-          <span class="project-card-emoji">🌊</span>
-          <div class="project-card-body">
-            <div class="project-card-name">Pixel Tide</div>
-            <div class="project-card-tag">no winning, just vibes</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <div class="about-section">
-      <h2>How I Build</h2>
-      <p>
-        I build fast and iterate — ship something that works, then refine. Most projects go from idea to live in a day or two.
-        I use <a href="https://claude.ai/claude-code">Claude Code</a> as a design partner — riffing back and forth until the vision clicks.
-      </p>
-      <div class="stack-row">
-        <span class="stack-badge highlight">Astro 5</span>
-        <span class="stack-badge highlight">React 19</span>
-        <span class="stack-badge highlight">Tailwind v4</span>
-        <span class="stack-badge">Vercel</span>
-        <span class="stack-badge">TypeScript</span>
-        <span class="stack-badge">Claude API</span>
-        <span class="stack-badge">ESPN API</span>
-        <span class="stack-badge">Google Places</span>
-      </div>
-    </div>
-
-    <div class="pipeline-section">
-      <h2 class="pipeline-heading">From idea to live</h2>
-      <p class="pipeline-sub">how a project actually ships here · five stages, usually one evening</p>
-
-      <ol class="pipeline-list">
-        <li class="pipeline-step pipeline-step--idea">
-          <div class="pipeline-step-bar">
-            <span class="pipeline-step-num">01</span>
-            <span class="pipeline-step-time">~5 min</span>
-          </div>
-          <div class="pipeline-step-body">
-            <span class="pipeline-step-emoji" aria-hidden="true">🧠</span>
-            <p class="pipeline-step-rule">Spot it in the wild.</p>
-            <p class="pipeline-step-text">Best ideas show up waiting somewhere — pool deck, coffee line, stuck in a meeting. Voice memo before it evaporates. If it doesn't survive the night, it wasn't the one.</p>
-          </div>
-        </li>
-
-        <li class="pipeline-step pipeline-step--sketch">
-          <div class="pipeline-step-bar">
-            <span class="pipeline-step-num">02</span>
-            <span class="pipeline-step-time">~20 min</span>
-          </div>
-          <div class="pipeline-step-body">
-            <span class="pipeline-step-emoji" aria-hidden="true">✏️</span>
-            <p class="pipeline-step-rule">Describe it to Claude.</p>
-            <p class="pipeline-step-text">A 200-word brief in <a href="https://claude.ai/claude-code">Claude Code</a>: what it does, who it's for, the smallest version that proves the idea. A scaffold lands before the coffee finishes brewing.</p>
-          </div>
-        </li>
-
-        <li class="pipeline-step pipeline-step--proto">
-          <div class="pipeline-step-bar">
-            <span class="pipeline-step-num">03</span>
-            <span class="pipeline-step-time">1–2 hrs</span>
-          </div>
-          <div class="pipeline-step-body">
-            <span class="pipeline-step-emoji" aria-hidden="true">⚙️</span>
-            <p class="pipeline-step-rule">Wire the real data.</p>
-            <p class="pipeline-step-text">Swap placeholder mocks for the actual API — ESPN, Google Places, Claude, whatever the page actually needs. Until live data flows on the localhost screen, polish is a distraction.</p>
-          </div>
-        </li>
-
-        <li class="pipeline-step pipeline-step--polish">
-          <div class="pipeline-step-bar">
-            <span class="pipeline-step-num">04</span>
-            <span class="pipeline-step-time">2–3 hrs</span>
-          </div>
-          <div class="pipeline-step-body">
-            <span class="pipeline-step-emoji" aria-hidden="true">🎨</span>
-            <p class="pipeline-step-rule">One font, two borrowed colors.</p>
-            <p class="pipeline-step-text">Vibe comes last and lands fast. Palette and font usually steal from one specific reference — a vintage matchbook, a Penguin paperback, a Memphis ad. Mobile breakpoint is the final check, not the first.</p>
-          </div>
-        </li>
-
-        <li class="pipeline-step pipeline-step--ship">
-          <div class="pipeline-step-bar">
-            <span class="pipeline-step-num">05</span>
-            <span class="pipeline-step-time">~5 min</span>
-          </div>
-          <div class="pipeline-step-body">
-            <span class="pipeline-step-emoji" aria-hidden="true">🚀</span>
-            <p class="pipeline-step-rule">Push, deploy, share with one person.</p>
-            <p class="pipeline-step-text">git push, Vercel takes 45 seconds. Open the live URL on my phone, send it to exactly one person, watch how they hold the screen. The next morning's first task is whatever they tripped on.</p>
-          </div>
-        </li>
-      </ol>
-
-      <p class="pipeline-foot">Total: usually four to six hours, one or two evenings. The shipped version is rarely the one I described in step two — the trick is starting before that bothers me.</p>
-    </div>
-
-    {siteStats && (
-      <div class="numbers-section">
-        <h2 class="numbers-heading">By the Numbers</h2>
-        <p class="numbers-sub">stanwood.dev at a glance · live from git</p>
-
-        <div class="numbers-grid">
-          <div class="numbers-card">
-            <span class="numbers-label">Ships, all-time</span>
-            <span class="numbers-figure">{siteStats.totalShips}</span>
-          </div>
-
-          <div class="numbers-card">
-            <span class="numbers-label">Live projects</span>
-            <span class="numbers-figure">{siteStats.projectsShipped}</span>
-          </div>
-
-          <div class="numbers-card">
-            <span class="numbers-label">Building for</span>
-            <span class="numbers-figure">
-              {siteStats.daysSinceFirstShip}
-              <span class="numbers-figure-unit">days</span>
-            </span>
-          </div>
-
-          {siteStats.topProject && (
-            siteStats.topProject.href ? (
-              <a class="numbers-card" href={siteStats.topProject.href} aria-label={`Most-shipped project: ${siteStats.topProject.name}`}>
-                <span class="numbers-label">Most-shipped</span>
-                <span class="numbers-figure numbers-figure--text">
-                  <span class="numbers-emoji">{siteStats.topProject.emoji}</span>{siteStats.topProject.name}
-                  <span class="numbers-figure-unit">{siteStats.topProject.count} ships</span>
-                </span>
-              </a>
-            ) : (
-              <div class="numbers-card">
-                <span class="numbers-label">Most-shipped</span>
-                <span class="numbers-figure numbers-figure--text">
-                  <span class="numbers-emoji">{siteStats.topProject.emoji}</span>{siteStats.topProject.name}
-                  <span class="numbers-figure-unit">{siteStats.topProject.count} ships</span>
-                </span>
+              <div class="about-fact">
+                <dt>Drawn to</dt>
+                <dd>Useful public information</dd>
               </div>
-            )
-          )}
+              <div class="about-fact">
+                <dt>Style</dt>
+                <dd>Small tools, finished enough</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </section>
 
-          {siteStats.busiestMonth && (
-            <div class="numbers-card">
-              <span class="numbers-label">Busiest month</span>
-              <span class="numbers-figure numbers-figure--text">
-                {siteStats.busiestMonth.label}
-                <span class="numbers-figure-unit">{siteStats.busiestMonth.count} ships</span>
-              </span>
+      <section id="work" class="about-section" aria-labelledby="about-work-title">
+        <div class="about-split">
+          <h2 id="about-work-title" class="section-label">Selected Work</h2>
+          <div class="work-list">
+            {featuredWork.map((item) => (
+              <a class="work-card" href={item.href}>
+                <span class="work-label">{item.label}</span>
+                <h3 class="work-title">{item.title}</h3>
+                <p class="work-description">{item.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="connect" class="about-section" aria-labelledby="about-connect-title">
+        <div class="about-split">
+          <h2 id="about-connect-title" class="section-label">Connect</h2>
+          <div class="about-copy">
+            <p>
+              The best place to start is email. I am also easy to find on GitHub and LinkedIn.
+            </p>
+            <div class="elsewhere-list" aria-label="Contact links">
+              {elsewhere.map((item) => (
+                <a class="elsewhere-link" href={item.href}>
+                  <span class="elsewhere-label">{item.label}</span>
+                  <span class="elsewhere-value">{item.value}</span>
+                </a>
+              ))}
             </div>
-          )}
-
-          <div class="numbers-card">
-            <span class="numbers-label">Recent pace</span>
-            <span class="numbers-figure">
-              {siteStats.recentPerWeek}
-              <span class="numbers-figure-unit">/wk · last {siteStats.recentDays}d</span>
-            </span>
           </div>
         </div>
-
-        <p class="numbers-foot">computed at build from git log · excludes chores, cleanup, and refactors</p>
-      </div>
-    )}
-
-    <div class="lessons-section">
-      <h2 class="lessons-heading">Lessons from Shipping</h2>
-      <p class="lessons-sub">six rules from running this site · earned the hard way</p>
-
-      <div class="lessons-grid">
-        <article class="lesson-card">
-          <span class="lesson-num">01</span>
-          <p class="lesson-rule">Ship the <span class="accent">smallest</span> version first.</p>
-          <p class="lesson-body">Cut the tracer-bullet — the simplest thing that proves the path. <a href="/mlb-gamerank">MLB GameRank</a> launched as a hard-coded list of three games before the live formula existed. The full version came later. The launch came first.</p>
-        </article>
-
-        <article class="lesson-card">
-          <span class="lesson-num">02</span>
-          <p class="lesson-rule">Same-day live or it <span class="accent">dies.</span></p>
-          <p class="lesson-body">Most ideas don't survive the night. If I can't get a real, working version in front of someone before bed, it usually never finishes. <a href="/pixel-tide">Pixel Tide</a> went idea → live in eight hours, no second day required.</p>
-        </article>
-
-        <article class="lesson-card">
-          <span class="lesson-num">03</span>
-          <p class="lesson-rule">Boring stack, <span class="accent">weird</span> front end.</p>
-          <p class="lesson-body">Astro + React + Vercel everywhere. The ten minutes I save not picking a stack go straight into making the page itself feel like something — same skeleton, eighteen different vibes.</p>
-        </article>
-
-        <article class="lesson-card">
-          <span class="lesson-num">04</span>
-          <p class="lesson-rule">One <span class="accent">specific</span> thing, done well.</p>
-          <p class="lesson-body">Every page does one thing. <a href="/nearest-coffee">Nearest Coffee</a> finds the nearest open coffee shop. That's it. No accounts, no reviews, no map filters. The narrower the scope, the easier it is to make it actually good.</p>
-        </article>
-
-        <article class="lesson-card">
-          <span class="lesson-num">05</span>
-          <p class="lesson-rule">Keep the clock <span class="accent">visible.</span></p>
-          <p class="lesson-body">The <a href="/ship-clock">Ship Clock</a> sits on the homepage on purpose. Watching the number creep up is uncomfortable enough that scheduling the next deploy feels easier than skipping it.</p>
-        </article>
-
-        <article class="lesson-card">
-          <span class="lesson-num">06</span>
-          <p class="lesson-rule">Steal from <span class="accent">museums</span>, not Dribbble.</p>
-          <p class="lesson-body">Most software borrows from other software. I've gotten more mileage from staring at vintage matchbooks, gallery placards, and obscure print zines than from screenshots of whatever shipped this week.</p>
-        </article>
-      </div>
-
-      <p class="lessons-foot">none of this is original — it's just what survived contact with the schedule.</p>
-    </div>
-
-    <div class="about-section">
-      <h2>Connect</h2>
-      <div class="connect-cards">
-        <a href="mailto:stephen@stanwood.dev" class="connect-card">
-          <span class="connect-card-icon">✉</span>
-          <div>
-            <div>stephen@stanwood.dev</div>
-            <div class="connect-card-sub">email — best way to reach me</div>
-          </div>
-        </a>
-        <a href="https://www.linkedin.com/in/stephenstanwood" class="connect-card" target="_blank" rel="noopener noreferrer">
-          <span class="connect-card-icon">in</span>
-          <div>
-            <div>LinkedIn</div>
-            <div class="connect-card-sub">stephenstanwood</div>
-          </div>
-        </a>
-        <a href="https://github.com/stephenstanwood" class="connect-card" target="_blank" rel="noopener noreferrer">
-          <span class="connect-card-icon">⌥</span>
-          <div>
-            <div>GitHub</div>
-            <div class="connect-card-sub">stephenstanwood</div>
-          </div>
-        </a>
-      </div>
+      </section>
     </div>
   </div>
 </BaseLayout>

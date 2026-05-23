@@ -691,156 +691,6 @@ const title = "Ship Clock — stanwood.dev";
         .sc-unstick-fix { font-size: 12.5px; padding: 7px 9px; }
       }
 
-      /* ── Cadences in the wild ── */
-      .sc-wild {
-        max-width: 480px;
-        width: 100%;
-        margin-top: 40px;
-        padding-top: 32px;
-        border-top: 1.5px solid rgba(0,0,0,0.08);
-      }
-
-      .sc-wild-heading {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(20px, 5vw, 28px);
-        color: var(--sc-ink);
-        margin: 0 0 6px;
-      }
-
-      .sc-wild-sub {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: lowercase;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        margin: 0 0 18px;
-      }
-
-      .sc-wild-intro {
-        font-family: 'Cabin', sans-serif;
-        font-size: 13px;
-        color: var(--sc-ink);
-        opacity: 0.65;
-        line-height: 1.55;
-        margin: 0 0 18px;
-      }
-
-      .sc-wild-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .sc-wild-card {
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 3px 3px 0 var(--sc-ink);
-        background: #fff;
-        padding: 12px 14px 14px;
-        display: grid;
-        grid-template-columns: 88px 1fr;
-        gap: 12px;
-        align-items: stretch;
-      }
-
-      .sc-wild-stat {
-        background: rgba(0,0,0,0.04);
-        border: 2px solid currentColor;
-        padding: 6px 4px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-      }
-
-      .sc-wild-stat-num {
-        font-family: 'Permanent Marker', cursive;
-        font-size: 18px;
-        line-height: 1;
-        color: currentColor;
-      }
-
-      .sc-wild-stat-unit {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: currentColor;
-        opacity: 0.85;
-        margin-top: 4px;
-      }
-
-      .sc-wild-body {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-
-      .sc-wild-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-
-      .sc-wild-name {
-        font-family: 'Space Mono', monospace;
-        font-size: 13px;
-        font-weight: 700;
-        color: var(--sc-ink);
-        letter-spacing: 0.02em;
-      }
-
-      .sc-wild-tag {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: currentColor;
-        opacity: 0.7;
-        white-space: nowrap;
-      }
-
-      .sc-wild-text {
-        font-family: 'Cabin', sans-serif;
-        font-size: 12.5px;
-        line-height: 1.5;
-        color: var(--sc-ink);
-        opacity: 0.7;
-        margin: 0;
-      }
-
-      .sc-wild-text strong {
-        color: var(--sc-ink);
-        opacity: 1;
-        font-weight: 700;
-      }
-
-      .sc-wild-card--blazing { color: var(--sc-accent); }
-      .sc-wild-card--fast    { color: #1a9d3f; }
-      .sc-wild-card--steady  { color: #c97718; }
-      .sc-wild-card--cycle   { color: #2563a0; }
-      .sc-wild-card--annual  { color: #8a6cb5; }
-      .sc-wild-card--glacial { color: #c52727; }
-
-      .sc-wild-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        line-height: 1.6;
-        margin-top: 14px;
-      }
-
-      @media (max-width: 480px) {
-        .sc-wild-card { grid-template-columns: 72px 1fr; padding: 10px 12px 12px; gap: 10px; }
-        .sc-wild-stat-num { font-size: 15px; }
-        .sc-wild-text { font-size: 12px; }
-      }
-
       /* ── DORA: where this number fits ── */
       .sc-dora {
         max-width: 480px;
@@ -1243,6 +1093,38 @@ const title = "Ship Clock — stanwood.dev";
       <p class="sc-cadence-note">Status labels match the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
     </div>
 
+    <div class="sc-dora">
+      <h2 class="sc-dora-heading">What the Number Means</h2>
+      <p class="sc-dora-sub">useful pressure · not a scoreboard</p>
+      <p class="sc-dora-intro">The clock is a tiny version of deployment frequency: how often finished work reaches production. It is helpful because it keeps momentum visible, but it only works when the shipped units stay small.</p>
+
+      <div class="sc-dora-list">
+        <article class="sc-dora-card sc-dora-card--ship">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Small counts</span>
+            <span class="sc-dora-tag">scope</span>
+          </div>
+          <p class="sc-dora-what">A copy fix, cleanup, or narrow feature can be a real ship. The clock rewards finishing, not ceremony.</p>
+        </article>
+
+        <article class="sc-dora-card sc-dora-card--lead">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Fast needs boring</span>
+            <span class="sc-dora-tag">process</span>
+          </div>
+          <p class="sc-dora-what">Short PRs, easy rollback, and feature flags matter more than heroic release days. The less drama around deploys, the more often they can happen.</p>
+        </article>
+
+        <article class="sc-dora-card sc-dora-card--fail">
+          <div class="sc-dora-head">
+            <span class="sc-dora-name">Quality still wins</span>
+            <span class="sc-dora-tag">judgment</span>
+          </div>
+          <p class="sc-dora-what">A lower number is not worth a broken page. The good version is frequent, boring, reversible progress.</p>
+        </article>
+      </div>
+    </div>
+
     <!-- Unstick the clock -->
     <div class="sc-unstick">
       <h2 class="sc-unstick-heading">When the clock is high</h2>
@@ -1296,172 +1178,6 @@ const title = "Ship Clock — stanwood.dev";
       </div>
 
       <p class="sc-unstick-foot">The pattern across all five: the move that unsticks you is smaller than you think. Whatever lands today wins.</p>
-    </div>
-
-    <!-- Cadences in the wild -->
-    <div class="sc-wild">
-      <h2 class="sc-wild-heading">Cadences in the wild</h2>
-      <p class="sc-wild-sub">six teams · how their clocks tick</p>
-      <p class="sc-wild-intro">Your number isn't right or wrong — it depends on what you ship. Continuous deployment makes sense for a web service and would be malpractice for a spacecraft. Six well-known cadences, slowest to fastest, to triangulate against.</p>
-
-      <div class="sc-wild-list">
-        <article class="sc-wild-card sc-wild-card--blazing">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">11s</span>
-            <span class="sc-wild-stat-unit">per deploy</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Amazon</span>
-              <span class="sc-wild-tag">continuous · web</span>
-            </div>
-            <p class="sc-wild-text">A 2011 internal talk put production deploys at roughly <strong>one every 11 seconds</strong> across all services — about 130,000/day. Each commit ships behind its own pipeline and rolls back automatically if a metric drifts.</p>
-          </div>
-        </article>
-
-        <article class="sc-wild-card sc-wild-card--fast">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">~50</span>
-            <span class="sc-wild-stat-unit">per day</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Etsy</span>
-              <span class="sc-wild-tag">continuous · marketplace</span>
-            </div>
-            <p class="sc-wild-text">Wrote the playbook the rest of the industry copied. <strong>50+ deploys a day</strong> from a single trunk branch, fronted by the "Deployinator" — anyone in engineering can press the button.</p>
-          </div>
-        </article>
-
-        <article class="sc-wild-card sc-wild-card--steady">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">4</span>
-            <span class="sc-wild-stat-unit">weeks</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Google Chrome</span>
-              <span class="sc-wild-tag">release train · browser</span>
-            </div>
-            <p class="sc-wild-text">Stable channel cuts every <strong>four weeks</strong> since 2021 (was six since 2010). Anything that misses the train waits for the next one — features are flag-gated behind it.</p>
-          </div>
-        </article>
-
-        <article class="sc-wild-card sc-wild-card--cycle">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">~9</span>
-            <span class="sc-wild-stat-unit">weeks</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Linux kernel</span>
-              <span class="sc-wild-tag">merge windows · OS</span>
-            </div>
-            <p class="sc-wild-text">Torvalds runs a <strong>two-week merge window</strong> followed by ~seven weeks of release candidates. Mainline lands every nine or ten weeks; the daily commit volume in between is enormous.</p>
-          </div>
-        </article>
-
-        <article class="sc-wild-card sc-wild-card--annual">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">1</span>
-            <span class="sc-wild-stat-unit">year</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Apple iOS</span>
-              <span class="sc-wild-tag">tentpole · mobile OS</span>
-            </div>
-            <p class="sc-wild-text">A major version every September, walking out of the Steve Jobs Theater. Point releases fill the year (.1, .2, .3 every month or two), but the headline number only moves once — keynote-shaped cadence.</p>
-          </div>
-        </article>
-
-        <article class="sc-wild-card sc-wild-card--glacial">
-          <div class="sc-wild-stat">
-            <span class="sc-wild-stat-num">~10</span>
-            <span class="sc-wild-stat-unit">years</span>
-          </div>
-          <div class="sc-wild-body">
-            <div class="sc-wild-head">
-              <span class="sc-wild-name">Voyager 1</span>
-              <span class="sc-wild-tag">remote patch · spacecraft</span>
-            </div>
-            <p class="sc-wild-text">Launched 1977, still flying. NASA last patched the flight software in <strong>2024</strong> when a chip failed 15 billion miles out — a one-way uplink that takes 22 hours to arrive. Roughly one code drop per decade.</p>
-          </div>
-        </article>
-      </div>
-
-      <p class="sc-wild-foot">The right cadence is the one your blast radius can absorb. Etsy ships 50/day because a bad checkout commit reverts in three minutes. Voyager ships once a decade because the round-trip light delay is two days and the original team is mostly retired. Match the clock to the cost of being wrong.</p>
-    </div>
-
-    <!-- Where this number fits — DORA -->
-    <div class="sc-dora">
-      <h2 class="sc-dora-heading">Where this number fits</h2>
-      <p class="sc-dora-sub">the clock vs. the four DORA metrics</p>
-      <p class="sc-dora-intro">Ship Clock is one number. <em>Deployment frequency</em> is the canonical industry-standard version of it — and the first of <strong>four DORA metrics</strong> the DevOps research team has used to grade software delivery since 2014. Daily-to-multiple-per-day is "elite." Less than monthly is "low." Here's how the clock fits with the other three.</p>
-
-      <div class="sc-dora-list">
-        <article class="sc-dora-card sc-dora-card--ship">
-          <div class="sc-dora-head">
-            <span class="sc-dora-name">Deployment frequency<span class="sc-dora-mine">this clock</span></span>
-            <span class="sc-dora-tag">throughput</span>
-          </div>
-          <p class="sc-dora-what">How often code reaches production. The Ship Clock counts the inverse — days since the last one.</p>
-          <div class="sc-dora-tiers">
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">on demand · multi/day</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">daily–weekly</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">weekly–monthly</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">less than monthly</span></div>
-          </div>
-          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Shrink the unit. Trunk-based development, feature flags, and a one-command deploy do most of the work — every commit that lands is a deploy.</p>
-        </article>
-
-        <article class="sc-dora-card sc-dora-card--lead">
-          <div class="sc-dora-head">
-            <span class="sc-dora-name">Lead time for changes</span>
-            <span class="sc-dora-tag">speed</span>
-          </div>
-          <p class="sc-dora-what">Time from first commit to that code running in production. The "from idea-shaped to user-visible" gap.</p>
-          <div class="sc-dora-tiers">
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">under 1 hour</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">1 hour – 1 day</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">1 day – 1 week</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">1 week – 1 month+</span></div>
-          </div>
-          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Cut PR size. A 50-line PR merges before lunch; a 500-line one sits all week. Smaller surface area, faster review, shorter lead time.</p>
-        </article>
-
-        <article class="sc-dora-card sc-dora-card--fail">
-          <div class="sc-dora-head">
-            <span class="sc-dora-name">Change failure rate</span>
-            <span class="sc-dora-tag">stability</span>
-          </div>
-          <p class="sc-dora-what">Share of deploys that cause an incident, rollback, hotfix, or degraded service. The "did we break prod" rate.</p>
-          <div class="sc-dora-tiers">
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">0 – 5%</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">5 – 10%</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">10 – 15%</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">over 15%</span></div>
-          </div>
-          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>Tests close to production, canaries on the riskiest paths, and a default of "ship behind a flag." Failure rate drops when each deploy ships less raw new behavior.</p>
-        </article>
-
-        <article class="sc-dora-card sc-dora-card--mttr">
-          <div class="sc-dora-head">
-            <span class="sc-dora-name">Time to restore service</span>
-            <span class="sc-dora-tag">recovery</span>
-          </div>
-          <p class="sc-dora-what">From "production is broken" to "production is fixed." Detect plus diagnose plus deploy the fix.</p>
-          <div class="sc-dora-tiers">
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Elite</span><span class="sc-dora-tier-val">under 1 hour</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">High</span><span class="sc-dora-tier-val">1 hour – 1 day</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Medium</span><span class="sc-dora-tier-val">1 day – 1 week</span></div>
-            <div class="sc-dora-tier"><span class="sc-dora-tier-name">Low</span><span class="sc-dora-tier-val">1 week – 1 month+</span></div>
-          </div>
-          <p class="sc-dora-fix"><span class="sc-dora-fix-label">to climb</span>A one-click rollback beats a perfect post-mortem. If revert is the same button as deploy, restore time is measured in minutes — not meetings.</p>
-        </article>
-      </div>
-
-      <p class="sc-dora-foot">Source: <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">DORA / Accelerate State of DevOps</a> · ten years of survey data from tens of thousands of engineers. The headline finding: elite teams ship more often <strong>and</strong> break things less — speed and stability move together, not against each other.</p>
     </div>
 
     <RepoTracker client:idle />

@@ -3,7 +3,7 @@ import type { ModelProfile } from "./types";
 export const MODELS: ModelProfile[] = [
   {
     id: "claude-opus",
-    name: "Claude Opus 4.7",
+    name: "Claude Opus",
     org: "Anthropic",
     emoji: "🏆",
     shortLabel: "OP",
@@ -31,11 +31,11 @@ export const MODELS: ModelProfile[] = [
       "slow and expensive",
       "overkill for simple tasks",
     ],
-    tagline: "The flagship. When you need the absolute best.",
+    tagline: "The flagship shape. Use it when the answer has to be deeply considered.",
   },
   {
     id: "claude-sonnet",
-    name: "Claude Sonnet 4.6",
+    name: "Claude Sonnet",
     org: "Anthropic",
     emoji: "🧠",
     shortLabel: "CS",
@@ -67,10 +67,10 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "gpt-4o",
-    name: "GPT-4o",
+    name: "GPT flagship",
     org: "OpenAI",
     emoji: "⚡",
-    shortLabel: "4o",
+    shortLabel: "GPT",
     color: "#10a37f",
     traits: {
       writing: 7,
@@ -95,11 +95,11 @@ export const MODELS: ModelProfile[] = [
       "writing can feel generic",
       "not open source",
     ],
-    tagline: "The Swiss Army knife. Does everything pretty well.",
+    tagline: "The all-around OpenAI pick. Strong ecosystem, strong tool use.",
   },
   {
     id: "gpt-4o-mini",
-    name: "GPT-4o mini",
+    name: "GPT mini",
     org: "OpenAI",
     emoji: "🏎️",
     shortLabel: "mini",
@@ -130,10 +130,10 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "o3",
-    name: "o3",
+    name: "OpenAI reasoning",
     org: "OpenAI",
     emoji: "🔬",
-    shortLabel: "o3",
+    shortLabel: "OR",
     color: "#10a37f",
     traits: {
       writing: 6,
@@ -162,10 +162,10 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "o4-mini",
-    name: "o4-mini",
+    name: "OpenAI mini reasoning",
     org: "OpenAI",
     emoji: "🧮",
-    shortLabel: "o4m",
+    shortLabel: "OM",
     color: "#10a37f",
     traits: {
       writing: 5,
@@ -190,11 +190,11 @@ export const MODELS: ModelProfile[] = [
       "weaker creative writing",
       "no image generation",
     ],
-    tagline: "The smart cheap one. Reasoning without the o3 price tag.",
+    tagline: "The smart cheap one. Reasoning without the flagship price tag.",
   },
   {
     id: "gemini-pro",
-    name: "Gemini 2.5 Pro",
+    name: "Gemini Pro",
     org: "Google",
     emoji: "💎",
     shortLabel: "GP",
@@ -226,7 +226,7 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "gemini-flash",
-    name: "Gemini 2.5 Flash",
+    name: "Gemini Flash",
     org: "Google",
     emoji: "✨",
     shortLabel: "GF",
@@ -257,7 +257,7 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "llama-4",
-    name: "Llama 4",
+    name: "Llama",
     org: "Meta",
     emoji: "🦙",
     shortLabel: "L4",
@@ -285,7 +285,7 @@ export const MODELS: ModelProfile[] = [
       "requires own infrastructure",
       "no image generation",
     ],
-    tagline: "Meta's best yet. Open, multimodal, and surprisingly capable.",
+    tagline: "The open-weight workhorse. Good when control matters.",
   },
   {
     id: "mistral-large",
@@ -353,7 +353,7 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "dall-e-3",
-    name: "DALL-E 3",
+    name: "DALL-E",
     org: "OpenAI",
     emoji: "🖼️",
     shortLabel: "DE",
@@ -415,7 +415,7 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "claude-haiku",
-    name: "Claude Haiku 4.5",
+    name: "Claude Haiku",
     org: "Anthropic",
     emoji: "🍃",
     shortLabel: "CH",
@@ -447,7 +447,7 @@ export const MODELS: ModelProfile[] = [
   },
   {
     id: "deepseek-r1",
-    name: "DeepSeek R1",
+    name: "DeepSeek reasoning",
     org: "DeepSeek",
     emoji: "🐋",
     shortLabel: "R1",

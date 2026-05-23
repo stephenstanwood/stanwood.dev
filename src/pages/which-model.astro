@@ -1,13 +1,58 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import WhichModelApp from "../components/WhichModel.tsx";
-import BrowseDirectory from "../components/which-model/BrowseDirectory.tsx";
+import { MODELS } from "../lib/whichModel/models";
+import { TRAIT_LABELS, type ModelProfile, type Trait } from "../lib/whichModel/types";
 const title = "Which Model? — stanwood.dev";
+
+const CARD_TRAITS: Trait[] = [
+  "reasoning",
+  "coding",
+  "writing",
+  "speed",
+  "cost",
+  "long_context",
+];
+
+const IMAGE_CARD_TRAITS: Trait[] = [
+  "image_gen",
+  "image_understanding",
+  "speed",
+  "cost",
+  "open_source",
+  "ecosystem",
+];
+
+function isImageModel(model: ModelProfile): boolean {
+  return model.traits.image_gen >= 7 && model.traits.writing === 0;
+}
+
+function scoreLabel(score: number): string {
+  if (score >= 9) return "elite";
+  if (score >= 7) return "strong";
+  if (score >= 5) return "solid";
+  if (score >= 3) return "okay";
+  if (score >= 1) return "weak";
+  return "n/a";
+}
+
+function scorePct(score: number): number {
+  return Math.min(100, score * 10);
+}
+
+function highlightTrait(model: ModelProfile): Trait {
+  return isImageModel(model) ? "image_gen" : "reasoning";
+}
+
+const directoryModels = [...MODELS].sort((a, b) => {
+  const diff = b.traits[highlightTrait(b)] - a.traits[highlightTrait(a)];
+  if (diff !== 0) return diff;
+  return a.name.localeCompare(b.name);
+});
 ---
 
 <BaseLayout
   title={title}
-  description="Stop overthinking which AI model to use. Describe your task and get a straight answer — GPT-4, Claude, Gemini, Llama, or something else. Updated regularly, zero jargon."
+  description="Stop overthinking which AI model to use. Describe your task and get a straight answer across the major model families. Updated regularly, zero jargon."
   slug="which-model"
   favicon="/favicon-which-model.svg"
   themeColor="#fffdf5"
@@ -134,6 +179,8 @@ const title = "Which Model? — stanwood.dev";
         text-align: center;
         transition: transform 0.15s, box-shadow 0.15s;
         font-family: inherit;
+        text-decoration: none;
+        color: inherit;
       }
       .wm-path-card:hover {
         transform: translate(-2px, -2px);
@@ -767,16 +814,10 @@ const title = "Which Model? — stanwood.dev";
         border-radius: 8px;
         padding: 14px 16px 16px;
         border-top: 5px solid var(--mod-color, var(--wm-purple));
-        transition: transform 0.1s ease, box-shadow 0.1s ease;
         display: flex;
         flex-direction: column;
         gap: 10px;
         position: relative;
-      }
-
-      .wm-mod-card:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 4px 4px 0 var(--wm-ink);
       }
 
       .wm-mod-rank {
@@ -862,7 +903,6 @@ const title = "Which Model? — stanwood.dev";
 
       .wm-trait-fill {
         height: 100%;
-        transition: width 0.25s ease;
       }
 
       .wm-trait-score {
@@ -948,124 +988,6 @@ const title = "Which Model? — stanwood.dev";
       .wm-directory-foot a {
         color: var(--wm-coral);
         font-weight: 600;
-      }
-
-      /* ─── Directory controls ──────────────────────────────────── */
-      .wm-dir-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        background: var(--wm-card);
-        border: 2px solid var(--wm-ink);
-        box-shadow: var(--wm-shadow-sm);
-        border-radius: 8px;
-        padding: 14px 16px;
-        margin-bottom: 14px;
-      }
-
-      .wm-dir-controls-row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .wm-dir-controls-label {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--wm-light);
-        font-weight: 700;
-        flex-shrink: 0;
-        min-width: 50px;
-      }
-
-      .wm-dir-chip-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-
-      .wm-dir-chip {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        padding: 6px 11px;
-        border-radius: 999px;
-        background: var(--wm-bg);
-        border: 1.5px solid var(--wm-border);
-        color: var(--wm-muted);
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        transition: border-color 0.12s, color 0.12s, background 0.12s;
-      }
-      .wm-dir-chip:hover {
-        border-color: var(--wm-ink);
-        color: var(--wm-ink);
-      }
-      .wm-dir-chip--active {
-        background: var(--wm-ink);
-        border-color: var(--wm-ink);
-        color: var(--wm-bg);
-      }
-      .wm-dir-chip--active:hover {
-        color: var(--wm-bg);
-      }
-
-      .wm-dir-chip-emoji {
-        font-size: 13px;
-        line-height: 1;
-      }
-
-      .wm-dir-chip-count {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        font-weight: 700;
-        background: var(--wm-border);
-        color: var(--wm-muted);
-        padding: 1px 6px;
-        border-radius: 6px;
-        line-height: 1.4;
-      }
-      .wm-dir-chip--active .wm-dir-chip-count {
-        background: rgba(255,255,255,0.2);
-        color: var(--wm-bg);
-      }
-
-      .wm-dir-sort-wrap {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .wm-dir-sort {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        padding: 6px 28px 6px 12px;
-        border: 1.5px solid var(--wm-ink);
-        background: var(--wm-bg);
-        color: var(--wm-ink);
-        border-radius: 6px;
-        cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23111' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 10px center;
-      }
-      .wm-dir-sort:focus {
-        outline: 2px solid var(--wm-purple);
-        outline-offset: 1px;
-      }
-
-      .wm-dir-sort-hint {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        color: var(--wm-light);
       }
 
       .wm-dir-count {
@@ -1391,600 +1313,6 @@ const title = "Which Model? — stanwood.dev";
         line-height: 1.6;
       }
 
-      /* ─── The labs, decoded ──────────────────────────────────── */
-      .wm-labs {
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 56px 24px 8px;
-      }
-
-      .wm-labs-head {
-        text-align: center;
-        margin-bottom: 26px;
-      }
-
-      .wm-labs-head h2 {
-        font-family: 'Bangers', cursive;
-        font-size: 38px;
-        letter-spacing: 1.5px;
-        color: var(--wm-ink);
-        margin: 0 0 6px;
-        line-height: 1;
-      }
-
-      .wm-labs-head p {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 15px;
-        color: var(--wm-muted);
-        margin: 0;
-        line-height: 1.5;
-      }
-
-      .wm-labs-head p strong {
-        color: var(--wm-ink);
-      }
-
-      .wm-labs-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      @media (min-width: 600px) {
-        .wm-labs-grid { grid-template-columns: repeat(2, 1fr); }
-      }
-
-      @media (min-width: 920px) {
-        .wm-labs-grid { grid-template-columns: repeat(4, 1fr); }
-      }
-
-      .wm-labs-card {
-        background: var(--wm-card);
-        border: 2px solid var(--wm-ink);
-        border-left: 5px solid var(--card-accent, var(--wm-purple));
-        box-shadow: var(--wm-shadow-sm);
-        border-radius: 8px;
-        padding: 14px 14px 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        min-width: 0;
-        transition: transform 0.12s ease, box-shadow 0.12s ease;
-      }
-
-      .wm-labs-card:hover {
-        transform: translate(-1px, -1px);
-        box-shadow: 3px 3px 0 var(--wm-ink);
-      }
-
-      .wm-labs-icon {
-        font-size: 18px;
-        line-height: 1;
-        margin-bottom: 2px;
-      }
-
-      .wm-labs-eyebrow {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--wm-light);
-        margin: 0 0 2px;
-      }
-
-      .wm-labs-name {
-        font-family: 'Space Mono', monospace;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--wm-ink);
-        margin: 0;
-        line-height: 1.15;
-        letter-spacing: -0.01em;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 6px;
-        flex-wrap: wrap;
-      }
-
-      .wm-labs-founded {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        font-weight: 400;
-        color: var(--wm-light);
-        letter-spacing: 0.02em;
-      }
-
-      .wm-labs-meaning {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 12.5px;
-        color: var(--wm-muted);
-        line-height: 1.55;
-        margin: 0;
-      }
-
-      .wm-labs-sig {
-        font-family: 'Space Mono', monospace;
-        font-size: 10.5px;
-        color: var(--wm-ink);
-        opacity: 0.78;
-        line-height: 1.5;
-        margin: 4px 0 0;
-        padding-top: 8px;
-        border-top: 1px dashed var(--wm-border);
-      }
-
-      .wm-labs-sig::before {
-        content: "signature ";
-        font-family: 'Space Mono', monospace;
-        font-size: 8.5px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--card-accent, var(--wm-purple));
-        margin-right: 4px;
-      }
-
-      .wm-labs-bet {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 11.5px;
-        font-style: italic;
-        color: var(--wm-ink);
-        opacity: 0.72;
-        line-height: 1.5;
-        margin: 2px 0 0;
-      }
-
-      .wm-labs-bet::before {
-        content: "the bet — ";
-        font-family: 'Space Mono', monospace;
-        font-size: 8.5px;
-        font-style: normal;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--wm-light);
-        opacity: 1;
-      }
-
-      .wm-labs-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        color: var(--wm-light);
-        text-align: center;
-        margin: 22px auto 0;
-        max-width: 620px;
-        line-height: 1.6;
-      }
-
-      /* ─── Benchmarks, decoded ────────────────────────────────── */
-      .wm-bench {
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 56px 24px 8px;
-      }
-
-      .wm-bench-head {
-        text-align: center;
-        margin-bottom: 26px;
-      }
-
-      .wm-bench-head h2 {
-        font-family: 'Bangers', cursive;
-        font-size: 38px;
-        letter-spacing: 1.5px;
-        color: var(--wm-ink);
-        margin: 0 0 6px;
-        line-height: 1;
-      }
-
-      .wm-bench-head p {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 15px;
-        color: var(--wm-muted);
-        margin: 0;
-        line-height: 1.5;
-      }
-
-      .wm-bench-head p strong {
-        color: var(--wm-ink);
-      }
-
-      .wm-bench-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 14px;
-      }
-
-      @media (min-width: 640px) {
-        .wm-bench-grid { grid-template-columns: repeat(2, 1fr); }
-      }
-
-      @media (min-width: 980px) {
-        .wm-bench-grid { grid-template-columns: repeat(3, 1fr); }
-      }
-
-      .wm-bench-card {
-        background: var(--wm-card);
-        border: 2px solid var(--wm-ink);
-        border-left: 5px solid var(--card-accent, var(--wm-purple));
-        box-shadow: var(--wm-shadow-sm);
-        border-radius: 8px;
-        padding: 14px 16px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        min-width: 0;
-        transition: transform 0.12s ease, box-shadow 0.12s ease;
-      }
-
-      .wm-bench-card:hover {
-        transform: translate(-1px, -1px);
-        box-shadow: 3px 3px 0 var(--wm-ink);
-      }
-
-      .wm-bench-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 8px;
-      }
-
-      .wm-bench-name {
-        font-family: 'Space Mono', monospace;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--wm-ink);
-        margin: 0;
-        line-height: 1.15;
-        letter-spacing: -0.01em;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .wm-bench-name-emoji {
-        font-size: 16px;
-        line-height: 1;
-      }
-
-      .wm-bench-tag {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--card-accent, var(--wm-purple));
-        white-space: nowrap;
-      }
-
-      .wm-bench-meaning {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 12.5px;
-        color: var(--wm-muted);
-        line-height: 1.55;
-        margin: 0;
-      }
-
-      .wm-bench-scoreboard {
-        margin-top: 4px;
-        padding: 10px 12px 12px;
-        background: #faf8ee;
-        border: 1px dashed var(--wm-border);
-        border-radius: 6px;
-      }
-
-      .wm-bench-bar-label {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 8px;
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--wm-ink);
-        margin-bottom: 6px;
-      }
-
-      .wm-bench-bar-label span:last-child {
-        color: var(--card-accent, var(--wm-purple));
-        font-size: 11px;
-        letter-spacing: 0.02em;
-        text-transform: none;
-      }
-
-      .wm-bench-bar {
-        position: relative;
-        height: 10px;
-        background: #fff;
-        border: 1.5px solid var(--wm-ink);
-        border-radius: 3px;
-        overflow: hidden;
-      }
-
-      .wm-bench-bar-fill {
-        height: 100%;
-        background: var(--card-accent, var(--wm-purple));
-        transition: width 0.4s ease;
-      }
-
-      .wm-bench-bar-marker {
-        position: absolute;
-        top: -3px;
-        bottom: -3px;
-        width: 2px;
-        background: var(--wm-ink);
-      }
-
-      .wm-bench-bar-marker::after {
-        content: attr(data-label);
-        position: absolute;
-        top: calc(100% + 4px);
-        left: 50%;
-        transform: translateX(-50%);
-        font-family: 'Space Mono', monospace;
-        font-size: 8.5px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: var(--wm-muted);
-        white-space: nowrap;
-      }
-
-      .wm-bench-bar-wrap {
-        position: relative;
-        padding-bottom: 16px;
-      }
-
-      .wm-bench-why {
-        font-family: 'Space Mono', monospace;
-        font-size: 10.5px;
-        color: var(--wm-ink);
-        opacity: 0.78;
-        line-height: 1.5;
-        margin: 4px 0 0;
-        padding-top: 8px;
-        border-top: 1px dashed var(--wm-border);
-      }
-
-      .wm-bench-why::before {
-        content: "why it matters ";
-        font-family: 'Space Mono', monospace;
-        font-size: 8.5px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--card-accent, var(--wm-purple));
-        margin-right: 4px;
-      }
-
-      .wm-bench-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        color: var(--wm-light);
-        text-align: center;
-        margin: 22px auto 0;
-        max-width: 600px;
-        line-height: 1.6;
-      }
-
-      /* ─── Price ladder ─────────────────────────────────────────── */
-      .wm-price {
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 56px 24px 8px;
-      }
-
-      .wm-price-head {
-        text-align: center;
-        margin-bottom: 26px;
-      }
-
-      .wm-price-head h2 {
-        font-family: 'Bangers', cursive;
-        font-size: 38px;
-        letter-spacing: 1.5px;
-        color: var(--wm-ink);
-        margin: 0 0 6px;
-        line-height: 1;
-      }
-
-      .wm-price-head p {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 15px;
-        color: var(--wm-muted);
-        margin: 0;
-        line-height: 1.5;
-      }
-
-      .wm-price-head p strong { color: var(--wm-ink); }
-
-      .wm-price-tiers {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-
-      @media (min-width: 820px) {
-        .wm-price-tiers { grid-template-columns: repeat(3, 1fr); }
-      }
-
-      .wm-price-tier {
-        background: var(--wm-card);
-        border: 2px solid var(--wm-ink);
-        border-top: 6px solid var(--tier-accent, var(--wm-purple));
-        box-shadow: var(--wm-shadow-sm);
-        border-radius: 8px;
-        padding: 14px 14px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .wm-price-tier-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 8px;
-        padding-bottom: 6px;
-        border-bottom: 1px dashed var(--wm-border);
-      }
-
-      .wm-price-tier-label {
-        font-family: 'Bangers', cursive;
-        font-size: 22px;
-        letter-spacing: 1px;
-        color: var(--wm-ink);
-        line-height: 1;
-      }
-
-      .wm-price-tier-tag {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--tier-accent, var(--wm-purple));
-        white-space: nowrap;
-      }
-
-      .wm-price-tier-blurb {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 12px;
-        color: var(--wm-muted);
-        line-height: 1.5;
-        margin: 0;
-      }
-
-      .wm-price-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .wm-price-row {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 6px 10px;
-        align-items: baseline;
-        padding: 8px 10px 9px;
-        background: #faf8ee;
-        border: 1px solid var(--wm-border);
-        border-left: 3px solid var(--tier-accent, var(--wm-purple));
-        border-radius: 4px;
-      }
-
-      .wm-price-model {
-        font-family: 'Space Mono', monospace;
-        font-size: 12.5px;
-        font-weight: 700;
-        color: var(--wm-ink);
-        line-height: 1.2;
-        letter-spacing: -0.01em;
-      }
-
-      .wm-price-org {
-        display: block;
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 400;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--wm-light);
-        margin-top: 2px;
-      }
-
-      .wm-price-cost {
-        font-family: 'Space Mono', monospace;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--tier-accent, var(--wm-purple));
-        text-align: right;
-        white-space: nowrap;
-      }
-
-      .wm-price-cost-label {
-        display: block;
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--wm-light);
-        margin-top: 2px;
-      }
-
-      .wm-price-tokens {
-        grid-column: 1 / -1;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px 10px;
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        color: var(--wm-muted);
-        line-height: 1.4;
-        padding-top: 4px;
-        border-top: 1px dotted var(--wm-border);
-        margin-top: 2px;
-      }
-
-      .wm-price-tokens span strong {
-        color: var(--wm-ink);
-        font-weight: 700;
-      }
-
-      .wm-price-scenario {
-        margin-top: 18px;
-        padding: 14px 16px 12px;
-        background: #fff;
-        border: 2px solid var(--wm-ink);
-        border-radius: 8px;
-        box-shadow: var(--wm-shadow-sm);
-      }
-
-      .wm-price-scenario-label {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--wm-coral);
-        margin-bottom: 6px;
-      }
-
-      .wm-price-scenario-title {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--wm-ink);
-        margin: 0 0 4px;
-      }
-
-      .wm-price-scenario-body {
-        font-family: 'Space Grotesk', system-ui, sans-serif;
-        font-size: 12.5px;
-        color: var(--wm-muted);
-        line-height: 1.55;
-        margin: 0;
-      }
-
-      .wm-price-scenario-body strong { color: var(--wm-ink); }
-
-      .wm-price-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        color: var(--wm-light);
-        text-align: center;
-        margin: 22px auto 0;
-        max-width: 620px;
-        line-height: 1.6;
-      }
-
       /* ─── Responsive ──────────────────────────────────────────── */
       @media (max-width: 600px) {
         .wm-paths {
@@ -2044,8 +1372,6 @@ const title = "Which Model? — stanwood.dev";
         .wm-directory { padding: 0 16px 40px; }
         .wm-directory-grid { grid-template-columns: 1fr; }
         .wm-trait-row { grid-template-columns: 70px 1fr 18px; gap: 6px; }
-        .wm-dir-controls-label { min-width: auto; }
-        .wm-dir-chip { font-size: 11.5px; padding: 5px 9px; }
         .wm-mod-sortbadge-num { font-size: 20px; }
 
         .wm-quick { padding: 40px 16px 0; }
@@ -2056,48 +1382,81 @@ const title = "Which Model? — stanwood.dev";
         .wm-decode-head h2 { font-size: 30px; }
         .wm-decode-head p { font-size: 13px; }
 
-        .wm-labs { padding: 40px 16px 0; }
-        .wm-labs-head h2 { font-size: 30px; }
-        .wm-labs-head p { font-size: 13px; }
-
-        .wm-bench { padding: 40px 16px 0; }
-        .wm-bench-head h2 { font-size: 30px; }
-        .wm-bench-head p { font-size: 13px; }
-        .wm-bench-card { padding: 13px 14px 14px; }
-
-        .wm-price { padding: 40px 16px 0; }
-        .wm-price-head h2 { font-size: 30px; }
-        .wm-price-head p { font-size: 13px; }
-        .wm-price-tier { padding: 12px 12px 14px; }
-        .wm-price-tier-label { font-size: 20px; }
       }
 
     </style>
   </Fragment>
 
-  <WhichModelApp client:idle />
+  <div class="wm-page">
+    <header class="wm-header">
+      <a href="/" class="wm-back-home">← stanwood.dev</a>
+    </header>
+
+    <main class="wm-main">
+      <div class="wm-start">
+        <div class="wm-hero">
+          <h1 class="wm-title">Which Model?</h1>
+          <p class="wm-subtitle">
+            Stop overthinking it. Match the shape of the job to the shape of the model.
+          </p>
+        </div>
+
+        <div class="wm-paths">
+          <a class="wm-path-card" href="#quick-picks-heading">
+            <span class="wm-path-emoji" aria-hidden="true">🎯</span>
+            <span class="wm-path-label">Quick picks</span>
+            <span class="wm-path-desc">
+              Start with the common task shapes and the model traits that matter.
+            </span>
+          </a>
+
+          <a class="wm-path-card" href="#directory-heading">
+            <span class="wm-path-emoji" aria-hidden="true">📊</span>
+            <span class="wm-path-label">Compare</span>
+            <span class="wm-path-desc">
+              Scan the current model families side-by-side without chasing release names.
+            </span>
+          </a>
+        </div>
+
+        <div class="wm-examples">
+          <p class="wm-examples-label">Good questions to ask first:</p>
+          <div class="wm-example-chips">
+            <span class="wm-chip">is quality or speed the bottleneck?</span>
+            <span class="wm-chip">does it need tools?</span>
+            <span class="wm-chip">how much context must fit?</span>
+            <span class="wm-chip">what mistake is expensive?</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="wm-footer">
+      <p>Opinionated recommendations, not gospel. Model landscape changes fast. Last updated April 2026.</p>
+    </footer>
+  </div>
 
   <section class="wm-quick" aria-labelledby="quick-picks-heading">
     <div class="wm-quick-head">
       <h2 id="quick-picks-heading">Quick picks</h2>
-      <p>Skip the quiz. <strong>Eight common asks, eight straight answers.</strong></p>
+      <p>Skip the quiz. <strong>Six common asks, six ways to narrow the field.</strong></p>
     </div>
 
     <div class="wm-quick-grid">
       <article class="wm-quick-card" style="--card-color: #d97706;">
         <div class="wm-quick-task">
           <span class="wm-quick-task-icon" aria-hidden="true">✍️</span>
-          <span>Write polished prose — essay, blog, marketing email</span>
+          <span>Write polished prose</span>
         </div>
         <div class="wm-quick-pick">
           <span class="wm-quick-pick-emoji" aria-hidden="true">🧠</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Claude Sonnet 4.6</span>
-            <span class="wm-quick-pick-org">Anthropic</span>
+            <span class="wm-quick-pick-name">Pick for voice</span>
+            <span class="wm-quick-pick-org">writing quality over benchmark rank</span>
           </div>
         </div>
-        <p class="wm-quick-why">Best writing voice in the affordable tier — careful, less generic than GPT-4o.</p>
-        <p class="wm-quick-alt"><span>Backup</span>GPT-4o for tighter ChatGPT integration.</p>
+        <p class="wm-quick-why">Use a model whose drafts need the fewest style edits. The best writing pick is the one you rewrite least.</p>
+        <p class="wm-quick-alt"><span>Check</span>Ask for three versions and choose the one with the strongest default taste.</p>
       </article>
 
       <article class="wm-quick-card" style="--card-color: #d97706;">
@@ -2106,115 +1465,83 @@ const title = "Which Model? — stanwood.dev";
           <span>Code a feature in your app</span>
         </div>
         <div class="wm-quick-pick">
-          <span class="wm-quick-pick-emoji" aria-hidden="true">🧠</span>
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🛠️</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Claude Sonnet 4.6</span>
-            <span class="wm-quick-pick-org">Anthropic</span>
+            <span class="wm-quick-pick-name">Pick for tool use</span>
+            <span class="wm-quick-pick-org">repo access, tests, edit loop</span>
           </div>
         </div>
-        <p class="wm-quick-why">Tops the daily-driver coding charts — fast enough to iterate, smart enough to architect.</p>
-        <p class="wm-quick-alt"><span>Backup</span>o4-mini if you need step-by-step reasoning on a budget.</p>
+        <p class="wm-quick-why">Coding work needs context and verification more than a clever single answer. Favor models and apps that can inspect files, edit, and run tests.</p>
+        <p class="wm-quick-alt"><span>Check</span>Give it a small real bug and see whether it changes the right file.</p>
       </article>
 
       <article class="wm-quick-card" style="--card-color: #10a37f;">
         <div class="wm-quick-task">
           <span class="wm-quick-task-icon" aria-hidden="true">🧮</span>
-          <span>Crack a hard math, logic, or research problem</span>
+          <span>Crack hard math, logic, or research</span>
         </div>
         <div class="wm-quick-pick">
           <span class="wm-quick-pick-emoji" aria-hidden="true">🔬</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">o3</span>
-            <span class="wm-quick-pick-org">OpenAI</span>
+            <span class="wm-quick-pick-name">Pick reasoning</span>
+            <span class="wm-quick-pick-org">slower, pricier, more deliberate</span>
           </div>
         </div>
-        <p class="wm-quick-why">Heavyweight reasoning. It thinks longer and gets there when other models give up.</p>
-        <p class="wm-quick-alt"><span>Backup</span>Claude Opus 4.7 if you also need polished writing in the answer.</p>
+        <p class="wm-quick-why">Reasoning models are worth the extra latency when each mistake is expensive and the answer has multiple dependent steps.</p>
+        <p class="wm-quick-alt"><span>Check</span>Ask for assumptions, not just the final answer.</p>
       </article>
 
       <article class="wm-quick-card" style="--card-color: #4285f4;">
         <div class="wm-quick-task">
           <span class="wm-quick-task-icon" aria-hidden="true">📚</span>
-          <span>Summarize a 200-page document or whole codebase</span>
+          <span>Summarize a huge document or codebase</span>
         </div>
         <div class="wm-quick-pick">
-          <span class="wm-quick-pick-emoji" aria-hidden="true">💎</span>
+          <span class="wm-quick-pick-emoji" aria-hidden="true">📄</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Gemini 2.5 Pro</span>
-            <span class="wm-quick-pick-org">Google</span>
+            <span class="wm-quick-pick-name">Pick long context</span>
+            <span class="wm-quick-pick-org">fits the source without chopping</span>
           </div>
         </div>
-        <p class="wm-quick-why">Massive context window — feed it everything at once instead of chunking.</p>
-        <p class="wm-quick-alt"><span>Backup</span>Claude Opus 4.7 — same context depth, sharper synthesis.</p>
-      </article>
-
-      <article class="wm-quick-card" style="--card-color: #e84393;">
-        <div class="wm-quick-task">
-          <span class="wm-quick-task-icon" aria-hidden="true">🎨</span>
-          <span>Generate a stunning image or product visual</span>
-        </div>
-        <div class="wm-quick-pick">
-          <span class="wm-quick-pick-emoji" aria-hidden="true">🎨</span>
-          <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Midjourney</span>
-            <span class="wm-quick-pick-org">Midjourney</span>
-          </div>
-        </div>
-        <p class="wm-quick-why">Still the artist. Composition, mood, photographic detail — best in class.</p>
-        <p class="wm-quick-alt"><span>Backup</span>Flux Pro for photorealism with open weights.</p>
+        <p class="wm-quick-why">The model cannot reason over pages it never saw. Context window matters most when the source is long and cross-referenced.</p>
+        <p class="wm-quick-alt"><span>Check</span>Ask it to cite where in the source each claim came from.</p>
       </article>
 
       <article class="wm-quick-card" style="--card-color: #4285f4;">
         <div class="wm-quick-task">
           <span class="wm-quick-task-icon" aria-hidden="true">⚡</span>
-          <span>High-volume tasks where every penny counts</span>
+          <span>Run high-volume production tasks</span>
         </div>
         <div class="wm-quick-pick">
           <span class="wm-quick-pick-emoji" aria-hidden="true">✨</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Gemini 2.5 Flash</span>
-            <span class="wm-quick-pick-org">Google</span>
+            <span class="wm-quick-pick-name">Pick cheap and fast</span>
+            <span class="wm-quick-pick-org">latency and unit cost first</span>
           </div>
         </div>
-        <p class="wm-quick-why">Fastest cheap model that still handles long context — perfect for production pipelines.</p>
-        <p class="wm-quick-alt"><span>Backup</span>Claude Haiku 4.5 if you want Anthropic's tone.</p>
+        <p class="wm-quick-why">For tagging, extraction, routing, and simple Q&amp;A, the right answer is usually the cheapest model that clears your eval.</p>
+        <p class="wm-quick-alt"><span>Check</span>Run a 50-item sample before paying flagship prices.</p>
       </article>
 
       <article class="wm-quick-card" style="--card-color: #4f88c6;">
         <div class="wm-quick-task">
           <span class="wm-quick-task-icon" aria-hidden="true">🔓</span>
-          <span>Run it open-source or self-host</span>
+          <span>Self-host or keep data local</span>
         </div>
         <div class="wm-quick-pick">
-          <span class="wm-quick-pick-emoji" aria-hidden="true">🐋</span>
+          <span class="wm-quick-pick-emoji" aria-hidden="true">🏠</span>
           <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">DeepSeek R1</span>
-            <span class="wm-quick-pick-org">DeepSeek</span>
+            <span class="wm-quick-pick-name">Pick open weights</span>
+            <span class="wm-quick-pick-org">control beats convenience</span>
           </div>
         </div>
-        <p class="wm-quick-why">Frontier-level reasoning, fully open weights, dirt cheap to run.</p>
-        <p class="wm-quick-alt"><span>Backup</span>Llama 4 for multimodal open-source.</p>
-      </article>
-
-      <article class="wm-quick-card" style="--card-color: #b45309;">
-        <div class="wm-quick-task">
-          <span class="wm-quick-task-icon" aria-hidden="true">🏆</span>
-          <span>Best at almost everything — price no object</span>
-        </div>
-        <div class="wm-quick-pick">
-          <span class="wm-quick-pick-emoji" aria-hidden="true">🏆</span>
-          <div class="wm-quick-pick-body">
-            <span class="wm-quick-pick-name">Claude Opus 4.7</span>
-            <span class="wm-quick-pick-org">Anthropic</span>
-          </div>
-        </div>
-        <p class="wm-quick-why">Top scores across reasoning, coding, writing, and long context. The flagship.</p>
-        <p class="wm-quick-alt"><span>Backup</span>o3 for the hardest pure-reasoning problems.</p>
+        <p class="wm-quick-why">Open-weight models trade managed polish for privacy, offline use, customization, and predictable infrastructure costs.</p>
+        <p class="wm-quick-alt"><span>Check</span>Read the license before building a business on it.</p>
       </article>
     </div>
 
     <p class="wm-quick-foot">
-      Don't see your ask? <a href="#" data-wm-restart>Take the quiz</a> or scroll to the full directory below.
+      Don't see your ask? Scroll to the full directory and compare the traits underneath the recommendation.
     </p>
   </section>
 
@@ -2230,7 +1557,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">working memory</p>
         <p class="wm-decode-term">Context window</p>
         <p class="wm-decode-meaning">Everything you paste — prompt, attachments, prior chat — has to fit. Bigger window means more code or more pages of a contract before you start chunking.</p>
-        <p class="wm-decode-example">Gemini 2.5 Pro: 2M tokens (~5,000 pages). Claude Opus 4.7: 1M (~2,500). GPT-4o: 128K (~300).</p>
+        <p class="wm-decode-example">Use bigger windows for whole repos, long contracts, or many attached PDFs. Use smaller ones when the prompt is short and latency matters.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #ff6b4a;">
@@ -2238,7 +1565,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">thinks before it answers</p>
         <p class="wm-decode-term">Reasoning model</p>
         <p class="wm-decode-meaning">A second class of model that runs an internal "scratchpad" before responding. Slower and pricier per query, but lands harder problems — math, multi-step logic, code refactors.</p>
-        <p class="wm-decode-example">o3, Claude Opus 4.7 with extended thinking, DeepSeek R1, Gemini 2.5 Deep Think.</p>
+        <p class="wm-decode-example">Best for hard math, planning, and codebase refactors. Overkill for rewriting a paragraph or classifying a support ticket.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #f5c542;">
@@ -2246,7 +1573,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">handles more than text</p>
         <p class="wm-decode-term">Multimodal</p>
         <p class="wm-decode-meaning">Reads images, audio, video, or PDFs as input — not just text. Native multimodal models trained on all four feel sharper than ones bolted onto text-only bases.</p>
-        <p class="wm-decode-example">Gemini eats video natively; Claude reads photos and PDFs; GPT-4o adds voice in / voice out.</p>
+        <p class="wm-decode-example">Choose this when the task includes screenshots, charts, PDFs, audio, or video. Text-only work does not need the extra surface area.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #10a37f;">
@@ -2254,7 +1581,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">the unit you pay by</p>
         <p class="wm-decode-term">Tokens</p>
         <p class="wm-decode-meaning">Sub-words the model reads and writes — roughly 0.75 word per token. Pricing is "$X per million input tokens / $Y per million output." Output is usually 3–5× more expensive than input.</p>
-        <p class="wm-decode-example">A 200-page PDF ≈ 100K input tokens. At $3/M, that's $0.30 to read it once.</p>
+        <p class="wm-decode-example">Long inputs and long outputs both cost money. Summaries are cheap; repeated analysis loops over giant files are where bills grow.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #4285f4;">
@@ -2262,7 +1589,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">fast vs. flagship</p>
         <p class="wm-decode-term">Tier (Fast · Mid · Flagship)</p>
         <p class="wm-decode-meaning">Each lab ships a tiered family. Fast tiers are 5–20× cheaper and answer in &lt;1s — built for production pipelines. Flagship tiers cost more, think harder, and only make sense when quality matters more than latency.</p>
-        <p class="wm-decode-example">Anthropic: Haiku → Sonnet → Opus. Google: Flash-Lite → Flash → Pro. OpenAI: 4o-mini → 4o → o3.</p>
+        <p class="wm-decode-example">Start with the cheapest tier that can do the job, then move up only when you see quality failures you can name.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #4f88c6;">
@@ -2270,7 +1597,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">can you run it yourself</p>
         <p class="wm-decode-term">Open vs. closed weights</p>
         <p class="wm-decode-meaning">Open-weight models publish the trained parameters — you can self-host, fine-tune, or run offline. Closed-weight models live behind an API only. Open trades some quality for full control and zero per-call cost.</p>
-        <p class="wm-decode-example">Open: Llama 4, DeepSeek R1, Mistral. Closed: anything from OpenAI, Anthropic, Google.</p>
+        <p class="wm-decode-example">Use open weights for privacy, offline use, fine-tuning, or predictable unit economics. Use hosted APIs when managed quality matters more.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #d97706;">
@@ -2278,7 +1605,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">can it call other things</p>
         <p class="wm-decode-term">Tool use / agents</p>
         <p class="wm-decode-meaning">Whether the model can call APIs, run code, search the web, or read files mid-conversation — instead of just generating text. The foundation under every "agent" headline.</p>
-        <p class="wm-decode-example">Claude's MCP, OpenAI's function calling, Gemini's tool use — all the same idea, slightly different APIs.</p>
+        <p class="wm-decode-example">Tool access is what turns a chat answer into a workflow: search, fetch, calculate, write, verify, repeat.</p>
       </article>
 
       <article class="wm-decode-card" style="--card-accent: #b76dff;">
@@ -2286,7 +1613,7 @@ const title = "Which Model? — stanwood.dev";
         <p class="wm-decode-en">how recent its world is</p>
         <p class="wm-decode-term">Knowledge cutoff</p>
         <p class="wm-decode-meaning">The date training data ends. Anything after — a release, a news event, a library version — the model has to be told or look up. Models with web search smooth this over; pure-LLM answers don't.</p>
-        <p class="wm-decode-example">Claude Opus 4.7: Jan 2026. GPT-5.5: late 2025. Older models can be 12+ months stale.</p>
+        <p class="wm-decode-example">For current events, prices, docs, or laws, use a model with retrieval or bring the sources yourself. Guessing from memory is the trap.</p>
       </article>
     </div>
 
@@ -2295,334 +1622,78 @@ const title = "Which Model? — stanwood.dev";
     </p>
   </section>
 
-  <section class="wm-labs" aria-labelledby="labs-heading">
-    <div class="wm-labs-head">
-      <h2 id="labs-heading">The labs, decoded</h2>
-      <p>Models don't fall from the sky — eight labs build them. <strong>Eight personalities, eight bets.</strong></p>
-    </div>
-
-    <div class="wm-labs-grid">
-      <article class="wm-labs-card" style="--card-accent: #d97706;">
-        <span class="wm-labs-icon" aria-hidden="true">🧠</span>
-        <p class="wm-labs-eyebrow">the careful lab</p>
-        <p class="wm-labs-name"><span>Anthropic</span><span class="wm-labs-founded">SF · 2021</span></p>
-        <p class="wm-labs-meaning">Founded by ex-OpenAI leaders Dario &amp; Daniela Amodei. Safety-first house style — "constitutional AI." Quietly tops coding charts and the best writing voice in the affordable tier.</p>
-        <p class="wm-labs-sig">Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5</p>
-        <p class="wm-labs-bet">Steerable, honest models enterprises will trust with the sensitive stuff.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #10a37f;">
-        <span class="wm-labs-icon" aria-hidden="true">🔬</span>
-        <p class="wm-labs-eyebrow">the household name</p>
-        <p class="wm-labs-name"><span>OpenAI</span><span class="wm-labs-founded">SF · 2015</span></p>
-        <p class="wm-labs-meaning">ChatGPT made AI mainstream in November 2022. The o-series invented the "reasoning model" category. Most polished consumer UX — voice, vision, video — and a sprawling API platform underneath.</p>
-        <p class="wm-labs-sig">GPT-4o · o3 · GPT-4o mini · Sora</p>
-        <p class="wm-labs-bet">Own the AI brand and the AI platform — both ends of the funnel.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #4285f4;">
-        <span class="wm-labs-icon" aria-hidden="true">💎</span>
-        <p class="wm-labs-eyebrow">the research giant</p>
-        <p class="wm-labs-name"><span>Google DeepMind</span><span class="wm-labs-founded">London · 2010</span></p>
-        <p class="wm-labs-meaning">DeepMind merged with Google Brain in 2023 to consolidate the firepower. Massive context (2M tokens), multimodal-native, video in, search-grounded. Trails on chat UX, leads on raw capability and scale.</p>
-        <p class="wm-labs-sig">Gemini 2.5 Pro · Flash · Deep Think · Imagen 4</p>
-        <p class="wm-labs-bet">Bake AI into every Google product — Search, Workspace, Cloud, Pixel.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #1877f2;">
-        <span class="wm-labs-icon" aria-hidden="true">🦙</span>
-        <p class="wm-labs-eyebrow">the open-weight champion</p>
-        <p class="wm-labs-name"><span>Meta</span><span class="wm-labs-founded">Menlo Park · 2013</span></p>
-        <p class="wm-labs-meaning">Llama 1 leaked in 2023 and Meta leaned in — every model since has shipped with open weights the rest of the industry forks. Trains on the Facebook + Instagram firehose, releases the result for free.</p>
-        <p class="wm-labs-sig">Llama 4 — Scout · Maverick · Behemoth</p>
-        <p class="wm-labs-bet">Commoditize the model layer so no closed API can rent-seek on top.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #4f88c6;">
-        <span class="wm-labs-icon" aria-hidden="true">🐋</span>
-        <p class="wm-labs-eyebrow">the cost shock</p>
-        <p class="wm-labs-name"><span>DeepSeek</span><span class="wm-labs-founded">Hangzhou · 2023</span></p>
-        <p class="wm-labs-meaning">Spun out of High-Flyer quant hedge fund. Shocked the field in Jan 2025 when R1 hit frontier reasoning at <em>a fraction</em> of the price — and shipped it open-weight. Self-funded, no US chip imports.</p>
-        <p class="wm-labs-sig">DeepSeek R1 · V3 · Coder V2</p>
-        <p class="wm-labs-bet">Reasoning at 5% of the cost — the only way to win is to be radically cheaper.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #555;">
-        <span class="wm-labs-icon" aria-hidden="true">𝕏</span>
-        <p class="wm-labs-eyebrow">the realtime lab</p>
-        <p class="wm-labs-name"><span>xAI</span><span class="wm-labs-founded">Palo Alto · 2023</span></p>
-        <p class="wm-labs-meaning">Elon's outfit after splitting from OpenAI. Plugged into the real-time X firehose so it actually knows what happened this hour. Looser guardrails, personality-forward — "humor mode," "unhinged mode."</p>
-        <p class="wm-labs-sig">Grok 3 · Grok 4 · Grok Vision</p>
-        <p class="wm-labs-bet">Realtime data + less filter = the alternative to safety-tuned assistants.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #ff5c1a;">
-        <span class="wm-labs-icon" aria-hidden="true">🇪🇺</span>
-        <p class="wm-labs-eyebrow">the european contender</p>
-        <p class="wm-labs-name"><span>Mistral</span><span class="wm-labs-founded">Paris · 2023</span></p>
-        <p class="wm-labs-meaning">Founded by ex-DeepMind and Meta researchers. Mix of open and closed models, strong multilingual + code, and the EU sovereignty story is its biggest sales pitch to European enterprises.</p>
-        <p class="wm-labs-sig">Mistral Large · Codestral · Pixtral · Ministral</p>
-        <p class="wm-labs-bet">Be the European AI champion — permissive licenses for buyers wary of US &amp; China.</p>
-      </article>
-
-      <article class="wm-labs-card" style="--card-accent: #ff9900;">
-        <span class="wm-labs-icon" aria-hidden="true">🐉</span>
-        <p class="wm-labs-eyebrow">the other open giant</p>
-        <p class="wm-labs-name"><span>Alibaba (Qwen)</span><span class="wm-labs-founded">Hangzhou · 2017</span></p>
-        <p class="wm-labs-meaning">DAMO Academy ships the broadest open-weight lineup on Hugging Face — text, vision, code, audio, math reasoners. Frontier-grade Chinese alternative to closed APIs, mostly under permissive licenses.</p>
-        <p class="wm-labs-sig">Qwen 3 · QwQ · Qwen2.5-VL · Qwen2.5-Coder</p>
-        <p class="wm-labs-bet">Open weights at scale — and lock down the Chinese cloud market with them.</p>
-      </article>
-    </div>
-
-    <p class="wm-labs-foot">
-      Eight labs cover ~95% of every model anyone seriously uses. Knowing the lab's personality usually predicts the model's — Anthropic models won't shout, Grok will, Gemini will quote sources, Llama will run on your laptop.
-    </p>
-  </section>
-
-  <section class="wm-bench" aria-labelledby="bench-heading">
-    <div class="wm-bench-head">
-      <h2 id="bench-heading">Benchmarks, decoded</h2>
-      <p>Every model brags about scores. <strong>Six tests that actually decide who's winning</strong> — and what "82%" really means.</p>
-    </div>
-
-    <div class="wm-bench-grid">
-      <article class="wm-bench-card" style="--card-accent: #7c5cff;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">📚</span>MMLU</span>
-          <span class="wm-bench-tag">broad knowledge</span>
-        </div>
-        <p class="wm-bench-meaning">15,000 multiple-choice questions across 57 subjects — law, medicine, history, math. The "general intelligence" benchmark every lab still cites.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top score</span><span>~89% · Claude Opus 4.7</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 89%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 90%;" data-label="human expert"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">Frontier models are saturated here — everyone scores 85–90%. If a model is below 80%, it's a tier behind.</p>
-      </article>
-
-      <article class="wm-bench-card" style="--card-accent: #10a37f;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">💻</span>SWE-Bench Verified</span>
-          <span class="wm-bench-tag">real coding</span>
-        </div>
-        <p class="wm-bench-meaning">500 real GitHub issues from popular Python repos. The model gets the codebase and the bug report — and has to write a patch that passes the project's tests.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top score</span><span>~75% · Claude Sonnet 4.6</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 75%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 50%;" data-label="last year's best"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">Closest thing to "can it do my job" for coding. Doubled in 18 months — the chart everyone watches.</p>
-      </article>
-
-      <article class="wm-bench-card" style="--card-accent: #ff6b4a;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🔬</span>GPQA Diamond</span>
-          <span class="wm-bench-tag">PhD science</span>
-        </div>
-        <p class="wm-bench-meaning">198 graduate-level physics, chemistry, and biology questions. Designed to be Google-proof — even PhDs in adjacent fields struggle without their own field's training.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top score</span><span>~83% · Claude Opus 4.7</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 83%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 65%;" data-label="domain PhD"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">Where reasoning models pull away. If you need real research depth, scores below 70% mean you'll be checking the work.</p>
-      </article>
-
-      <article class="wm-bench-card" style="--card-accent: #f5c542;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🧮</span>AIME 2025</span>
-          <span class="wm-bench-tag">math olympiad</span>
-        </div>
-        <p class="wm-bench-meaning">30 integer-answer questions from the American Invitational Math Exam — the test that picks the US team for the IMO. Pure, no-calculator problem-solving.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top score</span><span>~93% · o3</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 93%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 33%;" data-label="top US high schooler"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">Reasoning models smashed this in 2025 — non-reasoning models still cap around 40%. Best single signal for "does it actually think."</p>
-      </article>
-
-      <article class="wm-bench-card" style="--card-accent: #4285f4;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🗳️</span>Chatbot Arena</span>
-          <span class="wm-bench-tag">human votes</span>
-        </div>
-        <p class="wm-bench-meaning">Millions of head-to-head blind votes from real users at LMArena. Two responses, same prompt, you pick the better one. Aggregated into an Elo score — chess-style ranking.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top Elo</span><span>~1480 · Gemini 2.5 Pro</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 88%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 75%;" data-label="frontier line ~1400"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">The only benchmark that measures vibes — tone, helpfulness, format. A model can ace MMLU and still lose here if it's annoying.</p>
-      </article>
-
-      <article class="wm-bench-card" style="--card-accent: #e84393;">
-        <div class="wm-bench-row">
-          <span class="wm-bench-name"><span class="wm-bench-name-emoji" aria-hidden="true">🧩</span>ARC-AGI-2</span>
-          <span class="wm-bench-tag">fluid reasoning</span>
-        </div>
-        <p class="wm-bench-meaning">Visual grid puzzles where each is a brand-new pattern — no two are alike. Trivial for a smart kid; nearly impossible for an LLM that hasn't seen the trick before.</p>
-        <div class="wm-bench-scoreboard">
-          <div class="wm-bench-bar-label"><span>Top score</span><span>~16% · o3 (private)</span></div>
-          <div class="wm-bench-bar-wrap">
-            <div class="wm-bench-bar"><div class="wm-bench-bar-fill" style="width: 16%;"></div></div>
-            <div class="wm-bench-bar-marker" style="left: 95%;" data-label="humans"></div>
-          </div>
-        </div>
-        <p class="wm-bench-why">The benchmark AI hasn't conquered. Useful as a sanity check — when this number is high, every other score will look very different.</p>
-      </article>
-    </div>
-
-    <p class="wm-bench-foot">
-      Benchmarks compress thousands of hours of testing into a single number — they're directional, not gospel. The same model can top one and place fourth on another.
-    </p>
-  </section>
-
-  <section class="wm-price" aria-labelledby="price-heading">
-    <div class="wm-price-head">
-      <h2 id="price-heading">Price tag, decoded</h2>
-      <p>Capability is one axis. The bill is the other. <strong>Nine common models, side by side</strong> — and what a 200-page PDF actually costs to summarize.</p>
-    </div>
-
-    <div class="wm-price-tiers">
-      {/* ── Fast tier ── */}
-      <div class="wm-price-tier" style="--tier-accent: #10a37f;">
-        <div class="wm-price-tier-head">
-          <span class="wm-price-tier-label">Pocket money</span>
-          <span class="wm-price-tier-tag">Fast tier</span>
-        </div>
-        <p class="wm-price-tier-blurb">For pipelines, classifiers, simple Q&amp;A — anything you'll call thousands of times and want under a second.</p>
-        <div class="wm-price-list">
-          <div class="wm-price-row">
-            <span class="wm-price-model">Gemini 2.5 Flash<span class="wm-price-org">Google</span></span>
-            <span class="wm-price-cost">$0.02<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$0.30</strong>/M</span>
-              <span>out <strong>$2.50</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">GPT-4o mini<span class="wm-price-org">OpenAI</span></span>
-            <span class="wm-price-cost">$0.01<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$0.15</strong>/M</span>
-              <span>out <strong>$0.60</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">Claude Haiku 4.5<span class="wm-price-org">Anthropic</span></span>
-            <span class="wm-price-cost">$0.06<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$1.00</strong>/M</span>
-              <span>out <strong>$5.00</strong>/M</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Mid tier ── */}
-      <div class="wm-price-tier" style="--tier-accent: #d97706;">
-        <div class="wm-price-tier-head">
-          <span class="wm-price-tier-label">Daily driver</span>
-          <span class="wm-price-tier-tag">Mid tier</span>
-        </div>
-        <p class="wm-price-tier-blurb">The sweet spot for most real work — coding, writing, research. 5–20× pricier than the fast tier, but not stupid.</p>
-        <div class="wm-price-list">
-          <div class="wm-price-row">
-            <span class="wm-price-model">Gemini 2.5 Pro<span class="wm-price-org">Google</span></span>
-            <span class="wm-price-cost">$0.08<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$1.25</strong>/M</span>
-              <span>out <strong>$10</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">GPT-4o<span class="wm-price-org">OpenAI</span></span>
-            <span class="wm-price-cost">$0.14<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$2.50</strong>/M</span>
-              <span>out <strong>$10</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">Claude Sonnet 4.6<span class="wm-price-org">Anthropic</span></span>
-            <span class="wm-price-cost">$0.17<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$3.00</strong>/M</span>
-              <span>out <strong>$15</strong>/M</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Flagship tier ── */}
-      <div class="wm-price-tier" style="--tier-accent: #7c5cff;">
-        <div class="wm-price-tier-head">
-          <span class="wm-price-tier-label">Flagship</span>
-          <span class="wm-price-tier-tag">heavyweights</span>
-        </div>
-        <p class="wm-price-tier-blurb">Hard math, deep research, gnarly refactors. Slow, premium-priced, and worth it when an answer has to be right the first time.</p>
-        <div class="wm-price-list">
-          <div class="wm-price-row">
-            <span class="wm-price-model">o3<span class="wm-price-org">OpenAI</span></span>
-            <span class="wm-price-cost">$0.11<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$2.00</strong>/M</span>
-              <span>out <strong>$8.00</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">DeepSeek R1<span class="wm-price-org">DeepSeek · open</span></span>
-            <span class="wm-price-cost">$0.03<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$0.55</strong>/M</span>
-              <span>out <strong>$2.19</strong>/M</span>
-            </span>
-          </div>
-          <div class="wm-price-row">
-            <span class="wm-price-model">Claude Opus 4.7<span class="wm-price-org">Anthropic</span></span>
-            <span class="wm-price-cost">$0.83<span class="wm-price-cost-label">200-pg PDF</span></span>
-            <span class="wm-price-tokens">
-              <span>in <strong>$15</strong>/M</span>
-              <span>out <strong>$75</strong>/M</span>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="wm-price-scenario">
-      <p class="wm-price-scenario-label">How we read it</p>
-      <p class="wm-price-scenario-title">"Summarize a 200-page PDF" ≈ 50K input + 1K output tokens</p>
-      <p class="wm-price-scenario-body">
-        A 200-page document is roughly <strong>50,000 input tokens</strong> (≈ 0.75 word per token, both ways). A typical summary back is ~1,000 output tokens. The per-call cost above multiplies those by each model's input/output rates. Tier breakdown — <strong>4¢ vs. 17¢ vs. 83¢</strong> for the same task across Haiku, Sonnet, and Opus. That's the price you actually pay for the extra IQ.
+  <section class="wm-directory" aria-labelledby="directory-heading">
+    <div class="wm-directory-head">
+      <h2 class="wm-directory-title" id="directory-heading">
+        All {MODELS.length} model families, side-by-side
+      </h2>
+      <p class="wm-directory-sub">
+        A deliberately stable snapshot as of April 2026. The labels are family-level on purpose:
+        exact release names move faster than this page should.
       </p>
     </div>
 
-    <p class="wm-price-foot">
-      Public API list prices, late 2025 / early 2026. Batch and cache discounts can knock 30–75% off. Reasoning models burn extra "thinking" tokens you don't see — figure 2–5× the output bill for o3 on hard problems.
+    <p class="wm-dir-count">
+      Showing <strong>{directoryModels.length}</strong> models, sorted by their strongest practical signal.
+    </p>
+
+    <div class="wm-directory-grid">
+      {directoryModels.map((model, idx) => {
+        const isImage = isImageModel(model);
+        const traits = isImage ? IMAGE_CARD_TRAITS : CARD_TRAITS;
+        const hotTrait = highlightTrait(model);
+        const hotScore = model.traits[hotTrait] ?? 0;
+
+        return (
+          <article
+            class="wm-mod-card"
+            style={`--mod-color: ${model.color};`}
+          >
+            <div class="wm-mod-rank">#{idx + 1}</div>
+            <header class="wm-mod-head">
+              <span class="wm-mod-emoji" aria-hidden="true">{model.emoji}</span>
+              <div>
+                <h3 class="wm-mod-name">{model.name}</h3>
+                <p class="wm-mod-org">{model.org}</p>
+              </div>
+              <div class="wm-mod-sortbadge" title={`${TRAIT_LABELS[hotTrait]} score`}>
+                <span class="wm-mod-sortbadge-num">{hotScore}</span>
+                <span class="wm-mod-sortbadge-label">{scoreLabel(hotScore)}</span>
+              </div>
+            </header>
+
+            <p class="wm-mod-tag">{model.tagline}</p>
+
+            <div class="wm-mod-traits">
+              {traits.map((trait) => {
+                const score = model.traits[trait] ?? 0;
+                const isHot = trait === hotTrait;
+
+                return (
+                  <div class:list={["wm-trait-row", isHot && "wm-trait-row--hot"]}>
+                    <span class="wm-trait-label">{TRAIT_LABELS[trait]}</span>
+                    <div class="wm-trait-track">
+                      <div
+                        class="wm-trait-fill"
+                        style={`width:${scorePct(score)}%;background:${isHot ? model.color : "var(--wm-ink)"};opacity:${score === 0 ? 0.15 : 1};`}
+                      />
+                    </div>
+                    <span class="wm-trait-score">{score === 0 ? "—" : score}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <ul class="wm-mod-best">
+              {model.bestFor.slice(0, 3).map((item) => <li>{item}</li>)}
+            </ul>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="wm-directory-foot">
+      Models retire and new ones land. Spot something missing? <a href="mailto:stephen@stanwood.dev">let me know</a>.
     </p>
   </section>
-
-  <BrowseDirectory client:visible />
-
-  <script>
-    document.addEventListener("click", (e) => {
-      const target = (e.target as HTMLElement).closest<HTMLElement>("[data-wm-restart]");
-      if (!target) return;
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  </script>
 </BaseLayout>

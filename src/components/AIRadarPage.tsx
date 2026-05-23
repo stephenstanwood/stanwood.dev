@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import launches from "../data/ai-launches.json";
 import {
   type Launch,
@@ -24,54 +23,16 @@ const sorted = sortLaunches(launches as Launch[]);
 const pulse = computePulse(sorted);
 
 export default function AIRadarPage() {
-  const [activeType, setActiveType] = useState<string | null>(null);
-  const [activeOrg, setActiveOrg] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
-  const [urlRead, setUrlRead] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  // Read URL params on mount
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const typeParam = params.get("type");
-    const orgParam = params.get("org");
-    const initialQuery = params.get("q") ?? "";
-    if (typeParam && TYPE_LABELS[typeParam]) setActiveType(typeParam);
-    if (orgParam) setActiveOrg(orgParam);
-    if (initialQuery) setQuery(initialQuery);
-    setUrlRead(true);
-  }, []);
-
-  // Sync filters to URL after initial read
-  useEffect(() => {
-    if (!urlRead) return;
-    const params = new URLSearchParams();
-    if (activeType) params.set("type", activeType);
-    if (activeOrg) params.set("org", activeOrg);
-    if (query.trim()) params.set("q", query.trim());
-    const search = params.toString();
-    history.replaceState(null, "", search ? `?${search}` : location.pathname);
-  }, [activeType, activeOrg, query, urlRead]);
-
   const availableTypes = [...new Set(sorted.map((l) => l.type))].filter(
     (t) => TYPE_LABELS[t]
   );
-  const availableOrgs = [...new Set(sorted.map((l) => l.org))];
 
-  const normalizedQuery = query.trim().toLowerCase();
-  const filtered = sorted.filter((l) => {
-    if (activeType && l.type !== activeType) return false;
-    if (activeOrg && l.org !== activeOrg) return false;
-    if (normalizedQuery && !`${l.name} ${l.org} ${l.summary}`.toLowerCase().includes(normalizedQuery)) return false;
-    return true;
-  });
-
-  const latest = filtered[0];
-  const grouped = groupByDate(filtered);
+  const latest = sorted[0];
+  const grouped = groupByDate(sorted);
 
   // Count badges: type counts from full dataset; org counts filtered by active type
   const typeCountBase = sorted;
-  const orgCountBase = activeType ? sorted.filter((l) => l.type === activeType) : sorted;
+  const orgCountBase = sorted;
   const typeCounts: Record<string, number> = {};
   for (const l of typeCountBase) typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
   const orgCounts: Record<string, number> = {};
@@ -135,92 +96,6 @@ export default function AIRadarPage() {
     },
   ];
 
-  const milestones: { date: string; era: string; name: string; org: string; shift: string; after: string }[] = [
-    {
-      date: "Nov 2022",
-      era: "the spark",
-      name: "ChatGPT",
-      org: "OpenAI",
-      shift: "A research preview wraps GPT-3.5 in a chat box and ships it free. 100M users in two months — the fastest consumer app launch in history.",
-      after: "Every other lab pivots to chat. The phrase \"prompt engineering\" enters the vocabulary. AI stops being a research demo and becomes a product category.",
-    },
-    {
-      date: "Mar 2023",
-      era: "the frontier",
-      name: "GPT-4",
-      org: "OpenAI",
-      shift: "First model that reliably crosses the bar lawyers, doctors, and software engineers use to measure each other. Bar exam in the 90th percentile, multimodal image input.",
-      after: "\"Frontier model\" becomes a real category. The race to match GPT-4 defines the next 18 months. Microsoft Copilot launches the same week.",
-    },
-    {
-      date: "Jul 2023",
-      era: "the opening",
-      name: "Llama 2",
-      org: "Meta",
-      shift: "Meta releases an open-weights model with a permissive license — the first time a credible frontier-class base was actually downloadable, fine-tunable, and shippable.",
-      after: "Mistral, DeepSeek, Qwen, and the entire open-source toolchain (vLLM, Ollama, LM Studio) get a usable starting point. The closed/open split becomes structural.",
-    },
-    {
-      date: "Feb 2024",
-      era: "the long view",
-      name: "Gemini 1.5 Pro",
-      org: "Google",
-      shift: "First production model with a 1M-token context window. Drop in an entire codebase, a 700-page PDF, or three hours of video and ask questions across all of it.",
-      after: "RAG starts looking optional for many workflows. \"Just paste the docs\" becomes a valid retrieval strategy. Anthropic and OpenAI follow within months.",
-    },
-    {
-      date: "Sep 2024",
-      era: "the rethink",
-      name: "OpenAI o1",
-      org: "OpenAI",
-      shift: "First widely-shipped model that visibly \"thinks before it answers\" — RL-trained chain-of-thought inside the model. Math and code scores jump a tier overnight.",
-      after: "Reasoning becomes the new axis. Claude, Gemini, DeepSeek-R1, Grok all ship reasoning modes within six months. \"Inference-time compute\" enters every pricing page.",
-    },
-    {
-      date: "Jan 2025",
-      era: "the collapse",
-      name: "DeepSeek R1",
-      org: "DeepSeek",
-      shift: "Open-weights reasoning model trained for ~$6M matches o1 on hard math and code, then they post the recipe. NVIDIA loses $600B of market cap on the news.",
-      after: "The cost floor of frontier-class capability craters. Every closed lab cuts prices within weeks. \"How much did this cost to train?\" becomes a normal question to ask.",
-    },
-    {
-      date: "Aug 2025",
-      era: "the router",
-      name: "GPT-5",
-      org: "OpenAI",
-      shift: "Ships as a unified router that picks reasoning depth per request — no more choosing between fast and smart. Frontier benchmarks across coding, math, and multimodal in one product.",
-      after: "Multi-model menus start collapsing into single endpoints with internal routing. The user-facing model picker quietly disappears across most consumer surfaces.",
-    },
-    {
-      date: "Nov 2025",
-      era: "the catch-up",
-      name: "Gemini 3",
-      org: "Google",
-      shift: "Google's first launch where the model, the chips, the cloud, the consumer app, and the developer platform all land on the same day at the frontier.",
-      after: "The \"only one company has the full stack\" pitch finally lands. Antigravity, Stitch, and Veo follow within months — the agentic-by-default era begins.",
-    },
-  ];
-
-  function handleShare() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    });
-  }
-
-  function toggleType(t: string) {
-    setActiveOrg(null);
-    setQuery("");
-    setActiveType((prev) => (prev === t ? null : t));
-  }
-
-  function toggleOrg(o: string) {
-    setActiveType(null);
-    setQuery("");
-    setActiveOrg((prev) => (prev === o ? null : o));
-  }
-
   return (
     <div className="rp-page">
       <a href="/" className="retro-back">← stanwood.dev</a>
@@ -231,21 +106,7 @@ export default function AIRadarPage() {
             <span className="rp-dot" />
             AI RADAR
           </h1>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <span className="rp-count">
-              {filtered.length < sorted.length
-                ? `${filtered.length} of ${sorted.length}`
-                : sorted.length}{" "}
-              tracked
-            </span>
-            <button
-              className="rp-share-btn"
-              onClick={handleShare}
-              title="Copy link to this view"
-            >
-              {copied ? "copied!" : "share →"}
-            </button>
-          </div>
+          <span className="rp-count">{sorted.length} tracked</span>
         </div>
         <p className="rp-tagline">What just shipped in AI that's actually worth knowing about.</p>
         <div className="rp-stats">
@@ -303,17 +164,7 @@ export default function AIRadarPage() {
               </div>
             </div>
             {pulse.topOrg && (
-              <button
-                className={`rp-pulse-stat rp-pulse-stat--clickable ${activeOrg === pulse.topOrg.name ? "rp-pulse-stat--active" : ""}`}
-                onClick={() => toggleOrg(pulse.topOrg!.name)}
-                style={{
-                  borderColor:
-                    activeOrg === pulse.topOrg.name
-                      ? ORG_COLORS[pulse.topOrg.name] || "#888"
-                      : undefined,
-                }}
-                title={`Filter to ${pulse.topOrg.name}`}
-              >
+              <div className="rp-pulse-stat">
                 <div
                   className="rp-pulse-num rp-pulse-num--text"
                   style={{ color: ORG_COLORS[pulse.topOrg.name] || "var(--rp-ink)" }}
@@ -322,24 +173,20 @@ export default function AIRadarPage() {
                 </div>
                 <div className="rp-pulse-label">on a tear</div>
                 <div className="rp-pulse-foot">
-                  {pulse.topOrg.count} in 30d · tap to filter
+                  {pulse.topOrg.count} in 30d
                 </div>
-              </button>
+              </div>
             )}
             {pulse.topType && (
-              <button
-                className={`rp-pulse-stat rp-pulse-stat--clickable ${activeType === pulse.topType.type ? "rp-pulse-stat--active" : ""}`}
-                onClick={() => toggleType(pulse.topType!.type)}
-                title={`Filter to ${TYPE_LABELS[pulse.topType.type] || "LAUNCH"}`}
-              >
+              <div className="rp-pulse-stat">
                 <div className="rp-pulse-num rp-pulse-num--text">
                   {TYPE_LABELS[pulse.topType.type] || "LAUNCH"}
                 </div>
                 <div className="rp-pulse-label">most this month</div>
                 <div className="rp-pulse-foot">
-                  {pulse.topType.count} of {pulse.totalLast30} · tap to filter
+                  {pulse.topType.count} of {pulse.totalLast30}
                 </div>
-              </button>
+              </div>
             )}
           </div>
           {pulse.typeBreakdown.length > 1 && (
@@ -371,22 +218,17 @@ export default function AIRadarPage() {
       <section className="rp-fieldmap" aria-labelledby="rp-fieldmap-title">
         <div className="rp-fieldmap-head">
           <h2 id="rp-fieldmap-title" className="rp-fieldmap-title">The Field</h2>
-          <span className="rp-fieldmap-sub">what we track · tap to filter</span>
+          <span className="rp-fieldmap-sub">what we track</span>
         </div>
         <div className="rp-fieldmap-grid">
           {fieldMapTypes.map(({ type, emoji, whatItIs, whyMatters }) => {
             const example = latestByType[type];
             const count = typeCounts[type] || 0;
             const hasExample = !!example;
-            const isActive = activeType === type;
             return (
-              <button
+              <article
                 key={type}
-                className={`rp-fieldmap-card rp-fieldmap-card--${type} ${isActive ? "rp-fieldmap-card--active" : ""} ${!hasExample ? "rp-fieldmap-card--empty" : ""}`}
-                onClick={() => hasExample && toggleType(type)}
-                disabled={!hasExample}
-                aria-pressed={isActive}
-                title={hasExample ? `Filter to ${TYPE_LABELS[type]}` : `No ${TYPE_LABELS[type].toLowerCase()} launches tracked yet`}
+                className={`rp-fieldmap-card rp-fieldmap-card--${type} ${!hasExample ? "rp-fieldmap-card--empty" : ""}`}
               >
                 <div className="rp-fieldmap-card-head">
                   <span className="rp-fieldmap-emoji" aria-hidden="true">{emoji}</span>
@@ -407,7 +249,7 @@ export default function AIRadarPage() {
                     <span className="rp-fieldmap-eg-empty">none in feed yet — when one ships, it lands here</span>
                   </p>
                 )}
-              </button>
+              </article>
             );
           })}
         </div>
@@ -417,7 +259,7 @@ export default function AIRadarPage() {
       <section className="rp-labs" aria-labelledby="rp-labs-title">
         <div className="rp-labs-head">
           <h2 id="rp-labs-title" className="rp-labs-title">The Labs</h2>
-          <span className="rp-labs-sub">nine you'll see most · tap to filter</span>
+          <span className="rp-labs-sub">nine you'll see most</span>
         </div>
         <p className="rp-labs-intro">
           Most launches in this feed come from the same handful of labs. Here's who they are, where
@@ -427,16 +269,11 @@ export default function AIRadarPage() {
           {LAB_PROFILES.map((lab) => {
             const count = orgCounts[lab.name] ?? 0;
             const inFeed = sorted.some((l) => l.org === lab.name);
-            const isActive = activeOrg === lab.name;
             const color = ORG_COLORS[lab.name] || "#888";
             return (
-              <button
+              <article
                 key={lab.name}
-                className={`rp-lab-card ${isActive ? "rp-lab-card--active" : ""} ${!inFeed ? "rp-lab-card--quiet" : ""}`}
-                onClick={() => inFeed && toggleOrg(lab.name)}
-                disabled={!inFeed}
-                aria-pressed={isActive}
-                title={inFeed ? `Filter to ${lab.name}` : `${lab.name} — no launches tracked yet`}
+                className={`rp-lab-card ${!inFeed ? "rp-lab-card--quiet" : ""}`}
                 style={{ borderTopColor: color }}
               >
                 <div className="rp-lab-head">
@@ -460,7 +297,7 @@ export default function AIRadarPage() {
                   )}
                 </div>
                 <p className="rp-lab-sig">{lab.signature}</p>
-              </button>
+              </article>
             );
           })}
         </div>
@@ -505,162 +342,67 @@ export default function AIRadarPage() {
         </p>
       </section>
 
-      {/* How we got here — historical anchor for the daily churn */}
-      <section className="rp-mile" aria-labelledby="rp-mile-title">
-        <div className="rp-mile-head">
-          <h2 id="rp-mile-title" className="rp-mile-title">How we got here</h2>
-          <span className="rp-mile-sub">eight moments that shaped the field</span>
+      {/* Lead story */}
+      <a
+        href={latest.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="rp-lead"
+        style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
+      >
+        <div className="rp-lead-top">
+          <span className="rp-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
+          <span className="rp-badge rp-badge--time">{relativeAge(latest.date)}</span>
         </div>
-        <p className="rp-mile-intro">
-          The feed below ships fast. The arc underneath ships slow. These are the eight launches
-          since 2022 that actually moved the field — each one bent what came next, and every entry
-          you'll read further down is downstream of one of them.
+        <h2 className="rp-lead-name">{latest.name}</h2>
+        <p className="rp-lead-summary">
+          <span className="rp-org" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
+          {" — "}{latest.summary}
         </p>
-        <ol className="rp-mile-list">
-          {milestones.map((m, i) => {
-            const color = ORG_COLORS[m.org] || "#888";
-            return (
-              <li key={m.name} className="rp-mile-item" style={{ borderLeftColor: color }}>
-                <div className="rp-mile-marker">
-                  <span className="rp-mile-num">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="rp-mile-date">{m.date}</span>
+        <span className="rp-lead-link">read more →</span>
+      </a>
+
+      {/* Timeline */}
+      <div className="rp-timeline">
+        {grouped.map(({ date, launches: items }, gi) => {
+          const { dayName, dayNum, month } = formatLaunchDateFull(date);
+          const isFirst = gi === 0;
+          const visibleItems = isFirst ? items.slice(1) : items;
+          if (visibleItems.length === 0) return null;
+          return (
+            <div key={date} className={`rp-day ${isFirst ? "rp-day--latest" : ""}`}>
+              <div className="rp-day-marker">
+                <div className="rp-day-date">
+                  <span className="rp-day-num">{dayNum}</span>
+                  <span className="rp-day-month">{month}</span>
                 </div>
-                <div className="rp-mile-body">
-                  <div className="rp-mile-row">
-                    <span className="rp-mile-era">{m.era}</span>
-                    <span className="rp-mile-org" style={{ color }}>{m.org}</span>
-                  </div>
-                  <h3 className="rp-mile-name">{m.name}</h3>
-                  <p className="rp-mile-shift">{m.shift}</p>
-                  <p className="rp-mile-after">
-                    <span className="rp-mile-after-label">aftershock</span>
-                    {m.after}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-        <p className="rp-mile-foot">
-          Not a ranking — a list of inflection points. The next one is somewhere in the feed below,
-          probably misread for a routine launch on the day it lands.
-        </p>
-      </section>
-
-      {/* Filter chips */}
-      <div className="rp-filters">
-        <input
-          className="rp-search"
-          type="search"
-          placeholder="search launches..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Search launches"
-        />
-        <div className="rp-filter-row">
-          {availableTypes.map((t) => (
-            <button
-              key={t}
-              className={`rp-chip rp-chip--type ${activeType === t ? "rp-chip--active" : ""}`}
-              onClick={() => toggleType(t)}
-            >
-              {TYPE_LABELS[t]}
-              <span className="rp-chip-count">{typeCounts[t] || 0}</span>
-            </button>
-          ))}
-        </div>
-        <div className="rp-filter-row">
-          {availableOrgs.map((o) => (
-            <button
-              key={o}
-              className={`rp-chip rp-chip--org ${activeOrg === o ? "rp-chip--active" : ""}`}
-              style={activeOrg === o ? { borderColor: ORG_COLORS[o] || "#888", color: ORG_COLORS[o] || "#888" } : {}}
-              onClick={() => toggleOrg(o)}
-            >
-              {o}
-              {(orgCounts[o] || 0) > 0 && (
-                <span className="rp-chip-count">{orgCounts[o]}</span>
-              )}
-            </button>
-          ))}
-        </div>
-        {(activeType || activeOrg || query) && (
-          <button
-            className="rp-chip-clear"
-            onClick={() => { setActiveType(null); setActiveOrg(null); setQuery(""); }}
-          >
-            clear filter ×
-          </button>
-        )}
-      </div>
-
-      {filtered.length === 0 ? (
-        <p className="rp-empty">No launches match this filter.</p>
-      ) : (
-        <>
-          {/* Lead story */}
-          <a
-            href={latest.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rp-lead"
-            style={{ borderLeftColor: ORG_COLORS[latest.org] || "#888" }}
-          >
-            <div className="rp-lead-top">
-              <span className="rp-badge">{TYPE_LABELS[latest.type] || "LAUNCH"}</span>
-              <span className="rp-badge rp-badge--time">{relativeAge(latest.date)}</span>
-            </div>
-            <h2 className="rp-lead-name">{latest.name}</h2>
-            <p className="rp-lead-summary">
-              <span className="rp-org" style={{ color: ORG_COLORS[latest.org] || "#888" }}>{latest.org}</span>
-              {" — "}{latest.summary}
-            </p>
-            <span className="rp-lead-link">read more →</span>
-          </a>
-
-          {/* Timeline */}
-          <div className="rp-timeline">
-            {grouped.map(({ date, launches: items }, gi) => {
-              const { dayName, dayNum, month } = formatLaunchDateFull(date);
-              const isFirst = gi === 0;
-              const visibleItems = isFirst ? items.slice(1) : items;
-              if (visibleItems.length === 0) return null;
-              return (
-                <div key={date} className={`rp-day ${isFirst ? "rp-day--latest" : ""}`}>
-                  <div className="rp-day-marker">
-                    <div className="rp-day-date">
-                      <span className="rp-day-num">{dayNum}</span>
-                      <span className="rp-day-month">{month}</span>
+                <span className="rp-day-name">{dayName}</span>
+              </div>
+              <div className="rp-day-entries">
+                {visibleItems.map((l) => (
+                  <a
+                    key={l.name}
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rp-entry"
+                    style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
+                  >
+                    <div className="rp-entry-header">
+                      <span className="rp-entry-name">{l.name}</span>
+                      <span className="rp-entry-badge">{TYPE_LABELS[l.type] || "LAUNCH"}</span>
                     </div>
-                    <span className="rp-day-name">{dayName}</span>
-                  </div>
-                  <div className="rp-day-entries">
-                    {visibleItems.map((l) => (
-                      <a
-                        key={l.name}
-                        href={l.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rp-entry"
-                        style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
-                      >
-                        <div className="rp-entry-header">
-                          <span className="rp-entry-name">{l.name}</span>
-                          <span className="rp-entry-badge">{TYPE_LABELS[l.type] || "LAUNCH"}</span>
-                        </div>
-                        <p className="rp-entry-summary">
-                          <span className="rp-org" style={{ color: ORG_COLORS[l.org] || "#888" }}>{l.org}</span>
-                          {" — "}{l.summary}
-                        </p>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </>
-      )}
+                    <p className="rp-entry-summary">
+                      <span className="rp-org" style={{ color: ORG_COLORS[l.org] || "#888" }}>{l.org}</span>
+                      {" — "}{l.summary}
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       <section className="rp-about" aria-labelledby="rp-about-title">
         <h2 id="rp-about-title" className="rp-about-title">About this radar</h2>
