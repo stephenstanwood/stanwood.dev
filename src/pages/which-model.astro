@@ -1391,6 +1391,173 @@ const title = "Which Model? — stanwood.dev";
         line-height: 1.6;
       }
 
+      /* ─── The labs, decoded ──────────────────────────────────── */
+      .wm-labs {
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 56px 24px 8px;
+      }
+
+      .wm-labs-head {
+        text-align: center;
+        margin-bottom: 26px;
+      }
+
+      .wm-labs-head h2 {
+        font-family: 'Bangers', cursive;
+        font-size: 38px;
+        letter-spacing: 1.5px;
+        color: var(--wm-ink);
+        margin: 0 0 6px;
+        line-height: 1;
+      }
+
+      .wm-labs-head p {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 15px;
+        color: var(--wm-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .wm-labs-head p strong {
+        color: var(--wm-ink);
+      }
+
+      .wm-labs-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      @media (min-width: 600px) {
+        .wm-labs-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (min-width: 920px) {
+        .wm-labs-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      .wm-labs-card {
+        background: var(--wm-card);
+        border: 2px solid var(--wm-ink);
+        border-left: 5px solid var(--card-accent, var(--wm-purple));
+        box-shadow: var(--wm-shadow-sm);
+        border-radius: 8px;
+        padding: 14px 14px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+      }
+
+      .wm-labs-card:hover {
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0 var(--wm-ink);
+      }
+
+      .wm-labs-icon {
+        font-size: 18px;
+        line-height: 1;
+        margin-bottom: 2px;
+      }
+
+      .wm-labs-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--wm-light);
+        margin: 0 0 2px;
+      }
+
+      .wm-labs-name {
+        font-family: 'Space Mono', monospace;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--wm-ink);
+        margin: 0;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .wm-labs-founded {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        font-weight: 400;
+        color: var(--wm-light);
+        letter-spacing: 0.02em;
+      }
+
+      .wm-labs-meaning {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 12.5px;
+        color: var(--wm-muted);
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .wm-labs-sig {
+        font-family: 'Space Mono', monospace;
+        font-size: 10.5px;
+        color: var(--wm-ink);
+        opacity: 0.78;
+        line-height: 1.5;
+        margin: 4px 0 0;
+        padding-top: 8px;
+        border-top: 1px dashed var(--wm-border);
+      }
+
+      .wm-labs-sig::before {
+        content: "signature ";
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--card-accent, var(--wm-purple));
+        margin-right: 4px;
+      }
+
+      .wm-labs-bet {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 11.5px;
+        font-style: italic;
+        color: var(--wm-ink);
+        opacity: 0.72;
+        line-height: 1.5;
+        margin: 2px 0 0;
+      }
+
+      .wm-labs-bet::before {
+        content: "the bet — ";
+        font-family: 'Space Mono', monospace;
+        font-size: 8.5px;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--wm-light);
+        opacity: 1;
+      }
+
+      .wm-labs-foot {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: var(--wm-light);
+        text-align: center;
+        margin: 22px auto 0;
+        max-width: 620px;
+        line-height: 1.6;
+      }
+
       /* ─── Benchmarks, decoded ────────────────────────────────── */
       .wm-bench {
         max-width: 1100px;
@@ -1889,6 +2056,10 @@ const title = "Which Model? — stanwood.dev";
         .wm-decode-head h2 { font-size: 30px; }
         .wm-decode-head p { font-size: 13px; }
 
+        .wm-labs { padding: 40px 16px 0; }
+        .wm-labs-head h2 { font-size: 30px; }
+        .wm-labs-head p { font-size: 13px; }
+
         .wm-bench { padding: 40px 16px 0; }
         .wm-bench-head h2 { font-size: 30px; }
         .wm-bench-head p { font-size: 13px; }
@@ -2121,6 +2292,91 @@ const title = "Which Model? — stanwood.dev";
 
     <p class="wm-decode-foot">
       Match the term to the task. The Quick Picks above are shorthand — these are the dials underneath them.
+    </p>
+  </section>
+
+  <section class="wm-labs" aria-labelledby="labs-heading">
+    <div class="wm-labs-head">
+      <h2 id="labs-heading">The labs, decoded</h2>
+      <p>Models don't fall from the sky — eight labs build them. <strong>Eight personalities, eight bets.</strong></p>
+    </div>
+
+    <div class="wm-labs-grid">
+      <article class="wm-labs-card" style="--card-accent: #d97706;">
+        <span class="wm-labs-icon" aria-hidden="true">🧠</span>
+        <p class="wm-labs-eyebrow">the careful lab</p>
+        <p class="wm-labs-name"><span>Anthropic</span><span class="wm-labs-founded">SF · 2021</span></p>
+        <p class="wm-labs-meaning">Founded by ex-OpenAI leaders Dario &amp; Daniela Amodei. Safety-first house style — "constitutional AI." Quietly tops coding charts and the best writing voice in the affordable tier.</p>
+        <p class="wm-labs-sig">Claude Opus 4.7 · Sonnet 4.6 · Haiku 4.5</p>
+        <p class="wm-labs-bet">Steerable, honest models enterprises will trust with the sensitive stuff.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #10a37f;">
+        <span class="wm-labs-icon" aria-hidden="true">🔬</span>
+        <p class="wm-labs-eyebrow">the household name</p>
+        <p class="wm-labs-name"><span>OpenAI</span><span class="wm-labs-founded">SF · 2015</span></p>
+        <p class="wm-labs-meaning">ChatGPT made AI mainstream in November 2022. The o-series invented the "reasoning model" category. Most polished consumer UX — voice, vision, video — and a sprawling API platform underneath.</p>
+        <p class="wm-labs-sig">GPT-4o · o3 · GPT-4o mini · Sora</p>
+        <p class="wm-labs-bet">Own the AI brand and the AI platform — both ends of the funnel.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #4285f4;">
+        <span class="wm-labs-icon" aria-hidden="true">💎</span>
+        <p class="wm-labs-eyebrow">the research giant</p>
+        <p class="wm-labs-name"><span>Google DeepMind</span><span class="wm-labs-founded">London · 2010</span></p>
+        <p class="wm-labs-meaning">DeepMind merged with Google Brain in 2023 to consolidate the firepower. Massive context (2M tokens), multimodal-native, video in, search-grounded. Trails on chat UX, leads on raw capability and scale.</p>
+        <p class="wm-labs-sig">Gemini 2.5 Pro · Flash · Deep Think · Imagen 4</p>
+        <p class="wm-labs-bet">Bake AI into every Google product — Search, Workspace, Cloud, Pixel.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #1877f2;">
+        <span class="wm-labs-icon" aria-hidden="true">🦙</span>
+        <p class="wm-labs-eyebrow">the open-weight champion</p>
+        <p class="wm-labs-name"><span>Meta</span><span class="wm-labs-founded">Menlo Park · 2013</span></p>
+        <p class="wm-labs-meaning">Llama 1 leaked in 2023 and Meta leaned in — every model since has shipped with open weights the rest of the industry forks. Trains on the Facebook + Instagram firehose, releases the result for free.</p>
+        <p class="wm-labs-sig">Llama 4 — Scout · Maverick · Behemoth</p>
+        <p class="wm-labs-bet">Commoditize the model layer so no closed API can rent-seek on top.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #4f88c6;">
+        <span class="wm-labs-icon" aria-hidden="true">🐋</span>
+        <p class="wm-labs-eyebrow">the cost shock</p>
+        <p class="wm-labs-name"><span>DeepSeek</span><span class="wm-labs-founded">Hangzhou · 2023</span></p>
+        <p class="wm-labs-meaning">Spun out of High-Flyer quant hedge fund. Shocked the field in Jan 2025 when R1 hit frontier reasoning at <em>a fraction</em> of the price — and shipped it open-weight. Self-funded, no US chip imports.</p>
+        <p class="wm-labs-sig">DeepSeek R1 · V3 · Coder V2</p>
+        <p class="wm-labs-bet">Reasoning at 5% of the cost — the only way to win is to be radically cheaper.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #555;">
+        <span class="wm-labs-icon" aria-hidden="true">𝕏</span>
+        <p class="wm-labs-eyebrow">the realtime lab</p>
+        <p class="wm-labs-name"><span>xAI</span><span class="wm-labs-founded">Palo Alto · 2023</span></p>
+        <p class="wm-labs-meaning">Elon's outfit after splitting from OpenAI. Plugged into the real-time X firehose so it actually knows what happened this hour. Looser guardrails, personality-forward — "humor mode," "unhinged mode."</p>
+        <p class="wm-labs-sig">Grok 3 · Grok 4 · Grok Vision</p>
+        <p class="wm-labs-bet">Realtime data + less filter = the alternative to safety-tuned assistants.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #ff5c1a;">
+        <span class="wm-labs-icon" aria-hidden="true">🇪🇺</span>
+        <p class="wm-labs-eyebrow">the european contender</p>
+        <p class="wm-labs-name"><span>Mistral</span><span class="wm-labs-founded">Paris · 2023</span></p>
+        <p class="wm-labs-meaning">Founded by ex-DeepMind and Meta researchers. Mix of open and closed models, strong multilingual + code, and the EU sovereignty story is its biggest sales pitch to European enterprises.</p>
+        <p class="wm-labs-sig">Mistral Large · Codestral · Pixtral · Ministral</p>
+        <p class="wm-labs-bet">Be the European AI champion — permissive licenses for buyers wary of US &amp; China.</p>
+      </article>
+
+      <article class="wm-labs-card" style="--card-accent: #ff9900;">
+        <span class="wm-labs-icon" aria-hidden="true">🐉</span>
+        <p class="wm-labs-eyebrow">the other open giant</p>
+        <p class="wm-labs-name"><span>Alibaba (Qwen)</span><span class="wm-labs-founded">Hangzhou · 2017</span></p>
+        <p class="wm-labs-meaning">DAMO Academy ships the broadest open-weight lineup on Hugging Face — text, vision, code, audio, math reasoners. Frontier-grade Chinese alternative to closed APIs, mostly under permissive licenses.</p>
+        <p class="wm-labs-sig">Qwen 3 · QwQ · Qwen2.5-VL · Qwen2.5-Coder</p>
+        <p class="wm-labs-bet">Open weights at scale — and lock down the Chinese cloud market with them.</p>
+      </article>
+    </div>
+
+    <p class="wm-labs-foot">
+      Eight labs cover ~95% of every model anyone seriously uses. Knowing the lab's personality usually predicts the model's — Anthropic models won't shout, Grok will, Gemini will quote sources, Llama will run on your laptop.
     </p>
   </section>
 
