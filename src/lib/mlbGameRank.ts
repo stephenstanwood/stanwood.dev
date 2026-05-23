@@ -82,6 +82,10 @@ function getRunnersOnBase(situation: MLBSituation | undefined): number {
   return count;
 }
 
+// CLEANUP-FLAG: computeWatchScore here and in nbaNow.ts share the same
+// closeness × quality × progress skeleton; consider extracting a generic
+// scorer in sportsCore.ts that takes sport-specific multipliers/bonuses.
+// Same applies to renderBroadcastBadges + scoreColorStyle below.
 function computeWatchScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;

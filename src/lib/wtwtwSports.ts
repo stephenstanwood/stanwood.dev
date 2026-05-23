@@ -179,15 +179,14 @@ export function isLatestStartedEventForTrackedTeams(
   );
 }
 
-/** YYYYMMDD for ESPN, computed in Pacific Time. */
-export function yyyymmddInPT(d: Date): string {
-  const s = d.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
-  return s.replace(/-/g, "");
-}
-
 /** YYYY-MM-DD for MLB StatsAPI, computed in Pacific Time. */
 export function isoDateInPT(d: Date): string {
   return d.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+}
+
+/** YYYYMMDD for ESPN, computed in Pacific Time. */
+export function yyyymmddInPT(d: Date): string {
+  return isoDateInPT(d).replace(/-/g, "");
 }
 
 export async function fetchEventsForLeagues(
