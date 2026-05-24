@@ -371,6 +371,26 @@ function seriesVideos(series: Series): QueueVideo[] {
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
+    .classic-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--hot);
+      color: var(--paper);
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .sdsn-card .bcard-thumb {
+      background-color: #171717;
+    }
+    .sdsn-card-loading .bcard-thumb {
+      background:
+        linear-gradient(135deg, #171717 0 48%, #2a2a2a 48% 52%, #171717 52% 100%);
+    }
     .bhide {
       position: absolute;
       top: 6px;
@@ -819,6 +839,26 @@ function seriesVideos(series: Series): QueueVideo[] {
       <>
         <h2 class="section-title">around the internet</h2>
         <div class="broader-grid" id="broader-grid">
+          <a
+            class="bcard sdsn-card sdsn-card-loading"
+            id="sdsn-classic-card"
+            href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d"
+            target="_blank"
+            rel="noopener"
+            data-published-at="9999-12-31T00:00:00.000Z"
+          >
+            <div class="bcard-thumb" data-sdsn-thumb>
+              <span class="classic-badge">classic</span>
+              <span class="bcard-dur" data-sdsn-duration>...</span>
+            </div>
+            <div class="bcard-body">
+              <p class="bcard-title" data-sdsn-title>loading sdsn classic...</p>
+              <div class="bcard-meta">
+                <span class="bcard-chan" data-sdsn-channel>SDSN Classic</span>
+                <span>random</span>
+              </div>
+            </div>
+          </a>
           {broader.queue.map((v) => (
             <a
               class="bcard"
@@ -1185,6 +1225,42 @@ function seriesVideos(series: Series): QueueVideo[] {
       });
     }
 
+    async function loadSdsnClassicCard() {
+      const card = document.getElementById('sdsn-classic-card');
+      if (!card) return;
+
+      try {
+        const response = await fetch('/api/tv/random-sdsn', { cache: 'no-store' });
+        if (!response.ok) throw new Error('SDSN Classic unavailable');
+
+        const video = await response.json();
+        if (!video || typeof video.url !== 'string' || typeof video.title !== 'string') {
+          throw new Error('SDSN Classic payload malformed');
+        }
+
+        const thumb = card.querySelector('[data-sdsn-thumb]');
+        const title = card.querySelector('[data-sdsn-title]');
+        const channel = card.querySelector('[data-sdsn-channel]');
+        const duration = card.querySelector('[data-sdsn-duration]');
+
+        card.href = video.url;
+        if (thumb && typeof video.thumb === 'string') {
+          thumb.style.backgroundImage = `url(${video.thumb})`;
+        }
+        if (title) title.textContent = video.title;
+        if (channel) channel.textContent = video.channelTitle || 'SDSN Classic';
+        if (duration) {
+          if (video.duration) duration.textContent = video.duration;
+          else duration.hidden = true;
+        }
+
+        card.classList.remove('sdsn-card-loading');
+      } catch {
+        card.classList.add('hidden');
+        refillIfNeeded();
+      }
+    }
+
     function renderFollowedSeries() {
       const container = document.getElementById('followed-series-container');
       if (!container) return;
@@ -1301,6 +1377,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     renderFollowedSeries();
     renderBroaderHidden();
     refillIfNeeded();
+    loadSdsnClassicCard();
   </script>
 </body>
 </html>
