@@ -21,11 +21,11 @@ const password = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
 const expectedTokenPromise = password ? hashPassword(password) : null;
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const host = context.request.headers.get("host") || "";
   const url = new URL(context.request.url);
 
   // ── Host-based routing for custom domains ──
   if (url.pathname === "/") {
+    const host = context.request.headers.get("host") || "";
     if (host.includes("nbanow.app")) {
       return context.rewrite("/nba-now");
     }
