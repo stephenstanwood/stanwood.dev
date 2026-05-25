@@ -33,12 +33,12 @@ export function computeZoom(distanceMeters: number): number {
 
 // ── Progress bar ──
 
-export interface ProgressController {
+interface ProgressController {
   start: () => void;
   finish: () => void;
 }
 
-export interface ProgressLabel {
+interface ProgressLabel {
   at: number;
   text: string;
 }
