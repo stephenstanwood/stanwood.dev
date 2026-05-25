@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  ALWAYS_SHOW_TEAMS,
   buildTeamLookup,
   isLatestStartedEventForTrackedTeams,
   latestStartedAtByTrackedTeam,
 } from "./wtwtwSports";
+import { getTeam } from "./teamRegistry";
 
 function event({ id, date, away, home, state, completed = false, playoff = false }) {
   return {
@@ -33,6 +35,60 @@ function latestMap(events, lookup) {
 }
 
 describe("sports recap team freshness", () => {
+  it("tracks the Athletics as one of Stephen's default TV teams", () => {
+    const team = getTeam("mlb-athletics");
+    const lookup = buildTeamLookup(ALWAYS_SHOW_TEAMS);
+
+    expect(ALWAYS_SHOW_TEAMS).toContain("mlb-athletics");
+    expect(team?.fullName).toBe("Athletics");
+    expect(team?.abbreviation).toBe("ATH");
+    expect(lookup.get("baseball/mlb|ATH")?.key).toBe("mlb-athletics");
+  });
+
+  it("keeps an Athletics final visible when the next game is only scheduled", () => {
+    const lookup = buildTeamLookup(ALWAYS_SHOW_TEAMS);
+    const yesterdayFinal = event({
+      id: "ath-final",
+      date: "2026-05-24T20:10:00Z",
+      away: "ATH",
+      home: "SD",
+      state: "post",
+      completed: true,
+    });
+    const todayScheduled = event({
+      id: "ath-scheduled",
+      date: "2026-05-26T01:40:00Z",
+      away: "SEA",
+      home: "ATH",
+      state: "pre",
+    });
+
+    const latest = latestMap(
+      [
+        { league: "baseball/mlb", event: yesterdayFinal },
+        { league: "baseball/mlb", event: todayScheduled },
+      ],
+      lookup,
+    );
+
+    expect(
+      isLatestStartedEventForTrackedTeams(
+        yesterdayFinal,
+        "baseball/mlb",
+        lookup,
+        latest,
+      ),
+    ).toBe(true);
+    expect(
+      isLatestStartedEventForTrackedTeams(
+        todayScheduled,
+        "baseball/mlb",
+        lookup,
+        latest,
+      ),
+    ).toBe(false);
+  });
+
   it("keeps only the latest started Valkyries final", () => {
     const lookup = buildTeamLookup(["wnba-valkyries"]);
     const oldFinal = event({

@@ -7,7 +7,12 @@ import { fetchEspnScoreboard } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
 export const WTWTW_LS_KEY = "wtwtw:v1";
-export const ALWAYS_SHOW_TEAMS = ["mlb-cubs", "mlb-giants", "wnba-valkyries"];
+export const ALWAYS_SHOW_TEAMS = [
+  "mlb-cubs",
+  "mlb-giants",
+  "mlb-athletics",
+  "wnba-valkyries",
+];
 export const PLAYOFF_LEAGUES = ["basketball/nba"];
 
 export interface ESPNCompetitor {

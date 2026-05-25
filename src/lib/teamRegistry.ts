@@ -169,7 +169,7 @@ const MLB_TEAMS: TeamEntry[] = [
   // AL West
   { key: "mlb-astros", label: "Astros", fullName: "Houston Astros", abbreviation: "HOU", league: "baseball/mlb", color: "#002D62", textColor: "#3366BB" },
   { key: "mlb-angels", label: "Angels", fullName: "Los Angeles Angels", abbreviation: "LAA", league: "baseball/mlb", color: "#BA0021", textColor: "#EE3344" },
-  { key: "mlb-athletics", label: "Athletics", fullName: "Oakland Athletics", abbreviation: "OAK", league: "baseball/mlb", color: "#003831", textColor: "#33AA55" },
+  { key: "mlb-athletics", label: "Athletics", fullName: "Athletics", abbreviation: "ATH", league: "baseball/mlb", color: "#003831", textColor: "#33AA55" },
   { key: "mlb-mariners", label: "Mariners", fullName: "Seattle Mariners", abbreviation: "SEA", league: "baseball/mlb", color: "#0C2C56", textColor: "#3366BB" },
   { key: "mlb-rangers", label: "Rangers", fullName: "Texas Rangers", abbreviation: "TEX", league: "baseball/mlb", color: "#003278", textColor: "#4466CC" },
 
