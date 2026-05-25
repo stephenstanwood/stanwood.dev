@@ -36,7 +36,7 @@ export const GET: APIRoute = async ({ url }) => {
       `&hourly=temperature_2m,weather_code,cloud_cover,precipitation_probability` +
       `&temperature_unit=fahrenheit&timezone=America/Los_Angeles&forecast_days=1`;
 
-    const res = await fetchWithTimeout(apiUrl, {}, 5000);
+    const res = await fetchWithTimeout(apiUrl, {}, 5_000);
 
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 

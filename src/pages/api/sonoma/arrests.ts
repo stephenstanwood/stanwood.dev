@@ -38,7 +38,7 @@ export const GET: APIRoute = async ({ clientAddress, url }) => {
   }
 
   try {
-    const res = await fetchWithTimeout(`${SOCRATA_BASE}?${params}`, { headers }, 8000);
+    const res = await fetchWithTimeout(`${SOCRATA_BASE}?${params}`, { headers }, 8_000);
     if (!res.ok) {
       return errJson(`Socrata API error: ${res.status}`, 502);
     }

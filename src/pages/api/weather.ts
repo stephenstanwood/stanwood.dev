@@ -18,7 +18,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_WEATHER_LAT}&longitude=${DEFAULT_WEATHER_LON}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America/Los_Angeles`;
 
-    const res = await fetchWithTimeout(url, {}, 4000);
+    const res = await fetchWithTimeout(url, {}, 4_000);
 
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 

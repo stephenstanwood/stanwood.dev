@@ -43,7 +43,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   // Append the API key (never sent to client)
   target.searchParams.set("key", MAPS_API_KEY);
 
-  const res = await fetchWithTimeout(target.toString(), {}, 8000);
+  const res = await fetchWithTimeout(target.toString(), {}, 8_000);
 
   if (!res.ok) {
     return new Response("Map image unavailable", {

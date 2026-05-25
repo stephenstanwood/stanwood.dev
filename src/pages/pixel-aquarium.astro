@@ -1215,7 +1215,7 @@ const breeds: Breed[] = [
           swatch.classList.add('active');
           swatch.setAttribute('aria-pressed', 'true');
           const c = swatch.dataset.color;
-          selectedColorIdx = c === 'random' ? null : parseInt(c);
+          selectedColorIdx = c === 'random' ? null : parseInt(c, 10);
         });
       });
 
