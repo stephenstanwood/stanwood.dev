@@ -1,19 +1,19 @@
 [
   {
+    "name": "Emdash",
+    "org": "Emdash (YC W26)",
+    "date": "2026-05-22",
+    "type": "tool",
+    "summary": "open-source desktop app for running coding agents in parallel — each one isolated in its own git worktree; supports 22 CLI agents (Claude Code, Codex, Cursor, Gemini, Copilot, Amp + 16 more), pulls tickets from Linear/Jira/GitHub Issues, and ships with a built-in Kanban board to track agent progress across tasks",
+    "url": "https://www.ycombinator.com/companies/emdash"
+  },
+  {
     "name": "Figma AI Agent",
     "org": "Figma",
     "date": "2026-05-20",
     "type": "tool",
     "summary": "purpose-built AI agent embedded in Figma's canvas — natural-language prompts generate and remix designs, automate rote work, and respect your design system; fire up multiple agents to do different tasks in parallel, plus new partnerships baking Claude Code and Codex into the design surface; rolling out in beta for Full seats on Pro/Org/Enterprise",
     "url": "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/"
-  },
-  {
-    "name": "Stitch 2.0",
-    "org": "Google",
-    "date": "2026-05-20",
-    "type": "tool",
-    "summary": "Google Labs' AI-native UI design tool gets 'vibe design' — a real-time streaming agent that renders components onto an infinite canvas as you type or speak, plus multiplayer editing and voice input for quick design exploration",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/stitch-ai-ui-design/"
   },
   {
     "name": "Antigravity 2.0",
