@@ -96,8 +96,7 @@ function FluxLogo({ size = 24, color = "currentColor", className }: LogoProps) {
   );
 }
 
-/** Logo lookup by org name */
-export const LOGO_COMPONENTS: Record<string, React.FC<LogoProps>> = {
+const LOGO_COMPONENTS: Record<string, React.FC<LogoProps>> = {
   Anthropic: ClaudeLogo,
   OpenAI: OpenAILogo,
   Google: GeminiLogo,

@@ -3,7 +3,7 @@
  * Curated for sites that make interesting redesign targets:
  * landing pages, products, portfolios, tools, marketing sites.
  */
-export const TOP_SITES: string[] = [
+const TOP_SITES: string[] = [
   // Big tech & platforms
   "google.com",
   "youtube.com",

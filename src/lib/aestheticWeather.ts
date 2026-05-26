@@ -51,7 +51,7 @@ export interface WeatherInput {
   sunsetHour: number; // decimal, e.g. 18.3
 }
 
-export interface DayType {
+interface DayType {
   id: string;
   title: string;
   subtitle: string;
@@ -286,7 +286,7 @@ function dayOfYear(): number {
   return Math.floor(diff / MS_PER_DAY);
 }
 
-export function classifyDayType(input: WeatherInput): DayType {
+function classifyDayType(input: WeatherInput): DayType {
   const windMph = kmhToMph(input.windSpeedKmh);
   const hasPrecip = input.precipitation > 0 || isPrecipCode(input.weatherCode);
   const hoursUntilSunset = input.sunsetHour - input.currentHour;

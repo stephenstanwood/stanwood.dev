@@ -49,7 +49,7 @@ export async function fetchDiscover(
   return tmdbFetch("discover", mediaType, params);
 }
 
-export async function fetchTrailer(
+async function fetchTrailer(
   tmdbId: number,
   mediaType: MediaType,
 ): Promise<TmdbVideoResult | null> {

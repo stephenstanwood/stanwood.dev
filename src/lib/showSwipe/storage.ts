@@ -18,7 +18,7 @@ function getDefault(): ShowSwipeStorage {
   };
 }
 
-export function loadStorage(): ShowSwipeStorage | null {
+function loadStorage(): ShowSwipeStorage | null {
   const data = safeGet<ShowSwipeStorage>(LS_KEY);
   if (!data || data.version !== 1) return null;
   return data;

@@ -148,7 +148,7 @@ export const LAB_PROFILES: LabProfile[] = [
  * Parse a YYYY-MM-DD date string at noon local time so that formatting
  * functions reflect the correct calendar day regardless of timezone offset.
  */
-export function parseLaunchDate(dateStr: string): Date {
+function parseLaunchDate(dateStr: string): Date {
   return new Date(dateStr + "T12:00:00");
 }
 
