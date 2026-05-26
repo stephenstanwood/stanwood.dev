@@ -24,7 +24,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
   // ── Host-based routing for custom domains ──
-  if (url.pathname === "/") {
+  // Skip during prerender: in production, Vercel postbuild rewrites handle
+  // this before the filesystem handler (see scripts/postbuild.mjs). This guard
+  // only runs at request time (dev mode), avoiding a build-time header warning.
+  if (url.pathname === "/" && !context.isPrerendered) {
     const host = context.request.headers.get("host") || "";
     if (host.includes("nbanow.app")) {
       return context.rewrite("/nba-now");
