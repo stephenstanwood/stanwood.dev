@@ -4,7 +4,7 @@
 
 export type RideAvailability = "available" | "invite-only" | "coming-soon";
 
-export interface CityRideOption {
+interface CityRideOption {
   service: string;
   availability: RideAvailability;
   howToBook: string;

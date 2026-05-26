@@ -2,18 +2,18 @@ import { MS_PER_DAY } from "./time";
 
 // ── Types ────────────────────────────────────────────────────────
 
-export interface BreakdownItem {
+interface BreakdownItem {
   name: string;
   cents: number;
 }
 
-export interface ManualEntry {
+interface ManualEntry {
   enteredAt: string;
   cents: number;
   label: string;
 }
 
-export interface ServiceEntry {
+interface ServiceEntry {
   totalCents: number | null;
   breakdown?: BreakdownItem[];
   note: string | null;
@@ -130,7 +130,7 @@ export function getSubscriptionsTotal(subs: Subscription[]): number {
   return subs.reduce((sum, s) => sum + (s.cents ?? 0), 0);
 }
 
-export function getMonthlyTotal(data: MoneyData): number {
+function getMonthlyTotal(data: MoneyData): number {
   const latest = getLatestMonth(data);
   return getApiTotalForMonth(latest) + getSubscriptionsTotal(data.subscriptions);
 }

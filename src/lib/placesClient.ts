@@ -8,7 +8,7 @@ import { errJson } from "./apiHelpers";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
-export interface GooglePlace {
+interface GooglePlace {
   id: string;
   displayName?: { text: string };
   formattedAddress?: string;
@@ -33,7 +33,7 @@ export interface PlaceResult {
   primaryType?: string | null;
 }
 
-export interface SearchStep {
+interface SearchStep {
   types: string[];
   radius: number;
 }

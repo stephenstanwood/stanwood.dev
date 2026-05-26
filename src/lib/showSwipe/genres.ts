@@ -1,4 +1,4 @@
-export const MOVIE_GENRES: Record<number, string> = {
+const MOVIE_GENRES: Record<number, string> = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -20,7 +20,7 @@ export const MOVIE_GENRES: Record<number, string> = {
   37: "Western",
 };
 
-export const TV_GENRES: Record<number, string> = {
+const TV_GENRES: Record<number, string> = {
   10759: "Action & Adventure",
   16: "Animation",
   35: "Comedy",

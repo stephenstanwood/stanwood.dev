@@ -55,7 +55,7 @@ function parseTime(t: string): { h: number; m: number } | null {
   return { h, m };
 }
 
-export function buildWindow(
+function buildWindow(
   date: string,
   startTime: string,
   endTime: string

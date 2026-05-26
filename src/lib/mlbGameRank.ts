@@ -759,7 +759,7 @@ function render(events: Game[]): void {
 
 // ── Favorite teams highlight ──
 
-export function highlightFavorites(): void {
+function highlightFavorites(): void {
   const favs = safeGet<string[]>("mlb-fav-teams") ?? [];
   document.querySelectorAll<HTMLElement>("[data-home][data-away]").forEach((el) => {
     const home = el.getAttribute("data-home") || "";

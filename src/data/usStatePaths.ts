@@ -2,7 +2,6 @@
 // Source: @svg-maps/usa (CC BY-NC 4.0, based on amCharts)
 // viewBox: "192 9 1028 746"
 
-export const US_STATES_VIEWBOX = "192 9 1028 746";
 
 export const US_STATE_PATHS: Record<string, { name: string; path: string }> = {
   AK: {

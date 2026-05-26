@@ -6,14 +6,14 @@ import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
 import { fetchEspnScoreboard } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
-export const WTWTW_LS_KEY = "wtwtw:v1";
+const WTWTW_LS_KEY = "wtwtw:v1";
 export const ALWAYS_SHOW_TEAMS = [
   "mlb-cubs",
   "mlb-giants",
   "mlb-athletics",
   "wnba-valkyries",
 ];
-export const PLAYOFF_LEAGUES = ["basketball/nba"];
+const PLAYOFF_LEAGUES = ["basketball/nba"];
 
 export interface ESPNCompetitor {
   team?: {
@@ -29,7 +29,7 @@ export interface ESPNCompetitor {
   winner?: boolean;
 }
 
-export interface ESPNStatusType {
+interface ESPNStatusType {
   name?: string;
   state?: string;
   shortDetail?: string;
@@ -37,7 +37,7 @@ export interface ESPNStatusType {
   completed?: boolean;
 }
 
-export interface ESPNCompetition {
+interface ESPNCompetition {
   competitors?: ESPNCompetitor[];
   status?: { type?: ESPNStatusType };
   broadcasts?: Array<{ names?: string[] }>;
@@ -85,12 +85,12 @@ export function isNbaPlayoff(ev: ESPNEvent): boolean {
   return false;
 }
 
-export function eventStartSortKey(ev: ESPNEvent): number {
+function eventStartSortKey(ev: ESPNEvent): number {
   const ms = Date.parse(ev.date);
   return Number.isFinite(ms) ? ms : 0;
 }
 
-export function eventHasStarted(ev: ESPNEvent): boolean {
+function eventHasStarted(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   if (t?.completed) return true;
   if (t?.state === "in" || t?.state === "post") return true;
@@ -114,7 +114,7 @@ export function matchUserTeam(
   return matchUserTeams(ev, league, lookup)[0] || null;
 }
 
-export function matchUserTeams(
+function matchUserTeams(
   ev: ESPNEvent,
   league: string,
   lookup: Map<string, TeamEntry>,
@@ -133,7 +133,7 @@ export function matchUserTeams(
   return out;
 }
 
-export function trackedEventTeamKeys(
+function trackedEventTeamKeys(
   ev: ESPNEvent,
   league: string,
   lookup: Map<string, TeamEntry>,
@@ -314,7 +314,7 @@ const ESPN_TO_WNBA_TRI: Record<string, string> = {
   WSH: "WAS",
 };
 
-export function espnToWnbaTri(abbr: string | undefined): string {
+function espnToWnbaTri(abbr: string | undefined): string {
   const up = (abbr || "").toUpperCase();
   return ESPN_TO_WNBA_TRI[up] || up;
 }
