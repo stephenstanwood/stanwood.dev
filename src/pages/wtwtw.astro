@@ -306,89 +306,6 @@ const title = "WTWTW — stanwood.dev";
         line-height: 1.6;
       }
 
-      /* ── Rivalries on the calendar ── */
-      .rivals-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      @media (max-width: 640px) {
-        .rivals-grid { grid-template-columns: 1fr; }
-      }
-      .rival-card {
-        background: rgba(255, 255, 255, 0.025);
-        border: 1px solid rgba(210, 170, 110, 0.12);
-        border-radius: 12px;
-        padding: 13px 14px 14px;
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-        position: relative;
-      }
-      .rival-card[data-league="mlb"] { border-left: 3px solid rgba(200, 60, 60, 0.55); }
-      .rival-card[data-league="nba"] { border-left: 3px solid rgba(200, 100, 20, 0.55); }
-      .rival-card[data-league="nhl"] { border-left: 3px solid rgba(80, 150, 210, 0.55); }
-      .rival-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 8px;
-      }
-      .rival-matchup {
-        font-family: 'Oswald', sans-serif;
-        font-size: 0.95rem;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: rgba(245, 230, 208, 0.95);
-        text-transform: uppercase;
-        line-height: 1.1;
-      }
-      .rival-vs {
-        color: rgba(210, 170, 110, 0.45);
-        font-weight: 500;
-        margin: 0 0.2em;
-      }
-      .rival-since {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: rgba(210, 170, 110, 0.4);
-        white-space: nowrap;
-      }
-      .rival-tag {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: rgba(210, 170, 110, 0.55);
-        font-style: italic;
-      }
-      .rival-body {
-        font-size: 12px;
-        line-height: 1.55;
-        color: rgba(245, 230, 208, 0.72);
-      }
-      .rival-body strong {
-        color: rgba(245, 230, 208, 0.95);
-        font-weight: 600;
-      }
-      .rival-moment {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        line-height: 1.5;
-        color: rgba(210, 170, 110, 0.5);
-        padding-top: 7px;
-        margin-top: 2px;
-        border-top: 1px dashed rgba(210, 170, 110, 0.15);
-      }
-      .rival-moment-label {
-        color: rgba(210, 170, 110, 0.35);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-right: 6px;
-      }
-
       /* ── Starter team kits ── */
       .packs-grid {
         display: grid;
@@ -449,35 +366,6 @@ const title = "WTWTW — stanwood.dev";
         color: rgba(210, 170, 110, 0.55);
         font-style: italic;
       }
-      .pack-teams {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 4px;
-        margin-top: 1px;
-      }
-      .pack-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 3px 8px;
-        border-radius: 999px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(210, 170, 110, 0.12);
-        color: rgba(245, 230, 208, 0.78);
-      }
-      .pack-chip-dot {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .pack-chip[data-league="mlb"] .pack-chip-dot { background: rgba(200, 60, 60, 0.85); }
-      .pack-chip[data-league="nba"] .pack-chip-dot { background: rgba(200, 100, 20, 0.85); }
-      .pack-chip[data-league="nhl"] .pack-chip-dot { background: rgba(80, 150, 210, 0.85); }
       .pack-body {
         font-size: 12px;
         line-height: 1.55;
@@ -486,21 +374,6 @@ const title = "WTWTW — stanwood.dev";
       .pack-body strong {
         color: rgba(245, 230, 208, 0.95);
         font-weight: 600;
-      }
-      .pack-when {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        line-height: 1.5;
-        color: rgba(210, 170, 110, 0.5);
-        padding-top: 7px;
-        margin-top: 2px;
-        border-top: 1px dashed rgba(210, 170, 110, 0.15);
-      }
-      .pack-when-label {
-        color: rgba(210, 170, 110, 0.35);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        margin-right: 6px;
       }
 
       /* ── Example schedule preview ── */
@@ -581,11 +454,6 @@ const title = "WTWTW — stanwood.dev";
         border-radius: 50%;
         background: #22c55e;
         animation: activePulse 2s ease-in-out infinite;
-      }
-      .example-status--scheduled {
-        background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.4);
-        border-color: rgba(255, 255, 255, 0.1);
       }
       .example-game-name {
         font-family: 'Oswald', sans-serif;
