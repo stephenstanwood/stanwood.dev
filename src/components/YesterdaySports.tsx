@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ALWAYS_SHOW_TEAMS,
   buildTeamLookup,
+  competitorsOf,
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
@@ -17,6 +18,7 @@ import {
   type ESPNCompetitor,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
+import { parseScore } from "../lib/sportsCore";
 import { MS_PER_DAY } from "../lib/time";
 
 interface YesterdayGame {
@@ -40,10 +42,6 @@ interface TeamSide {
   winner: boolean;
 }
 
-function competitors(ev: ESPNEvent): ESPNCompetitor[] {
-  return ev.competitions?.[0]?.competitors || [];
-}
-
 function isFinal(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   if (t?.completed) return true;
@@ -60,7 +58,7 @@ function teamSide(c: ESPNCompetitor): TeamSide {
       c.team?.abbreviation ||
       "Team",
     logo: c.team?.logo || "",
-    score: parseInt(c.score || "0", 10),
+    score: parseScore(c.score),
     winner: !!c.winner,
   };
 }
@@ -137,7 +135,7 @@ export default function YesterdaySports() {
             if (seen.has(id)) continue;
             seen.add(id);
 
-            const cs = competitors(ev);
+            const cs = competitorsOf(ev);
             const away = cs.find((c) => c.homeAway === "away");
             const home = cs.find((c) => c.homeAway === "home");
             if (!away || !home) continue;

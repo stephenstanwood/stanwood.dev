@@ -98,6 +98,10 @@ function eventHasStarted(ev: ESPNEvent): boolean {
   return false;
 }
 
+export function competitorsOf(ev: ESPNEvent): ESPNCompetitor[] {
+  return ev.competitions?.[0]?.competitors || [];
+}
+
 export function broadcastsOf(ev: ESPNEvent): string[] {
   const out: string[] = [];
   for (const b of ev.competitions?.[0]?.broadcasts || []) {
