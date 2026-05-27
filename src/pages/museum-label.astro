@@ -330,53 +330,6 @@ const title = "Museum Label — stanwood.dev";
         margin-bottom: 1.5rem;
       }
 
-      /* ── Five styles gallery (above the app) ── */
-      .ml-styles-overview {
-        width: 100%;
-        max-width: 560px;
-        margin: 0 auto 2.25rem;
-      }
-      .ml-styles-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.55rem;
-      }
-      @media (min-width: 540px) {
-        .ml-styles-grid { grid-template-columns: repeat(3, 1fr); }
-      }
-      .ml-style-card {
-        background: var(--ml-card-bg);
-        border: 1px solid var(--ml-border);
-        border-radius: 10px;
-        padding: 0.85rem 0.9rem 0.95rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-        transition: border-color 0.15s, transform 0.15s;
-      }
-      .ml-style-card:hover {
-        border-color: var(--ml-accent);
-        transform: translateY(-1px);
-      }
-      .ml-style-card-emoji {
-        font-size: 1.1rem;
-        line-height: 1;
-      }
-      .ml-style-card-title {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: var(--ml-ink);
-        margin: 0;
-        line-height: 1.15;
-      }
-      .ml-style-card-desc {
-        font-size: 0.72rem;
-        color: var(--ml-gray);
-        line-height: 1.45;
-        margin: 0;
-      }
-
       /* ── What to upload tips + idea sparks ── */
       .ml-tips {
         width: 100%;
@@ -816,42 +769,6 @@ const title = "Museum Label — stanwood.dev";
         <h1 class="ml-title">Museum Label</h1>
         <p class="ml-subtitle">upload any object. get a deadpan placard. download to share.</p>
       </div>
-
-      <section class="ml-styles-overview" aria-label="Available styles">
-        <p class="ml-section-label">five flavors of pretension</p>
-        <div class="ml-styles-grid">
-          <div class="ml-style-card">
-            <span class="ml-style-card-emoji">🏛️</span>
-            <h3 class="ml-style-card-title">Museum Classic</h3>
-            <p class="ml-style-card-desc">Metropolitan-style wall label. Dignified, scholarly, restrained — like it's hanging next to a Vermeer.</p>
-          </div>
-          <div class="ml-style-card">
-            <span class="ml-style-card-emoji">🏺</span>
-            <h3 class="ml-style-card-title">Archaeology</h3>
-            <p class="ml-style-card-desc">Field catalog entry. Precise, clinical, obsessed with stratigraphy and provenance.</p>
-          </div>
-          <div class="ml-style-card">
-            <span class="ml-style-card-emoji">🎨</span>
-            <h3 class="ml-style-card-title">Modern Art</h3>
-            <p class="ml-style-card-desc">MoMA gallery card. Pretentious, conceptual, deeply meaningful about absolutely nothing.</p>
-          </div>
-          <div class="ml-style-card">
-            <span class="ml-style-card-emoji">👑</span>
-            <h3 class="ml-style-card-title">Grandly Over-Serious</h3>
-            <p class="ml-style-card-desc">As if this mundane object will reshape human civilization. Civilization-altering claims for a sock.</p>
-          </div>
-          <div class="ml-style-card">
-            <span class="ml-style-card-emoji">🔨</span>
-            <h3 class="ml-style-card-title">Tiny Auction Catalog</h3>
-            <p class="ml-style-card-desc">Christie's lot description. Provenance-obsessed, breathlessly valuable, with a credible estimate.</p>
-          </div>
-          <div class="ml-style-card" style="background: rgba(107, 76, 59, 0.06); border-style: dashed;">
-            <span class="ml-style-card-emoji">↓</span>
-            <h3 class="ml-style-card-title">Pick yours below</h3>
-            <p class="ml-style-card-desc">Switch styles after generating to remix the same photo into a different voice.</p>
-          </div>
-        </div>
-      </section>
 
       <MuseumLabelApp client:idle />
 
