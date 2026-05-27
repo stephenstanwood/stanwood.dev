@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ALWAYS_SHOW_TEAMS,
   buildTeamLookup,
+  competitorsOf,
   fetchEventsForLeagues,
   getRelevantLeagues,
   isNbaPlayoff,
@@ -22,10 +23,6 @@ interface TodayGame {
   startSortKey: number;
   isPlayoff: boolean;
   accent: string;
-}
-
-function competitors(ev: ESPNEvent): ESPNCompetitor[] {
-  return ev.competitions?.[0]?.competitors || [];
 }
 
 function stateOf(ev: ESPNEvent): string {
@@ -66,7 +63,7 @@ export default function TodaySports() {
           if (seen.has(id)) continue;
           seen.add(id);
 
-          const cs = competitors(ev);
+          const cs = competitorsOf(ev);
           const away = cs.find((c) => c.homeAway === "away");
           const home = cs.find((c) => c.homeAway === "home");
           if (!away || !home) continue;

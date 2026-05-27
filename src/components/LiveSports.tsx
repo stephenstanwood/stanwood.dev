@@ -3,6 +3,7 @@ import {
   ALWAYS_SHOW_TEAMS,
   broadcastsOf,
   buildTeamLookup,
+  competitorsOf,
   fetchEventsForLeagues,
   getRelevantLeagues,
   isNbaPlayoff,
@@ -13,6 +14,7 @@ import {
   type ESPNCompetitor,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
+import { parseScore } from "../lib/sportsCore";
 import { MS_PER_MINUTE } from "../lib/time";
 import { formatHourMinuteInTz } from "../lib/dateFormat";
 import { findActiveWindow, type BigInningSchedule } from "../lib/bigInning";
@@ -46,10 +48,6 @@ interface TeamSide {
   score: number;
 }
 
-function competitors(ev: ESPNEvent): ESPNCompetitor[] {
-  return ev.competitions?.[0]?.competitors || [];
-}
-
 function isInProgress(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   if ((t?.state || "") === "in") return true;
@@ -66,7 +64,7 @@ function teamSide(c: ESPNCompetitor): TeamSide {
       c.team?.abbreviation ||
       "Team",
     logo: c.team?.logo || "",
-    score: parseInt(c.score || "0", 10),
+    score: parseScore(c.score),
   };
 }
 
@@ -143,7 +141,7 @@ export default function LiveSports() {
           if (seen.has(id)) continue;
           seen.add(id);
 
-          const cs = competitors(ev);
+          const cs = competitorsOf(ev);
           const away = cs.find((c) => c.homeAway === "away");
           const home = cs.find((c) => c.homeAway === "home");
           if (!away || !home) continue;
