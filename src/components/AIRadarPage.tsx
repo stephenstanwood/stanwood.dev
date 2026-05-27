@@ -412,25 +412,6 @@ export default function AIRadarPage() {
           No minor patches. No prerelease beta noise.
         </p>
 
-        <div className="rp-about-types">
-          <div className="rp-about-type">
-            <span className="rp-about-type-label">MODEL</span>
-            <span className="rp-about-type-desc">A new foundation model — capabilities, benchmarks, pricing.</span>
-          </div>
-          <div className="rp-about-type">
-            <span className="rp-about-type-label">PRODUCT</span>
-            <span className="rp-about-type-desc">A consumer-facing app or feature — what users actually touch.</span>
-          </div>
-          <div className="rp-about-type">
-            <span className="rp-about-type-label">TOOL</span>
-            <span className="rp-about-type-desc">A developer-facing API or capability — what builders plug into.</span>
-          </div>
-          <div className="rp-about-type">
-            <span className="rp-about-type-label">INFRA</span>
-            <span className="rp-about-type-desc">Hardware, platforms, or backbone — chips, cloud, the rails.</span>
-          </div>
-        </div>
-
         <dl className="rp-about-meta">
           <div className="rp-about-meta-row">
             <dt>Updated</dt>
