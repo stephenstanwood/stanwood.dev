@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-26T10:30:05.172532+00:00",
+  "built_at": "2026-05-27T10:30:07.811134+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -10,7 +10,6 @@
       "best_score": 24,
       "video_count": 9,
       "video_ids": [
-        "IKpRUQFOzpU",
         "B9WsVMGtIuk",
         "IH-hRdNMIq0",
         "u74gb_DCtzo",
@@ -18,6 +17,7 @@
         "IydslKdqzYo",
         "F-OxHWWg59o",
         "yhfuDD3hprA",
+        "QZ61wToFILM",
         "Q_UxyEepuQA"
       ]
     },
@@ -111,11 +111,8 @@
       "is_single": false,
       "display_name": "CS193",
       "best_score": 10,
-      "video_count": 13,
+      "video_count": 10,
       "video_ids": [
-        "tvVj6MSBhBA",
-        "u6cgk1W6EXE",
-        "IvOF3Bmk-94",
         "gNok5P7HLCw",
         "PXcl5cjVNT0",
         "NnJ91M9PRYo",
@@ -329,22 +326,6 @@
   ],
   "queue": [
     {
-      "id": "IKpRUQFOzpU",
-      "title": "Stanford CS547 HCI Seminar | Autumn 2025 | Towards Globally Equitable AI",
-      "url": "https://www.youtube.com/watch?v=IKpRUQFOzpU",
-      "duration": 3539.0,
-      "published_at": "2025-11-25T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 18,
-      "categories": [
-        "hci",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nNovember 7, 2025\nThis lecture covers:\n\u2022 Case studies\n\u2022 Promises and pitfalls of existing AI systems\n\u2022 Pathways for designing AI technologies that are more inclusive, representative, and equitable on a global scale\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.ed"
-    },
-    {
       "id": "B9WsVMGtIuk",
       "title": "Stanford CS547 HCI Seminar | Autumn 2025 | Tracing and Shaping Paths in Design Space",
       "url": "https://www.youtube.com/watch?v=B9WsVMGtIuk",
@@ -458,6 +439,24 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 6, 2026\nThis lecture covers:\n\u2022  Advancing human values through integrative computing and changing practice\n\u2022  Examples of computational ecosystems built over the last decade that transform how we plan, coordinate, connect, learn, and innovate\n\u2022  Recent efforts to support human prac"
+    },
+    {
+      "id": "QZ61wToFILM",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Observing the User Experience in 2026",
+      "url": "https://www.youtube.com/watch?v=QZ61wToFILM",
+      "duration": 3718.0,
+      "published_at": "2026-04-29T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 11,
+      "categories": [
+        "hci",
+        "swe_career",
+        "healthcare_ai",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis lecture covers:\n\u2022  How research jobs have changed\n\u2022  The new power dynamics of tech development\n\u2022  The rise of AI\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nElizabeth Goodman is a design and strategy leader who works to improve healt"
     },
     {
       "id": "Q_UxyEepuQA",
@@ -1258,52 +1257,6 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
-    },
-    {
-      "id": "tvVj6MSBhBA",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L6: Demonstrating Data Flow",
-      "url": "https://www.youtube.com/watch?v=tvVj6MSBhBA",
-      "duration": 4478.0,
-      "published_at": "2025-11-25T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 6th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  This lecture is entirely demo-focused, covering advanced data flow patterns in SwiftUI. Implements a peg chooser keyboard int"
-    },
-    {
-      "id": "u6cgk1W6EXE",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L5: Layout & Data Flow",
-      "url": "https://www.youtube.com/watch?v=u6cgk1W6EXE",
-      "duration": 4043.0,
-      "published_at": "2025-11-25T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": -1,
-      "categories": [
-        "climate_grid",
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 5th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  The SwiftUI layout system and functional programming. The layout process involves three steps: container Views offer space to"
-    },
-    {
-      "id": "IvOF3Bmk-94",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L4: CodeBreaker's Model",
-      "url": "https://www.youtube.com/watch?v=IvOF3Bmk-94",
-      "duration": 4265.0,
-      "published_at": "2025-11-25T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 4th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI). This lecture focuses on implementing the Model-UI separation in CodeBreaker. CodeBreaker's Model is created, including CodeBre"
     },
     {
       "id": "gNok5P7HLCw",
