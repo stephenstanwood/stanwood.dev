@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini Spark",
+    "org": "Google",
+    "date": "2026-05-25",
+    "type": "tool",
+    "summary": "Google's 24/7 personal AI agent rolls into beta — runs on a cloud VM that keeps working when your laptop is closed, schedules and chains multi-step tasks across Gmail/Docs, and uses MCP to act inside Canva, OpenTable, and Instacart at launch (Adobe, Spotify, GitHub, Notion, and Slack queued for summer); opens this week for U.S. Google AI Ultra subscribers",
+    "url": "https://blog.google/innovation-and-ai/products/gemini-app/next-evolution-gemini-app/"
+  },
+  {
     "name": "Emdash",
     "org": "Emdash (YC W26)",
     "date": "2026-05-22",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Cursor's in-house coding model is aimed at long, tool-heavy sessions across files, terminal, and tests; the pitch is frontier-style coding performance at a lower cost inside the editor where Cursor already has context",
     "url": "https://devtoolpicks.com/blog/cursor-composer-2-5-launch-indie-hackers-2026"
-  },
-  {
-    "name": "Claude for Small Business",
-    "org": "Anthropic",
-    "date": "2026-05-13",
-    "type": "tool",
-    "summary": "packaged Claude for solopreneurs and small teams — prebuilt agentic workflows and one-click connectors into QuickBooks, PayPal, HubSpot, Canva, DocuSign, Google Workspace, and Microsoft 365 to handle payroll, month-end close, invoice chasing, and campaign creation; bundled with a free AI fluency course",
-    "url": "https://techcrunch.com/2026/05/13/anthropic-courts-a-new-kind-of-customer-small-business-owners/"
   }
 ]
