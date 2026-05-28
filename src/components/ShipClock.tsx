@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
 import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY, msSince } from "../lib/time";
-import { formatMonthDay } from "../lib/dateFormat";
+import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 
 interface HistoryEntry {
   date: string;
@@ -115,10 +115,7 @@ export default function ShipClock() {
     day: "numeric",
     year: "numeric",
   });
-  const formattedTime = deployDate.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
+  const formattedTime = formatHourMinute(deployDate);
 
   const days = data.daysSince!;
   const isToday = days === 0;

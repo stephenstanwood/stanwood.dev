@@ -26,12 +26,6 @@ export interface DesignDirection {
   conceptHtml: string;
 }
 
-export interface AnalyzeResponse {
-  siteAnalysis: SiteAnalysis;
-  screenshotBase64: string;
-  directions: DesignDirection[];
-}
-
 export interface MoreResponse {
   directions: DesignDirection[];
 }

@@ -104,12 +104,6 @@ export type TmdbAction =
   | "tv_on_the_air"
   | "videos";
 
-export interface ShowSwipeApiRequest {
-  action: TmdbAction;
-  mediaType: MediaType;
-  params?: Record<string, string | number | boolean>;
-}
-
 // ─── App View State ─────────────────────────────────────────────────────────
 
 export type AppView = "loading" | "swiping" | "error" | "empty";
