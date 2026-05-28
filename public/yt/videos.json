@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-27T10:30:07.811134+00:00",
+  "built_at": "2026-05-28T10:30:23.709885+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -54,14 +54,15 @@
       "is_single": false,
       "display_name": "CS25",
       "best_score": 13,
-      "video_count": 6,
+      "video_count": 7,
       "video_ids": [
         "GBd7iuJkW08",
         "bHSDPgZYie0",
         "OyimE74UMF8",
         "e_H_tkpCAK4",
         "I5BKi32IEa8",
-        "dJtHauhRasc"
+        "dJtHauhRasc",
+        "jFdH7n6BAl0"
       ]
     },
     {
@@ -69,7 +70,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 9,
+      "video_count": 10,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -79,7 +80,8 @@
         "B8NvdfssGac",
         "wisccQYTRQc",
         "tsQB0n0YV3k",
-        "Lri2LNYtERM"
+        "Lri2LNYtERM",
+        "VeTqsCpcDgg"
       ]
     },
     {
@@ -160,7 +162,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 13,
+      "video_count": 16,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -174,7 +176,10 @@
         "EfM546A79aM",
         "vTfEyOyzV9E",
         "JpAxdTWQJxM",
-        "-qm0ln33G24"
+        "-qm0ln33G24",
+        "5sxHosTLPF8",
+        "2oH6PWPrYFo",
+        "dIFAi87Ws4E"
       ]
     },
     {
@@ -261,6 +266,16 @@
       "video_count": 1,
       "video_ids": [
         "KGl076xkxG4"
+      ]
+    },
+    {
+      "key": "__single__4k53z3Ysjg0",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrastructure, Capstone Case",
+      "best_score": 0,
+      "video_count": 1,
+      "video_ids": [
+        "4k53z3Ysjg0"
       ]
     },
     {
@@ -882,6 +897,23 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 7, 2026\nThis seminar covers: \n\u2022  Two methods for teaching information to language models: training (updating parameters) or in-context learning (providing information in prompts)\n\u2022 Striking differences in the types of generalization that models make when they learn information via th"
     },
     {
+      "id": "jFdH7n6BAl0",
+      "title": "Stanford CS25: Transformers United V6 I Advancing Science and Medicine with Collaborative AI Agents",
+      "url": "https://www.youtube.com/watch?v=jFdH7n6BAl0",
+      "duration": 3993.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": -1,
+      "categories": [
+        "applied_ai",
+        "swe_career",
+        "healthcare_ai"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 14, 2026\nThis seminar covers: \n\u2022 An introduction to general-purpose AI systems from Google DeepMind designed to accelerate scientific discovery and democratize medical expertise\n\u2022 First, the AI co-scientist, a multi-agent Gemini-based system, assists researchers by systematically gen"
+    },
+    {
       "id": "O5PfU_uDhS0",
       "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
       "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
@@ -1026,6 +1058,24 @@
         "climate_grid"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class shifts from upstream bottlenecks like power and compute to the capital and company-formation layer, framing YC's 2010s introduction of the SAFE as a standa"
+    },
+    {
+      "id": "VeTqsCpcDgg",
+      "title": "Stanford CS153 Frontier Systems | The Discipline of Delivering Value per Gigawatt",
+      "url": "https://www.youtube.com/watch?v=VeTqsCpcDgg",
+      "duration": 3863.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": -8,
+      "categories": [
+        "systems_db",
+        "swe_career",
+        "healthcare_ai",
+        "climate_grid"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class returns to the upstream infrastructure stack with Amin Vahdat, who leads Google's internal compute infrastructure and the TPU program powering Gemini, fram"
     },
     {
       "id": "MoI6yxW6fuE",
@@ -1666,6 +1716,54 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
     },
     {
+      "id": "5sxHosTLPF8",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 14: Data",
+      "url": "https://www.youtube.com/watch?v=5sxHosTLPF8",
+      "duration": 5086.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 14,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nThis lecture covers data (filtering, deduplication, mixing, and synthetic data).\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/"
+    },
+    {
+      "id": "2oH6PWPrYFo",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 15: Mid/Post-Training",
+      "url": "https://www.youtube.com/watch?v=2oH6PWPrYFo",
+      "duration": 4795.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 15,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nThis lecture covers mid/post-training (SFT/RLHF).\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Comp"
+    },
+    {
+      "id": "dIFAi87Ws4E",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 16: Post-Training - RLVR",
+      "url": "https://www.youtube.com/watch?v=dIFAi87Ws4E",
+      "duration": 4551.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 16,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
       "id": "yaLEGZuIIgE",
       "title": "Stanford CS221 | Autumn 2025 | Lecture 1: Course Overview and AI Foundations",
       "url": "https://www.youtube.com/watch?v=yaLEGZuIIgE",
@@ -2156,6 +2254,19 @@
         "healthcare_ai"
       ],
       "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
+    },
+    {
+      "id": "4k53z3Ysjg0",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrastructure, Capstone Case",
+      "url": "https://www.youtube.com/watch?v=4k53z3Ysjg0",
+      "duration": 2766.0,
+      "published_at": "2026-05-27T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrastructure, Capstone Case",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nThis seminar covers infrastructure and a capstone case on a frontier lab.\n\nFollow along with the course schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Sachin Katti, Head of Industrial Computer, OpenAI\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Scienc"
     },
     {
       "id": "smSp11lXLJI",
