@@ -767,7 +767,6 @@ const title = "Ship Clock — stanwood.dev";
       .sc-dora-card--ship   { color: var(--sc-accent); }
       .sc-dora-card--lead   { color: #1a9d3f; }
       .sc-dora-card--fail   { color: #c97718; }
-      .sc-dora-card--mttr   { color: #8a6cb5; }
 
       .sc-dora-head {
         display: flex;
@@ -795,19 +794,6 @@ const title = "Ship Clock — stanwood.dev";
         opacity: 0.8;
       }
 
-      .sc-dora-mine {
-        display: inline-block;
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        background: var(--sc-accent);
-        color: #fff;
-        padding: 2px 6px;
-        margin-left: 6px;
-      }
-
       .sc-dora-what {
         font-family: 'Cabin', sans-serif;
         font-size: 12.5px;
@@ -817,85 +803,9 @@ const title = "Ship Clock — stanwood.dev";
         margin: 0 0 10px;
       }
 
-      .sc-dora-tiers {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 4px;
-        margin-bottom: 10px;
-      }
-
-      .sc-dora-tier {
-        display: flex;
-        flex-direction: column;
-        gap: 1px;
-        padding: 6px 8px;
-        border: 1.5px solid rgba(0,0,0,0.08);
-        background: rgba(0,0,0,0.02);
-      }
-
-      .sc-dora-tier-name {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: currentColor;
-        opacity: 0.85;
-      }
-
-      .sc-dora-tier-val {
-        font-family: 'Cabin', sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        color: var(--sc-ink);
-        opacity: 0.75;
-      }
-
-      .sc-dora-fix {
-        font-family: 'Cabin', sans-serif;
-        font-size: 12.5px;
-        line-height: 1.55;
-        color: var(--sc-ink);
-        margin: 0;
-        padding: 8px 10px;
-        background: rgba(0,0,0,0.03);
-        border-left: 2px solid currentColor;
-      }
-
-      .sc-dora-fix-label {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: currentColor;
-        margin-right: 6px;
-      }
-
-      .sc-dora-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        line-height: 1.6;
-        margin-top: 14px;
-      }
-
-      .sc-dora-foot a {
-        color: inherit;
-        text-decoration: underline;
-        text-decoration-style: dotted;
-        text-underline-offset: 2px;
-      }
-      .sc-dora-foot a:hover { opacity: 1; }
-
       @media (max-width: 480px) {
         .sc-dora-card { padding: 12px 14px; }
         .sc-dora-card::before { width: 4px; }
-        .sc-dora-tiers { grid-template-columns: 1fr 1fr; }
-        .sc-dora-tier { padding: 5px 7px; }
-        .sc-dora-tier-val { font-size: 11.5px; }
-        .sc-dora-fix { font-size: 12px; padding: 7px 9px; }
       }
 
       /* ── Repo tracker ── */
