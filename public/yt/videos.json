@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-05-28T10:30:23.709885+00:00",
+  "built_at": "2026-05-29T10:30:13.556229+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -70,7 +70,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 10,
+      "video_count": 11,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -81,7 +81,8 @@
         "wisccQYTRQc",
         "tsQB0n0YV3k",
         "Lri2LNYtERM",
-        "VeTqsCpcDgg"
+        "VeTqsCpcDgg",
+        "g50FHC-PzK8"
       ]
     },
     {
@@ -216,14 +217,15 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": 5,
-      "video_count": 6,
+      "video_count": 7,
       "video_ids": [
         "tr-CUpw--ck",
         "_WaR2fjZpEQ",
         "agN3AlfGFrk",
         "WUUq6TVAu8U",
         "HpFdSlMeXzQ",
-        "IvXTl3yj-4Y"
+        "IvXTl3yj-4Y",
+        "iNaRBp4T57Q"
       ]
     },
     {
@@ -1076,6 +1078,23 @@
         "climate_grid"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class returns to the upstream infrastructure stack with Amin Vahdat, who leads Google's internal compute infrastructure and the TPU program powering Gemini, fram"
+    },
+    {
+      "id": "g50FHC-PzK8",
+      "title": "Stanford CS153 Frontier Systems | The Road Ahead: Resilience Required",
+      "url": "https://www.youtube.com/watch?v=g50FHC-PzK8",
+      "duration": 3919.0,
+      "published_at": "2026-05-28T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 12,
+      "categories": [
+        "systems_db",
+        "algorithms",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, Joe Sullivan, a veteran security leader who built security teams at Facebook, Uber, and Cloudflare, walks the class through his career at the intersection of governm"
     },
     {
       "id": "MoI6yxW6fuE",
@@ -2155,6 +2174,22 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:07:45 Training lifecycle overview\n00:10:39 Loss parameterization\n00:16:08 Timestep sampling\n00:22:27 Logit normal distribution\n00:25:44 Sampling shi"
+    },
+    {
+      "id": "iNaRBp4T57Q",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 7 - Evaluation",
+      "url": "https://www.youtube.com/watch?v=iNaRBp4T57Q",
+      "duration": 6072.0,
+      "published_at": "2026-05-28T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 7,
+      "score": 5,
+      "categories": [
+        "applied_ai",
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:05:19 Motivation\n00:10:48 Human ratings\n00:19:43 Elo rating system\n00:26:37 Reference-free metrics\n00:29:15 Fr\u00e9chet inception distance (FID)\n00:42:3"
     },
     {
       "id": "AuZoDsNmG_s",
