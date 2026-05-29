@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Opus 4.8",
+    "org": "Anthropic",
+    "date": "2026-05-28",
+    "type": "model",
+    "summary": "Anthropic's new flagship lands today on claude.ai, Claude Code, the API, and Cowork — tops GPT-5.5 and Gemini 3.1 Pro on agentic coding benchmarks and is ~4x less likely than 4.7 to leave flaws in code it writes; same price as 4.7 ($5/M in, $25/M out) but fast mode is now 3x cheaper, plus a research preview of dynamic workflows that spawns hundreds of parallel subagents for jobs too big for one context window",
+    "url": "https://www.anthropic.com/claude/opus"
+  },
+  {
     "name": "Gemini Spark",
     "org": "Google",
     "date": "2026-05-25",
@@ -38,14 +46,6 @@
     "type": "model",
     "summary": "Google's new high-efficiency multimodal model — near-Pro level coding and reasoning at Flash-tier cost ($1.50/M input, $9/M output, 1M-token context); accepts text, image, audio, video, and PDF and is tuned for parallel agentic loops; generally available today across the Gemini API, AI Studio, Antigravity, and Vertex AI with no waitlist",
     "url": "https://blog.google/innovation-and-ai/technology/ai/google-io-2026-all-our-announcements/"
-  },
-  {
-    "name": "Antigravity 2.0",
-    "org": "Google",
-    "date": "2026-05-19",
-    "type": "tool",
-    "summary": "Google's agent-first dev platform expands into a broader toolkit — a desktop app for orchestrating parallel agents, a CLI, an SDK, and managed agent workflows for building and running longer software tasks",
-    "url": "https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/"
   },
   {
     "name": "Gemini Omni Flash",
