@@ -27,6 +27,7 @@ export interface ESPNCompetitor {
   homeAway?: "home" | "away";
   score?: string;
   winner?: boolean;
+  records?: Array<{ type?: string; summary?: string }>;
 }
 
 export interface ESPNStatusType {
@@ -39,7 +40,7 @@ export interface ESPNStatusType {
 
 export interface ESPNCompetition {
   competitors?: ESPNCompetitor[];
-  status?: { type?: ESPNStatusType };
+  status?: { period?: number; type?: ESPNStatusType };
   broadcasts?: Array<{ names?: string[] }>;
 }
 
@@ -96,6 +97,49 @@ export function eventHasStarted(ev: ESPNEvent): boolean {
   if (t?.state === "in" || t?.state === "post") return true;
   if ((t?.name || "").includes("IN_PROGRESS")) return true;
   return false;
+}
+
+export function isFinalEvent(ev: ESPNEvent): boolean {
+  const t = ev.competitions?.[0]?.status?.type;
+  return t?.completed === true || t?.state === "post";
+}
+
+// ── Watchability scoring for finished games ──────────────────────────────────
+// Adapted from NBA Now's live computeWatchScore (closeness × quality ×
+// progress). Once a game is final the progress/momentum term is always maxed
+// out, so it can't discriminate between games — we drop it and keep the two
+// signals that still separate good from bad (final margin + team quality),
+// plus an overtime bonus. Closeness penalty matches NBA Now (4 pts of margin
+// per closeness point lost).
+
+const FINISHED_CLOSENESS_PENALTY = 4;
+const OT_BONUS_PER_PERIOD = 0.25; // 1 OT → 1.25×, 2 OT → 1.5×
+
+function parseScoreNum(s: string | undefined): number {
+  const n = parseInt(s || "0", 10);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function winPctFromRecord(c: ESPNCompetitor): number {
+  const m = /(\d+)\s*-\s*(\d+)/.exec(c.records?.[0]?.summary || "");
+  if (!m) return 0;
+  const wins = parseInt(m[1], 10);
+  const games = wins + parseInt(m[2], 10);
+  return games > 0 ? wins / games : 0;
+}
+
+/** Higher = a better game to go back and watch. Expects a completed game. */
+export function finishedGameWatchScore(ev: ESPNEvent): number {
+  const comp = ev.competitions?.[0];
+  const cs = comp?.competitors || [];
+  if (cs.length < 2) return 0;
+  const margin = Math.abs(parseScoreNum(cs[0].score) - parseScoreNum(cs[1].score));
+  const closeness = Math.max(0, 100 - margin * FINISHED_CLOSENESS_PENALTY);
+  const avgWinPct = (winPctFromRecord(cs[0]) + winPctFromRecord(cs[1])) / 2;
+  const quality = 0.5 + avgWinPct; // 0.5 (two winless teams) … 1.5 (two unbeaten)
+  const period = comp?.status?.period || 0;
+  const otBonus = period > 4 ? 1 + OT_BONUS_PER_PERIOD * (period - 4) : 1;
+  return closeness * quality * otBonus;
 }
 
 export function broadcastsOf(ev: ESPNEvent): string[] {
@@ -311,6 +355,7 @@ const ESPN_TO_WNBA_TRI: Record<string, string> = {
   LV: "LVA",
   LA: "LAS",
   NY: "NYL",
+  POR: "PDX",
   WSH: "WAS",
 };
 

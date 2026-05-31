@@ -796,7 +796,7 @@ function seriesVideos(series: Series): QueueVideo[] {
             <path d="M19 8 Q14.5 12 19 16"/>
           </svg>
         </a>
-        <a href="https://www.nba.com/games" target="_blank" rel="noopener" title="NBA Games" aria-label="NBA Games">
+        <a id="best-wnba-launcher" href="https://www.wnba.com/league-pass-stream/" target="_blank" rel="noopener" title="Yesterday's best WNBA game" aria-label="Yesterday's best WNBA game">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18"/>
@@ -1378,6 +1378,68 @@ function seriesVideos(series: Series): QueueVideo[] {
     renderBroaderHidden();
     refillIfNeeded();
     loadSdsnClassicCard();
+  </script>
+  <script>
+    // Point the basketball launcher at the previous day's best WNBA League
+    // Pass replay, scored with the same closeness × quality logic NBA Now uses
+    // for live games (minus the game-progress term, which is moot once final).
+    // Falls back to the WNBA League Pass home (the static href) on off-days or
+    // if the game can't be resolved.
+    import { fetchEspnScoreboard } from '../lib/sportsCore';
+    import {
+      espnToWnbaTri,
+      fetchWnbaGameIds,
+      finishedGameWatchScore,
+      isFinalEvent,
+      yyyymmddInPT,
+      type ESPNEvent,
+    } from '../lib/wtwtwSports';
+    import { MS_PER_DAY } from '../lib/time';
+
+    const launcher = document.getElementById('best-wnba-launcher');
+    if (launcher instanceof HTMLAnchorElement) {
+      (async () => {
+        try {
+          const ymd = yyyymmddInPT(new Date(Date.now() - MS_PER_DAY));
+          const [board, gameIds] = await Promise.all([
+            fetchEspnScoreboard<ESPNEvent>('basketball/wnba', ymd),
+            fetchWnbaGameIds(),
+          ]);
+          const finals = (board.events || []).filter(isFinalEvent);
+          if (finals.length === 0) return;
+
+          let best: ESPNEvent | null = null;
+          let bestScore = -Infinity;
+          for (const ev of finals) {
+            const score = finishedGameWatchScore(ev);
+            if (score > bestScore) {
+              bestScore = score;
+              best = ev;
+            }
+          }
+          if (!best) return;
+
+          const cs = best.competitions?.[0]?.competitors || [];
+          const away = cs.find((c) => c.homeAway === 'away');
+          const home = cs.find((c) => c.homeAway === 'home');
+          const awayTri = espnToWnbaTri(away?.team?.abbreviation);
+          const homeTri = espnToWnbaTri(home?.team?.abbreviation);
+          const gameId = gameIds.get(`${ymd}/${awayTri}${homeTri}`);
+          if (!gameId) return;
+
+          const awayName =
+            away?.team?.shortDisplayName || away?.team?.abbreviation || awayTri;
+          const homeName =
+            home?.team?.shortDisplayName || home?.team?.abbreviation || homeTri;
+          launcher.href = `https://www.wnba.com/game/${gameId}`;
+          const label = `Yesterday's best WNBA game: ${awayName} @ ${homeName}`;
+          launcher.title = label;
+          launcher.setAttribute('aria-label', label);
+        } catch {
+          /* keep the WNBA League Pass fallback href */
+        }
+      })();
+    }
   </script>
 </body>
 </html>
