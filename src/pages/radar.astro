@@ -261,89 +261,6 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         line-height: 1.4;
       }
 
-      /* ── Filters ── */
-      .rp-filters {
-        margin-bottom: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .rp-search {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        background: #fff;
-        border: 1.5px solid var(--rp-border);
-        color: var(--rp-ink);
-        padding: 7px 12px;
-        border-radius: 2px;
-        outline: none;
-        width: 100%;
-        box-sizing: border-box;
-        transition: border-color 0.15s;
-      }
-      .rp-search::placeholder {
-        color: var(--rp-muted);
-        letter-spacing: 0.04em;
-      }
-      .rp-search:focus {
-        border-color: #888;
-      }
-      .rp-filter-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-      .rp-chip {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        background: none;
-        border: 1.5px solid var(--rp-border);
-        color: var(--rp-muted);
-        padding: 4px 10px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: background 0.1s, color 0.1s, border-color 0.1s;
-        line-height: 1.5;
-      }
-      .rp-chip:hover {
-        background: var(--rp-subtle);
-        color: var(--rp-ink);
-        border-color: #bbb;
-      }
-      .rp-chip--active {
-        background: var(--rp-ink);
-        color: var(--rp-bg);
-        border-color: var(--rp-ink);
-      }
-      .rp-chip--active:hover {
-        background: #333;
-        color: var(--rp-bg);
-      }
-      .rp-chip-clear {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.06em;
-        background: none;
-        border: none;
-        color: var(--rp-accent);
-        cursor: pointer;
-        padding: 0;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-        align-self: flex-start;
-      }
-      .rp-empty {
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        color: var(--rp-muted);
-        padding: 32px 0;
-        text-align: center;
-      }
-
       /* ── Pulse panel ── */
       .rp-pulse {
         margin: 24px 0 28px;
@@ -397,19 +314,6 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
         font: inherit;
         color: inherit;
         min-width: 0;
-      }
-      button.rp-pulse-stat--clickable {
-        cursor: pointer;
-        transition: background 0.12s, border-color 0.12s, transform 0.1s;
-      }
-      button.rp-pulse-stat--clickable:hover {
-        background: #fff;
-        border-color: #bbb;
-        transform: translateY(-1px);
-      }
-      .rp-pulse-stat--active {
-        background: #fff;
-        border-color: var(--rp-accent) !important;
       }
       .rp-pulse-num {
         font-family: 'Space Mono', monospace;
@@ -574,18 +478,6 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
       .rp-fieldmap-card--product { border-left-color: #2563eb; }
       .rp-fieldmap-card--tool { border-left-color: #16a34a; }
       .rp-fieldmap-card--infra { border-left-color: #7c3aed; }
-      .rp-fieldmap-card--active {
-        background: #fffaf0;
-      }
-      .rp-fieldmap-card--active::after {
-        content: "filtered ✓";
-        font-family: 'Space Mono', monospace;
-        font-size: 8px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--rp-accent);
-        margin-top: 2px;
-      }
       .rp-fieldmap-card-head {
         display: flex;
         align-items: center;
@@ -967,40 +859,6 @@ import AIRadarPage from "../components/AIRadarPage.tsx";
       .rp-stats-sep {
         color: #ddd;
         margin: 0 1px;
-      }
-
-      /* ── Share button ── */
-      .rp-share-btn {
-        font-family: 'Space Mono', monospace;
-        font-size: 9px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        background: none;
-        border: 1.5px solid var(--rp-border);
-        color: var(--rp-muted);
-        padding: 2px 8px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: background 0.1s, color 0.1s, border-color 0.1s;
-        white-space: nowrap;
-      }
-      .rp-share-btn:hover {
-        background: var(--rp-subtle);
-        color: var(--rp-ink);
-        border-color: #bbb;
-      }
-
-      /* ── Count badge on chip ── */
-      .rp-chip-count {
-        display: inline-block;
-        font-size: 8px;
-        font-weight: 400;
-        letter-spacing: 0;
-        opacity: 0.6;
-        margin-left: 4px;
-      }
-      .rp-chip--active .rp-chip-count {
-        opacity: 0.75;
       }
 
       /* ── About this radar ── */
