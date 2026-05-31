@@ -33,6 +33,8 @@ interface BroaderVideo {
   duration: number;
   published_at: string;
   channel_title: string;
+  channel_id?: string;
+  channel_handle?: string;
   thumb?: string;
   series_key?: string;
   episode_number?: number;
@@ -65,10 +67,27 @@ if (fs.existsSync(broaderPath)) {
   broader = JSON.parse(fs.readFileSync(broaderPath, 'utf-8'));
 }
 
+// Channels permanently screened out of "around the internet" — never render
+// these, even if the nightly pipeline surfaces them. Matched on channel_id
+// (stable) or @handle (case-insensitive). The Mini's build_broader.py drops
+// them at the source too; this is the repo-side guarantee that survives any
+// pipeline regression.
+const BLOCKED_CHANNEL_IDS = new Set<string>([
+  'UCbRP3c757lWg9M-U7TyEkXA', // Theo - t3.gg
+]);
+const BLOCKED_CHANNEL_HANDLES = new Set<string>([
+  '@t3dotgg', // Theo - t3.gg
+]);
+function isBlockedBroader(v: BroaderVideo): boolean {
+  if (v.channel_id && BLOCKED_CHANNEL_IDS.has(v.channel_id)) return true;
+  const handle = v.channel_handle?.toLowerCase();
+  return handle ? BLOCKED_CHANNEL_HANDLES.has(handle) : false;
+}
+
 const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
-broader.queue = [...(broader.queue ?? [])].sort(byRecency);
-broader.pool = [...(broader.pool ?? [])].sort(byRecency);
+broader.queue = [...(broader.queue ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
+broader.pool = [...(broader.pool ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
 
 function fmtDuration(seconds: number) {
   const h = Math.floor(seconds / 3600);
