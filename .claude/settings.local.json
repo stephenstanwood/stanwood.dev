@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "mcp__scheduled-tasks__list_scheduled_tasks",
+      "Skill(schedule)",
+      "Skill(schedule:*)"
+    ]
+  }
+}
