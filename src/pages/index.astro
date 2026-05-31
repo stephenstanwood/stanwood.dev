@@ -378,7 +378,6 @@ const latestMobile = [
         opacity: 0;
         transition: opacity 0.15s ease;
       }
-      .feat-row.shuffled { opacity: 1; }
 
       .feat-card {
         background: white;
@@ -600,15 +599,10 @@ const latestMobile = [
         opacity: 0;
         transition: opacity 0.15s ease;
       }
-      .proj-row.shuffled { opacity: 1; }
       .proj-row > style,
       .proj-row > script { display: none; }
       .proj-tile.mobile-only { display: none; }
       .desktop-only { grid-column: span 2; display: contents; }
-
-      /* ── 4-tile row variant ── */
-      .proj-row--four { grid-template-columns: repeat(4, 1fr); }
-      .proj-row--four .proj-tile { grid-column: span 1; }
 
       .proj-tile {
         grid-column: span 2;
@@ -674,10 +668,6 @@ const latestMobile = [
       }
       .proj-tile.has-img .proj-info {
         padding: 8px 14px;
-      }
-      /* last tile stretches full width if alone on its row */
-      .proj-tile.last-full {
-        grid-column: 1 / -1;
       }
       /* wrapper divs for React islands must fill grid cells */
       [data-pinned] {
@@ -1545,9 +1535,6 @@ const latestMobile = [
         .feat-row .feat-card:nth-child(3) { grid-column: 1 / -1; }
         .proj-row { grid-template-columns: repeat(6, 1fr) !important; }
         .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 2 !important; }
-        .proj-row--four { grid-template-columns: repeat(4, 1fr) !important; }
-        .proj-row--four .proj-tile { grid-column: span 1 !important; }
-        .proj-tile.last-full { grid-column: 1 / -1 !important; }
       }
 
       /* ── responsive: phone ── */
@@ -1567,7 +1554,6 @@ const latestMobile = [
         .feat-row { grid-template-columns: 1fr !important; }
         .proj-row { display: flex !important; flex-direction: column !important; gap: 10px; }
         .proj-row .proj-tile, .proj-row [data-pinned] { grid-column: span 1 !important; min-height: 0 !important; height: auto !important; flex: 0 0 auto !important; }
-        .proj-tile.last-full { grid-column: 1 / -1 !important; }
         .proj-tile.has-img { flex-direction: row !important; max-height: 80px !important; min-height: 0 !important; overflow: hidden !important; }
         .proj-tile.has-img .proj-img { width: 80px !important; height: 100% !important; min-height: 0 !important; flex: 0 0 80px !important; border-bottom: none !important; border-right: 2px solid var(--ink) !important; object-fit: cover !important; }
         .proj-tile { box-shadow: 2px 2px 0 var(--ink); }
