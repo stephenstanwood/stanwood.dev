@@ -9,7 +9,6 @@ import {
   matchUserTeam,
   readUserTeamKeys,
   yyyymmddInPT,
-  type ESPNCompetitor,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
 import { formatHourMinuteInTz } from "../lib/dateFormat";
