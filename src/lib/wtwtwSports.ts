@@ -103,6 +103,17 @@ export function competitorsOf(ev: ESPNEvent): ESPNCompetitor[] {
   return ev.competitions?.[0]?.competitors || [];
 }
 
+/** Resolve the away/home competitors for an event, or null if either is missing. */
+export function awayHomeOf(
+  ev: ESPNEvent,
+): { away: ESPNCompetitor; home: ESPNCompetitor } | null {
+  const cs = competitorsOf(ev);
+  const away = cs.find((c) => c.homeAway === "away");
+  const home = cs.find((c) => c.homeAway === "home");
+  if (!away || !home) return null;
+  return { away, home };
+}
+
 export function isFinalEvent(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   return t?.completed === true || t?.state === "post";

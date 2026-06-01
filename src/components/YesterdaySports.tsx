@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ALWAYS_SHOW_TEAMS,
   buildTeamLookup,
-  competitorsOf,
+  awayHomeOf,
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
@@ -135,10 +135,9 @@ export default function YesterdaySports() {
             if (seen.has(id)) continue;
             seen.add(id);
 
-            const cs = competitorsOf(ev);
-            const away = cs.find((c) => c.homeAway === "away");
-            const home = cs.find((c) => c.homeAway === "home");
-            if (!away || !home) continue;
+            const ah = awayHomeOf(ev);
+            if (!ah) continue;
+            const { away, home } = ah;
 
             const awaySide = teamSide(away);
             const homeSide = teamSide(home);
