@@ -20,9 +20,8 @@ export default function AestheticWeatherTile() {
 
   if (!data && !error) {
     return (
-      <a
+      <div
         className="proj-tile aw-tile"
-        href="/south-bay-aesthetic-weather"
         style={{
           background: "linear-gradient(160deg, #f5f5f0 50%, #e8e5dd 50%)",
         }}
@@ -30,31 +29,29 @@ export default function AestheticWeatherTile() {
         <div className="aw-hero">
           <div className="aw-loading">reading the sky…</div>
         </div>
-      </a>
+      </div>
     );
   }
 
   if (error || !data) {
     return (
-      <a
+      <div
         className="proj-tile aw-tile"
-        href="/south-bay-aesthetic-weather"
         style={{
           background: "linear-gradient(160deg, #eceff1 50%, #cfd8dc 50%)",
         }}
       >
         <div className="aw-hero">
           <div className="aw-hero-title">Aesthetic Weather</div>
-          <div className="aw-hero-sub">check the vibe →</div>
+          <div className="aw-hero-sub">the sky's offline right now</div>
         </div>
-      </a>
+      </div>
     );
   }
 
   return (
-    <a
+    <div
       className="proj-tile aw-tile"
-      href="/south-bay-aesthetic-weather"
       data-dark={data.isDark || undefined}
       style={{
         background: `linear-gradient(160deg, ${data.gradient[0]} 50%, ${data.gradient[1]} 50%)`,
@@ -84,6 +81,6 @@ export default function AestheticWeatherTile() {
           <span>{data.location}</span>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
