@@ -6,6 +6,7 @@ import {
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
+  finishedGameWatchScore,
   getRelevantLeagues,
   isFinalEvent,
   isLatestStartedEventForTrackedTeams,
@@ -14,10 +15,12 @@ import {
   isoDateInPT,
   matchUserTeam,
   readUserTeamKeys,
+  teamColorByAbbr,
   teamSideOf,
   watchRecordingUrl,
   yyyymmddInPT,
   type ESPNCompetitor,
+  type ESPNEvent,
   type TeamSide as TeamSideBase,
 } from "../lib/wtwtwSports";
 import { MS_PER_DAY } from "../lib/time";
@@ -29,6 +32,7 @@ interface YesterdayGame {
   away: TeamSide;
   home: TeamSide;
   isPlayoff: boolean;
+  isBestWnba: boolean;
   statusText: string;
   watchHref: string;
   watchLabel: string;
@@ -142,11 +146,74 @@ export default function YesterdaySports() {
               away: awaySide,
               home: homeSide,
               isPlayoff: playoff,
+              isBestWnba: false,
               statusText,
               watchHref: watch.href,
               watchLabel: watch.label,
               accent: matched?.color || "#1a1a1a",
             });
+          }
+        }
+      }
+
+      // Yesterday's best WNBA game — the same pick the basketball launcher
+      // icon deep-links to. Score every finished WNBA game with the shared
+      // closeness × quality logic and surface the top one as a tile, even when
+      // no tracked team played in it. Deduped against the tracked-team tiles
+      // above via `seen`, so a Valkyries game that's already shown won't double.
+      if (leagues.has("basketball/wnba")) {
+        const yesterdayYmd = yyyymmddInPT(new Date(Date.now() - MS_PER_DAY));
+        const yDay = dayResults.find((d) => d.ymd === yesterdayYmd);
+        const wnbaFinals = (
+          yDay?.results.find((r) => r.league === "basketball/wnba")?.events ?? []
+        ).filter(isFinalEvent);
+
+        let best: ESPNEvent | null = null;
+        let bestScore = -Infinity;
+        for (const ev of wnbaFinals) {
+          const s = finishedGameWatchScore(ev);
+          if (s > bestScore) {
+            bestScore = s;
+            best = ev;
+          }
+        }
+
+        if (best && yDay) {
+          const id =
+            best.id ||
+            `basketball/wnba|${yDay.iso}|${best.date}|${best.shortName}`;
+          if (!seen.has(id)) {
+            seen.add(id);
+            const ah = awayHomeOf(best);
+            if (ah) {
+              const awaySide = teamSide(ah.away);
+              const homeSide = teamSide(ah.home);
+              const watch = watchRecordingUrl({
+                league: "basketball/wnba",
+                awayAbbr: awaySide.abbr,
+                homeAbbr: homeSide.abbr,
+                isoDate: yDay.iso,
+                wnbaGameIds,
+              });
+              const winner = awaySide.winner ? awaySide : homeSide;
+              const statusText =
+                best.competitions?.[0]?.status?.type?.shortDetail ||
+                best.competitions?.[0]?.status?.type?.detail ||
+                "Final";
+              next.push({
+                id,
+                league: "basketball/wnba",
+                daySortKey: yDay.sortKey,
+                away: awaySide,
+                home: homeSide,
+                isPlayoff: false,
+                isBestWnba: true,
+                statusText,
+                watchHref: watch.href,
+                watchLabel: watch.label,
+                accent: teamColorByAbbr("basketball/wnba", winner.abbr) || "#1a1a1a",
+              });
+            }
           }
         }
       }
@@ -226,7 +293,11 @@ export default function YesterdaySports() {
             </div>
             <div className="recap-meta">
               <span className="recap-final">
-                {g.isPlayoff ? "Playoff · Final" : "Final"}
+                {g.isBestWnba
+                  ? "Best WNBA game"
+                  : g.isPlayoff
+                    ? "Playoff · Final"
+                    : "Final"}
               </span>
               <span className="recap-watch">Watch on {g.watchLabel} ↗</span>
             </div>

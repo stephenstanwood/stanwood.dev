@@ -196,6 +196,21 @@ export function matchUserTeam(
   return matchUserTeams(ev, league, lookup)[0] || null;
 }
 
+/** Primary brand colour for any team in a league by ESPN abbreviation. */
+export function teamColorByAbbr(
+  league: string,
+  abbr: string | undefined,
+): string | null {
+  if (!abbr) return null;
+  const up = abbr.toUpperCase();
+  for (const t of Object.values(TEAM_REGISTRY)) {
+    if (t.league === league && t.abbreviation.toUpperCase() === up) {
+      return t.color;
+    }
+  }
+  return null;
+}
+
 function matchUserTeams(
   ev: ESPNEvent,
   league: string,
