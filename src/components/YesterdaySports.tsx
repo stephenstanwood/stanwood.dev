@@ -18,7 +18,6 @@ import {
   watchRecordingUrl,
   yyyymmddInPT,
   type ESPNCompetitor,
-  type ESPNEvent,
   type TeamSide as TeamSideBase,
 } from "../lib/wtwtwSports";
 import { MS_PER_DAY } from "../lib/time";
