@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-01T10:30:06.416906+00:00",
+  "built_at": "2026-06-02T10:30:08.392434+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -90,9 +90,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 15,
+      "video_count": 14,
       "video_ids": [
-        "MoI6yxW6fuE",
         "v18Jo2ILXZ8",
         "zdCJyn1OY-4",
         "RKFRO_G4YkA",
@@ -217,7 +216,7 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": 5,
-      "video_count": 7,
+      "video_count": 8,
       "video_ids": [
         "tr-CUpw--ck",
         "_WaR2fjZpEQ",
@@ -225,7 +224,8 @@
         "WUUq6TVAu8U",
         "HpFdSlMeXzQ",
         "IvXTl3yj-4Y",
-        "iNaRBp4T57Q"
+        "iNaRBp4T57Q",
+        "oyLUvz9nR6E"
       ]
     },
     {
@@ -1095,22 +1095,6 @@
         "swe_career"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, Joe Sullivan, a veteran security leader who built security teams at Facebook, Uber, and Cloudflare, walks the class through his career at the intersection of governm"
-    },
-    {
-      "id": "MoI6yxW6fuE",
-      "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | The Graph Physical AI Approach",
-      "url": "https://www.youtube.com/watch?v=MoI6yxW6fuE",
-      "duration": 3848.0,
-      "published_at": "2025-12-01T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 6,
-      "categories": [
-        "algorithms",
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nOctober 31, 2025\nThis seminar covers Graph Physical AI (G-PAI), a foundation model that embeds physics\u2013neural operators directly into its multimodal design, enabling data-efficient learning and robust adaptation across robot types.\n\nTo follow along with the seminar schedule, visit: https"
     },
     {
       "id": "v18Jo2ILXZ8",
@@ -2190,6 +2174,22 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:05:19 Motivation\n00:10:48 Human ratings\n00:19:43 Elo rating system\n00:26:37 Reference-free metrics\n00:29:15 Fr\u00e9chet inception distance (FID)\n00:42:3"
+    },
+    {
+      "id": "oyLUvz9nR6E",
+      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 8 - Trending Topics",
+      "url": "https://www.youtube.com/watch?v=oyLUvz9nR6E",
+      "duration": 6574.0,
+      "published_at": "2026-06-01T00:00:00+00:00",
+      "series": "CME296",
+      "series_display": "CME296",
+      "lecture_num": 8,
+      "score": 5,
+      "categories": [
+        "applied_ai",
+        "series:CME296"
+      ],
+      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:38 Diffusion\n00:05:23 Score matching\n00:13:02 Flow matching\n00:19:04 Latent space and guidance\n00:25:11 Image generation architectures\n00:29:47 M"
     },
     {
       "id": "AuZoDsNmG_s",
