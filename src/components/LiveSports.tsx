@@ -9,12 +9,12 @@ import {
   isNbaPlayoff,
   matchUserTeam,
   readUserTeamKeys,
+  teamSideOf,
   watchRecordingUrl,
   yyyymmddInPT,
-  type ESPNCompetitor,
   type ESPNEvent,
+  type TeamSide,
 } from "../lib/wtwtwSports";
-import { parseScore } from "../lib/sportsCore";
 import { MS_PER_MINUTE } from "../lib/time";
 import { formatHourMinuteInTz } from "../lib/dateFormat";
 import { findActiveWindow, type BigInningSchedule } from "../lib/bigInning";
@@ -41,31 +41,11 @@ interface BigInningPill {
   href: string;
 }
 
-interface TeamSide {
-  abbr: string;
-  shortName: string;
-  logo: string;
-  score: number;
-}
-
 function isInProgress(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   if ((t?.state || "") === "in") return true;
   if ((t?.name || "").includes("IN_PROGRESS")) return true;
   return false;
-}
-
-function teamSide(c: ESPNCompetitor): TeamSide {
-  return {
-    abbr: (c.team?.abbreviation || "???").toUpperCase(),
-    shortName:
-      c.team?.shortDisplayName ||
-      c.team?.name ||
-      c.team?.abbreviation ||
-      "Team",
-    logo: c.team?.logo || "",
-    score: parseScore(c.score),
-  };
 }
 
 export default function LiveSports() {
@@ -145,8 +125,8 @@ export default function LiveSports() {
           if (!ah) continue;
           const { away, home } = ah;
 
-          const awaySide = teamSide(away);
-          const homeSide = teamSide(home);
+          const awaySide = teamSideOf(away);
+          const homeSide = teamSideOf(home);
           const watch = watchRecordingUrl({
             league,
             awayAbbr: awaySide.abbr,

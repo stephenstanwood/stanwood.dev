@@ -7,18 +7,20 @@ import {
   fetchMlbGamePks,
   fetchWnbaGameIds,
   getRelevantLeagues,
+  isFinalEvent,
   isLatestStartedEventForTrackedTeams,
   isNbaPlayoff,
   latestStartedAtByTrackedTeam,
   isoDateInPT,
   matchUserTeam,
   readUserTeamKeys,
+  teamSideOf,
   watchRecordingUrl,
   yyyymmddInPT,
   type ESPNCompetitor,
   type ESPNEvent,
+  type TeamSide as TeamSideBase,
 } from "../lib/wtwtwSports";
-import { parseScore } from "../lib/sportsCore";
 import { MS_PER_DAY } from "../lib/time";
 
 interface YesterdayGame {
@@ -34,33 +36,12 @@ interface YesterdayGame {
   accent: string;
 }
 
-interface TeamSide {
-  abbr: string;
-  shortName: string;
-  logo: string;
-  score: number;
+interface TeamSide extends TeamSideBase {
   winner: boolean;
 }
 
-function isFinal(ev: ESPNEvent): boolean {
-  const t = ev.competitions?.[0]?.status?.type;
-  if (t?.completed) return true;
-  if ((t?.state || "") === "post") return true;
-  return false;
-}
-
 function teamSide(c: ESPNCompetitor): TeamSide {
-  return {
-    abbr: (c.team?.abbreviation || "???").toUpperCase(),
-    shortName:
-      c.team?.shortDisplayName ||
-      c.team?.name ||
-      c.team?.abbreviation ||
-      "Team",
-    logo: c.team?.logo || "",
-    score: parseScore(c.score),
-    winner: !!c.winner,
-  };
+  return { ...teamSideOf(c), winner: !!c.winner };
 }
 
 export default function YesterdaySports() {
@@ -116,7 +97,7 @@ export default function YesterdaySports() {
       for (const { iso, sortKey, results, mlbGamePks } of dayResults) {
         for (const { league, events } of results) {
           for (const ev of events) {
-            if (!isFinal(ev)) continue;
+            if (!isFinalEvent(ev)) continue;
             if (
               !isLatestStartedEventForTrackedTeams(
                 ev,
@@ -165,7 +146,7 @@ export default function YesterdaySports() {
               statusText,
               watchHref: watch.href,
               watchLabel: watch.label,
-              accent: matched?.color || (playoff ? "#1a1a1a" : "#1a1a1a"),
+              accent: matched?.color || "#1a1a1a",
             });
           }
         }

@@ -30,13 +30,11 @@ export default function AIRadarPage() {
   const latest = sorted[0];
   const grouped = groupByDate(sorted);
 
-  // Count badges: type counts from full dataset; org counts filtered by active type
-  const typeCountBase = sorted;
-  const orgCountBase = sorted;
+  // Count badges: type and org counts, both from the full dataset.
   const typeCounts: Record<string, number> = {};
-  for (const l of typeCountBase) typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
+  for (const l of sorted) typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
   const orgCounts: Record<string, number> = {};
-  for (const l of orgCountBase) orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
+  for (const l of sorted) orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
 
   // Stats bar
   const uniqueOrgs = new Set(sorted.map((l) => l.org)).size;

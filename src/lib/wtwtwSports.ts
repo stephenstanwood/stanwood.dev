@@ -3,7 +3,7 @@
 // and resolves watch-recording links per league.
 
 import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
-import { fetchEspnScoreboard } from "./sportsCore";
+import { fetchEspnScoreboard, parseScore } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
 const WTWTW_LS_KEY = "wtwtw:v1";
@@ -117,6 +117,28 @@ export function awayHomeOf(
 export function isFinalEvent(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   return t?.completed === true || t?.state === "post";
+}
+
+/** Common fields the sports rails render for one side of a matchup. */
+export interface TeamSide {
+  abbr: string;
+  shortName: string;
+  logo: string;
+  score: number;
+}
+
+/** Build the shared TeamSide view-model from an ESPN competitor. */
+export function teamSideOf(c: ESPNCompetitor): TeamSide {
+  return {
+    abbr: (c.team?.abbreviation || "???").toUpperCase(),
+    shortName:
+      c.team?.shortDisplayName ||
+      c.team?.name ||
+      c.team?.abbreviation ||
+      "Team",
+    logo: c.team?.logo || "",
+    score: parseScore(c.score),
+  };
 }
 
 // ── Watchability scoring for finished games ──────────────────────────────────
