@@ -9,6 +9,7 @@ import {
   isNbaPlayoff,
   matchUserTeam,
   readUserTeamKeys,
+  statusTextOf,
   teamSideOf,
   watchRecordingUrl,
   yyyymmddInPT,
@@ -136,10 +137,7 @@ export default function LiveSports() {
             matchedKey: matched?.key,
           });
 
-          const statusText =
-            ev.competitions?.[0]?.status?.type?.shortDetail ||
-            ev.competitions?.[0]?.status?.type?.detail ||
-            "Live";
+          const statusText = statusTextOf(ev, "Live");
 
           next.push({
             id,

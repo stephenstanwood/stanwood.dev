@@ -51,7 +51,7 @@ export interface Game {
   competitions?: Competition[];
 }
 
-export interface TeamRecord {
+interface TeamRecord {
   wins: number;
   losses: number;
 }

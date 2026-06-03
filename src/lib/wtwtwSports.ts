@@ -119,6 +119,12 @@ export function isFinalEvent(ev: ESPNEvent): boolean {
   return t?.completed === true || t?.state === "post";
 }
 
+/** ESPN's human-readable status line (e.g. "Final", "9th Inning"), or fallback. */
+export function statusTextOf(ev: ESPNEvent, fallback: string): string {
+  const t = ev.competitions?.[0]?.status?.type;
+  return t?.shortDetail || t?.detail || fallback;
+}
+
 /** Common fields the sports rails render for one side of a matchup. */
 export interface TeamSide {
   abbr: string;
@@ -435,7 +441,7 @@ export async function fetchWnbaGameIds(): Promise<Map<string, string>> {
 
 // ── Watch links ─────────────────────────────────────────────────────────────
 
-export interface WatchTarget {
+interface WatchTarget {
   href: string;
   label: string;
 }

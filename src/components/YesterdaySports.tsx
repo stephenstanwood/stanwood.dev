@@ -15,6 +15,7 @@ import {
   isoDateInPT,
   matchUserTeam,
   readUserTeamKeys,
+  statusTextOf,
   teamColorByAbbr,
   teamSideOf,
   watchRecordingUrl,
@@ -134,10 +135,7 @@ export default function YesterdaySports() {
               wnbaGameIds,
             });
 
-            const statusText =
-              ev.competitions?.[0]?.status?.type?.shortDetail ||
-              ev.competitions?.[0]?.status?.type?.detail ||
-              "Final";
+            const statusText = statusTextOf(ev, "Final");
 
             next.push({
               id,
@@ -196,10 +194,7 @@ export default function YesterdaySports() {
                 wnbaGameIds,
               });
               const winner = awaySide.winner ? awaySide : homeSide;
-              const statusText =
-                best.competitions?.[0]?.status?.type?.shortDetail ||
-                best.competitions?.[0]?.status?.type?.detail ||
-                "Final";
+              const statusText = statusTextOf(best, "Final");
               next.push({
                 id,
                 league: "basketball/wnba",
