@@ -1,5 +1,21 @@
 [
   {
+    "name": "MAI-Code-1-Flash",
+    "org": "Microsoft",
+    "date": "2026-06-02",
+    "type": "model",
+    "summary": "Microsoft's first homegrown coding model lands inside GitHub Copilot for individual users — turn on auto-pick or grab it from the model picker in VS Code, no setup needed; it beats Claude Haiku 4.5 on coding benchmarks while burning up to 60% fewer tokens, and dials reasoning up or down per request so simple edits stay snappy; one of seven new MAI models (plus a reasoning model and a voice cloner) Microsoft shipped at Build to cut its OpenAI bill and pass the savings to devs",
+    "url": "https://microsoft.ai/news/introducingmai-code-1-flash/"
+  },
+  {
+    "name": "Rodeo",
+    "org": "TwelveLabs",
+    "date": "2026-06-01",
+    "type": "tool",
+    "summary": "video-understanding startup TwelveLabs takes its tech straight to creators — describe the shot you want in plain English and Rodeo searches your entire footage library, finds the clips, and assembles a rough cut for you; powered by their Marengo 3.0 + Pegasus 1.5 models, it turns 'I know the clip is in here somewhere' into an instant edit instead of an afternoon of scrubbing timelines",
+    "url": "https://rodeo.twelvelabs.io/"
+  },
+  {
     "name": "Claude Opus 4.8",
     "org": "Anthropic",
     "date": "2026-05-28",
@@ -38,29 +54,5 @@
     "type": "tool",
     "summary": "purpose-built AI agent embedded in Figma's canvas — natural-language prompts generate and remix designs, automate rote work, and respect your design system; fire up multiple agents to do different tasks in parallel, plus new partnerships baking Claude Code and Codex into the design surface; rolling out in beta for Full seats on Pro/Org/Enterprise",
     "url": "https://techcrunch.com/2026/05/20/figma-adds-an-ai-assistant-to-its-collaborative-canvas/"
-  },
-  {
-    "name": "AI Studio Android Builder",
-    "org": "Google",
-    "date": "2026-05-19",
-    "type": "tool",
-    "summary": "Google AI Studio can now build full native Android apps from a single prompt — outputs production-quality Kotlin in the latest Jetpack Compose patterns, previews in a browser-based emulator (or sideloads to a phone via ADB), supports offline mode plus hardware sensors (GPS, Bluetooth, NFC, camera, accelerometer), and offers one-click publish to Google Play's Internal Test Track; no Android Studio install required",
-    "url": "https://android-developers.googleblog.com/2026/05/build-android-apps-google-ai-studio.html"
-  },
-  {
-    "name": "Gemini 3.5 Flash",
-    "org": "Google",
-    "date": "2026-05-19",
-    "type": "model",
-    "summary": "Google's new high-efficiency multimodal model — near-Pro level coding and reasoning at Flash-tier cost ($1.50/M input, $9/M output, 1M-token context); accepts text, image, audio, video, and PDF and is tuned for parallel agentic loops; generally available today across the Gemini API, AI Studio, Antigravity, and Vertex AI with no waitlist",
-    "url": "https://blog.google/innovation-and-ai/technology/ai/google-io-2026-all-our-announcements/"
-  },
-  {
-    "name": "Gemini Omni Flash",
-    "org": "Google",
-    "date": "2026-05-19",
-    "type": "model",
-    "summary": "Google's first unified multimodal generation model — accepts image, audio, video, and text in a single prompt and reasons across them to produce video you can keep editing through conversation; rolling out worldwide to Gemini app subscribers (AI Plus/Pro/Ultra) and the Flow creative tool, plus free access for YouTube Shorts and YouTube Create users",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/"
   }
 ]
