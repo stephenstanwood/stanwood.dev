@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-03T10:30:10.266984+00:00",
+  "built_at": "2026-06-04T10:30:05.211552+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -113,14 +113,8 @@
       "is_single": false,
       "display_name": "CS193",
       "best_score": 10,
-      "video_count": 10,
+      "video_count": 4,
       "video_ids": [
-        "gNok5P7HLCw",
-        "PXcl5cjVNT0",
-        "NnJ91M9PRYo",
-        "o3D3rqh-IVA",
-        "OZK7_p1G8Pw",
-        "RYemrq0e7KM",
         "skECWIKpBVY",
         "F0nefFT2Uik",
         "1PDZl0LPryw",
@@ -1309,97 +1303,6 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
-    },
-    {
-      "id": "gNok5P7HLCw",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L12: Even More Complex UIs",
-      "url": "https://www.youtube.com/watch?v=gNok5P7HLCw",
-      "duration": 4515.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 12th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Building modal interfaces and reusable View components. Creates a PegChoicesChooserView for editing game peg count and color"
-    },
-    {
-      "id": "PXcl5cjVNT0",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L11: iPad and Mac",
-      "url": "https://www.youtube.com/watch?v=PXcl5cjVNT0",
-      "duration": 3675.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 11th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Make CodeBreaker work across multiple platforms (iPhone, iPad, Mac) using NavigationSplitView. Demonstrates converting Navig"
-    },
-    {
-      "id": "NnJ91M9PRYo",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L10: Building Complex UIs",
-      "url": "https://www.youtube.com/watch?v=NnJ91M9PRYo",
-      "duration": 4232.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 10th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  CodeBreaker is enhanced to be able to show multiple games.  Enhancing an app's architecture to display multiple Views. Imple"
-    },
-    {
-      "id": "o3D3rqh-IVA",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L9: Protocols",
-      "url": "https://www.youtube.com/watch?v=o3D3rqh-IVA",
-      "duration": 4432.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 9th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI). The 9th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  More Animati"
-    },
-    {
-      "id": "OZK7_p1G8Pw",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L8: Animation Demonstration",
-      "url": "https://www.youtube.com/watch?v=OZK7_p1G8Pw",
-      "duration": 4250.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "systems_db",
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 8th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Animation.  Demonstrates explicit animation with withAnimation(), creating custom animation constants using extensions on Ani"
-    },
-    {
-      "id": "RYemrq0e7KM",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L7: Animation",
-      "url": "https://www.youtube.com/watch?v=RYemrq0e7KM",
-      "duration": 4041.0,
-      "published_at": "2025-12-03T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 7th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Generics and custom View modifiers. Refactors the CodeView to accept any ancillary View (like MatchMarkers or guess buttons) "
     },
     {
       "id": "skECWIKpBVY",
