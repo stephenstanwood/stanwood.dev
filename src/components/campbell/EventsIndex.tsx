@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import SourceCardGrid from "./SourceCardGrid";
@@ -14,6 +15,7 @@ interface CampbellEvent {
   source?: string;
   sourceUrl?: string;
   startDate?: string;
+  additionalSourceUrls?: string[];
 }
 
 interface EventSourceMeta {
@@ -23,13 +25,42 @@ interface EventSourceMeta {
 }
 
 const feed = eventFeed as typeof eventFeed & { sources?: EventSourceMeta[] };
-const EVENTS = (feed.items as CampbellEvent[]).slice(0, 14);
+const EVENTS = feed.items as CampbellEvent[];
 const SOURCE_COUNTS = feed.sources ?? [];
+const SYNC_DATE = new Date(eventFeed.generatedAt);
+const DAY_MS = 24 * 60 * 60 * 1000;
+const ALL_SOURCE_FILTER = "all";
+const ALL_CATEGORY_FILTER = "all";
+const EVENT_DISPLAY_LIMIT = 36;
+type EventViewFilter = "all" | "next14" | "next30" | "public";
 const generatedDate = new Date(eventFeed.generatedAt).toLocaleDateString("en-US", {
   month: "short",
   day: "numeric",
   year: "numeric",
 });
+
+const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
+  { id: "all", label: "All dates" },
+  { id: "next14", label: "Next 14 days" },
+  { id: "next30", label: "Next 30 days" },
+  { id: "public", label: "Public meetings" },
+];
+
+const SOURCE_FILTERS = [
+  { id: ALL_SOURCE_FILTER, label: "All sources", count: EVENTS.length },
+  ...SOURCE_COUNTS.map((source) => ({
+    id: source.label,
+    label: eventSourceFilterLabel(source.label),
+    count: EVENTS.filter((event) => eventMatchesSource(event, source.label)).length,
+  })),
+];
+
+const CATEGORY_OPTIONS = [
+  ALL_CATEGORY_FILTER,
+  ...Array.from(new Set(EVENTS.map((event) => event.category).filter(Boolean) as string[])).sort((a, b) =>
+    a.localeCompare(b),
+  ),
+];
 
 const EVENT_ANCHORS = [
   {
@@ -50,7 +81,85 @@ const EVENT_ANCHORS = [
   },
 ];
 
+function parseEventStart(event: CampbellEvent) {
+  if (!event.startDate) return null;
+  const date = new Date(event.startDate);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function eventSourceFilterLabel(label: string) {
+  if (label === "City of Campbell Calendar") return "City calendar";
+  if (label === "Downtown Campbell Events") return "Downtown";
+  return label;
+}
+
+function eventMatchesSource(event: CampbellEvent, sourceFilter: string) {
+  if (sourceFilter === ALL_SOURCE_FILTER) return true;
+  const sourceText = [
+    event.source ?? "",
+    event.sourceUrl ?? "",
+    ...(event.additionalSourceUrls ?? []),
+  ].join(" ");
+  return sourceText.includes(sourceFilter);
+}
+
+function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter) {
+  if (viewFilter === "all") return true;
+
+  const text = [
+    event.title,
+    event.category ?? "",
+    event.source ?? "",
+    event.description,
+  ].join(" ");
+
+  if (viewFilter === "public") {
+    return /council|commission|committee|board|meeting|hearing/i.test(text);
+  }
+
+  const start = parseEventStart(event);
+  if (!start) return false;
+  const startOfSyncDay = new Date(SYNC_DATE);
+  startOfSyncDay.setHours(0, 0, 0, 0);
+  const diffDays = Math.floor((start.getTime() - startOfSyncDay.getTime()) / DAY_MS);
+  if (viewFilter === "next14") return diffDays >= -1 && diffDays <= 14;
+  if (viewFilter === "next30") return diffDays >= -1 && diffDays <= 30;
+  return true;
+}
+
+function eventMatchesQuery(event: CampbellEvent, query: string) {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return true;
+  return [
+    event.title,
+    event.date,
+    event.location,
+    event.cost,
+    event.description,
+    event.category ?? "",
+    event.source ?? "",
+  ].some((value) => value.toLowerCase().includes(needle));
+}
+
 export default function EventsIndex() {
+  const [query, setQuery] = useState("");
+  const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
+  const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
+  const [viewFilter, setViewFilter] = useState<EventViewFilter>("all");
+  const [showAll, setShowAll] = useState(false);
+
+  const filteredEvents = useMemo(() => {
+    return EVENTS.filter((event) => {
+      if (!eventMatchesSource(event, sourceFilter)) return false;
+      if (categoryFilter !== ALL_CATEGORY_FILTER && event.category !== categoryFilter) return false;
+      if (!eventMatchesView(event, viewFilter)) return false;
+      return eventMatchesQuery(event, query);
+    });
+  }, [categoryFilter, query, sourceFilter, viewFilter]);
+
+  const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);
+  const hiddenEventCount = filteredEvents.length - visibleEvents.length;
+
   return (
     <div className="cb-events">
       <div className="cb-section-head">
@@ -85,8 +194,72 @@ export default function EventsIndex() {
         ))}
       </div>
 
+      <div className="cb-event-toolbar">
+        <input
+          type="text"
+          className="cb-event-search"
+          placeholder="Search events, places, costs, or sources"
+          value={query}
+          onChange={(event) => {
+            setQuery(event.target.value);
+            setShowAll(false);
+          }}
+        />
+        <select
+          className="cb-event-select"
+          value={categoryFilter}
+          onChange={(event) => {
+            setCategoryFilter(event.target.value);
+            setShowAll(false);
+          }}
+          aria-label="Event topic"
+        >
+          {CATEGORY_OPTIONS.map((category) => (
+            <option key={category} value={category}>
+              {category === ALL_CATEGORY_FILTER ? "All topics" : category}
+            </option>
+          ))}
+        </select>
+        <span className="cb-event-count">{filteredEvents.length} of {EVENTS.length}</span>
+      </div>
+
+      <div className="cb-event-filter-group" aria-label="Event source filters">
+        {SOURCE_FILTERS.map((filter) => (
+          <button
+            key={filter.id}
+            type="button"
+            className={sourceFilter === filter.id ? "is-active" : ""}
+            onClick={() => {
+              setSourceFilter(filter.id);
+              setShowAll(false);
+            }}
+            aria-pressed={sourceFilter === filter.id}
+          >
+            {filter.label}
+            <span>{filter.count}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="cb-event-filter-group" aria-label="Event date filters">
+        {VIEW_FILTERS.map((filter) => (
+          <button
+            key={filter.id}
+            type="button"
+            className={viewFilter === filter.id ? "is-active" : ""}
+            onClick={() => {
+              setViewFilter(filter.id);
+              setShowAll(false);
+            }}
+            aria-pressed={viewFilter === filter.id}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+
       <div className="cb-live-events">
-        {EVENTS.map((event) => (
+        {visibleEvents.map((event) => (
           <a
             key={`${event.date}-${event.title}`}
             href={event.url}
@@ -114,6 +287,22 @@ export default function EventsIndex() {
         ))}
       </div>
 
+      {filteredEvents.length === 0 && (
+        <div className="cb-event-empty">
+          No synced events match these filters yet. Clear a filter or search another term.
+        </div>
+      )}
+
+      {hiddenEventCount > 0 && (
+        <button
+          type="button"
+          className="cb-event-more"
+          onClick={() => setShowAll(true)}
+        >
+          Show {hiddenEventCount} more events
+        </button>
+      )}
+
       <div className="cb-anchor-grid">
         {EVENT_ANCHORS.map((anchor) => (
           <article key={anchor.label} className="cb-anchor-card">
@@ -121,6 +310,16 @@ export default function EventsIndex() {
             <p>{anchor.items}</p>
           </article>
         ))}
+      </div>
+
+      <div className="cb-section-head cb-event-source-head">
+        <span className="cb-section-kicker">Source Map</span>
+        <h3>Live feeds first, direct calendars next.</h3>
+        <p>
+          City and Downtown are already synced. The remaining sources are the
+          next direct feeds to pull from individual websites, with one polite
+          parser per source instead of a broad scrape.
+        </p>
       </div>
 
       <SourceCardGrid sources={EVENT_SOURCES} />
