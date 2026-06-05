@@ -1,4 +1,8 @@
-import { REAL_ESTATE_SOURCES } from "../../data/campbell";
+import {
+  PROPERTY_LAYERS,
+  PROPERTY_METRICS,
+  REAL_ESTATE_SOURCES,
+} from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
 
 const LEDGER_FIELDS = [
@@ -22,12 +26,59 @@ export default function RealEstateLedger() {
         </p>
       </div>
 
+      <div className="cb-property-metrics" aria-label="Campbell property roll metrics">
+        {PROPERTY_METRICS.map((metric) => (
+          <a
+            key={metric.label}
+            href={metric.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cb-property-metric"
+          >
+            <span>{metric.value}</span>
+            <strong>{metric.label}</strong>
+            <em>{metric.note}</em>
+          </a>
+        ))}
+      </div>
+
       <div className="cb-ledger-grid">
         {LEDGER_FIELDS.map((field) => (
           <article key={field.label} className="cb-ledger-card">
             <span>{field.label}</span>
             <p>{field.body}</p>
           </article>
+        ))}
+      </div>
+
+      <div className="cb-section-head cb-property-layer-head">
+        <span className="cb-section-kicker">Source Reality</span>
+        <h3>What can become a real sales ledger?</h3>
+        <p>
+          The useful version starts with public parcel and permit context, then
+          adds official transfer fields once the data path is clean enough to be
+          complete. Sale rumors and scraped people-search dossiers stay out.
+        </p>
+      </div>
+
+      <div className="cb-property-layer-list">
+        {PROPERTY_LAYERS.map((layer) => (
+          <a
+            key={layer.label}
+            href={layer.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cb-property-layer"
+          >
+            <div className="cb-property-layer-top">
+              <h4>{layer.label}</h4>
+              <span className={`cb-property-status cb-property-status--${layer.status.toLowerCase()}`}>
+                {layer.status}
+              </span>
+            </div>
+            <p>{layer.body}</p>
+            <em>{layer.sourceLabel}</em>
+          </a>
         ))}
       </div>
 

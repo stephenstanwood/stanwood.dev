@@ -22,6 +22,22 @@ export interface CampbellSource {
   why: string;
 }
 
+export interface CampbellPropertyMetric {
+  label: string;
+  value: string;
+  note: string;
+  sourceLabel: string;
+  sourceUrl: string;
+}
+
+export interface CampbellPropertyLayer {
+  label: string;
+  status: "Ready" | "Partial" | "Hard";
+  body: string;
+  sourceLabel: string;
+  sourceUrl: string;
+}
+
 export interface CampbellBusiness {
   name: string;
   category: string;
@@ -52,8 +68,14 @@ export const SOURCE_URLS = {
   cityGisPublic: "https://gis.campbellca.gov/public",
   cityGis: "https://gis.campbellca.gov/arcgis/rest/services/",
   assessorSearch: "https://asr.santaclaracounty.gov/online-services/property-search/real-property",
+  assessorRecords: "https://www.sccassessor.org/index.php/online-services/property-search/searching-records-buying-maps",
+  assessorAnnualReport: "https://www.sccassessor.org/forms-and-publications/annual-report/item/580-annual-report-2025-2026",
   clerkRecorder: "https://clerkrecorder.santaclaracounty.gov/official-records",
   clerkRecorderRealEstate: "https://clerkrecorder.santaclaracounty.gov/recording-documents/recording-real-estate",
+  clerkRecorderDataSales: "https://clerkrecorder.santaclaracounty.gov/data-sales-subscription",
+  countyGisData: "https://gis.santaclaracounty.gov/available-gis-map-data",
+  countyPropertyProfile: "https://www.arcgis.com/home/item.html?id=a26ac88b18d7465baf1be31302706f1d",
+  campbellBuilding: "https://www.campbellca.gov/1458/Building",
 };
 
 export const CAMPBELL_METRICS: CampbellMetric[] = [
@@ -217,6 +239,13 @@ export const REAL_ESTATE_SOURCES: CampbellSource[] = [
     why: "Parcel, assessed value, APN, and tax-rate-area lookup by address or parcel.",
   },
   {
+    label: "Assessor records and data",
+    owner: "Santa Clara County Assessor",
+    cadence: "By request / paid data",
+    href: SOURCE_URLS.assessorRecords,
+    why: "The official path for parcel maps, property characteristics, transfer date, recording date, document number, and indicated sales price fields.",
+  },
+  {
     label: "Official records",
     owner: "Santa Clara County Clerk-Recorder",
     cadence: "Recorded document stream",
@@ -229,6 +258,89 @@ export const REAL_ESTATE_SOURCES: CampbellSource[] = [
     cadence: "When documents record",
     href: SOURCE_URLS.clerkRecorderRealEstate,
     why: "Rules for deeds, transfer tax, documents, copies, and in-person research limits.",
+  },
+  {
+    label: "County GIS parcel data",
+    owner: "Santa Clara County GIS",
+    cadence: "Annual parcel layer",
+    href: SOURCE_URLS.countyGisData,
+    why: "Downloadable parcel boundaries, air parcels, land parcels, and other map layers for citywide joins.",
+  },
+  {
+    label: "Campbell building records",
+    owner: "City of Campbell Building Division",
+    cadence: "Permit lifecycle",
+    href: SOURCE_URLS.campbellBuilding,
+    why: "Permit status, permit map, construction records, inspections, code enforcement, and property-information links.",
+  },
+];
+
+export const PROPERTY_METRICS: CampbellPropertyMetric[] = [
+  {
+    label: "Net secured assessed value",
+    value: "$14.97B",
+    note: "Campbell city, 2025 roll. This is assessed value, not market value.",
+    sourceLabel: "Assessor Annual Report 2025-2026",
+    sourceUrl: SOURCE_URLS.assessorAnnualReport,
+  },
+  {
+    label: "Secured parcels",
+    value: "12,381",
+    note: "Campbell APN count in the 2025 city-by-property-type roll table.",
+    sourceLabel: "Assessor Annual Report 2025-2026",
+    sourceUrl: SOURCE_URLS.assessorAnnualReport,
+  },
+  {
+    label: "Single-family and condo parcels",
+    value: "10,575",
+    note: "Largest Campbell property category in the Assessor's 2025 roll table.",
+    sourceLabel: "Assessor Annual Report 2025-2026",
+    sourceUrl: SOURCE_URLS.assessorAnnualReport,
+  },
+  {
+    label: "Single-family and condo AV",
+    value: "$9.86B",
+    note: "Assessed value for Campbell single-family and condo housing on the 2025 roll.",
+    sourceLabel: "Assessor Annual Report 2025-2026",
+    sourceUrl: SOURCE_URLS.assessorAnnualReport,
+  },
+];
+
+export const PROPERTY_LAYERS: CampbellPropertyLayer[] = [
+  {
+    label: "Parcel and assessed value lookup",
+    status: "Ready",
+    body: "Public lookup works address-by-address or APN-by-APN. Good first step for a property page, but not a bulk citywide sales feed by itself.",
+    sourceLabel: "Assessor real property search",
+    sourceUrl: SOURCE_URLS.assessorSearch,
+  },
+  {
+    label: "Recorded documents",
+    status: "Partial",
+    body: "Recorder data can identify deeds, liens, maps, and document references. The Clerk-Recorder says its office has document index data, not a ready sales-price database.",
+    sourceLabel: "Clerk-Recorder data sales",
+    sourceUrl: SOURCE_URLS.clerkRecorderDataSales,
+  },
+  {
+    label: "Indicated sale price and transfer fields",
+    status: "Hard",
+    body: "The Assessor data path is the likely official source for transfer dates, recording dates, document numbers, and indicated sales price. That probably means a data request or paid file before we publish a true ledger.",
+    sourceLabel: "Assessor records and data",
+    sourceUrl: SOURCE_URLS.assessorRecords,
+  },
+  {
+    label: "Parcel geometry",
+    status: "Ready",
+    body: "County GIS publishes parcel layers for mapping and spatial joins. That makes neighborhood rollups and zoning overlays feasible without scraping individual search pages.",
+    sourceLabel: "County GIS map data",
+    sourceUrl: SOURCE_URLS.countyGisData,
+  },
+  {
+    label: "Building permits and construction context",
+    status: "Partial",
+    body: "Campbell points residents to MGO, permit status, permit maps, inspections, and building records. It is the bridge between a sale, a remodel, and a public hearing.",
+    sourceLabel: "Campbell Building",
+    sourceUrl: SOURCE_URLS.campbellBuilding,
   },
 ];
 
@@ -269,8 +381,8 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Property and sales ledger",
-    body: "Build a privacy-aware property ledger from assessor parcels, recorder documents, transfer-tax clues, permits, and map layers.",
-    status: "Needs source",
+    body: "Official source map and Campbell roll metrics are live. A complete sales ledger likely needs Assessor data files or a records request before it can be honest and complete.",
+    status: "Next feed",
   },
   {
     title: "History map",

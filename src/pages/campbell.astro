@@ -1370,6 +1370,123 @@ const title = "Campbell City Guide — stanwood.dev";
       .cb-source-note a:hover { text-decoration: underline; }
 
       /* ── Homes and roadmap ── */
+      .cb-property-metrics {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-property-metrics { grid-template-columns: repeat(2, 1fr); }
+      }
+      .cb-property-metric {
+        min-height: 7.25rem;
+        padding: 0.85rem 0.95rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-property-metric:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-property-metric span,
+      .cb-property-metric strong,
+      .cb-property-metric em {
+        display: block;
+      }
+      .cb-property-metric span {
+        font-size: 1.25rem;
+        font-weight: 850;
+        color: var(--cb-blue);
+        margin-bottom: 0.18rem;
+      }
+      .cb-property-metric strong {
+        font-size: 0.8rem;
+        line-height: 1.3;
+        color: var(--cb-ink);
+        margin-bottom: 0.3rem;
+      }
+      .cb-property-metric em {
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: var(--cb-gray);
+        font-style: normal;
+      }
+      .cb-property-layer-head {
+        margin-top: 1rem;
+      }
+      .cb-property-layer-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      .cb-property-layer {
+        display: block;
+        padding: 0.9rem 1rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-property-layer:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-property-layer-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.7rem;
+        margin-bottom: 0.38rem;
+      }
+      .cb-property-layer h4 {
+        font-size: 0.92rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .cb-property-layer p {
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0 0 0.45rem;
+      }
+      .cb-property-layer em {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--cb-blue);
+        font-style: normal;
+      }
+      .cb-property-status {
+        flex-shrink: 0;
+        min-width: 4.2rem;
+        text-align: center;
+        border-radius: 999px;
+        padding: 0.16rem 0.45rem;
+        font-size: 0.66rem;
+        font-weight: 850;
+      }
+      .cb-property-status--ready {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+      }
+      .cb-property-status--partial {
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+      }
+      .cb-property-status--hard {
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+      }
       .cb-privacy-note {
         font-size: 0.8rem;
         line-height: 1.55;
