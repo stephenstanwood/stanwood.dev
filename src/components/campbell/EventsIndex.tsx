@@ -15,7 +15,9 @@ interface CampbellEvent {
   source?: string;
   sourceUrl?: string;
   startDate?: string;
+  endDate?: string;
   additionalSourceUrls?: string[];
+  topics?: string[];
 }
 
 interface EventSourceMeta {
@@ -91,6 +93,7 @@ function eventSourceFilterLabel(label: string) {
   if (label === "City of Campbell Calendar") return "City calendar";
   if (label === "Downtown Campbell Events") return "Downtown";
   if (label === "Campbell Library Events") return "Library";
+  if (label === "Campbell Chamber Events") return "Chamber";
   return label;
 }
 
@@ -139,6 +142,7 @@ function eventMatchesQuery(event: CampbellEvent, query: string) {
     event.description,
     event.category ?? "",
     event.source ?? "",
+    ...(event.topics ?? []),
   ].some((value) => value.toLowerCase().includes(needle));
 }
 
@@ -165,12 +169,11 @@ export default function EventsIndex() {
     <div className="cb-events">
       <div className="cb-section-head">
         <span className="cb-section-kicker">Events</span>
-        <h3>City and Downtown events are live.</h3>
+        <h3>Campbell events, stitched together.</h3>
         <p>
-          This now merges the official City calendar with Downtown Campbell's
-          event feed. Heritage Theatre listings, public meetings, community
-          center dates, festivals, shop events, and farmers' market items land
-          in one source-backed list.
+          Official city dates, Downtown Campbell, Campbell Library, and Chamber
+          events now land in one source-backed list. Search it like a resident,
+          then jump to the original listing when you need the source.
         </p>
       </div>
 
@@ -317,9 +320,9 @@ export default function EventsIndex() {
         <span className="cb-section-kicker">Source Map</span>
         <h3>Live feeds first, direct calendars next.</h3>
         <p>
-          City, Downtown, and Campbell Library are already synced. The remaining
-          sources are the next direct feeds to pull from individual websites,
-          with one polite parser per source instead of a broad scrape.
+          City, Downtown, Campbell Library, and Chamber are already synced. The
+          remaining sources are the next direct feeds to pull from individual
+          websites, with one polite parser per source instead of a broad scrape.
         </p>
       </div>
 

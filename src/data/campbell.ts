@@ -78,6 +78,7 @@ export const SOURCE_URLS = {
   downtownEvents: "https://www.downtowncampbell.com/events",
   heritageTheatreEvents: "https://www.heritagetheatre.org/events-1",
   chamberEvents: "https://business.campbellchamber.net/events/calendar/",
+  chamberEventsSearch: "https://business.campbellchamber.net/events/search?Lookahead=360",
   libraryEvents: "https://sccld.org/locations/campbell/",
   downtownDirectory: "https://www.downtowncampbell.com/directory/all",
   chamberDirectory: "https://business.campbellchamber.net/list",
@@ -249,8 +250,8 @@ export const EVENT_SOURCES: CampbellSource[] = [
   {
     label: "Chamber events",
     owner: "Campbell Chamber of Commerce",
-    cadence: "Next direct sync",
-    href: SOURCE_URLS.chamberEvents,
+    cadence: "Live feed",
+    href: SOURCE_URLS.chamberEventsSearch,
     why: "Business mixers, ribbon cuttings, member events, and wider Campbell commerce activity beyond downtown.",
   },
   {
@@ -536,7 +537,7 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Events firehose",
-    body: "City, Downtown Campbell, and Campbell Library events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, Chamber, museum, school, parks, and individual business calendars come next.",
+    body: "City, Downtown Campbell, Campbell Library, and Chamber events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, museum, school, parks, and individual business calendars come next.",
     status: "Live now",
   },
   {

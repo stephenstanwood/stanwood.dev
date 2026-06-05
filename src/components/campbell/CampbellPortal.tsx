@@ -24,21 +24,17 @@ const TABS: { id: Section; label: string; icon: string }[] = [
 ];
 
 export default function CampbellPortal() {
-  const [active, setActive] = useState<Section>("links");
+  const [active, setActive] = useState<Section>("events");
 
   return (
     <div className="cb-portal">
-      <div className="cb-intro">
-        <p>
-          A Campbell city guide built from public records, official calendars, local directories, civic archives, and resident-grade notes.
-        </p>
-      </div>
-
-      <nav className="cb-tabs">
+      <nav className="cb-tabs" aria-label="Campbell sections">
         {TABS.map((tab) => (
           <button
             key={tab.id}
+            type="button"
             className={`cb-tab ${active === tab.id ? "cb-tab--active" : ""}`}
+            aria-pressed={active === tab.id}
             onClick={() => setActive(tab.id)}
           >
             <span className="cb-tab-icon">{tab.icon}</span>

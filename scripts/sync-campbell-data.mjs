@@ -15,6 +15,9 @@ const DIRECTORY_URL = `${BASE_URL}/directory/all`;
 const EVENTS_URL = `${BASE_URL}/events`;
 const CITY_CALENDAR_URL = `${CITY_BASE_URL}/calendar.aspx?view=list&CID=0`;
 const CHAMBER_DIRECTORY_URL = `${CHAMBER_BASE_URL}/list`;
+const CHAMBER_EVENT_LOOKAHEAD_DAYS = 360;
+const CHAMBER_EVENTS_URL = `${CHAMBER_BASE_URL}/events/search?Lookahead=${CHAMBER_EVENT_LOOKAHEAD_DAYS}`;
+const CHAMBER_EVENTS_SCROLL_URL = `${CHAMBER_BASE_URL}/events/searchscroll`;
 const SCCLD_CAMPBELL_LIBRARY_URL = "https://sccld.org/locations/campbell/";
 const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
@@ -469,6 +472,79 @@ function parseLibraryEvents(html, referenceDate = new Date()) {
     .filter(Boolean);
 }
 
+function parseGrowthZoneResultsCount(html) {
+  const value = cleanHtml(html.match(/<span[^>]*class="[^"]*gz-results-count[^"]*"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "");
+  return Number(value.replace(/,/g, "")) || 0;
+}
+
+function parseChamberEventCards(html) {
+  return html
+    .split('<div class="gz-list-card-wrapper')
+    .slice(1)
+    .map((block) => {
+      const card = `<div class="gz-list-card-wrapper${block}`;
+      const titleLink = card.match(/<h5[^>]*class="[^"]*gz-card-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+      const title = cleanHtml(titleLink?.[2] ?? "");
+      const url = absoluteUrl(titleLink?.[1] ?? "", CHAMBER_BASE_URL);
+      const description = cleanHtml(card.match(/<p[^>]*class="[^"]*gz-events-description[^"]*"[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "").slice(0, 280);
+      const imageUrl = absoluteUrl(card.match(/<img[^>]*class="[^"]*gz-events-img[^"]*"[^>]*src="([^"]+)"/i)?.[1] ?? "", CHAMBER_BASE_URL);
+      const dateSpans = [...card.matchAll(/<span[^>]*content="([^"]+)"[^>]*>([\s\S]*?)<\/span>/gi)]
+        .map(([, content, label]) => ({
+          content: cleanSentence(content),
+          label: cleanHtml(label),
+        }))
+        .filter((date) => date.content && date.label);
+      const startDate = dateSpans[0]?.content ?? "";
+      const visibleDates = dateSpans.map((date) => date.label);
+      const metaEndDate = cleanSentence(card.match(/<meta[^>]*content="([^"]+)"/i)?.[1] ?? "");
+      const endDate = dateSpans[1]?.content || metaEndDate;
+      const categories = [...card.matchAll(/<span[^>]*class="[^"]*gz-cat[^"]*"[^>]*>([\s\S]*?)<\/span>/gi)]
+        .map(([, category]) => cleanHtml(category))
+        .filter((category) => category && category !== "Categories:");
+
+      if (!title || !url || !startDate) return null;
+
+      return {
+        title,
+        date: visibleDates.length > 1 ? visibleDates.join(" - ") : visibleDates[0] || startDate,
+        cost: "",
+        location: "",
+        description,
+        url,
+        imageUrl,
+        category: "Chamber",
+        startDate,
+        ...(endDate && endDate !== startDate ? { endDate } : {}),
+        source: "Campbell Chamber Events",
+        sourceUrl: CHAMBER_EVENTS_URL,
+        ...(categories.length ? { topics: categories } : {}),
+      };
+    })
+    .filter(Boolean);
+}
+
+async function fetchChamberEventsHtml() {
+  const firstPage = await fetchText(CHAMBER_EVENTS_URL);
+  const total = parseGrowthZoneResultsCount(firstPage);
+  const firstPageEvents = parseChamberEventCards(firstPage);
+  const pageSize = firstPageEvents.length || 10;
+  const pages = Math.min(Math.ceil((total || firstPageEvents.length) / pageSize), 12);
+  const pagesHtml = [firstPage];
+
+  for (let page = 2; page <= pages; page += 1) {
+    await sleep(175);
+    const url = `${CHAMBER_EVENTS_SCROLL_URL}?page=${page}&rendermode=partial&lookahead=${CHAMBER_EVENT_LOOKAHEAD_DAYS}`;
+    const html = await fetchText(url);
+    if (!/\S/.test(html)) break;
+    pagesHtml.push(html);
+  }
+
+  return {
+    html: pagesHtml.join("\n"),
+    total,
+  };
+}
+
 function mergeEventFeeds(...feeds) {
   const byKey = new Map();
 
@@ -731,11 +807,12 @@ async function writeJson(filename, payload) {
 
 async function main() {
   const generatedAt = new Date().toISOString();
-  const [directoryHtml, eventsHtml, cityCalendarHtml, libraryHtml, councilHtml, planningHtml, ...noticeArchiveHtml] = await Promise.all([
+  const [directoryHtml, eventsHtml, cityCalendarHtml, libraryHtml, chamberEventsPage, councilHtml, planningHtml, ...noticeArchiveHtml] = await Promise.all([
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
     fetchText(CITY_CALENDAR_URL),
     fetchText(SCCLD_CAMPBELL_LIBRARY_URL),
+    fetchChamberEventsHtml(),
     fetchText(COUNCIL_URL),
     fetchText(PLANNING_COMMISSION_URL),
     ...PUBLIC_NOTICE_ARCHIVES.map((archive) => fetchText(archive.href)),
@@ -754,7 +831,8 @@ async function main() {
   const downtownEvents = parseDowntownEvents(eventsHtml);
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
   const libraryEvents = parseLibraryEvents(libraryHtml, new Date(generatedAt));
-  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents);
+  const chamberEvents = parseChamberEventCards(chamberEventsPage.html);
+  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, chamberEvents);
   const councilRecords = parseAgendaCenterRecords(councilHtml, {
     tableId: "table10",
     body: "City Council",
@@ -791,6 +869,12 @@ async function main() {
   }
   if (downtownEvents.length < 10) {
     throw new Error(`Downtown events parse returned only ${downtownEvents.length} events`);
+  }
+  if (chamberEvents.length < 10) {
+    throw new Error(`Chamber events parse returned only ${chamberEvents.length} events`);
+  }
+  if (chamberEventsPage.total && chamberEvents.length < chamberEventsPage.total) {
+    throw new Error(`Chamber events parse returned ${chamberEvents.length}/${chamberEventsPage.total} visible events`);
   }
   if (events.length < 20) {
     throw new Error(`Events parse returned only ${events.length} events`);
@@ -844,6 +928,11 @@ async function main() {
         sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
         count: libraryEvents.length,
       },
+      {
+        label: "Campbell Chamber Events",
+        sourceUrl: CHAMBER_EVENTS_URL,
+        count: chamberEvents.length,
+      },
     ],
     items: events,
   });
@@ -862,7 +951,7 @@ async function main() {
   });
 
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
-  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library) -> ${eventPath}`);
+  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${chamberEvents.length} chamber) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }

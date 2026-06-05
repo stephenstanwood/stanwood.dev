@@ -1,7 +1,52 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
+import eventFeed from "../data/campbellEvents.json";
+import businessFeed from "../data/campbellBusinesses.json";
+import councilFeed from "../data/campbellCouncilRecords.json";
+import hearingFeed from "../data/campbellPublicHearings.json";
 const title = "Campbell City Guide — stanwood.dev";
+
+const formatSyncDate = (value: string) => new Date(value).toLocaleDateString("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
+const latestSync = [eventFeed.generatedAt, businessFeed.generatedAt, councilFeed.generatedAt, hearingFeed.generatedAt]
+  .map((value) => new Date(value))
+  .sort((a, b) => b.getTime() - a.getTime())[0];
+const latestSyncLabel = formatSyncDate(latestSync.toISOString());
+const eventSourceCount = eventFeed.sources?.length ?? 0;
+const chamberEventCount = eventFeed.sources?.find((source) => source.label === "Campbell Chamber Events")?.count ?? 0;
+const liveStats = [
+  {
+    value: eventFeed.items.length.toLocaleString(),
+    label: "events",
+    detail: `${eventSourceCount} source${eventSourceCount === 1 ? "" : "s"} synced`,
+  },
+  {
+    value: businessFeed.items.length.toLocaleString(),
+    label: "businesses",
+    detail: "Downtown plus Chamber",
+  },
+  {
+    value: hearingFeed.items.length.toLocaleString(),
+    label: "hearings",
+    detail: "plain-English tracker",
+  },
+  {
+    value: councilFeed.items.length.toLocaleString(),
+    label: "civic records",
+    detail: "agendas, minutes, media",
+  },
+];
+const sourceStatus = [
+  { label: "City calendar", status: "Live", detail: "official meetings and recreation" },
+  { label: "Downtown Campbell", status: "Live", detail: "shops, festivals, farmers' market" },
+  { label: "Campbell Library", status: "Live", detail: "branch programs and workshops" },
+  { label: "Chamber", status: chamberEventCount ? "Live" : "Next", detail: `${chamberEventCount || "ready"} GrowthZone events` },
+];
+const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campbell_water_tower%2C_aerial_view.jpg/960px-Campbell_water_tower%2C_aerial_view.jpg";
 ---
 
 <BaseLayout
@@ -10,29 +55,31 @@ const title = "Campbell City Guide — stanwood.dev";
   slug="campbell"
   favicon="/favicon-campbell.svg"
   themeColor="#F8F9FA"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800;900&display=swap"
   schemaCategory="WebApplication"
   schemaName="Campbell City Guide"
 >
   <Fragment slot="head">
     <style is:global>
       :root {
-        --cb-bg: #F8F9FA;
+        --cb-bg: #FBF7EF;
         --cb-card-bg: #FFFFFF;
-        --cb-ink: #1A1D23;
-        --cb-gray: #5A6070;
-        --cb-light-gray: #8B92A0;
-        --cb-border: #E2E5EB;
-        --cb-blue: #1B4F8A;
-        --cb-blue-hover: #143D6B;
-        --cb-blue-light: #E8F0FA;
-        --cb-gold: #C69214;
-        --cb-gold-light: #FFF8E7;
-        --cb-green: #2D8659;
-        --cb-green-light: #E8F5EE;
-        --cb-red: #C0392B;
-        --cb-red-light: #FDEEEC;
-        --cb-radius: 10px;
+        --cb-ink: #20201D;
+        --cb-gray: #62645C;
+        --cb-light-gray: #8A8E84;
+        --cb-border: #E1DDD2;
+        --cb-blue: #24576A;
+        --cb-blue-hover: #183D4C;
+        --cb-blue-light: #E7F1F3;
+        --cb-gold: #B98216;
+        --cb-gold-light: #FFF2D6;
+        --cb-green: #3F7A4D;
+        --cb-green-light: #EAF4E8;
+        --cb-red: #A74732;
+        --cb-red-light: #F9E9E3;
+        --cb-clay: #C85F36;
+        --cb-cream: #FFFDF8;
+        --cb-radius: 12px;
       }
 
       body {
@@ -50,15 +97,23 @@ const title = "Campbell City Guide — stanwood.dev";
         to { transform: rotate(360deg); }
       }
 
-      /* ── Layout ── */
-      .cb-page { min-height: 100vh; display: flex; flex-direction: column; }
+      /* -- Layout -- */
+      .cb-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background:
+          linear-gradient(180deg, rgba(255, 253, 248, 0.82) 0%, rgba(251, 247, 239, 0.96) 36rem),
+          radial-gradient(circle at 12% 0%, rgba(184, 130, 22, 0.14), transparent 24rem),
+          radial-gradient(circle at 90% 12%, rgba(36, 87, 106, 0.12), transparent 26rem);
+      }
 
       .cb-header {
-        padding: 1.25rem 1.5rem;
+        padding: 1rem 1.5rem 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        max-width: 800px;
+        max-width: 1180px;
         width: 100%;
         margin: 0 auto;
         box-sizing: border-box;
@@ -71,96 +126,224 @@ const title = "Campbell City Guide — stanwood.dev";
         transition: color 0.15s;
       }
       .cb-back:hover { color: var(--cb-blue); }
-
-      /* ── Hero image ── */
-      .cb-hero-img {
-        max-width: 800px;
-        width: 100%;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-        box-sizing: border-box;
-      }
-      .cb-hero-img-wrap {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 7;
-        border-radius: var(--cb-radius);
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(27, 79, 138, 0.12);
-      }
-      .cb-hero-img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .cb-hero-img-wrap::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(27, 79, 138, 0) 50%, rgba(27, 79, 138, 0.35) 100%);
-        pointer-events: none;
+      .cb-header-status {
+        border: 1px solid rgba(63, 122, 77, 0.24);
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        color: var(--cb-green);
+        background: rgba(234, 244, 232, 0.8);
+        font-size: 0.72rem;
+        font-weight: 800;
       }
 
       .cb-hero {
-        max-width: 800px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.74fr);
+        gap: 1rem;
+        max-width: 1180px;
         width: 100%;
         margin: 0 auto;
         padding: 1rem 1.5rem 0;
         box-sizing: border-box;
       }
-      .cb-hero-inner {
-        background: linear-gradient(135deg, #1B4F8A 0%, #1A3A6B 40%, #2563A0 100%);
-        border-radius: var(--cb-radius);
-        padding: 2rem 1.75rem;
-        color: white;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(27, 79, 138, 0.25);
+      .cb-hero-copy {
+        display: grid;
+        align-content: center;
+        min-height: 24rem;
+        padding: clamp(1.35rem, 4vw, 3rem);
+        background: rgba(255, 253, 248, 0.9);
+        border: 1px solid rgba(225, 221, 210, 0.9);
+        border-radius: 22px;
+        box-shadow: 0 22px 70px rgba(55, 49, 38, 0.1);
       }
-      .cb-hero-inner::before {
-        content: '';
-        position: absolute;
-        top: -30%;
-        right: -10%;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(255, 217, 102, 0.15) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-      }
-      .cb-hero-inner::after {
-        content: '🏛️';
-        position: absolute;
-        top: 1rem;
-        right: 1.5rem;
-        font-size: 2.5rem;
-        opacity: 0.15;
-        pointer-events: none;
+      .cb-hero-kicker {
+        width: fit-content;
+        margin-bottom: 0.75rem;
+        border: 1px solid rgba(36, 87, 106, 0.16);
+        border-radius: 999px;
+        padding: 0.32rem 0.65rem;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
       .cb-hero h1 {
-        font-size: 1.75rem;
-        font-weight: 700;
-        margin: 0 0 0.25rem;
-        line-height: 1.2;
-        position: relative;
-      }
-      .cb-hero h1 span {
-        color: #FFD966;
+        max-width: 13ch;
+        margin: 0;
+        color: var(--cb-ink);
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(3rem, 8vw, 6.6rem);
+        font-weight: 400;
+        line-height: 0.88;
+        letter-spacing: 0;
       }
       .cb-hero-sub {
-        font-size: 0.9rem;
-        opacity: 0.85;
-        margin: 0;
-        line-height: 1.5;
+        max-width: 46rem;
+        margin: 1.1rem 0 0;
+        color: var(--cb-gray);
+        font-size: clamp(1rem, 2vw, 1.24rem);
+        line-height: 1.55;
+      }
+      .cb-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.25rem;
+      }
+      .cb-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.6rem;
+        border-radius: 999px;
+        padding: 0 0.95rem;
+        text-decoration: none;
+        font-size: 0.86rem;
+        font-weight: 850;
+      }
+      .cb-button--primary {
+        color: white;
+        background: var(--cb-blue);
+        box-shadow: 0 12px 30px rgba(36, 87, 106, 0.22);
+      }
+      .cb-button--primary:hover { background: var(--cb-blue-hover); }
+      .cb-button--secondary {
+        color: var(--cb-blue);
+        background: white;
+        border: 1px solid rgba(36, 87, 106, 0.2);
+      }
+      .cb-hero-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.55rem;
+        margin-top: 1.4rem;
+      }
+      .cb-hero-stat {
+        min-height: 5.2rem;
+        border: 1px solid var(--cb-border);
+        border-radius: 14px;
+        padding: 0.75rem;
+        background: white;
+      }
+      .cb-hero-stat strong {
+        display: block;
+        color: var(--cb-blue);
+        font-size: 1.45rem;
+        line-height: 1;
+      }
+      .cb-hero-stat span {
+        display: block;
+        margin-top: 0.28rem;
+        color: var(--cb-ink);
+        font-size: 0.76rem;
+        font-weight: 850;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .cb-hero-stat em {
+        display: block;
+        margin-top: 0.24rem;
+        color: var(--cb-gray);
+        font-size: 0.72rem;
+        line-height: 1.35;
+        font-style: normal;
+      }
+      .cb-hero-side {
+        display: grid;
+        gap: 1rem;
+      }
+      .cb-place-card {
         position: relative;
+        min-height: 15rem;
+        margin: 0;
+        overflow: hidden;
+        border-radius: 22px;
+        background: var(--cb-blue);
+        box-shadow: 0 22px 70px rgba(55, 49, 38, 0.12);
+      }
+      .cb-place-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 15rem;
+        display: block;
+        object-fit: cover;
+      }
+      .cb-place-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(32, 32, 29, 0.02) 20%, rgba(32, 32, 29, 0.62) 100%);
+      }
+      .cb-place-card figcaption {
+        position: absolute;
+        left: 1rem;
+        right: 1rem;
+        bottom: 0.9rem;
+        z-index: 1;
+        color: white;
+        font-size: 0.72rem;
+        line-height: 1.35;
+      }
+      .cb-place-card a {
+        color: white;
+        font-weight: 800;
+      }
+      .cb-source-board {
+        border: 1px solid rgba(225, 221, 210, 0.9);
+        border-radius: 22px;
+        padding: 1rem;
+        background: rgba(255, 253, 248, 0.94);
+        box-shadow: 0 18px 50px rgba(55, 49, 38, 0.08);
+      }
+      .cb-source-board h2 {
+        margin: 0 0 0.25rem;
+        color: var(--cb-ink);
+        font-size: 1rem;
+      }
+      .cb-source-board p {
+        margin: 0 0 0.9rem;
+        color: var(--cb-gray);
+        font-size: 0.8rem;
+        line-height: 1.45;
+      }
+      .cb-source-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.55rem 0.7rem;
+        align-items: start;
+        padding: 0.62rem 0;
+        border-top: 1px solid var(--cb-border);
+      }
+      .cb-source-row strong {
+        grid-column: 2;
+        color: var(--cb-ink);
+        font-size: 0.82rem;
+      }
+      .cb-source-row span {
+        grid-row: span 2;
+        border-radius: 999px;
+        padding: 0.18rem 0.5rem;
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+        font-size: 0.66rem;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+      .cb-source-row em {
+        grid-column: 2;
+        color: var(--cb-gray);
+        font-size: 0.74rem;
+        line-height: 1.35;
+        font-style: normal;
       }
 
-      /* ── Built for residents like ── */
       .cb-forwhen {
-        max-width: 800px;
+        max-width: 1180px;
         width: 100%;
-        margin: 1.75rem auto 0;
+        margin: 1.25rem auto 0;
         padding: 0 1.5rem;
         box-sizing: border-box;
       }
@@ -218,15 +401,44 @@ const title = "Campbell City Guide — stanwood.dev";
 
       .cb-main {
         flex: 1;
-        max-width: 800px;
+        max-width: 1180px;
         width: 100%;
         margin: 0 auto;
-        padding: 1rem 1.5rem 3rem;
+        padding: 1rem 1.5rem 2rem;
         box-sizing: border-box;
       }
+      @media (max-width: 900px) {
+        .cb-hero {
+          grid-template-columns: 1fr;
+        }
+        .cb-hero-copy {
+          min-height: auto;
+        }
+        .cb-hero-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 560px) {
+        .cb-header {
+          align-items: flex-start;
+          gap: 0.65rem;
+          flex-direction: column;
+        }
+        .cb-hero,
+        .cb-main,
+        .cb-forwhen {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+        .cb-hero-stats {
+          grid-template-columns: 1fr;
+        }
+      }
 
-      /* ── Portal ── */
-      .cb-portal { animation: cbFadeIn 0.3s ease-out; }
+      /* -- Portal -- */
+      .cb-portal {
+        animation: cbFadeIn 0.3s ease-out;
+      }
 
       .cb-intro {
         margin-bottom: 1rem;
@@ -238,15 +450,23 @@ const title = "Campbell City Guide — stanwood.dev";
         line-height: 1.5;
       }
 
-      /* ── Tabs ── */
       .cb-tabs {
+        position: sticky;
+        top: 0.5rem;
+        z-index: 5;
         display: flex;
         gap: 0.375rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        padding-bottom: 2px;
+        padding: 0.42rem;
+        border: 1px solid rgba(225, 221, 210, 0.9);
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.92);
+        box-shadow: 0 14px 34px rgba(55, 49, 38, 0.08);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
       }
       .cb-tabs::-webkit-scrollbar { display: none; }
 
@@ -254,13 +474,14 @@ const title = "Campbell City Guide — stanwood.dev";
         display: flex;
         align-items: center;
         gap: 0.375rem;
-        padding: 0.5rem 0.875rem;
-        border: 1.5px solid var(--cb-border);
+        min-height: 2.25rem;
+        padding: 0 0.82rem;
+        border: 1px solid transparent;
         border-radius: 999px;
-        background: var(--cb-card-bg);
+        background: transparent;
         color: var(--cb-gray);
         font-size: 0.8rem;
-        font-weight: 500;
+        font-weight: 850;
         font-family: inherit;
         cursor: pointer;
         white-space: nowrap;
@@ -282,6 +503,9 @@ const title = "Campbell City Guide — stanwood.dev";
       }
       .cb-tab-icon { font-size: 0.9rem; }
       .cb-tab-label { font-size: 0.8rem; }
+      .cb-content {
+        min-height: 32rem;
+      }
 
       .cb-stack {
         display: flex;
@@ -2136,11 +2360,11 @@ const title = "Campbell City Guide — stanwood.dev";
       }
       .cb-eat-order:hover { text-decoration: underline; }
 
-      /* ── Who handles that panel ── */
+      /* -- Who handles that panel -- */
       .cb-who {
-        max-width: 800px;
+        max-width: 1180px;
         width: 100%;
-        margin: 2rem auto 0;
+        margin: 2.5rem auto 0;
         padding: 0 1.5rem;
         box-sizing: border-box;
       }
@@ -2154,19 +2378,20 @@ const title = "Campbell City Guide — stanwood.dev";
         margin: 0 0 0.5rem;
       }
       .cb-who-heading {
-        font-size: 1.4rem;
-        font-weight: 700;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        font-weight: 400;
         color: var(--cb-ink);
         margin: 0 0 0.5rem;
-        line-height: 1.2;
-        letter-spacing: -0.01em;
+        line-height: 1;
+        letter-spacing: 0;
       }
       .cb-who-sub {
-        font-size: 0.85rem;
+        font-size: 1rem;
         color: var(--cb-gray);
         line-height: 1.55;
         margin: 0 0 1.25rem;
-        max-width: 620px;
+        max-width: 760px;
       }
       .cb-who-sub strong {
         color: var(--cb-ink);
@@ -2180,6 +2405,9 @@ const title = "Campbell City Guide — stanwood.dev";
       @media (min-width: 640px) {
         .cb-who-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
       }
+      @media (min-width: 1040px) {
+        .cb-who-grid { grid-template-columns: repeat(3, 1fr); }
+      }
       .cb-who-card {
         position: relative;
         display: flex;
@@ -2190,6 +2418,11 @@ const title = "Campbell City Guide — stanwood.dev";
         border: 1px solid var(--cb-border);
         border-left: 3px solid var(--cb-blue);
         border-radius: var(--cb-radius);
+      }
+      .cb-who-card--warning {
+        background: rgba(249, 233, 227, 0.42);
+        border-left-color: var(--cb-red);
+        border-style: dashed;
       }
       .cb-who-issue {
         display: flex;
@@ -2202,7 +2435,17 @@ const title = "Campbell City Guide — stanwood.dev";
         line-height: 1.25;
       }
       .cb-who-icon {
-        font-size: 1.1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 8px;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 900;
         line-height: 1;
         flex-shrink: 0;
       }
@@ -2267,7 +2510,7 @@ const title = "Campbell City Guide — stanwood.dev";
 
       /* ── Footer ── */
       .cb-footer {
-        max-width: 800px;
+        max-width: 1180px;
         width: 100%;
         margin: 0 auto;
         padding: 2rem 1.5rem;
@@ -2315,38 +2558,81 @@ const title = "Campbell City Guide — stanwood.dev";
   <div class="cb-page">
     <header class="cb-header">
       <a href="/" class="cb-back">← stanwood.dev</a>
+      <span class="cb-header-status">Latest sync {latestSyncLabel}</span>
     </header>
 
-    <div class="cb-hero-img">
-      <div class="cb-hero-img-wrap">
-        <img
-          src="/images/campbell.webp"
-          alt="Sun-dappled tree-lined street in downtown Campbell, California"
-          width="1456"
-          height="816"
-          loading="eager"
-          decoding="async"
-        />
+    <section class="cb-hero" aria-label="Campbell city guide overview">
+      <div class="cb-hero-copy">
+        <span class="cb-hero-kicker">Campbell, CA · live civic guide</span>
+        <h1>The city in one working page.</h1>
+        <p class="cb-hero-sub">
+          Events, hearings, council records, local businesses, safety sources,
+          property links, history, and resident shortcuts pulled from public
+          sources and kept readable.
+        </p>
+        <div class="cb-hero-actions">
+          <a class="cb-button cb-button--primary" href="#campbell-tool">Open the live tool</a>
+          <a class="cb-button cb-button--secondary" href="#campbell-source-status">See source status</a>
+        </div>
+        <div class="cb-hero-stats" aria-label="Current Campbell guide coverage">
+          {liveStats.map((stat) => (
+            <div class="cb-hero-stat">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+              <em>{stat.detail}</em>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
 
-    <div class="cb-hero">
-      <div class="cb-hero-inner">
-        <h1><span>Campbell</span> City Guide</h1>
-        <p class="cb-hero-sub">History, records, events, businesses, homes, maps, and resident shortcuts in one source-backed Campbell page.</p>
+      <div class="cb-hero-side">
+        <figure class="cb-place-card">
+          <img
+            src={heroPhoto}
+            alt="Aerial view of the Campbell water tower in downtown Campbell"
+            width="768"
+            height="1024"
+            loading="eager"
+            decoding="async"
+          />
+          <figcaption>
+            Campbell water tower photo by
+            {" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Campbell_water_tower,_aerial_view.jpg" target="_blank" rel="noopener noreferrer">
+              Grendelkhan
+            </a>
+            , CC BY-SA 4.0.
+          </figcaption>
+        </figure>
+
+        <div class="cb-source-board" id="campbell-source-status">
+          <h2>Live source status</h2>
+          <p>One polite build-time sync per source. No client-side scraping of city or local business sites.</p>
+          {sourceStatus.map((source) => (
+            <div class="cb-source-row">
+              <span>{source.status}</span>
+              <strong>{source.label}</strong>
+              <em>{source.detail}</em>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
 
-    <section class="cb-forwhen" aria-label="Why this exists">
+    <main class="cb-main" id="campbell-tool">
+      <CampbellPortal client:load />
+    </main>
+
+    <section class="cb-forwhen" aria-label="What the Campbell guide answers">
       <span class="cb-forwhen-label">Built for questions like</span>
       <div class="cb-forwhen-grid">
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">01</span>
-          <p class="cb-forwhen-text"><em>What changed at Council?</em> <span>Agenda packets, minutes, media, and plain-English summaries in one civic record.</span></p>
+          <p class="cb-forwhen-text"><em>What changed at Council?</em> <span>Agenda packets, minutes, media, and plain-English hearing summaries in one civic record.</span></p>
         </div>
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">02</span>
-          <p class="cb-forwhen-text"><em>What is happening this weekend?</em> <span>City, downtown, theater, museum, library, school, and shop calendars merged cleanly.</span></p>
+          <p class="cb-forwhen-text"><em>What is happening this weekend?</em> <span>City, downtown, library, Chamber, theater, museum, school, and shop calendars merged cleanly.</span></p>
         </div>
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">03</span>
@@ -2359,81 +2645,77 @@ const title = "Campbell City Guide — stanwood.dev";
       </div>
     </section>
 
-    <main class="cb-main">
-      <CampbellPortal client:load />
-    </main>
-
     <section class="cb-who" aria-label="Which agency handles common Campbell issues">
-      <span class="cb-who-label">Who actually fixes that?</span>
-      <h2 class="cb-who-heading">Half the city isn't the city.</h2>
-      <p class="cb-who-sub">Living in Campbell means dealing with <strong>seven different agencies</strong> wearing similar uniforms. Use this when your first instinct ("call the city") is wrong — and you'd spend 20 minutes on hold to learn it.</p>
+      <span class="cb-who-label">Resident routing</span>
+      <h2 class="cb-who-heading">Who handles what in Campbell.</h2>
+      <p class="cb-who-sub">Campbell residents move between city, county, utility, district, and transit systems. This keeps the common handoffs clear before you open the wrong form.</p>
 
       <div class="cb-who-grid">
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🕳️</span>Pothole on a neighborhood street</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">PW</span>Pothole on a neighborhood street</p>
           <span class="cb-who-agency">City of Campbell · Public Works</span>
-          <p class="cb-who-why">Most residential streets, sidewalks, and street trees are city-maintained. But <strong>Hamilton Ave, Bascom, San Tomas Expy</strong> get handed off — see the next card.</p>
+          <p class="cb-who-why">Most residential streets, sidewalks, and street trees are city-maintained. <strong>Hamilton Ave, Bascom, and San Tomas Expy</strong> route elsewhere.</p>
           <p class="cb-who-action">Report online: <a href="https://www.campbellca.gov/1049/Report-A-Concern" target="_blank" rel="noopener">campbellca.gov/Report-A-Concern</a></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🛣️</span>Pothole on SR-17, San Tomas Expy, or Hamilton</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">RD</span>Pothole on SR-17, San Tomas Expy, or Hamilton</p>
           <span class="cb-who-agency cb-who-agency--gold">CalTrans + County Roads</span>
-          <p class="cb-who-why">SR-17 is state (<strong>CalTrans District 4</strong>). Expressways like San Tomas + Lawrence are <strong>Santa Clara County</strong>. The city can't fix what it doesn't own.</p>
+          <p class="cb-who-why">SR-17 is state, through <strong>CalTrans District 4</strong>. Expressways such as San Tomas and Lawrence are <strong>Santa Clara County</strong>.</p>
           <p class="cb-who-action">SR-17: <a href="https://csr.dot.ca.gov" target="_blank" rel="noopener">csr.dot.ca.gov</a> · County: <a href="https://www.sccgov.org/sites/rda" target="_blank" rel="noopener">sccgov.org/rda</a></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🚨</span>Theft, noise, traffic stop, welfare check</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">PD</span>Theft, noise, traffic stop, welfare check</p>
           <span class="cb-who-agency cb-who-agency--red">Campbell PD (in-house)</span>
-          <p class="cb-who-why">One of the few Bay Area cities still running its <strong>own</strong> police department. Non-emergency dispatch is staffed 24/7 — you don't have to wait for 911 for parking gripes.</p>
+          <p class="cb-who-why">Campbell runs its <strong>own</strong> police department. Non-emergency dispatch is staffed 24/7 for reports that do not require 911.</p>
           <p class="cb-who-action">Non-emergency: <strong>408-866-2101</strong> · 911 for in-progress</p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🔥</span>House fire, medical call, gas leak</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">FD</span>House fire, medical call, gas leak</p>
           <span class="cb-who-agency cb-who-agency--red">Santa Clara County Fire</span>
-          <p class="cb-who-why">Surprise — Campbell <strong>contracts</strong> fire and EMS from County Fire (same engines that cover Los Gatos, Saratoga, Cupertino). Station 14 is the in-city house.</p>
+          <p class="cb-who-why">Campbell <strong>contracts</strong> fire and EMS from County Fire, the same agency that covers Los Gatos, Saratoga, and Cupertino. Station 14 is in Campbell.</p>
           <p class="cb-who-action">911 only · Info: <a href="https://sccfd.org" target="_blank" rel="noopener">sccfd.org</a></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">💧</span>Water service or a leaking main</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">H2O</span>Water service or a leaking main</p>
           <span class="cb-who-agency">San Jose Water Co.</span>
-          <p class="cb-who-why">The water utility is a <strong>private company</strong> — confusingly named for a different city. The bill, the meter, the pipe under the street: all SJW, not Campbell.</p>
+          <p class="cb-who-why">The water utility is a <strong>private company</strong>. The bill, meter, and service line are handled by SJW, not the city.</p>
           <p class="cb-who-action">24/7 emergencies: <strong>408-279-7900</strong></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🗑️</span>Trash, recycling, yard waste, bulky pickup</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">TR</span>Trash, recycling, yard waste, bulky pickup</p>
           <span class="cb-who-agency cb-who-agency--green">West Valley Collection (Recology)</span>
           <p class="cb-who-why">A four-city joint authority handles your bins. The city sets the rates; Recology runs the trucks. Each household gets <strong>two free bulky-item pickups</strong> a year.</p>
           <p class="cb-who-action">Schedule pickup: <a href="https://www.recology.com/recology-south-bay" target="_blank" rel="noopener">recology.com/south-bay</a></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🚆</span>Vasona light rail, bus, or paratransit</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">VTA</span>Vasona light rail, bus, or paratransit</p>
           <span class="cb-who-agency">VTA (Santa Clara County)</span>
-          <p class="cb-who-why">VTA runs the <strong>Vasona line</strong> (two Campbell stops: Downtown and Winchester) and every bus in town. The city has zero say in schedule or fare — that's VTA's board.</p>
+          <p class="cb-who-why">VTA runs the <strong>Vasona line</strong> and every bus in town. Downtown Campbell and Winchester are the two Campbell light-rail stops.</p>
           <p class="cb-who-action">Trip planner: <a href="https://www.vta.org" target="_blank" rel="noopener">vta.org</a></p>
         </article>
 
         <article class="cb-who-card">
-          <p class="cb-who-issue"><span class="cb-who-icon">🎒</span>School registration — K-8 vs. high school</p>
+          <p class="cb-who-issue"><span class="cb-who-icon">SCH</span>School registration, K-8 vs. high school</p>
           <span class="cb-who-agency cb-who-agency--gold">Two separate districts</span>
-          <p class="cb-who-why"><strong>Campbell Union</strong> (K-8) and <strong>Campbell Union High</strong> (9-12) are <strong>different agencies with different boundaries</strong>. Your address can be in one and not the other — verify before you tour.</p>
+          <p class="cb-who-why"><strong>Campbell Union</strong> (K-8) and <strong>Campbell Union High</strong> (9-12) are <strong>different agencies with different boundaries</strong>. Verify by address before touring.</p>
           <p class="cb-who-action">K-8: <a href="https://www.campbellusd.org" target="_blank" rel="noopener">campbellusd.org</a> · HS: <a href="https://www.cuhsd.org" target="_blank" rel="noopener">cuhsd.org</a></p>
         </article>
 
-        <article class="cb-who-card" style="background: rgba(192, 57, 43, 0.04); border-left-color: var(--cb-red); border-style: dashed;">
-          <p class="cb-who-issue"><span class="cb-who-icon">⚠️</span>"My address says Campbell but…"</p>
+        <article class="cb-who-card cb-who-card--warning">
+          <p class="cb-who-issue"><span class="cb-who-icon">ZIP</span>"My address says Campbell but..."</p>
           <span class="cb-who-agency cb-who-agency--red">95008 ≠ City of Campbell</span>
-          <p class="cb-who-why">The <strong>95008 ZIP</strong> covers chunks of unincorporated county and bits of San Jose. If you're in a county pocket, the sheriff polices you, the county permits your remodel, and city forms won't go anywhere.</p>
+          <p class="cb-who-why">The <strong>95008 ZIP</strong> covers chunks of unincorporated county and bits of San Jose. In a county pocket, sheriff, county planning, and county permits may apply.</p>
           <p class="cb-who-action">Check status: <a href="https://www.sccplanning.org" target="_blank" rel="noopener">sccplanning.org</a> parcel lookup</p>
         </article>
       </div>
 
-      <p class="cb-who-foot">If the agency you're calling shrugs and says "not us," you're probably one rung off on this chart — try the next-most-likely owner before giving up.</p>
+      <p class="cb-who-foot">When one agency cannot handle it, the next owner is usually one of these adjacent systems.</p>
     </section>
 
     <footer class="cb-footer">
