@@ -90,6 +90,7 @@ function parseEventStart(event: CampbellEvent) {
 function eventSourceFilterLabel(label: string) {
   if (label === "City of Campbell Calendar") return "City calendar";
   if (label === "Downtown Campbell Events") return "Downtown";
+  if (label === "Campbell Library Events") return "Library";
   return label;
 }
 
@@ -316,9 +317,9 @@ export default function EventsIndex() {
         <span className="cb-section-kicker">Source Map</span>
         <h3>Live feeds first, direct calendars next.</h3>
         <p>
-          City and Downtown are already synced. The remaining sources are the
-          next direct feeds to pull from individual websites, with one polite
-          parser per source instead of a broad scrape.
+          City, Downtown, and Campbell Library are already synced. The remaining
+          sources are the next direct feeds to pull from individual websites,
+          with one polite parser per source instead of a broad scrape.
         </p>
       </div>
 

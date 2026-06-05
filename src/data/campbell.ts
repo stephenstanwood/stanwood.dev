@@ -78,6 +78,7 @@ export const SOURCE_URLS = {
   downtownEvents: "https://www.downtowncampbell.com/events",
   heritageTheatreEvents: "https://www.heritagetheatre.org/events-1",
   chamberEvents: "https://business.campbellchamber.net/events/calendar/",
+  libraryEvents: "https://sccld.org/locations/campbell/",
   downtownDirectory: "https://www.downtowncampbell.com/directory/all",
   chamberDirectory: "https://business.campbellchamber.net/list",
   chamberShopping: "https://www.campbellchamber.net/shopping-dining/",
@@ -255,8 +256,8 @@ export const EVENT_SOURCES: CampbellSource[] = [
   {
     label: "Campbell Library events",
     owner: "Santa Clara County Library District",
-    cadence: "Next direct sync",
-    href: "https://sccld.org/locations/campbell/",
+    cadence: "Live feed",
+    href: SOURCE_URLS.libraryEvents,
     why: "Branch page exposes in-person Campbell Library events, storytimes, book clubs, workshops, and county library programs.",
   },
   {
@@ -535,7 +536,7 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Events firehose",
-    body: "City calendar and Downtown Campbell events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, Chamber, library, museum, school, parks, and individual business calendars come next.",
+    body: "City, Downtown Campbell, and Campbell Library events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, Chamber, museum, school, parks, and individual business calendars come next.",
     status: "Live now",
   },
   {

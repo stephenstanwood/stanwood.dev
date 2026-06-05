@@ -15,6 +15,7 @@ const DIRECTORY_URL = `${BASE_URL}/directory/all`;
 const EVENTS_URL = `${BASE_URL}/events`;
 const CITY_CALENDAR_URL = `${CITY_BASE_URL}/calendar.aspx?view=list&CID=0`;
 const CHAMBER_DIRECTORY_URL = `${CHAMBER_BASE_URL}/list`;
+const SCCLD_CAMPBELL_LIBRARY_URL = "https://sccld.org/locations/campbell/";
 const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
 const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/501/Public-Notices`;
@@ -383,6 +384,91 @@ function parseCityCalendarEvents(html) {
   });
 }
 
+const MONTH_NUMBERS = {
+  jan: "01",
+  feb: "02",
+  mar: "03",
+  apr: "04",
+  may: "05",
+  jun: "06",
+  jul: "07",
+  aug: "08",
+  sep: "09",
+  oct: "10",
+  nov: "11",
+  dec: "12",
+};
+
+function parseLibraryEventStartDate(dateTime = "", referenceDate = new Date()) {
+  const match = cleanSentence(dateTime).match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
+  if (!match) return "";
+
+  const month = MONTH_NUMBERS[match[1].slice(0, 3).toLowerCase()];
+  if (!month) return "";
+
+  let year = referenceDate.getFullYear();
+  const day = match[2].padStart(2, "0");
+  let hour = Number(match[3]);
+  const minute = (match[4] ?? "00").padStart(2, "0");
+  const meridiem = (match[5] ?? "").toLowerCase();
+
+  if (meridiem === "pm" && hour < 12) hour += 12;
+  if (meridiem === "am" && hour === 12) hour = 0;
+
+  const candidate = new Date(year, Number(month) - 1, Number(day));
+  const referenceStart = new Date(referenceDate);
+  referenceStart.setHours(0, 0, 0, 0);
+  if (candidate.getTime() < referenceStart.getTime() - 30 * 24 * 60 * 60 * 1000) {
+    year += 1;
+  }
+
+  return `${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:00`;
+}
+
+function extractLibraryEventsSection(html) {
+  const start = html.search(/<section[\s\S]{0,1000}?In-Person\s*<span[^>]*>\s*Events/i);
+  if (start < 0) return "";
+
+  const nextSection = html.slice(start + 1).search(/<section[\s\S]{0,1000}?Online\s*<span[^>]*>\s*Events/i);
+  if (nextSection < 0) return html.slice(start);
+
+  return html.slice(start, start + 1 + nextSection);
+}
+
+function parseLibraryEvents(html, referenceDate = new Date()) {
+  const section = extractLibraryEventsSection(html);
+  const events = [...section.matchAll(/<li[^>]*class="[^"]*c-events-widget__event[^"]*"[^>]*>([\s\S]*?)<\/li>/gi)];
+
+  return events
+    .map(([, itemHtml]) => {
+      const titleLink = itemHtml.match(/<h3[^>]*class="[^"]*c-events-widget__event-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+      const title = cleanHtml(titleLink?.[2] ?? "");
+      const url = absoluteUrl(titleLink?.[1] ?? "", "https://sccl.bibliocommons.com");
+      const date = cleanHtml(itemHtml.match(/<div[^>]*data-key="event-date-time"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
+      const location = cleanHtml(
+        itemHtml.match(/<div[^>]*class="[^"]*c-events-widget__event-location[^"]*"[^>]*>[\s\S]*?<span[^>]*class="[^"]*notranslate[^"]*"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "",
+      );
+      const startDate = parseLibraryEventStartDate(date, referenceDate);
+
+      if (!title || !url || !date) return null;
+
+      return {
+        title,
+        date,
+        cost: "Free",
+        location: location || "Campbell Library",
+        description: "",
+        url,
+        imageUrl: "",
+        category: "Campbell Library",
+        startDate,
+        source: "Campbell Library Events",
+        sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
+      };
+    })
+    .filter(Boolean);
+}
+
 function mergeEventFeeds(...feeds) {
   const byKey = new Map();
 
@@ -645,10 +731,11 @@ async function writeJson(filename, payload) {
 
 async function main() {
   const generatedAt = new Date().toISOString();
-  const [directoryHtml, eventsHtml, cityCalendarHtml, councilHtml, planningHtml, ...noticeArchiveHtml] = await Promise.all([
+  const [directoryHtml, eventsHtml, cityCalendarHtml, libraryHtml, councilHtml, planningHtml, ...noticeArchiveHtml] = await Promise.all([
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
     fetchText(CITY_CALENDAR_URL),
+    fetchText(SCCLD_CAMPBELL_LIBRARY_URL),
     fetchText(COUNCIL_URL),
     fetchText(PLANNING_COMMISSION_URL),
     ...PUBLIC_NOTICE_ARCHIVES.map((archive) => fetchText(archive.href)),
@@ -666,7 +753,8 @@ async function main() {
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
   const downtownEvents = parseDowntownEvents(eventsHtml);
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
-  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents);
+  const libraryEvents = parseLibraryEvents(libraryHtml, new Date(generatedAt));
+  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents);
   const councilRecords = parseAgendaCenterRecords(councilHtml, {
     tableId: "table10",
     body: "City Council",
@@ -751,6 +839,11 @@ async function main() {
         sourceUrl: EVENTS_URL,
         count: downtownEvents.length,
       },
+      {
+        label: "Campbell Library Events",
+        sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
+        count: libraryEvents.length,
+      },
     ],
     items: events,
   });
@@ -769,7 +862,7 @@ async function main() {
   });
 
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
-  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown) -> ${eventPath}`);
+  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }
