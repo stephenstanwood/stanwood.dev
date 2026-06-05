@@ -5,6 +5,7 @@ import CouncilDigest from "./CouncilDigest";
 import CityData from "./CityData";
 import HistoryTimeline from "./HistoryTimeline";
 import CivicRecords from "./CivicRecords";
+import SafetyIndex from "./SafetyIndex";
 import EventsIndex from "./EventsIndex";
 import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
@@ -14,6 +15,7 @@ const TABS: { id: Section; label: string; icon: string }[] = [
   { id: "links", label: "Start", icon: "↗" },
   { id: "history", label: "History", icon: "○" },
   { id: "digest", label: "Hearings", icon: "§" },
+  { id: "safety", label: "Safety", icon: "!" },
   { id: "events", label: "Events", icon: "◇" },
   { id: "businesses", label: "Businesses", icon: "□" },
   { id: "homes", label: "Homes", icon: "⌂" },
@@ -54,6 +56,7 @@ export default function CampbellPortal() {
             <CouncilDigest />
           </div>
         )}
+        {active === "safety" && <SafetyIndex />}
         {active === "events" && <EventsIndex />}
         {active === "businesses" && <BusinessIndex />}
         {active === "homes" && <RealEstateLedger />}

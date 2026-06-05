@@ -44,9 +44,9 @@ const links = [
     icon: "🛍️",
   },
   {
-    title: "Police Department",
-    desc: "Non-emergency reports, alerts, crime maps",
-    href: "https://www.campbellca.gov/162/Police",
+    title: "Crime Map & Reports",
+    desc: "CPD stats, CityProtect, online reporting",
+    href: SOURCE_URLS.cpdStats,
     icon: "🚔",
   },
   {

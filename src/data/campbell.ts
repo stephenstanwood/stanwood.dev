@@ -38,6 +38,22 @@ export interface CampbellPropertyLayer {
   sourceUrl: string;
 }
 
+export interface CampbellSafetyMetric {
+  label: string;
+  value: string;
+  note: string;
+  sourceLabel: string;
+  sourceUrl: string;
+}
+
+export interface CampbellSafetyLayer {
+  label: string;
+  status: "Live" | "Official" | "Action" | "Policy" | "Meeting";
+  body: string;
+  sourceLabel: string;
+  sourceUrl: string;
+}
+
 export interface CampbellBusiness {
   name: string;
   category: string;
@@ -65,6 +81,13 @@ export const SOURCE_URLS = {
   downtownDirectory: "https://www.downtowncampbell.com/directory/all",
   chamberDirectory: "https://business.campbellchamber.net/list",
   chamberShopping: "https://www.campbellchamber.net/shopping-dining/",
+  policeDepartment: "https://www.campbellca.gov/162/Police",
+  cpdStats: "https://www.campbellca.gov/1167/CPD-Statistics",
+  cityProtect: "https://cityprotect.com/",
+  reportCrime: "https://www.campbellca.gov/291/Contact-Us",
+  policeTransparency: "https://www.campbellca.gov/1026/Transparency-Portal",
+  ab481: "https://www.campbellca.gov/1264/Assembly-Bill-481---Military-Equipment-F",
+  flockSafety: "https://www.campbellca.gov/1406/Flock-Safety",
   cityBudget: "https://www.campbellca.gov/151/Budget",
   cityGisPublic: "https://gis.campbellca.gov/public",
   cityGis: "https://gis.campbellca.gov/arcgis/rest/services/",
@@ -276,6 +299,113 @@ export const REAL_ESTATE_SOURCES: CampbellSource[] = [
   },
 ];
 
+export const SAFETY_METRICS: CampbellSafetyMetric[] = [
+  {
+    label: "Calls for service",
+    value: "31,691",
+    note: "Campbell Police Department calls for service in 2023.",
+    sourceLabel: "CPD Statistics",
+    sourceUrl: SOURCE_URLS.cpdStats,
+  },
+  {
+    label: "Use of force share",
+    value: "0.14%",
+    note: "Approximate share of 2023 calls involving use of force.",
+    sourceLabel: "CPD Statistics",
+    sourceUrl: SOURCE_URLS.cpdStats,
+  },
+  {
+    label: "Crime map precision",
+    value: "Block-level",
+    note: "CityProtect generalizes data by block and omits some crime types to protect victims.",
+    sourceLabel: "CPD Statistics",
+    sourceUrl: SOURCE_URLS.cpdStats,
+  },
+  {
+    label: "Reporting standard",
+    value: "NIBRS",
+    note: "CPD frames offenses by FBI NIBRS person, property, and society categories.",
+    sourceLabel: "CPD Statistics",
+    sourceUrl: SOURCE_URLS.cpdStats,
+  },
+];
+
+export const SAFETY_LAYERS: CampbellSafetyLayer[] = [
+  {
+    label: "Official crime map",
+    status: "Live",
+    body: "Campbell points residents to CityProtect for the public crime map. The city says the data is regularly extracted from police records, generalized by block, and filtered for victim anonymity.",
+    sourceLabel: "CityProtect via CPD",
+    sourceUrl: SOURCE_URLS.cityProtect,
+  },
+  {
+    label: "Crime statistics and annual reviews",
+    status: "Official",
+    body: "The CPD statistics page explains NIBRS categories and links the public map. The transparency portal also keeps annual reviews and department materials in one place.",
+    sourceLabel: "CPD Statistics",
+    sourceUrl: SOURCE_URLS.cpdStats,
+  },
+  {
+    label: "Online crime reporting",
+    status: "Action",
+    body: "Campbell's reporting page explains when online reports are appropriate, when to call 911, and how temporary and official report numbers work.",
+    sourceLabel: "Report a Crime",
+    sourceUrl: SOURCE_URLS.reportCrime,
+  },
+  {
+    label: "Transparency materials",
+    status: "Policy",
+    body: "Policies, training materials, ALPR/Flock links, drone links, and annual reports belong beside crime data so residents can inspect how policing systems are used.",
+    sourceLabel: "Transparency Portal",
+    sourceUrl: SOURCE_URLS.policeTransparency,
+  },
+  {
+    label: "AB 481 public input",
+    status: "Meeting",
+    body: "The AB 481 page tracks public meetings, equipment policy, annual reporting, and resident feedback paths for military-equipment oversight.",
+    sourceLabel: "AB 481",
+    sourceUrl: SOURCE_URLS.ab481,
+  },
+];
+
+export const SAFETY_SOURCES: CampbellSource[] = [
+  {
+    label: "CPD statistics",
+    owner: "Campbell Police Department",
+    cadence: "Annual / as posted",
+    href: SOURCE_URLS.cpdStats,
+    why: "Official definitions, call volume context, use-of-force context, and the bridge to CityProtect.",
+  },
+  {
+    label: "CityProtect crime map",
+    owner: "Campbell Police Department / Public Engines",
+    cadence: "Regular extract",
+    href: SOURCE_URLS.cityProtect,
+    why: "The official public map for recent incidents, with block-level generalization and privacy filtering.",
+  },
+  {
+    label: "Online crime reporting",
+    owner: "Campbell Police Department",
+    cadence: "Resident action",
+    href: SOURCE_URLS.reportCrime,
+    why: "Clear reporting criteria for non-emergency incidents, emergency instructions, and follow-up expectations.",
+  },
+  {
+    label: "Transparency portal",
+    owner: "Campbell Police Department",
+    cadence: "As documents update",
+    href: SOURCE_URLS.policeTransparency,
+    why: "Policies, training documents, ALPR links, drone links, and year-in-review reports.",
+  },
+  {
+    label: "AB 481 oversight",
+    owner: "Campbell Police Department / City Council",
+    cadence: "Annual report / public meetings",
+    href: SOURCE_URLS.ab481,
+    why: "Military-equipment policy, inventory, public meetings, and required reporting.",
+  },
+];
+
 export const PROPERTY_METRICS: CampbellPropertyMetric[] = [
   {
     label: "Net secured assessed value",
@@ -377,12 +507,22 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Events firehose",
-    body: "City calendar and Downtown Campbell events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, Chamber, library, museum, school, and parks calendars come next.",
+    body: "City calendar and Downtown Campbell events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, Chamber, library, museum, school, parks, and individual business calendars come next.",
+    status: "Live now",
+  },
+  {
+    title: "Safety and crime reports",
+    body: "Official CPD stats, CityProtect map guidance, online reporting, transparency sources, and privacy boundaries are live. Next pass should add annual-report extraction, neighborhood rollups, call-for-service context, and public-safety meeting notices.",
     status: "Live now",
   },
   {
     title: "Property and sales ledger",
     body: "Official source map and Campbell roll metrics are live. A complete sales ledger likely needs Assessor data files or a records request before it can be honest and complete.",
+    status: "Next feed",
+  },
+  {
+    title: "Individual-source crawl map",
+    body: "Build a registry of every Campbell-relevant calendar and directory, then add polite source-specific syncs for libraries, museums, schools, venues, shopping centers, neighborhood groups, and high-signal business sites.",
     status: "Next feed",
   },
   {

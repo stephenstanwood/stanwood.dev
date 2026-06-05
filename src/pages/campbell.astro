@@ -1679,6 +1679,154 @@ const title = "Campbell City Guide — stanwood.dev";
         color: var(--cb-blue);
         background: var(--cb-blue-light);
       }
+      .cb-safety-metrics {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-safety-metrics { grid-template-columns: repeat(2, 1fr); }
+      }
+      .cb-safety-metric {
+        min-height: 7.25rem;
+        padding: 0.85rem 0.95rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-safety-metric:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-safety-metric span,
+      .cb-safety-metric strong,
+      .cb-safety-metric em {
+        display: block;
+      }
+      .cb-safety-metric span {
+        font-size: 1.25rem;
+        font-weight: 850;
+        color: var(--cb-blue);
+        margin-bottom: 0.18rem;
+      }
+      .cb-safety-metric strong {
+        font-size: 0.8rem;
+        line-height: 1.3;
+        color: var(--cb-ink);
+        margin-bottom: 0.3rem;
+      }
+      .cb-safety-metric em {
+        font-size: 0.72rem;
+        line-height: 1.45;
+        color: var(--cb-gray);
+        font-style: normal;
+      }
+      .cb-safety-layer-head {
+        margin-top: 1rem;
+      }
+      .cb-safety-layer-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      .cb-safety-layer {
+        display: block;
+        padding: 0.9rem 1rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-safety-layer:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-safety-layer-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.7rem;
+        margin-bottom: 0.38rem;
+      }
+      .cb-safety-layer h4 {
+        font-size: 0.92rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .cb-safety-layer p {
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0 0 0.45rem;
+      }
+      .cb-safety-layer em {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        color: var(--cb-blue);
+        font-style: normal;
+      }
+      .cb-safety-status {
+        flex-shrink: 0;
+        min-width: 4.35rem;
+        text-align: center;
+        border-radius: 999px;
+        padding: 0.16rem 0.45rem;
+        font-size: 0.66rem;
+        font-weight: 850;
+      }
+      .cb-safety-status--live,
+      .cb-safety-status--official {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+      }
+      .cb-safety-status--action {
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+      }
+      .cb-safety-status--policy,
+      .cb-safety-status--meeting {
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+      }
+      .cb-safety-rules {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      @media (min-width: 720px) {
+        .cb-safety-rules { grid-template-columns: repeat(3, 1fr); }
+      }
+      .cb-safety-rule {
+        min-height: 6.35rem;
+        padding: 0.8rem 0.9rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-safety-rule span {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 850;
+        color: var(--cb-ink);
+        margin-bottom: 0.32rem;
+      }
+      .cb-safety-rule p {
+        font-size: 0.76rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0;
+      }
       .cb-privacy-note {
         font-size: 0.8rem;
         line-height: 1.55;

@@ -25,6 +25,7 @@ export type Section =
   | "links"
   | "history"
   | "digest"
+  | "safety"
   | "events"
   | "businesses"
   | "homes"
