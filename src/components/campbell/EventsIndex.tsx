@@ -74,7 +74,7 @@ const EVENT_ANCHORS = [
   },
   {
     label: "Neighborhoods",
-    items: "Block events, school calendars, chamber events, and recurring group meetups.",
+    items: "Block events, school-board dates, Chamber events, and recurring group meetups.",
   },
 ];
 
@@ -312,8 +312,9 @@ export default function EventsIndex() {
         <h3>Where each listing comes from.</h3>
         <p>
           The list pulls from city, downtown, library, museum, theatre, and
-          Chamber pages. The next direct calendars are schools, parks,
-          shopping centers, and high-signal individual businesses.
+          Chamber pages, plus public school-district meetings. The next direct
+          calendars are parks, shopping centers, and high-signal individual
+          businesses.
         </p>
       </div>
 

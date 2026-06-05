@@ -3,7 +3,81 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
 const title = "Campbell City Guide";
 
-const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campbell_water_tower%2C_aerial_view.jpg/960px-Campbell_water_tower%2C_aerial_view.jpg";
+const photos = {
+  sunset: {
+    src: "/images/campbell/campbell-ave-sunset.webp",
+    alt: "Campbell Avenue at sunset looking west toward the hills",
+    source: "https://commons.wikimedia.org/wiki/File:Campbell_Ave_at_sunset_looking_west.jpg",
+    credit: "Campbell Avenue photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  waterTower: {
+    src: "/images/campbell/water-tower-aerial.webp",
+    alt: "Aerial view of the Campbell water tower in downtown Campbell",
+    source: "https://commons.wikimedia.org/wiki/File:Campbell_water_tower,_aerial_view.jpg",
+    credit: "Campbell water tower photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  farmersMarket: {
+    src: "/images/campbell/farmers-market.webp",
+    alt: "Aerial view of the Campbell farmers market on Campbell Avenue",
+    source: "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Campbell_farmer%27s_market.jpg",
+    credit: "Farmers market photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  ainsley: {
+    src: "/images/campbell/ainsley-house.webp",
+    alt: "Aerial view of Ainsley House in Campbell",
+    source: "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Ainsley_House_in_Campbell,_California.jpg",
+    credit: "Ainsley House photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  park: {
+    src: "/images/campbell/campbell-park.webp",
+    alt: "Entrance to Campbell Park",
+    source: "https://commons.wikimedia.org/wiki/File:Entrance_to_Campbell_Park.jpg",
+    credit: "Campbell Park photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  cityHall: {
+    src: "/images/campbell/city-hall.webp",
+    alt: "East entrance of Campbell City Hall",
+    source: "https://commons.wikimedia.org/wiki/File:Campbell_City_Hall,_East_entrance.jpg",
+    credit: "City Hall photo by Grendelkhan, CC BY-SA 4.0.",
+  },
+  vta: {
+    src: "/images/campbell/downtown-vta.webp",
+    alt: "Downtown Campbell VTA light rail station",
+    source: "https://commons.wikimedia.org/wiki/File:Downtown_Campbell_VTA_1053_01.JPG",
+    credit: "Downtown Campbell VTA photo by Pedro Xing, CC0.",
+  },
+};
+
+const photoStories = [
+  {
+    label: "This week",
+    title: "Markets, theater nights, library programs, school dates.",
+    body: "Start with what is happening now, then open the full event feed when you need the whole calendar.",
+    image: photos.farmersMarket,
+    anchor: "#campbell-tool",
+  },
+  {
+    label: "City Hall",
+    title: "Hearings, agendas, minutes, and the plain-English version.",
+    body: "Public notices and meeting packets stay tied to the source record, not a paraphrase floating loose.",
+    image: photos.cityHall,
+    anchor: "#campbell-tool",
+  },
+  {
+    label: "Old Campbell",
+    title: "Ainsley House, Orchard City, and the streets still carrying the story.",
+    body: "History should feel like places you can walk to, not a detached timeline.",
+    image: photos.ainsley,
+    anchor: "#campbell-tool",
+  },
+  {
+    label: "Everyday routes",
+    title: "Parks, trains, streets, utilities, schools, county pockets.",
+    body: "The useful guide is the one that gets you to the right agency the first time.",
+    image: photos.vta,
+    anchor: "#campbell-routing",
+  },
+];
 ---
 
 <BaseLayout
@@ -65,149 +139,247 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
       }
 
       .cb-hero {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(17rem, 24rem);
-        align-items: center;
-        gap: clamp(1.25rem, 3vw, 2rem);
-        max-width: var(--cb-shell);
+        position: relative;
+        max-width: calc(var(--cb-shell) + 3rem);
+        width: calc(100% - (var(--cb-gutter) * 2));
+        min-height: clamp(34rem, 72vh, 45rem);
+        margin: clamp(1rem, 2.6vw, 1.8rem) auto 0;
+        overflow: hidden;
+        border-radius: 18px;
+        background: #253233;
+        box-shadow: 0 18px 45px rgba(62, 52, 36, 0.14);
+      }
+      .cb-hero-photo,
+      .cb-hero-photo img {
+        position: absolute;
+        inset: 0;
         width: 100%;
-        margin: 0 auto;
-        padding: clamp(1.75rem, 4vw, 3.25rem) var(--cb-gutter) 0;
-        box-sizing: border-box;
+        height: 100%;
+      }
+      .cb-hero-photo {
+        margin: 0;
+      }
+      .cb-hero-photo img {
+        display: block;
+        object-fit: cover;
+        object-position: 50% 54%;
+      }
+      .cb-hero-photo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(23, 27, 24, 0.78) 0%, rgba(23, 27, 24, 0.55) 45%, rgba(23, 27, 24, 0.12) 100%),
+          linear-gradient(0deg, rgba(23, 27, 24, 0.46) 0%, rgba(23, 27, 24, 0.02) 48%);
       }
       .cb-hero-copy {
+        position: relative;
+        z-index: 1;
         display: flex;
+        min-height: inherit;
+        max-width: 44rem;
         flex-direction: column;
         justify-content: center;
-        min-height: auto;
-        padding: 0.25rem 0;
+        padding: clamp(2rem, 6vw, 5rem);
+        color: #FFFDF8;
       }
       .cb-hero-kicker {
         width: fit-content;
-        margin-bottom: 0.6rem;
-        color: var(--cb-green);
-        font-size: 0.9rem;
+        margin-bottom: 0.85rem;
+        color: rgba(255, 253, 248, 0.88);
+        font-size: 0.84rem;
         font-weight: 800;
         letter-spacing: 0;
       }
       .cb-hero h1 {
-        max-width: 12ch;
+        max-width: 9.5ch;
         margin: 0;
-        color: var(--cb-ink);
+        color: #FFFDF8;
         font-family: 'DM Serif Display', Georgia, serif;
-        font-size: clamp(3rem, 5.2vw, 4.75rem);
+        font-size: clamp(4rem, 9vw, 7.8rem);
         font-weight: 400;
-        line-height: 0.98;
+        line-height: 0.88;
         letter-spacing: 0;
+        text-shadow: 0 3px 18px rgba(0, 0, 0, 0.24);
       }
       .cb-hero-sub {
-        max-width: 40rem;
-        margin: 0.85rem 0 0;
-        color: var(--cb-gray);
-        font-size: clamp(1rem, 1.6vw, 1.14rem);
+        max-width: 38rem;
+        margin: 1.1rem 0 0;
+        color: rgba(255, 253, 248, 0.88);
+        font-size: clamp(1rem, 1.7vw, 1.18rem);
         line-height: 1.55;
       }
-      .cb-hero-side {
-        display: grid;
-        gap: 1rem;
-        justify-self: end;
-        width: min(100%, 24rem);
+      .cb-hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.45rem;
       }
-      .cb-place-card {
-        position: relative;
+      .cb-hero-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.5rem;
+        padding: 0 0.95rem;
+        border: 1px solid rgba(255, 253, 248, 0.35);
+        border-radius: 999px;
+        color: #FFFDF8;
+        background: rgba(255, 253, 248, 0.12);
+        font-size: 0.82rem;
+        font-weight: 850;
+        text-decoration: none;
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+      }
+      .cb-hero-link:hover {
+        background: rgba(255, 253, 248, 0.2);
+      }
+      .cb-hero-tower {
+        position: absolute;
+        right: clamp(1rem, 3vw, 2rem);
+        bottom: clamp(1rem, 3vw, 2rem);
+        z-index: 2;
+        width: min(24vw, 16rem);
+        min-width: 12rem;
         aspect-ratio: 3 / 4;
-        min-height: 0;
         margin: 0;
         overflow: hidden;
+        border: 1px solid rgba(255, 253, 248, 0.44);
         border-radius: 14px;
         background: var(--cb-blue);
-        box-shadow: 0 12px 28px rgba(55, 49, 38, 0.1);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
       }
-      .cb-place-card img {
+      .cb-hero-tower img {
         width: 100%;
         height: 100%;
-        min-height: 0;
         display: block;
         object-fit: cover;
         object-position: 50% 50%;
       }
-      .cb-place-card::after {
-        content: "";
+      .cb-photo-credit {
         position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(32, 32, 29, 0.02) 20%, rgba(32, 32, 29, 0.62) 100%);
-      }
-      .cb-place-card figcaption {
-        position: absolute;
-        left: 1rem;
-        right: 1rem;
-        bottom: 0.9rem;
-        z-index: 1;
-        color: white;
-        font-size: 0.72rem;
+        left: clamp(1rem, 2vw, 1.35rem);
+        right: clamp(1rem, 2vw, 1.35rem);
+        bottom: clamp(0.85rem, 2vw, 1.1rem);
+        z-index: 3;
+        color: rgba(255, 253, 248, 0.86);
+        font-size: 0.68rem;
         line-height: 1.35;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
       }
-      .cb-place-card a {
-        color: white;
-        font-weight: 800;
+      .cb-photo-credit a {
+        color: #FFFDF8;
+        font-weight: 850;
+        text-decoration: none;
       }
-      .cb-forwhen {
+      .cb-photo-credit a:hover {
+        text-decoration: underline;
+      }
+
+      .cb-photo-story {
         max-width: var(--cb-shell);
         width: 100%;
         margin: 1.25rem auto 0;
         padding: 0 var(--cb-gutter);
         box-sizing: border-box;
       }
-      .cb-forwhen-label {
-        display: block;
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        color: var(--cb-light-gray);
-        margin: 0 0 1rem;
-      }
-      .cb-forwhen-grid {
+      .cb-photo-story-grid {
         display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.75rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.85rem;
       }
-      @media (min-width: 640px) {
-        .cb-forwhen-grid { grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+      .cb-story-card {
+        position: relative;
+        display: grid;
+        min-height: 16rem;
+        overflow: hidden;
+        border-radius: 14px;
+        color: #FFFDF8;
+        text-decoration: none;
+        background: #263434;
+        box-shadow: 0 10px 25px rgba(62, 52, 36, 0.1);
       }
-      .cb-forwhen-card {
+      .cb-story-card:nth-child(1) {
+        grid-column: span 2;
+      }
+      .cb-story-card img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform 0.28s ease;
+      }
+      .cb-story-card:nth-child(1) img {
+        object-position: 50% 44%;
+      }
+      .cb-story-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(16, 20, 18, 0.08) 0%, rgba(16, 20, 18, 0.74) 100%);
+      }
+      .cb-story-card:hover img {
+        transform: scale(1.035);
+      }
+      .cb-story-body {
+        position: relative;
+        z-index: 1;
         display: flex;
-        gap: 0.75rem;
-        align-items: flex-start;
-        padding: 0.85rem 1rem;
-        background: var(--cb-card-bg);
-        border: 1px solid var(--cb-border);
-        border-left: 3px solid var(--cb-blue);
-        border-radius: 8px;
+        flex-direction: column;
+        justify-content: flex-end;
+        min-height: inherit;
+        padding: 1rem;
       }
-      .cb-forwhen-num {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--cb-blue);
-        background: var(--cb-blue-light);
-        border-radius: 4px;
-        padding: 0.15rem 0.4rem;
-        flex-shrink: 0;
-        font-variant-numeric: tabular-nums;
+      .cb-story-label {
+        width: fit-content;
+        margin-bottom: 0.55rem;
+        color: rgba(255, 253, 248, 0.82);
+        font-size: 0.72rem;
+        font-weight: 850;
       }
-      .cb-forwhen-text {
-        font-size: 0.85rem;
-        line-height: 1.55;
-        color: var(--cb-ink);
+      .cb-story-card h2 {
+        max-width: 20rem;
         margin: 0;
+        color: #FFFDF8;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+        font-weight: 400;
+        line-height: 1.03;
+        letter-spacing: 0;
       }
-      .cb-forwhen-text em {
-        font-style: normal;
-        font-weight: 600;
-        color: var(--cb-ink);
+      .cb-story-card p {
+        max-width: 24rem;
+        margin: 0.55rem 0 0;
+        color: rgba(255, 253, 248, 0.83);
+        font-size: 0.82rem;
+        line-height: 1.45;
       }
-      .cb-forwhen-text span {
-        color: var(--cb-gray);
+      .cb-story-link {
+        width: fit-content;
+        margin-top: 0.75rem;
+        color: #FFFDF8;
+        font-size: 0.82rem;
+        font-weight: 850;
+        text-decoration: none;
+      }
+      .cb-story-link:hover {
+        text-decoration: underline;
+      }
+      .cb-story-credit {
+        margin-top: 0.7rem;
+        color: rgba(255, 253, 248, 0.7);
+        font-size: 0.64rem;
+        line-height: 1.3;
+      }
+      .cb-story-credit a {
+        color: rgba(255, 253, 248, 0.88);
+        font-weight: 850;
+        text-decoration: none;
+      }
+      .cb-story-credit a:hover {
+        text-decoration: underline;
       }
 
       .cb-main {
@@ -218,38 +390,80 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         padding: 1.1rem var(--cb-gutter) 2rem;
         box-sizing: border-box;
       }
-      @media (max-width: 760px) {
-        .cb-hero {
-          grid-template-columns: 1fr;
-          gap: 1rem;
+      @media (max-width: 900px) {
+        .cb-photo-story-grid {
+          grid-template-columns: 1fr 1fr;
         }
-        .cb-hero-copy {
-          min-height: auto;
-        }
-        .cb-hero-side {
-          justify-self: start;
-          width: min(100%, 24rem);
-        }
-        .cb-place-card {
-          width: 100%;
+        .cb-story-card:nth-child(1) {
+          grid-column: span 2;
         }
       }
-      @media (max-width: 560px) {
-        .cb-hero,
-        .cb-main,
-        .cb-forwhen {
+      @media (max-width: 760px) {
+        .cb-hero {
+          width: calc(100% - 2rem);
+          min-height: 45rem;
+        }
+        .cb-hero-copy {
+          justify-content: flex-start;
+          padding: 2rem 1.35rem 12.5rem;
+        }
+        .cb-hero-tower {
+          width: 9.5rem;
+          min-width: 0;
+          bottom: 4.35rem;
+        }
+        .cb-photo-credit {
+          right: auto;
+          max-width: calc(100% - 2rem);
+          padding: 0.32rem 0.45rem;
+          border-radius: 8px;
+          background: rgba(20, 24, 22, 0.48);
+          -webkit-backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
+        }
+        .cb-photo-story,
+        .cb-main {
           padding-left: 1rem;
           padding-right: 1rem;
         }
-        .cb-hero {
-          padding-top: 1.1rem;
-        }
+      }
+      @media (max-width: 560px) {
         .cb-hero h1 {
-          max-width: 10ch;
-          font-size: clamp(2.7rem, 13vw, 3.65rem);
+          max-width: 9ch;
+          font-size: clamp(3.25rem, 17vw, 4.4rem);
         }
-        .cb-place-card {
-          width: min(100%, 22.5rem);
+        .cb-hero-sub {
+          font-size: 1rem;
+        }
+        .cb-hero-link {
+          flex: 1 1 auto;
+          border-radius: 10px;
+        }
+        .cb-photo-story-grid {
+          grid-template-columns: 1fr;
+        }
+        .cb-story-card,
+        .cb-story-card:nth-child(1) {
+          grid-column: auto;
+          min-height: 15rem;
+        }
+        .cb-tabs-shell {
+          border-radius: 14px;
+          padding: 0.8rem;
+        }
+        .cb-tabs-head {
+          align-items: flex-start;
+        }
+        .cb-tabs-controls button {
+          width: 2.35rem;
+          height: 2.35rem;
+        }
+        .cb-tab {
+          flex-basis: min(82vw, 18rem);
+          min-height: 9.4rem;
+        }
+        .cb-tabs-footer {
+          font-size: 0.78rem;
         }
       }
 
@@ -386,58 +600,166 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         }
       }
 
-      .cb-tabs {
-        position: sticky;
-        top: 0.5rem;
-        z-index: 5;
-        display: flex;
-        gap: 0.2rem;
+      .cb-tabs-shell {
+        display: grid;
+        gap: 0.85rem;
         margin-bottom: 1rem;
+        padding: clamp(0.85rem, 2.2vw, 1.15rem);
+        overflow: hidden;
+        border: 1px solid rgba(214, 206, 189, 0.92);
+        border-radius: 18px;
+        background:
+          linear-gradient(135deg, rgba(255, 253, 248, 0.96), rgba(250, 244, 233, 0.9)),
+          var(--cb-cream);
+        box-shadow: 0 16px 34px rgba(62, 52, 36, 0.08);
+      }
+      .cb-tabs-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      .cb-tabs-head span {
+        display: block;
+        margin-bottom: 0.18rem;
+        color: var(--cb-green);
+        font-size: 0.78rem;
+        font-weight: 850;
+      }
+      .cb-tabs-head h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(1.8rem, 3.8vw, 3.2rem);
+        font-weight: 400;
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+      .cb-tabs-controls {
+        display: flex;
+        gap: 0.45rem;
+        flex-shrink: 0;
+      }
+      .cb-tabs-controls button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.65rem;
+        height: 2.65rem;
+        border: 1px solid #D3CCBD;
+        border-radius: 50%;
+        color: var(--cb-blue-hover);
+        background: #FFFDF8;
+        font: inherit;
+        font-size: 1.1rem;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 6px 14px rgba(62, 52, 36, 0.08);
+      }
+      .cb-tabs-controls button:hover {
+        border-color: #BFCBC5;
+        background: var(--cb-blue-light);
+      }
+      .cb-tabs-controls button:focus-visible,
+      .cb-tab:focus-visible {
+        outline: 2px solid var(--cb-blue);
+        outline-offset: 2px;
+      }
+
+      .cb-tabs {
+        display: flex;
+        gap: 0.75rem;
         overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-padding: 0.25rem;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        padding: 0.25rem;
-        border: 1px solid rgba(225, 221, 210, 0.9);
-        border-radius: 10px;
-        background: rgba(255, 253, 248, 0.94);
-        box-shadow: 0 8px 20px rgba(55, 49, 38, 0.06);
-        -webkit-backdrop-filter: blur(14px);
-        backdrop-filter: blur(14px);
+        padding: 0.2rem 0.15rem 0.35rem;
       }
       .cb-tabs::-webkit-scrollbar { display: none; }
 
       .cb-tab {
         display: flex;
-        align-items: center;
-        min-height: 2.25rem;
-        padding: 0 0.78rem;
-        border: 1px solid transparent;
-        border-radius: 7px;
-        background: transparent;
-        color: var(--cb-gray);
-        font-size: 0.8rem;
-        font-weight: 760;
+        flex: 0 0 clamp(14.5rem, 28vw, 18rem);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+        min-height: 9.8rem;
+        scroll-snap-align: start;
+        padding: 0.95rem;
+        border: 1px solid #DCD5C7;
+        border-radius: 14px;
+        background: rgba(255, 253, 248, 0.88);
+        color: var(--cb-ink);
+        text-align: left;
         font-family: inherit;
         cursor: pointer;
-        white-space: nowrap;
-        transition: all 0.15s;
+        transition: background 0.16s, border-color 0.16s, box-shadow 0.16s, transform 0.16s;
       }
       .cb-tab:hover {
-        border-color: #D6DED8;
-        color: var(--cb-blue-hover);
-        background: #F7F6F0;
+        border-color: #BFCBC5;
+        background: #FFFDF8;
+        box-shadow: 0 10px 24px rgba(62, 52, 36, 0.1);
+        transform: translateY(-2px);
       }
       .cb-tab--active,
       .cb-tab--active:hover {
-        background: var(--cb-blue-light);
-        border-color: #C7D4CF;
+        background: #ECF4F1;
+        border-color: #95B5AA;
         color: var(--cb-blue-hover);
+        box-shadow: 0 12px 28px rgba(52, 92, 100, 0.14);
       }
-      .cb-tab--active .cb-tab-label,
-      .cb-tab--active .cb-tab-label {
+      .cb-tab-topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.6rem;
+        width: 100%;
+      }
+      .cb-tab-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.15rem;
+        height: 2.15rem;
+        border-radius: 50%;
         color: var(--cb-blue-hover);
+        background: #E4ECE8;
+        font-size: 0.75rem;
+        font-weight: 900;
+        font-variant-numeric: tabular-nums;
       }
-      .cb-tab-label { font-size: 0.8rem; }
+      .cb-tab-eyebrow {
+        color: var(--cb-light-gray);
+        font-size: 0.72rem;
+        font-weight: 850;
+        text-align: right;
+      }
+      .cb-tab-label {
+        display: block;
+        margin-top: 1rem;
+        color: var(--cb-ink);
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(1.55rem, 3vw, 2rem);
+        font-weight: 400;
+        line-height: 0.98;
+      }
+      .cb-tab-summary {
+        display: block;
+        margin-top: 0.6rem;
+        color: var(--cb-gray);
+        font-size: 0.82rem;
+        line-height: 1.4;
+      }
+      .cb-tab--active .cb-tab-number {
+        color: #FFFDF8;
+        background: var(--cb-blue);
+      }
+      .cb-tabs-footer {
+        margin: 0;
+        color: var(--cb-gray);
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
       .cb-content {
         min-height: 32rem;
       }
@@ -2442,64 +2764,77 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
 
   <div class="cb-page">
     <section class="cb-hero" aria-label="Campbell city guide overview">
+      <figure class="cb-hero-photo">
+        <img
+          src={photos.sunset.src}
+          alt={photos.sunset.alt}
+          width="1600"
+          height="1200"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption class="cb-photo-credit">
+          Campbell Avenue photo by
+          {" "}
+          <a href={photos.sunset.source} target="_blank" rel="noopener noreferrer">Grendelkhan</a>
+          ; water tower inset by
+          {" "}
+          <a href={photos.waterTower.source} target="_blank" rel="noopener noreferrer">Grendelkhan</a>
+          . Both CC BY-SA 4.0.
+        </figcaption>
+      </figure>
+
       <div class="cb-hero-copy">
         <span class="cb-hero-kicker">Campbell, California</span>
-        <h1>Campbell City Guide</h1>
+        <h1>The city in one place.</h1>
         <p class="cb-hero-sub">
-          Events, public hearings, council records, local businesses, homes,
-          history, and everyday resident links for Campbell, California.
+          Events, public hearings, council records, shops, homes, history,
+          safety sources, and resident shortcuts in one friendly Campbell guide.
         </p>
+        <div class="cb-hero-actions" aria-label="Campbell guide shortcuts">
+          <a class="cb-hero-link" href="#campbell-tool">Browse the guide</a>
+          <a class="cb-hero-link" href="#campbell-routing">Who handles what</a>
+        </div>
       </div>
 
-      <div class="cb-hero-side">
-        <figure class="cb-place-card">
-          <img
-            src={heroPhoto}
-            alt="Aerial view of the Campbell water tower in downtown Campbell"
-            width="768"
-            height="1024"
-            loading="eager"
-            decoding="async"
-          />
-          <figcaption>
-            Campbell water tower photo by
-            {" "}
-            <a href="https://commons.wikimedia.org/wiki/File:Campbell_water_tower,_aerial_view.jpg" target="_blank" rel="noopener noreferrer">
-              Grendelkhan
-            </a>
-            , CC BY-SA 4.0.
-          </figcaption>
-        </figure>
-      </div>
+      <figure class="cb-hero-tower">
+        <img
+          src={photos.waterTower.src}
+          alt={photos.waterTower.alt}
+          width="1200"
+          height="1600"
+          loading="eager"
+          decoding="async"
+        />
+      </figure>
     </section>
 
     <main class="cb-main" id="campbell-tool">
       <CampbellPortal client:load />
     </main>
 
-    <section class="cb-forwhen" aria-label="What the Campbell guide answers">
-      <span class="cb-forwhen-label">Built for questions like</span>
-      <div class="cb-forwhen-grid">
-        <div class="cb-forwhen-card">
-          <span class="cb-forwhen-num">01</span>
-          <p class="cb-forwhen-text"><em>What changed at Council?</em> <span>Agenda packets, minutes, media, and plain-English hearing summaries in one civic record.</span></p>
-        </div>
-        <div class="cb-forwhen-card">
-          <span class="cb-forwhen-num">02</span>
-          <p class="cb-forwhen-text"><em>What is happening this weekend?</em> <span>City, downtown, library, Chamber, theater, museum, school, and shop calendars merged cleanly.</span></p>
-        </div>
-        <div class="cb-forwhen-card">
-          <span class="cb-forwhen-num">03</span>
-          <p class="cb-forwhen-text"><em>Who is open on Campbell Ave?</em> <span>Every storefront, category, address, direct link, and last-seen source check.</span></p>
-        </div>
-        <div class="cb-forwhen-card">
-          <span class="cb-forwhen-num">04</span>
-          <p class="cb-forwhen-text"><em>What sold or got permitted?</em> <span>Property, permit, zoning, and recorder data without turning neighbors into content.</span></p>
-        </div>
+    <section class="cb-photo-story" aria-label="Explore Campbell by scene">
+      <div class="cb-photo-story-grid">
+        {photoStories.map((story) => (
+          <article class="cb-story-card">
+            <img src={story.image.src} alt={story.image.alt} width="1400" height="1050" loading="lazy" decoding="async" />
+            <div class="cb-story-body">
+              <span class="cb-story-label">{story.label}</span>
+              <h2>{story.title}</h2>
+              <p>{story.body}</p>
+              <a class="cb-story-link" href={story.anchor}>Open this layer</a>
+              <span class="cb-story-credit">
+                <a href={story.image.source} target="_blank" rel="noopener noreferrer">Photo source</a>
+                {" "}
+                · {story.image.credit}
+              </span>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
 
-    <section class="cb-who" aria-label="Which agency handles common Campbell issues">
+    <section class="cb-who" id="campbell-routing" aria-label="Which agency handles common Campbell issues">
       <span class="cb-who-label">Resident routing</span>
       <h2 class="cb-who-heading">Who handles what in Campbell.</h2>
       <p class="cb-who-sub">Campbell residents move between city, county, utility, district, and transit systems. This keeps the common handoffs clear before you open the wrong form.</p>

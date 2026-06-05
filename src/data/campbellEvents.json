@@ -1,41 +1,125 @@
 {
-  "generatedAt": "2026-06-05T21:53:46.591Z",
+  "generatedAt": "2026-06-05T22:31:46.090Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 16
+      "count": 14,
+      "parsedCount": 16
     },
     {
       "label": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events",
-      "count": 50
+      "count": 50,
+      "parsedCount": 50
     },
     {
       "label": "Campbell Library Events",
       "sourceUrl": "https://sccld.org/locations/campbell/",
-      "count": 3
+      "count": 3,
+      "parsedCount": 3
     },
     {
       "label": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main",
-      "count": 6
+      "count": 6,
+      "parsedCount": 6
     },
     {
       "label": "Campbell Heritage Theatre Events",
       "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "count": 9
+      "count": 9,
+      "parsedCount": 9
     },
     {
       "label": "Campbell Chamber Events",
       "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
-      "count": 40
+      "count": 40,
+      "parsedCount": 40
     },
     {
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
-      "count": 30
+      "count": 17,
+      "parsedCount": 30
+    }
+  ],
+  "rejected": [
+    {
+      "title": "No Wave Team Practice",
+      "source": "City of Campbell Calendar",
+      "reason": "pool operations notice"
+    },
+    {
+      "title": "CCC Pool Closed",
+      "source": "City of Campbell Calendar",
+      "reason": "pool operations notice"
+    },
+    {
+      "title": "Intervention Conferences",
+      "source": "Campbell Union School District Events",
+      "reason": "school admin window"
+    },
+    {
+      "title": "CAASPP Window",
+      "source": "Campbell Union School District Events",
+      "reason": "testing window"
+    },
+    {
+      "title": "Juneteenth Holiday (programs closed)",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Labor Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Professional Development Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Veterans' Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Thanksgiving Break",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Winter Break",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "MLK Jr Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Presidents' Week Break",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Professional Development Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Spring Break",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
+    },
+    {
+      "title": "Memorial Day - No School",
+      "source": "Campbell Union School District Events",
+      "reason": "school closure"
     }
   ],
   "items": [
@@ -66,20 +150,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "No Wave Team Practice",
-      "date": "June 1, 2026 - June 14, 2026",
-      "cost": "",
-      "location": "",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3815&month=6&year=2026&day=5&calType=0",
-      "imageUrl": "",
-      "category": "Campbell Community Center Pool Calendar",
-      "startDate": "2026-06-01T00:00:00",
-      "endDate": "2026-06-14T23:59:59",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Ribbon Cutting at Dough Zone",
@@ -176,20 +246,6 @@
       "startDate": "2026-06-07T00:00:00",
       "source": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
-      "title": "CCC Pool Closed",
-      "date": "June 8, 2026 - June 14, 2026",
-      "cost": "",
-      "location": "",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3820&month=6&year=2026&day=5&calType=0",
-      "imageUrl": "",
-      "category": "Campbell Community Center Pool Calendar",
-      "startDate": "2026-06-08T00:00:00",
-      "endDate": "2026-06-14T23:59:59",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Emerald Summer Art Camp: Pottery, Painting, Sculpture, Mixed Media",
@@ -380,23 +436,6 @@
         "https://www.heritagetheatre.org/events-1",
         "https://www.downtowncampbell.com/events"
       ]
-    },
-    {
-      "title": "Juneteenth Holiday (programs closed)",
-      "date": "Jun 19, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-06-19T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2026-06-19T23:59:59"
     },
     {
       "title": "Infinity Dance Studio: Surf's Up, Dance On!",
@@ -1409,23 +1448,6 @@
       "endDate": "2026-09-03T19:30:00"
     },
     {
-      "title": "Labor Day - No School",
-      "date": "Sep 7, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-09-07T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2026-09-07T23:59:59"
-    },
-    {
       "title": "BLS Classes in Campbell",
       "date": "Wednesday Sep 16, 2026",
       "cost": "",
@@ -1546,23 +1568,6 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-10-06T17:00:00"
-    },
-    {
-      "title": "Professional Development Day - No School",
-      "date": "Oct 12, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-10-12T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2026-10-12T23:59:59"
     },
     {
       "title": "Board Meeting",
@@ -1755,23 +1760,6 @@
       "endDate": "2026-11-10T17:30:00"
     },
     {
-      "title": "Veterans' Day - No School",
-      "date": "Nov 11, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-11-11T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2026-11-11T23:59:59"
-    },
-    {
       "title": "Board Meeting",
       "date": "Nov 12, 2026, 5:30 PM PST",
       "cost": "",
@@ -1836,23 +1824,6 @@
         "Chamber Events",
         "Community Events"
       ]
-    },
-    {
-      "title": "Thanksgiving Break",
-      "date": "Nov 23, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-11-23T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2026-11-27T23:59:59"
     },
     {
       "title": "Power Networking Lunch at Kyoto Palace",
@@ -2008,23 +1979,6 @@
       ]
     },
     {
-      "title": "Winter Break",
-      "date": "Dec 21, 2026",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-12-21T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-01-01T23:59:59"
-    },
-    {
       "title": "CPR and First - Aid Classes in Campbell",
       "date": "Tuesday Dec 29, 2026",
       "cost": "",
@@ -2041,125 +1995,6 @@
         "Chamber Events",
         "Community Events"
       ]
-    },
-    {
-      "title": "MLK Jr Day - No School",
-      "date": "Jan 18, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-01-18T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-01-18T23:59:59"
-    },
-    {
-      "title": "Intervention Conferences",
-      "date": "Feb 1, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD District Wide Events.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-02-01T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_0nc5m32rifu1o7qnfhpi7k2nb0%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD District Wide Events"
-      ],
-      "endDate": "2027-02-05T23:59:59"
-    },
-    {
-      "title": "Presidents' Week Break",
-      "date": "Feb 15, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-02-15T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-02-19T23:59:59"
-    },
-    {
-      "title": "Professional Development Day - No School",
-      "date": "Mar 8, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-03-08T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-03-08T23:59:59"
-    },
-    {
-      "title": "Spring Break",
-      "date": "Apr 12, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-04-12T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-04-16T23:59:59"
-    },
-    {
-      "title": "CAASPP Window",
-      "date": "Apr 19, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD District Wide Events.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-04-19T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_0nc5m32rifu1o7qnfhpi7k2nb0%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD District Wide Events"
-      ],
-      "endDate": "2027-05-21T23:59:59"
-    },
-    {
-      "title": "Memorial Day - No School",
-      "date": "May 31, 2027",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD No School Days.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2027-05-31T00:00:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_dmvesuq2lbtv4spus72hhfb570%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD No School Days"
-      ],
-      "endDate": "2027-05-31T23:59:59"
     },
     {
       "title": "Campbell Relay for Life 2026",

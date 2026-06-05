@@ -410,6 +410,51 @@ function hasSpecificEventTime(event) {
   return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
 }
 
+function eventRejectionReason(event) {
+  const title = cleanSentence(event.title);
+  const text = [
+    title,
+    event.category ?? "",
+    event.source ?? "",
+    event.description ?? "",
+    ...(event.topics ?? []),
+  ].join(" ");
+
+  if ((event.topics ?? []).includes("CUSD No School Days")) return "school closure";
+  if (/campbell community center pool calendar/i.test(event.category ?? "") && /\b(?:closed|closure|no\b|practice|team)\b/i.test(title)) {
+    return "pool operations notice";
+  }
+
+  const titleBlocks = [
+    [/\bno\s+.+\bpractice\b/i, "practice absence"],
+    [/\b(?:team|wave|swim)\s+practice\b/i, "team practice"],
+    [/\b(?:cancelled|canceled|closure)\b/i, "cancellation notice"],
+    [/\b(?:pool|facility|programs?|office)\s+closed\b/i, "closure notice"],
+    [/\bno\s+(?:class|classes|programs?|practice|school|swim)\b/i, "absence notice"],
+    [/^CCC Pool Closed$/i, "pool closure"],
+    [/^Juneteenth Holiday \(programs closed\)$/i, "school closure"],
+    [/^(?:Thanksgiving|Winter|Spring|Presidents'? Week)\s+Break$/i, "school break"],
+    [/\bProfessional Development Day\b/i, "school staff day"],
+    [/\bCAASPP Window\b/i, "testing window"],
+    [/\bIntervention Conferences\b/i, "school admin window"],
+    [/\b(?:application|registration)\s+deadline\b/i, "deadline"],
+    [/\btryouts?\b/i, "tryout notice"],
+  ];
+
+  for (const [pattern, reason] of titleBlocks) {
+    if (pattern.test(title)) return reason;
+  }
+
+  if (/\b(?:SUID|SUNet ID)\b/i.test(text)) return "affiliate-only";
+  if (/\b(?:staff training|pay day|fidelity appointment|terminalfour)\b/i.test(text)) return "internal notice";
+
+  return "";
+}
+
+function filterPublicEvents(events) {
+  return events.filter((event) => !eventRejectionReason(event));
+}
+
 function parseDowntownEvents(html) {
   const articles = [...html.matchAll(/<article\b[\s\S]*?<\/article>/gi)];
 
@@ -1222,7 +1267,34 @@ async function main() {
     calendarUrl: CUSD_CALENDAR_URL,
     generatedAt,
   }));
-  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, museumEvents, heritageTheatreEvents, chamberEvents, schoolEvents);
+  const filteredCityCalendarEvents = filterPublicEvents(cityCalendarEvents);
+  const filteredDowntownEvents = filterPublicEvents(downtownEvents);
+  const filteredLibraryEvents = filterPublicEvents(libraryEvents);
+  const filteredMuseumEvents = filterPublicEvents(museumEvents);
+  const filteredHeritageTheatreEvents = filterPublicEvents(heritageTheatreEvents);
+  const filteredChamberEvents = filterPublicEvents(chamberEvents);
+  const filteredSchoolEvents = filterPublicEvents(schoolEvents);
+  const rejectedEvents = [
+    ...cityCalendarEvents,
+    ...downtownEvents,
+    ...libraryEvents,
+    ...museumEvents,
+    ...heritageTheatreEvents,
+    ...chamberEvents,
+    ...schoolEvents,
+  ].flatMap((event) => {
+    const reason = eventRejectionReason(event);
+    return reason ? [{ title: event.title, source: event.source, reason }] : [];
+  });
+  const events = mergeEventFeeds(
+    filteredCityCalendarEvents,
+    filteredDowntownEvents,
+    filteredLibraryEvents,
+    filteredMuseumEvents,
+    filteredHeritageTheatreEvents,
+    filteredChamberEvents,
+    filteredSchoolEvents,
+  );
   const councilRecords = parseAgendaCenterRecords(councilHtml, {
     tableId: "table10",
     body: "City Council",
@@ -1313,39 +1385,47 @@ async function main() {
       {
         label: "City of Campbell Calendar",
         sourceUrl: CITY_CALENDAR_URL,
-        count: cityCalendarEvents.length,
+        count: filteredCityCalendarEvents.length,
+        parsedCount: cityCalendarEvents.length,
       },
       {
         label: "Downtown Campbell Events",
         sourceUrl: EVENTS_URL,
-        count: downtownEvents.length,
+        count: filteredDowntownEvents.length,
+        parsedCount: downtownEvents.length,
       },
       {
         label: "Campbell Library Events",
         sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
-        count: libraryEvents.length,
+        count: filteredLibraryEvents.length,
+        parsedCount: libraryEvents.length,
       },
       {
         label: "Campbell Museums Events",
         sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
-        count: museumEvents.length,
+        count: filteredMuseumEvents.length,
+        parsedCount: museumEvents.length,
       },
       {
         label: "Campbell Heritage Theatre Events",
         sourceUrl: HERITAGE_THEATRE_EVENTS_URL,
-        count: heritageTheatreEvents.length,
+        count: filteredHeritageTheatreEvents.length,
+        parsedCount: heritageTheatreEvents.length,
       },
       {
         label: "Campbell Chamber Events",
         sourceUrl: CHAMBER_EVENTS_URL,
-        count: chamberEvents.length,
+        count: filteredChamberEvents.length,
+        parsedCount: chamberEvents.length,
       },
       {
         label: "Campbell Union School District Events",
         sourceUrl: CUSD_CALENDAR_URL,
-        count: schoolEvents.length,
+        count: filteredSchoolEvents.length,
+        parsedCount: schoolEvents.length,
       },
     ],
+    rejected: rejectedEvents,
     items: events,
   });
 
@@ -1363,7 +1443,7 @@ async function main() {
   });
 
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
-  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${museumEvents.length} museum, ${heritageTheatreEvents.length} theatre, ${chamberEvents.length} chamber, ${schoolEvents.length} school) -> ${eventPath}`);
+  console.log(`Wrote ${events.length} events (${filteredCityCalendarEvents.length}/${cityCalendarEvents.length} city, ${filteredDowntownEvents.length}/${downtownEvents.length} downtown, ${filteredLibraryEvents.length}/${libraryEvents.length} library, ${filteredMuseumEvents.length}/${museumEvents.length} museum, ${filteredHeritageTheatreEvents.length}/${heritageTheatreEvents.length} theatre, ${filteredChamberEvents.length}/${chamberEvents.length} chamber, ${filteredSchoolEvents.length}/${schoolEvents.length} school; ${rejectedEvents.length} filtered) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }
