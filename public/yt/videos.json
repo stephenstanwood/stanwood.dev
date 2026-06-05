@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-04T10:30:05.211552+00:00",
+  "built_at": "2026-06-05T10:30:18.530943+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -54,7 +54,7 @@
       "is_single": false,
       "display_name": "CS25",
       "best_score": 13,
-      "video_count": 7,
+      "video_count": 9,
       "video_ids": [
         "GBd7iuJkW08",
         "bHSDPgZYie0",
@@ -62,7 +62,9 @@
         "e_H_tkpCAK4",
         "I5BKi32IEa8",
         "dJtHauhRasc",
-        "jFdH7n6BAl0"
+        "jFdH7n6BAl0",
+        "NDdc39KYqDU",
+        "ZUdIsRZhWXI"
       ]
     },
     {
@@ -90,7 +92,7 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 14,
+      "video_count": 15,
       "video_ids": [
         "v18Jo2ILXZ8",
         "zdCJyn1OY-4",
@@ -105,7 +107,8 @@
         "xvLTAm2cecY",
         "r3x_w3tEmB4",
         "3W36pd50Wqw",
-        "dI8pLC1BLSM"
+        "dI8pLC1BLSM",
+        "8hohrUYuyx4"
       ]
     },
     {
@@ -156,7 +159,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 16,
+      "video_count": 17,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -173,7 +176,8 @@
         "-qm0ln33G24",
         "5sxHosTLPF8",
         "2oH6PWPrYFo",
-        "dIFAi87Ws4E"
+        "dIFAi87Ws4E",
+        "26FtD08ZpOU"
       ]
     },
     {
@@ -909,6 +913,37 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 14, 2026\nThis seminar covers: \n\u2022 An introduction to general-purpose AI systems from Google DeepMind designed to accelerate scientific discovery and democratize medical expertise\n\u2022 First, the AI co-scientist, a multi-agent Gemini-based system, assists researchers by systematically gen"
     },
     {
+      "id": "NDdc39KYqDU",
+      "title": "Stanford CS25: Transformers United V6 I From Language Models to Native Multimodal Intelligence",
+      "url": "https://www.youtube.com/watch?v=NDdc39KYqDU",
+      "duration": 3880.0,
+      "published_at": "2026-06-04T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 21, 2026\nThis seminar covers: \n\u2022 The evolution from language models to native multimodal systems\n\u2022 Focus on the architectural and training principles that transfer from the LLM paradigm\n\u2022 Challenges introduced by multimodal learning\n\u2022 The building blocks of modern multimodal LLMs, in"
+    },
+    {
+      "id": "ZUdIsRZhWXI",
+      "title": "Stanford CS25: Transformers United V6 I Serving Transformers: Lessons from the Trenches",
+      "url": "https://www.youtube.com/watch?v=ZUdIsRZhWXI",
+      "duration": 4951.0,
+      "published_at": "2026-06-04T00:00:00+00:00",
+      "series": "CS25",
+      "series_display": "CS25",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 28, 2026\nServing Transformers: Lessons from the Trenches of Production Inference\n\nThis seminar covers insights, lessons, and gnarly scars from serving transformer model inferences at the scale of thousands of GPUs.\n\nFollow along with the seminar schedule. Visit: https://web.stanford."
+    },
+    {
       "id": "O5PfU_uDhS0",
       "title": "Stanford CS153 Frontier Systems | Anjney Midha from AMP PBC on Frontier Systems",
       "url": "https://www.youtube.com/watch?v=O5PfU_uDhS0",
@@ -1305,6 +1340,21 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
     },
     {
+      "id": "8hohrUYuyx4",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Leveraging Geometry in Robot Learning",
+      "url": "https://www.youtube.com/watch?v=8hohrUYuyx4",
+      "duration": 3811.0,
+      "published_at": "2026-06-04T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 22, 2026\nModel Matters: Leveraging Geometry in Robot Learning\n\nThis seminar covers: \n\u2022 How to leverage geometric structural priors in robot learning\n\u2022 A summary of recent work on this topic \n\u2022 Predictions about the future\n\nFollow along with the seminar schedule: https://stanfordasl.g"
+    },
+    {
       "id": "skECWIKpBVY",
       "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L16: Shapes, Gestures, Persistence",
       "url": "https://www.youtube.com/watch?v=skECWIKpBVY",
@@ -1667,6 +1717,22 @@
         "series:CS336"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
+    },
+    {
+      "id": "26FtD08ZpOU",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 17: Alignment - Multimodality",
+      "url": "https://www.youtube.com/watch?v=26FtD08ZpOU",
+      "duration": 4660.0,
+      "published_at": "2026-06-04T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": 17,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
     },
     {
       "id": "yaLEGZuIIgE",
