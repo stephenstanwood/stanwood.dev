@@ -77,6 +77,7 @@ export const SOURCE_URLS = {
   cityCalendarList: "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   downtownEvents: "https://www.downtowncampbell.com/events",
   heritageTheatreEvents: "https://www.heritagetheatre.org/events-1",
+  campbellMuseumsEvents: "https://www.campbellmuseums.com/events-main",
   chamberEvents: "https://business.campbellchamber.net/events/calendar/",
   chamberEventsSearch: "https://business.campbellchamber.net/events/search?Lookahead=360",
   libraryEvents: "https://sccld.org/locations/campbell/",
@@ -231,7 +232,7 @@ export const EVENT_SOURCES: CampbellSource[] = [
     owner: "City of Campbell",
     cadence: "Live feed",
     href: SOURCE_URLS.cityCalendarList,
-    why: "Live source for city-run meetings, recreation programs, community center dates, pool notices, and Heritage Theatre listings.",
+    why: "City-run meetings, recreation programs, community center dates, pool notices, and public events.",
   },
   {
     label: "Downtown Campbell events",
@@ -243,9 +244,9 @@ export const EVENT_SOURCES: CampbellSource[] = [
   {
     label: "Heritage Theatre events",
     owner: "Campbell Heritage Theatre",
-    cadence: "Next direct sync",
+    cadence: "Live feed",
     href: SOURCE_URLS.heritageTheatreEvents,
-    why: "Direct theatre source for ticketed shows, dance programs, community performances, and venue-specific details.",
+    why: "Ticketed shows, dance programs, community performances, and venue-specific details from the theatre calendar.",
   },
   {
     label: "Chamber events",
@@ -264,14 +265,14 @@ export const EVENT_SOURCES: CampbellSource[] = [
   {
     label: "Campbell Museums events",
     owner: "Campbell Museums / Ainsley House",
-    cadence: "Next direct sync",
-    href: "https://www.campbellmuseums.com/events-main",
+    cadence: "Live feed",
+    href: SOURCE_URLS.campbellMuseumsEvents,
     why: "Museum openings, Ainsley House programs, history events, fundraisers, and family programming.",
   },
   {
     label: "Recreation and parks",
     owner: "City Recreation and Community Services",
-    cadence: "Next direct sync",
+    cadence: "Classes and parks",
     href: "https://campbellca.gov/recreation",
     why: "Activity guide, classes, camps, aquatics, parks, community center programming, and department calendar items.",
   },
@@ -532,12 +533,12 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Downtown business index",
-    body: "Downtown Campbell and Campbell-address Chamber members are synced into one index. Category enrichment, shopping-center coverage, direct websites, and open/closed checks come next.",
+    body: "Downtown Campbell and Campbell-address Chamber listings share one search. Category enrichment, shopping-center coverage, direct websites, and open/closed checks come next.",
     status: "Live now",
   },
   {
     title: "Events firehose",
-    body: "City, Downtown Campbell, Campbell Library, and Chamber events are synced, including Heritage Theatre listings exposed through the city feed. Direct theatre, museum, school, parks, and individual business calendars come next.",
+    body: "City, Downtown Campbell, Campbell Library, Campbell Museums, Heritage Theatre, and Chamber events are in the live list. School, parks, shopping-center, and individual business calendars come next.",
     status: "Live now",
   },
   {
@@ -552,7 +553,7 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Individual-source crawl map",
-    body: "Build a registry of every Campbell-relevant calendar and directory, then add polite source-specific syncs for libraries, museums, schools, venues, shopping centers, neighborhood groups, and high-signal business sites.",
+    body: "Build a registry of every Campbell-relevant calendar and directory, then add schools, venues, shopping centers, neighborhood groups, and high-signal business sites.",
     status: "Next feed",
   },
   {

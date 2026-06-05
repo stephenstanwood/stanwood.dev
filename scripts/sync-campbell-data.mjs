@@ -19,6 +19,10 @@ const CHAMBER_EVENT_LOOKAHEAD_DAYS = 360;
 const CHAMBER_EVENTS_URL = `${CHAMBER_BASE_URL}/events/search?Lookahead=${CHAMBER_EVENT_LOOKAHEAD_DAYS}`;
 const CHAMBER_EVENTS_SCROLL_URL = `${CHAMBER_BASE_URL}/events/searchscroll`;
 const SCCLD_CAMPBELL_LIBRARY_URL = "https://sccld.org/locations/campbell/";
+const CAMPBELL_MUSEUMS_BASE_URL = "https://www.campbellmuseums.com";
+const CAMPBELL_MUSEUMS_EVENTS_URL = `${CAMPBELL_MUSEUMS_BASE_URL}/events-main`;
+const HERITAGE_THEATRE_BASE_URL = "https://www.heritagetheatre.org";
+const HERITAGE_THEATRE_EVENTS_URL = `${HERITAGE_THEATRE_BASE_URL}/events-1`;
 const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
 const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/501/Public-Notices`;
@@ -83,6 +87,17 @@ async function fetchText(url) {
   }
 
   return res.text();
+}
+
+function extractJsonScript(html, id) {
+  const match = html.match(new RegExp(`<script[^>]*id="${id}"[^>]*>([\\s\\S]*?)<\\/script>`, "i"));
+  if (!match) return null;
+
+  try {
+    return JSON.parse(match[1]);
+  } catch (err) {
+    throw new Error(`Failed to parse ${id}: ${err.message}`);
+  }
 }
 
 async function fetchPdfText(url) {
@@ -289,9 +304,32 @@ function eventTimestamp(event) {
 }
 
 function eventKey(event) {
+  const startDate = event.startDate || event.date || "";
+  const hasSpecificTime = /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(startDate);
   const title = normalizeKeyPart(event.title);
-  const date = (event.startDate || event.date || "").slice(0, 10);
-  return `${title}|${date}`;
+  const titleKey = hasSpecificTime
+    ? title.split(" ").slice(0, 3).join(" ") || title
+    : title;
+  const dateKey = hasSpecificTime ? startDate.slice(0, 16) : startDate.slice(0, 10);
+  return `${titleKey}|${dateKey}`;
+}
+
+function splitEventSourceNames(source = "") {
+  return source
+    .split(/\s+\+\s+/)
+    .map((name) => name.trim())
+    .filter(Boolean);
+}
+
+function eventSeriesDateKey(event) {
+  const words = normalizeKeyPart(event.title).split(" ").filter(Boolean);
+  const titleKey = words.slice(0, 3).join(" ") || words.join(" ");
+  const dateKey = (event.startDate || event.date || "").slice(0, 10);
+  return `${titleKey}|${dateKey}`;
+}
+
+function hasSpecificEventTime(event) {
+  return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
 }
 
 function parseDowntownEvents(html) {
@@ -523,6 +561,102 @@ function parseChamberEventCards(html) {
     .filter(Boolean);
 }
 
+function extractWixImageUrl(image) {
+  if (!image || typeof image !== "object") return "";
+
+  const direct = image.url || image.src || image.mediaImage?.url || image.image?.url || "";
+  if (direct) return direct;
+
+  const id = image.id || image.uri || image.mediaImage?.id || image.image?.id || "";
+  if (/^https?:\/\//i.test(id)) return id;
+  if (id) return `https://static.wixstatic.com/media/${id}`;
+
+  return "";
+}
+
+function extractWixCost(event) {
+  const registration = event.registration ?? {};
+  const tickets = registration.tickets ?? registration.ticketing ?? {};
+  const cost =
+    tickets.lowestPriceFormatted ??
+    tickets.lowestTicketPriceFormatted ??
+    tickets.priceFormatted ??
+    tickets.price ??
+    "";
+
+  return cleanSentence(typeof cost === "string" ? cost : String(cost));
+}
+
+function extractWixLocation(event) {
+  const name = cleanSentence(event.location?.name ?? "");
+  const address = cleanSentence(event.location?.address ?? "");
+
+  if (!name || name.toLowerCase() === "campbell") return address || name;
+  return name;
+}
+
+function parseWixEvents(html, { baseUrl, sourceUrl, source, category }) {
+  const warmupData = extractJsonScript(html, "wix-warmup-data");
+  const appsWarmupData = warmupData?.appsWarmupData ?? {};
+  const byId = new Map();
+
+  for (const app of Object.values(appsWarmupData)) {
+    if (!app || typeof app !== "object") continue;
+
+    for (const widget of Object.values(app)) {
+      const wixEvents = widget?.events?.events;
+      if (!Array.isArray(wixEvents)) continue;
+
+      for (const event of wixEvents) {
+        const dates = widget?.dates?.events?.[event.id] ?? {};
+        const title = cleanSentence(event.title ?? "");
+        const descriptionSource =
+          typeof event.description === "string" ? event.description :
+          typeof event.about === "string" ? event.about :
+          "";
+        const date = cleanSentence(
+          dates.fullDate ??
+          event.scheduling?.startDateFormatted ??
+          event.scheduling?.formattedStartDate ??
+          "",
+        );
+        const startDate = cleanSentence(
+          dates.startDateISOFormatNotUTC ??
+          event.scheduling?.config?.startDate ??
+          event.scheduling?.startDate ??
+          "",
+        );
+        const endDate = cleanSentence(
+          dates.endDateISOFormatNotUTC ??
+          event.scheduling?.config?.endDate ??
+          event.scheduling?.endDate ??
+          "",
+        );
+
+        if (!title || !date) continue;
+
+        const key = event.id || eventKey({ title, startDate, date });
+        byId.set(key, {
+          title,
+          date,
+          cost: extractWixCost(event),
+          location: extractWixLocation(event),
+          description: cleanSentence(cleanHtml(descriptionSource)).slice(0, 280),
+          url: event.slug ? absoluteUrl(`/event-details/${event.slug}`, baseUrl) : sourceUrl,
+          imageUrl: extractWixImageUrl(event.mainImage ?? event.coverImage ?? event.image),
+          category,
+          startDate,
+          ...(endDate && endDate !== startDate ? { endDate } : {}),
+          source,
+          sourceUrl,
+        });
+      }
+    }
+  }
+
+  return [...byId.values()].sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
+}
+
 async function fetchChamberEventsHtml() {
   const firstPage = await fetchText(CHAMBER_EVENTS_URL);
   const total = parseGrowthZoneResultsCount(firstPage);
@@ -557,7 +691,10 @@ function mergeEventFeeds(...feeds) {
       continue;
     }
 
-    const sourceNames = new Set([existing.source, event.source].filter(Boolean));
+    const sourceNames = new Set([
+      ...splitEventSourceNames(existing.source),
+      ...splitEventSourceNames(event.source),
+    ]);
     const sourceUrls = new Set([
       existing.sourceUrl,
       ...(existing.additionalSourceUrls ?? []),
@@ -578,7 +715,50 @@ function mergeEventFeeds(...feeds) {
     });
   }
 
-  return [...byKey.values()]
+  const mergedEvents = [...byKey.values()];
+  const detailedEventsBySeriesDate = new Map();
+
+  for (const event of mergedEvents) {
+    if (!hasSpecificEventTime(event)) continue;
+    const key = eventSeriesDateKey(event);
+    const existing = detailedEventsBySeriesDate.get(key) ?? [];
+    existing.push(event);
+    detailedEventsBySeriesDate.set(key, existing);
+  }
+
+  for (const event of mergedEvents) {
+    const sources = splitEventSourceNames(event.source);
+    if (!sources.includes("Downtown Campbell Events") || hasSpecificEventTime(event)) continue;
+
+    for (const detailedEvent of detailedEventsBySeriesDate.get(eventSeriesDateKey(event)) ?? []) {
+      const sourceNames = new Set([
+        ...splitEventSourceNames(detailedEvent.source),
+        ...sources,
+      ]);
+      const sourceUrls = new Set([
+        detailedEvent.sourceUrl,
+        ...(detailedEvent.additionalSourceUrls ?? []),
+        event.sourceUrl,
+        ...(event.additionalSourceUrls ?? []),
+      ].filter(Boolean));
+
+      detailedEvent.cost ||= event.cost;
+      detailedEvent.location ||= event.location;
+      detailedEvent.description ||= event.description;
+      detailedEvent.imageUrl ||= event.imageUrl;
+      detailedEvent.source = [...sourceNames].join(" + ");
+      detailedEvent.additionalSourceUrls = [...sourceUrls].filter((url) => url !== detailedEvent.sourceUrl);
+    }
+  }
+
+  const detailedSourceDates = new Set(detailedEventsBySeriesDate.keys());
+
+  return mergedEvents
+    .filter((event) => {
+      const sources = splitEventSourceNames(event.source);
+      if (!sources.includes("Downtown Campbell Events") || hasSpecificEventTime(event)) return true;
+      return !detailedSourceDates.has(eventSeriesDateKey(event));
+    })
     .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
 
@@ -807,11 +987,24 @@ async function writeJson(filename, payload) {
 
 async function main() {
   const generatedAt = new Date().toISOString();
-  const [directoryHtml, eventsHtml, cityCalendarHtml, libraryHtml, chamberEventsPage, councilHtml, planningHtml, ...noticeArchiveHtml] = await Promise.all([
+  const [
+    directoryHtml,
+    eventsHtml,
+    cityCalendarHtml,
+    libraryHtml,
+    museumsEventsHtml,
+    heritageTheatreEventsHtml,
+    chamberEventsPage,
+    councilHtml,
+    planningHtml,
+    ...noticeArchiveHtml
+  ] = await Promise.all([
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
     fetchText(CITY_CALENDAR_URL),
     fetchText(SCCLD_CAMPBELL_LIBRARY_URL),
+    fetchText(CAMPBELL_MUSEUMS_EVENTS_URL),
+    fetchText(HERITAGE_THEATRE_EVENTS_URL),
     fetchChamberEventsHtml(),
     fetchText(COUNCIL_URL),
     fetchText(PLANNING_COMMISSION_URL),
@@ -831,8 +1024,20 @@ async function main() {
   const downtownEvents = parseDowntownEvents(eventsHtml);
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
   const libraryEvents = parseLibraryEvents(libraryHtml, new Date(generatedAt));
+  const museumEvents = parseWixEvents(museumsEventsHtml, {
+    baseUrl: CAMPBELL_MUSEUMS_BASE_URL,
+    sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
+    source: "Campbell Museums Events",
+    category: "Museums",
+  });
+  const heritageTheatreEvents = parseWixEvents(heritageTheatreEventsHtml, {
+    baseUrl: HERITAGE_THEATRE_BASE_URL,
+    sourceUrl: HERITAGE_THEATRE_EVENTS_URL,
+    source: "Campbell Heritage Theatre Events",
+    category: "Heritage Theatre",
+  });
   const chamberEvents = parseChamberEventCards(chamberEventsPage.html);
-  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, chamberEvents);
+  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, museumEvents, heritageTheatreEvents, chamberEvents);
   const councilRecords = parseAgendaCenterRecords(councilHtml, {
     tableId: "table10",
     body: "City Council",
@@ -875,6 +1080,12 @@ async function main() {
   }
   if (chamberEventsPage.total && chamberEvents.length < chamberEventsPage.total) {
     throw new Error(`Chamber events parse returned ${chamberEvents.length}/${chamberEventsPage.total} visible events`);
+  }
+  if (museumEvents.length < 1) {
+    throw new Error(`Campbell Museums event parse returned only ${museumEvents.length} events`);
+  }
+  if (heritageTheatreEvents.length < 1) {
+    throw new Error(`Heritage Theatre event parse returned only ${heritageTheatreEvents.length} events`);
   }
   if (events.length < 20) {
     throw new Error(`Events parse returned only ${events.length} events`);
@@ -929,6 +1140,16 @@ async function main() {
         count: libraryEvents.length,
       },
       {
+        label: "Campbell Museums Events",
+        sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
+        count: museumEvents.length,
+      },
+      {
+        label: "Campbell Heritage Theatre Events",
+        sourceUrl: HERITAGE_THEATRE_EVENTS_URL,
+        count: heritageTheatreEvents.length,
+      },
+      {
         label: "Campbell Chamber Events",
         sourceUrl: CHAMBER_EVENTS_URL,
         count: chamberEvents.length,
@@ -951,7 +1172,7 @@ async function main() {
   });
 
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
-  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${chamberEvents.length} chamber) -> ${eventPath}`);
+  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${museumEvents.length} museum, ${heritageTheatreEvents.length} theatre, ${chamberEvents.length} chamber) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }

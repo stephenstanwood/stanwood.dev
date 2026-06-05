@@ -88,6 +88,8 @@ function eventSourceFilterLabel(label: string) {
   if (label === "Downtown Campbell Events") return "Downtown";
   if (label === "Campbell Library Events") return "Library";
   if (label === "Campbell Chamber Events") return "Chamber";
+  if (label === "Campbell Museums Events") return "Museums";
+  if (label === "Campbell Heritage Theatre Events") return "Heritage Theatre";
   return label;
 }
 
@@ -164,10 +166,11 @@ export default function EventsIndex() {
     <div className="cb-events">
       <div className="cb-section-head">
         <span className="cb-section-kicker">Events</span>
-        <h3>Campbell events, stitched together.</h3>
+        <h3>Campbell events, in plain view.</h3>
         <p>
-          City, downtown, library, and Chamber calendars in one list. Search by
-          place, cost, topic, or source, then open the original listing for details.
+          City meetings, downtown happenings, library programs, museum days,
+          theatre shows, and Chamber events. Search by place, cost, topic, or
+          source, then open the original listing for details.
         </p>
       </div>
 
@@ -290,11 +293,11 @@ export default function EventsIndex() {
 
       <div className="cb-section-head cb-event-source-head">
         <span className="cb-section-kicker">Source Map</span>
-        <h3>Live feeds first, direct calendars next.</h3>
+        <h3>Where each listing comes from.</h3>
         <p>
-          City, Downtown Campbell, Campbell Library, and Chamber are included.
-          The remaining sources are the next direct calendars to pull from
-          individual websites.
+          The list pulls from city, downtown, library, museum, theatre, and
+          Chamber pages. The next direct calendars are schools, parks,
+          shopping centers, and high-signal individual businesses.
         </p>
       </div>
 

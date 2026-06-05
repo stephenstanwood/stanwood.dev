@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
-const title = "Campbell City Guide — stanwood.dev";
+const title = "Campbell City Guide";
 
 const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campbell_water_tower%2C_aerial_view.jpg/960px-Campbell_water_tower%2C_aerial_view.jpg";
 ---
@@ -843,6 +843,9 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
           flex-direction: row;
           align-items: center;
         }
+        .cb-event-select {
+          flex: 0 0 13rem;
+        }
       }
       .cb-event-search,
       .cb-event-select {
@@ -858,9 +861,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
       }
       .cb-event-search {
         flex: 1;
-      }
-      .cb-event-select {
-        flex: 0 0 13rem;
       }
       .cb-event-search:focus,
       .cb-event-select:focus {
@@ -2185,12 +2185,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         color: var(--cb-light-gray);
         margin: 0;
       }
-      .cb-footer a {
-        color: var(--cb-blue);
-        text-decoration: none;
-        font-weight: 500;
-      }
-      .cb-footer a:hover { text-decoration: underline; }
 
       /* ── Desktop ── */
       @media (min-width: 640px) {
@@ -2351,7 +2345,7 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
     </section>
 
     <footer class="cb-footer">
-      <p>Built with care by <a href="/">stanwood.dev</a> · Not affiliated with the City of Campbell</p>
+      <p>Independent local guide. Not affiliated with the City of Campbell.</p>
     </footer>
   </div>
 </BaseLayout>
