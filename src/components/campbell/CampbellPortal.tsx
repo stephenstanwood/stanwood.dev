@@ -11,16 +11,16 @@ import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
 import CampbellRoadmap from "./CampbellRoadmap";
 
-const TABS: { id: Section; label: string; icon: string }[] = [
-  { id: "links", label: "Start", icon: "↗" },
-  { id: "history", label: "History", icon: "○" },
-  { id: "digest", label: "Hearings", icon: "§" },
-  { id: "safety", label: "Safety", icon: "!" },
-  { id: "events", label: "Events", icon: "◇" },
-  { id: "businesses", label: "Businesses", icon: "□" },
-  { id: "homes", label: "Homes", icon: "⌂" },
-  { id: "data", label: "Data", icon: "#" },
-  { id: "roadmap", label: "Roadmap", icon: "✓" },
+const TABS: { id: Section; label: string }[] = [
+  { id: "events", label: "Events" },
+  { id: "digest", label: "Hearings" },
+  { id: "businesses", label: "Businesses" },
+  { id: "safety", label: "Safety" },
+  { id: "homes", label: "Homes" },
+  { id: "history", label: "History" },
+  { id: "data", label: "Data" },
+  { id: "links", label: "Resident Links" },
+  { id: "roadmap", label: "Roadmap" },
 ];
 
 export default function CampbellPortal() {
@@ -37,7 +37,6 @@ export default function CampbellPortal() {
             aria-pressed={active === tab.id}
             onClick={() => setActive(tab.id)}
           >
-            <span className="cb-tab-icon">{tab.icon}</span>
             <span className="cb-tab-label">{tab.label}</span>
           </button>
         ))}
