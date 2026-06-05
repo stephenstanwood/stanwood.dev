@@ -50,14 +50,6 @@ const RECORDS_QUEUE = [
 const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 
-function formatGeneratedAt(value: string) {
-  return new Date(value).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 function plainSummary(summary: string) {
   const cleaned = summary.trim().replace(/\.$/, "");
   if (!cleaned) return "";
@@ -115,19 +107,6 @@ export default function CivicRecords() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const hearingStats = useMemo(() => {
-    const upcoming = PUBLIC_HEARINGS.filter((item) => {
-      const date = parseHearingDate(item.hearingAt);
-      return date ? date >= today : false;
-    }).length;
-    return {
-      upcoming,
-      planning: PUBLIC_HEARINGS.filter((item) => item.body === "Planning Commission").length,
-      council: PUBLIC_HEARINGS.filter((item) => item.body === "City Council").length,
-      needsDate: PUBLIC_HEARINGS.filter((item) => !parseHearingDate(item.hearingAt)).length,
-    };
-  }, [today]);
-
   const filteredHearings = useMemo(() => {
     return PUBLIC_HEARINGS.filter((item) => {
       const date = parseHearingDate(item.hearingAt);
@@ -157,26 +136,6 @@ export default function CivicRecords() {
             <span className="cb-live-record-kicker">Public hearings</span>
             <h4>What is coming through City Hall</h4>
           </div>
-          <span>{PUBLIC_HEARINGS.length} indexed · synced {formatGeneratedAt(hearingFeed.generatedAt)}</span>
-        </div>
-
-        <div className="cb-hearing-stats" aria-label="Public hearing summary">
-          <article>
-            <span>{hearingStats.upcoming}</span>
-            <p>Upcoming with dates</p>
-          </article>
-          <article>
-            <span>{hearingStats.planning}</span>
-            <p>Planning Commission</p>
-          </article>
-          <article>
-            <span>{hearingStats.council}</span>
-            <p>City Council</p>
-          </article>
-          <article>
-            <span>{hearingStats.needsDate}</span>
-            <p>Date in packet</p>
-          </article>
         </div>
 
         <div className="cb-hearing-filters" role="tablist" aria-label="Public hearing filters">
@@ -234,7 +193,7 @@ export default function CivicRecords() {
 
         {filteredHearings.length === 0 && (
           <p className="cb-hearing-empty">
-            No records in this filter from the current sync.
+            No records in this filter.
           </p>
         )}
       </section>
@@ -245,7 +204,6 @@ export default function CivicRecords() {
             <span className="cb-live-record-kicker">Agenda Center</span>
             <h4>Council packets, minutes, and media</h4>
           </div>
-          <span>{councilFeed.items.length} records · synced {formatGeneratedAt(councilFeed.generatedAt)}</span>
         </div>
 
         <div className="cb-council-record-list">

@@ -35,11 +35,6 @@ const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
 type EventViewFilter = "all" | "next14" | "next30" | "public";
-const generatedDate = new Date(eventFeed.generatedAt).toLocaleDateString("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
   { id: "all", label: "All dates" },
@@ -49,11 +44,10 @@ const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
 ];
 
 const SOURCE_FILTERS = [
-  { id: ALL_SOURCE_FILTER, label: "All sources", count: EVENTS.length },
+  { id: ALL_SOURCE_FILTER, label: "All sources" },
   ...SOURCE_COUNTS.map((source) => ({
     id: source.label,
     label: eventSourceFilterLabel(source.label),
-    count: EVENTS.filter((event) => eventMatchesSource(event, source.label)).length,
   })),
 ];
 
@@ -164,6 +158,7 @@ export default function EventsIndex() {
 
   const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);
   const hiddenEventCount = filteredEvents.length - visibleEvents.length;
+  const resultLabel = filteredEvents.length === EVENTS.length ? "All events" : `${filteredEvents.length} matches`;
 
   return (
     <div className="cb-events">
@@ -171,31 +166,9 @@ export default function EventsIndex() {
         <span className="cb-section-kicker">Events</span>
         <h3>Campbell events, stitched together.</h3>
         <p>
-          Official city dates, Downtown Campbell, Campbell Library, and Chamber
-          events now land in one source-backed list. Search it like a resident,
-          then jump to the original listing when you need the source.
+          City, downtown, library, and Chamber calendars in one list. Search by
+          place, cost, topic, or source, then open the original listing for details.
         </p>
-      </div>
-
-      <div className="cb-live-events-head">
-        <span>{eventFeed.items.length} synced Campbell events</span>
-        <a href={eventFeed.sourceUrl} target="_blank" rel="noopener noreferrer">
-          Synced {generatedDate}
-        </a>
-      </div>
-
-      <div className="cb-event-source-counts" aria-label="Event source counts">
-        {SOURCE_COUNTS.map((source) => (
-          <a
-            key={source.label}
-            href={source.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>{source.count}</span>
-            {source.label}
-          </a>
-        ))}
       </div>
 
       <div className="cb-event-toolbar">
@@ -224,7 +197,7 @@ export default function EventsIndex() {
             </option>
           ))}
         </select>
-        <span className="cb-event-count">{filteredEvents.length} of {EVENTS.length}</span>
+        <span className="cb-event-count">{resultLabel}</span>
       </div>
 
       <div className="cb-event-filter-group" aria-label="Event source filters">
@@ -240,7 +213,6 @@ export default function EventsIndex() {
             aria-pressed={sourceFilter === filter.id}
           >
             {filter.label}
-            <span>{filter.count}</span>
           </button>
         ))}
       </div>
@@ -293,7 +265,7 @@ export default function EventsIndex() {
 
       {filteredEvents.length === 0 && (
         <div className="cb-event-empty">
-          No synced events match these filters yet. Clear a filter or search another term.
+          No events match these filters yet. Clear a filter or search another term.
         </div>
       )}
 
@@ -320,9 +292,9 @@ export default function EventsIndex() {
         <span className="cb-section-kicker">Source Map</span>
         <h3>Live feeds first, direct calendars next.</h3>
         <p>
-          City, Downtown, Campbell Library, and Chamber are already synced. The
-          remaining sources are the next direct feeds to pull from individual
-          websites, with one polite parser per source instead of a broad scrape.
+          City, Downtown Campbell, Campbell Library, and Chamber are included.
+          The remaining sources are the next direct calendars to pull from
+          individual websites.
         </p>
       </div>
 

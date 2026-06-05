@@ -15,30 +15,15 @@ interface CampbellBusinessRecord {
   additionalSourceUrls?: string[];
 }
 
-interface BusinessSourceMeta {
-  label: string;
-  sourceUrl: string;
-  count: number;
-  totalParsed?: number;
-}
-
 type BusinessFilter = "all" | "downtown" | "chamber" | "both";
 
-const feed = businessFeed as typeof businessFeed & { sources?: BusinessSourceMeta[] };
-const BUSINESSES = feed.items as CampbellBusinessRecord[];
-const SOURCE_COUNTS = feed.sources ?? [];
+const BUSINESSES = businessFeed.items as CampbellBusinessRecord[];
 const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "downtown", label: "Downtown" },
   { id: "chamber", label: "Chamber" },
   { id: "both", label: "Both sources" },
 ];
-const generatedDate = new Date(businessFeed.generatedAt).toLocaleDateString("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
 function hasTag(business: CampbellBusinessRecord, tag: string) {
   return business.tags?.includes(tag) ?? false;
 }
@@ -53,12 +38,6 @@ function businessSourceLabel(business: CampbellBusinessRecord) {
 export default function BusinessIndex() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<BusinessFilter>("all");
-
-  const sourceStats = useMemo(() => ({
-    downtownOnly: BUSINESSES.filter((business) => hasTag(business, "Downtown") && !hasTag(business, "Chamber")).length,
-    chamberOnly: BUSINESSES.filter((business) => hasTag(business, "Chamber") && !hasTag(business, "Downtown")).length,
-    both: BUSINESSES.filter((business) => hasTag(business, "Downtown") && hasTag(business, "Chamber")).length,
-  }), []);
 
   const businesses = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -79,38 +58,17 @@ export default function BusinessIndex() {
       ].some((value) => value.toLowerCase().includes(needle));
     });
   }, [activeFilter, query]);
+  const resultLabel = businesses.length === BUSINESSES.length ? "All businesses" : `${businesses.length} matches`;
 
   return (
     <div className="cb-businesses">
       <div className="cb-section-head">
         <span className="cb-section-kicker">Businesses</span>
-        <h3>Downtown and Chamber business lists are live.</h3>
+        <h3>Businesses around Campbell.</h3>
         <p>
-          The index now merges Downtown Campbell's A-Z directory with
-          Campbell-address members from the Chamber directory. It is not every
-          storefront yet, but it is a much wider public baseline.
+          Browse downtown storefronts and Campbell-address Chamber members, then
+          open the original listing for hours, menus, appointments, and details.
         </p>
-      </div>
-
-      <div className="cb-business-source-counts" aria-label="Business source counts">
-        {SOURCE_COUNTS.map((source) => (
-          <a
-            key={source.label}
-            href={source.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>{source.count}</span>
-            <strong>{source.label}</strong>
-            {source.totalParsed && <em>{source.totalParsed} parsed</em>}
-          </a>
-        ))}
-      </div>
-
-      <div className="cb-business-source-breakdown" aria-label="Merged business source breakdown">
-        <span>{sourceStats.downtownOnly} Downtown only</span>
-        <span>{sourceStats.chamberOnly} Chamber only</span>
-        <span>{sourceStats.both} in both</span>
       </div>
 
       <div className="cb-business-toolbar">
@@ -121,7 +79,7 @@ export default function BusinessIndex() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <span className="cb-business-count">{businesses.length} of {BUSINESSES.length}</span>
+        <span className="cb-business-count">{resultLabel}</span>
       </div>
 
       <div className="cb-business-filters" role="tablist" aria-label="Business source filters">
@@ -157,7 +115,6 @@ export default function BusinessIndex() {
       </div>
 
       <div className="cb-source-note">
-        <span>Synced {generatedDate} from {businessFeed.items.length} merged public entries</span>
         <a href={businessFeed.sourceUrl} target="_blank" rel="noopener noreferrer">
           Open the Downtown source
         </a>

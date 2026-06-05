@@ -1,41 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
-import eventFeed from "../data/campbellEvents.json";
-import businessFeed from "../data/campbellBusinesses.json";
-import councilFeed from "../data/campbellCouncilRecords.json";
-import hearingFeed from "../data/campbellPublicHearings.json";
 const title = "Campbell City Guide — stanwood.dev";
 
-const eventSourceCount = eventFeed.sources?.length ?? 0;
-const liveStats = [
-  {
-    value: eventFeed.items.length.toLocaleString(),
-    label: "events",
-    detail: `${eventSourceCount} source${eventSourceCount === 1 ? "" : "s"} synced`,
-  },
-  {
-    value: businessFeed.items.length.toLocaleString(),
-    label: "businesses",
-    detail: "Downtown plus Chamber",
-  },
-  {
-    value: hearingFeed.items.length.toLocaleString(),
-    label: "hearings",
-    detail: "plain-English tracker",
-  },
-  {
-    value: councilFeed.items.length.toLocaleString(),
-    label: "civic records",
-    detail: "agendas, minutes, media",
-  },
-];
 const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Campbell_water_tower%2C_aerial_view.jpg/960px-Campbell_water_tower%2C_aerial_view.jpg";
 ---
 
 <BaseLayout
   title={title}
-  description="A source-backed city guide for Campbell, CA: history, civic records, events, businesses, real estate records, data, and resident links."
+  description="A city guide for Campbell, CA: history, civic records, events, businesses, real estate records, data, and resident links."
   slug="campbell"
   favicon="/favicon-campbell.svg"
   themeColor="#F8F9FA"
@@ -134,66 +107,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         color: var(--cb-gray);
         font-size: clamp(1rem, 1.6vw, 1.14rem);
         line-height: 1.55;
-      }
-      .cb-hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        margin-top: 1rem;
-      }
-      .cb-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 2.45rem;
-        border-radius: 999px;
-        padding: 0 0.9rem;
-        text-decoration: none;
-        font-size: 0.82rem;
-        font-weight: 800;
-      }
-      .cb-button--primary {
-        color: white;
-        background: var(--cb-blue);
-        box-shadow: 0 12px 30px rgba(36, 87, 106, 0.22);
-      }
-      .cb-button--primary:hover { background: var(--cb-blue-hover); }
-      .cb-hero-stats {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 0.45rem;
-        max-width: 42rem;
-        margin-top: 1.05rem;
-      }
-      .cb-hero-stat {
-        min-height: 4.15rem;
-        border: 1px solid rgba(225, 221, 210, 0.82);
-        border-radius: 12px;
-        padding: 0.6rem;
-        background: rgba(255, 253, 248, 0.78);
-      }
-      .cb-hero-stat strong {
-        display: block;
-        color: var(--cb-blue);
-        font-size: 1.2rem;
-        line-height: 1;
-      }
-      .cb-hero-stat span {
-        display: block;
-        margin-top: 0.28rem;
-        color: var(--cb-ink);
-        font-size: 0.68rem;
-        font-weight: 850;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-      }
-      .cb-hero-stat em {
-        display: block;
-        margin-top: 0.2rem;
-        color: var(--cb-gray);
-        font-size: 0.67rem;
-        line-height: 1.35;
-        font-style: normal;
       }
       .cb-hero-side {
         display: grid;
@@ -310,9 +223,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         .cb-hero-copy {
           min-height: auto;
         }
-        .cb-hero-stats {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
       }
       @media (max-width: 560px) {
         .cb-hero,
@@ -330,9 +240,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         }
         .cb-place-card {
           aspect-ratio: 16 / 10;
-        }
-        .cb-hero-stats {
-          grid-template-columns: 1fr 1fr;
         }
       }
 
@@ -708,34 +615,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         grid-template-columns: 1fr;
         gap: 0.62rem;
       }
-      .cb-hearing-stats {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.55rem;
-      }
-      @media (min-width: 640px) {
-        .cb-hearing-stats { grid-template-columns: repeat(4, 1fr); }
-      }
-      .cb-hearing-stats article {
-        min-height: 4.5rem;
-        padding: 0.7rem 0.75rem;
-        background: var(--cb-card-bg);
-        border: 1px solid var(--cb-border);
-        border-radius: 8px;
-      }
-      .cb-hearing-stats span {
-        display: block;
-        font-size: 1.1rem;
-        font-weight: 850;
-        color: var(--cb-blue);
-        line-height: 1.1;
-      }
-      .cb-hearing-stats p {
-        font-size: 0.7rem;
-        line-height: 1.3;
-        color: var(--cb-gray);
-        margin: 0.3rem 0 0;
-      }
       .cb-hearing-filters {
         display: flex;
         flex-wrap: wrap;
@@ -953,58 +832,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         color: var(--cb-gray);
         margin: 0;
       }
-      .cb-live-events-head {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-        margin: 0 0 0.75rem;
-      }
-      .cb-live-events-head span {
-        font-size: 0.82rem;
-        font-weight: 800;
-        color: var(--cb-ink);
-      }
-      .cb-live-events-head a {
-        font-size: 0.75rem;
-        font-weight: 700;
-        color: var(--cb-blue);
-        text-decoration: none;
-      }
-      .cb-live-events-head a:hover { text-decoration: underline; }
-      .cb-event-source-counts {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-        margin: 0 0 0.85rem;
-      }
-      .cb-event-source-counts a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.28rem 0.5rem;
-        color: var(--cb-ink);
-        background: #F5F7FB;
-        border: 1px solid var(--cb-border);
-        border-radius: 999px;
-        font-size: 0.7rem;
-        font-weight: 750;
-        text-decoration: none;
-      }
-      .cb-event-source-counts span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.35rem;
-        height: 1.35rem;
-        padding: 0 0.25rem;
-        color: white;
-        background: var(--cb-blue);
-        border-radius: 999px;
-        box-sizing: border-box;
-        font-size: 0.66rem;
-      }
       .cb-event-toolbar {
         display: flex;
         flex-direction: column;
@@ -1082,19 +909,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         border-color: var(--cb-blue);
         color: white;
         background: var(--cb-blue);
-      }
-      .cb-event-filter-group button span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.25rem;
-        height: 1.25rem;
-        padding: 0 0.22rem;
-        border-radius: 999px;
-        color: var(--cb-blue);
-        background: white;
-        font-size: 0.64rem;
-        box-sizing: border-box;
       }
       .cb-live-events {
         display: grid;
@@ -1595,56 +1409,6 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
       }
 
       /* ── Business index ── */
-      .cb-business-source-counts,
-      .cb-business-source-breakdown {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.45rem;
-        margin-bottom: 0.8rem;
-      }
-      .cb-business-source-counts a,
-      .cb-business-source-breakdown span {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.34rem;
-        min-height: 2rem;
-        padding: 0.28rem 0.55rem;
-        color: var(--cb-ink);
-        background: #F5F7FB;
-        border: 1px solid var(--cb-border);
-        border-radius: 999px;
-        font-size: 0.7rem;
-        font-weight: 800;
-        text-decoration: none;
-      }
-      .cb-business-source-counts a > span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 1.35rem;
-        height: 1.35rem;
-        padding: 0 0.25rem;
-        color: white;
-        background: var(--cb-blue);
-        border-radius: 999px;
-        box-sizing: border-box;
-        font-size: 0.66rem;
-      }
-      .cb-business-source-counts strong {
-        font-weight: 800;
-      }
-      .cb-business-source-counts em {
-        color: var(--cb-light-gray);
-        font-style: normal;
-      }
-      .cb-business-source-breakdown {
-        margin-top: -0.35rem;
-      }
-      .cb-business-source-breakdown span {
-        color: var(--cb-blue);
-        background: var(--cb-blue-light);
-        border-color: rgba(27, 79, 138, 0.16);
-      }
       .cb-business-toolbar {
         display: flex;
         flex-direction: column;
@@ -2460,22 +2224,9 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         <span class="cb-hero-kicker">Campbell, California</span>
         <h1>Campbell City Guide</h1>
         <p class="cb-hero-sub">
-          A friendly, source-backed guide to what is happening around town:
-          events, public hearings, council records, local businesses, homes,
-          history, and resident links in one readable place.
+          Events, public hearings, council records, local businesses, homes,
+          history, and everyday resident links for Campbell, California.
         </p>
-        <div class="cb-hero-actions">
-          <a class="cb-button cb-button--primary" href="#campbell-tool">Explore the guide</a>
-        </div>
-        <div class="cb-hero-stats" aria-label="Current Campbell guide coverage">
-          {liveStats.map((stat) => (
-            <div class="cb-hero-stat">
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-              <em>{stat.detail}</em>
-            </div>
-          ))}
-        </div>
       </div>
 
       <div class="cb-hero-side">
