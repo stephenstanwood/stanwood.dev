@@ -63,6 +63,7 @@ export const SOURCE_URLS = {
   heritageTheatreEvents: "https://www.heritagetheatre.org/events-1",
   chamberEvents: "https://business.campbellchamber.net/events/calendar/",
   downtownDirectory: "https://www.downtowncampbell.com/directory/all",
+  chamberDirectory: "https://business.campbellchamber.net/list",
   chamberShopping: "https://www.campbellchamber.net/shopping-dining/",
   cityBudget: "https://www.campbellca.gov/151/Budget",
   cityGisPublic: "https://gis.campbellca.gov/public",
@@ -371,7 +372,7 @@ export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
   },
   {
     title: "Downtown business index",
-    body: "Full A-Z Downtown Campbell directory is synced. Category enrichment, direct websites, and open/closed checks come next.",
+    body: "Downtown Campbell and Campbell-address Chamber members are synced into one index. Category enrichment, shopping-center coverage, direct websites, and open/closed checks come next.",
     status: "Live now",
   },
   {

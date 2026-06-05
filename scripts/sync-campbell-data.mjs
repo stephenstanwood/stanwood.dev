@@ -10,9 +10,11 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_DIR = resolve(ROOT, "src/data");
 const BASE_URL = "https://www.downtowncampbell.com";
 const CITY_BASE_URL = "https://www.campbellca.gov";
+const CHAMBER_BASE_URL = "https://business.campbellchamber.net";
 const DIRECTORY_URL = `${BASE_URL}/directory/all`;
 const EVENTS_URL = `${BASE_URL}/events`;
 const CITY_CALENDAR_URL = `${CITY_BASE_URL}/calendar.aspx?view=list&CID=0`;
+const CHAMBER_DIRECTORY_URL = `${CHAMBER_BASE_URL}/list`;
 const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
 const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/501/Public-Notices`;
@@ -22,6 +24,7 @@ const PUBLIC_NOTICE_ARCHIVES = [
 ];
 const MAX_NOTICE_PDF_BYTES = 4_000_000;
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
+const CHAMBER_ALPHA_SLUGS = ["0-9", ..."abcdefghijklmnopqrstuvwxyz"];
 
 function decodeHtml(value = "") {
   return value
@@ -161,11 +164,102 @@ function parseDirectory(html) {
         phone,
         address,
         url,
+        websiteUrl: "",
+        description: "",
+        tags: ["Downtown"],
         source: "Downtown Campbell Directory",
         sourceUrl: DIRECTORY_URL,
       };
     })
     .filter(Boolean);
+}
+
+function parseChamberBusinesses(html, sourceUrl) {
+  return html
+    .split('<div class="gz-list-card-wrapper')
+    .slice(1)
+    .map((block) => {
+      const card = `<div class="gz-list-card-wrapper${block}`;
+      const titleLink = card.match(/<h5[^>]*class="[^"]*gz-card-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<\/h5>/i);
+      const name = cleanHtml(titleLink?.[2] ?? "");
+      const url = absoluteUrl(titleLink?.[1] ?? "", CHAMBER_BASE_URL);
+      const description = cleanHtml(card.match(/<p[^>]*class="[^"]*gz-member-description[^"]*"[^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? "").slice(0, 260);
+      const addressBlock = card.match(/<li[^>]*class="[^"]*gz-card-address[^"]*"[^>]*>([\s\S]*?)<\/li>/i)?.[1] ?? "";
+      const streetParts = [...addressBlock.matchAll(/<span[^>]*class="[^"]*gz-street-address[^"]*"[^>]*>([\s\S]*?)<\/span>/gi)]
+        .map(([, part]) => cleanHtml(part))
+        .filter(Boolean);
+      const city = cleanHtml(addressBlock.match(/<span[^>]*class="[^"]*gz-address-city[^"]*"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "");
+      const cityStateZip = cleanHtml(addressBlock.match(/<div[^>]*itemprop="citystatezip"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
+      const address = [...streetParts, cityStateZip].filter(Boolean).join(", ");
+      const phone = cleanHtml(card.match(/<li[^>]*class="[^"]*gz-card-phone[^"]*"[^>]*>[\s\S]*?<span>([\s\S]*?)<\/span>/i)?.[1] ?? "");
+      const websiteUrl = absoluteUrl(card.match(/<li[^>]*class="[^"]*gz-card-website[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"/i)?.[1] ?? "", CHAMBER_BASE_URL);
+      const imageUrl = absoluteUrl(card.match(/<img[^>]*class="[^"]*gz-results-img[^"]*"[^>]*src="([^"]+)"/i)?.[1] ?? "", CHAMBER_BASE_URL);
+
+      if (!name || !url) return null;
+
+      return {
+        name,
+        phone,
+        address,
+        city,
+        url,
+        websiteUrl,
+        imageUrl,
+        description,
+        tags: ["Chamber"],
+        source: "Campbell Chamber Directory",
+        sourceUrl,
+      };
+    })
+    .filter(Boolean);
+}
+
+function isCampbellLocatedBusiness(business) {
+  const text = `${business.address} ${business.city}`.toLowerCase();
+  return /\bcampbell\b/.test(text) || /\b95008\b/.test(text);
+}
+
+function businessKey(business) {
+  return normalizeKeyPart(business.name);
+}
+
+function mergeBusinesses(...feeds) {
+  const byKey = new Map();
+
+  for (const business of feeds.flat()) {
+    const key = businessKey(business);
+    const existing = byKey.get(key);
+
+    if (!existing) {
+      byKey.set(key, business);
+      continue;
+    }
+
+    const tags = new Set([...(existing.tags ?? []), ...(business.tags ?? [])]);
+    const sources = new Set([existing.source, business.source].filter(Boolean));
+    const sourceUrls = new Set([
+      existing.sourceUrl,
+      ...(existing.additionalSourceUrls ?? []),
+      business.sourceUrl,
+      ...(business.additionalSourceUrls ?? []),
+    ].filter(Boolean));
+
+    byKey.set(key, {
+      ...existing,
+      phone: existing.phone || business.phone,
+      address: existing.address || business.address,
+      city: existing.city || business.city,
+      url: existing.url || business.url,
+      websiteUrl: existing.websiteUrl || business.websiteUrl,
+      imageUrl: existing.imageUrl || business.imageUrl,
+      description: existing.description || business.description,
+      tags: [...tags],
+      source: [...sources].join(" + "),
+      additionalSourceUrls: [...sourceUrls].filter((url) => url !== existing.sourceUrl),
+    });
+  }
+
+  return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function normalizeKeyPart(value = "") {
@@ -560,7 +654,16 @@ async function main() {
     ...PUBLIC_NOTICE_ARCHIVES.map((archive) => fetchText(archive.href)),
   ]);
 
-  const businesses = parseDirectory(directoryHtml);
+  const downtownBusinesses = parseDirectory(directoryHtml);
+  const chamberBusinesses = [];
+  for (const slug of CHAMBER_ALPHA_SLUGS) {
+    await sleep(175);
+    const sourceUrl = `${CHAMBER_BASE_URL}/list/searchalpha/${slug}`;
+    const html = await fetchText(sourceUrl);
+    chamberBusinesses.push(...parseChamberBusinesses(html, sourceUrl));
+  }
+  const campbellChamberBusinesses = chamberBusinesses.filter(isCampbellLocatedBusiness);
+  const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
   const downtownEvents = parseDowntownEvents(eventsHtml);
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
   const events = mergeEventFeeds(cityCalendarEvents, downtownEvents);
@@ -583,8 +686,17 @@ async function main() {
     noticeArchives,
   });
 
-  if (businesses.length < 50) {
-    throw new Error(`Directory parse returned only ${businesses.length} businesses`);
+  if (downtownBusinesses.length < 50) {
+    throw new Error(`Downtown directory parse returned only ${downtownBusinesses.length} businesses`);
+  }
+  if (chamberBusinesses.length < 300) {
+    throw new Error(`Chamber directory parse returned only ${chamberBusinesses.length} businesses`);
+  }
+  if (campbellChamberBusinesses.length < 150) {
+    throw new Error(`Campbell Chamber filter returned only ${campbellChamberBusinesses.length} businesses`);
+  }
+  if (businesses.length < 200) {
+    throw new Error(`Merged business parse returned only ${businesses.length} businesses`);
   }
   if (cityCalendarEvents.length < 8) {
     throw new Error(`City calendar parse returned only ${cityCalendarEvents.length} events`);
@@ -608,6 +720,20 @@ async function main() {
   const businessPath = await writeJson("campbellBusinesses.json", {
     generatedAt,
     sourceUrl: DIRECTORY_URL,
+    sources: [
+      {
+        label: "Downtown Campbell Directory",
+        sourceUrl: DIRECTORY_URL,
+        count: businesses.filter((business) => business.tags?.includes("Downtown")).length,
+      },
+      {
+        label: "Campbell Chamber Directory",
+        sourceUrl: CHAMBER_DIRECTORY_URL,
+        count: businesses.filter((business) => business.tags?.includes("Chamber")).length,
+        sourceEntries: campbellChamberBusinesses.length,
+        totalParsed: chamberBusinesses.length,
+      },
+    ],
     items: businesses,
   });
 
@@ -642,7 +768,7 @@ async function main() {
     items: publicHearings,
   });
 
-  console.log(`Wrote ${businesses.length} businesses -> ${businessPath}`);
+  console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
   console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
