@@ -298,6 +298,21 @@ function parseDowntownStartDate(date = "") {
   return `${year}-${month}-${day}T00:00:00`;
 }
 
+function parseCityCalendarEndDate(date = "", startDate = "") {
+  const cleaned = cleanSentence(date);
+  const match = cleaned.match(/-\s*([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})/);
+  if (!match) return "";
+
+  const month = MONTH_NUMBERS[match[1].slice(0, 3).toLowerCase()];
+  if (!month) return "";
+
+  const day = match[2].padStart(2, "0");
+  const datePart = `${match[3]}-${month}-${day}`;
+  if (datePart === startDate.slice(0, 10)) return "";
+
+  return `${datePart}T23:59:59`;
+}
+
 function eventTimestamp(event) {
   const parsed = Date.parse(event.startDate || "");
   return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
@@ -404,6 +419,7 @@ function parseCityCalendarEvents(html) {
           "",
         ).slice(0, 280);
         const location = extractCalendarLocation(itemHtml);
+        const endDate = parseCityCalendarEndDate(date, startDate);
 
         if (!title || !url) return null;
 
@@ -417,6 +433,7 @@ function parseCityCalendarEvents(html) {
           imageUrl: "",
           category,
           startDate,
+          ...(endDate ? { endDate } : {}),
           source: "City of Campbell Calendar",
           sourceUrl: CITY_CALENDAR_URL,
         };

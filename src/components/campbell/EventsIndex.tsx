@@ -34,9 +34,10 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
-type EventViewFilter = "all" | "next14" | "next30" | "public";
+type EventViewFilter = "today" | "all" | "next14" | "next30" | "public";
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
+  { id: "today", label: "Today" },
   { id: "all", label: "All dates" },
   { id: "next14", label: "Next 14 days" },
   { id: "next30", label: "Next 30 days" },
@@ -83,6 +84,12 @@ function parseEventStart(event: CampbellEvent) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function parseEventEnd(event: CampbellEvent) {
+  if (!event.endDate) return parseEventStart(event);
+  const date = new Date(event.endDate);
+  return Number.isNaN(date.getTime()) ? parseEventStart(event) : date;
+}
+
 function eventSourceFilterLabel(label: string) {
   if (label === "City of Campbell Calendar") return "City calendar";
   if (label === "Downtown Campbell Events") return "Downtown";
@@ -121,6 +128,14 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter) {
   if (!start) return false;
   const startOfSyncDay = new Date(SYNC_DATE);
   startOfSyncDay.setHours(0, 0, 0, 0);
+  const endOfSyncDay = new Date(startOfSyncDay);
+  endOfSyncDay.setHours(23, 59, 59, 999);
+
+  if (viewFilter === "today") {
+    const end = parseEventEnd(event) ?? start;
+    return start.getTime() <= endOfSyncDay.getTime() && end.getTime() >= startOfSyncDay.getTime();
+  }
+
   const diffDays = Math.floor((start.getTime() - startOfSyncDay.getTime()) / DAY_MS);
   if (viewFilter === "next14") return diffDays >= -1 && diffDays <= 14;
   if (viewFilter === "next30") return diffDays >= -1 && diffDays <= 30;
@@ -146,7 +161,7 @@ export default function EventsIndex() {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
-  const [viewFilter, setViewFilter] = useState<EventViewFilter>("all");
+  const [viewFilter, setViewFilter] = useState<EventViewFilter>("today");
   const [showAll, setShowAll] = useState(false);
 
   const filteredEvents = useMemo(() => {
