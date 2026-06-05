@@ -1,18 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import CampbellPortal from "../components/campbell/CampbellPortal.tsx";
-const title = "Campbell — stanwood.dev";
+const title = "Campbell City Guide — stanwood.dev";
 ---
 
 <BaseLayout
   title={title}
-  description="A resident portal for Campbell, CA. Quick links, AI-powered council meeting digests, activity finder, and city data — all in one place."
+  description="A source-backed city guide for Campbell, CA: history, civic records, events, businesses, real estate records, data, and resident links."
   slug="campbell"
   favicon="/favicon-campbell.svg"
   themeColor="#F8F9FA"
   fontsUrl="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
   schemaCategory="WebApplication"
-  schemaName="Campbell Resident Portal"
+  schemaName="Campbell City Guide"
 >
   <Fragment slot="head">
     <style is:global>
@@ -283,6 +283,93 @@ const title = "Campbell — stanwood.dev";
       .cb-tab-icon { font-size: 0.9rem; }
       .cb-tab-label { font-size: 0.8rem; }
 
+      .cb-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      /* ── Shared guide sections ── */
+      .cb-section-head {
+        margin: 0 0 1rem;
+      }
+      .cb-section-kicker {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--cb-blue);
+        margin-bottom: 0.35rem;
+      }
+      .cb-section-head h3 {
+        font-size: 1.15rem;
+        line-height: 1.25;
+        margin: 0 0 0.45rem;
+        color: var(--cb-ink);
+      }
+      .cb-section-head p {
+        font-size: 0.86rem;
+        line-height: 1.6;
+        color: var(--cb-gray);
+        margin: 0;
+      }
+      .cb-source-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+      @media (min-width: 640px) {
+        .cb-source-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-source-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.34rem;
+        min-height: 9rem;
+        padding: 0.95rem 1rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-source-card:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-source-eyebrow {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+      }
+      .cb-source-title {
+        font-size: 0.94rem;
+        font-weight: 700;
+        color: var(--cb-ink);
+      }
+      .cb-source-why {
+        flex: 1;
+        font-size: 0.79rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+      }
+      .cb-source-meta {
+        width: fit-content;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        border-radius: 999px;
+        padding: 0.18rem 0.5rem;
+      }
+
       /* ── Quick Links ── */
       .cb-links-grid {
         display: grid;
@@ -330,6 +417,458 @@ const title = "Campbell — stanwood.dev";
       .cb-link-card:hover .cb-link-arrow {
         transform: translateX(2px);
         color: var(--cb-blue);
+      }
+
+      /* ── History ── */
+      .cb-history-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .cb-history-item {
+        display: grid;
+        grid-template-columns: 4.5rem 1fr;
+        gap: 0.8rem;
+        padding: 0.95rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-history-year {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--cb-gold);
+      }
+      .cb-history-body h4 {
+        font-size: 0.95rem;
+        line-height: 1.3;
+        margin: 0 0 0.35rem;
+      }
+      .cb-history-body p {
+        font-size: 0.82rem;
+        line-height: 1.55;
+        color: var(--cb-gray);
+        margin: 0 0 0.5rem;
+      }
+      .cb-history-body a {
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-history-body a:hover { text-decoration: underline; }
+      .cb-metric-strip {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        margin-top: 1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-metric-strip { grid-template-columns: repeat(3, 1fr); }
+      }
+      .cb-mini-metric {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        padding: 0.8rem 0.9rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-gold-light);
+        border: 1px solid rgba(198, 146, 20, 0.25);
+        border-radius: 8px;
+      }
+      .cb-mini-metric span {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: var(--cb-gold);
+      }
+      .cb-mini-metric strong {
+        font-size: 0.78rem;
+        color: var(--cb-ink);
+      }
+      .cb-mini-metric em {
+        font-size: 0.7rem;
+        line-height: 1.35;
+        color: var(--cb-gray);
+        font-style: normal;
+      }
+
+      /* ── Records and events ── */
+      .cb-next-panel {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        background: var(--cb-blue-light);
+        border: 1px solid rgba(27, 79, 138, 0.16);
+        border-radius: 8px;
+      }
+      .cb-next-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--cb-blue);
+      }
+      .cb-next-panel h4 {
+        font-size: 0.98rem;
+        margin: 0.15rem 0 0;
+      }
+      .cb-next-panel ul {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        margin: 0;
+        padding-left: 1.1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-next-panel ul { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-next-panel li {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: var(--cb-gray);
+      }
+      .cb-next-panel a {
+        width: fit-content;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-next-panel a:hover { text-decoration: underline; }
+      .cb-live-record-panel {
+        display: grid;
+        gap: 0.8rem;
+        margin: 0 0 1rem;
+      }
+      .cb-live-record-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.85rem 0.95rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-live-record-head h4 {
+        font-size: 0.95rem;
+        line-height: 1.25;
+        margin: 0.12rem 0 0;
+      }
+      .cb-live-record-head > span {
+        flex-shrink: 0;
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        border-radius: 999px;
+        padding: 0.2rem 0.55rem;
+        white-space: nowrap;
+      }
+      .cb-live-record-kicker {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.64rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--cb-light-gray);
+      }
+      .cb-hearing-list,
+      .cb-council-record-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.62rem;
+      }
+      .cb-hearing-card,
+      .cb-council-record {
+        padding: 0.9rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-hearing-card {
+        display: grid;
+        gap: 0.48rem;
+      }
+      .cb-hearing-topline {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.45rem;
+      }
+      .cb-hearing-topline span,
+      .cb-hearing-topline em {
+        width: fit-content;
+        border-radius: 999px;
+        padding: 0.14rem 0.5rem;
+        font-size: 0.66rem;
+        font-weight: 800;
+        font-style: normal;
+      }
+      .cb-hearing-topline span {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+      }
+      .cb-hearing-topline em {
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+      }
+      .cb-hearing-card h4,
+      .cb-council-record h4 {
+        font-size: 0.9rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .cb-hearing-when {
+        width: fit-content;
+        margin: 0;
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+        border-radius: 6px;
+        padding: 0.22rem 0.48rem;
+        font-size: 0.72rem;
+        font-weight: 800;
+      }
+      .cb-hearing-summary {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0;
+      }
+      .cb-hearing-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+      .cb-hearing-meta span {
+        border: 1px solid var(--cb-border);
+        border-radius: 999px;
+        padding: 0.14rem 0.45rem;
+        font-size: 0.68rem;
+        color: var(--cb-gray);
+      }
+      .cb-council-record {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.8rem;
+      }
+      .cb-council-record span {
+        display: block;
+        margin-bottom: 0.22rem;
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: var(--cb-light-gray);
+      }
+      .cb-record-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.42rem;
+      }
+      .cb-record-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 1.7rem;
+        padding: 0 0.55rem;
+        border-radius: 999px;
+        border: 1px solid rgba(27, 79, 138, 0.22);
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .cb-record-links a:hover {
+        border-color: var(--cb-blue);
+        text-decoration: none;
+      }
+      @media (max-width: 520px) {
+        .cb-live-record-head > span {
+          white-space: normal;
+        }
+        .cb-council-record {
+          flex-direction: column;
+        }
+      }
+      .cb-anchor-grid,
+      .cb-ledger-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-anchor-grid,
+        .cb-ledger-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-anchor-card,
+      .cb-ledger-card {
+        padding: 0.9rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-left: 3px solid var(--cb-gold);
+        border-radius: 8px;
+      }
+      .cb-anchor-card span,
+      .cb-ledger-card span {
+        display: block;
+        font-size: 0.88rem;
+        font-weight: 800;
+        color: var(--cb-ink);
+        margin-bottom: 0.3rem;
+      }
+      .cb-anchor-card p,
+      .cb-ledger-card p {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0;
+      }
+      .cb-live-events-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin: 0 0 0.75rem;
+      }
+      .cb-live-events-head span {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: var(--cb-ink);
+      }
+      .cb-live-events-head a {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-live-events-head a:hover { text-decoration: underline; }
+      .cb-event-source-counts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        margin: 0 0 0.85rem;
+      }
+      .cb-event-source-counts a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.28rem 0.5rem;
+        color: var(--cb-ink);
+        background: #F5F7FB;
+        border: 1px solid var(--cb-border);
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 750;
+        text-decoration: none;
+      }
+      .cb-event-source-counts span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.35rem;
+        height: 1.35rem;
+        padding: 0 0.25rem;
+        color: white;
+        background: var(--cb-blue);
+        border-radius: 999px;
+        box-sizing: border-box;
+        font-size: 0.66rem;
+      }
+      .cb-live-events {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+        margin-bottom: 1rem;
+      }
+      @media (min-width: 640px) {
+        .cb-live-events { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-event-card {
+        display: grid;
+        grid-template-columns: 5.25rem 1fr;
+        gap: 0.75rem;
+        min-height: 6.5rem;
+        padding: 0.7rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-event-card--text {
+        grid-template-columns: 1fr;
+      }
+      .cb-event-card:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-event-card img {
+        width: 100%;
+        height: 100%;
+        min-height: 5.1rem;
+        object-fit: cover;
+        border-radius: 6px;
+        background: var(--cb-blue-light);
+      }
+      .cb-event-card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        min-width: 0;
+      }
+      .cb-event-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        align-items: center;
+      }
+      .cb-event-date {
+        width: fit-content;
+        padding: 0.12rem 0.42rem;
+        border-radius: 999px;
+        background: var(--cb-blue-light);
+        color: var(--cb-blue);
+        font-size: 0.66rem;
+        font-weight: 800;
+      }
+      .cb-event-source {
+        width: fit-content;
+        padding: 0.12rem 0.42rem;
+        border-radius: 999px;
+        background: var(--cb-green-light);
+        color: var(--cb-green);
+        font-size: 0.66rem;
+        font-weight: 800;
+      }
+      .cb-event-card h4 {
+        font-size: 0.86rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .cb-event-card p {
+        font-size: 0.74rem;
+        line-height: 1.4;
+        color: var(--cb-gray);
+        margin: 0;
+      }
+      .cb-event-desc {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       /* ── Council Digest ── */
@@ -603,7 +1142,7 @@ const title = "Campbell — stanwood.dev";
       .cb-data-identity-name {
         font-size: 1.1rem;
         font-weight: 700;
-        color: var(--cb-text);
+        color: var(--cb-ink);
       }
       .cb-data-identity-meta {
         font-size: 0.8rem;
@@ -626,6 +1165,13 @@ const title = "Campbell — stanwood.dev";
         border: 1px solid var(--cb-border);
         border-radius: var(--cb-radius);
         padding: 0.625rem 0.75rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+      }
+      .cb-data-stat:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 3px 10px rgba(27, 79, 138, 0.08);
       }
       .cb-data-stat-icon {
         font-size: 1.1rem;
@@ -641,7 +1187,7 @@ const title = "Campbell — stanwood.dev";
       .cb-data-stat-value {
         font-size: 1rem;
         font-weight: 700;
-        color: var(--cb-text);
+        color: var(--cb-ink);
         line-height: 1.2;
       }
       .cb-data-stat-label {
@@ -702,6 +1248,185 @@ const title = "Campbell — stanwood.dev";
         color: var(--cb-light-gray);
         line-height: 1.5;
         margin: 0.25rem 0 0;
+      }
+
+      /* ── Business index ── */
+      .cb-business-toolbar {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        margin-bottom: 0.9rem;
+      }
+      @media (min-width: 640px) {
+        .cb-business-toolbar {
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+      .cb-business-search,
+      .cb-business-select {
+        width: 100%;
+        min-height: 2.45rem;
+        padding: 0.58rem 0.78rem;
+        border: 1.5px solid var(--cb-border);
+        border-radius: 8px;
+        background: var(--cb-card-bg);
+        font-size: 0.83rem;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+      .cb-business-search {
+        flex: 1;
+      }
+      .cb-business-select {
+        flex: 0 0 11rem;
+      }
+      .cb-business-search:focus,
+      .cb-business-select:focus {
+        outline: none;
+        border-color: var(--cb-blue);
+      }
+      .cb-business-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.45rem;
+        padding: 0 0.72rem;
+        border-radius: 8px;
+        background: var(--cb-blue-light);
+        color: var(--cb-blue);
+        font-size: 0.76rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+      .cb-business-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+      }
+      @media (min-width: 640px) {
+        .cb-business-grid { grid-template-columns: 1fr 1fr; }
+      }
+      .cb-business-card {
+        min-height: 7rem;
+        padding: 0.9rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+        color: var(--cb-ink);
+        text-decoration: none;
+        transition: border-color 0.16s, box-shadow 0.16s, transform 0.16s;
+      }
+      .cb-business-card:hover {
+        border-color: var(--cb-blue);
+        box-shadow: 0 4px 12px rgba(27, 79, 138, 0.1);
+        transform: translateY(-1px);
+      }
+      .cb-business-category {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 0.45rem;
+        padding: 0.16rem 0.48rem;
+        border-radius: 999px;
+        background: var(--cb-green-light);
+        color: var(--cb-green);
+        font-size: 0.68rem;
+        font-weight: 800;
+      }
+      .cb-business-card h4 {
+        font-size: 0.95rem;
+        line-height: 1.25;
+        margin: 0 0 0.3rem;
+      }
+      .cb-business-card p,
+      .cb-business-card em {
+        display: block;
+        font-size: 0.78rem;
+        line-height: 1.45;
+        color: var(--cb-gray);
+        margin: 0;
+        font-style: normal;
+      }
+      .cb-source-note {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.55rem;
+        margin-top: 1rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid var(--cb-border);
+      }
+      .cb-source-note span {
+        font-size: 0.76rem;
+        color: var(--cb-light-gray);
+      }
+      .cb-source-note a {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--cb-blue);
+        text-decoration: none;
+      }
+      .cb-source-note a:hover { text-decoration: underline; }
+
+      /* ── Homes and roadmap ── */
+      .cb-privacy-note {
+        font-size: 0.8rem;
+        line-height: 1.55;
+        color: var(--cb-gray);
+        margin: 1rem 0 0;
+        padding: 0.75rem 0.9rem;
+        background: var(--cb-gold-light);
+        border-left: 3px solid var(--cb-gold);
+        border-radius: 8px;
+      }
+      .cb-roadmap-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .cb-roadmap-item {
+        display: grid;
+        grid-template-columns: 2.25rem 1fr;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-roadmap-num {
+        font-family: 'Space Mono', monospace;
+        font-size: 0.78rem;
+        font-weight: 800;
+        color: var(--cb-blue);
+      }
+      .cb-roadmap-title-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+      .cb-roadmap-title-row h4 {
+        font-size: 0.95rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .cb-roadmap-title-row em {
+        flex-shrink: 0;
+        padding: 0.15rem 0.45rem;
+        border-radius: 999px;
+        background: var(--cb-blue-light);
+        color: var(--cb-blue);
+        font-size: 0.66rem;
+        font-weight: 800;
+        font-style: normal;
+        white-space: nowrap;
+      }
+      .cb-roadmap-item p {
+        font-size: 0.8rem;
+        line-height: 1.5;
+        color: var(--cb-gray);
+        margin: 0.35rem 0 0;
       }
 
       /* ── Eat Local ── */
@@ -1026,29 +1751,29 @@ const title = "Campbell — stanwood.dev";
 
     <div class="cb-hero">
       <div class="cb-hero-inner">
-        <h1><span>Campbell</span> Resident Portal</h1>
-        <p class="cb-hero-sub">One front door for everything City of Campbell — no more hunting through five different portals.</p>
+        <h1><span>Campbell</span> City Guide</h1>
+        <p class="cb-hero-sub">History, records, events, businesses, homes, maps, and resident shortcuts in one source-backed Campbell page.</p>
       </div>
     </div>
 
     <section class="cb-forwhen" aria-label="Why this exists">
-      <span class="cb-forwhen-label">Built for residents like</span>
+      <span class="cb-forwhen-label">Built for questions like</span>
       <div class="cb-forwhen-grid">
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">01</span>
-          <p class="cb-forwhen-text"><em>Reporting a pothole</em> <span>before your tire eats it — straight to the right city form, no tab-hunting.</span></p>
+          <p class="cb-forwhen-text"><em>What changed at Council?</em> <span>Agenda packets, minutes, media, and plain-English summaries in one civic record.</span></p>
         </div>
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">02</span>
-          <p class="cb-forwhen-text"><em>Catching up on Council</em> <span>without watching a 3-hour meeting — plain-English digest of what got decided.</span></p>
+          <p class="cb-forwhen-text"><em>What is happening this weekend?</em> <span>City, downtown, theater, museum, library, school, and shop calendars merged cleanly.</span></p>
         </div>
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">03</span>
-          <p class="cb-forwhen-text"><em>Signing your kid up for swim</em> <span>or a soccer camp — search recreation classes by age and season.</span></p>
+          <p class="cb-forwhen-text"><em>Who is open on Campbell Ave?</em> <span>Every storefront, category, address, direct link, and last-seen source check.</span></p>
         </div>
         <div class="cb-forwhen-card">
           <span class="cb-forwhen-num">04</span>
-          <p class="cb-forwhen-text"><em>Picking dinner downtown</em> <span>tonight — local restaurants with the vibe, not the franchise list.</span></p>
+          <p class="cb-forwhen-text"><em>What sold or got permitted?</em> <span>Property, permit, zoning, and recorder data without turning neighbors into content.</span></p>
         </div>
       </div>
     </section>

@@ -2,16 +2,23 @@ import { useState } from "react";
 import type { Section } from "../../lib/campbell/types";
 import QuickLinks from "./QuickLinks";
 import CouncilDigest from "./CouncilDigest";
-import ActivityFinder from "./ActivityFinder";
-import EatLocal from "./EatLocal";
 import CityData from "./CityData";
+import HistoryTimeline from "./HistoryTimeline";
+import CivicRecords from "./CivicRecords";
+import EventsIndex from "./EventsIndex";
+import BusinessIndex from "./BusinessIndex";
+import RealEstateLedger from "./RealEstateLedger";
+import CampbellRoadmap from "./CampbellRoadmap";
 
 const TABS: { id: Section; label: string; icon: string }[] = [
-  { id: "links", label: "Quick Links", icon: "🔗" },
-  { id: "digest", label: "Council Digest", icon: "📰" },
-  { id: "activities", label: "Activities", icon: "🏊" },
-  { id: "eat", label: "Eat Local", icon: "🍕" },
-  { id: "data", label: "City Data", icon: "📊" },
+  { id: "links", label: "Start", icon: "↗" },
+  { id: "history", label: "History", icon: "○" },
+  { id: "digest", label: "Hearings", icon: "§" },
+  { id: "events", label: "Events", icon: "◇" },
+  { id: "businesses", label: "Businesses", icon: "□" },
+  { id: "homes", label: "Homes", icon: "⌂" },
+  { id: "data", label: "Data", icon: "#" },
+  { id: "roadmap", label: "Roadmap", icon: "✓" },
 ];
 
 export default function CampbellPortal() {
@@ -21,7 +28,7 @@ export default function CampbellPortal() {
     <div className="cb-portal">
       <div className="cb-intro">
         <p>
-          Quick links, council meeting summaries, local restaurants, recreation activities, and public data for Campbell residents.
+          A Campbell city guide built from public records, official calendars, local directories, civic archives, and resident-grade notes.
         </p>
       </div>
 
@@ -40,10 +47,18 @@ export default function CampbellPortal() {
 
       <div className="cb-content">
         {active === "links" && <QuickLinks />}
-        {active === "digest" && <CouncilDigest />}
-        {active === "activities" && <ActivityFinder />}
-        {active === "eat" && <EatLocal />}
+        {active === "history" && <HistoryTimeline />}
+        {active === "digest" && (
+          <div className="cb-stack">
+            <CivicRecords />
+            <CouncilDigest />
+          </div>
+        )}
+        {active === "events" && <EventsIndex />}
+        {active === "businesses" && <BusinessIndex />}
+        {active === "homes" && <RealEstateLedger />}
         {active === "data" && <CityData />}
+        {active === "roadmap" && <CampbellRoadmap />}
       </div>
     </div>
   );

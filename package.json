@@ -7,6 +7,7 @@
     "build": "astro build && node scripts/postbuild.mjs",
     "preview": "astro preview",
     "astro": "astro",
+    "campbell:sync": "node scripts/sync-campbell-data.mjs",
     "test": "vitest run"
   },
   "dependencies": {

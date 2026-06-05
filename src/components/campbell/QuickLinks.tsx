@@ -1,3 +1,5 @@
+import { SOURCE_URLS } from "../../data/campbell";
+
 const links = [
   {
     title: "Report a Concern",
@@ -18,10 +20,28 @@ const links = [
     icon: "🏊",
   },
   {
-    title: "City Council Agendas",
-    desc: "Meeting schedules, agendas, and minutes",
-    href: "https://www.campbellca.gov/AgendaCenter",
+    title: "Council Records",
+    desc: "Agendas, minutes, media, boards, and commissions",
+    href: SOURCE_URLS.agendaCenter,
     icon: "📋",
+  },
+  {
+    title: "Public Hearings",
+    desc: "Official public notices, planning hearings, legal notices",
+    href: SOURCE_URLS.publicNotices,
+    icon: "📣",
+  },
+  {
+    title: "City Events",
+    desc: "Official calendar, public meetings, recreation dates",
+    href: SOURCE_URLS.cityCalendar,
+    icon: "📅",
+  },
+  {
+    title: "Downtown Directory",
+    desc: "Shops, restaurants, services, and venues",
+    href: SOURCE_URLS.downtownDirectory,
+    icon: "🛍️",
   },
   {
     title: "Police Department",
@@ -32,20 +52,26 @@ const links = [
   {
     title: "GIS & Maps",
     desc: "Zoning, parcels, business licenses",
-    href: "https://gis.campbellca.gov/public",
+    href: SOURCE_URLS.cityGisPublic,
     icon: "🗺️",
   },
   {
-    title: "Pay a Bill",
-    desc: "Utilities, permits, and business taxes",
-    href: "https://www.campbellca.gov/1140/Online-Services",
-    icon: "💳",
+    title: "Property Search",
+    desc: "Assessor parcel and assessment lookup",
+    href: SOURCE_URLS.assessorSearch,
+    icon: "🏠",
   },
   {
-    title: "Downtown Campbell",
-    desc: "Events, parking, shops, and restaurants",
-    href: "https://www.downtowncampbell.com",
-    icon: "🛍️",
+    title: "Official Records",
+    desc: "Recorded real estate documents and maps",
+    href: SOURCE_URLS.clerkRecorder,
+    icon: "📄",
+  },
+  {
+    title: "Budget",
+    desc: "Annual budget, services, fees, and finance",
+    href: SOURCE_URLS.cityBudget,
+    icon: "💳",
   },
 ];
 

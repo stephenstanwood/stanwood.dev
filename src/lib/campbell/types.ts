@@ -21,4 +21,12 @@ export interface Activity {
   description: string;
 }
 
-export type Section = "links" | "digest" | "activities" | "eat" | "data";
+export type Section =
+  | "links"
+  | "history"
+  | "digest"
+  | "events"
+  | "businesses"
+  | "homes"
+  | "data"
+  | "roadmap";
