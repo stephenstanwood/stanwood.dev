@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { CIVIC_SOURCES, SOURCE_URLS } from "../../data/campbell";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
@@ -27,6 +28,16 @@ interface PublicHearing {
   extractionNote?: string;
 }
 
+type HearingFilter = "all" | "upcoming" | "planning" | "council" | "needs-date";
+
+const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "upcoming", label: "Upcoming" },
+  { id: "planning", label: "Planning" },
+  { id: "council", label: "Council" },
+  { id: "needs-date", label: "Needs date" },
+];
+
 const RECORDS_QUEUE = [
   "Full-text agenda packet extraction",
   "Plain-English summaries for every public hearing",
@@ -37,7 +48,7 @@ const RECORDS_QUEUE = [
 ];
 
 const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
-const PUBLIC_HEARINGS = (hearingFeed.items as PublicHearing[]).slice(0, 10);
+const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 
 function formatGeneratedAt(value: string) {
   return new Date(value).toLocaleDateString("en-US", {
@@ -61,7 +72,73 @@ function plainSummary(summary: string) {
   return `${cleaned}.`;
 }
 
+function parseHearingDate(value: string) {
+  if (!value) return null;
+  const normalized = value
+    .replace(/\bat\b/i, "")
+    .replace(/a\.m\./gi, "AM")
+    .replace(/p\.m\./gi, "PM");
+  const parsed = new Date(normalized);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function topicLabel(item: PublicHearing) {
+  const text = `${item.title} ${item.summary}`.toLowerCase();
+  if (/housing|residential|townhome|condominium|unit|subdivision|development/.test(text)) return "Housing and development";
+  if (/fee|tax|budget|capital improvement|cip|charge/.test(text)) return "Fees, taxes, and budget";
+  if (/beer|wine|entertainment|pharmacy|restaurant|bank|conditional use|use permit/.test(text)) return "Business and site use";
+  if (/eir|environment|ceqa|building code|california building code/.test(text)) return "Environment and code";
+  return "Public decision";
+}
+
+function impactLine(item: PublicHearing) {
+  const topic = topicLabel(item);
+  if (topic === "Housing and development") return "Why it matters: this could change what gets built, demolished, subdivided, or reviewed at the site.";
+  if (topic === "Fees, taxes, and budget") return "Why it matters: this could change city fees, business taxes, capital projects, or what services cost.";
+  if (topic === "Business and site use") return "Why it matters: this could change how a Campbell property operates, including allowed uses or customer-facing activity.";
+  if (topic === "Environment and code") return "Why it matters: this could affect development review, environmental impacts, or construction rules.";
+  return "Why it matters: a public body is taking comments or making a decision on this item.";
+}
+
+function hearingStatus(item: PublicHearing, today: Date) {
+  const date = parseHearingDate(item.hearingAt);
+  if (!date) return "Date in packet";
+  if (date >= today) return "Upcoming";
+
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  return date >= sixMonthsAgo ? "Recent" : "Past";
+}
+
 export default function CivicRecords() {
+  const [activeFilter, setActiveFilter] = useState<HearingFilter>("all");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const hearingStats = useMemo(() => {
+    const upcoming = PUBLIC_HEARINGS.filter((item) => {
+      const date = parseHearingDate(item.hearingAt);
+      return date ? date >= today : false;
+    }).length;
+    return {
+      upcoming,
+      planning: PUBLIC_HEARINGS.filter((item) => item.body === "Planning Commission").length,
+      council: PUBLIC_HEARINGS.filter((item) => item.body === "City Council").length,
+      needsDate: PUBLIC_HEARINGS.filter((item) => !parseHearingDate(item.hearingAt)).length,
+    };
+  }, [today]);
+
+  const filteredHearings = useMemo(() => {
+    return PUBLIC_HEARINGS.filter((item) => {
+      const date = parseHearingDate(item.hearingAt);
+      if (activeFilter === "upcoming") return date ? date >= today : false;
+      if (activeFilter === "planning") return item.body === "Planning Commission";
+      if (activeFilter === "council") return item.body === "City Council";
+      if (activeFilter === "needs-date") return !date;
+      return true;
+    });
+  }, [activeFilter, today]);
+
   return (
     <div className="cb-records">
       <div className="cb-section-head">
@@ -83,12 +160,48 @@ export default function CivicRecords() {
           <span>{PUBLIC_HEARINGS.length} indexed · synced {formatGeneratedAt(hearingFeed.generatedAt)}</span>
         </div>
 
+        <div className="cb-hearing-stats" aria-label="Public hearing summary">
+          <article>
+            <span>{hearingStats.upcoming}</span>
+            <p>Upcoming with dates</p>
+          </article>
+          <article>
+            <span>{hearingStats.planning}</span>
+            <p>Planning Commission</p>
+          </article>
+          <article>
+            <span>{hearingStats.council}</span>
+            <p>City Council</p>
+          </article>
+          <article>
+            <span>{hearingStats.needsDate}</span>
+            <p>Date in packet</p>
+          </article>
+        </div>
+
+        <div className="cb-hearing-filters" role="tablist" aria-label="Public hearing filters">
+          {HEARING_FILTERS.map((filter) => (
+            <button
+              key={filter.id}
+              type="button"
+              className={activeFilter === filter.id ? "is-active" : ""}
+              onClick={() => setActiveFilter(filter.id)}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+
         <div className="cb-hearing-list">
-          {PUBLIC_HEARINGS.map((item) => (
+          {filteredHearings.map((item) => (
             <article className="cb-hearing-card" key={item.id}>
               <div className="cb-hearing-topline">
                 <span>{item.body}</span>
                 <em>{item.sourceType}</em>
+              </div>
+              <div className="cb-hearing-status-row">
+                <span>{hearingStatus(item, today)}</span>
+                <em>{topicLabel(item)}</em>
               </div>
               <h4>{item.title}</h4>
               <p className="cb-hearing-when">
@@ -97,6 +210,7 @@ export default function CivicRecords() {
               <p className="cb-hearing-summary">
                 {item.extractionNote ? "Large official packet: open the notice for the complete date, plans, and project materials." : plainSummary(item.summary)}
               </p>
+              <p className="cb-hearing-impact">{impactLine(item)}</p>
               {(item.address || item.fileNo || item.planner) && (
                 <div className="cb-hearing-meta">
                   {item.address && <span>{item.address}</span>}
@@ -106,7 +220,7 @@ export default function CivicRecords() {
               )}
               <div className="cb-record-links">
                 <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  Official agenda
+                  {item.sourceType === "Agenda item" ? "Agenda packet" : "Notice archive"}
                 </a>
                 {item.noticeUrl && (
                   <a href={item.noticeUrl} target="_blank" rel="noopener noreferrer">
@@ -117,6 +231,12 @@ export default function CivicRecords() {
             </article>
           ))}
         </div>
+
+        {filteredHearings.length === 0 && (
+          <p className="cb-hearing-empty">
+            No records in this filter from the current sync.
+          </p>
+        )}
       </section>
 
       <section className="cb-live-record-panel" aria-label="Campbell council agenda and minutes records">
