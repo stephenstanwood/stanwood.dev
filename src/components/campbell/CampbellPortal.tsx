@@ -10,6 +10,7 @@ import EventsIndex from "./EventsIndex";
 import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
 import CampbellRoadmap from "./CampbellRoadmap";
+import TodayInCampbell from "./TodayInCampbell";
 
 const TABS: { id: Section; label: string }[] = [
   { id: "events", label: "Events" },
@@ -28,6 +29,8 @@ export default function CampbellPortal() {
 
   return (
     <div className="cb-portal">
+      <TodayInCampbell />
+
       <nav className="cb-tabs" aria-label="Campbell sections">
         {TABS.map((tab) => (
           <button

@@ -28,11 +28,12 @@ interface PublicHearing {
   extractionNote?: string;
 }
 
-type HearingFilter = "all" | "upcoming" | "planning" | "council" | "needs-date";
+type HearingFilter = "all" | "upcoming" | "recent" | "planning" | "council" | "needs-date";
 
 const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "upcoming", label: "Upcoming" },
+  { id: "recent", label: "Recent" },
   { id: "planning", label: "Planning" },
   { id: "council", label: "Council" },
   { id: "needs-date", label: "Needs date" },
@@ -102,6 +103,14 @@ function hearingStatus(item: PublicHearing, today: Date) {
   return date >= sixMonthsAgo ? "Recent" : "Past";
 }
 
+function isRecentHearing(item: PublicHearing, today: Date) {
+  const date = parseHearingDate(item.hearingAt);
+  if (!date || date >= today) return false;
+  const sixMonthsAgo = new Date(today);
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+  return date >= sixMonthsAgo;
+}
+
 export default function CivicRecords() {
   const [activeFilter, setActiveFilter] = useState<HearingFilter>("all");
   const today = new Date();
@@ -111,12 +120,18 @@ export default function CivicRecords() {
     return PUBLIC_HEARINGS.filter((item) => {
       const date = parseHearingDate(item.hearingAt);
       if (activeFilter === "upcoming") return date ? date >= today : false;
+      if (activeFilter === "recent") return isRecentHearing(item, today);
       if (activeFilter === "planning") return item.body === "Planning Commission";
       if (activeFilter === "council") return item.body === "City Council";
       if (activeFilter === "needs-date") return !date;
       return true;
     });
   }, [activeFilter, today]);
+  const upcomingCount = PUBLIC_HEARINGS.filter((item) => {
+    const date = parseHearingDate(item.hearingAt);
+    return date ? date >= today : false;
+  }).length;
+  const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
 
   return (
     <div className="cb-records">
@@ -135,6 +150,11 @@ export default function CivicRecords() {
           <div>
             <span className="cb-live-record-kicker">Public hearings</span>
             <h4>What is coming through City Hall</h4>
+            <p>
+              {upcomingCount > 0
+                ? `${upcomingCount} future-dated hearing${upcomingCount === 1 ? "" : "s"} in the current feed.`
+                : `No future-dated hearings in the current feed. Showing ${recentCount} recent notice${recentCount === 1 ? "" : "s"} and packet items.`}
+            </p>
           </div>
         </div>
 

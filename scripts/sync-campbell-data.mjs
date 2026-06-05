@@ -23,6 +23,15 @@ const CAMPBELL_MUSEUMS_BASE_URL = "https://www.campbellmuseums.com";
 const CAMPBELL_MUSEUMS_EVENTS_URL = `${CAMPBELL_MUSEUMS_BASE_URL}/events-main`;
 const HERITAGE_THEATRE_BASE_URL = "https://www.heritagetheatre.org";
 const HERITAGE_THEATRE_EVENTS_URL = `${HERITAGE_THEATRE_BASE_URL}/events-1`;
+const CUSD_CALENDAR_URL = "https://www.campbellusd.org/calendar?locale=en";
+const CUSD_ICS_SOURCES = [
+  { label: "CUSD District Wide Events", id: "campbellusd.org_0nc5m32rifu1o7qnfhpi7k2nb0" },
+  { label: "CUSD Public Meetings", id: "campbellusd.org_0k9apnhonup1kh5g71gfu76q8k" },
+  { label: "CUSD No School Days", id: "campbellusd.org_dmvesuq2lbtv4spus72hhfb570" },
+].map((source) => ({
+  ...source,
+  href: `https://calendar.google.com/calendar/ical/${encodeURIComponent(`${source.id}@group.calendar.google.com`)}/public/basic.ics`,
+}));
 const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
 const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/501/Public-Notices`;
@@ -89,6 +98,21 @@ async function fetchText(url) {
   return res.text();
 }
 
+async function fetchIcsText(url) {
+  const res = await fetch(url, {
+    headers: {
+      "user-agent": USER_AGENT,
+      "accept": "text/calendar,text/plain",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+  }
+
+  return res.text();
+}
+
 function extractJsonScript(html, id) {
   const match = html.match(new RegExp(`<script[^>]*id="${id}"[^>]*>([\\s\\S]*?)<\\/script>`, "i"));
   if (!match) return null;
@@ -101,20 +125,27 @@ function extractJsonScript(html, id) {
 }
 
 async function fetchPdfText(url) {
-  const head = await fetch(url, {
-    method: "HEAD",
-    headers: {
-      "user-agent": USER_AGENT,
-      "accept": "application/pdf",
-    },
-  });
-  const contentLength = Number(head.headers.get("content-length") ?? 0);
+  let contentLength = 0;
+  try {
+    const head = await fetch(url, {
+      method: "HEAD",
+      signal: AbortSignal.timeout(15_000),
+      headers: {
+        "user-agent": USER_AGENT,
+        "accept": "application/pdf",
+      },
+    });
+    contentLength = Number(head.headers.get("content-length") ?? 0);
+  } catch {
+    contentLength = 0;
+  }
 
   if (contentLength > MAX_NOTICE_PDF_BYTES) {
     return { text: "", skipped: `PDF is ${Math.round(contentLength / 1024 / 1024)}MB` };
   }
 
   const res = await fetch(url, {
+    signal: AbortSignal.timeout(25_000),
     headers: {
       "user-agent": USER_AGENT,
       "accept": "application/pdf",
@@ -124,8 +155,17 @@ async function fetchPdfText(url) {
   if (!res.ok) {
     return { text: "", skipped: `Failed to fetch PDF: ${res.status}` };
   }
+  const getContentLength = Number(res.headers.get("content-length") ?? 0);
+  if (getContentLength > MAX_NOTICE_PDF_BYTES) {
+    return { text: "", skipped: `PDF is ${Math.round(getContentLength / 1024 / 1024)}MB` };
+  }
 
-  const buffer = Buffer.from(await res.arrayBuffer());
+  let buffer;
+  try {
+    buffer = await readLimitedResponse(res, MAX_NOTICE_PDF_BYTES);
+  } catch (err) {
+    return { text: "", skipped: err.message || "PDF exceeded read limit" };
+  }
   const dir = await mkdtemp(resolve(tmpdir(), "campbell-notice-"));
   const pdfPath = resolve(dir, "notice.pdf");
 
@@ -148,6 +188,29 @@ async function fetchPdfText(url) {
   } finally {
     await rm(dir, { recursive: true, force: true });
   }
+}
+
+async function readLimitedResponse(res, limitBytes) {
+  if (!res.body) {
+    return Buffer.from(await res.arrayBuffer());
+  }
+
+  const chunks = [];
+  let total = 0;
+  const reader = res.body.getReader();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > limitBytes) {
+      await reader.cancel();
+      throw new Error(`PDF exceeds ${Math.round(limitBytes / 1024 / 1024)}MB limit`);
+    }
+    chunks.push(Buffer.from(value));
+  }
+
+  return Buffer.concat(chunks);
 }
 
 function sleep(ms) {
@@ -674,6 +737,98 @@ function parseWixEvents(html, { baseUrl, sourceUrl, source, category }) {
   return [...byId.values()].sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
 
+function unfoldIcs(value = "") {
+  return value.replace(/\r?\n[ \t]/g, "");
+}
+
+function readIcsProperty(block = "", name = "") {
+  return block.match(new RegExp(`^${name}(?:;[^:]*)?:(.*)$`, "m"))?.[1]?.trim() ?? "";
+}
+
+function decodeIcsValue(value = "") {
+  return value
+    .replace(/\\n/g, " ")
+    .replace(/\\,/g, ",")
+    .replace(/\\;/g, ";")
+    .replace(/\\\\/g, "\\")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseIcsDate(value = "") {
+  const dateOnly = value.match(/^(\d{4})(\d{2})(\d{2})$/);
+  if (dateOnly) {
+    return new Date(`${dateOnly[1]}-${dateOnly[2]}-${dateOnly[3]}T00:00:00`);
+  }
+
+  const dateTime = value.match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z?$/);
+  if (!dateTime) return null;
+
+  const [, year, month, day, hour, minute, second] = dateTime;
+  return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}${value.endsWith("Z") ? "Z" : ""}`);
+}
+
+function localIso(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-") + `T${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+}
+
+function parseIcsEvents(text, { label, sourceUrl, calendarUrl, generatedAt }) {
+  const today = new Date(generatedAt);
+  today.setHours(0, 0, 0, 0);
+  const oneYearOut = new Date(today);
+  oneYearOut.setFullYear(oneYearOut.getFullYear() + 1);
+
+  return [...unfoldIcs(text).matchAll(/BEGIN:VEVENT([\s\S]*?)END:VEVENT/g)]
+    .map(([, block]) => {
+      const startValue = readIcsProperty(block, "DTSTART");
+      const endValue = readIcsProperty(block, "DTEND");
+      const start = parseIcsDate(startValue);
+      const end = parseIcsDate(endValue);
+      const title = decodeIcsValue(readIcsProperty(block, "SUMMARY"));
+      const location = decodeIcsValue(readIcsProperty(block, "LOCATION"));
+      const description = decodeIcsValue(cleanHtml(readIcsProperty(block, "DESCRIPTION"))).slice(0, 280);
+      const url = decodeIcsValue(readIcsProperty(block, "URL")) || calendarUrl;
+
+      if (!title || !start) return null;
+      if (start < today || start > oneYearOut) return null;
+
+      const date = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        ...(startValue.length > 8 ? { hour: "numeric", minute: "2-digit", timeZoneName: "short" } : {}),
+      }).format(start);
+
+      const event = {
+        title,
+        date,
+        cost: "",
+        location,
+        description: description || `From ${label}.`,
+        url,
+        imageUrl: "",
+        category: "Schools",
+        startDate: localIso(start),
+        source: "Campbell Union School District Events",
+        sourceUrl,
+        topics: [label],
+      };
+
+      if (end && end.getTime() !== start.getTime()) {
+        const adjustedEnd = endValue.length === 8 ? new Date(end.getTime() - 1) : end;
+        event.endDate = localIso(adjustedEnd);
+      }
+
+      return event;
+    })
+    .filter(Boolean)
+    .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
+}
+
 async function fetchChamberEventsHtml() {
   const firstPage = await fetchText(CHAMBER_EVENTS_URL);
   const total = parseGrowthZoneResultsCount(firstPage);
@@ -950,10 +1105,14 @@ function hearingTimestamp(item) {
   return Number.isNaN(parsed) ? 0 : parsed;
 }
 
-async function parsePublicHearings({ planningRecords, noticeArchives }) {
+async function parsePublicHearings({ councilRecords, planningRecords, noticeArchives }) {
   const hearingItems = [];
+  const agendaRecords = [
+    ...councilRecords.slice(0, 6),
+    ...planningRecords.slice(0, 8),
+  ];
 
-  for (const record of planningRecords.slice(0, 8)) {
+  for (const record of agendaRecords) {
     await sleep(300);
     const pdf = await fetchPdfText(record.agendaUrl);
     if (!pdf.text) continue;
@@ -992,7 +1151,7 @@ async function parsePublicHearings({ planningRecords, noticeArchives }) {
       return list.findIndex((other) => `${other.body}|${other.title}|${other.hearingAt}` === key) === index;
     })
     .sort((a, b) => hearingTimestamp(b) - hearingTimestamp(a))
-    .slice(0, 18);
+    .slice(0, 24);
 }
 
 async function writeJson(filename, payload) {
@@ -1014,7 +1173,7 @@ async function main() {
     chamberEventsPage,
     councilHtml,
     planningHtml,
-    ...noticeArchiveHtml
+    ...otherSourceHtml
   ] = await Promise.all([
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
@@ -1026,7 +1185,10 @@ async function main() {
     fetchText(COUNCIL_URL),
     fetchText(PLANNING_COMMISSION_URL),
     ...PUBLIC_NOTICE_ARCHIVES.map((archive) => fetchText(archive.href)),
+    ...CUSD_ICS_SOURCES.map((source) => fetchIcsText(source.href)),
   ]);
+  const noticeArchiveHtml = otherSourceHtml.slice(0, PUBLIC_NOTICE_ARCHIVES.length);
+  const cusdIcsTexts = otherSourceHtml.slice(PUBLIC_NOTICE_ARCHIVES.length);
 
   const downtownBusinesses = parseDirectory(directoryHtml);
   const chamberBusinesses = [];
@@ -1054,7 +1216,13 @@ async function main() {
     category: "Heritage Theatre",
   });
   const chamberEvents = parseChamberEventCards(chamberEventsPage.html);
-  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, museumEvents, heritageTheatreEvents, chamberEvents);
+  const schoolEvents = CUSD_ICS_SOURCES.flatMap((source, index) => parseIcsEvents(cusdIcsTexts[index] ?? "", {
+    label: source.label,
+    sourceUrl: source.href,
+    calendarUrl: CUSD_CALENDAR_URL,
+    generatedAt,
+  }));
+  const events = mergeEventFeeds(cityCalendarEvents, downtownEvents, libraryEvents, museumEvents, heritageTheatreEvents, chamberEvents, schoolEvents);
   const councilRecords = parseAgendaCenterRecords(councilHtml, {
     tableId: "table10",
     body: "City Council",
@@ -1070,6 +1238,7 @@ async function main() {
     items: parsePublicNoticeArchive(noticeArchiveHtml[index] ?? "", archive),
   }));
   const publicHearings = await parsePublicHearings({
+    councilRecords,
     planningRecords,
     noticeArchives,
   });
@@ -1171,6 +1340,11 @@ async function main() {
         sourceUrl: CHAMBER_EVENTS_URL,
         count: chamberEvents.length,
       },
+      {
+        label: "Campbell Union School District Events",
+        sourceUrl: CUSD_CALENDAR_URL,
+        count: schoolEvents.length,
+      },
     ],
     items: events,
   });
@@ -1189,7 +1363,7 @@ async function main() {
   });
 
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
-  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${museumEvents.length} museum, ${heritageTheatreEvents.length} theatre, ${chamberEvents.length} chamber) -> ${eventPath}`);
+  console.log(`Wrote ${events.length} events (${cityCalendarEvents.length} city, ${downtownEvents.length} downtown, ${libraryEvents.length} library, ${museumEvents.length} museum, ${heritageTheatreEvents.length} theatre, ${chamberEvents.length} chamber, ${schoolEvents.length} school) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }

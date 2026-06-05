@@ -97,6 +97,7 @@ function eventSourceFilterLabel(label: string) {
   if (label === "Campbell Chamber Events") return "Chamber";
   if (label === "Campbell Museums Events") return "Museums";
   if (label === "Campbell Heritage Theatre Events") return "Heritage Theatre";
+  if (label === "Campbell Union School District Events") return "Schools";
   return label;
 }
 

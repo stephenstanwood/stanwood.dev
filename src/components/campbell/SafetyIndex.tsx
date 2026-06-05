@@ -2,6 +2,7 @@ import {
   SAFETY_LAYERS,
   SAFETY_METRICS,
   SAFETY_SOURCES,
+  SOURCE_URLS,
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -17,6 +18,29 @@ const SAFETY_RULES = [
   {
     label: "Privacy floor",
     body: "Keep victim-level details, people-search dossiers, and panic-map framing out of the guide.",
+  },
+];
+
+const SAFETY_SHORTCUTS = [
+  {
+    label: "Report a non-emergency crime",
+    body: "Use CPD's report page for eligible incidents inside Campbell city limits. Call 911 for emergencies.",
+    href: SOURCE_URLS.reportCrime,
+  },
+  {
+    label: "Open the crime map",
+    body: "CityProtect is the official public map, with block-level generalization and privacy filtering.",
+    href: SOURCE_URLS.cityProtect,
+  },
+  {
+    label: "Read media logs",
+    body: "Official CPD incident-log PDFs. Best used for context and trends, not victim-level republishing.",
+    href: SOURCE_URLS.cpdMediaLogs,
+  },
+  {
+    label: "Request police records",
+    body: "Start here for formal records requests, copies, and records-counter information.",
+    href: SOURCE_URLS.cpdRecords,
   },
 ];
 
@@ -77,6 +101,21 @@ export default function SafetyIndex() {
             </div>
             <p>{layer.body}</p>
             <em>{layer.sourceLabel}</em>
+          </a>
+        ))}
+      </div>
+
+      <div className="cb-safety-shortcuts" aria-label="Official Campbell safety shortcuts">
+        {SAFETY_SHORTCUTS.map((shortcut) => (
+          <a
+            key={shortcut.label}
+            href={shortcut.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cb-safety-shortcut"
+          >
+            <strong>{shortcut.label}</strong>
+            <span>{shortcut.body}</span>
           </a>
         ))}
       </div>

@@ -2,6 +2,7 @@ import {
   PROPERTY_LAYERS,
   PROPERTY_METRICS,
   REAL_ESTATE_SOURCES,
+  SOURCE_URLS,
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -10,6 +11,50 @@ const LEDGER_FIELDS = [
   { label: "Assessment", body: "Assessed value, base-year clues, exemptions, and roll changes where public." },
   { label: "Transfers", body: "Recorded deeds, transfer-tax hints, and document references without publishing owner dossiers." },
   { label: "Permits", body: "Planning, building, code, and public-hearing records tied back to addresses." },
+];
+
+const PROPERTY_SHORTCUTS = [
+  {
+    label: "Find active projects",
+    body: "Open the city's active-projects map for planning files and location-specific development context.",
+    href: SOURCE_URLS.activeProjectsMap,
+  },
+  {
+    label: "Apply or check permits",
+    body: "MGO is the city's portal for permit applications, complaints, and building workflows.",
+    href: SOURCE_URLS.permitPortal,
+  },
+  {
+    label: "Research planning records",
+    body: "Use the city archive for older planning documents, historical project files, and address research.",
+    href: SOURCE_URLS.planningRecords,
+  },
+  {
+    label: "Starter home rules",
+    body: "Read Campbell's SB 684 / SB 1123 starter-home project guidance and eligibility notes.",
+    href: SOURCE_URLS.starterHomeProjects,
+  },
+];
+
+const SALES_FEED_STATUS = [
+  {
+    label: "Sales feed",
+    status: "Not live yet",
+    body: "The page does not yet publish a real Campbell sales feed. A true ledger needs official transfer fields, not scraped listing blurbs.",
+    href: SOURCE_URLS.assessorRecords,
+  },
+  {
+    label: "Likely official fields",
+    status: "Assessor path",
+    body: "The county assessor describes records that can include buyer, seller, APN, property address, transfer date, recording date, document number, and indicated sales price.",
+    href: SOURCE_URLS.assessorRecords,
+  },
+  {
+    label: "Recorder data",
+    status: "Index only",
+    body: "The Clerk-Recorder data subscription is useful for recorded-document references, but the office says it is document-index data, not a property sales database.",
+    href: SOURCE_URLS.clerkRecorderDataSales,
+  },
 ];
 
 export default function RealEstateLedger() {
@@ -48,6 +93,39 @@ export default function RealEstateLedger() {
             <span>{field.label}</span>
             <p>{field.body}</p>
           </article>
+        ))}
+      </div>
+
+      <div className="cb-property-shortcuts" aria-label="Campbell property and permit shortcuts">
+        {PROPERTY_SHORTCUTS.map((shortcut) => (
+          <a
+            key={shortcut.label}
+            href={shortcut.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cb-property-shortcut"
+          >
+            <strong>{shortcut.label}</strong>
+            <span>{shortcut.body}</span>
+          </a>
+        ))}
+      </div>
+
+      <div className="cb-sales-status" aria-label="Campbell real estate sales feed status">
+        {SALES_FEED_STATUS.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="cb-sales-status-card"
+          >
+            <div>
+              <strong>{item.label}</strong>
+              <em>{item.status}</em>
+            </div>
+            <p>{item.body}</p>
+          </a>
         ))}
       </div>
 

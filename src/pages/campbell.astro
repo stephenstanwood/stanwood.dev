@@ -66,7 +66,7 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
 
       .cb-hero {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem);
+        grid-template-columns: minmax(0, 1fr) minmax(17rem, 24rem);
         align-items: center;
         gap: clamp(1.25rem, 3vw, 2rem);
         max-width: var(--cb-shell);
@@ -111,12 +111,11 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         display: grid;
         gap: 1rem;
         justify-self: end;
-        width: min(100%, 30rem);
+        width: min(100%, 24rem);
       }
       .cb-place-card {
         position: relative;
-        aspect-ratio: 16 / 11;
-        max-height: 23.5rem;
+        aspect-ratio: 3 / 4;
         min-height: 0;
         margin: 0;
         overflow: hidden;
@@ -130,7 +129,7 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         min-height: 0;
         display: block;
         object-fit: cover;
-        object-position: 50% 45%;
+        object-position: 50% 50%;
       }
       .cb-place-card::after {
         content: "";
@@ -219,7 +218,7 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         padding: 1.1rem var(--cb-gutter) 2rem;
         box-sizing: border-box;
       }
-      @media (max-width: 1060px) {
+      @media (max-width: 760px) {
         .cb-hero {
           grid-template-columns: 1fr;
           gap: 1rem;
@@ -228,14 +227,11 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
           min-height: auto;
         }
         .cb-hero-side {
-          justify-self: stretch;
-          width: 100%;
+          justify-self: start;
+          width: min(100%, 24rem);
         }
         .cb-place-card {
           width: 100%;
-          height: clamp(18rem, 45vw, 24rem);
-          max-height: none;
-          aspect-ratio: auto;
         }
       }
       @media (max-width: 560px) {
@@ -253,7 +249,7 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
           font-size: clamp(2.7rem, 13vw, 3.65rem);
         }
         .cb-place-card {
-          height: clamp(14rem, 62vw, 18rem);
+          width: min(100%, 22.5rem);
         }
       }
 
@@ -270,6 +266,124 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         color: var(--cb-gray);
         margin: 0;
         line-height: 1.5;
+      }
+
+      .cb-today {
+        display: grid;
+        gap: 0.9rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: rgba(255, 253, 248, 0.78);
+        border: 1px solid var(--cb-border);
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(55, 49, 38, 0.05);
+      }
+      .cb-today-head {
+        display: grid;
+        gap: 0.25rem;
+      }
+      .cb-today-head span {
+        color: var(--cb-green);
+        font-size: 0.74rem;
+        font-weight: 800;
+      }
+      .cb-today-head h2 {
+        margin: 0;
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(1.85rem, 3.2vw, 2.7rem);
+        font-weight: 400;
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+      .cb-today-head p {
+        margin: 0;
+        color: var(--cb-gray);
+        font-size: 0.88rem;
+        line-height: 1.5;
+      }
+      .cb-today-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+      .cb-today-card {
+        min-width: 0;
+        padding: 0.85rem 0.9rem;
+        background: var(--cb-card-bg);
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-today-card h3 {
+        margin: 0 0 0.55rem;
+        color: var(--cb-ink);
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+      .cb-today-card ul {
+        display: grid;
+        gap: 0.55rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .cb-today-card li,
+      .cb-today-feature {
+        display: grid;
+        gap: 0.16rem;
+        min-width: 0;
+      }
+      .cb-today-card p {
+        margin: 0;
+        color: var(--cb-gray);
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+      .cb-today-card a,
+      .cb-today-notices a {
+        color: var(--cb-blue-hover);
+        font-size: 0.82rem;
+        font-weight: 800;
+        line-height: 1.28;
+        text-decoration: none;
+      }
+      .cb-today-card a:hover,
+      .cb-today-notices a:hover {
+        text-decoration: underline;
+      }
+      .cb-today-card span,
+      .cb-today-feature span {
+        color: var(--cb-gray);
+        font-size: 0.76rem;
+        line-height: 1.35;
+      }
+      .cb-today-feature--secondary {
+        margin-top: 0.7rem;
+        padding-top: 0.7rem;
+        border-top: 1px solid var(--cb-border);
+      }
+      .cb-today-notices {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        align-items: center;
+        padding-top: 0.15rem;
+      }
+      .cb-today-notices > span {
+        color: var(--cb-light-gray);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      .cb-today-notices a {
+        padding: 0.28rem 0.5rem;
+        background: #F6F2EA;
+        border: 1px solid #E4DED1;
+        border-radius: 6px;
+      }
+      @media (max-width: 860px) {
+        .cb-today-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       .cb-tabs {
@@ -605,6 +719,13 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
         font-size: 0.95rem;
         line-height: 1.25;
         margin: 0.12rem 0 0;
+      }
+      .cb-live-record-head p {
+        max-width: 46rem;
+        margin: 0.35rem 0 0;
+        color: var(--cb-gray);
+        font-size: 0.78rem;
+        line-height: 1.45;
       }
       .cb-live-record-head > span {
         flex-shrink: 0;
@@ -1830,6 +1951,90 @@ const heroPhoto = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Cam
       .cb-safety-status--meeting {
         color: var(--cb-gold);
         background: var(--cb-gold-light);
+      }
+      .cb-safety-shortcuts,
+      .cb-property-shortcuts {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      @media (min-width: 720px) {
+        .cb-safety-shortcuts,
+        .cb-property-shortcuts { grid-template-columns: repeat(2, 1fr); }
+      }
+      .cb-safety-shortcut,
+      .cb-property-shortcut {
+        display: grid;
+        gap: 0.28rem;
+        padding: 0.82rem 0.9rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: #F8F6EF;
+        border: 1px solid var(--cb-border);
+        border-radius: 8px;
+      }
+      .cb-safety-shortcut:hover,
+      .cb-property-shortcut:hover {
+        border-color: #B8C8C0;
+      }
+      .cb-safety-shortcut strong,
+      .cb-property-shortcut strong {
+        color: var(--cb-blue-hover);
+        font-size: 0.82rem;
+        line-height: 1.25;
+      }
+      .cb-safety-shortcut span,
+      .cb-property-shortcut span {
+        color: var(--cb-gray);
+        font-size: 0.76rem;
+        line-height: 1.45;
+      }
+      .cb-sales-status {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+        margin: 0 0 1rem;
+      }
+      @media (min-width: 780px) {
+        .cb-sales-status { grid-template-columns: repeat(3, 1fr); }
+      }
+      .cb-sales-status-card {
+        display: grid;
+        gap: 0.45rem;
+        padding: 0.85rem 0.9rem;
+        color: var(--cb-ink);
+        text-decoration: none;
+        background: var(--cb-blue-light);
+        border: 1px solid #C7D4CF;
+        border-radius: 8px;
+      }
+      .cb-sales-status-card:hover {
+        border-color: #A8BDB4;
+      }
+      .cb-sales-status-card div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .cb-sales-status-card strong {
+        color: var(--cb-blue-hover);
+        font-size: 0.82rem;
+        line-height: 1.25;
+      }
+      .cb-sales-status-card em {
+        color: var(--cb-gray);
+        font-size: 0.68rem;
+        font-style: normal;
+        font-weight: 850;
+      }
+      .cb-sales-status-card p {
+        margin: 0;
+        color: var(--cb-gray);
+        font-size: 0.75rem;
+        line-height: 1.45;
       }
       .cb-safety-rules {
         display: grid;
