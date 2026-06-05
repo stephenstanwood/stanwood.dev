@@ -44,8 +44,19 @@ interface TeamSide extends TeamSideBase {
   winner: boolean;
 }
 
+function isBasketballLeague(league: string): boolean {
+  return league.startsWith("basketball/");
+}
+
 function teamSide(c: ESPNCompetitor): TeamSide {
   return { ...teamSideOf(c), winner: !!c.winner };
+}
+
+function recapTitle(g: YesterdayGame): string {
+  if (isBasketballLeague(g.league)) {
+    return `${g.away.shortName} @ ${g.home.shortName} · ${g.statusText}`;
+  }
+  return `${g.away.shortName} ${g.away.score} — ${g.home.shortName} ${g.home.score} · ${g.statusText}`;
 }
 
 export default function YesterdaySports() {
@@ -131,6 +142,7 @@ export default function YesterdaySports() {
               awayAbbr: awaySide.abbr,
               homeAbbr: homeSide.abbr,
               isoDate: iso,
+              matchedKey: matched?.key,
               mlbGamePks,
               wnbaGameIds,
             });
@@ -235,15 +247,19 @@ export default function YesterdaySports() {
 
   return (
     <div className="recap-grid">
-        {games.map((g) => (
+      {games.map((g) => {
+        const hideScores = isBasketballLeague(g.league);
+        const primeWnbaAuth = g.league === "basketball/wnba";
+        return (
           <a
             key={g.id}
             className="recap-tile"
             href={g.watchHref}
             target="_blank"
             rel="noopener"
+            data-wnba-auth-launch={primeWnbaAuth ? "true" : undefined}
             style={{ borderLeftColor: g.accent }}
-            title={`${g.away.shortName} ${g.away.score} — ${g.home.shortName} ${g.home.score} · ${g.statusText}`}
+            title={recapTitle(g)}
           >
             <div className="recap-matchup">
               <div className="recap-team">
@@ -259,19 +275,23 @@ export default function YesterdaySports() {
                   <span className="recap-team-name">{g.away.shortName}</span>
                   <span className="recap-team-abbr">{g.away.abbr}</span>
                 </div>
-                <span
-                  className={`recap-score ${g.away.winner ? "win" : "lose"}`}
-                >
-                  {g.away.score}
-                </span>
+                {!hideScores && (
+                  <span
+                    className={`recap-score ${g.away.winner ? "win" : "lose"}`}
+                  >
+                    {g.away.score}
+                  </span>
+                )}
               </div>
               <div className="recap-vs">@</div>
               <div className="recap-team home">
-                <span
-                  className={`recap-score ${g.home.winner ? "win" : "lose"}`}
-                >
-                  {g.home.score}
-                </span>
+                {!hideScores && (
+                  <span
+                    className={`recap-score ${g.home.winner ? "win" : "lose"}`}
+                  >
+                    {g.home.score}
+                  </span>
+                )}
                 <div className="recap-team-text">
                   <span className="recap-team-name">{g.home.shortName}</span>
                   <span className="recap-team-abbr">{g.home.abbr}</span>
@@ -297,7 +317,8 @@ export default function YesterdaySports() {
               <span className="recap-watch">Watch on {g.watchLabel} ↗</span>
             </div>
           </a>
-        ))}
+        );
+      })}
     </div>
   );
 }

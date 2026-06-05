@@ -4,6 +4,7 @@ import {
   buildTeamLookup,
   isLatestStartedEventForTrackedTeams,
   latestStartedAtByTrackedTeam,
+  watchRecordingUrl,
 } from "./wtwtwSports";
 import { getTeam } from "./teamRegistry";
 
@@ -266,5 +267,42 @@ describe("sports recap team freshness", () => {
         latest,
       ),
     ).toBe(true);
+  });
+});
+
+describe("sports watch links", () => {
+  it("deep-links WNBA replays to the full-game home feed", () => {
+    const wnbaGameIds = new Map([["20260602/LVALAS", "1022600069"]]);
+
+    expect(
+      watchRecordingUrl({
+        league: "basketball/wnba",
+        awayAbbr: "LV",
+        homeAbbr: "LA",
+        isoDate: "2026-06-02",
+        wnbaGameIds,
+      }),
+    ).toEqual({
+      href: "https://www.wnba.com/watch/video/lva-las-on-2026-06-02-sparks-home?plsrc=nba&game-highlights=1022600069",
+      label: "WNBA League Pass",
+    });
+  });
+
+  it("uses Stephen's tracked WNBA team feed when that team is away", () => {
+    const wnbaGameIds = new Map([["20260604/GSVMIN", "1022600073"]]);
+
+    expect(
+      watchRecordingUrl({
+        league: "basketball/wnba",
+        awayAbbr: "GS",
+        homeAbbr: "MIN",
+        isoDate: "2026-06-04",
+        matchedKey: "wnba-valkyries",
+        wnbaGameIds,
+      }),
+    ).toEqual({
+      href: "https://www.wnba.com/watch/video/gsv-min-on-2026-06-04-valkyries-away?plsrc=nba&game-highlights=1022600073",
+      label: "WNBA League Pass",
+    });
   });
 });
