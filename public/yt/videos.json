@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-05T10:30:18.530943+00:00",
+  "built_at": "2026-06-06T10:30:13.377412+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,7 +8,7 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 9,
+      "video_count": 10,
       "video_ids": [
         "B9WsVMGtIuk",
         "IH-hRdNMIq0",
@@ -18,7 +18,8 @@
         "F-OxHWWg59o",
         "yhfuDD3hprA",
         "QZ61wToFILM",
-        "Q_UxyEepuQA"
+        "Q_UxyEepuQA",
+        "WwWjH9ynx9U"
       ]
     },
     {
@@ -159,7 +160,7 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 17,
+      "video_count": 18,
       "video_ids": [
         "JuoVZkPBiKk",
         "kuYAsz7zspQ",
@@ -177,7 +178,18 @@
         "5sxHosTLPF8",
         "2oH6PWPrYFo",
         "dIFAi87Ws4E",
-        "26FtD08ZpOU"
+        "26FtD08ZpOU",
+        "9EEm4iMAF5s"
+      ]
+    },
+    {
+      "key": "__single__Qh7Oxvo5sJI",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, Applied AI",
+      "best_score": 9,
+      "video_count": 1,
+      "video_ids": [
+        "Qh7Oxvo5sJI"
       ]
     },
     {
@@ -488,6 +500,22 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 8, 2026\nThis lecture covers:\n\u2022  HCI issues related to the design, evaluation, and deployment of AI-enabled systems in digital health\n\u2022  How \"easy to implement\" AI engineering decisions that are usually default parameters in Python machine learning code can have dramatic effects on th"
+    },
+    {
+      "id": "WwWjH9ynx9U",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | The Modern Motivators of Play",
+      "url": "https://www.youtube.com/watch?v=WwWjH9ynx9U",
+      "duration": 3574.0,
+      "published_at": "2026-06-05T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 18,
+      "categories": [
+        "hci",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis lecture covers:\n\u2022  The six classic and three modern motivators of play\n\u2022  How to use them to adapt your app and game design techniques to find new markets and new communities to address\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nCher"
     },
     {
       "id": "EvHRQhMX7_w",
@@ -1733,6 +1761,38 @@
         "series:CS336"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
+    },
+    {
+      "id": "9EEm4iMAF5s",
+      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Guest Lecture: Dan Fu",
+      "url": "https://www.youtube.com/watch?v=9EEm4iMAF5s",
+      "duration": 4301.0,
+      "published_at": "2026-06-05T00:00:00+00:00",
+      "series": "CS336",
+      "series_display": "CS336",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "series:CS336"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
+    },
+    {
+      "id": "Qh7Oxvo5sJI",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, Applied AI",
+      "url": "https://www.youtube.com/watch?v=Qh7Oxvo5sJI",
+      "duration": 2956.0,
+      "published_at": "2026-06-05T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, Applied AI",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nThis seminar covers applications, applied AI, and agent monetization.\n\nFollow along with the course schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Tuhin Srivastava, Founder / CEO, Baseten\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Enginee"
     },
     {
       "id": "yaLEGZuIIgE",
