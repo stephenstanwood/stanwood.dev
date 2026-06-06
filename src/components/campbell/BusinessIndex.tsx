@@ -18,6 +18,10 @@ interface CampbellBusinessRecord {
 type BusinessFilter = "all" | "downtown" | "chamber" | "both";
 
 const BUSINESSES = businessFeed.items as CampbellBusinessRecord[];
+const DOWNTOWN_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown")).length;
+const CHAMBER_COUNT = BUSINESSES.filter((business) => hasTag(business, "Chamber")).length;
+const BOTH_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown") && hasTag(business, "Chamber")).length;
+const PHONE_COUNT = BUSINESSES.filter((business) => business.phone).length;
 const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "downtown", label: "Downtown" },
@@ -69,6 +73,29 @@ export default function BusinessIndex() {
           Browse downtown storefronts and Campbell-address Chamber members, then
           open the original listing for hours, menus, appointments, and details.
         </p>
+      </div>
+
+      <div className="cb-business-snapshot" aria-label="Campbell business directory snapshot">
+        <div>
+          <strong>{BUSINESSES.length}</strong>
+          <span>Total listings</span>
+        </div>
+        <div>
+          <strong>{DOWNTOWN_COUNT}</strong>
+          <span>Downtown</span>
+        </div>
+        <div>
+          <strong>{CHAMBER_COUNT}</strong>
+          <span>Chamber</span>
+        </div>
+        <div>
+          <strong>{BOTH_COUNT}</strong>
+          <span>In both sources</span>
+        </div>
+        <div>
+          <strong>{PHONE_COUNT}</strong>
+          <span>Phone listed</span>
+        </div>
       </div>
 
       <div className="cb-business-toolbar">

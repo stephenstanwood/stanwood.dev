@@ -44,6 +44,28 @@ const SAFETY_SHORTCUTS = [
   },
 ];
 
+const SAFETY_START_HERE = [
+  {
+    label: "Emergency",
+    body: "Call 911 for in-progress crimes, immediate danger, fire, or medical emergencies.",
+  },
+  {
+    label: "Report online",
+    body: "Use CPD's online report path for eligible non-emergency incidents in Campbell.",
+    href: SOURCE_URLS.reportCrime,
+  },
+  {
+    label: "See the map",
+    body: "Open CityProtect for the official public crime map, generalized by block.",
+    href: SOURCE_URLS.cityProtect,
+  },
+  {
+    label: "Read logs",
+    body: "Use CPD media logs for recent official incident summaries and context.",
+    href: SOURCE_URLS.cpdMediaLogs,
+  },
+];
+
 export default function SafetyIndex() {
   return (
     <div className="cb-safety">
@@ -56,6 +78,33 @@ export default function SafetyIndex() {
           in each source. This starts with CPD statistics, CityProtect, online
           reporting, and transparency records.
         </p>
+      </div>
+
+      <div className="cb-safety-start" aria-label="Campbell safety start here">
+        {SAFETY_START_HERE.map((item) => {
+          const content = (
+            <>
+              <strong>{item.label}</strong>
+              <span>{item.body}</span>
+            </>
+          );
+
+          return item.href ? (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cb-safety-start-card"
+            >
+              {content}
+            </a>
+          ) : (
+            <article key={item.label} className="cb-safety-start-card">
+              {content}
+            </article>
+          );
+        })}
       </div>
 
       <div className="cb-safety-metrics" aria-label="Campbell public safety metrics">

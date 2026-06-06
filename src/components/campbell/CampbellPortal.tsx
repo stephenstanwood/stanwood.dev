@@ -53,7 +53,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] =
     id: "data",
     label: "Data",
     eyebrow: "Numbers",
-    summary: "Census snapshots, source map, city layers, budgets, GIS, and county data.",
+    summary: "Census snapshots, source map, city maps, budgets, GIS, and county data.",
   },
   {
     id: "links",
@@ -89,7 +89,7 @@ export default function CampbellPortal() {
         <div className="cb-tabs-head">
           <div>
             <span>Browse Campbell</span>
-            <h2>Pick a layer of the city.</h2>
+            <h2>Start anywhere.</h2>
           </div>
           <div className="cb-tabs-controls" aria-label="Scroll section list">
             <button type="button" onClick={() => scrollSections(-1)} aria-label="Previous sections">

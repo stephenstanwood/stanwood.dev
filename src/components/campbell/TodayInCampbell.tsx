@@ -185,7 +185,9 @@ export default function TodayInCampbell() {
           <span>Recent public notices</span>
           {recentHearings.slice(0, 3).map(({ hearing, date }) => (
             <a key={`${hearing.title}-${hearing.hearingAt}`} href={hearing.noticeUrl || hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
-              {formatDay(date)}: {shortSummary(hearing.title)}
+              <span className="cb-notice-date">{formatDay(date)}</span>
+              {" "}
+              <span className="cb-notice-title">{shortSummary(hearing.title)}</span>
             </a>
           ))}
         </div>
