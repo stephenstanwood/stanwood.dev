@@ -1360,11 +1360,11 @@ function seriesVideos(series: Series): QueueVideo[] {
     })();
   </script>
   <script>
-    // Point the basketball launcher at the previous day's best WNBA League
-    // Pass full-game replay, scored with the same closeness × quality logic NBA
-    // Now uses for live games (minus the game-progress term, which is moot once
-    // final). Falls back to the WNBA League Pass home (the static href) on
-    // off-days or if the game can't be resolved.
+    // Point the basketball launcher at the previous day's best WNBA game page.
+    // WNBA.com exposes full-game replay choices from the game page once the
+    // replay is ready, while synthesized /watch/video URLs can load a shell
+    // with no playable video. Falls back to the WNBA League Pass home (the
+    // static href) on off-days or if the game can't be resolved.
     import { fetchEspnScoreboard } from '../lib/sportsCore';
     import {
       competitorsOf,
@@ -1414,10 +1414,7 @@ function seriesVideos(series: Series): QueueVideo[] {
             wnbaGameIds,
           });
           // Only override the static fallback when a real WNBA target resolved.
-          if (
-            !watch.href.includes('/watch/video/') &&
-            !watch.href.includes('/game/')
-          ) {
+          if (!watch.href.includes('/game/')) {
             return;
           }
 

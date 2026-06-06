@@ -416,32 +416,6 @@ function espnToWnbaTri(abbr: string | undefined): string {
   return ESPN_TO_WNBA_TRI[up] || up;
 }
 
-const WNBA_TRI_TO_SLUG: Record<string, string> = {
-  ATL: "dream",
-  CHI: "sky",
-  CON: "sun",
-  DAL: "wings",
-  GSV: "valkyries",
-  IND: "fever",
-  LAS: "sparks",
-  LVA: "aces",
-  MIN: "lynx",
-  NYL: "liberty",
-  PDX: "fire",
-  PHX: "mercury",
-  SEA: "storm",
-  TOR: "tempo",
-  WAS: "mystics",
-};
-
-function teamKeyToWnbaTri(key: string | undefined): string {
-  if (!key) return "";
-  const team = TEAM_REGISTRY[key];
-  return team?.league === "basketball/wnba"
-    ? espnToWnbaTri(team.abbreviation)
-    : "";
-}
-
 function wnbaGamePageUrl(
   gameId: string,
   awayTri: string,
@@ -451,21 +425,6 @@ function wnbaGamePageUrl(
     return `https://www.wnba.com/game/${awayTri.toLowerCase()}-vs-${homeTri.toLowerCase()}-${gameId}`;
   }
   return `https://www.wnba.com/game/${gameId}`;
-}
-
-function wnbaReplayUrl(opts: {
-  gameId: string;
-  awayTri: string;
-  homeTri: string;
-  isoDate: string;
-  matchedKey?: string;
-}): string | null {
-  const matchedTri = teamKeyToWnbaTri(opts.matchedKey);
-  const side = matchedTri === opts.awayTri ? "away" : "home";
-  const slugTri = side === "away" ? opts.awayTri : opts.homeTri;
-  const teamSlug = WNBA_TRI_TO_SLUG[slugTri];
-  if (!teamSlug) return null;
-  return `https://www.wnba.com/watch/video/${opts.awayTri.toLowerCase()}-${opts.homeTri.toLowerCase()}-on-${opts.isoDate}-${teamSlug}-${side}?plsrc=nba&game-highlights=${opts.gameId}`;
 }
 
 /**
@@ -559,14 +518,7 @@ export function watchRecordingUrl(opts: {
       const gameId = opts.wnbaGameIds.get(code);
       if (gameId) {
         return {
-          href:
-            wnbaReplayUrl({
-              gameId,
-              awayTri,
-              homeTri,
-              isoDate: opts.isoDate,
-              matchedKey: opts.matchedKey,
-            }) || wnbaGamePageUrl(gameId, awayTri, homeTri),
+          href: wnbaGamePageUrl(gameId, awayTri, homeTri),
           label: "WNBA League Pass",
         };
       }

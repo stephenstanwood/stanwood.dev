@@ -271,7 +271,7 @@ describe("sports recap team freshness", () => {
 });
 
 describe("sports watch links", () => {
-  it("deep-links WNBA replays to the full-game home feed", () => {
+  it("deep-links WNBA replays to the game page", () => {
     const wnbaGameIds = new Map([["20260602/LVALAS", "1022600069"]]);
 
     expect(
@@ -283,12 +283,12 @@ describe("sports watch links", () => {
         wnbaGameIds,
       }),
     ).toEqual({
-      href: "https://www.wnba.com/watch/video/lva-las-on-2026-06-02-sparks-home?plsrc=nba&game-highlights=1022600069",
+      href: "https://www.wnba.com/game/lva-vs-las-1022600069",
       label: "WNBA League Pass",
     });
   });
 
-  it("uses Stephen's tracked WNBA team feed when that team is away", () => {
+  it("maps Stephen's tracked WNBA team to WNBA triCodes", () => {
     const wnbaGameIds = new Map([["20260604/GSVMIN", "1022600073"]]);
 
     expect(
@@ -301,7 +301,24 @@ describe("sports watch links", () => {
         wnbaGameIds,
       }),
     ).toEqual({
-      href: "https://www.wnba.com/watch/video/gsv-min-on-2026-06-04-valkyries-away?plsrc=nba&game-highlights=1022600073",
+      href: "https://www.wnba.com/game/gsv-vs-min-1022600073",
+      label: "WNBA League Pass",
+    });
+  });
+
+  it("maps Portland WNBA replays to the Fire game page", () => {
+    const wnbaGameIds = new Map([["20260605/PHXPDX", "1022600076"]]);
+
+    expect(
+      watchRecordingUrl({
+        league: "basketball/wnba",
+        awayAbbr: "PHX",
+        homeAbbr: "POR",
+        isoDate: "2026-06-05",
+        wnbaGameIds,
+      }),
+    ).toEqual({
+      href: "https://www.wnba.com/game/phx-vs-pdx-1022600076",
       label: "WNBA League Pass",
     });
   });
