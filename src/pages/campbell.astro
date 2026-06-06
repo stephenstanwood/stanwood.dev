@@ -170,12 +170,13 @@ const photoStories = [
         z-index: 1;
         display: flex;
         min-height: inherit;
-        max-width: 44rem;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: var(--cb-shell);
         flex-direction: column;
         justify-content: center;
-        padding:
-          clamp(2rem, 6vw, 5rem)
-          max(clamp(1.25rem, 6vw, 5rem), calc((100vw - var(--cb-shell)) / 2));
+        margin: 0 auto;
+        padding: clamp(2rem, 6vw, 5rem) var(--cb-gutter);
         color: #FFFDF8;
       }
       .cb-hero-kicker {
@@ -187,15 +188,17 @@ const photoStories = [
         letter-spacing: 0;
       }
       .cb-hero h1 {
-        max-width: 9.5ch;
         margin: 0;
         color: #FFFDF8;
         font-family: 'DM Serif Display', Georgia, serif;
-        font-size: clamp(4rem, 9vw, 7.8rem);
+        font-size: clamp(3.8rem, 6.8vw, 6.8rem);
         font-weight: 400;
-        line-height: 0.88;
+        line-height: 0.92;
         letter-spacing: 0;
         text-shadow: 0 3px 18px rgba(0, 0, 0, 0.24);
+      }
+      .cb-hero h1 span {
+        display: block;
       }
       .cb-hero-sub {
         max-width: 38rem;
@@ -412,8 +415,7 @@ const photoStories = [
       }
       @media (max-width: 560px) {
         .cb-hero h1 {
-          max-width: 9ch;
-          font-size: clamp(3.25rem, 17vw, 4.4rem);
+          font-size: clamp(3.1rem, 14vw, 4.25rem);
         }
         .cb-hero-sub {
           font-size: 1rem;
@@ -2882,7 +2884,10 @@ const photoStories = [
 
       <div class="cb-hero-copy">
         <span class="cb-hero-kicker">Campbell, California</span>
-        <h1>The city in one place.</h1>
+        <h1>
+          <span>The city in</span>
+          <span>one place.</span>
+        </h1>
         <p class="cb-hero-sub">
           Events, public hearings, council records, shops, homes, history,
           safety sources, and resident shortcuts in one friendly Campbell guide.
