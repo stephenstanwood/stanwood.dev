@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-07T14:48:48.048Z",
+  "lastUpdated": "2026-06-07T15:55:11.288Z",
   "apiSpend": {
     "months": [
       {
@@ -64,7 +64,7 @@
       },
       {
         "month": "2026-06",
-        "collectedAt": "2026-06-07T14:48:48.048Z",
+        "collectedAt": "2026-06-07T15:55:11.288Z",
         "services": {
           "vercel": {
             "totalCents": 15,
@@ -127,13 +127,6 @@
   },
   "subscriptions": [
     {
-      "name": "Vercel Pro",
-      "cents": 2000,
-      "category": "infra",
-      "url": "https://vercel.com/stephenstanwoods-projects/settings/billing",
-      "note": "base plan — usage/overage tracked separately"
-    },
-    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -141,25 +134,18 @@
       "note": "$200/month Max plan"
     },
     {
-      "name": "Meetup Pro",
-      "cents": 5500,
-      "category": "data",
-      "url": "https://www.meetup.com/pro",
-      "note": "required for SBS Meetup API"
-    },
-    {
       "name": "ChatGPT Pro",
-      "cents": 20000,
+      "cents": 14891,
       "category": "ai",
       "url": "https://chatgpt.com",
-      "note": "OpenAI $200 Pro plan"
+      "note": "Mercury actual; nominal $200 plan"
     },
     {
-      "name": "Cursor",
-      "cents": 2000,
-      "category": "ai",
-      "url": "https://cursor.com/settings",
-      "note": "AI editor subscription"
+      "name": "RFPMart LLC",
+      "cents": 8200,
+      "category": "data",
+      "url": "https://www.paypal.com",
+      "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
     },
     {
       "name": "Midjourney",
@@ -169,6 +155,34 @@
       "note": "back on Pro"
     },
     {
+      "name": "Meetup Pro",
+      "cents": 5500,
+      "category": "data",
+      "url": "https://www.meetup.com/pro",
+      "note": "required for SBS Meetup API"
+    },
+    {
+      "name": "Google Cloud",
+      "cents": 5000,
+      "category": "infra",
+      "url": "https://console.cloud.google.com/billing",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Anthropic",
+      "cents": 4500,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Ideogram",
+      "cents": 4000,
+      "category": "ai",
+      "url": "https://ideogram.ai",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
       "name": "Adobe Acrobat Pro",
       "cents": 2999,
       "category": "media",
@@ -176,11 +190,53 @@
       "note": "PDF wrangling — AI Assistant tier cancelled"
     },
     {
-      "name": "Google Workspace",
-      "cents": 840,
+      "name": "Neon via Vercel",
+      "cents": 2358,
       "category": "infra",
-      "url": "https://admin.google.com/ac/billing/subscriptions",
-      "note": "stoa.works — stanwoodventures is on free cap"
+      "url": "https://vercel.com/marketplace/neon",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Brave",
+      "cents": 2256,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Vercel Pro",
+      "cents": 2000,
+      "category": "infra",
+      "url": "https://vercel.com/stephenstanwoods-projects/settings/billing",
+      "note": "base plan — usage/overage tracked separately"
+    },
+    {
+      "name": "Cursor",
+      "cents": 2000,
+      "category": "ai",
+      "url": "https://cursor.com/settings",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Resend Transactional Pro",
+      "cents": 2000,
+      "category": "infra",
+      "url": "https://resend.com",
+      "note": "50k emails/mo"
+    },
+    {
+      "name": "Magic Patterns",
+      "cents": 2000,
+      "category": "ai",
+      "url": "https://www.magicpatterns.com",
+      "note": "Mercury actual Jun 2026"
+    },
+    {
+      "name": "Replicate",
+      "cents": 2000,
+      "category": "ai",
+      "url": "https://replicate.com",
+      "note": "Mercury actual Jun 2026"
     },
     {
       "name": "Wave Pro",
@@ -204,11 +260,11 @@
       "note": "email forwarding"
     },
     {
-      "name": "Resend Transactional Pro",
-      "cents": 2000,
+      "name": "Google Workspace",
+      "cents": 840,
       "category": "infra",
-      "url": "https://resend.com",
-      "note": "50k emails/mo"
+      "url": "https://admin.google.com/ac/billing/subscriptions",
+      "note": "Mercury actual Jun 2026"
     },
     {
       "name": "Momentum Plus",

@@ -201,8 +201,8 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
   return (
     <section className="mo-section">
       <div className="mo-section-head">
-        <h2 className="mo-section-title">📦 subscriptions</h2>
-        <span className="mo-section-sub">the regulars</span>
+        <h2 className="mo-section-title">📦 expenses</h2>
+        <span className="mo-section-sub">subscriptions + charges</span>
         <span className="mo-section-total">{formatCents(total)}/mo</span>
       </div>
       <div className="mo-cards">

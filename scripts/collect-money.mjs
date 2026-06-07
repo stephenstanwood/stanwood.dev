@@ -11,6 +11,7 @@
  *   OPENAI_ADMIN_KEY      — OpenAI admin key (sk-admin-*)
  *   NEON_USAGE_CENTS      — optional manual current-month Neon usage
  *   NEON_USAGE_BREAKDOWN_JSON — optional JSON breakdown for Neon usage
+ *   MERCURY_API_TOKEN     — optional read-only Mercury API token
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -56,6 +57,10 @@ function monthRange() {
 
 function centsStr(c) {
   return c < 100 ? `${c}\u00a2` : `$${(c / 100).toFixed(2)}`;
+}
+
+function dollarsToCents(amount) {
+  return Math.round(Number(amount || 0) * 100);
 }
 
 function parseManualCents(name) {
@@ -275,6 +280,189 @@ async function collectNeon(existingEntry = null) {
   return existingEntry || { totalCents: null, note: "manual from Neon usage recap email" };
 }
 
+// ── Mercury ──────────────────────────────────────────────────────
+async function mercuryGet(path, token) {
+  const res = await fetch(`https://api.mercury.com${path}`, {
+    headers: { Authorization: `Bearer ${token}`, accept: "application/json" },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Mercury API ${res.status}: ${body.slice(0, 200)}`);
+  }
+  return res.json();
+}
+
+async function listMercuryTransactions(range, token) {
+  const transactions = [];
+  let startAfter = null;
+  do {
+    const url = new URL("https://api.mercury.com/api/v1/transactions");
+    url.searchParams.set("postedStart", range.from.toISOString());
+    url.searchParams.set("postedEnd", range.to.toISOString());
+    url.searchParams.set("limit", "1000");
+    url.searchParams.set("order", "asc");
+    if (startAfter) url.searchParams.set("start_after", startAfter);
+
+    const path = `${url.pathname}${url.search}`;
+    const data = await mercuryGet(path, token);
+    transactions.push(...(data.transactions || []));
+    startAfter = data.page?.nextPage || null;
+  } while (startAfter);
+  return transactions;
+}
+
+const MERCURY_EXPENSE_RULES = [
+  {
+    match: /WWW\.BRAVE\.COM/i,
+    name: "Brave",
+    category: "tools",
+    url: "https://brave.com",
+  },
+  {
+    match: /Google Workspace/i,
+    name: "Google Workspace",
+    category: "infra",
+    url: "https://admin.google.com/ac/billing/subscriptions",
+  },
+  {
+    match: /PAYPAL \*RFPMART LLC/i,
+    name: "RFPMart LLC",
+    category: "data",
+    url: "https://www.paypal.com",
+  },
+  {
+    match: /VERCEL MKT NEON/i,
+    name: "Neon via Vercel",
+    category: "infra",
+    url: "https://vercel.com/marketplace/neon",
+  },
+  {
+    match: /GOOGLE \*CLOUD/i,
+    name: "Google Cloud",
+    category: "infra",
+    url: "https://console.cloud.google.com/billing",
+  },
+  {
+    match: /ANTHROPIC/i,
+    name: "Anthropic",
+    category: "ai",
+    url: "https://console.anthropic.com/settings/billing",
+  },
+  {
+    match: /OPENAI \*CHATGPT SUBSCR/i,
+    name: "ChatGPT Pro",
+    category: "ai",
+    url: "https://chatgpt.com",
+    note: "Mercury actual; nominal $200 plan",
+  },
+  {
+    match: /IDEOGRAM AI/i,
+    name: "Ideogram",
+    category: "ai",
+    url: "https://ideogram.ai",
+  },
+  {
+    match: /MAGIC PATTERNS/i,
+    name: "Magic Patterns",
+    category: "ai",
+    url: "https://www.magicpatterns.com",
+  },
+  {
+    match: /REPLICATE/i,
+    name: "Replicate",
+    category: "ai",
+    url: "https://replicate.com",
+  },
+  {
+    match: /CURSOR/i,
+    name: "Cursor",
+    category: "ai",
+    url: "https://cursor.com/settings",
+  },
+];
+
+function mercuryTxText(tx) {
+  return [
+    tx.counterpartyNickname,
+    tx.counterpartyName,
+    tx.bankDescription,
+    tx.externalMemo,
+    tx.note,
+    tx.merchant?.category,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function mercuryExpenseRule(tx) {
+  const text = mercuryTxText(tx);
+  return MERCURY_EXPENSE_RULES.find((rule) => rule.match.test(text));
+}
+
+function monthDisplay(label) {
+  const [year, month] = label.split("-");
+  return new Date(Date.UTC(Number(year), Number(month) - 1, 1)).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+async function collectMercuryExpenses(range) {
+  const token = process.env.MERCURY_API_TOKEN;
+  if (!token) return { expenses: [], note: "Missing MERCURY_API_TOKEN" };
+
+  const transactions = await listMercuryTransactions(range, token);
+  const active = transactions.filter((t) =>
+    !["cancelled", "failed", "reversed", "blocked"].includes(t.status),
+  );
+  const cardSpend = active.filter((t) => t.kind === "creditCardTransaction" && Number(t.amount) < 0);
+
+  const byName = new Map();
+  for (const tx of cardSpend) {
+    const rule = mercuryExpenseRule(tx);
+    if (!rule) continue;
+    const existing = byName.get(rule.name) || {
+      name: rule.name,
+      cents: 0,
+      category: rule.category,
+      url: rule.url,
+      note: rule.note || `Mercury actual ${monthDisplay(range.label)}`,
+      count: 0,
+    };
+    existing.cents += Math.abs(dollarsToCents(tx.amount));
+    existing.count += 1;
+    byName.set(rule.name, existing);
+  }
+
+  const expenses = [...byName.values()].map(({ count, ...expense }) => ({
+    ...expense,
+    note:
+      count > 1
+        ? `${expense.note}; ${count} Mercury charges combined`
+        : expense.note,
+  }));
+
+  return {
+    expenses,
+    note: `Matched ${expenses.length} Mercury expenses from ${cardSpend.length} card charges`,
+  };
+}
+
+function mergeMercuryExpenses(subscriptions, mercuryExpenses) {
+  if (!mercuryExpenses.length) return subscriptions;
+  const byName = new Map((subscriptions || []).map((sub) => [sub.name, { ...sub }]));
+  for (const expense of mercuryExpenses) {
+    const current = byName.get(expense.name);
+    byName.set(expense.name, {
+      ...(current || {}),
+      ...expense,
+      cents: expense.cents,
+    });
+  }
+  return [...byName.values()].sort((a, b) => (b.cents ?? -1) - (a.cents ?? -1));
+}
+
 // ── Recraft ──────────────────────────────────────────────────────
 // Recraft has no public usage/billing API. Track manually via dashboard.
 async function collectRecraft() {
@@ -299,12 +487,12 @@ async function main() {
     month = { month: range.label, collectedAt: null, services: {} };
     data.apiSpend.months.push(month);
   }
-
-  const [vercel, anthropic, openai, neon, recraft] = await Promise.allSettled([
+  const [vercel, anthropic, openai, neon, mercury, recraft] = await Promise.allSettled([
     collectVercel(range),
     collectAnthropic(range),
     collectOpenAI(range),
     collectNeon(month.services.neon),
+    collectMercuryExpenses(range),
     collectRecraft(),
   ]);
 
@@ -318,6 +506,10 @@ async function main() {
   month.services.openai = unwrap(openai);
   month.services.neon = unwrap(neon);
   month.services.recraft = unwrap(recraft);
+  const mercuryResult = unwrap(mercury);
+  if (mercuryResult.expenses) {
+    data.subscriptions = mergeMercuryExpenses(data.subscriptions || [], mercuryResult.expenses);
+  }
 
   month.collectedAt = new Date().toISOString();
   data.lastUpdated = month.collectedAt;
@@ -341,6 +533,8 @@ async function main() {
     }
   }
   console.log(`\n  API total:     ${centsStr(totalTracked)}`);
+
+  if (mercuryResult.note) console.log(`  Mercury:      ${mercuryResult.note}`);
 
   // Subs total
   const subsTotal = (data.subscriptions || []).reduce((s, x) => s + (x.cents || 0), 0);

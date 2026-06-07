@@ -8,6 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "campbell:sync": "node scripts/sync-campbell-data.mjs",
+    "money:collect": "node scripts/collect-money.mjs",
     "test": "vitest run"
   },
   "dependencies": {
