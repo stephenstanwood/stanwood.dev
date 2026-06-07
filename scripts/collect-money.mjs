@@ -9,6 +9,8 @@
  *   VERCEL_TOKEN          — Vercel bearer token (billing access)
  *   ANTHROPIC_ADMIN_KEY   — Anthropic admin key (sk-ant-admin-*)
  *   OPENAI_ADMIN_KEY      — OpenAI admin key (sk-admin-*)
+ *   NEON_USAGE_CENTS      — optional manual current-month Neon usage
+ *   NEON_USAGE_BREAKDOWN_JSON — optional JSON breakdown for Neon usage
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";
@@ -54,6 +56,30 @@ function monthRange() {
 
 function centsStr(c) {
   return c < 100 ? `${c}\u00a2` : `$${(c / 100).toFixed(2)}`;
+}
+
+function parseManualCents(name) {
+  const raw = process.env[`${name}_USAGE_CENTS`];
+  if (!raw) return null;
+  const cents = Number.parseInt(raw, 10);
+  return Number.isFinite(cents) ? cents : null;
+}
+
+function parseManualBreakdown(name) {
+  const raw = process.env[`${name}_USAGE_BREAKDOWN_JSON`];
+  if (!raw) return [];
+  try {
+    const items = JSON.parse(raw);
+    if (!Array.isArray(items)) return [];
+    return items
+      .map((item) => ({
+        name: String(item.name || "Other"),
+        cents: Number.parseInt(item.cents, 10),
+      }))
+      .filter((item) => item.name && Number.isFinite(item.cents) && item.cents >= 0);
+  } catch {
+    return [];
+  }
 }
 
 // ── Vercel ───────────────────────────────────────────────────────
@@ -161,6 +187,7 @@ async function collectAnthropic(range) {
   } while (pageToken);
 
   let totalCents = 0;
+  let unknownTokens = 0;
   const breakdown = [];
   for (const [model, tokens] of Object.entries(byModel)) {
     const price = priceFor(model);
@@ -180,11 +207,15 @@ async function collectAnthropic(range) {
 
   breakdown.sort((a, b) => b.cents - a.cents);
   const filtered = breakdown.filter((b) => b.cents > 0);
+  const note =
+    unknownTokens > 0
+      ? "computed from API key token usage; skipped unpriced Anthropic tokens"
+      : "computed from API key token usage (excludes Claude Code on Max)";
 
   return {
     totalCents,
     breakdown: filtered,
-    note: "computed from API key token usage (excludes Claude Code on Max)",
+    note,
   };
 }
 
@@ -228,6 +259,22 @@ async function collectOpenAI(range) {
   return { totalCents: Math.round(totalDollars * 100), breakdown, note: null };
 }
 
+// ── Neon ─────────────────────────────────────────────────────────
+// Neon usage recaps arrive by email. Keep same-month values sticky across
+// collector runs unless NEON_USAGE_CENTS is supplied to refresh the amount.
+async function collectNeon(existingEntry = null) {
+  const manualCents = parseManualCents("NEON");
+  if (manualCents !== null) {
+    const breakdown = parseManualBreakdown("NEON");
+    return {
+      totalCents: manualCents,
+      breakdown,
+      note: "manual from Neon usage recap",
+    };
+  }
+  return existingEntry || { totalCents: null, note: "manual from Neon usage recap email" };
+}
+
 // ── Recraft ──────────────────────────────────────────────────────
 // Recraft has no public usage/billing API. Track manually via dashboard.
 async function collectRecraft() {
@@ -253,10 +300,11 @@ async function main() {
     data.apiSpend.months.push(month);
   }
 
-  const [vercel, anthropic, openai, recraft] = await Promise.allSettled([
+  const [vercel, anthropic, openai, neon, recraft] = await Promise.allSettled([
     collectVercel(range),
     collectAnthropic(range),
     collectOpenAI(range),
+    collectNeon(month.services.neon),
     collectRecraft(),
   ]);
 
@@ -268,6 +316,7 @@ async function main() {
   month.services.vercel = unwrap(vercel);
   month.services.anthropic = unwrap(anthropic);
   month.services.openai = unwrap(openai);
+  month.services.neon = unwrap(neon);
   month.services.recraft = unwrap(recraft);
 
   month.collectedAt = new Date().toISOString();

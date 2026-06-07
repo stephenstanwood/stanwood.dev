@@ -63,6 +63,12 @@ export const SERVICE_META: Record<
     url: "https://vercel.com/dashboard",
     emoji: "▲",
   },
+  neon: {
+    label: "Neon",
+    color: "#00e699",
+    url: "https://console.neon.tech/app/billing",
+    emoji: "▰",
+  },
   anthropic: {
     label: "Anthropic",
     color: "#d4704c",
@@ -83,7 +89,7 @@ export const SERVICE_META: Record<
   },
 };
 
-export const SERVICE_ORDER = ["vercel", "anthropic", "openai", "recraft"];
+export const SERVICE_ORDER = ["openai", "anthropic", "neon", "vercel", "recraft"];
 
 // ── Category colors for subscriptions ────────────────────────────
 

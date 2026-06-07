@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-30T10:00:32.211Z",
+  "lastUpdated": "2026-06-07T14:48:48.048Z",
   "apiSpend": {
     "months": [
       {
@@ -61,6 +61,67 @@
             "note": "manual top-ups only — no auto-billing"
           }
         }
+      },
+      {
+        "month": "2026-06",
+        "collectedAt": "2026-06-07T14:48:48.048Z",
+        "services": {
+          "vercel": {
+            "totalCents": 15,
+            "breakdown": [
+              {
+                "name": "Build CPU Minutes",
+                "cents": 15
+              }
+            ],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 1389,
+            "breakdown": [
+              {
+                "name": "claude-opus-4-7",
+                "cents": 1142
+              },
+              {
+                "name": "claude-haiku-4-5",
+                "cents": 245
+              },
+              {
+                "name": "claude-sonnet-4-5",
+                "cents": 2
+              }
+            ],
+            "note": "computed from API key token usage (excludes Claude Code on Max)"
+          },
+          "openai": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "neon": {
+            "totalCents": 462,
+            "breakdown": [
+              {
+                "name": "Compute",
+                "cents": 455
+              },
+              {
+                "name": "Storage",
+                "cents": 7
+              },
+              {
+                "name": "History",
+                "cents": 0
+              }
+            ],
+            "note": "manual from Neon usage recap"
+          },
+          "recraft": {
+            "totalCents": null,
+            "note": "track manually at recraft.ai"
+          }
+        }
       }
     ]
   },
@@ -74,10 +135,10 @@
     },
     {
       "name": "Claude Max",
-      "cents": 10000,
+      "cents": 20000,
       "category": "ai",
       "url": "https://claude.ai/settings/billing",
-      "note": "the big boy"
+      "note": "$200/month Max plan"
     },
     {
       "name": "Meetup Pro",
@@ -87,11 +148,18 @@
       "note": "required for SBS Meetup API"
     },
     {
-      "name": "ChatGPT Plus",
+      "name": "ChatGPT Pro",
+      "cents": 20000,
+      "category": "ai",
+      "url": "https://chatgpt.com",
+      "note": "OpenAI $200 Pro plan"
+    },
+    {
+      "name": "Cursor",
       "cents": 2000,
       "category": "ai",
-      "url": "https://chat.openai.com",
-      "note": "in case Claude is down or I want a second opinion"
+      "url": "https://cursor.com/settings",
+      "note": "AI editor subscription"
     },
     {
       "name": "Midjourney",
