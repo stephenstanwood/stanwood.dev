@@ -45,7 +45,7 @@ const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
 ];
 
 const SOURCE_FILTERS = [
-  { id: ALL_SOURCE_FILTER, label: "All sources" },
+  { id: ALL_SOURCE_FILTER, label: "Every calendar" },
   ...SOURCE_COUNTS.map((source) => ({
     id: source.label,
     label: eventSourceFilterLabel(source.label),
@@ -186,7 +186,7 @@ export default function EventsIndex() {
         <p>
           City meetings, downtown happenings, library programs, museum days,
           theatre shows, and Chamber events. Search by place, cost, topic, or
-          source, then open the original listing for details.
+          date, then open the original listing before you go.
         </p>
       </div>
 
@@ -194,7 +194,7 @@ export default function EventsIndex() {
         <input
           type="text"
           className="cb-event-search"
-          placeholder="Search events, places, costs, or sources"
+          placeholder="Search events, places, costs, or topics"
           value={query}
           onChange={(event) => {
             setQuery(event.target.value);
@@ -219,7 +219,7 @@ export default function EventsIndex() {
         <span className="cb-event-count">{resultLabel}</span>
       </div>
 
-      <div className="cb-event-filter-group" aria-label="Event source filters">
+      <div className="cb-event-filter-group" aria-label="Event calendar filters">
         {SOURCE_FILTERS.map((filter) => (
           <button
             key={filter.id}
@@ -308,13 +308,12 @@ export default function EventsIndex() {
       </div>
 
       <div className="cb-section-head cb-event-source-head">
-        <span className="cb-section-kicker">Source Map</span>
-        <h3>Where each listing comes from.</h3>
+        <span className="cb-section-kicker">Check details</span>
+        <h3>Confirm an event before you go.</h3>
         <p>
-          The list pulls from city, downtown, library, museum, theatre, and
-          Chamber pages, plus public school-district meetings. The next direct
-          calendars are parks, shopping centers, and high-signal individual
-          businesses.
+          Each card opens the original calendar or listing. Public meetings stay
+          visible here; closures, no-school days, and team-only notices stay out
+          of the guide.
         </p>
       </div>
 

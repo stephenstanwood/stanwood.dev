@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Section } from "../../lib/campbell/types";
 import QuickLinks from "./QuickLinks";
 import CouncilDigest from "./CouncilDigest";
@@ -69,10 +69,46 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] =
   },
 ];
 
+const SECTION_HASHES: Record<string, Section> = {
+  "#campbell-events": "events",
+  "#campbell-digest": "digest",
+  "#campbell-businesses": "businesses",
+  "#campbell-safety": "safety",
+  "#campbell-homes": "homes",
+  "#campbell-history": "history",
+  "#campbell-data": "data",
+  "#campbell-links": "links",
+  "#campbell-roadmap": "roadmap",
+};
+
+function sectionFromHash(hash: string) {
+  return SECTION_HASHES[hash.toLowerCase()] ?? null;
+}
+
 export default function CampbellPortal() {
   const [active, setActive] = useState<Section>("events");
   const tabRailRef = useRef<HTMLElement>(null);
   const activeIndex = TABS.findIndex((tab) => tab.id === active);
+
+  useEffect(() => {
+    function syncHashSection() {
+      const section = sectionFromHash(window.location.hash);
+      if (section) setActive(section);
+    }
+
+    syncHashSection();
+    window.addEventListener("hashchange", syncHashSection);
+    return () => window.removeEventListener("hashchange", syncHashSection);
+  }, []);
+
+  function selectSection(section: Section) {
+    setActive(section);
+    if (typeof window === "undefined") return;
+
+    const nextHash = `#campbell-${section}`;
+    if (window.location.hash === nextHash) return;
+    window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${nextHash}`);
+  }
 
   function scrollSections(direction: -1 | 1) {
     const rail = tabRailRef.current;
@@ -108,7 +144,7 @@ export default function CampbellPortal() {
               type="button"
               className={`cb-tab ${active === tab.id ? "cb-tab--active" : ""}`}
               aria-pressed={active === tab.id}
-              onClick={() => setActive(tab.id)}
+              onClick={() => selectSection(tab.id)}
             >
               <span className="cb-tab-topline">
                 <span className="cb-tab-number">{String(index + 1).padStart(2, "0")}</span>

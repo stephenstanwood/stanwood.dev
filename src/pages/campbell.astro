@@ -53,19 +53,19 @@ const photoStories = [
     label: "Events",
     title: "Today + weekend",
     image: photos.farmersMarket,
-    anchor: "#campbell-tool",
+    anchor: "#campbell-events",
   },
   {
     label: "City Hall",
     title: "Hearings",
     image: photos.cityHall,
-    anchor: "#campbell-tool",
+    anchor: "#campbell-digest",
   },
   {
     label: "History",
     title: "Orchard City",
     image: photos.ainsley,
-    anchor: "#campbell-tool",
+    anchor: "#campbell-history",
   },
   {
     label: "Resident help",
@@ -378,6 +378,14 @@ const photoStories = [
         margin: 0 auto;
         padding: 1.1rem var(--cb-gutter) 2rem;
         box-sizing: border-box;
+      }
+      .cb-section-jump-anchors {
+        position: relative;
+        height: 0;
+      }
+      .cb-section-jump-anchors span {
+        position: absolute;
+        top: -0.75rem;
       }
       @media (max-width: 900px) {
         .cb-photo-story-grid {
@@ -2893,7 +2901,7 @@ const photoStories = [
           safety sources, and resident shortcuts in one friendly Campbell guide.
         </p>
         <div class="cb-hero-actions" aria-label="Campbell guide shortcuts">
-          <a class="cb-hero-link" href="#campbell-tool">Browse the guide</a>
+          <a class="cb-hero-link" href="#campbell-events">Browse the guide</a>
           <a class="cb-hero-link" href="#campbell-routing">Who handles what</a>
         </div>
       </div>
@@ -2911,6 +2919,17 @@ const photoStories = [
     </section>
 
     <main class="cb-main" id="campbell-tool">
+      <div class="cb-section-jump-anchors" aria-hidden="true">
+        <span id="campbell-events"></span>
+        <span id="campbell-digest"></span>
+        <span id="campbell-businesses"></span>
+        <span id="campbell-safety"></span>
+        <span id="campbell-homes"></span>
+        <span id="campbell-history"></span>
+        <span id="campbell-data"></span>
+        <span id="campbell-links"></span>
+        <span id="campbell-roadmap"></span>
+      </div>
       <CampbellPortal client:load />
     </main>
 
