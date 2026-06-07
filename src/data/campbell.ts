@@ -61,12 +61,6 @@ export interface CampbellBusiness {
   area: string;
 }
 
-export interface CampbellRoadmapItem {
-  title: string;
-  body: string;
-  status: "Live now" | "Next feed" | "Needs source";
-}
-
 export const SOURCE_URLS = {
   cityHistory: "https://www.campbellca.gov/238/History",
   censusQuickFacts: "https://www.census.gov/quickfacts/fact/table/campbellcitycalifornia/HSG445223",
@@ -583,47 +577,4 @@ export const BUSINESS_PREVIEW: CampbellBusiness[] = [
   { name: "Naschmarkt", category: "Food and drink", address: "384 E Campbell Ave", area: "Downtown" },
   { name: "Orchard Valley Coffee", category: "Coffee", address: "349 E Campbell Ave", area: "Downtown" },
   { name: "Recycle Bookstore", category: "Books and comics", address: "275 E Campbell Ave", area: "Downtown" },
-];
-
-export const CAMPBELL_ROADMAP: CampbellRoadmapItem[] = [
-  {
-    title: "Council minutes vault",
-    body: "Agenda, minutes, media, public-hearing notices, and first plain-English hearing summaries are live. Full packet text, vote outcomes, and topic search come next.",
-    status: "Live now",
-  },
-  {
-    title: "Downtown business index",
-    body: "Downtown Campbell and Campbell-address Chamber listings share one search. Category enrichment, shopping-center coverage, direct websites, and open/closed checks come next.",
-    status: "Live now",
-  },
-  {
-    title: "Events firehose",
-    body: "City, Downtown Campbell, Campbell Library, Campbell Museums, Heritage Theatre, and Chamber events are in the live list. School, parks, shopping-center, and individual business calendars come next.",
-    status: "Live now",
-  },
-  {
-    title: "Safety and crime reports",
-    body: "Official CPD stats, CityProtect map guidance, online reporting, transparency sources, and privacy boundaries are live. Next pass should add annual-report extraction, neighborhood rollups, call-for-service context, and public-safety meeting notices.",
-    status: "Live now",
-  },
-  {
-    title: "Property and sales ledger",
-    body: "Official source map and Campbell roll metrics are live. A complete sales ledger likely needs Assessor data files or a records request before it can be honest and complete.",
-    status: "Next feed",
-  },
-  {
-    title: "Individual-source crawl map",
-    body: "Build a registry of every Campbell-relevant calendar and directory, then add schools, venues, shopping centers, neighborhood groups, and high-signal business sites.",
-    status: "Next feed",
-  },
-  {
-    title: "History map",
-    body: "Turn the timeline into a walking map with plaques, Ainsley House, Fire House No. 1, rail history, orchards, and old photos.",
-    status: "Live now",
-  },
-  {
-    title: "Neighborhood pages",
-    body: "Split downtown, Pruneyard, San Tomas, Hamilton, Winchester, Campbell Village, parks, schools, and county pockets into local pages.",
-    status: "Needs source",
-  },
 ];

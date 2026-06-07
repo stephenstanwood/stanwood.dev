@@ -29,5 +29,4 @@ export type Section =
   | "events"
   | "businesses"
   | "homes"
-  | "data"
-  | "roadmap";
+  | "data";
