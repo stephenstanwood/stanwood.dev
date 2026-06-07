@@ -173,7 +173,7 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
   {
     year: "Late 1800s",
     title: "A farming town turns into Orchard City",
-    body: "Campbell's identity formed around orchards, packing, rail access, and a compact downtown. The next version should map the canneries, rail stops, and surviving historic buildings.",
+    body: "Campbell's identity formed around orchards, packing, rail access, and a compact downtown around Campbell Avenue.",
     sourceLabel: "City history",
     sourceUrl: SOURCE_URLS.cityHistory,
   },
@@ -187,8 +187,8 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
   {
     year: "Now",
     title: "A small city inside a complicated county",
-    body: "Campbell is its own city, but many everyday systems are county, state, school district, VTA, utility, or private-provider responsibilities. This guide should make those lines visible.",
-    sourceLabel: "Campbell source map",
+    body: "Campbell is its own city, but everyday questions often cross county, state, school district, VTA, utility, and private-provider lines.",
+    sourceLabel: "Agenda Center",
     sourceUrl: SOURCE_URLS.agendaCenter,
   },
 ];

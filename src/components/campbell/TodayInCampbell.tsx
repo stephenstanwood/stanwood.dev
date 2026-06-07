@@ -124,7 +124,7 @@ export default function TodayInCampbell() {
               ))}
             </ul>
           ) : (
-            <p>No same-day events in the current feed.</p>
+            <p>No same-day events found.</p>
           )}
         </article>
 
@@ -145,7 +145,7 @@ export default function TodayInCampbell() {
               <span>{recentHearings[0].hearing.title}</span>
             </div>
           ) : (
-            <p>No dated public hearings in the current feed.</p>
+            <p>No dated public hearings found.</p>
           )}
 
           {latestCouncil && (
@@ -175,7 +175,7 @@ export default function TodayInCampbell() {
               })}
             </ul>
           ) : (
-            <p>No upcoming events in the current feed.</p>
+            <p>No upcoming events found.</p>
           )}
         </article>
       </div>

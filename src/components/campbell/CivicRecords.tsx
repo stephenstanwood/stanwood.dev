@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CIVIC_SOURCES, SOURCE_URLS } from "../../data/campbell";
+import { CIVIC_SOURCES } from "../../data/campbell";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
 import SourceCardGrid from "./SourceCardGrid";
@@ -37,15 +37,6 @@ const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
   { id: "planning", label: "Planning" },
   { id: "council", label: "Council" },
   { id: "needs-date", label: "Needs date" },
-];
-
-const RECORDS_QUEUE = [
-  "Full-text agenda packet extraction",
-  "Plain-English summaries for every public hearing",
-  "Planning Commission and Historic Preservation Board vote outcomes",
-  "Budget, fee schedule, and capital projects",
-  "Public notices and city contracts",
-  "Zoning, parcels, and map layers",
 ];
 
 const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
@@ -152,8 +143,8 @@ export default function CivicRecords() {
             <h4>What is coming through City Hall</h4>
             <p>
               {upcomingCount > 0
-                ? `${upcomingCount} future-dated hearing${upcomingCount === 1 ? "" : "s"} in the current feed.`
-                : `No future-dated hearings in the current feed. Showing ${recentCount} recent notice${recentCount === 1 ? "" : "s"} and packet items.`}
+                ? `${upcomingCount} upcoming hearing${upcomingCount === 1 ? "" : "s"} on the calendar.`
+                : `No upcoming hearings found. Showing ${recentCount} recent notice${recentCount === 1 ? "" : "s"} and packet items.`}
             </p>
           </div>
         </div>
@@ -254,21 +245,6 @@ export default function CivicRecords() {
       </section>
 
       <SourceCardGrid sources={CIVIC_SOURCES} />
-
-      <div className="cb-next-panel">
-        <div>
-          <span className="cb-next-label">Build queue</span>
-          <h4>Next civic layers</h4>
-        </div>
-        <ul>
-          {RECORDS_QUEUE.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-        <a href={SOURCE_URLS.agendaCenter} target="_blank" rel="noopener noreferrer">
-          Open the current archive
-        </a>
-      </div>
     </div>
   );
 }
