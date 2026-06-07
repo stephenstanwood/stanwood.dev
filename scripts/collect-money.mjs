@@ -63,6 +63,24 @@ function dollarsToCents(amount) {
   return Math.round(Number(amount || 0) * 100);
 }
 
+function cloneJson(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function stripCollectionTimestamps(value) {
+  if (Array.isArray(value)) return value.map(stripCollectionTimestamps);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value)
+      .filter(([key]) => key !== "lastUpdated" && key !== "collectedAt")
+      .map(([key, child]) => [key, stripCollectionTimestamps(child)]),
+  );
+}
+
+function materialFingerprint(value) {
+  return JSON.stringify(stripCollectionTimestamps(value));
+}
+
 function parseManualCents(name) {
   const raw = process.env[`${name}_USAGE_CENTS`];
   if (!raw) return null;
@@ -480,6 +498,7 @@ async function main() {
   } catch {
     data = { lastUpdated: null, apiSpend: { months: [] }, subscriptions: [], domains: [] };
   }
+  const originalData = cloneJson(data);
   if (!data.apiSpend) data.apiSpend = { months: [] };
 
   let month = data.apiSpend.months.find((m) => m.month === range.label);
@@ -511,9 +530,18 @@ async function main() {
     data.subscriptions = mergeMercuryExpenses(data.subscriptions || [], mercuryResult.expenses);
   }
 
-  month.collectedAt = new Date().toISOString();
-  data.lastUpdated = month.collectedAt;
   data.apiSpend.months.sort((a, b) => a.month.localeCompare(b.month));
+
+  const materialChanged = materialFingerprint(data) !== materialFingerprint(originalData);
+  if (materialChanged) {
+    month.collectedAt = new Date().toISOString();
+    data.lastUpdated = month.collectedAt;
+  } else {
+    const originalMonth = originalData.apiSpend?.months?.find((m) => m.month === range.label);
+    if (originalMonth?.collectedAt) month.collectedAt = originalMonth.collectedAt;
+    data.lastUpdated = originalData.lastUpdated ?? data.lastUpdated ?? null;
+    console.log("No material spend changes; preserving collected timestamps.");
+  }
 
   writeFileSync(OUT_PATH, JSON.stringify(data, null, 2) + "\n");
   console.log(`\nWritten to ${OUT_PATH}`);
