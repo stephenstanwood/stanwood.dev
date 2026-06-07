@@ -219,7 +219,7 @@ function buildPrompt(runId, memoryHash, projectHash, files) {
 
 Target: stanwood.dev/campbell, the Campbell, CA city guide and its directly supporting data, components, API helpers, images, and sync script.
 
-Goal: periodically apply the latest lessons, standards, and tools from Stephen's recent prototype/site work to the Campbell guide. The page should feel photo-forward, polished, local, and useful; the writing should be plain English for residents. Do not turn it into a source-count brag sheet, a generated field guide, or a broad stanwood.dev cleanup.
+Goal: periodically evaluate the latest lessons, standards, and tools from Stephen's recent prototype/site work, then apply only the lessons that genuinely fit the Campbell guide. The page should feel photo-forward, polished, local, and useful; the writing should be plain English for residents. Not every Stoa bid/prototype lesson belongs here; skip lessons that would make Campbell less local, less useful, too complex, too salesy, or overbuilt. Do not turn it into a source-count brag sheet, a generated field guide, or a broad stanwood.dev cleanup.
 
 Before editing:
 - Run git pull --rebase origin main and inspect git status.
