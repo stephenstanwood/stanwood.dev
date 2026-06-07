@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   ALWAYS_SHOW_TEAMS,
+  bestUnseenFinishedGame,
   buildTeamLookup,
   isLatestStartedEventForTrackedTeams,
   latestStartedAtByTrackedTeam,
@@ -8,7 +9,20 @@ import {
 } from "./wtwtwSports";
 import { getTeam } from "./teamRegistry";
 
-function event({ id, date, away, home, state, completed = false, playoff = false }) {
+function event({
+  id,
+  date,
+  away,
+  home,
+  state,
+  completed = false,
+  playoff = false,
+  awayScore = "80",
+  homeScore = "75",
+  awayRecord = "10-10",
+  homeRecord = "10-10",
+  period = 4,
+}) {
   return {
     id,
     date,
@@ -16,6 +30,7 @@ function event({ id, date, away, home, state, completed = false, playoff = false
     competitions: [
       {
         status: {
+          period,
           type: {
             state,
             completed,
@@ -23,8 +38,18 @@ function event({ id, date, away, home, state, completed = false, playoff = false
           },
         },
         competitors: [
-          { homeAway: "away", team: { abbreviation: away }, score: "80" },
-          { homeAway: "home", team: { abbreviation: home }, score: "75" },
+          {
+            homeAway: "away",
+            team: { abbreviation: away },
+            score: awayScore,
+            records: [{ summary: awayRecord }],
+          },
+          {
+            homeAway: "home",
+            team: { abbreviation: home },
+            score: homeScore,
+            records: [{ summary: homeRecord }],
+          },
         ],
       },
     ],
@@ -267,6 +292,87 @@ describe("sports recap team freshness", () => {
         latest,
       ),
     ).toBe(true);
+  });
+});
+
+describe("finished game ranking", () => {
+  it("picks the next-best finished game when the overall best is already shown", () => {
+    const top = event({
+      id: "valks-best",
+      date: "2026-06-06T19:00:00Z",
+      away: "GS",
+      home: "NY",
+      state: "post",
+      completed: true,
+      awayScore: "91",
+      homeScore: "90",
+      awayRecord: "9-2",
+      homeRecord: "8-3",
+    });
+    const next = event({
+      id: "next-best",
+      date: "2026-06-06T20:00:00Z",
+      away: "LV",
+      home: "MIN",
+      state: "post",
+      completed: true,
+      awayScore: "84",
+      homeScore: "82",
+      awayRecord: "8-4",
+      homeRecord: "7-5",
+    });
+    const blowout = event({
+      id: "blowout",
+      date: "2026-06-06T18:00:00Z",
+      away: "PHX",
+      home: "DAL",
+      state: "post",
+      completed: true,
+      awayScore: "99",
+      homeScore: "70",
+      awayRecord: "5-7",
+      homeRecord: "4-8",
+    });
+
+    const pick = bestUnseenFinishedGame(
+      [blowout, next, top],
+      (ev) => ev.id === "valks-best",
+    );
+
+    expect(pick?.event.id).toBe("next-best");
+    expect(pick?.isOverallBest).toBe(false);
+  });
+
+  it("marks the top finished game as overall best when it is not already shown", () => {
+    const top = event({
+      id: "top",
+      date: "2026-06-06T19:00:00Z",
+      away: "GS",
+      home: "NY",
+      state: "post",
+      completed: true,
+      awayScore: "91",
+      homeScore: "90",
+      awayRecord: "9-2",
+      homeRecord: "8-3",
+    });
+    const second = event({
+      id: "second",
+      date: "2026-06-06T20:00:00Z",
+      away: "LV",
+      home: "MIN",
+      state: "post",
+      completed: true,
+      awayScore: "84",
+      homeScore: "79",
+      awayRecord: "8-4",
+      homeRecord: "7-5",
+    });
+
+    const pick = bestUnseenFinishedGame([second, top]);
+
+    expect(pick?.event.id).toBe("top");
+    expect(pick?.isOverallBest).toBe(true);
   });
 });
 

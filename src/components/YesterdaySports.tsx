@@ -3,10 +3,10 @@ import {
   ALWAYS_SHOW_TEAMS,
   buildTeamLookup,
   awayHomeOf,
+  bestUnseenFinishedGame,
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
-  finishedGameWatchScore,
   getRelevantLeagues,
   isFinalEvent,
   isLatestStartedEventForTrackedTeams,
@@ -34,6 +34,7 @@ interface YesterdayGame {
   home: TeamSide;
   isPlayoff: boolean;
   isBestWnba: boolean;
+  wnbaBadge?: string;
   statusText: string;
   watchHref: string;
   watchLabel: string;
@@ -57,6 +58,10 @@ function recapTitle(g: YesterdayGame): string {
     return `${g.away.shortName} @ ${g.home.shortName} · ${g.statusText}`;
   }
   return `${g.away.shortName} ${g.away.score} — ${g.home.shortName} ${g.home.score} · ${g.statusText}`;
+}
+
+function recapEventId(league: string, iso: string, ev: ESPNEvent): string {
+  return ev.id || `${league}|${iso}|${ev.date}|${ev.shortName}`;
 }
 
 export default function YesterdaySports() {
@@ -127,7 +132,7 @@ export default function YesterdaySports() {
             const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
             if (!matched && !playoff) continue;
 
-            const id = ev.id || `${league}|${iso}|${ev.date}|${ev.shortName}`;
+            const id = recapEventId(league, iso, ev);
             if (seen.has(id)) continue;
             seen.add(id);
 
@@ -170,32 +175,24 @@ export default function YesterdaySports() {
       // icon deep-links to. Score every finished WNBA game with the shared
       // closeness × quality logic and surface the top one as a tile, even when
       // no tracked team played in it. Deduped against the tracked-team tiles
-      // above via `seen`, so a Valkyries game that's already shown won't double.
+      // above via `seen`; when the Valkyries are the top game, surface the
+      // next-best WNBA game too so the recap still has two watch options.
       if (leagues.has("basketball/wnba")) {
         const yesterdayYmd = yyyymmddInPT(new Date(Date.now() - MS_PER_DAY));
         const yDay = dayResults.find((d) => d.ymd === yesterdayYmd);
-        const wnbaFinals = (
-          yDay?.results.find((r) => r.league === "basketball/wnba")?.events ?? []
-        ).filter(isFinalEvent);
+        const wnbaEvents =
+          yDay?.results.find((r) => r.league === "basketball/wnba")?.events ?? [];
 
-        let best: ESPNEvent | null = null;
-        let bestScore = -Infinity;
-        for (const ev of wnbaFinals) {
-          const s = finishedGameWatchScore(ev);
-          if (s > bestScore) {
-            bestScore = s;
-            best = ev;
-          }
-        }
-
-        if (best && yDay) {
-          const id =
-            best.id ||
-            `basketball/wnba|${yDay.iso}|${best.date}|${best.shortName}`;
-          if (!seen.has(id)) {
-            seen.add(id);
+        if (yDay) {
+          const pick = bestUnseenFinishedGame(wnbaEvents, (ev) =>
+            seen.has(recapEventId("basketball/wnba", yDay.iso, ev)),
+          );
+          const best = pick?.event ?? null;
+          if (best) {
+            const id = recapEventId("basketball/wnba", yDay.iso, best);
             const ah = awayHomeOf(best);
             if (ah) {
+              seen.add(id);
               const awaySide = teamSide(ah.away);
               const homeSide = teamSide(ah.home);
               const watch = watchRecordingUrl({
@@ -215,10 +212,15 @@ export default function YesterdaySports() {
                 home: homeSide,
                 isPlayoff: false,
                 isBestWnba: true,
+                wnbaBadge: pick.isOverallBest
+                  ? "Best WNBA game"
+                  : "Next best WNBA game",
                 statusText,
                 watchHref: watch.href,
                 watchLabel: watch.label,
-                accent: teamColorByAbbr("basketball/wnba", winner.abbr) || "#1a1a1a",
+                accent:
+                  teamColorByAbbr("basketball/wnba", winner.abbr) ||
+                  "#1a1a1a",
               });
             }
           }
@@ -309,7 +311,7 @@ export default function YesterdaySports() {
             <div className="recap-meta">
               <span className="recap-final">
                 {g.isBestWnba
-                  ? "Best WNBA game"
+                  ? g.wnbaBadge || "Best WNBA game"
                   : g.isPlayoff
                     ? "Playoff · Final"
                     : "Final"}

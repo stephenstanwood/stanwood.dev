@@ -179,6 +179,30 @@ export function finishedGameWatchScore(ev: ESPNEvent): number {
   return closeness * quality * otBonus;
 }
 
+export function rankedFinishedGamesByWatchScore(
+  events: ESPNEvent[],
+): ESPNEvent[] {
+  return events
+    .filter(isFinalEvent)
+    .map((event, index) => ({
+      event,
+      index,
+      score: finishedGameWatchScore(event),
+    }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map(({ event }) => event);
+}
+
+export function bestUnseenFinishedGame(
+  events: ESPNEvent[],
+  isSeen: (event: ESPNEvent) => boolean = () => false,
+): { event: ESPNEvent; isOverallBest: boolean } | null {
+  const ranked = rankedFinishedGamesByWatchScore(events);
+  const event = ranked.find((ev) => !isSeen(ev));
+  if (!event) return null;
+  return { event, isOverallBest: event === ranked[0] };
+}
+
 export function broadcastsOf(ev: ESPNEvent): string[] {
   const out: string[] = [];
   for (const b of ev.competitions?.[0]?.broadcasts || []) {
