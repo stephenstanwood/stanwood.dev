@@ -212,7 +212,7 @@ export default function YesterdaySports() {
                 home: homeSide,
                 isPlayoff: false,
                 isBestWnba: true,
-                wnbaBadge: pick.isOverallBest
+                wnbaBadge: pick?.isOverallBest
                   ? "Best WNBA game"
                   : "Next best WNBA game",
                 statusText,
