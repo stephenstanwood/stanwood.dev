@@ -1,11 +1,35 @@
 [
   {
+    "name": "Nemotron 3",
+    "org": "NVIDIA",
+    "date": "2026-06-04",
+    "type": "model",
+    "summary": "NVIDIA dropped its Nemotron 3 family of fully-open models, and the headline for solo builders is the Nano: a 4B model with GGUF weights on Hugging Face that runs right on your laptop, no cloud bill; the lineup scales up to a 550B Ultra reasoning model with a 1M-token context that went live day-zero on OpenRouter, Together, and Perplexity, and NVIDIA shipped the training data and recipes too under a permissive open license, so you can actually fine-tune instead of just downloading",
+    "url": "https://huggingface.co/nvidia"
+  },
+  {
     "name": "MAI-Code-1-Flash",
     "org": "Microsoft",
     "date": "2026-06-02",
     "type": "model",
     "summary": "Microsoft's first homegrown coding model lands inside GitHub Copilot for individual users — turn on auto-pick or grab it from the model picker in VS Code, no setup needed; it beats Claude Haiku 4.5 on coding benchmarks while burning up to 60% fewer tokens, and dials reasoning up or down per request so simple edits stay snappy; one of seven new MAI models (plus a reasoning model and a voice cloner) Microsoft shipped at Build to cut its OpenAI bill and pass the savings to devs",
     "url": "https://microsoft.ai/news/introducingmai-code-1-flash/"
+  },
+  {
+    "name": "ASSERT",
+    "org": "Microsoft",
+    "date": "2026-06-02",
+    "type": "tool",
+    "summary": "Microsoft open-sourced a way to test whether your AI agent actually behaves — write your rules in plain English ('never give medical advice', 'always cite a source') and ASSERT turns them into scored test cases, generating tricky scenarios and grading the output; MIT-licensed and framework-agnostic, it plugs into LangChain, CrewAI, OpenAI's Agents SDK and 100+ models via LiteLLM, so a solo dev shipping an agent gets real evals instead of vibes",
+    "url": "https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/"
+  },
+  {
+    "name": "MiniMax M3",
+    "org": "MiniMax",
+    "date": "2026-06-01",
+    "type": "model",
+    "summary": "open-weight frontier coding model with a 1M-token context and native image/video input — it can even operate a desktop; on SWE-Bench Pro it edges past GPT-5.5 and Gemini 3.1 Pro and lands just behind Opus 4.7, while the API runs $0.60/M in and $2.40/M out (cents on the dollar next to the closed labs); weights and the technical report hit Hugging Face within days, so you can self-host the whole thing",
+    "url": "https://www.minimax.io/blog/minimax-m3"
   },
   {
     "name": "Rodeo",
@@ -30,21 +54,5 @@
     "type": "tool",
     "summary": "Google's 24/7 personal AI agent rolls into beta — runs on a cloud VM that keeps working when your laptop is closed, schedules and chains multi-step tasks across Gmail/Docs, and uses MCP to act inside Canva, OpenTable, and Instacart at launch (Adobe, Spotify, GitHub, Notion, and Slack queued for summer); opens this week for U.S. Google AI Ultra subscribers",
     "url": "https://blog.google/innovation-and-ai/products/gemini-app/next-evolution-gemini-app/"
-  },
-  {
-    "name": "Emdash",
-    "org": "Emdash (YC W26)",
-    "date": "2026-05-22",
-    "type": "tool",
-    "summary": "open-source desktop app for running coding agents in parallel — each one isolated in its own git worktree; supports 22 CLI agents (Claude Code, Codex, Cursor, Gemini, Copilot, Amp + 16 more), pulls tickets from Linear/Jira/GitHub Issues, and ships with a built-in Kanban board to track agent progress across tasks",
-    "url": "https://www.ycombinator.com/companies/emdash"
-  },
-  {
-    "name": "DeepSeek V4-Pro Price Cut",
-    "org": "DeepSeek",
-    "date": "2026-05-22",
-    "type": "tool",
-    "summary": "DeepSeek made its 75%-off promo the permanent list price — V4-Pro now runs $0.44/M in and $0.87/M out, roughly 17x cheaper than Claude Opus 4.7 on output and ~34x cheaper than GPT-5.5; the model is MIT-licensed with a 1M-token context, so a solo builder can run frontier-tier coding through the API (or self-host) for pocket change",
-    "url": "https://api-docs.deepseek.com/quick_start/pricing"
   }
 ]
