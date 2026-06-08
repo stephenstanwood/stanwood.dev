@@ -87,6 +87,11 @@ const photoStories = [
   schemaName="Campbell City Guide"
 >
   <Fragment slot="head">
+    <link rel="preload" as="image" href={photos.sunset.src} fetchpriority="high" />
+    <link rel="preload" as="image" href={photos.waterTower.src} fetchpriority="high" />
+    {photoStories.map((story) => (
+      <link rel="preload" as="image" href={story.image.src} />
+    ))}
     <style is:global>
       :root {
         --cb-bg: #FBF7EF;
@@ -2785,6 +2790,7 @@ const photoStories = [
           height="1200"
           loading="eager"
           decoding="async"
+          fetchpriority="high"
         />
         <figcaption class="cb-photo-credit">
           Campbell Avenue photo by
@@ -2821,6 +2827,7 @@ const photoStories = [
           height="1600"
           loading="eager"
           decoding="async"
+          fetchpriority="high"
         />
       </figure>
     </section>
@@ -2829,7 +2836,15 @@ const photoStories = [
       <div class="cb-photo-story-grid">
         {photoStories.map((story) => (
           <a class="cb-story-card" href={story.anchor} aria-label={`${story.label}: ${story.title}`}>
-            <img src={story.image.src} alt={story.image.alt} width="1400" height="1050" loading="eager" decoding="async" />
+            <img
+              src={story.image.src}
+              alt={story.image.alt}
+              width="1400"
+              height="1050"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
             <div class="cb-story-body">
               <span class="cb-story-label">{story.label}</span>
               <h2>{story.title}</h2>

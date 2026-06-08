@@ -34,6 +34,8 @@ interface PublicHearing {
 const EVENTS = eventFeed.items as CampbellEvent[];
 const COUNCIL_RECORDS = councilFeed.items as CouncilRecord[];
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
+const DAY_MS = 24 * 60 * 60 * 1000;
+const LONG_RUNNING_EVENT_DAYS = 14;
 
 function parseDate(value = "") {
   if (!value) return null;
@@ -53,6 +55,13 @@ function eventEnd(event: CampbellEvent) {
   return parseDate(event.endDate ?? "") ?? eventStart(event);
 }
 
+function eventIsLongRunning(event: CampbellEvent) {
+  const start = eventStart(event);
+  const end = eventEnd(event);
+  if (!start || !end) return false;
+  return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
+}
+
 function startOfDay(value: Date) {
   const date = new Date(value);
   date.setHours(0, 0, 0, 0);
@@ -63,6 +72,9 @@ function eventHappensToday(event: CampbellEvent, startOfDay: Date, endOfDay: Dat
   const start = eventStart(event);
   const end = eventEnd(event);
   if (!start || !end) return false;
+  if (eventIsLongRunning(event)) {
+    return start.getTime() >= startOfDay.getTime() && start.getTime() <= endOfDay.getTime();
+  }
   return start.getTime() <= endOfDay.getTime() && end.getTime() >= startOfDay.getTime();
 }
 

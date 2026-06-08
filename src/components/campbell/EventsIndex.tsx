@@ -33,6 +33,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
+const LONG_RUNNING_EVENT_DAYS = 14;
 type EventViewFilter = "today" | "all" | "next14" | "next30" | "public";
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
@@ -89,6 +90,13 @@ function parseEventEnd(event: CampbellEvent) {
   return Number.isNaN(date.getTime()) ? parseEventStart(event) : date;
 }
 
+function eventIsLongRunning(event: CampbellEvent) {
+  const start = parseEventStart(event);
+  const end = parseEventEnd(event);
+  if (!start || !end) return false;
+  return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
+}
+
 function startOfDay(value: Date) {
   const date = new Date(value);
   date.setHours(0, 0, 0, 0);
@@ -138,6 +146,9 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, ref
   endOfReferenceDay.setHours(23, 59, 59, 999);
 
   if (viewFilter === "today") {
+    if (eventIsLongRunning(event)) {
+      return start.getTime() >= startOfReferenceDay.getTime() && start.getTime() <= endOfReferenceDay.getTime();
+    }
     return start.getTime() <= endOfReferenceDay.getTime() && end.getTime() >= startOfReferenceDay.getTime();
   }
 
@@ -145,6 +156,9 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, ref
   const windowEnd = new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS);
   windowEnd.setHours(23, 59, 59, 999);
   if (viewFilter === "next14" || viewFilter === "next30") {
+    if (eventIsLongRunning(event)) {
+      return start.getTime() >= startOfReferenceDay.getTime() && start.getTime() <= windowEnd.getTime();
+    }
     return start.getTime() <= windowEnd.getTime() && end.getTime() >= startOfReferenceDay.getTime();
   }
   return true;
