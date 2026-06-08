@@ -1054,6 +1054,11 @@ function cleanSentence(value = "") {
     .trim();
 }
 
+function cleanNoticeText(value = "") {
+  return cleanSentence(value)
+    .replace(/\bbeer\s*&\s*wind\b/gi, "beer & wine");
+}
+
 function parseNoticeHearingTime(text) {
   const cleaned = compactText(text);
   const match = cleaned.match(/(?:hour of|at)\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:a\.?m\.?|p\.?m\.?|AM|PM))[\s\S]{0,220}?\bon\s+(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+)?([A-Z][a-z]+\.?\s+\d{1,2},\s+\d{4})/i);
@@ -1169,14 +1174,14 @@ async function parsePublicHearings({ councilRecords, planningRecords, noticeArch
     await sleep(300);
     const pdf = await fetchPdfText(notice.noticeUrl);
     const details = pdf.text ? parseNoticeDetails(pdf.text) : {};
-    const summary = details.summary || notice.title;
+    const summary = cleanNoticeText(details.summary || notice.title);
 
     if (!details.hearingAt && !details.summary && !pdf.skipped) continue;
 
     hearingItems.push({
       id: `notice-${notice.id}`,
       body: notice.body,
-      title: notice.title,
+      title: cleanNoticeText(notice.title),
       hearingAt: details.hearingAt ?? "",
       summary,
       address: details.address ?? "",
