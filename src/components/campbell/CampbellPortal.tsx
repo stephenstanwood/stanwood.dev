@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 import type { Section } from "../../lib/campbell/types";
 import QuickLinks from "./QuickLinks";
 import CouncilDigest from "./CouncilDigest";
@@ -73,14 +73,24 @@ const SECTION_HASHES: Record<string, Section> = {
   "#campbell-links": "links",
 };
 
+function tabId(section: Section) {
+  return `campbell-tab-${section}`;
+}
+
+function panelId(section: Section) {
+  return `campbell-panel-${section}`;
+}
+
 function sectionFromHash(hash: string) {
   return SECTION_HASHES[hash.toLowerCase()] ?? null;
 }
 
 export default function CampbellPortal() {
   const [active, setActive] = useState<Section>("events");
-  const tabRailRef = useRef<HTMLElement>(null);
+  const tabRailRef = useRef<HTMLDivElement>(null);
+  const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeIndex = TABS.findIndex((tab) => tab.id === active);
+  const activeTab = TABS[activeIndex] ?? TABS[0];
 
   useEffect(() => {
     function syncHashSection() {
@@ -111,6 +121,28 @@ export default function CampbellPortal() {
     });
   }
 
+  function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
+    const lastIndex = TABS.length - 1;
+    let nextIndex: number | null = null;
+
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      nextIndex = index === lastIndex ? 0 : index + 1;
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      nextIndex = index === 0 ? lastIndex : index - 1;
+    } else if (event.key === "Home") {
+      nextIndex = 0;
+    } else if (event.key === "End") {
+      nextIndex = lastIndex;
+    }
+
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const nextTab = TABS[nextIndex];
+    selectSection(nextTab.id);
+    tabButtonRefs.current[nextIndex]?.focus();
+  }
+
   return (
     <div className="cb-portal">
       <section className="cb-tabs-shell" aria-label="Browse Campbell guide sections">
@@ -129,14 +161,22 @@ export default function CampbellPortal() {
           </div>
         </div>
 
-        <nav className="cb-tabs" aria-label="Campbell sections" ref={tabRailRef}>
+        <div className="cb-tabs" role="tablist" aria-label="Campbell sections" ref={tabRailRef}>
           {TABS.map((tab, index) => (
             <button
               key={tab.id}
+              id={tabId(tab.id)}
               type="button"
+              role="tab"
               className={`cb-tab ${active === tab.id ? "cb-tab--active" : ""}`}
-              aria-pressed={active === tab.id}
+              aria-selected={active === tab.id}
+              aria-controls={panelId(tab.id)}
+              tabIndex={active === tab.id ? 0 : -1}
+              ref={(button) => {
+                tabButtonRefs.current[index] = button;
+              }}
               onClick={() => selectSection(tab.id)}
+              onKeyDown={(event) => handleTabKeyDown(event, index)}
             >
               <span className="cb-tab-topline">
                 <span className="cb-tab-number">{String(index + 1).padStart(2, "0")}</span>
@@ -146,14 +186,20 @@ export default function CampbellPortal() {
               <span className="cb-tab-summary">{tab.summary}</span>
             </button>
           ))}
-        </nav>
+        </div>
 
         <p className="cb-tabs-footer">
-          {TABS[activeIndex]?.label}: {TABS[activeIndex]?.summary}
+          {activeTab.label}: {activeTab.summary}
         </p>
       </section>
 
-      <div className="cb-content">
+      <div
+        className="cb-content"
+        id={panelId(activeTab.id)}
+        role="tabpanel"
+        aria-labelledby={tabId(activeTab.id)}
+        tabIndex={-1}
+      >
         {active === "links" && <QuickLinks />}
         {active === "history" && <HistoryTimeline />}
         {active === "digest" && (
