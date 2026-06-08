@@ -40,7 +40,7 @@ const SALES_FEED_STATUS = [
   {
     label: "Sales feed",
     status: "Not live yet",
-    body: "The page does not yet publish a real Campbell sales feed. A true ledger needs official transfer fields, not scraped listing blurbs.",
+    body: "A real Campbell sales feed needs official transfer fields, not scraped listing blurbs.",
     href: SOURCE_URLS.assessorRecords,
   },
   {
@@ -66,7 +66,7 @@ export default function RealEstateLedger() {
         <p>
           Campbell property data lives across county assessment records, recorder
           documents, city permits, zoning maps, and public hearings. The good
-          version should explain the property, sale, permit, and neighborhood
+          version explains the property, sale, permit, and neighborhood
           context without turning residents into content.
         </p>
       </div>
@@ -133,9 +133,9 @@ export default function RealEstateLedger() {
         <span className="cb-section-kicker">Source Reality</span>
         <h3>What can become a real sales ledger?</h3>
         <p>
-          The useful version starts with public parcel and permit context, then
-          adds official transfer fields once the data path is clean enough to be
-          complete. Sale rumors and scraped people-search dossiers stay out.
+          Start with public parcel and permit context, then use official transfer
+          fields when the data path is complete. Sale rumors and scraped
+          people-search dossiers stay out.
         </p>
       </div>
 
@@ -163,9 +163,9 @@ export default function RealEstateLedger() {
       <SourceCardGrid sources={REAL_ESTATE_SOURCES} />
 
       <p className="cb-privacy-note">
-        Real estate documents are public records, but the eventual ledger should
-        publish address-level facts, document references, and market context -
-        not unnecessary personal profiles.
+        Real estate documents are public records, but this guide should publish
+        address-level facts, document references, and market context - not
+        unnecessary personal profiles.
       </p>
     </div>
   );

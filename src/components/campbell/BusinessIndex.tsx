@@ -22,6 +22,9 @@ const DOWNTOWN_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtow
 const CHAMBER_COUNT = BUSINESSES.filter((business) => hasTag(business, "Chamber")).length;
 const BOTH_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown") && hasTag(business, "Chamber")).length;
 const PHONE_COUNT = BUSINESSES.filter((business) => business.phone).length;
+const BUSINESS_SOURCES = businessFeed.sources ?? [
+  { label: "Downtown Campbell Directory", sourceUrl: businessFeed.sourceUrl },
+];
 const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "downtown", label: "Downtown" },
@@ -142,9 +145,14 @@ export default function BusinessIndex() {
       </div>
 
       <div className="cb-source-note">
-        <a href={businessFeed.sourceUrl} target="_blank" rel="noopener noreferrer">
-          Open the Downtown source
-        </a>
+        {BUSINESS_SOURCES.map((source, index) => (
+          <span key={source.sourceUrl}>
+            {index > 0 && " · "}
+            <a href={source.sourceUrl} target="_blank" rel="noopener noreferrer">
+              Open {source.label.replace("Campbell ", "").replace(" Directory", "")} source
+            </a>
+          </span>
+        ))}
       </div>
     </div>
   );

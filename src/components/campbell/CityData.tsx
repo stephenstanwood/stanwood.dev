@@ -4,7 +4,7 @@ import { CAMPBELL_METRICS, SOURCE_URLS } from "../../data/campbell";
 const GIS_LINKS = [
   { label: "Zoning Map",       desc: "Residential, commercial, industrial districts", href: SOURCE_URLS.cityGisPublic },
   { label: "Parks & Facilities", desc: "Community centers, pools, parks",            href: "https://www.campbellca.gov/Facilities" },
-  { label: "ArcGIS REST API",  desc: "Queryable city data layers for developers",    href: SOURCE_URLS.cityGis },
+  { label: "Map Data Services", desc: "City map layers for zoning, parcels, and public assets",  href: SOURCE_URLS.cityGis },
 ];
 
 export default function CityData() {
@@ -60,7 +60,7 @@ export default function CityData() {
             ))}
             <p className="cb-data-gis-note">
               Campbell doesn't publish a full open data portal yet.
-              The ArcGIS REST API has queryable endpoints for some layers.
+              The city map services expose some layers directly.
             </p>
           </div>
         )}

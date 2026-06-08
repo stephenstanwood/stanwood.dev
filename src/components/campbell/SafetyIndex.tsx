@@ -181,9 +181,9 @@ export default function SafetyIndex() {
       <SourceCardGrid sources={SAFETY_SOURCES} />
 
       <p className="cb-privacy-note">
-        Next step: extract annual reports, public-safety hearings, and
-        neighborhood-level trends from official sources. Do not publish
-        victim-identifying incident rows or synthetic danger scores.
+        Safety records are useful when they come from official sources and keep
+        context intact. This guide should not publish victim-identifying incident
+        rows or synthetic danger scores.
       </p>
     </div>
   );

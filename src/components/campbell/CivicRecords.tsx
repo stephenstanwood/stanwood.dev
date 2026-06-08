@@ -130,9 +130,9 @@ export default function CivicRecords() {
         <span className="cb-section-kicker">Civic records</span>
         <h3>Every decision should be findable and readable.</h3>
         <p>
-          The city already publishes the raw material. This page is turning it into
-          a local record: what is happening, when it happens, where the official
-          packet lives, and what address or topic it affects.
+          The city already publishes the records. This view keeps the useful parts
+          together: what is happening, when it happens, where the official packet
+          lives, and what address or topic it affects.
         </p>
       </div>
 
