@@ -8,19 +8,6 @@ export interface DigestSummary {
   generatedAt: string;
 }
 
-export interface Activity {
-  id: string;
-  name: string;
-  category: string;
-  ageGroup: string;
-  days: string;
-  time: string;
-  location: string;
-  fee: string;
-  registrationUrl: string | null;
-  description: string;
-}
-
 export type Section =
   | "links"
   | "history"
