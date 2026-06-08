@@ -41,6 +41,8 @@ const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
 
 const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
+const DAY_MS = 24 * 60 * 60 * 1000;
+const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
 
 function plainSummary(summary: string) {
   const cleaned = summary.trim().replace(/\.$/, "");
@@ -123,6 +125,12 @@ export default function CivicRecords() {
     return date ? date >= today : false;
   }).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
+  const latestCouncilRecord = COUNCIL_RECORDS[0];
+  const latestCouncilDate = parseHearingDate(latestCouncilRecord?.date ?? "");
+  const latestCouncilAgeDays = latestCouncilDate
+    ? Math.floor((today.getTime() - latestCouncilDate.getTime()) / DAY_MS)
+    : 0;
+  const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
 
   return (
     <div className="cb-records">
@@ -214,6 +222,11 @@ export default function CivicRecords() {
           <div>
             <span className="cb-live-record-kicker">Agenda Center</span>
             <h4>Council packets, minutes, and media</h4>
+            <p>
+              {councilSourceLooksStale && latestCouncilRecord
+                ? `The city Agenda Center currently lists ${latestCouncilRecord.date} as the newest council packet. Open the official source for anything posted after that.`
+                : "Open the official packet, minutes, or media from the city Agenda Center."}
+            </p>
           </div>
         </div>
 

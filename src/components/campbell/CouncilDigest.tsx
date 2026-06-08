@@ -1,5 +1,30 @@
 import { useState, useCallback } from "react";
 import type { DigestSummary } from "../../lib/campbell/types";
+import councilFeed from "../../data/campbellCouncilRecords.json";
+
+interface CouncilRecord {
+  date: string;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
+const LATEST_COUNCIL_RECORD = (councilFeed.items as CouncilRecord[])[0];
+
+function parseCouncilDate(value = "") {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function councilSourceLooksStale() {
+  const latestDate = parseCouncilDate(LATEST_COUNCIL_RECORD?.date ?? "");
+  if (!latestDate) return false;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  latestDate.setHours(0, 0, 0, 0);
+
+  return Math.floor((today.getTime() - latestDate.getTime()) / DAY_MS) > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+}
 
 export default function CouncilDigest() {
   const [digest, setDigest] = useState<DigestSummary | null>(null);
@@ -25,14 +50,18 @@ export default function CouncilDigest() {
   }, []);
 
   if (!digest && !loading && !error) {
+    const sourceLooksStale = councilSourceLooksStale();
+
     return (
       <div className="cb-digest-empty">
         <p className="cb-digest-info">
-          Get a plain-English summary of the latest Campbell City Council meeting.
-          Meetings happen the 1st and 3rd Tuesday of each month.
+          Get a plain-English summary of the newest Campbell City Council packet listed in the city's Agenda Center.
+          {sourceLooksStale && LATEST_COUNCIL_RECORD
+            ? ` That source currently lists ${LATEST_COUNCIL_RECORD.date} as newest.`
+            : " Meetings happen the 1st and 3rd Tuesday of each month."}
         </p>
         <button className="cb-digest-btn" onClick={loadDigest}>
-          Load latest digest
+          {sourceLooksStale ? "Summarize listed packet" : "Load latest digest"}
         </button>
       </div>
     );
@@ -42,7 +71,7 @@ export default function CouncilDigest() {
     return (
       <div className="cb-digest-loading">
         <div className="cb-spinner" />
-        <p>Reading the latest council agenda...</p>
+        <p>Reading the listed council agenda...</p>
       </div>
     );
   }

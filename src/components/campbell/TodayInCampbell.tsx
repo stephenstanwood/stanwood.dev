@@ -36,6 +36,7 @@ const COUNCIL_RECORDS = councilFeed.items as CouncilRecord[];
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 const DAY_MS = 24 * 60 * 60 * 1000;
 const LONG_RUNNING_EVENT_DAYS = 14;
+const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
 
 function parseDate(value = "") {
   if (!value) return null;
@@ -122,6 +123,11 @@ export default function TodayInCampbell() {
     .find((item) => item.date.getTime() >= referenceDay.getTime());
   const recentHearings = hearingsByDate.slice(0, 3);
   const latestCouncil = COUNCIL_RECORDS[0];
+  const latestCouncilDate = parseDate(latestCouncil?.date ?? "");
+  const latestCouncilAgeDays = latestCouncilDate
+    ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
+    : 0;
+  const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
 
   return (
     <section className="cb-today" aria-label="Today in Campbell">
@@ -173,9 +179,13 @@ export default function TodayInCampbell() {
           {latestCouncil && (
             <div className="cb-today-feature cb-today-feature--secondary">
               <a href={latestCouncil.agendaUrl} target="_blank" rel="noopener noreferrer">
-                Latest council packet
+                Newest listed council packet
               </a>
-              <span>{latestCouncil.date}</span>
+              <span>
+                {councilSourceLooksStale
+                  ? `City Agenda Center currently lists ${latestCouncil.date} as newest`
+                  : latestCouncil.date}
+              </span>
             </div>
           )}
         </article>
