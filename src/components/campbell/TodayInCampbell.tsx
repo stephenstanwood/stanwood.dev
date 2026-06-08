@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
@@ -52,6 +53,12 @@ function eventEnd(event: CampbellEvent) {
   return parseDate(event.endDate ?? "") ?? eventStart(event);
 }
 
+function startOfDay(value: Date) {
+  const date = new Date(value);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
 function eventHappensToday(event: CampbellEvent, startOfDay: Date, endOfDay: Date) {
   const start = eventStart(event);
   const end = eventEnd(event);
@@ -77,14 +84,17 @@ function shortSummary(value: string) {
 }
 
 export default function TodayInCampbell() {
-  const sourceDate = new Date(eventFeed.generatedAt);
-  const startOfDay = new Date(sourceDate);
-  startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date(startOfDay);
+  const [referenceDay, setReferenceDay] = useState(() => startOfDay(new Date(eventFeed.generatedAt)));
+
+  useEffect(() => {
+    setReferenceDay(startOfDay(new Date()));
+  }, []);
+
+  const endOfDay = new Date(referenceDay);
   endOfDay.setHours(23, 59, 59, 999);
 
   const todayEvents = EVENTS
-    .filter((event) => eventHappensToday(event, startOfDay, endOfDay))
+    .filter((event) => eventHappensToday(event, referenceDay, endOfDay))
     .slice(0, 4);
   const nextEvents = EVENTS
     .filter((event) => eventIsUpcoming(event, endOfDay))
@@ -97,14 +107,14 @@ export default function TodayInCampbell() {
     .sort((a, b) => b.date.getTime() - a.date.getTime());
   const upcomingHearing = [...hearingsByDate]
     .reverse()
-    .find((item) => item.date.getTime() >= startOfDay.getTime());
+    .find((item) => item.date.getTime() >= referenceDay.getTime());
   const recentHearings = hearingsByDate.slice(0, 3);
   const latestCouncil = COUNCIL_RECORDS[0];
 
   return (
     <section className="cb-today" aria-label="Today in Campbell">
       <div className="cb-today-head">
-        <span>{formatDay(startOfDay)}</span>
+        <span>{formatDay(referenceDay)}</span>
         <h2>Today in Campbell</h2>
         <p>Events, public notices, and the next city record worth opening.</p>
       </div>

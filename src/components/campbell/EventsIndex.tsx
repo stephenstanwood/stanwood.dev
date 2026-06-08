@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import SourceCardGrid from "./SourceCardGrid";
@@ -29,7 +29,6 @@ interface EventSourceMeta {
 const feed = eventFeed as typeof eventFeed & { sources?: EventSourceMeta[] };
 const EVENTS = feed.items as CampbellEvent[];
 const SOURCE_COUNTS = feed.sources ?? [];
-const SYNC_DATE = new Date(eventFeed.generatedAt);
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
@@ -90,6 +89,12 @@ function parseEventEnd(event: CampbellEvent) {
   return Number.isNaN(date.getTime()) ? parseEventStart(event) : date;
 }
 
+function startOfDay(value: Date) {
+  const date = new Date(value);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
 function eventSourceFilterLabel(label: string) {
   if (label === "City of Campbell Calendar") return "City calendar";
   if (label === "Downtown Campbell Events") return "Downtown";
@@ -111,7 +116,7 @@ function eventMatchesSource(event: CampbellEvent, sourceFilter: string) {
   return sourceText.includes(sourceFilter);
 }
 
-function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter) {
+function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, referenceDay: Date) {
   if (viewFilter === "all") return true;
 
   const text = [
@@ -127,19 +132,21 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter) {
 
   const start = parseEventStart(event);
   if (!start) return false;
-  const startOfSyncDay = new Date(SYNC_DATE);
-  startOfSyncDay.setHours(0, 0, 0, 0);
-  const endOfSyncDay = new Date(startOfSyncDay);
-  endOfSyncDay.setHours(23, 59, 59, 999);
+  const end = parseEventEnd(event) ?? start;
+  const startOfReferenceDay = startOfDay(referenceDay);
+  const endOfReferenceDay = new Date(startOfReferenceDay);
+  endOfReferenceDay.setHours(23, 59, 59, 999);
 
   if (viewFilter === "today") {
-    const end = parseEventEnd(event) ?? start;
-    return start.getTime() <= endOfSyncDay.getTime() && end.getTime() >= startOfSyncDay.getTime();
+    return start.getTime() <= endOfReferenceDay.getTime() && end.getTime() >= startOfReferenceDay.getTime();
   }
 
-  const diffDays = Math.floor((start.getTime() - startOfSyncDay.getTime()) / DAY_MS);
-  if (viewFilter === "next14") return diffDays >= -1 && diffDays <= 14;
-  if (viewFilter === "next30") return diffDays >= -1 && diffDays <= 30;
+  const windowDays = viewFilter === "next14" ? 14 : 30;
+  const windowEnd = new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS);
+  windowEnd.setHours(23, 59, 59, 999);
+  if (viewFilter === "next14" || viewFilter === "next30") {
+    return start.getTime() <= windowEnd.getTime() && end.getTime() >= startOfReferenceDay.getTime();
+  }
   return true;
 }
 
@@ -164,15 +171,20 @@ export default function EventsIndex() {
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
   const [viewFilter, setViewFilter] = useState<EventViewFilter>("today");
   const [showAll, setShowAll] = useState(false);
+  const [referenceDay, setReferenceDay] = useState(() => startOfDay(new Date(eventFeed.generatedAt)));
+
+  useEffect(() => {
+    setReferenceDay(startOfDay(new Date()));
+  }, []);
 
   const filteredEvents = useMemo(() => {
     return EVENTS.filter((event) => {
       if (!eventMatchesSource(event, sourceFilter)) return false;
       if (categoryFilter !== ALL_CATEGORY_FILTER && event.category !== categoryFilter) return false;
-      if (!eventMatchesView(event, viewFilter)) return false;
+      if (!eventMatchesView(event, viewFilter, referenceDay)) return false;
       return eventMatchesQuery(event, query);
     });
-  }, [categoryFilter, query, sourceFilter, viewFilter]);
+  }, [categoryFilter, query, referenceDay, sourceFilter, viewFilter]);
 
   const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);
   const hiddenEventCount = filteredEvents.length - visibleEvents.length;
