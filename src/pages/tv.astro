@@ -957,7 +957,11 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     // One-shot: flush existing localStorage state to the Mini so feed.xml
     // drops items already marked before /api/mark existed. Runs once per browser.
-    const SYNC_FLAG = 'mark-sync-v1';
+    // v2 (2026-06-09): marks silently failed to reach the Mini from
+    // non-tailnet-DNS devices between Apr 20 and Jun 9 — bumping the flag
+    // makes every browser re-flush its full localStorage mark state through
+    // the fixed endpoint. Server appends are idempotent, so this is safe.
+    const SYNC_FLAG = 'mark-sync-v2';
     function bootstrapSync() {
       if (localStorage.getItem(SYNC_FLAG)) return;
       try {
