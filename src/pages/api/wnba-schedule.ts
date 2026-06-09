@@ -5,6 +5,7 @@
 
 import type { APIRoute } from "astro";
 import { errJson, fetchWithTimeout, okJson } from "../../lib/apiHelpers";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
 
@@ -22,7 +23,8 @@ interface RawSchedule {
   };
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
   try {
     // cdn.wnba.com returns HTTP/2 INTERNAL_ERROR for unknown User-Agents,
     // so we send a standard browser UA. Without this the upstream just
@@ -50,7 +52,8 @@ export const GET: APIRoute = async () => {
       "Cache-Control":
         "public, max-age=0, s-maxage=21600, stale-while-revalidate=86400",
     });
-  } catch {
+  } catch (err) {
+    console.error("wnba-schedule fetch failed:", err);
     return errJson("Failed to fetch WNBA schedule", 500);
   }
 };

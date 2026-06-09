@@ -188,7 +188,7 @@ export default function YesterdaySports() {
             seen.has(recapEventId("basketball/wnba", yDay.iso, ev)),
           );
           const best = pick?.event ?? null;
-          if (best) {
+          if (pick && best) {
             const id = recapEventId("basketball/wnba", yDay.iso, best);
             const ah = awayHomeOf(best);
             if (ah) {

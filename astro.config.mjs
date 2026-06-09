@@ -17,7 +17,20 @@ export default defineConfig({
   },
   output: 'static',
   adapter: vercel(),
-  integrations: [react(), sitemap()],
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
+  integrations: [
+    react(),
+    sitemap({
+      // Private pages: password-gated queue + personal money dashboard
+      filter: (page) =>
+        !['/tv', '/money', '/money-login'].includes(
+          new URL(page).pathname.replace(/\/$/, ''),
+        ),
+    }),
+  ],
   vite: {
     // @ts-ignore - tailwindcss/vite type mismatch with astro's bundled vite
     plugins: [tailwindcss()],
