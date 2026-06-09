@@ -72,6 +72,7 @@ const SECTION_HASHES: Record<string, Section> = {
   "#campbell-history": "history",
   "#campbell-data": "data",
   "#campbell-links": "links",
+  "#campbell-routing": "links",
 };
 
 function tabId(section: Section) {
