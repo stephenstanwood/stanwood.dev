@@ -105,6 +105,22 @@ export default function CampbellPortal() {
     return () => window.removeEventListener("hashchange", syncHashSection);
   }, []);
 
+  useEffect(() => {
+    const rail = tabRailRef.current;
+    const activeButton = tabButtonRefs.current[activeIndex];
+    if (!rail || !activeButton) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      const left = activeButton.offsetLeft - (rail.clientWidth - activeButton.clientWidth) / 2;
+      rail.scrollTo({
+        left: Math.max(0, left),
+        behavior: "auto",
+      });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeIndex]);
+
   function selectSection(section: Section) {
     setActive(section);
     if (typeof window === "undefined") return;

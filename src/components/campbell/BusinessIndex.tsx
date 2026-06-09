@@ -28,11 +28,17 @@ const BUSINESS_SOURCES = businessFeed.sources ?? [
 const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "all", label: "All" },
   { id: "downtown", label: "Downtown" },
-  { id: "chamber", label: "Chamber" },
-  { id: "both", label: "Both sources" },
+  { id: "chamber", label: "Chamber list" },
+  { id: "both", label: "Both lists" },
 ];
 function hasTag(business: CampbellBusinessRecord, tag: string) {
   return business.tags?.includes(tag) ?? false;
+}
+
+function directoryLabel(label: string) {
+  if (label === "Downtown Campbell Directory") return "Downtown directory";
+  if (label === "Campbell Chamber Directory") return "Chamber directory";
+  return label;
 }
 
 function businessSourceLabel(business: CampbellBusinessRecord) {
@@ -71,33 +77,33 @@ export default function BusinessIndex() {
     <div className="cb-businesses">
       <div className="cb-section-head">
         <span className="cb-section-kicker">Businesses</span>
-        <h3>Businesses around Campbell.</h3>
+        <h3>Find a Campbell place to call, visit, or check.</h3>
         <p>
-          Browse downtown storefronts and Campbell-address Chamber members, then
-          open the original listing for hours, menus, appointments, and details.
+          Browse downtown storefronts and local Chamber listings, then open the
+          directory page for hours, menus, appointments, and details.
         </p>
       </div>
 
       <div className="cb-business-snapshot" aria-label="Campbell business directory snapshot">
         <div>
           <strong>{BUSINESSES.length}</strong>
-          <span>Total listings</span>
+          <span>Places listed</span>
         </div>
         <div>
           <strong>{DOWNTOWN_COUNT}</strong>
-          <span>Downtown</span>
+          <span>Downtown storefronts</span>
         </div>
         <div>
           <strong>{CHAMBER_COUNT}</strong>
-          <span>Chamber</span>
+          <span>Chamber listings</span>
         </div>
         <div>
           <strong>{BOTH_COUNT}</strong>
-          <span>In both sources</span>
+          <span>Listed both ways</span>
         </div>
         <div>
           <strong>{PHONE_COUNT}</strong>
-          <span>Phone listed</span>
+          <span>Phone available</span>
         </div>
       </div>
 
@@ -105,7 +111,7 @@ export default function BusinessIndex() {
         <input
           type="text"
           className="cb-business-search"
-          placeholder="Search by name, address, phone, or source"
+          placeholder="Search by name, address, phone, or service"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
@@ -149,7 +155,7 @@ export default function BusinessIndex() {
           <span key={source.sourceUrl}>
             {index > 0 && " · "}
             <a href={source.sourceUrl} target="_blank" rel="noopener noreferrer">
-              Open {source.label.replace("Campbell ", "").replace(" Directory", "")} source
+              Open {directoryLabel(source.label)}
             </a>
           </span>
         ))}
