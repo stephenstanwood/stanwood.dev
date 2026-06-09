@@ -219,7 +219,7 @@ export default function EventsIndex() {
   const resultLabel = filteredEvents.length === EVENTS.length ? "All events" : `${filteredEvents.length} matches`;
 
   return (
-    <div className="cb-events">
+    <div className="cb-events" id="campbell-events-next14">
       <div className="cb-section-head">
         <span className="cb-section-kicker">Events</span>
         <h3>Campbell events, in plain view.</h3>
