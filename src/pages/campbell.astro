@@ -897,6 +897,32 @@ const photoStories = [
       }
 
       /* ── Quick Links ── */
+      .cb-links {
+        display: grid;
+        gap: 1rem;
+      }
+      .cb-link-group {
+        display: grid;
+        gap: 0.65rem;
+      }
+      .cb-link-group-head {
+        display: grid;
+        gap: 0.18rem;
+        justify-content: start;
+      }
+      .cb-link-group-head span {
+        color: var(--cb-green);
+        font-size: 0.7rem;
+        font-weight: 850;
+      }
+      .cb-link-group-head h3 {
+        margin: 0;
+        color: var(--cb-ink);
+        font-family: 'DM Serif Display', Georgia, serif;
+        font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+        font-weight: 400;
+        line-height: 1.02;
+      }
       .cb-links-grid {
         display: grid;
         grid-template-columns: 1fr;
@@ -904,12 +930,13 @@ const photoStories = [
       }
       .cb-link-card {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 0.875rem;
+        min-height: 6.8rem;
         padding: 1rem 1.125rem;
         background: var(--cb-card-bg);
         border: 1.5px solid var(--cb-border);
-        border-radius: var(--cb-radius);
+        border-radius: 8px;
         text-decoration: none;
         color: var(--cb-ink);
         transition: all 0.2s;
@@ -920,7 +947,33 @@ const photoStories = [
         box-shadow: 0 4px 12px rgba(27, 79, 138, 0.12);
         transform: translateY(-2px);
       }
-      .cb-link-icon { font-size: 1.5rem; flex-shrink: 0; }
+      .cb-link-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.35rem;
+        height: 2.35rem;
+        flex-shrink: 0;
+        border-radius: 8px;
+        color: var(--cb-blue);
+        background: var(--cb-blue-light);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 900;
+        line-height: 1;
+      }
+      .cb-link-icon--gold {
+        color: var(--cb-gold);
+        background: var(--cb-gold-light);
+      }
+      .cb-link-icon--green {
+        color: var(--cb-green);
+        background: var(--cb-green-light);
+      }
+      .cb-link-icon--red {
+        color: var(--cb-red);
+        background: var(--cb-red-light);
+      }
       .cb-link-text { flex: 1; min-width: 0; }
       .cb-link-title {
         display: block;
@@ -934,10 +987,20 @@ const photoStories = [
         color: var(--cb-gray);
         line-height: 1.4;
       }
+      .cb-link-owner {
+        display: block;
+        margin-top: 0.42rem;
+        color: var(--cb-light-gray);
+        font-family: 'Space Mono', monospace;
+        font-size: 0.66rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
       .cb-link-arrow {
         color: var(--cb-light-gray);
         font-size: 1rem;
         flex-shrink: 0;
+        padding-top: 0.15rem;
         transition: transform 0.15s;
       }
       .cb-link-card:hover .cb-link-arrow {
