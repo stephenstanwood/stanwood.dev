@@ -149,4 +149,28 @@ export const PAGES: Record<string, PageConfig> = {
     bg2: "#0f1828",
     accent: "#38bdf8",
   },
+  campbell: {
+    emoji: "\u{1F3DB}\u{FE0F}",
+    title: "Campbell, CA",
+    tagline: "History, events, permits & resident links.",
+    bg: "#14301f",
+    bg2: "#1f4a30",
+    accent: "#86efac",
+  },
+  "museum-label": {
+    emoji: "\u{1F3F7}\u{FE0F}",
+    title: "Museum Label",
+    tagline: "Upload any object, get a deadpan museum placard.",
+    bg: "#1c1917",
+    bg2: "#292524",
+    accent: "#d4af37",
+  },
+  shop: {
+    emoji: "\u{1F6CD}\u{FE0F}",
+    title: "Shop",
+    tagline: "Simple tees with something to say.",
+    bg: "#f5df4d",
+    bg2: "#f0d400",
+    accent: "#111",
+  },
 };

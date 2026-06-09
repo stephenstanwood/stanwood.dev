@@ -64,6 +64,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return okJson(label, { "Cache-Control": "public, max-age=300" });
   } catch (err: unknown) {
     console.error("museum-label error:", err);
-    return devErrJson("Something went wrong", toErrMsg(err));
+    return devErrJson(
+      "The curator stepped away mid-label. Please try again in a moment.",
+      toErrMsg(err),
+    );
   }
 };

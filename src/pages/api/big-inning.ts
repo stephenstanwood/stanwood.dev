@@ -5,6 +5,7 @@ import {
   type BigInningSchedule,
 } from "../../lib/bigInning";
 import { fetchWithTimeout, okJson } from "../../lib/apiHelpers";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
 
@@ -30,7 +31,8 @@ async function fetchAndParse(): Promise<BigInningSchedule | null> {
   }
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
   const scraped = await fetchAndParse();
   const schedule = scraped ?? buildFallbackSchedule();
   return okJson(schedule, {

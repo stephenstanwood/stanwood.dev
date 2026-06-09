@@ -30,13 +30,13 @@ export default function DriverlessDashboard() {
         />
         <div className="dl-hero-overlay">
           <h1 className="dl-hero-overlay-title">Driverless</h1>
-          <span className="dl-hero-overlay-sub">live · self-driving by the numbers</span>
+          <span className="dl-hero-overlay-sub">april 2026 snapshot · self-driving by the numbers</span>
         </div>
       </div>
 
       {/* Header */}
       <header className="dl-header">
-        <p className="dl-subtitle">A running snapshot of the autonomous-vehicle landscape — fleets, safety data, where you can ride today, and what's coming next.</p>
+        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of April 2026 — fleets, safety data, where you can ride today, and what's coming next.</p>
       </header>
 
       {/* Built for moments like */}

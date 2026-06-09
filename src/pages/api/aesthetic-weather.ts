@@ -8,10 +8,12 @@ import {
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
 import { okJson, fetchWithTimeout, validateLatLon } from "../../lib/apiHelpers";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
   try {
     const latParam = url.searchParams.get("lat");
     const lonParam = url.searchParams.get("lon");

@@ -125,6 +125,7 @@ function seriesVideos(series: Series): QueueVideo[] {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
   <title>TV Queue · stanwood.dev</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -299,6 +300,10 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-family: inherit;
     }
     .mark-btn:hover { background: var(--hot); color: var(--paper); border-color: var(--hot); }
+    /* Touch devices need bigger tap targets than the dense desktop list */
+    @media (pointer: coarse) {
+      .mark-btn { padding: 10px 14px; font-size: 0.85rem; }
+    }
 
     .empty {
       padding: 2rem;
