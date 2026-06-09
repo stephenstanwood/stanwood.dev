@@ -938,12 +938,17 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     // ---- Mark-sync: tell the Mini about likes + passes (drops from feed +
     // future builds, feeds back into scoring). ----
-    const MARK_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net/api/mark';
+    // Port 8443 is the Tailscale Funnel listener (public), so marks land from
+    // any device — the :443 route is tailnet-only and silently ate clicks
+    // whenever the browsing device wasn't on Tailscale DNS. The key is a
+    // spam gate, not a secret (this page is already client-gated).
+    const MARK_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net:8443/api/mark';
+    const MARK_API_KEY = 'b682274e4f6c8e1c7e5579fa';
     function sendMark(id, kind, action) {
       try {
         fetch(MARK_API_URL, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-Mark-Key': MARK_API_KEY },
           body: JSON.stringify({ id, kind, action }),
           keepalive: true,
         }).catch(() => {});

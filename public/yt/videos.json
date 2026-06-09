@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-09T10:30:09.665604+00:00",
+  "built_at": "2026-06-09T22:09:22.295297+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -45,7 +45,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 11,
+      "video_count": 10,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -56,7 +56,6 @@
         "wisccQYTRQc",
         "tsQB0n0YV3k",
         "Lri2LNYtERM",
-        "VeTqsCpcDgg",
         "g50FHC-PzK8"
       ]
     },
@@ -65,20 +64,18 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 15,
+      "video_count": 13,
       "video_ids": [
         "v18Jo2ILXZ8",
         "zdCJyn1OY-4",
         "RKFRO_G4YkA",
         "PYh9k4cy25w",
-        "o5bW3C5OD6U",
         "NMFyMlwmwP8",
         "popjDuA-whA",
         "D7e7oUbtkFM",
         "NUtaN10cVDc",
         "b6uxaRL_ipw",
         "xvLTAm2cecY",
-        "r3x_w3tEmB4",
         "3W36pd50Wqw",
         "dI8pLC1BLSM",
         "8hohrUYuyx4"
@@ -232,16 +229,6 @@
       ]
     },
     {
-      "key": "__single__KGl076xkxG4",
-      "is_single": true,
-      "display_name": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "best_score": 4,
-      "video_count": 1,
-      "video_ids": [
-        "KGl076xkxG4"
-      ]
-    },
-    {
       "key": "CME295",
       "is_single": false,
       "display_name": "CME295",
@@ -309,16 +296,6 @@
       "video_count": 1,
       "video_ids": [
         "vaRO69Qv_hc"
-      ]
-    },
-    {
-      "key": "AA228",
-      "is_single": false,
-      "display_name": "AA228",
-      "best_score": -8,
-      "video_count": 1,
-      "video_ids": [
-        "vmwq4w53e9Q"
       ]
     }
   ],
@@ -777,24 +754,6 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class shifts from upstream bottlenecks like power and compute to the capital and company-formation layer, framing YC's 2010s introduction of the SAFE as a standa"
     },
     {
-      "id": "VeTqsCpcDgg",
-      "title": "Stanford CS153 Frontier Systems | The Discipline of Delivering Value per Gigawatt",
-      "url": "https://www.youtube.com/watch?v=VeTqsCpcDgg",
-      "duration": 3863.0,
-      "published_at": "2026-05-27T00:00:00+00:00",
-      "series": "CS153",
-      "series_display": "CS153",
-      "lecture_num": null,
-      "score": -8,
-      "categories": [
-        "systems_db",
-        "swe_career",
-        "healthcare_ai",
-        "climate_grid"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, the class returns to the upstream infrastructure stack with Amin Vahdat, who leads Google's internal compute infrastructure and the TPU program powering Gemini, fram"
-    },
-    {
       "id": "g50FHC-PzK8",
       "title": "Stanford CS153 Frontier Systems | The Road Ahead: Resilience Required",
       "url": "https://www.youtube.com/watch?v=g50FHC-PzK8",
@@ -872,22 +831,6 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 16, 2026\nThis seminar covers: \n\u2022 Resilient autonomy for extreme and uncertain environments\n\u2022 Approaches, progress, and results on multi-modal sensing\n\u2022 Nuanced perception inputs\n\u2022 Navigation in difficult terrain\n\u2022 Future directions of our research\n\nTo follow along with the semina"
-    },
-    {
-      "id": "o5bW3C5OD6U",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Autonomous Navigation in Outdoor Environments",
-      "url": "https://www.youtube.com/watch?v=o5bW3C5OD6U",
-      "duration": 2656.0,
-      "published_at": "2026-01-30T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": -8,
-      "categories": [
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 23, 2026\nAutonomous Navigation in Complex Outdoor Environments: Towards Companion Robots for Longevity\n\nThis seminar covers: \n\u2022 Deploying mobile robots in unstructured outdoor environments\n\u2022 Robots going beyond simple navigation to also understand human behavior and enhance perso"
     },
     {
       "id": "NMFyMlwmwP8",
@@ -978,22 +921,6 @@
         "robotics"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 17, 2026\nThis seminar covers: \n\u2022 Developing the ingredientsfor long-horizon robot autonomy, which are giving robot policies a sense of memory, and training generalist behaviors that are both broadly capable and high-performing\n\u2022 Recent progress on both fronts through two works: \u03c00."
-    },
-    {
-      "id": "r3x_w3tEmB4",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Unlocking Autonomous Medical Robotics",
-      "url": "https://www.youtube.com/watch?v=r3x_w3tEmB4",
-      "duration": 3752.0,
-      "published_at": "2026-05-12T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": -8,
-      "categories": [
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis seminar covers: \n\u2022 Research on enabling greater surgical autonomy through the lens of robot learning\n\u2022 Recent work on human-robot teaming using humanoid systems, examining the limitations of the current state of the art and the opportunities ahead for research and dep"
     },
     {
       "id": "3W36pd50Wqw",
@@ -1928,24 +1855,6 @@
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
     },
     {
-      "id": "KGl076xkxG4",
-      "title": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "url": "https://www.youtube.com/watch?v=KGl076xkxG4",
-      "duration": 2381.0,
-      "published_at": "2026-01-29T00:00:00+00:00",
-      "series": null,
-      "series_display": "AI in Healthcare Series: You Can\u2019t Delegate AI with Andy Slavitt",
-      "lecture_num": null,
-      "score": 4,
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "swe_career",
-        "healthcare_ai"
-      ],
-      "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://bit.ly/AI-in-Healthcare-YT-Series\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nG"
-    },
-    {
       "id": "Q86qzJ1K1Ss",
       "title": "Stanford CME295 Transformers & LLMs | Autumn 2025 | Lecture 9 - Recap & Current Trends",
       "url": "https://www.youtube.com/watch?v=Q86qzJ1K1Ss",
@@ -2044,22 +1953,6 @@
         "climate_grid"
       ],
       "description": "Join Professor Ines Azevedo and Kion Ahadi as they unpack how AI is accelerating efficiency and innovation across energy grids, data centers, and sustainability initiatives. The session includes lightning talks and an interactive Q&A. It also features a quick overview of Stanford Doerr School of Sustainability\u2019s External Education programs for Spring and Summer 2026, including:\n- AI and Climate Ma"
-    },
-    {
-      "id": "vmwq4w53e9Q",
-      "title": "Stanford AA228 Decision Making Under Uncertainty | Autumn 2025 | Offline Belief State Planning",
-      "url": "https://www.youtube.com/watch?v=vmwq4w53e9Q",
-      "duration": 4548.0,
-      "published_at": "2026-02-25T00:00:00+00:00",
-      "series": "AA228",
-      "series_display": "AA228",
-      "lecture_num": null,
-      "score": -8,
-      "categories": [
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "For more information about Stanford\u2019s Robotics and Autonomous Systems graduate programs, visit: https://online.stanford.edu/programs/robotics-and-autonomous-systems-graduate-certificate\n\nNovember 13, 2025\nThis lecture covers offline belief-state planning.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/aa228-decision-making-under-uncertainty\n\nTo follow alo"
     }
   ]
 }
