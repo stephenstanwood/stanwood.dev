@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
+import ExploreMore from "../components/ExploreMore.astro";
 
 interface Props {
   title: string;
@@ -109,6 +110,7 @@ const pageSchema =
     <main id="main-content">
       <slot />
     </main>
+    <ExploreMore current={slug} />
     <Analytics />
   </body>
 </html>

@@ -1,0 +1,188 @@
+---
+/**
+ * "More from stanwood.dev" footer band for project pages.
+ * Rendered by BaseLayout for any slug in RELATED; renders nothing otherwise,
+ * so private/standalone pages (money, nba-now, show-swipe, about) opt out
+ * simply by not being listed. Tags reuse the homepage tile copy verbatim.
+ */
+
+interface Props {
+  current: string;
+}
+
+interface Tile {
+  emoji: string;
+  name: string;
+  tag: string;
+}
+
+const TILES: Record<string, Tile> = {
+  wtwtw: { emoji: "📺", name: "What to Watch This Week", tag: "best game each night" },
+  "mlb-gamerank": { emoji: "⚾", name: "MLB GameRank", tag: "best game right now" },
+  swim: { emoji: "🏊", name: "Lap Lab", tag: "workouts + pace ladder, decoded" },
+  driverless: { emoji: "🚗", name: "Driverless Cars", tag: "self-driving, by the numbers" },
+  tldr: { emoji: "📄", name: "TL;DR", tag: "pdf → summary or red flags" },
+  "redesign-rolodex": { emoji: "🎰", name: "Redesign Rolodex", tag: "redesign concepts for any website" },
+  "which-model": { emoji: "🧠", name: "Which Model?", tag: "AI picks, prices, lingo & benchmarks decoded" },
+  "nearest-coffee": { emoji: "☕", name: "Nearest Coffee", tag: "nearest open coffee. that's it." },
+  "green-light": { emoji: "🟢", name: "Green Light", tag: "taste quiz → menu picks" },
+  campbell: { emoji: "🏛️", name: "Campbell, CA", tag: "city services, events & permits" },
+  "pixel-tide": { emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes" },
+  "pixel-aquarium": { emoji: "🐠", name: "Pixel Aquarium", tag: "feed the fish, day to night" },
+  "museum-label": { emoji: "🏷️", name: "Museum Label", tag: "deadpan placard for any object" },
+  "ship-clock": { emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy" },
+  radar: { emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders" },
+  shop: { emoji: "👕", name: "Shop", tag: "simple tees with something to say" },
+};
+
+const RELATED: Record<string, string[]> = {
+  wtwtw: ["mlb-gamerank", "swim", "radar"],
+  "mlb-gamerank": ["wtwtw", "swim", "pixel-tide"],
+  swim: ["wtwtw", "mlb-gamerank", "nearest-coffee"],
+  driverless: ["radar", "which-model", "campbell"],
+  tldr: ["which-model", "redesign-rolodex", "museum-label"],
+  "redesign-rolodex": ["tldr", "which-model", "shop"],
+  "which-model": ["radar", "tldr", "redesign-rolodex"],
+  "nearest-coffee": ["green-light", "campbell", "swim"],
+  "green-light": ["nearest-coffee", "campbell", "museum-label"],
+  campbell: ["nearest-coffee", "green-light", "driverless"],
+  "pixel-tide": ["pixel-aquarium", "museum-label", "swim"],
+  "pixel-aquarium": ["pixel-tide", "museum-label", "green-light"],
+  "museum-label": ["pixel-tide", "pixel-aquarium", "tldr"],
+  "ship-clock": ["radar", "pixel-tide", "shop"],
+  radar: ["which-model", "driverless", "ship-clock"],
+  shop: ["museum-label", "pixel-tide", "green-light"],
+};
+
+const { current } = Astro.props;
+const picks = (RELATED[current] ?? [])
+  .map((slug) => ({ slug, tile: TILES[slug] }))
+  .filter((p) => p.tile);
+---
+
+{
+  picks.length > 0 && (
+    <footer class="xm-band">
+      <div class="xm-inner">
+        <span class="xm-eyebrow">more from stanwood.dev</span>
+        <nav class="xm-links" aria-label="More projects">
+          {picks.map(({ slug, tile }) => (
+            <a class="xm-tile" href={`/${slug}`}>
+              <span class="xm-emoji" aria-hidden="true">
+                {tile.emoji}
+              </span>
+              <span class="xm-text">
+                <span class="xm-name">{tile.name}</span>
+                <span class="xm-tag">{tile.tag}</span>
+              </span>
+            </a>
+          ))}
+        </nav>
+        <a class="xm-home" href="/">
+          all projects →
+        </a>
+      </div>
+    </footer>
+  )
+}
+
+<style>
+  /* Self-contained brand band — explicit values everywhere so the host
+     page's global styles can't restyle it. */
+  .xm-band {
+    background: #fffef5;
+    border-top: 3px solid #111;
+    margin-top: 0;
+  }
+  .xm-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 20px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .xm-eyebrow {
+    font-family: 'Space Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #6b6b6b;
+  }
+  .xm-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .xm-tile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 2px solid #111;
+    box-shadow: 4px 4px 0 #111;
+    text-decoration: none;
+    color: #111;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    min-width: 0;
+  }
+  .xm-tile:hover,
+  .xm-tile:focus-visible {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #111;
+  }
+  .xm-emoji {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .xm-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .xm-name {
+    font-family: 'Space Mono', ui-monospace, Menlo, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.3;
+  }
+  .xm-tag {
+    font-family: 'Space Mono', ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    color: #6b6b6b;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .xm-home {
+    font-family: 'Space Mono', ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    color: #111;
+    text-decoration: none;
+    border-bottom: 2px solid #f5e642;
+    align-self: flex-start;
+    padding-bottom: 1px;
+  }
+  .xm-home:hover,
+  .xm-home:focus-visible {
+    background: #f5e642;
+  }
+  @media (max-width: 700px) {
+    .xm-links {
+      grid-template-columns: 1fr;
+    }
+    .xm-tag {
+      white-space: normal;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .xm-tile {
+      transition: none;
+    }
+  }
+</style>
