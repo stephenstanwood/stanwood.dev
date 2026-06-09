@@ -35,6 +35,9 @@ const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
 const LONG_RUNNING_EVENT_DAYS = 14;
 type EventViewFilter = "today" | "all" | "next14" | "next30" | "public";
+const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
+  "#campbell-events-next14": "next14",
+};
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
   { id: "today", label: "Today" },
@@ -179,6 +182,10 @@ function eventMatchesQuery(event: CampbellEvent, query: string) {
   ].some((value) => value.toLowerCase().includes(needle));
 }
 
+function viewFilterFromHash(hash: string) {
+  return HASH_VIEW_FILTERS[hash.toLowerCase()] ?? null;
+}
+
 export default function EventsIndex() {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
@@ -189,6 +196,19 @@ export default function EventsIndex() {
 
   useEffect(() => {
     setReferenceDay(startOfDay(new Date()));
+  }, []);
+
+  useEffect(() => {
+    function syncViewFromHash() {
+      const nextViewFilter = viewFilterFromHash(window.location.hash);
+      if (!nextViewFilter) return;
+      setViewFilter(nextViewFilter);
+      setShowAll(false);
+    }
+
+    syncViewFromHash();
+    window.addEventListener("hashchange", syncViewFromHash);
+    return () => window.removeEventListener("hashchange", syncViewFromHash);
   }, []);
 
   const filteredEvents = useMemo(() => {

@@ -64,6 +64,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] =
 
 const SECTION_HASHES: Record<string, Section> = {
   "#campbell-events": "events",
+  "#campbell-events-next14": "events",
   "#campbell-digest": "digest",
   "#campbell-businesses": "businesses",
   "#campbell-safety": "safety",
