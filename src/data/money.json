@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-09T01:10:23.853Z",
+  "lastUpdated": "2026-06-09T19:10:21.828Z",
   "apiSpend": {
     "months": [
       {
@@ -64,7 +64,7 @@
       },
       {
         "month": "2026-06",
-        "collectedAt": "2026-06-09T01:10:23.853Z",
+        "collectedAt": "2026-06-09T19:10:21.828Z",
         "services": {
           "vercel": {
             "totalCents": 15,
@@ -148,6 +148,13 @@
       "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
     },
     {
+      "name": "Anthropic",
+      "cents": 7016,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
+    },
+    {
       "name": "Midjourney",
       "cents": 6000,
       "category": "ai",
@@ -166,13 +173,6 @@
       "cents": 5000,
       "category": "infra",
       "url": "https://console.cloud.google.com/billing",
-      "note": "Mercury actual Jun 2026"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 4500,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
       "note": "Mercury actual Jun 2026"
     },
     {
