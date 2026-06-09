@@ -2,6 +2,11 @@ import { useMemo, useState } from "react";
 import { CIVIC_SOURCES } from "../../data/campbell";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
+import {
+  COUNCIL_SOURCE_STALE_AFTER_DAYS,
+  DAY_MS,
+  parseCampbellDate,
+} from "../../lib/campbell/dateHelpers";
 import SourceCardGrid from "./SourceCardGrid";
 
 interface CouncilRecord {
@@ -41,8 +46,6 @@ const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
 
 const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
-const DAY_MS = 24 * 60 * 60 * 1000;
-const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
 
 function plainSummary(summary: string) {
   const cleaned = summary.trim().replace(/\.$/, "");
@@ -56,16 +59,6 @@ function plainSummary(summary: string) {
   }
 
   return `${cleaned}.`;
-}
-
-function parseHearingDate(value: string) {
-  if (!value) return null;
-  const normalized = value
-    .replace(/\bat\b/i, "")
-    .replace(/a\.m\./gi, "AM")
-    .replace(/p\.m\./gi, "PM");
-  const parsed = new Date(normalized);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 function topicLabel(item: PublicHearing) {
@@ -87,7 +80,7 @@ function impactLine(item: PublicHearing) {
 }
 
 function hearingStatus(item: PublicHearing, today: Date) {
-  const date = parseHearingDate(item.hearingAt);
+  const date = parseCampbellDate(item.hearingAt);
   if (!date) return "Date in packet";
   if (date >= today) return "Upcoming";
 
@@ -97,7 +90,7 @@ function hearingStatus(item: PublicHearing, today: Date) {
 }
 
 function isRecentHearing(item: PublicHearing, today: Date) {
-  const date = parseHearingDate(item.hearingAt);
+  const date = parseCampbellDate(item.hearingAt);
   if (!date || date >= today) return false;
   const sixMonthsAgo = new Date(today);
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
@@ -111,7 +104,7 @@ export default function CivicRecords() {
 
   const filteredHearings = useMemo(() => {
     return PUBLIC_HEARINGS.filter((item) => {
-      const date = parseHearingDate(item.hearingAt);
+      const date = parseCampbellDate(item.hearingAt);
       if (activeFilter === "upcoming") return date ? date >= today : false;
       if (activeFilter === "recent") return isRecentHearing(item, today);
       if (activeFilter === "planning") return item.body === "Planning Commission";
@@ -121,12 +114,12 @@ export default function CivicRecords() {
     });
   }, [activeFilter, today]);
   const upcomingCount = PUBLIC_HEARINGS.filter((item) => {
-    const date = parseHearingDate(item.hearingAt);
+    const date = parseCampbellDate(item.hearingAt);
     return date ? date >= today : false;
   }).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
   const latestCouncilRecord = COUNCIL_RECORDS[0];
-  const latestCouncilDate = parseHearingDate(latestCouncilRecord?.date ?? "");
+  const latestCouncilDate = parseCampbellDate(latestCouncilRecord?.date ?? "");
   const latestCouncilAgeDays = latestCouncilDate
     ? Math.floor((today.getTime() - latestCouncilDate.getTime()) / DAY_MS)
     : 0;

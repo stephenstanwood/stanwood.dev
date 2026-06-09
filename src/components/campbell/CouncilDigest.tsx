@@ -1,13 +1,12 @@
 import { useState, useCallback } from "react";
 import type { DigestSummary } from "../../lib/campbell/types";
+import { COUNCIL_SOURCE_STALE_AFTER_DAYS, DAY_MS } from "../../lib/campbell/dateHelpers";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 
 interface CouncilRecord {
   date: string;
 }
 
-const DAY_MS = 24 * 60 * 60 * 1000;
-const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
 const LATEST_COUNCIL_RECORD = (councilFeed.items as CouncilRecord[])[0];
 
 function parseCouncilDate(value = "") {

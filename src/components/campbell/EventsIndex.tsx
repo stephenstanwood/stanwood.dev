@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
+import { DAY_MS, startOfDay } from "../../lib/campbell/dateHelpers";
 import SourceCardGrid from "./SourceCardGrid";
 
 interface CampbellEvent {
@@ -29,7 +30,6 @@ interface EventSourceMeta {
 const feed = eventFeed as typeof eventFeed & { sources?: EventSourceMeta[] };
 const EVENTS = feed.items as CampbellEvent[];
 const SOURCE_COUNTS = feed.sources ?? [];
-const DAY_MS = 24 * 60 * 60 * 1000;
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
@@ -98,12 +98,6 @@ function eventIsLongRunning(event: CampbellEvent) {
   const end = parseEventEnd(event);
   if (!start || !end) return false;
   return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
-}
-
-function startOfDay(value: Date) {
-  const date = new Date(value);
-  date.setHours(0, 0, 0, 0);
-  return date;
 }
 
 function eventSourceFilterLabel(label: string) {

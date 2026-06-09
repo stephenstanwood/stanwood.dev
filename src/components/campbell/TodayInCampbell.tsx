@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
+import {
+  COUNCIL_SOURCE_STALE_AFTER_DAYS,
+  DAY_MS,
+  parseCampbellDate,
+  startOfDay,
+} from "../../lib/campbell/dateHelpers";
 
 interface CampbellEvent {
   title: string;
@@ -34,26 +40,14 @@ interface PublicHearing {
 const EVENTS = eventFeed.items as CampbellEvent[];
 const COUNCIL_RECORDS = councilFeed.items as CouncilRecord[];
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
-const DAY_MS = 24 * 60 * 60 * 1000;
 const LONG_RUNNING_EVENT_DAYS = 14;
-const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
-
-function parseDate(value = "") {
-  if (!value) return null;
-  const normalized = value
-    .replace(/\bat\b/i, "")
-    .replace(/a\.m\./gi, "AM")
-    .replace(/p\.m\./gi, "PM");
-  const parsed = new Date(normalized);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
 
 function eventStart(event: CampbellEvent) {
-  return parseDate(event.startDate ?? "");
+  return parseCampbellDate(event.startDate ?? "");
 }
 
 function eventEnd(event: CampbellEvent) {
-  return parseDate(event.endDate ?? "") ?? eventStart(event);
+  return parseCampbellDate(event.endDate ?? "") ?? eventStart(event);
 }
 
 function eventIsLongRunning(event: CampbellEvent) {
@@ -61,12 +55,6 @@ function eventIsLongRunning(event: CampbellEvent) {
   const end = eventEnd(event);
   if (!start || !end) return false;
   return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
-}
-
-function startOfDay(value: Date) {
-  const date = new Date(value);
-  date.setHours(0, 0, 0, 0);
-  return date;
 }
 
 function eventHappensToday(event: CampbellEvent, startOfDay: Date, endOfDay: Date) {
@@ -115,7 +103,7 @@ export default function TodayInCampbell() {
     .slice(0, 3);
 
   const hearingsByDate = PUBLIC_HEARINGS
-    .map((hearing) => ({ hearing, date: parseDate(hearing.hearingAt) }))
+    .map((hearing) => ({ hearing, date: parseCampbellDate(hearing.hearingAt) }))
     .filter((item): item is { hearing: PublicHearing; date: Date } => Boolean(item.date))
     .sort((a, b) => b.date.getTime() - a.date.getTime());
   const upcomingHearing = [...hearingsByDate]
@@ -123,7 +111,7 @@ export default function TodayInCampbell() {
     .find((item) => item.date.getTime() >= referenceDay.getTime());
   const recentHearings = hearingsByDate.slice(0, 3);
   const latestCouncil = COUNCIL_RECORDS[0];
-  const latestCouncilDate = parseDate(latestCouncil?.date ?? "");
+  const latestCouncilDate = parseCampbellDate(latestCouncil?.date ?? "");
   const latestCouncilAgeDays = latestCouncilDate
     ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
     : 0;
