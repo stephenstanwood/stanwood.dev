@@ -393,7 +393,7 @@ const photoStories = [
       }
       @media (max-width: 760px) {
         .cb-hero {
-          min-height: 45rem;
+          min-height: min(45rem, calc(100vh - 2rem));
         }
         .cb-hero-copy {
           justify-content: flex-start;
@@ -2584,7 +2584,7 @@ const photoStories = [
       <div class="cb-hero-copy">
         <span class="cb-hero-kicker">Campbell, California</span>
         <h1>
-          <span>The city in</span>
+          <span>Campbell in</span>
           <span>one place.</span>
         </h1>
         <p class="cb-hero-sub">
