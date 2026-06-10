@@ -38,6 +38,14 @@ function hasTag(business: CampbellBusinessRecord, tag: string) {
 
 const BUSINESS_NAMES = Array.from(new Set(BUSINESSES.map((business) => business.name)));
 
+const MONO_TONES = ["blue", "gold", "green", "red", "clay"] as const;
+
+function monogramTone(name: string) {
+  let hash = 0;
+  for (const char of name) hash = (hash * 31 + char.charCodeAt(0)) | 0;
+  return MONO_TONES[Math.abs(hash) % MONO_TONES.length];
+}
+
 function directoryLabel(label: string) {
   if (label === "Downtown Campbell Directory") return "Downtown directory";
   if (label === "Campbell Chamber Directory") return "Chamber directory";
@@ -78,15 +86,6 @@ export default function BusinessIndex() {
 
   return (
     <div className="cb-businesses">
-      <div className="cb-section-head">
-        <span className="cb-section-kicker">Businesses</span>
-        <h3>Find a Campbell place to call, visit, or check.</h3>
-        <p>
-          Browse downtown storefronts and local Chamber listings, then open the
-          directory page for hours, menus, appointments, and details.
-        </p>
-      </div>
-
       <div className="cb-business-snapshot" aria-label="Campbell business directory snapshot">
         <div>
           <strong>{BUSINESSES.length}</strong>
@@ -144,12 +143,20 @@ export default function BusinessIndex() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="cb-business-category">{businessSourceLabel(business)}</span>
-            <h4>{business.name}</h4>
-            <p>{business.address || "Address not listed"}</p>
-            {business.phone && <em>{business.phone}</em>}
-            {business.description && <p className="cb-business-desc">{business.description}</p>}
-            {business.websiteUrl && <span className="cb-business-web">Website listed</span>}
+            <span
+              className={`cb-biz-mono cb-biz-mono--${monogramTone(business.name)}`}
+              aria-hidden="true"
+            >
+              {business.name.charAt(0).toUpperCase()}
+            </span>
+            <span className="cb-business-body">
+              <span className="cb-business-category">{businessSourceLabel(business)}</span>
+              <h4>{business.name}</h4>
+              <p>{business.address || "Address not listed"}</p>
+              {business.phone && <em>{business.phone}</em>}
+              {business.description && <p className="cb-business-desc">{business.description}</p>}
+              {business.websiteUrl && <span className="cb-business-web">Website listed</span>}
+            </span>
           </a>
         ))}
       </div>

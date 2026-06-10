@@ -149,6 +149,16 @@ function viewFilterFromHash(hash: string) {
   return HASH_VIEW_FILTERS[hash.toLowerCase()] ?? null;
 }
 
+// Anchor the tile to Campbell's timezone so server and client render the
+// same day number regardless of where the HTML is generated.
+function eventDateTile(event: CampbellEvent) {
+  const start = parseEventStart(event);
+  if (!start) return null;
+  const part = (options: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", ...options }).format(start);
+  return { day: part({ day: "numeric" }), month: part({ month: "short" }), weekday: part({ weekday: "short" }) };
+}
+
 function eventResultLabel(
   count: number,
   total: number,
@@ -219,16 +229,6 @@ export default function EventsIndex() {
 
   return (
     <div className="cb-events" id="campbell-events-next14">
-      <div className="cb-section-head">
-        <span className="cb-section-kicker">Events</span>
-        <h3>Campbell events, in plain view.</h3>
-        <p>
-          City meetings, downtown happenings, library programs, museum days,
-          theatre shows, and Chamber events. Search by place, cost, topic, or
-          date, then open the original listing before you go.
-        </p>
-      </div>
-
       <div className="cb-event-toolbar">
         <GhostInput
           className="cb-event-search"
@@ -294,32 +294,47 @@ export default function EventsIndex() {
       </div>
 
       <div className="cb-live-events">
-        {visibleEvents.map((event) => (
-          <a
-            key={`${event.date}-${event.title}`}
-            href={event.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`cb-event-card${event.imageUrl ? "" : " cb-event-card--text"}`}
-          >
-            {event.imageUrl && (
-              <img src={event.imageUrl} alt="" loading="lazy" />
-            )}
-            <div className="cb-event-card-body">
-              <div className="cb-event-meta">
-                <span className="cb-event-date">{event.date || "Date TBA"}</span>
-                {(event.category || event.source) && (
-                  <span className="cb-event-source">
-                    {event.category || event.source}
-                  </span>
-                )}
+        {visibleEvents.map((event) => {
+          const tile = event.imageUrl ? null : eventDateTile(event);
+          return (
+            <a
+              key={`${event.date}-${event.title}`}
+              href={event.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`cb-event-card${event.imageUrl ? "" : " cb-event-card--text"}`}
+            >
+              {event.imageUrl ? (
+                <img src={event.imageUrl} alt="" loading="lazy" />
+              ) : (
+                <span className="cb-event-tile" aria-hidden="true">
+                  {tile ? (
+                    <>
+                      <i>{tile.weekday}</i>
+                      <b>{tile.day}</b>
+                      <i>{tile.month}</i>
+                    </>
+                  ) : (
+                    <b className="cb-event-tile-tba">TBA</b>
+                  )}
+                </span>
+              )}
+              <div className="cb-event-card-body">
+                <div className="cb-event-meta">
+                  <span className="cb-event-date">{event.date || "Date TBA"}</span>
+                  {(event.category || event.source) && (
+                    <span className="cb-event-source">
+                      {event.category || event.source}
+                    </span>
+                  )}
+                </div>
+                <h4>{event.title}</h4>
+                <p>{event.location || "Campbell"}{event.cost ? ` · ${event.cost}` : ""}</p>
+                {event.description && <p className="cb-event-desc">{event.description}</p>}
               </div>
-              <h4>{event.title}</h4>
-              <p>{event.location || "Campbell"}{event.cost ? ` · ${event.cost}` : ""}</p>
-              {event.description && <p className="cb-event-desc">{event.description}</p>}
-            </div>
-          </a>
-        ))}
+            </a>
+          );
+        })}
       </div>
 
       {filteredEvents.length === 0 && (

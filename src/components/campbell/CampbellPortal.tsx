@@ -40,7 +40,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] =
     id: "homes",
     label: "Homes",
     eyebrow: "Property",
-    summary: "Permits, planning projects, parcel lookups, sale-record limits, and maps.",
+    summary: "Permits, parcels, projects, and maps - a public-records ledger, not a gossip page.",
   },
   {
     id: "history",
@@ -61,6 +61,19 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] =
     summary: "Forms and shortcuts for services, utilities, permits, schools, transit, and help.",
   },
 ];
+
+type TabAccent = "green" | "blue" | "clay" | "red" | "gold";
+
+const TAB_META: Record<Section, { accent: TabAccent; image?: { src: string; objectPosition?: string } }> = {
+  events: { accent: "green", image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" } },
+  digest: { accent: "blue", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
+  businesses: { accent: "clay", image: { src: "/images/campbell/pruneyard-aerial.webp", objectPosition: "50% 42%" } },
+  safety: { accent: "red" },
+  homes: { accent: "gold", image: { src: "/images/campbell/water-tower-aerial.webp", objectPosition: "50% 30%" } },
+  history: { accent: "gold", image: { src: "/images/campbell/ainsley-house.webp", objectPosition: "50% 55%" } },
+  data: { accent: "blue" },
+  links: { accent: "green", image: { src: "/images/campbell/campbell-park.webp", objectPosition: "28% 55%" } },
+};
 
 const SECTION_HASHES: Record<string, Section> = {
   "#campbell-events": "events",
@@ -186,7 +199,7 @@ export default function CampbellPortal() {
               id={tabId(tab.id)}
               type="button"
               role="tab"
-              className={`cb-tab ${active === tab.id ? "cb-tab--active" : ""}`}
+              className={`cb-tab cb-accent-${TAB_META[tab.id].accent} ${active === tab.id ? "cb-tab--active" : ""}`}
               aria-selected={active === tab.id}
               aria-controls={panelId(tab.id)}
               tabIndex={active === tab.id ? 0 : -1}
@@ -212,12 +225,33 @@ export default function CampbellPortal() {
       </section>
 
       <div
-        className="cb-content"
+        className={`cb-content cb-accent-${TAB_META[activeTab.id].accent}`}
         id={panelId(activeTab.id)}
         role="tabpanel"
         aria-labelledby={tabId(activeTab.id)}
         tabIndex={-1}
       >
+        <div
+          className={`cb-panel-banner${TAB_META[activeTab.id].image ? "" : " cb-panel-banner--pattern"}`}
+        >
+          {TAB_META[activeTab.id].image && (
+            <img
+              src={TAB_META[activeTab.id].image!.src}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              style={{ objectPosition: TAB_META[activeTab.id].image!.objectPosition }}
+            />
+          )}
+          <div className="cb-panel-banner-copy">
+            <span>
+              {String(activeIndex + 1).padStart(2, "0")} · {activeTab.eyebrow}
+            </span>
+            <h2>{activeTab.label}</h2>
+            <p>{activeTab.summary}</p>
+          </div>
+        </div>
+
         {active === "links" && <QuickLinks />}
         {active === "history" && <HistoryTimeline />}
         {active === "digest" && (
