@@ -1,11 +1,27 @@
 [
   {
+    "name": "Claude Fable 5",
+    "org": "Anthropic",
+    "date": "2026-06-09",
+    "type": "model",
+    "summary": "Anthropic's biggest jump in a while — Fable 5 is the first 'Mythos-class' model made safe for general use, a new tier above the Opus line with state-of-the-art coding, knowledge work, and vision (it plays Pokémon from pixels alone) plus long-context handling across millions of tokens; live today on claude.ai, Claude Code, the API ($10/M in, $50/M out — half the price of Mythos Preview), and Bedrock, and it's included free on Pro and Max plans through June 22, so you can kick the tires before the credits meter starts",
+    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+  },
+  {
     "name": "Nemotron 3",
     "org": "NVIDIA",
     "date": "2026-06-04",
     "type": "model",
     "summary": "NVIDIA dropped its Nemotron 3 family of fully-open models, and the headline for solo builders is the Nano: a 4B model with GGUF weights on Hugging Face that runs right on your laptop, no cloud bill; the lineup scales up to a 550B Ultra reasoning model with a 1M-token context that went live day-zero on OpenRouter, Together, and Perplexity, and NVIDIA shipped the training data and recipes too under a permissive open license, so you can actually fine-tune instead of just downloading",
     "url": "https://huggingface.co/nvidia"
+  },
+  {
+    "name": "ChatGPT memory upgrade",
+    "org": "OpenAI",
+    "date": "2026-06-04",
+    "type": "tool",
+    "summary": "ChatGPT's memory grew up — a new 'dreaming' architecture quietly revises what it knows about you in the background as your life changes ('you're going to Singapore in July' becomes 'you went'), so recommendations stay current instead of stale; paid users get double the memory capacity with summaries you can review and edit, and a 5x compute cut means real memory is finally rolling out to Free users over the coming weeks — your assistant stops forgetting who you are",
+    "url": "https://openai.com/index/chatgpt-memory-dreaming/"
   },
   {
     "name": "MAI-Code-1-Flash",
@@ -46,13 +62,5 @@
     "type": "model",
     "summary": "Liquid AI's new open-weight model runs a real tool-calling agent entirely on your laptop or phone — no cloud, no API bill, nothing leaving the device; it's a Mixture-of-Experts with 8.3B total params but only 1.5B active per token, so it stays fast and light enough for edge hardware while punching above its size on agentic tasks; weights are up on Hugging Face, making it a privacy-first base for any solo builder who wants assistants that work offline",
     "url": "https://www.liquid.ai/blog/introducing-lfm2-5-the-next-generation-of-on-device-ai"
-  },
-  {
-    "name": "Claude Opus 4.8",
-    "org": "Anthropic",
-    "date": "2026-05-28",
-    "type": "model",
-    "summary": "Anthropic's new flagship lands today on claude.ai, Claude Code, the API, and Cowork — tops GPT-5.5 and Gemini 3.1 Pro on agentic coding benchmarks and is ~4x less likely than 4.7 to leave flaws in code it writes; same price as 4.7 ($5/M in, $25/M out) but fast mode is now 3x cheaper, plus a research preview of dynamic workflows that spawns hundreds of parallel subagents for jobs too big for one context window",
-    "url": "https://www.anthropic.com/claude/opus"
   }
 ]
