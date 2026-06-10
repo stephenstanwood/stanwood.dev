@@ -52,10 +52,10 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
     links: [
       {
         title: "Council Records",
-        desc: "Agendas, minutes, media, boards, and commissions",
-        href: SOURCE_URLS.agendaCenter,
+        desc: "Agendas, minutes, and meeting video",
+        href: SOURCE_URLS.escribeMeetings,
         code: "CC",
-        owner: "Agenda Center",
+        owner: "City meeting portal",
       },
       {
         title: "Public Hearings",

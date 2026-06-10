@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import businessFeed from "../../data/campbellBusinesses.json";
+import GhostInput from "./GhostInput";
 
 interface CampbellBusinessRecord {
   name: string;
@@ -34,6 +35,8 @@ const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
 function hasTag(business: CampbellBusinessRecord, tag: string) {
   return business.tags?.includes(tag) ?? false;
 }
+
+const BUSINESS_NAMES = Array.from(new Set(BUSINESSES.map((business) => business.name)));
 
 function directoryLabel(label: string) {
   if (label === "Downtown Campbell Directory") return "Downtown directory";
@@ -108,17 +111,18 @@ export default function BusinessIndex() {
       </div>
 
       <div className="cb-business-toolbar">
-        <input
-          type="text"
+        <GhostInput
           className="cb-business-search"
           placeholder="Search by name, address, phone, or service"
+          ariaLabel="Search businesses"
           value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          candidates={BUSINESS_NAMES}
+          onValueChange={setQuery}
         />
         <span className="cb-business-count">{resultLabel}</span>
       </div>
 
-      <div className="cb-business-filters" role="tablist" aria-label="Business source filters">
+      <div className="cb-business-filters" role="group" aria-label="Business source filters">
         {BUSINESS_FILTERS.map((filter) => (
           <button
             key={filter.id}

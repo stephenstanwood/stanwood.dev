@@ -32,9 +32,16 @@ const CUSD_ICS_SOURCES = [
   ...source,
   href: `https://calendar.google.com/calendar/ical/${encodeURIComponent(`${source.id}@group.calendar.google.com`)}/public/basic.ics`,
 }));
-const COUNCIL_URL = `${CITY_BASE_URL}/AgendaCenter/City-Council-10`;
+// City Council agendas moved from the CivicEngage Agenda Center (frozen at
+// Oct 7, 2025) to the city's eScribe portal; Planning Commission still posts
+// to the Agenda Center.
+const ESCRIBE_BASE_URL = "https://pub-campbell.escribemeetings.com";
+const ESCRIBE_PORTAL_URL = `${ESCRIBE_BASE_URL}/`;
+const ESCRIBE_CALENDAR_API_URL = `${ESCRIBE_BASE_URL}/MeetingsCalendarView.aspx/GetCalendarMeetings`;
+const ESCRIBE_LOOKBACK_DAYS = 150;
+const ESCRIBE_LOOKAHEAD_DAYS = 45;
 const PLANNING_COMMISSION_URL = `${CITY_BASE_URL}/AgendaCenter/Planning-Commission-6`;
-const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/501/Public-Notices`;
+const PUBLIC_NOTICES_URL = `${CITY_BASE_URL}/530/Public-Notices`;
 const PUBLIC_NOTICE_ARCHIVES = [
   { body: "City Council", href: `${CITY_BASE_URL}/Archive.aspx?AMID=43`, limit: 8 },
   { body: "Planning Commission", href: `${CITY_BASE_URL}/Archive.aspx?AMID=44`, limit: 10 },
@@ -125,6 +132,17 @@ function extractJsonScript(html, id) {
 }
 
 async function fetchPdfText(url) {
+  // eScribe rejects Node's TLS trust store; download those PDFs via curl.
+  if (new URL(url).hostname.endsWith("escribemeetings.com")) {
+    let buffer;
+    try {
+      buffer = curlRequest(url, { maxBytes: MAX_NOTICE_PDF_BYTES });
+    } catch (err) {
+      return { text: "", skipped: err.message || "Failed to fetch PDF via curl" };
+    }
+    return pdfBufferToText(buffer);
+  }
+
   let contentLength = 0;
   try {
     const head = await fetch(url, {
@@ -166,6 +184,10 @@ async function fetchPdfText(url) {
   } catch (err) {
     return { text: "", skipped: err.message || "PDF exceeded read limit" };
   }
+  return pdfBufferToText(buffer);
+}
+
+async function pdfBufferToText(buffer) {
   const dir = await mkdtemp(resolve(tmpdir(), "campbell-notice-"));
   const pdfPath = resolve(dir, "notice.pdf");
 
@@ -1009,6 +1031,110 @@ function parseAgendaCenterRecords(html, { tableId, body, sourceUrl }) {
     .slice(0, 24);
 }
 
+// Node's bundled CA store rejects escribemeetings.com's certificate chain
+// (UNABLE_TO_GET_ISSUER_CERT_LOCALLY), so eScribe requests go through system
+// curl, which uses the OS trust store.
+function curlRequest(url, { method = "GET", body = "", contentType = "", maxBytes = 0 } = {}) {
+  const args = [
+    "-sS",
+    "--fail",
+    "--max-time", "30",
+    "-A", USER_AGENT,
+    "-X", method,
+  ];
+  if (contentType) args.push("-H", `Content-Type: ${contentType}`);
+  if (body) args.push("--data", body);
+  if (maxBytes > 0) args.push("--max-filesize", String(maxBytes));
+  args.push(url);
+
+  const result = spawnSync("curl", args, { maxBuffer: 32 * 1024 * 1024 });
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    throw new Error(`curl ${method} ${url} failed: ${result.stderr?.toString().trim() || `exit ${result.status}`}`);
+  }
+  return result.stdout;
+}
+
+function stripHtmlToText(html = "") {
+  return html
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function parseEscribeStartDate(value = "") {
+  // eScribe dates look like "2026/06/02 19:00:36".
+  const match = value.match(/^(\d{4})\/(\d{2})\/(\d{2})/);
+  if (!match) return null;
+  return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+}
+
+function pickEscribeDoc(docs, type, format = "") {
+  return docs.find((doc) => doc?.Type === type && (!format || (doc?.Format ?? "").toLowerCase() === format));
+}
+
+function escribeDocUrl(doc) {
+  return doc?.Url ? absoluteUrl(doc.Url, ESCRIBE_BASE_URL) : "";
+}
+
+async function fetchEscribeCouncilRecords() {
+  const toDateInput = (date) => date.toISOString().slice(0, 10);
+  const now = Date.now();
+  const raw = curlRequest(ESCRIBE_CALENDAR_API_URL, {
+    method: "POST",
+    contentType: "application/json",
+    body: JSON.stringify({
+      calendarStartDate: toDateInput(new Date(now - ESCRIBE_LOOKBACK_DAYS * 24 * 60 * 60 * 1000)),
+      calendarEndDate: toDateInput(new Date(now + ESCRIBE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000)),
+    }),
+  });
+
+  const payload = JSON.parse(raw.toString("utf8"));
+  const meetings = Array.isArray(payload?.d) ? payload.d : [];
+
+  return meetings
+    .map((meeting) => {
+      const startDate = parseEscribeStartDate(meeting?.StartDate ?? "");
+      const docs = Array.isArray(meeting?.MeetingDocumentLink) ? meeting.MeetingDocumentLink : [];
+      const agendaPdf = pickEscribeDoc(docs, "AgendaCover") ?? pickEscribeDoc(docs, "Agenda", ".pdf");
+      const agendaHtml = docs.find((doc) => doc?.Type === "Agenda" && doc?.Format === "HTML");
+      const minutes = pickEscribeDoc(docs, "PostMinutes", ".pdf")
+        ?? pickEscribeDoc(docs, "PostMinutes")
+        ?? pickEscribeDoc(docs, "MinutesWithAttachments");
+      const video = docs.find((doc) => doc?.Type === "Video");
+      const agendaUrl = escribeDocUrl(agendaPdf) || escribeDocUrl(agendaHtml);
+      const name = compactText(decodeHtml(meeting?.MeetingName ?? ""));
+
+      if (!startDate || !agendaUrl || !name) return null;
+
+      return {
+        sortKey: startDate.getTime(),
+        record: {
+          date: startDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
+          title: `${name} ${startDate.getMonth() + 1}/${startDate.getDate()}/${startDate.getFullYear()}`,
+          body: "City Council",
+          agendaUrl,
+          agendaHtmlUrl: escribeDocUrl(agendaHtml),
+          minutesUrl: escribeDocUrl(minutes),
+          mediaUrl: escribeDocUrl(video),
+          meetingUrl: meeting?.Url ?? "",
+          source: "Campbell meeting portal",
+          sourceUrl: ESCRIBE_PORTAL_URL,
+        },
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.sortKey - a.sortKey)
+    .map(({ record }) => record)
+    .slice(0, 24);
+}
+
 function parsePublicNoticeArchive(html, { body, href, limit }) {
   const blocks = [...html.matchAll(/<table[^>]*summary="Archive Details"[^>]*>([\s\S]*?)<\/table>/gi)];
 
@@ -1221,7 +1347,7 @@ async function main() {
     museumsEventsHtml,
     heritageTheatreEventsHtml,
     chamberEventsPage,
-    councilHtml,
+    councilRecords,
     planningHtml,
     ...otherSourceHtml
   ] = await Promise.all([
@@ -1232,7 +1358,7 @@ async function main() {
     fetchText(CAMPBELL_MUSEUMS_EVENTS_URL),
     fetchText(HERITAGE_THEATRE_EVENTS_URL),
     fetchChamberEventsHtml(),
-    fetchText(COUNCIL_URL),
+    fetchEscribeCouncilRecords(),
     fetchText(PLANNING_COMMISSION_URL),
     ...PUBLIC_NOTICE_ARCHIVES.map((archive) => fetchText(archive.href)),
     ...CUSD_ICS_SOURCES.map((source) => fetchIcsText(source.href)),
@@ -1300,11 +1426,6 @@ async function main() {
     filteredChamberEvents,
     filteredSchoolEvents,
   );
-  const councilRecords = parseAgendaCenterRecords(councilHtml, {
-    tableId: "table10",
-    body: "City Council",
-    sourceUrl: COUNCIL_URL,
-  });
   const planningRecords = parseAgendaCenterRecords(planningHtml, {
     tableId: "table6",
     body: "Planning Commission",
@@ -1436,9 +1557,32 @@ async function main() {
 
   const councilPath = await writeJson("campbellCouncilRecords.json", {
     generatedAt,
-    sourceUrl: COUNCIL_URL,
+    sourceUrl: ESCRIBE_PORTAL_URL,
     items: councilRecords,
   });
+
+  // Capture the newest substantive agenda's text so the council-digest API can
+  // summarize it without fetching eScribe at request time (its TLS chain is
+  // not in Node's CA store).
+  const digestRecord = councilRecords.find(
+    (record) => /regular session/i.test(record.title) && record.agendaHtmlUrl,
+  ) ?? councilRecords.find((record) => record.agendaHtmlUrl);
+  let digestSourcePath = "";
+  if (digestRecord) {
+    const agendaHtml = curlRequest(digestRecord.agendaHtmlUrl).toString("utf8");
+    const agendaText = stripHtmlToText(agendaHtml).slice(0, 12_000);
+    if (agendaText.length < 200) {
+      throw new Error(`Council digest agenda text too short (${agendaText.length} chars)`);
+    }
+    digestSourcePath = await writeJson("campbellCouncilDigestSource.json", {
+      generatedAt,
+      meetingDate: digestRecord.date,
+      title: digestRecord.title,
+      url: digestRecord.meetingUrl || ESCRIBE_PORTAL_URL,
+      sourceUrl: ESCRIBE_PORTAL_URL,
+      agendaText,
+    });
+  }
 
   const publicHearingsPath = await writeJson("campbellPublicHearings.json", {
     generatedAt,
@@ -1450,6 +1594,11 @@ async function main() {
   console.log(`Wrote ${businesses.length} businesses (${downtownBusinesses.length} downtown, ${campbellChamberBusinesses.length}/${chamberBusinesses.length} chamber in Campbell) -> ${businessPath}`);
   console.log(`Wrote ${events.length} events (${filteredCityCalendarEvents.length}/${cityCalendarEvents.length} city, ${filteredDowntownEvents.length}/${downtownEvents.length} downtown, ${filteredLibraryEvents.length}/${libraryEvents.length} library, ${filteredMuseumEvents.length}/${museumEvents.length} museum, ${filteredHeritageTheatreEvents.length}/${heritageTheatreEvents.length} theatre, ${filteredChamberEvents.length}/${chamberEvents.length} chamber, ${filteredSchoolEvents.length}/${schoolEvents.length} school; ${rejectedEvents.length} filtered) -> ${eventPath}`);
   console.log(`Wrote ${councilRecords.length} council records -> ${councilPath}`);
+  console.log(
+    digestSourcePath
+      ? `Wrote council digest source (${digestRecord.date}) -> ${digestSourcePath}`
+      : "No council agenda available for digest source",
+  );
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }
 

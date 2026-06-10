@@ -16,6 +16,7 @@ interface CouncilRecord {
   agendaUrl: string;
   minutesUrl?: string;
   mediaUrl?: string;
+  meetingUrl?: string;
 }
 
 interface PublicHearing {
@@ -99,8 +100,11 @@ function isRecentHearing(item: PublicHearing, today: Date) {
 
 export default function CivicRecords() {
   const [activeFilter, setActiveFilter] = useState<HearingFilter>("all");
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const [today] = useState(() => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  });
 
   const filteredHearings = useMemo(() => {
     return PUBLIC_HEARINGS.filter((item) => {
@@ -150,7 +154,7 @@ export default function CivicRecords() {
           </div>
         </div>
 
-        <div className="cb-hearing-filters" role="tablist" aria-label="Public hearing filters">
+        <div className="cb-hearing-filters" role="group" aria-label="Public hearing filters">
           {HEARING_FILTERS.map((filter) => (
             <button
               key={filter.id}
@@ -213,12 +217,12 @@ export default function CivicRecords() {
       <section className="cb-live-record-panel" aria-label="Campbell council agenda and minutes records">
         <div className="cb-live-record-head">
           <div>
-            <span className="cb-live-record-kicker">Agenda Center</span>
-            <h4>Council packets, minutes, and media</h4>
+            <span className="cb-live-record-kicker">Meeting portal</span>
+            <h4>Council packets, minutes, and video</h4>
             <p>
               {councilSourceLooksStale && latestCouncilRecord
-                ? `The city Agenda Center currently lists ${latestCouncilRecord.date} as the newest council packet. Open the official source for anything posted after that.`
-                : "Open the official packet, minutes, or media from the city Agenda Center."}
+                ? `The city meeting portal currently lists ${latestCouncilRecord.date} as the newest council packet. Open the official source for anything posted after that.`
+                : "Open the official agenda, minutes, or meeting video from the city's eScribe meeting portal."}
             </p>
           </div>
         </div>
@@ -241,7 +245,12 @@ export default function CivicRecords() {
                 )}
                 {record.mediaUrl && (
                   <a href={record.mediaUrl} target="_blank" rel="noopener noreferrer">
-                    Media
+                    Video
+                  </a>
+                )}
+                {record.meetingUrl && (
+                  <a href={record.meetingUrl} target="_blank" rel="noopener noreferrer">
+                    Meeting page
                   </a>
                 )}
               </div>

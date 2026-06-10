@@ -54,7 +54,7 @@ export default function CouncilDigest() {
     return (
       <div className="cb-digest-empty">
         <p className="cb-digest-info">
-          Get a plain-English summary of the newest Campbell City Council packet listed in the city's Agenda Center.
+          Get a plain-English summary of the newest Campbell City Council agenda posted on the city's meeting portal.
           {sourceLooksStale && LATEST_COUNCIL_RECORD
             ? ` That source currently lists ${LATEST_COUNCIL_RECORD.date} as newest.`
             : " Meetings happen the 1st and 3rd Tuesday of each month."}

@@ -171,7 +171,7 @@ export default function TodayInCampbell() {
               </a>
               <span>
                 {councilSourceLooksStale
-                  ? `City Agenda Center currently lists ${latestCouncil.date} as newest`
+                  ? `City meeting portal currently lists ${latestCouncil.date} as newest`
                   : latestCouncil.date}
               </span>
             </div>

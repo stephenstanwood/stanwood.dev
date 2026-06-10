@@ -54,18 +54,17 @@ export interface CampbellSafetyLayer {
   sourceUrl: string;
 }
 
-export interface CampbellBusiness {
-  name: string;
-  category: string;
-  address: string;
-  area: string;
-}
-
 export const SOURCE_URLS = {
   cityHistory: "https://www.campbellca.gov/238/History",
+  wikipediaCampbell: "https://en.wikipedia.org/wiki/Campbell,_California",
+  wikipediaVtaLightRail: "https://en.wikipedia.org/wiki/VTA_light_rail",
+  pruneyardCase: "https://www.law.cornell.edu/supremecourt/text/447/74",
   censusQuickFacts: "https://www.census.gov/quickfacts/fact/table/campbellcitycalifornia/HSG445223",
+  // Council agendas moved to eScribe in late 2025; the Agenda Center still
+  // hosts Planning Commission and board/commission archives.
+  escribeMeetings: "https://pub-campbell.escribemeetings.com/",
   agendaCenter: "https://www.campbellca.gov/agendacenter",
-  publicNotices: "https://www.campbellca.gov/501/Public-Notices",
+  publicNotices: "https://www.campbellca.gov/530/Public-Notices",
   planningCommissionAgenda: "https://www.campbellca.gov/AgendaCenter/Planning-Commission-6",
   cityCalendar: "https://www.campbellca.gov/calendar.aspx",
   cityCalendarList: "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
@@ -75,21 +74,13 @@ export const SOURCE_URLS = {
   chamberEvents: "https://business.campbellchamber.net/events/calendar/",
   chamberEventsSearch: "https://business.campbellchamber.net/events/search?Lookahead=360",
   libraryEvents: "https://sccld.org/locations/campbell/",
-  recreation: "https://www.campbellca.gov/recreation",
   recreationCalendar: "https://www.campbellca.gov/calendar.aspx?CID=27,14,34,29,55",
-  recreationCatalog: "https://secure.rec1.com/CA/campbell-ca/catalog",
-  activityGuide: "https://heyzine.com/flip-book/7490b47c69.html",
-  pruneyardEvents: "https://www.thepruneyard.net/events",
+  pruneyardEvents: "https://www.thepruneyard.com/events",
   cusdCalendar: "https://www.campbellusd.org/calendar?locale=en",
   cuhsdCalendar: "https://www.cuhsd.org/apps/events/",
   downtownDirectory: "https://www.downtowncampbell.com/directory/all",
-  chamberDirectory: "https://business.campbellchamber.net/list",
-  chamberShopping: "https://www.campbellchamber.net/shopping-dining/",
-  policePage: "https://www.campbellca.gov/1526/Police-Department",
-  policeDepartment: "https://www.campbellca.gov/162/Police",
   cpdStats: "https://www.campbellca.gov/1167/CPD-Statistics",
   cpdMediaLogs: "https://www.campbellca.gov/1503/Media-Logs",
-  cpdNews: "https://www.campbellca.gov/CivicAlerts.aspx?CID=8",
   cpdRecords: "https://www.campbellca.gov/278/Records",
   cityProtect: "https://cityprotect.com/",
   reportCrime: "https://www.campbellca.gov/291/Report-a-Crime",
@@ -100,21 +91,18 @@ export const SOURCE_URLS = {
   cityGisPublic: "https://gis.campbellca.gov/public",
   cityGis: "https://gis.campbellca.gov/arcgis/rest/services/",
   assessorSearch: "https://asr.santaclaracounty.gov/online-services/property-search/real-property",
-  assessorRecords: "https://www.sccassessor.org/index.php/online-services/property-search/searching-records-buying-maps",
-  assessorAnnualReport: "https://www.sccassessor.org/forms-and-publications/annual-report/item/580-annual-report-2025-2026",
+  assessorRecords: "https://asr.santaclaracounty.gov/online-services/property-search/searching-records-buying-maps",
+  assessorAnnualReport: "https://asr.santaclaracounty.gov/forms-and-publications/annual-report/item/580-annual-report-2025-2026",
   clerkRecorder: "https://clerkrecorder.santaclaracounty.gov/official-records",
   clerkRecorderRealEstate: "https://clerkrecorder.santaclaracounty.gov/recording-documents/recording-real-estate",
   clerkRecorderDataSales: "https://clerkrecorder.santaclaracounty.gov/data-sales-subscription",
   countyGisData: "https://gis.santaclaracounty.gov/available-gis-map-data",
   countyPropertyProfile: "https://www.arcgis.com/home/item.html?id=a26ac88b18d7465baf1be31302706f1d",
   campbellBuilding: "https://www.campbellca.gov/1458/Building",
-  planning: "https://www.campbellca.gov/163/Planning",
-  planningApplications: "https://www.campbellca.gov/1051/Planning-Applications",
   planningRecords: "https://lflink.campbellca.gov/LFLINK/Browse.aspx?id=29&cr=1",
   activeProjectsMap: "https://cityofcampbell.maps.arcgis.com/apps/MapSeries/index.html?appid=444b0bc7038b456699d9faa550a530e2",
   starterHomeProjects: "https://www.campbellca.gov/1535/Starter-Home-Projects",
   permitPortal: "https://www.mgoconnect.org/cp/portal",
-  cityMapsGallery: "https://www.campbellca.gov/1424/City-Maps-Gallery",
 };
 
 export const CAMPBELL_METRICS: CampbellMetric[] = [
@@ -171,11 +159,25 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     sourceUrl: SOURCE_URLS.cityHistory,
   },
   {
-    year: "Late 1800s",
-    title: "A farming town turns into Orchard City",
-    body: "Campbell's identity formed around orchards, packing, rail access, and a compact downtown around Campbell Avenue.",
-    sourceLabel: "City history",
-    sourceUrl: SOURCE_URLS.cityHistory,
+    year: "1887",
+    title: "The railroad arrives and a town takes shape",
+    body: "Benjamin Campbell sold land to the railroad in 1878 at $5 an acre, and by 1887 the first subdivision was recorded west of the tracks - from Campbell Avenue to where Water Tower Plaza stands today.",
+    sourceLabel: "Wikipedia: Campbell, California",
+    sourceUrl: SOURCE_URLS.wikipediaCampbell,
+  },
+  {
+    year: "1892",
+    title: "Orchard City earns its name",
+    body: "The Campbell Fruit Growers' Union ran a well-known cooperative with a 17-acre drying yard, and drying grounds and canneries made Campbell a center for shipping fruit by rail.",
+    sourceLabel: "Wikipedia: Campbell, California",
+    sourceUrl: SOURCE_URLS.wikipediaCampbell,
+  },
+  {
+    year: "1928",
+    title: "The water tower goes up",
+    body: "The downtown water tower was built to hold 75,000 gallons. The tank is long dry, but the tower is still Campbell's most recognizable landmark.",
+    sourceLabel: "Wikipedia: Campbell, California",
+    sourceUrl: SOURCE_URLS.wikipediaCampbell,
   },
   {
     year: "1952",
@@ -185,21 +187,56 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     sourceUrl: SOURCE_URLS.cityHistory,
   },
   {
+    year: "1980",
+    title: "Campbell reaches the U.S. Supreme Court",
+    body: "PruneYard Shopping Center v. Robins, decided June 9, 1980, started with students petitioning at the PruneYard. The Court held that California can protect speech and petitioning at privately owned shopping centers.",
+    sourceLabel: "Cornell LII: 447 U.S. 74",
+    sourceUrl: SOURCE_URLS.pruneyardCase,
+  },
+  {
+    year: "1990s",
+    title: "Ainsley House moves downtown",
+    body: "The 1925 Tudor-style home of cannery pioneer J.C. Ainsley was moved from Hamilton and Bascom to the Civic Center early in the decade. It now operates as a house museum next to City Hall.",
+    sourceLabel: "Wikipedia: Campbell, California",
+    sourceUrl: SOURCE_URLS.wikipediaCampbell,
+  },
+  {
+    year: "2004",
+    title: "Heritage Theatre opens its doors again",
+    body: "The former Campbell High School auditorium reopened after renovation as the Heritage Theatre, the city's venue for shows and community performances.",
+    sourceLabel: "Wikipedia: Campbell, California",
+    sourceUrl: SOURCE_URLS.wikipediaCampbell,
+  },
+  {
+    year: "2005",
+    title: "Light rail reaches Campbell",
+    body: "VTA's Vasona line opened on October 1, 2005, bringing light rail through the Downtown Campbell station to the Winchester end of the line.",
+    sourceLabel: "Wikipedia: VTA light rail",
+    sourceUrl: SOURCE_URLS.wikipediaVtaLightRail,
+  },
+  {
     year: "Now",
     title: "A small city inside a complicated county",
     body: "Campbell is its own city, but everyday questions often cross county, state, school district, VTA, utility, and private-provider lines.",
-    sourceLabel: "Agenda Center",
-    sourceUrl: SOURCE_URLS.agendaCenter,
+    sourceLabel: "City meeting portal",
+    sourceUrl: SOURCE_URLS.escribeMeetings,
   },
 ];
 
 export const CIVIC_SOURCES: CampbellSource[] = [
   {
     label: "City Council agendas and minutes",
-    owner: "City Clerk / CivicEngage",
+    owner: "City Clerk / eScribe portal",
     cadence: "Every meeting",
+    href: SOURCE_URLS.escribeMeetings,
+    why: "Primary source for council agendas, minutes, and meeting video since the city moved meetings to eScribe in late 2025.",
+  },
+  {
+    label: "Boards and commissions archive",
+    owner: "City Clerk / CivicEngage",
+    cadence: "Prior years",
     href: SOURCE_URLS.agendaCenter,
-    why: "Primary source for agendas, minutes, media links, boards, commissions, and prior-year archives.",
+    why: "The older Agenda Center still holds Planning Commission packets, board and commission records, and pre-2026 council archives.",
   },
   {
     label: "Public hearing notices",
@@ -560,21 +597,3 @@ export const PROPERTY_LAYERS: CampbellPropertyLayer[] = [
   },
 ];
 
-export const BUSINESS_PREVIEW: CampbellBusiness[] = [
-  { name: "7 Stars Bar & Grill", category: "Food and drink", address: "400 E Campbell Ave", area: "Downtown" },
-  { name: "A Bellagio", category: "Food and drink", address: "33 S Central Ave", area: "Downtown" },
-  { name: "ADOR", category: "Retail", address: "274 E Campbell Ave", area: "Downtown" },
-  { name: "Ainsley House", category: "History", address: "300 Grant St", area: "Civic Center" },
-  { name: "Art Beat Studio", category: "Arts", address: "68 E Campbell Ave", area: "Downtown" },
-  { name: "Besties Boutique", category: "Retail", address: "401 E Campbell Ave", area: "Downtown" },
-  { name: "Breaktime Tea", category: "Food and drink", address: "199 E Campbell Ave", area: "Downtown" },
-  { name: "Campbell Creamery", category: "Dessert", address: "267 E Campbell Ave", area: "Downtown" },
-  { name: "Campbell Historical Museum", category: "History", address: "51 N Central Ave", area: "Civic Center" },
-  { name: "Cloud City Supply", category: "Retail", address: "325 E Campbell Ave", area: "Downtown" },
-  { name: "Doppio Zero", category: "Food and drink", address: "220 E Campbell Ave", area: "Downtown" },
-  { name: "Heroes Comics", category: "Books and comics", address: "24 E Campbell Ave", area: "Downtown" },
-  { name: "Manresa Bread Cafe", category: "Bakery", address: "195 E Campbell Ave", area: "Downtown" },
-  { name: "Naschmarkt", category: "Food and drink", address: "384 E Campbell Ave", area: "Downtown" },
-  { name: "Orchard Valley Coffee", category: "Coffee", address: "349 E Campbell Ave", area: "Downtown" },
-  { name: "Recycle Bookstore", category: "Books and comics", address: "275 E Campbell Ave", area: "Downtown" },
-];

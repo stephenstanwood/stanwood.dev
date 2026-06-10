@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import { DAY_MS, startOfDay } from "../../lib/campbell/dateHelpers";
+import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 
 interface CampbellEvent {
@@ -61,6 +62,8 @@ const CATEGORY_OPTIONS = [
     a.localeCompare(b),
   ),
 ];
+
+const EVENT_TITLES = Array.from(new Set(EVENTS.map((event) => event.title)));
 
 const EVENT_ANCHORS = [
   {
@@ -184,7 +187,7 @@ export default function EventsIndex() {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
-  const [viewFilter, setViewFilter] = useState<EventViewFilter>("today");
+  const [viewFilter, setViewFilter] = useState<EventViewFilter>("next14");
   const [showAll, setShowAll] = useState(false);
   const [referenceDay, setReferenceDay] = useState(() => startOfDay(new Date(eventFeed.generatedAt)));
 
@@ -231,13 +234,14 @@ export default function EventsIndex() {
       </div>
 
       <div className="cb-event-toolbar">
-        <input
-          type="text"
+        <GhostInput
           className="cb-event-search"
           placeholder="Search events, places, costs, or topics"
+          ariaLabel="Search events"
           value={query}
-          onChange={(event) => {
-            setQuery(event.target.value);
+          candidates={EVENT_TITLES}
+          onValueChange={(value) => {
+            setQuery(value);
             setShowAll(false);
           }}
         />

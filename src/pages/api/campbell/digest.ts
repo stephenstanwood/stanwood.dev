@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
-import { fetchLatestAgenda, fetchAgendaContent } from "../../../lib/campbell/agendaScraper";
+import { getLatestAgenda } from "../../../lib/campbell/agendaScraper";
 import type { DigestSummary } from "../../../lib/campbell/types";
 import { MS_PER_DAY } from "../../../lib/time";
 
@@ -27,13 +27,10 @@ export const POST: APIRoute = async ({ clientAddress }) => {
 
   if (!import.meta.env.ANTHROPIC_API_KEY) return errJson("Service not configured", 503);
 
-  // 1. Scrape the latest agenda
-  const agenda = await fetchLatestAgenda();
-  if (!agenda) return errJson("Could not fetch agenda data", 502);
-
-  // 2. Get the agenda content
-  const content = await fetchAgendaContent(agenda.pdfUrl);
-  if (!content) return errJson("Could not read agenda content", 502);
+  // 1. Read the bundled agenda text (refreshed by the nightly data sync)
+  const agenda = getLatestAgenda();
+  if (!agenda) return errJson("No council agenda available yet", 502);
+  const content = agenda.content;
 
   // 3. Summarize with Claude
   const prompt = `You are summarizing a Campbell, CA city council meeting agenda for residents.
