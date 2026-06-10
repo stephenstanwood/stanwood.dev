@@ -12,6 +12,10 @@ export interface CampbellMilestone {
   body: string;
   sourceLabel: string;
   sourceUrl: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
 }
 
 export interface CampbellSource {
@@ -178,6 +182,10 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     body: "The downtown water tower was built to hold 75,000 gallons. The tank is long dry, but the tower is still Campbell's most recognizable landmark.",
     sourceLabel: "Wikipedia: Campbell, California",
     sourceUrl: SOURCE_URLS.wikipediaCampbell,
+    image: {
+      src: "/images/campbell/water-tower-ground.webp",
+      alt: "The Campbell water tower seen from the ground",
+    },
   },
   {
     year: "1952",
@@ -192,6 +200,10 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     body: "PruneYard Shopping Center v. Robins, decided June 9, 1980, started with students petitioning at the PruneYard. The Court held that California can protect speech and petitioning at privately owned shopping centers.",
     sourceLabel: "Cornell LII: 447 U.S. 74",
     sourceUrl: SOURCE_URLS.pruneyardCase,
+    image: {
+      src: "/images/campbell/pruneyard-aerial.webp",
+      alt: "Aerial view of the Pruneyard towers beside Highway 17",
+    },
   },
   {
     year: "1990s",
@@ -199,6 +211,10 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     body: "The 1925 Tudor-style home of cannery pioneer J.C. Ainsley was moved from Hamilton and Bascom to the Civic Center early in the decade. It now operates as a house museum next to City Hall.",
     sourceLabel: "Wikipedia: Campbell, California",
     sourceUrl: SOURCE_URLS.wikipediaCampbell,
+    image: {
+      src: "/images/campbell/ainsley-house.webp",
+      alt: "Aerial view of Ainsley House in Campbell",
+    },
   },
   {
     year: "2004",
@@ -206,6 +222,10 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     body: "The former Campbell High School auditorium reopened after renovation as the Heritage Theatre, the city's venue for shows and community performances.",
     sourceLabel: "Wikipedia: Campbell, California",
     sourceUrl: SOURCE_URLS.wikipediaCampbell,
+    image: {
+      src: "/images/campbell/heritage-theatre.webp",
+      alt: "The Campbell Heritage Theatre building",
+    },
   },
   {
     year: "2005",
@@ -213,6 +233,10 @@ export const CAMPBELL_HISTORY: CampbellMilestone[] = [
     body: "VTA's Vasona line opened on October 1, 2005, bringing light rail through the Downtown Campbell station to the Winchester end of the line.",
     sourceLabel: "Wikipedia: VTA light rail",
     sourceUrl: SOURCE_URLS.wikipediaVtaLightRail,
+    image: {
+      src: "/images/campbell/downtown-vta-station.webp",
+      alt: "A VTA light rail train at the Downtown Campbell station",
+    },
   },
   {
     year: "Now",

@@ -60,17 +60,6 @@ const SALES_FEED_STATUS = [
 export default function RealEstateLedger() {
   return (
     <div className="cb-homes">
-      <div className="cb-section-head">
-        <span className="cb-section-kicker">Homes</span>
-        <h3>A public-records ledger, not a gossip page.</h3>
-        <p>
-          Campbell property data lives across county assessment records, recorder
-          documents, city permits, zoning maps, and public hearings. The good
-          version explains the property, sale, permit, and neighborhood
-          context without turning residents into content.
-        </p>
-      </div>
-
       <div className="cb-property-metrics" aria-label="Campbell property roll metrics">
         {PROPERTY_METRICS.map((metric) => (
           <a

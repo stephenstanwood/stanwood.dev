@@ -69,17 +69,6 @@ const SAFETY_START_HERE = [
 export default function SafetyIndex() {
   return (
     <div className="cb-safety">
-      <div className="cb-section-head">
-        <span className="cb-section-kicker">Safety</span>
-        <h3>Crime reports, police data, and public-safety context.</h3>
-        <p>
-          Campbell residents need quick answers: what to do, where official data
-          lives, what public meetings are coming, and how much confidence to put
-          in each source. This starts with CPD statistics, CityProtect, online
-          reporting, and transparency records.
-        </p>
-      </div>
-
       <div className="cb-safety-start" aria-label="Campbell safety start here">
         {SAFETY_START_HERE.map((item) => {
           const content = (

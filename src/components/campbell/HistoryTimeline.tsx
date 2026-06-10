@@ -3,18 +3,9 @@ import { CAMPBELL_HISTORY, CAMPBELL_METRICS } from "../../data/campbell";
 export default function HistoryTimeline() {
   return (
     <div className="cb-history">
-      <div className="cb-section-head">
-        <span className="cb-section-kicker">History</span>
-        <h3>The short version, with sources.</h3>
-        <p>
-          Campbell's story starts with land, orchards, rail access, downtown commerce,
-          and the slow shift from farming town to city inside Silicon Valley.
-        </p>
-      </div>
-
       <div className="cb-history-timeline">
         {CAMPBELL_HISTORY.map((item) => (
-          <article key={item.year} className="cb-history-item">
+          <article key={item.year} className={`cb-history-item${item.image ? " cb-history-item--photo" : ""}`}>
             <span className="cb-history-year">{item.year}</span>
             <div className="cb-history-body">
               <h4>{item.title}</h4>
@@ -23,6 +14,11 @@ export default function HistoryTimeline() {
                 {item.sourceLabel}
               </a>
             </div>
+            {item.image && (
+              <figure className="cb-history-photo">
+                <img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+              </figure>
+            )}
           </article>
         ))}
       </div>
