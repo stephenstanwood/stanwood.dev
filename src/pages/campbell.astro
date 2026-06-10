@@ -1695,6 +1695,42 @@ const photoStories = [
         color: var(--cb-blue-hover);
         background: var(--cb-blue-light);
       }
+      .cb-event-shortcuts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin: -0.2rem 0 0.78rem;
+        padding: 0.5rem;
+        border: 1px solid rgba(225, 221, 210, 0.88);
+        border-radius: 10px;
+        background: rgba(255, 253, 248, 0.62);
+      }
+      .cb-event-shortcuts button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2rem;
+        padding: 0 0.66rem;
+        border: 1px solid #D5D0C4;
+        border-radius: 7px;
+        color: var(--cb-ink);
+        background: #FFFDF8;
+        font: inherit;
+        font-size: 0.73rem;
+        font-weight: 820;
+        cursor: pointer;
+        box-shadow: 0 3px 8px rgba(62, 52, 36, 0.05);
+      }
+      .cb-event-shortcuts button:hover {
+        border-color: #BFCBC5;
+        background: #F7F6F0;
+      }
+      .cb-event-shortcuts button.is-active {
+        border-color: color-mix(in srgb, var(--accent, var(--cb-green)) 42%, #FFFDF8);
+        color: var(--accent, var(--cb-green));
+        background: var(--accent-light, var(--cb-green-light));
+        box-shadow: inset 0 2px 0 var(--accent, var(--cb-green));
+      }
       .cb-live-events {
         display: grid;
         grid-template-columns: 1fr;

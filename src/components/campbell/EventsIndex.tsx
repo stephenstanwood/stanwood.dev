@@ -48,6 +48,21 @@ const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
   { id: "public", label: "Public meetings" },
 ];
 
+type EventShortcut = {
+  label: string;
+  query?: string;
+  source?: string;
+  view?: EventViewFilter;
+};
+
+const EVENT_SHORTCUTS: EventShortcut[] = [
+  { label: "City Hall", source: "City of Campbell Calendar", view: "public" },
+  { label: "Library", source: "Campbell Library Events", view: "next30" },
+  { label: "Farmers' market", query: "Farmers' Market", view: "next30" },
+  { label: "Heritage Theatre", source: "Campbell Heritage Theatre Events", view: "next30" },
+  { label: "Free", query: "Free", view: "next30" },
+];
+
 const SOURCE_FILTERS = [
   { id: ALL_SOURCE_FILTER, label: "Every calendar" },
   ...SOURCE_COUNTS.map((source) => ({
@@ -227,6 +242,23 @@ export default function EventsIndex() {
     query,
   );
 
+  function applyShortcut(shortcut: EventShortcut) {
+    setQuery(shortcut.query ?? "");
+    setSourceFilter(shortcut.source ?? ALL_SOURCE_FILTER);
+    setCategoryFilter(ALL_CATEGORY_FILTER);
+    setViewFilter(shortcut.view ?? "next14");
+    setShowAll(false);
+  }
+
+  function shortcutIsActive(shortcut: EventShortcut) {
+    return (
+      query === (shortcut.query ?? "") &&
+      sourceFilter === (shortcut.source ?? ALL_SOURCE_FILTER) &&
+      categoryFilter === ALL_CATEGORY_FILTER &&
+      viewFilter === (shortcut.view ?? "next14")
+    );
+  }
+
   return (
     <div className="cb-events" id="campbell-events-next14">
       <div className="cb-event-toolbar">
@@ -257,6 +289,24 @@ export default function EventsIndex() {
           ))}
         </select>
         <span className="cb-event-count">{resultLabel}</span>
+      </div>
+
+      <div className="cb-event-shortcuts" aria-label="Resident event shortcuts">
+        {EVENT_SHORTCUTS.map((shortcut) => {
+          const isActive = shortcutIsActive(shortcut);
+
+          return (
+            <button
+              key={shortcut.label}
+              type="button"
+              className={isActive ? "is-active" : ""}
+              onClick={() => applyShortcut(shortcut)}
+              aria-pressed={isActive}
+            >
+              {shortcut.label}
+            </button>
+          );
+        })}
       </div>
 
       <div className="cb-event-filter-group" aria-label="Event calendar filters">
