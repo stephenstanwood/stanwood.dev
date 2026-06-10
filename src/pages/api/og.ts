@@ -3,6 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { ImageResponse } from "@vercel/og";
 import { PAGES } from "../../lib/ogPages";
+import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 /**
  * Dynamic Open Graph image generator.
@@ -11,7 +12,9 @@ import { PAGES } from "../../lib/ogPages";
  * Homepage uses a static image (public/images/og-homepage.png) instead.
  */
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   const page = url.searchParams.get("page") ?? "index";
   const config = PAGES[page];
 

@@ -127,6 +127,12 @@ export default function MoneyDashboard() {
   );
 }
 
+function domainPriceLabel(annualCents: number | null): string {
+  if (annualCents === null) return "?";
+  if (annualCents === 0) return "$0";
+  return formatDollars(annualCents) + "/yr";
+}
+
 function ApiSection({ month, total }: { month: MonthEntry | null; total: number }) {
   if (!month) return null;
   return (
@@ -138,7 +144,11 @@ function ApiSection({ month, total }: { month: MonthEntry | null; total: number 
       </div>
       <div className="mo-cards">
         {[...SERVICE_ORDER]
-          .sort((a, b) => (month.services[b]?.totalCents ?? -1) - (month.services[a]?.totalCents ?? -1))
+          .sort((a, b) => {
+            // Highest spend first; services with no data (?? -1) sort below $0.
+            const spend = (svc: string) => month.services[svc]?.totalCents ?? -1;
+            return spend(b) - spend(a);
+          })
           .map((svc) => {
           const entry = month.services[svc];
           if (!entry) return null;
@@ -355,11 +365,7 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
                   (d.annualCents === 0 ? " mo-domain-price--zero" : "")
                 }
               >
-                {d.annualCents === null
-                  ? "?"
-                  : d.annualCents === 0
-                    ? "$0"
-                    : formatDollars(d.annualCents) + "/yr"}
+                {domainPriceLabel(d.annualCents)}
               </div>
               <div
                 style={{

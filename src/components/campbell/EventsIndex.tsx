@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
-import { DAY_MS, startOfDay } from "../../lib/campbell/dateHelpers";
+import { DAY_MS, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
+import { eventInWindow } from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -34,7 +35,6 @@ const SOURCE_COUNTS = feed.sources ?? [];
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
-const LONG_RUNNING_EVENT_DAYS = 14;
 type EventViewFilter = "today" | "all" | "next14" | "next30" | "public";
 const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
   "#campbell-events-next14": "next14",
@@ -84,25 +84,6 @@ const EVENT_ANCHORS = [
   },
 ];
 
-function parseEventStart(event: CampbellEvent) {
-  if (!event.startDate) return null;
-  const date = new Date(event.startDate);
-  return Number.isNaN(date.getTime()) ? null : date;
-}
-
-function parseEventEnd(event: CampbellEvent) {
-  if (!event.endDate) return parseEventStart(event);
-  const date = new Date(event.endDate);
-  return Number.isNaN(date.getTime()) ? parseEventStart(event) : date;
-}
-
-function eventIsLongRunning(event: CampbellEvent) {
-  const start = parseEventStart(event);
-  const end = parseEventEnd(event);
-  if (!start || !end) return false;
-  return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
-}
-
 function eventSourceFilterLabel(label: string) {
   if (label === "City of Campbell Calendar") return "City calendar";
   if (label === "Downtown Campbell Events") return "Downtown";
@@ -138,30 +119,15 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, ref
     return /council|commission|committee|board|meeting|hearing/i.test(text);
   }
 
-  const start = parseEventStart(event);
-  if (!start) return false;
-  const end = parseEventEnd(event) ?? start;
   const startOfReferenceDay = startOfDay(referenceDay);
-  const endOfReferenceDay = new Date(startOfReferenceDay);
-  endOfReferenceDay.setHours(23, 59, 59, 999);
 
   if (viewFilter === "today") {
-    if (eventIsLongRunning(event)) {
-      return start.getTime() >= startOfReferenceDay.getTime() && start.getTime() <= endOfReferenceDay.getTime();
-    }
-    return start.getTime() <= endOfReferenceDay.getTime() && end.getTime() >= startOfReferenceDay.getTime();
+    return eventInWindow(event, startOfReferenceDay, endOfDay(startOfReferenceDay));
   }
 
   const windowDays = viewFilter === "next14" ? 14 : 30;
-  const windowEnd = new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS);
-  windowEnd.setHours(23, 59, 59, 999);
-  if (viewFilter === "next14" || viewFilter === "next30") {
-    if (eventIsLongRunning(event)) {
-      return start.getTime() >= startOfReferenceDay.getTime() && start.getTime() <= windowEnd.getTime();
-    }
-    return start.getTime() <= windowEnd.getTime() && end.getTime() >= startOfReferenceDay.getTime();
-  }
-  return true;
+  const windowEnd = endOfDay(new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS));
+  return eventInWindow(event, startOfReferenceDay, windowEnd);
 }
 
 function eventMatchesQuery(event: CampbellEvent, query: string) {

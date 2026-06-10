@@ -10,6 +10,13 @@ export function startOfDay(value: Date): Date {
   return date;
 }
 
+/** Normalize a Date to the last millisecond of its local day. */
+export function endOfDay(value: Date): Date {
+  const date = new Date(value);
+  date.setHours(23, 59, 59, 999);
+  return date;
+}
+
 /**
  * Parse a Campbell feed date string. Feed dates sometimes use "at" and
  * "a.m./p.m." spellings that the Date constructor can't parse on its own, so

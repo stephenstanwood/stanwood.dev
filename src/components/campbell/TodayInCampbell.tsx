@@ -5,9 +5,11 @@ import hearingFeed from "../../data/campbellPublicHearings.json";
 import {
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
+  endOfDay,
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
+import { eventInWindow, eventStart } from "../../lib/campbell/eventDates";
 
 interface CampbellEvent {
   title: string;
@@ -40,36 +42,10 @@ interface PublicHearing {
 const EVENTS = eventFeed.items as CampbellEvent[];
 const COUNCIL_RECORDS = councilFeed.items as CouncilRecord[];
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
-const LONG_RUNNING_EVENT_DAYS = 14;
 
-function eventStart(event: CampbellEvent) {
-  return parseCampbellDate(event.startDate ?? "");
-}
-
-function eventEnd(event: CampbellEvent) {
-  return parseCampbellDate(event.endDate ?? "") ?? eventStart(event);
-}
-
-function eventIsLongRunning(event: CampbellEvent) {
+function eventIsUpcoming(event: CampbellEvent, dayEnd: Date) {
   const start = eventStart(event);
-  const end = eventEnd(event);
-  if (!start || !end) return false;
-  return end.getTime() - start.getTime() > LONG_RUNNING_EVENT_DAYS * DAY_MS;
-}
-
-function eventHappensToday(event: CampbellEvent, startOfDay: Date, endOfDay: Date) {
-  const start = eventStart(event);
-  const end = eventEnd(event);
-  if (!start || !end) return false;
-  if (eventIsLongRunning(event)) {
-    return start.getTime() >= startOfDay.getTime() && start.getTime() <= endOfDay.getTime();
-  }
-  return start.getTime() <= endOfDay.getTime() && end.getTime() >= startOfDay.getTime();
-}
-
-function eventIsUpcoming(event: CampbellEvent, endOfDay: Date) {
-  const start = eventStart(event);
-  return Boolean(start && start.getTime() > endOfDay.getTime());
+  return Boolean(start && start.getTime() > dayEnd.getTime());
 }
 
 function formatDay(date: Date) {
@@ -91,14 +67,13 @@ export default function TodayInCampbell() {
     setReferenceDay(startOfDay(new Date()));
   }, []);
 
-  const endOfDay = new Date(referenceDay);
-  endOfDay.setHours(23, 59, 59, 999);
+  const endOfReferenceDay = endOfDay(referenceDay);
 
   const todayEvents = EVENTS
-    .filter((event) => eventHappensToday(event, referenceDay, endOfDay))
+    .filter((event) => eventInWindow(event, referenceDay, endOfReferenceDay))
     .slice(0, 4);
   const nextEvents = EVENTS
-    .filter((event) => eventIsUpcoming(event, endOfDay))
+    .filter((event) => eventIsUpcoming(event, endOfReferenceDay))
     .sort((a, b) => (eventStart(a)?.getTime() ?? 0) - (eventStart(b)?.getTime() ?? 0))
     .slice(0, 3);
 
@@ -116,6 +91,27 @@ export default function TodayInCampbell() {
     ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
     : 0;
   const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+
+  let cityHallFeature = <p>No dated public hearings found.</p>;
+  if (upcomingHearing) {
+    cityHallFeature = (
+      <div className="cb-today-feature">
+        <a href={upcomingHearing.hearing.noticeUrl || upcomingHearing.hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
+          {upcomingHearing.hearing.title}
+        </a>
+        <span>{formatDay(upcomingHearing.date)} - {upcomingHearing.hearing.body}</span>
+      </div>
+    );
+  } else if (recentHearings.length > 0) {
+    cityHallFeature = (
+      <div className="cb-today-feature">
+        <a href={recentHearings[0].hearing.noticeUrl || recentHearings[0].hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
+          Latest public notice
+        </a>
+        <span>{recentHearings[0].hearing.title}</span>
+      </div>
+    );
+  }
 
   return (
     <section className="cb-today" aria-label="Today in Campbell">
@@ -146,23 +142,7 @@ export default function TodayInCampbell() {
 
         <article className="cb-today-card">
           <h3>City Hall watch</h3>
-          {upcomingHearing ? (
-            <div className="cb-today-feature">
-              <a href={upcomingHearing.hearing.noticeUrl || upcomingHearing.hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
-                {upcomingHearing.hearing.title}
-              </a>
-              <span>{formatDay(upcomingHearing.date)} - {upcomingHearing.hearing.body}</span>
-            </div>
-          ) : recentHearings.length > 0 ? (
-            <div className="cb-today-feature">
-              <a href={recentHearings[0].hearing.noticeUrl || recentHearings[0].hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
-                Latest public notice
-              </a>
-              <span>{recentHearings[0].hearing.title}</span>
-            </div>
-          ) : (
-            <p>No dated public hearings found.</p>
-          )}
+          {cityHallFeature}
 
           {latestCouncil && (
             <div className="cb-today-feature cb-today-feature--secondary">

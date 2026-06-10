@@ -6,6 +6,7 @@ import {
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
   parseCampbellDate,
+  startOfDay,
 } from "../../lib/campbell/dateHelpers";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -80,31 +81,36 @@ function impactLine(item: PublicHearing) {
   return "Why it matters: a public body is taking comments or making a decision on this item.";
 }
 
+// A past hearing counts as "Recent" if it happened within the last six months.
+function recentCutoff(today: Date) {
+  const cutoff = new Date(today);
+  cutoff.setMonth(cutoff.getMonth() - 6);
+  return cutoff;
+}
+
 function hearingStatus(item: PublicHearing, today: Date) {
   const date = parseCampbellDate(item.hearingAt);
   if (!date) return "Date in packet";
   if (date >= today) return "Upcoming";
-
-  const sixMonthsAgo = new Date(today);
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-  return date >= sixMonthsAgo ? "Recent" : "Past";
+  return date >= recentCutoff(today) ? "Recent" : "Past";
 }
 
 function isRecentHearing(item: PublicHearing, today: Date) {
   const date = parseCampbellDate(item.hearingAt);
   if (!date || date >= today) return false;
-  const sixMonthsAgo = new Date(today);
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-  return date >= sixMonthsAgo;
+  return date >= recentCutoff(today);
+}
+
+function hearingSummary(item: PublicHearing) {
+  if (item.extractionNote) {
+    return "Large official packet: open the notice for the complete date, plans, and project materials.";
+  }
+  return plainSummary(item.summary);
 }
 
 export default function CivicRecords() {
   const [activeFilter, setActiveFilter] = useState<HearingFilter>("all");
-  const [today] = useState(() => {
-    const date = new Date();
-    date.setHours(0, 0, 0, 0);
-    return date;
-  });
+  const [today] = useState(() => startOfDay(new Date()));
 
   const filteredHearings = useMemo(() => {
     return PUBLIC_HEARINGS.filter((item) => {
@@ -182,9 +188,7 @@ export default function CivicRecords() {
               <p className="cb-hearing-when">
                 {item.hearingAt || "Date is in the official notice packet"}
               </p>
-              <p className="cb-hearing-summary">
-                {item.extractionNote ? "Large official packet: open the notice for the complete date, plans, and project materials." : plainSummary(item.summary)}
-              </p>
+              <p className="cb-hearing-summary">{hearingSummary(item)}</p>
               <p className="cb-hearing-impact">{impactLine(item)}</p>
               {(item.address || item.fileNo || item.planner) && (
                 <div className="cb-hearing-meta">

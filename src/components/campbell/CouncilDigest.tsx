@@ -1,6 +1,11 @@
 import { useState, useCallback } from "react";
 import type { DigestSummary } from "../../lib/campbell/types";
-import { COUNCIL_SOURCE_STALE_AFTER_DAYS, DAY_MS } from "../../lib/campbell/dateHelpers";
+import {
+  COUNCIL_SOURCE_STALE_AFTER_DAYS,
+  DAY_MS,
+  parseCampbellDate,
+  startOfDay,
+} from "../../lib/campbell/dateHelpers";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 
 interface CouncilRecord {
@@ -9,20 +14,14 @@ interface CouncilRecord {
 
 const LATEST_COUNCIL_RECORD = (councilFeed.items as CouncilRecord[])[0];
 
-function parseCouncilDate(value = "") {
-  const parsed = new Date(value);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
 function councilSourceLooksStale() {
-  const latestDate = parseCouncilDate(LATEST_COUNCIL_RECORD?.date ?? "");
+  const latestDate = parseCampbellDate(LATEST_COUNCIL_RECORD?.date ?? "");
   if (!latestDate) return false;
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  latestDate.setHours(0, 0, 0, 0);
-
-  return Math.floor((today.getTime() - latestDate.getTime()) / DAY_MS) > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+  const ageDays = Math.floor(
+    (startOfDay(new Date()).getTime() - startOfDay(latestDate).getTime()) / DAY_MS,
+  );
+  return ageDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
 }
 
 export default function CouncilDigest() {

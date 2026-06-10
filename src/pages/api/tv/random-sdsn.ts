@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { errJson, fetchWithTimeout, okJson } from "../../../lib/apiHelpers";
+import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 
 export const prerender = false;
 
@@ -249,7 +250,9 @@ async function getPlaylistVideos(): Promise<ClassicVideo[]> {
   }
 }
 
-export const GET: APIRoute = async () => {
+export const GET: APIRoute = async ({ clientAddress }) => {
+  if (!rateLimit(clientAddress)) return rateLimitResponse();
+
   try {
     const videos = await getPlaylistVideos();
     const video = videos[Math.floor(Math.random() * videos.length)];
