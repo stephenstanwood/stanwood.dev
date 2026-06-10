@@ -402,7 +402,7 @@ const photoStories = [
       }
       @media (max-width: 760px) {
         .cb-hero {
-          min-height: 45rem;
+          min-height: min(45rem, calc(100vh - 2rem));
         }
         .cb-hero-copy {
           justify-content: flex-start;
@@ -2620,7 +2620,7 @@ const photoStories = [
       <div class="cb-hero-copy">
         <span class="cb-hero-kicker">Campbell, California</span>
         <h1>
-          <span>The city in</span>
+          <span>Campbell in</span>
           <span>one place.</span>
         </h1>
         <p class="cb-hero-sub">
@@ -2679,7 +2679,7 @@ const photoStories = [
       </p>
     </section>
 
-    <div class="cb-main" id="campbell-tool">
+    <section class="cb-main" id="campbell-tool" aria-label="Campbell guide sections">
       <div class="cb-section-jump-anchors" aria-hidden="true">
         <span id="campbell-events"></span>
         <span id="campbell-digest"></span>
@@ -2691,7 +2691,7 @@ const photoStories = [
         <span id="campbell-links"></span>
       </div>
       <CampbellPortal client:idle />
-    </div>
+    </section>
 
     <section class="cb-who" id="campbell-routing" aria-label="Which agency handles common Campbell issues">
       <span class="cb-who-label">Resident routing</span>

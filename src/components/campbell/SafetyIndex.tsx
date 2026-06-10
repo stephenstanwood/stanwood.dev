@@ -124,7 +124,7 @@ export default function SafetyIndex() {
       </div>
 
       <div className="cb-section-head cb-safety-layer-head">
-        <span className="cb-section-kicker">Source Reality</span>
+        <span className="cb-section-kicker">Official paths</span>
         <h3>Useful crime coverage without turning people into content.</h3>
         <p>
           Crime data is public, but not all public data should be republished as

@@ -130,7 +130,7 @@ export default function RealEstateLedger() {
       </div>
 
       <div className="cb-section-head cb-property-layer-head">
-        <span className="cb-section-kicker">Source Reality</span>
+        <span className="cb-section-kicker">Official paths</span>
         <h3>What can become a real sales ledger?</h3>
         <p>
           Start with public parcel and permit context, then use official transfer

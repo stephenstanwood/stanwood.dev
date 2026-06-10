@@ -41,10 +41,10 @@ const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
 };
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
-  { id: "today", label: "Today" },
-  { id: "all", label: "All dates" },
   { id: "next14", label: "Next 14 days" },
+  { id: "today", label: "Today" },
   { id: "next30", label: "Next 30 days" },
+  { id: "all", label: "All dates" },
   { id: "public", label: "Public meetings" },
 ];
 
@@ -183,6 +183,29 @@ function viewFilterFromHash(hash: string) {
   return HASH_VIEW_FILTERS[hash.toLowerCase()] ?? null;
 }
 
+function eventResultLabel(
+  count: number,
+  total: number,
+  viewFilter: EventViewFilter,
+  sourceFilter: string,
+  categoryFilter: string,
+  query: string,
+) {
+  const hasExtraFilter =
+    sourceFilter !== ALL_SOURCE_FILTER ||
+    categoryFilter !== ALL_CATEGORY_FILTER ||
+    query.trim().length > 0;
+  const noun = count === 1 ? "event" : "events";
+
+  if (viewFilter === "all" && !hasExtraFilter && count === total) return "All events";
+  if (hasExtraFilter) return `${count} ${noun}`;
+  if (viewFilter === "today") return count === 0 ? "No events today" : `${count} today`;
+  if (viewFilter === "next14") return `${count} in next 14 days`;
+  if (viewFilter === "next30") return `${count} in next 30 days`;
+  if (viewFilter === "public") return `${count} public ${noun}`;
+  return `${count} ${noun}`;
+}
+
 export default function EventsIndex() {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
@@ -219,7 +242,14 @@ export default function EventsIndex() {
 
   const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);
   const hiddenEventCount = filteredEvents.length - visibleEvents.length;
-  const resultLabel = filteredEvents.length === EVENTS.length ? "All events" : `${filteredEvents.length} matches`;
+  const resultLabel = eventResultLabel(
+    filteredEvents.length,
+    EVENTS.length,
+    viewFilter,
+    sourceFilter,
+    categoryFilter,
+    query,
+  );
 
   return (
     <div className="cb-events" id="campbell-events-next14">
