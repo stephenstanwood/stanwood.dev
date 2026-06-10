@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import { DAY_MS, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
-import { eventInWindow } from "../../lib/campbell/eventDates";
+import { eventInWindow, eventStart } from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -152,7 +152,7 @@ function viewFilterFromHash(hash: string) {
 // Anchor the tile to Campbell's timezone so server and client render the
 // same day number regardless of where the HTML is generated.
 function eventDateTile(event: CampbellEvent) {
-  const start = parseEventStart(event);
+  const start = eventStart(event);
   if (!start) return null;
   const part = (options: Intl.DateTimeFormatOptions) =>
     new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", ...options }).format(start);
