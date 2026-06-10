@@ -2778,7 +2778,8 @@ const photoStories = [
         top: clamp(1.6rem, 4vw, 2.6rem);
         right: var(--cb-gutter);
         width: clamp(4.5rem, 9vw, 6.5rem);
-        color: rgba(255, 253, 248, 0.34);
+        height: auto;
+        opacity: 0.3;
         pointer-events: none;
       }
       @media (max-width: 700px) {
@@ -2950,10 +2951,10 @@ const photoStories = [
       .cb-footer a:hover { text-decoration: underline; }
       .cb-footer-tower {
         display: block;
-        width: 2.4rem;
+        width: 2.6rem;
+        height: auto;
         margin: 0 auto 0.5rem;
-        color: var(--cb-gold);
-        opacity: 0.85;
+        opacity: 0.9;
       }
       .cb-footer-tag {
         font-family: 'Space Mono', monospace;
@@ -3081,19 +3082,7 @@ const photoStories = [
 
     <section class="cb-who-band" id="campbell-routing" aria-label="Which agency handles common Campbell issues">
       <div class="cb-who">
-      <svg class="cb-who-tower" viewBox="0 0 120 200" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true">
-        <line x1="60" y1="6" x2="60" y2="20" />
-        <path d="M20 52 L60 18 L100 52" />
-        <rect x="26" y="52" width="68" height="44" rx="7" />
-        <line x1="26" y1="69" x2="94" y2="69" />
-        <line x1="18" y1="108" x2="102" y2="108" />
-        <line x1="36" y1="96" x2="20" y2="194" />
-        <line x1="84" y1="96" x2="100" y2="194" />
-        <line x1="48" y1="96" x2="42" y2="194" />
-        <line x1="72" y1="96" x2="78" y2="194" />
-        <line x1="26" y1="148" x2="94" y2="130" />
-        <line x1="26" y1="130" x2="94" y2="148" />
-      </svg>
+      <img class="cb-who-tower" src="/images/campbell/water-tower-cream.png" alt="" width="320" height="657" loading="lazy" aria-hidden="true" />
       <span class="cb-who-label">Resident routing</span>
       <h2 class="cb-who-heading">Who handles what in Campbell.</h2>
       <p class="cb-who-sub">Campbell residents move between city, county, utility, district, and transit systems. This keeps the common handoffs clear before you open the wrong form.</p>
@@ -3168,19 +3157,7 @@ const photoStories = [
     </section>
 
     <footer class="cb-footer">
-      <svg class="cb-footer-tower" viewBox="0 0 120 200" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true">
-        <line x1="60" y1="6" x2="60" y2="20" />
-        <path d="M20 52 L60 18 L100 52" />
-        <rect x="26" y="52" width="68" height="44" rx="7" />
-        <line x1="26" y1="69" x2="94" y2="69" />
-        <line x1="18" y1="108" x2="102" y2="108" />
-        <line x1="36" y1="96" x2="20" y2="194" />
-        <line x1="84" y1="96" x2="100" y2="194" />
-        <line x1="48" y1="96" x2="42" y2="194" />
-        <line x1="72" y1="96" x2="78" y2="194" />
-        <line x1="26" y1="148" x2="94" y2="130" />
-        <line x1="26" y1="130" x2="94" y2="148" />
-      </svg>
+      <img class="cb-footer-tower" src="/images/campbell/water-tower-gold.png" alt="" width="160" height="329" loading="lazy" aria-hidden="true" />
       <p class="cb-footer-tag">Campbell, California · The Orchard City</p>
       <p>Independent local guide. Not affiliated with the City of Campbell.</p>
       <p>For daily South Bay news, scores & events: <a href="https://southbaytoday.org">The South Bay Today</a></p>
