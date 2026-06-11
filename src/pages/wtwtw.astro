@@ -809,13 +809,37 @@ const title = "WTWTW — stanwood.dev";
         <span class="mono text-xs" style="color: rgba(34,197,94,0.6); letter-spacing: 0.1em; text-transform: uppercase;">Active right now</span>
         <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#22c55e; animation: activePulse 2s ease-in-out infinite;"></span>
       </div>
-      <div class="flex gap-2 flex-wrap">
+      <div class="flex gap-2 flex-wrap" id="active-leagues">
         <span class="league-badge" data-league="mlb">MLB regular season</span>
-        <span class="league-badge" data-league="nba">NBA playoffs</span>
-        <span class="league-badge" data-league="nhl">NHL playoffs</span>
+        <span class="league-badge" data-league="nba">NBA Finals</span>
+        <span class="league-badge" data-league="nhl">Stanley Cup Final</span>
       </div>
-      <p class="mono" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">All three leagues are in season simultaneously — prime time for WTWTW.</p>
+      <p class="mono" id="active-leagues-note" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">All three leagues are live right now — prime time for WTWTW.</p>
     </div>
+
+    <script>
+      // Month-driven league phases so the "Active right now" badges never go stale.
+      const PHASES: Record<string, Record<number, string>> = {
+        mlb: { 3: "MLB spring training", 4: "MLB regular season", 5: "MLB regular season", 6: "MLB regular season", 7: "MLB regular season", 8: "MLB regular season", 9: "MLB regular season", 10: "MLB postseason" },
+        nba: { 1: "NBA regular season", 2: "NBA regular season", 3: "NBA regular season", 4: "NBA playoffs", 5: "NBA playoffs", 6: "NBA Finals", 10: "NBA regular season", 11: "NBA regular season", 12: "NBA regular season" },
+        nhl: { 1: "NHL regular season", 2: "NHL regular season", 3: "NHL regular season", 4: "NHL playoffs", 5: "NHL playoffs", 6: "Stanley Cup Final", 10: "NHL regular season", 11: "NHL regular season", 12: "NHL regular season" },
+      };
+      const month = new Date().getMonth() + 1;
+      const active = Object.entries(PHASES).filter(([, m]) => m[month]);
+      const badges = document.getElementById("active-leagues");
+      const note = document.getElementById("active-leagues-note");
+      if (badges && note && active.length) {
+        badges.innerHTML = active
+          .map(([league, m]) => `<span class="league-badge" data-league="${league}">${m[month]}</span>`)
+          .join("");
+        note.textContent =
+          active.length === 3
+            ? "All three leagues are live right now — prime time for WTWTW."
+            : active.length === 2
+              ? "Two of the three leagues are in season right now."
+              : `Only the ${active[0][0].toUpperCase()} is going right now — the nightly pick pulls from one league until the others tip off.`;
+      }
+    </script>
 
     <!-- Three leagues, three vibes -->
     <section class="mb-8" aria-label="What each league feels like to watch">
