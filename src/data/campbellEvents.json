@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-10T03:46:54.761Z",
+  "generatedAt": "2026-06-11T00:21:31.148Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 14,
-      "parsedCount": 16
+      "count": 13,
+      "parsedCount": 15
     },
     {
       "label": "Downtown Campbell Events",
@@ -23,8 +23,8 @@
     {
       "label": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main",
-      "count": 6,
-      "parsedCount": 6
+      "count": 9,
+      "parsedCount": 9
     },
     {
       "label": "Campbell Heritage Theatre Events",
@@ -165,45 +165,6 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
-      "title": "Planning Commission Regular Meeting",
-      "date": "June 9, 2026, All Day",
-      "cost": "",
-      "location": "",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3872&month=6&year=2026&day=9&calType=0",
-      "imageUrl": "",
-      "category": "Planning Commission",
-      "startDate": "2026-06-09T00:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
-      "title": "Toddler Storytime",
-      "date": "Jun 10th | 10:30am - 11:00am",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a03c9a8703c336300273a0d",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-06-10T10:30:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: Beetlelady",
-      "date": "Jun 10th | 3:00pm - 4:00pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a0cce3ec6a1dc3d00d4c639",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-06-10T15:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
       "title": "2026 Summer Reading Program: Learning Chinese language and…",
       "date": "Jun 10th | 6:30pm - 8:30pm",
       "cost": "Free",
@@ -217,12 +178,25 @@
       "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
+      "title": "Baby Lapsit for Ages 0 - 18 Months",
+      "date": "Jun 11th | 10:30am - 11:30am",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/6a062eec43b41b3d00668932",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-06-11T10:30:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
       "title": "Civic Improvement Commission",
       "date": "June 11, 2026, 6:00 PM",
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3434&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3434&month=6&year=2026&day=10&calType=0",
       "imageUrl": "",
       "category": "Civic Improvement Commission",
       "startDate": "2026-06-11T18:00:00",
@@ -230,17 +204,20 @@
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
-      "title": "Friends of the Campbell Library Book Sale",
-      "date": "6/13/26",
+      "title": "Friends of the Campbell Library Used Book Sale",
+      "date": "Jun 13th | 10:00am - 1:00pm",
       "cost": "Free",
       "location": "Campbell Library",
       "description": "Join us for the Friends of the Campbell Library's first large-scale book sale in the community room of the new library! We will have gently-used board books, children's books and adult books as well as puzzles, games, CDs and DVDs.",
-      "url": "https://www.downtowncampbell.com/event/2026/06/friends-campbell-library-book-sale",
+      "url": "https://sccl.bibliocommons.com/events/6a28cfe3414ef43d00965009",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/jun26-fol-booksale.png?itok=gvrvJvlg",
-      "category": "Downtown",
-      "startDate": "2026-06-13T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
+      "category": "Campbell Library",
+      "startDate": "2026-06-13T10:00:00",
+      "source": "Campbell Library Events + Downtown Campbell Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Emporium Presents - Stayin' Alive: One Night of the Bee Gees",
@@ -248,7 +225,7 @@
       "cost": "$30.50/$43.50/$55.50 + $4.00 FF",
       "location": "The Heritage Theatre",
       "description": "​STAYIN’ ALIVE offers to their audiences the songs and sights of a full Bee Gees playlist, singing blockbusters such as “Night Fever”, “Jive Talkin’”, “How Deep Is Your Love”, “You Should Be Dancing”, “Nights on Broadway” and “Stayin’ Alive”. In addition, they perform softer poet",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3866&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3866&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_473f3257ccc54ed4a79d550f4ac28b66~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-13T19:30:00",
@@ -308,7 +285,7 @@
       "cost": "",
       "location": "Council Chamber",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3915&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3915&month=6&year=2026&day=10&calType=0",
       "imageUrl": "",
       "category": "City Council",
       "startDate": "2026-06-16T19:00:00",
@@ -353,7 +330,7 @@
       "cost": "$30 + $3.00 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "Infinity Dance Studio hosts an annual, two-day recital every year in June to showcase the talent and hard work of their students.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3965&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3965&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_fad6420b9df94bffad6d5c2c339e76f4~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-18T18:00:00",
@@ -370,7 +347,7 @@
       "cost": "$30 + $3.00 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "Infinity Dance Studio hosts an annual, two-day recital every year in June to showcase the talent and hard work of their students.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3966&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3966&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_fad6420b9df94bffad6d5c2c339e76f4~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-19T18:00:00",
@@ -419,7 +396,7 @@
       "cost": "$25 - $45 + $4 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "California Sports Center Dance presents From Page to Stage.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3962&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3962&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_f590ccaff4a74429909a83c60c81f813~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-20T14:00:00",
@@ -475,7 +452,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3884&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3884&month=6&year=2026&day=10&calType=0",
       "imageUrl": "",
       "category": "Planning Commission",
       "startDate": "2026-06-23T00:00:00",
@@ -488,7 +465,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3896&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3896&month=6&year=2026&day=10&calType=0",
       "imageUrl": "",
       "category": "Historic Preservation Board",
       "startDate": "2026-06-24T00:00:00",
@@ -518,7 +495,7 @@
       "cost": "",
       "location": "Roosevelt Redwood Room",
       "description": "Discover the many ways to get around your community with ease and confidence! This informative symposium is designed especially for older adults who want to explore convenient transportation options, save money on gas, and learn how to travel where they need to go.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3952&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3952&month=6&year=2026&day=10&calType=0",
       "imageUrl": "",
       "category": "Campbell Community Event Calendar",
       "startDate": "2026-06-25T12:30:00",
@@ -548,7 +525,7 @@
       "cost": "$22 - $40 + $4 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "Join us for a wonderful day of dancing, storytelling, and entertainment.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3959&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3959&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_7427501b338f42c3b4cca1c8eddefb65~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-27T10:30:00",
@@ -565,7 +542,7 @@
       "cost": "$22 - $40 + $4 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "Join us for a wonderful day of dancing, storytelling, and entertainment.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3960&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3960&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_7427501b338f42c3b4cca1c8eddefb65~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-27T14:30:00",
@@ -582,7 +559,7 @@
       "cost": "$22 - $40 + $4 Facility Fee",
       "location": "The Heritage Theatre",
       "description": "Join us for a wonderful day of dancing, storytelling, and entertainment.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3961&month=6&year=2026&day=9&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3961&month=6&year=2026&day=10&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_7427501b338f42c3b4cca1c8eddefb65~mv2.png",
       "category": "Heritage Theatre",
       "startDate": "2026-06-27T19:00:00",
@@ -1029,6 +1006,20 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
+      "title": "The History of Baseball, America's Favorite Pasttime",
+      "date": "Jul 31, 2026, 5:30 PM – 7:30 PM",
+      "cost": "$25",
+      "location": "The Ainsley House Carriage House",
+      "description": "Celebrate America's 250th anniversary with a look at the game that helped define a nation. Join historian Dr. Lindsay Bell on July 31 as he explores how baseball evolved from a simple pastime into a powerful reflection of American culture, identity, and history.",
+      "url": "https://www.campbellmuseums.com/event-details/the-history-of-baseball-americas-favorite-pasttime",
+      "imageUrl": "https://static.wixstatic.com/media/0845a5_8243ea2b866f4d0a8c694668d9b7397e~mv2.jpg",
+      "category": "Museums",
+      "startDate": "2026-07-31T17:30:00-07:00",
+      "endDate": "2026-07-31T19:30:00-07:00",
+      "source": "Campbell Museums Events",
+      "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "8/2/26",
       "cost": "",
@@ -1323,6 +1314,20 @@
       ]
     },
     {
+      "title": "San Jose Rocks! The History of Rock Music in the Santa Clara Valley with Dan Orloff",
+      "date": "Aug 28, 2026, 5:30 PM – 7:30 PM",
+      "cost": "$25",
+      "location": "The Ainsley House Carriage House",
+      "description": "From garage bands to legendary venues, the Santa Clara Valley has a rich rock-and-roll history that's often overlooked. Join local music historian Dan Orloff as he explores the artists, concerts, clubs, and cultural moments that helped shape the South Bay's vibrant music scene.",
+      "url": "https://www.campbellmuseums.com/event-details/san-jose-rocks-the-history-of-rock-music-in-the-santa-clara-valley-with-dan-orloff",
+      "imageUrl": "https://static.wixstatic.com/media/0845a5_c9d49a31f857402baf2642e55a0e70cf~mv2.png",
+      "category": "Museums",
+      "startDate": "2026-08-28T17:30:00-07:00",
+      "endDate": "2026-08-28T19:30:00-07:00",
+      "source": "Campbell Museums Events",
+      "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
       "title": "CPR and First - Aid Classes in Campbell",
       "date": "Saturday Aug 29, 2026",
       "cost": "",
@@ -1469,6 +1474,20 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "San Jose Gambling with Ted Ramos",
+      "date": "Sep 18, 2026, 5:30 PM – 7:30 PM",
+      "cost": "$25",
+      "location": "The Ainsley House Carriage House",
+      "description": "Step into the hidden side of San Jose's past with local historian Ted Ramos. Discover the gaming halls, card houses, and colorful characters that made gambling a thriving part of early 20th-century San Jose, and explore how this high-stakes world helped shape the city's growth an",
+      "url": "https://www.campbellmuseums.com/event-details/san-jose-gambling-with-ted-ramos",
+      "imageUrl": "https://static.wixstatic.com/media/0845a5_99fed607dfe54979be8fb511b1532741~mv2.jpg",
+      "category": "Museums",
+      "startDate": "2026-09-18T17:30:00-07:00",
+      "endDate": "2026-09-18T19:30:00-07:00",
+      "source": "Campbell Museums Events",
+      "sourceUrl": "https://www.campbellmuseums.com/events-main"
     },
     {
       "title": "ACLS Classes in Campbell",
