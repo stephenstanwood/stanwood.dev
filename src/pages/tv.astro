@@ -74,9 +74,11 @@ if (fs.existsSync(broaderPath)) {
 // pipeline regression.
 const BLOCKED_CHANNEL_IDS = new Set<string>([
   'UCbRP3c757lWg9M-U7TyEkXA', // Theo - t3.gg
+  'UCrqM0Ym_NbK1fqeQG2VIohg', // Tsoding Daily
 ]);
 const BLOCKED_CHANNEL_HANDLES = new Set<string>([
   '@t3dotgg', // Theo - t3.gg
+  '@tsodingdaily', // Tsoding Daily
 ]);
 function isBlockedBroader(v: BroaderVideo): boolean {
   if (v.channel_id && BLOCKED_CHANNEL_IDS.has(v.channel_id)) return true;
