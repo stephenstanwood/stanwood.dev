@@ -2948,6 +2948,12 @@ const photoStories = [
         font-weight: 700;
         text-decoration: none;
       }
+      .cb-who-action a[href^="tel:"] {
+        white-space: nowrap;
+      }
+      .cb-who-nowrap {
+        white-space: nowrap;
+      }
       .cb-who-action a:hover { text-decoration: underline; }
       .cb-who-foot {
         font-size: 0.78rem;
@@ -3125,8 +3131,8 @@ const photoStories = [
 
         <article class="cb-who-card">
           <p class="cb-who-issue"><span class="cb-who-icon">RD</span>Pothole on SR-17, San Tomas Expy, or Hamilton</p>
-          <span class="cb-who-agency cb-who-agency--gold">CalTrans + County Roads</span>
-          <p class="cb-who-why">SR-17 is state, through <strong>CalTrans District 4</strong>. Expressways such as San Tomas and Lawrence are <strong>Santa Clara County</strong>.</p>
+          <span class="cb-who-agency cb-who-agency--gold">Caltrans + County Roads</span>
+          <p class="cb-who-why">SR-17 is state, through <strong>Caltrans District 4</strong>. Expressways such as San Tomas and Lawrence are <strong>Santa Clara County</strong>.</p>
           <p class="cb-who-action">SR-17: <a href="https://csr.dot.ca.gov" target="_blank" rel="noopener">csr.dot.ca.gov</a> · County: <a href="https://roads.santaclaracounty.gov/services/service-requests" target="_blank" rel="noopener">roads.santaclaracounty.gov</a></p>
         </article>
 
@@ -3134,7 +3140,7 @@ const photoStories = [
           <p class="cb-who-issue"><span class="cb-who-icon">PD</span>Theft, noise, traffic stop, welfare check</p>
           <span class="cb-who-agency cb-who-agency--red">Campbell PD (in-house)</span>
           <p class="cb-who-why">Campbell runs its <strong>own</strong> police department. Non-emergency dispatch is staffed 24/7 for reports that do not require 911.</p>
-          <p class="cb-who-action">Non-emergency: <strong>408-866-2101</strong> · 911 for in-progress</p>
+          <p class="cb-who-action">Non-emergency: <a href="tel:+14088662101">408-866-2101</a> · <span class="cb-who-nowrap">911 for in-progress</span></p>
         </article>
 
         <article class="cb-who-card">
@@ -3148,7 +3154,7 @@ const photoStories = [
           <p class="cb-who-issue"><span class="cb-who-icon">H2O</span>Water service or a leaking main</p>
           <span class="cb-who-agency">San Jose Water Co.</span>
           <p class="cb-who-why">The water utility is a <strong>private company</strong>. The bill, meter, and service line are handled by SJW, not the city.</p>
-          <p class="cb-who-action">24/7 emergencies: <strong>408-279-7900</strong></p>
+          <p class="cb-who-action">24/7 emergencies: <a href="tel:+14082797900">408-279-7900</a></p>
         </article>
 
         <article class="cb-who-card">
