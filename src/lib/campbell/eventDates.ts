@@ -1,4 +1,4 @@
-import { DAY_MS, parseCampbellDate } from "./dateHelpers";
+import { DAY_MS, endOfDay, parseCampbellDate, startOfDay } from "./dateHelpers";
 
 /** The structured date fields shared by every Campbell event feed item. */
 export interface EventDateFields {
@@ -36,4 +36,22 @@ export function eventInWindow(event: EventDateFields, windowStart: Date, windowE
     return start.getTime() >= windowStart.getTime() && start.getTime() <= windowEnd.getTime();
   }
   return start.getTime() <= windowEnd.getTime() && end.getTime() >= windowStart.getTime();
+}
+
+export function campbellWeekendWindow(referenceDay: Date) {
+  const reference = startOfDay(referenceDay);
+  const weekday = reference.getDay();
+  const startOffset = weekday === 0 || weekday === 5 || weekday === 6
+    ? 0
+    : (5 - weekday + 7) % 7;
+  const endOffset = weekday === 0
+    ? 0
+    : weekday === 6
+      ? 1
+      : startOffset + 2;
+
+  return {
+    start: startOfDay(new Date(reference.getTime() + startOffset * DAY_MS)),
+    end: endOfDay(new Date(reference.getTime() + endOffset * DAY_MS)),
+  };
 }

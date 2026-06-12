@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import { DAY_MS, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
-import { eventInWindow, eventStart } from "../../lib/campbell/eventDates";
+import { campbellWeekendWindow, eventInWindow, eventStart } from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -35,14 +35,16 @@ const SOURCE_COUNTS = feed.sources ?? [];
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
 const EVENT_DISPLAY_LIMIT = 36;
-type EventViewFilter = "today" | "all" | "next14" | "next30" | "public";
+type EventViewFilter = "today" | "weekend" | "all" | "next14" | "next30" | "public";
 const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
   "#campbell-events-next14": "next14",
+  "#campbell-events-weekend": "weekend",
 };
 
 const VIEW_FILTERS: { id: EventViewFilter; label: string }[] = [
   { id: "next14", label: "Next 14 days" },
   { id: "today", label: "Today" },
+  { id: "weekend", label: "This weekend" },
   { id: "next30", label: "Next 30 days" },
   { id: "all", label: "All dates" },
   { id: "public", label: "Public meetings" },
@@ -56,6 +58,7 @@ type EventShortcut = {
 };
 
 const EVENT_SHORTCUTS: EventShortcut[] = [
+  { label: "This weekend", view: "weekend" },
   { label: "City Hall", source: "City of Campbell Calendar", view: "public" },
   { label: "Library", source: "Campbell Library Events", view: "next30" },
   { label: "Farmers' market", query: "Farmers' Market", view: "next30" },
@@ -140,6 +143,11 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, ref
     return eventInWindow(event, startOfReferenceDay, endOfDay(startOfReferenceDay));
   }
 
+  if (viewFilter === "weekend") {
+    const weekend = campbellWeekendWindow(startOfReferenceDay);
+    return eventInWindow(event, weekend.start, weekend.end);
+  }
+
   const windowDays = viewFilter === "next14" ? 14 : 30;
   const windowEnd = endOfDay(new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS));
   return eventInWindow(event, startOfReferenceDay, windowEnd);
@@ -191,6 +199,7 @@ function eventResultLabel(
   if (viewFilter === "all" && !hasExtraFilter && count === total) return "All events";
   if (hasExtraFilter) return `${count} ${noun}`;
   if (viewFilter === "today") return count === 0 ? "No events today" : `${count} today`;
+  if (viewFilter === "weekend") return count === 0 ? "No events this weekend" : `${count} this weekend`;
   if (viewFilter === "next14") return `${count} in next 14 days`;
   if (viewFilter === "next30") return `${count} in next 30 days`;
   if (viewFilter === "public") return `${count} public ${noun}`;
