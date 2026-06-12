@@ -270,6 +270,15 @@ export default function EventsIndex() {
 
   return (
     <div className="cb-events" id="campbell-events-next14">
+      <div className="cb-events-intro">
+        <span>Upcoming Events</span>
+        <h3>What is happening next in Campbell.</h3>
+        <p>
+          Search city, downtown, library, theater, school, and Chamber calendars.
+          City Hall keeps meetings and hearings easy to find.
+        </p>
+      </div>
+
       <div className="cb-event-toolbar">
         <GhostInput
           className="cb-event-search"
