@@ -8,17 +8,8 @@ import {
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
+import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
 import SourceCardGrid from "./SourceCardGrid";
-
-interface CouncilRecord {
-  date: string;
-  title: string;
-  body: string;
-  agendaUrl: string;
-  minutesUrl?: string;
-  mediaUrl?: string;
-  meetingUrl?: string;
-}
 
 interface PublicHearing {
   id: string;
@@ -46,7 +37,7 @@ const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
   { id: "needs-date", label: "Needs date" },
 ];
 
-const COUNCIL_RECORDS = (councilFeed.items as CouncilRecord[]).slice(0, 8);
+const COUNCIL_RECORDS = (councilFeed.items as CampbellCouncilRecord[]).slice(0, 8);
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 
 function plainSummary(summary: string) {
@@ -128,7 +119,7 @@ export default function CivicRecords() {
     return date ? date >= today : false;
   }).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
-  const latestCouncilRecord = COUNCIL_RECORDS[0];
+  const latestCouncilRecord = preferredCouncilRecord(COUNCIL_RECORDS);
   const latestCouncilDate = parseCampbellDate(latestCouncilRecord?.date ?? "");
   const latestCouncilAgeDays = latestCouncilDate
     ? Math.floor((today.getTime() - latestCouncilDate.getTime()) / DAY_MS)

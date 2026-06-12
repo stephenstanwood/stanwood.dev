@@ -1,18 +1,18 @@
 import { useState, useCallback } from "react";
-import type { DigestSummary } from "../../lib/campbell/types";
 import {
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
+import {
+  preferredCouncilRecord,
+  type CampbellCouncilRecord,
+  type DigestSummary,
+} from "../../lib/campbell/types";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 
-interface CouncilRecord {
-  date: string;
-}
-
-const LATEST_COUNCIL_RECORD = (councilFeed.items as CouncilRecord[])[0];
+const LATEST_COUNCIL_RECORD = preferredCouncilRecord(councilFeed.items as CampbellCouncilRecord[]);
 
 function councilSourceLooksStale() {
   const latestDate = parseCampbellDate(LATEST_COUNCIL_RECORD?.date ?? "");

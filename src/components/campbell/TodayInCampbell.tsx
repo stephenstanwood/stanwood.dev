@@ -10,6 +10,7 @@ import {
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
 import { eventInWindow, eventStart } from "../../lib/campbell/eventDates";
+import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
 
 interface CampbellEvent {
   title: string;
@@ -19,14 +20,6 @@ interface CampbellEvent {
   source?: string;
   startDate?: string;
   endDate?: string;
-}
-
-interface CouncilRecord {
-  date: string;
-  title: string;
-  agendaUrl: string;
-  minutesUrl?: string;
-  mediaUrl?: string;
 }
 
 interface PublicHearing {
@@ -40,7 +33,7 @@ interface PublicHearing {
 }
 
 const EVENTS = eventFeed.items as CampbellEvent[];
-const COUNCIL_RECORDS = councilFeed.items as CouncilRecord[];
+const COUNCIL_RECORDS = councilFeed.items as CampbellCouncilRecord[];
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 
 function eventIsUpcoming(event: CampbellEvent, dayEnd: Date) {
@@ -85,7 +78,7 @@ export default function TodayInCampbell() {
     .reverse()
     .find((item) => item.date.getTime() >= referenceDay.getTime());
   const recentHearings = hearingsByDate.slice(0, 3);
-  const latestCouncil = COUNCIL_RECORDS[0];
+  const latestCouncil = preferredCouncilRecord(COUNCIL_RECORDS);
   const latestCouncilDate = parseCampbellDate(latestCouncil?.date ?? "");
   const latestCouncilAgeDays = latestCouncilDate
     ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
