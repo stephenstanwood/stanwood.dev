@@ -69,7 +69,8 @@ function decodeHtml(value = "") {
     .replace(/&ldquo;/g, '"')
     .replace(/&hellip;/g, "...")
     .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
+    .replace(/&gt;/g, ">")
+    .replace(/\u2014/g, " - ");
 }
 
 function cleanHtml(value = "") {
