@@ -398,6 +398,23 @@ function parseCityCalendarEndDate(date = "", startDate = "") {
   return `${datePart}T23:59:59`;
 }
 
+function canonicalCityCalendarUrl(url = "", startDate = "") {
+  const dateMatch = startDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (!url || !dateMatch) return url;
+
+  try {
+    const parsed = new URL(url);
+    if (!parsed.searchParams.has("EID")) return url;
+
+    parsed.searchParams.set("month", String(Number(dateMatch[2])));
+    parsed.searchParams.set("year", dateMatch[1]);
+    parsed.searchParams.set("day", String(Number(dateMatch[3])));
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 function eventTimestamp(event) {
   const parsed = Date.parse(event.startDate || "");
   return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
@@ -540,9 +557,9 @@ function parseCityCalendarEvents(html) {
       .map(([, itemHtml]) => {
         const titleLink = itemHtml.match(/<a[^>]*id="eventTitle_[^"]+"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
         const title = cleanHtml(titleLink?.[2] ?? "");
-        const url = absoluteUrl(titleLink?.[1] ?? "", CITY_BASE_URL);
         const date = cleanHtml(itemHtml.match(/<div[^>]*class="date"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
         const startDate = cleanHtml(itemHtml.match(/<span[^>]*itemprop="startDate"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "");
+        const url = canonicalCityCalendarUrl(absoluteUrl(titleLink?.[1] ?? "", CITY_BASE_URL), startDate);
         const description = cleanHtml(
           itemHtml.match(/<p[^>]*itemprop="description"[^>]*>([\s\S]*?)<\/p>/i)?.[1] ??
           itemHtml.match(/<div[^>]*itemscope[^>]*>[\s\S]*?<\/div>\s*<p>([\s\S]*?)<\/p>/i)?.[1] ??
