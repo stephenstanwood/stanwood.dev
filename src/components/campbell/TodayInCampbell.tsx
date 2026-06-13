@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
@@ -54,11 +54,7 @@ function shortSummary(value: string) {
 }
 
 export default function TodayInCampbell() {
-  const [referenceDay, setReferenceDay] = useState(() => startOfDay(new Date(eventFeed.generatedAt)));
-
-  useEffect(() => {
-    setReferenceDay(startOfDay(new Date()));
-  }, []);
+  const [referenceDay] = useState(() => startOfDay(new Date()));
 
   const endOfReferenceDay = endOfDay(referenceDay);
 

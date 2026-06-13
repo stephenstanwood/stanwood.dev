@@ -212,11 +212,7 @@ export default function EventsIndex() {
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
   const [viewFilter, setViewFilter] = useState<EventViewFilter>("next14");
   const [showAll, setShowAll] = useState(false);
-  const [referenceDay, setReferenceDay] = useState(() => startOfDay(new Date(eventFeed.generatedAt)));
-
-  useEffect(() => {
-    setReferenceDay(startOfDay(new Date()));
-  }, []);
+  const [referenceDay] = useState(() => startOfDay(new Date()));
 
   useEffect(() => {
     function syncViewFromHash() {
