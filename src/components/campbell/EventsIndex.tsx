@@ -206,6 +206,33 @@ function eventResultLabel(
   return `${count} ${noun}`;
 }
 
+function viewFilterLabel(viewFilter: EventViewFilter) {
+  if (viewFilter === "today") return "today";
+  if (viewFilter === "weekend") return "this weekend";
+  if (viewFilter === "next14") return "the next 14 days";
+  if (viewFilter === "next30") return "the next 30 days";
+  if (viewFilter === "public") return "public meetings";
+  return "all listed dates";
+}
+
+function eventContextLabel(viewFilter: EventViewFilter, sourceFilter: string, categoryFilter: string, query: string) {
+  const sourceText = sourceFilter !== ALL_SOURCE_FILTER
+    ? `from ${eventSourceFilterLabel(sourceFilter)}`
+    : "from Campbell calendars";
+  const filters: string[] = [];
+
+  if (categoryFilter !== ALL_CATEGORY_FILTER) {
+    filters.push(`tagged ${categoryFilter}`);
+  }
+
+  const searchText = query.trim();
+  if (searchText) {
+    filters.push(`matching "${searchText}"`);
+  }
+
+  return `Showing ${viewFilterLabel(viewFilter)} ${sourceText}${filters.length ? `, ${filters.join(", ")}` : ""}.`;
+}
+
 export default function EventsIndex() {
   const [query, setQuery] = useState("");
   const [sourceFilter, setSourceFilter] = useState(ALL_SOURCE_FILTER);
@@ -246,6 +273,7 @@ export default function EventsIndex() {
     categoryFilter,
     query,
   );
+  const contextLabel = eventContextLabel(viewFilter, sourceFilter, categoryFilter, query);
 
   function applyShortcut(shortcut: EventShortcut) {
     setQuery(shortcut.query ?? "");
@@ -356,6 +384,10 @@ export default function EventsIndex() {
           </button>
         ))}
       </div>
+
+      <p className="cb-event-context" aria-live="polite">
+        {contextLabel}
+      </p>
 
       <div className="cb-live-events">
         {visibleEvents.map((event) => {
