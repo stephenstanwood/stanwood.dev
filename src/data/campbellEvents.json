@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-14T06:22:53.985Z",
+  "generatedAt": "2026-06-14T09:24:13.896Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 14,
-      "parsedCount": 16
+      "count": 13,
+      "parsedCount": 15
     },
     {
       "label": "Downtown Campbell Events",
@@ -18,7 +18,8 @@
       "label": "Campbell Library Events",
       "sourceUrl": "https://sccld.org/locations/campbell/",
       "count": 3,
-      "parsedCount": 3
+      "parsedCount": 3,
+      "note": "Reused previous Campbell Library events because Campbell Library events: Failed to fetch https://sccld.org/locations/campbell/: 503 Service Unavailable"
     },
     {
       "label": "Campbell Museums Events",
@@ -29,8 +30,8 @@
     {
       "label": "Campbell Heritage Theatre Events",
       "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "count": 10,
-      "parsedCount": 10
+      "count": 9,
+      "parsedCount": 9
     },
     {
       "label": "Campbell Chamber Events",
@@ -73,36 +74,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Friends of the Campbell Library Book Sale",
-      "date": "6/13/26",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "Join us for the Friends of the Campbell Library's first large-scale book sale in the community room of the new library! We will have gently-used board books, children's books and adult books as well as puzzles, games, CDs and DVDs.",
-      "url": "https://www.downtowncampbell.com/event/2026/06/friends-campbell-library-book-sale",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/jun26-fol-booksale.png?itok=gvrvJvlg",
-      "category": "Downtown",
-      "startDate": "2026-06-13T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
-      "title": "Emporium Presents - Stayin' Alive: One Night of the Bee Gees",
-      "date": "June 13, 2026, 7:30 PM",
-      "cost": "$30.50/$43.50/$55.50 + $4.00 FF",
-      "location": "The Heritage Theatre",
-      "description": "​STAYIN’ ALIVE offers to their audiences the songs and sights of a full Bee Gees playlist, singing blockbusters such as “Night Fever”, “Jive Talkin’”, “How Deep Is Your Love”, “You Should Be Dancing”, “Nights on Broadway” and “Stayin’ Alive”. In addition, they perform softer poet",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3866&month=6&year=2026&day=13&calType=0",
-      "imageUrl": "https://static.wixstatic.com/media/c82d5f_473f3257ccc54ed4a79d550f4ac28b66~mv2.png",
-      "category": "Heritage Theatre",
-      "startDate": "2026-06-13T19:30:00",
-      "source": "City of Campbell Calendar + Campbell Heritage Theatre Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.heritagetheatre.org/events-1",
-        "https://www.downtowncampbell.com/events"
-      ]
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -1359,6 +1330,32 @@
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/downtowncampbell-emeraldartstudio-may26-5830.jpg?itok=1D25NWzI",
       "category": "Downtown",
       "startDate": "2026-09-05T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "9/6/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-09-06T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "9/13/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-09-13T00:00:00",
       "source": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },

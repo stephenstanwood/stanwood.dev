@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
@@ -104,6 +104,14 @@ async function fetchText(url) {
   }
 
   return res.text();
+}
+
+async function fetchOptionalText(url, label) {
+  try {
+    return { html: await fetchText(url), error: "" };
+  } catch (err) {
+    return { html: "", error: `${label}: ${err.message}` };
+  }
 }
 
 async function fetchIcsText(url) {
@@ -493,6 +501,37 @@ function eventRejectionReason(event) {
 
 function filterPublicEvents(events) {
   return events.filter((event) => !eventRejectionReason(event));
+}
+
+async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
+  const existingPath = resolve(DATA_DIR, "campbellEvents.json");
+  let payload;
+
+  try {
+    payload = JSON.parse(await readFile(existingPath, "utf8"));
+  } catch (err) {
+    console.warn(`Warning: could not read previous Campbell events for ${source}: ${err.message}`);
+    return [];
+  }
+
+  const today = new Date(generatedAt);
+  today.setHours(0, 0, 0, 0);
+  const oneYearOut = new Date(today);
+  oneYearOut.setFullYear(oneYearOut.getFullYear() + 1);
+
+  return (Array.isArray(payload.items) ? payload.items : [])
+    .filter((event) => {
+      const fromSource =
+        splitEventSourceNames(event.source).includes(source) ||
+        event.sourceUrl === sourceUrl ||
+        (event.additionalSourceUrls ?? []).includes(sourceUrl);
+      if (!fromSource) return false;
+
+      const timestamp = eventTimestamp(event);
+      if (timestamp === Number.MAX_SAFE_INTEGER) return true;
+      return timestamp >= today.getTime() && timestamp <= oneYearOut.getTime();
+    })
+    .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
 
 function parseDowntownEvents(html) {
@@ -1361,7 +1400,7 @@ async function main() {
     directoryHtml,
     eventsHtml,
     cityCalendarHtml,
-    libraryHtml,
+    libraryPage,
     museumsEventsHtml,
     heritageTheatreEventsHtml,
     chamberEventsPage,
@@ -1372,7 +1411,7 @@ async function main() {
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
     fetchText(CITY_CALENDAR_URL),
-    fetchText(SCCLD_CAMPBELL_LIBRARY_URL),
+    fetchOptionalText(SCCLD_CAMPBELL_LIBRARY_URL, "Campbell Library events"),
     fetchText(CAMPBELL_MUSEUMS_EVENTS_URL),
     fetchText(HERITAGE_THEATRE_EVENTS_URL),
     fetchChamberEventsHtml(),
@@ -1396,7 +1435,19 @@ async function main() {
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
   const downtownEvents = parseDowntownEvents(eventsHtml);
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
-  const libraryEvents = parseLibraryEvents(libraryHtml, new Date(generatedAt));
+  let libraryEvents = [];
+  let librarySourceNote = "";
+  if (libraryPage.html) {
+    libraryEvents = parseLibraryEvents(libraryPage.html, new Date(generatedAt));
+  } else {
+    libraryEvents = await readExistingSourceEvents({
+      source: "Campbell Library Events",
+      sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
+      generatedAt,
+    });
+    librarySourceNote = `Reused previous Campbell Library events because ${libraryPage.error}`;
+    console.warn(`Warning: ${librarySourceNote}`);
+  }
   const museumEvents = parseWixEvents(museumsEventsHtml, {
     baseUrl: CAMPBELL_MUSEUMS_BASE_URL,
     sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
@@ -1543,6 +1594,7 @@ async function main() {
         sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
         count: filteredLibraryEvents.length,
         parsedCount: libraryEvents.length,
+        ...(librarySourceNote ? { note: librarySourceNote } : {}),
       },
       {
         label: "Campbell Museums Events",
