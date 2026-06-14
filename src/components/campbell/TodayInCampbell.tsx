@@ -3,6 +3,7 @@ import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
 import {
+  CAMPBELL_TIME_ZONE,
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
   endOfDay,
@@ -43,6 +44,7 @@ function eventIsUpcoming(event: CampbellEvent, dayEnd: Date) {
 
 function formatDay(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
+    timeZone: CAMPBELL_TIME_ZONE,
     weekday: "short",
     month: "short",
     day: "numeric",

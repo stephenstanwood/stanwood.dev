@@ -68,10 +68,10 @@ const TAB_META: Record<Section, { accent: TabAccent; image?: { src: string; obje
   events: { accent: "green", image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" } },
   digest: { accent: "blue", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
   businesses: { accent: "clay", image: { src: "/images/campbell/pruneyard-aerial.webp", objectPosition: "50% 42%" } },
-  safety: { accent: "red" },
+  safety: { accent: "red", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
   homes: { accent: "gold", image: { src: "/images/campbell/water-tower-aerial.webp", objectPosition: "50% 30%" } },
   history: { accent: "gold", image: { src: "/images/campbell/ainsley-house.webp", objectPosition: "50% 55%" } },
-  data: { accent: "blue" },
+  data: { accent: "blue", image: { src: "/images/campbell/downtown-vta-station.webp", objectPosition: "50% 58%" } },
   links: { accent: "green", image: { src: "/images/campbell/campbell-park.webp", objectPosition: "28% 55%" } },
 };
 

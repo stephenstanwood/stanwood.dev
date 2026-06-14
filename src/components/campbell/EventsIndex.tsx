@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
-import { DAY_MS, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
+import { addCampbellDays, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
 import { campbellWeekendWindow, eventInWindow, eventStart } from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
@@ -149,7 +149,7 @@ function eventMatchesView(event: CampbellEvent, viewFilter: EventViewFilter, ref
   }
 
   const windowDays = viewFilter === "next14" ? 14 : 30;
-  const windowEnd = endOfDay(new Date(startOfReferenceDay.getTime() + windowDays * DAY_MS));
+  const windowEnd = endOfDay(addCampbellDays(startOfReferenceDay, windowDays));
   return eventInWindow(event, startOfReferenceDay, windowEnd);
 }
 

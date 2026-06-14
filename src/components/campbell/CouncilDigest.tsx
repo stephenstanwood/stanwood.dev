@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import {
+  CAMPBELL_TIME_ZONE,
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
   parseCampbellDate,
@@ -125,7 +126,9 @@ export default function CouncilDigest() {
           View full agenda →
         </a>
         <span className="cb-digest-gen">
-          AI-generated summary &middot; {new Date(digest.generatedAt).toLocaleDateString("en-US")}
+          AI-generated summary &middot; {new Date(digest.generatedAt).toLocaleDateString("en-US", {
+            timeZone: CAMPBELL_TIME_ZONE,
+          })}
         </span>
       </div>
     </div>
