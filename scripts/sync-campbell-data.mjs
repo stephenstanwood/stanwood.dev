@@ -1569,7 +1569,6 @@ async function main() {
         parsedCount: schoolEvents.length,
       },
     ],
-    rejected: rejectedEvents,
     items: events,
   });
 
