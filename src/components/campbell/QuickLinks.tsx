@@ -1,10 +1,25 @@
+import {
+  CalendarDays,
+  CircleDollarSign,
+  Dumbbell,
+  FileText,
+  Hammer,
+  Landmark,
+  Map,
+  Megaphone,
+  Search,
+  ShieldAlert,
+  Store,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import { SOURCE_URLS } from "../../data/campbell";
 
 type QuickLink = {
   title: string;
   desc: string;
   href: string;
-  code: string;
+  Icon: LucideIcon;
   owner: string;
   tone?: "gold" | "green" | "red";
 };
@@ -18,14 +33,14 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Report a Concern",
         desc: "Potholes, streetlights, graffiti, code issues",
         href: "https://www.campbellca.gov/1049/Report-A-Concern",
-        code: "FIX",
+        Icon: Wrench,
         owner: "City service request",
       },
       {
         title: "Building Permits",
         desc: "Apply, track, and manage permits online",
         href: "https://campbellca.portal.iworq.net",
-        code: "BLD",
+        Icon: Hammer,
         owner: "Building counter",
         tone: "gold",
       },
@@ -33,7 +48,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Recreation & Classes",
         desc: "Sports, camps, swim lessons, and activities",
         href: "https://www.campbellca.gov/230/Activity-Guide",
-        code: "REC",
+        Icon: Dumbbell,
         owner: "Recreation",
         tone: "green",
       },
@@ -41,7 +56,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "City Events",
         desc: "Official calendar, public meetings, recreation dates",
         href: SOURCE_URLS.cityCalendar,
-        code: "CAL",
+        Icon: CalendarDays,
         owner: "City calendar",
       },
     ],
@@ -54,14 +69,14 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Council Records",
         desc: "Agendas, minutes, and meeting video",
         href: SOURCE_URLS.escribeMeetings,
-        code: "CC",
+        Icon: Landmark,
         owner: "City meeting portal",
       },
       {
         title: "Public Hearings",
         desc: "Planning hearings, legal notices, public decisions",
         href: SOURCE_URLS.publicNotices,
-        code: "PH",
+        Icon: Megaphone,
         owner: "Public notices",
         tone: "gold",
       },
@@ -69,7 +84,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Budget",
         desc: "Annual budget, services, fees, and finance",
         href: SOURCE_URLS.cityBudget,
-        code: "BUD",
+        Icon: CircleDollarSign,
         owner: "Finance",
         tone: "green",
       },
@@ -77,7 +92,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "GIS & Maps",
         desc: "Zoning, parcels, business licenses, city layers",
         href: SOURCE_URLS.cityGisPublic,
-        code: "MAP",
+        Icon: Map,
         owner: "City maps",
       },
     ],
@@ -90,7 +105,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Downtown Directory",
         desc: "Shops, restaurants, services, and venues",
         href: SOURCE_URLS.downtownDirectory,
-        code: "DT",
+        Icon: Store,
         owner: "Downtown Campbell",
         tone: "green",
       },
@@ -98,7 +113,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Crime Map & Reports",
         desc: "CPD stats, CityProtect, online reporting",
         href: SOURCE_URLS.cpdStats,
-        code: "PD",
+        Icon: ShieldAlert,
         owner: "Police",
         tone: "red",
       },
@@ -106,7 +121,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Property Search",
         desc: "Assessor parcel and assessment lookup",
         href: SOURCE_URLS.assessorSearch,
-        code: "APN",
+        Icon: Search,
         owner: "County Assessor",
         tone: "gold",
       },
@@ -114,7 +129,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         title: "Official Records",
         desc: "Recorded real estate documents and maps",
         href: SOURCE_URLS.clerkRecorder,
-        code: "DOC",
+        Icon: FileText,
         owner: "Clerk-Recorder",
       },
     ],
@@ -155,7 +170,7 @@ export default function QuickLinks() {
                     className={`cb-link-icon${link.tone ? ` cb-link-icon--${link.tone}` : ""}`}
                     aria-hidden="true"
                   >
-                    {link.code}
+                    <link.Icon size={19} strokeWidth={2.2} />
                   </span>
                   <div className="cb-link-text">
                     <span className="cb-link-title">{link.title}</span>
