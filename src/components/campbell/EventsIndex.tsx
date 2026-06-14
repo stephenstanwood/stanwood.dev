@@ -2,7 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
 import { addCampbellDays, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
-import { campbellWeekendWindow, eventInWindow, eventStart } from "../../lib/campbell/eventDates";
+import {
+  campbellWeekendWindow,
+  eventDateLabel,
+  eventInWindow,
+  eventStart,
+} from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 
@@ -417,7 +422,7 @@ export default function EventsIndex() {
               )}
               <div className="cb-event-card-body">
                 <div className="cb-event-meta">
-                  <span className="cb-event-date">{event.date || "Date TBA"}</span>
+                  <span className="cb-event-date">{eventDateLabel(event)}</span>
                   {(event.category || event.source) && (
                     <span className="cb-event-source">
                       {event.category || event.source}
