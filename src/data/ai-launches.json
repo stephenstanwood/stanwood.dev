@@ -56,11 +56,11 @@
     "url": "https://rodeo.twelvelabs.io/"
   },
   {
-    "name": "LFM2.5-8B-A1B",
-    "org": "Liquid AI",
-    "date": "2026-05-28",
+    "name": "Kimi K2.7-Code",
+    "org": "Moonshot AI",
+    "date": "2026-06-12",
     "type": "model",
-    "summary": "Liquid AI's new open-weight model runs a real tool-calling agent entirely on your laptop or phone — no cloud, no API bill, nothing leaving the device; it's a Mixture-of-Experts with 8.3B total params but only 1.5B active per token, so it stays fast and light enough for edge hardware while punching above its size on agentic tasks; weights are up on Hugging Face, making it a privacy-first base for any solo builder who wants assistants that work offline",
-    "url": "https://www.liquid.ai/blog/introducing-lfm2-5-the-next-generation-of-on-device-ai"
+    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions while using 30% fewer reasoning tokens than K2.6. Trillion-param weights are on Hugging Face under an MIT-style license, API at $0.95/M in, $4/M out.",
+    "url": "https://huggingface.co/moonshotai"
   }
 ]
