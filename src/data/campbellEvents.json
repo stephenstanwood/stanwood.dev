@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-14T09:24:13.896Z",
+  "generatedAt": "2026-06-15T15:22:12.985Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
       "count": 13,
-      "parsedCount": 15
+      "parsedCount": 13
     },
     {
       "label": "Downtown Campbell Events",
@@ -18,8 +18,7 @@
       "label": "Campbell Library Events",
       "sourceUrl": "https://sccld.org/locations/campbell/",
       "count": 3,
-      "parsedCount": 3,
-      "note": "Reused previous Campbell Library events because Campbell Library events: Failed to fetch https://sccld.org/locations/campbell/: 503 Service Unavailable"
+      "parsedCount": 3
     },
     {
       "label": "Campbell Museums Events",
@@ -74,19 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "6/14/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "The Campbell Farmers' Market held on Sundays in Downtown Campbell is consistently rated as one of the best if not the best year-round Farmers' Markets in the South Bay. Come and enjoy the festive and vibrant community oriented atmosphere that attracts fans of the Campbell Farmers",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/news/farmersmarket.jpg?itok=Ei037cnS",
-      "category": "Downtown",
-      "startDate": "2026-06-14T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Emerald Summer Art Camp: Pottery, Painting, Sculpture, Mixed Media",
@@ -317,9 +303,9 @@
       "date": "6/21/26",
       "cost": "",
       "location": "Downtown Campbell",
-      "description": "",
+      "description": "The Campbell Farmers' Market held on Sundays in Downtown Campbell is consistently rated as one of the best if not the best year-round Farmers' Markets in the South Bay. Come and enjoy the festive and vibrant community oriented atmosphere that attracts fans of the Campbell Farmers",
       "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/news/farmersmarket.jpg?itok=Ei037cnS",
       "category": "Downtown",
       "startDate": "2026-06-21T00:00:00",
       "source": "Downtown Campbell Events",
@@ -1375,6 +1361,19 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "2026 Fall Wine Walk in Downtown Campbell",
+      "date": "9/17/26",
+      "cost": "$55 + Fees",
+      "location": "Downtown Campbell",
+      "description": "As one of the original Bay Area Wine Walks, now in its 17th year, Downtown Campbell beckons you to come discover 25+ amazing wine makers in one lively evening of wine tasting.",
+      "url": "https://www.downtowncampbell.com/winewalk",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/downtowncampbell-winewalkhighlights-feb25_3.jpg?itok=ponHZNrN",
+      "category": "Downtown",
+      "startDate": "2026-09-17T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "San Jose Gambling with Ted Ramos",
