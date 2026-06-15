@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-14T01:10:16.374Z",
+  "lastUpdated": "2026-06-15T01:10:19.180Z",
   "apiSpend": {
     "months": [
       {
@@ -64,7 +64,7 @@
       },
       {
         "month": "2026-06",
-        "collectedAt": "2026-06-14T01:10:16.374Z",
+        "collectedAt": "2026-06-15T01:10:19.180Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -72,19 +72,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 2952,
+            "totalCents": 3156,
             "breakdown": [
               {
                 "name": "claude-opus-4-7",
-                "cents": 2473
+                "cents": 2665
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 425
+                "cents": 426
               },
               {
                 "name": "claude-sonnet-4-5",
-                "cents": 54
+                "cents": 65
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
@@ -122,6 +122,13 @@
   },
   "subscriptions": [
     {
+      "name": "Anthropic",
+      "cents": 27016,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Jun 2026; 3 Mercury charges combined"
+    },
+    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -140,13 +147,6 @@
       "cents": 8200,
       "category": "data",
       "url": "https://www.paypal.com",
-      "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 7016,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
       "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
     },
     {
