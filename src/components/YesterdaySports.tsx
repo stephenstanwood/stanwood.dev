@@ -64,6 +64,12 @@ function recapEventId(league: string, iso: string, ev: ESPNEvent): string {
   return ev.id || `${league}|${iso}|${ev.date}|${ev.shortName}`;
 }
 
+function recapBadge(g: YesterdayGame): string {
+  if (g.isBestWnba) return g.wnbaBadge || "Best WNBA game";
+  if (g.isPlayoff) return "Playoff · Final";
+  return "Final";
+}
+
 export default function YesterdaySports() {
   const [games, setGames] = useState<YesterdayGame[]>([]);
   const [ready, setReady] = useState(false);
@@ -310,11 +316,7 @@ export default function YesterdaySports() {
             </div>
             <div className="recap-meta">
               <span className="recap-final">
-                {g.isBestWnba
-                  ? g.wnbaBadge || "Best WNBA game"
-                  : g.isPlayoff
-                    ? "Playoff · Final"
-                    : "Final"}
+                {recapBadge(g)}
               </span>
               <span className="recap-watch">Watch on {g.watchLabel} ↗</span>
             </div>
