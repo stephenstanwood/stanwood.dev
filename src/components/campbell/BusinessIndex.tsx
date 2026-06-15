@@ -19,6 +19,7 @@ interface CampbellBusinessRecord {
 type BusinessFilter = "all" | "downtown" | "chamber" | "both";
 
 const BUSINESSES = businessFeed.items as CampbellBusinessRecord[];
+const BUSINESS_DISPLAY_LIMIT = 48;
 const DOWNTOWN_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown")).length;
 const CHAMBER_COUNT = BUSINESSES.filter((business) => hasTag(business, "Chamber")).length;
 const BOTH_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown") && hasTag(business, "Chamber")).length;
@@ -62,6 +63,7 @@ function businessSourceLabel(business: CampbellBusinessRecord) {
 export default function BusinessIndex() {
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<BusinessFilter>("all");
+  const [showAll, setShowAll] = useState(false);
 
   const businesses = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -82,7 +84,9 @@ export default function BusinessIndex() {
       ].some((value) => value.toLowerCase().includes(needle));
     });
   }, [activeFilter, query]);
-  const resultLabel = businesses.length === BUSINESSES.length ? "All businesses" : `${businesses.length} matches`;
+  const resultLabel = businesses.length === BUSINESSES.length ? `${businesses.length} listed` : `${businesses.length} matches`;
+  const visibleBusinesses = showAll ? businesses : businesses.slice(0, BUSINESS_DISPLAY_LIMIT);
+  const hiddenBusinessCount = businesses.length - visibleBusinesses.length;
 
   return (
     <div className="cb-businesses">
@@ -116,7 +120,10 @@ export default function BusinessIndex() {
           ariaLabel="Search businesses"
           value={query}
           candidates={BUSINESS_NAMES}
-          onValueChange={setQuery}
+          onValueChange={(value) => {
+            setQuery(value);
+            setShowAll(false);
+          }}
         />
         <span className="cb-business-count">{resultLabel}</span>
       </div>
@@ -127,7 +134,10 @@ export default function BusinessIndex() {
             key={filter.id}
             type="button"
             className={activeFilter === filter.id ? "is-active" : ""}
-            onClick={() => setActiveFilter(filter.id)}
+            onClick={() => {
+              setActiveFilter(filter.id);
+              setShowAll(false);
+            }}
           >
             {filter.label}
           </button>
@@ -135,7 +145,7 @@ export default function BusinessIndex() {
       </div>
 
       <div className="cb-business-grid">
-        {businesses.map((business) => (
+        {visibleBusinesses.map((business) => (
           <a
             key={`${business.name}-${business.address}`}
             className="cb-business-card"
@@ -160,6 +170,22 @@ export default function BusinessIndex() {
           </a>
         ))}
       </div>
+
+      {businesses.length === 0 && (
+        <div className="cb-business-empty">
+          No businesses match these filters yet. Clear a filter or search another term.
+        </div>
+      )}
+
+      {hiddenBusinessCount > 0 && (
+        <button
+          type="button"
+          className="cb-business-more"
+          onClick={() => setShowAll(true)}
+        >
+          Show {hiddenBusinessCount} more places
+        </button>
+      )}
 
       <div className="cb-source-note">
         {BUSINESS_SOURCES.map((source, index) => (
