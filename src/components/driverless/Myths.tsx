@@ -62,7 +62,7 @@ const myths: Myth[] = [
     claim: "They only work in California and Phoenix.",
     verdict: "false",
     reality:
-      "As of April 2026, commercial driverless rides are running in San Francisco, Los Angeles, Phoenix, Austin, Atlanta, and Miami — six metros across four states. Dallas, Nashville, and DC are next on Waymo's 2026 expansion list.",
+      "As of April 2026, commercial driverless rides are running in San Francisco, Los Angeles, Phoenix, Austin, Atlanta, and Miami — six metros across five states. Dallas, Nashville, and DC are next on Waymo's 2026 expansion list.",
     receipt: "Waymo press releases; this dashboard's city tracker",
   },
   {
