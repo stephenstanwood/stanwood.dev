@@ -10,6 +10,10 @@ export default defineConfig({
   site: 'https://stanwood.dev',
   trailingSlash: 'never',
   redirects: {
+    '/tb': {
+      status: 301,
+      destination: '/tv',
+    },
     '/youtube': {
       status: 301,
       destination: '/tv',

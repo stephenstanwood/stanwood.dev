@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/tb",
+      "destination": "https://www.stanwood.dev/tv",
+      "permanent": true
+    },
+    {
       "source": "/south-bay",
       "destination": "https://southbaysignal.org",
       "permanent": true
