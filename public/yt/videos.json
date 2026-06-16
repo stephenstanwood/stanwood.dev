@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-15T10:30:05.094670+00:00",
+  "built_at": "2026-06-16T10:30:15.164904+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -45,7 +45,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 10,
+      "video_count": 11,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -56,7 +56,8 @@
         "wisccQYTRQc",
         "tsQB0n0YV3k",
         "Lri2LNYtERM",
-        "g50FHC-PzK8"
+        "g50FHC-PzK8",
+        "F_7M4Hc-usM"
       ]
     },
     {
@@ -207,17 +208,6 @@
       ]
     },
     {
-      "key": "CS230",
-      "is_single": false,
-      "display_name": "CS230",
-      "best_score": 4,
-      "video_count": 2,
-      "video_ids": [
-        "AuZoDsNmG_s",
-        "Ozb1AR_F5MU"
-      ]
-    },
-    {
       "key": "AA228V",
       "is_single": false,
       "display_name": "AA228V",
@@ -225,6 +215,16 @@
       "video_count": 1,
       "video_ids": [
         "_U0EUX2E3k0"
+      ]
+    },
+    {
+      "key": "CS230",
+      "is_single": false,
+      "display_name": "CS230",
+      "best_score": 4,
+      "video_count": 1,
+      "video_ids": [
+        "AuZoDsNmG_s"
       ]
     },
     {
@@ -758,6 +758,21 @@
         "swe_career"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, Joe Sullivan, a veteran security leader who built security teams at Facebook, Uber, and Cloudflare, walks the class through his career at the intersection of governm"
+    },
+    {
+      "id": "F_7M4Hc-usM",
+      "title": "Stanford CS153 Frontier Systems | Scale, AGI, and the Future of Everything",
+      "url": "https://www.youtube.com/watch?v=F_7M4Hc-usM",
+      "duration": 2470.0,
+      "published_at": "2026-06-15T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 3,
+      "categories": [
+        "swe_career"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, OpenAI CEO Sam Altman returned to Stanford \u2014 where he taught the iconic CS183 How to Start a Startup in 2014 \u2014 to reflect on how radically the startup playbook has c"
     },
     {
       "id": "zdCJyn1OY-4",
@@ -1780,38 +1795,6 @@
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:38 Diffusion\n00:05:23 Score matching\n00:13:02 Flow matching\n00:19:04 Latent space and guidance\n00:25:11 Image generation architectures\n00:29:47 M"
     },
     {
-      "id": "AuZoDsNmG_s",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI",
-      "url": "https://www.youtube.com/watch?v=AuZoDsNmG_s",
-      "duration": 6309.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 9,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 18, 2025\nThis lecture covers career advice and a guest speaker.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/s"
-    },
-    {
-      "id": "Ozb1AR_F5MU",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 10: What\u2019s Going On Inside My Model?",
-      "url": "https://www.youtube.com/watch?v=Ozb1AR_F5MU",
-      "duration": 6414.0,
-      "published_at": "2025-12-15T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 10,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nDecember 2, 2025\nThis lecture covers what's happening inside your model and provides a class wrap-up.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus:"
-    },
-    {
       "id": "_U0EUX2E3k0",
       "title": "Stanford AA228V I Validation of Safety Critical Systems I Explainability",
       "url": "https://www.youtube.com/watch?v=_U0EUX2E3k0",
@@ -1827,6 +1810,22 @@
         "series:AA228V"
       ],
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
+    },
+    {
+      "id": "AuZoDsNmG_s",
+      "title": "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI",
+      "url": "https://www.youtube.com/watch?v=AuZoDsNmG_s",
+      "duration": 6309.0,
+      "published_at": "2025-12-17T00:00:00+00:00",
+      "series": "CS230",
+      "series_display": "CS230",
+      "lecture_num": 9,
+      "score": 4,
+      "categories": [
+        "swe_career",
+        "series:CS230"
+      ],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 18, 2025\nThis lecture covers career advice and a guest speaker.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/s"
     },
     {
       "id": "4k53z3Ysjg0",
