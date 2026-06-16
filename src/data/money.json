@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-16T01:10:24.031Z",
+  "lastUpdated": "2026-06-16T13:13:01.598Z",
   "apiSpend": {
     "months": [
       {
@@ -64,12 +64,11 @@
       },
       {
         "month": "2026-06",
-        "collectedAt": "2026-06-16T01:10:24.031Z",
+        "collectedAt": "2026-06-16T13:13:01.598Z",
         "services": {
           "vercel": {
-            "totalCents": 0,
-            "breakdown": [],
-            "note": null
+            "totalCents": null,
+            "note": "Vercel API 500: {\"error\":{\"code\":\"subscription_costs_fetch_failed\",\"message\":\"Failed to fetch subscription costs. Please try again.\"}}"
           },
           "anthropic": {
             "totalCents": 3362,
