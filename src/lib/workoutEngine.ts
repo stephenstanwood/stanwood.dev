@@ -125,6 +125,11 @@ function calcInterval(distance: number, pacePer100: number, restAdder = 10): num
   return roundTo5(swimTime + (distance / 100) * restAdder);
 }
 
+/** Sum a list of numbers */
+function sum(nums: number[]): number {
+  return nums.reduce((a, b) => a + b, 0);
+}
+
 /** Pick the nearest "nice" rep count to a raw number */
 function niceReps(raw: number): number {
   const nice = [2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20];
@@ -158,7 +163,7 @@ function groupDuration(items: SetItem[], pacePer100: number): number {
 }
 
 function weightedPick<T>(items: T[], weights: number[], rng: Rng): T {
-  const total = weights.reduce((a, b) => a + b, 0);
+  const total = sum(weights);
   let remaining = rng.random() * total;
   for (let i = 0; i < items.length; i++) {
     remaining -= weights[i];
@@ -350,10 +355,10 @@ function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
   const pattern = rng.pick(patterns);
 
   let steps = [...pattern];
-  while (steps.reduce((a, b) => a + b, 0) < target * 0.7) {
+  while (sum(steps) < target * 0.7) {
     steps = [...steps, ...pattern];
   }
-  while (steps.reduce((a, b) => a + b, 0) > target * 1.15 && steps.length > 3) {
+  while (sum(steps) > target * 1.15 && steps.length > 3) {
     steps.pop();
   }
 
@@ -373,7 +378,7 @@ function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
   for (let d = step; d <= peak; d += step) ascending.push(d);
   const descending = [...ascending].slice(0, -1).reverse();
   const pyramid = [...ascending, ...descending];
-  const pyramidTotal = pyramid.reduce((a, b) => a + b, 0);
+  const pyramidTotal = sum(pyramid);
 
   if (pyramidTotal < target * 0.6) {
     const remaining = target - pyramidTotal;
@@ -728,11 +733,11 @@ function mainDescendLadder(target: number, pace: number, rng: Rng): SetItem[] {
     [400, 300, 200, 100, 50],
   ];
   let steps = rng.pick(patterns);
-  const stepsTotal = steps.reduce((a, b) => a + b, 0);
+  const stepsTotal = sum(steps);
   const repeats = Math.max(1, Math.round(target / stepsTotal));
   const fullSteps: number[] = [];
   for (let r = 0; r < repeats; r++) fullSteps.push(...steps);
-  while (fullSteps.reduce((a, b) => a + b, 0) > target * 1.15 && fullSteps.length > 3) fullSteps.pop();
+  while (sum(fullSteps) > target * 1.15 && fullSteps.length > 3) fullSteps.pop();
 
   return fullSteps.map((d, i) => ({
     reps: 1, distance: d,

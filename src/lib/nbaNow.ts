@@ -275,12 +275,16 @@ function renderGameRow(
   `;
 }
 
-function renderNoGames(events: Game[]): string {
-  // Find the best upcoming game by quality, not time
-  const preGames = events
+// Upcoming games ranked by quality (best first), not start time.
+function rankPreGames(events: Game[]): { game: Game; score: number }[] {
+  return events
     .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
     .map((g) => ({ game: g, score: computePreGameScore(g) }))
     .sort((a, b) => b.score - a.score);
+}
+
+function renderNoGames(events: Game[]): string {
+  const preGames = rankPreGames(events);
 
   if (preGames.length === 0) {
     const postGames = events.filter((e) => e.competitions?.[0]?.status?.type?.state === "post");
@@ -325,10 +329,7 @@ function renderRankedGames(
   events: Game[],
   sectionLabel: string,
 ): string {
-  const preGames = events
-    .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .map((g) => ({ game: g, score: computePreGameScore(g) }))
-    .sort((a, b) => b.score - a.score);
+  const preGames = rankPreGames(events);
 
   if (preGames.length === 0) return "";
 
