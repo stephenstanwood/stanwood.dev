@@ -57,6 +57,12 @@ const THEMES: Record<string, BeachTheme> = {
 
 const THEME_KEYS = Object.keys(THEMES) as (keyof typeof THEMES)[];
 
+const TIDE_SPEED_MULTIPLIER: Record<"calm" | "normal" | "surge", number> = {
+  calm: 0.4,
+  normal: 1,
+  surge: 2.5,
+};
+
 /* ── Helpers ── */
 function pick<T>(arr: T[], i: number): T {
   return arr[((i % arr.length) + arr.length) % arr.length];
@@ -182,7 +188,7 @@ export default function PixelTide() {
 
   // Keep tideSpeedRef in sync with state
   useEffect(() => {
-    tideSpeedRef.current = tideSpeed === "calm" ? 0.4 : tideSpeed === "surge" ? 2.5 : 1;
+    tideSpeedRef.current = TIDE_SPEED_MULTIPLIER[tideSpeed];
   }, [tideSpeed]);
 
   /* ── Tide line: waves wash UP and DOWN the shore ── */
