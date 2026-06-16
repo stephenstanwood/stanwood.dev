@@ -1,11 +1,27 @@
 [
   {
+    "name": "Kimi K2.7-Code",
+    "org": "Moonshot AI",
+    "date": "2026-06-12",
+    "type": "model",
+    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions while using 30% fewer reasoning tokens than K2.6. Trillion-param weights are on Hugging Face under an MIT-style license, API at $0.95/M in, $4/M out.",
+    "url": "https://huggingface.co/moonshotai"
+  },
+  {
     "name": "Claude Fable 5",
     "org": "Anthropic",
     "date": "2026-06-09",
     "type": "model",
     "summary": "Anthropic's biggest jump in a while — Fable 5 is the first 'Mythos-class' model made safe for general use, a new tier above the Opus line with state-of-the-art coding, knowledge work, and vision (it plays Pokémon from pixels alone) plus long-context handling across millions of tokens; live today on claude.ai, Claude Code, the API ($10/M in, $50/M out — half the price of Mythos Preview), and Bedrock, and it's included free on Pro and Max plans through June 22, so you can kick the tires before the credits meter starts",
     "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
+  },
+  {
+    "name": "Apple Foundation Models free tier",
+    "org": "Apple",
+    "date": "2026-06-09",
+    "type": "tool",
+    "summary": "Build AI features into your iOS app and call Apple's on-device and cloud models for free if you're a small dev (under 2M lifetime downloads). Now with image input, a Swift API that can also route to Claude or Gemini, and multi-agent Dynamic Profiles.",
+    "url": "https://www.macrumors.com/2026/06/09/apple-outlines-major-ai-and-developer-tool-updates/"
   },
   {
     "name": "Nemotron 3",
@@ -38,29 +54,5 @@
     "type": "tool",
     "summary": "Microsoft open-sourced a way to test whether your AI agent actually behaves — write your rules in plain English ('never give medical advice', 'always cite a source') and ASSERT turns them into scored test cases, generating tricky scenarios and grading the output; MIT-licensed and framework-agnostic, it plugs into LangChain, CrewAI, OpenAI's Agents SDK and 100+ models via LiteLLM, so a solo dev shipping an agent gets real evals instead of vibes",
     "url": "https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/"
-  },
-  {
-    "name": "MiniMax M3",
-    "org": "MiniMax",
-    "date": "2026-06-01",
-    "type": "model",
-    "summary": "open-weight frontier coding model with a 1M-token context and native image/video input — it can even operate a desktop; on SWE-Bench Pro it edges past GPT-5.5 and Gemini 3.1 Pro and lands just behind Opus 4.7, while the API runs $0.60/M in and $2.40/M out (cents on the dollar next to the closed labs); weights and the technical report hit Hugging Face within days, so you can self-host the whole thing",
-    "url": "https://www.minimax.io/blog/minimax-m3"
-  },
-  {
-    "name": "Rodeo",
-    "org": "TwelveLabs",
-    "date": "2026-06-01",
-    "type": "tool",
-    "summary": "video-understanding startup TwelveLabs takes its tech straight to creators — describe the shot you want in plain English and Rodeo searches your entire footage library, finds the clips, and assembles a rough cut for you; powered by their Marengo 3.0 + Pegasus 1.5 models, it turns 'I know the clip is in here somewhere' into an instant edit instead of an afternoon of scrubbing timelines",
-    "url": "https://rodeo.twelvelabs.io/"
-  },
-  {
-    "name": "Kimi K2.7-Code",
-    "org": "Moonshot AI",
-    "date": "2026-06-12",
-    "type": "model",
-    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions while using 30% fewer reasoning tokens than K2.6. Trillion-param weights are on Hugging Face under an MIT-style license, API at $0.95/M in, $4/M out.",
-    "url": "https://huggingface.co/moonshotai"
   }
 ]
