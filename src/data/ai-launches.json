@@ -4,7 +4,7 @@
     "org": "Moonshot AI",
     "date": "2026-06-12",
     "type": "model",
-    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions while using 30% fewer reasoning tokens than K2.6. Trillion-param weights are on Hugging Face under an MIT-style license, API at $0.95/M in, $4/M out.",
+    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions. Trillion-param Mixture-of-Experts weights are on Hugging Face under a commercial-friendly MIT-style license.",
     "url": "https://huggingface.co/moonshotai"
   },
   {
@@ -12,7 +12,7 @@
     "org": "Anthropic",
     "date": "2026-06-09",
     "type": "model",
-    "summary": "Anthropic's biggest jump in a while — Fable 5 is the first 'Mythos-class' model made safe for general use, a new tier above the Opus line with state-of-the-art coding, knowledge work, and vision (it plays Pokémon from pixels alone) plus long-context handling across millions of tokens; live today on claude.ai, Claude Code, the API ($10/M in, $50/M out — half the price of Mythos Preview), and Bedrock, and it's included free on Pro and Max plans through June 22, so you can kick the tires before the credits meter starts",
+    "summary": "A new top tier above Opus, with state-of-the-art coding, knowledge work, and vision plus million-token context. Live now on claude.ai, Claude Code, the API, and Bedrock — and free on Pro and Max plans through June 22.",
     "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
   },
   {
@@ -20,7 +20,7 @@
     "org": "Apple",
     "date": "2026-06-09",
     "type": "tool",
-    "summary": "Build AI features into your iOS app and call Apple's on-device and cloud models for free if you're a small dev (under 2M lifetime downloads). Now with image input, a Swift API that can also route to Claude or Gemini, and multi-agent Dynamic Profiles.",
+    "summary": "Build AI features into your iOS app and call on-device and cloud models for free if you're a small dev (under 2M lifetime downloads). Now with image input and a Swift API that can route to Claude or Gemini.",
     "url": "https://www.macrumors.com/2026/06/09/apple-outlines-major-ai-and-developer-tool-updates/"
   },
   {
@@ -28,7 +28,7 @@
     "org": "NVIDIA",
     "date": "2026-06-04",
     "type": "model",
-    "summary": "NVIDIA dropped its Nemotron 3 family of fully-open models, and the headline for solo builders is the Nano: a 4B model with GGUF weights on Hugging Face that runs right on your laptop, no cloud bill; the lineup scales up to a 550B Ultra reasoning model with a 1M-token context that went live day-zero on OpenRouter, Together, and Perplexity, and NVIDIA shipped the training data and recipes too under a permissive open license, so you can actually fine-tune instead of just downloading",
+    "summary": "Fully-open model family — the headline for solo builders is Nano, a 4B model with GGUF weights that runs on your laptop, no cloud bill. It scales up to a 550B Ultra reasoner, with training data and recipes open so you can fine-tune.",
     "url": "https://huggingface.co/nvidia"
   },
   {
@@ -36,23 +36,7 @@
     "org": "OpenAI",
     "date": "2026-06-04",
     "type": "tool",
-    "summary": "ChatGPT's memory grew up — a new 'dreaming' architecture quietly revises what it knows about you in the background as your life changes ('you're going to Singapore in July' becomes 'you went'), so recommendations stay current instead of stale; paid users get double the memory capacity with summaries you can review and edit, and a 5x compute cut means real memory is finally rolling out to Free users over the coming weeks — your assistant stops forgetting who you are",
+    "summary": "Memory now revises what it knows about you in the background as your life changes, so recommendations stay current instead of stale. Paid users get double capacity with editable summaries, and real memory is rolling out to free users.",
     "url": "https://openai.com/index/chatgpt-memory-dreaming/"
-  },
-  {
-    "name": "MAI-Code-1-Flash",
-    "org": "Microsoft",
-    "date": "2026-06-02",
-    "type": "model",
-    "summary": "Microsoft's first homegrown coding model lands inside GitHub Copilot for individual users — turn on auto-pick or grab it from the model picker in VS Code, no setup needed; it beats Claude Haiku 4.5 on coding benchmarks while burning up to 60% fewer tokens, and dials reasoning up or down per request so simple edits stay snappy; one of seven new MAI models (plus a reasoning model and a voice cloner) Microsoft shipped at Build to cut its OpenAI bill and pass the savings to devs",
-    "url": "https://microsoft.ai/news/introducingmai-code-1-flash/"
-  },
-  {
-    "name": "ASSERT",
-    "org": "Microsoft",
-    "date": "2026-06-02",
-    "type": "tool",
-    "summary": "Microsoft open-sourced a way to test whether your AI agent actually behaves — write your rules in plain English ('never give medical advice', 'always cite a source') and ASSERT turns them into scored test cases, generating tricky scenarios and grading the output; MIT-licensed and framework-agnostic, it plugs into LangChain, CrewAI, OpenAI's Agents SDK and 100+ models via LiteLLM, so a solo dev shipping an agent gets real evals instead of vibes",
-    "url": "https://devblogs.microsoft.com/foundry/build-2026-open-trust-stack-ai-agents/"
   }
 ]
