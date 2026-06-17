@@ -87,6 +87,13 @@ export default function BusinessIndex() {
   const resultLabel = businesses.length === BUSINESSES.length ? `${businesses.length} listed` : `${businesses.length} matches`;
   const visibleBusinesses = showAll ? businesses : businesses.slice(0, BUSINESS_DISPLAY_LIMIT);
   const hiddenBusinessCount = businesses.length - visibleBusinesses.length;
+  const filtersAreActive = query.trim().length > 0 || activeFilter !== "all";
+
+  function clearFilters() {
+    setQuery("");
+    setActiveFilter("all");
+    setShowAll(false);
+  }
 
   return (
     <div className="cb-businesses">
@@ -126,6 +133,11 @@ export default function BusinessIndex() {
           }}
         />
         <span className="cb-business-count">{resultLabel}</span>
+        {filtersAreActive && (
+          <button type="button" className="cb-filter-reset" onClick={clearFilters}>
+            Clear filters
+          </button>
+        )}
       </div>
 
       <div className="cb-business-filters" role="group" aria-label="Business source filters">
@@ -145,30 +157,35 @@ export default function BusinessIndex() {
       </div>
 
       <div className="cb-business-grid">
-        {visibleBusinesses.map((business) => (
-          <a
-            key={`${business.name}-${business.address}`}
-            className="cb-business-card"
-            href={business.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span
-              className={`cb-biz-mono cb-biz-mono--${monogramTone(business.name)}`}
-              aria-hidden="true"
+        {visibleBusinesses.map((business) => {
+          const href = business.websiteUrl || business.url;
+          const linkLabel = business.websiteUrl ? "Open website" : "Open listing";
+
+          return (
+            <a
+              key={`${business.name}-${business.address}`}
+              className="cb-business-card"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              {business.name.charAt(0).toUpperCase()}
-            </span>
-            <span className="cb-business-body">
-              <span className="cb-business-category">{businessSourceLabel(business)}</span>
-              <h4>{business.name}</h4>
-              <p>{business.address || "Address not listed"}</p>
-              {business.phone && <em>{business.phone}</em>}
-              {business.description && <p className="cb-business-desc">{business.description}</p>}
-              {business.websiteUrl && <span className="cb-business-web">Website listed</span>}
-            </span>
-          </a>
-        ))}
+              <span
+                className={`cb-biz-mono cb-biz-mono--${monogramTone(business.name)}`}
+                aria-hidden="true"
+              >
+                {business.name.charAt(0).toUpperCase()}
+              </span>
+              <span className="cb-business-body">
+                <span className="cb-business-category">{businessSourceLabel(business)}</span>
+                <h4>{business.name}</h4>
+                <p>{business.address || "Address not listed"}</p>
+                {business.phone && <em>{business.phone}</em>}
+                {business.description && <p className="cb-business-desc">{business.description}</p>}
+                <span className="cb-business-link">{linkLabel}</span>
+              </span>
+            </a>
+          );
+        })}
       </div>
 
       {businesses.length === 0 && (

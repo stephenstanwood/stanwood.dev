@@ -1695,6 +1695,27 @@ const photoStories = [
         font-weight: 800;
         white-space: nowrap;
       }
+      .cb-filter-reset {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        min-height: 2.45rem;
+        padding: 0 0.72rem;
+        border: 1px solid #CFC8BA;
+        border-radius: 8px;
+        color: var(--cb-blue-hover);
+        background: #FFFDF8;
+        font: inherit;
+        font-size: 0.76rem;
+        font-weight: 820;
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .cb-filter-reset:hover {
+        border-color: var(--cb-blue);
+        background: var(--cb-blue-light);
+      }
       .cb-event-filter-group {
         display: flex;
         flex-wrap: wrap;
@@ -1886,6 +1907,13 @@ const photoStories = [
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
+      }
+      .cb-event-open {
+        width: fit-content;
+        margin-top: 0.18rem;
+        color: var(--accent, var(--cb-green));
+        font-size: 0.7rem;
+        font-weight: 850;
       }
       .cb-event-empty,
       .cb-business-empty {
@@ -2354,7 +2382,7 @@ const photoStories = [
         overflow: hidden;
         margin-top: 0.45rem !important;
       }
-      .cb-business-web {
+      .cb-business-link {
         display: inline-flex;
         width: fit-content;
         margin-top: 0.55rem;

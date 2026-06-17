@@ -279,6 +279,19 @@ export default function EventsIndex() {
     query,
   );
   const contextLabel = eventContextLabel(viewFilter, sourceFilter, categoryFilter, query);
+  const filtersAreActive =
+    query.trim().length > 0 ||
+    sourceFilter !== ALL_SOURCE_FILTER ||
+    categoryFilter !== ALL_CATEGORY_FILTER ||
+    viewFilter !== "next14";
+
+  function clearFilters() {
+    setQuery("");
+    setSourceFilter(ALL_SOURCE_FILTER);
+    setCategoryFilter(ALL_CATEGORY_FILTER);
+    setViewFilter("next14");
+    setShowAll(false);
+  }
 
   function applyShortcut(shortcut: EventShortcut) {
     setQuery(shortcut.query ?? "");
@@ -336,6 +349,11 @@ export default function EventsIndex() {
           ))}
         </select>
         <span className="cb-event-count">{resultLabel}</span>
+        {filtersAreActive && (
+          <button type="button" className="cb-filter-reset" onClick={clearFilters}>
+            Clear filters
+          </button>
+        )}
       </div>
 
       <div className="cb-event-shortcuts" aria-label="Resident event shortcuts">
@@ -432,6 +450,7 @@ export default function EventsIndex() {
                 <h4>{event.title}</h4>
                 <p>{event.location || "Campbell"}{event.cost ? ` · ${event.cost}` : ""}</p>
                 {event.description && <p className="cb-event-desc">{event.description}</p>}
+                <span className="cb-event-open">Open listing</span>
               </div>
             </a>
           );
