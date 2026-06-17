@@ -2,9 +2,8 @@ export const prerender = false;
 export const config = { maxDuration: 60 };
 
 import type { APIRoute } from "astro";
-import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { CLAUDE_SONNET, extractText, stripFences } from "../../../lib/models";
+import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
 import { errJson, okJson, devErrJson, toErrMsg } from "../../../lib/apiHelpers";
 import { buildMorePrompt } from "../../../lib/redesignRolodex/prompt";
 import { VALID_MODES } from "../../../lib/redesignRolodex/types";
@@ -14,9 +13,7 @@ import type {
   MoreModifier,
 } from "../../../lib/redesignRolodex/types";
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 const VALID_MODIFIERS: MoreModifier[] = ["more", "weirder", "calmer"];
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {

@@ -2,9 +2,8 @@ export const prerender = false;
 
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET, extractText, stripFences } from "../../lib/models";
+import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
@@ -32,9 +31,7 @@ const RecommendationSchema = z.object({
 
 type Recommendation = z.infer<typeof RecommendationSchema>;
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 
 const SYSTEM_PROMPT = `You are a health-conscious dining advisor. You know restaurant menus across the Bay Area, especially in Campbell, CA and the surrounding South Bay. You give confident, specific ordering advice.
 
