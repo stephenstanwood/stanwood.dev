@@ -2,16 +2,13 @@ export const prerender = false;
 export const config = { maxDuration: 60 };
 
 import type { APIRoute } from "astro";
-import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
-import { extractText, stripFences, CLAUDE_SONNET } from "../../lib/models";
+import { extractText, stripFences, CLAUDE_SONNET, getAnthropicClient } from "../../lib/models";
 import { getSystemPrompt, MUSEUM_STYLES } from "../../lib/museumPrompt";
 import { logEvent } from "../../lib/logger";
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();

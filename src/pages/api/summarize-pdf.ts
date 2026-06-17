@@ -1,16 +1,13 @@
 export const prerender = false;
 
 import type { APIRoute } from "astro";
-import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { CLAUDE_SONNET, extractText } from "../../lib/models";
+import { CLAUDE_SONNET, extractText, getAnthropicClient } from "../../lib/models";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();

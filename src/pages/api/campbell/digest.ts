@@ -1,8 +1,7 @@
 import type { APIRoute } from "astro";
-import Anthropic from "@anthropic-ai/sdk";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { CLAUDE_HAIKU, extractText, stripFences } from "../../../lib/models";
+import { CLAUDE_HAIKU, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
 import { getLatestAgenda } from "../../../lib/campbell/agendaScraper";
 import type { DigestSummary } from "../../../lib/campbell/types";
 import { MS_PER_DAY } from "../../../lib/time";
@@ -13,9 +12,7 @@ export const prerender = false;
 let cached: { data: DigestSummary; ts: number } | null = null;
 const CACHE_TTL = MS_PER_DAY;
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 
 export const POST: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();

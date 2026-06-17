@@ -4,16 +4,14 @@ export const config = { maxDuration: 120 };
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { CLAUDE_SONNET } from "../../../lib/models";
+import { CLAUDE_SONNET, getAnthropicClient } from "../../../lib/models";
 import { errJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
 import { VALID_MODES, type WeirdnessMode } from "../../../lib/redesignRolodex/types";
 
-const client = new Anthropic({
-  apiKey: import.meta.env.ANTHROPIC_API_KEY,
-});
+const client = getAnthropicClient();
 
 function sseEvent(event: string, data: unknown): string {
   return `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
