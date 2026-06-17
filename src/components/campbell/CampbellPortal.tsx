@@ -1,4 +1,5 @@
 import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Section } from "../../lib/campbell/types";
 import QuickLinks from "./QuickLinks";
 import CouncilDigest from "./CouncilDigest";
@@ -184,10 +185,10 @@ export default function CampbellPortal() {
           </div>
           <div className="cb-tabs-controls" aria-label="Scroll section list">
             <button type="button" onClick={() => scrollSections(-1)} aria-label="Previous sections">
-              <span aria-hidden="true">←</span>
+              <ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" />
             </button>
             <button type="button" onClick={() => scrollSections(1)} aria-label="Next sections">
-              <span aria-hidden="true">→</span>
+              <ChevronRight size={18} strokeWidth={2.4} aria-hidden="true" />
             </button>
           </div>
         </div>
