@@ -82,6 +82,8 @@ export default function TodayInCampbell() {
     ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
     : 0;
   const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+  const latestCouncilPrimaryUrl = latestCouncil?.mediaUrl || latestCouncil?.agendaUrl;
+  const latestCouncilPrimaryLabel = latestCouncil?.mediaUrl ? "Newest council video" : "Newest listed council packet";
 
   let cityHallFeature = <p>No dated public hearings found.</p>;
   if (upcomingHearing) {
@@ -137,8 +139,8 @@ export default function TodayInCampbell() {
 
           {latestCouncil && (
             <div className="cb-today-feature cb-today-feature--secondary">
-              <a href={latestCouncil.agendaUrl} target="_blank" rel="noopener noreferrer">
-                Newest listed council packet
+              <a href={latestCouncilPrimaryUrl} target="_blank" rel="noopener noreferrer">
+                {latestCouncilPrimaryLabel}
               </a>
               <span>
                 {councilSourceLooksStale
