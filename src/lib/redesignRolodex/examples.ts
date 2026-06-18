@@ -25,6 +25,11 @@ const EXAMPLE_URLS = [
   "ableton.com",
 ];
 
+/** Stable, non-random pick for server render / first paint (avoids hydration mismatch). */
+export function defaultExamples(n: number): string[] {
+  return EXAMPLE_URLS.slice(0, n);
+}
+
 export function pickExamples(n: number): string[] {
   return shuffle(EXAMPLE_URLS).slice(0, n);
 }

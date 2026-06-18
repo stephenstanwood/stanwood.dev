@@ -5,7 +5,7 @@ import type {
   MoreResponse,
   DesignDirection,
 } from "../../lib/redesignRolodex/types";
-import { pickExamples } from "../../lib/redesignRolodex/examples";
+import { pickExamples, defaultExamples } from "../../lib/redesignRolodex/examples";
 import { ghostMatch } from "../../lib/redesignRolodex/topSites";
 import { useAnalyzeStream } from "../../lib/redesignRolodex/useAnalyzeStream";
 import WeirdnessModeToggle from "./WeirdnessModeToggle";
@@ -13,9 +13,13 @@ import LoadingSequence from "./LoadingSequence";
 import RolodexViewer from "./RolodexViewer";
 import MoreDirectionsControls from "./MoreDirectionsControls";
 
-const examples = pickExamples(4);
-
 export default function RedesignRolodex() {
+  // Stable set for SSR/first paint; shuffle on the client after mount to avoid hydration mismatch.
+  const [examples, setExamples] = useState<string[]>(() => defaultExamples(4));
+  useEffect(() => {
+    setExamples(pickExamples(4));
+  }, []);
+
   // Check for ?url= query param on mount
   const [url, setUrl] = useState(() => {
     if (typeof window === "undefined") return "";
