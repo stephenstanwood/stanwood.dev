@@ -472,12 +472,16 @@ function eventRejectionReason(event) {
   if (/campbell community center pool calendar/i.test(event.category ?? "") && /\b(?:closed|closure|no\b|practice|team)\b/i.test(title)) {
     return "pool operations notice";
   }
+  if (/campbell library events/i.test(event.source ?? "") && /\bclosed\b/i.test(title)) {
+    return "library closure";
+  }
 
   const titleBlocks = [
     [/\bno\s+.+\bpractice\b/i, "practice absence"],
     [/\b(?:team|wave|swim)\s+practice\b/i, "team practice"],
     [/\b(?:cancelled|canceled|closure)\b/i, "cancellation notice"],
-    [/\b(?:pool|facility|programs?|office)\s+closed\b/i, "closure notice"],
+    [/\b(?:library|pool|facility|programs?|office)\s+closed\b/i, "closure notice"],
+    [/\bclosed\s+for\b/i, "closure notice"],
     [/\bno\s+(?:class|classes|programs?|practice|school|swim)\b/i, "absence notice"],
     [/^CCC Pool Closed$/i, "pool closure"],
     [/^Juneteenth Holiday \(programs closed\)$/i, "school closure"],

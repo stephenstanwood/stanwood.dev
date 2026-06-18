@@ -4,6 +4,8 @@ import eventFeed from "../../data/campbellEvents.json";
 const absenceTitlePatterns = [
   /^No .+ Practice$/i,
   /^CCC Pool Closed$/i,
+  /\b(?:library|pool|facility|office|programs?) closed\b/i,
+  /\bclosed for\b/i,
   /\bNo School\b/i,
   /\bprograms closed\b/i,
   /^(?:Thanksgiving|Winter|Spring|Presidents'? Week) Break$/i,
