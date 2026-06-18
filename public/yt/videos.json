@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-17T10:30:04.582078+00:00",
+  "built_at": "2026-06-18T10:30:08.352735+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 10,
+      "video_count": 9,
       "video_ids": [
-        "B9WsVMGtIuk",
         "IH-hRdNMIq0",
         "u74gb_DCtzo",
         "5p9VOzJAmW8",
@@ -65,9 +64,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 11,
-      "video_count": 12,
+      "video_count": 11,
       "video_ids": [
-        "zdCJyn1OY-4",
         "RKFRO_G4YkA",
         "PYh9k4cy25w",
         "NMFyMlwmwP8",
@@ -218,13 +216,13 @@
       ]
     },
     {
-      "key": "CS230",
-      "is_single": false,
-      "display_name": "CS230",
-      "best_score": 4,
+      "key": "__single__GcCGzfKdCd0",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Building AI Factories",
+      "best_score": 0,
       "video_count": 1,
       "video_ids": [
-        "AuZoDsNmG_s"
+        "GcCGzfKdCd0"
       ]
     },
     {
@@ -266,45 +264,9 @@
       "video_ids": [
         "LF7Wi_2fJVM"
       ]
-    },
-    {
-      "key": "__single___B8aNrsy09Y",
-      "is_single": true,
-      "display_name": "Climate Innovation: Digital Technology for Sustainable Agriculture and Infrastructure Development",
-      "best_score": -6,
-      "video_count": 1,
-      "video_ids": [
-        "_B8aNrsy09Y"
-      ]
-    },
-    {
-      "key": "__single__vaRO69Qv_hc",
-      "is_single": true,
-      "display_name": "AI and Climate: From Grids to Data Centers \u2014 AI Strategy & Innovation",
-      "best_score": -6,
-      "video_count": 1,
-      "video_ids": [
-        "vaRO69Qv_hc"
-      ]
     }
   ],
   "queue": [
-    {
-      "id": "B9WsVMGtIuk",
-      "title": "Stanford CS547 HCI Seminar | Autumn 2025 | Tracing and Shaping Paths in Design Space",
-      "url": "https://www.youtube.com/watch?v=B9WsVMGtIuk",
-      "duration": 3476.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 18,
-      "categories": [
-        "hci",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis lecture covers:\n\u2022 Making sense of user interactions with creativity support tools\n\u2022 How AI-supported evaluation methods can help us illuminate a design tool's expressive range; trace user trajectories through design space; and potentially even intervene to shape the"
-    },
     {
       "id": "IH-hRdNMIq0",
       "title": "Stanford CS547 HCI Seminar | Winter 2026 | LLM Chatbots in the Online Social World",
@@ -773,21 +735,6 @@
         "swe_career"
       ],
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn a CS153 Frontier Systems lecture, OpenAI CEO Sam Altman returned to Stanford \u2014 where he taught the iconic CS183 How to Start a Startup in 2014 \u2014 to reflect on how radically the startup playbook has c"
-    },
-    {
-      "id": "zdCJyn1OY-4",
-      "title": "Stanford Robotics Seminar ENGR319 | Autumn 2025 | The Dynamics of Fluid Physical Interaction",
-      "url": "https://www.youtube.com/watch?v=zdCJyn1OY-4",
-      "duration": 4511.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nDecember 5, 2025\nThis seminar covers: \n\u2022 The dynamics of fluid physical interaction\n\u2022 How to make robots safe, adaptive, and compliant\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nNadia Figueroa, Ph.D.\nShalini and Rajeev Misra Presid"
     },
     {
       "id": "RKFRO_G4YkA",
@@ -1812,20 +1759,17 @@
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
     },
     {
-      "id": "AuZoDsNmG_s",
-      "title": "Stanford CS230 | Autumn 2025 | Lecture 9: Career Advice in AI",
-      "url": "https://www.youtube.com/watch?v=AuZoDsNmG_s",
-      "duration": 6309.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": "CS230",
-      "series_display": "CS230",
-      "lecture_num": 9,
-      "score": 4,
-      "categories": [
-        "swe_career",
-        "series:CS230"
-      ],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nNovember 18, 2025\nThis lecture covers career advice and a guest speaker.\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs230-deep-learning\n\nPlease follow along with the course schedule and syllabus: https://cs230.stanford.edu/s"
+      "id": "GcCGzfKdCd0",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Building AI Factories",
+      "url": "https://www.youtube.com/watch?v=GcCGzfKdCd0",
+      "duration": 2988.0,
+      "published_at": "2026-06-17T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Building AI Factories",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nThis seminar covers infrastructure and building AI factories at gigawatt scale.\n\nFollow along with the course schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Chase Lochmiller, Crusoe\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Engineering a"
     },
     {
       "id": "4k53z3Ysjg0",
@@ -1880,36 +1824,6 @@
         "climate_grid"
       ],
       "description": "Join Professor Mike Lepech and Jeff Wong, former Ernst & Young Global Chief Innovation Officer, as they discuss scaling innovation in today's AI-powered business environment. They uncover what it takes to lead transformation while balancing performance and purpose, and share practical insights from leaders operating at the intersection of strategy, technology, and sustainability. The session featu"
-    },
-    {
-      "id": "_B8aNrsy09Y",
-      "title": "Climate Innovation: Digital Technology for Sustainable Agriculture and Infrastructure Development",
-      "url": "https://www.youtube.com/watch?v=_B8aNrsy09Y",
-      "duration": 3208.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": null,
-      "series_display": "Climate Innovation: Digital Technology for Sustainable Agriculture and Infrastructure Development",
-      "lecture_num": null,
-      "score": -6,
-      "categories": [
-        "climate_grid"
-      ],
-      "description": "Join Professor Rishee Jain and Dave Farnham as they unpack how AI is transforming building energy analysis and climate solutions. Jain discusses the intersection of civil engineering, data analytics, and social science in building energy usage, and how he applies AI to his research. Farnham shares his company's AI-driven approaches to climate challenges. The session features lightning talks, an in"
-    },
-    {
-      "id": "vaRO69Qv_hc",
-      "title": "AI and Climate: From Grids to Data Centers \u2014 AI Strategy & Innovation",
-      "url": "https://www.youtube.com/watch?v=vaRO69Qv_hc",
-      "duration": 2320.0,
-      "published_at": "2025-12-17T00:00:00+00:00",
-      "series": null,
-      "series_display": "AI and Climate: From Grids to Data Centers \u2014 AI Strategy & Innovation",
-      "lecture_num": null,
-      "score": -6,
-      "categories": [
-        "climate_grid"
-      ],
-      "description": "Join Professor Ines Azevedo and Kion Ahadi as they unpack how AI is accelerating efficiency and innovation across energy grids, data centers, and sustainability initiatives. The session includes lightning talks and an interactive Q&A. It also features a quick overview of Stanford Doerr School of Sustainability\u2019s External Education programs for Spring and Summer 2026, including:\n- AI and Climate Ma"
     }
   ]
 }

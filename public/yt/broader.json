@@ -1,11 +1,59 @@
 {
-  "built_at": "2026-06-17T10:30:16.540230+00:00",
+  "built_at": "2026-06-18T10:30:20.742067+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 163,
+  "candidate_count": 165,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
+    {
+      "id": "UztrFXaSWv0",
+      "title": "The Creators of Claude Code and OpenClaw don't Prompt Their Agents Anymore?!",
+      "url": "https://www.youtube.com/watch?v=UztrFXaSWv0",
+      "duration": 1479,
+      "published_at": "2026-06-18T00:00:08+00:00",
+      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
+      "channel_title": "Cole Medin",
+      "channel_handle": "@colemedin",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/UztrFXaSWv0/mqdefault.jpg",
+      "description": "The best AI engineers barely prompt their agents anymore. Sounds crazy I know! They build a loop that does the prompting for them and let it run for hours while they step away. The head of Claude Code at Anthropic put it bluntly: he doesn't prompt Claude, he has loops running that prompt Claude for him.\n\nThe only problem is this gets expensive (and hallucinations compound) - you need a harness wit",
+      "categories": [
+        "applied_ai",
+        "systems_db",
+        "swe_craft",
+        "dev_news_lite"
+      ],
+      "base_score": 15,
+      "feedback_mult": 1.0,
+      "score": 15.0,
+      "view_count": 5335,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "10C8VMN3hjU",
+      "title": "GLM 5.2 - The Top NEW Open Weights Model",
+      "url": "https://www.youtube.com/watch?v=10C8VMN3hjU",
+      "duration": 802,
+      "published_at": "2026-06-17T13:00:12+00:00",
+      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
+      "channel_title": "Sam Witteveen",
+      "channel_handle": "@samwitteveenai",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/10C8VMN3hjU/mqdefault.jpg",
+      "description": "In this video, I look at the latest release from Z.AI, which is GLM 5.2. This model has soared to the top of the charts for open-weight models, and it's surprisingly beating a lot of proprietary models out there, not only on their own benchmarks but on things like the Artificial Analysis benchmarks. \n\nBlog: https://z.ai/blog/glm-5.2\nWeights: https://huggingface.co/collections/zai-org/glm-52\nAA: ht",
+      "categories": [
+        "applied_ai",
+        "civic_open"
+      ],
+      "base_score": 11,
+      "feedback_mult": 1.0,
+      "score": 12.1,
+      "view_count": 13792,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "HAyp4uRnzDk",
       "title": "A Year Into Making LLMs, and now Topped Open Source SoTA?!",
@@ -25,9 +73,30 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 16145,
+      "view_count": 35984,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "nKVML4YaBqs",
+      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
+      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
+      "duration": 1568,
+      "published_at": "2026-06-15T14:33:58+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
+      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 12223,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "D1BHGv4gB6c",
@@ -48,7 +117,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 16236,
+      "view_count": 17065,
       "episode_number": null,
       "series_key": null
     },
@@ -71,7 +140,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 3102,
+      "view_count": 3489,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -95,7 +164,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 12888,
+      "view_count": 13357,
       "episode_number": null,
       "series_key": null
     },
@@ -123,30 +192,6 @@
       "series_key": null
     },
     {
-      "id": "1wfY7GCVvh0",
-      "title": "Google's Agents CLI: The CLI + Skills Combination to Ship AI Agents EASILY",
-      "url": "https://www.youtube.com/watch?v=1wfY7GCVvh0",
-      "duration": 917,
-      "published_at": "2026-06-11T00:00:16+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/1wfY7GCVvh0/mqdefault.jpg",
-      "description": "Building an AI agent is easy these days. The wild part is that shipping one to production is finally just as easy too.\n\nIn this video I build an entire AI agent and deploy it in minutes using Google's new Agents CLI (open source!). It gets its own identity, a locked-down sandbox to run the code it writes, and a full audit trail! These are the kinds of things you need when shipping production grade",
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "dev_news_lite"
-      ],
-      "base_score": 12,
-      "feedback_mult": 1.0,
-      "score": 12.0,
-      "view_count": 5442,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
       "id": "XWpTgCvgYaE",
       "title": "Anthropic Expert: Rethink What's Possible With Fable 5",
       "url": "https://www.youtube.com/watch?v=XWpTgCvgYaE",
@@ -165,7 +210,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 14822,
+      "view_count": 15054,
       "episode_number": null,
       "series_key": null
     },
@@ -187,7 +232,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7461,
+      "view_count": 7749,
       "episode_number": null,
       "series_key": null
     },
@@ -210,9 +255,32 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 2633,
+      "view_count": 2700,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "YAtemmUgPGQ",
+      "title": "2026 AI for Mental Health (AI4MH) Symposium: Academic Research \u2014Foundations & Frontiers",
+      "url": "https://www.youtube.com/watch?v=YAtemmUgPGQ",
+      "duration": 3558,
+      "published_at": "2026-06-08T21:07:42+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/YAtemmUgPGQ/mqdefault.jpg",
+      "description": "This session highlights the evolving research landscape and leading academic efforts shaping AI in mental health. Short talks span technical innovation, human-centered design, and clinical implementation, followed by discussion. The focus is on translating rigorous science into real-world impact and clarifying where the field is headed.\n\nSpeakers:\n\nLeanne Williams \u2014 Vincent V.C. Woo Professor and ",
+      "categories": [
+        "healthcare_ai"
+      ],
+      "base_score": -10,
+      "feedback_mult": 1.0,
+      "score": -12.0,
+      "view_count": 192,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "MBrngFrbEAs",
@@ -232,32 +300,32 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1411,
+      "view_count": 1451,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "WqSWZuGS9pc",
-      "title": "I am done with Golang",
-      "url": "https://www.youtube.com/watch?v=WqSWZuGS9pc",
-      "duration": 702,
-      "published_at": "2026-06-08T12:30:13+00:00",
-      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
-      "channel_title": "The PrimeTime",
-      "channel_handle": "@ThePrimeTimeagen",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/WqSWZuGS9pc/mqdefault.jpg",
-      "description": "Blacksmith is the fastest way to run your Github Actions. 2x faster job runs, 4x faster on caches, and 40x faster on Docker builds, slashing costs by up to 75%. Already trusted by over 3,500 companies, including Ashby, Veed, Clerk, and Mintlify \u2192 https://trm.sh/blacksmith\n\nResources:\n* https://github.com/golang/go/issues/77273\n\nTopics:\n* Go\n* Language Evolution\n\nhttps://twitch.tv/ThePrimeagen - I ",
+      "id": "YG4t7aMY81c",
+      "title": "I Ranked Cloudflare\u2019s Software Factory and Wow\u2026 S TIER TOKENOMICS",
+      "url": "https://www.youtube.com/watch?v=YG4t7aMY81c",
+      "duration": 2514,
+      "published_at": "2026-06-08T13:00:28+00:00",
+      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
+      "channel_title": "IndyDevDan",
+      "channel_handle": "@IndyDevDan",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/YG4t7aMY81c/mqdefault.jpg",
+      "description": "Cloudflare ran 130,000 AI code reviews across 5,000 codebases for ONE DOLLAR per review. If you still think agentic AI isn't increasing productivity, open your eyes. \ud83d\udd25\n\nThis is our first ever agentic engineering tier list, and Cloudflare just earned S TIER TOKENOMICS. We rank every element of their software factory F through S (plus a legendary ZTE level) and break down exactly how they pulled off",
       "categories": [
+        "applied_ai",
         "swe_craft"
       ],
-      "base_score": 3,
-      "feedback_mult": 1.15,
-      "score": 2.07,
-      "view_count": 407696,
+      "base_score": 9,
+      "feedback_mult": 0.94,
+      "score": 10.19,
+      "view_count": 16374,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "ileNtKrbe8w",
@@ -278,7 +346,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 177,
+      "view_count": 183,
       "episode_number": null,
       "series_key": null
     },
@@ -301,32 +369,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 5984,
+      "view_count": 6073,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "mjmswQurIU4",
-      "title": "How Legora Went From YC to $100M ARR in 18 Months",
-      "url": "https://www.youtube.com/watch?v=mjmswQurIU4",
-      "duration": 1367,
-      "published_at": "2026-06-05T14:30:09+00:00",
-      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
-      "channel_title": "Y Combinator",
-      "channel_handle": "@ycombinator",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/mjmswQurIU4/mqdefault.jpg",
-      "description": "Max Junestrand was a college student in Sweden with a McKinsey offer in his back pocket. Instead, he and two co-founders went all in on legal AI \u2014 and built Legora (YC W24) into one of the fastest-growing enterprise companies in history, surpassing $100M in ARR in just 18 months. Today, Legora is one of Europe's most valuable AI startups, recently valued at $5.6B, with close to 500 employees servi",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 7.2,
-      "view_count": 15766,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "F0o11hZ1EuE",
@@ -346,7 +391,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 52387,
+      "view_count": 53894,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -369,30 +414,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3838,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "QF50fdpiIOc",
-      "title": "Nemotron 3 Ultra NVIDIA's Beast Model",
-      "url": "https://www.youtube.com/watch?v=QF50fdpiIOc",
-      "duration": 959,
-      "published_at": "2026-06-04T13:30:00+00:00",
-      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
-      "channel_title": "Sam Witteveen",
-      "channel_handle": "@samwitteveenai",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/QF50fdpiIOc/mqdefault.jpg",
-      "description": "In this video, we look at the latest Nemotron model from NVIDIA, Nemotron 3 Ultra. This is a 550 billion parameter model with 55 billion parameters active. #NVIDIAAI #Nemotron3Ultra \n\nBlog: https://nvda.ws/3PTkjlQ\nHF: https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4\nPaper: https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf\n\nTwitter: ht",
-      "categories": [
-        "applied_ai",
-        "civic_open"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 12.1,
-      "view_count": 13616,
+      "view_count": 3869,
       "episode_number": null,
       "series_key": null
     },
@@ -417,7 +439,7 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 10187,
+      "view_count": 10314,
       "episode_number": null,
       "series_key": null
     },
@@ -439,7 +461,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 17921,
+      "view_count": 18655,
       "episode_number": null,
       "series_key": null
     },
@@ -461,7 +483,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 79326,
+      "view_count": 79682,
       "episode_number": null,
       "series_key": null
     },
@@ -485,30 +507,9 @@
       "base_score": 14,
       "feedback_mult": 1.0,
       "score": 14.0,
-      "view_count": 802,
+      "view_count": 804,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "H-SgQP3Hif0",
-      "title": "dude wtf",
-      "url": "https://www.youtube.com/watch?v=H-SgQP3Hif0",
-      "duration": 769,
-      "published_at": "2026-05-27T14:33:25+00:00",
-      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
-      "channel_title": "Low Level",
-      "channel_handle": "@LowLevelTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/H-SgQP3Hif0/mqdefault.jpg",
-      "description": "Stay ahead of hackers by seeing into the infostealer economy at https://go.lowlevel.tv/flare2026\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowle",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 294958,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "B246K_G7mHU",
@@ -530,9 +531,30 @@
       "base_score": 14,
       "feedback_mult": 1.0,
       "score": 16.8,
-      "view_count": 78272,
+      "view_count": 79021,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "bBh8fpb3h5c",
+      "title": "Scroll-driven animations without any JS",
+      "url": "https://www.youtube.com/watch?v=bBh8fpb3h5c",
+      "duration": 334,
+      "published_at": "2026-05-27T13:00:14+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/bBh8fpb3h5c/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The previous video I mentioned: https://youtu.be/1qduzphMJHs?si=wBESSXV6ndW5zPw7&t=10\n\u2705 A deeper dive into counters: https://youtu.be/tnSzkAiiQ4w\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come han",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 14825,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "qPuzWFvRajk",
@@ -553,7 +575,7 @@
       "base_score": 11,
       "feedback_mult": 1.23,
       "score": 12.14,
-      "view_count": 538540,
+      "view_count": 539900,
       "episode_number": null,
       "series_key": null
     },
@@ -576,30 +598,9 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7309,
+      "view_count": 7316,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "UzMNBN6xLLA",
-      "title": "9 Things People Get Wrong With My /grill-* skills",
-      "url": "https://www.youtube.com/watch?v=UzMNBN6xLLA",
-      "duration": 808,
-      "published_at": "2026-05-25T13:22:40+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/UzMNBN6xLLA/mqdefault.jpg",
-      "description": "Learn how to master the /grill-with-docs skill and avoid common mistakes that waste context and planning time. This video covers nine key failure modes and how to fix them.\n\n0:00 Overview\n1:28 Low vs high fidelity questions\n3:44 Managing scope correctly\n5:41 Being active not passive\n6:54 Preserving grilling session value\n8:40 Using smart models for grilling\n10:24 Running parallel grilling sessions",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 68695,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "dMB28SYMZ6k",
@@ -619,7 +620,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1260,
+      "view_count": 1276,
       "episode_number": null,
       "series_key": null
     },
@@ -643,7 +644,7 @@
       "base_score": 14,
       "feedback_mult": 0.94,
       "score": 13.21,
-      "view_count": 87407,
+      "view_count": 87888,
       "episode_number": null,
       "series_key": null
     },
@@ -666,35 +667,236 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 23881,
+      "view_count": 23910,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "PIdETjcXNIk",
-      "title": "Pi to Pi: Two-Way Agent Orchestration with the Pi Coding Agent",
-      "url": "https://www.youtube.com/watch?v=PIdETjcXNIk",
-      "duration": 2092,
-      "published_at": "2026-05-18T13:00:15+00:00",
-      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
-      "channel_title": "IndyDevDan",
-      "channel_handle": "@IndyDevDan",
+      "id": "dtAJ2dOd3ko",
+      "title": "/handoff is my new favourite skill",
+      "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
+      "duration": 744,
+      "published_at": "2026-05-21T10:32:40+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/PIdETjcXNIk/mqdefault.jpg",
-      "description": "Subagents are the LOCAL MAXIMUM of multi-agent orchestration and most engineers are still stuck there. What's better?\n\nAgents that work together. Specifically, two pi coding agents that can coordinate using any model (gpt-5.5, opus 4.7, glm 5.1, etc) at any time to operate as a TEAM. \n\nFlat teams beats hierarchy. The best ideas die in agent hierarchies the same way they die in corporate hierarchie",
+      "thumb": "https://i.ytimg.com/vi/dtAJ2dOd3ko/mqdefault.jpg",
+      "description": "Learn how to hand off your AI coding sessions to separate agents using the /handoff skill. In this deep dive, I explain why I built this skill, how it differs from /compact, and show real-world patterns for managing multiple concurrent AI sessions.\n\n0:00 Discovering the handoff skill\n1:36 Context windows and compact explained\n4:49 Why handoff differs from compact\n6:14 Using handoff during grilling",
       "categories": [
-        "applied_ai",
-        "swe_craft"
+        "applied_ai"
       ],
-      "base_score": 9,
+      "base_score": 6,
       "feedback_mult": 0.94,
-      "score": 10.19,
-      "view_count": 32757,
+      "score": 5.66,
+      "view_count": 325839,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     }
   ],
   "pool": [
+    {
+      "id": "IXWtyLSEXcE",
+      "title": "What Does Palantir Actually Want? (Re-upload)",
+      "url": "https://www.youtube.com/watch?v=IXWtyLSEXcE",
+      "duration": 1778,
+      "published_at": "2026-06-17T18:13:33+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/IXWtyLSEXcE/mqdefault.jpg",
+      "description": "Click this link https://boot.dev/?promo=COLDFUSION and use my code COLDFUSION to get 25% off your first payment for boot.dev.\n\nWatch or listen to ColdFusion on Spotify: https://open.spotify.com/show/1YEwCKoRz8fEDqheXB6UJ1\n\n\nColdFusion Music: \n\nhttps://www.youtube.com/@coldfusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusion\nhttps://facebook.com/ColdFusi",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 82155,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "ML3q7Ok4hJg",
+      "title": "I read every major CS paper of the last 100 years...",
+      "url": "https://www.youtube.com/watch?v=ML3q7Ok4hJg",
+      "duration": 612,
+      "published_at": "2026-06-17T16:29:01+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/ML3q7Ok4hJg/mqdefault.jpg",
+      "description": "Coder lets you self-host your coding agents with enterprise-grade security - https://fandf.co/4tZvtU5\n\nThese 10 mind-blowing computer science papers made everything in modern computing possible. In today's video, we'll take a look at how they changed the world for better or worse. \n\n#coding #programming #computerscience #computer \n\n\ud83d\udd16 Topics Covered\n\n- On Computable Numbers, with an Application to ",
+      "categories": [
+        "applied_ai",
+        "math_viz",
+        "healthcare_ai",
+        "hype"
+      ],
+      "base_score": -4,
+      "feedback_mult": 1.23,
+      "score": -4.42,
+      "view_count": 295973,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "cX3G0cPRJiA",
+      "title": "big news",
+      "url": "https://www.youtube.com/watch?v=cX3G0cPRJiA",
+      "duration": 647,
+      "published_at": "2026-06-17T16:20:00+00:00",
+      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
+      "channel_title": "Low Level",
+      "channel_handle": "@LowLevelTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/cX3G0cPRJiA/mqdefault.jpg",
+      "description": "Try Flare's ThreatFlow for FREE right now @ https://go.lowlevel.tv/flareflow\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 82028,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "OCEVqy8kl7Q",
+      "title": "How GitHub Deals with 17 Million Pull Requests a Month",
+      "url": "https://www.youtube.com/watch?v=OCEVqy8kl7Q",
+      "duration": 1688,
+      "published_at": "2026-06-17T15:57:30+00:00",
+      "channel_id": "UCjIMtrzxYc0lblGhmOgC_CA",
+      "channel_title": "Every",
+      "channel_handle": "@EveryInc",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/OCEVqy8kl7Q/mqdefault.jpg",
+      "description": "Last year, there were 1 billion commits on GitHub. This year, Kyle Daigle expects that number to exceed 14 billion, a two-component explosion caused by more humans\u2014and their agents\u2014issuing pull requests. In March alone, 17 million pull requests on GitHub were created by agents.\nDaigle is the COO of GitHub and Microsoft\u2019s chief marketing officer for developer products. He\u2019s been at GitHub for 13 ye",
+      "categories": [
+        "applied_ai",
+        "swe_craft",
+        "humanities"
+      ],
+      "base_score": 3,
+      "feedback_mult": 1.0,
+      "score": 3.6,
+      "view_count": 1035,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "7FXpIuJ1OHQ",
+      "title": "Building Tony Stark's 'Jarvis' with Claude Fable 5",
+      "url": "https://www.youtube.com/watch?v=7FXpIuJ1OHQ",
+      "duration": 375,
+      "published_at": "2026-06-17T15:22:47+00:00",
+      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
+      "channel_title": "DesignCourse",
+      "channel_handle": "@DesignCourse",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/7FXpIuJ1OHQ/mqdefault.jpg",
+      "description": "Build with Claude Code: https://designcourse.com/app/course/claude-code-ai-saas\n-- When Fable 5 was available, I started building my own agent orchestration system with real-time voice, a three.js mesh head, with the ability to access all of my projects and help build them for me. It's only a couple days of work, but I got quite far, but have much further to go (whenever they re-release Fable 5). ",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.6,
+      "view_count": 4043,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "Ve61_0qOuK4",
+      "title": "What Happens When We Stop Dying? - Max Hodak Live",
+      "url": "https://www.youtube.com/watch?v=Ve61_0qOuK4",
+      "duration": 4194,
+      "published_at": "2026-06-17T14:10:16+00:00",
+      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
+      "channel_title": "Core Memory Podcast",
+      "channel_handle": "@CoreMemorypodcast",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Ve61_0qOuK4/mqdefault.jpg",
+      "description": "As the co-founder and CEO of Science Corporation, Max Hodak has already restored a form of sight to blind patients, with one trial participant going from being unable to recognize faces for over a decade to finishing a 300 page novel. In front of a packed live audience, he sits down with Ashlee Vance to explain how the company's retinal implant, called PRIMA, actually works, why he thinks medicine",
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "base_score": -4,
+      "feedback_mult": 1.0,
+      "score": -4.0,
+      "view_count": 992,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "R56RJFZBasQ",
+      "title": "How To Pick A Startup Idea",
+      "url": "https://www.youtube.com/watch?v=R56RJFZBasQ",
+      "duration": 691,
+      "published_at": "2026-06-17T14:00:15+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/R56RJFZBasQ/mqdefault.jpg",
+      "description": "Many founders get stuck trying to find the perfect startup idea before they commit. But the perfect idea doesn't exist in the abstract. The only way to find what works is to pick one, go deep, and get feedback from real customers.\n\nIn this episode of Startup School, YC General Partner Jon Xu breaks down how to choose what to build, \"burn the other boats,\" and go deep enough to practically run your",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 19129,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "Rbafod4FvVY",
+      "title": "CSS style queries in action",
+      "url": "https://www.youtube.com/watch?v=Rbafod4FvVY",
+      "duration": 409,
+      "published_at": "2026-06-17T13:00:38+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Rbafod4FvVY/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come hang out with other devs in my Discord Community https://discord.gg/nTYCvrK\n\u2b50 Are you a beginner? HTML & CSS for absolute beginners is for you: https://learn.ke",
+      "categories": [
+        "systems_db"
+      ],
+      "base_score": 5,
+      "feedback_mult": 1.0,
+      "score": 5.0,
+      "view_count": 6389,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "D6hXy75DO1o",
+      "title": "Growing & Thriving in a Multi-model World \u2022 Alberto Brandolini \u2022 GOTO 2025",
+      "url": "https://www.youtube.com/watch?v=D6hXy75DO1o",
+      "duration": 2896,
+      "published_at": "2026-06-17T12:00:04+00:00",
+      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
+      "channel_title": "GOTO Conferences",
+      "channel_handle": "@GOTO-",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/D6hXy75DO1o/mqdefault.jpg",
+      "description": "This presentation was recorded at GOTO Copenhagen 2025. #GOTOcon #GOTOcph\nhttps://gotocph.com\n\nAlberto Brandolini - Creator of EventStorming @AlbertoBrandolini\n\nRESOURCES\nhttps://bsky.app/profile/ziobrando.bsky.social\nhttps://twitter.com/ziobrando\nhttps://github.com/ziobrando\nhttps://www.linkedin.com/in/brando\nhttp://www.avanscoperta.it/en/trainer/a-brandolini\n\nLinks\nhttps://blog.avanscoperta.it\nh",
+      "categories": [
+        "applied_ai",
+        "civic_open",
+        "swe_craft",
+        "climate_grid"
+      ],
+      "base_score": 8,
+      "feedback_mult": 1.0,
+      "score": 8.0,
+      "view_count": 343,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "l72ufA-4SzE",
       "title": "They Looked Inside Claude\u2019s AI's Mind. It Got Weird",
@@ -713,7 +915,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 51846,
+      "view_count": 70262,
       "episode_number": null,
       "series_key": null
     },
@@ -735,7 +937,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 5786,
+      "view_count": 6701,
       "episode_number": null,
       "series_key": null
     },
@@ -755,7 +957,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 24407,
+      "view_count": 47738,
       "episode_number": null,
       "series_key": null
     },
@@ -777,10 +979,9 @@
       "base_score": 5,
       "feedback_mult": 1.15,
       "score": 3.45,
-      "view_count": 159134,
+      "view_count": 190981,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "Gs9XuoQnofg",
@@ -802,7 +1003,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 311,
+      "view_count": 401,
       "episode_number": null,
       "series_key": null
     },
@@ -822,7 +1023,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 227229,
+      "view_count": 249122,
       "episode_number": null,
       "series_key": null
     },
@@ -844,7 +1045,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 816352,
+      "view_count": 892910,
       "episode_number": null,
       "series_key": null
     },
@@ -864,7 +1065,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 136,
+      "view_count": 148,
       "episode_number": null,
       "series_key": null
     },
@@ -889,27 +1090,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 16913,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "nKVML4YaBqs",
-      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
-      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
-      "duration": 1568,
-      "published_at": "2026-06-15T14:33:58+00:00",
-      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
-      "channel_title": "Computerphile",
-      "channel_handle": "@Computerphile",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
-      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 10816,
+      "view_count": 19277,
       "episode_number": null,
       "series_key": null
     },
@@ -929,7 +1110,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1416,
+      "view_count": 1570,
       "episode_number": null,
       "series_key": null
     },
@@ -951,7 +1132,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5037,
+      "view_count": 5727,
       "episode_number": null,
       "series_key": null
     },
@@ -973,7 +1154,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 435,
+      "view_count": 568,
       "episode_number": null,
       "series_key": null
     },
@@ -993,7 +1174,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 56450,
+      "view_count": 59138,
       "episode_number": null,
       "series_key": null
     },
@@ -1017,7 +1198,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 67309,
+      "view_count": 69046,
       "episode_number": null,
       "series_key": null
     },
@@ -1040,7 +1221,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 20177,
+      "view_count": 23390,
       "episode_number": null,
       "series_key": null
     },
@@ -1062,7 +1243,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6013,
+      "view_count": 6086,
       "episode_number": null,
       "series_key": null
     },
@@ -1082,7 +1263,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 22032,
+      "view_count": 22994,
       "episode_number": null,
       "series_key": null
     },
@@ -1102,7 +1283,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 17779,
+      "view_count": 17841,
       "episode_number": null,
       "series_key": null
     },
@@ -1122,13 +1303,13 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 970774,
+      "view_count": 983724,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "3rWSvrFahIY",
-      "title": "5 Papers That Show Where AI Research Is Heading Right Now",
+      "title": "Self-Play for LLMs, AI for Biology, Formal Verification, and More | YC Paper Club",
       "url": "https://www.youtube.com/watch?v=3rWSvrFahIY",
       "duration": 4615,
       "published_at": "2026-06-12T14:00:20+00:00",
@@ -1144,7 +1325,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 73737,
+      "view_count": 77925,
       "episode_number": null,
       "series_key": null
     },
@@ -1164,7 +1345,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 328946,
+      "view_count": 336645,
       "episode_number": null,
       "series_key": null
     },
@@ -1186,7 +1367,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 684198,
+      "view_count": 710552,
       "episode_number": null,
       "series_key": null
     },
@@ -1206,7 +1387,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 10706,
+      "view_count": 11424,
       "episode_number": null,
       "series_key": null
     },
@@ -1228,7 +1409,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 940,
+      "view_count": 959,
       "episode_number": null,
       "series_key": null
     },
@@ -1252,7 +1433,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 4923,
+      "view_count": 5129,
       "episode_number": null,
       "series_key": null
     },
@@ -1274,7 +1455,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2316,
+      "view_count": 2388,
       "episode_number": null,
       "series_key": null
     },
@@ -1294,7 +1475,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 17,
+      "view_count": 21,
       "episode_number": null,
       "series_key": null
     },
@@ -1314,7 +1495,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 65,
+      "view_count": 70,
       "episode_number": null,
       "series_key": null
     },
@@ -1334,7 +1515,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 80,
+      "view_count": 87,
       "episode_number": null,
       "series_key": null
     },
@@ -1356,7 +1537,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 131,
+      "view_count": 132,
       "episode_number": null,
       "series_key": null
     },
@@ -1383,6 +1564,30 @@
       "series_key": null
     },
     {
+      "id": "1wfY7GCVvh0",
+      "title": "Google's Agents CLI: The CLI + Skills Combination to Ship AI Agents EASILY",
+      "url": "https://www.youtube.com/watch?v=1wfY7GCVvh0",
+      "duration": 917,
+      "published_at": "2026-06-11T00:00:16+00:00",
+      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
+      "channel_title": "Cole Medin",
+      "channel_handle": "@colemedin",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/1wfY7GCVvh0/mqdefault.jpg",
+      "description": "Building an AI agent is easy these days. The wild part is that shipping one to production is finally just as easy too.\n\nIn this video I build an entire AI agent and deploy it in minutes using Google's new Agents CLI (open source!). It gets its own identity, a locked-down sandbox to run the code it writes, and a full audit trail! These are the kinds of things you need when shipping production grade",
+      "categories": [
+        "applied_ai",
+        "civic_open",
+        "dev_news_lite"
+      ],
+      "base_score": 12,
+      "feedback_mult": 1.0,
+      "score": 12.0,
+      "view_count": 5572,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
       "id": "haK1KoQWm18",
       "title": "Claude Fable 5 - Full 319 page Breakdown",
       "url": "https://www.youtube.com/watch?v=haK1KoQWm18",
@@ -1400,7 +1605,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 106164,
+      "view_count": 107257,
       "episode_number": null,
       "series_key": null
     },
@@ -1422,7 +1627,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 576370,
+      "view_count": 585892,
       "episode_number": null,
       "series_key": null
     },
@@ -1445,7 +1650,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 604523,
+      "view_count": 612604,
       "episode_number": null,
       "series_key": null
     },
@@ -1465,7 +1670,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 35211,
+      "view_count": 37183,
       "episode_number": null,
       "series_key": null
     },
@@ -1487,7 +1692,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 2335,
+      "view_count": 2373,
       "episode_number": null,
       "series_key": null
     },
@@ -1507,7 +1712,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2209,
+      "view_count": 2229,
       "episode_number": null,
       "series_key": null
     },
@@ -1531,7 +1736,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.2,
-      "view_count": 187,
+      "view_count": 189,
       "episode_number": null,
       "series_key": null
     },
@@ -1553,7 +1758,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9054,
+      "view_count": 9147,
       "episode_number": null,
       "series_key": null
     },
@@ -1575,7 +1780,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 966742,
+      "view_count": 969214,
       "episode_number": null,
       "series_key": null
     },
@@ -1597,7 +1802,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 127650,
+      "view_count": 128076,
       "episode_number": null,
       "series_key": null
     },
@@ -1619,29 +1824,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 706,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "YAtemmUgPGQ",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Academic Research \u2014Foundations & Frontiers",
-      "url": "https://www.youtube.com/watch?v=YAtemmUgPGQ",
-      "duration": 3558,
-      "published_at": "2026-06-08T21:07:42+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/YAtemmUgPGQ/mqdefault.jpg",
-      "description": "This session highlights the evolving research landscape and leading academic efforts shaping AI in mental health. Short talks span technical innovation, human-centered design, and clinical implementation, followed by discussion. The focus is on translating rigorous science into real-world impact and clarifying where the field is headed.\n\nSpeakers:\n\nLeanne Williams \u2014 Vincent V.C. Woo Professor and ",
-      "categories": [
-        "healthcare_ai"
-      ],
-      "base_score": -10,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 189,
+      "view_count": 720,
       "episode_number": null,
       "series_key": null
     },
@@ -1664,7 +1847,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 73,
+      "view_count": 77,
       "episode_number": null,
       "series_key": null
     },
@@ -1732,7 +1915,7 @@
       "base_score": -22,
       "feedback_mult": 1.0,
       "score": -26.4,
-      "view_count": 77,
+      "view_count": 79,
       "episode_number": null,
       "series_key": null
     },
@@ -1754,9 +1937,10 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 82546,
+      "view_count": 84463,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "eXXwN_TDdLU",
@@ -1774,30 +1958,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1086269,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "YG4t7aMY81c",
-      "title": "I Ranked Cloudflare\u2019s Software Factory and Wow\u2026 S TIER TOKENOMICS",
-      "url": "https://www.youtube.com/watch?v=YG4t7aMY81c",
-      "duration": 2514,
-      "published_at": "2026-06-08T13:00:28+00:00",
-      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
-      "channel_title": "IndyDevDan",
-      "channel_handle": "@IndyDevDan",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/YG4t7aMY81c/mqdefault.jpg",
-      "description": "Cloudflare ran 130,000 AI code reviews across 5,000 codebases for ONE DOLLAR per review. If you still think agentic AI isn't increasing productivity, open your eyes. \ud83d\udd25\n\nThis is our first ever agentic engineering tier list, and Cloudflare just earned S TIER TOKENOMICS. We rank every element of their software factory F through S (plus a legendary ZTE level) and break down exactly how they pulled off",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "feedback_mult": 0.94,
-      "score": 10.19,
-      "view_count": 16163,
+      "view_count": 1106789,
       "episode_number": null,
       "series_key": null
     },
@@ -1821,7 +1982,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 16622,
+      "view_count": 16809,
       "episode_number": null,
       "series_key": null
     },
@@ -1841,7 +2002,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2111,
+      "view_count": 2154,
       "episode_number": null,
       "series_key": null
     },
@@ -1863,7 +2024,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 8284,
+      "view_count": 8412,
       "episode_number": null,
       "series_key": null
     },
@@ -1885,7 +2046,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 40608,
+      "view_count": 41832,
       "episode_number": null,
       "series_key": null
     },
@@ -1907,7 +2068,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 923888,
+      "view_count": 947365,
       "episode_number": null,
       "series_key": null
     },
@@ -1929,7 +2090,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 347,
+      "view_count": 354,
       "episode_number": null,
       "series_key": null
     },
@@ -1951,7 +2112,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 1671,
+      "view_count": 1676,
       "episode_number": null,
       "series_key": null
     },
@@ -1971,7 +2132,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 20027,
+      "view_count": 20469,
       "episode_number": null,
       "series_key": null
     },
@@ -1991,7 +2152,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 64527,
+      "view_count": 65382,
       "episode_number": null,
       "series_key": null
     },
@@ -2011,7 +2172,29 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 142298,
+      "view_count": 143081,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "mjmswQurIU4",
+      "title": "How Legora Went From YC to $100M ARR in 18 Months",
+      "url": "https://www.youtube.com/watch?v=mjmswQurIU4",
+      "duration": 1367,
+      "published_at": "2026-06-05T14:30:09+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/mjmswQurIU4/mqdefault.jpg",
+      "description": "Max Junestrand was a college student in Sweden with a McKinsey offer in his back pocket. Instead, he and two co-founders went all in on legal AI \u2014 and built Legora (YC W24) into one of the fastest-growing enterprise companies in history, surpassing $100M in ARR in just 18 months. Today, Legora is one of Europe's most valuable AI startups, recently valued at $5.6B, with close to 500 employees servi",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 15989,
       "episode_number": null,
       "series_key": null
     },
@@ -2034,7 +2217,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 1123,
+      "view_count": 1143,
       "episode_number": null,
       "series_key": null
     },
@@ -2056,7 +2239,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 144695,
+      "view_count": 150746,
       "episode_number": null,
       "series_key": null
     },
@@ -2076,7 +2259,30 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 42360,
+      "view_count": 43091,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "QF50fdpiIOc",
+      "title": "Nemotron 3 Ultra NVIDIA's Beast Model",
+      "url": "https://www.youtube.com/watch?v=QF50fdpiIOc",
+      "duration": 959,
+      "published_at": "2026-06-04T13:30:00+00:00",
+      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
+      "channel_title": "Sam Witteveen",
+      "channel_handle": "@samwitteveenai",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/QF50fdpiIOc/mqdefault.jpg",
+      "description": "In this video, we look at the latest Nemotron model from NVIDIA, Nemotron 3 Ultra. This is a 550 billion parameter model with 55 billion parameters active. #NVIDIAAI #Nemotron3Ultra \n\nBlog: https://nvda.ws/3PTkjlQ\nHF: https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-NVFP4\nPaper: https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf\n\nTwitter: ht",
+      "categories": [
+        "applied_ai",
+        "civic_open"
+      ],
+      "base_score": 11,
+      "feedback_mult": 1.0,
+      "score": 12.1,
+      "view_count": 13666,
       "episode_number": null,
       "series_key": null
     },
@@ -2098,7 +2304,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 25694,
+      "view_count": 26036,
       "episode_number": null,
       "series_key": null
     },
@@ -2118,7 +2324,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 307104,
+      "view_count": 318359,
       "episode_number": null,
       "series_key": null
     },
@@ -2140,7 +2346,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6076,
+      "view_count": 6123,
       "episode_number": null,
       "series_key": null
     },
@@ -2160,7 +2366,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 29659,
+      "view_count": 30501,
       "episode_number": null,
       "series_key": null
     },
@@ -2182,7 +2388,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5264,
+      "view_count": 5323,
       "episode_number": null,
       "series_key": null
     },
@@ -2204,7 +2410,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 83510,
+      "view_count": 85381,
       "episode_number": null,
       "series_key": null
     },
@@ -2224,7 +2430,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 379206,
+      "view_count": 381549,
       "episode_number": null,
       "series_key": null
     },
@@ -2246,7 +2452,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 99270,
+      "view_count": 99518,
       "episode_number": null,
       "series_key": null
     },
@@ -2268,7 +2474,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 5957,
+      "view_count": 5981,
       "episode_number": null,
       "series_key": null
     },
@@ -2290,7 +2496,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 3603,
+      "view_count": 3619,
       "episode_number": null,
       "series_key": null
     },
@@ -2310,7 +2516,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 434246,
+      "view_count": 438802,
       "episode_number": null,
       "series_key": null
     },
@@ -2332,7 +2538,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 7182,
+      "view_count": 7267,
       "episode_number": null,
       "series_key": null
     },
@@ -2355,7 +2561,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 752,
+      "view_count": 759,
       "episode_number": null,
       "series_key": null
     },
@@ -2375,7 +2581,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2055,
+      "view_count": 2056,
       "episode_number": null,
       "series_key": null
     },
@@ -2397,7 +2603,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 9024,
+      "view_count": 9117,
       "episode_number": null,
       "series_key": null
     },
@@ -2420,7 +2626,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 41850,
+      "view_count": 42059,
       "episode_number": null,
       "series_key": null
     },
@@ -2442,7 +2648,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15256,
+      "view_count": 15322,
       "episode_number": null,
       "series_key": null
     },
@@ -2464,7 +2670,7 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 13319,
+      "view_count": 13422,
       "episode_number": null,
       "series_key": null
     },
@@ -2486,7 +2692,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14407,
+      "view_count": 14556,
       "episode_number": null,
       "series_key": null
     },
@@ -2532,7 +2738,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 86982,
+      "view_count": 89428,
       "episode_number": null,
       "series_key": null
     },
@@ -2554,7 +2760,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 11996,
+      "view_count": 12112,
       "episode_number": null,
       "series_key": null
     },
@@ -2574,7 +2780,7 @@
       "base_score": 0,
       "feedback_mult": 1.23,
       "score": 0.0,
-      "view_count": 311483,
+      "view_count": 312263,
       "episode_number": null,
       "series_key": null
     },
@@ -2596,9 +2802,10 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 83863,
+      "view_count": 83974,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "QwnFsWZ7uss",
@@ -2619,7 +2826,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 44293,
+      "view_count": 44451,
       "episode_number": null,
       "series_key": null
     },
@@ -2639,7 +2846,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 38037,
+      "view_count": 38199,
       "episode_number": null,
       "series_key": null
     },
@@ -2661,7 +2868,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 20726,
+      "view_count": 20824,
       "episode_number": null,
       "series_key": null
     },
@@ -2683,7 +2890,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 3790,
+      "view_count": 3794,
       "episode_number": null,
       "series_key": null
     },
@@ -2703,7 +2910,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 104701,
+      "view_count": 106176,
       "episode_number": null,
       "series_key": null
     },
@@ -2725,7 +2932,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21209,
+      "view_count": 21223,
       "episode_number": null,
       "series_key": null
     },
@@ -2748,7 +2955,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 547,
+      "view_count": 550,
       "episode_number": null,
       "series_key": null
     },
@@ -2770,7 +2977,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7081,
+      "view_count": 7122,
       "episode_number": null,
       "series_key": null
     },
@@ -2793,7 +3000,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 54645,
+      "view_count": 55023,
       "episode_number": null,
       "series_key": null
     },
@@ -2815,7 +3022,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 853,
+      "view_count": 854,
       "episode_number": null,
       "series_key": null
     },
@@ -2838,7 +3045,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 53233,
+      "view_count": 53907,
       "episode_number": null,
       "series_key": null
     },
@@ -2861,7 +3068,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 9.6,
-      "view_count": 857,
+      "view_count": 870,
       "episode_number": null,
       "series_key": null
     },
@@ -2876,14 +3083,14 @@
       "channel_handle": "@bycloudAI",
       "channel_tier": 2,
       "thumb": "https://i.ytimg.com/vi/gC76aeibdFA/mqdefault.jpg",
-      "description": "Need to fine-tune a model without the hassle? Try out Crusoe's serverless fine-tuning today! https://www.crusoe.ai/contact-sales/serverless-preview?utm_source=bycloud&utm_medium=influencer&utm_campaign=serverlessfinetuning\n\nAfter a month of delay, here is my part 1 breakdown of the DeepSeek-V4 paper. In this video, I'll be covering all the key developments they've made that you should know if you ",
+      "description": "Need to fine-tune a model without the hassle? Try out Crusoe's serverless fine-tuning today! https://www.crusoe.ai/contact-sales/serverless-preview?utm_source=bycloud&utm_medium=influencer&utm_campaign=serverlessfinetuning\n\n\nLearn AI intuitively, intro into LLMs with minimal math!\nhttps://intuitiveai.academy/\nlimited time code \"SUMMER\" for 25% off yearly plan\nWe just wrote a new piece on Optimizer",
       "categories": [
         "applied_ai"
       ],
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 275940,
+      "view_count": 279422,
       "episode_number": null,
       "series_key": null
     },
@@ -2905,7 +3112,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7001,
+      "view_count": 7083,
       "episode_number": null,
       "series_key": null
     },
@@ -2927,50 +3134,49 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5196,
+      "view_count": 5214,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "bBh8fpb3h5c",
-      "title": "Scroll-driven animations without any JS",
-      "url": "https://www.youtube.com/watch?v=bBh8fpb3h5c",
-      "duration": 334,
-      "published_at": "2026-05-27T13:00:14+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
+      "id": "XHeoQ0F6hYc",
+      "title": "Lecture 1: Fluid Dynamics",
+      "url": "https://www.youtube.com/watch?v=XHeoQ0F6hYc",
+      "duration": 2860,
+      "published_at": "2026-05-27T14:34:13+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/bBh8fpb3h5c/mqdefault.jpg",
-      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The previous video I mentioned: https://youtu.be/1qduzphMJHs?si=wBESSXV6ndW5zPw7&t=10\n\u2705 A deeper dive into counters: https://youtu.be/tnSzkAiiQ4w\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come han",
+      "thumb": "https://i.ytimg.com/vi/XHeoQ0F6hYc/mqdefault.jpg",
+      "description": "MIT RES.12-003 Fluid Motions, Sediment Transport, and Current-Generated Sedimentary Structures, Fall 2025\nInstructor: John Southard\n\nView the complete course: https://ocw.mit.edu/courses/res-12-003-fluid-motions-sediment-transport-and-current-generated-sedimentary-structures-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60q1Ib4pyz_FBs_lYUPr9MN\n\nThis lecture introduc",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 36404,
+      "episode_number": 1,
+      "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
+    },
+    {
+      "id": "H-SgQP3Hif0",
+      "title": "dude wtf",
+      "url": "https://www.youtube.com/watch?v=H-SgQP3Hif0",
+      "duration": 769,
+      "published_at": "2026-05-27T14:33:25+00:00",
+      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
+      "channel_title": "Low Level",
+      "channel_handle": "@LowLevelTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/H-SgQP3Hif0/mqdefault.jpg",
+      "description": "Stay ahead of hackers by seeing into the infostealer economy at https://go.lowlevel.tv/flare2026\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowle",
       "categories": [],
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 14772,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "VN9j3NSoeps",
-      "title": "Dungeons, Dragons & Developers \u2022 Matt Brunt \u2022 YOW! 2025",
-      "url": "https://www.youtube.com/watch?v=VN9j3NSoeps",
-      "duration": 2525,
-      "published_at": "2026-05-27T12:00:12+00:00",
-      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
-      "channel_title": "GOTO Conferences",
-      "channel_handle": "@GOTO-",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/VN9j3NSoeps/mqdefault.jpg",
-      "description": "This presentation was recorded at YOW! 2025. #GOTOcon #YOW\nhttps://yowcon.com\n\nMatt Brunt - Dungeon Master & Team Tinkerer @MattBrunt \n\nRESOURCES\nhttps://bsky.app/profile/brunty.me\nhttps://mastodon.social/@brunty\nhttps://github.com/Brunty\nhttps://www.linkedin.com/in/mattbrunt\nhttps://brunty.me\n\nABSTRACT\nYou enter the dungeon, as the echoes of your footsteps sound around you, something catches your",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "feedback_mult": 1.0,
-      "score": 9.0,
-      "view_count": 903,
+      "view_count": 295760,
       "episode_number": null,
       "series_key": null
     },
@@ -2992,7 +3198,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 31226,
+      "view_count": 31333,
       "episode_number": null,
       "series_key": null
     },
@@ -3012,7 +3218,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 70916,
+      "view_count": 71050,
       "episode_number": null,
       "series_key": null
     },
@@ -3032,7 +3238,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 1570,
+      "view_count": 1601,
       "episode_number": null,
       "series_key": null
     },
@@ -3054,7 +3260,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -9.0,
-      "view_count": 149563,
+      "view_count": 149950,
       "episode_number": null,
       "series_key": null
     },
@@ -3076,7 +3282,27 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7592,
+      "view_count": 7653,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "UzMNBN6xLLA",
+      "title": "9 Things People Get Wrong With My /grill-* skills",
+      "url": "https://www.youtube.com/watch?v=UzMNBN6xLLA",
+      "duration": 808,
+      "published_at": "2026-05-25T13:22:40+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/UzMNBN6xLLA/mqdefault.jpg",
+      "description": "Learn how to master the /grill-with-docs skill and avoid common mistakes that waste context and planning time. This video covers nine key failure modes and how to fix them.\n\n0:00 Overview\n1:28 Low vs high fidelity questions\n3:44 Managing scope correctly\n5:41 Being active not passive\n6:54 Preserving grilling session value\n8:40 Using smart models for grilling\n10:24 Running parallel grilling sessions",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 69272,
       "episode_number": null,
       "series_key": null
     },
@@ -3098,7 +3324,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 29185,
+      "view_count": 29295,
       "episode_number": null,
       "series_key": null
     },
@@ -3120,7 +3346,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6406,
+      "view_count": 6484,
       "episode_number": null,
       "series_key": null
     },
@@ -3142,7 +3368,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 1051735,
+      "view_count": 1052662,
       "episode_number": null,
       "series_key": null
     },
@@ -3162,7 +3388,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 19814,
+      "view_count": 19907,
       "episode_number": null,
       "series_key": null
     },
@@ -3184,7 +3410,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 4485,
+      "view_count": 4506,
       "episode_number": null,
       "series_key": null
     },
@@ -3206,7 +3432,7 @@
       "base_score": -4,
       "feedback_mult": 1.0,
       "score": -3.6,
-      "view_count": 316388,
+      "view_count": 316702,
       "episode_number": null,
       "series_key": null
     },
@@ -3228,7 +3454,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7198,
+      "view_count": 7224,
       "episode_number": null,
       "series_key": null
     },
@@ -3250,7 +3476,7 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 93609,
+      "view_count": 94179,
       "episode_number": null,
       "series_key": null
     },
@@ -3270,29 +3496,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 305804,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "dtAJ2dOd3ko",
-      "title": "/handoff is my new favourite skill",
-      "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
-      "duration": 744,
-      "published_at": "2026-05-21T10:32:40+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/dtAJ2dOd3ko/mqdefault.jpg",
-      "description": "Learn how to hand off your AI coding sessions to separate agents using the /handoff skill. In this deep dive, I explain why I built this skill, how it differs from /compact, and show real-world patterns for managing multiple concurrent AI sessions.\n\n0:00 Discovering the handoff skill\n1:36 Context windows and compact explained\n4:49 Why handoff differs from compact\n6:14 Using handoff during grilling",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.94,
-      "score": 5.66,
-      "view_count": 319493,
+      "view_count": 306007,
       "episode_number": null,
       "series_key": null
     },
@@ -3314,7 +3518,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 57107,
+      "view_count": 57403,
       "episode_number": null,
       "series_key": null
     },
@@ -3336,7 +3540,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 95,
+      "view_count": 96,
       "episode_number": null,
       "series_key": null
     },
@@ -3358,7 +3562,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 73258,
+      "view_count": 73310,
       "episode_number": null,
       "series_key": null
     },
@@ -3381,7 +3585,7 @@
       "base_score": 4,
       "feedback_mult": 1.0,
       "score": 4.8,
-      "view_count": 2021,
+      "view_count": 2030,
       "episode_number": null,
       "series_key": null
     },
@@ -3403,7 +3607,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 18520,
+      "view_count": 18586,
       "episode_number": null,
       "series_key": null
     },
@@ -3423,189 +3627,13 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 35290,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "qGm6gtHpJq0",
-      "title": "Pushing My AI Dark Factory to Its Limits with Opus + Kimi Combined",
-      "url": "https://www.youtube.com/watch?v=qGm6gtHpJq0",
-      "duration": 5066,
-      "published_at": "2026-05-19T03:35:08+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/qGm6gtHpJq0/mqdefault.jpg",
-      "description": "My AI Dark Factory - the self-building codebase that ships its own code through a custom agent harness (Archon workflows) - currently runs entirely on Kimi K2.6. And it works. But as I scale up how much the factory takes on, I'm hitting a ceiling: the hardest steps need more reasoning power than one fast model can give me.\n\nSo today I'm rebuilding the factory's workflows live to combine two provid",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 3813,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "iw1VF8HOCrk",
-      "title": "An Insanely Elegant LLM Architecture Breakthrough Just Dropped",
-      "url": "https://www.youtube.com/watch?v=iw1VF8HOCrk",
-      "duration": 838,
-      "published_at": "2026-05-18T21:11:11+00:00",
-      "channel_id": "UCgfe2ooZD3VJPB6aJAnuQng",
-      "channel_title": "bycloud",
-      "channel_handle": "@bycloudAI",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/iw1VF8HOCrk/mqdefault.jpg",
-      "description": "Try Mammouth now for only \u20ac10/mo! https://mammouth.ai\n\nKimi AI's Attention Residual paper is actually such a clean idea. I would say it is even more promising than DeepSeek's mHC.\n\nLearn AI intuitively, best intro into LLMs!\nhttps://intuitiveai.academy/\nlimited time code \"SUMMER\" for 25% off yearly plan\nWe just wrote a new piece on RL & RLHF!\n\nMy Newsletter\nhttps://mail.bycloud.ai/\n\nMy Patreon\nhtt",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 59822,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "WRibE2nt8wM",
-      "title": "Lecture 1: Introduction to Individual Decision-Making",
-      "url": "https://www.youtube.com/watch?v=WRibE2nt8wM",
-      "duration": 3436,
-      "published_at": "2026-05-18T16:01:46+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/WRibE2nt8wM/mqdefault.jpg",
-      "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this first lecture of the course, Ian Ball explains the basics of game theory, which is a mathematical framework to ",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.77,
-      "score": 3.69,
-      "view_count": 114157,
-      "episode_number": 1,
-      "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-    },
-    {
-      "id": "vWvuWNp5GzU",
-      "title": "How to Train a Neural Network like a Boss",
-      "url": "https://www.youtube.com/watch?v=vWvuWNp5GzU",
-      "duration": 376,
-      "published_at": "2026-05-18T15:16:58+00:00",
-      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
-      "channel_title": "DesignCourse",
-      "channel_handle": "@DesignCourse",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/vWvuWNp5GzU/mqdefault.jpg",
-      "description": "Build a SaaS with Claude: https://designcourse.com/app/course/claude-code-ai-saas (Take now)\n-- Today, I'm going to show you how I built a neural network to detect pool balls in a wide range of environments. 1 model, works on any environment. You can apply this logic to so many different ideas to create some really sick apps and go beyond CRUD!\n\n#ai #neuralnetwork \n\n- - - - - - - - - - - - - - - -",
-      "categories": [
-        "applied_ai",
-        "math_viz"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 2871,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "74FjlxQgftg",
-      "title": "The problem with AI agents..",
-      "url": "https://www.youtube.com/watch?v=74FjlxQgftg",
-      "duration": 504,
-      "published_at": "2026-05-18T14:54:27+00:00",
-      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
-      "channel_title": "Low Level",
-      "channel_handle": "@LowLevelTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/74FjlxQgftg/mqdefault.jpg",
-      "description": "\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 260397,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "E3hvLz717zM",
-      "title": "Why Multi-Threaded Code Can Sometimes Misbehave (Weak Memory Concurrency) - Computerphile",
-      "url": "https://www.youtube.com/watch?v=E3hvLz717zM",
-      "duration": 985,
-      "published_at": "2026-05-18T13:30:20+00:00",
-      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
-      "channel_title": "Computerphile",
-      "channel_handle": "@Computerphile",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/E3hvLz717zM/mqdefault.jpg",
-      "description": "Learn more and apply to Jane Street\u2019s WiSE program in New York, London or Hong Kong: https://jane-st.co/Computerphile-WiSE-2026 (episode sponsor)\nProfessor Azalea Raad leads the Veritas Lab at Imperial College London... More information about this video in the full description below.\n\nThis video is about how Weak Memory Concurrency can cause multiple threads to do unexpected things! \n\nAzalea Raad:",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 67635,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "nEaljlUlqKk",
-      "title": "MiniCPM-V 4.6: The Tiny Vision Model Your Agents Need",
-      "url": "https://www.youtube.com/watch?v=nEaljlUlqKk",
-      "duration": 956,
-      "published_at": "2026-05-18T13:06:00+00:00",
-      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
-      "channel_title": "Sam Witteveen",
-      "channel_handle": "@samwitteveenai",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/nEaljlUlqKk/mqdefault.jpg",
-      "description": "In this video, we look at MiniCPM-V 4.6, a tiny vision model that you can use for agents. \n\n\ud83d\udd17 Links:\nModel: https://huggingface.co/openbmb/MiniCPM-V-4.6\nCookbook: https://github.com/OpenSQZ/MiniCPM-V-CookBook\nArtificial Analysis: https://artificialanalysis.ai/models/open-source/tiny\n\nTwitter: https://x.com/Sam_Witteveen \n\n\ud83d\udd75\ufe0f Interested in building LLM Agents? Fill out the form below\nBuilding LLM A",
-      "categories": [
-        "applied_ai",
-        "civic_open"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 12.1,
-      "view_count": 10994,
+      "view_count": 35431,
       "episode_number": null,
       "series_key": null
     }
   ],
   "series_episodes": {
     "UCEBb1b_L6zDS3xTUrIALZOw": [
-      {
-        "id": "WRibE2nt8wM",
-        "title": "Lecture 1: Introduction to Individual Decision-Making",
-        "url": "https://www.youtube.com/watch?v=WRibE2nt8wM",
-        "duration": 3436,
-        "published_at": "2026-05-18T16:01:46+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/WRibE2nt8wM/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this first lecture of the course, Ian Ball explains the basics of game theory, which is a mathematical framework to ",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 114157,
-        "episode_number": 1,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
       {
         "id": "XHeoQ0F6hYc",
         "title": "Lecture 1: Fluid Dynamics",
@@ -3624,30 +3652,8 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 36139,
+        "view_count": 36404,
         "episode_number": 1,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "JAib42oAiKE",
-        "title": "Lecture 2: Representation of Games",
-        "url": "https://www.youtube.com/watch?v=JAib42oAiKE",
-        "duration": 4394,
-        "published_at": "2026-05-18T16:01:44+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/JAib42oAiKE/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this class, Ian Ball discusses interactive decision-making where you have multiple players making decisions. He expl",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 10685,
-        "episode_number": 2,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
       {
@@ -3668,7 +3674,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 1376,
+        "view_count": 1416,
         "episode_number": 2,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3691,52 +3697,8 @@
         "base_score": 10,
         "feedback_mult": 0.77,
         "score": 6.15,
-        "view_count": 981,
+        "view_count": 1010,
         "episode_number": 3,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "b7BAHSV1EBo",
-        "title": "Lecture 3: Dominance",
-        "url": "https://www.youtube.com/watch?v=b7BAHSV1EBo",
-        "duration": 4586,
-        "published_at": "2026-05-18T16:01:54+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/b7BAHSV1EBo/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nThis lecture covers the Prisoner's Dilemma, the concept of dominant strategies, best responses, and how to identify whi",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 5248,
-        "episode_number": 3,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "ZdwIokL0P_U",
-        "title": "Lecture 4: Rationalizability",
-        "url": "https://www.youtube.com/watch?v=ZdwIokL0P_U",
-        "duration": 4910,
-        "published_at": "2026-05-18T16:01:56+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/ZdwIokL0P_U/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this lecture, Ian Ball explains rationalizability, which is a concept defining the set of strategies that rational p",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 4543,
-        "episode_number": 4,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
       {
@@ -3757,96 +3719,8 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 2030,
+        "view_count": 2067,
         "episode_number": 4,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "_XM0CRvaWq0",
-        "title": "Lecture 12: Finitely Repeated Games",
-        "url": "https://www.youtube.com/watch?v=_XM0CRvaWq0",
-        "duration": 4629,
-        "published_at": "2026-05-18T16:01:49+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/_XM0CRvaWq0/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this lecture, the class plays the game Prisoner's Dilemma, and then Ian Ball discusses the concept of finitely repea",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 749,
-        "episode_number": 12,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "3ws34WgJKzk",
-        "title": "Lecture 14: Folk Theorem",
-        "url": "https://www.youtube.com/watch?v=3ws34WgJKzk",
-        "duration": 4658,
-        "published_at": "2026-05-18T16:01:51+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/3ws34WgJKzk/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nThe Folk Theorem states that in infinitely repeated games, any feasible and individually rational payoff can be sustain",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 899,
-        "episode_number": 14,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "7dTlS_PLo6I",
-        "title": "Lecture 18: Auctions",
-        "url": "https://www.youtube.com/watch?v=7dTlS_PLo6I",
-        "duration": 4763,
-        "published_at": "2026-05-18T16:01:47+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/7dTlS_PLo6I/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this lecture, Ian Ball continues the discussion on auctions, which analyze strategic bidding, where participants max",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 654,
-        "episode_number": 18,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "mu0X3GpDAy8",
-        "title": "Lecture 19: Revenue Equivalence",
-        "url": "https://www.youtube.com/watch?v=mu0X3GpDAy8",
-        "duration": 4820,
-        "published_at": "2026-05-18T16:01:52+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/mu0X3GpDAy8/mqdefault.jpg",
-        "description": "MIT 14.12 Economic Applications of Game Theory, Fall 2025 \nInstructor: Ian Ball \nView the complete course: https://ocw.mit.edu/courses/14-12-economic-applications-of-game-theory-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63quuKvMHCt3cmTmt0O2qpv\n\nIn this session, Ian Ball explains revenue equivalence, which is a concept in auction theory that states that given cer",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 1141,
-        "episode_number": 19,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       }
     ]
