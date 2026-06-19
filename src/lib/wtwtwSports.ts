@@ -179,7 +179,7 @@ export function finishedGameWatchScore(ev: ESPNEvent): number {
   return closeness * quality * otBonus;
 }
 
-export function rankedFinishedGamesByWatchScore(
+function rankedFinishedGamesByWatchScore(
   events: ESPNEvent[],
 ): ESPNEvent[] {
   return events
