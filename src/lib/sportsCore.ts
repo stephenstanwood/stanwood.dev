@@ -33,7 +33,14 @@ export interface Competitor {
 export interface Status {
   period?: number;
   displayClock?: string;
-  type?: { description?: string; state?: string; detail?: string; shortDetail?: string };
+  type?: {
+    name?: string;
+    completed?: boolean;
+    description?: string;
+    state?: string;
+    detail?: string;
+    shortDetail?: string;
+  };
 }
 
 export interface Competition {
@@ -131,6 +138,26 @@ export function teamColor(competitor: Competitor, fallback = "#888"): string {
 
 export function isLive(status: Status | undefined): boolean {
   return (status?.type?.state || "") === "in";
+}
+
+// ESPN parks postponed / canceled / suspended games in the "post" state with
+// completed:false and 0–0 scores — so a naive `state === "post"` check reads
+// them as a finished 0–0 "Final". These games were never played to a result;
+// callers drop them entirely rather than rendering a phantom final.
+const NON_PLAYED_STATUS_NAMES = new Set([
+  "STATUS_POSTPONED",
+  "STATUS_CANCELED",
+  "STATUS_CANCELLED", // ESPN has used both spellings
+  "STATUS_SUSPENDED",
+]);
+
+export function isPostponedLike(game: Game): boolean {
+  const t = game.competitions?.[0]?.status?.type;
+  const name = (t?.name || "").toUpperCase();
+  if (NON_PLAYED_STATUS_NAMES.has(name)) return true;
+  // Fallback for status-name drift: a "post" state that never completed is a
+  // game that didn't actually play. Genuine finals always report completed:true.
+  return t?.state === "post" && t?.completed === false && name !== "STATUS_FINAL";
 }
 
 /**
