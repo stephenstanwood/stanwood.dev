@@ -3,7 +3,9 @@ import {
   ALWAYS_SHOW_TEAMS,
   bestUnseenFinishedGame,
   buildTeamLookup,
+  isFinalEvent,
   isLatestStartedEventForTrackedTeams,
+  isPostponedLike,
   latestStartedAtByTrackedTeam,
   watchRecordingUrl,
 } from "./wtwtwSports";
@@ -22,6 +24,7 @@ function event({
   awayRecord = "10-10",
   homeRecord = "10-10",
   period = 4,
+  name = state === "in" ? "STATUS_IN_PROGRESS" : undefined,
 }) {
   return {
     id,
@@ -34,7 +37,7 @@ function event({
           type: {
             state,
             completed,
-            name: state === "in" ? "STATUS_IN_PROGRESS" : undefined,
+            name,
           },
         },
         competitors: [
@@ -373,6 +376,115 @@ describe("finished game ranking", () => {
 
     expect(pick?.event.id).toBe("top");
     expect(pick?.isOverallBest).toBe(true);
+  });
+});
+
+describe("postponements", () => {
+  // ESPN shape for a postponed game: parked in the "post" state with
+  // completed:false and 0–0 scores. Without special handling it reads as a
+  // finished 0–0 "Final" tile.
+  const postponed = event({
+    id: "sf-atl-ppd",
+    date: "2026-06-18T23:15:00Z",
+    away: "SF",
+    home: "ATL",
+    state: "post",
+    completed: false,
+    name: "STATUS_POSTPONED",
+    awayScore: "0",
+    homeScore: "0",
+  });
+
+  it("recognizes a postponed game and never treats it as final", () => {
+    expect(isPostponedLike(postponed)).toBe(true);
+    expect(isFinalEvent(postponed)).toBe(false);
+  });
+
+  it("still treats a genuinely completed game as final", () => {
+    const real = event({
+      id: "sf-final",
+      date: "2026-06-17T23:15:00Z",
+      away: "SF",
+      home: "ATL",
+      state: "post",
+      completed: true,
+      name: "STATUS_FINAL",
+      awayScore: "5",
+      homeScore: "3",
+    });
+    expect(isPostponedLike(real)).toBe(false);
+    expect(isFinalEvent(real)).toBe(true);
+  });
+
+  it("falls back to status-name drift via post-state + not-completed", () => {
+    const driftedName = event({
+      id: "drift",
+      date: "2026-06-18T23:15:00Z",
+      away: "SF",
+      home: "ATL",
+      state: "post",
+      completed: false,
+      name: "STATUS_RAINOUT_NEW_NAME",
+    });
+    expect(isPostponedLike(driftedName)).toBe(true);
+    expect(isFinalEvent(driftedName)).toBe(false);
+  });
+
+  it("never picks a postponed game as a best finished game to watch", () => {
+    const real = event({
+      id: "real",
+      date: "2026-06-18T20:00:00Z",
+      away: "GS",
+      home: "NY",
+      state: "post",
+      completed: true,
+      awayScore: "84",
+      homeScore: "82",
+    });
+    const pick = bestUnseenFinishedGame([postponed, real]);
+    expect(pick?.event.id).toBe("real");
+  });
+
+  it("does not let a postponement suppress a team's real prior recap", () => {
+    const lookup = buildTeamLookup(["mlb-giants"]);
+    const priorFinal = event({
+      id: "sf-prior-final",
+      date: "2026-06-17T23:15:00Z",
+      away: "SF",
+      home: "ATL",
+      state: "post",
+      completed: true,
+      name: "STATUS_FINAL",
+      awayScore: "5",
+      homeScore: "3",
+    });
+
+    const latest = latestMap(
+      [
+        { league: "baseball/mlb", event: priorFinal },
+        { league: "baseball/mlb", event: postponed },
+      ],
+      lookup,
+    );
+
+    // The postponed game never "started", so the prior final stays the latest
+    // started event for the Giants and remains visible.
+    expect(
+      isLatestStartedEventForTrackedTeams(
+        priorFinal,
+        "baseball/mlb",
+        lookup,
+        latest,
+      ),
+    ).toBe(true);
+    expect(
+      isLatestStartedEventForTrackedTeams(
+        postponed,
+        "baseball/mlb",
+        lookup,
+        latest,
+      ),
+    ).toBe(false);
   });
 });
 
