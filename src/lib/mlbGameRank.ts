@@ -10,6 +10,7 @@ import {
   teamAbbr,
   teamMascot,
   isLive,
+  isPostponedLike,
   getGameDayLabel,
   fitHeroLines,
   formatGameTime,
@@ -709,9 +710,14 @@ function renderFinalScores(events: Game[]): string {
   `;
 }
 
-function render(events: Game[]): void {
+function render(allEvents: Game[]): void {
   const content = document.getElementById("content");
   if (!content) return;
+
+  // Postponed/canceled/suspended games sit in ESPN's "post" state with 0–0
+  // scores; drop them up front so they never render as a phantom 0–0 "Final"
+  // (or inflate the slate counts below).
+  const events = allEvents.filter((e) => !isPostponedLike(e));
 
   const liveGames = events.filter((e) => {
     const state = e.competitions?.[0]?.status?.type?.state;
