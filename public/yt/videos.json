@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-06-18T10:30:08.352735+00:00",
+  "built_at": "2026-06-19T10:30:05.187476+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -77,19 +77,6 @@
         "3W36pd50Wqw",
         "dI8pLC1BLSM",
         "8hohrUYuyx4"
-      ]
-    },
-    {
-      "key": "CS193",
-      "is_single": false,
-      "display_name": "CS193",
-      "best_score": 10,
-      "video_count": 4,
-      "video_ids": [
-        "skECWIKpBVY",
-        "F0nefFT2Uik",
-        "1PDZl0LPryw",
-        "k9wjAdgUY0A"
       ]
     },
     {
@@ -905,69 +892,6 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 22, 2026\nModel Matters: Leveraging Geometry in Robot Learning\n\nThis seminar covers: \n\u2022 How to leverage geometric structural priors in robot learning\n\u2022 A summary of recent work on this topic \n\u2022 Predictions about the future\n\nFollow along with the seminar schedule: https://stanfordasl.g"
     },
     {
-      "id": "skECWIKpBVY",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L16: Shapes, Gestures, Persistence",
-      "url": "https://www.youtube.com/watch?v=skECWIKpBVY",
-      "duration": 5587.0,
-      "published_at": "2025-12-18T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 5,
-      "categories": [
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 16th and final lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Covers miscellaneous topics like creating custom Shapes, using GeometryReader, multi-touch gesture handling and pe"
-    },
-    {
-      "id": "F0nefFT2Uik",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L15: Multithreading",
-      "url": "https://www.youtube.com/watch?v=F0nefFT2Uik",
-      "duration": 4235.0,
-      "published_at": "2025-12-18T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "systems_db",
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 15th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Multithreading fundamentals including the MainActor, background queues, and async/await patterns, but first, the lecture fin"
-    },
-    {
-      "id": "1PDZl0LPryw",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L14: SwiftData Demonstration",
-      "url": "https://www.youtube.com/watch?v=1PDZl0LPryw",
-      "duration": 4131.0,
-      "published_at": "2025-12-18T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "systems_db",
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 14th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Continues the SwiftData implementation. Implements more complex database queries with predicates that join multiple tables a"
-    },
-    {
-      "id": "k9wjAdgUY0A",
-      "title": "Stanford CS193p: iOS Development with SwiftUI | 2025 | L13: SwiftData",
-      "url": "https://www.youtube.com/watch?v=k9wjAdgUY0A",
-      "duration": 4259.0,
-      "published_at": "2025-12-18T00:00:00+00:00",
-      "series": "CS193",
-      "series_display": "CS193",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "systems_db",
-        "series:CS193"
-      ],
-      "description": "View course details: https://online.stanford.edu/courses/cs193p-ios-application-development\n\nAll course materials are available at https://cs193p.stanford.edu.\n\nThe 13th lecture of the 2025 version of Stanford's CS193p course (developing applications for iOS using SwiftUI).  Using SwiftData to make an app's data persistent. Shows how to convert a Model from structs to @Model classes. Explains the "
-    },
-    {
       "id": "LRGX-gTegVA",
       "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
       "url": "https://www.youtube.com/watch?v=LRGX-gTegVA",
@@ -1516,7 +1440,7 @@
       "id": "4d9V6Sxa6gU",
       "title": "Stanford CS221 | Autumn 2025 | Lecture 14: Bayesian Networks and Learning",
       "url": "https://www.youtube.com/watch?v=4d9V6Sxa6gU",
-      "duration": 4830.0,
+      "duration": 4831.0,
       "published_at": "2026-03-09T00:00:00+00:00",
       "series": "CS221",
       "series_display": "CS221",

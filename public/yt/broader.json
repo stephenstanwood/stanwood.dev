@@ -1,11 +1,34 @@
 {
-  "built_at": "2026-06-18T10:30:20.742067+00:00",
+  "built_at": "2026-06-19T10:30:17.858644+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 165,
+  "candidate_count": 167,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
+    {
+      "id": "mDGWh21rC0I",
+      "title": "Who decides when AI is too dangerous? | Decoder",
+      "url": "https://www.youtube.com/watch?v=mDGWh21rC0I",
+      "duration": 2233,
+      "published_at": "2026-06-18T13:00:10+00:00",
+      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
+      "channel_title": "Decoder with Nilay Patel",
+      "channel_handle": "@decoderpod",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/mDGWh21rC0I/mqdefault.jpg",
+      "description": "Our guest today is Hayden Field, senior AI reporter for The Verge. Often when Hayden comes on the show, it\u2019s because something has gone wrong in the world of AI. Last weekend, that something was a pretty intense mix of Anthropic, the Trump administration, and Anthropic\u2019s new AI model, Fable 5. \n\nHayden actually just published a fantastic play-by-play on The Verge about how the Fable ban went down,",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.0,
+      "view_count": 5725,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
     {
       "id": "UztrFXaSWv0",
       "title": "The Creators of Claude Code and OpenClaw don't Prompt Their Agents Anymore?!",
@@ -27,7 +50,7 @@
       "base_score": 15,
       "feedback_mult": 1.0,
       "score": 15.0,
-      "view_count": 5335,
+      "view_count": 10141,
       "episode_number": null,
       "series_key": null
     },
@@ -50,7 +73,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 13792,
+      "view_count": 22160,
       "episode_number": null,
       "series_key": null
     },
@@ -73,30 +96,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 35984,
+      "view_count": 41027,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "nKVML4YaBqs",
-      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
-      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
-      "duration": 1568,
-      "published_at": "2026-06-15T14:33:58+00:00",
-      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
-      "channel_title": "Computerphile",
-      "channel_handle": "@Computerphile",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
-      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 12223,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "D1BHGv4gB6c",
@@ -117,33 +119,9 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 17065,
+      "view_count": 17338,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "HJDEdGby1mA",
-      "title": "Skydio CEO argues more drones will make us safer | Decoder",
-      "url": "https://www.youtube.com/watch?v=HJDEdGby1mA",
-      "duration": 4085,
-      "published_at": "2026-06-15T13:00:02+00:00",
-      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
-      "channel_title": "Decoder with Nilay Patel",
-      "channel_handle": "@decoderpod",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/HJDEdGby1mA/mqdefault.jpg",
-      "description": "Today, we\u2019re talking with Skydio CEO Adam Bry, who runs the leading U.S. maker of autonomous drones. We covered a lot in this conversation, including Skydio\u2019s work with the police and the US government at a time when military use of AI is more controversial than ever, competing with Chinese drones against the backdrop of the Trump\u2019s administration\u2019s DJI ban, and why Skydio\u2019s customer base is made ",
-      "categories": [
-        "applied_ai",
-        "humanities"
-      ],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 3489,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "GSSgAPylz60",
@@ -164,7 +142,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 13357,
+      "view_count": 13715,
       "episode_number": null,
       "series_key": null
     },
@@ -192,6 +170,29 @@
       "series_key": null
     },
     {
+      "id": "haK1KoQWm18",
+      "title": "Claude Fable 5 - Full 319 page Breakdown",
+      "url": "https://www.youtube.com/watch?v=haK1KoQWm18",
+      "duration": 2040,
+      "published_at": "2026-06-10T18:43:12+00:00",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel_title": "AI Explained",
+      "channel_handle": "@aiexplained-official",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/haK1KoQWm18/mqdefault.jpg",
+      "description": "Fable 5 is out - and it\u2019s good, very good. But beyond the splashy demos, I want to bring you the 20+ nuggets from the 319 page system card, which I read in full, all day, plus benchmarks you may not have noticed. \n\nhttps://assemblyai.com/aiexplained\n\nPlus two worrying trends inside the \u2018mind\u2019 of Claude, how OpenAI counter, and the transformer inventor\u2019s warning.\n\n\n\nCheck out my fast-growing (!) ap",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.6,
+      "view_count": 107996,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
       "id": "XWpTgCvgYaE",
       "title": "Anthropic Expert: Rethink What's Possible With Fable 5",
       "url": "https://www.youtube.com/watch?v=XWpTgCvgYaE",
@@ -210,7 +211,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 15054,
+      "view_count": 15216,
       "episode_number": null,
       "series_key": null
     },
@@ -232,7 +233,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7749,
+      "view_count": 7933,
       "episode_number": null,
       "series_key": null
     },
@@ -255,32 +256,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 2700,
+      "view_count": 2761,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "YAtemmUgPGQ",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Academic Research \u2014Foundations & Frontiers",
-      "url": "https://www.youtube.com/watch?v=YAtemmUgPGQ",
-      "duration": 3558,
-      "published_at": "2026-06-08T21:07:42+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/YAtemmUgPGQ/mqdefault.jpg",
-      "description": "This session highlights the evolving research landscape and leading academic efforts shaping AI in mental health. Short talks span technical innovation, human-centered design, and clinical implementation, followed by discussion. The focus is on translating rigorous science into real-world impact and clarifying where the field is headed.\n\nSpeakers:\n\nLeanne Williams \u2014 Vincent V.C. Woo Professor and ",
-      "categories": [
-        "healthcare_ai"
-      ],
-      "base_score": -10,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 192,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "MBrngFrbEAs",
@@ -300,7 +278,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1451,
+      "view_count": 1481,
       "episode_number": null,
       "series_key": null
     },
@@ -323,9 +301,32 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 16374,
+      "view_count": 16529,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "RJjl1TwyfWM",
+      "title": "Tony Fadell: How to build real taste (and why AI makes it matter more)",
+      "url": "https://www.youtube.com/watch?v=RJjl1TwyfWM",
+      "duration": 5708,
+      "published_at": "2026-06-07T12:30:05+00:00",
+      "channel_id": "UC6t1O76G0jYXOAoYCm153dA",
+      "channel_title": "Lenny's Podcast",
+      "channel_handle": "@lennyspodcast",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/RJjl1TwyfWM/mqdefault.jpg",
+      "description": "Tony Fadell created the iPod, co-created the iPhone, and founded Nest (which he sold to Google for $3.2 billion). He\u2019s co-authored over 300 patents, was part of the legendary team at General Magic, and wrote one of the most important and inspiring books for builders, called Build.\n\n*In our in-depth conversation, we discuss:*\n1. The heated internal debates about whether the iPhone should have a phy",
+      "categories": [
+        "swe_craft"
+      ],
+      "base_score": 3,
+      "feedback_mult": 0.94,
+      "score": 2.83,
+      "view_count": 42978,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "ileNtKrbe8w",
@@ -346,7 +347,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 183,
+      "view_count": 184,
       "episode_number": null,
       "series_key": null
     },
@@ -369,7 +370,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 6073,
+      "view_count": 6153,
       "episode_number": null,
       "series_key": null
     },
@@ -391,7 +392,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 53894,
+      "view_count": 55588,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -414,7 +415,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3869,
+      "view_count": 3904,
       "episode_number": null,
       "series_key": null
     },
@@ -439,7 +440,7 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 10314,
+      "view_count": 10412,
       "episode_number": null,
       "series_key": null
     },
@@ -461,9 +462,32 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 18655,
+      "view_count": 19391,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "aJvP3nXWkwM",
+      "title": "New Claude Opus 4.8: 15 Things You May\u2019ve Missed",
+      "url": "https://www.youtube.com/watch?v=aJvP3nXWkwM",
+      "duration": 1349,
+      "published_at": "2026-05-29T15:07:35+00:00",
+      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
+      "channel_title": "AI Explained",
+      "channel_handle": "@aiexplained-official",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/aJvP3nXWkwM/mqdefault.jpg",
+      "description": "The \u2018best\u2019 generally available AI model just dropped, but there is plenty I bet you missed about what it is, how it performs, and what the release tells us. 15 highlights from the 244 page system card, plus private testing, leader interview and more.\n\nAI Insiders ($9!): https://www.patreon.com/AIExplained\n\nChapters:\n00:00 - Introduction\n00:49 - Mythos in Weeks\n01:49 - Adaptive not necessary\n02:26 ",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.6,
+      "view_count": 84066,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "USwP7w9BKC0",
@@ -483,7 +507,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 79682,
+      "view_count": 79896,
       "episode_number": null,
       "series_key": null
     },
@@ -507,7 +531,30 @@
       "base_score": 14,
       "feedback_mult": 1.0,
       "score": 14.0,
-      "view_count": 804,
+      "view_count": 807,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "PoF-nWjX8bM",
+      "title": "Inside the 2026 AI Index Report",
+      "url": "https://www.youtube.com/watch?v=PoF-nWjX8bM",
+      "duration": 4372,
+      "published_at": "2026-05-27T21:46:08+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/PoF-nWjX8bM/mqdefault.jpg",
+      "description": "The AI Index, currently in its ninth year, tracks, collates, distills, and visualizes data relating to artificial intelligence.\n\nWhat is changing in the field of AI? Join Stanford HAI's AI Index Lead Sha Sajadieh for an exclusive look into this trusted source of AI intelligence.\n\nLearn about the year\u2019s major AI breakthroughs, changes in the workplace, policy shifts, and an evolving public sentimen",
+      "categories": [
+        "civic_open",
+        "swe_craft"
+      ],
+      "base_score": 8,
+      "feedback_mult": 1.0,
+      "score": 9.6,
+      "view_count": 878,
       "episode_number": null,
       "series_key": null
     },
@@ -531,30 +578,9 @@
       "base_score": 14,
       "feedback_mult": 1.0,
       "score": 16.8,
-      "view_count": 79021,
+      "view_count": 79575,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "bBh8fpb3h5c",
-      "title": "Scroll-driven animations without any JS",
-      "url": "https://www.youtube.com/watch?v=bBh8fpb3h5c",
-      "duration": 334,
-      "published_at": "2026-05-27T13:00:14+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/bBh8fpb3h5c/mqdefault.jpg",
-      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The previous video I mentioned: https://youtu.be/1qduzphMJHs?si=wBESSXV6ndW5zPw7&t=10\n\u2705 A deeper dive into counters: https://youtu.be/tnSzkAiiQ4w\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come han",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 14825,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "qPuzWFvRajk",
@@ -575,7 +601,7 @@
       "base_score": 11,
       "feedback_mult": 1.23,
       "score": 12.14,
-      "view_count": 539900,
+      "view_count": 540841,
       "episode_number": null,
       "series_key": null
     },
@@ -598,9 +624,30 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7316,
+      "view_count": 7321,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "UzMNBN6xLLA",
+      "title": "9 Things People Get Wrong With My /grill-* skills",
+      "url": "https://www.youtube.com/watch?v=UzMNBN6xLLA",
+      "duration": 808,
+      "published_at": "2026-05-25T13:22:40+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/UzMNBN6xLLA/mqdefault.jpg",
+      "description": "Learn how to master the /grill-with-docs skill and avoid common mistakes that waste context and planning time. This video covers nine key failure modes and how to fix them.\n\n0:00 Overview\n1:28 Low vs high fidelity questions\n3:44 Managing scope correctly\n5:41 Being active not passive\n6:54 Preserving grilling session value\n8:40 Using smart models for grilling\n10:24 Running parallel grilling sessions",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 69893,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "dMB28SYMZ6k",
@@ -620,31 +667,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1276,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "4D3hDmGhFhA",
-      "title": "AI predictions: Job markets, Codex beats Claude, and the death of org charts | Dan Shipper",
-      "url": "https://www.youtube.com/watch?v=4D3hDmGhFhA",
-      "duration": 5647,
-      "published_at": "2026-05-24T12:30:02+00:00",
-      "channel_id": "UC6t1O76G0jYXOAoYCm153dA",
-      "channel_title": "Lenny's Podcast",
-      "channel_handle": "@lennyspodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/4D3hDmGhFhA/mqdefault.jpg",
-      "description": "Dan Shipper is the co-founder and CEO of Every, a media and software company that\u2019s become a living laboratory for the future of work. Everyone at his company of about 30 people is an AI early adopter; from editors to ops people, they use AI to do much of their work, giving Every a unique lens into where the world is heading. A year ago on this show, Dan predicted that people were sleeping on Clau",
-      "categories": [
-        "applied_ai",
-        "systems_db",
-        "swe_craft"
-      ],
-      "base_score": 14,
-      "feedback_mult": 0.94,
-      "score": 13.21,
-      "view_count": 87888,
+      "view_count": 1290,
       "episode_number": null,
       "series_key": null
     },
@@ -667,35 +690,119 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 23910,
+      "view_count": 23941,
+      "episode_number": null,
+      "series_key": null
+    }
+  ],
+  "pool": [
+    {
+      "id": "k31J6icKRUA",
+      "title": "How Flappy Bird Ruined The Life of its Creator",
+      "url": "https://www.youtube.com/watch?v=k31J6icKRUA",
+      "duration": 1075,
+      "published_at": "2026-06-19T04:24:09+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/k31J6icKRUA/mqdefault.jpg",
+      "description": "Get 17% off Prime Day Promotion on PLAUD products and use code: COLDFUSION. \nOfficial Website: https://bit.ly/4gqyWI3\nAmazon: https://amzn.to/4uIVYgT\n#plaud\n\nWatch or listen to ColdFusion on Spotify: https://open.spotify.com/show/1YEwCKoRz8fEDqheXB6UJ1\n\n\nColdFusion Music: \n\nhttps://www.youtube.com/@coldfusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusio",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 50601,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "dtAJ2dOd3ko",
-      "title": "/handoff is my new favourite skill",
-      "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
-      "duration": 744,
-      "published_at": "2026-05-21T10:32:40+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
+      "id": "uQ3lL68hNK4",
+      "title": "Is Siri Finally Good?",
+      "url": "https://www.youtube.com/watch?v=uQ3lL68hNK4",
+      "duration": 671,
+      "published_at": "2026-06-18T15:39:57+00:00",
+      "channel_id": "UCi0_2sEpmT6FKn5-y6_W3cA",
+      "channel_title": "Joanna Stern",
+      "channel_handle": "@JoannaStern",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/dtAJ2dOd3ko/mqdefault.jpg",
-      "description": "Learn how to hand off your AI coding sessions to separate agents using the /handoff skill. In this deep dive, I explain why I built this skill, how it differs from /compact, and show real-world patterns for managing multiple concurrent AI sessions.\n\n0:00 Discovering the handoff skill\n1:36 Context windows and compact explained\n4:49 Why handoff differs from compact\n6:14 Using handoff during grilling",
+      "thumb": "https://i.ytimg.com/vi/uQ3lL68hNK4/mqdefault.jpg",
+      "description": "After years of promises, Apple has finally rebuilt Siri in iOS 27. But is Siri AI finally the digital assistant we\u2019ve been waiting for? Joanna took Apple\u2019s demos into the real world, spending a week using Siri for a road trip to the beach, shopping, meals, medical questions, personal advice\u2014and yes, trying to make Siri her girlfriend. What makes the new Siri different is that it can understand a s",
       "categories": [
-        "applied_ai"
+        "applied_ai",
+        "swe_craft",
+        "healthcare_ai"
       ],
-      "base_score": 6,
+      "base_score": -1,
       "feedback_mult": 0.94,
-      "score": 5.66,
-      "view_count": 325839,
+      "score": -0.94,
+      "view_count": 96025,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
-    }
-  ],
-  "pool": [
+      "series_key": null
+    },
+    {
+      "id": "W6x-hb44C0c",
+      "title": "wtf is Loop Engineer & how to setup for real",
+      "url": "https://www.youtube.com/watch?v=W6x-hb44C0c",
+      "duration": 1204,
+      "published_at": "2026-06-18T14:04:35+00:00",
+      "channel_id": "UCrXSVX9a1mj8l0CMLwKgMVw",
+      "channel_title": "AI Jason",
+      "channel_handle": "@AIJasonZ",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/W6x-hb44C0c/mqdefault.jpg",
+      "description": "Get free build your first AI agent 101 course: https://clickhubspot.com/b093f6\n\n\ud83d\udd17 Links\n- Github repo for codebase harness + loop engineer knowledge template: https://github.com/JayZeeDesign/loop-engineer-template\n- Step-by-step workshop in AI builder club: https://www.aibuilderclub.com/lp/loop-engineer\n- Follow me on twitter: https://twitter.com/jasonzhou1993\n- Try Superdesign: http://superdesign",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 6805,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "OOCepY3H8k4",
+      "title": "What is happening at Meta?",
+      "url": "https://www.youtube.com/watch?v=OOCepY3H8k4",
+      "duration": 842,
+      "published_at": "2026-06-18T12:30:17+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/OOCepY3H8k4/mqdefault.jpg",
+      "description": "ssh terminal.shop\nYes, seriously, this is my company, and we selected and found some of the worlds best coffee.  US only (for now (the world is hard when you don't do crappy influencer coffee))\n\n## Sources\n\n- https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it/\n\n## Topics Covered\n\n- Meta and Facebook AI unit\n- Programming Careers\n- ",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.15,
+      "score": 0.0,
+      "view_count": 417174,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "sfqHggWY5Ds",
+      "title": "The C4 Model: Visualizing Software Architecture \u2022 Simon Brown & Susanne Kaiser \u2022 GOTO 2026",
+      "url": "https://www.youtube.com/watch?v=sfqHggWY5Ds",
+      "duration": 1656,
+      "published_at": "2026-06-18T12:00:15+00:00",
+      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
+      "channel_title": "GOTO Conferences",
+      "channel_handle": "@GOTO-",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/sfqHggWY5Ds/mqdefault.jpg",
+      "description": "This interview was recorded for the GOTO Book Club. #GOTOcon #GOTObookclub\nhttp://gotopia.tech/bookclub\n\nCheck out more here:\nhttps://gotopia.tech/episodes/449\n\nSimon Brown - Author & Creator of \"The C4 Model\" @simonbrown4821 \nSusanne Kaiser - Independent Tech Consultant & Author of \"Architecture for Flow\" @architectureforflow \n\nRESOURCES\nSimon\nhttps://simonbrown.je\nhttps://bsky.app/profile/simonb",
+      "categories": [
+        "civic_open",
+        "swe_craft"
+      ],
+      "base_score": 8,
+      "feedback_mult": 1.0,
+      "score": 8.0,
+      "view_count": 934,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "IXWtyLSEXcE",
       "title": "What Does Palantir Actually Want? (Re-upload)",
@@ -707,12 +814,12 @@
       "channel_handle": "@ColdFusion",
       "channel_tier": 3,
       "thumb": "https://i.ytimg.com/vi/IXWtyLSEXcE/mqdefault.jpg",
-      "description": "Click this link https://boot.dev/?promo=COLDFUSION and use my code COLDFUSION to get 25% off your first payment for boot.dev.\n\nWatch or listen to ColdFusion on Spotify: https://open.spotify.com/show/1YEwCKoRz8fEDqheXB6UJ1\n\n\nColdFusion Music: \n\nhttps://www.youtube.com/@coldfusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusion\nhttps://facebook.com/ColdFusi",
+      "description": "Click this link https://boot.dev/?promo=COLDFUSION and use my code COLDFUSION to get 25% off your first payment for boot.dev.\n\nWatch or listen to ColdFusion on Spotify: https://open.spotify.com/show/1YEwCKoRz8fEDqheXB6UJ1\n\n\nColdFusion Music: \n\nhttps://www.youtube.com/@ColdFusionmusic\nhttp://burnwater.bandcamp.com   \n\nColdFusion Socials: \n\nhttps://discord.gg/coldfusion\nhttps://facebook.com/ColdFusi",
       "categories": [],
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 82155,
+      "view_count": 118680,
       "episode_number": null,
       "series_key": null
     },
@@ -737,7 +844,7 @@
       "base_score": -4,
       "feedback_mult": 1.23,
       "score": -4.42,
-      "view_count": 295973,
+      "view_count": 416053,
       "episode_number": null,
       "series_key": null
     },
@@ -757,13 +864,13 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 82028,
+      "view_count": 107889,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "OCEVqy8kl7Q",
-      "title": "How GitHub Deals with 17 Million Pull Requests a Month",
+      "title": "How GitHub Deals With 17 Million Pull Requests a Month",
       "url": "https://www.youtube.com/watch?v=OCEVqy8kl7Q",
       "duration": 1688,
       "published_at": "2026-06-17T15:57:30+00:00",
@@ -781,7 +888,7 @@
       "base_score": 3,
       "feedback_mult": 1.0,
       "score": 3.6,
-      "view_count": 1035,
+      "view_count": 1418,
       "episode_number": null,
       "series_key": null
     },
@@ -803,7 +910,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 4043,
+      "view_count": 6494,
       "episode_number": null,
       "series_key": null
     },
@@ -826,7 +933,7 @@
       "base_score": -4,
       "feedback_mult": 1.0,
       "score": -4.0,
-      "view_count": 992,
+      "view_count": 1441,
       "episode_number": null,
       "series_key": null
     },
@@ -846,7 +953,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 19129,
+      "view_count": 29063,
       "episode_number": null,
       "series_key": null
     },
@@ -868,7 +975,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 6389,
+      "view_count": 8909,
       "episode_number": null,
       "series_key": null
     },
@@ -893,7 +1000,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 343,
+      "view_count": 449,
       "episode_number": null,
       "series_key": null
     },
@@ -915,7 +1022,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 70262,
+      "view_count": 78798,
       "episode_number": null,
       "series_key": null
     },
@@ -937,7 +1044,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 6701,
+      "view_count": 7119,
       "episode_number": null,
       "series_key": null
     },
@@ -957,7 +1064,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 47738,
+      "view_count": 63024,
       "episode_number": null,
       "series_key": null
     },
@@ -979,7 +1086,7 @@
       "base_score": 5,
       "feedback_mult": 1.15,
       "score": 3.45,
-      "view_count": 190981,
+      "view_count": 202773,
       "episode_number": null,
       "series_key": null
     },
@@ -1003,7 +1110,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 401,
+      "view_count": 434,
       "episode_number": null,
       "series_key": null
     },
@@ -1023,7 +1130,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 249122,
+      "view_count": 257672,
       "episode_number": null,
       "series_key": null
     },
@@ -1045,7 +1152,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 892910,
+      "view_count": 922732,
       "episode_number": null,
       "series_key": null
     },
@@ -1065,7 +1172,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 148,
+      "view_count": 165,
       "episode_number": null,
       "series_key": null
     },
@@ -1090,7 +1197,50 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 19277,
+      "view_count": 20404,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "nKVML4YaBqs",
+      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
+      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
+      "duration": 1568,
+      "published_at": "2026-06-15T14:33:58+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
+      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 12960,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "HJDEdGby1mA",
+      "title": "Skydio CEO argues more drones will make us safer | Decoder",
+      "url": "https://www.youtube.com/watch?v=HJDEdGby1mA",
+      "duration": 4085,
+      "published_at": "2026-06-15T13:00:02+00:00",
+      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
+      "channel_title": "Decoder with Nilay Patel",
+      "channel_handle": "@decoderpod",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/HJDEdGby1mA/mqdefault.jpg",
+      "description": "Today, we\u2019re talking with Skydio CEO Adam Bry, who runs the leading U.S. maker of autonomous drones. We covered a lot in this conversation, including Skydio\u2019s work with the police and the US government at a time when military use of AI is more controversial than ever, competing with Chinese drones against the backdrop of the Trump\u2019s administration\u2019s DJI ban, and why Skydio\u2019s customer base is made ",
+      "categories": [
+        "applied_ai",
+        "humanities"
+      ],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 3670,
       "episode_number": null,
       "series_key": null
     },
@@ -1110,7 +1260,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1570,
+      "view_count": 1665,
       "episode_number": null,
       "series_key": null
     },
@@ -1132,7 +1282,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5727,
+      "view_count": 6237,
       "episode_number": null,
       "series_key": null
     },
@@ -1154,7 +1304,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 568,
+      "view_count": 595,
       "episode_number": null,
       "series_key": null
     },
@@ -1174,7 +1324,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 59138,
+      "view_count": 60487,
       "episode_number": null,
       "series_key": null
     },
@@ -1198,7 +1348,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 69046,
+      "view_count": 70267,
       "episode_number": null,
       "series_key": null
     },
@@ -1221,7 +1371,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 23390,
+      "view_count": 25721,
       "episode_number": null,
       "series_key": null
     },
@@ -1243,7 +1393,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6086,
+      "view_count": 6126,
       "episode_number": null,
       "series_key": null
     },
@@ -1263,7 +1413,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 22994,
+      "view_count": 23635,
       "episode_number": null,
       "series_key": null
     },
@@ -1283,7 +1433,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 17841,
+      "view_count": 17891,
       "episode_number": null,
       "series_key": null
     },
@@ -1303,7 +1453,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 983724,
+      "view_count": 991470,
       "episode_number": null,
       "series_key": null
     },
@@ -1325,9 +1475,10 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 77925,
+      "view_count": 79643,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "QGC40AfmgY0",
@@ -1345,7 +1496,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 336645,
+      "view_count": 342185,
       "episode_number": null,
       "series_key": null
     },
@@ -1367,7 +1518,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 710552,
+      "view_count": 725813,
       "episode_number": null,
       "series_key": null
     },
@@ -1387,7 +1538,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 11424,
+      "view_count": 11787,
       "episode_number": null,
       "series_key": null
     },
@@ -1409,7 +1560,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 959,
+      "view_count": 977,
       "episode_number": null,
       "series_key": null
     },
@@ -1433,7 +1584,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5129,
+      "view_count": 5303,
       "episode_number": null,
       "series_key": null
     },
@@ -1455,7 +1606,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2388,
+      "view_count": 2437,
       "episode_number": null,
       "series_key": null
     },
@@ -1495,7 +1646,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 70,
+      "view_count": 72,
       "episode_number": null,
       "series_key": null
     },
@@ -1515,7 +1666,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 87,
+      "view_count": 92,
       "episode_number": null,
       "series_key": null
     },
@@ -1537,7 +1688,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 132,
+      "view_count": 141,
       "episode_number": null,
       "series_key": null
     },
@@ -1583,29 +1734,7 @@
       "base_score": 12,
       "feedback_mult": 1.0,
       "score": 12.0,
-      "view_count": 5572,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "haK1KoQWm18",
-      "title": "Claude Fable 5 - Full 319 page Breakdown",
-      "url": "https://www.youtube.com/watch?v=haK1KoQWm18",
-      "duration": 2040,
-      "published_at": "2026-06-10T18:43:12+00:00",
-      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
-      "channel_title": "AI Explained",
-      "channel_handle": "@aiexplained-official",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/haK1KoQWm18/mqdefault.jpg",
-      "description": "Fable 5 is out - and it\u2019s good, very good. But beyond the splashy demos, I want to bring you the 20+ nuggets from the 319 page system card, which I read in full, all day, plus benchmarks you may not have noticed. \n\nhttps://assemblyai.com/aiexplained\n\nPlus two worrying trends inside the \u2018mind\u2019 of Claude, how OpenAI counter, and the transformer inventor\u2019s warning.\n\n\n\nCheck out my fast-growing (!) ap",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.6,
-      "view_count": 107257,
+      "view_count": 5679,
       "episode_number": null,
       "series_key": null
     },
@@ -1627,7 +1756,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 585892,
+      "view_count": 592724,
       "episode_number": null,
       "series_key": null
     },
@@ -1650,7 +1779,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 612604,
+      "view_count": 617632,
       "episode_number": null,
       "series_key": null
     },
@@ -1670,7 +1799,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 37183,
+      "view_count": 38463,
       "episode_number": null,
       "series_key": null
     },
@@ -1692,7 +1821,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 2373,
+      "view_count": 2393,
       "episode_number": null,
       "series_key": null
     },
@@ -1712,7 +1841,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2229,
+      "view_count": 2240,
       "episode_number": null,
       "series_key": null
     },
@@ -1758,7 +1887,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9147,
+      "view_count": 9206,
       "episode_number": null,
       "series_key": null
     },
@@ -1780,7 +1909,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 969214,
+      "view_count": 971506,
       "episode_number": null,
       "series_key": null
     },
@@ -1802,7 +1931,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 128076,
+      "view_count": 128369,
       "episode_number": null,
       "series_key": null
     },
@@ -1824,7 +1953,29 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 720,
+      "view_count": 729,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "YAtemmUgPGQ",
+      "title": "2026 AI for Mental Health (AI4MH) Symposium: Academic Research \u2014Foundations & Frontiers",
+      "url": "https://www.youtube.com/watch?v=YAtemmUgPGQ",
+      "duration": 3558,
+      "published_at": "2026-06-08T21:07:42+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/YAtemmUgPGQ/mqdefault.jpg",
+      "description": "This session highlights the evolving research landscape and leading academic efforts shaping AI in mental health. Short talks span technical innovation, human-centered design, and clinical implementation, followed by discussion. The focus is on translating rigorous science into real-world impact and clarifying where the field is headed.\n\nSpeakers:\n\nLeanne Williams \u2014 Vincent V.C. Woo Professor and ",
+      "categories": [
+        "healthcare_ai"
+      ],
+      "base_score": -10,
+      "feedback_mult": 1.0,
+      "score": -12.0,
+      "view_count": 196,
       "episode_number": null,
       "series_key": null
     },
@@ -1870,7 +2021,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 130,
+      "view_count": 132,
       "episode_number": null,
       "series_key": null
     },
@@ -1892,7 +2043,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 40,
+      "view_count": 41,
       "episode_number": null,
       "series_key": null
     },
@@ -1915,7 +2066,7 @@
       "base_score": -22,
       "feedback_mult": 1.0,
       "score": -26.4,
-      "view_count": 79,
+      "view_count": 80,
       "episode_number": null,
       "series_key": null
     },
@@ -1937,10 +2088,9 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 84463,
+      "view_count": 86338,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "eXXwN_TDdLU",
@@ -1958,31 +2108,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1106789,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Z4bwAjR7azM",
-      "title": "Microsoft AI chief thinks superintelligence is near, but won't take your job | Decoder",
-      "url": "https://www.youtube.com/watch?v=Z4bwAjR7azM",
-      "duration": 4308,
-      "published_at": "2026-06-08T13:00:21+00:00",
-      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
-      "channel_title": "Decoder with Nilay Patel",
-      "channel_handle": "@decoderpod",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Z4bwAjR7azM/mqdefault.jpg",
-      "description": "Our guest today is Mustafa Suleyman, the CEO of Microsoft AI. This is a real burner of an episode. We covered everything from his approach to training new models to his criticisms of Anthropic talking about Claude as though it is conscious. \n\nOf course, we also talked about Microsoft\u2019s relationship with OpenAI, how Mustafa is thinking about all the negative polling and political pushback around AI",
-      "categories": [
-        "applied_ai",
-        "swe_craft",
-        "politics"
-      ],
-      "base_score": -3,
-      "feedback_mult": 1.0,
-      "score": -3.0,
-      "view_count": 16809,
+      "view_count": 1121032,
       "episode_number": null,
       "series_key": null
     },
@@ -2002,7 +2128,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2154,
+      "view_count": 2184,
       "episode_number": null,
       "series_key": null
     },
@@ -2024,29 +2150,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 8412,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "RJjl1TwyfWM",
-      "title": "Tony Fadell: How to build real taste (and why AI makes it matter more)",
-      "url": "https://www.youtube.com/watch?v=RJjl1TwyfWM",
-      "duration": 5708,
-      "published_at": "2026-06-07T12:30:05+00:00",
-      "channel_id": "UC6t1O76G0jYXOAoYCm153dA",
-      "channel_title": "Lenny's Podcast",
-      "channel_handle": "@lennyspodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/RJjl1TwyfWM/mqdefault.jpg",
-      "description": "Tony Fadell created the iPod, co-created the iPhone, and founded Nest (which he sold to Google for $3.2 billion). He\u2019s co-authored over 300 patents, was part of the legendary team at General Magic, and wrote one of the most important and inspiring books for builders, called Build.\n\n*In our in-depth conversation, we discuss:*\n1. The heated internal debates about whether the iPhone should have a phy",
-      "categories": [
-        "swe_craft"
-      ],
-      "base_score": 3,
-      "feedback_mult": 0.94,
-      "score": 2.83,
-      "view_count": 41832,
+      "view_count": 8594,
       "episode_number": null,
       "series_key": null
     },
@@ -2068,7 +2172,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 947365,
+      "view_count": 969858,
       "episode_number": null,
       "series_key": null
     },
@@ -2090,7 +2194,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 354,
+      "view_count": 356,
       "episode_number": null,
       "series_key": null
     },
@@ -2112,7 +2216,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 1676,
+      "view_count": 1692,
       "episode_number": null,
       "series_key": null
     },
@@ -2132,7 +2236,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 20469,
+      "view_count": 20792,
       "episode_number": null,
       "series_key": null
     },
@@ -2152,7 +2256,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 65382,
+      "view_count": 66170,
       "episode_number": null,
       "series_key": null
     },
@@ -2172,7 +2276,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 143081,
+      "view_count": 143642,
       "episode_number": null,
       "series_key": null
     },
@@ -2194,7 +2298,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 15989,
+      "view_count": 16228,
       "episode_number": null,
       "series_key": null
     },
@@ -2217,7 +2321,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 1143,
+      "view_count": 1152,
       "episode_number": null,
       "series_key": null
     },
@@ -2239,7 +2343,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 150746,
+      "view_count": 154432,
       "episode_number": null,
       "series_key": null
     },
@@ -2259,7 +2363,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 43091,
+      "view_count": 43986,
       "episode_number": null,
       "series_key": null
     },
@@ -2282,7 +2386,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 13666,
+      "view_count": 13712,
       "episode_number": null,
       "series_key": null
     },
@@ -2304,7 +2408,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 26036,
+      "view_count": 26304,
       "episode_number": null,
       "series_key": null
     },
@@ -2324,9 +2428,10 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 318359,
+      "view_count": 326474,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "g-ZXxTxlly0",
@@ -2346,7 +2451,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6123,
+      "view_count": 6137,
       "episode_number": null,
       "series_key": null
     },
@@ -2366,7 +2471,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 30501,
+      "view_count": 31414,
       "episode_number": null,
       "series_key": null
     },
@@ -2388,7 +2493,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5323,
+      "view_count": 5373,
       "episode_number": null,
       "series_key": null
     },
@@ -2410,7 +2515,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 85381,
+      "view_count": 86997,
       "episode_number": null,
       "series_key": null
     },
@@ -2430,7 +2535,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 381549,
+      "view_count": 383537,
       "episode_number": null,
       "series_key": null
     },
@@ -2452,7 +2557,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 99518,
+      "view_count": 99705,
       "episode_number": null,
       "series_key": null
     },
@@ -2474,7 +2579,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 5981,
+      "view_count": 6002,
       "episode_number": null,
       "series_key": null
     },
@@ -2496,7 +2601,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 3619,
+      "view_count": 3635,
       "episode_number": null,
       "series_key": null
     },
@@ -2516,7 +2621,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 438802,
+      "view_count": 441614,
       "episode_number": null,
       "series_key": null
     },
@@ -2538,7 +2643,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 7267,
+      "view_count": 7379,
       "episode_number": null,
       "series_key": null
     },
@@ -2561,7 +2666,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 759,
+      "view_count": 763,
       "episode_number": null,
       "series_key": null
     },
@@ -2603,7 +2708,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 9117,
+      "view_count": 9452,
       "episode_number": null,
       "series_key": null
     },
@@ -2626,7 +2731,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 42059,
+      "view_count": 42178,
       "episode_number": null,
       "series_key": null
     },
@@ -2648,7 +2753,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15322,
+      "view_count": 15355,
       "episode_number": null,
       "series_key": null
     },
@@ -2670,7 +2775,7 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 13422,
+      "view_count": 13512,
       "episode_number": null,
       "series_key": null
     },
@@ -2692,7 +2797,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14556,
+      "view_count": 14670,
       "episode_number": null,
       "series_key": null
     },
@@ -2716,7 +2821,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -5.0,
-      "view_count": 548,
+      "view_count": 571,
       "episode_number": null,
       "series_key": null
     },
@@ -2738,7 +2843,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 89428,
+      "view_count": 91082,
       "episode_number": null,
       "series_key": null
     },
@@ -2760,7 +2865,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 12112,
+      "view_count": 12237,
       "episode_number": null,
       "series_key": null
     },
@@ -2780,32 +2885,9 @@
       "base_score": 0,
       "feedback_mult": 1.23,
       "score": 0.0,
-      "view_count": 312263,
+      "view_count": 312729,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "aJvP3nXWkwM",
-      "title": "New Claude Opus 4.8: 15 Things You May\u2019ve Missed",
-      "url": "https://www.youtube.com/watch?v=aJvP3nXWkwM",
-      "duration": 1349,
-      "published_at": "2026-05-29T15:07:35+00:00",
-      "channel_id": "UCNJ1Ymd5yFuUPtn21xtRbbw",
-      "channel_title": "AI Explained",
-      "channel_handle": "@aiexplained-official",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/aJvP3nXWkwM/mqdefault.jpg",
-      "description": "The \u2018best\u2019 generally available AI model just dropped, but there is plenty I bet you missed about what it is, how it performs, and what the release tells us. 15 highlights from the 244 page system card, plus private testing, leader interview and more.\n\nAI Insiders ($9!): https://www.patreon.com/AIExplained\n\nChapters:\n00:00 - Introduction\n00:49 - Mythos in Weeks\n01:49 - Adaptive not necessary\n02:26 ",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.6,
-      "view_count": 83974,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "QwnFsWZ7uss",
@@ -2826,7 +2908,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 44451,
+      "view_count": 44600,
       "episode_number": null,
       "series_key": null
     },
@@ -2846,7 +2928,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 38199,
+      "view_count": 38383,
       "episode_number": null,
       "series_key": null
     },
@@ -2868,7 +2950,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 20824,
+      "view_count": 20872,
       "episode_number": null,
       "series_key": null
     },
@@ -2890,7 +2972,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 3794,
+      "view_count": 3798,
       "episode_number": null,
       "series_key": null
     },
@@ -2910,7 +2992,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 106176,
+      "view_count": 107316,
       "episode_number": null,
       "series_key": null
     },
@@ -2932,7 +3014,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21223,
+      "view_count": 21228,
       "episode_number": null,
       "series_key": null
     },
@@ -2955,7 +3037,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 550,
+      "view_count": 557,
       "episode_number": null,
       "series_key": null
     },
@@ -2977,7 +3059,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7122,
+      "view_count": 7158,
       "episode_number": null,
       "series_key": null
     },
@@ -3000,29 +3082,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 55023,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "-6BbPwlR6o4",
-      "title": "Model-Based Systems Eng. & Requirements Definition \u2022 Dennis Hansen & Jorge Orellana \u2022 GOTO 2026",
-      "url": "https://www.youtube.com/watch?v=-6BbPwlR6o4",
-      "duration": 1366,
-      "published_at": "2026-05-28T12:00:05+00:00",
-      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
-      "channel_title": "GOTO Conferences",
-      "channel_handle": "@GOTO-",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/-6BbPwlR6o4/mqdefault.jpg",
-      "description": "This interview was recorded for the GOTO Book Club. #GOTOcon #GOTObookclub\nhttp://gotopia.tech/bookclub\n\nDennis Hansen - Air Force Veteran, Chief Systems Engineer & Author of \u201cModel-Based Systems Engineering and Requirements Definition\u201d\nJorge Orellana - Model Based Systems Engineer at IERUS Technologies & CEO & Founder at SCATTERBRAINS\n\nCheck out more here:\nhttps://gotopia.tech/episodes/445\n\nRESOU",
-      "categories": [
-        "systems_db"
-      ],
-      "base_score": 5,
-      "feedback_mult": 1.0,
-      "score": 5.0,
-      "view_count": 854,
+      "view_count": 55433,
       "episode_number": null,
       "series_key": null
     },
@@ -3045,30 +3105,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 53907,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "PoF-nWjX8bM",
-      "title": "Inside the 2026 AI Index Report",
-      "url": "https://www.youtube.com/watch?v=PoF-nWjX8bM",
-      "duration": 4372,
-      "published_at": "2026-05-27T21:46:08+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/PoF-nWjX8bM/mqdefault.jpg",
-      "description": "The AI Index, currently in its ninth year, tracks, collates, distills, and visualizes data relating to artificial intelligence.\n\nWhat is changing in the field of AI? Join Stanford HAI's AI Index Lead Sha Sajadieh for an exclusive look into this trusted source of AI intelligence.\n\nLearn about the year\u2019s major AI breakthroughs, changes in the workplace, policy shifts, and an evolving public sentimen",
-      "categories": [
-        "civic_open",
-        "swe_craft"
-      ],
-      "base_score": 8,
-      "feedback_mult": 1.0,
-      "score": 9.6,
-      "view_count": 870,
+      "view_count": 54589,
       "episode_number": null,
       "series_key": null
     },
@@ -3090,7 +3127,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 279422,
+      "view_count": 282011,
       "episode_number": null,
       "series_key": null
     },
@@ -3112,7 +3149,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7083,
+      "view_count": 7130,
       "episode_number": null,
       "series_key": null
     },
@@ -3134,7 +3171,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5214,
+      "view_count": 5231,
       "episode_number": null,
       "series_key": null
     },
@@ -3156,7 +3193,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 36404,
+      "view_count": 36641,
       "episode_number": 1,
       "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
     },
@@ -3176,7 +3213,27 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 295760,
+      "view_count": 296250,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "bBh8fpb3h5c",
+      "title": "Scroll-driven animations without any JS",
+      "url": "https://www.youtube.com/watch?v=bBh8fpb3h5c",
+      "duration": 334,
+      "published_at": "2026-05-27T13:00:14+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/bBh8fpb3h5c/mqdefault.jpg",
+      "description": "\ud83d\udc49 Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 The previous video I mentioned: https://youtu.be/1qduzphMJHs?si=wBESSXV6ndW5zPw7&t=10\n\u2705 A deeper dive into counters: https://youtu.be/tnSzkAiiQ4w\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come han",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 14882,
       "episode_number": null,
       "series_key": null
     },
@@ -3198,7 +3255,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 31333,
+      "view_count": 31417,
       "episode_number": null,
       "series_key": null
     },
@@ -3218,7 +3275,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 71050,
+      "view_count": 71141,
       "episode_number": null,
       "series_key": null
     },
@@ -3238,7 +3295,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 1601,
+      "view_count": 1622,
       "episode_number": null,
       "series_key": null
     },
@@ -3260,7 +3317,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -9.0,
-      "view_count": 149950,
+      "view_count": 150338,
       "episode_number": null,
       "series_key": null
     },
@@ -3282,27 +3339,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7653,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "UzMNBN6xLLA",
-      "title": "9 Things People Get Wrong With My /grill-* skills",
-      "url": "https://www.youtube.com/watch?v=UzMNBN6xLLA",
-      "duration": 808,
-      "published_at": "2026-05-25T13:22:40+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/UzMNBN6xLLA/mqdefault.jpg",
-      "description": "Learn how to master the /grill-with-docs skill and avoid common mistakes that waste context and planning time. This video covers nine key failure modes and how to fix them.\n\n0:00 Overview\n1:28 Low vs high fidelity questions\n3:44 Managing scope correctly\n5:41 Being active not passive\n6:54 Preserving grilling session value\n8:40 Using smart models for grilling\n10:24 Running parallel grilling sessions",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 69272,
+      "view_count": 7691,
       "episode_number": null,
       "series_key": null
     },
@@ -3324,7 +3361,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 29295,
+      "view_count": 29369,
       "episode_number": null,
       "series_key": null
     },
@@ -3346,7 +3383,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6484,
+      "view_count": 6522,
       "episode_number": null,
       "series_key": null
     },
@@ -3368,7 +3405,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 1052662,
+      "view_count": 1053246,
       "episode_number": null,
       "series_key": null
     },
@@ -3388,7 +3425,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 19907,
+      "view_count": 19982,
       "episode_number": null,
       "series_key": null
     },
@@ -3410,7 +3447,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 4506,
+      "view_count": 4523,
       "episode_number": null,
       "series_key": null
     },
@@ -3432,7 +3469,7 @@
       "base_score": -4,
       "feedback_mult": 1.0,
       "score": -3.6,
-      "view_count": 316702,
+      "view_count": 317115,
       "episode_number": null,
       "series_key": null
     },
@@ -3454,7 +3491,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7224,
+      "view_count": 7243,
       "episode_number": null,
       "series_key": null
     },
@@ -3476,7 +3513,7 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 94179,
+      "view_count": 94700,
       "episode_number": null,
       "series_key": null
     },
@@ -3496,7 +3533,29 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 306007,
+      "view_count": 306119,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "dtAJ2dOd3ko",
+      "title": "/handoff is my new favourite skill",
+      "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
+      "duration": 744,
+      "published_at": "2026-05-21T10:32:40+00:00",
+      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
+      "channel_title": "Matt Pocock",
+      "channel_handle": "@mattpocockuk",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/dtAJ2dOd3ko/mqdefault.jpg",
+      "description": "Learn how to hand off your AI coding sessions to separate agents using the /handoff skill. In this deep dive, I explain why I built this skill, how it differs from /compact, and show real-world patterns for managing multiple concurrent AI sessions.\n\n0:00 Discovering the handoff skill\n1:36 Context windows and compact explained\n4:49 Why handoff differs from compact\n6:14 Using handoff during grilling",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.94,
+      "score": 5.66,
+      "view_count": 331012,
       "episode_number": null,
       "series_key": null
     },
@@ -3518,7 +3577,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 57403,
+      "view_count": 57720,
       "episode_number": null,
       "series_key": null
     },
@@ -3562,7 +3621,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 73310,
+      "view_count": 73354,
       "episode_number": null,
       "series_key": null
     },
@@ -3585,7 +3644,7 @@
       "base_score": 4,
       "feedback_mult": 1.0,
       "score": 4.8,
-      "view_count": 2030,
+      "view_count": 2040,
       "episode_number": null,
       "series_key": null
     },
@@ -3607,27 +3666,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 18586,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "nY58IHYAARM",
-      "title": "How to Make $1M With Only 4 Clients",
-      "url": "https://www.youtube.com/watch?v=nY58IHYAARM",
-      "duration": 852,
-      "published_at": "2026-05-19T15:59:37+00:00",
-      "channel_id": "UC-b3c7kxa5vU-bnmaROgvog",
-      "channel_title": "The Futur",
-      "channel_handle": "@thefutur",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/nY58IHYAARM/mqdefault.jpg",
-      "description": "What happens when your industry changes faster than you can adapt?\n\nIn this Business Clinic part 2 cut-down, Chris Do breaks down how solopreneurs and service-based business owners can charge more, land bigger clients, overcome revenue ceilings, and stay relevant in the age of AI.\n\n\ud83d\udcbb You're watching just a slice of the full session.\nIf you want to go deeper - https://youtu.be/8wa_ZyNpQWs\n\nIf your ",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 35431,
+      "view_count": 18656,
       "episode_number": null,
       "series_key": null
     }
@@ -3652,7 +3691,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 36404,
+        "view_count": 36641,
         "episode_number": 1,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3674,7 +3713,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 1416,
+        "view_count": 1446,
         "episode_number": 2,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3697,7 +3736,7 @@
         "base_score": 10,
         "feedback_mult": 0.77,
         "score": 6.15,
-        "view_count": 1010,
+        "view_count": 1026,
         "episode_number": 3,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3719,7 +3758,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 2067,
+        "view_count": 2093,
         "episode_number": 4,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       }
