@@ -12,54 +12,62 @@ import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
 import TodayInCampbell from "./TodayInCampbell";
 
-const TABS: { id: Section; label: string; eyebrow: string; summary: string }[] = [
+const TABS: { id: Section; label: string; eyebrow: string; summary: string; intent: string }[] = [
   {
     id: "events",
     label: "Events",
     eyebrow: "Today + weekend",
-    summary: "City, downtown, library, museum, theater, Chamber, and school-board dates.",
+    summary: "Find today's plans, weekend options, public meetings, and original calendar links.",
+    intent: "Use this when you are deciding what to do next.",
   },
   {
     id: "digest",
-    label: "Hearings",
-    eyebrow: "Plain English",
-    summary: "Public notices, Council packets, minutes, and what they mean for residents.",
+    label: "City Hall",
+    eyebrow: "Hearings + packets",
+    summary: "Open public notices, Council packets, minutes, videos, and plain-English summaries.",
+    intent: "Use this before a meeting, hearing, or local decision.",
   },
   {
     id: "businesses",
     label: "Businesses",
     eyebrow: "Storefronts",
-    summary: "Downtown, Chamber, shopping, dining, services, addresses, and website links.",
+    summary: "Look up downtown shops, Chamber members, restaurants, services, and website links.",
+    intent: "Use this when you need a local place, owner, or storefront link.",
   },
   {
     id: "safety",
     label: "Safety",
     eyebrow: "Official paths",
-    summary: "Police logs, crime map, records requests, reporting links, and oversight pages.",
+    summary: "Find police logs, crime maps, records requests, reporting links, and oversight pages.",
+    intent: "Use this when you need the official public-safety route.",
   },
   {
     id: "homes",
-    label: "Homes",
+    label: "Homes + Permits",
     eyebrow: "Property",
-    summary: "Permits, parcels, projects, and maps - a public-records ledger, not a gossip page.",
+    summary: "Check permits, parcels, project maps, county records, and development links.",
+    intent: "Use this when a property, project, or permit is the question.",
   },
   {
     id: "history",
     label: "History",
     eyebrow: "Orchard City",
-    summary: "Ainsley House, incorporation, downtown roots, and local milestones.",
+    summary: "Follow Ainsley House, downtown roots, the water tower, and local milestones.",
+    intent: "Use this for the local context behind Campbell's landmarks.",
   },
   {
     id: "data",
-    label: "Data",
+    label: "Numbers + Maps",
     eyebrow: "Numbers",
-    summary: "Census snapshots, city maps, budgets, GIS, and county data.",
+    summary: "Open Census snapshots, city maps, budgets, GIS layers, and county data.",
+    intent: "Use this when you need sourced numbers or a map layer.",
   },
   {
     id: "links",
     label: "Resident Links",
     eyebrow: "Get it done",
-    summary: "Forms and shortcuts for services, utilities, permits, schools, transit, and help.",
+    summary: "Jump to forms for services, permits, recreation, schools, transit, and help.",
+    intent: "Use this when you already know the task and need the right form.",
   },
 ];
 
@@ -221,7 +229,8 @@ export default function CampbellPortal() {
         </div>
 
         <p className="cb-tabs-footer">
-          {activeTab.label}: {activeTab.summary}
+          <strong>{activeTab.intent}</strong>
+          <span>{activeTab.label}: {activeTab.summary}</span>
         </p>
       </section>
 

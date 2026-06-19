@@ -944,10 +944,19 @@ const photoStories = [
         color: var(--accent, var(--cb-blue));
       }
       .cb-tabs-footer {
+        display: grid;
+        gap: 0.18rem;
         margin: 0;
         color: var(--cb-gray);
         font-size: 0.82rem;
         line-height: 1.45;
+      }
+      .cb-tabs-footer strong {
+        color: var(--cb-blue-hover);
+        font-weight: 850;
+      }
+      .cb-tabs-footer span {
+        display: block;
       }
       .cb-content {
         min-height: 32rem;
