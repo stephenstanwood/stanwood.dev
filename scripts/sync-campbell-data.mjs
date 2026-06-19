@@ -1394,7 +1394,25 @@ async function parsePublicHearings({ councilRecords, planningRecords, noticeArch
 async function writeJson(filename, payload) {
   await mkdir(DATA_DIR, { recursive: true });
   const target = resolve(DATA_DIR, filename);
-  await writeFile(target, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  let nextPayload = payload;
+
+  try {
+    const existingPayload = JSON.parse(await readFile(target, "utf8"));
+    const { generatedAt: existingGeneratedAt, ...existingComparable } = existingPayload;
+    const { generatedAt: nextGeneratedAt, ...nextComparable } = payload;
+
+    if (
+      existingGeneratedAt &&
+      nextGeneratedAt &&
+      JSON.stringify(existingComparable) === JSON.stringify(nextComparable)
+    ) {
+      nextPayload = { ...payload, generatedAt: existingGeneratedAt };
+    }
+  } catch {
+    // New or unreadable file: write the freshly generated payload.
+  }
+
+  await writeFile(target, `${JSON.stringify(nextPayload, null, 2)}\n`, "utf8");
   return target;
 }
 
