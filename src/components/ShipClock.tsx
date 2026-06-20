@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
-import { MS_PER_MINUTE, MS_PER_HOUR, MS_PER_DAY, msSince } from "../lib/time";
+import { MS_PER_DAY, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 
 interface HistoryEntry {
@@ -50,17 +50,6 @@ function buildActivityGrid(
     const dateStr = formatMonthDay(cellTs);
     return { active, label: active ? `deployed · ${dateStr}` : dateStr };
   });
-}
-
-function timeAgo(dateStr: string): string {
-  const diff = msSince(dateStr);
-  const mins = Math.floor(diff / MS_PER_MINUTE);
-  const hours = Math.floor(diff / MS_PER_HOUR);
-  const days = Math.floor(diff / MS_PER_DAY);
-  if (mins < 60) return `${mins}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  if (days === 1) return "yesterday";
-  return `${days}d ago`;
 }
 
 export default function ShipClock() {

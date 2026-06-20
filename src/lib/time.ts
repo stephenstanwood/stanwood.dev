@@ -22,3 +22,16 @@ export function daysSince(from: DateInput, now: number = Date.now()): number {
 export function msSince(from: DateInput, now: number = Date.now()): number {
   return now - toMs(from);
 }
+
+/** Compact relative-time label: "just now", "5m ago", "3h ago", "yesterday", "4d ago". */
+export function timeAgo(from: DateInput, now: number = Date.now()): string {
+  const diff = msSince(from, now);
+  const mins = Math.floor(diff / MS_PER_MINUTE);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.floor(diff / MS_PER_HOUR);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(diff / MS_PER_DAY);
+  if (days === 1) return "yesterday";
+  return `${days}d ago`;
+}
