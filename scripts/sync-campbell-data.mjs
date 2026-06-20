@@ -382,14 +382,45 @@ function normalizeKeyPart(value = "") {
     .trim();
 }
 
-function parseDowntownStartDate(date = "") {
-  const match = cleanSentence(date).match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
-  if (!match) return "";
+function downtownYearForMonthDay(month, day, referenceDate = new Date()) {
+  const referenceYear = referenceDate.getFullYear();
+  const candidate = new Date(referenceYear, month - 1, day);
+  const reference = new Date(referenceYear, referenceDate.getMonth(), referenceDate.getDate());
+  const daysFromReference = Math.round((candidate.getTime() - reference.getTime()) / 86_400_000);
 
-  const month = match[1].padStart(2, "0");
-  const day = match[2].padStart(2, "0");
-  const year = match[3].length === 2 ? `20${match[3]}` : match[3];
-  return `${year}-${month}-${day}T00:00:00`;
+  // Downtown omits the year on some upcoming cards. If the month/day appears
+  // far behind the sync date, it is almost certainly an early-next-year event.
+  return daysFromReference < -45 ? referenceYear + 1 : referenceYear;
+}
+
+function downtownIsoDate(year, month, day, time = "00:00:00") {
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${time}`;
+}
+
+function parseDowntownDateRange(date = "", referenceDate = new Date()) {
+  const cleaned = cleanSentence(date);
+  const fullDate = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  if (fullDate) {
+    const year = fullDate[3].length === 2 ? `20${fullDate[3]}` : fullDate[3];
+    return { startDate: downtownIsoDate(year, fullDate[1], fullDate[2]) };
+  }
+
+  const monthDayRange = cleaned.match(/^(\d{1,2})\/(\d{1,2})(?:\s*-\s*(\d{1,2})\/(\d{1,2}))?/);
+  if (!monthDayRange) return { startDate: "" };
+
+  const startMonth = Number(monthDayRange[1]);
+  const startDay = Number(monthDayRange[2]);
+  const startYear = downtownYearForMonthDay(startMonth, startDay, referenceDate);
+  const range = { startDate: downtownIsoDate(startYear, startMonth, startDay) };
+
+  if (monthDayRange[3] && monthDayRange[4]) {
+    const endMonth = Number(monthDayRange[3]);
+    const endDay = Number(monthDayRange[4]);
+    const endYear = endMonth < startMonth ? startYear + 1 : startYear;
+    range.endDate = downtownIsoDate(endYear, endMonth, endDay, "23:59:59");
+  }
+
+  return range;
 }
 
 function parseCityCalendarEndDate(date = "", startDate = "") {
@@ -620,7 +651,7 @@ async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
     .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
 
-function parseDowntownEvents(html) {
+function parseDowntownEvents(html, referenceDate = new Date()) {
   const articles = [...html.matchAll(/<article\b[\s\S]*?<\/article>/gi)];
 
   return articles
@@ -634,9 +665,9 @@ function parseDowntownEvents(html) {
       const date = cleanHtml(article.match(/<div[^>]*class="date"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
       const cost = cleanHtml(article.match(/<div[^>]*class="[^"]*field-cost[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
       const location = cleanHtml(article.match(/<div[^>]*class="[^"]*location-name[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
-      const description = cleanHtml(body?.[1] ?? "").slice(0, 280);
+      const description = truncateEventDescription(cleanHtml(body?.[1] ?? ""));
       const imageUrl = absoluteUrl(image?.[1] ?? "");
-      const startDate = parseDowntownStartDate(date);
+      const { startDate, endDate } = parseDowntownDateRange(date, referenceDate);
 
       if (!title || !url) return null;
 
@@ -650,6 +681,7 @@ function parseDowntownEvents(html) {
         imageUrl,
         category: "Downtown",
         startDate,
+        ...(endDate ? { endDate } : {}),
         source: "Downtown Campbell Events",
         sourceUrl: EVENTS_URL,
       };
@@ -1372,6 +1404,15 @@ function cleanSentence(value = "") {
     .trim();
 }
 
+function truncateEventDescription(value = "", maxLength = 280) {
+  const cleaned = cleanSentence(value);
+  if (cleaned.length <= maxLength) return cleaned;
+
+  const clipped = cleaned.slice(0, maxLength);
+  const wordBoundary = clipped.replace(/\s+\S*$/, "").replace(/[,\s]+$/, "").trim();
+  return `${wordBoundary || clipped.trim()}...`;
+}
+
 function cleanNoticeText(value = "") {
   return cleanSentence(value)
     .replace(/\bbeer\s*&\s*wind\b/gi, "beer & wine");
@@ -1586,7 +1627,7 @@ async function main() {
   }
   const campbellChamberBusinesses = chamberBusinesses.filter(isCampbellLocatedBusiness);
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
-  const downtownEvents = parseDowntownEvents(eventsHtml);
+  const downtownEvents = parseDowntownEvents(eventsHtml, new Date(generatedAt));
   const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
   let libraryEvents = [];
   let librarySourceNote = "";

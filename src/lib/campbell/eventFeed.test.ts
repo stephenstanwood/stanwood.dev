@@ -108,4 +108,23 @@ describe("Campbell event feed", () => {
       }
     }
   });
+
+  it("parses downtown month/day ranges into structured dates", () => {
+    const events = eventFeed.items as {
+      title: string;
+      date?: string;
+      source?: string;
+      startDate?: string;
+      endDate?: string;
+    }[];
+    const rangeEvents = events.filter((event) =>
+      event.source?.includes("Downtown Campbell Events") &&
+      /^\d{1,2}\/\d{1,2}\s*-\s*\d{1,2}\/\d{1,2}/.test(event.date ?? ""),
+    );
+
+    for (const event of rangeEvents) {
+      expect(event.startDate, `${event.title} startDate`).toMatch(/^\d{4}-\d{2}-\d{2}T00:00:00$/);
+      expect(event.endDate, `${event.title} endDate`).toMatch(/^\d{4}-\d{2}-\d{2}T23:59:59$/);
+    }
+  });
 });
