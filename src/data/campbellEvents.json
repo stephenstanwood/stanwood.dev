@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-20T06:26:33.767Z",
+  "generatedAt": "2026-06-20T09:24:52.322Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 8,
-      "parsedCount": 8
+      "count": 7,
+      "parsedCount": 7
     },
     {
       "label": "Downtown Campbell Events",
@@ -17,7 +17,7 @@
     {
       "label": "Campbell Library Events",
       "sourceUrl": "https://sccld.org/locations/campbell/",
-      "count": 2,
+      "count": 3,
       "parsedCount": 3
     },
     {
@@ -42,7 +42,7 @@
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
       "count": 17,
-      "parsedCount": 31
+      "parsedCount": 30
     }
   ],
   "items": [
@@ -73,22 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Infinity Dance Studio: Surf's Up, Dance On!",
-      "date": "June 19, 2026, 6:00 PM",
-      "cost": "$30 + $3.00 Facility Fee",
-      "location": "The Heritage Theatre",
-      "description": "Infinity Dance Studio hosts an annual, two-day recital every year in June to showcase the talent and hard work of their students.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3966&month=6&year=2026&day=19&calType=0",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/2961/images/infinity_dance_studio_0.png?itok=SLZbE_OC",
-      "category": "Heritage Theatre",
-      "startDate": "2026-06-19T18:00:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
     },
     {
       "title": "ACLS Classes in Campbell",
@@ -123,7 +107,7 @@
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
     },
     {
-      "title": "2026 Summer Reading Program: Learning Chinese language and…",
+      "title": "2026 Summer Reading Program: Learning Chinese language and culture",
       "date": "Jun 20th | 10:30am - 12:30pm",
       "cost": "Free",
       "location": "Campbell Library",
@@ -205,6 +189,19 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
+      "title": "Summer 2026 Plant a Seed, Read: Nature Journaling Workshop",
+      "date": "Jun 22nd | 7:00pm - 8:30pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/69fb6fdfc6a1dc3d00d1e4e0",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-06-22T19:00:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
       "title": "Planning Commission Regular Meeting",
       "date": "June 23, 2026, All Day",
       "cost": "",
@@ -248,7 +245,7 @@
       ]
     },
     {
-      "title": "Senior Transpsortation Symposium",
+      "title": "Senior Transportation Symposium",
       "date": "June 25, 2026, 12:30 PM - 2:30 PM",
       "cost": "",
       "location": "Roosevelt Redwood Room",
@@ -1376,6 +1373,19 @@
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/Wall_Mural_4-Week_Class.png?itok=0upQUe6b",
       "category": "Downtown",
       "startDate": "2026-10-03T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "10/4/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-10-04T00:00:00",
       "source": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },

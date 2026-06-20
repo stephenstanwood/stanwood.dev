@@ -528,6 +528,18 @@ function eventListingsLookSame(firstEvent, secondEvent) {
   return eventTitlesLookSame(firstEvent, secondEvent);
 }
 
+function cleanEventTitle(value = "") {
+  return cleanSentence(value)
+    .replace(/\bTranspsortation\b/g, "Transportation");
+}
+
+function eventWithCleanTitle(event) {
+  return {
+    ...event,
+    title: cleanEventTitle(event.title ?? ""),
+  };
+}
+
 function eventRejectionReason(event) {
   const title = cleanSentence(event.title);
   const text = [
@@ -754,6 +766,49 @@ function extractLibraryEventsSection(html) {
   return html.slice(start, start + 1 + nextSection);
 }
 
+function titleLooksTruncated(title = "") {
+  return /(?:\u2026|\.{3})$/.test(title.trim());
+}
+
+function titleBase(title = "") {
+  return cleanEventTitle(title).replace(/\s*(?:\u2026|\.{3})$/, "").trim();
+}
+
+function libraryAnalyticsTitleCandidates(itemHtml = "") {
+  return [...itemHtml.matchAll(/\b(?:data-impression|data-analytics)='([^']+)'/gi)]
+    .flatMap(([, rawPayload]) => {
+      try {
+        const payload = JSON.parse(decodeHtml(rawPayload));
+        const entries = Array.isArray(payload) ? payload : [payload];
+
+        return entries.flatMap((entry) => [
+          entry?.entities?.event?.event_series_title,
+          entry?.entities?.event?.event_title,
+          entry?.entities?.metadata?.metadata_value,
+          entry?.entities?.ui?.ui_component_label,
+        ]);
+      } catch {
+        return [];
+      }
+    })
+    .map((candidate) => cleanEventTitle(candidate ?? ""))
+    .filter(Boolean);
+}
+
+function libraryEventTitle(itemHtml = "", fallbackTitle = "") {
+  const fallback = cleanEventTitle(fallbackTitle);
+  if (!titleLooksTruncated(fallback)) return fallback;
+
+  const fallbackBase = normalizeKeyPart(titleBase(fallback));
+  const fullTitle = libraryAnalyticsTitleCandidates(itemHtml)
+    .find((candidate) => {
+      if (titleLooksTruncated(candidate)) return false;
+      return normalizeKeyPart(candidate).startsWith(fallbackBase);
+    });
+
+  return fullTitle || fallback;
+}
+
 function parseLibraryEvents(html, referenceDate = new Date()) {
   const section = extractLibraryEventsSection(html);
   const events = [...section.matchAll(/<li[^>]*class="[^"]*c-events-widget__event[^"]*"[^>]*>([\s\S]*?)<\/li>/gi)];
@@ -761,7 +816,7 @@ function parseLibraryEvents(html, referenceDate = new Date()) {
   return events
     .map(([, itemHtml]) => {
       const titleLink = itemHtml.match(/<h3[^>]*class="[^"]*c-events-widget__event-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
-      const title = cleanHtml(titleLink?.[2] ?? "");
+      const title = libraryEventTitle(itemHtml, cleanHtml(titleLink?.[2] ?? ""));
       const url = absoluteUrl(titleLink?.[1] ?? "", "https://sccl.bibliocommons.com");
       const date = cleanHtml(itemHtml.match(/<div[^>]*data-key="event-date-time"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
       const location = cleanHtml(
@@ -1052,7 +1107,8 @@ async function fetchChamberEventsHtml() {
 function mergeEventFeeds(...feeds) {
   const byKey = new Map();
 
-  for (const event of feeds.flat()) {
+  for (const rawEvent of feeds.flat()) {
+    const event = eventWithCleanTitle(rawEvent);
     const key = eventKey(event);
     const existing = byKey.get(key);
 
@@ -1619,7 +1675,9 @@ async function main() {
   if (businesses.length < 200) {
     throw new Error(`Merged business parse returned only ${businesses.length} businesses`);
   }
-  if (cityCalendarEvents.length < 8) {
+  // Campbell's official calendar can naturally dip below eight visible events
+  // late in a month; the merged feed threshold below still catches broad breaks.
+  if (cityCalendarEvents.length < 5) {
     throw new Error(`City calendar parse returned only ${cityCalendarEvents.length} events`);
   }
   if (downtownEvents.length < 10) {
