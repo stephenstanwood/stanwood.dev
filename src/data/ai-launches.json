@@ -16,6 +16,14 @@
     "url": "https://huggingface.co/moonshotai"
   },
   {
+    "name": "DiffusionGemma",
+    "org": "Google",
+    "date": "2026-06-10",
+    "type": "model",
+    "summary": "Open-weight text model that runs locally on a single GPU (18GB VRAM) and generates up to 4x faster using diffusion. Self-host it free for fast drafting, autocomplete, or local agents — Apache 2.0 weights are on Hugging Face.",
+    "url": "https://huggingface.co/google/diffusiongemma-26B-A4B-it"
+  },
+  {
     "name": "Claude Fable 5",
     "org": "Anthropic",
     "date": "2026-06-09",
