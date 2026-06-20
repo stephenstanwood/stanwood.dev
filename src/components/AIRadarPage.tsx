@@ -368,7 +368,7 @@ export default function AIRadarPage() {
           const visibleItems = isFirst ? items.slice(1) : items;
           if (visibleItems.length === 0) return null;
           return (
-            <div key={date} className={`rp-day ${isFirst ? "rp-day--latest" : ""}`}>
+            <div key={date} className="rp-day">
               <div className="rp-day-marker">
                 <div className="rp-day-date">
                   <span className="rp-day-num">{dayNum}</span>
