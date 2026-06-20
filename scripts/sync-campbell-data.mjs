@@ -447,15 +447,85 @@ function splitEventSourceNames(source = "") {
     .filter(Boolean);
 }
 
+function eventDateKey(event) {
+  return (event.startDate || event.date || "").slice(0, 10);
+}
+
 function eventSeriesDateKey(event) {
   const words = normalizeKeyPart(event.title).split(" ").filter(Boolean);
   const titleKey = words.slice(0, 3).join(" ") || words.join(" ");
-  const dateKey = (event.startDate || event.date || "").slice(0, 10);
-  return `${titleKey}|${dateKey}`;
+  return `${titleKey}|${eventDateKey(event)}`;
 }
 
 function hasSpecificEventTime(event) {
   return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
+}
+
+const GENERIC_EVENT_TITLE_WORDS = new Set([
+  "and",
+  "annual",
+  "campbell",
+  "center",
+  "class",
+  "classes",
+  "concert",
+  "event",
+  "events",
+  "for",
+  "from",
+  "national",
+  "present",
+  "presents",
+  "show",
+  "the",
+  "theatre",
+  "touring",
+  "tribute",
+  "with",
+]);
+
+function eventTitleTokens(title = "") {
+  return normalizeKeyPart(title)
+    .split(" ")
+    .filter((word) => word.length > 2 && !GENERIC_EVENT_TITLE_WORDS.has(word));
+}
+
+function titleTokensOverlap(firstTitle = "", secondTitle = "") {
+  const firstTokens = new Set(eventTitleTokens(firstTitle));
+  const secondTokens = new Set(eventTitleTokens(secondTitle));
+  let overlap = 0;
+
+  for (const token of firstTokens) {
+    if (secondTokens.has(token)) overlap += 1;
+  }
+
+  return overlap;
+}
+
+function eventLocationsOverlap(firstEvent, secondEvent) {
+  const first = normalizeKeyPart(firstEvent.location ?? "").replace(/\bcampbell\b/g, "").trim();
+  const second = normalizeKeyPart(secondEvent.location ?? "").replace(/\bcampbell\b/g, "").trim();
+  if (!first || !second) return false;
+  return first.includes(second) || second.includes(first);
+}
+
+function eventTitlesLookSame(firstEvent, secondEvent) {
+  const firstTitle = normalizeKeyPart(firstEvent.title);
+  const secondTitle = normalizeKeyPart(secondEvent.title);
+  if (!firstTitle || !secondTitle) return false;
+  if (firstTitle === secondTitle) return true;
+  if (firstTitle.length > 10 && secondTitle.includes(firstTitle)) return true;
+  if (secondTitle.length > 10 && firstTitle.includes(secondTitle)) return true;
+
+  const overlap = titleTokensOverlap(firstEvent.title, secondEvent.title);
+  if (overlap >= 3) return true;
+  return overlap >= 2 && eventLocationsOverlap(firstEvent, secondEvent);
+}
+
+function eventListingsLookSame(firstEvent, secondEvent) {
+  if (eventDateKey(firstEvent) !== eventDateKey(secondEvent)) return false;
+  if (eventSeriesDateKey(firstEvent) === eventSeriesDateKey(secondEvent)) return true;
+  return eventTitlesLookSame(firstEvent, secondEvent);
 }
 
 function eventRejectionReason(event) {
@@ -1016,21 +1086,24 @@ function mergeEventFeeds(...feeds) {
   }
 
   const mergedEvents = [...byKey.values()];
-  const detailedEventsBySeriesDate = new Map();
+  const detailedEvents = [];
 
   for (const event of mergedEvents) {
     if (!hasSpecificEventTime(event)) continue;
-    const key = eventSeriesDateKey(event);
-    const existing = detailedEventsBySeriesDate.get(key) ?? [];
-    existing.push(event);
-    detailedEventsBySeriesDate.set(key, existing);
+    detailedEvents.push(event);
   }
+
+  const mergedBroadDowntownEvents = new Set();
 
   for (const event of mergedEvents) {
     const sources = splitEventSourceNames(event.source);
     if (!sources.includes("Downtown Campbell Events") || hasSpecificEventTime(event)) continue;
 
-    for (const detailedEvent of detailedEventsBySeriesDate.get(eventSeriesDateKey(event)) ?? []) {
+    const matchingDetailedEvents = detailedEvents.filter((detailedEvent) =>
+      eventListingsLookSame(event, detailedEvent),
+    );
+
+    for (const detailedEvent of matchingDetailedEvents) {
       const sourceNames = new Set([
         ...splitEventSourceNames(detailedEvent.source),
         ...sources,
@@ -1049,15 +1122,17 @@ function mergeEventFeeds(...feeds) {
       detailedEvent.source = [...sourceNames].join(" + ");
       detailedEvent.additionalSourceUrls = [...sourceUrls].filter((url) => url !== detailedEvent.sourceUrl);
     }
-  }
 
-  const detailedSourceDates = new Set(detailedEventsBySeriesDate.keys());
+    if (matchingDetailedEvents.length > 0) {
+      mergedBroadDowntownEvents.add(event);
+    }
+  }
 
   return mergedEvents
     .filter((event) => {
       const sources = splitEventSourceNames(event.source);
       if (!sources.includes("Downtown Campbell Events") || hasSpecificEventTime(event)) return true;
-      return !detailedSourceDates.has(eventSeriesDateKey(event));
+      return !mergedBroadDowntownEvents.has(event);
     })
     .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
