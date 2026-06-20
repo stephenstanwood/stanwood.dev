@@ -87,6 +87,7 @@ const TAB_META: Record<Section, { accent: TabAccent; image?: { src: string; obje
 const SECTION_HASHES: Record<string, Section> = {
   "#campbell-events": "events",
   "#campbell-events-next14": "events",
+  "#campbell-events-weekend": "events",
   "#campbell-digest": "digest",
   "#campbell-businesses": "businesses",
   "#campbell-safety": "safety",
