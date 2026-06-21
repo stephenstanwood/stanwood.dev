@@ -1,8 +1,8 @@
 {
-  "built_at": "2026-06-20T10:30:20.641206+00:00",
+  "built_at": "2026-06-21T10:30:17.765632+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 168,
+  "candidate_count": 161,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
@@ -26,9 +26,53 @@
       "base_score": 14,
       "feedback_mult": 1.23,
       "score": 15.45,
-      "view_count": 193580,
+      "view_count": 258836,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "_a9Vv5dfW24",
+      "title": "VibeThinker 3B - Taking on Giant Models",
+      "url": "https://www.youtube.com/watch?v=_a9Vv5dfW24",
+      "duration": 1097,
+      "published_at": "2026-06-19T13:15:30+00:00",
+      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
+      "channel_title": "Sam Witteveen",
+      "channel_handle": "@samwitteveenai",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/_a9Vv5dfW24/mqdefault.jpg",
+      "description": "In this video, I look at VibeCoder 3b and how it is beating some models that are 300x its size on certain benchmarks by improving its reasoning and chain of thought to be better for specific use cases.  While the model is not for production it shows what could be done with these techniques.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax \n\nPaper: https://arxiv.org/abs/2606",
+      "categories": [
+        "applied_ai",
+        "civic_open"
+      ],
+      "base_score": 11,
+      "feedback_mult": 1.0,
+      "score": 12.1,
+      "view_count": 17883,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "0L1DncH6TSg",
+      "title": "America\u2019s Answer To China\u2019s Drone Dominance",
+      "url": "https://www.youtube.com/watch?v=0L1DncH6TSg",
+      "duration": 367,
+      "published_at": "2026-06-19T13:00:11+00:00",
+      "channel_id": "UCzWnSedVeqUyze_R6M5BqwA",
+      "channel_title": "Core Memory ",
+      "channel_handle": "@CoreMemoryVideos",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/0L1DncH6TSg/mqdefault.jpg",
+      "description": "Skydio makes more drones than any other company in America, and it builds all of them inside one factory in Hayward, California. In this episode we go onto the floor with co-founder and CEO Adam Bry to see exactly how the Skydio X10 comes together, from a pile of thousands of parts to a finished autonomous drone that thinks more like a flying robot than a traditional quadcopter.\n\nYou will see the ",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 5882,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "mDGWh21rC0I",
@@ -48,7 +92,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6874,
+      "view_count": 7574,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -74,7 +118,7 @@
       "base_score": 15,
       "feedback_mult": 1.0,
       "score": 15.0,
-      "view_count": 11798,
+      "view_count": 12992,
       "episode_number": null,
       "series_key": null
     },
@@ -97,7 +141,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 27553,
+      "view_count": 30785,
       "episode_number": null,
       "series_key": null
     },
@@ -120,30 +164,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 42810,
+      "view_count": 44235,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "nKVML4YaBqs",
-      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
-      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
-      "duration": 1568,
-      "published_at": "2026-06-15T14:33:58+00:00",
-      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
-      "channel_title": "Computerphile",
-      "channel_handle": "@Computerphile",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
-      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 13477,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "D1BHGv4gB6c",
@@ -164,7 +187,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 17552,
+      "view_count": 17723,
       "episode_number": null,
       "series_key": null
     },
@@ -187,7 +210,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 14083,
+      "view_count": 14348,
       "episode_number": null,
       "series_key": null
     },
@@ -210,7 +233,7 @@
       "base_score": 16,
       "feedback_mult": 1.0,
       "score": 17.6,
-      "view_count": 32,
+      "view_count": 33,
       "episode_number": null,
       "series_key": null
     },
@@ -233,7 +256,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 15300,
+      "view_count": 15370,
       "episode_number": null,
       "series_key": null
     },
@@ -255,7 +278,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 8138,
+      "view_count": 8253,
       "episode_number": null,
       "series_key": null
     },
@@ -278,7 +301,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 2823,
+      "view_count": 2877,
       "episode_number": null,
       "series_key": null
     },
@@ -300,7 +323,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1523,
+      "view_count": 1548,
       "episode_number": null,
       "series_key": null
     },
@@ -323,7 +346,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 16661,
+      "view_count": 16763,
       "episode_number": null,
       "series_key": null
     },
@@ -346,7 +369,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 185,
+      "view_count": 193,
       "episode_number": null,
       "series_key": null
     },
@@ -369,32 +392,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 6343,
+      "view_count": 6785,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "F0o11hZ1EuE",
-      "title": "The Guy Putting Tesla Power Into Classic Cars",
-      "url": "https://www.youtube.com/watch?v=F0o11hZ1EuE",
-      "duration": 694,
-      "published_at": "2026-06-05T13:00:13+00:00",
-      "channel_id": "UCzWnSedVeqUyze_R6M5BqwA",
-      "channel_title": "Core Memory ",
-      "channel_handle": "@CoreMemoryVideos",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/F0o11hZ1EuE/mqdefault.jpg",
-      "description": "Inside a workshop at the end of South Congress in Austin, Marc Davis is doing something that sounds like heresy to purists and like the future to everyone else. He rips the internal combustion engines out of gorgeous classic cars and replaces them with electric motors and battery packs. We dropped by Moment Motor Company to watch a 1968 Mustang fastback, a James Bond Lotus Esprit, and the most bea",
-      "categories": [
-        "politics"
-      ],
-      "base_score": -12,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 56805,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "YW04KtiuO5o",
@@ -415,7 +415,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 1160,
+      "view_count": 1167,
       "episode_number": null,
       "series_key": null
     },
@@ -437,7 +437,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3924,
+      "view_count": 3940,
       "episode_number": null,
       "series_key": null
     },
@@ -462,27 +462,29 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 10496,
+      "view_count": 10575,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "EaJSPeJmqis",
-      "title": "How People With Meta Glasses Can Secretly Record You",
-      "url": "https://www.youtube.com/watch?v=EaJSPeJmqis",
-      "duration": 466,
-      "published_at": "2026-06-03T16:16:06+00:00",
-      "channel_id": "UCi0_2sEpmT6FKn5-y6_W3cA",
-      "channel_title": "Joanna Stern",
-      "channel_handle": "@JoannaStern",
+      "id": "CU8Plk-53RU",
+      "title": "Three CSS patterns I use in every project",
+      "url": "https://www.youtube.com/watch?v=CU8Plk-53RU",
+      "duration": 783,
+      "published_at": "2026-06-03T20:04:53+00:00",
+      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
+      "channel_title": "Kevin Powell",
+      "channel_handle": "@KevinPowell",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/EaJSPeJmqis/mqdefault.jpg",
-      "description": "People across the country are offering a service on Facebook Marketplace to disable the recording light on Ray-Ban Meta glasses. They call it \u201cStealth Mode.\u201d Joanna paid $100 for the modification and went inside the growing business of turning smart glasses into covert cameras. She investigates who is doing it, whether it\u2019s legal and what some are doing to try and stop it.\n \nChapters: \n[00:00 - 00",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 332898,
+      "thumb": "https://i.ytimg.com/vi/CU8Plk-53RU/mqdefault.jpg",
+      "description": "\ud83d\udc49 CSS Demystified - Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Grid alignment & justification: https://youtu.be/WvoYYok1Ddo\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come hang out with other devs in my Discord Community https://discord.gg/nT",
+      "categories": [
+        "climate_grid"
+      ],
+      "base_score": -6,
+      "feedback_mult": 1.0,
+      "score": -6.0,
+      "view_count": 26621,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -505,27 +507,29 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 19898,
+      "view_count": 20153,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "s_JwjjNNQ_E",
-      "title": "YouTube is Already 20% AI Slop",
-      "url": "https://www.youtube.com/watch?v=s_JwjjNNQ_E",
-      "duration": 1412,
-      "published_at": "2026-06-02T13:32:55+00:00",
-      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
-      "channel_title": "ColdFusion",
-      "channel_handle": "@ColdFusion",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/s_JwjjNNQ_E/mqdefault.jpg",
-      "description": "Visit https://brilliant.org/coldfusion to try Brilliant\u2019s tutor for free and get a 20% off an annual subscription. \n\nWatch my appearance on how AI Slop is Destroying Soccer and the World Cup: https://www.youtube.com/watch?v=J-6vLiTSp_c\n\nYouTube is going through a bit of a rough patch when it comes to dealing with AI. From a flood of low-effort videos, scams and theft to overzealous banning and AI ",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 443846,
+      "id": "pi5oIXcMVK4",
+      "title": "The Blues-Print for Innovation",
+      "url": "https://www.youtube.com/watch?v=pi5oIXcMVK4",
+      "duration": 4694,
+      "published_at": "2026-06-01T19:03:07+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/pi5oIXcMVK4/mqdefault.jpg",
+      "description": "MIT 15.393 Nuts and Bolts of New Ventures, IAP 2025\nInstructor: Bob Jones\n\nView the complete course: https://ocw.mit.edu/courses/15-393-nuts-and-bolts-of-new-ventures-january-iap-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63EUNfnwrkgO2xxwYxNwRdI\n\nBreakthrough innovation requires you to work within a shared structure without losing the ability to improvise. The same is",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 10844,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -549,7 +553,30 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 42414,
+      "view_count": 42668,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "CHHZwari_qA",
+      "title": "The Network as a Program with Nate Foster",
+      "url": "https://www.youtube.com/watch?v=CHHZwari_qA",
+      "duration": 5676,
+      "published_at": "2026-06-01T13:58:53+00:00",
+      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
+      "channel_title": "Jane Street",
+      "channel_handle": "@janestreet",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/CHHZwari_qA/mqdefault.jpg",
+      "description": "Nate Foster is a professor at EPFL in Switzerland in the Networked Systems Abstractions Lab, and a visiting researcher at Jane Street on the Networking team. In this episode, he and Ron consider what happens when you bring a software mindset to network engineering. Can you use programming language theory and formal methods to realize the dream of software-defined networks? Along the way, they disc",
+      "categories": [
+        "finance_biz"
+      ],
+      "base_score": -4,
+      "feedback_mult": 0.94,
+      "score": -3.77,
+      "view_count": 13712,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -572,7 +599,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 80139,
+      "view_count": 80350,
       "episode_number": null,
       "series_key": null
     },
@@ -596,7 +623,7 @@
       "base_score": 14,
       "feedback_mult": 1.0,
       "score": 16.8,
-      "view_count": 80113,
+      "view_count": 80628,
       "episode_number": null,
       "series_key": null
     },
@@ -619,7 +646,7 @@
       "base_score": 11,
       "feedback_mult": 1.23,
       "score": 12.14,
-      "view_count": 541695,
+      "view_count": 542453,
       "episode_number": null,
       "series_key": null
     },
@@ -642,7 +669,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7325,
+      "view_count": 7330,
       "episode_number": null,
       "series_key": null
     },
@@ -664,30 +691,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1298,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "0zHNyGFSelA",
-      "title": "OpenShell Agents",
-      "url": "https://www.youtube.com/watch?v=0zHNyGFSelA",
-      "duration": 790,
-      "published_at": "2026-05-21T13:00:21+00:00",
-      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
-      "channel_title": "Sam Witteveen",
-      "channel_handle": "@samwitteveenai",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/0zHNyGFSelA/mqdefault.jpg",
-      "description": "In this video, we look at OpenShell, the layer that runs the protection in NemoClaw Blueprints, but we actually do it with a LangChain DeepAgents harness to show how you can use a number of different agent options.\n\n\ud83d\udd17 Links:\nOpenShell Docs: https://nvda.ws/3Pvfn6w\nNVIDIA Guide to OpenShell: https://nvda.ws/3RpuvTo\nLangChain Eample: https://github.com/langchain-ai/openshell-deepagent\n\nTwitter: http",
-      "categories": [
-        "applied_ai",
-        "civic_open"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 12.1,
-      "view_count": 23985,
+      "view_count": 1300,
       "episode_number": null,
       "series_key": null
     }
@@ -712,13 +716,13 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 10.0,
-      "view_count": 35709,
+      "view_count": 64794,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "G-OWmVt3T8A",
-      "title": "Body Scanners, Banned Models, and DeepMind's Space Game Obsession",
+      "title": "We Got Scanned By Midjourney's New Body Machine",
       "url": "https://www.youtube.com/watch?v=G-OWmVt3T8A",
       "duration": 5191,
       "published_at": "2026-06-19T15:24:14+00:00",
@@ -734,7 +738,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 957,
+      "view_count": 1942,
       "episode_number": null,
       "series_key": null
     },
@@ -756,7 +760,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 46307,
+      "view_count": 72284,
       "episode_number": null,
       "series_key": null
     },
@@ -778,13 +782,13 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21933,
+      "view_count": 35748,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "gEMx7kt7n4E",
-      "title": "we need to talk about the router situation",
+      "title": "I hate to say it but the router situation is insane",
       "url": "https://www.youtube.com/watch?v=gEMx7kt7n4E",
       "duration": 606,
       "published_at": "2026-06-19T13:53:54+00:00",
@@ -798,30 +802,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 78431,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "_a9Vv5dfW24",
-      "title": "VibeThinker 3B - Taking on Giant Models",
-      "url": "https://www.youtube.com/watch?v=_a9Vv5dfW24",
-      "duration": 1097,
-      "published_at": "2026-06-19T13:15:30+00:00",
-      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
-      "channel_title": "Sam Witteveen",
-      "channel_handle": "@samwitteveenai",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/_a9Vv5dfW24/mqdefault.jpg",
-      "description": "In this video, I look at VibeCoder 3b and how it is beating some models that are 300x its size on certain benchmarks by improving its reasoning and chain of thought to be better for specific use cases.  While the model is not for production it shows what could be done with these techniques.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax \n\nPaper: https://arxiv.org/abs/2606",
-      "categories": [
-        "applied_ai",
-        "civic_open"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 12.1,
-      "view_count": 12817,
+      "view_count": 114193,
       "episode_number": null,
       "series_key": null
     },
@@ -845,27 +826,7 @@
       "base_score": 14,
       "feedback_mult": 1.15,
       "score": 9.66,
-      "view_count": 170222,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "0L1DncH6TSg",
-      "title": "America\u2019s Answer To China\u2019s Drone Dominance",
-      "url": "https://www.youtube.com/watch?v=0L1DncH6TSg",
-      "duration": 367,
-      "published_at": "2026-06-19T13:00:11+00:00",
-      "channel_id": "UCzWnSedVeqUyze_R6M5BqwA",
-      "channel_title": "Core Memory ",
-      "channel_handle": "@CoreMemoryVideos",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/0L1DncH6TSg/mqdefault.jpg",
-      "description": "Skydio makes more drones than any other company in America, and it builds all of them inside one factory in Hayward, California. In this episode we go onto the floor with co-founder and CEO Adam Bry to see exactly how the Skydio X10 comes together, from a pile of thousands of parts to a finished autonomous drone that thinks more like a flying robot than a traditional quadcopter.\n\nYou will see the ",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 3925,
+      "view_count": 232677,
       "episode_number": null,
       "series_key": null
     },
@@ -885,7 +846,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 173964,
+      "view_count": 212868,
       "episode_number": null,
       "series_key": null
     },
@@ -909,7 +870,7 @@
       "base_score": -1,
       "feedback_mult": 0.94,
       "score": -0.94,
-      "view_count": 142090,
+      "view_count": 169384,
       "episode_number": null,
       "series_key": null
     },
@@ -929,7 +890,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 13391,
+      "view_count": 19627,
       "episode_number": null,
       "series_key": null
     },
@@ -949,7 +910,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 606981,
+      "view_count": 689994,
       "episode_number": null,
       "series_key": null
     },
@@ -972,7 +933,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 1294,
+      "view_count": 1571,
       "episode_number": null,
       "series_key": null
     },
@@ -992,7 +953,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 135893,
+      "view_count": 146992,
       "episode_number": null,
       "series_key": null
     },
@@ -1017,7 +978,7 @@
       "base_score": -4,
       "feedback_mult": 1.23,
       "score": -4.42,
-      "view_count": 468897,
+      "view_count": 497125,
       "episode_number": null,
       "series_key": null
     },
@@ -1037,13 +998,13 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 118439,
+      "view_count": 120939,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "OCEVqy8kl7Q",
-      "title": "How GitHub Deals With 17 Million Pull Requests a Month",
+      "title": "GitHub\u2019s COO Explains Why AI Hasn\u2019t Replaced Developers",
       "url": "https://www.youtube.com/watch?v=OCEVqy8kl7Q",
       "duration": 1688,
       "published_at": "2026-06-17T15:57:30+00:00",
@@ -1061,7 +1022,7 @@
       "base_score": 3,
       "feedback_mult": 1.0,
       "score": 3.6,
-      "view_count": 1641,
+      "view_count": 1931,
       "episode_number": null,
       "series_key": null
     },
@@ -1083,7 +1044,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 8555,
+      "view_count": 9082,
       "episode_number": null,
       "series_key": null
     },
@@ -1106,7 +1067,7 @@
       "base_score": -4,
       "feedback_mult": 1.0,
       "score": -4.0,
-      "view_count": 1794,
+      "view_count": 2060,
       "episode_number": null,
       "series_key": null
     },
@@ -1126,7 +1087,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 35487,
+      "view_count": 41221,
       "episode_number": null,
       "series_key": null
     },
@@ -1148,7 +1109,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 10206,
+      "view_count": 10904,
       "episode_number": null,
       "series_key": null
     },
@@ -1173,7 +1134,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 484,
+      "view_count": 505,
       "episode_number": null,
       "series_key": null
     },
@@ -1195,7 +1156,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 82468,
+      "view_count": 83901,
       "episode_number": null,
       "series_key": null
     },
@@ -1217,7 +1178,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 7315,
+      "view_count": 7427,
       "episode_number": null,
       "series_key": null
     },
@@ -1237,7 +1198,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 73847,
+      "view_count": 81124,
       "episode_number": null,
       "series_key": null
     },
@@ -1259,7 +1220,7 @@
       "base_score": 5,
       "feedback_mult": 1.15,
       "score": 3.45,
-      "view_count": 209704,
+      "view_count": 213802,
       "episode_number": null,
       "series_key": null
     },
@@ -1283,7 +1244,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 456,
+      "view_count": 467,
       "episode_number": null,
       "series_key": null
     },
@@ -1303,7 +1264,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 262099,
+      "view_count": 264623,
       "episode_number": null,
       "series_key": null
     },
@@ -1325,7 +1286,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 941975,
+      "view_count": 953388,
       "episode_number": null,
       "series_key": null
     },
@@ -1345,7 +1306,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 173,
+      "view_count": 177,
       "episode_number": null,
       "series_key": null
     },
@@ -1370,7 +1331,27 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 21133,
+      "view_count": 22769,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "nKVML4YaBqs",
+      "title": "TCP b : Additive Increase Multiplicative Decrease & 'Slow Start' - Computerphile",
+      "url": "https://www.youtube.com/watch?v=nKVML4YaBqs",
+      "duration": 1568,
+      "published_at": "2026-06-15T14:33:58+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/nKVML4YaBqs/mqdefault.jpg",
+      "description": "Network Basics story continues with the second part of the TCP segment. Richard G Clegg is based at Queen Mary University London.\n\nRichard's Code: https://github.com/richardclegg/computerphile_demos/\nRFC 5681 https://datatracker.ietf.org/doc/html/rfc5681 \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 13881,
       "episode_number": null,
       "series_key": null
     },
@@ -1393,7 +1374,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 3750,
+      "view_count": 3841,
       "episode_number": null,
       "series_key": null
     },
@@ -1413,7 +1394,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1702,
+      "view_count": 1724,
       "episode_number": null,
       "series_key": null
     },
@@ -1435,7 +1416,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 6575,
+      "view_count": 6850,
       "episode_number": null,
       "series_key": null
     },
@@ -1457,7 +1438,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 612,
+      "view_count": 621,
       "episode_number": null,
       "series_key": null
     },
@@ -1477,7 +1458,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 61488,
+      "view_count": 62440,
       "episode_number": null,
       "series_key": null
     },
@@ -1501,7 +1482,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 71015,
+      "view_count": 71663,
       "episode_number": null,
       "series_key": null
     },
@@ -1524,7 +1505,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 27492,
+      "view_count": 29116,
       "episode_number": null,
       "series_key": null
     },
@@ -1546,7 +1527,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6150,
+      "view_count": 6171,
       "episode_number": null,
       "series_key": null
     },
@@ -1566,7 +1547,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 24216,
+      "view_count": 24748,
       "episode_number": null,
       "series_key": null
     },
@@ -1586,7 +1567,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 17941,
+      "view_count": 17960,
       "episode_number": null,
       "series_key": null
     },
@@ -1606,7 +1587,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 996872,
+      "view_count": 1000827,
       "episode_number": null,
       "series_key": null
     },
@@ -1628,7 +1609,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 80806,
+      "view_count": 81780,
       "episode_number": null,
       "series_key": null
     },
@@ -1648,7 +1629,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 345784,
+      "view_count": 348585,
       "episode_number": null,
       "series_key": null
     },
@@ -1670,7 +1651,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 734155,
+      "view_count": 739913,
       "episode_number": null,
       "series_key": null
     },
@@ -1690,7 +1671,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 12100,
+      "view_count": 12313,
       "episode_number": null,
       "series_key": null
     },
@@ -1712,7 +1693,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 988,
+      "view_count": 1014,
       "episode_number": null,
       "series_key": null
     },
@@ -1736,7 +1717,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5436,
+      "view_count": 5494,
       "episode_number": null,
       "series_key": null
     },
@@ -1758,7 +1739,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2465,
+      "view_count": 2503,
       "episode_number": null,
       "series_key": null
     },
@@ -1778,7 +1759,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 21,
+      "view_count": 23,
       "episode_number": null,
       "series_key": null
     },
@@ -1798,7 +1779,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 72,
+      "view_count": 76,
       "episode_number": null,
       "series_key": null
     },
@@ -1818,9 +1799,10 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 97,
+      "view_count": 103,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "EYdqWCfVYxg",
@@ -1840,7 +1822,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 142,
+      "view_count": 143,
       "episode_number": null,
       "series_key": null
     },
@@ -1862,7 +1844,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 45,
+      "view_count": 46,
       "episode_number": null,
       "series_key": null
     },
@@ -1886,7 +1868,7 @@
       "base_score": 12,
       "feedback_mult": 1.0,
       "score": 12.0,
-      "view_count": 5785,
+      "view_count": 5915,
       "episode_number": null,
       "series_key": null
     },
@@ -1908,7 +1890,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 108369,
+      "view_count": 108792,
       "episode_number": null,
       "series_key": null
     },
@@ -1931,7 +1913,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 620617,
+      "view_count": 622439,
       "episode_number": null,
       "series_key": null
     },
@@ -1951,7 +1933,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 39638,
+      "view_count": 40660,
       "episode_number": null,
       "series_key": null
     },
@@ -1973,7 +1955,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 2417,
+      "view_count": 2460,
       "episode_number": null,
       "series_key": null
     },
@@ -1993,7 +1975,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2248,
+      "view_count": 2259,
       "episode_number": null,
       "series_key": null
     },
@@ -2017,7 +1999,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.2,
-      "view_count": 195,
+      "view_count": 194,
       "episode_number": null,
       "series_key": null
     },
@@ -2039,7 +2021,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9247,
+      "view_count": 9275,
       "episode_number": null,
       "series_key": null
     },
@@ -2061,7 +2043,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 973214,
+      "view_count": 974517,
       "episode_number": null,
       "series_key": null
     },
@@ -2083,7 +2065,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 128612,
+      "view_count": 128850,
       "episode_number": null,
       "series_key": null
     },
@@ -2105,7 +2087,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 737,
+      "view_count": 750,
       "episode_number": null,
       "series_key": null
     },
@@ -2127,7 +2109,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 205,
+      "view_count": 212,
       "episode_number": null,
       "series_key": null
     },
@@ -2150,7 +2132,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 82,
+      "view_count": 87,
       "episode_number": null,
       "series_key": null
     },
@@ -2173,7 +2155,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 137,
+      "view_count": 147,
       "episode_number": null,
       "series_key": null
     },
@@ -2218,7 +2200,7 @@
       "base_score": -22,
       "feedback_mult": 1.0,
       "score": -26.4,
-      "view_count": 89,
+      "view_count": 92,
       "episode_number": null,
       "series_key": null
     },
@@ -2240,7 +2222,7 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 88084,
+      "view_count": 89648,
       "episode_number": null,
       "series_key": null
     },
@@ -2260,7 +2242,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1132073,
+      "view_count": 1142967,
       "episode_number": null,
       "series_key": null
     },
@@ -2280,7 +2262,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2207,
+      "view_count": 2240,
       "episode_number": null,
       "series_key": null
     },
@@ -2302,7 +2284,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 8912,
+      "view_count": 9115,
       "episode_number": null,
       "series_key": null
     },
@@ -2324,7 +2306,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 43844,
+      "view_count": 44654,
       "episode_number": null,
       "series_key": null
     },
@@ -2346,7 +2328,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 993008,
+      "view_count": 1014860,
       "episode_number": null,
       "series_key": null
     },
@@ -2368,7 +2350,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 360,
+      "view_count": 362,
       "episode_number": null,
       "series_key": null
     },
@@ -2390,7 +2372,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 1704,
+      "view_count": 1709,
       "episode_number": null,
       "series_key": null
     },
@@ -2410,7 +2392,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 20972,
+      "view_count": 21223,
       "episode_number": null,
       "series_key": null
     },
@@ -2430,7 +2412,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 66719,
+      "view_count": 67191,
       "episode_number": null,
       "series_key": null
     },
@@ -2450,7 +2432,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 144192,
+      "view_count": 144558,
       "episode_number": null,
       "series_key": null
     },
@@ -2472,7 +2454,30 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 16357,
+      "view_count": 16454,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "F0o11hZ1EuE",
+      "title": "The Guy Putting Tesla Power Into Classic Cars",
+      "url": "https://www.youtube.com/watch?v=F0o11hZ1EuE",
+      "duration": 694,
+      "published_at": "2026-06-05T13:00:13+00:00",
+      "channel_id": "UCzWnSedVeqUyze_R6M5BqwA",
+      "channel_title": "Core Memory ",
+      "channel_handle": "@CoreMemoryVideos",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/F0o11hZ1EuE/mqdefault.jpg",
+      "description": "Inside a workshop at the end of South Congress in Austin, Marc Davis is doing something that sounds like heresy to purists and like the future to everyone else. He rips the internal combustion engines out of gorgeous classic cars and replaces them with electric motors and battery packs. We dropped by Moment Motor Company to watch a 1968 Mustang fastback, a James Bond Lotus Esprit, and the most bea",
+      "categories": [
+        "politics"
+      ],
+      "base_score": -12,
+      "feedback_mult": 1.0,
+      "score": -12.0,
+      "view_count": 58028,
       "episode_number": null,
       "series_key": null
     },
@@ -2494,7 +2499,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 157335,
+      "view_count": 160207,
       "episode_number": null,
       "series_key": null
     },
@@ -2514,7 +2519,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 44543,
+      "view_count": 45009,
       "episode_number": null,
       "series_key": null
     },
@@ -2537,29 +2542,27 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 13753,
+      "view_count": 13795,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "CU8Plk-53RU",
-      "title": "Three CSS patterns I use in every project",
-      "url": "https://www.youtube.com/watch?v=CU8Plk-53RU",
-      "duration": 783,
-      "published_at": "2026-06-03T20:04:53+00:00",
-      "channel_id": "UCJZv4d5rbIKd4QHMPkcABCw",
-      "channel_title": "Kevin Powell",
-      "channel_handle": "@KevinPowell",
+      "id": "EaJSPeJmqis",
+      "title": "How People With Meta Glasses Can Secretly Record You",
+      "url": "https://www.youtube.com/watch?v=EaJSPeJmqis",
+      "duration": 466,
+      "published_at": "2026-06-03T16:16:06+00:00",
+      "channel_id": "UCi0_2sEpmT6FKn5-y6_W3cA",
+      "channel_title": "Joanna Stern",
+      "channel_handle": "@JoannaStern",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/CU8Plk-53RU/mqdefault.jpg",
-      "description": "\ud83d\udc49 CSS Demystified - Start writing CSS with confidence: https://thecascade.dev/courses/css-demystified/?utm_source=youtube&utm_medium=social&utm_campaign=regular-video\n\n\ud83d\udd17 Links\n\u2705 Grid alignment & justification: https://youtu.be/WvoYYok1Ddo\n\n\u2709 Keep up to date with everything I'm up to  https://www.kevinpowell.co/newsletter\n\ud83d\udcac Come hang out with other devs in my Discord Community https://discord.gg/nT",
-      "categories": [
-        "climate_grid"
-      ],
-      "base_score": -6,
-      "feedback_mult": 1.0,
-      "score": -6.0,
-      "view_count": 26496,
+      "thumb": "https://i.ytimg.com/vi/EaJSPeJmqis/mqdefault.jpg",
+      "description": "People across the country are offering a service on Facebook Marketplace to disable the recording light on Ray-Ban Meta glasses. They call it \u201cStealth Mode.\u201d Joanna paid $100 for the modification and went inside the growing business of turning smart glasses into covert cameras. She investigates who is doing it, whether it\u2019s legal and what some are doing to try and stop it.\n \nChapters: \n[00:00 - 00",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 339963,
       "episode_number": null,
       "series_key": null
     },
@@ -2581,7 +2584,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6155,
+      "view_count": 6171,
       "episode_number": null,
       "series_key": null
     },
@@ -2601,7 +2604,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 32158,
+      "view_count": 32851,
       "episode_number": null,
       "series_key": null
     },
@@ -2623,7 +2626,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5418,
+      "view_count": 5436,
       "episode_number": null,
       "series_key": null
     },
@@ -2645,7 +2648,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 88332,
+      "view_count": 89538,
       "episode_number": null,
       "series_key": null
     },
@@ -2665,7 +2668,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 384740,
+      "view_count": 385770,
       "episode_number": null,
       "series_key": null
     },
@@ -2687,7 +2690,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 99902,
+      "view_count": 100040,
       "episode_number": null,
       "series_key": null
     },
@@ -2709,7 +2712,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 6028,
+      "view_count": 6059,
       "episode_number": null,
       "series_key": null
     },
@@ -2731,7 +2734,27 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 3645,
+      "view_count": 3655,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "s_JwjjNNQ_E",
+      "title": "YouTube is Already 20% AI Slop",
+      "url": "https://www.youtube.com/watch?v=s_JwjjNNQ_E",
+      "duration": 1412,
+      "published_at": "2026-06-02T13:32:55+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/s_JwjjNNQ_E/mqdefault.jpg",
+      "description": "Visit https://brilliant.org/coldfusion to try Brilliant\u2019s tutor for free and get a 20% off an annual subscription. \n\nWatch my appearance on how AI Slop is Destroying Soccer and the World Cup: https://www.youtube.com/watch?v=J-6vLiTSp_c\n\nYouTube is going through a bit of a rough patch when it comes to dealing with AI. From a flood of low-effort videos, scams and theft to overzealous banning and AI ",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 445708,
       "episode_number": null,
       "series_key": null
     },
@@ -2753,7 +2776,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 7492,
+      "view_count": 7599,
       "episode_number": null,
       "series_key": null
     },
@@ -2776,7 +2799,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 764,
+      "view_count": 770,
       "episode_number": null,
       "series_key": null
     },
@@ -2796,29 +2819,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2060,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "pi5oIXcMVK4",
-      "title": "The Blues-Print for Innovation",
-      "url": "https://www.youtube.com/watch?v=pi5oIXcMVK4",
-      "duration": 4694,
-      "published_at": "2026-06-01T19:03:07+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/pi5oIXcMVK4/mqdefault.jpg",
-      "description": "MIT 15.393 Nuts and Bolts of New Ventures, IAP 2025\nInstructor: Bob Jones\n\nView the complete course: https://ocw.mit.edu/courses/15-393-nuts-and-bolts-of-new-ventures-january-iap-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63EUNfnwrkgO2xxwYxNwRdI\n\nBreakthrough innovation requires you to work within a shared structure without losing the ability to improvise. The same is",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.77,
-      "score": 3.69,
-      "view_count": 10154,
+      "view_count": 2061,
       "episode_number": null,
       "series_key": null
     },
@@ -2840,29 +2841,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15396,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "CHHZwari_qA",
-      "title": "The Network as a Program with Nate Foster",
-      "url": "https://www.youtube.com/watch?v=CHHZwari_qA",
-      "duration": 5676,
-      "published_at": "2026-06-01T13:58:53+00:00",
-      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
-      "channel_title": "Jane Street",
-      "channel_handle": "@janestreet",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/CHHZwari_qA/mqdefault.jpg",
-      "description": "Nate Foster is a professor at EPFL in Switzerland in the Networked Systems Abstractions Lab, and a visiting researcher at Jane Street on the Networking team. In this episode, he and Ron consider what happens when you bring a software mindset to network engineering. Can you use programming language theory and formal methods to realize the dream of software-defined networks? Along the way, they disc",
-      "categories": [
-        "finance_biz"
-      ],
-      "base_score": -4,
-      "feedback_mult": 0.94,
-      "score": -3.77,
-      "view_count": 13607,
+      "view_count": 15430,
       "episode_number": null,
       "series_key": null
     },
@@ -2884,7 +2863,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14751,
+      "view_count": 14835,
       "episode_number": null,
       "series_key": null
     },
@@ -2908,7 +2887,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -5.0,
-      "view_count": 602,
+      "view_count": 617,
       "episode_number": null,
       "series_key": null
     },
@@ -2930,7 +2909,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 92424,
+      "view_count": 93559,
       "episode_number": null,
       "series_key": null
     },
@@ -2952,7 +2931,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 12343,
+      "view_count": 12412,
       "episode_number": null,
       "series_key": null
     },
@@ -2972,7 +2951,7 @@
       "base_score": 0,
       "feedback_mult": 1.23,
       "score": 0.0,
-      "view_count": 313168,
+      "view_count": 313552,
       "episode_number": null,
       "series_key": null
     },
@@ -2994,7 +2973,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 84142,
+      "view_count": 84218,
       "episode_number": null,
       "series_key": null
     },
@@ -3017,7 +2996,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 44693,
+      "view_count": 44786,
       "episode_number": null,
       "series_key": null
     },
@@ -3037,7 +3016,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 38474,
+      "view_count": 38579,
       "episode_number": null,
       "series_key": null
     },
@@ -3059,7 +3038,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 20947,
+      "view_count": 21005,
       "episode_number": null,
       "series_key": null
     },
@@ -3101,7 +3080,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 108314,
+      "view_count": 109184,
       "episode_number": null,
       "series_key": null
     },
@@ -3123,7 +3102,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21239,
+      "view_count": 21249,
       "episode_number": null,
       "series_key": null
     },
@@ -3168,7 +3147,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7183,
+      "view_count": 7199,
       "episode_number": null,
       "series_key": null
     },
@@ -3191,7 +3170,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 55848,
+      "view_count": 56287,
       "episode_number": null,
       "series_key": null
     },
@@ -3214,7 +3193,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 55107,
+      "view_count": 55706,
       "episode_number": null,
       "series_key": null
     },
@@ -3237,7 +3216,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 9.6,
-      "view_count": 892,
+      "view_count": 908,
       "episode_number": null,
       "series_key": null
     },
@@ -3259,7 +3238,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 284323,
+      "view_count": 286430,
       "episode_number": null,
       "series_key": null
     },
@@ -3281,7 +3260,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7156,
+      "view_count": 7170,
       "episode_number": null,
       "series_key": null
     },
@@ -3303,7 +3282,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5244,
+      "view_count": 5260,
       "episode_number": null,
       "series_key": null
     },
@@ -3325,7 +3304,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 36878,
+      "view_count": 37074,
       "episode_number": 1,
       "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
     },
@@ -3345,7 +3324,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 296755,
+      "view_count": 297184,
       "episode_number": null,
       "series_key": null
     },
@@ -3365,7 +3344,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 14938,
+      "view_count": 14968,
       "episode_number": null,
       "series_key": null
     },
@@ -3387,7 +3366,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 31544,
+      "view_count": 31662,
       "episode_number": null,
       "series_key": null
     },
@@ -3407,7 +3386,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 71224,
+      "view_count": 71316,
       "episode_number": null,
       "series_key": null
     },
@@ -3427,7 +3406,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 1650,
+      "view_count": 1664,
       "episode_number": null,
       "series_key": null
     },
@@ -3449,7 +3428,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -9.0,
-      "view_count": 150700,
+      "view_count": 151023,
       "episode_number": null,
       "series_key": null
     },
@@ -3471,7 +3450,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7752,
+      "view_count": 7793,
       "episode_number": null,
       "series_key": null
     },
@@ -3491,7 +3470,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 70474,
+      "view_count": 71039,
       "episode_number": null,
       "series_key": null
     },
@@ -3513,7 +3492,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 29460,
+      "view_count": 29546,
       "episode_number": null,
       "series_key": null
     },
@@ -3535,7 +3514,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6635,
+      "view_count": 6694,
       "episode_number": null,
       "series_key": null
     },
@@ -3557,137 +3536,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 1053908,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "C1dS-oFoyhk",
-      "title": "Plan with Claude Opus, Build with Kimi K2.6? LIVE Mixed-Provider Benchmark",
-      "url": "https://www.youtube.com/watch?v=C1dS-oFoyhk",
-      "duration": 5346,
-      "published_at": "2026-05-22T03:36:08+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/C1dS-oFoyhk/mqdefault.jpg",
-      "description": "Last Monday I added Opus into the Dark Factory's workflows for deep reasoning while keeping Kimi K2.6 as the workhorse for everything else. It works - the factory shipped its first mixed-provider PR cleanly. But I never measured WHICH mix was actually optimal. Should Opus plan and Kimi implement? Or Kimi plan and Opus implement?\n\nToday I'm answering that with data. Using Archon, I built a benchmar",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 4531,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "LpXhy2iiaQE",
-      "title": "DeepSeek\u2019s New AI Is A Game Changer",
-      "url": "https://www.youtube.com/watch?v=LpXhy2iiaQE",
-      "duration": 463,
-      "published_at": "2026-05-22T00:47:58+00:00",
-      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
-      "channel_title": "Two Minute Papers",
-      "channel_handle": "@TwoMinutePapers",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/LpXhy2iiaQE/mqdefault.jpg",
-      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\n\ud83d\udcdd The paper is available here:\nhttps://github.com/ailuntx/Thinking-with-Visual-Primitives\nhttps://huggingface.co/datasets/NodeLinker/deepseek-ai-Thinking-with-Visual-Primitives-deleted-repo/blob/main/Thinking_with_Visual_Primitives.pdf\n\nOur Patreon if you wish to support us: https://www.patreon.com/TwoMinutePapers\n",
-      "categories": [
-        "hype"
-      ],
-      "base_score": -4,
-      "feedback_mult": 1.0,
-      "score": -3.6,
-      "view_count": 317450,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "jBZQ5Ay20HU",
-      "title": "AI Was Supposed to Save Time. Why Am I Busier?",
-      "url": "https://www.youtube.com/watch?v=jBZQ5Ay20HU",
-      "duration": 784,
-      "published_at": "2026-05-21T16:50:08+00:00",
-      "channel_id": "UCjIMtrzxYc0lblGhmOgC_CA",
-      "channel_title": "Every",
-      "channel_handle": "@EveryInc",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/jBZQ5Ay20HU/mqdefault.jpg",
-      "description": "AI makes skilled expertise available to everyone for cheap. But all of that progress on the frontier creates more work for humans, not less.\n\nIn this video, Dan Shipper explains what actually happens after automation. At Every, we use Codex, Claude Code, and AI agents across coding, writing, design, customer support, consulting, and operations. But instead of replacing the need for humans, agents ",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 7.2,
-      "view_count": 7275,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "xKZ_8ULR91Y",
-      "title": "Jane Street on GPUs, Trading, and Hiring: A Conversation with Dwarkesh",
-      "url": "https://www.youtube.com/watch?v=xKZ_8ULR91Y",
-      "duration": 1777,
-      "published_at": "2026-05-21T16:09:46+00:00",
-      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
-      "channel_title": "Jane Street",
-      "channel_handle": "@janestreet",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/xKZ_8ULR91Y/mqdefault.jpg",
-      "description": "Dwarkesh Patel joins Ron Minsky and Dan Pontecorvo at a Jane Street Texas data center for a conversation on GPUs, trading horizons, and hiring.\n\nhttps://www.janestreet.com/dwarkesh",
-      "categories": [
-        "finance_biz"
-      ],
-      "base_score": -4,
-      "feedback_mult": 0.94,
-      "score": -3.77,
-      "view_count": 95135,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "IS4OgH74gY4",
-      "title": "Mythos has been unleashed (we have results)",
-      "url": "https://www.youtube.com/watch?v=IS4OgH74gY4",
-      "duration": 601,
-      "published_at": "2026-05-21T15:10:04+00:00",
-      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
-      "channel_title": "Low Level",
-      "channel_handle": "@LowLevelTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/IS4OgH74gY4/mqdefault.jpg",
-      "description": "\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 306222,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "dtAJ2dOd3ko",
-      "title": "/handoff is my new favourite skill",
-      "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
-      "duration": 744,
-      "published_at": "2026-05-21T10:32:40+00:00",
-      "channel_id": "UCswG6FSbgZjbWtdf_hMLaow",
-      "channel_title": "Matt Pocock",
-      "channel_handle": "@mattpocockuk",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/dtAJ2dOd3ko/mqdefault.jpg",
-      "description": "Learn how to hand off your AI coding sessions to separate agents using the /handoff skill. In this deep dive, I explain why I built this skill, how it differs from /compact, and show real-world patterns for managing multiple concurrent AI sessions.\n\n0:00 Discovering the handoff skill\n1:36 Context windows and compact explained\n4:49 Why handoff differs from compact\n6:14 Using handoff during grilling",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.94,
-      "score": 5.66,
-      "view_count": 335455,
+      "view_count": 1054465,
       "episode_number": null,
       "series_key": null
     }
@@ -3712,7 +3561,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 36878,
+        "view_count": 37074,
         "episode_number": 1,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3734,7 +3583,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 1470,
+        "view_count": 1492,
         "episode_number": 2,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3757,7 +3606,7 @@
         "base_score": 10,
         "feedback_mult": 0.77,
         "score": 6.15,
-        "view_count": 1041,
+        "view_count": 1057,
         "episode_number": 3,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       },
@@ -3779,7 +3628,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 2119,
+        "view_count": 2156,
         "episode_number": 4,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       }
