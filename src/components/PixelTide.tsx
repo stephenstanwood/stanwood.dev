@@ -77,29 +77,31 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 function shiftHue(hex: string, deg: number): string {
+  // RGB → HSV, rotate hue by `deg`, then HSV → RGB.
+  // h/s/v = hue/saturation/value; standard conversion (see Wikipedia "HSL and HSV").
   const [r, g, b] = hexToRgb(hex).map((c) => c / 255) as [number, number, number];
 
   const max = Math.max(r, g, b),
     min = Math.min(r, g, b);
-  const d = max - min;
+  const delta = max - min;
   let h = 0;
-  const s = max === 0 ? 0 : d / max;
+  const s = max === 0 ? 0 : delta / max;
   const v = max;
 
-  if (d !== 0) {
-    if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
-    else if (max === g) h = ((b - r) / d + 2) / 6;
-    else h = ((r - g) / d + 4) / 6;
+  if (delta !== 0) {
+    if (max === r) h = ((g - b) / delta + (g < b ? 6 : 0)) / 6;
+    else if (max === g) h = ((b - r) / delta + 2) / 6;
+    else h = ((r - g) / delta + 4) / 6;
   }
 
   h = (h + deg / 360) % 1;
   if (h < 0) h += 1;
 
   const sector = Math.floor(h * 6);
-  const f = h * 6 - sector;
+  const frac = h * 6 - sector;
   const p = v * (1 - s);
-  const q = v * (1 - f * s);
-  const t = v * (1 - (1 - f) * s);
+  const q = v * (1 - frac * s);
+  const t = v * (1 - (1 - frac) * s);
 
   let ro: number, go: number, bo: number;
   switch (sector % 6) {
