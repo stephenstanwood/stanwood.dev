@@ -43,9 +43,9 @@ interface BigInningPill {
 }
 
 function isInProgress(ev: ESPNEvent): boolean {
-  const t = ev.competitions?.[0]?.status?.type;
-  if ((t?.state || "") === "in") return true;
-  if ((t?.name || "").includes("IN_PROGRESS")) return true;
+  const statusType = ev.competitions?.[0]?.status?.type;
+  if ((statusType?.state || "") === "in") return true;
+  if ((statusType?.name || "").includes("IN_PROGRESS")) return true;
   return false;
 }
 
@@ -61,10 +61,10 @@ export default function LiveSports() {
     let cancelled = false;
     async function load() {
       try {
-        const r = await fetch("/api/big-inning", { cache: "no-store" });
-        if (!r.ok) return;
-        const j: BigInningSchedule = await r.json();
-        if (!cancelled) setSchedule(j);
+        const res = await fetch("/api/big-inning", { cache: "no-store" });
+        if (!res.ok) return;
+        const data: BigInningSchedule = await res.json();
+        if (!cancelled) setSchedule(data);
       } catch {
         /* keep prior schedule */
       }
