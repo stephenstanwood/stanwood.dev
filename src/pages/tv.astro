@@ -103,7 +103,13 @@ const launchers = [
       border: var(--border); box-shadow: var(--shadow); background: #222; color: #fff;
       text-decoration: none; transition: transform 0.07s ease, box-shadow 0.07s ease;
     }
-    .show-tile:hover, .show-tile:focus-visible { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); outline: none; }
+    .show-tile:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
+    /* Remote / d-pad focus ring — applies to any focusable tile (Samsung CEC, Flirc, BT remote, phone, keyboard) */
+    .show-tile:focus, .recap-tile:focus, .jump-chip:focus, .big-inning-pill:focus {
+      outline: 5px solid var(--hot); outline-offset: 3px;
+    }
+    .show-tile:focus { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
+    .recap-tile:focus, .jump-chip:focus { transform: translate(-2px, -2px); }
     .show-art { position: absolute; inset: 0; background-size: cover; background-position: center 18%; }
     .show-scrim {
       position: absolute; inset: 0;
@@ -302,6 +308,64 @@ const launchers = [
         }
       }
       loadClassic();
+    })();
+  </script>
+
+  <script is:inline>
+    // D-pad / remote navigation. Hardware-agnostic: works with arrow keys from a
+    // Samsung remote (via CEC→libcec→keystrokes), a Flirc'd remote, a BT remote,
+    // the phone remote, or a keyboard. Re-queries each press so late-hydrated
+    // sports tiles join the grid. Enter is native (tiles are <a>).
+    (function () {
+      function items() {
+        return Array.from(document.querySelectorAll('.wrap a')).filter(function (el) {
+          var r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        });
+      }
+      function center(el) {
+        var r = el.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+      function move(dir) {
+        var all = items();
+        if (!all.length) return;
+        var cur = (document.activeElement && all.indexOf(document.activeElement) !== -1) ? document.activeElement : null;
+        if (!cur) { all[0].focus(); all[0].scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+        var c = center(cur), best = null, bestScore = Infinity;
+        for (var i = 0; i < all.length; i++) {
+          if (all[i] === cur) continue;
+          var t = center(all[i]), dx = t.x - c.x, dy = t.y - c.y, valid, primary, secondary;
+          if (dir === 'left') { valid = dx < -4; primary = -dx; secondary = Math.abs(dy); }
+          else if (dir === 'right') { valid = dx > 4; primary = dx; secondary = Math.abs(dy); }
+          else if (dir === 'up') { valid = dy < -4; primary = -dy; secondary = Math.abs(dx); }
+          else { valid = dy > 4; primary = dy; secondary = Math.abs(dx); }
+          if (!valid) continue;
+          var score = primary + secondary * 2;
+          if (score < bestScore) { bestScore = score; best = all[i]; }
+        }
+        if (best) { best.focus(); best.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      }
+      document.addEventListener('keydown', function (e) {
+        switch (e.key) {
+          case 'ArrowLeft': move('left'); e.preventDefault(); break;
+          case 'ArrowRight': move('right'); e.preventDefault(); break;
+          case 'ArrowUp': move('up'); e.preventDefault(); break;
+          case 'ArrowDown': move('down'); e.preventDefault(); break;
+          case 'Home': case 'Backspace': case 'Escape': {
+            var all = items();
+            if (all.length) { all[0].focus(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            e.preventDefault(); break;
+          }
+        }
+      });
+      // Remote-first: land focus on the first tile so a d-pad works immediately.
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var all = items();
+          if (all.length && !(document.activeElement && all.indexOf(document.activeElement) !== -1)) all[0].focus();
+        }, 600);
+      });
     })();
   </script>
 </body>
