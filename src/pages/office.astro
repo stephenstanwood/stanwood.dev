@@ -1,0 +1,1452 @@
+---
+// Stanford queue + Around the internet. Both are launchpads — click to open
+// on YouTube (Stanford disabled embedding, so no in-page player).
+
+import fs from 'node:fs';
+import path from 'node:path';
+import LiveSports from '../components/LiveSports.tsx';
+import TodaySports from '../components/TodaySports.tsx';
+import YesterdaySports from '../components/YesterdaySports.tsx';
+import { daysSince } from '../lib/time';
+
+interface QueueVideo {
+  id: string;
+  title: string;
+  url?: string;
+  duration: number;
+  published_at: string;
+  lecture_num: number | null;
+}
+
+interface Series {
+  key: string;
+  display_name: string;
+  best_score: number;
+  video_count: number;
+  video_ids: string[];
+}
+
+interface BroaderVideo {
+  id: string;
+  title: string;
+  url: string;
+  duration: number;
+  published_at: string;
+  channel_title: string;
+  channel_id?: string;
+  channel_handle?: string;
+  thumb?: string;
+  series_key?: string;
+  episode_number?: number;
+  exploration?: boolean;
+}
+
+interface YouTubeData {
+  queue: QueueVideo[];
+  series: Series[];
+  built_at: string | null;
+}
+
+interface BroaderData {
+  queue: BroaderVideo[];
+  pool: BroaderVideo[];
+  built_at: string | null;
+  channel_count: number;
+  series_episodes?: Record<string, BroaderVideo[]>;
+}
+
+const dataPath = path.join(process.cwd(), 'public', 'yt', 'videos.json');
+let data: YouTubeData = { queue: [], series: [], built_at: null };
+if (fs.existsSync(dataPath)) {
+  data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+}
+
+const broaderPath = path.join(process.cwd(), 'public', 'yt', 'broader.json');
+let broader: BroaderData = { queue: [], pool: [], built_at: null, channel_count: 0 };
+if (fs.existsSync(broaderPath)) {
+  broader = JSON.parse(fs.readFileSync(broaderPath, 'utf-8'));
+}
+
+// Channels permanently screened out of "around the internet" — never render
+// these, even if the nightly pipeline surfaces them. Matched on channel_id
+// (stable) or @handle (case-insensitive). The Mini's build_broader.py drops
+// them at the source too; this is the repo-side guarantee that survives any
+// pipeline regression.
+const BLOCKED_CHANNEL_IDS = new Set<string>([
+  'UCbRP3c757lWg9M-U7TyEkXA', // Theo - t3.gg
+  'UCrqM0Ym_NbK1fqeQG2VIohg', // Tsoding Daily
+]);
+const BLOCKED_CHANNEL_HANDLES = new Set<string>([
+  '@t3dotgg', // Theo - t3.gg
+  '@tsodingdaily', // Tsoding Daily
+]);
+function isBlockedBroader(v: BroaderVideo): boolean {
+  if (v.channel_id && BLOCKED_CHANNEL_IDS.has(v.channel_id)) return true;
+  const handle = v.channel_handle?.toLowerCase();
+  return handle ? BLOCKED_CHANNEL_HANDLES.has(handle) : false;
+}
+
+const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
+  new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
+broader.queue = [...(broader.queue ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
+broader.pool = [...(broader.pool ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
+
+function fmtDuration(seconds: number) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
+}
+
+function fmtAgo(iso: string) {
+  const days = daysSince(iso);
+  if (days === 0) return 'today';
+  if (days < 7) return `${days}d ago`;
+  if (days < 30) return `${Math.floor(days / 7)}w ago`;
+  return `${Math.floor(days / 30)}mo ago`;
+}
+
+const topSeries = data.series?.[0] ?? null;
+const restSeries = (data.series ?? []).slice(1);
+
+// Series where videos are independent (seminars, talk series) — show newest first.
+// Sequential courses (lectures 1, 2, 3...) stay in original order.
+const REVERSE_ORDER_KEYS = new Set(['CS547', 'Robotics Seminar']);
+
+function seriesVideos(series: Series): QueueVideo[] {
+  const vids = series.video_ids
+    .map((id) => data.queue.find((v) => v.id === id))
+    .filter((v): v is QueueVideo => v !== undefined);
+  if (REVERSE_ORDER_KEYS.has(series.key)) {
+    return [...vids].sort(byRecency);
+  }
+  return vids;
+}
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>TV Queue · stanwood.dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <script is:inline>
+    (function () {
+      try {
+        if (localStorage.getItem('yt-gate-v1') === 'meow') {
+          document.documentElement.classList.add('yt-unlocked');
+        }
+      } catch {}
+    })();
+    // Frame-friendly: full reload every 20 min so static content (videos, broader)
+    // stays fresh and the live strip resyncs even if the tab has been backgrounded.
+    setTimeout(function () { window.location.reload(); }, 20 * 60 * 1000);
+  </script>
+  <style is:global>
+    :root {
+      --bg: #fdf6e3;
+      --ink: #1a1a1a;
+      --paper: #ffffff;
+      --hot: #ff3b30;
+      --cool: #0a84ff;
+      --lime: #b8e986;
+      --border: 3px solid var(--ink);
+      --shadow: 6px 6px 0 var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; }
+
+    /* Password gate */
+    html:not(.yt-unlocked) .wrap { display: none; }
+    html.yt-unlocked #yt-gate { display: none; }
+    #yt-gate {
+      max-width: 360px;
+      margin: 4rem auto;
+      padding: 2rem 1.5rem;
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    #yt-gate h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.6rem;
+      margin: 0 0 1rem;
+    }
+    #yt-gate input {
+      width: 100%;
+      padding: .6rem .8rem;
+      border: var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    #yt-gate input:focus { outline: none; background: var(--paper); }
+    #yt-gate.shake { animation: gate-shake 0.3s; }
+    @keyframes gate-shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+    h1 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      margin: 0 0 .25rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0 0 2rem;
+    }
+    .subtitle a { color: var(--cool); }
+
+    h2 {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.8rem;
+      margin: 2.5rem 0 .5rem;
+    }
+    h2:first-of-type { margin-top: 0; }
+    h2.section-title {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin: 2.5rem 0 2rem;
+    }
+
+    .series {
+      border: var(--border);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      padding: 1rem 1.25rem;
+    }
+    .series[hidden] { display: none; }
+    .series-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+    }
+    .series-name {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.3rem;
+    }
+    .series-meta { font-size: 0.75rem; color: #666; }
+    .score-chip {
+      display: inline-block;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: .5rem;
+    }
+    .score-chip.low { background: #fff; color: #999; }
+    ul.videos {
+      list-style: none;
+      margin: 0;
+      padding: 0 .25rem 0 0;
+      max-height: 220px;
+      overflow-y: auto;
+      -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
+    }
+    ul.videos::-webkit-scrollbar { width: 8px; }
+    ul.videos::-webkit-scrollbar-track { background: transparent; }
+    ul.videos::-webkit-scrollbar-thumb {
+      background: #d4cdb5;
+      border-radius: 4px;
+    }
+    ul.videos::-webkit-scrollbar-thumb:hover { background: #b8b095; }
+    ul.videos li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: .5rem 0;
+      border-top: 1px dashed #ccc;
+      cursor: pointer;
+    }
+    ul.videos li:first-child { border-top: none; }
+    ul.videos li:hover { background: #faf0d0; }
+    ul.videos li.watched,
+    ul.videos li.hidden-row { display: none; }
+    .vtitle { flex: 1; font-size: 0.9rem; }
+    .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
+    .row-btns { display: flex; gap: 4px; }
+    .mark-btn {
+      border: 1px solid #999;
+      background: transparent;
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .mark-btn:hover { background: var(--hot); color: var(--paper); border-color: var(--hot); }
+    /* Touch devices need bigger tap targets than the dense desktop list */
+    @media (pointer: coarse) {
+      .mark-btn { padding: 10px 14px; font-size: 0.85rem; }
+    }
+
+    .empty {
+      padding: 2rem;
+      text-align: center;
+      background: var(--paper);
+      border: var(--border);
+    }
+    /* Around the internet */
+    .broader-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .bcard {
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--ink);
+      position: relative;
+      transition: transform 0.05s ease;
+    }
+    .bcard:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+    .bcard.hidden { display: none; }
+    .bcard-thumb {
+      aspect-ratio: 16 / 9;
+      background: #000 center/cover no-repeat;
+      border-bottom: 2px solid var(--ink);
+      position: relative;
+    }
+    .bcard-dur {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.7rem;
+      padding: 1px 5px;
+      font-weight: 700;
+    }
+    .bcard-body { padding: .65rem .75rem .75rem; flex: 1; display: flex; flex-direction: column; }
+    .bcard-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 0 0 .35rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .bcard-meta {
+      font-size: 0.72rem;
+      color: #666;
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+    .bcard-chan { font-weight: 700; color: #333; }
+    .explore-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--lime);
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .series-badge {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      background: #ffd86b;
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .classic-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--hot);
+      color: var(--paper);
+      border: 2px solid var(--ink);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .sdsn-card .bcard-thumb {
+      background-color: #171717;
+    }
+    .sdsn-card-loading .bcard-thumb {
+      background:
+        linear-gradient(135deg, #171717 0 48%, #2a2a2a 48% 52%, #171717 52% 100%);
+    }
+    .bhide {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      cursor: pointer;
+      font-family: inherit;
+      opacity: 0;
+      transition: opacity 0.1s ease;
+    }
+    .bcard:hover .bhide { opacity: 1; }
+    .bhide:hover { background: var(--hot); color: var(--paper); }
+    .bhide.like { right: 40px; }
+    .bhide.like:hover { background: var(--lime); color: var(--ink); }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--ink);
+      font-size: 0.75rem;
+      color: #666;
+      text-align: center;
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 0 2rem;
+    }
+    .page-head h1 { margin: 0; }
+    .page-head.launchers-only { justify-content: flex-end; margin: 0 0 1.5rem; }
+    .corner-launchers {
+      display: flex;
+      gap: 1rem;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+    .corner-launchers a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+      opacity: 0.55;
+      transition: opacity 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    }
+    .corner-launchers a:hover {
+      opacity: 1;
+      color: var(--hot);
+      transform: translateY(-1px) rotate(-2deg);
+    }
+    .corner-launchers svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--hot);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+    /* Sports section (live recap tiles + yesterday recap tiles + today strip) */
+    .sports-section { margin: 0 0 2.5rem; }
+    .sports-recap-shell,
+    .recap-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+    .sports-recap-shell > astro-island,
+    .sports-recap-shell .recap-grid {
+      display: contents;
+    }
+    @media (min-width: 720px) {
+      .sports-recap-shell,
+      .recap-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .recap-tile {
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+      border-left-width: 8px;
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      container-type: inline-size;
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+    .recap-tile:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .recap-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .recap-team {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex: 1;
+      min-width: 0;
+    }
+    .recap-team.home { flex-direction: row-reverse; text-align: right; }
+    .recap-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .recap-team-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.15;
+    }
+    .recap-team-name {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .recap-team-abbr {
+      font-size: 0.65rem;
+      color: #888;
+      letter-spacing: 0.06em;
+    }
+    @container (max-width: 430px) {
+      .recap-team-name { display: none; }
+      .recap-team-abbr {
+        font-family: 'Space Mono', monospace;
+        font-weight: 700;
+        font-size: 0.85rem;
+        line-height: 1.15;
+        color: var(--ink);
+        letter-spacing: 0;
+      }
+    }
+    .recap-score {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.7rem;
+      line-height: 1;
+      padding: 0 0.3rem;
+      color: #aaa;
+    }
+    .recap-score.win { color: var(--ink); }
+    .recap-vs {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.85rem;
+      color: #888;
+      flex-shrink: 0;
+    }
+    .recap-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-top: 1px dashed #ccc;
+      padding-top: 0.55rem;
+    }
+    .recap-final { font-weight: 700; color: #444; }
+    .recap-watch { font-weight: 700; color: var(--cool); }
+
+    /* Live tile variant — same big-tile chrome, with pulsing LIVE indicator
+       and no winner/loser score emphasis (no winner yet). */
+    .recap-tile.live .recap-score.live { color: var(--ink); }
+    .recap-live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 700;
+      color: var(--hot);
+    }
+    .recap-live-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--hot);
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    /* MLB Big Inning live indicator — small pill above the live tile grid
+       when the broadcast window is active. */
+    .big-inning-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.45rem 0.8rem 0.45rem 0.7rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-left-width: 5px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.05s ease, box-shadow 0.05s ease;
+    }
+    .sports-recap-shell .big-inning-pill {
+      grid-column: 1 / -1;
+    }
+    .big-inning-pill:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .big-inning-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #bf0d3e;
+      animation: livePulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .big-inning-label { font-weight: 700; }
+    .big-inning-detail {
+      color: #555;
+      font-size: 0.72rem;
+      letter-spacing: 0.03em;
+    }
+    .big-inning-platform {
+      margin-left: auto;
+      color: var(--cool);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* Today schedule strip — small horizontal row under yesterday tiles */
+    .schedule-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .schedule-leader {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 0.95rem;
+      color: #555;
+      letter-spacing: 0.02em;
+      margin-right: 0.15rem;
+    }
+    .schedule-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.25rem 0.55rem 0.25rem 0.45rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      border-left-width: 4px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+    }
+    .schedule-teams {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 700;
+    }
+    .schedule-at { color: #999; font-weight: 400; }
+    .schedule-time { color: #555; font-size: 0.7rem; letter-spacing: 0.03em; }
+    .schedule-time.live {
+      color: var(--hot);
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="yt-gate">
+    <h2>🐱</h2>
+    <form id="yt-gate-form">
+      <label for="yt-gate-input" class="sr-only">Password</label>
+      <input id="yt-gate-input" type="password" autocomplete="off" autofocus aria-label="Password" />
+    </form>
+  </div>
+  <div class="wrap">
+    <div class="page-head launchers-only">
+      <div class="corner-launchers" aria-label="quick launchers">
+        <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.5" y="4.5" width="19" height="13" rx="1.5"/>
+            <path d="M8 21h8M12 17.5V21"/>
+            <path d="M10.5 8.5l4.5 2.5-4.5 2.5z" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/feed/history" target="_blank" rel="noopener" title="YouTube History" aria-label="YouTube History">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2.5" y="5.5" width="19" height="13" rx="3"/>
+            <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="https://www.mlb.com/tv" target="_blank" rel="noopener" title="MLB.tv" aria-label="MLB.tv">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M5 8 Q9.5 12 5 16"/>
+            <path d="M19 8 Q14.5 12 19 16"/>
+          </svg>
+        </a>
+        <a id="best-wnba-launcher" href="https://www.wnba.com/league-pass-stream/" target="_blank" rel="noopener" data-wnba-auth-launch="true" title="Yesterday's best WNBA game" aria-label="Yesterday's best WNBA game">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M3 12h18"/>
+            <path d="M12 3v18"/>
+            <path d="M5.6 5.6 Q12 12 5.6 18.4"/>
+            <path d="M18.4 5.6 Q12 12 18.4 18.4"/>
+          </svg>
+        </a>
+        <a href="https://valkyries.wnba.com/schedule?season=2026&month=all&location=all&opponent=all&upcoming=false" target="_blank" rel="noopener" title="Golden State Valkyries" aria-label="Golden State Valkyries">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M2.5 4 L6.5 4 L12 20.5 L8 20.5 Z"/>
+            <path d="M16 4 L21.5 4 L15 20.5 L12 20.5 Z"/>
+          </svg>
+        </a>
+        <a href="https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc" target="_blank" rel="noopener" title="Prime Video" aria-label="Prime Video">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 13c3.5 4 6.5 5.5 9.5 5.5s6-1.5 8.5-4"/>
+            <path d="M17 14.5l4-1 1 4"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <section class="sports-section" aria-label="Sports">
+      <h2 class="section-title">sports</h2>
+      <div class="sports-recap-shell">
+        <LiveSports client:only="react" />
+        <YesterdaySports client:only="react" />
+      </div>
+      <TodaySports client:only="react" />
+    </section>
+
+    {data.queue.length === 0 && (
+      <div class="empty">
+        <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
+      </div>
+    )}
+
+    {broader.queue.length > 0 && (
+      <>
+        <h2 class="section-title">around the internet</h2>
+        <div class="broader-grid" id="broader-grid">
+          <a
+            class="bcard sdsn-card sdsn-card-loading"
+            id="sdsn-classic-card"
+            href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d"
+            target="_blank"
+            rel="noopener"
+            data-published-at="9999-12-31T00:00:00.000Z"
+          >
+            <div class="bcard-thumb" data-sdsn-thumb>
+              <span class="classic-badge">classic</span>
+              <span class="bcard-dur" data-sdsn-duration>...</span>
+            </div>
+            <div class="bcard-body">
+              <p class="bcard-title" data-sdsn-title>loading sdsn classic...</p>
+              <div class="bcard-meta">
+                <span class="bcard-chan" data-sdsn-channel>SDSN Classic</span>
+                <span>random</span>
+              </div>
+            </div>
+          </a>
+          {broader.queue.map((v) => (
+            <a
+              class="bcard"
+              href={v.url}
+              target="_blank"
+              rel="noopener"
+              data-broader-id={v.id}
+              data-published-at={v.published_at}
+              data-series-key={v.series_key || ''}
+              data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
+            >
+              <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
+                {v.exploration && <span class="explore-badge">explore</span>}
+                {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
+                <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow series (adds a block below)' : 'liked / watched'}>✓</button>
+                <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide series forever' : 'pass / hide'}>×</button>
+                <span class="bcard-dur">{fmtDuration(v.duration)}</span>
+              </div>
+              <div class="bcard-body">
+                <p class="bcard-title">{v.title}</p>
+                <div class="bcard-meta">
+                  <span class="bcard-chan">{v.channel_title}</span>
+                  <span>{fmtAgo(v.published_at)}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div id="followed-series-container"></div>
+      </>
+    )}
+
+    {(topSeries || restSeries.length > 0) && (
+      <h2 class="section-title">stanford talks</h2>
+    )}
+
+    {topSeries && (() => {
+      const videos = seriesVideos(topSeries);
+      return (
+        <div class="series" data-series={topSeries.key}>
+          <div class="series-head">
+            <div>
+              <span class="series-name">{topSeries.display_name}</span>
+              <span class={`score-chip ${topSeries.best_score >= 3 ? '' : 'low'}`}>
+                score {topSeries.best_score}
+              </span>
+            </div>
+            <span class="series-meta">
+              {topSeries.video_count} {topSeries.video_count === 1 ? 'video' : 'videos'}
+            </span>
+          </div>
+          <ul class="videos">
+            {videos.map((v) => (
+              <li data-video-id={v.id} data-duration={v.duration} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+                <span class="vtitle">
+                  {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
+                  {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
+                </span>
+                <span class="vmeta">
+                  {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                </span>
+                <span class="row-btns">
+                  <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                  <button class="mark-btn" data-hide-stanford={v.id} title="hide everywhere">×</button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    })()}
+
+    {restSeries.length > 0 && (
+      <>
+        <h2>more from the queue</h2>
+        {restSeries.map((s) => {
+          const videos = seriesVideos(s);
+          if (videos.length === 0) return null;
+          const showScore = s.best_score >= 3;
+          return (
+            <div class="series" data-series={s.key}>
+              <div class="series-head">
+                <div>
+                  <span class="series-name">{s.display_name}</span>
+                  <span class={`score-chip ${showScore ? '' : 'low'}`}>
+                    score {s.best_score}
+                  </span>
+                </div>
+                <span class="series-meta">
+                  {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
+                </span>
+              </div>
+              <ul class="videos">
+                {videos.map((v) => (
+                  <li data-video-id={v.id} data-duration={v.duration} data-video-url={v.url || `https://www.youtube.com/watch?v=${v.id}&autoplay=1`}>
+                    <span class="vtitle">
+                      {v.lecture_num != null ? `#${v.lecture_num} · ` : ''}
+                      {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
+                    </span>
+                    <span class="vmeta">
+                      {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                    </span>
+                    <span class="row-btns">
+                      <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
+                      <button class="mark-btn" data-hide-stanford={v.id} title="hide everywhere">×</button>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </>
+    )}
+
+    <div class="footer">
+      click any row or card to open on youtube · ✓ marks watched · × hides it everywhere (future builds too)
+    </div>
+  </div>
+
+  <!-- Broader reserve pool, consumed client-side when visible count drops below 10 -->
+  <script is:inline type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
+  <script is:inline type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
+
+  <script is:inline>
+    // ---- Password gate ----
+    (function () {
+      const form = document.getElementById('yt-gate-form');
+      const input = document.getElementById('yt-gate-input');
+      const gate = document.getElementById('yt-gate');
+      if (!form || !input || !gate) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value.trim().toLowerCase() === 'meow') {
+          try { localStorage.setItem('yt-gate-v1', 'meow'); } catch {}
+          document.documentElement.classList.add('yt-unlocked');
+        } else {
+          gate.classList.remove('shake');
+          void gate.offsetWidth;
+          gate.classList.add('shake');
+          input.value = '';
+        }
+      });
+    })();
+
+    // ---- Mark-sync: tell the Mini about likes + passes (drops from feed +
+    // future builds, feeds back into scoring). ----
+    // Port 8443 is the Tailscale Funnel listener (public), so marks land from
+    // any device — the :443 route is tailnet-only and silently ate clicks
+    // whenever the browsing device wasn't on Tailscale DNS. The key is a
+    // spam gate, not a secret (this page is already client-gated).
+    const MARK_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net:8443/api/mark';
+    const MARK_API_KEY = 'b682274e4f6c8e1c7e5579fa';
+    function sendMark(id, kind, action) {
+      try {
+        fetch(MARK_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Mark-Key': MARK_API_KEY },
+          body: JSON.stringify({ id, kind, action }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch {}
+    }
+
+    // One-shot: flush existing localStorage state to the Mini so feed.xml
+    // drops items already marked before /api/mark existed. Runs once per browser.
+    // v2 (2026-06-09): marks silently failed to reach the Mini from
+    // non-tailnet-DNS devices between Apr 20 and Jun 9 — bumping the flag
+    // makes every browser re-flush its full localStorage mark state through
+    // the fixed endpoint. Server appends are idempotent, so this is safe.
+    const SYNC_FLAG = 'mark-sync-v2';
+    function bootstrapSync() {
+      if (localStorage.getItem(SYNC_FLAG)) return;
+      try {
+        const watched = JSON.parse(localStorage.getItem('stanford-queue-watched-v1') || '[]');
+        const sHidden = JSON.parse(localStorage.getItem('stanford-hidden-v1') || '[]');
+        const bHidden = JSON.parse(localStorage.getItem('broader-hidden-v1') || '[]');
+        watched.forEach(id => sendMark(id, 'stanford', 'like'));
+        sHidden.forEach(id => sendMark(id, 'stanford', 'pass'));
+        bHidden.forEach(id => sendMark(id, 'broader', 'pass'));
+        localStorage.setItem(SYNC_FLAG, String(Date.now()));
+      } catch {}
+    }
+    bootstrapSync();
+
+    // ---- Stanford: watched state + auto-hide watched-out series ----
+    const WATCHED_KEY = 'stanford-queue-watched-v1';
+    const STANFORD_HIDDEN_KEY = 'stanford-hidden-v1';
+
+    function getWatched() {
+      try { return new Set(JSON.parse(localStorage.getItem(WATCHED_KEY) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveWatched(set) {
+      localStorage.setItem(WATCHED_KEY, JSON.stringify([...set]));
+    }
+    function toggleWatched(id) {
+      const w = getWatched();
+      const adding = !w.has(id);
+      if (adding) w.add(id); else w.delete(id);
+      saveWatched(w);
+      if (adding) sendMark(id, 'stanford', 'like');
+      renderWatched();
+    }
+    function getStanfordHidden() {
+      try { return new Set(JSON.parse(localStorage.getItem(STANFORD_HIDDEN_KEY) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveStanfordHidden(set) {
+      localStorage.setItem(STANFORD_HIDDEN_KEY, JSON.stringify([...set]));
+    }
+    function hideStanford(id) {
+      const h = getStanfordHidden();
+      h.add(id);
+      saveStanfordHidden(h);
+      sendMark(id, 'stanford', 'pass');
+      renderWatched();
+    }
+    function renderWatched() {
+      const w = getWatched();
+      const hidden = getStanfordHidden();
+      document.querySelectorAll('li[data-video-id]').forEach(li => {
+        li.classList.toggle('watched', w.has(li.dataset.videoId));
+        li.classList.toggle('hidden-row', hidden.has(li.dataset.videoId));
+      });
+      // Hide any series whose videos are all watched or hidden
+      document.querySelectorAll('.series').forEach(s => {
+        const lis = s.querySelectorAll('li[data-video-id]');
+        const allGone = lis.length > 0 && [...lis].every(li =>
+          li.classList.contains('watched') || li.classList.contains('hidden-row')
+        );
+        s.hidden = allGone;
+      });
+    }
+
+    // Row click → open on YouTube (autoplay). Ignore clicks on the row buttons.
+    document.querySelectorAll('li[data-video-id]').forEach(li => {
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('[data-toggle-watched]') || e.target.closest('[data-hide-stanford]')) return;
+        const url = li.dataset.videoUrl;
+        if (url) window.open(url, '_blank', 'noopener');
+      });
+    });
+    document.querySelectorAll('[data-toggle-watched]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleWatched(btn.dataset.toggleWatched);
+      });
+    });
+    document.querySelectorAll('[data-hide-stanford]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        hideStanford(btn.dataset.hideStanford);
+      });
+    });
+
+    renderWatched();
+
+    // ---- Around the internet: hide + refill from reserve pool ----
+    const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
+    const BROADER_FOLLOWED_SERIES_KEY = 'broader-followed-series-v1';
+    const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
+    const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
+    const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
+
+    function getSet(key) {
+      try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
+      catch { return new Set(); }
+    }
+    function saveSet(key, set) {
+      localStorage.setItem(key, JSON.stringify([...set]));
+    }
+    const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
+    const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
+    const getFollowedSeries = () => getSet(BROADER_FOLLOWED_SERIES_KEY);
+    const saveFollowedSeries = (s) => saveSet(BROADER_FOLLOWED_SERIES_KEY, s);
+    const getBannedSeries = () => getSet(BROADER_BANNED_SERIES_KEY);
+    const saveBannedSeries = (s) => saveSet(BROADER_BANNED_SERIES_KEY, s);
+
+    function renderBroaderHidden() {
+      const h = getBroaderHidden();
+      const banned = getBannedSeries();
+      document.querySelectorAll('[data-broader-id]').forEach(card => {
+        const byId = h.has(card.dataset.broaderId);
+        const bySeries = card.dataset.seriesKey && banned.has(card.dataset.seriesKey);
+        card.classList.toggle('hidden', byId || bySeries);
+      });
+    }
+
+    function fmtDurationJS(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
+    }
+    function fmtAgoJS(iso) {
+      const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+      if (days === 0) return 'today';
+      if (days < 7) return `${days}d ago`;
+      if (days < 30) return `${Math.floor(days / 7)}w ago`;
+      return `${Math.floor(days / 30)}mo ago`;
+    }
+    function escapeHTML(s) {
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function buildCard(v) {
+      const a = document.createElement('a');
+      a.className = 'bcard';
+      a.href = v.url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.dataset.broaderId = v.id;
+      a.dataset.publishedAt = v.published_at;
+      if (v.series_key) a.dataset.seriesKey = v.series_key;
+      if (v.episode_number != null) a.dataset.episodeNumber = String(v.episode_number);
+      const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
+      const safeId = escapeHTML(v.id);
+      const seriesBadge = v.series_key
+        ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';
+      const likeTitle = v.series_key ? 'follow series (adds a block below)' : 'liked / watched';
+      const passTitle = v.series_key ? 'hide series forever' : 'pass / hide';
+      a.innerHTML = `
+        <div class="bcard-thumb" style="${thumbStyle}">
+          ${v.exploration ? '<span class="explore-badge">explore</span>' : ''}
+          ${seriesBadge}
+          <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="${likeTitle}">✓</button>
+          <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="${passTitle}">×</button>
+          <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
+        </div>
+        <div class="bcard-body">
+          <p class="bcard-title">${escapeHTML(v.title)}</p>
+          <div class="bcard-meta">
+            <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
+            <span>${fmtAgoJS(v.published_at)}</span>
+          </div>
+        </div>
+      `;
+      a.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
+      return a;
+    }
+
+    function wireMarkButton(btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = btn.dataset.markBroader;
+        const action = btn.dataset.action || 'pass';
+        const card = btn.closest('[data-broader-id]');
+        const seriesKey = card && card.dataset.seriesKey;
+
+        if (seriesKey) {
+          if (action === 'like') {
+            const f = getFollowedSeries();
+            f.add(seriesKey);
+            saveFollowedSeries(f);
+          } else {
+            const b = getBannedSeries();
+            b.add(seriesKey);
+            saveBannedSeries(b);
+          }
+          sendMark(id, 'broader', action);
+          renderFollowedSeries();
+          renderBroaderHidden();
+          refillIfNeeded();
+          return;
+        }
+
+        const h = getBroaderHidden();
+        h.add(id);
+        saveBroaderHidden(h);
+        sendMark(id, 'broader', action);
+        renderBroaderHidden();
+        refillIfNeeded();
+      });
+    }
+
+    async function loadSdsnClassicCard() {
+      const card = document.getElementById('sdsn-classic-card');
+      if (!card) return;
+
+      try {
+        const response = await fetch('/api/tv/random-sdsn', { cache: 'no-store' });
+        if (!response.ok) throw new Error('SDSN Classic unavailable');
+
+        const video = await response.json();
+        if (!video || typeof video.url !== 'string' || typeof video.title !== 'string') {
+          throw new Error('SDSN Classic payload malformed');
+        }
+
+        const thumb = card.querySelector('[data-sdsn-thumb]');
+        const title = card.querySelector('[data-sdsn-title]');
+        const channel = card.querySelector('[data-sdsn-channel]');
+        const duration = card.querySelector('[data-sdsn-duration]');
+
+        card.href = video.url;
+        if (thumb && typeof video.thumb === 'string') {
+          thumb.style.backgroundImage = `url(${video.thumb})`;
+        }
+        if (title) title.textContent = video.title;
+        if (channel) channel.textContent = video.channelTitle || 'SDSN Classic';
+        if (duration) {
+          if (video.duration) duration.textContent = video.duration;
+          else duration.hidden = true;
+        }
+
+        card.classList.remove('sdsn-card-loading');
+      } catch {
+        card.classList.add('hidden');
+        refillIfNeeded();
+      }
+    }
+
+    function renderFollowedSeries() {
+      const container = document.getElementById('followed-series-container');
+      if (!container) return;
+      const followed = getFollowedSeries();
+      const watched = getWatched();
+      const stanfordHidden = getStanfordHidden();
+      container.innerHTML = '';
+      followed.forEach(key => {
+        const eps = SERIES_EPISODES[key];
+        if (!eps || eps.length === 0) return;
+        const section = document.createElement('div');
+        section.className = 'series';
+        section.dataset.series = key;
+        const channelTitle = eps[0].channel_title || 'series';
+        const head = document.createElement('div');
+        head.className = 'series-head';
+        head.innerHTML = `
+          <div>
+            <span class="series-name">${escapeHTML(channelTitle)}</span>
+            <span class="score-chip">followed</span>
+          </div>
+          <span class="series-meta">${eps.length} ${eps.length === 1 ? 'video' : 'videos'} · <button class="mark-btn" data-unfollow-series="${escapeHTML(key)}" title="unfollow">×</button></span>
+        `;
+        const ul = document.createElement('ul');
+        ul.className = 'videos';
+        eps.forEach(v => {
+          const li = document.createElement('li');
+          li.dataset.videoId = v.id;
+          li.dataset.videoUrl = v.url;
+          if (watched.has(v.id)) li.classList.add('watched');
+          if (stanfordHidden.has(v.id)) li.classList.add('hidden-row');
+          const ep = v.episode_number != null ? `#${v.episode_number} · ` : '';
+          li.innerHTML = `
+            <span class="vtitle">${ep}${escapeHTML(v.title)}</span>
+            <span class="vmeta">${fmtDurationJS(v.duration)} · ${fmtAgoJS(v.published_at)}</span>
+            <span class="row-btns">
+              <button class="mark-btn" data-toggle-watched="${escapeHTML(v.id)}" title="toggle watched">✓</button>
+              <button class="mark-btn" data-hide-stanford="${escapeHTML(v.id)}" title="hide everywhere">×</button>
+            </span>
+          `;
+          li.addEventListener('click', (e) => {
+            if (e.target.closest('[data-toggle-watched]') || e.target.closest('[data-hide-stanford]')) return;
+            window.open(v.url, '_blank', 'noopener');
+          });
+          ul.appendChild(li);
+        });
+        section.appendChild(head);
+        section.appendChild(ul);
+        container.appendChild(section);
+      });
+      container.querySelectorAll('[data-toggle-watched]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleWatched(btn.dataset.toggleWatched);
+        });
+      });
+      container.querySelectorAll('[data-hide-stanford]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          hideStanford(btn.dataset.hideStanford);
+        });
+      });
+      container.querySelectorAll('[data-unfollow-series]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const key = btn.dataset.unfollowSeries;
+          const f = getFollowedSeries();
+          f.delete(key);
+          saveFollowedSeries(f);
+          renderFollowedSeries();
+        });
+      });
+    }
+
+    function refillIfNeeded() {
+      const grid = document.getElementById('broader-grid');
+      if (!grid) return;
+      const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
+      // Keep at least 10 visible, and always round up to a multiple of 4
+      // so the last row is full.
+      const minTarget = Math.max(visible < 10 ? visible + 10 : visible, 10);
+      const target = Math.ceil(minTarget / 4) * 4;
+      if (target <= visible || POOL.length === 0) return;
+      const needed = target - visible;
+      const hidden = getBroaderHidden();
+      const banned = getBannedSeries();
+      const followed = getFollowedSeries();
+      const seenSeriesOnGrid = new Set(
+        Array.from(grid.querySelectorAll('[data-series-key]'))
+          .map(el => el.dataset.seriesKey)
+          .filter(Boolean)
+      );
+      let added = 0;
+      while (added < needed && POOL.length > 0) {
+        const v = POOL.shift();
+        if (hidden.has(v.id)) continue;
+        if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
+        if (v.series_key) seenSeriesOnGrid.add(v.series_key);
+        const card = buildCard(v);
+        const newTs = new Date(v.published_at).getTime();
+        const existing = Array.from(grid.querySelectorAll('.bcard'));
+        const before = existing.find(el => {
+          const ts = new Date(el.dataset.publishedAt || 0).getTime();
+          return ts < newTs;
+        });
+        if (before) grid.insertBefore(card, before);
+        else grid.appendChild(card);
+        added++;
+      }
+    }
+
+    // Wire up any pre-rendered mark buttons
+    document.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
+    renderFollowedSeries();
+    renderBroaderHidden();
+    refillIfNeeded();
+    loadSdsnClassicCard();
+  </script>
+  <script is:inline>
+    // WNBA's watch pages can render as logged-out even when the browser has a
+    // valid WNBA ID session. Prime their same-site auth bridge in the new tab
+    // first, then send that tab to the specific game/replay URL.
+    (function () {
+      const WNBA_AUTH_BRIDGE = 'https://www.wnba.com/api/auth/authenticate';
+      const WNBA_AUTH_DELAY_MS = 1200;
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const link = target.closest('a[data-wnba-auth-launch]');
+        if (!(link instanceof HTMLAnchorElement)) return;
+        if (
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.metaKey ||
+          event.ctrlKey ||
+          event.shiftKey ||
+          event.altKey
+        ) {
+          return;
+        }
+
+        const href = link.href;
+        if (!href.startsWith('https://www.wnba.com/')) return;
+        event.preventDefault();
+
+        const tab = window.open('about:blank', '_blank');
+        if (!tab) {
+          window.location.href = href;
+          return;
+        }
+
+        try {
+          tab.opener = null;
+        } catch {}
+        tab.location.href = WNBA_AUTH_BRIDGE;
+        window.setTimeout(() => {
+          try {
+            tab.location.href = href;
+          } catch {
+            window.open(href, '_blank', 'noopener');
+          }
+        }, WNBA_AUTH_DELAY_MS);
+      });
+    })();
+  </script>
+  <script>
+    // Point the basketball launcher at the previous day's best WNBA game page.
+    // WNBA.com exposes full-game replay choices from the game page once the
+    // replay is ready, while synthesized /watch/video URLs can load a shell
+    // with no playable video. Falls back to the WNBA League Pass home (the
+    // static href) on off-days or if the game can't be resolved.
+    import { fetchEspnScoreboard } from '../lib/sportsCore';
+    import {
+      competitorsOf,
+      fetchWnbaGameIds,
+      finishedGameWatchScore,
+      isFinalEvent,
+      isoDateInPT,
+      watchRecordingUrl,
+      yyyymmddInPT,
+      type ESPNEvent,
+    } from '../lib/wtwtwSports';
+    import { MS_PER_DAY } from '../lib/time';
+
+    const launcher = document.getElementById('best-wnba-launcher');
+    if (launcher instanceof HTMLAnchorElement) {
+      (async () => {
+        try {
+          const yesterday = new Date(Date.now() - MS_PER_DAY);
+          const ymd = yyyymmddInPT(yesterday);
+          const iso = isoDateInPT(yesterday);
+          const [board, wnbaGameIds] = await Promise.all([
+            fetchEspnScoreboard<ESPNEvent>('basketball/wnba', ymd),
+            fetchWnbaGameIds(),
+          ]);
+          const finals = (board.events || []).filter(isFinalEvent);
+          if (finals.length === 0) return;
+
+          let best: ESPNEvent | null = null;
+          let bestScore = -Infinity;
+          for (const ev of finals) {
+            const score = finishedGameWatchScore(ev);
+            if (score > bestScore) {
+              bestScore = score;
+              best = ev;
+            }
+          }
+          if (!best) return;
+
+          const cs = competitorsOf(best);
+          const away = cs.find((c) => c.homeAway === 'away');
+          const home = cs.find((c) => c.homeAway === 'home');
+          const watch = watchRecordingUrl({
+            league: 'basketball/wnba',
+            awayAbbr: away?.team?.abbreviation,
+            homeAbbr: home?.team?.abbreviation,
+            isoDate: iso,
+            wnbaGameIds,
+          });
+          // Only override the static fallback when a real WNBA target resolved.
+          if (!watch.href.includes('/game/')) {
+            return;
+          }
+
+          launcher.href = watch.href;
+          const awayName =
+            away?.team?.shortDisplayName || away?.team?.abbreviation || 'Away';
+          const homeName =
+            home?.team?.shortDisplayName || home?.team?.abbreviation || 'Home';
+          const label = `Yesterday's best WNBA game: ${awayName} @ ${homeName}`;
+          launcher.title = label;
+          launcher.setAttribute('aria-label', label);
+        } catch {
+          /* keep the WNBA League Pass fallback href */
+        }
+      })();
+    }
+  </script>
+</body>
+</html>
