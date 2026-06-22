@@ -1,5 +1,21 @@
 [
   {
+    "name": "Antigravity CLI",
+    "org": "Google",
+    "date": "2026-06-18",
+    "type": "tool",
+    "summary": "Free terminal coding agent that runs multiple sub-agents in the background, so you can fire off big refactors or parallel research without locking up your session. Ships as a single Go binary and replaces the retired Gemini CLI for individual devs.",
+    "url": "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
+  },
+  {
+    "name": "Agent Finder for Copilot",
+    "org": "GitHub",
+    "date": "2026-06-17",
+    "type": "tool",
+    "summary": "Describe a coding task in plain English and Copilot searches a catalog of agent tools, MCP servers, and skills, then surfaces ranked matches it can pull in on demand — nothing gets wired up without your say-so. Free for all Copilot plans.",
+    "url": "https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/"
+  },
+  {
     "name": "MiniMax Hub",
     "org": "MiniMax",
     "date": "2026-06-15",
@@ -28,7 +44,7 @@
     "org": "Anthropic",
     "date": "2026-06-09",
     "type": "model",
-    "summary": "A new top tier above Opus, with state-of-the-art coding, knowledge work, and vision plus million-token context. Live now on claude.ai, Claude Code, the API, and Bedrock — and free on Pro and Max plans through June 22.",
+    "summary": "A new top tier above Opus, with state-of-the-art coding, knowledge work, and vision plus million-token context. Live now on claude.ai, Claude Code, the API, and Bedrock for Pro and Max subscribers.",
     "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
   },
   {
@@ -38,13 +54,5 @@
     "type": "tool",
     "summary": "Build AI features into your iOS app and call on-device and cloud models for free if you're a small dev (under 2M lifetime downloads). Now with image input and a Swift API that can route to Claude or Gemini.",
     "url": "https://www.macrumors.com/2026/06/09/apple-outlines-major-ai-and-developer-tool-updates/"
-  },
-  {
-    "name": "MiniMax M3",
-    "org": "MiniMax",
-    "date": "2026-06-07",
-    "type": "model",
-    "summary": "Open-weight model that reads images and video, drives a computer, and holds a million tokens of context — self-host or call it cheaply via API. Weights are on Hugging Face under a permissive license, and it outscores GPT-5.5 on SWE-Bench coding.",
-    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3"
   }
 ]
