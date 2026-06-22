@@ -1,8 +1,8 @@
 ---
-// stanwood.dev/tv — the family room TV homepage. Runs fullscreen on the Mac Mini
-// wired to the Samsung Q80C. Big key-art tiles, sports rails (shared engine),
-// SDSN Classic, and quick launchers. No Samsung UI, no ads, no junk.
-// Show key art is baked from TMDB (static, doesn't change). Sports + SDSN are live.
+// stanwood.dev/tv — the family room TV homepage. Memphis Play aesthetic.
+// Runs fullscreen on the Mac Mini wired to the Samsung Q80C.
+// Big key-art tiles, sports rails (shared engine), SDSN Classic, and quick launchers.
+// Show key art is baked from TMDB (static). Sports + SDSN are live.
 import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
 import YesterdaySports from '../components/YesterdaySports.tsx';
@@ -12,34 +12,30 @@ const IMG = 'https://image.tmdb.org/t/p/w1280';
 const shows = [
   {
     title: 'All Creatures Great & Small',
-    sub: 'PBS Masterpiece · the cozy one',
+    caption: 'PBS Masterpiece',
     href: 'https://www.amazon.com/dp/B08QGM6VTY',
     art: `${IMG}/l61sjSZCsf99abjlnt2ToG442ol.jpg`,
-    badge: { type: 'logo', file: 'primevideo', color: '#00A8E1', w: 76, h: 20 },
   },
   {
     title: 'Gilmore Girls',
-    sub: '→ moving to Hulu Jun 30',
-    subWarn: true,
+    caption: "Lorelai's pick",
     href: 'https://www.netflix.com/title/70155618',
-    art: `${IMG}/8U2ndZrneigI2zkvGuTJtt1ZsxK.jpg`,
-    badge: { type: 'logo', file: 'netflix', color: '#E50914', w: 62, h: 18 },
+    art: `${IMG}/cNTD4BBv0dTHNfTISEzPuBlRwUs.jpg`,
   },
   {
     title: 'Daniel Tiger',
-    sub: 'ad-free · for the kids',
-    href: 'https://pbskids.org/daniel-tiger',
+    caption: 'for the kids',
+    href: 'https://www.amazon.com/dp/B0BX41FYR5',
     art: `${IMG}/yAIpWHcLmS1O2aCrx4oBhXtwoHt.jpg`,
-    badge: { type: 'text', label: 'PBS KIDS', bg: '#2AA84F' },
   },
 ];
 
 const launchers = [
-  { label: 'Netflix', href: 'https://www.netflix.com', logo: { file: 'netflix', color: '#E50914', w: 56, h: 15 } },
-  { label: 'Prime Video', href: 'https://www.amazon.com/gp/video/storefront', logo: { file: 'primevideo', color: '#00A8E1', w: 68, h: 18 } },
-  { label: 'YouTube TV', href: 'https://tv.youtube.com/', logo: { file: 'youtubetv', color: '#FF0000', w: 78, h: 18 } },
-  { label: 'WNBA League Pass', href: 'https://www.wnba.com/league-pass-stream/', text: true },
-  { label: 'MLB.tv', href: 'https://www.mlb.com/tv', text: true },
+  { label: 'Netflix', href: 'https://www.netflix.com' },
+  { label: 'Prime Video', href: 'https://www.amazon.com/gp/video/storefront' },
+  { label: 'YouTube TV', href: 'https://tv.youtube.com/' },
+  { label: 'WNBA League Pass', href: 'https://www.wnba.com/league-pass-stream/' },
+  { label: 'MLB.tv', href: 'https://www.mlb.com/tv' },
 ];
 ---
 
@@ -48,229 +44,734 @@ const launchers = [
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#fdf6e3" />
+  <meta name="theme-color" content="#FFFBF7" />
   <title>the stanwoods · tv</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&family=Archivo:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
   <style is:global>
-    :root {
-      --bg: #fdf6e3;
-      --ink: #1a1a1a;
-      --paper: #ffffff;
-      --hot: #ff3b30;
-      --cool: #0a84ff;
-      --border: 3px solid var(--ink);
-      --shadow: 6px 6px 0 var(--ink);
-    }
-    * { box-sizing: border-box; }
-    html { font-size: 16px; }
-    @media (min-width: 1300px) { html { font-size: 18px; } }
-    @media (min-width: 2000px) { html { font-size: 21px; } }
-    body {
+    * {
       margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Space Mono', monospace;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Archivo', sans-serif;
+      background: linear-gradient(135deg, #FFFBF7 0%, #F8F3ED 100%);
+      color: #1a1a1a;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: inherit; }
-    .wrap { max-width: 1560px; margin: 0 auto; padding: 2.4rem 3rem 4rem; }
 
-    /* Masthead */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ===== HEADER / MASTHEAD ===== */
+    .header {
+      padding: 32px 48px 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      border-bottom: 1px solid rgba(22, 166, 166, 0.15);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 48px;
+      right: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, #FF6B5C 0%, #F5B73D 50%, #16A6A6 100%);
+    }
+
     .masthead {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      gap: 1rem; border-bottom: var(--border); padding-bottom: 1rem; margin-bottom: 2.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
-    .mast-title { font-family: 'Permanent Marker', cursive; font-size: 2.7rem; line-height: 1; }
-    .mast-clock { text-align: right; line-height: 1.1; }
-    .mast-time { font-size: 2rem; font-weight: 700; }
-    .mast-date { font-size: 0.92rem; color: #555; text-transform: uppercase; letter-spacing: 0.12em; }
 
-    .section-title {
-      font-family: 'Permanent Marker', cursive; font-size: 1.55rem; margin: 0 0 1rem; font-weight: 400;
+    .wordmark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1;
+      color: #1a1a1a;
     }
-    section { margin: 0 0 2.6rem; }
 
-    /* Big key-art tiles (shows + classic) */
-    .show-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
+    .wordmark span {
+      color: #FF6B5C;
+    }
+
+    .subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #16A6A6;
+    }
+
+    .clock {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .time {
+      font-family: 'Playfair Display', serif;
+      font-size: 76px;
+      font-weight: 800;
+      line-height: 1;
+      color: #FF6B5C;
+      letter-spacing: -1.5px;
+    }
+
+    .date {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: #888;
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      flex: 1;
+      display: flex;
+      padding: 32px 48px;
+      gap: 48px;
+      overflow: auto;
+      position: relative;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 80px;
+      bottom: 40px;
+      width: 3px;
+      background: linear-gradient(180deg, rgba(255, 107, 92, 0) 0%, rgba(255, 107, 92, 0.25) 50%, rgba(255, 107, 92, 0) 100%);
+      pointer-events: none;
+    }
+
+    /* LEFT: TONIGHT'S SHOWS */
+    .left-col {
+      flex: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #FF6B5C;
+      opacity: 0.9;
+    }
+
+    .left-col .section-label {
+      color: #FF6B5C;
+    }
+
+    .sdsn-section .section-label {
+      color: #16A6A6;
+    }
+
+    /* Staggered show grid */
+    .shows-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 0.9fr;
+      gap: 24px;
+      flex: 1;
+      align-items: flex-start;
+    }
+
     .show-tile {
-      position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden;
-      border: var(--border); box-shadow: var(--shadow); background: #222; color: #fff;
-      text-decoration: none; transition: transform 0.07s ease, box-shadow 0.07s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.320, 1), box-shadow 0.4s ease;
+      aspect-ratio: 9 / 13;
+      border: 2px solid rgba(255, 107, 92, 0.08);
+      display: block;
     }
-    .show-tile:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
-    /* Remote / d-pad focus ring — applies to any focusable tile (Samsung CEC, Flirc, BT remote, phone, keyboard) */
+
+    /* Focus ring for d-pad navigation */
     .show-tile:focus, .recap-tile:focus, .jump-chip:focus, .big-inning-pill:focus {
-      outline: 5px solid var(--hot); outline-offset: 3px;
-    }
-    .show-tile:focus { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
-    .recap-tile:focus, .jump-chip:focus { transform: translate(-2px, -2px); }
-    .show-art { position: absolute; inset: 0; background-size: cover; background-position: center 18%; }
-    .show-scrim {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.28) 46%, rgba(0,0,0,0) 72%);
-    }
-    .show-cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.1rem 1.15rem; }
-    .show-title { font-weight: 700; font-size: 1.5rem; line-height: 1.08; text-shadow: 0 2px 10px rgba(0,0,0,0.65); }
-    .show-sub { font-size: 0.82rem; margin-top: 0.35rem; opacity: 0.92; }
-    .show-sub.warn { color: #ffd23f; opacity: 1; }
-    .show-badge {
-      position: absolute; top: 0.8rem; left: 0.8rem; display: inline-flex; align-items: center;
-      background: #fff; border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); padding: 0.32rem 0.5rem;
-    }
-    .show-badge.text-badge { color: #fff; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; }
-    .brandmark {
-      display: inline-block; background-color: var(--bm, #000);
-      -webkit-mask: var(--bms) center / contain no-repeat; mask: var(--bms) center / contain no-repeat;
+      outline: 4px solid #FF6B5C;
+      outline-offset: 2px;
     }
 
-    /* SDSN Classic — wide cinematic tile, hydrated client-side */
-    .classic-tile { aspect-ratio: 24 / 9; }
-    .classic-tile .show-art { background-color: #1a1a1a; background-position: center; }
-    .classic-badge { background: var(--hot); color: #fff; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.08em; padding: 0.34rem 0.6rem; }
-    .classic-tile.is-loading .show-title { opacity: 0.6; }
+    /* Bold stagger */
+    .show-tile:nth-child(1) {
+      transform: translateY(-6px) rotate(-0.8deg);
+    }
 
-    /* Sports section — shared engine classes (LiveSports / YesterdaySports / TodaySports) */
+    .show-tile:nth-child(2) {
+      transform: translateY(12px) rotate(0.5deg);
+    }
+
+    .show-tile:nth-child(3) {
+      transform: translateY(28px) rotate(-0.6deg);
+    }
+
+    .show-tile:hover {
+      transform: translateY(-12px) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-tile:nth-child(2):hover {
+      transform: translateY(0) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-tile:nth-child(3):hover {
+      transform: translateY(16px) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .show-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 60%);
+      padding: 24px 16px 18px 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: white;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* RIGHT COLUMN: LOBBY */
+    .right-col {
+      flex: 0.8;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* SDSN TILE */
+    .sdsn-section {
+      flex: 0;
+    }
+
+    .sdsn-tile {
+      background: linear-gradient(135deg, #FF6B5C 0%, #F5B73D 100%);
+      padding: 32px;
+      border-radius: 0px;
+      color: white;
+      box-shadow: 0 14px 42px rgba(255, 107, 92, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .sdsn-tile::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 380px;
+      height: 380px;
+      background:
+        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,0.12) 3px, rgba(255,255,255,0.12) 6px);
+      pointer-events: none;
+    }
+
+    .sdsn-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sdsn-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .sdsn-meta {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      opacity: 0.98;
+      line-height: 1.7;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+    }
+
+    /* SPORTS SECTION */
+    .sports-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
     .sports-recap-shell, .recap-grid {
-      display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 0.85rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
     .sports-recap-shell > astro-island, .sports-recap-shell .recap-grid { display: contents; }
-    @media (min-width: 720px) { .sports-recap-shell, .recap-grid { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 1300px) { .sports-recap-shell, .recap-grid { grid-template-columns: 1fr 1fr 1fr; } }
-    .recap-tile {
-      background: var(--paper); border: var(--border); box-shadow: var(--shadow); border-left-width: 8px;
-      padding: 1rem 1.1rem; text-decoration: none; color: var(--ink); display: flex; flex-direction: column;
-      gap: 0.75rem; container-type: inline-size; transition: transform 0.05s ease, box-shadow 0.05s ease;
-    }
-    .recap-tile:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
-    .recap-matchup { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
-    .recap-team { display: flex; align-items: center; gap: 0.55rem; flex: 1; min-width: 0; }
-    .recap-team.home { flex-direction: row-reverse; text-align: right; }
-    .recap-logo { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
-    .recap-team-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
-    .recap-team-name { font-weight: 700; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .recap-team-abbr { font-size: 0.65rem; color: #888; letter-spacing: 0.06em; }
-    @container (max-width: 430px) {
-      .recap-team-name { display: none; }
-      .recap-team-abbr { font-weight: 700; font-size: 0.85rem; line-height: 1.15; color: var(--ink); letter-spacing: 0; }
-    }
-    .recap-score { font-family: 'Permanent Marker', cursive; font-size: 1.7rem; line-height: 1; padding: 0 0.3rem; color: #aaa; }
-    .recap-score.win { color: var(--ink); }
-    .recap-vs { font-family: 'Permanent Marker', cursive; font-size: 0.85rem; color: #888; flex-shrink: 0; }
-    .recap-meta {
-      display: flex; justify-content: space-between; align-items: center; font-size: 0.7rem;
-      text-transform: uppercase; letter-spacing: 0.08em; border-top: 1px dashed #ccc; padding-top: 0.55rem;
-    }
-    .recap-final { font-weight: 700; color: #444; }
-    .recap-watch { font-weight: 700; color: var(--cool); }
-    .recap-tile.live .recap-score.live { color: var(--ink); }
-    .recap-live-status { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: var(--hot); }
-    .recap-live-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--hot); animation: livePulse 1.5s ease-in-out infinite; }
-    @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-    .big-inning-pill {
-      display: flex; align-items: center; gap: 0.55rem; padding: 0.45rem 0.8rem 0.45rem 0.7rem; background: var(--paper);
-      border: 2px solid var(--ink); border-left-width: 5px; font-size: 0.8rem; text-decoration: none; color: var(--ink);
-      transition: transform 0.05s ease, box-shadow 0.05s ease;
-    }
-    .sports-recap-shell .big-inning-pill { grid-column: 1 / -1; }
-    .big-inning-pill:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--ink); }
-    .big-inning-dot { width: 8px; height: 8px; border-radius: 50%; background: #bf0d3e; animation: livePulse 1.5s ease-in-out infinite; flex-shrink: 0; }
-    .big-inning-label { font-weight: 700; }
-    .big-inning-detail { color: #555; font-size: 0.72rem; letter-spacing: 0.03em; }
-    .big-inning-platform { margin-left: auto; color: var(--cool); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.04em; }
-    .schedule-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
-    .schedule-leader { font-family: 'Permanent Marker', cursive; font-size: 0.95rem; color: #555; letter-spacing: 0.02em; margin-right: 0.15rem; }
-    .schedule-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.25rem 0.55rem 0.25rem 0.45rem; background: var(--paper); border: 2px solid var(--ink); border-left-width: 4px; font-size: 0.75rem; }
-    .schedule-teams { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 700; }
-    .schedule-at { color: #999; font-weight: 400; }
-    .schedule-time { color: #555; font-size: 0.7rem; letter-spacing: 0.03em; }
-    .schedule-time.live { color: var(--hot); font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem; }
 
-    /* Jump-to launchers */
-    .jump-row { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
-    .jump-chip {
-      display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.95rem; background: var(--paper);
-      border: var(--border); box-shadow: 4px 4px 0 var(--ink); text-decoration: none; color: var(--ink);
-      font-weight: 700; font-size: 0.85rem; transition: transform 0.06s ease, box-shadow 0.06s ease;
+    .sport-item {
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-size: 12px;
+      line-height: 1.5;
     }
-    .jump-chip:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+
+    .sport-item.live {
+      border-left-color: #FF6B5C;
+      background: linear-gradient(90deg, rgba(255, 107, 92, 0.06) 0%, transparent 100%);
+    }
+
+    .sport-item.final {
+      border-left-color: #ddd;
+      background: linear-gradient(90deg, rgba(136, 136, 136, 0.03) 0%, transparent 100%);
+    }
+
+    /* React component sports tile styles */
+    .recap-tile {
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .recap-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .recap-tile.live {
+      border-left-color: #FF6B5C;
+      background: linear-gradient(90deg, rgba(255, 107, 92, 0.06) 0%, transparent 100%);
+    }
+
+    .recap-tile.final {
+      border-left-color: #ddd;
+      background: linear-gradient(90deg, rgba(136, 136, 136, 0.03) 0%, transparent 100%);
+    }
+
+    .recap-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .recap-team {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recap-team.home {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .recap-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .recap-team-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.1;
+    }
+
+    .recap-team-name {
+      font-weight: 700;
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recap-team-abbr {
+      font-size: 9px;
+      color: #888;
+      letter-spacing: 0.03em;
+    }
+
+    .recap-score {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 0 4px;
+      color: #ccc;
+    }
+
+    .recap-score.win {
+      color: #1a1a1a;
+    }
+
+    .recap-score.live {
+      color: #FF6B5C;
+    }
+
+    .recap-vs {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      color: #999;
+      flex-shrink: 0;
+    }
+
+    .recap-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 6px;
+    }
+
+    .recap-final {
+      font-weight: 700;
+      color: #888;
+    }
+
+    .recap-watch {
+      font-weight: 700;
+      color: #FF6B5C;
+    }
+
+    .recap-live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      color: #FF6B5C;
+      font-size: 10px;
+    }
+
+    .recap-live-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FF6B5C;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    .big-inning-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      border-top: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 11px;
+      text-decoration: none;
+      color: #1a1a1a;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .big-inning-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .big-inning-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FF6B5C;
+      animation: livePulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .big-inning-label {
+      font-weight: 700;
+    }
+
+    .big-inning-detail {
+      color: #888;
+      font-size: 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .big-inning-platform {
+      margin-left: auto;
+      color: #FF6B5C;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+    }
+
+    .schedule-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .schedule-leader {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.02em;
+      margin-right: 2px;
+    }
+
+    .schedule-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-left: 2px solid #FF6B5C;
+      font-size: 9px;
+    }
+
+    .schedule-teams {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-weight: 700;
+    }
+
+    .schedule-at {
+      color: #999;
+      font-weight: 400;
+    }
+
+    .schedule-time {
+      color: #888;
+      font-size: 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .schedule-time.live {
+      color: #FF6B5C;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* JUMP TO SECTION */
+    .jump-to {
+      flex: 0;
+    }
+
+    .jump-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #16A6A6;
+      margin-bottom: 10px;
+    }
+
+    .service-chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .jump-chip {
+      background: white;
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      border: 1px solid #eee;
+      letter-spacing: 0.3px;
+    }
+
+    .jump-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ACCENT SHAPES */
+    .accent-dot {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .dot-1 {
+      width: 16px;
+      height: 16px;
+      background: #FF6B5C;
+      bottom: 135px;
+      left: 52px;
+      opacity: 0.6;
+      box-shadow: 0 4px 12px rgba(255, 107, 92, 0.25);
+    }
+
+    .dot-2 {
+      width: 10px;
+      height: 10px;
+      background: #16A6A6;
+      top: 110px;
+      left: 76px;
+      opacity: 0.5;
+      box-shadow: 0 2px 8px rgba(22, 166, 166, 0.2);
+    }
+
+    .dot-3 {
+      width: 13px;
+      height: 13px;
+      background: #F5B73D;
+      bottom: 165px;
+      right: 48px;
+      opacity: 0.55;
+      box-shadow: 0 3px 10px rgba(245, 183, 61, 0.25);
+    }
+
+    .accent-rule {
+      position: fixed;
+      background: linear-gradient(180deg, transparent 0%, rgba(255, 107, 92, 0.15) 50%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .rule-1 {
+      width: 3px;
+      height: 320px;
+      left: 30px;
+      top: 300px;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="masthead">
-      <div class="mast-title">the stanwoods</div>
-      <div class="mast-clock">
-        <div class="mast-time" id="clock-time">—</div>
-        <div class="mast-date" id="clock-date">&nbsp;</div>
-      </div>
-    </header>
-
-    <section aria-label="Watch">
-      <h2 class="section-title">tonight</h2>
-      <div class="show-grid">
-        {shows.map((s) => (
-          <a class="show-tile" href={s.href}>
-            <div class="show-art" style={`background-image:url('${s.art}')`}></div>
-            <div class="show-scrim"></div>
-            {s.badge.type === 'logo' ? (
-              <span class="show-badge">
-                <span class="brandmark" style={`--bms:url('/images/family/logos/${s.badge.file}.svg');--bm:${s.badge.color};width:${s.badge.w}px;height:${s.badge.h}px`}></span>
-              </span>
-            ) : (
-              <span class="show-badge text-badge" style={`background:${s.badge.bg}`}>{s.badge.label}</span>
-            )}
-            <div class="show-cap">
-              <div class="show-title">{s.title}</div>
-              <div class={`show-sub${s.subWarn ? ' warn' : ''}`}>{s.sub}</div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section aria-label="SDSN Classic">
-      <h2 class="section-title">sdsn classic</h2>
-      <a class="show-tile classic-tile is-loading" id="sdsn-classic-card"
-         href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d">
-        <div class="show-art" data-sdsn-thumb></div>
-        <div class="show-scrim"></div>
-        <span class="show-badge classic-badge">CLASSIC</span>
-        <div class="show-cap">
-          <div class="show-title" data-sdsn-title>loading a classic…</div>
-          <div class="show-sub"><span data-sdsn-channel>SDSN Classic</span> · <span data-sdsn-duration>full game</span> · random</div>
-        </div>
-      </a>
-    </section>
-
-    <section class="sports-section" aria-label="Sports">
-      <h2 class="section-title">sports</h2>
-      <div class="sports-recap-shell">
-        <LiveSports client:only="react" />
-        <YesterdaySports client:only="react" />
-      </div>
-      <TodaySports client:only="react" />
-    </section>
-
-    <section aria-label="Jump to">
-      <h2 class="section-title">jump to</h2>
-      <div class="jump-row">
-        {launchers.map((l) => (
-          <a class="jump-chip" href={l.href} rel="noopener">
-            {l.text ? null : (
-              <span class="brandmark" style={`--bms:url('/images/family/logos/${l.logo.file}.svg');--bm:${l.logo.color};width:${l.logo.w}px;height:${l.logo.h}px`}></span>
-            )}
-            <span>{l.label}</span>
-          </a>
-        ))}
-      </div>
-    </section>
+  <!-- HEADER / MARQUEE -->
+  <div class="header">
+    <div class="masthead">
+      <div class="wordmark">the <span>stanwoods</span></div>
+      <div class="subtitle">tonight's stage</div>
+    </div>
+    <div class="clock">
+      <div class="time" id="clock-time">—</div>
+      <div class="date" id="clock-date">&nbsp;</div>
+    </div>
   </div>
+
+  <!-- MAIN STAGE -->
+  <div class="container">
+    <!-- LEFT: TONIGHT'S SHOWS -->
+    <div class="left-col">
+      <div class="section-label">Tonight</div>
+      <div class="shows-grid">
+        {shows.map((s) => (
+          <a class="show-tile wrap" href={s.href}>
+            <img src={s.art} alt={s.title} class="show-image" />
+            <div class="show-label">{s.caption}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- RIGHT: LOBBY (SDSN + SPORTS + JUMP TO) -->
+    <div class="right-col">
+      <!-- SDSN CLASSIC -->
+      <div class="sdsn-section">
+        <div class="section-label">sdsn classic</div>
+        <a class="sdsn-tile" id="sdsn-classic-card" href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d">
+          <div class="sdsn-content">
+            <div class="sdsn-title" data-sdsn-title>loading…</div>
+            <div class="sdsn-meta">
+              <span data-sdsn-channel>SDSN Classic</span> · <span data-sdsn-duration>full game</span> · random
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- SPORTS LIVE/FINAL -->
+      <div class="sports-section">
+        <div class="section-label">Sports</div>
+        <div class="sports-recap-shell">
+          <LiveSports client:only="react" />
+          <YesterdaySports client:only="react" />
+        </div>
+        <TodaySports client:only="react" />
+      </div>
+
+      <!-- JUMP TO -->
+      <div class="jump-to">
+        <div class="jump-label">Jump to</div>
+        <div class="service-chips">
+          {launchers.map((l) => (
+            <a class="jump-chip wrap" href={l.href} rel="noopener">{l.label}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCENT SHAPES -->
+  <div class="accent-dot dot-1"></div>
+  <div class="accent-dot dot-2"></div>
+  <div class="accent-dot dot-3"></div>
+  <div class="accent-rule rule-1"></div>
 
   <script is:inline>
     (function () {
@@ -292,19 +793,15 @@ const launchers = [
           if (!res.ok) throw new Error('sdsn ' + res.status);
           const v = await res.json();
           if (v.url) card.href = v.url;
-          const thumb = card.querySelector('[data-sdsn-thumb]');
           const title = card.querySelector('[data-sdsn-title]');
           const channel = card.querySelector('[data-sdsn-channel]');
           const duration = card.querySelector('[data-sdsn-duration]');
-          if (thumb && v.thumb) thumb.style.backgroundImage = "url('" + v.thumb + "')";
           if (title && v.title) title.textContent = v.title;
           if (channel) channel.textContent = v.playlistTitle || 'SDSN Classic';
           if (duration) duration.textContent = v.duration || 'full game';
-          card.classList.remove('is-loading');
         } catch (err) {
           const title = card.querySelector('[data-sdsn-title]');
           if (title) title.textContent = 'SDSN Classic — open the playlist';
-          card.classList.remove('is-loading');
         }
       }
       loadClassic();
@@ -318,7 +815,7 @@ const launchers = [
     // sports tiles join the grid. Enter is native (tiles are <a>).
     (function () {
       function items() {
-        return Array.from(document.querySelectorAll('.wrap a')).filter(function (el) {
+        return Array.from(document.querySelectorAll('.container a, .service-chips a')).filter(function (el) {
           var r = el.getBoundingClientRect();
           return r.width > 0 && r.height > 0;
         });
