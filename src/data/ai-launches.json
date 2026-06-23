@@ -16,6 +16,14 @@
     "url": "https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/"
   },
   {
+    "name": "Grok Imagine Video 1.5",
+    "org": "xAI",
+    "date": "2026-06-16",
+    "type": "tool",
+    "summary": "Turn a still image into a 6-second clip with sound effects, ambience, and dialogue generated in the same pass, no separate audio step. Runs in the grok.com app and on iOS/Android, and the API is $4.20/min versus Sora's $30.",
+    "url": "https://x.ai/news/grok-imagine-video-1-5"
+  },
+  {
     "name": "MiniMax Hub",
     "org": "MiniMax",
     "date": "2026-06-15",
@@ -24,12 +32,12 @@
     "url": "https://variety.com/2026/film/festivals/minimax-hub-ai-video-generator-shanghai-film-festival-1236781901/"
   },
   {
-    "name": "Kimi K2.7-Code",
-    "org": "Moonshot AI",
-    "date": "2026-06-12",
+    "name": "GLM-5.2",
+    "org": "Z.ai",
+    "date": "2026-06-13",
     "type": "model",
-    "summary": "Open-weight coding agent you can self-host or hit cheaply via API — it plans, executes, and debugs across long sessions. Trillion-param Mixture-of-Experts weights are on Hugging Face under a commercial-friendly MIT-style license.",
-    "url": "https://huggingface.co/moonshotai"
+    "summary": "Open-weight coding model that beats GPT-5.5 on long-horizon coding benchmarks at roughly a sixth the cost. Grab the MIT-licensed weights on Hugging Face, hit it via the API, or use it in 20+ coding tools — with a 1M-token context for whole-repo agent runs.",
+    "url": "https://venturebeat.com/technology/z-ais-open-weights-glm-5-2-beats-gpt-5-5-on-multiple-long-horizon-coding-benchmarks-for-1-6th-the-cost"
   },
   {
     "name": "DiffusionGemma",
