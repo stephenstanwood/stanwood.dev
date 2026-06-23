@@ -202,7 +202,6 @@ const TOP_SITES: string[] = [
   "cosmos.so",
 
   // Fintech & finance
-  "stripe.com",
   "paypal.com",
   "venmo.com",
   "cashapp.com",
@@ -265,7 +264,6 @@ const TOP_SITES: string[] = [
   "hackerrank.com",
 
   // Productivity & tools
-  "todoist.com",
   "obsidian.md",
   "roamresearch.com",
   "logseq.com",
@@ -287,7 +285,6 @@ const TOP_SITES: string[] = [
   "tesla.com",
   "rivian.com",
   "lucidmotors.com",
-  "apple.com",
   "samsung.com",
   "sony.com",
   "bose.com",
@@ -300,7 +297,6 @@ const TOP_SITES: string[] = [
   "warbyparker.com",
   "casper.com",
   "away.com",
-  "peloton.com",
   "lululemon.com",
   "rei.com",
   "northface.com",
