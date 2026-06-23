@@ -1,7 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { okJson } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
@@ -71,10 +71,11 @@ async function fetchProvider(
   brandColor: string,
 ): Promise<ProviderStatus> {
   try {
-    const res = await fetch(apiUrl, {
-      signal: AbortSignal.timeout(5000),
-      headers: { Accept: "application/json" },
-    });
+    const res = await fetchWithTimeout(
+      apiUrl,
+      { headers: { Accept: "application/json" } },
+      5000,
+    );
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
