@@ -40,27 +40,19 @@
     "url": "https://venturebeat.com/technology/z-ais-open-weights-glm-5-2-beats-gpt-5-5-on-multiple-long-horizon-coding-benchmarks-for-1-6th-the-cost"
   },
   {
+    "name": "OpenRouter Fusion",
+    "org": "OpenRouter",
+    "date": "2026-06-12",
+    "type": "tool",
+    "summary": "Run one API call that fans your prompt across several models and fuses the best answer with a judge model, no manual orchestration. Budget panels reach frontier-level quality at about half the cost. Use it via the openrouter/fusion model or the chatroom.",
+    "url": "https://openrouter.ai/blog/announcements/fusion-beats-frontier/"
+  },
+  {
     "name": "DiffusionGemma",
     "org": "Google",
     "date": "2026-06-10",
     "type": "model",
     "summary": "Open-weight text model that runs locally on a single GPU (18GB VRAM) and generates up to 4x faster using diffusion. Self-host it free for fast drafting, autocomplete, or local agents — Apache 2.0 weights are on Hugging Face.",
     "url": "https://huggingface.co/google/diffusiongemma-26B-A4B-it"
-  },
-  {
-    "name": "Claude Fable 5",
-    "org": "Anthropic",
-    "date": "2026-06-09",
-    "type": "model",
-    "summary": "A new top tier above Opus, with state-of-the-art coding, knowledge work, and vision plus million-token context. Live now on claude.ai, Claude Code, the API, and Bedrock for Pro and Max subscribers.",
-    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
-  },
-  {
-    "name": "Apple Foundation Models free tier",
-    "org": "Apple",
-    "date": "2026-06-09",
-    "type": "tool",
-    "summary": "Build AI features into your iOS app and call on-device and cloud models for free if you're a small dev (under 2M lifetime downloads). Now with image input and a Swift API that can route to Claude or Gemini.",
-    "url": "https://www.macrumors.com/2026/06/09/apple-outlines-major-ai-and-developer-tool-updates/"
   }
 ]
