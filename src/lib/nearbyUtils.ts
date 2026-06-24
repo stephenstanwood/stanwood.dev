@@ -6,13 +6,18 @@
 
 // ── Distance & walk helpers ──
 
-export function formatDistance(meters: number): string {
+/** Split a distance in meters into a display value and its unit (under 0.1 mi → feet). */
+export function splitDistance(meters: number): { value: string; unit: string } {
   const miles = meters / 1609.34;
   if (miles < 0.1) {
-    const feet = Math.round(meters * 3.28084);
-    return `${feet} ft`;
+    return { value: String(Math.round(meters * 3.28084)), unit: "ft" };
   }
-  return `${miles.toFixed(1)} mi`;
+  return { value: miles.toFixed(1), unit: "mi" };
+}
+
+export function formatDistance(meters: number): string {
+  const { value, unit } = splitDistance(meters);
+  return `${value} ${unit}`;
 }
 
 export function estimateWalk(meters: number): string {
