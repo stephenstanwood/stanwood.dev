@@ -1,11 +1,34 @@
 {
-  "built_at": "2026-06-23T10:30:17.386355+00:00",
+  "built_at": "2026-06-24T10:30:19.723713+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 163,
+  "candidate_count": 168,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
+    {
+      "id": "2zN55SPj1G4",
+      "title": "Roundtrip in 5 minutes: Code to canvas with third party agents | Show your work",
+      "url": "https://www.youtube.com/watch?v=2zN55SPj1G4",
+      "duration": 324,
+      "published_at": "2026-06-23T17:03:32+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/2zN55SPj1G4/mqdefault.jpg",
+      "description": "Want to know how designers at Figma are going from code to canvas and back again? In this episode of Show Your work, Figma Education Designer, Rachel Platt will share her code to canvas roundtrip workflow and tips for how you can make your own.\n\n00:00 Intro\n00:25 From code to canvas\n01:22 From canvas back to code\n02:21 Better output with skills\n03:32 Skills example\n04:43 Recap\n\n___________________",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "feedback_mult": 1.0,
+      "score": 17.6,
+      "view_count": 1797,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "fdkvAwTRRbk",
       "title": "Can Patreon fight fire with social media fire? | Decoder",
@@ -24,7 +47,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 4593,
+      "view_count": 5955,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -49,7 +72,7 @@
       "base_score": 14,
       "feedback_mult": 1.23,
       "score": 15.45,
-      "view_count": 413343,
+      "view_count": 461690,
       "episode_number": null,
       "series_key": null
     },
@@ -72,9 +95,32 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 10.0,
-      "view_count": 113361,
+      "view_count": 122136,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "G-OWmVt3T8A",
+      "title": "We Got Scanned By Midjourney's New Body Machine",
+      "url": "https://www.youtube.com/watch?v=G-OWmVt3T8A",
+      "duration": 5191,
+      "published_at": "2026-06-19T15:24:14+00:00",
+      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
+      "channel_title": "Core Memory Podcast",
+      "channel_handle": "@CoreMemorypodcast",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/G-OWmVt3T8A/mqdefault.jpg",
+      "description": "Midjourney, the company that taught computers to dream up images, just built a machine that scans the inside of your body. Founder David Holz pulled the cover off it at a members only club in a rough stretch of downtown San Francisco this week, and Ashlee Vance and Kylie Robison were two of the only journalists in the room. What they saw was a full body ultrasound scanner that lowers you into a po",
+      "categories": [
+        "politics"
+      ],
+      "base_score": -12,
+      "feedback_mult": 1.0,
+      "score": -12.0,
+      "view_count": 4580,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "_a9Vv5dfW24",
@@ -95,13 +141,37 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 26894,
+      "view_count": 28848,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "jJbelC85zic",
+      "title": "Fable Deserved It",
+      "url": "https://www.youtube.com/watch?v=jJbelC85zic",
+      "duration": 898,
+      "published_at": "2026-06-19T13:00:14+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/jJbelC85zic/mqdefault.jpg",
+      "description": "KERNEL builds crazy fast, open source infra for AI agents to access the internet. Trusted by Framer, Cash App, and 3000+ teams\n\nhttps://trm.sh/kernel\n\nSources:\n\n- https://x.com/AnthropicAI/status/2065597531644743999\n- https://www.politico.com/news/2026/06/13/inside-the-whirlwind-24-hours-that-led-the-white-house-to-slap-export-controls-on-anthropic-00961519\n- https://x.com/hugolowell/status/206669",
+      "categories": [
+        "applied_ai",
+        "civic_open",
+        "swe_craft"
+      ],
+      "base_score": 14,
+      "feedback_mult": 1.15,
+      "score": 9.66,
+      "view_count": 298819,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "0L1DncH6TSg",
-      "title": "America\u2019s Answer To China\u2019s Drone Dominance",
+      "title": "This Is: How America Builds A Drone",
       "url": "https://www.youtube.com/watch?v=0L1DncH6TSg",
       "duration": 367,
       "published_at": "2026-06-19T13:00:11+00:00",
@@ -115,7 +185,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 10117,
+      "view_count": 11218,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -141,33 +211,9 @@
       "base_score": 15,
       "feedback_mult": 1.0,
       "score": 15.0,
-      "view_count": 14382,
+      "view_count": 14838,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "Ve61_0qOuK4",
-      "title": "What Happens When We Stop Dying? - Max Hodak Live",
-      "url": "https://www.youtube.com/watch?v=Ve61_0qOuK4",
-      "duration": 4194,
-      "published_at": "2026-06-17T14:10:16+00:00",
-      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
-      "channel_title": "Core Memory Podcast",
-      "channel_handle": "@CoreMemorypodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Ve61_0qOuK4/mqdefault.jpg",
-      "description": "As the co-founder and CEO of Science Corporation, Max Hodak has already restored a form of sight to blind patients, with one trial participant going from being unable to recognize faces for over a decade to finishing a 300 page novel. In front of a packed live audience, he sits down with Ashlee Vance to explain how the company's retinal implant, called PRIMA, actually works, why he thinks medicine",
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "base_score": -4,
-      "feedback_mult": 1.0,
-      "score": -4.0,
-      "view_count": 2335,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "10C8VMN3hjU",
@@ -188,7 +234,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 32909,
+      "view_count": 33537,
       "episode_number": null,
       "series_key": null
     },
@@ -211,7 +257,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 46548,
+      "view_count": 47283,
       "episode_number": null,
       "series_key": null
     },
@@ -234,30 +280,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 17938,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "GSSgAPylz60",
-      "title": "Inside The World's Largest Battery Recyling Operation  - The Redwood Materials Factory Tour",
-      "url": "https://www.youtube.com/watch?v=GSSgAPylz60",
-      "duration": 4076,
-      "published_at": "2026-06-12T12:00:32+00:00",
-      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
-      "channel_title": "Core Memory Podcast",
-      "channel_handle": "@CoreMemorypodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/GSSgAPylz60/mqdefault.jpg",
-      "description": "JB Straubel helped turn Tesla into a giant, then he walked away to chase a stranger idea: that the millions of dead batteries piling up across America are actually one of the richest mines on the planet. In this Core Memory factory tour, Ashlee Vance spends an afternoon inside Redwood Materials in Nevada, where old laptops, e-bikes, cell phones, toothbrushes and entire EV battery packs roll in by ",
-      "categories": [
-        "applied_ai",
-        "systems_db"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 14990,
+      "view_count": 18005,
       "episode_number": null,
       "series_key": null
     },
@@ -303,29 +326,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 15748,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "js4_OLbDOg8",
-      "title": "Rethinking my components with slots | Show your work",
-      "url": "https://www.youtube.com/watch?v=js4_OLbDOg8",
-      "duration": 300,
-      "published_at": "2026-06-10T14:14:52+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/js4_OLbDOg8/mqdefault.jpg",
-      "description": "Want to know how designers at Figma are using slots? Learn how Figma Education Designer, Rachel Platt is using slots in her design systems.\n\nIn this episode of Share Your Work, Rachel will walk you through how she\u2019s using slots to reduce variants, add flexibility, even experiment with new patterns and components that weren\u2019t possible before.\n\n00:00 Intro\n00:25 Slots for repeating items\n01:49 Slots",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 8593,
+      "view_count": 15961,
       "episode_number": null,
       "series_key": null
     },
@@ -348,30 +349,27 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 2945,
+      "view_count": 2969,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "hjUwcJpVgBk",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Opening Remarks",
-      "url": "https://www.youtube.com/watch?v=hjUwcJpVgBk",
-      "duration": 1280,
-      "published_at": "2026-06-08T20:54:29+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/hjUwcJpVgBk/mqdefault.jpg",
-      "description": "Remarks to ground the day in purpose: transforming research, diagnosis, and treatment of psychiatric and behavioral disorders by creating and using responsible AI.\n\nSpeakers:\n\nLloyd B. Minor \u2014 The Carl and Elizabeth Naumann Dean of the School of Medicine, Vice President for Medical Affairs, Stanford University, Professor of Otolaryngology - Head and Neck Surgery and Professor of Neurobiology and o",
-      "categories": [
-        "healthcare_ai",
-        "politics"
-      ],
-      "base_score": -22,
+      "id": "eXXwN_TDdLU",
+      "title": "Why Building AI Data Centres Isn\u2019t Working Anymore",
+      "url": "https://www.youtube.com/watch?v=eXXwN_TDdLU",
+      "duration": 1635,
+      "published_at": "2026-06-08T16:51:14+00:00",
+      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
+      "channel_title": "ColdFusion",
+      "channel_handle": "@ColdFusion",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/eXXwN_TDdLU/mqdefault.jpg",
+      "description": "You can sign up to Revolut at: https://get.revolut.com/z4lF/coldfusion, use your card once, and get AU$40 (or your currency equivalent). T&Cs, end date and min spend apply. Consider PDS & TMD at\u00a0revolut.com/AU/. Revolut Payments Australia Pty Ltd (AFSL 517589). Ad\n\nDocumentary will be available here: https://www.youtube.com/@SingleStoneMedia (it's still not out yet)\nAnd clips here: https://www.ins",
+      "categories": [],
+      "base_score": 0,
       "feedback_mult": 1.0,
-      "score": -26.4,
-      "view_count": 135,
+      "score": 0.0,
+      "view_count": 1177838,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -394,7 +392,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1634,
+      "view_count": 1670,
       "episode_number": null,
       "series_key": null
     },
@@ -417,7 +415,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 16931,
+      "view_count": 17003,
       "episode_number": null,
       "series_key": null
     },
@@ -440,7 +438,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 208,
+      "view_count": 211,
       "episode_number": null,
       "series_key": null
     },
@@ -463,32 +461,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 7186,
+      "view_count": 7276,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "mjmswQurIU4",
-      "title": "How Legora Went From YC to $100M ARR in 18 Months",
-      "url": "https://www.youtube.com/watch?v=mjmswQurIU4",
-      "duration": 1367,
-      "published_at": "2026-06-05T14:30:09+00:00",
-      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
-      "channel_title": "Y Combinator",
-      "channel_handle": "@ycombinator",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/mjmswQurIU4/mqdefault.jpg",
-      "description": "Max Junestrand was a college student in Sweden with a McKinsey offer in his back pocket. Instead, he and two co-founders went all in on legal AI \u2014 and built Legora (YC W24) into one of the fastest-growing enterprise companies in history, surpassing $100M in ARR in just 18 months. Today, Legora is one of Europe's most valuable AI startups, recently valued at $5.6B, with close to 500 employees servi",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 7.2,
-      "view_count": 16667,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "YW04KtiuO5o",
@@ -509,7 +484,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 1183,
+      "view_count": 1194,
       "episode_number": null,
       "series_key": null
     },
@@ -531,7 +506,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3974,
+      "view_count": 3994,
       "episode_number": null,
       "series_key": null
     },
@@ -556,7 +531,7 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 10698,
+      "view_count": 10750,
       "episode_number": null,
       "series_key": null
     },
@@ -578,32 +553,9 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 21462,
+      "view_count": 22293,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "CHHZwari_qA",
-      "title": "The Network as a Program with Nate Foster",
-      "url": "https://www.youtube.com/watch?v=CHHZwari_qA",
-      "duration": 5676,
-      "published_at": "2026-06-01T13:58:53+00:00",
-      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
-      "channel_title": "Jane Street",
-      "channel_handle": "@janestreet",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/CHHZwari_qA/mqdefault.jpg",
-      "description": "Nate Foster is a professor at EPFL in Switzerland in the Networked Systems Abstractions Lab, and a visiting researcher at Jane Street on the Networking team. In this episode, he and Ron consider what happens when you bring a software mindset to network engineering. Can you use programming language theory and formal methods to realize the dream of software-defined networks? Along the way, they disc",
-      "categories": [
-        "finance_biz"
-      ],
-      "base_score": -4,
-      "feedback_mult": 0.94,
-      "score": -3.77,
-      "view_count": 13862,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "USwP7w9BKC0",
@@ -623,9 +575,32 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 80713,
+      "view_count": 80887,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "XHeoQ0F6hYc",
+      "title": "Lecture 1: Fluid Dynamics",
+      "url": "https://www.youtube.com/watch?v=XHeoQ0F6hYc",
+      "duration": 2860,
+      "published_at": "2026-05-27T14:34:13+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/XHeoQ0F6hYc/mqdefault.jpg",
+      "description": "MIT RES.12-003 Fluid Motions, Sediment Transport, and Current-Generated Sedimentary Structures, Fall 2025\nInstructor: John Southard\n\nView the complete course: https://ocw.mit.edu/courses/res-12-003-fluid-motions-sediment-transport-and-current-generated-sedimentary-structures-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60q1Ib4pyz_FBs_lYUPr9MN\n\nThis lecture introduc",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 37839,
+      "episode_number": 1,
+      "series_key": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "exploration": true
     },
     {
       "id": "qPuzWFvRajk",
@@ -646,7 +621,7 @@
       "base_score": 11,
       "feedback_mult": 1.23,
       "score": 12.14,
-      "view_count": 543942,
+      "view_count": 544811,
       "episode_number": null,
       "series_key": null
     },
@@ -669,9 +644,30 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 7333,
+      "view_count": 7335,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "-14t6_yu-7w",
+      "title": "The \"Trick\" that Compilers Use for Long Division - Computerphile",
+      "url": "https://www.youtube.com/watch?v=-14t6_yu-7w",
+      "duration": 877,
+      "published_at": "2026-05-26T13:05:22+00:00",
+      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
+      "channel_title": "Computerphile",
+      "channel_handle": "@Computerphile",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/-14t6_yu-7w/mqdefault.jpg",
+      "description": "Long division can be arduous - division in general is something that even computer processors try to avoid with a simple technique. Matt Godbolt demos it and then shows how a simple C program can cause a compiler to employ this trick. \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis video was filmed an",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 0.94,
+      "score": 0.0,
+      "view_count": 71542,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "dMB28SYMZ6k",
@@ -691,29 +687,164 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1311,
+      "view_count": 1320,
       "episode_number": null,
       "series_key": null
     }
   ],
   "pool": [
     {
-      "id": "sBPFMc8kc2M",
-      "title": "Dertouzos Distinguished Lecturer: Richard Sutton",
-      "url": "https://www.youtube.com/watch?v=sBPFMc8kc2M",
-      "duration": 4274,
-      "published_at": "2026-06-22T21:15:26+00:00",
-      "channel_id": "UCBpxspUNl1Th33XbugiHJzw",
-      "channel_title": "MIT CSAIL",
-      "channel_handle": "@MITCSAIL",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/sBPFMc8kc2M/mqdefault.jpg",
-      "description": "Daniela Rus interviews Richard Sutton about 'The OaK Architecture'",
-      "categories": [],
-      "base_score": 0,
+      "id": "a2i9h2ip-nY",
+      "title": "Midjourney wants to delete 30% of all death...",
+      "url": "https://www.youtube.com/watch?v=a2i9h2ip-nY",
+      "duration": 326,
+      "published_at": "2026-06-23T16:46:50+00:00",
+      "channel_id": "UCsBjURrPoezykLs9EqgamOA",
+      "channel_title": "Fireship",
+      "channel_handle": "@Fireship",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/a2i9h2ip-nY/mqdefault.jpg",
+      "description": "Try out Retool's new AI app builder to safely connect your apps to your team's data and APIs - https://fandf.co/4e2lDe2\n\nFounder of Midjourney, David Holz, just announced plans to make a new medical imaging device capable of full body scans which he claims is faster and cheaper than an MRI. But how does it work,  if at all?\n\n#coding #programming #ai\n\n\ud83d\udd16 Topics Covered\n- Midjourney Medical\n- Fullbod",
+      "categories": [
+        "healthcare_ai"
+      ],
+      "base_score": -10,
+      "feedback_mult": 1.23,
+      "score": -11.04,
+      "view_count": 265091,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "nGqGrrYeYGc",
+      "title": "The Craziest AI Pivot yet",
+      "url": "https://www.youtube.com/watch?v=nGqGrrYeYGc",
+      "duration": 813,
+      "published_at": "2026-06-23T14:42:09+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/nGqGrrYeYGc/mqdefault.jpg",
+      "description": "Blacksmith is the fastest way to run your Github Actions. 2x faster job runs, 4x faster on caches, and 40x faster on Docker builds, slashing costs by up to 75%. Already trusted by over 3,500 companies, including Ashby, Veed, Clerk, Supabase, and Mintlify \u2192 https://trm.sh/blacksmith\n\nSources:\n\n- https://x.com/midjourney/status/2067422898407837797?s=20\n\nTopics Covered:\n\n- Midjourney\n- MRIs\n- Data an",
+      "categories": [
+        "swe_craft"
+      ],
+      "base_score": 3,
+      "feedback_mult": 1.15,
+      "score": 2.07,
+      "view_count": 189889,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "awp3nAyCtNI",
+      "title": "User-Developed Innovations in the Substance Use Disorder Space",
+      "url": "https://www.youtube.com/watch?v=awp3nAyCtNI",
+      "duration": 3402,
+      "published_at": "2026-06-23T14:00:58+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/awp3nAyCtNI/mqdefault.jpg",
+      "description": "MIT RES.SUD-01, Substance Use Disorders Venture Program, Spring 2025\nInstructors: Eric von Hippel, Hanna Adeyema       \nView the complete course: https://ocw.mit.edu/courses/res-sud-01-substance-use-disorder-ventures-program-spring-2025/\nYouTube Playlist :https://www.youtube.com/playlist?list=PLUl4u3cNGP60O8-oSngUwSGC1J2EhNKsa\n\nProf. Eric von Hippel examines 'user innovators'\u2014individuals with live",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 161,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "YWZr4lr1jR0",
+      "title": "Perspective on What It Takes to Be Successful as an Entrepreneur",
+      "url": "https://www.youtube.com/watch?v=YWZr4lr1jR0",
+      "duration": 4267,
+      "published_at": "2026-06-23T14:00:56+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/YWZr4lr1jR0/mqdefault.jpg",
+      "description": "MIT RES.SUD-01 Substance Use Disorders Ventures Program, Spring 2025\nInstructor: Bill Aulet\n\nView the complete course: https://ocw.mit.edu/courses/res-sud-01-substance-use-disorder-ventures-program-spring-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60O8-oSngUwSGC1J2EhNKsa\n\nIn this video, entrepreneur and MIT Professor, Bill Aulet explores disciplined entrepreneurship a",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 7475,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "f93SJz6yGLY",
+      "title": "Invistics Case Study: Drug Diversion",
+      "url": "https://www.youtube.com/watch?v=f93SJz6yGLY",
+      "duration": 5512,
+      "published_at": "2026-06-23T14:00:50+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/f93SJz6yGLY/mqdefault.jpg",
+      "description": "MIT RES.SUD-01, Substance Use Disorders Venture Program, Spring 2025\nInstructors: Tom Knight, Erdin Beshimov    \nView the complete course: https://ocw.mit.edu/courses/res-sud-01-substance-use-disorder-ventures-program-spring-2025/\nYouTube Playlist :https://www.youtube.com/playlist?list=PLUl4u3cNGP60O8-oSngUwSGC1J2EhNKsa\n\nTom Knight discusses Invistics Corporation, his former company that built cut",
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "base_score": -4,
+      "feedback_mult": 0.77,
+      "score": -2.46,
+      "view_count": 115,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "fGo6JEQ7pPg",
+      "title": "This iPhone Exploit is Impossible to Fix",
+      "url": "https://www.youtube.com/watch?v=fGo6JEQ7pPg",
+      "duration": 592,
+      "published_at": "2026-06-23T13:22:58+00:00",
+      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
+      "channel_title": "Low Level",
+      "channel_handle": "@LowLevelTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/fGo6JEQ7pPg/mqdefault.jpg",
+      "description": "https://ps.tc/pages/blog-usbliter8.html\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
+      "categories": [
+        "war_stories"
+      ],
+      "base_score": 2,
       "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 184,
+      "score": 2.0,
+      "view_count": 150638,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "BQYIBKIzY5g",
+      "title": "Empowering Teams to Make Architectural Decisions \u2022 Andrew Harmel-Law \u2022 YOW! 2025",
+      "url": "https://www.youtube.com/watch?v=BQYIBKIzY5g",
+      "duration": 2546,
+      "published_at": "2026-06-23T12:00:10+00:00",
+      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
+      "channel_title": "GOTO Conferences",
+      "channel_handle": "@GOTO-",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/BQYIBKIzY5g/mqdefault.jpg",
+      "description": "This presentation was recorded at YOW! Australia 2025. #GOTOcon #YOW\nhttps://yowcon.com\n\nAndrew Harmel-Law - Technical Principal at Thoughtworks & Author of \"Facilitating Software Architecture\" @AndrewHarmelLaw \n\nORIGINAL TALK TITLE\nFacilitating Software Architecture: Empowering Teams to Make Architectural Decisions\n\nRESOURCES\nhttps://bsky.app/profile/andrewhl.bsky.social\nhttps://twit.social/@ahl\n",
+      "categories": [
+        "algorithms"
+      ],
+      "base_score": 4,
+      "feedback_mult": 1.0,
+      "score": 4.0,
+      "view_count": 388,
       "episode_number": null,
       "series_key": null
     },
@@ -735,7 +866,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -14.4,
-      "view_count": 59,
+      "view_count": 100,
       "episode_number": null,
       "series_key": null
     },
@@ -755,7 +886,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 20276,
+      "view_count": 32868,
       "episode_number": null,
       "series_key": null
     },
@@ -775,7 +906,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 137043,
+      "view_count": 177617,
       "episode_number": null,
       "series_key": null
     },
@@ -797,7 +928,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 560,
+      "view_count": 834,
       "episode_number": null,
       "series_key": null
     },
@@ -819,7 +950,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 8671,
+      "view_count": 11021,
       "episode_number": null,
       "series_key": null
     },
@@ -841,7 +972,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 351,
+      "view_count": 508,
       "episode_number": null,
       "series_key": null
     },
@@ -864,29 +995,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 20359,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "G-OWmVt3T8A",
-      "title": "We Got Scanned By Midjourney's New Body Machine",
-      "url": "https://www.youtube.com/watch?v=G-OWmVt3T8A",
-      "duration": 5191,
-      "published_at": "2026-06-19T15:24:14+00:00",
-      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
-      "channel_title": "Core Memory Podcast",
-      "channel_handle": "@CoreMemorypodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/G-OWmVt3T8A/mqdefault.jpg",
-      "description": "Midjourney, the company that taught computers to dream up images, just built a machine that scans the inside of your body. Founder David Holz pulled the cover off it at a members only club in a rough stretch of downtown San Francisco this week, and Ashlee Vance and Kylie Robison were two of the only journalists in the room. What they saw was a full body ultrasound scanner that lowers you into a po",
-      "categories": [
-        "politics"
-      ],
-      "base_score": -12,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 4109,
+      "view_count": 26178,
       "episode_number": null,
       "series_key": null
     },
@@ -908,7 +1017,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 101095,
+      "view_count": 106203,
       "episode_number": null,
       "series_key": null
     },
@@ -930,7 +1039,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 56623,
+      "view_count": 63432,
       "episode_number": null,
       "series_key": null
     },
@@ -950,34 +1059,9 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 152838,
+      "view_count": 161806,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "jJbelC85zic",
-      "title": "Fable Deserved It",
-      "url": "https://www.youtube.com/watch?v=jJbelC85zic",
-      "duration": 898,
-      "published_at": "2026-06-19T13:00:14+00:00",
-      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
-      "channel_title": "The PrimeTime",
-      "channel_handle": "@ThePrimeTimeagen",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/jJbelC85zic/mqdefault.jpg",
-      "description": "KERNEL builds crazy fast, open source infra for AI agents to access the internet. Trusted by Framer, Cash App, and 3000+ teams\n\nhttps://trm.sh/kernel\n\nSources:\n\n- https://x.com/AnthropicAI/status/2065597531644743999\n- https://www.politico.com/news/2026/06/13/inside-the-whirlwind-24-hours-that-led-the-white-house-to-slap-export-controls-on-anthropic-00961519\n- https://x.com/hugolowell/status/206669",
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "swe_craft"
-      ],
-      "base_score": 14,
-      "feedback_mult": 1.15,
-      "score": 9.66,
-      "view_count": 290217,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "k31J6icKRUA",
@@ -995,7 +1079,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 262544,
+      "view_count": 274938,
       "episode_number": null,
       "series_key": null
     },
@@ -1019,7 +1103,7 @@
       "base_score": -1,
       "feedback_mult": 0.94,
       "score": -0.94,
-      "view_count": 194015,
+      "view_count": 201079,
       "episode_number": null,
       "series_key": null
     },
@@ -1039,7 +1123,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 27461,
+      "view_count": 30224,
       "episode_number": null,
       "series_key": null
     },
@@ -1061,7 +1145,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 8864,
+      "view_count": 9118,
       "episode_number": null,
       "series_key": null
     },
@@ -1081,7 +1165,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 803009,
+      "view_count": 844879,
       "episode_number": null,
       "series_key": null
     },
@@ -1104,7 +1188,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 1967,
+      "view_count": 2058,
       "episode_number": null,
       "series_key": null
     },
@@ -1124,7 +1208,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 161867,
+      "view_count": 166410,
       "episode_number": null,
       "series_key": null
     },
@@ -1149,7 +1233,7 @@
       "base_score": -4,
       "feedback_mult": 1.23,
       "score": -4.42,
-      "view_count": 531697,
+      "view_count": 542551,
       "episode_number": null,
       "series_key": null
     },
@@ -1169,7 +1253,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 123659,
+      "view_count": 124463,
       "episode_number": null,
       "series_key": null
     },
@@ -1193,7 +1277,7 @@
       "base_score": 3,
       "feedback_mult": 1.0,
       "score": 3.6,
-      "view_count": 2347,
+      "view_count": 2467,
       "episode_number": null,
       "series_key": null
     },
@@ -1215,7 +1299,30 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9649,
+      "view_count": 9833,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "Ve61_0qOuK4",
+      "title": "What Happens When We Stop Dying? - Max Hodak Live",
+      "url": "https://www.youtube.com/watch?v=Ve61_0qOuK4",
+      "duration": 4194,
+      "published_at": "2026-06-17T14:10:16+00:00",
+      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
+      "channel_title": "Core Memory Podcast",
+      "channel_handle": "@CoreMemorypodcast",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Ve61_0qOuK4/mqdefault.jpg",
+      "description": "As the co-founder and CEO of Science Corporation, Max Hodak has already restored a form of sight to blind patients, with one trial participant going from being unable to recognize faces for over a decade to finishing a 300 page novel. In front of a packed live audience, he sits down with Ashlee Vance to explain how the company's retinal implant, called PRIMA, actually works, why he thinks medicine",
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "base_score": -4,
+      "feedback_mult": 1.0,
+      "score": -4.0,
+      "view_count": 2443,
       "episode_number": null,
       "series_key": null
     },
@@ -1235,7 +1342,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 52428,
+      "view_count": 56888,
       "episode_number": null,
       "series_key": null
     },
@@ -1257,7 +1364,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 11669,
+      "view_count": 11966,
       "episode_number": null,
       "series_key": null
     },
@@ -1282,7 +1389,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 551,
+      "view_count": 568,
       "episode_number": null,
       "series_key": null
     },
@@ -1304,7 +1411,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 85924,
+      "view_count": 86529,
       "episode_number": null,
       "series_key": null
     },
@@ -1326,7 +1433,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 7717,
+      "view_count": 7810,
       "episode_number": null,
       "series_key": null
     },
@@ -1346,7 +1453,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 93783,
+      "view_count": 97634,
       "episode_number": null,
       "series_key": null
     },
@@ -1368,7 +1475,7 @@
       "base_score": 5,
       "feedback_mult": 1.15,
       "score": 3.45,
-      "view_count": 219817,
+      "view_count": 221927,
       "episode_number": null,
       "series_key": null
     },
@@ -1392,7 +1499,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 503,
+      "view_count": 528,
       "episode_number": null,
       "series_key": null
     },
@@ -1412,7 +1519,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 268905,
+      "view_count": 270304,
       "episode_number": null,
       "series_key": null
     },
@@ -1434,7 +1541,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 969446,
+      "view_count": 974827,
       "episode_number": null,
       "series_key": null
     },
@@ -1454,7 +1561,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 188,
+      "view_count": 192,
       "episode_number": null,
       "series_key": null
     },
@@ -1479,7 +1586,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 24316,
+      "view_count": 24876,
       "episode_number": null,
       "series_key": null
     },
@@ -1499,7 +1606,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 14538,
+      "view_count": 14732,
       "episode_number": null,
       "series_key": null
     },
@@ -1522,7 +1629,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 4007,
+      "view_count": 4086,
       "episode_number": null,
       "series_key": null
     },
@@ -1542,7 +1649,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1797,
+      "view_count": 1812,
       "episode_number": null,
       "series_key": null
     },
@@ -1564,7 +1671,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7382,
+      "view_count": 7608,
       "episode_number": null,
       "series_key": null
     },
@@ -1586,7 +1693,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 639,
+      "view_count": 653,
       "episode_number": null,
       "series_key": null
     },
@@ -1606,7 +1713,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 64297,
+      "view_count": 65119,
       "episode_number": null,
       "series_key": null
     },
@@ -1630,7 +1737,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 72718,
+      "view_count": 73078,
       "episode_number": null,
       "series_key": null
     },
@@ -1653,7 +1760,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 31847,
+      "view_count": 33132,
       "episode_number": null,
       "series_key": null
     },
@@ -1675,7 +1782,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6190,
+      "view_count": 6196,
       "episode_number": null,
       "series_key": null
     },
@@ -1695,7 +1802,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 25406,
+      "view_count": 25657,
       "episode_number": null,
       "series_key": null
     },
@@ -1715,7 +1822,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 17993,
+      "view_count": 18005,
       "episode_number": null,
       "series_key": null
     },
@@ -1735,7 +1842,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1007984,
+      "view_count": 1011146,
       "episode_number": null,
       "series_key": null
     },
@@ -1757,7 +1864,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 83396,
+      "view_count": 84066,
       "episode_number": null,
       "series_key": null
     },
@@ -1777,7 +1884,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 352297,
+      "view_count": 353754,
       "episode_number": null,
       "series_key": null
     },
@@ -1797,7 +1904,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 12710,
+      "view_count": 12873,
       "episode_number": null,
       "series_key": null
     },
@@ -1819,7 +1926,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 1047,
+      "view_count": 1060,
       "episode_number": null,
       "series_key": null
     },
@@ -1843,7 +1950,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5720,
+      "view_count": 5832,
       "episode_number": null,
       "series_key": null
     },
@@ -1865,7 +1972,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2551,
+      "view_count": 2572,
       "episode_number": null,
       "series_key": null
     },
@@ -1885,7 +1992,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 26,
+      "view_count": 27,
       "episode_number": null,
       "series_key": null
     },
@@ -1925,9 +2032,10 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 116,
+      "view_count": 119,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "EYdqWCfVYxg",
@@ -1947,7 +2055,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 147,
+      "view_count": 148,
       "episode_number": null,
       "series_key": null
     },
@@ -1969,7 +2077,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 48,
+      "view_count": 51,
       "episode_number": null,
       "series_key": null
     },
@@ -1993,7 +2101,7 @@
       "base_score": 12,
       "feedback_mult": 1.0,
       "score": 12.0,
-      "view_count": 6066,
+      "view_count": 6123,
       "episode_number": null,
       "series_key": null
     },
@@ -2015,7 +2123,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 109575,
+      "view_count": 109814,
       "episode_number": null,
       "series_key": null
     },
@@ -2038,7 +2146,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 625544,
+      "view_count": 626815,
       "episode_number": null,
       "series_key": null
     },
@@ -2058,7 +2166,29 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 42751,
+      "view_count": 43715,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "js4_OLbDOg8",
+      "title": "Rethinking my components with slots | Show your work",
+      "url": "https://www.youtube.com/watch?v=js4_OLbDOg8",
+      "duration": 300,
+      "published_at": "2026-06-10T14:14:52+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/js4_OLbDOg8/mqdefault.jpg",
+      "description": "Want to know how designers at Figma are using slots? Learn how Figma Education Designer, Rachel Platt is using slots in her design systems.\n\nIn this episode of Share Your Work, Rachel will walk you through how she\u2019s using slots to reduce variants, add flexibility, even experiment with new patterns and components that weren\u2019t possible before.\n\n00:00 Intro\n00:25 Slots for repeating items\n01:49 Slots",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 8779,
       "episode_number": null,
       "series_key": null
     },
@@ -2078,7 +2208,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2279,
+      "view_count": 2282,
       "episode_number": null,
       "series_key": null
     },
@@ -2102,7 +2232,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.2,
-      "view_count": 209,
+      "view_count": 218,
       "episode_number": null,
       "series_key": null
     },
@@ -2124,7 +2254,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9316,
+      "view_count": 9342,
       "episode_number": null,
       "series_key": null
     },
@@ -2146,7 +2276,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 977080,
+      "view_count": 978134,
       "episode_number": null,
       "series_key": null
     },
@@ -2168,7 +2298,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 129297,
+      "view_count": 129484,
       "episode_number": null,
       "series_key": null
     },
@@ -2190,7 +2320,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 762,
+      "view_count": 765,
       "episode_number": null,
       "series_key": null
     },
@@ -2212,7 +2342,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 229,
+      "view_count": 248,
       "episode_number": null,
       "series_key": null
     },
@@ -2235,7 +2365,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 101,
+      "view_count": 107,
       "episode_number": null,
       "series_key": null
     },
@@ -2258,7 +2388,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 173,
+      "view_count": 181,
       "episode_number": null,
       "series_key": null
     },
@@ -2280,7 +2410,30 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 48,
+      "view_count": 50,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "hjUwcJpVgBk",
+      "title": "2026 AI for Mental Health (AI4MH) Symposium: Opening Remarks",
+      "url": "https://www.youtube.com/watch?v=hjUwcJpVgBk",
+      "duration": 1280,
+      "published_at": "2026-06-08T20:54:29+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/hjUwcJpVgBk/mqdefault.jpg",
+      "description": "Remarks to ground the day in purpose: transforming research, diagnosis, and treatment of psychiatric and behavioral disorders by creating and using responsible AI.\n\nSpeakers:\n\nLloyd B. Minor \u2014 The Carl and Elizabeth Naumann Dean of the School of Medicine, Vice President for Medical Affairs, Stanford University, Professor of Otolaryngology - Head and Neck Surgery and Professor of Neurobiology and o",
+      "categories": [
+        "healthcare_ai",
+        "politics"
+      ],
+      "base_score": -22,
+      "feedback_mult": 1.0,
+      "score": -26.4,
+      "view_count": 145,
       "episode_number": null,
       "series_key": null
     },
@@ -2302,27 +2455,7 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 93015,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "eXXwN_TDdLU",
-      "title": "Why Building AI Data Centres Isn\u2019t Working Anymore",
-      "url": "https://www.youtube.com/watch?v=eXXwN_TDdLU",
-      "duration": 1635,
-      "published_at": "2026-06-08T16:51:14+00:00",
-      "channel_id": "UC4QZ_LsYcvcq7qOsOhpAX4A",
-      "channel_title": "ColdFusion",
-      "channel_handle": "@ColdFusion",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/eXXwN_TDdLU/mqdefault.jpg",
-      "description": "You can sign up to Revolut at: https://get.revolut.com/z4lF/coldfusion, use your card once, and get AU$40 (or your currency equivalent). T&Cs, end date and min spend apply. Consider PDS & TMD at\u00a0revolut.com/AU/. Revolut Payments Australia Pty Ltd (AFSL 517589). Ad\n\nDocumentary will be available here: https://www.youtube.com/@SingleStoneMedia (it's still not out yet)\nAnd clips here: https://www.ins",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 1167795,
+      "view_count": 94485,
       "episode_number": null,
       "series_key": null
     },
@@ -2342,7 +2475,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2294,
+      "view_count": 2320,
       "episode_number": null,
       "series_key": null
     },
@@ -2364,7 +2497,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9364,
+      "view_count": 9447,
       "episode_number": null,
       "series_key": null
     },
@@ -2386,7 +2519,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 46250,
+      "view_count": 47015,
       "episode_number": null,
       "series_key": null
     },
@@ -2408,9 +2541,10 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 1049206,
+      "view_count": 1063523,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "4g1bURdKN0Q",
@@ -2430,7 +2564,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 385,
+      "view_count": 397,
       "episode_number": null,
       "series_key": null
     },
@@ -2452,7 +2586,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 1713,
+      "view_count": 1717,
       "episode_number": null,
       "series_key": null
     },
@@ -2472,7 +2606,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 21594,
+      "view_count": 21728,
       "episode_number": null,
       "series_key": null
     },
@@ -2492,7 +2626,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 68010,
+      "view_count": 68318,
       "episode_number": null,
       "series_key": null
     },
@@ -2512,7 +2646,29 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 145422,
+      "view_count": 145750,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "mjmswQurIU4",
+      "title": "How Legora Went From YC to $100M ARR in 18 Months",
+      "url": "https://www.youtube.com/watch?v=mjmswQurIU4",
+      "duration": 1367,
+      "published_at": "2026-06-05T14:30:09+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/mjmswQurIU4/mqdefault.jpg",
+      "description": "Max Junestrand was a college student in Sweden with a McKinsey offer in his back pocket. Instead, he and two co-founders went all in on legal AI \u2014 and built Legora (YC W24) into one of the fastest-growing enterprise companies in history, surpassing $100M in ARR in just 18 months. Today, Legora is one of Europe's most valuable AI startups, recently valued at $5.6B, with close to 500 employees servi",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 16784,
       "episode_number": null,
       "series_key": null
     },
@@ -2534,7 +2690,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 167428,
+      "view_count": 170334,
       "episode_number": null,
       "series_key": null
     },
@@ -2554,7 +2710,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 45641,
+      "view_count": 45875,
       "episode_number": null,
       "series_key": null
     },
@@ -2577,7 +2733,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 13873,
+      "view_count": 13896,
       "episode_number": null,
       "series_key": null
     },
@@ -2599,7 +2755,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 26857,
+      "view_count": 26968,
       "episode_number": null,
       "series_key": null
     },
@@ -2619,7 +2775,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 362447,
+      "view_count": 370737,
       "episode_number": null,
       "series_key": null
     },
@@ -2641,7 +2797,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6190,
+      "view_count": 6202,
       "episode_number": null,
       "series_key": null
     },
@@ -2661,7 +2817,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 34437,
+      "view_count": 35587,
       "episode_number": null,
       "series_key": null
     },
@@ -2683,7 +2839,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5484,
+      "view_count": 5502,
       "episode_number": null,
       "series_key": null
     },
@@ -2705,7 +2861,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 92238,
+      "view_count": 93473,
       "episode_number": null,
       "series_key": null
     },
@@ -2725,7 +2881,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 388196,
+      "view_count": 389556,
       "episode_number": null,
       "series_key": null
     },
@@ -2747,7 +2903,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 100412,
+      "view_count": 100576,
       "episode_number": null,
       "series_key": null
     },
@@ -2769,7 +2925,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 6110,
+      "view_count": 6129,
       "episode_number": null,
       "series_key": null
     },
@@ -2791,7 +2947,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 3665,
+      "view_count": 3668,
       "episode_number": null,
       "series_key": null
     },
@@ -2811,7 +2967,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 449128,
+      "view_count": 450383,
       "episode_number": null,
       "series_key": null
     },
@@ -2833,30 +2989,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 7774,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "yLDiQBdwlHU",
-      "title": "Metaprogramming, Synthesis & Verification \u2022 Nada Amin \u2022 YOW! 2025",
-      "url": "https://www.youtube.com/watch?v=yLDiQBdwlHU",
-      "duration": 2252,
-      "published_at": "2026-06-02T12:00:07+00:00",
-      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
-      "channel_title": "GOTO Conferences",
-      "channel_handle": "@GOTO-",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/yLDiQBdwlHU/mqdefault.jpg",
-      "description": "This presentation was recorded at YOW! Australia 2025. #GOTOcon #YOW\nhttps://yowcon.com\n\nNada Amin - Assistant Professor of Computer Science at Harvard SEAS\n\nRESOURCES\nhttps://github.com/namin\nhttps://www.linkedin.com/in/mitnamin\nhttps://cv.namin.org\n\nLinks\nhttps://namin.seas.harvard.edu\nhttps://github.com/namin/dafny-sketcher\nhttps://github.com/namin/staged-miniKanren\nhttps://github.com/namin/llm",
-      "categories": [
-        "applied_ai",
-        "war_stories"
-      ],
-      "base_score": 8,
-      "feedback_mult": 1.0,
-      "score": 8.0,
-      "view_count": 775,
+      "view_count": 7837,
       "episode_number": null,
       "series_key": null
     },
@@ -2876,7 +3009,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2064,
+      "view_count": 2065,
       "episode_number": null,
       "series_key": null
     },
@@ -2898,7 +3031,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 12877,
+      "view_count": 13253,
       "episode_number": null,
       "series_key": null
     },
@@ -2921,7 +3054,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 43270,
+      "view_count": 43470,
       "episode_number": null,
       "series_key": null
     },
@@ -2943,7 +3076,29 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15512,
+      "view_count": 15538,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "CHHZwari_qA",
+      "title": "The Network as a Program with Nate Foster",
+      "url": "https://www.youtube.com/watch?v=CHHZwari_qA",
+      "duration": 5676,
+      "published_at": "2026-06-01T13:58:53+00:00",
+      "channel_id": "UCDsVC_ewpcEW_AQcO-H-RDQ",
+      "channel_title": "Jane Street",
+      "channel_handle": "@janestreet",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/CHHZwari_qA/mqdefault.jpg",
+      "description": "Nate Foster is a professor at EPFL in Switzerland in the Networked Systems Abstractions Lab, and a visiting researcher at Jane Street on the Networking team. In this episode, he and Ron consider what happens when you bring a software mindset to network engineering. Can you use programming language theory and formal methods to realize the dream of software-defined networks? Along the way, they disc",
+      "categories": [
+        "finance_biz"
+      ],
+      "base_score": -4,
+      "feedback_mult": 0.94,
+      "score": -3.77,
+      "view_count": 13933,
       "episode_number": null,
       "series_key": null
     },
@@ -2965,7 +3120,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14991,
+      "view_count": 15087,
       "episode_number": null,
       "series_key": null
     },
@@ -2987,7 +3142,7 @@
       "base_score": 3,
       "feedback_mult": 0.94,
       "score": 2.83,
-      "view_count": 96212,
+      "view_count": 97843,
       "episode_number": null,
       "series_key": null
     },
@@ -3009,7 +3164,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 12581,
+      "view_count": 12701,
       "episode_number": null,
       "series_key": null
     },
@@ -3029,7 +3184,7 @@
       "base_score": 0,
       "feedback_mult": 1.23,
       "score": 0.0,
-      "view_count": 314140,
+      "view_count": 314525,
       "episode_number": null,
       "series_key": null
     },
@@ -3051,7 +3206,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 84342,
+      "view_count": 84416,
       "episode_number": null,
       "series_key": null
     },
@@ -3074,7 +3229,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 44922,
+      "view_count": 44992,
       "episode_number": null,
       "series_key": null
     },
@@ -3094,7 +3249,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 38815,
+      "view_count": 38910,
       "episode_number": null,
       "series_key": null
     },
@@ -3116,7 +3271,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21132,
+      "view_count": 21190,
       "episode_number": null,
       "series_key": null
     },
@@ -3138,7 +3293,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 3805,
+      "view_count": 3806,
       "episode_number": null,
       "series_key": null
     },
@@ -3158,7 +3313,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 110870,
+      "view_count": 111537,
       "episode_number": null,
       "series_key": null
     },
@@ -3180,7 +3335,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 21272,
+      "view_count": 21274,
       "episode_number": null,
       "series_key": null
     },
@@ -3203,7 +3358,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 560,
+      "view_count": 563,
       "episode_number": null,
       "series_key": null
     },
@@ -3225,7 +3380,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7262,
+      "view_count": 7291,
       "episode_number": null,
       "series_key": null
     },
@@ -3248,7 +3403,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 57167,
+      "view_count": 57527,
       "episode_number": null,
       "series_key": null
     },
@@ -3271,7 +3426,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 56932,
+      "view_count": 57524,
       "episode_number": null,
       "series_key": null
     },
@@ -3294,7 +3449,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 9.6,
-      "view_count": 926,
+      "view_count": 944,
       "episode_number": null,
       "series_key": null
     },
@@ -3316,7 +3471,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 291535,
+      "view_count": 294122,
       "episode_number": null,
       "series_key": null
     },
@@ -3338,7 +3493,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 7222,
+      "view_count": 7243,
       "episode_number": null,
       "series_key": null
     },
@@ -3360,31 +3515,9 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 5282,
+      "view_count": 5290,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "XHeoQ0F6hYc",
-      "title": "Lecture 1: Fluid Dynamics",
-      "url": "https://www.youtube.com/watch?v=XHeoQ0F6hYc",
-      "duration": 2860,
-      "published_at": "2026-05-27T14:34:13+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/XHeoQ0F6hYc/mqdefault.jpg",
-      "description": "MIT RES.12-003 Fluid Motions, Sediment Transport, and Current-Generated Sedimentary Structures, Fall 2025\nInstructor: John Southard\n\nView the complete course: https://ocw.mit.edu/courses/res-12-003-fluid-motions-sediment-transport-and-current-generated-sedimentary-structures-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60q1Ib4pyz_FBs_lYUPr9MN\n\nThis lecture introduc",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.77,
-      "score": 3.69,
-      "view_count": 37564,
-      "episode_number": 1,
-      "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
     },
     {
       "id": "H-SgQP3Hif0",
@@ -3402,7 +3535,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 297988,
+      "view_count": 298428,
       "episode_number": null,
       "series_key": null
     },
@@ -3422,9 +3555,10 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 15044,
+      "view_count": 15094,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "PEg08OAht2s",
@@ -3444,27 +3578,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 31859,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "-14t6_yu-7w",
-      "title": "The \"Trick\" that Compilers Use for Long Division - Computerphile",
-      "url": "https://www.youtube.com/watch?v=-14t6_yu-7w",
-      "duration": 877,
-      "published_at": "2026-05-26T13:05:22+00:00",
-      "channel_id": "UC9-y-6csu5WGm29I7JiwpnA",
-      "channel_title": "Computerphile",
-      "channel_handle": "@Computerphile",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/-14t6_yu-7w/mqdefault.jpg",
-      "description": "Long division can be arduous - division in general is something that even computer processors try to avoid with a simple technique. Matt Godbolt demos it and then shows how a simple C program can cause a compiler to employ this trick. \n\nComputerphile is supported by Jane Street. Learn more about them (and exciting career opportunities) at: https://jane-st.co/computerphile\n\nThis video was filmed an",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 0.94,
-      "score": 0.0,
-      "view_count": 71489,
+      "view_count": 31961,
       "episode_number": null,
       "series_key": null
     },
@@ -3484,7 +3598,7 @@
       "base_score": 0,
       "feedback_mult": 1.15,
       "score": 0.0,
-      "view_count": 1722,
+      "view_count": 1747,
       "episode_number": null,
       "series_key": null
     },
@@ -3506,7 +3620,7 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -9.0,
-      "view_count": 151845,
+      "view_count": 152241,
       "episode_number": null,
       "series_key": null
     },
@@ -3528,7 +3642,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 7921,
+      "view_count": 7967,
       "episode_number": null,
       "series_key": null
     },
@@ -3548,7 +3662,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 72415,
+      "view_count": 73164,
       "episode_number": null,
       "series_key": null
     },
@@ -3570,7 +3684,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 29691,
+      "view_count": 29768,
       "episode_number": null,
       "series_key": null
     }
@@ -3595,54 +3709,10 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 37564,
+        "view_count": 37839,
         "episode_number": 1,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "b5qgqpbt9rI",
-        "title": "Lecture 2: Mechanics of Sediment Transport",
-        "url": "https://www.youtube.com/watch?v=b5qgqpbt9rI",
-        "duration": 3180,
-        "published_at": "2026-05-27T14:34:12+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/b5qgqpbt9rI/mqdefault.jpg",
-        "description": "MIT RES.12-003 Fluid Motions, Sediment Transport, and Current-Generated Sedimentary Structures, Fall 2025\nInstructor: John Southard\n\nView the complete course: https://ocw.mit.edu/courses/res-12-003-fluid-motions-sediment-transport-and-current-generated-sedimentary-structures-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60q1Ib4pyz_FBs_lYUPr9MN\n\nIn this lecture, Prof",
-        "categories": [
-          "applied_ai"
-        ],
-        "base_score": 6,
-        "feedback_mult": 0.77,
-        "score": 3.69,
-        "view_count": 1554,
-        "episode_number": 2,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
-      },
-      {
-        "id": "BeasOm8Jx-A",
-        "title": "Lecture 3: Bed Forms",
-        "url": "https://www.youtube.com/watch?v=BeasOm8Jx-A",
-        "duration": 3096,
-        "published_at": "2026-05-27T14:34:10+00:00",
-        "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-        "channel_title": "MIT OpenCourseWare",
-        "channel_handle": "@mitocw",
-        "channel_tier": 2,
-        "thumb": "https://i.ytimg.com/vi/BeasOm8Jx-A/mqdefault.jpg",
-        "description": "MIT RES.12-003 Fluid Motions, Sediment Transport, and Current-Generated Sedimentary Structures, Fall 2025\nInstructor: John Southard\n\nView the complete course: https://ocw.mit.edu/courses/res-12-003-fluid-motions-sediment-transport-and-current-generated-sedimentary-structures-fall-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP60q1Ib4pyz_FBs_lYUPr9MN\n\nProf. John Southard b",
-        "categories": [
-          "applied_ai",
-          "algorithms"
-        ],
-        "base_score": 10,
-        "feedback_mult": 0.77,
-        "score": 6.15,
-        "view_count": 1081,
-        "episode_number": 3,
-        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
+        "series_key": "UCEBb1b_L6zDS3xTUrIALZOw",
+        "exploration": true
       },
       {
         "id": "t0AhR9UmvhE",
@@ -3662,7 +3732,7 @@
         "base_score": 6,
         "feedback_mult": 0.77,
         "score": 3.69,
-        "view_count": 2228,
+        "view_count": 2259,
         "episode_number": 4,
         "series_key": "UCEBb1b_L6zDS3xTUrIALZOw"
       }
