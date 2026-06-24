@@ -857,6 +857,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
     <script>
       import {
         formatDistance,
+        splitDistance,
         estimateWalk,
         computeZoom,
         createProgress,
@@ -911,14 +912,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       function render(html: string) {
         app.innerHTML = html;
-      }
-
-      function parseDistance(meters: number): { value: string; unit: string } {
-        const miles = meters / 1609.34;
-        if (miles < 0.1) {
-          return { value: String(Math.round(meters * 3.28084)), unit: "ft" };
-        }
-        return { value: miles.toFixed(1), unit: "mi" };
       }
 
       // ── Map URL ──
@@ -1031,7 +1024,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         setTimeout(() => {
           const primary = shops[0];
           const secondary = shops.slice(1, 5);
-          const dist = parseDistance(primary.distance);
+          const dist = splitDistance(primary.distance);
           const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${primary.lat},${primary.lng}&travelmode=walking`;
 
           // Rating
