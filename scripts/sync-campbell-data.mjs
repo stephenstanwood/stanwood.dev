@@ -455,9 +455,33 @@ function canonicalCityCalendarUrl(url = "", startDate = "") {
   }
 }
 
+function cityCalendarMonthUrls(referenceDate = new Date()) {
+  const currentMonth = new Date(referenceDate);
+  currentMonth.setDate(1);
+  currentMonth.setHours(0, 0, 0, 0);
+
+  const nextMonth = new Date(currentMonth);
+  nextMonth.setMonth(currentMonth.getMonth() + 1);
+
+  return [currentMonth, nextMonth].map((date) =>
+    `${CITY_CALENDAR_URL}&year=${date.getFullYear()}&month=${date.getMonth() + 1}`,
+  );
+}
+
 function eventTimestamp(event) {
   const parsed = Date.parse(event.startDate || "");
   return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
+}
+
+function eventEndTimestamp(event) {
+  const parsed = Date.parse(event.endDate || event.startDate || "");
+  return Number.isNaN(parsed) ? Number.MAX_SAFE_INTEGER : parsed;
+}
+
+function eventEndsBeforeReferenceDay(event, referenceDate = new Date()) {
+  const referenceDay = new Date(referenceDate);
+  referenceDay.setHours(0, 0, 0, 0);
+  return eventEndTimestamp(event) < referenceDay.getTime();
 }
 
 function eventKey(event) {
@@ -1590,10 +1614,11 @@ async function writeJson(filename, payload) {
 
 async function main() {
   const generatedAt = new Date().toISOString();
+  const cityCalendarUrls = cityCalendarMonthUrls(new Date(generatedAt));
   const [
     directoryHtml,
     eventsHtml,
-    cityCalendarHtml,
+    cityCalendarHtmlPages,
     libraryPage,
     museumsEventsHtml,
     heritageTheatreEventsHtml,
@@ -1604,7 +1629,7 @@ async function main() {
   ] = await Promise.all([
     fetchText(DIRECTORY_URL),
     fetchText(EVENTS_URL),
-    fetchText(CITY_CALENDAR_URL),
+    Promise.all(cityCalendarUrls.map((url) => fetchText(url))),
     fetchOptionalText(SCCLD_CAMPBELL_LIBRARY_URL, "Campbell Library events"),
     fetchText(CAMPBELL_MUSEUMS_EVENTS_URL),
     fetchText(HERITAGE_THEATRE_EVENTS_URL),
@@ -1628,7 +1653,9 @@ async function main() {
   const campbellChamberBusinesses = chamberBusinesses.filter(isCampbellLocatedBusiness);
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
   const downtownEvents = parseDowntownEvents(eventsHtml, new Date(generatedAt));
-  const cityCalendarEvents = parseCityCalendarEvents(cityCalendarHtml);
+  const cityCalendarEvents = cityCalendarHtmlPages
+    .flatMap((html) => parseCityCalendarEvents(html))
+    .filter((event) => !eventEndsBeforeReferenceDay(event, new Date(generatedAt)));
   let libraryEvents = [];
   let librarySourceNote = "";
   if (libraryPage.html) {
