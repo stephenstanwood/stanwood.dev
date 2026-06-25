@@ -491,6 +491,20 @@ const photoStories = [
           height: 10rem;
         }
       }
+      @media (prefers-reduced-motion: reduce) {
+        .cb-page *,
+        .cb-page *::before,
+        .cb-page *::after {
+          animation: none !important;
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+        .cb-page a:hover,
+        .cb-page button:hover,
+        .cb-story-card:hover img {
+          transform: none !important;
+        }
+      }
 
       /* -- Portal -- */
       .cb-portal {

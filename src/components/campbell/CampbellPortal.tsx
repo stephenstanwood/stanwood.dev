@@ -110,6 +110,11 @@ function sectionFromHash(hash: string) {
   return SECTION_HASHES[hash.toLowerCase()] ?? null;
 }
 
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !("matchMedia" in window)) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export default function CampbellPortal() {
   const [active, setActive] = useState<Section>("events");
   const tabRailRef = useRef<HTMLDivElement>(null);
@@ -158,7 +163,7 @@ export default function CampbellPortal() {
     if (!rail) return;
     rail.scrollBy({
       left: direction * Math.max(300, rail.clientWidth * 0.82),
-      behavior: "smooth",
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
     });
   }
 
