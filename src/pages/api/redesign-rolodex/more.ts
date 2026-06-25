@@ -4,7 +4,7 @@ export const config = { maxDuration: 60 };
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
-import { errJson, okJson, devErrJson, toErrMsg } from "../../../lib/apiHelpers";
+import { errJson, okJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { buildMorePrompt } from "../../../lib/redesignRolodex/prompt";
 import { VALID_MODES } from "../../../lib/redesignRolodex/types";
 import type {
@@ -21,23 +21,31 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   try {
     const body = await request.json();
-    const url = body?.url;
+    const rawUrl = body?.url;
     const mode: WeirdnessMode = VALID_MODES.includes(body?.mode)
       ? body.mode
       : "designer";
     const modifier: MoreModifier = VALID_MODIFIERS.includes(body?.modifier)
       ? body.modifier
       : "more";
+    // Bound the prompt input: keep only strings, cap count and per-item length
     const previousNames: string[] = Array.isArray(body?.previousNames)
       ? body.previousNames
+          .filter((n: unknown): n is string => typeof n === "string")
+          .slice(0, 50)
+          .map((n: string) => n.slice(0, 100))
       : [];
     const nextId: number =
       typeof body?.nextId === "number" ? body.nextId : previousNames.length + 2;
 
-    if (!url || typeof url !== "string")
+    if (!rawUrl || typeof rawUrl !== "string")
       return errJson("No URL provided", 400);
 
-    const prompt = buildMorePrompt(url, mode, modifier, previousNames);
+    // Same SSRF/private-URL guard as the analyze route — this endpoint takes the URL too
+    const parsed = isValidUrl(rawUrl);
+    if (!parsed) return errJson("Invalid or private URL", 400);
+
+    const prompt = buildMorePrompt(parsed.toString(), mode, modifier, previousNames);
 
     const message = await client.messages.create({
       model: CLAUDE_SONNET,
