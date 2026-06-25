@@ -1,5 +1,13 @@
 [
   {
+    "name": "Kilo Next-Edit",
+    "org": "Kilo",
+    "date": "2026-06-22",
+    "type": "tool",
+    "summary": "Get instant next-edit suggestions in VS Code or JetBrains — Kilo guesses the change you're about to make and applies it as you type, powered by Inception's diffusion model. Free for everyone through July 23 in the open-source Kilo agent.",
+    "url": "https://blog.kilo.ai/p/announcing-next-edit-in-kilo-powered-by-inception"
+  },
+  {
     "name": "Antigravity CLI",
     "org": "Google",
     "date": "2026-06-18",
@@ -46,13 +54,5 @@
     "type": "tool",
     "summary": "Run one API call that fans your prompt across several models and fuses the best answer with a judge model, no manual orchestration. Budget panels reach frontier-level quality at about half the cost. Use it via the openrouter/fusion model or the chatroom.",
     "url": "https://openrouter.ai/blog/announcements/fusion-beats-frontier/"
-  },
-  {
-    "name": "DiffusionGemma",
-    "org": "Google",
-    "date": "2026-06-10",
-    "type": "model",
-    "summary": "Open-weight text model that runs locally on a single GPU (18GB VRAM) and generates up to 4x faster using diffusion. Self-host it free for fast drafting, autocomplete, or local agents — Apache 2.0 weights are on Hugging Face.",
-    "url": "https://huggingface.co/google/diffusiongemma-26B-A4B-it"
   }
 ]
