@@ -1,5 +1,21 @@
 [
   {
+    "name": "Krea 2 (open weights)",
+    "org": "Krea",
+    "date": "2026-06-23",
+    "type": "model",
+    "summary": "Open-weight foundation image model that makes aesthetic, style-controlled images in about 2 seconds. Grab the Raw and Turbo weights on Hugging Face (free commercial use for individuals and small teams) or call it via fal at $0.03 an image.",
+    "url": "https://www.krea.ai/krea-2"
+  },
+  {
+    "name": "Mistral OCR 4",
+    "org": "Mistral",
+    "date": "2026-06-23",
+    "type": "model",
+    "summary": "Turn PDFs and scans into structured data — bounding boxes, typed blocks for tables, equations, and signatures, plus per-word confidence across 170 languages. Hit it via API at $4 per 1,000 pages, or self-host the container to keep documents private.",
+    "url": "https://venturebeat.com/data/mistral-launches-ocr-4-turning-document-extraction-into-a-full-enterprise-ai-play"
+  },
+  {
     "name": "Kilo Next-Edit",
     "org": "Kilo",
     "date": "2026-06-22",
@@ -46,13 +62,5 @@
     "type": "model",
     "summary": "Open-weight coding model that beats GPT-5.5 on long-horizon coding benchmarks at roughly a sixth the cost. Grab the MIT-licensed weights on Hugging Face, hit it via the API, or use it in 20+ coding tools — with a 1M-token context for whole-repo agent runs.",
     "url": "https://venturebeat.com/technology/z-ais-open-weights-glm-5-2-beats-gpt-5-5-on-multiple-long-horizon-coding-benchmarks-for-1-6th-the-cost"
-  },
-  {
-    "name": "OpenRouter Fusion",
-    "org": "OpenRouter",
-    "date": "2026-06-12",
-    "type": "tool",
-    "summary": "Run one API call that fans your prompt across several models and fuses the best answer with a judge model, no manual orchestration. Budget panels reach frontier-level quality at about half the cost. Use it via the openrouter/fusion model or the chatroom.",
-    "url": "https://openrouter.ai/blog/announcements/fusion-beats-frontier/"
   }
 ]
