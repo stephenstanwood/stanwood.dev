@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-25T09:26:06.376Z",
+  "generatedAt": "2026-06-27T12:22:56.482Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 32,
-      "parsedCount": 33
+      "count": 31,
+      "parsedCount": 32
     },
     {
       "label": "Downtown Campbell Events",
@@ -35,14 +35,14 @@
     {
       "label": "Campbell Chamber Events",
       "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
-      "count": 37,
-      "parsedCount": 37
+      "count": 36,
+      "parsedCount": 36
     },
     {
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
-      "count": 17,
-      "parsedCount": 30
+      "count": 16,
+      "parsedCount": 29
     }
   ],
   "items": [
@@ -73,79 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "West Valley College Multi-Chamber Morning Mixer",
-      "date": "Thursday Jun 25, 2026",
-      "cost": "",
-      "location": "",
-      "description": "",
-      "url": "https://business.campbellchamber.net/events/details/west-valley-college-multi-chamber-morning-mixer-06-25-2026-16455",
-      "imageUrl": "",
-      "category": "Chamber",
-      "startDate": "2026-06-25T08:00",
-      "endDate": "2026-06-25T09:00",
-      "source": "Campbell Chamber Events",
-      "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
-      "topics": [
-        "Chamber Events"
-      ]
-    },
-    {
-      "title": "Baby Lapsit for Ages 0 - 18 Months",
-      "date": "Jun 25th | 10:30am - 11:30am",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a062eec43b41b3d00668934",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-06-25T10:30:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
-      "title": "Senior Transportation Symposium",
-      "date": "June 25, 2026, 12:30 PM - 2:30 PM",
-      "cost": "",
-      "location": "Roosevelt Redwood Room",
-      "description": "Discover the many ways to get around your community with ease and confidence! This informative symposium is designed especially for older adults who want to explore convenient transportation options, save money on gas, and learn how to travel where they need to go.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3952&month=6&year=2026&day=25&calType=0",
-      "imageUrl": "",
-      "category": "Campbell Community Event Calendar",
-      "startDate": "2026-06-25T12:30:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
-      "title": "Board Meeting",
-      "date": "Jun 25, 2026, 5:30 PM PDT",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD Public Meetings.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-06-25T17:30:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_0k9apnhonup1kh5g71gfu76q8k%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD Public Meetings"
-      ],
-      "endDate": "2026-06-25T19:30:00"
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: Freaky Friday Night Flick",
-      "date": "Jun 26th | 4:00pm - 5:45pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a2dd5852ea730c17ab6bbfe",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-06-26T16:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Cloud City’s 5-Year Anniversary Celebration",
@@ -257,6 +184,19 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
+      "title": "Cinema Sunday: A Big Bold Beautiful Journey",
+      "date": "Jun 28th | 2:00pm - 4:00pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/6a2099d9caf934360060729c",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-06-28T14:00:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
       "title": "Emerald Summer Art Camp: Pottery, Painting, Sculpture, Mixed Media",
       "date": "6/29/26",
       "cost": "$290/$520",
@@ -286,6 +226,19 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "Music & Movement Storytime",
+      "date": "Jun 30th | 10:30am - 11:00am",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/69fbb43b8e677a28001a5aed",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-06-30T10:30:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Power Networking Lunch at El Guapo's",
@@ -2080,7 +2033,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3991&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3991&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2093,7 +2046,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3993&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3993&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2106,7 +2059,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3987&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3987&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2119,7 +2072,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3994&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3994&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2132,7 +2085,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3985&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3985&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2145,7 +2098,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3981&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3981&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",
@@ -2158,7 +2111,7 @@
       "cost": "",
       "location": "",
       "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3980&month=7&year=2026&day=25&calType=0",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3980&month=7&year=2026&day=27&calType=0",
       "imageUrl": "",
       "category": "Recreation & Community Services",
       "startDate": "",

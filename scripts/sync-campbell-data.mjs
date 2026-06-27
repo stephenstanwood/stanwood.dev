@@ -140,7 +140,7 @@ function extractJsonScript(html, id) {
   }
 }
 
-async function fetchPdfText(url) {
+async function fetchDocumentText(url) {
   // eScribe rejects Node's TLS trust store; download those PDFs via curl.
   if (new URL(url).hostname.endsWith("escribemeetings.com")) {
     let buffer;
@@ -149,10 +149,11 @@ async function fetchPdfText(url) {
     } catch (err) {
       return { text: "", skipped: err.message || "Failed to fetch PDF via curl" };
     }
-    return pdfBufferToText(buffer);
+    return documentBufferToText(buffer, { contentType: "application/pdf" });
   }
 
   let contentLength = 0;
+  let contentType = "";
   try {
     const head = await fetch(url, {
       method: "HEAD",
@@ -163,6 +164,7 @@ async function fetchPdfText(url) {
       },
     });
     contentLength = Number(head.headers.get("content-length") ?? 0);
+    contentType = head.headers.get("content-type") ?? "";
   } catch {
     contentLength = 0;
   }
@@ -186,6 +188,7 @@ async function fetchPdfText(url) {
   if (getContentLength > MAX_NOTICE_PDF_BYTES) {
     return { text: "", skipped: `PDF is ${Math.round(getContentLength / 1024 / 1024)}MB` };
   }
+  contentType ||= res.headers.get("content-type") ?? "";
 
   let buffer;
   try {
@@ -193,7 +196,42 @@ async function fetchPdfText(url) {
   } catch (err) {
     return { text: "", skipped: err.message || "PDF exceeded read limit" };
   }
-  return pdfBufferToText(buffer);
+  return documentBufferToText(buffer, { contentType });
+}
+
+function bufferLooksLikePdf(buffer) {
+  return buffer.subarray(0, 5).toString("latin1") === "%PDF-";
+}
+
+function bufferLooksLikeOleDocument(buffer) {
+  return buffer.length >= 8 &&
+    buffer[0] === 0xd0 &&
+    buffer[1] === 0xcf &&
+    buffer[2] === 0x11 &&
+    buffer[3] === 0xe0 &&
+    buffer[4] === 0xa1 &&
+    buffer[5] === 0xb1 &&
+    buffer[6] === 0x1a &&
+    buffer[7] === 0xe1;
+}
+
+async function documentBufferToText(buffer, { contentType = "" } = {}) {
+  const normalizedType = contentType.toLowerCase();
+  if (normalizedType.includes("pdf") || bufferLooksLikePdf(buffer)) {
+    return pdfBufferToText(buffer);
+  }
+
+  if (
+    normalizedType.includes("msword") ||
+    normalizedType.includes("wordprocessingml") ||
+    bufferLooksLikeOleDocument(buffer)
+  ) {
+    return wordBufferToText(buffer, {
+      extension: normalizedType.includes("wordprocessingml") ? ".docx" : ".doc",
+    });
+  }
+
+  return { text: "", skipped: `Unsupported notice document type${contentType ? `: ${contentType}` : ""}` };
 }
 
 async function pdfBufferToText(buffer) {
@@ -213,6 +251,31 @@ async function pdfBufferToText(buffer) {
     }
     if (result.status !== 0 && !result.stdout) {
       return { text: "", skipped: result.stderr.trim() || "pdftotext failed" };
+    }
+
+    return { text: result.stdout, skipped: "" };
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+}
+
+async function wordBufferToText(buffer, { extension = ".doc" } = {}) {
+  const dir = await mkdtemp(resolve(tmpdir(), "campbell-notice-"));
+  const docPath = resolve(dir, `notice${extension}`);
+
+  try {
+    await writeFile(docPath, buffer);
+    const result = spawnSync(
+      "textutil",
+      ["-convert", "txt", "-stdout", docPath],
+      { encoding: "utf8", maxBuffer: 2 * 1024 * 1024 },
+    );
+
+    if (result.error) {
+      return { text: "", skipped: result.error.message };
+    }
+    if (result.status !== 0 && !result.stdout) {
+      return { text: "", skipped: result.stderr.trim() || "textutil failed" };
     }
 
     return { text: result.stdout, skipped: "" };
@@ -1411,6 +1474,7 @@ function parsePublicNoticeArchive(html, { body, href, limit }) {
 function normalizeText(value = "") {
   return value
     .replace(/\r/g, "\n")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
     .replace(/[ \t]+/g, " ")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
@@ -1476,7 +1540,9 @@ function extractProjectDescription(text) {
   const match = text.match(/Project Description:\s*([\s\S]*?)(?=\s+(?:Council District|File No\.|APN:|Applicant:|Property Owner:|You may participate|Application Type:|Project Planner:|$))/i);
   if (match) return cleanSentence(match[1]);
 
-  const cityNotice = text.match(/Public Hearing to consider\s+([\s\S]*?)(?=\s+(?:Interested persons|This public hearing|Please be advised|Questions may be|$))/i);
+  const cityNotice =
+    text.match(/Public Hearing to consider\s+([\s\S]*?)(?=\s+(?:Interested persons|This public hearing|Please be advised|Questions may be|In compliance|$))/i) ??
+    text.match(/time and place(?:\s+for\s+(?:a\s+)?Public Hearing)?\s+(?:to consider|for)\s+([\s\S]*?)(?=\s+(?:Interested persons|This public hearing|Please be advised|Questions may be|In compliance|$))/i);
   return cleanSentence(cityNotice?.[1] ?? "");
 }
 
@@ -1547,7 +1613,7 @@ async function parsePublicHearings({ councilRecords, planningRecords, noticeArch
 
   for (const record of agendaRecords) {
     await sleep(300);
-    const pdf = await fetchPdfText(record.agendaUrl);
+    const pdf = await fetchDocumentText(record.agendaUrl);
     if (!pdf.text) continue;
     hearingItems.push(...parseAgendaPublicHearingItems(pdf.text, record));
   }
@@ -1555,7 +1621,7 @@ async function parsePublicHearings({ councilRecords, planningRecords, noticeArch
   const notices = noticeArchives.flatMap((archive) => archive.items);
   for (const notice of notices) {
     await sleep(300);
-    const pdf = await fetchPdfText(notice.noticeUrl);
+    const pdf = await fetchDocumentText(notice.noticeUrl);
     const details = pdf.text ? parseNoticeDetails(pdf.text) : {};
     const summary = cleanNoticeText(details.summary || notice.title);
 

@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-06-25T09:26:06.376Z",
+  "generatedAt": "2026-06-27T12:28:06.165Z",
   "sourceUrl": "https://www.downtowncampbell.com/directory/all",
   "sources": [
     {
       "label": "Downtown Campbell Directory",
       "sourceUrl": "https://www.downtowncampbell.com/directory/all",
-      "count": 117
+      "count": 119
     },
     {
       "label": "Campbell Chamber Directory",
       "sourceUrl": "https://business.campbellchamber.net/list",
-      "count": 337,
-      "sourceEntries": 338,
-      "totalParsed": 562
+      "count": 336,
+      "sourceEntries": 337,
+      "totalParsed": 560
     }
   ],
   "items": [
@@ -2213,10 +2213,10 @@
     },
     {
       "name": "Embark Behavioral Health",
-      "phone": "(916) 266-1008",
-      "address": "910 E. Hamilton Ave, STE 110, Campbell CA 95008",
+      "phone": "(408) 209-1527",
+      "address": "910 E Hamilton Ave, Suite 110, Campbell CA 95008",
       "city": "Campbell",
-      "url": "https://business.campbellchamber.net/list/member/embark-behavioral-health-2264",
+      "url": "https://business.campbellchamber.net/list/member/embark-behavioral-health-campbell-2336",
       "websiteUrl": "",
       "imageUrl": "",
       "description": "",
@@ -3634,21 +3634,6 @@
       "sourceUrl": "https://business.campbellchamber.net/list/searchalpha/l"
     },
     {
-      "name": "Local Kitchens",
-      "phone": "(855) 384-2868",
-      "address": "\"1640 S Bascom Ave, Suite A, Campbell CA 95008",
-      "city": "Campbell",
-      "url": "https://business.campbellchamber.net/list/member/local-kitchens-2323",
-      "websiteUrl": "",
-      "imageUrl": "",
-      "description": "",
-      "tags": [
-        "Chamber"
-      ],
-      "source": "Campbell Chamber Directory",
-      "sourceUrl": "https://business.campbellchamber.net/list/searchalpha/l"
-    },
-    {
       "name": "Locanda Sorrento",
       "phone": "(408) 540-7686",
       "address": "76 E Campbell Ave, Campbell CA 95008",
@@ -3962,19 +3947,23 @@
       "sourceUrl": "https://business.campbellchamber.net/list/searchalpha/m"
     },
     {
-      "name": "Mind By Design",
-      "phone": "(669) 282-2510",
-      "address": "51 E Campbell Ave Suite 110, Campbell CA 95008",
-      "city": "Campbell",
-      "url": "https://business.campbellchamber.net/list/member/mind-by-design-2373",
+      "name": "Mind by Design",
+      "phone": "669-282-2510",
+      "address": "51 E Campbell Ave, STE 110",
+      "url": "https://www.downtowncampbell.com/biz/mind-design",
       "websiteUrl": "",
-      "imageUrl": "",
       "description": "",
       "tags": [
+        "Downtown",
         "Chamber"
       ],
-      "source": "Campbell Chamber Directory",
-      "sourceUrl": "https://business.campbellchamber.net/list/searchalpha/m"
+      "source": "Downtown Campbell Directory + Campbell Chamber Directory",
+      "sourceUrl": "https://www.downtowncampbell.com/directory/all",
+      "city": "Campbell",
+      "imageUrl": "",
+      "additionalSourceUrls": [
+        "https://business.campbellchamber.net/list/searchalpha/m"
+      ]
     },
     {
       "name": "Mirastar Federal Credit Union",
@@ -4120,6 +4109,19 @@
       "phone": "408-378-0335",
       "address": "384 E Campbell Ave",
       "url": "https://www.downtowncampbell.com/biz/naschmarkt",
+      "websiteUrl": "",
+      "description": "",
+      "tags": [
+        "Downtown"
+      ],
+      "source": "Downtown Campbell Directory",
+      "sourceUrl": "https://www.downtowncampbell.com/directory/all"
+    },
+    {
+      "name": "Nature's Organic Ice Cream",
+      "phone": "",
+      "address": "191 E Campbell Ave,",
+      "url": "https://www.downtowncampbell.com/biz/natures-organic-ice-cream",
       "websiteUrl": "",
       "description": "",
       "tags": [
