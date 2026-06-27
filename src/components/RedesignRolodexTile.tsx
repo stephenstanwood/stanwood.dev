@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef, type SyntheticEvent } from "react";
 import { useLoadingMessages } from "../lib/redesignRolodex/useLoadingMessages";
-import { pickExamples } from "../lib/redesignRolodex/examples";
+import { defaultExamples, pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
 import { ghostMatch } from "../lib/redesignRolodex/topSites";
 import type { WeirdnessMode } from "../lib/redesignRolodex/types";
@@ -15,14 +15,16 @@ export default function RedesignRolodexTile() {
 }
 
 function RedesignRolodexTileInner() {
-  // useState initializer prevents hydration mismatch — module-scope random
-  // values differ between SSR and client render
-  const [EXAMPLE_URLS] = useState(() => pickExamples(3));
+  const [EXAMPLE_URLS, setExampleUrls] = useState(() => defaultExamples(3));
   const [url, setUrl] = useState("");
   const [ghost, setGhost] = useState<string | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const stream = useAnalyzeStream();
+
+  useEffect(() => {
+    setExampleUrls(pickExamples(3));
+  }, []);
 
   // Ghost autocomplete
   useEffect(() => {

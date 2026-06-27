@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModelLogo } from "../lib/whichModel/logos";
 import { useCycling } from "../hooks/useCycling";
 import { shuffle } from "../lib/arrays";
@@ -77,9 +77,13 @@ const ALL_EXAMPLES = [
 ];
 
 export default function WhichModelTile() {
-  const [examples] = useState(() => shuffle(ALL_EXAMPLES));
+  const [examples, setExamples] = useState(() => ALL_EXAMPLES);
   const { value: ex, fading } = useCycling(examples, 3000, 300);
   const brandColor = BRAND_COLORS[ex.org] || "#666";
+
+  useEffect(() => {
+    setExamples(shuffle(ALL_EXAMPLES));
+  }, []);
 
   return (
     <a
