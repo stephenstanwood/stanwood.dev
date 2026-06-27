@@ -244,6 +244,7 @@ export default function EventsIndex() {
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
   const [viewFilter, setViewFilter] = useState<EventViewFilter>("next14");
   const [showAll, setShowAll] = useState(false);
+  const [failedImageUrls, setFailedImageUrls] = useState<Set<string>>(() => new Set());
   const [referenceDay] = useState(() => startOfDay(new Date()));
 
   useEffect(() => {
@@ -414,17 +415,31 @@ export default function EventsIndex() {
 
       <div className="cb-live-events">
         {visibleEvents.map((event) => {
-          const tile = event.imageUrl ? null : eventDateTile(event);
+          const imageUrl = event.imageUrl.trim();
+          const showImage = imageUrl.length > 0 && !failedImageUrls.has(imageUrl);
+          const tile = showImage ? null : eventDateTile(event);
           return (
             <a
               key={`${event.date}-${event.title}`}
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`cb-event-card${event.imageUrl ? "" : " cb-event-card--text"}`}
+              className={`cb-event-card${showImage ? "" : " cb-event-card--text"}`}
             >
-              {event.imageUrl ? (
-                <img src={event.imageUrl} alt="" loading="lazy" />
+              {showImage ? (
+                <img
+                  src={imageUrl}
+                  alt=""
+                  loading="lazy"
+                  onError={() => {
+                    setFailedImageUrls((current) => {
+                      if (current.has(imageUrl)) return current;
+                      const next = new Set(current);
+                      next.add(imageUrl);
+                      return next;
+                    });
+                  }}
+                />
               ) : (
                 <span className="cb-event-tile" aria-hidden="true">
                   {tile ? (
