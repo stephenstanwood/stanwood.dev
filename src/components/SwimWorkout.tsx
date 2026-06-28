@@ -468,7 +468,9 @@ export default function SwimWorkout() {
     const url = new URL(window.location.href);
     const eqKeys = (Object.keys(equipment) as Array<keyof EquipmentOptions>).filter(k => equipment[k]);
     const allEnabled = eqKeys.length === 3;
-    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}${!allEnabled ? `&eq=${eqKeys.join(",")}` : ""}`;
+    const focusQuery = focus !== "any" ? `&f=${focus}` : "";
+    const equipmentQuery = !allEnabled ? `&eq=${eqKeys.join(",")}` : "";
+    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focusQuery}${equipmentQuery}`;
     url.hash = "";
     navigator.clipboard.writeText(url.toString()).then(() => {
       setCopiedLink(true);

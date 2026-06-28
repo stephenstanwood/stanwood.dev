@@ -175,9 +175,27 @@ function weightedPick<T>(items: T[], weights: number[], rng: Rng): T {
 // ─── Target yardage by duration & pace ─────────────────────────────────────────
 
 function calcTargetDistance(durationMin: number, paceSec: number): number {
-  const utilization = durationMin <= 30 ? 0.72 : durationMin <= 60 ? 0.68 : 0.65;
+  const utilization = distanceUtilizationForDuration(durationMin);
   const rawDist = (durationMin * 60 * utilization) / (paceSec / 100);
   return Math.round(rawDist / 100) * 100;
+}
+
+function distanceUtilizationForDuration(durationMin: number): number {
+  if (durationMin <= 30) return 0.72;
+  if (durationMin <= 60) return 0.68;
+  return 0.65;
+}
+
+function sequenceEdgeDescription(
+  index: number,
+  length: number,
+  first: string,
+  middle: string,
+  last: string,
+): string {
+  if (index === 0) return first;
+  if (index === length - 1) return last;
+  return middle;
 }
 
 // ─── WARMUP TEMPLATES ──────────────────────────────────────────────────────────
@@ -365,7 +383,13 @@ function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
   return steps.map((d, i) => ({
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
-    description: i === 0 ? "Free — ease into it" : i === steps.length - 1 ? "Free — strong finish" : "Free — settle in",
+    description: sequenceEdgeDescription(
+      i,
+      steps.length,
+      "Free — ease into it",
+      "Free — settle in",
+      "Free — strong finish",
+    ),
     stroke: "free" as Stroke,
   }));
 }
@@ -742,7 +766,13 @@ function mainDescendLadder(target: number, pace: number, rng: Rng): SetItem[] {
   return fullSteps.map((d, i) => ({
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
-    description: i === 0 ? "Free — long & steady" : i === fullSteps.length - 1 ? "Free — sprint to finish" : "Free — pick it up",
+    description: sequenceEdgeDescription(
+      i,
+      fullSteps.length,
+      "Free — long & steady",
+      "Free — pick it up",
+      "Free — sprint to finish",
+    ),
     stroke: "free" as Stroke,
   }));
 }

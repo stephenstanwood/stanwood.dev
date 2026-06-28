@@ -9,10 +9,54 @@ import { describeLevel } from "../../lib/greenLight/tasteProfile";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { logEvent } from "../../lib/logger";
 import type {
-  RecommendRequest,
   TasteProfile,
   DietaryConstraints,
 } from "../../lib/greenLight/types";
+
+const TasteScoreSchema = z.number().finite().min(-1).max(1);
+
+const TasteProfileSchema = z.object({
+  spiceTolerance: TasteScoreSchema,
+  mealFormat: TasteScoreSchema,
+  cuisinePreference: TasteScoreSchema,
+  proteinPreference: TasteScoreSchema,
+  cookingMethod: TasteScoreSchema,
+  portionSize: TasteScoreSchema,
+  flavorProfile: TasteScoreSchema,
+  dietaryLeaning: TasteScoreSchema,
+});
+
+const DietaryConstraintsSchema = z.object({
+  dietary: z
+    .array(
+      z.enum([
+        "vegetarian",
+        "pescatarian",
+        "dairy-avoidant",
+        "gluten-avoidant",
+        "higher-protein",
+        "lower-carb",
+      ]),
+    )
+    .default([])
+    .transform((items) => items.slice(0, 10)),
+  disliked: z
+    .array(z.string().trim().max(80))
+    .default([])
+    .transform((items) => items.filter(Boolean).slice(0, 20)),
+  mealSize: z.enum(["lighter", "filling"]),
+});
+
+const RecommendRequestSchema = z.object({
+  restaurantName: z.string().trim().min(1).max(200),
+  location: z.unknown().transform((value) =>
+    typeof value === "string" && value.trim().length <= 100
+      ? value.trim()
+      : "Campbell, CA",
+  ),
+  tasteProfile: TasteProfileSchema,
+  constraints: DietaryConstraintsSchema,
+});
 
 const OptionSchema = z.object({
   order: z.string(),
@@ -116,31 +160,33 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   try {
-    const body = (await request.json()) as RecommendRequest;
-    const { restaurantName, location, tasteProfile, constraints } = body;
-
-    if (!restaurantName || typeof restaurantName !== "string") {
-      return errJson("Restaurant name is required", 400);
+    let body: unknown;
+    try {
+      body = await request.json();
+    } catch {
+      return errJson("Invalid JSON request", 400);
     }
 
-    const trimmedName = restaurantName.trim();
-
-    // Cap array inputs to prevent token inflation
-    if (constraints?.dietary) {
-      constraints.dietary = constraints.dietary.slice(0, 10);
+    const parsedRequest = RecommendRequestSchema.safeParse(body);
+    if (!parsedRequest.success) {
+      const restaurantIssue = parsedRequest.error.issues.find(
+        (issue) => issue.path[0] === "restaurantName",
+      );
+      if (restaurantIssue?.code === "too_big") {
+        return errJson("Restaurant name too long (max 200 characters)", 400);
+      }
+      if (restaurantIssue) {
+        return errJson("Restaurant name is required", 400);
+      }
+      return errJson("Invalid recommendation request", 400);
     }
-    if (constraints?.disliked) {
-      constraints.disliked = constraints.disliked.slice(0, 20);
-    }
 
-    if (trimmedName.length > 200) {
-      return errJson("Restaurant name too long (max 200 characters)", 400);
-    }
-
-    const safeLocation =
-      typeof location === "string" && location.trim().length <= 100
-        ? location.trim()
-        : "Campbell, CA";
+    const {
+      restaurantName: trimmedName,
+      location: safeLocation,
+      tasteProfile,
+      constraints,
+    } = parsedRequest.data;
 
     const userMessage = buildUserMessage(
       trimmedName,
