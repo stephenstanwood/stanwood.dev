@@ -63,6 +63,12 @@ const TIDE_SPEED_MULTIPLIER: Record<"calm" | "normal" | "surge", number> = {
   surge: 2.5,
 };
 
+const TIDE_SPEED_LABEL: Record<"calm" | "normal" | "surge", string> = {
+  calm: "🌊 calm",
+  normal: "🌊🌊 normal",
+  surge: "🌊🌊🌊 surge",
+};
+
 /* ── Helpers ── */
 function pick<T>(arr: T[], i: number): T {
   return arr[((i % arr.length) + arr.length) % arr.length];
@@ -675,7 +681,7 @@ export default function PixelTide() {
                   : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
               }`}
             >
-              {s === "calm" ? "🌊 calm" : s === "normal" ? "🌊🌊 normal" : "🌊🌊🌊 surge"}
+              {TIDE_SPEED_LABEL[s]}
             </button>
           ))}
         </div>

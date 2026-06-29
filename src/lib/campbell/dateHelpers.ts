@@ -31,6 +31,9 @@ const MONTHS: Record<string, number> = {
   december: 12,
 };
 
+const numericPart = (parts: Intl.DateTimeFormatPart[], type: string) =>
+  Number(parts.find((item) => item.type === type)?.value);
+
 function campbellDateParts(value: Date) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: CAMPBELL_TIME_ZONE,
@@ -39,11 +42,10 @@ function campbellDateParts(value: Date) {
     day: "2-digit",
   }).formatToParts(value);
 
-  const part = (type: string) => Number(parts.find((item) => item.type === type)?.value);
   return {
-    year: part("year"),
-    month: part("month"),
-    day: part("day"),
+    year: numericPart(parts, "year"),
+    month: numericPart(parts, "month"),
+    day: numericPart(parts, "day"),
   };
 }
 
@@ -59,14 +61,13 @@ function timeZoneOffsetMs(value: Date) {
     second: "2-digit",
   }).formatToParts(value);
 
-  const part = (type: string) => Number(parts.find((item) => item.type === type)?.value);
   const asUtc = Date.UTC(
-    part("year"),
-    part("month") - 1,
-    part("day"),
-    part("hour"),
-    part("minute"),
-    part("second"),
+    numericPart(parts, "year"),
+    numericPart(parts, "month") - 1,
+    numericPart(parts, "day"),
+    numericPart(parts, "hour"),
+    numericPart(parts, "minute"),
+    numericPart(parts, "second"),
   );
 
   return asUtc - value.getTime();

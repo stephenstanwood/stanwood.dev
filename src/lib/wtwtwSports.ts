@@ -3,7 +3,7 @@
 // and resolves watch-recording links per league.
 
 import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
-import { fetchEspnScoreboard, parseScore } from "./sportsCore";
+import { fetchEspnScoreboard, parseScore, TIMEZONE } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
 const WTWTW_LS_KEY = "wtwtw:v1";
@@ -329,7 +329,7 @@ export function isLatestStartedEventForTrackedTeams(
 
 /** YYYY-MM-DD for MLB StatsAPI, computed in Pacific Time. */
 export function isoDateInPT(d: Date): string {
-  return d.toLocaleDateString("en-CA", { timeZone: "America/Los_Angeles" });
+  return d.toLocaleDateString("en-CA", { timeZone: TIMEZONE });
 }
 
 /** YYYYMMDD for ESPN, computed in Pacific Time. */

@@ -10,7 +10,7 @@ export { esc, escUrl };
 // ── Constants ──
 
 const REFRESH_MS = 30_000;
-const TIMEZONE = "America/Los_Angeles";
+export const TIMEZONE = "America/Los_Angeles";
 
 // ── Shared ESPN types ──
 
