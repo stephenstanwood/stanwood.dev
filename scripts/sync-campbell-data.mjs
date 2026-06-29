@@ -501,6 +501,77 @@ function parseCityCalendarEndDate(date = "", startDate = "") {
   return `${datePart}T23:59:59`;
 }
 
+function cityCalendarIsoDate(year, month, day, hour = 0, minute = 0, second = 0) {
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
+}
+
+function parseCityCalendarTime(hour, minute = "0", meridiem = "") {
+  let parsedHour = Number(hour);
+  const lowerMeridiem = meridiem.toLowerCase();
+  if (lowerMeridiem === "pm" && parsedHour < 12) parsedHour += 12;
+  if (lowerMeridiem === "am" && parsedHour === 12) parsedHour = 0;
+  return {
+    hour: parsedHour,
+    minute: Number(minute),
+  };
+}
+
+function cityCalendarDateParts(year, month, day, offsetDays = 0) {
+  const date = new Date(Number(year), Number(month) - 1, Number(day) + offsetDays);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+  };
+}
+
+function parseCityCalendarDate(date = "") {
+  const cleaned = cleanSentence(date);
+  const start = cleaned.match(/^([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})(?:,\s+(\d{1,2})(?::(\d{2}))?\s*(AM|PM))?/i);
+  if (!start) return { startDate: "", endDate: "" };
+
+  const startMonth = MONTH_NUMBERS[start[1].slice(0, 3).toLowerCase()];
+  if (!startMonth) return { startDate: "", endDate: "" };
+
+  const startTime = start[4]
+    ? parseCityCalendarTime(start[4], start[5], start[6])
+    : { hour: 0, minute: 0 };
+  const startDate = cityCalendarIsoDate(start[3], startMonth, start[2], startTime.hour, startTime.minute);
+  const range = { startDate, endDate: "" };
+  const endText = cleaned.slice(start[0].length).match(/^\s*-\s*(.+)$/)?.[1] ?? "";
+  if (!endText) return range;
+
+  const explicitEnd = endText.match(/^([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4}),?\s+(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+  const sameDayEnd = endText.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)/i);
+  const endMatch = explicitEnd ?? sameDayEnd;
+  if (!endMatch) return range;
+
+  const endTime = explicitEnd
+    ? parseCityCalendarTime(explicitEnd[4], explicitEnd[5], explicitEnd[6])
+    : parseCityCalendarTime(sameDayEnd[1], sameDayEnd[2], sameDayEnd[3]);
+  const endParts = explicitEnd
+    ? {
+        year: Number(explicitEnd[3]),
+        month: Number(MONTH_NUMBERS[explicitEnd[1].slice(0, 3).toLowerCase()]),
+        day: Number(explicitEnd[2]),
+      }
+    : cityCalendarDateParts(start[3], startMonth, start[2]);
+
+  if (!endParts.month) return range;
+
+  if (!explicitEnd) {
+    const endBeforeStart =
+      endTime.hour < startTime.hour ||
+      (endTime.hour === startTime.hour && endTime.minute < startTime.minute);
+    if (endBeforeStart) {
+      Object.assign(endParts, cityCalendarDateParts(start[3], startMonth, start[2], 1));
+    }
+  }
+
+  range.endDate = cityCalendarIsoDate(endParts.year, endParts.month, endParts.day, endTime.hour, endTime.minute);
+  return range;
+}
+
 function canonicalCityCalendarUrl(url = "", startDate = "") {
   const dateMatch = startDate.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (!url || !dateMatch) return url;
@@ -803,7 +874,10 @@ function parseCityCalendarEvents(html) {
         const titleLink = itemHtml.match(/<a[^>]*id="eventTitle_[^"]+"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
         const title = cleanHtml(titleLink?.[2] ?? "");
         const date = cleanHtml(itemHtml.match(/<div[^>]*class="date"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
-        const startDate = cleanHtml(itemHtml.match(/<span[^>]*itemprop="startDate"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "");
+        const parsedDate = parseCityCalendarDate(date);
+        const startDate =
+          cleanHtml(itemHtml.match(/<span[^>]*itemprop="startDate"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "") ||
+          parsedDate.startDate;
         const url = canonicalCityCalendarUrl(absoluteUrl(titleLink?.[1] ?? "", CITY_BASE_URL), startDate);
         const description = cleanHtml(
           itemHtml.match(/<p[^>]*itemprop="description"[^>]*>([\s\S]*?)<\/p>/i)?.[1] ??
@@ -811,7 +885,7 @@ function parseCityCalendarEvents(html) {
           "",
         ).slice(0, 280);
         const location = extractCalendarLocation(itemHtml);
-        const endDate = parseCityCalendarEndDate(date, startDate);
+        const endDate = parsedDate.endDate || parseCityCalendarEndDate(date, startDate);
 
         if (!title || !url) return null;
 

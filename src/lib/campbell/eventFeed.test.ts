@@ -127,4 +127,25 @@ describe("Campbell event feed", () => {
       expect(event.endDate, `${event.title} endDate`).toMatch(/^\d{4}-\d{2}-\d{2}T23:59:59$/);
     }
   });
+
+  it("parses City calendar date labels into structured dates", () => {
+    const events = eventFeed.items as {
+      title: string;
+      date?: string;
+      source?: string;
+      startDate?: string;
+      endDate?: string;
+    }[];
+    const cityEvents = events.filter((event) =>
+      event.source?.includes("City of Campbell Calendar") &&
+      /^[A-Z][a-z]+ \d{1,2}, \d{4}/.test(event.date ?? ""),
+    );
+
+    for (const event of cityEvents) {
+      expect(event.startDate, `${event.title} startDate`).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?/);
+      if (/\s+-\s+/.test(event.date ?? "")) {
+        expect(event.endDate, `${event.title} endDate`).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?/);
+      }
+    }
+  });
 });
