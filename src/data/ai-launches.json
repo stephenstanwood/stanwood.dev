@@ -24,6 +24,14 @@
     "url": "https://blog.kilo.ai/p/announcing-next-edit-in-kilo-powered-by-inception"
   },
   {
+    "name": "Firefly AI Assistant",
+    "org": "Adobe",
+    "date": "2026-06-18",
+    "type": "tool",
+    "summary": "Describe your brand in plain English and the AI Assistant generates a complete logo, brand identity, and color palette you can apply across every project. Live now in the Firefly web app, with the assistant rolling into Photoshop, Premiere, and Illustrator.",
+    "url": "https://blog.adobe.com/en/publish/2026/06/18/adobe-firefly-introduces-new-agentic-capabilities-and-an-upgraded-creative-ai-studio-built-for-the-way-you-work"
+  },
+  {
     "name": "Antigravity CLI",
     "org": "Google",
     "date": "2026-06-18",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Make a whole short film in one app — image, video, voiceover, music, and editing together, no juggling separate tools. Built for solo creators, with indie filmmakers already shipping shorts on it.",
     "url": "https://variety.com/2026/film/festivals/minimax-hub-ai-video-generator-shanghai-film-festival-1236781901/"
-  },
-  {
-    "name": "GLM-5.2",
-    "org": "Z.ai",
-    "date": "2026-06-13",
-    "type": "model",
-    "summary": "Open-weight coding model that beats GPT-5.5 on long-horizon coding benchmarks at roughly a sixth the cost. Grab the MIT-licensed weights on Hugging Face, hit it via the API, or use it in 20+ coding tools — with a 1M-token context for whole-repo agent runs.",
-    "url": "https://venturebeat.com/technology/z-ais-open-weights-glm-5-2-beats-gpt-5-5-on-multiple-long-horizon-coding-benchmarks-for-1-6th-the-cost"
   }
 ]
