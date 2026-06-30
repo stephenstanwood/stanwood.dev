@@ -39,7 +39,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
       {
         title: "Building Permits",
         desc: "Apply, track, and manage permits online",
-        href: "https://campbellca.portal.iworq.net",
+        href: SOURCE_URLS.permitPortal,
         Icon: Hammer,
         owner: "Building counter",
         tone: "gold",
