@@ -96,7 +96,9 @@ export function useAnalyzeStream() {
       setState((s) => {
         if (s.phase !== "error" && s.phase !== "done") {
           const complete = s.directions.length > 0;
-          return { ...s, phase: complete ? "done" : "error", error: complete ? "" : "Generation incomplete" };
+          return complete
+            ? { ...s, phase: "done", error: "" }
+            : { ...s, phase: "error", error: "Generation incomplete" };
         }
         return s;
       });
