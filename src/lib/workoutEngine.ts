@@ -180,6 +180,17 @@ function calcTargetDistance(durationMin: number, paceSec: number): number {
   return Math.round(rawDist / 100) * 100;
 }
 
+/** Label a step by its position in a sequence: first, last, or anything in between. */
+function positionLabel(
+  index: number,
+  length: number,
+  labels: { first: string; middle: string; last: string },
+): string {
+  if (index === 0) return labels.first;
+  if (index === length - 1) return labels.last;
+  return labels.middle;
+}
+
 // ─── WARMUP TEMPLATES ──────────────────────────────────────────────────────────
 // NO rest intervals — warmup is continuous swimming
 
@@ -365,7 +376,7 @@ function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
   return steps.map((d, i) => ({
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
-    description: i === 0 ? "Free — ease into it" : i === steps.length - 1 ? "Free — strong finish" : "Free — settle in",
+    description: `Free — ${positionLabel(i, steps.length, { first: "ease into it", middle: "settle in", last: "strong finish" })}`,
     stroke: "free" as Stroke,
   }));
 }
@@ -742,7 +753,7 @@ function mainDescendLadder(target: number, pace: number, rng: Rng): SetItem[] {
   return fullSteps.map((d, i) => ({
     reps: 1, distance: d,
     interval: calcInterval(d, pace, 10),
-    description: i === 0 ? "Free — long & steady" : i === fullSteps.length - 1 ? "Free — sprint to finish" : "Free — pick it up",
+    description: `Free — ${positionLabel(i, fullSteps.length, { first: "long & steady", middle: "pick it up", last: "sprint to finish" })}`,
     stroke: "free" as Stroke,
   }));
 }

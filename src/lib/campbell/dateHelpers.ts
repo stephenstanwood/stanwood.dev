@@ -1,4 +1,7 @@
-export const DAY_MS = 24 * 60 * 60 * 1000;
+import { MS_PER_DAY } from "../time";
+
+/** Alias of the canonical day constant in time.ts, kept so Campbell importers don't redefine it. */
+export const DAY_MS = MS_PER_DAY;
 export const CAMPBELL_TIME_ZONE = "America/Los_Angeles";
 
 // Council/hearing feeds are considered stale once the newest record is this old.
