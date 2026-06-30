@@ -1,11 +1,83 @@
 {
-  "built_at": "2026-06-29T10:30:17.611567+00:00",
+  "built_at": "2026-06-30T10:30:25.870002+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 158,
+  "candidate_count": 162,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
+    {
+      "id": "thvAivrQ4TI",
+      "title": "The rules are the art: creating with AI ft. Holly Herndon | Config 2026",
+      "url": "https://www.youtube.com/watch?v=thvAivrQ4TI",
+      "duration": 1221,
+      "published_at": "2026-06-29T21:52:18+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/thvAivrQ4TI/mqdefault.jpg",
+      "description": "Holly Herndon has spent the last decade building at the frontier of music and AI, from the albums Platform and PROTO to Holly+, the first artist-controlled voice model, to the data consent tools behind Spawning. This talk covers her approach to making art with AI, what she calls Protocol Art: a process-based practice of designing the rule set that creates the conditions for art to be made. Holly w",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "feedback_mult": 1.0,
+      "score": 17.6,
+      "view_count": 1705,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "cFYdiynrxpQ",
+      "title": "GLM-5.2 vs MiniMax-M3: Opus Has REAL COMPETITION (Model Stacking)",
+      "url": "https://www.youtube.com/watch?v=cFYdiynrxpQ",
+      "duration": 1580,
+      "published_at": "2026-06-29T13:00:34+00:00",
+      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
+      "channel_title": "IndyDevDan",
+      "channel_handle": "@IndyDevDan",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/cFYdiynrxpQ/mqdefault.jpg",
+      "description": "Engineers, it's official: Opus has REAL competition. And it's NOT another closed model from a big lab. \ud83d\udd25\n\nI used to ignore open source LLMs. That ends today.\n\nThe dirty secret of 2026? GLM-5.2 just became the leading open weight model on the Artificial Analysis Intelligence Index, MiniMax-M3 is right behind it, and they're doing it at roughly 1/5 the price of Opus 4.8. \n\n\ud83c\udfa5 VIDEO REFERENCES\n\n\u2022 AA A",
+      "categories": [
+        "applied_ai",
+        "civic_open"
+      ],
+      "base_score": 11,
+      "feedback_mult": 0.94,
+      "score": 12.45,
+      "view_count": 7746,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "oEzd3qGQI60",
+      "title": "He changed outdoor cooking forever \u2014 then took over Weber | Decoder",
+      "url": "https://www.youtube.com/watch?v=oEzd3qGQI60",
+      "duration": 4142,
+      "published_at": "2026-06-29T13:00:16+00:00",
+      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
+      "channel_title": "Decoder with Nilay Patel",
+      "channel_handle": "@decoderpod",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/oEzd3qGQI60/mqdefault.jpg",
+      "description": "It\u2019s time for our annual Fourth of July grill episode here at Decoder, which is when we invite the CEOs of outdoor cooking companies onto the show to explain just how their businesses kind of look like every other business. And this is a very special edition. \n\nToday we\u2019re talking to Roger Dahle, the CEO of Weber Blackstone, a full circle moment for Decoder. Roger was our first-ever grill CEO on t",
+      "categories": [
+        "swe_craft",
+        "climate_grid",
+        "humanities",
+        "finance_biz"
+      ],
+      "base_score": -13,
+      "feedback_mult": 1.0,
+      "score": -13.0,
+      "view_count": 2892,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
     {
       "id": "D5WUW9X_-L0",
       "title": "Figma deep dive: Agentic workflows and the MCP | Config 2026",
@@ -25,36 +97,13 @@
       "base_score": 16,
       "feedback_mult": 1.0,
       "score": 17.6,
-      "view_count": 4897,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "0HqSSIPZkbI",
-      "title": "Figma deep dive: Agents | Config 2026",
-      "url": "https://www.youtube.com/watch?v=0HqSSIPZkbI",
-      "duration": 1642,
-      "published_at": "2026-06-26T21:05:09+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/0HqSSIPZkbI/mqdefault.jpg",
-      "description": "The Figma agent is changing how designers work in Figma. It's not just another tool; it's a collaborator on the canvas. With web search, live connectors, teachable skills, and a generation engine that understands context, it can help explore ideas, automate tedious work, turn designs into prototypes, and support collaboration directly in the design environment. This session breaks down the newest ",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 3299,
+      "view_count": 7182,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "G8oufrrXaig",
-      "title": "How SendCutSend Competes With China: The Factory Tour",
+      "title": "This Might Be The Most Important Factory In America: The SendCutSend Factory Tour",
       "url": "https://www.youtube.com/watch?v=G8oufrrXaig",
       "duration": 2617,
       "published_at": "2026-06-26T19:00:32+00:00",
@@ -71,7 +120,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 5154,
+      "view_count": 8031,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -94,7 +143,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 3275,
+      "view_count": 3726,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -110,7 +159,7 @@
       "channel_handle": "@samwitteveenai",
       "channel_tier": 2,
       "thumb": "https://i.ytimg.com/vi/uD4-uy0GmHE/mqdefault.jpg",
-      "description": "In this video, I look at the Ornith 1.0 family of agentic coding models.  Both what they can do and how they were created.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax \n\n\ud83d\udcd6 Blog: https://deep-reinforce.com/ornith_1_0.html\n\ud83e\udd17 HF: https://huggingface.co/collections/deepreinforce-ai/ornith-10\n\n\nTwitter: https://x.com/Sam_Witteveen \n\n\ud83d\udd75\ufe0f Interested in building LLM Agents? Fill",
+      "description": "In this video, I look at the Ornith 1.0 family of agentic coding models.  Both what they can do and how they were created.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax #DellTech \n\n\ud83d\udcd6 Blog: https://deep-reinforce.com/ornith_1_0.html\n\ud83e\udd17 HF: https://huggingface.co/collections/deepreinforce-ai/ornith-10\n\n\nTwitter: https://x.com/Sam_Witteveen \n\n\ud83d\udd75\ufe0f Interested in building LLM Ag",
       "categories": [
         "applied_ai",
         "civic_open"
@@ -118,55 +167,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 63660,
+      "view_count": 69853,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "oHwUD9b9_pg",
-      "title": "Zynga Founder: Consumer Is Not Investible Right Now - Thats Why You Should Build It",
-      "url": "https://www.youtube.com/watch?v=oHwUD9b9_pg",
-      "duration": 2443,
-      "published_at": "2026-06-25T14:00:34+00:00",
-      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
-      "channel_title": "Y Combinator",
-      "channel_handle": "@ycombinator",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/oHwUD9b9_pg/mqdefault.jpg",
-      "description": "Mark Pincus is the founder of Zynga and author of \"Life at the Speed of Play: Launch Products People Love\", which distills the product philosophy and founder playbook he developed across five companies. In this episode of the Main Function, Pincus sits down with Garry to talk about consumer in the AI age and why the opportunity has never been greater.  \n\nhttps://www.lifeatthespeedofplay.com/\n\nAppl",
-      "categories": [
-        "humanities"
-      ],
-      "base_score": -6,
-      "feedback_mult": 1.0,
-      "score": -7.2,
-      "view_count": 24224,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
-    },
-    {
-      "id": "PGiCc48olnk",
-      "title": "Ford CEO Jim Farley on China, tariffs, and the quest for a $30,000 EV | Decoder",
-      "url": "https://www.youtube.com/watch?v=PGiCc48olnk",
-      "duration": 3493,
-      "published_at": "2026-06-25T13:00:28+00:00",
-      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
-      "channel_title": "Decoder with Nilay Patel",
-      "channel_handle": "@decoderpod",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/PGiCc48olnk/mqdefault.jpg",
-      "description": "Hey everyone, Nilay here. You might remember I took a break from Decoder last year \u2014 we had a baby, so I took some leave. In my place, we had an excellent slate of guest hosts, and we\u2019ve been working hard to bring you those episodes in full video since we launched our official Decoder YouTube channel.\n\nSo today, we\u2019re featuring a really great interview conducted by my very good friend Joanna Stern",
-      "categories": [
-        "civic_open"
-      ],
-      "base_score": 5,
-      "feedback_mult": 1.0,
-      "score": 5.0,
-      "view_count": 8759,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "u4Cv65F9DcY",
@@ -188,9 +191,34 @@
       "base_score": 13,
       "feedback_mult": 1.0,
       "score": 13.0,
-      "view_count": 1255,
+      "view_count": 1415,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "dOZkAqR_2lA",
+      "title": "Easy Way to Get Clients Without Ads or Cold DM's - FREE 2 HOUR MASTERCLASS",
+      "url": "https://www.youtube.com/watch?v=dOZkAqR_2lA",
+      "duration": 8715,
+      "published_at": "2026-06-24T15:25:11+00:00",
+      "channel_id": "UC-b3c7kxa5vU-bnmaROgvog",
+      "channel_title": "The Futur",
+      "channel_handle": "@thefutur",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/dOZkAqR_2lA/mqdefault.jpg",
+      "description": "\ud83d\udce5 Download the Lead Flow Workbook:\nhttps://mattessam.kit.com/leadflow\n\n\u25b6\ufe0f Build your own lead\u2011generating scorecard with ScoreApp AI:\nhttps://signup.scoreapp.com/checkout/chrisdoLGM\n\nMost business owners struggle with finding new clients, but this video teaches a proven approach for generating infinite leads consistently. We break down the specific methods used to attract prospects directly to you,",
+      "categories": [
+        "civic_open",
+        "swe_craft",
+        "climate_grid"
+      ],
+      "base_score": 2,
+      "feedback_mult": 1.0,
+      "score": 2.0,
+      "view_count": 14490,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "QKdcORGxaD8",
@@ -210,7 +238,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1223,
+      "view_count": 1329,
       "episode_number": null,
       "series_key": null
     },
@@ -233,7 +261,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 38164,
+      "view_count": 39487,
       "episode_number": null,
       "series_key": null
     },
@@ -257,7 +285,7 @@
       "base_score": 14,
       "feedback_mult": 1.23,
       "score": 15.45,
-      "view_count": 530608,
+      "view_count": 534720,
       "episode_number": null,
       "series_key": null
     },
@@ -280,7 +308,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 10.0,
-      "view_count": 132390,
+      "view_count": 133478,
       "episode_number": null,
       "series_key": null
     },
@@ -300,7 +328,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 170272,
+      "view_count": 170739,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -316,7 +344,7 @@
       "channel_handle": "@samwitteveenai",
       "channel_tier": 2,
       "thumb": "https://i.ytimg.com/vi/_a9Vv5dfW24/mqdefault.jpg",
-      "description": "In this video, I look at VibeCoder 3b and how it is beating some models that are 300x its size on certain benchmarks by improving its reasoning and chain of thought to be better for specific use cases.  While the model is not for production it shows what could be done with these techniques.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax \n\nPaper: https://arxiv.org/abs/2606",
+      "description": "In this video, I look at VibeCoder 3b and how it is beating some models that are 300x its size on certain benchmarks by improving its reasoning and chain of thought to be better for specific use cases.  While the model is not for production it shows what could be done with these techniques.\n\nThanks to Dell for Sponsoring the Compute\n#DellProPrecision #DellProMax  #DellTech \n\n\nPaper: https://arxiv.",
       "categories": [
         "applied_ai",
         "civic_open"
@@ -324,31 +352,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 39942,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "jJbelC85zic",
-      "title": "Fable Deserved It",
-      "url": "https://www.youtube.com/watch?v=jJbelC85zic",
-      "duration": 898,
-      "published_at": "2026-06-19T13:00:14+00:00",
-      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
-      "channel_title": "The PrimeTime",
-      "channel_handle": "@ThePrimeTimeagen",
-      "channel_tier": 3,
-      "thumb": "https://i.ytimg.com/vi/jJbelC85zic/mqdefault.jpg",
-      "description": "KERNEL builds crazy fast, open source infra for AI agents to access the internet. Trusted by Framer, Cash App, and 3000+ teams\n\nhttps://trm.sh/kernel\n\nSources:\n\n- https://x.com/AnthropicAI/status/2065597531644743999\n- https://www.politico.com/news/2026/06/13/inside-the-whirlwind-24-hours-that-led-the-white-house-to-slap-export-controls-on-anthropic-00961519\n- https://x.com/hugolowell/status/206669",
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "swe_craft"
-      ],
-      "base_score": 14,
-      "feedback_mult": 1.15,
-      "score": 9.66,
-      "view_count": 309056,
+      "view_count": 40831,
       "episode_number": null,
       "series_key": null
     },
@@ -373,7 +377,7 @@
       "base_score": 15,
       "feedback_mult": 1.0,
       "score": 15.0,
-      "view_count": 15994,
+      "view_count": 16209,
       "episode_number": null,
       "series_key": null
     },
@@ -396,7 +400,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 48973,
+      "view_count": 49184,
       "episode_number": null,
       "series_key": null
     },
@@ -419,7 +423,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 18176,
+      "view_count": 18207,
       "episode_number": null,
       "series_key": null
     },
@@ -442,7 +446,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 38390,
+      "view_count": 39169,
       "episode_number": null,
       "series_key": null
     },
@@ -465,7 +469,7 @@
       "base_score": 16,
       "feedback_mult": 1.0,
       "score": 17.6,
-      "view_count": 39,
+      "view_count": 40,
       "episode_number": null,
       "series_key": null
     },
@@ -488,7 +492,30 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 16186,
+      "view_count": 16223,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "tSg3FAdWvzI",
+      "title": "Claude Fable 5 UI/UX One-Shots - 5 Tests",
+      "url": "https://www.youtube.com/watch?v=tSg3FAdWvzI",
+      "duration": 502,
+      "published_at": "2026-06-10T14:51:01+00:00",
+      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
+      "channel_title": "DesignCourse",
+      "channel_handle": "@DesignCourse",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/tSg3FAdWvzI/mqdefault.jpg",
+      "description": "Build a SaaS with Claude: https://designcourse.com/app/course/claude-code-ai-saas (Take now)\n-- Claude Fable 5 just released yesterday, and I decided to give it 5 different UI tests. I'm not going to spoil it, but this is a must watch video and it's definitely a big step up in capabilities. Un, freaking, real.\n\n0:00 - Intro\n0:19 - Test 1 - Design Portfolio\n1:51 - Test 2 - Threejs Gallery\n3:07 - Te",
+      "categories": [
+        "applied_ai",
+        "dev_news_lite"
+      ],
+      "base_score": 7,
+      "feedback_mult": 1.0,
+      "score": 7.7,
+      "view_count": 631279,
       "episode_number": null,
       "series_key": null
     },
@@ -511,33 +538,9 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3133,
+      "view_count": 3164,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "abKmhm9JqZc",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Industry & Translation \u2014What It Takes to Deploy",
-      "url": "https://www.youtube.com/watch?v=abKmhm9JqZc",
-      "duration": 2557,
-      "published_at": "2026-06-08T21:05:37+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/abKmhm9JqZc/mqdefault.jpg",
-      "description": "This session explores what it takes to move AI in mental health from research to real-world deployment. Industry leaders discuss scaling, safety, evaluation, and regulatory realities in clinical settings. The focus is on bridging innovation with responsible execution at scale.\n\nSpeakers:\n\nRuss B. Altman \u2014 Kenneth Fong Professor and Professor of Bioengineering, of Genetics, of Medicine, of Biomedic",
-      "categories": [
-        "civic_open",
-        "healthcare_ai"
-      ],
-      "base_score": -5,
-      "feedback_mult": 1.0,
-      "score": -6.0,
-      "view_count": 115,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "MBrngFrbEAs",
@@ -557,30 +560,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1763,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "YG4t7aMY81c",
-      "title": "I Ranked Cloudflare\u2019s Software Factory and Wow\u2026 S TIER TOKENOMICS",
-      "url": "https://www.youtube.com/watch?v=YG4t7aMY81c",
-      "duration": 2514,
-      "published_at": "2026-06-08T13:00:28+00:00",
-      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
-      "channel_title": "IndyDevDan",
-      "channel_handle": "@IndyDevDan",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/YG4t7aMY81c/mqdefault.jpg",
-      "description": "Cloudflare ran 130,000 AI code reviews across 5,000 codebases for ONE DOLLAR per review. If you still think agentic AI isn't increasing productivity, open your eyes. \ud83d\udd25\n\nThis is our first ever agentic engineering tier list, and Cloudflare just earned S TIER TOKENOMICS. We rank every element of their software factory F through S (plus a legendary ZTE level) and break down exactly how they pulled off",
-      "categories": [
-        "applied_ai",
-        "swe_craft"
-      ],
-      "base_score": 9,
-      "feedback_mult": 0.94,
-      "score": 10.19,
-      "view_count": 17233,
+      "view_count": 1795,
       "episode_number": null,
       "series_key": null
     },
@@ -602,7 +582,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 1119924,
+      "view_count": 1128536,
       "episode_number": null,
       "series_key": null
     },
@@ -648,7 +628,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 7672,
+      "view_count": 7726,
       "episode_number": null,
       "series_key": null
     },
@@ -670,7 +650,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 4032,
+      "view_count": 4044,
       "episode_number": null,
       "series_key": null
     },
@@ -695,12 +675,389 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 11005,
+      "view_count": 11028,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "pi5oIXcMVK4",
+      "title": "The Blues-Print for Innovation",
+      "url": "https://www.youtube.com/watch?v=pi5oIXcMVK4",
+      "duration": 4694,
+      "published_at": "2026-06-01T19:03:07+00:00",
+      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
+      "channel_title": "MIT OpenCourseWare",
+      "channel_handle": "@mitocw",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/pi5oIXcMVK4/mqdefault.jpg",
+      "description": "MIT 15.393 Nuts and Bolts of New Ventures, IAP 2025\nInstructor: Bob Jones\n\nView the complete course: https://ocw.mit.edu/courses/15-393-nuts-and-bolts-of-new-ventures-january-iap-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63EUNfnwrkgO2xxwYxNwRdI\n\nBreakthrough innovation requires you to work within a shared structure without losing the ability to improvise. The same is",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 0.77,
+      "score": 3.69,
+      "view_count": 13634,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     }
   ],
   "pool": [
+    {
+      "id": "9h3M0bnpBeM",
+      "title": "What Is the Future of Security vs AI?",
+      "url": "https://www.youtube.com/watch?v=9h3M0bnpBeM",
+      "duration": 3816,
+      "published_at": "2026-06-30T03:54:50+00:00",
+      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
+      "channel_title": "Low Level",
+      "channel_handle": "@LowLevelTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/9h3M0bnpBeM/mqdefault.jpg",
+      "description": "Sponsored by PlanetScale",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 3946,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "4fZ3CeFu954",
+      "title": "Designing in the age of the 10x engineer ft. Andy Zhang (Google) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=4fZ3CeFu954",
+      "duration": 1241,
+      "published_at": "2026-06-30T01:54:31+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/4fZ3CeFu954/mqdefault.jpg",
+      "description": "Andy Zhang will explore how the designer's role evolves when creation becomes frictionless. He\u2019ll look at the future of dynamic, intent-driven experiences and discuss the questions we must ask to adapt our product processes\u2014ensuring that faster engineering leads to better, human-centered products rather than just more features.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX ",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 911,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "ahDcjUgyI78",
+      "title": "Build like it's 2030. Listen like you mean it. ft. Ned Dwyer (Great Question) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=ahDcjUgyI78",
+      "duration": 1074,
+      "published_at": "2026-06-30T01:53:11+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/ahDcjUgyI78/mqdefault.jpg",
+      "description": "Designers, your job in 2026 isn't getting smaller. It's getting bigger.The same shift that democratized research five years ago is now coming for design. Researchers didn't disappear\u2014they got more strategic, defined what good looked like, and built the systems that let everyone else ship to their bar. AI replaces UI production, but judgment, taste, and customer understanding become what wins.Ned D",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 287,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "CPkL9msCuIU",
+      "title": "How structured thinking gives your AI superpowers ft. Carola Pescio Canale (Atlassian) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=CPkL9msCuIU",
+      "duration": 1090,
+      "published_at": "2026-06-30T01:52:07+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/CPkL9msCuIU/mqdefault.jpg",
+      "description": "The best designers in the AI era will use it to scale their thinking, not just generate stuff. This talk looks at how a more structured design process (in docs, issues, trackers, and briefs) turns AI from a one-off creative aid into a genuine collaborator.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: https://www.instagram.",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 694,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "9pl3twjre6E",
+      "title": "From concept to confidence with Dscout AI | Config 2026",
+      "url": "https://www.youtube.com/watch?v=9pl3twjre6E",
+      "duration": 1121,
+      "published_at": "2026-06-30T01:50:28+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/9pl3twjre6E/mqdefault.jpg",
+      "description": "AI has accelerated the time between idea and execution. Teams can now generate concepts, prototypes, and products in days. Everyone\u2019s a builder now. But speed without care, validation, and taste creates expensive mistakes. In this session, you\u2019ll learn how Dscout\u2019s AI-powered research suite supports the entire product development system\u2014from ideation to iterative testing\u2014while enabling designers, ",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 373,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "Wcz4RW1_qYI",
+      "title": "How to build content systems for AI product workflows with Ditto | Config 2026",
+      "url": "https://www.youtube.com/watch?v=Wcz4RW1_qYI",
+      "duration": 1217,
+      "published_at": "2026-06-30T01:48:46+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Wcz4RW1_qYI/mqdefault.jpg",
+      "description": "With AI, teams are shipping faster than ever. Designers are prototyping directly in the product. Engineers are coding at the speed of thought. But every tool your team touches is generating copy. Keeping it consistent, on-brand, and compliant\u2014has never been harder. In this workshop, Jessica and Jolena, co-founders of Ditto, will show you how to build a content system that keeps up. Using Ditto, yo",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 1159,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "AOcrfsZCsrU",
+      "title": "Connecting Google Workspace and Figma | Config 2026",
+      "url": "https://www.youtube.com/watch?v=AOcrfsZCsrU",
+      "duration": 1269,
+      "published_at": "2026-06-30T01:47:22+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/AOcrfsZCsrU/mqdefault.jpg",
+      "description": "Stop wasting time hunting for project context across scattered tabs. This session explores the connected surface between Google Workspace and Figma. See a high-productivity workflow in action, from live ideation in Meet to using Ask Gemini in Chat to instantly surface files, wrap up comment threads, and remove the administrative friction from your day.\n_____________________________________________",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 496,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "_az4W2z5Fqw",
+      "title": "Hacking AI for creative operations at scale ft. Rory Flynn | Config 2026",
+      "url": "https://www.youtube.com/watch?v=_az4W2z5Fqw",
+      "duration": 1289,
+      "published_at": "2026-06-30T01:45:03+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/_az4W2z5Fqw/mqdefault.jpg",
+      "description": "Most creative teams are using AI to make assets faster. The real opportunity is further upstream\u2014inside the systems, workflows, and decision logic that govern how creative gets made at scale. In this session, Rory Flynn shows how mastering three core skills\u2014deconstruction, system prompts, and workflow building\u2014unlocks the full power of Figma Weave for any team. You'll see what real deployment look",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "feedback_mult": 1.0,
+      "score": 17.6,
+      "view_count": 1081,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "eCwkq10Sd3I",
+      "title": "Patterns for restarting the world ft. Switch Angel + LO.FI.SCI.FI | Config 2026",
+      "url": "https://www.youtube.com/watch?v=eCwkq10Sd3I",
+      "duration": 1631,
+      "published_at": "2026-06-30T01:42:11+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/eCwkq10Sd3I/mqdefault.jpg",
+      "description": "This talk explores human computer interaction through the design of programmable creative tools. Drawing on our work maintaining Strudel, a live-coded music system, we\u2019ll examine how having absolute freedom over text interfaces enables more intimate and natural interactions. With a background in instrument making, we frame software as an interactive artifact meant to be tuned and learned through u",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 126,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "I9xdmNZxIfA",
+      "title": "Figma deep dive: Weave | Config 2026",
+      "url": "https://www.youtube.com/watch?v=I9xdmNZxIfA",
+      "duration": 2441,
+      "published_at": "2026-06-29T23:42:39+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/I9xdmNZxIfA/mqdefault.jpg",
+      "description": "Dive into how Weave creative work actually gets made\u2014not the polished final frame, but the decisions behind it. Explore branching, sequencing, iteration, model chaining, edits, mistakes, recoveries, and the systems thinking that turn AI from a magic trick into a real creative process.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInst",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 641,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "RnxHD6qc9gQ",
+      "title": "What it feels like to build in 2026 | Config 2026",
+      "url": "https://www.youtube.com/watch?v=RnxHD6qc9gQ",
+      "duration": 1796,
+      "published_at": "2026-06-29T21:57:25+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/RnxHD6qc9gQ/mqdefault.jpg",
+      "description": "Join us for a candid conversation exploring the real cultural shifts shaping design and product work today, from AI acceleration and hybrid roles to burnout, differentiation, and creative identity. This is a frontline view of building in a rapidly changing industry.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: https://www.",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 572,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "Lo-HSCqhIF8",
+      "title": "Turning real-world motion into design ft. Patrick Flaherty (Microsoft) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=Lo-HSCqhIF8",
+      "duration": 1290,
+      "published_at": "2026-06-29T21:54:52+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/Lo-HSCqhIF8/mqdefault.jpg",
+      "description": "Want to animate like the pros and spend less time wrestling the graph editor? This session reveals a capture-to-curve workflow that turns recorded gestures into clean, editable timing you can drop into the tools you use. We will map a motion in the room to a UI element live and unpack a practical loop: capture, curve, polish, name. You will leave with a shared motion language you can reuse across ",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 1262,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "mdxJNKM3AMc",
+      "title": "It used to be hard to be average ft. Andr\u00e9 Anjos (RAC) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=mdxJNKM3AMc",
+      "duration": 1594,
+      "published_at": "2026-06-29T17:35:59+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/mdxJNKM3AMc/mqdefault.jpg",
+      "description": "Andr\u00e9 Anjos is a musician, not a designer, but he believes everyone is facing the same shift. Average has become free. Machines can now produce competent, good-enough work instantly, whether it's a song or a screen. That means the only work worth doing is the work only you can make. After twenty years in music, he has learned one enduring truth: the work you create for yourself is the work that ul",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "feedback_mult": 1.0,
+      "score": 17.6,
+      "view_count": 1139,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "JdCWqZmOT4o",
+      "title": "Figma Shaders are cool, but there's a problem",
+      "url": "https://www.youtube.com/watch?v=JdCWqZmOT4o",
+      "duration": 546,
+      "published_at": "2026-06-29T15:52:54+00:00",
+      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
+      "channel_title": "DesignCourse",
+      "channel_handle": "@DesignCourse",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/JdCWqZmOT4o/mqdefault.jpg",
+      "description": "Build with Claude Code: https://designcourse.com/app/course/claude-code-ai-saas\n-- Figma just released Shaders. I'm going to show you how to modify existing shaders, and then I see if Figma Make can actually implement the shaders on web. (Hint: It does a bad job.). So I show you how to use your preferred AI coding platform (claude/cursor/etc..) to actually integrate the shaders.\n\n#figma #ai \n\n- - ",
+      "categories": [
+        "applied_ai",
+        "dev_news_lite"
+      ],
+      "base_score": 7,
+      "feedback_mult": 1.0,
+      "score": 7.7,
+      "view_count": 2689,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "5paRa6E5rCM",
+      "title": "The Token Black Market",
+      "url": "https://www.youtube.com/watch?v=5paRa6E5rCM",
+      "duration": 842,
+      "published_at": "2026-06-29T13:00:36+00:00",
+      "channel_id": "UCUyeluBRhGPCW4rPe_UvBZQ",
+      "channel_title": "The PrimeTime",
+      "channel_handle": "@ThePrimeTimeagen",
+      "channel_tier": 3,
+      "thumb": "https://i.ytimg.com/vi/5paRa6E5rCM/mqdefault.jpg",
+      "description": "ssh terminal.shop\nYes, seriously, this is my company, and we selected and found some of the worlds best coffee.  US only (for now (the world is hard when you don't do crappy influencer coffee))\n\nSources:\n\n- https://news.ycombinator.com/item?id=48667495\n- https://www.chinatalk.media/p/how-to-buy-cheap-claude-tokens-in\n- https://x.com/HarshalsinghCN/status/2056626175959826692\n- https://arxiv.org/pdf",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.15,
+      "score": 4.14,
+      "view_count": 158773,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "mRoWGqcBSzk",
+      "title": "Platforms: Build Abstractions, not Illusions \u2022 Gregor Hohpe \u2022 GOTO 2025",
+      "url": "https://www.youtube.com/watch?v=mRoWGqcBSzk",
+      "duration": 2769,
+      "published_at": "2026-06-29T12:00:26+00:00",
+      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
+      "channel_title": "GOTO Conferences",
+      "channel_handle": "@GOTO-",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/mRoWGqcBSzk/mqdefault.jpg",
+      "description": "This presentation was recorded at GOTO Copenhagen 2025. #GOTOcon #GOTOcph\nhttps://gotocph.com\n\nGregor Hohpe - Author of \"Platform Strategy\", \"The Software Architect Elevator\", et al.\n\nRESOURCES\nhttps://twitter.com/ghohpe\nhttps://www.linkedin.com/in/ghohpe\nhttp://eaipatterns.com\nhttps://architectelevator.com\n\nLinks\nhttps://twitter.com/ghohpe/status/1513362076990803969\nhttps://github.com/97-things/9",
+      "categories": [
+        "systems_db",
+        "algorithms"
+      ],
+      "base_score": 9,
+      "feedback_mult": 1.0,
+      "score": 9.0,
+      "view_count": 1133,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "P3KDebPTUrw",
       "title": "OpenAI Codex lead on the new shape of product work | Andrew Ambrosino",
@@ -719,7 +1076,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 5.66,
-      "view_count": 15643,
+      "view_count": 23741,
       "episode_number": null,
       "series_key": null
     },
@@ -741,163 +1098,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 12914,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "q_-udq6jXpw",
-      "title": "Figma deep dive: Make | Config 2026",
-      "url": "https://www.youtube.com/watch?v=q_-udq6jXpw",
-      "duration": 1774,
-      "published_at": "2026-06-26T21:05:36+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/q_-udq6jXpw/mqdefault.jpg",
-      "description": "Great Make output isn\u2019t luck\u2014it\u2019s setup. Dive into the decisions behind coherent results: guidelines, file structure, component wiring, prompting over attaching, templates, and presets\u2014plus the gaps that expose what\u2019s missing and how to recover a long the way. Using a large open-source enterprise design system as our proving ground, we\u2019ll turn Make from \u201cit doesn\u2019t use my design system\u201d into measu",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 1233,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "y_2_w-r9TYY",
-      "title": "Figma deep dive: Generative shader effects | Config 2026",
-      "url": "https://www.youtube.com/watch?v=y_2_w-r9TYY",
-      "duration": 1996,
-      "published_at": "2026-06-26T21:04:35+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/y_2_w-r9TYY/mqdefault.jpg",
-      "description": "For the first time, the gap between the effect you imagine and the effect you can create in Figma is disappearing. Learn how shader fills and effects work, how to build them with the design agent, and how to create dynamic, editable surfaces that work with motion and variables. You'll also learn how to export the underlying shader code for use beyond Figma.\n________________________________________",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 1807,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "5g7c4-EtmS8",
-      "title": "Figma deep dive: Agent-built plugins | Config 2026",
-      "url": "https://www.youtube.com/watch?v=5g7c4-EtmS8",
-      "duration": 1966,
-      "published_at": "2026-06-26T21:03:17+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/5g7c4-EtmS8/mqdefault.jpg",
-      "description": "You no longer need to know how to build a plugin to create one. Learn how agents can turn repeatable workflows into native-feeling Figma plugins using simple descriptions of inputs, rules, and outputs. See real examples, design-system integrations, and practical guidance for turning team knowledge into reusable tools.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly ",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 1054,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "3evAfmLVZK8",
-      "title": "Figma deep dive: Motion | Config 2026",
-      "url": "https://www.youtube.com/watch?v=3evAfmLVZK8",
-      "duration": 2629,
-      "published_at": "2026-06-26T21:02:26+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/3evAfmLVZK8/mqdefault.jpg",
-      "description": "Motion isn't just decoration, it's how your product communicates. We're diving deep into how you can create flexible, componentised, on-brand motion content right inside Figma. We'll take you from the new Motion Timeline all the way through to agent-connected skills and exporting animations to files or your production codebase. There's plenty to get through, we're going to have some fun doing it, ",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 4352,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Q3BkuQRBg-w",
-      "title": "Designing in code | Config 2026",
-      "url": "https://www.youtube.com/watch?v=Q3BkuQRBg-w",
-      "duration": 2562,
-      "published_at": "2026-06-26T21:02:03+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Q3BkuQRBg-w/mqdefault.jpg",
-      "description": "The gap between designing and working in code is closing. Learn how two new launches bring code natively into Figma. Use Make to design in your local codebase, and Code layers to explore right on the canvas. Iterate, prototype, and collaborate in code all the way to production.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: ",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 6314,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "bLSLN96Gn-w",
-      "title": "Designing Math ft. Grant Sanderson (3Blue1Brown) I Config 2026",
-      "url": "https://www.youtube.com/watch?v=bLSLN96Gn-w",
-      "duration": 1649,
-      "published_at": "2026-06-26T19:23:17+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/bLSLN96Gn-w/mqdefault.jpg",
-      "description": "For many who have a bad relationship with math, it is often because the subject can come across as static and rote. Those who have been fortunate enough to see what the subject truly is know that it is rife with creativity, choices, and regular shifts in perspective that fundamentally reshape how you view problems. Where there is choice, there is design, and this talk will explore various design c",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 95175,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Yz03ERsfDDM",
-      "title": "Death of the finished state ft. Brent David Freaney (Special Offer) | Config 2026",
-      "url": "https://www.youtube.com/watch?v=Yz03ERsfDDM",
-      "duration": 2063,
-      "published_at": "2026-06-26T16:57:58+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Yz03ERsfDDM/mqdefault.jpg",
-      "description": "From the process behind a single shade of green for Charli XCX's Brat to the systems thinking that holds together large-scale creative campaigns, Brent will share how he approaches design work that spans albums, magazines, live media, and screens. He'll walk through his process, his tools, and what it actually takes to design for cultural impact.\n___________________________________________________",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 17488,
+      "view_count": 16702,
       "episode_number": null,
       "series_key": null
     },
@@ -919,7 +1120,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 12737,
+      "view_count": 16373,
       "episode_number": null,
       "series_key": null
     },
@@ -941,52 +1142,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 245698,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "cHigBlg7Ktw",
-      "title": "The UX of Gemini Enterprise ft. Sheta Chatterjee (Google) | Config 2026",
-      "url": "https://www.youtube.com/watch?v=cHigBlg7Ktw",
-      "duration": 1467,
-      "published_at": "2026-06-25T16:38:30+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/cHigBlg7Ktw/mqdefault.jpg",
-      "description": "Sheta Chatterjee joins us to share how the Gemini Enterprise team makes complex, multi-agent workflows feel intuitive, trustworthy, and collaborative. This session explores how to make design choices that shift users away from managing AI and toward achieving their goals.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: https:",
-      "categories": [
-        "hci",
-        "swe_craft"
-      ],
-      "base_score": 13,
-      "feedback_mult": 1.0,
-      "score": 14.3,
-      "view_count": 2455,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "UwAtDvcmxm8",
-      "title": "Scaling taste, craft, and quality in the AI era ft. Teo Connor (Airbnb) | Config 2026",
-      "url": "https://www.youtube.com/watch?v=UwAtDvcmxm8",
-      "duration": 1644,
-      "published_at": "2026-06-25T16:36:27+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/UwAtDvcmxm8/mqdefault.jpg",
-      "description": "In a fireside chat, Teo Connor, VP of design at Airbnb, discusses how to preserve quality in a world where it\u2019s easier than ever to go from 0-1. The conversation will explore how design leaders uphold strong standards across growing teams and systems, balancing speed with intention. Teo will share how Airbnb approaches design judgment, systems thinking, and creative direction to ensure what gets b",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 3403,
+      "view_count": 260283,
       "episode_number": null,
       "series_key": null
     },
@@ -1006,7 +1162,51 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 74030,
+      "view_count": 84347,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "oHwUD9b9_pg",
+      "title": "Zynga Founder: Consumer Is Not Investible Right Now - Thats Why You Should Build It",
+      "url": "https://www.youtube.com/watch?v=oHwUD9b9_pg",
+      "duration": 2443,
+      "published_at": "2026-06-25T14:00:34+00:00",
+      "channel_id": "UCcefcZRL2oaA_uBNeo5UOWg",
+      "channel_title": "Y Combinator",
+      "channel_handle": "@ycombinator",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/oHwUD9b9_pg/mqdefault.jpg",
+      "description": "Mark Pincus is the founder of Zynga and author of \"Life at the Speed of Play: Launch Products People Love\", which distills the product philosophy and founder playbook he developed across five companies. In this episode of the Main Function, Pincus sits down with Garry to talk about consumer in the AI age and why the opportunity has never been greater.  \n\nhttps://www.lifeatthespeedofplay.com/\n\nAppl",
+      "categories": [
+        "humanities"
+      ],
+      "base_score": -6,
+      "feedback_mult": 1.0,
+      "score": -7.2,
+      "view_count": 25999,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "PGiCc48olnk",
+      "title": "Ford CEO Jim Farley on China, tariffs, and the quest for a $30,000 EV | Decoder",
+      "url": "https://www.youtube.com/watch?v=PGiCc48olnk",
+      "duration": 3493,
+      "published_at": "2026-06-25T13:00:28+00:00",
+      "channel_id": "UCYRwJnCWfBqFHEHrgc18FFw",
+      "channel_title": "Decoder with Nilay Patel",
+      "channel_handle": "@decoderpod",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/PGiCc48olnk/mqdefault.jpg",
+      "description": "Hey everyone, Nilay here. You might remember I took a break from Decoder last year \u2014 we had a baby, so I took some leave. In my place, we had an excellent slate of guest hosts, and we\u2019ve been working hard to bring you those episodes in full video since we launched our official Decoder YouTube channel.\n\nSo today, we\u2019re featuring a really great interview conducted by my very good friend Joanna Stern",
+      "categories": [
+        "civic_open"
+      ],
+      "base_score": 5,
+      "feedback_mult": 1.0,
+      "score": 5.0,
+      "view_count": 12608,
       "episode_number": null,
       "series_key": null
     },
@@ -1028,7 +1228,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 308392,
+      "view_count": 320917,
       "episode_number": null,
       "series_key": null
     },
@@ -1051,7 +1251,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 16311,
+      "view_count": 16872,
       "episode_number": null,
       "series_key": null
     },
@@ -1074,7 +1274,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 77275,
+      "view_count": 85754,
       "episode_number": null,
       "series_key": null
     },
@@ -1098,7 +1298,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 5.66,
-      "view_count": 19974,
+      "view_count": 20950,
       "episode_number": null,
       "series_key": null
     },
@@ -1118,34 +1318,9 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 8511,
+      "view_count": 8861,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "dOZkAqR_2lA",
-      "title": "Easy Way to Get Clients Without Ads or Cold DM's - FREE 2 HOUR MASTERCLASS",
-      "url": "https://www.youtube.com/watch?v=dOZkAqR_2lA",
-      "duration": 8715,
-      "published_at": "2026-06-24T15:25:11+00:00",
-      "channel_id": "UC-b3c7kxa5vU-bnmaROgvog",
-      "channel_title": "The Futur",
-      "channel_handle": "@thefutur",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/dOZkAqR_2lA/mqdefault.jpg",
-      "description": "\ud83d\udce5 Download the Lead Flow Workbook:\nhttps://mattessam.kit.com/leadflow\n\n\u25b6\ufe0f Build your own lead\u2011generating scorecard with ScoreApp AI:\nhttps://signup.scoreapp.com/checkout/chrisdoLGM\n\nMost business owners struggle with finding new clients, but this video teaches a proven approach for generating infinite leads consistently. We break down the specific methods used to attract prospects directly to you,",
-      "categories": [
-        "civic_open",
-        "swe_craft",
-        "climate_grid"
-      ],
-      "base_score": 2,
-      "feedback_mult": 1.0,
-      "score": 2.0,
-      "view_count": 11643,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "omX6wrLuX08",
@@ -1165,7 +1340,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 1439,
+      "view_count": 1517,
       "episode_number": null,
       "series_key": null
     },
@@ -1187,7 +1362,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 4018,
+      "view_count": 4332,
       "episode_number": null,
       "series_key": null
     },
@@ -1209,7 +1384,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 17318,
+      "view_count": 18069,
       "episode_number": null,
       "series_key": null
     },
@@ -1229,7 +1404,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 5716,
+      "view_count": 5892,
       "episode_number": null,
       "series_key": null
     },
@@ -1249,7 +1424,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 651,
+      "view_count": 680,
       "episode_number": null,
       "series_key": null
     },
@@ -1271,7 +1446,7 @@
       "base_score": -10,
       "feedback_mult": 1.23,
       "score": -11.04,
-      "view_count": 433455,
+      "view_count": 446056,
       "episode_number": null,
       "series_key": null
     },
@@ -1293,7 +1468,7 @@
       "base_score": 3,
       "feedback_mult": 1.15,
       "score": 2.07,
-      "view_count": 261255,
+      "view_count": 263265,
       "episode_number": null,
       "series_key": null
     },
@@ -1315,7 +1490,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 316,
+      "view_count": 338,
       "episode_number": null,
       "series_key": null
     },
@@ -1337,7 +1512,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 47801,
+      "view_count": 51940,
       "episode_number": null,
       "series_key": null
     },
@@ -1360,7 +1535,7 @@
       "base_score": -4,
       "feedback_mult": 0.77,
       "score": -2.46,
-      "view_count": 307,
+      "view_count": 330,
       "episode_number": null,
       "series_key": null
     },
@@ -1380,7 +1555,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 253509,
+      "view_count": 255221,
       "episode_number": null,
       "series_key": null
     },
@@ -1402,7 +1577,7 @@
       "base_score": 4,
       "feedback_mult": 1.0,
       "score": 4.0,
-      "view_count": 750,
+      "view_count": 768,
       "episode_number": null,
       "series_key": null
     },
@@ -1424,7 +1599,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -14.4,
-      "view_count": 153,
+      "view_count": 159,
       "episode_number": null,
       "series_key": null
     },
@@ -1444,7 +1619,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 51558,
+      "view_count": 53672,
       "episode_number": null,
       "series_key": null
     },
@@ -1464,7 +1639,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 213933,
+      "view_count": 216875,
       "episode_number": null,
       "series_key": null
     },
@@ -1486,7 +1661,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14543,
+      "view_count": 14865,
       "episode_number": null,
       "series_key": null
     },
@@ -1508,7 +1683,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 697,
+      "view_count": 727,
       "episode_number": null,
       "series_key": null
     },
@@ -1530,7 +1705,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 5074,
+      "view_count": 5127,
       "episode_number": null,
       "series_key": null
     },
@@ -1552,7 +1727,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 111949,
+      "view_count": 112688,
       "episode_number": null,
       "series_key": null
     },
@@ -1574,7 +1749,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 78183,
+      "view_count": 80802,
       "episode_number": null,
       "series_key": null
     },
@@ -1594,7 +1769,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 12962,
+      "view_count": 13159,
       "episode_number": null,
       "series_key": null
     },
@@ -1614,9 +1789,10 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 301630,
+      "view_count": 304599,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "uQ3lL68hNK4",
@@ -1638,7 +1814,7 @@
       "base_score": -1,
       "feedback_mult": 0.94,
       "score": -0.94,
-      "view_count": 215138,
+      "view_count": 216431,
       "episode_number": null,
       "series_key": null
     },
@@ -1658,7 +1834,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 36717,
+      "view_count": 37336,
       "episode_number": null,
       "series_key": null
     },
@@ -1681,7 +1857,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 2302,
+      "view_count": 2339,
       "episode_number": null,
       "series_key": null
     },
@@ -1701,7 +1877,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 185259,
+      "view_count": 189865,
       "episode_number": null,
       "series_key": null
     },
@@ -1726,9 +1902,10 @@
       "base_score": -4,
       "feedback_mult": 1.23,
       "score": -4.42,
-      "view_count": 570545,
+      "view_count": 573492,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "cX3G0cPRJiA",
@@ -1746,7 +1923,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 126262,
+      "view_count": 126589,
       "episode_number": null,
       "series_key": null
     },
@@ -1770,7 +1947,7 @@
       "base_score": 3,
       "feedback_mult": 1.0,
       "score": 3.6,
-      "view_count": 2676,
+      "view_count": 2701,
       "episode_number": null,
       "series_key": null
     },
@@ -1792,30 +1969,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 10453,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Ve61_0qOuK4",
-      "title": "What Happens When We Stop Dying? - Max Hodak Live",
-      "url": "https://www.youtube.com/watch?v=Ve61_0qOuK4",
-      "duration": 4194,
-      "published_at": "2026-06-17T14:10:16+00:00",
-      "channel_id": "UC2ohDbbkpfngjaeV7TBHRcg",
-      "channel_title": "Core Memory Podcast",
-      "channel_handle": "@CoreMemorypodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Ve61_0qOuK4/mqdefault.jpg",
-      "description": "As the co-founder and CEO of Science Corporation, Max Hodak has already restored a form of sight to blind patients, with one trial participant going from being unable to recognize faces for over a decade to finishing a 300 page novel. In front of a packed live audience, he sits down with Ashlee Vance to explain how the company's retinal implant, called PRIMA, actually works, why he thinks medicine",
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "base_score": -4,
-      "feedback_mult": 1.0,
-      "score": -4.0,
-      "view_count": 2667,
+      "view_count": 10536,
       "episode_number": null,
       "series_key": null
     },
@@ -1835,7 +1989,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 68741,
+      "view_count": 70743,
       "episode_number": null,
       "series_key": null
     },
@@ -1857,7 +2011,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 12631,
+      "view_count": 12737,
       "episode_number": null,
       "series_key": null
     },
@@ -1880,7 +2034,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 34846,
+      "view_count": 35017,
       "episode_number": null,
       "series_key": null
     },
@@ -1905,7 +2059,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 632,
+      "view_count": 646,
       "episode_number": null,
       "series_key": null
     },
@@ -1927,7 +2081,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 88278,
+      "view_count": 88510,
       "episode_number": null,
       "series_key": null
     },
@@ -1949,10 +2103,9 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 8121,
+      "view_count": 8166,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "2jJeSgO_MGo",
@@ -1970,7 +2123,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 108559,
+      "view_count": 109987,
       "episode_number": null,
       "series_key": null
     },
@@ -1994,7 +2147,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 555,
+      "view_count": 559,
       "episode_number": null,
       "series_key": null
     },
@@ -2014,7 +2167,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 274076,
+      "view_count": 274520,
       "episode_number": null,
       "series_key": null
     },
@@ -2036,7 +2189,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 987257,
+      "view_count": 989001,
       "episode_number": null,
       "series_key": null
     },
@@ -2056,7 +2209,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 206,
+      "view_count": 209,
       "episode_number": null,
       "series_key": null
     },
@@ -2081,7 +2234,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 27413,
+      "view_count": 27824,
       "episode_number": null,
       "series_key": null
     },
@@ -2101,7 +2254,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 15571,
+      "view_count": 15720,
       "episode_number": null,
       "series_key": null
     },
@@ -2123,7 +2276,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 8387,
+      "view_count": 8495,
       "episode_number": null,
       "series_key": null
     },
@@ -2145,7 +2298,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 685,
+      "view_count": 687,
       "episode_number": null,
       "series_key": null
     },
@@ -2165,7 +2318,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 67302,
+      "view_count": 67527,
       "episode_number": null,
       "series_key": null
     },
@@ -2189,7 +2342,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 74380,
+      "view_count": 74578,
       "episode_number": null,
       "series_key": null
     },
@@ -2211,7 +2364,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6233,
+      "view_count": 6243,
       "episode_number": null,
       "series_key": null
     },
@@ -2231,7 +2384,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 26867,
+      "view_count": 26967,
       "episode_number": null,
       "series_key": null
     },
@@ -2251,7 +2404,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 18045,
+      "view_count": 18048,
       "episode_number": null,
       "series_key": null
     },
@@ -2271,7 +2424,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1025470,
+      "view_count": 1027223,
       "episode_number": null,
       "series_key": null
     },
@@ -2293,7 +2446,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 86215,
+      "view_count": 86480,
       "episode_number": null,
       "series_key": null
     },
@@ -2313,7 +2466,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 356752,
+      "view_count": 357050,
       "episode_number": null,
       "series_key": null
     },
@@ -2333,7 +2486,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 13469,
+      "view_count": 13579,
       "episode_number": null,
       "series_key": null
     },
@@ -2355,7 +2508,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 1114,
+      "view_count": 1141,
       "episode_number": null,
       "series_key": null
     },
@@ -2377,7 +2530,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2676,
+      "view_count": 2696,
       "episode_number": null,
       "series_key": null
     },
@@ -2437,7 +2590,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 133,
+      "view_count": 137,
       "episode_number": null,
       "series_key": null
     },
@@ -2459,7 +2612,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 152,
+      "view_count": 153,
       "episode_number": null,
       "series_key": null
     },
@@ -2481,7 +2634,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 54,
+      "view_count": 57,
       "episode_number": null,
       "series_key": null
     },
@@ -2505,7 +2658,7 @@
       "base_score": 12,
       "feedback_mult": 1.0,
       "score": 12.0,
-      "view_count": 6341,
+      "view_count": 6390,
       "episode_number": null,
       "series_key": null
     },
@@ -2527,30 +2680,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 110775,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "tSg3FAdWvzI",
-      "title": "Claude Fable 5 UI/UX One-Shots - 5 Tests",
-      "url": "https://www.youtube.com/watch?v=tSg3FAdWvzI",
-      "duration": 502,
-      "published_at": "2026-06-10T14:51:01+00:00",
-      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
-      "channel_title": "DesignCourse",
-      "channel_handle": "@DesignCourse",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/tSg3FAdWvzI/mqdefault.jpg",
-      "description": "Build a SaaS with Claude: https://designcourse.com/app/course/claude-code-ai-saas (Take now)\n-- Claude Fable 5 just released yesterday, and I decided to give it 5 different UI tests. I'm not going to spoil it, but this is a must watch video and it's definitely a big step up in capabilities. Un, freaking, real.\n\n0:00 - Intro\n0:19 - Test 1 - Design Portfolio\n1:51 - Test 2 - Threejs Gallery\n3:07 - Te",
-      "categories": [
-        "applied_ai",
-        "dev_news_lite"
-      ],
-      "base_score": 7,
-      "feedback_mult": 1.0,
-      "score": 7.7,
-      "view_count": 630663,
+      "view_count": 110899,
       "episode_number": null,
       "series_key": null
     },
@@ -2570,7 +2700,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 46830,
+      "view_count": 47280,
       "episode_number": null,
       "series_key": null
     },
@@ -2590,7 +2720,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2302,
+      "view_count": 2305,
       "episode_number": null,
       "series_key": null
     },
@@ -2614,7 +2744,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.2,
-      "view_count": 231,
+      "view_count": 234,
       "episode_number": null,
       "series_key": null
     },
@@ -2636,7 +2766,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9400,
+      "view_count": 9412,
       "episode_number": null,
       "series_key": null
     },
@@ -2658,7 +2788,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 982232,
+      "view_count": 983017,
       "episode_number": null,
       "series_key": null
     },
@@ -2680,7 +2810,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 130307,
+      "view_count": 130461,
       "episode_number": null,
       "series_key": null
     },
@@ -2702,7 +2832,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 783,
+      "view_count": 789,
       "episode_number": null,
       "series_key": null
     },
@@ -2724,7 +2854,30 @@
       "base_score": -10,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 262,
+      "view_count": 267,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "abKmhm9JqZc",
+      "title": "2026 AI for Mental Health (AI4MH) Symposium: Industry & Translation \u2014What It Takes to Deploy",
+      "url": "https://www.youtube.com/watch?v=abKmhm9JqZc",
+      "duration": 2557,
+      "published_at": "2026-06-08T21:05:37+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/abKmhm9JqZc/mqdefault.jpg",
+      "description": "This session explores what it takes to move AI in mental health from research to real-world deployment. Industry leaders discuss scaling, safety, evaluation, and regulatory realities in clinical settings. The focus is on bridging innovation with responsible execution at scale.\n\nSpeakers:\n\nRuss B. Altman \u2014 Kenneth Fong Professor and Professor of Bioengineering, of Genetics, of Medicine, of Biomedic",
+      "categories": [
+        "civic_open",
+        "healthcare_ai"
+      ],
+      "base_score": -5,
+      "feedback_mult": 1.0,
+      "score": -6.0,
+      "view_count": 116,
       "episode_number": null,
       "series_key": null
     },
@@ -2747,7 +2900,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 202,
+      "view_count": 204,
       "episode_number": null,
       "series_key": null
     },
@@ -2814,7 +2967,7 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 100325,
+      "view_count": 101465,
       "episode_number": null,
       "series_key": null
     },
@@ -2834,27 +2987,30 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1240096,
+      "view_count": 1252106,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "RG7XFPPzhZM",
-      "title": "The Architect's Guide to the AI Era \u2022 Luca Mezzalira & Teena Idnani \u2022 GOTO 2026",
-      "url": "https://www.youtube.com/watch?v=RG7XFPPzhZM",
-      "duration": 2015,
-      "published_at": "2026-06-08T12:00:05+00:00",
-      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
-      "channel_title": "GOTO Conferences",
-      "channel_handle": "@GOTO-",
+      "id": "YG4t7aMY81c",
+      "title": "I Ranked Cloudflare\u2019s Software Factory and Wow\u2026 S TIER TOKENOMICS",
+      "url": "https://www.youtube.com/watch?v=YG4t7aMY81c",
+      "duration": 2514,
+      "published_at": "2026-06-08T13:00:28+00:00",
+      "channel_id": "UC_x36zCEGilGpB1m-V4gmjg",
+      "channel_title": "IndyDevDan",
+      "channel_handle": "@IndyDevDan",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/RG7XFPPzhZM/mqdefault.jpg",
-      "description": "This interview was recorded for GOTO Unscripted. #GOTOcon #GOTOunscripted\nhttps://gotopia.tech\n\nLuca Mezzalira - Solutions Architect, Consultant, International Speaker & Author of \"Building Micro-Frontends\" @My50c \nTeena Idnani - Senior Solutions Architect at Microsoft & Woman in Tech Leader\n\nCheck out more here:\nhttps://gotopia.tech/articles/447\n\nRESOURCES\nLuca\nhttps://www.buildingmicrofrontends.",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 2398,
+      "thumb": "https://i.ytimg.com/vi/YG4t7aMY81c/mqdefault.jpg",
+      "description": "Cloudflare ran 130,000 AI code reviews across 5,000 codebases for ONE DOLLAR per review. If you still think agentic AI isn't increasing productivity, open your eyes. \ud83d\udd25\n\nThis is our first ever agentic engineering tier list, and Cloudflare just earned S TIER TOKENOMICS. We rank every element of their software factory F through S (plus a legendary ZTE level) and break down exactly how they pulled off",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "feedback_mult": 0.94,
+      "score": 10.19,
+      "view_count": 17294,
       "episode_number": null,
       "series_key": null
     },
@@ -2876,29 +3032,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9836,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "RJjl1TwyfWM",
-      "title": "Tony Fadell: How to build real taste (and why AI makes it matter more)",
-      "url": "https://www.youtube.com/watch?v=RJjl1TwyfWM",
-      "duration": 5708,
-      "published_at": "2026-06-07T12:30:05+00:00",
-      "channel_id": "UC6t1O76G0jYXOAoYCm153dA",
-      "channel_title": "Lenny's Podcast",
-      "channel_handle": "@lennyspodcast",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/RJjl1TwyfWM/mqdefault.jpg",
-      "description": "Tony Fadell created the iPod, co-created the iPhone, and founded Nest (which he sold to Google for $3.2 billion). He\u2019s co-authored over 300 patents, was part of the legendary team at General Magic, and wrote one of the most important and inspiring books for builders, called Build.\n\n*In our in-depth conversation, we discuss:*\n1. The heated internal debates about whether the iPhone should have a phy",
-      "categories": [
-        "swe_craft"
-      ],
-      "base_score": 3,
-      "feedback_mult": 0.94,
-      "score": 2.83,
-      "view_count": 49688,
+      "view_count": 9862,
       "episode_number": null,
       "series_key": null
     },
@@ -2920,9 +3054,10 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 422,
+      "view_count": 426,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "nvW-dTgHAHg",
@@ -2962,10 +3097,9 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 22422,
+      "view_count": 22522,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "AIRfT41A89s",
@@ -2983,7 +3117,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 69581,
+      "view_count": 69770,
       "episode_number": null,
       "series_key": null
     },
@@ -3003,7 +3137,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 146616,
+      "view_count": 146744,
       "episode_number": null,
       "series_key": null
     },
@@ -3025,7 +3159,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 17231,
+      "view_count": 17350,
       "episode_number": null,
       "series_key": null
     },
@@ -3047,7 +3181,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 185207,
+      "view_count": 187956,
       "episode_number": null,
       "series_key": null
     },
@@ -3067,7 +3201,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 46680,
+      "view_count": 46795,
       "episode_number": null,
       "series_key": null
     },
@@ -3090,7 +3224,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 14008,
+      "view_count": 14024,
       "episode_number": null,
       "series_key": null
     },
@@ -3112,7 +3246,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 27550,
+      "view_count": 27634,
       "episode_number": null,
       "series_key": null
     },
@@ -3132,7 +3266,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 395467,
+      "view_count": 399870,
       "episode_number": null,
       "series_key": null
     },
@@ -3154,7 +3288,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6222,
+      "view_count": 6227,
       "episode_number": null,
       "series_key": null
     },
@@ -3174,7 +3308,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 40935,
+      "view_count": 41931,
       "episode_number": null,
       "series_key": null
     },
@@ -3196,7 +3330,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5557,
+      "view_count": 5568,
       "episode_number": null,
       "series_key": null
     },
@@ -3218,7 +3352,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 98202,
+      "view_count": 99149,
       "episode_number": null,
       "series_key": null
     },
@@ -3238,7 +3372,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 397172,
+      "view_count": 399078,
       "episode_number": null,
       "series_key": null
     },
@@ -3260,7 +3394,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 100921,
+      "view_count": 100984,
       "episode_number": null,
       "series_key": null
     },
@@ -3282,7 +3416,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 3696,
+      "view_count": 3702,
       "episode_number": null,
       "series_key": null
     },
@@ -3302,7 +3436,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 454653,
+      "view_count": 455318,
       "episode_number": null,
       "series_key": null
     },
@@ -3324,7 +3458,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 8079,
+      "view_count": 8131,
       "episode_number": null,
       "series_key": null
     },
@@ -3349,28 +3483,6 @@
       "series_key": null
     },
     {
-      "id": "pi5oIXcMVK4",
-      "title": "The Blues-Print for Innovation",
-      "url": "https://www.youtube.com/watch?v=pi5oIXcMVK4",
-      "duration": 4694,
-      "published_at": "2026-06-01T19:03:07+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/pi5oIXcMVK4/mqdefault.jpg",
-      "description": "MIT 15.393 Nuts and Bolts of New Ventures, IAP 2025\nInstructor: Bob Jones\n\nView the complete course: https://ocw.mit.edu/courses/15-393-nuts-and-bolts-of-new-ventures-january-iap-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63EUNfnwrkgO2xxwYxNwRdI\n\nBreakthrough innovation requires you to work within a shared structure without losing the ability to improvise. The same is",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 0.77,
-      "score": 3.69,
-      "view_count": 13598,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
       "id": "yz6I23VRbdg",
       "title": "What Happens After A 1,000,000x AI Compute Leap? | Jeff Dean",
       "url": "https://www.youtube.com/watch?v=yz6I23VRbdg",
@@ -3389,7 +3501,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 44014,
+      "view_count": 44116,
       "episode_number": null,
       "series_key": null
     },
@@ -3411,7 +3523,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15727,
+      "view_count": 15765,
       "episode_number": null,
       "series_key": null
     },
@@ -3433,7 +3545,7 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 14675,
+      "view_count": 14764,
       "episode_number": null,
       "series_key": null
     },
@@ -3455,29 +3567,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 15478,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Xh1z23uBZo0",
-      "title": "Claude Plans, Gemini Designs: One Workflow for Beautiful Frontends (LIVE)",
-      "url": "https://www.youtube.com/watch?v=Xh1z23uBZo0",
-      "duration": 8436,
-      "published_at": "2026-05-31T04:37:29+00:00",
-      "channel_id": "UCMwVTLZIRRUyyVrkjDpn4pA",
-      "channel_title": "Cole Medin",
-      "channel_handle": "@colemedin",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Xh1z23uBZo0/mqdefault.jpg",
-      "description": "I've been mixing providers across my AI coding workflows lately, and with the new Gemini 3.5 Flash things are getting interesting. Gemini builds the most beautiful frontends by far. Opus is still the best at everything else.\n\nSo today I'm building an Archon workflow that combines them. Opus plans the app and writes the copy. Gemini designs the UI from that copy. Opus comes back for the integration",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 13179,
+      "view_count": 15554,
       "episode_number": null,
       "series_key": null
     }
