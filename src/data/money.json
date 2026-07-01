@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-29T01:10:24.687Z",
+  "lastUpdated": "2026-07-01T13:10:21.550Z",
   "apiSpend": {
     "months": [
       {
@@ -121,6 +121,35 @@
             "note": "track manually at recraft.ai"
           }
         }
+      },
+      {
+        "month": "2026-07",
+        "collectedAt": "2026-07-01T13:10:21.550Z",
+        "services": {
+          "vercel": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": "computed from API key token usage (excludes Claude Code on Max)"
+          },
+          "openai": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "neon": {
+            "totalCents": null,
+            "note": "manual from Neon usage recap email"
+          },
+          "recraft": {
+            "totalCents": null,
+            "note": "track manually at recraft.ai"
+          }
+        }
       }
     ]
   },
@@ -145,6 +174,13 @@
       "category": "ai",
       "url": "https://chatgpt.com",
       "note": "Mercury actual; nominal $200 plan"
+    },
+    {
+      "name": "Brave",
+      "cents": 9512,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Jul 2026"
     },
     {
       "name": "RFPMart LLC",
@@ -193,13 +229,6 @@
       "cents": 2358,
       "category": "infra",
       "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Jun 2026"
-    },
-    {
-      "name": "Brave",
-      "cents": 2256,
-      "category": "tools",
-      "url": "https://brave.com",
       "note": "Mercury actual Jun 2026"
     },
     {
