@@ -1,23 +1,23 @@
 {
-  "built_at": "2026-06-30T10:30:25.870002+00:00",
+  "built_at": "2026-07-01T10:30:18.596653+00:00",
   "lookback_days": 30,
   "channel_count": 41,
-  "candidate_count": 162,
+  "candidate_count": 171,
   "queue_size": 30,
   "exploration_count": 6,
   "queue": [
     {
-      "id": "thvAivrQ4TI",
-      "title": "The rules are the art: creating with AI ft. Holly Herndon | Config 2026",
-      "url": "https://www.youtube.com/watch?v=thvAivrQ4TI",
-      "duration": 1221,
-      "published_at": "2026-06-29T21:52:18+00:00",
+      "id": "9yZq36fclmI",
+      "title": "Quirk up your workplace ft. Darby Thomas (GitHub) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=9yZq36fclmI",
+      "duration": 968,
+      "published_at": "2026-06-30T17:57:50+00:00",
       "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
       "channel_title": "Figma",
       "channel_handle": "@Figma",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/thvAivrQ4TI/mqdefault.jpg",
-      "description": "Holly Herndon has spent the last decade building at the frontier of music and AI, from the albums Platform and PROTO to Holly+, the first artist-controlled voice model, to the data consent tools behind Spawning. This talk covers her approach to making art with AI, what she calls Protocol Art: a process-based practice of designing the rule set that creates the conditions for art to be made. Holly w",
+      "thumb": "https://i.ytimg.com/vi/9yZq36fclmI/mqdefault.jpg",
+      "description": "This talk is about encouraging people to be a little more silly, a little more playful when you\u2019re at work. The rituals, gimmicks, and stunts we\u2019ve done at GitHub to make remote work fun and interesting.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: https://www.instagram.com/figma\nLinkedIn: https://www.linkedin.com/company/",
       "categories": [
         "hci",
         "applied_ai"
@@ -25,7 +25,54 @@
       "base_score": 16,
       "feedback_mult": 1.0,
       "score": 17.6,
-      "view_count": 1705,
+      "view_count": 382,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "AgpeggCsRH4",
+      "title": "Could Open Source AI be Banned?",
+      "url": "https://www.youtube.com/watch?v=AgpeggCsRH4",
+      "duration": 2893,
+      "published_at": "2026-06-30T14:49:47+00:00",
+      "channel_id": "UCfzlCWGWYyIQ0aLC5w48gBQ",
+      "channel_title": "sentdex",
+      "channel_handle": "@sentdex",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/AgpeggCsRH4/mqdefault.jpg",
+      "description": "Could we see a ban on open source or chinese AI models? More on anthropic's lobbying efforts in Washington. A bit on how to run local AI.\n\nOpenRouter for API access to a bunch of models: https://openrouter.ai/\n\nTogether Compute for API: https://www.together.ai/\n\nTom's Hardware reporting of NSA hack walk-back: https://www.tomshardware.com/tech-industry/artificial-intelligence/anthropics-powerful-my",
+      "categories": [
+        "applied_ai",
+        "civic_open",
+        "math_viz"
+      ],
+      "base_score": 15,
+      "feedback_mult": 1.0,
+      "score": 15.0,
+      "view_count": 19651,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "_az4W2z5Fqw",
+      "title": "Hacking AI for creative operations at scale ft. Rory Flynn | Config 2026",
+      "url": "https://www.youtube.com/watch?v=_az4W2z5Fqw",
+      "duration": 1289,
+      "published_at": "2026-06-30T01:45:03+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/_az4W2z5Fqw/mqdefault.jpg",
+      "description": "Most creative teams are using AI to make assets faster. The real opportunity is further upstream\u2014inside the systems, workflows, and decision logic that govern how creative gets made at scale. In this session, Rory Flynn shows how mastering three core skills\u2014deconstruction, system prompts, and workflow building\u2014unlocks the full power of Figma Weave for any team. You'll see what real deployment look",
+      "categories": [
+        "hci",
+        "applied_ai"
+      ],
+      "base_score": 16,
+      "feedback_mult": 1.0,
+      "score": 17.6,
+      "view_count": 2706,
       "episode_number": null,
       "series_key": null
     },
@@ -48,7 +95,7 @@
       "base_score": 11,
       "feedback_mult": 0.94,
       "score": 12.45,
-      "view_count": 7746,
+      "view_count": 10130,
       "episode_number": null,
       "series_key": null
     },
@@ -73,33 +120,10 @@
       "base_score": -13,
       "feedback_mult": 1.0,
       "score": -13.0,
-      "view_count": 2892,
+      "view_count": 4186,
       "episode_number": null,
       "series_key": null,
       "exploration": true
-    },
-    {
-      "id": "D5WUW9X_-L0",
-      "title": "Figma deep dive: Agentic workflows and the MCP | Config 2026",
-      "url": "https://www.youtube.com/watch?v=D5WUW9X_-L0",
-      "duration": 1937,
-      "published_at": "2026-06-26T21:06:03+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/D5WUW9X_-L0/mqdefault.jpg",
-      "description": "Clarity at the front of a process makes agentic workflows successful, and design context can help you use AI with intentionality. In this talk we'll dive into how Figma's entire platform can be leveraged to work with agents efficiently.\n____________________________________________________\n\nFind us on \u2b07\ufe0f\nX (formerly Twitter): https://x.com/figma\nInstagram: https://www.instagram.com/figma\nLinkedIn: ",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 7182,
-      "episode_number": null,
-      "series_key": null
     },
     {
       "id": "G8oufrrXaig",
@@ -120,7 +144,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 8031,
+      "view_count": 12911,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -143,7 +167,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 3726,
+      "view_count": 4091,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -167,7 +191,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 69853,
+      "view_count": 72701,
       "episode_number": null,
       "series_key": null
     },
@@ -191,34 +215,9 @@
       "base_score": 13,
       "feedback_mult": 1.0,
       "score": 13.0,
-      "view_count": 1415,
+      "view_count": 1508,
       "episode_number": null,
       "series_key": null
-    },
-    {
-      "id": "dOZkAqR_2lA",
-      "title": "Easy Way to Get Clients Without Ads or Cold DM's - FREE 2 HOUR MASTERCLASS",
-      "url": "https://www.youtube.com/watch?v=dOZkAqR_2lA",
-      "duration": 8715,
-      "published_at": "2026-06-24T15:25:11+00:00",
-      "channel_id": "UC-b3c7kxa5vU-bnmaROgvog",
-      "channel_title": "The Futur",
-      "channel_handle": "@thefutur",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/dOZkAqR_2lA/mqdefault.jpg",
-      "description": "\ud83d\udce5 Download the Lead Flow Workbook:\nhttps://mattessam.kit.com/leadflow\n\n\u25b6\ufe0f Build your own lead\u2011generating scorecard with ScoreApp AI:\nhttps://signup.scoreapp.com/checkout/chrisdoLGM\n\nMost business owners struggle with finding new clients, but this video teaches a proven approach for generating infinite leads consistently. We break down the specific methods used to attract prospects directly to you,",
-      "categories": [
-        "civic_open",
-        "swe_craft",
-        "climate_grid"
-      ],
-      "base_score": 2,
-      "feedback_mult": 1.0,
-      "score": 2.0,
-      "view_count": 14490,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
     },
     {
       "id": "QKdcORGxaD8",
@@ -238,7 +237,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1329,
+      "view_count": 1384,
       "episode_number": null,
       "series_key": null
     },
@@ -261,7 +260,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 39487,
+      "view_count": 40604,
       "episode_number": null,
       "series_key": null
     },
@@ -285,7 +284,7 @@
       "base_score": 14,
       "feedback_mult": 1.23,
       "score": 15.45,
-      "view_count": 534720,
+      "view_count": 537848,
       "episode_number": null,
       "series_key": null
     },
@@ -308,7 +307,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 10.0,
-      "view_count": 133478,
+      "view_count": 134549,
       "episode_number": null,
       "series_key": null
     },
@@ -328,7 +327,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 170739,
+      "view_count": 171219,
       "episode_number": null,
       "series_key": null,
       "exploration": true
@@ -352,7 +351,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 40831,
+      "view_count": 41244,
       "episode_number": null,
       "series_key": null
     },
@@ -377,9 +376,30 @@
       "base_score": 15,
       "feedback_mult": 1.0,
       "score": 15.0,
-      "view_count": 16209,
+      "view_count": 16417,
       "episode_number": null,
       "series_key": null
+    },
+    {
+      "id": "cX3G0cPRJiA",
+      "title": "big news",
+      "url": "https://www.youtube.com/watch?v=cX3G0cPRJiA",
+      "duration": 647,
+      "published_at": "2026-06-17T16:20:00+00:00",
+      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
+      "channel_title": "Low Level",
+      "channel_handle": "@LowLevelTV",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/cX3G0cPRJiA/mqdefault.jpg",
+      "description": "Try Flare's ThreatFlow for FREE right now @ https://go.lowlevel.tv/flareflow\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
+      "categories": [],
+      "base_score": 0,
+      "feedback_mult": 1.0,
+      "score": 0.0,
+      "view_count": 126965,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "HAyp4uRnzDk",
@@ -400,7 +420,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 49184,
+      "view_count": 49336,
       "episode_number": null,
       "series_key": null
     },
@@ -423,7 +443,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 18207,
+      "view_count": 18239,
       "episode_number": null,
       "series_key": null
     },
@@ -446,7 +466,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 8.49,
-      "view_count": 39169,
+      "view_count": 39800,
       "episode_number": null,
       "series_key": null
     },
@@ -492,7 +512,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 10.8,
-      "view_count": 16223,
+      "view_count": 16268,
       "episode_number": null,
       "series_key": null
     },
@@ -515,7 +535,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 631279,
+      "view_count": 632182,
       "episode_number": null,
       "series_key": null
     },
@@ -538,7 +558,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 3164,
+      "view_count": 3185,
       "episode_number": null,
       "series_key": null
     },
@@ -560,7 +580,7 @@
       "base_score": 10,
       "feedback_mult": 1.15,
       "score": 14.95,
-      "view_count": 1795,
+      "view_count": 1816,
       "episode_number": null,
       "series_key": null
     },
@@ -582,30 +602,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.8,
-      "view_count": 1128536,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "ileNtKrbe8w",
-      "title": "HAI Seminar: Code World Models for General Game Playing",
-      "url": "https://www.youtube.com/watch?v=ileNtKrbe8w",
-      "duration": 3039,
-      "published_at": "2026-06-05T18:56:33+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/ileNtKrbe8w/mqdefault.jpg",
-      "description": "While large language models show promise in many domains, relying on them for direct policy generation in games often results in illegal moves and poor strategic play. In this HAI Seminar, DeepMind Research Scientist Wolfgang Lehrach presents a novel approach that uses LLMs to translate natural-language game rules into executable symbolic world models (CWMs). These models enable AI systems to reas",
-      "categories": [
-        "applied_ai",
-        "civic_open"
-      ],
-      "base_score": 11,
-      "feedback_mult": 1.0,
-      "score": 13.2,
-      "view_count": 218,
+      "view_count": 1137473,
       "episode_number": null,
       "series_key": null
     },
@@ -628,7 +625,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 13.2,
-      "view_count": 7726,
+      "view_count": 7788,
       "episode_number": null,
       "series_key": null
     },
@@ -650,7 +647,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 4044,
+      "view_count": 4057,
       "episode_number": null,
       "series_key": null
     },
@@ -675,35 +672,545 @@
       "base_score": 22,
       "feedback_mult": 1.0,
       "score": 22.0,
-      "view_count": 11028,
+      "view_count": 11074,
       "episode_number": null,
       "series_key": null
     },
     {
-      "id": "pi5oIXcMVK4",
-      "title": "The Blues-Print for Innovation",
-      "url": "https://www.youtube.com/watch?v=pi5oIXcMVK4",
-      "duration": 4694,
-      "published_at": "2026-06-01T19:03:07+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
+      "id": "fED7Xhz4JpI",
+      "title": "OpenAI Codex will merge into ChatGPT: Denise Dresser, Alex Emibiricos, Romain Huet, Sam Altman",
+      "url": "https://www.youtube.com/watch?v=fED7Xhz4JpI",
+      "duration": 4128,
+      "published_at": "2026-06-03T07:16:47+00:00",
+      "channel_id": "UCvi5jNRoRVm436TVAXet1kQ",
+      "channel_title": "Latent Space TV (see @LatentSpacePod for Pod)",
+      "channel_handle": "@LatentSpaceTV",
       "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/pi5oIXcMVK4/mqdefault.jpg",
-      "description": "MIT 15.393 Nuts and Bolts of New Ventures, IAP 2025\nInstructor: Bob Jones\n\nView the complete course: https://ocw.mit.edu/courses/15-393-nuts-and-bolts-of-new-ventures-january-iap-2025/\nYouTube Playlist: https://www.youtube.com/playlist?list=PLUl4u3cNGP63EUNfnwrkgO2xxwYxNwRdI\n\nBreakthrough innovation requires you to work within a shared structure without losing the ability to improvise. The same is",
+      "thumb": "https://i.ytimg.com/vi/fED7Xhz4JpI/mqdefault.jpg",
+      "description": "reupload from https://openai.com/business/intelligence-at-work/ for easier access on. mobile youtube and transcribing\n\nStrategic Vision & The New Operating Model (1:18 - 13:28):\n\nOpenAI emphasizes moving beyond simple pilots to adopting AI as a core operating model (4:50).\nThey highlight the importance of their Frontier platform, which provides a context layer, agentic runtime, and observability t",
       "categories": [
         "applied_ai"
       ],
       "base_score": 6,
-      "feedback_mult": 0.77,
-      "score": 3.69,
-      "view_count": 13634,
+      "feedback_mult": 1.0,
+      "score": 6.6,
+      "view_count": 3709,
       "episode_number": null,
       "series_key": null,
       "exploration": true
     }
   ],
   "pool": [
+    {
+      "id": "qks6dGQFd_c",
+      "title": "This New AI Model Changes Everything",
+      "url": "https://www.youtube.com/watch?v=qks6dGQFd_c",
+      "duration": 447,
+      "published_at": "2026-07-01T05:23:54+00:00",
+      "channel_id": "UCbfYPyITQ-7l4upoX8nvctg",
+      "channel_title": "Two Minute Papers",
+      "channel_handle": "@TwoMinutePapers",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/qks6dGQFd_c/mqdefault.jpg",
+      "description": "\u2764\ufe0f Check out Lambda here and sign up for their GPU Cloud: https://lambda.ai/papers\n\nGLM 5.2: https://z.ai/blog/glm-5.2\n\n\ud83d\ude4f We would like to thank our generous Patreon supporters who make Two Minute Papers possible:\nAdam Bridges, Benji Rabhan, B Shang, Cameron Navor, Charles Ian Norman Venn, Christian Ahlin, Eric T, Fred R, Gordon Child, Juan Benet, Michael Tedder, Owen Skarpness, Richard Sundvall, ",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 5.4,
+      "view_count": 18524,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "2zmW-L1jtjc",
+      "title": "Legibility by design ft. Ryan Powell (Waymo) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=2zmW-L1jtjc",
+      "duration": 1268,
+      "published_at": "2026-06-30T18:03:56+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/2zmW-L1jtjc/mqdefault.jpg",
+      "description": "Building trust in AI isn't about transparency; it\u2019s about communication design. Whether it\u2019s an autonomous vehicle or a generative agent, the challenge is the same: how much should a system communicate? Drawing from years at Waymo, this session explores a framework for trust. We\u2019ll move beyond automation toward legibility, where users understand intent rather than just monitoring tasks. Learn to c",
+      "categories": [
+        "hci",
+        "swe_craft"
+      ],
+      "base_score": 13,
+      "feedback_mult": 1.0,
+      "score": 14.3,
+      "view_count": 878,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "6nyveN7zfMQ",
+      "title": "AI will upend your process\u2014for the better ft. Justin Meyer (Bitovi) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=6nyveN7zfMQ",
+      "duration": 1178,
+      "published_at": "2026-06-30T18:01:53+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/6nyveN7zfMQ/mqdefault.jpg",
+      "description": "AI gives us an opportunity to rethink how work gets done across the software delivery lifecycle. In this talk, I\u2019ll show concrete examples of how AI removes bottlenecks that keep us from discovering and delivering value. We\u2019ll explore how AI supports building design systems, generates implementation\u2011ready user stories, and writes production code directly from Figma assets. The result: faster valid",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 588,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "XOVcpvbblGY",
+      "title": "Designing with confidence in an AI-powered world ft. Bobby Meixner (UserTesting) | Config 2026",
+      "url": "https://www.youtube.com/watch?v=XOVcpvbblGY",
+      "duration": 1042,
+      "published_at": "2026-06-30T18:00:24+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/XOVcpvbblGY/mqdefault.jpg",
+      "description": "AI has fundamentally changed the pace of design. Ideas move faster. Iterations are instant. Options are endless. But speed introduces a new tension: decisions that are harder to defend. In this session, Bobby Meixner shares findings from UserTesting\u2019s latest research on defensible design in the age of AI and explores how leading teams are closing the confidence gap. You\u2019ll see how embedding real h",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 469,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "cYuTlnp3wLs",
+      "title": "Building real-time user insights into your design workflow ft. Prayag Narula | Config 2026",
+      "url": "https://www.youtube.com/watch?v=cYuTlnp3wLs",
+      "duration": 1156,
+      "published_at": "2026-06-30T17:56:04+00:00",
+      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
+      "channel_title": "Figma",
+      "channel_handle": "@Figma",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/cYuTlnp3wLs/mqdefault.jpg",
+      "description": "Most design teams ship, then learn. You don't have to do that anymore. In this session, HeyMarvin CEO Prayag Narula walks through what it takes to build real-time user feedback into your designs. You'll hear about the integrations and tools that make it work in practice and what it looks like when research finally shows up where decisions get made. If you've ever shipped something and wished you'd",
+      "categories": [
+        "hci"
+      ],
+      "base_score": 10,
+      "feedback_mult": 1.0,
+      "score": 11.0,
+      "view_count": 496,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "4v8ORjEmec4",
+      "title": "Introducing the Gemini Omni Flash API",
+      "url": "https://www.youtube.com/watch?v=4v8ORjEmec4",
+      "duration": 1316,
+      "published_at": "2026-06-30T16:03:32+00:00",
+      "channel_id": "UC55ODQSvARtgSyc8ThfiepQ",
+      "channel_title": "Sam Witteveen",
+      "channel_handle": "@samwitteveenai",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/4v8ORjEmec4/mqdefault.jpg",
+      "description": "In this video, we look at the release of Gemini Omni Flash and how it is now available on the API. This model is state of the art at video conversational video editing and having the API available allows you to access all of its features via code. Check out a full walkthrough of what the model can do, both with and without code\n\n\ud83d\udcd6 Blog: \n\nTwitter: https://x.com/Sam_Witteveen \n\n\ud83d\udd75\ufe0f Interested in bui",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.6,
+      "view_count": 4271,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "q1lGlhRnzsM",
+      "title": "Design Refactor of OpenClaw's New Mobile App",
+      "url": "https://www.youtube.com/watch?v=q1lGlhRnzsM",
+      "duration": 534,
+      "published_at": "2026-06-30T15:56:14+00:00",
+      "channel_id": "UCVyRiMvfUNMA1UPlDPzG5Ow",
+      "channel_title": "DesignCourse",
+      "channel_handle": "@DesignCourse",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/q1lGlhRnzsM/mqdefault.jpg",
+      "description": "Build with Claude Code: https://designcourse.com/app/course/claude-code-ai-saas\n-- OpenClaw just released their IOS/Android app. It's clearly in the category of AI Slop, so I'm going to show you how to fix what are very common mistakes that AI generates when it comes to UI/UX.\n\n#ai #slop #openclaw \n\n- - - - - - - - - - - - - - - - - - - - - -\n\nSubscribe for NEW VIDEOS!\n\nLearn UI/UX:               ",
+      "categories": [
+        "applied_ai",
+        "dev_news_lite"
+      ],
+      "base_score": 7,
+      "feedback_mult": 1.0,
+      "score": 7.7,
+      "view_count": 1789,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "SSzPOKtCMUM",
+      "title": "2026 Conference on Physics and AI: Surya Ganguli",
+      "url": "https://www.youtube.com/watch?v=SSzPOKtCMUM",
+      "duration": 2972,
+      "published_at": "2026-06-30T14:29:58+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/SSzPOKtCMUM/mqdefault.jpg",
+      "description": "Speaker: Surya Ganguli (Stanford)\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe t",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 23,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "b1LwoocPSU0",
+      "title": "2026 Conference on Physics and AI: Tanvi Wamorkar",
+      "url": "https://www.youtube.com/watch?v=b1LwoocPSU0",
+      "duration": 1438,
+      "published_at": "2026-06-30T14:29:55+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/b1LwoocPSU0/mqdefault.jpg",
+      "description": "Speaker: Tanvi Wamorkar\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up wi",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 40,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "CtYUIEguMeE",
+      "title": "2026 Conference on Physics and AI: Emil Albrychiewicz",
+      "url": "https://www.youtube.com/watch?v=CtYUIEguMeE",
+      "duration": 1603,
+      "published_at": "2026-06-30T14:29:53+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/CtYUIEguMeE/mqdefault.jpg",
+      "description": "Speaker: Emil Albrychiewicz\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams u",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 16,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "rjRe0i3IPPo",
+      "title": "2026 Conference on Physics and AI: Bhargav Siddani",
+      "url": "https://www.youtube.com/watch?v=rjRe0i3IPPo",
+      "duration": 1424,
+      "published_at": "2026-06-30T14:29:50+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/rjRe0i3IPPo/mqdefault.jpg",
+      "description": "Speaker: Bhargav Siddani\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up w",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 10,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "70BmdmI6OHs",
+      "title": "2026 Conference on Physics and AI: Yasaman Bahri",
+      "url": "https://www.youtube.com/watch?v=70BmdmI6OHs",
+      "duration": 2595,
+      "published_at": "2026-06-30T14:29:47+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/70BmdmI6OHs/mqdefault.jpg",
+      "description": "Speaker: Yasaman Bahri (DeepMind)\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe t",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 52,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "3LZN2UUxDos",
+      "title": "2026 Conference on Physics and AI: Jascha Sohl-Dickstein",
+      "url": "https://www.youtube.com/watch?v=3LZN2UUxDos",
+      "duration": 2714,
+      "published_at": "2026-06-30T14:29:44+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/3LZN2UUxDos/mqdefault.jpg",
+      "description": "Speaker: Jascha Sohl-Dickstein (Anthropic)\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the U",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 26,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "sf9-P2BeUOY",
+      "title": "2026 Conference on Physics and AI: Panel 2",
+      "url": "https://www.youtube.com/watch?v=sf9-P2BeUOY",
+      "duration": 4140,
+      "published_at": "2026-06-30T14:29:41+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/sf9-P2BeUOY/mqdefault.jpg",
+      "description": "Speakers: Josh Bloom (Valency/UC Berkeley), Mariel Pettee (University of Wisconsin), Ioana Ciuc\u0103 (Stanford)\nPanel topic: Foundation models and agents for physics\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced comput",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 26,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "keEA9TYd4lA",
+      "title": "2026 Conference on Physics and AI: Filomela Gerou",
+      "url": "https://www.youtube.com/watch?v=keEA9TYd4lA",
+      "duration": 1366,
+      "published_at": "2026-06-30T14:29:37+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/keEA9TYd4lA/mqdefault.jpg",
+      "description": "Speaker: Filomela Gerou\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up wi",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 14,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "xRBAb9_29Gw",
+      "title": "2026 Conference on Physics and AI: Shihui Zang",
+      "url": "https://www.youtube.com/watch?v=xRBAb9_29Gw",
+      "duration": 1703,
+      "published_at": "2026-06-30T14:29:33+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/xRBAb9_29Gw/mqdefault.jpg",
+      "description": "Speaker: Shihui Zang\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up with ",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 18,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "QOBkhYeVcWg",
+      "title": "2026 Conference on Physics and AI: Sogol Sanjaripour",
+      "url": "https://www.youtube.com/watch?v=QOBkhYeVcWg",
+      "duration": 1879,
+      "published_at": "2026-06-30T14:29:31+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/QOBkhYeVcWg/mqdefault.jpg",
+      "description": "Speaker: Sogol Sanjaripour\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 27,
+      "episode_number": null,
+      "series_key": null,
+      "exploration": true
+    },
+    {
+      "id": "gbX3s4fLn6U",
+      "title": "2026 Conference on Physics and AI: Vinicius Mikuni",
+      "url": "https://www.youtube.com/watch?v=gbX3s4fLn6U",
+      "duration": 2268,
+      "published_at": "2026-06-30T14:29:28+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/gbX3s4fLn6U/mqdefault.jpg",
+      "description": "Speaker: Vinicius Mikuni (Nagoya)\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe t",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 15,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "XOi54POuYPY",
+      "title": "2026 Conference on Physics and AI: James Zou",
+      "url": "https://www.youtube.com/watch?v=XOi54POuYPY",
+      "duration": 2617,
+      "published_at": "2026-06-30T14:29:24+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/XOi54POuYPY/mqdefault.jpg",
+      "description": "Speaker: James Zou (Stanford)\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 25,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "afakuRvT9MY",
+      "title": "2026 Conference on Physics and AI: Panel 1",
+      "url": "https://www.youtube.com/watch?v=afakuRvT9MY",
+      "duration": 3847,
+      "published_at": "2026-06-30T14:29:21+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/afakuRvT9MY/mqdefault.jpg",
+      "description": "Speakers:  Daniel Whiteson (UC Irvine), Anatole von Lilienfeld (Toronto), Shirley Ho (Flatiron)\nPanel topic: What makes AI and physics special?\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 15,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "mrNBcWHS86k",
+      "title": "2026 Conference on Physics and AI: Cooper Jacobus",
+      "url": "https://www.youtube.com/watch?v=mrNBcWHS86k",
+      "duration": 1871,
+      "published_at": "2026-06-30T14:29:18+00:00",
+      "channel_id": "UChugFTK0KyrES9terTid8vA",
+      "channel_title": "Stanford HAI",
+      "channel_handle": "@StanfordHAI",
+      "channel_tier": 1,
+      "thumb": "https://i.ytimg.com/vi/mrNBcWHS86k/mqdefault.jpg",
+      "description": "Speaker: Cooper Jacobus\nConference dates: June 10-12, 2026\n\nThe Center for Decoding the Universe brings together researchers across scientific disciplines to answer the biggest questions about our Universe by leveraging complex data with the most advanced computational methods. \n\nBringing together leaders across physics, data science, and AI, Stanford\u2019s Center for Decoding the Universe teams up wi",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 7.2,
+      "view_count": 8,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "sMujMp4h_EY",
+      "title": "Sustainable Augmented Development \u2022 Kent Beck \u2022 YOW! 2025",
+      "url": "https://www.youtube.com/watch?v=sMujMp4h_EY",
+      "duration": 3525,
+      "published_at": "2026-06-30T12:00:25+00:00",
+      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
+      "channel_title": "GOTO Conferences",
+      "channel_handle": "@GOTO-",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/sMujMp4h_EY/mqdefault.jpg",
+      "description": "This presentation was recorded at YOW! Australia 2025. #GOTOcon #YOW\nhttps://yowcon.com\n\nKent Beck - Software Engineer & Creator of Extreme Programming @KentLBeck \n\nRESOURCES\nhttps://bsky.app/profile/kentbeck.bsky.social\nhttps://www.kentbeck.com\nhttps://github.com/KentBeck\nhttps://twitter.com/KentBeck\nhttps://www.linkedin.com/in/kentbeck\nhttps://tidyfirst.substack.com/about\n\nABSTRACT\nGenies are gr",
+      "categories": [
+        "applied_ai",
+        "swe_craft"
+      ],
+      "base_score": 9,
+      "feedback_mult": 1.0,
+      "score": 9.0,
+      "view_count": 1663,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "iWRmtPdFbGw",
+      "title": "I was giving my coding agent context the wrong way...",
+      "url": "https://www.youtube.com/watch?v=iWRmtPdFbGw",
+      "duration": 511,
+      "published_at": "2026-06-30T11:19:17+00:00",
+      "channel_id": "UCrXSVX9a1mj8l0CMLwKgMVw",
+      "channel_title": "AI Jason",
+      "channel_handle": "@AIJasonZ",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/iWRmtPdFbGw/mqdefault.jpg",
+      "description": "Github repo Skill for setup Codebase harness: https://github.com/AI-Builder-Club/skills\n\n\ud83d\udd17 Links\n- Join AI Builder Club for step-by-step walk through: https://www.aibuilderclub.com/lp/loop-engineer\n- Try Superdesign: http://superdesign.dev/\n- Follow me on twitter: https://twitter.com/jasonzhou1993",
+      "categories": [
+        "applied_ai"
+      ],
+      "base_score": 6,
+      "feedback_mult": 1.0,
+      "score": 6.0,
+      "view_count": 5360,
+      "episode_number": null,
+      "series_key": null
+    },
     {
       "id": "9h3M0bnpBeM",
       "title": "What Is the Future of Security vs AI?",
@@ -720,7 +1227,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 3946,
+      "view_count": 9015,
       "episode_number": null,
       "series_key": null
     },
@@ -742,7 +1249,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 911,
+      "view_count": 2409,
       "episode_number": null,
       "series_key": null
     },
@@ -764,7 +1271,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 287,
+      "view_count": 480,
       "episode_number": null,
       "series_key": null
     },
@@ -786,7 +1293,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 694,
+      "view_count": 1164,
       "episode_number": null,
       "series_key": null
     },
@@ -808,7 +1315,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 373,
+      "view_count": 556,
       "episode_number": null,
       "series_key": null
     },
@@ -830,7 +1337,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 1159,
+      "view_count": 1725,
       "episode_number": null,
       "series_key": null
     },
@@ -852,30 +1359,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 496,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "_az4W2z5Fqw",
-      "title": "Hacking AI for creative operations at scale ft. Rory Flynn | Config 2026",
-      "url": "https://www.youtube.com/watch?v=_az4W2z5Fqw",
-      "duration": 1289,
-      "published_at": "2026-06-30T01:45:03+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/_az4W2z5Fqw/mqdefault.jpg",
-      "description": "Most creative teams are using AI to make assets faster. The real opportunity is further upstream\u2014inside the systems, workflows, and decision logic that govern how creative gets made at scale. In this session, Rory Flynn shows how mastering three core skills\u2014deconstruction, system prompts, and workflow building\u2014unlocks the full power of Figma Weave for any team. You'll see what real deployment look",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 1081,
+      "view_count": 666,
       "episode_number": null,
       "series_key": null
     },
@@ -897,7 +1381,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 126,
+      "view_count": 321,
       "episode_number": null,
       "series_key": null
     },
@@ -919,7 +1403,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 641,
+      "view_count": 1868,
       "episode_number": null,
       "series_key": null
     },
@@ -941,52 +1425,7 @@
       "base_score": 10,
       "feedback_mult": 1.0,
       "score": 11.0,
-      "view_count": 572,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Lo-HSCqhIF8",
-      "title": "Turning real-world motion into design ft. Patrick Flaherty (Microsoft) | Config 2026",
-      "url": "https://www.youtube.com/watch?v=Lo-HSCqhIF8",
-      "duration": 1290,
-      "published_at": "2026-06-29T21:54:52+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/Lo-HSCqhIF8/mqdefault.jpg",
-      "description": "Want to animate like the pros and spend less time wrestling the graph editor? This session reveals a capture-to-curve workflow that turns recorded gestures into clean, editable timing you can drop into the tools you use. We will map a motion in the room to a UI element live and unpack a practical loop: capture, curve, polish, name. You will leave with a shared motion language you can reuse across ",
-      "categories": [
-        "hci"
-      ],
-      "base_score": 10,
-      "feedback_mult": 1.0,
-      "score": 11.0,
-      "view_count": 1262,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "mdxJNKM3AMc",
-      "title": "It used to be hard to be average ft. Andr\u00e9 Anjos (RAC) | Config 2026",
-      "url": "https://www.youtube.com/watch?v=mdxJNKM3AMc",
-      "duration": 1594,
-      "published_at": "2026-06-29T17:35:59+00:00",
-      "channel_id": "UCQsVmhSa4X-G3lHlUtejzLA",
-      "channel_title": "Figma",
-      "channel_handle": "@Figma",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/mdxJNKM3AMc/mqdefault.jpg",
-      "description": "Andr\u00e9 Anjos is a musician, not a designer, but he believes everyone is facing the same shift. Average has become free. Machines can now produce competent, good-enough work instantly, whether it's a song or a screen. That means the only work worth doing is the work only you can make. After twenty years in music, he has learned one enduring truth: the work you create for yourself is the work that ul",
-      "categories": [
-        "hci",
-        "applied_ai"
-      ],
-      "base_score": 16,
-      "feedback_mult": 1.0,
-      "score": 17.6,
-      "view_count": 1139,
+      "view_count": 1101,
       "episode_number": null,
       "series_key": null
     },
@@ -1009,13 +1448,13 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.7,
-      "view_count": 2689,
+      "view_count": 3695,
       "episode_number": null,
       "series_key": null
     },
     {
       "id": "5paRa6E5rCM",
-      "title": "The Token Black Market",
+      "title": "The Secret Token Underworld",
       "url": "https://www.youtube.com/watch?v=5paRa6E5rCM",
       "duration": 842,
       "published_at": "2026-06-29T13:00:36+00:00",
@@ -1031,7 +1470,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 158773,
+      "view_count": 205563,
       "episode_number": null,
       "series_key": null
     },
@@ -1054,7 +1493,7 @@
       "base_score": 9,
       "feedback_mult": 1.0,
       "score": 9.0,
-      "view_count": 1133,
+      "view_count": 1887,
       "episode_number": null,
       "series_key": null
     },
@@ -1076,7 +1515,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 5.66,
-      "view_count": 23741,
+      "view_count": 28290,
       "episode_number": null,
       "series_key": null
     },
@@ -1098,7 +1537,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 16702,
+      "view_count": 18601,
       "episode_number": null,
       "series_key": null
     },
@@ -1120,7 +1559,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 16373,
+      "view_count": 19171,
       "episode_number": null,
       "series_key": null
     },
@@ -1142,7 +1581,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 260283,
+      "view_count": 269745,
       "episode_number": null,
       "series_key": null
     },
@@ -1162,7 +1601,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 84347,
+      "view_count": 93148,
       "episode_number": null,
       "series_key": null
     },
@@ -1184,7 +1623,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -7.2,
-      "view_count": 25999,
+      "view_count": 27335,
       "episode_number": null,
       "series_key": null
     },
@@ -1206,7 +1645,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 12608,
+      "view_count": 17049,
       "episode_number": null,
       "series_key": null
     },
@@ -1228,7 +1667,7 @@
       "base_score": 6,
       "feedback_mult": 1.15,
       "score": 4.14,
-      "view_count": 320917,
+      "view_count": 330356,
       "episode_number": null,
       "series_key": null
     },
@@ -1251,7 +1690,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 16872,
+      "view_count": 17241,
       "episode_number": null,
       "series_key": null
     },
@@ -1274,7 +1713,7 @@
       "base_score": 7,
       "feedback_mult": 1.0,
       "score": 7.0,
-      "view_count": 85754,
+      "view_count": 92903,
       "episode_number": null,
       "series_key": null
     },
@@ -1298,7 +1737,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 5.66,
-      "view_count": 20950,
+      "view_count": 21779,
       "episode_number": null,
       "series_key": null
     },
@@ -1318,7 +1757,31 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 8861,
+      "view_count": 9134,
+      "episode_number": null,
+      "series_key": null
+    },
+    {
+      "id": "dOZkAqR_2lA",
+      "title": "Easy Way to Get Clients Without Ads or Cold DM's - FREE 2 HOUR MASTERCLASS",
+      "url": "https://www.youtube.com/watch?v=dOZkAqR_2lA",
+      "duration": 8715,
+      "published_at": "2026-06-24T15:25:11+00:00",
+      "channel_id": "UC-b3c7kxa5vU-bnmaROgvog",
+      "channel_title": "The Futur",
+      "channel_handle": "@thefutur",
+      "channel_tier": 2,
+      "thumb": "https://i.ytimg.com/vi/dOZkAqR_2lA/mqdefault.jpg",
+      "description": "\ud83d\udce5 Download the Lead Flow Workbook:\nhttps://mattessam.kit.com/leadflow\n\n\u25b6\ufe0f Build your own lead\u2011generating scorecard with ScoreApp AI:\nhttps://signup.scoreapp.com/checkout/chrisdoLGM\n\nMost business owners struggle with finding new clients, but this video teaches a proven approach for generating infinite leads consistently. We break down the specific methods used to attract prospects directly to you,",
+      "categories": [
+        "civic_open",
+        "swe_craft",
+        "climate_grid"
+      ],
+      "base_score": 2,
+      "feedback_mult": 1.0,
+      "score": 2.0,
+      "view_count": 16756,
       "episode_number": null,
       "series_key": null
     },
@@ -1340,7 +1803,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 1517,
+      "view_count": 1581,
       "episode_number": null,
       "series_key": null
     },
@@ -1362,7 +1825,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 4332,
+      "view_count": 4692,
       "episode_number": null,
       "series_key": null
     },
@@ -1384,7 +1847,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 18069,
+      "view_count": 18705,
       "episode_number": null,
       "series_key": null
     },
@@ -1404,7 +1867,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 5892,
+      "view_count": 6075,
       "episode_number": null,
       "series_key": null
     },
@@ -1424,7 +1887,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 680,
+      "view_count": 699,
       "episode_number": null,
       "series_key": null
     },
@@ -1446,7 +1909,7 @@
       "base_score": -10,
       "feedback_mult": 1.23,
       "score": -11.04,
-      "view_count": 446056,
+      "view_count": 460704,
       "episode_number": null,
       "series_key": null
     },
@@ -1468,7 +1931,7 @@
       "base_score": 3,
       "feedback_mult": 1.15,
       "score": 2.07,
-      "view_count": 263265,
+      "view_count": 264836,
       "episode_number": null,
       "series_key": null
     },
@@ -1490,7 +1953,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 338,
+      "view_count": 349,
       "episode_number": null,
       "series_key": null
     },
@@ -1512,30 +1975,7 @@
       "base_score": 6,
       "feedback_mult": 0.77,
       "score": 3.69,
-      "view_count": 51940,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "f93SJz6yGLY",
-      "title": "Invistics Case Study: Drug Diversion",
-      "url": "https://www.youtube.com/watch?v=f93SJz6yGLY",
-      "duration": 5512,
-      "published_at": "2026-06-23T14:00:50+00:00",
-      "channel_id": "UCEBb1b_L6zDS3xTUrIALZOw",
-      "channel_title": "MIT OpenCourseWare",
-      "channel_handle": "@mitocw",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/f93SJz6yGLY/mqdefault.jpg",
-      "description": "MIT RES.SUD-01, Substance Use Disorders Venture Program, Spring 2025\nInstructors: Tom Knight, Erdin Beshimov    \nView the complete course: https://ocw.mit.edu/courses/res-sud-01-substance-use-disorder-ventures-program-spring-2025/\nYouTube Playlist :https://www.youtube.com/playlist?list=PLUl4u3cNGP60O8-oSngUwSGC1J2EhNKsa\n\nTom Knight discusses Invistics Corporation, his former company that built cut",
-      "categories": [
-        "applied_ai",
-        "healthcare_ai"
-      ],
-      "base_score": -4,
-      "feedback_mult": 0.77,
-      "score": -2.46,
-      "view_count": 330,
+      "view_count": 55026,
       "episode_number": null,
       "series_key": null
     },
@@ -1555,7 +1995,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 255221,
+      "view_count": 256705,
       "episode_number": null,
       "series_key": null
     },
@@ -1577,29 +2017,7 @@
       "base_score": 4,
       "feedback_mult": 1.0,
       "score": 4.0,
-      "view_count": 768,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "EC0ZIBKsQJQ",
-      "title": "HAI Seminar: Challenges & Opportunities For Human-Centered Music Emotion Recognition",
-      "url": "https://www.youtube.com/watch?v=EC0ZIBKsQJQ",
-      "duration": 3994,
-      "published_at": "2026-06-22T18:14:40+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/EC0ZIBKsQJQ/mqdefault.jpg",
-      "description": "Music plays a central role in human emotion, memory, and identity, making it a powerful medium for affective experience and regulation. In this HAI seminar, Postdoc Scholar Juan S. G\u00f3mez-Ca\u00f1\u00f3n, explored a human-centered approach to music emotion recognition (MER), arguing that emotional responses to music are shaped by individual experiences, cultural backgrounds, and contextual factors rather tha",
-      "categories": [
-        "politics"
-      ],
-      "base_score": -12,
-      "feedback_mult": 1.0,
-      "score": -14.4,
-      "view_count": 159,
+      "view_count": 792,
       "episode_number": null,
       "series_key": null
     },
@@ -1619,7 +2037,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 53672,
+      "view_count": 55795,
       "episode_number": null,
       "series_key": null
     },
@@ -1639,7 +2057,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 216875,
+      "view_count": 218679,
       "episode_number": null,
       "series_key": null
     },
@@ -1661,7 +2079,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 14865,
+      "view_count": 15065,
       "episode_number": null,
       "series_key": null
     },
@@ -1683,7 +2101,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 727,
+      "view_count": 753,
       "episode_number": null,
       "series_key": null
     },
@@ -1705,7 +2123,7 @@
       "base_score": -12,
       "feedback_mult": 1.0,
       "score": -12.0,
-      "view_count": 5127,
+      "view_count": 5156,
       "episode_number": null,
       "series_key": null
     },
@@ -1727,7 +2145,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 112688,
+      "view_count": 113266,
       "episode_number": null,
       "series_key": null
     },
@@ -1749,7 +2167,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 80802,
+      "view_count": 82849,
       "episode_number": null,
       "series_key": null
     },
@@ -1769,7 +2187,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 13159,
+      "view_count": 13342,
       "episode_number": null,
       "series_key": null
     },
@@ -1789,10 +2207,9 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 304599,
+      "view_count": 307626,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "uQ3lL68hNK4",
@@ -1814,7 +2231,7 @@
       "base_score": -1,
       "feedback_mult": 0.94,
       "score": -0.94,
-      "view_count": 216431,
+      "view_count": 217698,
       "episode_number": null,
       "series_key": null
     },
@@ -1834,7 +2251,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 37336,
+      "view_count": 38023,
       "episode_number": null,
       "series_key": null
     },
@@ -1857,7 +2274,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 2339,
+      "view_count": 2387,
       "episode_number": null,
       "series_key": null
     },
@@ -1877,7 +2294,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 189865,
+      "view_count": 193089,
       "episode_number": null,
       "series_key": null
     },
@@ -1902,28 +2319,7 @@
       "base_score": -4,
       "feedback_mult": 1.23,
       "score": -4.42,
-      "view_count": 573492,
-      "episode_number": null,
-      "series_key": null,
-      "exploration": true
-    },
-    {
-      "id": "cX3G0cPRJiA",
-      "title": "big news",
-      "url": "https://www.youtube.com/watch?v=cX3G0cPRJiA",
-      "duration": 647,
-      "published_at": "2026-06-17T16:20:00+00:00",
-      "channel_id": "UC6biysICWOJ-C3P4Tyeggzg",
-      "channel_title": "Low Level",
-      "channel_handle": "@LowLevelTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/cX3G0cPRJiA/mqdefault.jpg",
-      "description": "Try Flare's ThreatFlow for FREE right now @ https://go.lowlevel.tv/flareflow\n\n\ud83c\udfeb MY COURSES\nSign-up for my FREE 3-Day C Course: https://lowlevel.academy\n\n\ud83e\uddd9\u200d\u2642\ufe0f HACK YOUR CAREER\nWanna learn to hack? Join my new CTF platform: https://stacksmash.io\n\n\u2328\ufe0f KEYBOARD\nLike what you hear? Grab a Q5 at https://go.lowlevel.tv/keyboard\n\n\ud83d\udd25COME HANG OUT   \nCheck out my other stuff: https://lowlevel.tv",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 126589,
+      "view_count": 576877,
       "episode_number": null,
       "series_key": null
     },
@@ -1947,7 +2343,7 @@
       "base_score": 3,
       "feedback_mult": 1.0,
       "score": 3.6,
-      "view_count": 2701,
+      "view_count": 2728,
       "episode_number": null,
       "series_key": null
     },
@@ -1969,7 +2365,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 10536,
+      "view_count": 10617,
       "episode_number": null,
       "series_key": null
     },
@@ -1989,7 +2385,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 70743,
+      "view_count": 72890,
       "episode_number": null,
       "series_key": null
     },
@@ -2011,7 +2407,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 12737,
+      "view_count": 12844,
       "episode_number": null,
       "series_key": null
     },
@@ -2034,7 +2430,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 35017,
+      "view_count": 35182,
       "episode_number": null,
       "series_key": null
     },
@@ -2059,7 +2455,7 @@
       "base_score": 8,
       "feedback_mult": 1.0,
       "score": 8.0,
-      "view_count": 646,
+      "view_count": 648,
       "episode_number": null,
       "series_key": null
     },
@@ -2081,7 +2477,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 88510,
+      "view_count": 88717,
       "episode_number": null,
       "series_key": null
     },
@@ -2103,7 +2499,7 @@
       "base_score": 1,
       "feedback_mult": 1.0,
       "score": 1.1,
-      "view_count": 8166,
+      "view_count": 8217,
       "episode_number": null,
       "series_key": null
     },
@@ -2123,7 +2519,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 109987,
+      "view_count": 111332,
       "episode_number": null,
       "series_key": null
     },
@@ -2147,7 +2543,7 @@
       "base_score": -3,
       "feedback_mult": 1.0,
       "score": -3.0,
-      "view_count": 559,
+      "view_count": 568,
       "episode_number": null,
       "series_key": null
     },
@@ -2167,7 +2563,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 274520,
+      "view_count": 274863,
       "episode_number": null,
       "series_key": null
     },
@@ -2189,27 +2585,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 989001,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "Ew5Btq1vmxA",
-      "title": "HAI Seminar: AI and Strategic Stability: A Framework for U.S.\u2013China Competition",
-      "url": "https://www.youtube.com/watch?v=Ew5Btq1vmxA",
-      "duration": 4532,
-      "published_at": "2026-06-15T16:50:59+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/Ew5Btq1vmxA/mqdefault.jpg",
-      "description": "Strategic stability exists when neither side thinks it can improve its strategic outcome by striking first. In this HAI seminar, Hoover Fellow Eyck Freymann, provided a detailed account of how AI, nuclear deterrence, and semiconductor interdependence jointly shape strategic stability in U.S.\u2013China competition. The presentation makes the case that AI introduces both new deterrence tools and new thr",
-      "categories": [],
-      "base_score": 0,
-      "feedback_mult": 1.0,
-      "score": 0.0,
-      "view_count": 209,
+      "view_count": 990648,
       "episode_number": null,
       "series_key": null
     },
@@ -2234,7 +2610,7 @@
       "base_score": 2,
       "feedback_mult": 1.0,
       "score": 2.0,
-      "view_count": 27824,
+      "view_count": 28207,
       "episode_number": null,
       "series_key": null
     },
@@ -2254,7 +2630,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 15720,
+      "view_count": 15809,
       "episode_number": null,
       "series_key": null
     },
@@ -2276,7 +2652,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 8495,
+      "view_count": 8579,
       "episode_number": null,
       "series_key": null
     },
@@ -2291,14 +2667,14 @@
       "channel_handle": "@GOTO-",
       "channel_tier": 2,
       "thumb": "https://i.ytimg.com/vi/42RNaAZK3hU/mqdefault.jpg",
-      "description": "This interview was recorded at GOTO Copenhagen 2025. #GOTOcon #GOTOcph\nhttps://gotocph.com\n\nAdrian Mouat - Developer Relations at Chainguard & Author of 'Using Docker' @AdrianMouat \nKief Morris - Author of \"Infrastructure as Code\" & Distinguished Engineer at Thoughtworks @KiefMorris \nSam Newman - Author of \"Building Microservices\" & \"Monolith to Microservices\" @SamNewmanWork \n\nORIGINAL TALK TITLE\n",
+      "description": "This interview was recorded at GOTO Copenhagen 2025. #GOTOcon #GOTOcph\nhttps://gotocph.com\n\nAdrian Mouat - Developer Relations at Chainguard & Author of \"Using Docker\" @AdrianMouat \nKief Morris - Distinguished Engineer at Thoughtworks & Author of \"Infrastructure as Code\" @KiefMorris \nSam Newman - Author of \"Building Microservices\" & \"Monolith to Microservices\" @SamNewmanWork \n\nORIGINAL TALK TITLE\n",
       "categories": [
         "systems_db"
       ],
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 687,
+      "view_count": 688,
       "episode_number": null,
       "series_key": null
     },
@@ -2318,7 +2694,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 67527,
+      "view_count": 67660,
       "episode_number": null,
       "series_key": null
     },
@@ -2342,7 +2718,7 @@
       "base_score": -1,
       "feedback_mult": 1.0,
       "score": -1.1,
-      "view_count": 74578,
+      "view_count": 74800,
       "episode_number": null,
       "series_key": null
     },
@@ -2364,7 +2740,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 6243,
+      "view_count": 6248,
       "episode_number": null,
       "series_key": null
     },
@@ -2384,7 +2760,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 26967,
+      "view_count": 27085,
       "episode_number": null,
       "series_key": null
     },
@@ -2404,7 +2780,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 18048,
+      "view_count": 18051,
       "episode_number": null,
       "series_key": null
     },
@@ -2424,7 +2800,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1027223,
+      "view_count": 1028899,
       "episode_number": null,
       "series_key": null
     },
@@ -2446,7 +2822,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 86480,
+      "view_count": 86742,
       "episode_number": null,
       "series_key": null
     },
@@ -2466,7 +2842,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 357050,
+      "view_count": 357191,
       "episode_number": null,
       "series_key": null
     },
@@ -2486,9 +2862,10 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 13579,
+      "view_count": 13695,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "8tNtZMm3Hyc",
@@ -2508,7 +2885,7 @@
       "base_score": 5,
       "feedback_mult": 1.0,
       "score": 5.0,
-      "view_count": 1141,
+      "view_count": 1149,
       "episode_number": null,
       "series_key": null
     },
@@ -2530,7 +2907,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 2696,
+      "view_count": 2716,
       "episode_number": null,
       "series_key": null
     },
@@ -2550,7 +2927,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 34,
+      "view_count": 35,
       "episode_number": null,
       "series_key": null
     },
@@ -2590,7 +2967,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 137,
+      "view_count": 138,
       "episode_number": null,
       "series_key": null
     },
@@ -2658,7 +3035,7 @@
       "base_score": 12,
       "feedback_mult": 1.0,
       "score": 12.0,
-      "view_count": 6390,
+      "view_count": 6442,
       "episode_number": null,
       "series_key": null
     },
@@ -2680,7 +3057,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 110899,
+      "view_count": 111080,
       "episode_number": null,
       "series_key": null
     },
@@ -2700,7 +3077,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 47280,
+      "view_count": 47672,
       "episode_number": null,
       "series_key": null
     },
@@ -2720,31 +3097,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2305,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "KBZJYkzqT0c",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Policy & Ethics \u2014 Governing AI in Mental Health",
-      "url": "https://www.youtube.com/watch?v=KBZJYkzqT0c",
-      "duration": 3115,
-      "published_at": "2026-06-09T22:55:13+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/KBZJYkzqT0c/mqdefault.jpg",
-      "description": "This session distills key ethical challenges raised by the use of mental health AI tools and companion chatbots, reviews regulatory approaches being explored at the state and federal levels, and discusses barriers to making effective, evidence-based policy.\n\nSpeakers:\n\nMichelle Mello \u2014 Professor of Law and of Health Policy, Stanford University\n\nAssemblymember Mia Bonta \u2014 Member of the California S",
-      "categories": [
-        "applied_ai",
-        "civic_open",
-        "healthcare_ai"
-      ],
-      "base_score": 1,
-      "feedback_mult": 1.0,
-      "score": 1.2,
-      "view_count": 234,
+      "view_count": 2306,
       "episode_number": null,
       "series_key": null
     },
@@ -2766,7 +3119,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9412,
+      "view_count": 9423,
       "episode_number": null,
       "series_key": null
     },
@@ -2788,7 +3141,7 @@
       "base_score": 6,
       "feedback_mult": 1.23,
       "score": 6.62,
-      "view_count": 983017,
+      "view_count": 983852,
       "episode_number": null,
       "series_key": null
     },
@@ -2810,142 +3163,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 130461,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "jpsDPUUJiYM",
-      "title": "[404] \u2013 Developer Not Found: The Continuing Developer Evolution \u2022 Derek Bingham \u2022 YOW! 2025",
-      "url": "https://www.youtube.com/watch?v=jpsDPUUJiYM",
-      "duration": 2268,
-      "published_at": "2026-06-09T12:00:13+00:00",
-      "channel_id": "UCs_tLP3AiwYKwdUHpltJPuA",
-      "channel_title": "GOTO Conferences",
-      "channel_handle": "@GOTO-",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/jpsDPUUJiYM/mqdefault.jpg",
-      "description": "This presentation was recorded at YOW! Australia 2025. #GOTOcon #YOW\nhttps://yowcon.com\n\nDerek Bingham - Senior Developer Advocate at AWS @DerekBingham \n\nRESOURCES\nhttps://bsky.app/profile/deekob.bsky.social\nhttps://github.com/deekob\nhttps://www.linkedin.com/in/derekwbingham\nhttps://dev.to/deekob\n\nABSTRACT\nThe developer landscape is undergoing a profound transformation. What began with coding assi",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.0,
-      "view_count": 789,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "YAtemmUgPGQ",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Academic Research \u2014Foundations & Frontiers",
-      "url": "https://www.youtube.com/watch?v=YAtemmUgPGQ",
-      "duration": 3558,
-      "published_at": "2026-06-08T21:07:42+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/YAtemmUgPGQ/mqdefault.jpg",
-      "description": "This session highlights the evolving research landscape and leading academic efforts shaping AI in mental health. Short talks span technical innovation, human-centered design, and clinical implementation, followed by discussion. The focus is on translating rigorous science into real-world impact and clarifying where the field is headed.\n\nSpeakers:\n\nLeanne Williams \u2014 Vincent V.C. Woo Professor and ",
-      "categories": [
-        "healthcare_ai"
-      ],
-      "base_score": -10,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 267,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "abKmhm9JqZc",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Industry & Translation \u2014What It Takes to Deploy",
-      "url": "https://www.youtube.com/watch?v=abKmhm9JqZc",
-      "duration": 2557,
-      "published_at": "2026-06-08T21:05:37+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/abKmhm9JqZc/mqdefault.jpg",
-      "description": "This session explores what it takes to move AI in mental health from research to real-world deployment. Industry leaders discuss scaling, safety, evaluation, and regulatory realities in clinical settings. The focus is on bridging innovation with responsible execution at scale.\n\nSpeakers:\n\nRuss B. Altman \u2014 Kenneth Fong Professor and Professor of Bioengineering, of Genetics, of Medicine, of Biomedic",
-      "categories": [
-        "civic_open",
-        "healthcare_ai"
-      ],
-      "base_score": -5,
-      "feedback_mult": 1.0,
-      "score": -6.0,
-      "view_count": 116,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "fsvwiLbrWxw",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Keynote Panel",
-      "url": "https://www.youtube.com/watch?v=fsvwiLbrWxw",
-      "duration": 3144,
-      "published_at": "2026-06-08T21:03:18+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/fsvwiLbrWxw/mqdefault.jpg",
-      "description": "This keynote panel brings together leaders across industry, academia, policy, and lived experience to frame the future of AI in mental health. The discussion focuses on responsible deployment and defining clear, actionable priorities for the field. \n\nSpeakers:\n\nCarolyn Rodriguez \u2014 Professor of Psychiatry and Behavioral Sciences, Associate Dean for Academic Affairs, Stanford University School of Me",
-      "categories": [
-        "civic_open",
-        "healthcare_ai"
-      ],
-      "base_score": -5,
-      "feedback_mult": 1.0,
-      "score": -6.0,
-      "view_count": 204,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "UsnMAgvKGNU",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Closing Remarks",
-      "url": "https://www.youtube.com/watch?v=UsnMAgvKGNU",
-      "duration": 466,
-      "published_at": "2026-06-08T21:02:06+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/UsnMAgvKGNU/mqdefault.jpg",
-      "description": "The conference organizer provides closing remarks summarizing the topics covered throughout the symposium.\n\nSpeaker:\nEhsan Adeli \u2014 Assistant Professor of Psychiatry and Behavioral Sciences and, by courtesy, of Computer Science and of Biomedical Data Science, Stanford University School of Medicine; AI4MH Co-Director\n\nThis symposium was recorded on June 1, 2026 at Stanford University.",
-      "categories": [
-        "healthcare_ai"
-      ],
-      "base_score": -10,
-      "feedback_mult": 1.0,
-      "score": -12.0,
-      "view_count": 51,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "hjUwcJpVgBk",
-      "title": "2026 AI for Mental Health (AI4MH) Symposium: Opening Remarks",
-      "url": "https://www.youtube.com/watch?v=hjUwcJpVgBk",
-      "duration": 1280,
-      "published_at": "2026-06-08T20:54:29+00:00",
-      "channel_id": "UChugFTK0KyrES9terTid8vA",
-      "channel_title": "Stanford HAI",
-      "channel_handle": "@StanfordHAI",
-      "channel_tier": 1,
-      "thumb": "https://i.ytimg.com/vi/hjUwcJpVgBk/mqdefault.jpg",
-      "description": "Remarks to ground the day in purpose: transforming research, diagnosis, and treatment of psychiatric and behavioral disorders by creating and using responsible AI.\n\nSpeakers:\n\nLloyd B. Minor \u2014 The Carl and Elizabeth Naumann Dean of the School of Medicine, Vice President for Medical Affairs, Stanford University, Professor of Otolaryngology - Head and Neck Surgery and Professor of Neurobiology and o",
-      "categories": [
-        "healthcare_ai",
-        "politics"
-      ],
-      "base_score": -22,
-      "feedback_mult": 1.0,
-      "score": -26.4,
-      "view_count": 152,
+      "view_count": 130653,
       "episode_number": null,
       "series_key": null
     },
@@ -2967,7 +3185,7 @@
       "base_score": -6,
       "feedback_mult": 0.94,
       "score": -5.66,
-      "view_count": 101465,
+      "view_count": 102560,
       "episode_number": null,
       "series_key": null
     },
@@ -2987,7 +3205,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 1252106,
+      "view_count": 1260071,
       "episode_number": null,
       "series_key": null
     },
@@ -3010,7 +3228,7 @@
       "base_score": 9,
       "feedback_mult": 0.94,
       "score": 10.19,
-      "view_count": 17294,
+      "view_count": 17339,
       "episode_number": null,
       "series_key": null
     },
@@ -3032,7 +3250,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 9862,
+      "view_count": 9892,
       "episode_number": null,
       "series_key": null
     },
@@ -3054,10 +3272,9 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 426,
+      "view_count": 429,
       "episode_number": null,
-      "series_key": null,
-      "exploration": true
+      "series_key": null
     },
     {
       "id": "nvW-dTgHAHg",
@@ -3097,7 +3314,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 22522,
+      "view_count": 22632,
       "episode_number": null,
       "series_key": null
     },
@@ -3117,7 +3334,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 69770,
+      "view_count": 69952,
       "episode_number": null,
       "series_key": null
     },
@@ -3137,7 +3354,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 146744,
+      "view_count": 146856,
       "episode_number": null,
       "series_key": null
     },
@@ -3159,7 +3376,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 17350,
+      "view_count": 17447,
       "episode_number": null,
       "series_key": null
     },
@@ -3181,7 +3398,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 187956,
+      "view_count": 190901,
       "episode_number": null,
       "series_key": null
     },
@@ -3201,7 +3418,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 46795,
+      "view_count": 46887,
       "episode_number": null,
       "series_key": null
     },
@@ -3224,7 +3441,7 @@
       "base_score": 11,
       "feedback_mult": 1.0,
       "score": 12.1,
-      "view_count": 14024,
+      "view_count": 14046,
       "episode_number": null,
       "series_key": null
     },
@@ -3246,7 +3463,7 @@
       "base_score": -6,
       "feedback_mult": 1.0,
       "score": -6.0,
-      "view_count": 27634,
+      "view_count": 27724,
       "episode_number": null,
       "series_key": null
     },
@@ -3266,7 +3483,7 @@
       "base_score": 0,
       "feedback_mult": 0.94,
       "score": 0.0,
-      "view_count": 399870,
+      "view_count": 405389,
       "episode_number": null,
       "series_key": null
     },
@@ -3288,7 +3505,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 6227,
+      "view_count": 6236,
       "episode_number": null,
       "series_key": null
     },
@@ -3308,7 +3525,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 41931,
+      "view_count": 42848,
       "episode_number": null,
       "series_key": null
     },
@@ -3330,7 +3547,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 5568,
+      "view_count": 5581,
       "episode_number": null,
       "series_key": null
     },
@@ -3352,7 +3569,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 7.2,
-      "view_count": 99149,
+      "view_count": 100062,
       "episode_number": null,
       "series_key": null
     },
@@ -3372,7 +3589,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 399078,
+      "view_count": 400855,
       "episode_number": null,
       "series_key": null
     },
@@ -3394,29 +3611,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 5.4,
-      "view_count": 100984,
-      "episode_number": null,
-      "series_key": null
-    },
-    {
-      "id": "fED7Xhz4JpI",
-      "title": "OpenAI Codex will merge into ChatGPT: Denise Dresser, Alex Emibiricos, Romain Huet, Sam Altman",
-      "url": "https://www.youtube.com/watch?v=fED7Xhz4JpI",
-      "duration": 4128,
-      "published_at": "2026-06-03T07:16:47+00:00",
-      "channel_id": "UCvi5jNRoRVm436TVAXet1kQ",
-      "channel_title": "Latent Space TV (see @LatentSpacePod for Pod)",
-      "channel_handle": "@LatentSpaceTV",
-      "channel_tier": 2,
-      "thumb": "https://i.ytimg.com/vi/fED7Xhz4JpI/mqdefault.jpg",
-      "description": "reupload from https://openai.com/business/intelligence-at-work/ for easier access on. mobile youtube and transcribing\n\nStrategic Vision & The New Operating Model (1:18 - 13:28):\n\nOpenAI emphasizes moving beyond simple pilots to adopting AI as a core operating model (4:50).\nThey highlight the importance of their Frontier platform, which provides a context layer, agentic runtime, and observability t",
-      "categories": [
-        "applied_ai"
-      ],
-      "base_score": 6,
-      "feedback_mult": 1.0,
-      "score": 6.6,
-      "view_count": 3702,
+      "view_count": 101082,
       "episode_number": null,
       "series_key": null
     },
@@ -3436,7 +3631,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 455318,
+      "view_count": 455884,
       "episode_number": null,
       "series_key": null
     },
@@ -3458,7 +3653,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.0,
-      "view_count": 8131,
+      "view_count": 8191,
       "episode_number": null,
       "series_key": null
     },
@@ -3478,7 +3673,7 @@
       "base_score": 0,
       "feedback_mult": 1.0,
       "score": 0.0,
-      "view_count": 2072,
+      "view_count": 2073,
       "episode_number": null,
       "series_key": null
     },
@@ -3501,7 +3696,7 @@
       "base_score": -5,
       "feedback_mult": 1.0,
       "score": -4.5,
-      "view_count": 44116,
+      "view_count": 44156,
       "episode_number": null,
       "series_key": null
     },
@@ -3523,7 +3718,7 @@
       "base_score": 6,
       "feedback_mult": 1.0,
       "score": 6.6,
-      "view_count": 15765,
+      "view_count": 15815,
       "episode_number": null,
       "series_key": null
     },
@@ -3545,9 +3740,10 @@
       "base_score": -4,
       "feedback_mult": 0.94,
       "score": -3.77,
-      "view_count": 14764,
+      "view_count": 14863,
       "episode_number": null,
-      "series_key": null
+      "series_key": null,
+      "exploration": true
     },
     {
       "id": "o4KZH_KSqYQ",
@@ -3567,7 +3763,7 @@
       "base_score": 6,
       "feedback_mult": 0.94,
       "score": 6.79,
-      "view_count": 15554,
+      "view_count": 15629,
       "episode_number": null,
       "series_key": null
     }
