@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Sonnet 5",
+    "org": "Anthropic",
+    "date": "2026-06-30",
+    "type": "model",
+    "summary": "The default model on free and paid Claude plans now plans, uses browsers and terminals, and runs agents autonomously at near-Opus quality. Intro API pricing is $2 per million input tokens through Aug 31, making long agent runs far cheaper to ship.",
+    "url": "https://www.anthropic.com/news/claude-sonnet-5"
+  },
+  {
     "name": "Krea 2 (open weights)",
     "org": "Krea",
     "date": "2026-06-23",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Generate 3–15 second video clips with built-in audio and lip-sync in five languages, plus up to six shots stitched in a single prompt. A free daily tier lets you test, and per-second pricing keeps short hooks and ad concepts cheap.",
     "url": "https://invideo.io/blog/kling-3-0-complete-guide/"
-  },
-  {
-    "name": "Grok Imagine Video 1.5",
-    "org": "xAI",
-    "date": "2026-06-16",
-    "type": "tool",
-    "summary": "Turn a still image into a 6-second clip with sound effects, ambience, and dialogue generated in the same pass, no separate audio step. Runs in the grok.com app and on iOS/Android, and the API is $4.20/min versus Sora's $30.",
-    "url": "https://x.ai/news/grok-imagine-video-1-5"
   }
 ]
