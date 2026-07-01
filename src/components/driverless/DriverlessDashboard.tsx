@@ -30,13 +30,13 @@ export default function DriverlessDashboard() {
         />
         <div className="dl-hero-overlay">
           <h1 className="dl-hero-overlay-title">Driverless</h1>
-          <span className="dl-hero-overlay-sub">april 2026 snapshot · self-driving by the numbers</span>
+          <span className="dl-hero-overlay-sub">july 2026 snapshot · self-driving by the numbers</span>
         </div>
       </div>
 
       {/* Header */}
       <header className="dl-header">
-        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of April 2026 — fleets, safety data, where you can ride today, and what's coming next.</p>
+        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of July 2026 — fleets, safety data, where you can ride today, and what's coming next.</p>
       </header>
 
       {/* Built for moments like */}
@@ -64,10 +64,10 @@ export default function DriverlessDashboard() {
 
       {/* Milestone callout */}
       <div className="dl-milestone">
-        <div className="dl-milestone-tag">April 2026 milestone</div>
-        <p className="dl-milestone-headline">Tesla finally goes driverless in Austin</p>
+        <div className="dl-milestone-tag">June 2026 milestone</div>
+        <p className="dl-milestone-headline">Tesla robotaxis now cover all of Austin</p>
         <p className="dl-milestone-body">
-          After years of L2+ "Full Self-Driving" with a human at the wheel, Tesla begins paid Cybercab rides in Austin with no safety driver — its first true Level 4 deployment. Waymo crosses 550K rides/week the same month. Five companies are now operating commercial driverless rides in the US, eight years after Waymo became the first.
+          On June 3, Tesla opened its unsupervised Cybercab rides across the entire Austin metro — about 245 square miles — with no safety monitor in the car, though only a small fleet of roughly 20 vehicles serves it so far. The same season, Waymo opened its seventh metro in Nashville and held steady at about 500K paid rides a week. Four companies now run commercial driverless service in the US: Waymo, Tesla, Zoox, and Aurora's freight trucks.
         </p>
       </div>
 
@@ -138,7 +138,7 @@ export default function DriverlessDashboard() {
 
       {/* Footer */}
       <footer className="dl-footer">
-        <p>Last updated April 2026. All data is a point-in-time snapshot.</p>
+        <p>Last updated July 2026. All data is a point-in-time snapshot.</p>
         <p>
           Sources:{" "}
           <a href="https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting" target="_blank" rel="noopener noreferrer">NHTSA crash reports</a>,{" "}
