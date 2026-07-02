@@ -58,7 +58,8 @@ function eventHasDisplayTime(value: Date) {
   return hour !== 0 || minute !== 0;
 }
 
-function formatEventDay(value: Date) {
+/** Format a Campbell date as "Wed, Jul 2" — shared by the events guide and Today tile. */
+export function formatEventDay(value: Date) {
   return new Intl.DateTimeFormat("en-US", {
     timeZone: CAMPBELL_TIME_ZONE,
     weekday: "short",
