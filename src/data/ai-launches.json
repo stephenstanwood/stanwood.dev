@@ -46,21 +46,5 @@
     "type": "tool",
     "summary": "Free terminal coding agent that runs multiple sub-agents in the background, so you can fire off big refactors or parallel research without locking up your session. Ships as a single Go binary and replaces the retired Gemini CLI for individual devs.",
     "url": "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
-  },
-  {
-    "name": "Agent Finder for Copilot",
-    "org": "GitHub",
-    "date": "2026-06-17",
-    "type": "tool",
-    "summary": "Describe a coding task in plain English and Copilot searches a catalog of agent tools, MCP servers, and skills, then surfaces ranked matches it can pull in on demand — nothing gets wired up without your say-so. Free for all Copilot plans.",
-    "url": "https://github.blog/changelog/2026-06-17-agent-finder-for-github-copilot-now-available/"
-  },
-  {
-    "name": "Kling 3.0 Turbo",
-    "org": "Kling AI",
-    "date": "2026-06-17",
-    "type": "tool",
-    "summary": "Generate 3–15 second video clips with built-in audio and lip-sync in five languages, plus up to six shots stitched in a single prompt. A free daily tier lets you test, and per-second pricing keeps short hooks and ad concepts cheap.",
-    "url": "https://invideo.io/blog/kling-3-0-complete-guide/"
   }
 ]
