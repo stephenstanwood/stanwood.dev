@@ -3,14 +3,13 @@ import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
 import {
-  CAMPBELL_TIME_ZONE,
   COUNCIL_SOURCE_STALE_AFTER_DAYS,
   DAY_MS,
   endOfDay,
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
-import { eventInWindow, eventStart } from "../../lib/campbell/eventDates";
+import { eventInWindow, eventStart, formatEventDay } from "../../lib/campbell/eventDates";
 import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
 
 interface CampbellEvent {
@@ -40,15 +39,6 @@ const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
 function eventIsUpcoming(event: CampbellEvent, dayEnd: Date) {
   const start = eventStart(event);
   return Boolean(start && start.getTime() > dayEnd.getTime());
-}
-
-function formatDay(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
-    timeZone: CAMPBELL_TIME_ZONE,
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  }).format(date);
 }
 
 function shortSummary(value: string) {
@@ -92,7 +82,7 @@ export default function TodayInCampbell() {
         <a href={upcomingHearing.hearing.noticeUrl || upcomingHearing.hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
           {upcomingHearing.hearing.title}
         </a>
-        <span>{formatDay(upcomingHearing.date)} - {upcomingHearing.hearing.body}</span>
+        <span>{formatEventDay(upcomingHearing.date)} - {upcomingHearing.hearing.body}</span>
       </div>
     );
   } else if (recentHearings.length > 0) {
@@ -109,7 +99,7 @@ export default function TodayInCampbell() {
   return (
     <section className="cb-today" aria-label="Today in Campbell">
       <div className="cb-today-head">
-        <span>{formatDay(referenceDay)}</span>
+        <span>{formatEventDay(referenceDay)}</span>
         <h2>Today in Campbell</h2>
         <p>Events, public notices, and the next city record worth opening.</p>
       </div>
@@ -162,7 +152,7 @@ export default function TodayInCampbell() {
                     <a href={event.url} target="_blank" rel="noopener noreferrer">
                       {event.title}
                     </a>
-                    <span>{start ? formatDay(start) : event.date}</span>
+                    <span>{start ? formatEventDay(start) : event.date}</span>
                   </li>
                 );
               })}
@@ -178,7 +168,7 @@ export default function TodayInCampbell() {
           <span>Recent public notices</span>
           {recentHearings.slice(0, 3).map(({ hearing, date }) => (
             <a key={`${hearing.title}-${hearing.hearingAt}`} href={hearing.noticeUrl || hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
-              <span className="cb-notice-date">{formatDay(date)}</span>
+              <span className="cb-notice-date">{formatEventDay(date)}</span>
               {" "}
               <span className="cb-notice-title">{shortSummary(hearing.title)}</span>
             </a>
