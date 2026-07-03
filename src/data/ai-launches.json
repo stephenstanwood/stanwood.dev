@@ -8,6 +8,22 @@
     "url": "https://www.anthropic.com/news/claude-sonnet-5"
   },
   {
+    "name": "Gemini 3.1 Flash Lite Image",
+    "org": "Google",
+    "date": "2026-06-30",
+    "type": "model",
+    "summary": "Generate and edit images through one fast, cheap multimodal API — roughly 4 to 7 cents per image by resolution. Now generally available (Nano Banana Lite) and tuned for ultra-low latency, so it fits real-time and high-volume solo projects.",
+    "url": "https://ai.google.dev/gemini-api/docs/changelog"
+  },
+  {
+    "name": "Gemini Omni Flash",
+    "org": "Google",
+    "date": "2026-06-30",
+    "type": "model",
+    "summary": "Make 3 to 10 second 720p clips from a text prompt or animate a still image, then refine them by chatting with the model. In public preview now through the Gemini API — quick, affordable video for prototypes and social posts.",
+    "url": "https://ai.google.dev/gemini-api/docs/changelog"
+  },
+  {
     "name": "Krea 2 (open weights)",
     "org": "Krea",
     "date": "2026-06-23",
@@ -30,21 +46,5 @@
     "type": "tool",
     "summary": "Get instant next-edit suggestions in VS Code or JetBrains — Kilo guesses the change you're about to make and applies it as you type, powered by Inception's diffusion model. Free for everyone through July 23 in the open-source Kilo agent.",
     "url": "https://blog.kilo.ai/p/announcing-next-edit-in-kilo-powered-by-inception"
-  },
-  {
-    "name": "Firefly AI Assistant",
-    "org": "Adobe",
-    "date": "2026-06-18",
-    "type": "tool",
-    "summary": "Describe your brand in plain English and the AI Assistant generates a complete logo, brand identity, and color palette you can apply across every project. Live now in the Firefly web app, with the assistant rolling into Photoshop, Premiere, and Illustrator.",
-    "url": "https://blog.adobe.com/en/publish/2026/06/18/adobe-firefly-introduces-new-agentic-capabilities-and-an-upgraded-creative-ai-studio-built-for-the-way-you-work"
-  },
-  {
-    "name": "Antigravity CLI",
-    "org": "Google",
-    "date": "2026-06-18",
-    "type": "tool",
-    "summary": "Free terminal coding agent that runs multiple sub-agents in the background, so you can fire off big refactors or parallel research without locking up your session. Ships as a single Go binary and replaces the retired Gemini CLI for individual devs.",
-    "url": "https://developers.googleblog.com/an-important-update-transitioning-gemini-cli-to-antigravity-cli/"
   }
 ]
