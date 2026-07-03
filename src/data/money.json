@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-02T06:10:21.176Z",
+  "lastUpdated": "2026-07-03T01:10:33.982Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-02T06:10:21.176Z",
+        "collectedAt": "2026-07-03T01:10:33.982Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -132,19 +132,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 266,
+            "totalCents": 586,
             "breakdown": [
               {
                 "name": "claude-opus-4-7",
-                "cents": 126
+                "cents": 333
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 77
+                "cents": 144
               },
               {
                 "name": "claude-opus-4-8",
-                "cents": 63
+                "cents": 109
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
@@ -239,10 +239,10 @@
     },
     {
       "name": "Neon via Vercel",
-      "cents": 2358,
+      "cents": 2105,
       "category": "infra",
       "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Jun 2026"
+      "note": "Mercury actual Jul 2026"
     },
     {
       "name": "Vercel Pro",
