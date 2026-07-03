@@ -3,7 +3,7 @@
 // and resolves watch-recording links per league.
 
 import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
-import { fetchEspnScoreboard, parseScore, TIMEZONE } from "./sportsCore";
+import { fetchEspnScoreboard, parseScore, TIMEZONE, NON_PLAYED_STATUS_NAMES } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
 const WTWTW_LS_KEY = "wtwtw:v1";
@@ -91,18 +91,12 @@ function eventStartSortKey(ev: ESPNEvent): number {
   return Number.isFinite(ms) ? ms : 0;
 }
 
-// ESPN parks postponed / canceled / suspended games in the "post" state with
-// completed:false and 0–0 scores — so they'd otherwise read as a finished 0–0
-// "Final". These games were never played to a result; we never treat them as
-// final, never score them for watchability, and never count them as "started"
-// (so a postponement can't suppress a team's real prior recap).
-const NON_PLAYED_STATUS_NAMES = new Set([
-  "STATUS_POSTPONED",
-  "STATUS_CANCELED",
-  "STATUS_CANCELLED", // ESPN has used both spellings
-  "STATUS_SUSPENDED",
-]);
-
+// ESPN parks postponed / canceled / suspended games (NON_PLAYED_STATUS_NAMES,
+// shared from sportsCore) in the "post" state with completed:false and 0–0
+// scores — so they'd otherwise read as a finished 0–0 "Final". These games were
+// never played to a result; we never treat them as final, never score them for
+// watchability, and never count them as "started" (so a postponement can't
+// suppress a team's real prior recap).
 export function isPostponedLike(ev: ESPNEvent): boolean {
   const t = ev.competitions?.[0]?.status?.type;
   const name = (t?.name || "").toUpperCase();
