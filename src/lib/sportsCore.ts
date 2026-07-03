@@ -144,7 +144,7 @@ export function isLive(status: Status | undefined): boolean {
 // completed:false and 0–0 scores — so a naive `state === "post"` check reads
 // them as a finished 0–0 "Final". These games were never played to a result;
 // callers drop them entirely rather than rendering a phantom final.
-const NON_PLAYED_STATUS_NAMES = new Set([
+export const NON_PLAYED_STATUS_NAMES = new Set([
   "STATUS_POSTPONED",
   "STATUS_CANCELED",
   "STATUS_CANCELLED", // ESPN has used both spellings
