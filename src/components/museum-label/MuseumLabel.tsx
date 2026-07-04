@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { MUSEUM_STYLES, type MuseumLabel as MuseumLabelType } from "../../lib/museumPrompt";
+import { slugify } from "../../lib/slug";
 
 type Phase = "upload" | "loading" | "result";
 
@@ -259,7 +260,7 @@ export default function MuseumLabel() {
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          const slug = label.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "placard";
+          const slug = slugify(label.title, 60) || "placard";
           a.download = `${slug}.png`;
           document.body.appendChild(a);
           a.click();
