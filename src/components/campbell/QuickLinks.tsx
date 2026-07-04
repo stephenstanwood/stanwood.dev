@@ -14,6 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { SOURCE_URLS } from "../../data/campbell";
+import { slugify } from "../../lib/slug";
 
 type QuickLink = {
   title: string;
@@ -137,7 +138,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
 ];
 
 function linkGroupId(title: string) {
-  return `campbell-link-group-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")}`;
+  return `campbell-link-group-${slugify(title)}`;
 }
 
 export default function QuickLinks() {

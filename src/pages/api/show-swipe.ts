@@ -74,6 +74,11 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     if (!action || !mediaType) return errJson("action and mediaType are required", 400);
     if (mediaType !== "movie" && mediaType !== "tv") return errJson("mediaType must be 'movie' or 'tv'", 400);
     if (!VALID_ACTIONS.has(action as TmdbAction)) return errJson(`Invalid action: ${action}`, 400);
+    // params.id is interpolated into the TMDB URL path for "videos" — require a
+    // numeric id so it can't be used to reshape the request path.
+    if (action === "videos" && !/^\d+$/.test(String(params.id ?? ""))) {
+      return errJson("A numeric id is required for the videos action", 400);
+    }
 
     const url = buildTmdbUrl(action as TmdbAction, mediaType, params);
 
