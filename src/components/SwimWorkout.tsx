@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { generateWorkout } from "../lib/workoutEngine";
+import { generateWorkout, isSetGroup } from "../lib/workoutEngine";
 import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
 import { safeGet, safeSet } from "../lib/localStorage";
 import { daysSince } from "../lib/time";
@@ -77,7 +77,7 @@ function workoutToText(workout: Workout): string {
   for (const section of workout.sections) {
     lines.push(`─── ${section.name} (${section.distance}${unit}) ───`);
     for (const item of section.items) {
-      if (item.isGroup && item.items) {
+      if (isSetGroup(item)) {
         for (const sub of item.items) {
           const reps = sub.reps > 1 ? `${sub.reps}× ` : "";
           const timing = sub.intervalDisplay ? `  @ ${sub.intervalDisplay}` : "";
@@ -200,7 +200,7 @@ function EquipmentBadge({ equipment }: { equipment: string }) {
 // ─── Set item renderer ─────────────────────────────────────────────────────────
 
 function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
-  if (item.isGroup && item.items) {
+  if (isSetGroup(item)) {
     return (
       <div className="pl-3 border-l-2 border-teal-300/50 space-y-2 my-2">
         {item.items.map((sub, i) => (
@@ -314,7 +314,7 @@ function PrintWorkout({ workout }: { workout: Workout | null }) {
             <span className="text-xs text-gray-400 font-mono">{section.distance} {unit}</span>
           </div>
           {section.items.map((item, j) => {
-            if (item.isGroup && item.items) {
+            if (isSetGroup(item)) {
               return (
                 <div key={j} className="pl-4 mb-1">
                   {item.items.map((sub, k) => (
