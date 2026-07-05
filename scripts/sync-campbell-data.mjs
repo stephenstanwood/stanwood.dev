@@ -399,6 +399,44 @@ function businessKey(business) {
   return normalizeKeyPart(business.name);
 }
 
+function hasCampbellMemberSlug(business) {
+  try {
+    const pathname = new URL(business.url).pathname.toLowerCase();
+    return /(?:^|-)campbell(?:-|$)/.test(pathname);
+  } catch {
+    return false;
+  }
+}
+
+function hasLocalPhone(business) {
+  return /^\(?(?:408|669)\)?/.test(business.phone ?? "");
+}
+
+function duplicateBusinessScore(business) {
+  let score = 0;
+
+  // The Chamber can expose duplicate records with the same public name. For a
+  // Campbell guide, keep the member page that is explicitly scoped to Campbell.
+  if (hasCampbellMemberSlug(business)) score += 40;
+  if (hasLocalPhone(business)) score += 8;
+  if (business.websiteUrl) score += 4;
+  if (business.imageUrl) score += 3;
+  if (business.description) score += 2;
+  if (business.address) score += 1;
+  if (business.phone) score += 1;
+
+  return score;
+}
+
+function preferredDuplicateBusiness(existing, business) {
+  if (existing.source !== business.source) return existing;
+
+  const existingScore = duplicateBusinessScore(existing);
+  const businessScore = duplicateBusinessScore(business);
+
+  return businessScore > existingScore ? business : existing;
+}
+
 function mergeBusinesses(...feeds) {
   const byKey = new Map();
 
@@ -419,19 +457,21 @@ function mergeBusinesses(...feeds) {
       business.sourceUrl,
       ...(business.additionalSourceUrls ?? []),
     ].filter(Boolean));
+    const preferred = preferredDuplicateBusiness(existing, business);
+    const fallback = preferred === existing ? business : existing;
 
     byKey.set(key, {
-      ...existing,
-      phone: existing.phone || business.phone,
-      address: existing.address || business.address,
-      city: existing.city || business.city,
-      url: existing.url || business.url,
-      websiteUrl: existing.websiteUrl || business.websiteUrl,
-      imageUrl: existing.imageUrl || business.imageUrl,
-      description: existing.description || business.description,
+      ...preferred,
+      phone: preferred.phone || fallback.phone,
+      address: preferred.address || fallback.address,
+      city: preferred.city || fallback.city,
+      url: preferred.url || fallback.url,
+      websiteUrl: preferred.websiteUrl || fallback.websiteUrl,
+      imageUrl: preferred.imageUrl || fallback.imageUrl,
+      description: preferred.description || fallback.description,
       tags: [...tags],
       source: [...sources].join(" + "),
-      additionalSourceUrls: [...sourceUrls].filter((url) => url !== existing.sourceUrl),
+      additionalSourceUrls: [...sourceUrls].filter((url) => url !== preferred.sourceUrl),
     });
   }
 
