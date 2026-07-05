@@ -43,6 +43,11 @@ export interface Section {
   distance: number;
 }
 
+/** A set item that wraps a nested group of sub-items (e.g. a main set with several rounds). */
+export function isSetGroup(item: SetItem): item is SetItem & { items: SetItem[] } {
+  return Boolean(item.isGroup && item.items);
+}
+
 export type WorkoutFocus = "any" | "endurance" | "speed" | "technique";
 
 export interface WorkoutInput {
@@ -174,8 +179,15 @@ function weightedPick<T>(items: T[], weights: number[], rng: Rng): T {
 
 // ─── Target yardage by duration & pace ─────────────────────────────────────────
 
+/** Fraction of session time actually spent swimming — shorter sessions waste less on rest/transitions. */
+function poolUtilization(durationMin: number): number {
+  if (durationMin <= 30) return 0.72;
+  if (durationMin <= 60) return 0.68;
+  return 0.65;
+}
+
 function calcTargetDistance(durationMin: number, paceSec: number): number {
-  const utilization = durationMin <= 30 ? 0.72 : durationMin <= 60 ? 0.68 : 0.65;
+  const utilization = poolUtilization(durationMin);
   const rawDist = (durationMin * 60 * utilization) / (paceSec / 100);
   return Math.round(rawDist / 100) * 100;
 }
@@ -1033,7 +1045,7 @@ export function generateWorkout({ duration, pace, unit, seed, focus = "any", equ
   // Format intervals for display
   const formatSet = (items: SetItem[]): SetItem[] =>
     items.map((item) => {
-      if (item.isGroup && item.items) {
+      if (isSetGroup(item)) {
         return { ...item, items: formatSet(item.items) };
       }
       return {
