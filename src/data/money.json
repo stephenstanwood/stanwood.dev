@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-06T06:10:13.645Z",
+  "lastUpdated": "2026-07-06T13:10:22.331Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-06T06:10:13.645Z",
+        "collectedAt": "2026-07-06T13:10:22.331Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -167,13 +167,6 @@
     ]
   },
   "subscriptions": [
-    {
-      "name": "Anthropic",
-      "cents": 31516,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Jun 2026; 4 Mercury charges combined"
-    },
     {
       "name": "Claude Max",
       "cents": 20000,
@@ -238,6 +231,13 @@
       "note": "PDF wrangling — AI Assistant tier cancelled"
     },
     {
+      "name": "Anthropic",
+      "cents": 2502,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Jul 2026"
+    },
+    {
       "name": "Neon via Vercel",
       "cents": 2105,
       "category": "infra",
@@ -270,7 +270,7 @@
       "cents": 2000,
       "category": "ai",
       "url": "https://www.magicpatterns.com",
-      "note": "Mercury actual Jun 2026"
+      "note": "Mercury actual Jul 2026"
     },
     {
       "name": "Replicate",
