@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-06T01:10:14.855Z",
+  "lastUpdated": "2026-07-06T06:10:13.645Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-06T01:10:14.855Z",
+        "collectedAt": "2026-07-06T06:10:13.645Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -150,8 +150,9 @@
             "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
-            "totalCents": null,
-            "note": "OpenAI API 500: {\n  \"error\": {\n    \"message\": \"The server had an error processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if you keep seein"
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
           },
           "neon": {
             "totalCents": null,
@@ -182,7 +183,7 @@
     },
     {
       "name": "ChatGPT Pro",
-      "cents": 14891,
+      "cents": 20000,
       "category": "ai",
       "url": "https://chatgpt.com",
       "note": "Mercury actual; nominal $200 plan"
