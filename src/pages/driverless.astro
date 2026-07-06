@@ -97,13 +97,15 @@ const slug = "driverless";
   .dl-hero-overlay-sub {
     font-family: "JetBrains Mono", monospace;
     font-size: 11px;
+    line-height: 1.35;
     color: var(--dl-ink);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     background: rgba(255, 255, 255, 0.85);
     padding: 4px 10px;
     border-radius: 4px;
-    white-space: nowrap;
+    max-width: min(100%, 28rem);
+    text-align: right;
   }
   @media (max-width: 600px) {
     .dl-hero-img {
@@ -114,6 +116,10 @@ const slug = "driverless";
       left: 16px;
       right: 16px;
       bottom: 14px;
+    }
+    .dl-hero-overlay-sub {
+      max-width: 100%;
+      text-align: left;
     }
   }
 
