@@ -32,6 +32,14 @@
     "url": "https://ai.google.dev/gemini-api/docs/changelog"
   },
   {
+    "name": "LongCat-2.0",
+    "org": "Meituan",
+    "date": "2026-06-30",
+    "type": "model",
+    "summary": "Open-weight agentic coding model that goes toe-to-toe with GPT-5.5 on SWE-bench Pro. Grab the MIT-licensed weights on Hugging Face to self-host, or call it cheaply on OpenRouter (it topped the charts there as 'Owl Alpha'). 1M-token context fits whole repos.",
+    "url": "https://venturebeat.com/technology/meituan-open-sources-longcat-2-0-the-1-6t-near-frontier-agentic-coding-model-thats-been-leading-openrouter-trained-entirely-on-chinese-chips"
+  },
+  {
     "name": "Ornith-1.0",
     "org": "DeepReinforce",
     "date": "2026-06-25",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Turn PDFs and scans into structured data — bounding boxes, typed blocks for tables, equations, and signatures, plus per-word confidence across 170 languages. Hit it via API at $4 per 1,000 pages, or self-host the container to keep documents private.",
     "url": "https://venturebeat.com/data/mistral-launches-ocr-4-turning-document-extraction-into-a-full-enterprise-ai-play"
-  },
-  {
-    "name": "Kilo Next-Edit",
-    "org": "Kilo",
-    "date": "2026-06-22",
-    "type": "tool",
-    "summary": "Get instant next-edit suggestions in VS Code or JetBrains — Kilo guesses the change you're about to make and applies it as you type, powered by Inception's diffusion model. Free for everyone through July 23 in the open-source Kilo agent.",
-    "url": "https://blog.kilo.ai/p/announcing-next-edit-in-kilo-powered-by-inception"
   }
 ]
