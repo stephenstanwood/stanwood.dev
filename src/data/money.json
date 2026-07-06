@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-05T01:10:20.381Z",
+  "lastUpdated": "2026-07-06T01:10:14.855Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-05T01:10:20.381Z",
+        "collectedAt": "2026-07-06T01:10:14.855Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -132,27 +132,26 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 927,
+            "totalCents": 1059,
             "breakdown": [
               {
                 "name": "claude-opus-4-7",
-                "cents": 472
+                "cents": 541
               },
               {
                 "name": "claude-opus-4-8",
-                "cents": 262
+                "cents": 311
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 193
+                "cents": 207
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
-            "totalCents": 0,
-            "breakdown": [],
-            "note": null
+            "totalCents": null,
+            "note": "OpenAI API 500: {\n  \"error\": {\n    \"message\": \"The server had an error processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if you keep seein"
           },
           "neon": {
             "totalCents": null,
