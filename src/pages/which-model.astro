@@ -492,27 +492,6 @@ const directoryModels = [...MODELS].sort((a, b) => {
         margin: 0 0 10px;
         color: var(--wm-ink, #111);
       }
-      .wm-shift-list {
-        margin: 0 0 10px;
-        padding: 0;
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .wm-shift-list li {
-        font-size: 14px;
-        line-height: 1.55;
-        color: var(--wm-ink, #111);
-      }
-      .wm-shift-date {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--wm-muted, #6b6b6b);
-        margin-right: 8px;
-        white-space: nowrap;
-      }
       .wm-shift-foot {
         font-family: 'Space Mono', monospace;
         font-size: 12px;
@@ -1105,15 +1084,9 @@ const directoryModels = [...MODELS].sort((a, b) => {
       Showing <strong>{directoryModels.length}</strong> models, sorted by their strongest practical signal.
     </p>
 
-    <aside class="wm-shift" aria-label="What has shifted since the snapshot">
-      <p class="wm-shift-title">Shifted since the April snapshot</p>
-      <ul class="wm-shift-list">
-        <li><span class="wm-shift-date">May 22</span>DeepSeek cut its prices 75%, permanently — the budget tier got dramatically cheaper.</li>
-        <li><span class="wm-shift-date">May 28</span>Claude Opus 4.8 landed — Anthropic's new flagship, now the pick to beat for serious coding and agent work.</li>
-        <li><span class="wm-shift-date">Jun 1</span>MiniMax M3 arrived — an open-weight heavyweight with a 1M-token context you can run on your own hardware.</li>
-        <li><span class="wm-shift-date">Jun 2</span>MAI-Code-1-Flash — Microsoft's first home-grown coding model, shipping inside GitHub Copilot.</li>
-      </ul>
-      <p class="wm-shift-foot">New launches land daily on <a href="/radar">AI Radar →</a></p>
+    <aside class="wm-shift" aria-label="Keeping this current">
+      <p class="wm-shift-title">This snapshot moves slowly on purpose</p>
+      <p class="wm-shift-foot">New models and price cuts land almost daily — see <a href="/radar">AI Radar →</a> for what's fresh.</p>
     </aside>
 
     <div class="wm-directory-grid">
