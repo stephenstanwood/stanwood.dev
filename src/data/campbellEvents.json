@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T06:22:17.780Z",
+  "generatedAt": "2026-07-07T09:20:48.754Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
@@ -42,7 +42,7 @@
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
       "count": 15,
-      "parsedCount": 30
+      "parsedCount": 29
     }
   ],
   "items": [
@@ -73,19 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Emerald Summer Art Camp: Pottery, Painting, Sculpture, Mixed Media",
-      "date": "7/6/26",
-      "cost": "$290/$520",
-      "location": "Emerald Art Studio",
-      "description": "Emerald Art Studio is offering summer camps. Each week features a unique theme, and campers will enjoy a variety of drawing, painting, and ceramics activities every day, keeping the experience engaging and inspiring throughout the summer.",
-      "url": "https://www.downtowncampbell.com/event/emerald-summer-art-camp-pottery-painting-sculpture-mixed-media",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/emeraldart-studio-summercamp.jpg?itok=fpwfkT_9",
-      "category": "Downtown",
-      "startDate": "2026-07-06T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Membership 101 8-8:45am",
@@ -305,9 +292,9 @@
       "date": "7/13/26",
       "cost": "$290/$520",
       "location": "Emerald Art Studio",
-      "description": "",
+      "description": "Emerald Art Studio is offering summer camps. Each week features a unique theme, and campers will enjoy a variety of drawing, painting, and ceramics activities every day, keeping the experience engaging and inspiring throughout the summer.",
       "url": "https://www.downtowncampbell.com/event/emerald-summer-art-camp-pottery-painting-sculpture-mixed-media",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/emeraldart-studio-summercamp.jpg?itok=4ITlxi9X",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/emeraldart-studio-summercamp.jpg?itok=fpwfkT_9",
       "category": "Downtown",
       "startDate": "2026-07-13T00:00:00",
       "source": "Downtown Campbell Events",
@@ -1957,7 +1944,7 @@
     {
       "title": "Toast - The Best Of Bread",
       "date": "Nov 17, 2026, 7:00 PM – 10:00 PM",
-      "cost": "",
+      "cost": "$39/$55 + $4 FF",
       "location": "Heritage Theatre",
       "description": "TOAST will take you on a journey back in time, engaging a spectrum of emotions; from the tender moments that tug on the heartstrings to the upbeat classics that compel you to jump out of your seat and dance.",
       "url": "https://www.heritagetheatre.org/event-details/toast-the-best-of-bread",
@@ -1965,8 +1952,11 @@
       "category": "Heritage Theatre",
       "startDate": "2026-11-17T19:00:00-08:00",
       "endDate": "2026-11-17T22:00:00-08:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "World Ballet Company: Swan Lake",
