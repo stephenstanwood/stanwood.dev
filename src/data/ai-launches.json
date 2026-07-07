@@ -1,5 +1,13 @@
 [
   {
+    "name": "gpt-realtime-2.1",
+    "org": "OpenAI",
+    "date": "2026-07-06",
+    "type": "model",
+    "summary": "Build low-latency voice agents that listen, reason, and talk back, with tool use and configurable thinking effort. A cheaper distilled mini variant ships alongside, and p95 latency drops at least 25%. Live in the Realtime API today.",
+    "url": "https://community.openai.com/t/new-realtime-models-on-the-api-gpt-realtime-2-1-and-gpt-realtime-2-1-mini/1385896"
+  },
+  {
     "name": "Claude Fable 5",
     "org": "Anthropic",
     "date": "2026-07-01",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Open-weight foundation image model that makes aesthetic, style-controlled images in about 2 seconds. Grab the Raw and Turbo weights on Hugging Face (free commercial use for individuals and small teams) or call it via fal at $0.03 an image.",
     "url": "https://www.krea.ai/krea-2"
-  },
-  {
-    "name": "Mistral OCR 4",
-    "org": "Mistral",
-    "date": "2026-06-23",
-    "type": "model",
-    "summary": "Turn PDFs and scans into structured data — bounding boxes, typed blocks for tables, equations, and signatures, plus per-word confidence across 170 languages. Hit it via API at $4 per 1,000 pages, or self-host the container to keep documents private.",
-    "url": "https://venturebeat.com/data/mistral-launches-ocr-4-turning-document-extraction-into-a-full-enterprise-ai-play"
   }
 ]
