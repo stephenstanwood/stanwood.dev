@@ -780,6 +780,9 @@ function eventRejectionReason(event) {
   ].join(" ");
 
   if ((event.topics ?? []).includes("CUSD No School Days")) return "school closure";
+  if ((event.topics ?? []).includes("CUSD District Wide Events") && /\b(?:all-staff|admin|ceta|coaches?|dlt|leadership|retreat)\b/i.test(title)) {
+    return "school internal notice";
+  }
   if (/campbell community center pool calendar/i.test(event.category ?? "") && /\b(?:closed|closure|no\b|practice|team)\b/i.test(title)) {
     return "pool operations notice";
   }
