@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-08T06:23:06.778Z",
+  "generatedAt": "2026-07-08T09:23:14.601Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 41,
-      "parsedCount": 41
+      "count": 38,
+      "parsedCount": 38
     },
     {
       "label": "Downtown Campbell Events",
@@ -75,34 +75,6 @@
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
     },
     {
-      "title": "Kindness Rock Painting",
-      "date": "July 7, 2026, 3:00 PM - 5:00 PM",
-      "cost": "",
-      "location": "Roosevelt Redwood Room",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3982&month=7&year=2026&day=7&calType=0",
-      "imageUrl": "",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-07T15:00:00",
-      "endDate": "2026-07-07T17:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
-      "title": "City Council Regular Meeting",
-      "date": "July 7, 2026, 7:00 PM",
-      "cost": "",
-      "location": "Council Chamber",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3916&month=7&year=2026&day=7&calType=0",
-      "imageUrl": "",
-      "category": "City Council",
-      "startDate": "2026-07-07T19:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": []
-    },
-    {
       "title": "Toddler Storytime",
       "date": "Jul 8th | 10:30am - 11:00am",
       "cost": "Free",
@@ -127,6 +99,19 @@
       "startDate": "2026-07-08T15:30:00",
       "source": "Campbell Library Events",
       "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
+      "title": "Summer Soirée Live Music with Kyle Hernandez",
+      "date": "7/9/26",
+      "cost": "FREE",
+      "location": "Tessora's Wine Bar",
+      "description": "Join us for an unforgettable evening of live music, delicious dining, and a welcoming patio atmosphere at our Summer Soirée Live Music.",
+      "url": "https://www.downtowncampbell.com/event/2026/07/summer-soir-e-live-music-kyle-hernandez",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1248/images/ms_0.png?itok=whJhSupD",
+      "category": "Downtown",
+      "startDate": "2026-07-09T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Baby Lapsit for Ages 0 - 18 Months",
@@ -329,6 +314,19 @@
       ]
     },
     {
+      "title": "Summer Soirée Live Music with Simon Santiago",
+      "date": "7/16/26",
+      "cost": "FREE",
+      "location": "Tessora's Wine Bar",
+      "description": "Join us for an unforgettable evening of live music, delicious dining, and a welcoming patio atmosphere at our Summer Soirée Live Music.",
+      "url": "https://www.downtowncampbell.com/event/2026/07/summer-soir-e-live-music-simon-santiago",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1248/images/summer_soiree_simon.png?itok=O5bk02mL",
+      "category": "Downtown",
+      "startDate": "2026-07-16T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "BLS Classes in Campbell",
       "date": "Thursday Jul 16, 2026",
       "cost": "",
@@ -518,7 +516,7 @@
     {
       "title": "Heritage Theatre Pop-Up Art Gallery",
       "date": "Jul 22, 2026, 3:00 PM – 5:00 PM",
-      "cost": "",
+      "cost": "Free",
       "location": "Heritage Theatre",
       "description": "Visit the Heritage Theatre for a Pop-Up Art Gallery in the lobby featuring artwork by theatre volunteers, staff, and Campbell members.",
       "url": "https://www.heritagetheatre.org/event-details/heritage-theatre-pop-up-art-gallery-1",
@@ -526,22 +524,28 @@
       "category": "Heritage Theatre",
       "startDate": "2026-07-22T15:00:00-07:00",
       "endDate": "2026-07-22T17:00:00-07:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Pop Up Art Gallery",
       "date": "July 22, 2026, 3:00 PM - 5:00 PM",
-      "cost": "",
+      "cost": "Free",
       "location": "The Heritage Theatre",
-      "description": "",
+      "description": "Visit the Heritage Theatre for a FREE Pop-Up Art Gallery in the lobby featuring original artwork by theatre volunteers, staff, and Campbell members.",
       "url": "https://www.campbellca.gov/Calendar.aspx?EID=3990&month=7&year=2026&day=22&calType=0",
-      "imageUrl": "",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/2961/images/ht_art_day_logo_v3_bg.png?itok=KtytY0Tz",
       "category": "Recreation & Community Services",
       "startDate": "2026-07-22T15:00:00",
       "endDate": "2026-07-22T17:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+      "source": "City of Campbell Calendar + Downtown Campbell Events",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Summer Concert Series - San Benito County Line",
@@ -1848,19 +1852,6 @@
       "endDate": "2026-11-03T17:30:00"
     },
     {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "11/8/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
-      "category": "Downtown",
-      "startDate": "2026-11-08T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
       "title": "Diversity and Inclusion Subcommittee Meeting",
       "date": "Nov 10, 2026, 4:30 PM PST",
       "cost": "",
@@ -1895,19 +1886,6 @@
       "endDate": "2026-11-12T19:30:00"
     },
     {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "11/15/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
-      "category": "Downtown",
-      "startDate": "2026-11-15T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
       "title": "BLS Classes in Campbell",
       "date": "Monday Nov 16, 2026",
       "cost": "",
@@ -1927,7 +1905,7 @@
     {
       "title": "Toast - The Best Of Bread",
       "date": "Nov 17, 2026, 7:00 PM – 10:00 PM",
-      "cost": "$39/$55 + $4 FF",
+      "cost": "",
       "location": "Heritage Theatre",
       "description": "TOAST will take you on a journey back in time, engaging a spectrum of emotions; from the tender moments that tug on the heartstrings to the upbeat classics that compel you to jump out of your seat and dance.",
       "url": "https://www.heritagetheatre.org/event-details/toast-the-best-of-bread",
@@ -1935,11 +1913,8 @@
       "category": "Heritage Theatre",
       "startDate": "2026-11-17T19:00:00-08:00",
       "endDate": "2026-11-17T22:00:00-08:00",
-      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
+      "source": "Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1"
     },
     {
       "title": "World Ballet Company: Swan Lake",
