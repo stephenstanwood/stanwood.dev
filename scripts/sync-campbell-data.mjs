@@ -845,9 +845,13 @@ async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
         (event.additionalSourceUrls ?? []).includes(sourceUrl);
       if (!fromSource) return false;
 
-      const timestamp = eventTimestamp(event);
-      if (timestamp === Number.MAX_SAFE_INTEGER) return true;
-      return timestamp >= today.getTime() && timestamp <= oneYearOut.getTime();
+      const startTimestamp = eventTimestamp(event);
+      const endTimestamp = eventEndTimestamp(event);
+      if (startTimestamp === Number.MAX_SAFE_INTEGER && endTimestamp === Number.MAX_SAFE_INTEGER) return true;
+
+      const effectiveStart = startTimestamp === Number.MAX_SAFE_INTEGER ? endTimestamp : startTimestamp;
+      const effectiveEnd = endTimestamp === Number.MAX_SAFE_INTEGER ? startTimestamp : endTimestamp;
+      return effectiveEnd >= today.getTime() && effectiveStart <= oneYearOut.getTime();
     })
     .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
@@ -1852,12 +1856,22 @@ async function main() {
     librarySourceNote = `Reused previous Campbell Library events because ${libraryPage.error}`;
     console.warn(`Warning: ${librarySourceNote}`);
   }
-  const museumEvents = parseWixEvents(museumsEventsHtml, {
+  let museumEvents = parseWixEvents(museumsEventsHtml, {
     baseUrl: CAMPBELL_MUSEUMS_BASE_URL,
     sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
     source: "Campbell Museums Events",
     category: "Museums",
   });
+  let museumSourceNote = "";
+  if (museumEvents.length === 0) {
+    museumEvents = await readExistingSourceEvents({
+      source: "Campbell Museums Events",
+      sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
+      generatedAt,
+    });
+    museumSourceNote = "Reused previous Campbell Museums events because the Wix warmup payload contained no events";
+    console.warn(`Warning: ${museumSourceNote}`);
+  }
   const heritageTheatreEvents = parseWixEvents(heritageTheatreEventsHtml, {
     baseUrl: HERITAGE_THEATRE_BASE_URL,
     sourceUrl: HERITAGE_THEATRE_EVENTS_URL,
@@ -2007,6 +2021,7 @@ async function main() {
         sourceUrl: CAMPBELL_MUSEUMS_EVENTS_URL,
         count: filteredMuseumEvents.length,
         parsedCount: museumEvents.length,
+        ...(museumSourceNote ? { note: museumSourceNote } : {}),
       },
       {
         label: "Campbell Heritage Theatre Events",
