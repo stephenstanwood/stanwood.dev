@@ -10,6 +10,10 @@ const absenceTitlePatterns = [
   /\bprograms closed\b/i,
   /^(?:Thanksgiving|Winter|Spring|Presidents'? Week) Break$/i,
   /\bProfessional Development Day\b/i,
+  /\bDistrict-Wide Professional Development\b/i,
+  /\bFaculty Senate Meeting\b/i,
+  /\bClassified Rep Council Meeting\b/i,
+  /\bSuperintendent (?:Parent|Student) Advisory Council Meeting\b/i,
   /\bCAASPP Window\b/i,
   /\bIntervention Conferences\b/i,
 ];
