@@ -2,6 +2,26 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import WTWTW from "../components/WTWTW.tsx";
 const title = "WTWTW — stanwood.dev";
+
+// Month-driven league phases so the "Active right now" badges never go stale.
+// Single source of truth: rendered server-side (build month) and re-checked
+// client-side (view month) via define:vars below.
+const PHASES: Record<string, Record<number, string>> = {
+  mlb: { 3: "MLB spring training", 4: "MLB regular season", 5: "MLB regular season", 6: "MLB regular season", 7: "MLB regular season", 8: "MLB regular season", 9: "MLB regular season", 10: "MLB postseason" },
+  nba: { 1: "NBA regular season", 2: "NBA regular season", 3: "NBA regular season", 4: "NBA playoffs", 5: "NBA playoffs", 6: "NBA Finals", 10: "NBA regular season", 11: "NBA regular season", 12: "NBA regular season" },
+  nhl: { 1: "NHL regular season", 2: "NHL regular season", 3: "NHL regular season", 4: "NHL playoffs", 5: "NHL playoffs", 6: "Stanley Cup Final", 10: "NHL regular season", 11: "NHL regular season", 12: "NHL regular season" },
+};
+const activeNote = (count: number, firstLeague?: string) =>
+  count === 3
+    ? "All three leagues are live right now — prime time for WTWTW."
+    : count === 2
+      ? "Two of the three leagues are in season right now."
+      : count === 1
+        ? `Only the ${firstLeague?.toUpperCase()} is going right now — the nightly pick pulls from one league until the others tip off.`
+        : "Between seasons right now — check back when the leagues tip off.";
+const buildMonth = new Date().getMonth() + 1;
+const activeLeagues = Object.entries(PHASES).filter(([, m]) => m[buildMonth]);
+const activeNoteText = activeNote(activeLeagues.length, activeLeagues[0]?.[0]);
 ---
 
 <BaseLayout
@@ -810,25 +830,21 @@ const title = "WTWTW — stanwood.dev";
         <span style="display:inline-block; width:7px; height:7px; border-radius:50%; background:#22c55e; animation: activePulse 2s ease-in-out infinite;"></span>
       </div>
       <div class="flex gap-2 flex-wrap" id="active-leagues">
-        <span class="league-badge" data-league="mlb">MLB regular season</span>
-        <span class="league-badge" data-league="nba">NBA Finals</span>
-        <span class="league-badge" data-league="nhl">Stanley Cup Final</span>
+        {activeLeagues.map(([league, m]) => (
+          <span class="league-badge" data-league={league}>{m[buildMonth]}</span>
+        ))}
       </div>
-      <p class="mono" id="active-leagues-note" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">All three leagues are live right now — prime time for WTWTW.</p>
+      <p class="mono" id="active-leagues-note" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">{activeNoteText}</p>
     </div>
 
-    <script>
-      // Month-driven league phases so the "Active right now" badges never go stale.
-      const PHASES: Record<string, Record<number, string>> = {
-        mlb: { 3: "MLB spring training", 4: "MLB regular season", 5: "MLB regular season", 6: "MLB regular season", 7: "MLB regular season", 8: "MLB regular season", 9: "MLB regular season", 10: "MLB postseason" },
-        nba: { 1: "NBA regular season", 2: "NBA regular season", 3: "NBA regular season", 4: "NBA playoffs", 5: "NBA playoffs", 6: "NBA Finals", 10: "NBA regular season", 11: "NBA regular season", 12: "NBA regular season" },
-        nhl: { 1: "NHL regular season", 2: "NHL regular season", 3: "NHL regular season", 4: "NHL playoffs", 5: "NHL playoffs", 6: "Stanley Cup Final", 10: "NHL regular season", 11: "NHL regular season", 12: "NHL regular season" },
-      };
+    <script define:vars={{ PHASES }}>
+      // Re-check against the viewer's current month so the badges stay accurate
+      // between deploys (the server-rendered version uses the build month).
       const month = new Date().getMonth() + 1;
       const active = Object.entries(PHASES).filter(([, m]) => m[month]);
       const badges = document.getElementById("active-leagues");
       const note = document.getElementById("active-leagues-note");
-      if (badges && note && active.length) {
+      if (badges && note) {
         badges.innerHTML = active
           .map(([league, m]) => `<span class="league-badge" data-league="${league}">${m[month]}</span>`)
           .join("");
@@ -837,7 +853,9 @@ const title = "WTWTW — stanwood.dev";
             ? "All three leagues are live right now — prime time for WTWTW."
             : active.length === 2
               ? "Two of the three leagues are in season right now."
-              : `Only the ${active[0][0].toUpperCase()} is going right now — the nightly pick pulls from one league until the others tip off.`;
+              : active.length === 1
+                ? `Only the ${active[0][0].toUpperCase()} is going right now — the nightly pick pulls from one league until the others tip off.`
+                : "Between seasons right now — check back when the leagues tip off.";
       }
     </script>
 
