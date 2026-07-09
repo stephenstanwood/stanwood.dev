@@ -735,7 +735,7 @@ function seriesVideos(series: Series): QueueVideo[] {
             <path d="M19 8 Q14.5 12 19 16"/>
           </svg>
         </a>
-        <a id="best-wnba-launcher" href="https://www.wnba.com/league-pass-stream/" target="_blank" rel="noopener" data-wnba-auth-launch="true" title="Yesterday's best WNBA game" aria-label="Yesterday's best WNBA game">
+        <a id="best-wnba-launcher" href="https://www.wnba.com/watch" target="_blank" rel="noopener" data-wnba-auth-launch="true" title="Yesterday's best WNBA game" aria-label="Yesterday's best WNBA game">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18"/>
@@ -1379,7 +1379,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     // Point the basketball launcher at the previous day's best WNBA game page.
     // WNBA.com exposes full-game replay choices from the game page once the
     // replay is ready, while synthesized /watch/video URLs can load a shell
-    // with no playable video. Falls back to the WNBA League Pass home (the
+    // with no playable video. Falls back to the WNBA Watch page (the
     // static href) on off-days or if the game can't be resolved.
     import { fetchEspnScoreboard } from '../lib/sportsCore';
     import {

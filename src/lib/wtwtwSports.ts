@@ -495,6 +495,7 @@ const PRIME_URL =
   "https://www.amazon.com/gp/video/storefront?ref_=atv_pr_sw_sc";
 const YOUTUBE_TV_URL = "https://tv.youtube.com/";
 const MLB_TV_ROOT = "https://www.mlb.com/tv";
+const WNBA_WATCH_URL = "https://www.wnba.com/watch";
 
 export function watchRecordingUrl(opts: {
   league: string;
@@ -565,7 +566,7 @@ export function watchRecordingUrl(opts: {
       }
     }
     return {
-      href: "https://www.wnba.com/league-pass-stream/",
+      href: WNBA_WATCH_URL,
       label: "WNBA League Pass",
     };
   }
