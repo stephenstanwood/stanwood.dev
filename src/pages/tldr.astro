@@ -48,7 +48,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         z-index: 0;
       }
 
-      main { position: relative; z-index: 1; }
+      .tldr-main { position: relative; z-index: 1; }
 
       /* hero banner */
       .hero-banner {
@@ -597,8 +597,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </style>
   </Fragment>
 
-    <a href="#main-content" class="skip-nav">Skip to content</a>
-    <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+    <div class="tldr-main mx-auto max-w-2xl px-6 pt-16 pb-24">
       <!-- Top bar -->
       <div class="flex items-center">
         <a href="/" class="retro-back">&larr; stanwood.dev</a>
@@ -981,7 +980,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
         <p class="text-xs text-[#3a3f52] mono text-center mt-6">works on contracts, papers, policies, reports, manuals — anything text-heavy</p>
       </section>
-    </main>
+    </div>
 
     <script>
       async function sleep(ms: number) {

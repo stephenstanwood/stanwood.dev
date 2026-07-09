@@ -1415,8 +1415,6 @@ const title = "Redesign Rolodex — stanwood.dev";
   </Fragment>
 
   <div class="rr-page">
-    <a href="#main-content" class="skip-nav">Skip to content</a>
-
     <header class="rr-header">
       <a href="/" class="rr-back" aria-label="Back to stanwood.dev">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -1425,7 +1423,7 @@ const title = "Redesign Rolodex — stanwood.dev";
       <span class="rr-brand">// redesign-rolodex</span>
     </header>
 
-    <main id="main-content" class="rr-main">
+    <div class="rr-main">
       <div class="rr-app">
         <RedesignRolodexPage client:load />
       </div>
@@ -1742,6 +1740,6 @@ const title = "Redesign Rolodex — stanwood.dev";
           </div>
         </div>
       </section>
-    </main>
+    </div>
   </div>
 </BaseLayout>

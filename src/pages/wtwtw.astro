@@ -60,7 +60,7 @@ const activeNoteText = activeNote(activeLeagues.length, activeLeagues[0]?.[0]);
         z-index: 0;
       }
 
-      main { position: relative; z-index: 1; }
+      .wtwtw-main { position: relative; z-index: 1; }
 
       .oswald { font-family: 'Oswald', sans-serif; }
       .mono { font-family: 'JetBrains Mono', monospace; }
@@ -756,8 +756,7 @@ const activeNoteText = activeNote(activeLeagues.length, activeLeagues[0]?.[0]);
     </style>
   </Fragment>
 
-  <a href="#main-content" class="skip-nav">Skip to content</a>
-  <main id="main-content" class="mx-auto max-w-2xl px-6 pt-16 pb-24">
+  <div class="wtwtw-main mx-auto max-w-2xl px-6 pt-16 pb-24">
     <div class="flex items-center">
       <a
         href="/"
@@ -1462,5 +1461,5 @@ const activeNoteText = activeNote(activeLeagues.length, activeLeagues[0]?.[0]);
     </div>
 
     <WTWTW client:idle />
-  </main>
+  </div>
 </BaseLayout>
