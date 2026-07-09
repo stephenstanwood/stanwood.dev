@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Cowork on web & mobile",
+    "org": "Anthropic",
+    "date": "2026-07-07",
+    "type": "tool",
+    "summary": "Kick off real work from your phone or browser, close the laptop, and Claude keeps going in the cloud — running scheduled and background tasks with no device online, and pinging you only when it needs a decision. Beta rolling out to Max users now.",
+    "url": "https://claude.com/blog/cowork-web-mobile"
+  },
+  {
     "name": "gpt-realtime-2.1",
     "org": "OpenAI",
     "date": "2026-07-06",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Open-weight coding models built for AI agents, not humans — free under MIT for any use. Grab four sizes (9B up to a 397B MoE) on Hugging Face. Run the small ones locally or self-host to power your own coding agent.",
     "url": "https://www.testingcatalog.com/deepreinforce-releases-ornith-1-0-open-source-coding-models/"
-  },
-  {
-    "name": "Krea 2 (open weights)",
-    "org": "Krea",
-    "date": "2026-06-23",
-    "type": "model",
-    "summary": "Open-weight foundation image model that makes aesthetic, style-controlled images in about 2 seconds. Grab the Raw and Turbo weights on Hugging Face (free commercial use for individuals and small teams) or call it via fal at $0.03 an image.",
-    "url": "https://www.krea.ai/krea-2"
   }
 ]
