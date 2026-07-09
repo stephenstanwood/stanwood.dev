@@ -8,7 +8,7 @@ import {
   escUrl,
   parseRecord,
   winPct,
-  computePreGameScore,
+  rankPreGames,
   getBroadcasts,
   teamAbbr,
   teamMascot,
@@ -273,14 +273,6 @@ function renderGameRow(
       </div>
     </div>
   `;
-}
-
-// Upcoming games ranked by quality (best first), not start time.
-function rankPreGames(events: Game[]): { game: Game; score: number }[] {
-  return events
-    .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .map((g) => ({ game: g, score: computePreGameScore(g) }))
-    .sort((a, b) => b.score - a.score);
 }
 
 function renderNoGames(events: Game[]): string {

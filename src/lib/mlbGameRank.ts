@@ -5,7 +5,7 @@ import {
   type Status,
   type Competition,
   type Game,
-  computePreGameScore,
+  rankPreGames,
   getBroadcasts,
   teamAbbr,
   teamMascot,
@@ -500,10 +500,7 @@ function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: 
 }
 
 function renderNoGames(events: Game[]): string {
-  const scheduled = events
-    .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .map((g) => ({ game: g, score: computePreGameScore(g) }))
-    .sort((a, b) => b.score - a.score);
+  const scheduled = rankPreGames(events);
 
   if (scheduled.length > 0) {
     const best = scheduled[0].game;
@@ -682,10 +679,7 @@ function renderSlateOverview(events: Game[], sectionLabel: string): string {
 }
 
 function renderRankedGames(events: Game[], sectionLabel: string): string {
-  const preGames = events
-    .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
-    .map((g) => ({ game: g, score: computePreGameScore(g) }))
-    .sort((a, b) => b.score - a.score);
+  const preGames = rankPreGames(events);
   if (preGames.length === 0) return "";
   const title = preGames.length === 1 ? sectionLabel : sectionLabel + ", Ranked";
   return `

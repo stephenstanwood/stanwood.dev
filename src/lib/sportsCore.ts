@@ -103,6 +103,14 @@ export function computePreGameScore(game: Game): number {
   return avg * 100 * (1.0 - diff);
 }
 
+/** Upcoming ("pre" state) games ranked by watch quality, best first. */
+export function rankPreGames(events: Game[]): { game: Game; score: number }[] {
+  return events
+    .filter((e) => e.competitions?.[0]?.status?.type?.state === "pre")
+    .map((game) => ({ game, score: computePreGameScore(game) }))
+    .sort((a, b) => b.score - a.score);
+}
+
 // ── Broadcast helpers ──
 
 export function getBroadcasts(competition: Competition) {
@@ -151,7 +159,17 @@ export const NON_PLAYED_STATUS_NAMES = new Set([
   "STATUS_SUSPENDED",
 ]);
 
-export function isPostponedLike(game: Game): boolean {
+/**
+ * Minimal shape isPostponedLike reads — satisfied by both {@link Game} and the
+ * /tv rail's ESPNEvent, so a single implementation can serve both call sites.
+ */
+type PostponableGame = {
+  competitions?: Array<{
+    status?: { type?: { name?: string; state?: string; completed?: boolean } };
+  }>;
+};
+
+export function isPostponedLike(game: PostponableGame): boolean {
   const t = game.competitions?.[0]?.status?.type;
   const name = (t?.name || "").toUpperCase();
   if (NON_PLAYED_STATUS_NAMES.has(name)) return true;

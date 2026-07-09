@@ -3,7 +3,7 @@
 // and resolves watch-recording links per league.
 
 import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
-import { fetchEspnScoreboard, parseScore, TIMEZONE, NON_PLAYED_STATUS_NAMES } from "./sportsCore";
+import { fetchEspnScoreboard, parseScore, TIMEZONE, isPostponedLike } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
 const WTWTW_LS_KEY = "wtwtw:v1";
@@ -91,20 +91,12 @@ function eventStartSortKey(ev: ESPNEvent): number {
   return Number.isFinite(ms) ? ms : 0;
 }
 
-// ESPN parks postponed / canceled / suspended games (NON_PLAYED_STATUS_NAMES,
-// shared from sportsCore) in the "post" state with completed:false and 0–0
-// scores — so they'd otherwise read as a finished 0–0 "Final". These games were
-// never played to a result; we never treat them as final, never score them for
-// watchability, and never count them as "started" (so a postponement can't
-// suppress a team's real prior recap).
-export function isPostponedLike(ev: ESPNEvent): boolean {
-  const t = ev.competitions?.[0]?.status?.type;
-  const name = (t?.name || "").toUpperCase();
-  if (NON_PLAYED_STATUS_NAMES.has(name)) return true;
-  // Fallback for status-name drift: a "post" state that never completed is a
-  // game that didn't actually play. Genuine finals always report completed:true.
-  return t?.state === "post" && t?.completed === false && name !== "STATUS_FINAL";
-}
+// Postponed/canceled/suspended detection lives in sportsCore (shared with the
+// MLB/NBA ranks). The /tv rails lean on it hard: such games are never treated as
+// final, never scored for watchability, and never counted as "started" — so a
+// postponement can't suppress a team's real prior recap. Re-exported here so the
+// rail's own callers and tests keep importing it from this module.
+export { isPostponedLike };
 
 function eventHasStarted(ev: ESPNEvent): boolean {
   if (isPostponedLike(ev)) return false;
