@@ -1,7 +1,6 @@
-// Proxy to the WNBA static schedule CDN. The CDN doesn't send CORS headers,
-// so we can't fetch it directly from the browser — this route mirrors the
-// payload back with our own CORS headers + caching, returning only the
-// minimal { gameCode → gameId } map the client actually needs.
+// Proxy to WNBA's schedule API. The old static CDN path now serves a stale HTML
+// shell, and WNBA.com only allows its own origin to call the live JSON endpoint
+// from browsers, so this route mirrors the minimal { gameCode → gameId } map.
 
 import type { APIRoute } from "astro";
 import { errJson, fetchWithTimeout, okJson } from "../../lib/apiHelpers";
@@ -9,8 +8,13 @@ import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
 
-const WNBA_SCHEDULE_URL =
-  "https://cdn.wnba.com/static/json/staticData/scheduleLeagueV2.json";
+function currentWnbaSeason(): string {
+  return String(new Date().getUTCFullYear());
+}
+
+function wnbaScheduleUrl(season = currentWnbaSeason()): string {
+  return `https://www.wnba.com/api/schedule?season=${season}&regionId=1`;
+}
 
 interface RawGame {
   gameId?: string;
@@ -26,11 +30,8 @@ interface RawSchedule {
 export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
   try {
-    // cdn.wnba.com returns HTTP/2 INTERNAL_ERROR for unknown User-Agents,
-    // so we send a standard browser UA. Without this the upstream just
-    // resets the stream.
     const res = await fetchWithTimeout(
-      WNBA_SCHEDULE_URL,
+      wnbaScheduleUrl(),
       {
         headers: {
           "User-Agent":
@@ -42,15 +43,18 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     );
     if (!res.ok) return errJson(`Upstream ${res.status}`, 502);
     const j: RawSchedule = await res.json();
+    if (!Array.isArray(j.leagueSchedule?.gameDates)) {
+      return errJson("Unexpected WNBA schedule response", 502);
+    }
     const out: Record<string, string> = {};
-    for (const day of j.leagueSchedule?.gameDates || []) {
+    for (const day of j.leagueSchedule.gameDates) {
       for (const g of day.games || []) {
         if (g.gameCode && g.gameId) out[g.gameCode] = g.gameId;
       }
     }
     return okJson(out, {
       "Cache-Control":
-        "public, max-age=0, s-maxage=21600, stale-while-revalidate=86400",
+        "public, max-age=0, s-maxage=300, stale-while-revalidate=21600",
     });
   } catch (err) {
     console.error("wnba-schedule fetch failed:", err);

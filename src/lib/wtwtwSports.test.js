@@ -540,4 +540,19 @@ describe("sports watch links", () => {
       label: "WNBA League Pass",
     });
   });
+
+  it("falls back to WNBA Watch when a replay game cannot be resolved", () => {
+    expect(
+      watchRecordingUrl({
+        league: "basketball/wnba",
+        awayAbbr: "LV",
+        homeAbbr: "LA",
+        isoDate: "2026-06-02",
+        wnbaGameIds: new Map(),
+      }),
+    ).toEqual({
+      href: "https://www.wnba.com/watch",
+      label: "WNBA League Pass",
+    });
+  });
 });
