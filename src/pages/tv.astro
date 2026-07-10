@@ -39,6 +39,9 @@ interface BroaderVideo {
   series_key?: string;
   episode_number?: number;
   exploration?: boolean;
+  categories?: string[];
+  score?: number;
+  feedback_mult?: number;
 }
 
 interface YouTubeData {
@@ -88,8 +91,94 @@ function isBlockedBroader(v: BroaderVideo): boolean {
 
 const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
-broader.queue = [...(broader.queue ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
-broader.pool = [...(broader.pool ?? [])].filter((v) => !isBlockedBroader(v)).sort(byRecency);
+
+const SHOW_STANFORD_TALKS = false;
+const AUTO_UNLOCK_IN_DEV = import.meta.env.DEV;
+const INTERNET_PICK_COUNT = 8;
+const INTERNET_MAX_AGE_DAYS = 7;
+
+const TOPIC_LABELS: Record<string, string> = {
+  hci: 'design',
+  product_craft: 'product craft',
+  solo_builder: 'solo builder',
+  working_method: 'working method',
+  war_stories: 'how it went',
+  swe_craft: 'software craft',
+  systems_db: 'systems',
+  algorithms: 'computer science',
+  applied_ai: 'AI in practice',
+  civic_open: 'public tech',
+  math_viz: 'visual math',
+};
+
+function topicLabel(v: BroaderVideo): string {
+  const priority = ['hci', 'working_method', 'product_craft', 'solo_builder', 'war_stories', 'swe_craft', 'systems_db', 'algorithms', 'applied_ai', 'civic_open', 'math_viz'];
+  const category = priority.find((key) => v.categories?.includes(key));
+  return category ? TOPIC_LABELS[category] : 'worth a look';
+}
+
+function ageInDays(v: BroaderVideo): number {
+  return Math.max(0, (Date.now() - new Date(v.published_at).getTime()) / 86_400_000);
+}
+
+function editorialScore(v: BroaderVideo): number {
+  const quality = v.score ?? 0;
+  const freshnessCost = ageInDays(v) * 1.25;
+  const explorationCost = v.exploration ? 2 : 0;
+  const utilityBonus = v.categories?.includes('solo_builder')
+    ? 4
+    : v.categories?.includes('working_method')
+      ? 3
+      : v.categories?.includes('product_craft')
+        ? 2
+        : 0;
+  return quality + utilityBonus - freshnessCost - explorationCost;
+}
+
+function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo[] {
+  const ranked = [...items].sort((a, b) => {
+    const scoreDiff = editorialScore(b) - editorialScore(a);
+    return scoreDiff || byRecency(a, b);
+  });
+  const selected: BroaderVideo[] = [];
+  const channels = new Set<string>();
+  const topicCounts = new Map<string, number>();
+
+  for (const video of ranked) {
+    if (ageInDays(video) > INTERNET_MAX_AGE_DAYS || editorialScore(video) < 2) continue;
+    const channelKey = video.channel_id || video.channel_handle || video.channel_title;
+    const topic = topicLabel(video);
+    const topicLimit = topic === 'AI in practice' ? 2 : 3;
+    if (channels.has(channelKey) || (topicCounts.get(topic) ?? 0) >= topicLimit) continue;
+    selected.push(video);
+    channels.add(channelKey);
+    topicCounts.set(topic, (topicCounts.get(topic) ?? 0) + 1);
+    if (selected.length === count) return selected;
+  }
+
+  for (const video of ranked) {
+    if (selected.some((pick) => pick.id === video.id)) continue;
+    if (ageInDays(video) > INTERNET_MAX_AGE_DAYS || editorialScore(video) < 2) continue;
+    selected.push(video);
+    if (selected.length === count) return selected;
+  }
+
+  return selected;
+}
+
+const seenBroaderIds = new Set<string>();
+const allBroader = [...(broader.queue ?? []), ...(broader.pool ?? [])]
+  .filter((video) => {
+    if (isBlockedBroader(video) || seenBroaderIds.has(video.id)) return false;
+    seenBroaderIds.add(video.id);
+    return true;
+  });
+const internetPicks = chooseInternetPicks(allBroader, INTERNET_PICK_COUNT);
+const internetPickIds = new Set(internetPicks.map((video) => video.id));
+broader.queue = internetPicks;
+broader.pool = allBroader
+  .filter((video) => !internetPickIds.has(video.id))
+  .sort((a, b) => editorialScore(b) - editorialScore(a) || byRecency(a, b));
 
 function fmtDuration(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -103,6 +192,16 @@ function fmtAgo(iso: string) {
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
   return `${Math.floor(days / 30)}mo ago`;
+}
+
+function fmtRefresh(iso: string | null) {
+  if (!iso) return 'refresh pending';
+  const time = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Los_Angeles',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(new Date(iso));
+  return `updated ${fmtAgo(iso)} · ${time} PT`;
 }
 
 const topSeries = data.series?.[0] ?? null;
@@ -123,7 +222,7 @@ function seriesVideos(series: Series): QueueVideo[] {
 }
 ---
 
-<html lang="en">
+<html lang="en" class:list={{ 'yt-unlocked': AUTO_UNLOCK_IN_DEV }}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -149,37 +248,62 @@ function seriesVideos(series: Series): QueueVideo[] {
   </script>
   <style is:global>
     :root {
-      --bg: #fdf6e3;
-      --ink: #1a1a1a;
+      --bg: #f3f6ff;
+      --ink: #101828;
       --paper: #ffffff;
-      --hot: #ff3b30;
-      --cool: #0a84ff;
-      --lime: #b8e986;
-      --border: 3px solid var(--ink);
-      --shadow: 6px 6px 0 var(--ink);
+      --hot: #ff385c;
+      --cool: #2457ff;
+      --cool-soft: #e6edff;
+      --lime: #baff45;
+      --yellow: #ffd84d;
+      --muted: #5b6780;
+      --line: #cbd5ea;
+      --border: 2px solid var(--ink);
+      --shadow: 0 14px 34px rgba(20, 40, 90, 0.12);
     }
     * { box-sizing: border-box; }
+    html { background: var(--bg); }
     body {
       margin: 0;
-      padding: 2rem 1rem;
-      background: var(--bg);
+      padding: 1rem;
+      min-height: 100vh;
+      background-color: var(--bg);
+      background-image: radial-gradient(rgba(36, 87, 255, 0.13) 1px, transparent 1px);
+      background-size: 24px 24px;
       color: var(--ink);
       font-family: 'Space Mono', monospace;
       font-size: 15px;
       line-height: 1.5;
     }
-    .wrap { max-width: 1100px; margin: 0 auto; }
+    button, input { font: inherit; }
+    button:focus-visible, a:focus-visible, input:focus-visible {
+      outline: 3px solid var(--yellow);
+      outline-offset: 3px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; }
 
     /* Password gate */
     html:not(.yt-unlocked) .wrap { display: none; }
     html.yt-unlocked #yt-gate { display: none; }
     #yt-gate {
       max-width: 360px;
-      margin: 4rem auto;
+      margin: 12vh auto 0;
       padding: 2rem 1.5rem;
       background: var(--paper);
       border: var(--border);
       box-shadow: var(--shadow);
+      border-radius: 22px;
       text-align: center;
     }
     #yt-gate h2 {
@@ -191,12 +315,13 @@ function seriesVideos(series: Series): QueueVideo[] {
       width: 100%;
       padding: .6rem .8rem;
       border: var(--border);
+      border-radius: 12px;
       font-family: 'Space Mono', monospace;
       font-size: 1rem;
-      background: var(--bg);
+      background: var(--cool-soft);
       color: var(--ink);
     }
-    #yt-gate input:focus { outline: none; background: var(--paper); }
+    #yt-gate input:focus { background: var(--paper); }
     #yt-gate.shake { animation: gate-shake 0.3s; }
     @keyframes gate-shake {
       0%, 100% { transform: translateX(0); }
@@ -205,36 +330,39 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     h1 {
       font-family: 'Permanent Marker', cursive;
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
-      margin: 0 0 .25rem;
-      line-height: 1;
-      letter-spacing: -0.02em;
+      font-size: clamp(2.8rem, 7vw, 5.3rem);
+      margin: 0;
+      max-width: 760px;
+      line-height: 0.95;
+      letter-spacing: -0.035em;
     }
     .subtitle {
-      font-size: 0.85rem;
-      color: #555;
-      margin: 0 0 2rem;
+      max-width: 650px;
+      font-size: clamp(0.85rem, 1.8vw, 1rem);
+      color: var(--muted);
+      margin: 1rem 0 0;
     }
     .subtitle a { color: var(--cool); }
 
     h2 {
       font-family: 'Permanent Marker', cursive;
       font-size: 1.8rem;
-      margin: 2.5rem 0 .5rem;
+      margin: 0;
     }
     h2:first-of-type { margin-top: 0; }
     h2.section-title {
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-size: clamp(2rem, 5vw, 3.6rem);
       line-height: 1;
       letter-spacing: -0.02em;
-      margin: 2.5rem 0 2rem;
+      margin: 0;
     }
 
     .series {
       border: var(--border);
       background: var(--paper);
       box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
+      border-radius: 16px;
+      margin-top: 1.25rem;
       padding: 1rem 1.25rem;
     }
     .series[hidden] { display: none; }
@@ -250,7 +378,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-family: 'Permanent Marker', cursive;
       font-size: 1.3rem;
     }
-    .series-meta { font-size: 0.75rem; color: #666; }
+    .series-meta { font-size: 0.75rem; color: var(--muted); }
     .score-chip {
       display: inline-block;
       background: var(--lime);
@@ -260,7 +388,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-weight: 700;
       margin-left: .5rem;
     }
-    .score-chip.low { background: #fff; color: #999; }
+    .score-chip.low { background: #fff; color: var(--muted); }
     ul.videos {
       list-style: none;
       margin: 0;
@@ -273,28 +401,29 @@ function seriesVideos(series: Series): QueueVideo[] {
     ul.videos::-webkit-scrollbar { width: 8px; }
     ul.videos::-webkit-scrollbar-track { background: transparent; }
     ul.videos::-webkit-scrollbar-thumb {
-      background: #d4cdb5;
+      background: var(--line);
       border-radius: 4px;
     }
-    ul.videos::-webkit-scrollbar-thumb:hover { background: #b8b095; }
+    ul.videos::-webkit-scrollbar-thumb:hover { background: #9dadcf; }
     ul.videos li {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
       padding: .5rem 0;
-      border-top: 1px dashed #ccc;
+      border-top: 1px solid var(--line);
       cursor: pointer;
     }
     ul.videos li:first-child { border-top: none; }
-    ul.videos li:hover { background: #faf0d0; }
+    ul.videos li:hover { background: var(--cool-soft); }
     ul.videos li.watched,
     ul.videos li.hidden-row { display: none; }
     .vtitle { flex: 1; font-size: 0.9rem; }
-    .vmeta { font-size: 0.75rem; color: #666; white-space: nowrap; }
+    .vmeta { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
     .row-btns { display: flex; gap: 4px; }
     .mark-btn {
-      border: 1px solid #999;
+      border: 1px solid var(--line);
+      border-radius: 8px;
       background: transparent;
       font-size: 0.7rem;
       padding: 2px 6px;
@@ -314,144 +443,297 @@ function seriesVideos(series: Series): QueueVideo[] {
       border: var(--border);
     }
     /* Around the internet */
+    .internet-section {
+      margin-top: 1.5rem;
+      padding: clamp(1rem, 3vw, 2rem);
+      background: var(--paper);
+      border: var(--border);
+      border-top: 8px solid var(--cool);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-kicker {
+      margin: 0 0 0.35rem;
+      color: var(--cool);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .section-note {
+      max-width: 550px;
+      margin: 0.7rem 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .internet-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.45rem;
+      max-width: 360px;
+    }
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0.35rem 0.65rem;
+      background: var(--cool-soft);
+      border: 1px solid #aebeff;
+      border-radius: 999px;
+      color: #16379f;
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
     .broader-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.1rem;
     }
     .bcard {
       background: var(--paper);
-      border: var(--border);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(32, 55, 110, 0.09);
       display: flex;
       flex-direction: column;
-      text-decoration: none;
       color: var(--ink);
       position: relative;
-      transition: transform 0.05s ease;
+      min-width: 0;
+      overflow: hidden;
+      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
     }
-    .bcard:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+    .bcard:hover {
+      transform: translateY(-3px);
+      border-color: #9eb0dd;
+      box-shadow: 0 14px 30px rgba(32, 55, 110, 0.16);
+    }
     .bcard.hidden { display: none; }
+    .bcard.is-featured { grid-column: span 2; }
+    .bcard-link {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-width: 0;
+      color: inherit;
+      text-decoration: none;
+    }
     .bcard-thumb {
       aspect-ratio: 16 / 9;
-      background: #000 center/cover no-repeat;
-      border-bottom: 2px solid var(--ink);
+      background: #11182a center/cover no-repeat;
+      border-bottom: 1px solid var(--line);
       position: relative;
+    }
+    .bcard.is-featured .bcard-thumb { aspect-ratio: 2 / 1; }
+    .pick-badge,
+    .explore-badge,
+    .series-badge,
+    .classic-badge {
+      position: absolute;
+      left: 10px;
+      z-index: 1;
+      border: 1px solid rgba(16, 24, 40, 0.8);
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      line-height: 1;
+      padding: 0.38rem 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .pick-badge {
+      top: 10px;
+      background: var(--yellow);
     }
     .bcard-dur {
       position: absolute;
-      bottom: 6px;
-      right: 6px;
-      background: var(--ink);
-      color: var(--paper);
-      font-size: 0.7rem;
-      padding: 1px 5px;
+      bottom: 9px;
+      right: 9px;
+      background: rgba(16, 24, 40, 0.9);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.66rem;
+      padding: 0.18rem 0.4rem;
       font-weight: 700;
     }
-    .bcard-body { padding: .65rem .75rem .75rem; flex: 1; display: flex; flex-direction: column; }
+    .bcard-body {
+      padding: 0.85rem 0.9rem 0.8rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
     .bcard-title {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       font-weight: 700;
-      line-height: 1.3;
-      margin: 0 0 .35rem;
+      line-height: 1.35;
+      margin: 0 0 0.65rem;
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
+    .bcard.is-featured .bcard-title {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      -webkit-line-clamp: 2;
+    }
     .bcard-meta {
-      font-size: 0.72rem;
-      color: #666;
+      font-size: 0.68rem;
+      color: var(--muted);
       margin-top: auto;
       display: flex;
       justify-content: space-between;
       gap: .5rem;
     }
-    .bcard-chan { font-weight: 700; color: #333; }
-    .explore-badge {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: var(--lime);
-      border: 2px solid var(--ink);
-      font-size: 0.65rem;
+    .bcard-chan {
+      color: var(--ink);
       font-weight: 700;
-      padding: 1px 5px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+    .explore-badge {
+      top: 10px;
+      background: var(--lime);
+    }
+    .bcard.is-featured .pick-badge + .explore-badge { top: 46px; }
     .series-badge {
-      position: absolute;
-      bottom: 6px;
-      left: 6px;
-      background: #ffd86b;
-      border: 2px solid var(--ink);
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 1px 5px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      bottom: 9px;
+      background: var(--yellow);
     }
     .classic-badge {
-      position: absolute;
-      top: 6px;
-      left: 6px;
+      top: 10px;
       background: var(--hot);
-      color: var(--paper);
-      border: 2px solid var(--ink);
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 1px 5px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: #fff;
     }
     .sdsn-card .bcard-thumb {
-      background-color: #171717;
+      background-color: #11182a;
     }
+    .sdsn-card { grid-column: 1 / -1; }
+    .sdsn-card .bcard-link {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.65fr) 1fr;
+    }
+    .sdsn-card .bcard-thumb {
+      aspect-ratio: auto;
+      min-height: 150px;
+      border-right: 1px solid var(--line);
+      border-bottom: 0;
+    }
+    .sdsn-card .bcard-body { justify-content: center; }
     .sdsn-card-loading .bcard-thumb {
       background:
-        linear-gradient(135deg, #171717 0 48%, #2a2a2a 48% 52%, #171717 52% 100%);
+        linear-gradient(135deg, #11182a 0 48%, #25355f 48% 52%, #11182a 52% 100%);
     }
-    .bhide {
-      position: absolute;
-      top: 6px;
-      right: 6px;
-      background: var(--paper);
-      border: 2px solid var(--ink);
-      font-size: 0.7rem;
+    .bcard-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      min-height: 43px;
+      padding: 0.55rem 0.7rem;
+      border-top: 1px solid var(--line);
+      background: #f9fbff;
+    }
+    .topic-chip {
+      overflow: hidden;
+      color: #33446f;
+      font-size: 0.62rem;
       font-weight: 700;
-      padding: 1px 6px;
-      cursor: pointer;
-      font-family: inherit;
-      opacity: 0;
-      transition: opacity 0.1s ease;
+      letter-spacing: 0.04em;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
-    .bcard:hover .bhide { opacity: 1; }
-    .bhide:hover { background: var(--hot); color: var(--paper); }
-    .bhide.like { right: 40px; }
-    .bhide.like:hover { background: var(--lime); color: var(--ink); }
+    .mark-actions { display: flex; gap: 0.35rem; }
+    .bhide {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+    }
+    .bhide:hover { background: #ffe7ed; border-color: var(--hot); color: #b80d38; }
+    .bhide.like:hover { background: var(--lime); border-color: #75a800; color: var(--ink); }
+    .queue-status {
+      min-height: 1.5em;
+      margin: 0.9rem 0 0;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-align: right;
+    }
 
     .footer {
-      margin-top: 3rem;
-      padding-top: 1rem;
-      border-top: 1px dashed var(--ink);
+      margin: 1.5rem 0 0;
+      padding: 1rem;
       font-size: 0.75rem;
-      color: #666;
+      color: var(--muted);
       text-align: center;
     }
 
     .page-head {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin: 0 0 2rem;
+      align-items: flex-start;
+      gap: 2rem;
+      margin: 0 0 1.5rem;
+      padding: clamp(1.25rem, 4vw, 2.5rem);
+      background: var(--paper);
+      border: var(--border);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
     }
-    .page-head h1 { margin: 0; }
-    .page-head.launchers-only { justify-content: flex-end; margin: 0 0 1.5rem; }
+    .page-head::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 8px;
+      background: linear-gradient(90deg, var(--cool) 0 42%, var(--lime) 42% 69%, var(--hot) 69% 100%);
+    }
+    .masthead-copy { min-width: 0; }
+    .masthead-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0 0 0.75rem;
+      color: var(--cool);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .masthead-label::before {
+      content: '';
+      width: 9px;
+      height: 9px;
+      background: var(--hot);
+      border-radius: 50%;
+      box-shadow: 0 0 0 4px #ffe5eb;
+    }
     .corner-launchers {
       display: flex;
-      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      max-width: 220px;
       color: var(--ink);
       flex-shrink: 0;
     }
@@ -459,14 +741,18 @@ function seriesVideos(series: Series): QueueVideo[] {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 42px;
+      height: 42px;
+      background: var(--cool-soft);
+      border: 1px solid #aebeff;
+      border-radius: 12px;
       color: inherit;
-      opacity: 0.55;
-      transition: opacity 0.15s ease, color 0.15s ease, transform 0.1s ease;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
     }
     .corner-launchers a:hover {
-      opacity: 1;
-      color: var(--hot);
-      transform: translateY(-1px) rotate(-2deg);
+      background: var(--cool);
+      color: #fff;
+      transform: translateY(-2px);
     }
     .corner-launchers svg {
       width: 22px;
@@ -487,7 +773,15 @@ function seriesVideos(series: Series): QueueVideo[] {
       50% { opacity: 0.35; }
     }
     /* Sports section (live recap tiles + yesterday recap tiles + today strip) */
-    .sports-section { margin: 0 0 2.5rem; }
+    .sports-section {
+      margin: 0;
+      padding: clamp(1rem, 3vw, 2rem);
+      background: rgba(255, 255, 255, 0.92);
+      border: var(--border);
+      border-top: 8px solid var(--hot);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
     .sports-recap-shell,
     .recap-grid {
       display: grid;
@@ -505,9 +799,10 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     .recap-tile {
       background: var(--paper);
-      border: var(--border);
-      box-shadow: var(--shadow);
-      border-left-width: 8px;
+      border: 1px solid var(--line);
+      border-left-width: 6px;
+      border-radius: 14px;
+      box-shadow: 0 8px 22px rgba(32, 55, 110, 0.09);
       padding: 1rem 1.1rem;
       text-decoration: none;
       color: var(--ink);
@@ -515,11 +810,11 @@ function seriesVideos(series: Series): QueueVideo[] {
       flex-direction: column;
       gap: 0.75rem;
       container-type: inline-size;
-      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
     }
     .recap-tile:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 8px 8px 0 var(--ink);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(32, 55, 110, 0.15);
     }
     .recap-matchup {
       display: flex;
@@ -557,7 +852,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     .recap-team-abbr {
       font-size: 0.65rem;
-      color: #888;
+      color: var(--muted);
       letter-spacing: 0.06em;
     }
     @container (max-width: 430px) {
@@ -576,13 +871,13 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-size: 1.7rem;
       line-height: 1;
       padding: 0 0.3rem;
-      color: #aaa;
+      color: #9aa8c3;
     }
     .recap-score.win { color: var(--ink); }
     .recap-vs {
       font-family: 'Permanent Marker', cursive;
       font-size: 0.85rem;
-      color: #888;
+      color: var(--muted);
       flex-shrink: 0;
     }
     .recap-meta {
@@ -592,10 +887,10 @@ function seriesVideos(series: Series): QueueVideo[] {
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      border-top: 1px dashed #ccc;
+      border-top: 1px solid var(--line);
       padding-top: 0.55rem;
     }
-    .recap-final { font-weight: 700; color: #444; }
+    .recap-final { font-weight: 700; color: var(--muted); }
     .recap-watch { font-weight: 700; color: var(--cool); }
 
     /* Live tile variant — same big-tile chrome, with pulsing LIVE indicator
@@ -625,8 +920,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       gap: 0.55rem;
       padding: 0.45rem 0.8rem 0.45rem 0.7rem;
       background: var(--paper);
-      border: 2px solid var(--ink);
+      border: 1px solid var(--line);
       border-left-width: 5px;
+      border-radius: 12px;
       font-family: 'Space Mono', monospace;
       font-size: 0.8rem;
       text-decoration: none;
@@ -637,8 +933,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       grid-column: 1 / -1;
     }
     .big-inning-pill:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0 var(--ink);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(32, 55, 110, 0.12);
     }
     .big-inning-dot {
       width: 8px;
@@ -650,7 +946,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     .big-inning-label { font-weight: 700; }
     .big-inning-detail {
-      color: #555;
+      color: var(--muted);
       font-size: 0.72rem;
       letter-spacing: 0.03em;
     }
@@ -672,7 +968,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     .schedule-leader {
       font-family: 'Permanent Marker', cursive;
       font-size: 0.95rem;
-      color: #555;
+      color: var(--muted);
       letter-spacing: 0.02em;
       margin-right: 0.15rem;
     }
@@ -681,9 +977,10 @@ function seriesVideos(series: Series): QueueVideo[] {
       align-items: center;
       gap: 0.45rem;
       padding: 0.25rem 0.55rem 0.25rem 0.45rem;
-      background: var(--paper);
-      border: 2px solid var(--ink);
+      background: var(--cool-soft);
+      border: 1px solid #aebeff;
       border-left-width: 4px;
+      border-radius: 10px;
       font-family: 'Space Mono', monospace;
       font-size: 0.75rem;
     }
@@ -693,14 +990,47 @@ function seriesVideos(series: Series): QueueVideo[] {
       gap: 0.3rem;
       font-weight: 700;
     }
-    .schedule-at { color: #999; font-weight: 400; }
-    .schedule-time { color: #555; font-size: 0.7rem; letter-spacing: 0.03em; }
+    .schedule-at { color: #7d89a1; font-weight: 400; }
+    .schedule-time { color: var(--muted); font-size: 0.7rem; letter-spacing: 0.03em; }
     .schedule-time.live {
       color: var(--hot);
       font-weight: 700;
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
+    }
+    @media (max-width: 860px) {
+      .broader-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bcard.is-featured { grid-column: span 2; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .internet-meta { justify-content: flex-start; max-width: none; }
+    }
+    @media (pointer: coarse) {
+      .bhide { width: 44px; height: 44px; font-size: 0.9rem; }
+    }
+    @media (max-width: 620px) {
+      body { padding: 0.6rem; background-size: 18px 18px; }
+      .page-head { flex-direction: column; gap: 1.25rem; }
+      .corner-launchers { justify-content: flex-start; max-width: none; }
+      .corner-launchers a { width: 40px; height: 40px; }
+      .sports-section, .internet-section, .page-head { border-radius: 17px; }
+      .broader-grid { grid-template-columns: 1fr; }
+      .bcard.is-featured { grid-column: auto; }
+      .bcard.is-featured .bcard-thumb { aspect-ratio: 16 / 9; }
+      .sdsn-card { grid-column: auto; }
+      .sdsn-card .bcard-link { display: flex; }
+      .sdsn-card .bcard-thumb {
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .section-note { font-size: 0.78rem; }
+      .internet-meta { gap: 0.35rem; }
+      .meta-pill { font-size: 0.62rem; }
+      .bhide { width: 44px; height: 44px; font-size: 0.9rem; }
+      .schedule-row { align-items: stretch; flex-direction: column; }
+      .schedule-chip { width: 100%; justify-content: space-between; }
     }
   </style>
 </head>
@@ -713,7 +1043,12 @@ function seriesVideos(series: Series): QueueVideo[] {
     </form>
   </div>
   <div class="wrap">
-    <div class="page-head launchers-only">
+    <header class="page-head">
+      <div class="masthead-copy">
+        <p class="masthead-label">stanwood TV</p>
+        <h1>Good things to watch.</h1>
+        <p class="subtitle">Sports when they matter. A tight daily edit of useful ideas from AI, software, and design.</p>
+      </div>
       <div class="corner-launchers" aria-label="quick launchers">
         <a href="https://tv.youtube.com/" target="_blank" rel="noopener" title="YouTube TV" aria-label="YouTube TV">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -757,10 +1092,16 @@ function seriesVideos(series: Series): QueueVideo[] {
           </svg>
         </a>
       </div>
-    </div>
+    </header>
 
     <section class="sports-section" aria-label="Sports">
-      <h2 class="section-title">sports</h2>
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">live + replay</p>
+          <h2 class="section-title">sports</h2>
+          <p class="section-note">The games worth checking now, plus clean replay links when you missed one.</p>
+        </div>
+      </div>
       <div class="sports-recap-shell">
         <LiveSports client:only="react" />
         <YesterdaySports client:only="react" />
@@ -768,73 +1109,98 @@ function seriesVideos(series: Series): QueueVideo[] {
       <TodaySports client:only="react" />
     </section>
 
-    {data.queue.length === 0 && (
+    {SHOW_STANFORD_TALKS && data.queue.length === 0 && (
       <div class="empty">
         <p>queue is empty — the pipeline hasn't run yet, or yt-dlp is having a bad day.</p>
       </div>
     )}
 
     {broader.queue.length > 0 && (
-      <>
-        <h2 class="section-title">around the internet</h2>
+      <section class="internet-section" aria-labelledby="internet-title">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">the daily edit</p>
+            <h2 class="section-title" id="internet-title">around the internet</h2>
+            <p class="section-note">Eight strong picks, not an endless feed. ✓ and × train tomorrow's edit and clear the card now.</p>
+          </div>
+          <div class="internet-meta" aria-label="queue details">
+            <span class="meta-pill">{fmtRefresh(broader.built_at)}</span>
+            <span class="meta-pill">{broader.channel_count} sources</span>
+            <span class="meta-pill" id="classic-count">{broader.queue.length} picks + a classic</span>
+          </div>
+        </div>
         <div class="broader-grid" id="broader-grid">
-          <a
-            class="bcard sdsn-card sdsn-card-loading"
-            id="sdsn-classic-card"
-            href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d"
-            target="_blank"
-            rel="noopener"
-            data-published-at="9999-12-31T00:00:00.000Z"
-          >
-            <div class="bcard-thumb" data-sdsn-thumb>
-              <span class="classic-badge">classic</span>
-              <span class="bcard-dur" data-sdsn-duration>...</span>
-            </div>
-            <div class="bcard-body">
-              <p class="bcard-title" data-sdsn-title>loading sdsn classic...</p>
-              <div class="bcard-meta">
-                <span class="bcard-chan" data-sdsn-channel>SDSN Classic</span>
-                <span>random</span>
-              </div>
-            </div>
-          </a>
-          {broader.queue.map((v) => (
-            <a
-              class="bcard"
-              href={v.url}
-              target="_blank"
-              rel="noopener"
+          {broader.queue.map((v, index) => (
+            <article
+              class={`bcard ${index === 0 ? 'is-featured' : ''}`}
               data-broader-id={v.id}
               data-published-at={v.published_at}
               data-series-key={v.series_key || ''}
               data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
             >
-              <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
-                {v.exploration && <span class="explore-badge">explore</span>}
-                {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
-                <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow series (adds a block below)' : 'liked / watched'}>✓</button>
-                <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide series forever' : 'pass / hide'}>×</button>
-                <span class="bcard-dur">{fmtDuration(v.duration)}</span>
+              <a class="bcard-link" href={v.url} target="_blank" rel="noopener" aria-label={`${v.title} on YouTube`}>
+                <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
+                  {index === 0 && <span class="pick-badge">start here</span>}
+                  {v.exploration && <span class="explore-badge">wildcard</span>}
+                  {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
+                  <span class="bcard-dur">{fmtDuration(v.duration)}</span>
+                </div>
+                <div class="bcard-body">
+                  <p class="bcard-title">{v.title}</p>
+                  <div class="bcard-meta">
+                    <span class="bcard-chan">{v.channel_title}</span>
+                    <span>{fmtAgo(v.published_at)}</span>
+                  </div>
+                </div>
+              </a>
+              <div class="bcard-actions">
+                <span class="topic-chip">{topicLabel(v)}</span>
+                <div class="mark-actions">
+                  <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide this series' : 'not for me'} aria-label={v.series_key ? 'Hide this series' : 'Not for me'}>×</button>
+                  <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow this series' : 'more like this'} aria-label={v.series_key ? 'Follow this series' : 'More like this'}>✓</button>
+                </div>
+              </div>
+            </article>
+          ))}
+          <article
+            class="bcard sdsn-card sdsn-card-loading"
+            id="sdsn-classic-card"
+            data-published-at="9999-12-31T00:00:00.000Z"
+          >
+            <a
+              class="bcard-link"
+              href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d"
+              target="_blank"
+              rel="noopener"
+              aria-label="Random SDSN Classic"
+            >
+              <div class="bcard-thumb" data-sdsn-thumb>
+                <span class="classic-badge">classic</span>
+                <span class="bcard-dur" data-sdsn-duration>...</span>
               </div>
               <div class="bcard-body">
-                <p class="bcard-title">{v.title}</p>
+                <p class="bcard-title" data-sdsn-title>loading sdsn classic...</p>
                 <div class="bcard-meta">
-                  <span class="bcard-chan">{v.channel_title}</span>
-                  <span>{fmtAgo(v.published_at)}</span>
+                  <span class="bcard-chan" data-sdsn-channel>SDSN Classic</span>
+                  <span>random</span>
                 </div>
               </div>
             </a>
-          ))}
+            <div class="bcard-actions">
+              <span class="topic-chip">rewatch shelf</span>
+            </div>
+          </article>
         </div>
+        <p class="queue-status" id="queue-status" aria-live="polite"></p>
         <div id="followed-series-container"></div>
-      </>
+      </section>
     )}
 
-    {(topSeries || restSeries.length > 0) && (
+    {SHOW_STANFORD_TALKS && (topSeries || restSeries.length > 0) && (
       <h2 class="section-title">stanford talks</h2>
     )}
 
-    {topSeries && (() => {
+    {SHOW_STANFORD_TALKS && topSeries && (() => {
       const videos = seriesVideos(topSeries);
       return (
         <div class="series" data-series={topSeries.key}>
@@ -870,7 +1236,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       );
     })()}
 
-    {restSeries.length > 0 && (
+    {SHOW_STANFORD_TALKS && restSeries.length > 0 && (
       <>
         <h2>more from the queue</h2>
         {restSeries.map((s) => {
@@ -914,11 +1280,11 @@ function seriesVideos(series: Series): QueueVideo[] {
     )}
 
     <div class="footer">
-      click any row or card to open on youtube · ✓ marks watched · × hides it everywhere (future builds too)
+      ✓ means more like this · × means not for me · both clear the card and shape future edits
     </div>
   </div>
 
-  <!-- Broader reserve pool, consumed client-side when visible count drops below 10 -->
+  <!-- Ranked reserve pool, consumed client-side as the visible edit is marked -->
   <script is:inline type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
   <script is:inline type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
 
@@ -951,16 +1317,44 @@ function seriesVideos(series: Series): QueueVideo[] {
     // spam gate, not a secret (this page is already client-gated).
     const MARK_API_URL = 'https://stephens-mac-mini.tailcac25b.ts.net:8443/api/mark';
     const MARK_API_KEY = 'b682274e4f6c8e1c7e5579fa';
-    function sendMark(id, kind, action) {
+    const MARK_PENDING_KEY = 'tv-mark-pending-v1';
+    function getPendingMarks() {
+      try { return JSON.parse(localStorage.getItem(MARK_PENDING_KEY) || '{}'); }
+      catch { return {}; }
+    }
+    function savePendingMarks(pending) {
+      try { localStorage.setItem(MARK_PENDING_KEY, JSON.stringify(pending)); } catch {}
+    }
+    async function sendMark(id, kind, action) {
+      const key = `${kind}:${id}`;
+      const pending = getPendingMarks();
+      pending[key] = { id, kind, action };
+      savePendingMarks(pending);
       try {
-        fetch(MARK_API_URL, {
+        const response = await fetch(MARK_API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Mark-Key': MARK_API_KEY },
           body: JSON.stringify({ id, kind, action }),
           keepalive: true,
-        }).catch(() => {});
+        });
+        if (!response.ok) return false;
+        const latest = getPendingMarks();
+        if (latest[key]?.action === action) {
+          delete latest[key];
+          savePendingMarks(latest);
+        }
+        return true;
       } catch {}
+      return false;
     }
+    function flushPendingMarks() {
+      Object.values(getPendingMarks()).forEach((mark) => {
+        if (mark?.id && mark?.kind && mark?.action) {
+          sendMark(mark.id, mark.kind, mark.action);
+        }
+      });
+    }
+    flushPendingMarks();
 
     // One-shot: flush existing localStorage state to the Mini so feed.xml
     // drops items already marked before /api/mark existed. Runs once per browser.
@@ -974,10 +1368,14 @@ function seriesVideos(series: Series): QueueVideo[] {
       try {
         const watched = JSON.parse(localStorage.getItem('stanford-queue-watched-v1') || '[]');
         const sHidden = JSON.parse(localStorage.getItem('stanford-hidden-v1') || '[]');
-        const bHidden = JSON.parse(localStorage.getItem('broader-hidden-v1') || '[]');
+        // Legacy broader-hidden-v1 mixes likes and passes, so never replay it
+        // to the server. Only the action-specific stores below are safe.
+        const bLiked = new Set(JSON.parse(localStorage.getItem('broader-liked-v1') || '[]'));
+        const bPassed = new Set(JSON.parse(localStorage.getItem('broader-passed-v1') || '[]'));
         watched.forEach(id => sendMark(id, 'stanford', 'like'));
         sHidden.forEach(id => sendMark(id, 'stanford', 'pass'));
-        bHidden.forEach(id => sendMark(id, 'broader', 'pass'));
+        bPassed.forEach(id => sendMark(id, 'broader', 'pass'));
+        bLiked.forEach(id => sendMark(id, 'broader', 'like'));
         localStorage.setItem(SYNC_FLAG, String(Date.now()));
       } catch {}
     }
@@ -1058,6 +1456,8 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     // ---- Around the internet: hide + refill from reserve pool ----
     const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
+    const BROADER_LIKED_KEY = 'broader-liked-v1';
+    const BROADER_PASSED_KEY = 'broader-passed-v1';
     const BROADER_FOLLOWED_SERIES_KEY = 'broader-followed-series-v1';
     const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
     const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
@@ -1072,6 +1472,10 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
     const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
+    const getBroaderLiked = () => getSet(BROADER_LIKED_KEY);
+    const saveBroaderLiked = (s) => saveSet(BROADER_LIKED_KEY, s);
+    const getBroaderPassed = () => getSet(BROADER_PASSED_KEY);
+    const saveBroaderPassed = (s) => saveSet(BROADER_PASSED_KEY, s);
     const getFollowedSeries = () => getSet(BROADER_FOLLOWED_SERIES_KEY);
     const saveFollowedSeries = (s) => saveSet(BROADER_FOLLOWED_SERIES_KEY, s);
     const getBannedSeries = () => getSet(BROADER_BANNED_SERIES_KEY);
@@ -1085,6 +1489,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         const bySeries = card.dataset.seriesKey && banned.has(card.dataset.seriesKey);
         card.classList.toggle('hidden', byId || bySeries);
       });
+      updateFeaturedCard();
     }
 
     function fmtDurationJS(seconds) {
@@ -1102,40 +1507,84 @@ function seriesVideos(series: Series): QueueVideo[] {
     function escapeHTML(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
+    function topicLabelJS(v) {
+      const categories = Array.isArray(v.categories) ? v.categories : [];
+      if (categories.includes('hci')) return 'design';
+      if (categories.includes('working_method')) return 'working method';
+      if (categories.includes('product_craft')) return 'product craft';
+      if (categories.includes('solo_builder')) return 'solo builder';
+      if (categories.includes('war_stories')) return 'how it went';
+      if (categories.includes('swe_craft')) return 'software craft';
+      if (categories.includes('systems_db')) return 'systems';
+      if (categories.includes('algorithms')) return 'computer science';
+      if (categories.includes('applied_ai')) return 'AI in practice';
+      if (categories.includes('civic_open')) return 'public tech';
+      if (categories.includes('math_viz')) return 'visual math';
+      return 'worth a look';
+    }
+    function updateFeaturedCard() {
+      const cards = Array.from(document.querySelectorAll('[data-broader-id]'));
+      cards.forEach(card => {
+        card.classList.remove('is-featured');
+        card.querySelector('.pick-badge')?.remove();
+      });
+      const firstVisible = cards.find(card => !card.classList.contains('hidden'));
+      if (firstVisible) {
+        firstVisible.classList.add('is-featured');
+        const thumb = firstVisible.querySelector('.bcard-thumb');
+        if (thumb) {
+          const badge = document.createElement('span');
+          badge.className = 'pick-badge';
+          badge.textContent = 'start here';
+          thumb.prepend(badge);
+        }
+      }
+    }
+    function announceMark(action) {
+      const status = document.getElementById('queue-status');
+      if (!status) return;
+      status.textContent = action === 'like'
+        ? 'Got it — more like that in future edits.'
+        : 'Got it — that one is out.';
+    }
     function buildCard(v) {
-      const a = document.createElement('a');
-      a.className = 'bcard';
-      a.href = v.url;
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.dataset.broaderId = v.id;
-      a.dataset.publishedAt = v.published_at;
-      if (v.series_key) a.dataset.seriesKey = v.series_key;
-      if (v.episode_number != null) a.dataset.episodeNumber = String(v.episode_number);
+      const card = document.createElement('article');
+      card.className = 'bcard';
+      card.dataset.broaderId = v.id;
+      card.dataset.publishedAt = v.published_at;
+      if (v.series_key) card.dataset.seriesKey = v.series_key;
+      if (v.episode_number != null) card.dataset.episodeNumber = String(v.episode_number);
       const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
       const safeId = escapeHTML(v.id);
       const seriesBadge = v.series_key
         ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';
-      const likeTitle = v.series_key ? 'follow series (adds a block below)' : 'liked / watched';
-      const passTitle = v.series_key ? 'hide series forever' : 'pass / hide';
-      a.innerHTML = `
-        <div class="bcard-thumb" style="${thumbStyle}">
-          ${v.exploration ? '<span class="explore-badge">explore</span>' : ''}
-          ${seriesBadge}
-          <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="${likeTitle}">✓</button>
-          <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="${passTitle}">×</button>
-          <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
-        </div>
-        <div class="bcard-body">
-          <p class="bcard-title">${escapeHTML(v.title)}</p>
-          <div class="bcard-meta">
-            <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
-            <span>${fmtAgoJS(v.published_at)}</span>
+      const likeTitle = v.series_key ? 'follow this series' : 'more like this';
+      const passTitle = v.series_key ? 'hide this series' : 'not for me';
+      card.innerHTML = `
+        <a class="bcard-link" href="${escapeHTML(v.url)}" target="_blank" rel="noopener" aria-label="${escapeHTML(v.title)} on YouTube">
+          <div class="bcard-thumb" style="${thumbStyle}">
+            ${v.exploration ? '<span class="explore-badge">wildcard</span>' : ''}
+            ${seriesBadge}
+            <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
+          </div>
+          <div class="bcard-body">
+            <p class="bcard-title">${escapeHTML(v.title)}</p>
+            <div class="bcard-meta">
+              <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
+              <span>${fmtAgoJS(v.published_at)}</span>
+            </div>
+          </div>
+        </a>
+        <div class="bcard-actions">
+          <span class="topic-chip">${escapeHTML(topicLabelJS(v))}</span>
+          <div class="mark-actions">
+            <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="${passTitle}" aria-label="${passTitle}">×</button>
+            <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="${likeTitle}" aria-label="${likeTitle}">✓</button>
           </div>
         </div>
       `;
-      a.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
-      return a;
+      card.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
+      return card;
     }
 
     function wireMarkButton(btn) {
@@ -1146,6 +1595,20 @@ function seriesVideos(series: Series): QueueVideo[] {
         const action = btn.dataset.action || 'pass';
         const card = btn.closest('[data-broader-id]');
         const seriesKey = card && card.dataset.seriesKey;
+        const hidden = getBroaderHidden();
+        hidden.add(id);
+        saveBroaderHidden(hidden);
+        const liked = getBroaderLiked();
+        const passed = getBroaderPassed();
+        if (action === 'like') {
+          liked.add(id);
+          passed.delete(id);
+        } else {
+          liked.delete(id);
+          passed.add(id);
+        }
+        saveBroaderLiked(liked);
+        saveBroaderPassed(passed);
 
         if (seriesKey) {
           if (action === 'like') {
@@ -1158,16 +1621,15 @@ function seriesVideos(series: Series): QueueVideo[] {
             saveBannedSeries(b);
           }
           sendMark(id, 'broader', action);
+          announceMark(action);
           renderFollowedSeries();
           renderBroaderHidden();
           refillIfNeeded();
           return;
         }
 
-        const h = getBroaderHidden();
-        h.add(id);
-        saveBroaderHidden(h);
         sendMark(id, 'broader', action);
+        announceMark(action);
         renderBroaderHidden();
         refillIfNeeded();
       });
@@ -1191,7 +1653,8 @@ function seriesVideos(series: Series): QueueVideo[] {
         const channel = card.querySelector('[data-sdsn-channel]');
         const duration = card.querySelector('[data-sdsn-duration]');
 
-        card.href = video.url;
+        const link = card.querySelector('.bcard-link');
+        if (link) link.href = video.url;
         if (thumb && typeof video.thumb === 'string') {
           thumb.style.backgroundImage = `url(${video.thumb})`;
         }
@@ -1206,6 +1669,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       } catch {
         card.classList.add('hidden');
         refillIfNeeded();
+        const classicCount = document.getElementById('classic-count');
+        const visiblePicks = document.querySelectorAll('[data-broader-id]:not(.hidden)').length;
+        if (classicCount) classicCount.textContent = `${visiblePicks} current picks`;
       }
     }
 
@@ -1287,10 +1753,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       const grid = document.getElementById('broader-grid');
       if (!grid) return;
       const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
-      // Keep at least 10 visible, and always round up to a multiple of 4
-      // so the last row is full.
-      const minTarget = Math.max(visible < 10 ? visible + 10 : visible, 10);
-      const target = Math.ceil(minTarget / 4) * 4;
+      // Eight current picks, plus the SDSN wildcard when its endpoint resolves.
+      const classicCard = document.getElementById('sdsn-classic-card');
+      const target = 8 + (classicCard && !classicCard.classList.contains('hidden') ? 1 : 0);
       if (target <= visible || POOL.length === 0) return;
       const needed = target - visible;
       const hidden = getBroaderHidden();
@@ -1308,16 +1773,11 @@ function seriesVideos(series: Series): QueueVideo[] {
         if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
         if (v.series_key) seenSeriesOnGrid.add(v.series_key);
         const card = buildCard(v);
-        const newTs = new Date(v.published_at).getTime();
-        const existing = Array.from(grid.querySelectorAll('.bcard'));
-        const before = existing.find(el => {
-          const ts = new Date(el.dataset.publishedAt || 0).getTime();
-          return ts < newTs;
-        });
-        if (before) grid.insertBefore(card, before);
+        if (classicCard) grid.insertBefore(card, classicCard);
         else grid.appendChild(card);
         added++;
       }
+      updateFeaturedCard();
     }
 
     // Wire up any pre-rendered mark buttons
