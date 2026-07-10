@@ -1,4 +1,5 @@
 import { useRef, useEffect, useCallback, useState } from "react";
+import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 
 /* ── Beach Themes ── */
 interface BeachTheme {
@@ -184,7 +185,7 @@ export default function PixelTide() {
   const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   const statsRef = useRef({ built: 0, lost: 0 });
   const [tideRising, setTideRising] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
 
   // Keep themeRef in sync & update page bg (restore on unmount)
   useEffect(() => {
@@ -735,10 +736,7 @@ export default function PixelTide() {
             const url = new URL(window.location.href);
             url.searchParams.set("theme", activeTheme);
             url.searchParams.set("speed", tideSpeed);
-            navigator.clipboard.writeText(url.toString()).then(() => {
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            });
+            copy(url.toString());
           }}
           className="text-white/25 text-xs hover:text-white/50 transition-colors"
         >
