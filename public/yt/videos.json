@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-09T10:30:06.259863+00:00",
+  "built_at": "2026-07-10T10:30:07.634014+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -252,6 +252,16 @@
       "video_count": 1,
       "video_ids": [
         "dyb_cFywuik"
+      ]
+    },
+    {
+      "key": "__single__y81IfY-Cc1U",
+      "is_single": true,
+      "display_name": "Live from Stanford Health AI Week",
+      "best_score": -4,
+      "video_count": 1,
+      "video_ids": [
+        "y81IfY-Cc1U"
       ]
     },
     {
@@ -1786,6 +1796,22 @@
       "score": 0,
       "categories": [],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nAndrew Ng \nAdjunct Professor of Computer Science\nhttps://www.andrewng.org/\n \nTo follow along with the course schedule and syllabus, visit: \nhttp://cs229.stanford.edu/syllabus-autumn2018.html"
+    },
+    {
+      "id": "y81IfY-Cc1U",
+      "title": "Live from Stanford Health AI Week",
+      "url": "https://www.youtube.com/watch?v=y81IfY-Cc1U",
+      "duration": 5761.0,
+      "published_at": "2026-07-09T00:00:00+00:00",
+      "series": null,
+      "series_display": "Live from Stanford Health AI Week",
+      "lecture_num": null,
+      "score": -4,
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://stanford.io/3NEt7uE\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nRecorded on loc"
     },
     {
       "id": "LF7Wi_2fJVM",
