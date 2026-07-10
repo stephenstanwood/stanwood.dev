@@ -41,7 +41,11 @@ interface BroaderVideo {
   exploration?: boolean;
   categories?: string[];
   score?: number;
+  rank_score?: number;
   feedback_mult?: number;
+  source?: 'trusted' | 'discovery';
+  editorial_score?: number;
+  editorial_reason?: string;
 }
 
 interface YouTubeData {
@@ -55,6 +59,9 @@ interface BroaderData {
   pool: BroaderVideo[];
   built_at: string | null;
   channel_count: number;
+  discovery_query_count?: number;
+  discovery_candidate_count?: number;
+  editorial_applied?: boolean;
   series_episodes?: Record<string, BroaderVideo[]>;
 }
 
@@ -94,8 +101,10 @@ const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
 
 const SHOW_STANFORD_TALKS = false;
 const AUTO_UNLOCK_IN_DEV = import.meta.env.DEV;
-const INTERNET_PICK_COUNT = 8;
+const INTERNET_TILE_COUNT = 20;
+const INTERNET_PICK_COUNT = INTERNET_TILE_COUNT - 1;
 const INTERNET_MAX_AGE_DAYS = 7;
+const INTERNET_MAX_PER_SOURCE = 2;
 
 const TOPIC_LABELS: Record<string, string> = {
   hci: 'design',
@@ -122,8 +131,8 @@ function ageInDays(v: BroaderVideo): number {
 }
 
 function editorialScore(v: BroaderVideo): number {
-  const quality = v.score ?? 0;
-  const freshnessCost = ageInDays(v) * 1.25;
+  const pipelineRank = v.rank_score;
+  const quality = pipelineRank ?? (v.score ?? 0) - ageInDays(v) * 1.25;
   const explorationCost = v.exploration ? 2 : 0;
   const utilityBonus = v.categories?.includes('solo_builder')
     ? 4
@@ -132,7 +141,7 @@ function editorialScore(v: BroaderVideo): number {
       : v.categories?.includes('product_craft')
         ? 2
         : 0;
-  return quality + utilityBonus - freshnessCost - explorationCost;
+  return quality + utilityBonus - explorationCost;
 }
 
 function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo[] {
@@ -141,7 +150,7 @@ function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo
     return scoreDiff || byRecency(a, b);
   });
   const selected: BroaderVideo[] = [];
-  const channels = new Set<string>();
+  const channelCounts = new Map<string, number>();
   const topicCounts = new Map<string, number>();
 
   for (const video of ranked) {
@@ -149,9 +158,9 @@ function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo
     const channelKey = video.channel_id || video.channel_handle || video.channel_title;
     const topic = topicLabel(video);
     const topicLimit = topic === 'AI in practice' ? 2 : 3;
-    if (channels.has(channelKey) || (topicCounts.get(topic) ?? 0) >= topicLimit) continue;
+    if ((channelCounts.get(channelKey) ?? 0) > 0 || (topicCounts.get(topic) ?? 0) >= topicLimit) continue;
     selected.push(video);
-    channels.add(channelKey);
+    channelCounts.set(channelKey, 1);
     topicCounts.set(topic, (topicCounts.get(topic) ?? 0) + 1);
     if (selected.length === count) return selected;
   }
@@ -159,7 +168,10 @@ function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo
   for (const video of ranked) {
     if (selected.some((pick) => pick.id === video.id)) continue;
     if (ageInDays(video) > INTERNET_MAX_AGE_DAYS || editorialScore(video) < 2) continue;
+    const channelKey = video.channel_id || video.channel_handle || video.channel_title;
+    if ((channelCounts.get(channelKey) ?? 0) >= INTERNET_MAX_PER_SOURCE) continue;
     selected.push(video);
+    channelCounts.set(channelKey, (channelCounts.get(channelKey) ?? 0) + 1);
     if (selected.length === count) return selected;
   }
 
@@ -456,7 +468,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     .meta-pill + .meta-pill::before { content: ' · '; white-space: pre; }
     .broader-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1rem;
     }
     .bcard {
@@ -871,6 +883,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       align-items: center;
       gap: 0.3rem;
     }
+    @media (max-width: 1040px) {
+      .broader-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
     @media (pointer: coarse) {
       .bhide { min-width: 44px; height: 44px; font-size: 0.9rem; opacity: 1; }
     }
@@ -879,6 +894,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       .page-head { margin-bottom: 1.25rem; }
       .corner-launchers { gap: 0.85rem; }
       .internet-meta { margin-top: -1.45rem; }
+      .broader-grid { grid-template-columns: 1fr; }
       .bhide { min-width: 44px; height: 44px; font-size: 0.9rem; opacity: 1; }
       .schedule-row { align-items: stretch; flex-direction: column; }
       .schedule-chip { width: 100%; justify-content: space-between; }
@@ -960,10 +976,16 @@ function seriesVideos(series: Series): QueueVideo[] {
         <h2 class="section-title" id="internet-title">around the internet</h2>
         <div class="internet-meta" aria-label="queue details">
           <span class="meta-pill">{fmtRefresh(broader.built_at)}</span>
-          <span class="meta-pill">{broader.channel_count} sources</span>
+          <span class="meta-pill">{broader.channel_count} trusted sources</span>
+          {Boolean(broader.discovery_query_count) && <span class="meta-pill">open discovery</span>}
           <span class="meta-pill" id="classic-count">{broader.queue.length} picks + a classic</span>
         </div>
-        <div class="broader-grid" id="broader-grid">
+        <div
+          class="broader-grid"
+          id="broader-grid"
+          data-tile-target={INTERNET_TILE_COUNT}
+          data-source-limit={INTERNET_MAX_PER_SOURCE}
+        >
           <article
             class="bcard sdsn-card sdsn-card-loading"
             id="sdsn-classic-card"
@@ -997,13 +1019,16 @@ function seriesVideos(series: Series): QueueVideo[] {
               class={`bcard ${index === 0 ? 'is-featured' : ''}`}
               data-broader-id={v.id}
               data-published-at={v.published_at}
+              data-source-key={v.channel_id || v.channel_handle || v.channel_title || v.id}
               data-series-key={v.series_key || ''}
               data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
             >
               <a class="bcard-link" href={v.url} target="_blank" rel="noopener" aria-label={`${v.title} on YouTube`}>
                 <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
                   {index === 0 && <span class="pick-badge">start here</span>}
-                  {v.exploration && <span class="explore-badge">wildcard</span>}
+                  {(v.source === 'discovery' || v.exploration) && (
+                    <span class="explore-badge">{v.source === 'discovery' ? 'discovery' : 'wildcard'}</span>
+                  )}
                   {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
                   <span class="bcard-dur">{fmtDuration(v.duration)}</span>
                 </div>
@@ -1356,6 +1381,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       if (categories.includes('math_viz')) return 'visual math';
       return 'worth a look';
     }
+    function sourceKeyJS(v) {
+      return v.channel_id || v.channel_handle || v.channel_title || v.id;
+    }
     function updateFeaturedCard() {
       const cards = Array.from(document.querySelectorAll('[data-broader-id]'));
       cards.forEach(card => {
@@ -1386,6 +1414,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       card.className = 'bcard';
       card.dataset.broaderId = v.id;
       card.dataset.publishedAt = v.published_at;
+      card.dataset.sourceKey = sourceKeyJS(v);
       if (v.series_key) card.dataset.seriesKey = v.series_key;
       if (v.episode_number != null) card.dataset.episodeNumber = String(v.episode_number);
       const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
@@ -1397,7 +1426,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       card.innerHTML = `
         <a class="bcard-link" href="${escapeHTML(v.url)}" target="_blank" rel="noopener" aria-label="${escapeHTML(v.title)} on YouTube">
           <div class="bcard-thumb" style="${thumbStyle}">
-            ${v.exploration ? '<span class="explore-badge">wildcard</span>' : ''}
+          ${v.source === 'discovery'
+            ? '<span class="explore-badge">discovery</span>'
+            : v.exploration ? '<span class="explore-badge">wildcard</span>' : ''}
             ${seriesBadge}
             <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
           </div>
@@ -1587,29 +1618,46 @@ function seriesVideos(series: Series): QueueVideo[] {
       const grid = document.getElementById('broader-grid');
       if (!grid) return;
       const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
-      // Eight current picks, plus the SDSN wildcard when its endpoint resolves.
-      const classicCard = document.getElementById('sdsn-classic-card');
-      const target = 8 + (classicCard && !classicCard.classList.contains('hidden') ? 1 : 0);
+      // Keep the grid at a full 20 tiles. If the classic endpoint is down,
+      // a current pick fills its spot instead of leaving an orphan card.
+      const target = Number(grid.dataset.tileTarget) || 20;
       if (target <= visible || POOL.length === 0) return;
       const needed = target - visible;
       const hidden = getBroaderHidden();
       const banned = getBannedSeries();
       const followed = getFollowedSeries();
+      const sourceLimit = Number(grid.dataset.sourceLimit) || 2;
+      const sourceCounts = new Map();
+      grid.querySelectorAll('.bcard:not(.hidden)[data-source-key]').forEach(card => {
+        const key = card.dataset.sourceKey;
+        sourceCounts.set(key, (sourceCounts.get(key) || 0) + 1);
+      });
       const seenSeriesOnGrid = new Set(
         Array.from(grid.querySelectorAll('[data-series-key]'))
           .map(el => el.dataset.seriesKey)
           .filter(Boolean)
       );
       let added = 0;
-      while (added < needed && POOL.length > 0) {
+      let checked = 0;
+      const available = POOL.length;
+      const deferred = [];
+      while (added < needed && checked < available && POOL.length > 0) {
         const v = POOL.shift();
+        checked++;
         if (hidden.has(v.id)) continue;
         if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
+        const sourceKey = sourceKeyJS(v);
+        if ((sourceCounts.get(sourceKey) || 0) >= sourceLimit) {
+          deferred.push(v);
+          continue;
+        }
         if (v.series_key) seenSeriesOnGrid.add(v.series_key);
         const card = buildCard(v);
         grid.appendChild(card);
+        sourceCounts.set(sourceKey, (sourceCounts.get(sourceKey) || 0) + 1);
         added++;
       }
+      POOL.push(...deferred);
       updateFeaturedCard();
     }
 
