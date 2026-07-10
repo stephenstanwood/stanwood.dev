@@ -1,5 +1,13 @@
 [
   {
+    "name": "Grok 4.5",
+    "org": "xAI",
+    "date": "2026-07-08",
+    "type": "model",
+    "summary": "Cheap frontier coding and agentic model you can use today at $2 per million input tokens, roughly half Opus's price. Wire it in now via Cursor, Grok Build, the xAI API, OpenRouter, and Vercel to ship agentic work on a budget.",
+    "url": "https://docs.x.ai/developers/release-notes"
+  },
+  {
     "name": "Muse Image",
     "org": "Meta",
     "date": "2026-07-07",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Make 3 to 10 second 720p clips from a text prompt or animate a still image, then refine them by chatting with the model. In public preview now through the Gemini API — quick, affordable video for prototypes and social posts.",
     "url": "https://ai.google.dev/gemini-api/docs/changelog"
-  },
-  {
-    "name": "LongCat-2.0",
-    "org": "Meituan",
-    "date": "2026-06-30",
-    "type": "model",
-    "summary": "Open-weight agentic coding model that goes toe-to-toe with GPT-5.5 on SWE-bench Pro. Grab the MIT-licensed weights on Hugging Face to self-host, or call it cheaply on OpenRouter. 1M-token context fits whole repos.",
-    "url": "https://venturebeat.com/technology/meituan-open-sources-longcat-2-0-the-1-6t-near-frontier-agentic-coding-model-thats-been-leading-openrouter-trained-entirely-on-chinese-chips"
   }
 ]
