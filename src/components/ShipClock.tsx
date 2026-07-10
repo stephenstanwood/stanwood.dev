@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
 import { MS_PER_DAY, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
+import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 
 interface HistoryEntry {
   date: string;
@@ -55,7 +56,7 @@ function buildActivityGrid(
 export default function ShipClock() {
   const [data, setData] = useState<DeployData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
 
   useEffect(() => {
     fetch("/api/ship-clock")
@@ -117,10 +118,7 @@ export default function ShipClock() {
     const text = isToday
       ? "stanwood.dev shipped today 🚀 — ship-clock.stanwood.dev"
       : `stanwood.dev: ${days}d since last deploy — "${status.label}" — ship-clock.stanwood.dev`;
-    navigator.clipboard.writeText(text).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    copy(text);
   }
 
   return (

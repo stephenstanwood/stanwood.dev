@@ -1,17 +1,10 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
+import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 
 export default function CopyPromptButton({ prompt }: { prompt: string }) {
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
 
-  const handleCopy = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(prompt);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      // clipboard API unavailable
-    }
-  }, [prompt]);
+  const handleCopy = useCallback(() => copy(prompt), [copy, prompt]);
 
   return (
     <button

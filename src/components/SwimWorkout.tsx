@@ -4,6 +4,7 @@ import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, Workou
 import { safeGet, safeSet } from "../lib/localStorage";
 import { daysSince } from "../lib/time";
 import { formatMonthDay } from "../lib/dateFormat";
+import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 
 // ─── History helpers ────────────────────────────────────────────────────────────
 
@@ -379,8 +380,8 @@ export default function SwimWorkout() {
   });
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
-  const [copiedLink, setCopiedLink] = useState(false);
-  const [copiedText, setCopiedText] = useState(false);
+  const { copied: copiedLink, copy: copyLinkToClipboard } = useCopyToClipboard();
+  const { copied: copiedText, copy: copyTextToClipboard } = useCopyToClipboard();
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const workoutRef = useRef<HTMLDivElement>(null);
 
@@ -470,19 +471,13 @@ export default function SwimWorkout() {
     const allEnabled = eqKeys.length === 3;
     url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}${!allEnabled ? `&eq=${eqKeys.join(",")}` : ""}`;
     url.hash = "";
-    navigator.clipboard.writeText(url.toString()).then(() => {
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
-    });
-  }, [workout, duration, pace, unit, focus, equipment]);
+    copyLinkToClipboard(url.toString());
+  }, [workout, duration, pace, unit, focus, equipment, copyLinkToClipboard]);
 
   const copyText = useCallback(() => {
     if (!workout) return;
-    navigator.clipboard.writeText(workoutToText(workout)).then(() => {
-      setCopiedText(true);
-      setTimeout(() => setCopiedText(false), 2000);
-    });
-  }, [workout]);
+    copyTextToClipboard(workoutToText(workout));
+  }, [workout, copyTextToClipboard]);
 
   const currentPaces = PACES[unit];
   const unitLabel = unit === "meters" ? "m" : "y";
