@@ -836,7 +836,7 @@ const activeNoteText = activeNote(activeLeagues.length, activeLeagues[0]?.[0]);
       <p class="mono" id="active-leagues-note" style="font-size: 11px; color: rgba(210,170,110,0.3); margin-top: 10px; line-height: 1.5;">{activeNoteText}</p>
     </div>
 
-    <script define:vars={{ PHASES }}>
+    <script is:inline define:vars={{ PHASES }}>
       // Re-check against the viewer's current month so the badges stay accurate
       // between deploys (the server-rendered version uses the build month).
       const month = new Date().getMonth() + 1;

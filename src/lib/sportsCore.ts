@@ -91,7 +91,7 @@ export function parseScore(score: string | undefined | null): number {
   return Number.isFinite(n) ? n : 0;
 }
 
-export function computePreGameScore(game: Game): number {
+function computePreGameScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
   const competitors = comp.competitors || [];
@@ -152,7 +152,7 @@ export function isLive(status: Status | undefined): boolean {
 // completed:false and 0–0 scores — so a naive `state === "post"` check reads
 // them as a finished 0–0 "Final". These games were never played to a result;
 // callers drop them entirely rather than rendering a phantom final.
-export const NON_PLAYED_STATUS_NAMES = new Set([
+const NON_PLAYED_STATUS_NAMES = new Set([
   "STATUS_POSTPONED",
   "STATUS_CANCELED",
   "STATUS_CANCELLED", // ESPN has used both spellings
