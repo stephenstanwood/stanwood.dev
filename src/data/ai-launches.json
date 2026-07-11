@@ -1,5 +1,13 @@
 [
   {
+    "name": "GPT-5.6 (Sol, Terra, Luna)",
+    "org": "OpenAI",
+    "date": "2026-07-09",
+    "type": "model",
+    "summary": "Three new frontier models — Terra and Luna land in the API now at $2.50 and $1 per million input tokens, plus a ChatGPT Work agent that runs whole jobs instead of just answering. A cheap tier for shipping agentic apps.",
+    "url": "https://openai.com/index/previewing-gpt-5-6-sol/"
+  },
+  {
     "name": "Grok 4.5",
     "org": "xAI",
     "date": "2026-07-08",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "The default model on free and paid Claude plans now plans, uses browsers and terminals, and runs agents autonomously at near-Opus quality. Intro API pricing is $2 per million input tokens through Aug 31, making long agent runs far cheaper to ship.",
     "url": "https://www.anthropic.com/news/claude-sonnet-5"
-  },
-  {
-    "name": "Gemini Omni Flash",
-    "org": "Google",
-    "date": "2026-06-30",
-    "type": "model",
-    "summary": "Make 3 to 10 second 720p clips from a text prompt or animate a still image, then refine them by chatting with the model. In public preview now through the Gemini API — quick, affordable video for prototypes and social posts.",
-    "url": "https://ai.google.dev/gemini-api/docs/changelog"
   }
 ]
