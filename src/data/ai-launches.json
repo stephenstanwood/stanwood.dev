@@ -56,11 +56,11 @@
     "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
   },
   {
-    "name": "Claude Sonnet 5",
-    "org": "Anthropic",
+    "name": "Nano Banana 2 Lite & Gemini Omni Flash",
+    "org": "Google",
     "date": "2026-06-30",
-    "type": "model",
-    "summary": "The default model on free and paid Claude plans now plans, uses browsers and terminals, and runs agents autonomously at near-Opus quality. Intro API pricing is $2 per million input tokens through Aug 31, making long agent runs far cheaper to ship.",
-    "url": "https://www.anthropic.com/news/claude-sonnet-5"
+    "type": "tool",
+    "summary": "Two cheap creative APIs for builders: Nano Banana 2 Lite generates and edits images, and Omni Flash turns text or stills into short video you refine by chatting. Both live now in the Gemini API and AI Studio for quick social and product assets.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/"
   }
 ]
