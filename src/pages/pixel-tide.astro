@@ -86,35 +86,6 @@ const title = "Pixel Tide — stanwood.dev";
         line-height: 1.5;
       }
 
-      /* ── Behind the Waves cards ── */
-      .behind-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-      @media (max-width: 540px) {
-        .behind-grid { grid-template-columns: 1fr; }
-      }
-      .behind-card {
-        border: 1px solid rgba(245, 198, 160, 0.1);
-        border-radius: 8px;
-        padding: 14px 14px 16px;
-        background: rgba(232, 149, 106, 0.05);
-      }
-      .behind-card-title {
-        font-size: 0.7rem;
-        font-weight: 600;
-        color: rgba(245, 198, 160, 0.7);
-        margin-bottom: 6px;
-        letter-spacing: 0.02em;
-        font-family: 'Space Grotesk', sans-serif;
-      }
-      .behind-card-body {
-        font-size: 0.65rem;
-        color: rgba(245, 198, 160, 0.45);
-        line-height: 1.65;
-      }
-
       /* ── Beach gallery ── */
       .beach-grid {
         display: grid;
@@ -615,29 +586,6 @@ const title = "Pixel Tide — stanwood.dev";
         gets a mix. Local geography (basin shape, ocean depth, coastline angle) decides which of the moon's
         beats actually reach a given shore. Pixel Tide skips all of that and just runs one clean sine wave.
       </p>
-    </section>
-
-    <!-- Behind the Waves -->
-    <section class="mt-10 pt-8" style="border-top: 1px solid rgba(245, 198, 160, 0.1);">
-      <h2 class="text-xs font-bold uppercase tracking-widest mb-5" style="color: rgba(245, 198, 160, 0.35); font-family: 'Space Grotesk', sans-serif;">Behind the Waves</h2>
-      <div class="behind-grid">
-        <div class="behind-card">
-          <p class="behind-card-title">Tide physics</p>
-          <p class="behind-card-body">The waterline is calculated per column using three overlapping sine waves — a slow ~15s surge, a medium lateral sweep, and a fast surface ripple. Each column gets a slightly different phase, so the water bends and curves across the beach rather than moving as a flat wall.</p>
-        </div>
-        <div class="behind-card">
-          <p class="behind-card-title">Castle erosion</p>
-          <p class="behind-card-body">Each block under the waterline accumulates erosion damage over time. Once a block crumbles, any blocks above it with no lateral support collapse — tall thin towers fall faster than wide bases. Debris becomes particles that drift upward and fade.</p>
-        </div>
-        <div class="behind-card">
-          <p class="behind-card-title">Color &amp; themes</p>
-          <p class="behind-card-body">Each theme defines five color palettes: dry sand, wet sand, shallow water, deep water, and castle stone. A slow hue-shift cycle (±10°) animates the water over time without touching the sand — the ocean feels alive while the beach stays still.</p>
-        </div>
-        <div class="behind-card">
-          <p class="behind-card-title">Seagulls</p>
-          <p class="behind-card-body">Four seagulls wander the canvas. Each tracks the tide line in its column and lerps its position to stay above the water. They switch between a flying W-shape silhouette and a walking stance with alternating feet depending on whether they're moving or standing still.</p>
-        </div>
-      </div>
     </section>
   </div>
 
