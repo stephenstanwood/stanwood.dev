@@ -1,5 +1,17 @@
 import { type KeyboardEvent, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardList,
+  History,
+  House,
+  Landmark,
+  Map,
+  ShieldCheck,
+  Store,
+  type LucideIcon,
+} from "lucide-react";
 import type { Section } from "../../lib/campbell/types";
 import QuickLinks from "./QuickLinks";
 import CouncilDigest from "./CouncilDigest";
@@ -12,13 +24,14 @@ import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
 import TodayInCampbell from "./TodayInCampbell";
 
-const TABS: { id: Section; label: string; eyebrow: string; summary: string; intent: string }[] = [
+const TABS: { id: Section; label: string; eyebrow: string; summary: string; intent: string; Icon: LucideIcon }[] = [
   {
     id: "events",
     label: "Events",
     eyebrow: "Today + weekend",
     summary: "Find today's plans, weekend options, public meetings, and original calendar links.",
     intent: "Use this when you are deciding what to do next.",
+    Icon: CalendarDays,
   },
   {
     id: "digest",
@@ -26,6 +39,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Hearings + packets",
     summary: "Open public notices, Council packets, minutes, videos, and plain-English summaries.",
     intent: "Use this before a meeting, hearing, or local decision.",
+    Icon: Landmark,
   },
   {
     id: "businesses",
@@ -33,6 +47,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Storefronts",
     summary: "Look up downtown shops, Chamber members, restaurants, services, and website links.",
     intent: "Use this when you need a local place, owner, or storefront link.",
+    Icon: Store,
   },
   {
     id: "safety",
@@ -40,6 +55,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Official paths",
     summary: "Find police logs, crime maps, records requests, reporting links, and oversight pages.",
     intent: "Use this when you need the official public-safety route.",
+    Icon: ShieldCheck,
   },
   {
     id: "homes",
@@ -47,6 +63,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Property",
     summary: "Check permits, parcels, project maps, county records, and development links.",
     intent: "Use this when a property, project, or permit is the question.",
+    Icon: House,
   },
   {
     id: "history",
@@ -54,6 +71,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Orchard City",
     summary: "Follow Ainsley House, downtown roots, the water tower, and local milestones.",
     intent: "Use this for the local context behind Campbell's landmarks.",
+    Icon: History,
   },
   {
     id: "data",
@@ -61,6 +79,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Numbers",
     summary: "Open Census snapshots, city maps, budgets, GIS layers, and county data.",
     intent: "Use this when you need sourced numbers or a map layer.",
+    Icon: Map,
   },
   {
     id: "links",
@@ -68,6 +87,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     eyebrow: "Get it done",
     summary: "Jump to forms for services, permits, recreation, schools, transit, and help.",
     intent: "Use this when you already know the task and need the right form.",
+    Icon: ClipboardList,
   },
 ];
 
@@ -225,7 +245,9 @@ export default function CampbellPortal() {
               onKeyDown={(event) => handleTabKeyDown(event, index)}
             >
               <span className="cb-tab-topline">
-                <span className="cb-tab-number">{String(index + 1).padStart(2, "0")}</span>
+                <span className="cb-tab-icon">
+                  <tab.Icon size={18} strokeWidth={2.35} aria-hidden="true" />
+                </span>
                 <span className="cb-tab-eyebrow">{tab.eyebrow}</span>
               </span>
               <span className="cb-tab-label">{tab.label}</span>
@@ -261,7 +283,7 @@ export default function CampbellPortal() {
           )}
           <div className="cb-panel-banner-copy">
             <span>
-              {String(activeIndex + 1).padStart(2, "0")} · {activeTab.eyebrow}
+              {activeTab.label} · {activeTab.eyebrow}
             </span>
             <h2>{activeTab.label}</h2>
             <p>{activeTab.summary}</p>
