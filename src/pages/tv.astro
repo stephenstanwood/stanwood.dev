@@ -8,6 +8,7 @@ import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
 import YesterdaySports from '../components/YesterdaySports.tsx';
 import { daysSince } from '../lib/time';
+import { isEnglishVideo } from '../lib/tvLanguage';
 
 interface QueueVideo {
   id: string;
@@ -46,6 +47,9 @@ interface BroaderVideo {
   source?: 'trusted' | 'discovery';
   editorial_score?: number;
   editorial_reason?: string;
+  language?: string;
+  default_audio_language?: string;
+  default_language?: string;
 }
 
 interface YouTubeData {
@@ -181,7 +185,7 @@ function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo
 const seenBroaderIds = new Set<string>();
 const allBroader = [...(broader.queue ?? []), ...(broader.pool ?? [])]
   .filter((video) => {
-    if (isBlockedBroader(video) || seenBroaderIds.has(video.id)) return false;
+    if (!isEnglishVideo(video) || isBlockedBroader(video) || seenBroaderIds.has(video.id)) return false;
     seenBroaderIds.add(video.id);
     return true;
   });
@@ -486,7 +490,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       transform: translate(-2px, -2px);
       box-shadow: 8px 8px 0 var(--ink);
     }
-    .bcard.hidden { display: none; }
+    .bcard.hidden,
+    .bcard.balance-hidden { display: none; }
     .bcard-link {
       display: flex;
       flex: 1;
@@ -1159,6 +1164,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         if (input.value.trim().toLowerCase() === 'meow') {
           try { localStorage.setItem('yt-gate-v1', 'meow'); } catch {}
           document.documentElement.classList.add('yt-unlocked');
+          requestAnimationFrame(refillIfNeeded);
         } else {
           gate.classList.remove('shake');
           void gate.offsetWidth;
@@ -1390,7 +1396,9 @@ function seriesVideos(series: Series): QueueVideo[] {
         card.classList.remove('is-featured');
         card.querySelector('.pick-badge')?.remove();
       });
-      const firstVisible = cards.find(card => !card.classList.contains('hidden'));
+      const firstVisible = cards.find(card =>
+        !card.classList.contains('hidden') && !card.classList.contains('balance-hidden')
+      );
       if (firstVisible) {
         firstVisible.classList.add('is-featured');
         const thumb = firstVisible.querySelector('.bcard-thumb');
@@ -1535,7 +1543,9 @@ function seriesVideos(series: Series): QueueVideo[] {
         card.classList.add('hidden');
         refillIfNeeded();
         const classicCount = document.getElementById('classic-count');
-        const visiblePicks = document.querySelectorAll('[data-broader-id]:not(.hidden)').length;
+        const visiblePicks = document.querySelectorAll(
+          '[data-broader-id]:not(.hidden):not(.balance-hidden)'
+        ).length;
         if (classicCount) classicCount.textContent = `${visiblePicks} current picks`;
       }
     }
@@ -1617,12 +1627,14 @@ function seriesVideos(series: Series): QueueVideo[] {
     function refillIfNeeded() {
       const grid = document.getElementById('broader-grid');
       if (!grid) return;
+      grid.querySelectorAll('.balance-hidden').forEach(card => {
+        card.classList.remove('balance-hidden');
+      });
       const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
       // Keep the grid at a full 20 tiles. If the classic endpoint is down,
       // a current pick fills its spot instead of leaving an orphan card.
       const target = Number(grid.dataset.tileTarget) || 20;
-      if (target <= visible || POOL.length === 0) return;
-      const needed = target - visible;
+      const needed = Math.max(0, target - visible);
       const hidden = getBroaderHidden();
       const banned = getBannedSeries();
       const followed = getFollowedSeries();
@@ -1658,7 +1670,28 @@ function seriesVideos(series: Series): QueueVideo[] {
         added++;
       }
       POOL.push(...deferred);
+      balanceCompleteRows(grid);
       updateFeaturedCard();
+    }
+
+    function gridColumnCount(grid) {
+      const columns = getComputedStyle(grid).gridTemplateColumns;
+      if (!columns || columns === 'none') return 1;
+      const repeatedTracks = columns.match(/^repeat\(\s*(\d+)/);
+      if (repeatedTracks) return Number(repeatedTracks[1]);
+      return Math.max(1, columns.split(/\s+/).filter(Boolean).length);
+    }
+
+    function balanceCompleteRows(grid) {
+      grid.querySelectorAll('.balance-hidden').forEach(card => {
+        card.classList.remove('balance-hidden');
+      });
+      const visibleCards = Array.from(grid.querySelectorAll('.bcard:not(.hidden)'));
+      const remainder = visibleCards.length % gridColumnCount(grid);
+      if (remainder === 0) return;
+      visibleCards.slice(-remainder).forEach(card => {
+        card.classList.add('balance-hidden');
+      });
     }
 
     // Wire up any pre-rendered mark buttons
@@ -1667,6 +1700,12 @@ function seriesVideos(series: Series): QueueVideo[] {
     renderBroaderHidden();
     refillIfNeeded();
     loadSdsnClassicCard();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(refillIfNeeded, 100);
+    });
   </script>
   <script is:inline>
     // WNBA's watch pages can render as logged-out even when the browser has a
