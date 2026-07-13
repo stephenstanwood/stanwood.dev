@@ -39,7 +39,7 @@ const EVENTS = feed.items as CampbellEvent[];
 const SOURCE_COUNTS = feed.sources ?? [];
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
-const EVENT_DISPLAY_LIMIT = 36;
+const EVENT_DISPLAY_LIMIT = 18;
 type EventViewFilter = "today" | "weekend" | "all" | "next14" | "next30" | "public";
 const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
   "#campbell-events-next14": "next14",
