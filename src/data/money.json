@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-12T01:10:21.931Z",
+  "lastUpdated": "2026-07-13T01:10:28.046Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-12T01:10:21.931Z",
+        "collectedAt": "2026-07-13T01:10:28.046Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -132,11 +132,11 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 2322,
+            "totalCents": 2432,
             "breakdown": [
               {
                 "name": "claude-opus-4-7",
-                "cents": 1039
+                "cents": 1135
               },
               {
                 "name": "claude-opus-4-8",
@@ -144,7 +144,7 @@
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 451
+                "cents": 465
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
