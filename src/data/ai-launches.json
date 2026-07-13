@@ -16,6 +16,14 @@
     "url": "https://docs.x.ai/developers/release-notes"
   },
   {
+    "name": "Video Remix in Google Photos",
+    "org": "Google",
+    "date": "2026-07-08",
+    "type": "tool",
+    "summary": "Turn your phone clips into shareable art inside Google Photos — cinematic relighting to rescue dark footage, background swaps, and watercolor or sketch styles in a few taps. Powered by Gemini Omni; needs a paid AI Plus, Pro, or Ultra plan.",
+    "url": "https://blog.google/products-and-platforms/products/photos/video-remix/"
+  },
+  {
     "name": "Muse Image",
     "org": "Meta",
     "date": "2026-07-07",
@@ -40,27 +48,19 @@
     "url": "https://community.openai.com/t/new-realtime-models-on-the-api-gpt-realtime-2-1-and-gpt-realtime-2-1-mini/1385896"
   },
   {
+    "name": "AI crawler controls",
+    "org": "Cloudflare",
+    "date": "2026-07-01",
+    "type": "tool",
+    "summary": "Control which AI bots touch your site — separately allow or block Search, Agent, and Training crawlers instead of one all-or-nothing toggle. Free on every plan, so any solo site owner can decide who gets their content and who pays for it.",
+    "url": "https://blog.cloudflare.com/content-independence-day-ai-options/"
+  },
+  {
     "name": "Kimi K2.7 Code in GitHub Copilot",
     "org": "Moonshot AI",
     "date": "2026-07-01",
     "type": "model",
     "summary": "An open-weight trillion-parameter coding model is now selectable right in the GitHub Copilot picker — the first from a China-based lab. A cheaper alternative for everyday coding, billed at usage rates on Copilot Pro and up.",
     "url": "https://github.blog/changelog/2026-07-01-kimi-k2-7-is-now-available-in-github-copilot/"
-  },
-  {
-    "name": "Claude Fable 5",
-    "org": "Anthropic",
-    "date": "2026-07-01",
-    "type": "model",
-    "summary": "The top coding model is back worldwide after a three-week outage. It leads SWE-Bench Pro at 80.3% and runs in Claude Code, Cursor, and VS Code — use it now on Pro and Max plans to ship agentic coding work.",
-    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5"
-  },
-  {
-    "name": "Nano Banana 2 Lite & Gemini Omni Flash",
-    "org": "Google",
-    "date": "2026-06-30",
-    "type": "tool",
-    "summary": "Two cheap creative APIs for builders: Nano Banana 2 Lite generates and edits images, and Omni Flash turns text or stills into short video you refine by chatting. Both live now in the Gemini API and AI Studio for quick social and product assets.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni-flash-nano-banana-2-lite/"
   }
 ]
