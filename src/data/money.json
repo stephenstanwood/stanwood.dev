@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-14T01:10:20.128Z",
+  "lastUpdated": "2026-07-14T13:10:27.209Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-14T01:10:20.128Z",
+        "collectedAt": "2026-07-14T13:10:27.209Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -167,6 +167,13 @@
     ]
   },
   "subscriptions": [
+    {
+      "name": "Anthropic",
+      "cents": 22502,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Jul 2026; 2 Mercury charges combined"
+    },
     {
       "name": "Claude Max",
       "cents": 20000,
@@ -229,13 +236,6 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 2502,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Jul 2026"
     },
     {
       "name": "Neon via Vercel",
