@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-13T10:30:09.133390+00:00",
+  "built_at": "2026-07-14T10:30:13.245211+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,7 +8,7 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 24,
-      "video_count": 9,
+      "video_count": 11,
       "video_ids": [
         "IH-hRdNMIq0",
         "u74gb_DCtzo",
@@ -18,7 +18,9 @@
         "yhfuDD3hprA",
         "QZ61wToFILM",
         "Q_UxyEepuQA",
-        "WwWjH9ynx9U"
+        "WwWjH9ynx9U",
+        "ylELycbIbfg",
+        "IpzIDAqJDwI"
       ]
     },
     {
@@ -202,6 +204,16 @@
       "video_count": 1,
       "video_ids": [
         "_U0EUX2E3k0"
+      ]
+    },
+    {
+      "key": "__single__sRvrXL83N-c",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrasctructure, Enterprise AI, SaaS",
+      "best_score": 0,
+      "video_count": 1,
+      "video_ids": [
+        "sRvrXL83N-c"
       ]
     },
     {
@@ -425,6 +437,39 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 24, 2026\nThis lecture covers:\n\u2022  The six classic and three modern motivators of play\n\u2022  How to use them to adapt your app and game design techniques to find new markets and new communities to address\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nCher"
+    },
+    {
+      "id": "ylELycbIbfg",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Just-in-Time Objectives for Specialized AI Interactions",
+      "url": "https://www.youtube.com/watch?v=ylELycbIbfg",
+      "duration": 2879,
+      "published_at": "2026-07-13T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 18,
+      "categories": [
+        "hci",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 22, 2026\nThis lecture covers:\n\u2022 How just-in-time (JIT) architectures can produce specialized AI interactions that enable users to redirect generic AI systems to realize their specific, distinctive goals\n\u2022 An introduction to JIT objectives, which specialize outputs to a particular use"
+    },
+    {
+      "id": "IpzIDAqJDwI",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Toward Ontological Multiplicity in AI and Computing",
+      "url": "https://www.youtube.com/watch?v=IpzIDAqJDwI",
+      "duration": 2865,
+      "published_at": "2026-07-13T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 8,
+      "categories": [
+        "hci",
+        "healthcare_ai",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 15, 2026\nThis lecture covers:\n\u2022 The recursive relationship between imagination and design\n\u2022 Ontological boundaries in system design\n\u2022 The stakes of embedded assumptions in AI\n\u2022 Moving critique from reaction to prevention\n\u2022 Methods for expanding design possibilities\n\nTo follow along w"
     },
     {
       "id": "GBd7iuJkW08",
@@ -1731,6 +1776,19 @@
         "series:AA228V"
       ],
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
+    },
+    {
+      "id": "sRvrXL83N-c",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrasctructure, Enterprise AI, SaaS",
+      "url": "https://www.youtube.com/watch?v=sRvrXL83N-c",
+      "duration": 2349,
+      "published_at": "2026-07-13T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Infrasctructure, Enterprise AI, SaaS",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nThis seminar covers applications, coding AI, and the future of software.\n\nFollow along with the schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Ali Ghodsi, Databricks\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Engineering and a partner at "
     },
     {
       "id": "HA7lZd7zk3M",
