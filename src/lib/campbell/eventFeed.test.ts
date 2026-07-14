@@ -113,6 +113,30 @@ describe("Campbell event feed", () => {
     }
   });
 
+  it("does not duplicate same-time listings across source calendars", () => {
+    const events = eventFeed.items as {
+      title: string;
+      location?: string;
+      startDate?: string;
+      endDate?: string;
+      date?: string;
+    }[];
+
+    for (let firstIndex = 0; firstIndex < events.length; firstIndex += 1) {
+      for (let secondIndex = firstIndex + 1; secondIndex < events.length; secondIndex += 1) {
+        const first = events[firstIndex];
+        const second = events[secondIndex];
+        if (!hasSpecificEventTime(first) || !hasSpecificEventTime(second)) continue;
+        if ((first.startDate ?? "").slice(0, 16) !== (second.startDate ?? "").slice(0, 16)) continue;
+        if ((first.endDate ?? "").slice(0, 16) !== (second.endDate ?? "").slice(0, 16)) continue;
+        if (!locationsOverlap(first.location, second.location)) continue;
+
+        const overlap = titleOverlap(first.title, second.title);
+        expect(overlap, `${first.title} / ${second.title}`).toBeLessThan(2);
+      }
+    }
+  });
+
   it("parses downtown month/day ranges into structured dates", () => {
     const events = eventFeed.items as {
       title: string;

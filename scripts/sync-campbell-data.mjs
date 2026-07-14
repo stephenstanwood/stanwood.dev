@@ -1344,6 +1344,74 @@ async function fetchChamberEventsHtml() {
   };
 }
 
+function mergeEventRecords(existing, event) {
+  const sourceNames = new Set([
+    ...splitEventSourceNames(existing.source),
+    ...splitEventSourceNames(event.source),
+  ]);
+  const sourceUrls = new Set([
+    existing.sourceUrl,
+    ...(existing.additionalSourceUrls ?? []),
+    event.sourceUrl,
+    ...(event.additionalSourceUrls ?? []),
+  ].filter(Boolean));
+  const topics = new Set([...(existing.topics ?? []), ...(event.topics ?? [])]);
+
+  return {
+    ...existing,
+    date: existing.date || event.date,
+    startDate: existing.startDate || event.startDate,
+    endDate: existing.endDate || event.endDate,
+    cost: existing.cost || event.cost,
+    location: existing.location || event.location,
+    description: existing.description || event.description,
+    imageUrl: existing.imageUrl || event.imageUrl,
+    url: existing.url || event.url,
+    category: existing.category || event.category,
+    source: [...sourceNames].join(" + "),
+    additionalSourceUrls: [...sourceUrls].filter((url) => url !== existing.sourceUrl),
+    ...(topics.size ? { topics: [...topics] } : {}),
+  };
+}
+
+function eventSpecificTimesMatch(firstEvent, secondEvent) {
+  if (!hasSpecificEventTime(firstEvent) || !hasSpecificEventTime(secondEvent)) return false;
+
+  const firstStart = eventTimestamp(firstEvent);
+  const secondStart = eventTimestamp(secondEvent);
+  if (firstStart === Number.MAX_SAFE_INTEGER || secondStart === Number.MAX_SAFE_INTEGER) return false;
+  if (Math.abs(firstStart - secondStart) > 60_000) return false;
+
+  if (firstEvent.endDate && secondEvent.endDate) {
+    const firstEnd = eventEndTimestamp(firstEvent);
+    const secondEnd = eventEndTimestamp(secondEvent);
+    if (firstEnd === Number.MAX_SAFE_INTEGER || secondEnd === Number.MAX_SAFE_INTEGER) return false;
+    return Math.abs(firstEnd - secondEnd) <= 60_000;
+  }
+
+  return true;
+}
+
+function mergeSimilarEventListings(events) {
+  const mergedEvents = [];
+
+  for (const event of events) {
+    const existingIndex = mergedEvents.findIndex((existingEvent) =>
+      eventSpecificTimesMatch(existingEvent, event) &&
+      eventListingsLookSame(existingEvent, event),
+    );
+
+    if (existingIndex < 0) {
+      mergedEvents.push(event);
+      continue;
+    }
+
+    mergedEvents[existingIndex] = mergeEventRecords(mergedEvents[existingIndex], event);
+  }
+
+  return mergedEvents;
+}
+
 function mergeEventFeeds(...feeds) {
   const byKey = new Map();
 
@@ -1357,31 +1425,10 @@ function mergeEventFeeds(...feeds) {
       continue;
     }
 
-    const sourceNames = new Set([
-      ...splitEventSourceNames(existing.source),
-      ...splitEventSourceNames(event.source),
-    ]);
-    const sourceUrls = new Set([
-      existing.sourceUrl,
-      ...(existing.additionalSourceUrls ?? []),
-      event.sourceUrl,
-      ...(event.additionalSourceUrls ?? []),
-    ].filter(Boolean));
-
-    byKey.set(key, {
-      ...existing,
-      cost: existing.cost || event.cost,
-      location: existing.location || event.location,
-      description: existing.description || event.description,
-      imageUrl: existing.imageUrl || event.imageUrl,
-      url: existing.url || event.url,
-      category: existing.category || event.category,
-      source: [...sourceNames].join(" + "),
-      additionalSourceUrls: [...sourceUrls].filter((url) => url !== existing.sourceUrl),
-    });
+    byKey.set(key, mergeEventRecords(existing, event));
   }
 
-  const mergedEvents = [...byKey.values()];
+  const mergedEvents = mergeSimilarEventListings([...byKey.values()]);
   const detailedEvents = [];
 
   for (const event of mergedEvents) {
@@ -1400,23 +1447,7 @@ function mergeEventFeeds(...feeds) {
     );
 
     for (const detailedEvent of matchingDetailedEvents) {
-      const sourceNames = new Set([
-        ...splitEventSourceNames(detailedEvent.source),
-        ...sources,
-      ]);
-      const sourceUrls = new Set([
-        detailedEvent.sourceUrl,
-        ...(detailedEvent.additionalSourceUrls ?? []),
-        event.sourceUrl,
-        ...(event.additionalSourceUrls ?? []),
-      ].filter(Boolean));
-
-      detailedEvent.cost ||= event.cost;
-      detailedEvent.location ||= event.location;
-      detailedEvent.description ||= event.description;
-      detailedEvent.imageUrl ||= event.imageUrl;
-      detailedEvent.source = [...sourceNames].join(" + ");
-      detailedEvent.additionalSourceUrls = [...sourceUrls].filter((url) => url !== detailedEvent.sourceUrl);
+      Object.assign(detailedEvent, mergeEventRecords(detailedEvent, event));
     }
 
     if (matchingDetailedEvents.length > 0) {
