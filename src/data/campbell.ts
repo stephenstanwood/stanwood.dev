@@ -291,11 +291,11 @@ export const CIVIC_SOURCES: CampbellSource[] = [
     why: "Budget books, financial plans, and the clearest path into what services the city funds.",
   },
   {
-    label: "City map services",
+    label: "City maps",
     owner: "City of Campbell",
     cadence: "As layers update",
-    href: SOURCE_URLS.cityGis,
-    why: "Searchable city map layers for zoning, parcels, public assets, and location-specific overlays.",
+    href: SOURCE_URLS.cityGisPublic,
+    why: "The public map viewer for zoning, parcels, city assets, and location-specific overlays.",
   },
 ];
 

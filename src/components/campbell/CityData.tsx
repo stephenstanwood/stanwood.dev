@@ -5,7 +5,7 @@ import { CAMPBELL_METRICS, SOURCE_URLS } from "../../data/campbell";
 const MAP_LINKS = [
   { label: "Zoning map", desc: "Residential, commercial, and industrial districts", href: SOURCE_URLS.cityGisPublic },
   { label: "Parks and facilities", desc: "Community centers, pools, parks, and city buildings", href: "https://www.campbellca.gov/Facilities" },
-  { label: "City map layers", desc: "Public layers for zoning, parcels, and city assets", href: SOURCE_URLS.cityGis },
+  { label: "Active projects map", desc: "Planning projects and location-specific development notes", href: SOURCE_URLS.activeProjectsMap },
 ];
 
 export default function CityData() {
@@ -66,7 +66,7 @@ export default function CityData() {
             ))}
             <p className="cb-data-gis-note">
               Campbell does not publish one single public data site yet.
-              These links cover the useful city map layers that are public now.
+              These links cover the useful public maps residents can open now.
             </p>
           </div>
         )}
