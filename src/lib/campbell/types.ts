@@ -19,7 +19,7 @@ export interface CampbellCouncilRecord {
   meetingUrl?: string;
 }
 
-export function isRegularCouncilSession(record: Pick<CampbellCouncilRecord, "title">) {
+function isRegularCouncilSession(record: Pick<CampbellCouncilRecord, "title">) {
   return /\bregular session\b/i.test(record.title);
 }
 
