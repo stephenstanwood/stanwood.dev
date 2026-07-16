@@ -118,6 +118,21 @@ function eventSourceFilterLabel(label: string) {
   return label;
 }
 
+function eventCategoryLabel(label: string) {
+  if (label === "Campbell Library") return "Library";
+  if (label === "Main Calendar") return "City calendar";
+  if (label === "Recreation & Community Services") return "City programs";
+  if (label === "Civic Improvement Commission") return "Civic commission";
+  if (label === "Historic Preservation Board") return "Historic board";
+  return label;
+}
+
+function eventCardSourceLabel(event: CampbellEvent) {
+  if (event.category) return eventCategoryLabel(event.category);
+  if (event.source) return eventSourceFilterLabel(event.source);
+  return "";
+}
+
 function eventMatchesSource(event: CampbellEvent, sourceFilter: string) {
   if (sourceFilter === ALL_SOURCE_FILTER) return true;
   const sourceText = [
@@ -227,7 +242,7 @@ function eventContextLabel(viewFilter: EventViewFilter, sourceFilter: string, ca
   const filters: string[] = [];
 
   if (categoryFilter !== ALL_CATEGORY_FILTER) {
-    filters.push(`tagged ${categoryFilter}`);
+    filters.push(`tagged ${eventCategoryLabel(categoryFilter)}`);
   }
 
   const searchText = query.trim();
@@ -345,7 +360,7 @@ export default function EventsIndex() {
         >
           {CATEGORY_OPTIONS.map((category) => (
             <option key={category} value={category}>
-              {category === ALL_CATEGORY_FILTER ? "All topics" : category}
+              {category === ALL_CATEGORY_FILTER ? "All topics" : eventCategoryLabel(category)}
             </option>
           ))}
         </select>
@@ -418,6 +433,7 @@ export default function EventsIndex() {
           const imageUrl = event.imageUrl.trim();
           const showImage = imageUrl.length > 0 && !failedImageUrls.has(imageUrl);
           const tile = showImage ? null : eventDateTile(event);
+          const sourceLabel = eventCardSourceLabel(event);
           return (
             <a
               key={`${event.date}-${event.title}`}
@@ -456,9 +472,9 @@ export default function EventsIndex() {
               <div className="cb-event-card-body">
                 <div className="cb-event-meta">
                   <span className="cb-event-date">{eventDateLabel(event)}</span>
-                  {(event.category || event.source) && (
+                  {sourceLabel && (
                     <span className="cb-event-source">
-                      {event.category || event.source}
+                      {sourceLabel}
                     </span>
                   )}
                 </div>
