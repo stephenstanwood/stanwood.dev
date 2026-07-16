@@ -64,7 +64,7 @@ type EventShortcut = {
 
 const EVENT_SHORTCUTS: EventShortcut[] = [
   { label: "This weekend", view: "weekend" },
-  { label: "City Hall", source: "City of Campbell Calendar", view: "public" },
+  { label: "Public meetings", view: "public" },
   { label: "Library", source: "Campbell Library Events", view: "next30" },
   { label: "Farmers' market", query: "Farmers' Market", view: "next30" },
   { label: "Heritage Theatre", source: "Campbell Heritage Theatre Events", view: "next30" },
@@ -222,7 +222,7 @@ function eventResultLabel(
   if (viewFilter === "weekend") return count === 0 ? "No events this weekend" : `${count} this weekend`;
   if (viewFilter === "next14") return `${count} in next 14 days`;
   if (viewFilter === "next30") return `${count} in next 30 days`;
-  if (viewFilter === "public") return `${count} public ${noun}`;
+  if (viewFilter === "public") return count === 1 ? "1 public meeting" : `${count} public meetings`;
   return `${count} ${noun}`;
 }
 
@@ -333,7 +333,7 @@ export default function EventsIndex() {
         <h3>What is happening next in Campbell.</h3>
         <p>
           Search city, downtown, library, theater, school, and Chamber calendars.
-          City Hall keeps meetings and hearings easy to find.
+          The public-meetings shortcut keeps city and school meetings easy to find.
         </p>
       </div>
 
