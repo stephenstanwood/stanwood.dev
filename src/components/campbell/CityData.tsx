@@ -1,18 +1,19 @@
 import { useState } from "react";
+import { ChevronDown, ChevronUp, Map as MapIcon } from "lucide-react";
 import { CAMPBELL_METRICS, SOURCE_URLS } from "../../data/campbell";
 
-const GIS_LINKS = [
-  { label: "Zoning Map",       desc: "Residential, commercial, industrial districts", href: SOURCE_URLS.cityGisPublic },
-  { label: "Parks & Facilities", desc: "Community centers, pools, parks",            href: "https://www.campbellca.gov/Facilities" },
-  { label: "Map Data Services", desc: "City map layers for zoning, parcels, and public assets",  href: SOURCE_URLS.cityGis },
+const MAP_LINKS = [
+  { label: "Zoning map", desc: "Residential, commercial, and industrial districts", href: SOURCE_URLS.cityGisPublic },
+  { label: "Parks and facilities", desc: "Community centers, pools, parks, and city buildings", href: "https://www.campbellca.gov/Facilities" },
+  { label: "City map layers", desc: "Public layers for zoning, parcels, and city assets", href: SOURCE_URLS.cityGis },
 ];
 
 export default function CityData() {
-  const [showGis, setShowGis] = useState(false);
+  const [showMapLinks, setShowMapLinks] = useState(false);
+  const ToggleIcon = showMapLinks ? ChevronUp : ChevronDown;
 
   return (
     <div className="cb-data">
-      {/* City identity bar */}
       <div className="cb-data-identity">
         <span className="cb-data-identity-name">Campbell, CA</span>
         <span className="cb-data-identity-meta">Santa Clara County · Silicon Valley</span>
@@ -39,14 +40,19 @@ export default function CityData() {
       <div className="cb-data-footer">
         <button
           className="cb-data-gis-toggle"
-          onClick={() => setShowGis((v) => !v)}
-          aria-expanded={showGis}
+          onClick={() => setShowMapLinks((v) => !v)}
+          aria-expanded={showMapLinks}
+          aria-controls="campbell-map-links"
         >
-          {showGis ? "Hide" : "GIS & open data"} {showGis ? "↑" : "↓"}
+          <span>
+            <MapIcon size={16} strokeWidth={2.2} aria-hidden="true" />
+            {showMapLinks ? "Hide maps and data" : "Maps and city data"}
+          </span>
+          <ToggleIcon size={16} strokeWidth={2.2} aria-hidden="true" />
         </button>
-        {showGis && (
-          <div className="cb-data-gis-list">
-            {GIS_LINKS.map((g) => (
+        {showMapLinks && (
+          <div className="cb-data-gis-list" id="campbell-map-links">
+            {MAP_LINKS.map((g) => (
               <a
                 key={g.label}
                 href={g.href}
@@ -59,8 +65,8 @@ export default function CityData() {
               </a>
             ))}
             <p className="cb-data-gis-note">
-              Campbell doesn't publish a full open data portal yet.
-              The city map services expose some layers directly.
+              Campbell does not publish one single public data site yet.
+              These links cover the useful city map layers that are public now.
             </p>
           </div>
         )}

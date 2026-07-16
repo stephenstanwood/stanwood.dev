@@ -77,7 +77,7 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     id: "data",
     label: "Numbers + Maps",
     eyebrow: "Numbers",
-    summary: "Open Census snapshots, city maps, budgets, GIS layers, and county data.",
+    summary: "Open Census snapshots, city maps, budgets, map layers, and county data.",
     intent: "Use this when you need sourced numbers or a map layer.",
     Icon: Map,
   },

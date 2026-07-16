@@ -2186,10 +2186,15 @@ const photoStories = [
         margin-top: 0.25rem;
       }
       .cb-data-gis-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        min-height: 2.35rem;
         background: none;
         border: 1px solid var(--cb-border);
         border-radius: var(--cb-radius);
-        padding: 0.375rem 0.75rem;
+        padding: 0.375rem 0.72rem;
         font-size: 0.8rem;
         font-weight: 600;
         color: var(--cb-blue);
@@ -2198,6 +2203,14 @@ const photoStories = [
         transition: border-color 0.15s;
       }
       .cb-data-gis-toggle:hover { border-color: var(--cb-blue); }
+      .cb-data-gis-toggle span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.36rem;
+      }
+      .cb-data-gis-toggle svg {
+        flex: 0 0 auto;
+      }
       .cb-data-gis-list {
         display: flex;
         flex-direction: column;

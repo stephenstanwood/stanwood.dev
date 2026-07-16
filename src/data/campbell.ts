@@ -291,11 +291,11 @@ export const CIVIC_SOURCES: CampbellSource[] = [
     why: "Budget books, financial plans, and the clearest path into what services the city funds.",
   },
   {
-    label: "GIS and map services",
+    label: "City map services",
     owner: "City of Campbell",
     cadence: "As layers update",
     href: SOURCE_URLS.cityGis,
-    why: "Queryable map services for zoning, parcels, public assets, and location-specific overlays.",
+    why: "Searchable city map layers for zoning, parcels, public assets, and location-specific overlays.",
   },
 ];
 
@@ -402,8 +402,8 @@ export const REAL_ESTATE_SOURCES: CampbellSource[] = [
     why: "Rules for deeds, transfer tax, documents, copies, and in-person research limits.",
   },
   {
-    label: "County GIS parcel data",
-    owner: "Santa Clara County GIS",
+    label: "County parcel map data",
+    owner: "Santa Clara County",
     cadence: "Annual parcel layer",
     href: SOURCE_URLS.countyGisData,
     why: "Downloadable parcel boundaries, air parcels, land parcels, and other map layers for citywide joins.",
@@ -608,8 +608,8 @@ export const PROPERTY_LAYERS: CampbellPropertyLayer[] = [
   {
     label: "Parcel geometry",
     status: "Ready",
-    body: "County GIS publishes parcel layers for mapping and spatial joins. That makes neighborhood rollups and zoning overlays feasible without scraping individual search pages.",
-    sourceLabel: "County GIS map data",
+    body: "The county publishes parcel map layers for mapping and spatial joins. That makes neighborhood rollups and zoning overlays feasible without scraping individual search pages.",
+    sourceLabel: "County parcel map data",
     sourceUrl: SOURCE_URLS.countyGisData,
   },
   {
@@ -620,4 +620,3 @@ export const PROPERTY_LAYERS: CampbellPropertyLayer[] = [
     sourceUrl: SOURCE_URLS.campbellBuilding,
   },
 ];
-

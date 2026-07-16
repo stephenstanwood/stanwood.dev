@@ -90,7 +90,7 @@ const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
         tone: "green",
       },
       {
-        title: "GIS & Maps",
+        title: "City Maps",
         desc: "Zoning, parcels, business licenses, city layers",
         href: SOURCE_URLS.cityGisPublic,
         Icon: Map,
