@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
-import { MS_PER_DAY, timeAgo } from "../lib/time";
+import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 
@@ -45,9 +45,7 @@ function buildActivityGrid(
   return Array.from({ length: 28 }, (_, i) => {
     const daysAgo = 27 - i; // index 0 = oldest, index 27 = today
     const cellTs = now - daysAgo * MS_PER_DAY;
-    const active = allDates.some(
-      (ts) => Math.floor((now - ts) / MS_PER_DAY) === daysAgo
-    );
+    const active = allDates.some((ts) => daysSince(ts, now) === daysAgo);
     const dateStr = formatMonthDay(cellTs);
     return { active, label: active ? `deployed · ${dateStr}` : dateStr };
   });
