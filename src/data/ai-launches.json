@@ -1,5 +1,13 @@
 [
   {
+    "name": "Inkling",
+    "org": "Thinking Machines Lab",
+    "date": "2026-07-15",
+    "type": "model",
+    "summary": "Download a 975B open-weight multimodal model under Apache 2.0 and fine-tune it for your own use — free on Hugging Face, or hit it via API on Together, Fireworks, Modal, and Baseten. Built to flag when it's unsure instead of guessing.",
+    "url": "https://thinkingmachines.ai/news/introducing-inkling/"
+  },
+  {
     "name": "GPT-5.6 (Sol, Terra, Luna)",
     "org": "OpenAI",
     "date": "2026-07-09",
@@ -46,21 +54,5 @@
     "type": "model",
     "summary": "Build low-latency voice agents that listen, reason, and talk back, with tool use and configurable thinking effort. A cheaper distilled mini variant ships alongside, and p95 latency drops at least 25%. Live in the Realtime API today.",
     "url": "https://community.openai.com/t/new-realtime-models-on-the-api-gpt-realtime-2-1-and-gpt-realtime-2-1-mini/1385896"
-  },
-  {
-    "name": "AI crawler controls",
-    "org": "Cloudflare",
-    "date": "2026-07-01",
-    "type": "tool",
-    "summary": "Control which AI bots touch your site — separately allow or block Search, Agent, and Training crawlers instead of one all-or-nothing toggle. Free on every plan, so any solo site owner can decide who gets their content and who pays for it.",
-    "url": "https://blog.cloudflare.com/content-independence-day-ai-options/"
-  },
-  {
-    "name": "Kimi K2.7 Code in GitHub Copilot",
-    "org": "Moonshot AI",
-    "date": "2026-07-01",
-    "type": "model",
-    "summary": "An open-weight trillion-parameter coding model is now selectable right in the GitHub Copilot picker — the first from a China-based lab. A cheaper alternative for everyday coding, billed at usage rates on Copilot Pro and up.",
-    "url": "https://github.blog/changelog/2026-07-01-kimi-k2-7-is-now-available-in-github-copilot/"
   }
 ]
