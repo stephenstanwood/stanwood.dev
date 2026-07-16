@@ -9,7 +9,7 @@ import {
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
-import { eventInWindow, eventStart, formatEventDay } from "../../lib/campbell/eventDates";
+import { compareResidentEvents, eventInWindow, eventStart, formatEventDay } from "../../lib/campbell/eventDates";
 import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
 
 interface CampbellEvent {
@@ -52,10 +52,11 @@ export default function TodayInCampbell() {
 
   const todayEvents = EVENTS
     .filter((event) => eventInWindow(event, referenceDay, endOfReferenceDay))
+    .sort(compareResidentEvents)
     .slice(0, 4);
   const nextEvents = EVENTS
     .filter((event) => eventIsUpcoming(event, endOfReferenceDay))
-    .sort((a, b) => (eventStart(a)?.getTime() ?? 0) - (eventStart(b)?.getTime() ?? 0))
+    .sort(compareResidentEvents)
     .slice(0, 3);
 
   const hearingsByDate = PUBLIC_HEARINGS

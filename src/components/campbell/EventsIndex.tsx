@@ -4,6 +4,7 @@ import eventFeed from "../../data/campbellEvents.json";
 import { addCampbellDays, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
 import {
   campbellWeekendWindow,
+  compareResidentEvents,
   eventDateLabel,
   eventInWindow,
   eventStart,
@@ -281,7 +282,7 @@ export default function EventsIndex() {
       if (categoryFilter !== ALL_CATEGORY_FILTER && event.category !== categoryFilter) return false;
       if (!eventMatchesView(event, viewFilter, referenceDay)) return false;
       return eventMatchesQuery(event, query);
-    });
+    }).sort(compareResidentEvents);
   }, [categoryFilter, query, referenceDay, sourceFilter, viewFilter]);
 
   const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);

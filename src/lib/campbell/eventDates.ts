@@ -13,6 +13,14 @@ export interface EventDateFields {
   endDate?: string;
 }
 
+export interface ResidentEventFields extends EventDateFields {
+  title?: string;
+  source?: string;
+  category?: string;
+  description?: string;
+  topics?: string[];
+}
+
 const LONG_RUNNING_EVENT_DAYS = 14;
 
 export function eventStart(event: EventDateFields): Date | null {
@@ -134,4 +142,40 @@ export function campbellWeekendWindow(referenceDay: Date) {
     start: addCampbellDays(reference, startOffset),
     end: endOfDay(addCampbellDays(reference, endOffset)),
   };
+}
+
+function residentEventPriority(event: ResidentEventFields) {
+  const text = [
+    event.title ?? "",
+    event.source ?? "",
+    event.category ?? "",
+    event.description ?? "",
+    ...(event.topics ?? []),
+  ].join(" ");
+
+  if (/council|commission|committee|board|meeting|hearing|public notice/i.test(text)) return 0;
+  if (/city of campbell|downtown campbell|campbell museums|heritage theatre|campbell library/i.test(text)) return 1;
+  if (/farmers'? market|summer concert|movie night|museum|theatre|library|park|recreation/i.test(text)) return 1;
+  if (/\b(?:BLS|ACLS|CPR)\b|first\s*[-–]?\s*aid/i.test(text)) return 4;
+  if (/chamber/i.test(text)) return 3;
+  return 2;
+}
+
+export function compareResidentEvents(a: ResidentEventFields, b: ResidentEventFields) {
+  const aStart = eventStart(a);
+  const bStart = eventStart(b);
+  if (!aStart && !bStart) return (a.title ?? "").localeCompare(b.title ?? "");
+  if (!aStart) return 1;
+  if (!bStart) return -1;
+
+  const dayDiff = startOfDay(aStart).getTime() - startOfDay(bStart).getTime();
+  if (dayDiff !== 0) return dayDiff;
+
+  const priorityDiff = residentEventPriority(a) - residentEventPriority(b);
+  if (priorityDiff !== 0) return priorityDiff;
+
+  const timeDiff = aStart.getTime() - bStart.getTime();
+  if (timeDiff !== 0) return timeDiff;
+
+  return (a.title ?? "").localeCompare(b.title ?? "");
 }

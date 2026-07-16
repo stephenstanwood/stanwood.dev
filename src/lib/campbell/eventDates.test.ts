@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { campbellWeekendWindow, eventDateLabel } from "./eventDates";
+import { campbellWeekendWindow, compareResidentEvents, eventDateLabel } from "./eventDates";
 
 function localDate(year: number, monthIndex: number, day: number) {
   return new Date(year, monthIndex, day, 12, 0, 0, 0);
@@ -56,5 +56,54 @@ describe("eventDateLabel", () => {
   it("falls back to the source date when structured dates are missing", () => {
     expect(eventDateLabel({ date: "June date TBA" })).toBe("June date TBA");
     expect(eventDateLabel({})).toBe("Date TBA");
+  });
+});
+
+describe("compareResidentEvents", () => {
+  it("keeps calendar day ahead of event priority", () => {
+    const todayClass = {
+      title: "BLS Classes in Campbell",
+      source: "Campbell Chamber Events",
+      startDate: "2026-07-16T09:00",
+    };
+    const tomorrowMeeting = {
+      title: "Planning Commission Regular Meeting",
+      source: "City of Campbell Calendar",
+      startDate: "2026-07-17T00:00:00",
+    };
+
+    expect([tomorrowMeeting, todayClass].sort(compareResidentEvents)).toEqual([todayClass, tomorrowMeeting]);
+  });
+
+  it("promotes public meetings over same-day generic training classes", () => {
+    const trainingClass = {
+      title: "CPR and First - Aid Classes in Campbell",
+      source: "Campbell Chamber Events",
+      startDate: "2026-07-16T09:00",
+      topics: ["Chamber Events", "Community Events"],
+    };
+    const cityMeeting = {
+      title: "Bicycle and Pedestrian Advisory Committee Meeting",
+      source: "City of Campbell Calendar",
+      startDate: "2026-07-16T17:00:00",
+    };
+
+    expect([trainingClass, cityMeeting].sort(compareResidentEvents)).toEqual([cityMeeting, trainingClass]);
+  });
+
+  it("keeps Campbell calendar events ahead of same-day chamber-only listings", () => {
+    const chamberEvent = {
+      title: "Power Networking Lunch at iniBurger",
+      source: "Campbell Chamber Events",
+      startDate: "2026-07-28T12:00",
+    };
+    const cityEvent = {
+      title: "Adaptive Dis-Glow Dance",
+      source: "City of Campbell Calendar",
+      category: "Recreation & Community Services",
+      startDate: "2026-07-28T19:00:00",
+    };
+
+    expect([chamberEvent, cityEvent].sort(compareResidentEvents)).toEqual([cityEvent, chamberEvent]);
   });
 });
