@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-17T06:22:52.703Z",
+  "generatedAt": "2026-07-17T09:22:58.954Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 31,
-      "parsedCount": 31
+      "count": 29,
+      "parsedCount": 29
     },
     {
       "label": "Downtown Campbell Events",
@@ -42,7 +42,7 @@
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
       "count": 15,
-      "parsedCount": 48
+      "parsedCount": 47
     }
   ],
   "items": [
@@ -73,50 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Summer Soirée Live Music with Simon Santiago",
-      "date": "7/16/26",
-      "cost": "FREE",
-      "location": "Tessora's Wine Bar",
-      "description": "Join us for an unforgettable evening of live music, delicious dining, and a welcoming patio atmosphere at our Summer Soirée Live Music.",
-      "url": "https://www.downtowncampbell.com/event/2026/07/summer-soir-e-live-music-simon-santiago",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1248/images/summer_soiree_simon.png?itok=O5bk02mL",
-      "category": "Downtown",
-      "startDate": "2026-07-16T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
-      "title": "Bicycle and Pedestrian Advisory Committee Meeting",
-      "date": "July 16, 2026, 5:00 PM - 6:15 PM",
-      "cost": "",
-      "location": "Council Chamber",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3845&month=7&year=2026&day=16&calType=0",
-      "imageUrl": "",
-      "category": "Main Calendar",
-      "startDate": "2026-07-16T17:00:00",
-      "endDate": "2026-07-16T18:15:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
-      "title": "Summer Concert Series - The Floorshakers",
-      "date": "July 16, 2026, 6:30 PM - 8:00 PM",
-      "cost": "free",
-      "location": "Orchard City Green",
-      "description": "The Floorshakers’ music spans generations - from classic Funk and Soul favorites to modern dance hits, Rock anthems, Motown, R&B, and party classics - all performed with energy, style, and professionalism.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3997&month=7&year=2026&day=16&calType=0",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/band-thefloorshakers.jpg?itok=_E2xFCGm",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-16T18:30:00",
-      "endDate": "2026-07-16T20:00:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
     },
     {
       "title": "Family Fun at the Museum",
@@ -1790,6 +1746,32 @@
         "Luncheon",
         "Chamber Events"
       ]
+    },
+    {
+      "title": "Small Business Saturday 2026",
+      "date": "11/28/26",
+      "cost": "Free",
+      "location": "Downtown Campbell",
+      "description": "20+ deals, specials, and events for you on Black Friday and Small Business Saturday! Small Business Saturday is when we celebrate the mom and pop shops that make our communities vibrant and fun. It's a day of deals, specials, pop-ups, and events. It's not always all shopping...",
+      "url": "https://www.downtowncampbell.com/event/2026/11/small-business-saturday-2026",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/smallbusinesseveryday-fb-sized.jpg?itok=KkWdbtxB",
+      "category": "Downtown",
+      "startDate": "2026-11-28T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "11/29/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-11-29T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "CPR and First - Aid Classes in Campbell",
