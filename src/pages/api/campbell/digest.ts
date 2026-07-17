@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
-import { CLAUDE_HAIKU, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
+import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
 import { getLatestAgenda } from "../../../lib/campbell/agendaScraper";
 import type { DigestSummary } from "../../../lib/campbell/types";
 import { MS_PER_DAY } from "../../../lib/time";
@@ -46,7 +46,7 @@ ${content}`;
 
   try {
     const message = await client.messages.create({
-      model: CLAUDE_HAIKU,
+      model: CLAUDE_SONNET,
       max_tokens: 1024,
       messages: [{ role: "user", content: prompt }],
     });

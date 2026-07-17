@@ -1,7 +1,7 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
-import { CLAUDE_HAIKU, extractText } from "../../lib/models";
+import { CLAUDE_SONNET, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
@@ -44,7 +44,7 @@ async function summarizeCommit(raw: string): Promise<{ project: string | null; s
 
   try {
     const res = await anthropic.messages.create({
-      model: CLAUDE_HAIKU,
+      model: CLAUDE_SONNET,
       max_tokens: 100,
       messages: [
         {
