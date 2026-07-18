@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-17T10:30:06.989547+00:00",
+  "built_at": "2026-07-18T10:30:09.713906+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -62,26 +62,6 @@
       ]
     },
     {
-      "key": "Robotics Seminar",
-      "is_single": false,
-      "display_name": "Robotics Seminar",
-      "best_score": 11,
-      "video_count": 11,
-      "video_ids": [
-        "RKFRO_G4YkA",
-        "PYh9k4cy25w",
-        "NMFyMlwmwP8",
-        "popjDuA-whA",
-        "D7e7oUbtkFM",
-        "NUtaN10cVDc",
-        "b6uxaRL_ipw",
-        "3W36pd50Wqw",
-        "dI8pLC1BLSM",
-        "8hohrUYuyx4",
-        "NiRXiuWwrps"
-      ]
-    },
-    {
       "key": "__single__LRGX-gTegVA",
       "is_single": true,
       "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
@@ -89,16 +69,6 @@
       "video_count": 1,
       "video_ids": [
         "LRGX-gTegVA"
-      ]
-    },
-    {
-      "key": "__single__ODj7ndsKnts",
-      "is_single": true,
-      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
-      "best_score": 10,
-      "video_count": 1,
-      "video_ids": [
-        "ODj7ndsKnts"
       ]
     },
     {
@@ -178,6 +148,25 @@
       ]
     },
     {
+      "key": "Robotics Seminar",
+      "is_single": false,
+      "display_name": "Robotics Seminar",
+      "best_score": 8,
+      "video_count": 10,
+      "video_ids": [
+        "PYh9k4cy25w",
+        "NMFyMlwmwP8",
+        "popjDuA-whA",
+        "D7e7oUbtkFM",
+        "NUtaN10cVDc",
+        "b6uxaRL_ipw",
+        "3W36pd50Wqw",
+        "dI8pLC1BLSM",
+        "8hohrUYuyx4",
+        "NiRXiuWwrps"
+      ]
+    },
+    {
       "key": "CME296",
       "is_single": false,
       "display_name": "CME296",
@@ -202,6 +191,26 @@
       "video_count": 1,
       "video_ids": [
         "_U0EUX2E3k0"
+      ]
+    },
+    {
+      "key": "__single__LNSvp-9b-J0",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
+      "best_score": 0,
+      "video_count": 1,
+      "video_ids": [
+        "LNSvp-9b-J0"
+      ]
+    },
+    {
+      "key": "__single__nWKiJHKIZfo",
+      "is_single": true,
+      "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, AI in Life Sciences",
+      "best_score": 0,
+      "video_count": 1,
+      "video_ids": [
+        "nWKiJHKIZfo"
       ]
     },
     {
@@ -785,174 +794,6 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 session, Microsoft Chairman and CEO Satya Nadella joins Michael Abbott for a wide-ranging conversation on AI, Microsoft's strategy, and the future of computing. Nadella traces Microsoft's "
     },
     {
-      "id": "RKFRO_G4YkA",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Robot Motion Learning w/Physics-Based PDE Priors",
-      "url": "https://www.youtube.com/watch?v=RKFRO_G4YkA",
-      "duration": 3182,
-      "published_at": "2026-01-16T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 11,
-      "categories": [
-        "civic_open",
-        "algorithms",
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 9, 2026\nThis seminar covers: \n\u2022 How partial differential equation (PDE)\u2013based physics priors can provide a foundation for scalable and generalizable algorithms in robot motion learning\n\u2022 An introduction to an HJ PDE\u2013derived mapping representation that unifies perception and plann"
-    },
-    {
-      "id": "PYh9k4cy25w",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Resilient Autonomy",
-      "url": "https://www.youtube.com/watch?v=PYh9k4cy25w",
-      "duration": 3595,
-      "published_at": "2026-01-23T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 16, 2026\nThis seminar covers: \n\u2022 Resilient autonomy for extreme and uncertain environments\n\u2022 Approaches, progress, and results on multi-modal sensing\n\u2022 Nuanced perception inputs\n\u2022 Navigation in difficult terrain\n\u2022 Future directions of our research\n\nTo follow along with the semina"
-    },
-    {
-      "id": "NMFyMlwmwP8",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Bringing AI Up To Speed",
-      "url": "https://www.youtube.com/watch?v=NMFyMlwmwP8",
-      "duration": 4437,
-      "published_at": "2026-02-11T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 30, 2026\nThis seminar covers: \n\u2022 How to refine testing methodologies to advance the safety of autonomous vehicles\n\u2022 How high-speed autonomous racing provides a unique proving ground to test the boundaries of AI\u2019s physical capabilities\n\u2022 How racing at high speeds and in close prox"
-    },
-    {
-      "id": "popjDuA-whA",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | \ud835\udebf0: An Open Foundation Model",
-      "url": "https://www.youtube.com/watch?v=popjDuA-whA",
-      "duration": 3850,
-      "published_at": "2026-03-03T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 20, 2026\n\ud835\udebf0: An Open Foundation Model Towards Universal Humanoid Loco-Manipulation\n\nThis seminar covers: \n\u2022 Addressing challenging humanoid loco-manipulation tasks\n\u2022 Decoupling the learning process to maximize the utility of heterogeneous data sources\n\u2022 Extensive real-world expe"
-    },
-    {
-      "id": "D7e7oUbtkFM",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Gen Control, Action Chunking, Moravec\u2019s Paradox",
-      "url": "https://www.youtube.com/watch?v=D7e7oUbtkFM",
-      "duration": 3230,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 27, 2026\nThis seminar covers: \n\u2022 Mathematical evidence for Moravec\u2019s claim\n\u2022 Key innovations in modern robot learning\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nMax Simchowitz is an Assistant Professor at the Machine Learn"
-    },
-    {
-      "id": "NUtaN10cVDc",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Robot Learning from Human Experience",
-      "url": "https://www.youtube.com/watch?v=NUtaN10cVDc",
-      "duration": 4148,
-      "published_at": "2026-04-21T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis seminar covers: \n\u2022 How human-to-robot transfer can be understood as two coupled problems: extracting priors about physical intelligence from human experience, and grounding those priors into a robot\u2019s embodiment\n\u2022 Recent results showing emergent human-to-robot transfe"
-    },
-    {
-      "id": "b6uxaRL_ipw",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Mechanical Intelligence in Locomotion",
-      "url": "https://www.youtube.com/watch?v=b6uxaRL_ipw",
-      "duration": 3104,
-      "published_at": "2026-04-22T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 3, 2026\nThis seminar covers: \n\u2022 Additional legs, with higher control dimensions, can enable a broader spectrum of capabilities\n\u2022 The inclusion of CI (feedback controls) can enhance multi-legged locomotion speed while preserving the feature of robustness\n\u2022 CI might reduce the number"
-    },
-    {
-      "id": "3W36pd50Wqw",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Integrated Learning and Planning",
-      "url": "https://www.youtube.com/watch?v=3W36pd50Wqw",
-      "duration": 3473,
-      "published_at": "2026-05-20T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 8,
-      "categories": [
-        "applied_ai",
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 8, 2026\nThis seminar covers: \n\u2022 Integrated learning and planning with neuro-symbolic concepts\n\u2022 A general learning and reasoning framework based on neuro-symbolic concepts\n\u2022 Systems that leverage neuro-symbolic concepts demonstrate superior data efficiency, enable agents to reason an"
-    },
-    {
-      "id": "dI8pLC1BLSM",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Interactive Autonomy",
-      "url": "https://www.youtube.com/watch?v=dI8pLC1BLSM",
-      "duration": 4272,
-      "published_at": "2026-05-20T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
-    },
-    {
-      "id": "8hohrUYuyx4",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Leveraging Geometry in Robot Learning",
-      "url": "https://www.youtube.com/watch?v=8hohrUYuyx4",
-      "duration": 3811,
-      "published_at": "2026-06-04T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 22, 2026\nModel Matters: Leveraging Geometry in Robot Learning\n\nThis seminar covers: \n\u2022 How to leverage geometric structural priors in robot learning\n\u2022 A summary of recent work on this topic \n\u2022 Predictions about the future\n\nFollow along with the seminar schedule: https://stanfordasl.g"
-    },
-    {
-      "id": "NiRXiuWwrps",
-      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Towards Trustworthy Autonomy",
-      "url": "https://www.youtube.com/watch?v=NiRXiuWwrps",
-      "duration": 2075,
-      "published_at": "2026-07-07T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 15, 2026\nThis seminar covers: \n\u2022 Guardrails to detect, avoid, and learn from failures\n\u2022 How to detect when a system is unreliable\n\u2022 How to enact safety interventions when it degrades\n\u2022 How to improve it through principled use of deployment experience\n\nFollow along with the seminar sc"
-    },
-    {
       "id": "LRGX-gTegVA",
       "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
       "url": "https://www.youtube.com/watch?v=LRGX-gTegVA",
@@ -966,21 +807,6 @@
         "hci"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nThis seminar covers intelligence and unlocking enterprise internal knowledge.\n\nGuest speaker: Yash Patil, CEO of Applied Compute\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science a"
-    },
-    {
-      "id": "ODj7ndsKnts",
-      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
-      "url": "https://www.youtube.com/watch?v=ODj7ndsKnts",
-      "duration": 2053,
-      "published_at": "2026-05-20T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "hci"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nAI is the biggest technology supercycle since the PC, Internet, and Mobile. MS&E435 is a seminar that unpacks the economics at each layer of the AI stack. Each week, we learn from a practitioner with a unique va"
     },
     {
       "id": "5UJ0uWqO1Ho",
@@ -1604,6 +1430,157 @@
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs221-artificial-intelligence-principles-and-techniques\n\nPlease follow along with the course schedule: https://stanford-cs221.github.io/autumn2025/\n\nFollow the playlist: https://yout"
     },
     {
+      "id": "PYh9k4cy25w",
+      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Resilient Autonomy",
+      "url": "https://www.youtube.com/watch?v=PYh9k4cy25w",
+      "duration": 3595,
+      "published_at": "2026-01-23T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 16, 2026\nThis seminar covers: \n\u2022 Resilient autonomy for extreme and uncertain environments\n\u2022 Approaches, progress, and results on multi-modal sensing\n\u2022 Nuanced perception inputs\n\u2022 Navigation in difficult terrain\n\u2022 Future directions of our research\n\nTo follow along with the semina"
+    },
+    {
+      "id": "NMFyMlwmwP8",
+      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Bringing AI Up To Speed",
+      "url": "https://www.youtube.com/watch?v=NMFyMlwmwP8",
+      "duration": 4437,
+      "published_at": "2026-02-11T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 30, 2026\nThis seminar covers: \n\u2022 How to refine testing methodologies to advance the safety of autonomous vehicles\n\u2022 How high-speed autonomous racing provides a unique proving ground to test the boundaries of AI\u2019s physical capabilities\n\u2022 How racing at high speeds and in close prox"
+    },
+    {
+      "id": "popjDuA-whA",
+      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | \ud835\udebf0: An Open Foundation Model",
+      "url": "https://www.youtube.com/watch?v=popjDuA-whA",
+      "duration": 3850,
+      "published_at": "2026-03-03T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 20, 2026\n\ud835\udebf0: An Open Foundation Model Towards Universal Humanoid Loco-Manipulation\n\nThis seminar covers: \n\u2022 Addressing challenging humanoid loco-manipulation tasks\n\u2022 Decoupling the learning process to maximize the utility of heterogeneous data sources\n\u2022 Extensive real-world expe"
+    },
+    {
+      "id": "D7e7oUbtkFM",
+      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Gen Control, Action Chunking, Moravec\u2019s Paradox",
+      "url": "https://www.youtube.com/watch?v=D7e7oUbtkFM",
+      "duration": 3230,
+      "published_at": "2026-04-10T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 27, 2026\nThis seminar covers: \n\u2022 Mathematical evidence for Moravec\u2019s claim\n\u2022 Key innovations in modern robot learning\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nMax Simchowitz is an Assistant Professor at the Machine Learn"
+    },
+    {
+      "id": "NUtaN10cVDc",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Robot Learning from Human Experience",
+      "url": "https://www.youtube.com/watch?v=NUtaN10cVDc",
+      "duration": 4148,
+      "published_at": "2026-04-21T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 10, 2026\nThis seminar covers: \n\u2022 How human-to-robot transfer can be understood as two coupled problems: extracting priors about physical intelligence from human experience, and grounding those priors into a robot\u2019s embodiment\n\u2022 Recent results showing emergent human-to-robot transfe"
+    },
+    {
+      "id": "b6uxaRL_ipw",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Mechanical Intelligence in Locomotion",
+      "url": "https://www.youtube.com/watch?v=b6uxaRL_ipw",
+      "duration": 3104,
+      "published_at": "2026-04-22T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nApril 3, 2026\nThis seminar covers: \n\u2022 Additional legs, with higher control dimensions, can enable a broader spectrum of capabilities\n\u2022 The inclusion of CI (feedback controls) can enhance multi-legged locomotion speed while preserving the feature of robustness\n\u2022 CI might reduce the number"
+    },
+    {
+      "id": "3W36pd50Wqw",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Integrated Learning and Planning",
+      "url": "https://www.youtube.com/watch?v=3W36pd50Wqw",
+      "duration": 3473,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 8,
+      "categories": [
+        "applied_ai",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 8, 2026\nThis seminar covers: \n\u2022 Integrated learning and planning with neuro-symbolic concepts\n\u2022 A general learning and reasoning framework based on neuro-symbolic concepts\n\u2022 Systems that leverage neuro-symbolic concepts demonstrate superior data efficiency, enable agents to reason an"
+    },
+    {
+      "id": "dI8pLC1BLSM",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Interactive Autonomy",
+      "url": "https://www.youtube.com/watch?v=dI8pLC1BLSM",
+      "duration": 4272,
+      "published_at": "2026-05-20T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 1, 2026\nThis seminar covers: \n\u2022 Learning and control for multi-agent interactions\n\u2022 Game-theoretic planning and control for robots\n\u2022 Learning in interactive domains, including imitation learning and reinforcement learning\n\nFollow along with the seminar schedule, visit: https://stanfo"
+    },
+    {
+      "id": "8hohrUYuyx4",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Leveraging Geometry in Robot Learning",
+      "url": "https://www.youtube.com/watch?v=8hohrUYuyx4",
+      "duration": 3811,
+      "published_at": "2026-06-04T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 22, 2026\nModel Matters: Leveraging Geometry in Robot Learning\n\nThis seminar covers: \n\u2022 How to leverage geometric structural priors in robot learning\n\u2022 A summary of recent work on this topic \n\u2022 Predictions about the future\n\nFollow along with the seminar schedule: https://stanfordasl.g"
+    },
+    {
+      "id": "NiRXiuWwrps",
+      "title": "Stanford Robotics Seminar ENGR319 | Spring 2026 | Towards Trustworthy Autonomy",
+      "url": "https://www.youtube.com/watch?v=NiRXiuWwrps",
+      "duration": 2075,
+      "published_at": "2026-07-07T00:00:00+00:00",
+      "series": "Robotics Seminar",
+      "series_display": "Robotics Seminar",
+      "lecture_num": null,
+      "score": 2,
+      "categories": [
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 15, 2026\nThis seminar covers: \n\u2022 Guardrails to detect, avoid, and learn from failures\n\u2022 How to detect when a system is unreliable\n\u2022 How to enact safety interventions when it degrades\n\u2022 How to improve it through principled use of deployment experience\n\nFollow along with the seminar sc"
+    },
+    {
       "id": "tr-CUpw--ck",
       "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 1 - Diffusion",
       "url": "https://www.youtube.com/watch?v=tr-CUpw--ck",
@@ -1742,6 +1719,32 @@
         "series:AA228V"
       ],
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
+    },
+    {
+      "id": "LNSvp-9b-J0",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
+      "url": "https://www.youtube.com/watch?v=LNSvp-9b-J0",
+      "duration": 2063,
+      "published_at": "2026-07-17T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Economics of Generative AI",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFollow along with the course schedule: https://mse435.stanford.edu/\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Engineering and a partner at Altimeter Capital."
+    },
+    {
+      "id": "nWKiJHKIZfo",
+      "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, AI in Life Sciences",
+      "url": "https://www.youtube.com/watch?v=nWKiJHKIZfo",
+      "duration": 2953,
+      "published_at": "2026-07-17T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, AI in Life Sciences",
+      "lecture_num": null,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFollow along with Stanford's MS&E435 course schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Eric Kauderer-Abrams, Head of Life Sciences, Anthropic\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Engineering and a partner at Altimeter Capital."
     },
     {
       "id": "sRvrXL83N-c",
