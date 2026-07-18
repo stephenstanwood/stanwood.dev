@@ -12,11 +12,11 @@ export default defineConfig({
   redirects: {
     '/tb': {
       status: 301,
-      destination: '/tv',
+      destination: '/office',
     },
     '/youtube': {
       status: 301,
-      destination: '/tv',
+      destination: '/office',
     },
   },
   output: 'static',
@@ -30,7 +30,7 @@ export default defineConfig({
     sitemap({
       // Private pages: password-gated queue + personal money dashboard
       filter: (page) =>
-        !['/tv', '/money', '/money-login'].includes(
+        !['/tv', '/office', '/money', '/money-login'].includes(
           new URL(page).pathname.replace(/\/$/, ''),
         ),
     }),
