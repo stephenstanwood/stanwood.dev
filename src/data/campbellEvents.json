@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-17T09:22:58.954Z",
+  "generatedAt": "2026-07-18T18:23:22.513Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 29,
-      "parsedCount": 29
+      "count": 28,
+      "parsedCount": 28
     },
     {
       "label": "Downtown Campbell Events",
@@ -23,14 +23,14 @@
     {
       "label": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main",
-      "count": 12,
-      "parsedCount": 12
+      "count": 11,
+      "parsedCount": 11
     },
     {
       "label": "Campbell Heritage Theatre Events",
       "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "count": 7,
-      "parsedCount": 7
+      "count": 8,
+      "parsedCount": 8
     },
     {
       "label": "Campbell Chamber Events",
@@ -73,37 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Family Fun at the Museum",
-      "date": "July 17, 2026, 11:00 AM - 3:00 PM",
-      "cost": "$0",
-      "location": "Campbell Historical Museum",
-      "description": "Bring the kids and get creative at Family Fun Friday! Join us at the Campbell Historical Museum for a day of free, hands-on crafts. Drop in anytime to explore, create, and have fun together - no registration needed. It’s a perfect way to spark curiosity and make history!",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3987&month=7&year=2026&day=17&calType=0",
-      "imageUrl": "https://static.wixstatic.com/media/0845a5_eb1bd07b46f242c9979622f0fa98b046~mv2.jpg",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-17T11:00:00",
-      "endDate": "2026-07-17T15:00:00",
-      "source": "City of Campbell Calendar + Campbell Museums Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.campbellmuseums.com/events-main",
-        "https://www.downtowncampbell.com/events"
-      ]
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: Teen Puzzle Competition",
-      "date": "Jul 17th | 2:30pm - 5:30pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a2dd55890cc4e3a790df7bc",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-17T14:30:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Container Confidence: Grow a Garden Anywhere!",
@@ -206,6 +175,19 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "Music & Movement Storytime",
+      "date": "Jul 21st | 10:30am - 11:00am",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/69fbb43b8e677a28001a5af0",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-21T10:30:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Historic Preservation Board meeting",
@@ -1826,6 +1808,19 @@
       "endDate": "2026-12-01T17:00:00"
     },
     {
+      "title": "Carol of Lights Celebration in Campbell 2026",
+      "date": "12/5/26",
+      "cost": "FREE",
+      "location": "Downtown Campbell",
+      "description": "The Carol of Lights is Campbell's annual celebration to open the holiday season. It features Santa visits, a petting zoo, donkey rides, bounce houses, craft tables, face painting, musical entertainment, and a community stage with performances from local dance teams.",
+      "url": "https://www.downtowncampbell.com/event/carol-of-lights",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/carolfolights2026-banner.jpg?itok=4cB1ZpZu",
+      "category": "Downtown",
+      "startDate": "2026-12-05T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "Board Meeting",
       "date": "Dec 10, 2026, 5:30 PM PST",
       "cost": "",
@@ -1925,6 +1920,20 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "Journey USA - The Hits of Journey",
+      "date": "Feb 19, 2027, 8:00 PM – 9:40 PM",
+      "cost": "",
+      "location": "Heritage Theatre",
+      "description": "With a vocalist who sang for Steve Perry during his solo career and former members of Great White and The Babys, Journey USA delivers the hits of Journey like no other!",
+      "url": "https://www.heritagetheatre.org/event-details/journey-usa-the-hits-of-journey",
+      "imageUrl": "https://static.wixstatic.com/media/c82d5f_fccbe942d32448929ecaa545ec01ab34~mv2.png",
+      "category": "Heritage Theatre",
+      "startDate": "2027-02-19T20:00:00-08:00",
+      "endDate": "2027-02-19T21:40:00-08:00",
+      "source": "Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1"
     }
   ]
 }
