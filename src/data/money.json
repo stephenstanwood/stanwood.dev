@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-18T01:10:22.725Z",
+  "lastUpdated": "2026-07-18T06:10:22.151Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-18T01:10:22.725Z",
+        "collectedAt": "2026-07-18T06:10:22.151Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -158,9 +158,8 @@
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
           },
           "openai": {
-            "totalCents": 0,
-            "breakdown": [],
-            "note": null
+            "totalCents": null,
+            "note": "OpenAI API 500: {\n  \"error\": {\n    \"message\": \"The server had an error processing your request. Sorry about that! You can retry your request, or contact us through our help center at help.openai.com if you keep seein"
           },
           "neon": {
             "totalCents": null,
