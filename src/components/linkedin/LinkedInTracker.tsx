@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   compareLinkedInPriority,
-  currentLinkedInBatch,
   summarizeLinkedInOutreach,
 } from "../../lib/linkedin/queue";
 import type {
+  LinkedInDailyBatch,
   LinkedInOutreachKind,
   LinkedInOutreachPerson,
 } from "../../lib/linkedin/types";
@@ -14,6 +14,7 @@ type QueueStatus = "remaining" | "actioned" | "dismissed" | "all";
 
 interface Props {
   initialPeople: LinkedInOutreachPerson[];
+  initialDailyBatch: LinkedInDailyBatch;
 }
 
 interface ToastState {
@@ -31,12 +32,12 @@ function statusMatches(person: LinkedInOutreachPerson, status: QueueStatus): boo
   return true;
 }
 
-export default function LinkedInTracker({ initialPeople }: Props) {
+export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Props) {
   const [people, setPeople] = useState(initialPeople);
   const [lane, setLane] = useState<LinkedInOutreachKind>("connect");
   const [view, setView] = useState<QueueView>("priority");
   const [query, setQuery] = useState("");
-  const [batch, setBatch] = useState("current");
+  const [batch, setBatch] = useState("today");
   const [tier, setTier] = useState("all");
   const [category, setCategory] = useState("all");
   const [status, setStatus] = useState<QueueStatus>("remaining");
@@ -47,7 +48,17 @@ export default function LinkedInTracker({ initialPeople }: Props) {
   const toastTimer = useRef<number | undefined>(undefined);
 
   const summary = useMemo(() => summarizeLinkedInOutreach(people), [people]);
-  const currentBatch = useMemo(() => currentLinkedInBatch(people), [people]);
+  const dailyBatchPositions = useMemo(
+    () => new Map(initialDailyBatch.stableIds.map((stableId, index) => [stableId, index])),
+    [initialDailyBatch.stableIds],
+  );
+  const dailyBatchPeople = useMemo(
+    () => people.filter((person) => dailyBatchPositions.has(person.stableId)),
+    [dailyBatchPositions, people],
+  );
+  const dailyBatchRemaining = dailyBatchPeople.filter(
+    (person) => !person.actioned && !person.dismissed,
+  ).length;
   const lanePeople = useMemo(
     () => people.filter((person) => person.kind === lane),
     [lane, people],
@@ -79,7 +90,7 @@ export default function LinkedInTracker({ initialPeople }: Props) {
       .filter((person) => statusMatches(person, status))
       .filter((person) => {
         if (lane !== "connect") return true;
-        if (batch === "current") return person.batch === currentBatch;
+        if (batch === "today") return dailyBatchPositions.has(person.stableId);
         if (batch !== "all") return String(person.batch) === batch;
         return true;
       })
@@ -99,13 +110,22 @@ export default function LinkedInTracker({ initialPeople }: Props) {
           person.categoryLabel,
         ].join(" ").toLowerCase().includes(normalizedQuery);
       })
-      .sort(compareLinkedInPriority);
-  }, [batch, category, currentBatch, includeUnknown, lane, lanePeople, query, status, tier]);
+      .sort((a, b) => {
+        if (lane === "connect" && batch === "today") {
+          return (dailyBatchPositions.get(a.stableId) ?? Number.MAX_SAFE_INTEGER) -
+            (dailyBatchPositions.get(b.stableId) ?? Number.MAX_SAFE_INTEGER);
+        }
+        return compareLinkedInPriority(a, b);
+      });
+  }, [batch, category, dailyBatchPositions, includeUnknown, lane, lanePeople, query, status, tier]);
 
   const visible = filtered.slice(0, visibleLimit);
   const grouped = useMemo(() => {
     if (view === "priority") {
-      return [[lane === "connect" ? "priority queue" : "follow queue", visible]] as Array<[
+      const label = lane === "connect" && batch === "today"
+        ? "today's batch"
+        : lane === "connect" ? "priority queue" : "follow queue";
+      return [[label, visible]] as Array<[
         string,
         LinkedInOutreachPerson[],
       ]>;
@@ -122,7 +142,7 @@ export default function LinkedInTracker({ initialPeople }: Props) {
         string,
         LinkedInOutreachPerson[],
       ]);
-  }, [lane, view, visible]);
+  }, [batch, lane, view, visible]);
 
   useEffect(() => {
     setReady(true);
@@ -142,7 +162,7 @@ export default function LinkedInTracker({ initialPeople }: Props) {
     setLane(nextLane);
     setView("priority");
     setQuery("");
-    setBatch("current");
+    setBatch("today");
     setTier("all");
     setCategory("all");
     setStatus("remaining");
@@ -215,7 +235,12 @@ export default function LinkedInTracker({ initialPeople }: Props) {
   }
 
   return (
-    <div className="li-page" data-lane={lane} data-ready={ready}>
+    <div
+      className="li-page"
+      data-daily-batch-date={initialDailyBatch.date}
+      data-lane={lane}
+      data-ready={ready}
+    >
       <a className="li-back" href="/">← stanwood.dev</a>
 
       <header className="li-masthead">
@@ -272,7 +297,9 @@ export default function LinkedInTracker({ initialPeople }: Props) {
 
       <div className="li-lane-rule">
         {lane === "connect"
-          ? "invite lane — warmest batches first, then A → B → C inside each batch."
+          ? batch === "today"
+            ? `today's ${initialDailyBatch.stableIds.length} — best available at the overnight reset. no refills until tomorrow.`
+            : "invite lane — warmest batches first, then A → B → C inside each batch."
           : "follow-only lane — do not burn a connection request on these people."}
       </div>
 
@@ -290,7 +317,7 @@ export default function LinkedInTracker({ initialPeople }: Props) {
           <label>
             <span>batch</span>
             <select value={batch} onChange={(event) => { setBatch(event.target.value); setVisibleLimit(100); }}>
-              <option value="current">current · {currentBatch ?? "—"}</option>
+              <option value="today">today · {initialDailyBatch.stableIds.length}</option>
               <option value="all">all batches</option>
               {Array.from({ length: 11 }, (_, index) => index + 1).map((number) => (
                 <option value={number} key={number}>batch {number}</option>
@@ -342,7 +369,7 @@ export default function LinkedInTracker({ initialPeople }: Props) {
             onClick={() => { setView("category"); setVisibleLimit(100); }}
           >by category</button>
         </div>
-        {lane === "connect" && (
+        {lane === "connect" && batch !== "today" && (
           <label className="li-unknown">
             <input
               type="checkbox"
@@ -361,12 +388,21 @@ export default function LinkedInTracker({ initialPeople }: Props) {
       <div className="li-results" id="tracker-results">
         {visible.length === 0 ? (
           <div className="li-empty">
-            <strong>nothing here. weirdly satisfying.</strong>
-            <span>try another filter or switch piles.</span>
+            {lane === "connect" && batch === "today" && dailyBatchRemaining === 0 ? (
+              <>
+                <strong>today's batch: demolished.</strong>
+                <span>it stays empty until the overnight reset.</span>
+              </>
+            ) : (
+              <>
+                <strong>nothing here. weirdly satisfying.</strong>
+                <span>try another filter or switch piles.</span>
+              </>
+            )}
           </div>
         ) : grouped.map(([label, entries]) => {
           const allInGroup = view === "priority"
-            ? filtered
+            ? (lane === "connect" && batch === "today" ? dailyBatchPeople : filtered)
             : filtered.filter((person) => person.category === entries[0].category);
           const remaining = allInGroup.filter((person) => !person.actioned && !person.dismissed).length;
           return (
@@ -428,17 +464,6 @@ function PersonCard({
       className={`li-person${person.actioned ? " is-done" : ""}${person.dismissed ? " is-dismissed" : ""}`}
       data-id={person.stableId}
     >
-      <label className="li-done">
-        <input
-          type="checkbox"
-          checked={person.actioned}
-          disabled={person.dismissed}
-          aria-label={`Mark ${person.name} actioned`}
-          onChange={(event) => onActioned(event.target.checked)}
-        />
-        <span aria-hidden="true">✓</span>
-      </label>
-
       <div className="li-person-main">
         <div className="li-identity">
           <h3>{person.name}</h3>
@@ -483,6 +508,16 @@ function PersonCard({
         <a href={person.linkedinUrl} target="_blank" rel="noopener noreferrer">
           {person.kind === "connect" ? "open to connect ↗" : "open to follow ↗"}
         </a>
+        <label className="li-done">
+          <input
+            type="checkbox"
+            checked={person.actioned}
+            disabled={person.dismissed}
+            aria-label={`Mark ${person.name} actioned`}
+            onChange={(event) => onActioned(event.target.checked)}
+          />
+          <span aria-hidden="true">✓</span>
+        </label>
         {person.dismissed ? (
           <button type="button" className="restore" onClick={() => onDismissed(false)}>restore</button>
         ) : (

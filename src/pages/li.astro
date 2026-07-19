@@ -7,10 +7,15 @@ import { getLinkedInTracker } from "../lib/linkedin/tracker";
 export const prerender = false;
 
 let people: Awaited<ReturnType<typeof getLinkedInTracker>>["people"] = [];
+let dailyBatch: Awaited<ReturnType<typeof getLinkedInTracker>>["dailyBatch"] = {
+  date: "",
+  stableIds: [],
+  targetSize: 60,
+};
 let loadError = false;
 try {
   if (!hasLinkedInDatabase()) throw new Error("LinkedIn tracker database is not configured.");
-  ({ people } = await getLinkedInTracker());
+  ({ people, dailyBatch } = await getLinkedInTracker());
 } catch (error) {
   console.error("LinkedIn tracker load failed", error);
   loadError = true;
@@ -312,7 +317,7 @@ try {
       .li-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
       .li-person {
         display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 13px;
         align-items: start;
         border: 2px solid var(--li-ink);
@@ -330,9 +335,10 @@ try {
 
       .li-done {
         display: grid;
-        width: 34px;
-        height: 34px;
+        width: 38px;
+        height: 38px;
         place-items: center;
+        flex: 0 0 38px;
         position: relative;
         border: 2px solid var(--li-ink);
         background: var(--li-white);
@@ -394,7 +400,7 @@ try {
       }
       .li-note button:hover { background: var(--li-green); }
 
-      .li-actions { display: flex; align-items: center; gap: 7px; }
+      .li-actions { display: flex; align-items: center; align-self: start; gap: 7px; }
       .li-actions a, .li-actions button {
         display: inline-flex;
         min-height: 38px;
@@ -489,8 +495,8 @@ try {
         .li-lane { min-height: 77px; }
         .li-controls { grid-template-columns: 1fr 1fr; }
         .li-search { grid-column: 1 / -1; }
-        .li-person { grid-template-columns: auto minmax(0, 1fr); }
-        .li-actions { grid-column: 2; flex-wrap: wrap; justify-content: flex-start; }
+        .li-person { grid-template-columns: minmax(0, 1fr); }
+        .li-actions { grid-column: 1; flex-wrap: wrap; justify-content: flex-end; }
         .li-actions a, .li-actions button { flex: 1 1 125px; }
         .li-result-count { flex-basis: 100%; margin-left: 0; }
       }
@@ -524,6 +530,6 @@ try {
       <span>the private data store did not answer. try again in a minute.</span>
     </div>
   ) : (
-    <LinkedInTracker initialPeople={people} client:load />
+    <LinkedInTracker initialPeople={people} initialDailyBatch={dailyBatch} client:load />
   )}
 </BaseLayout>

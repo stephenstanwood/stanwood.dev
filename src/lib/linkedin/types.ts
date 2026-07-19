@@ -27,6 +27,12 @@ export interface LinkedInOutreachPerson {
   updatedAt: string;
 }
 
+export interface LinkedInDailyBatch {
+  date: string;
+  stableIds: string[];
+  targetSize: number;
+}
+
 export interface LinkedInOutreachSummary {
   total: number;
   active: number;

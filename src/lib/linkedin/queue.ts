@@ -4,6 +4,7 @@ import type {
 } from "./types";
 
 const TIER_RANK = { A: 0, B: 1, C: 2 } as const;
+export const LINKEDIN_DAILY_BATCH_SIZE = 60;
 
 /** Batch is the pacing plan; A/B/C is priority inside that batch. */
 export function compareLinkedInPriority(
@@ -20,20 +21,19 @@ export function compareLinkedInPriority(
   return a.sourceOrder - b.sourceOrder || a.name.localeCompare(b.name);
 }
 
-export function currentLinkedInBatch(
+export function nextLinkedInDailyBatch(
   people: LinkedInOutreachPerson[],
-): number | null {
-  const remaining = people
-    .filter((person) => person.kind === "connect" && !person.actioned && !person.dismissed)
-    .map((person) => person.batch)
-    .filter((batch): batch is number => typeof batch === "number");
-  if (remaining.length > 0) return Math.min(...remaining);
-
-  const all = people
-    .filter((person) => person.kind === "connect")
-    .map((person) => person.batch)
-    .filter((batch): batch is number => typeof batch === "number");
-  return all.length > 0 ? Math.max(...all) : null;
+  limit = LINKEDIN_DAILY_BATCH_SIZE,
+): LinkedInOutreachPerson[] {
+  return people
+    .filter((person) =>
+      person.kind === "connect" &&
+      person.category !== "unknown" &&
+      !person.actioned &&
+      !person.dismissed
+    )
+    .sort(compareLinkedInPriority)
+    .slice(0, limit);
 }
 
 export function summarizeLinkedInOutreach(
