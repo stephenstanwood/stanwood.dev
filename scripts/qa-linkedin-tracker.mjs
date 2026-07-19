@@ -70,20 +70,27 @@ try {
       page.locator('button[type="submit"]').click(),
     ]);
     await page.locator('.li-page[data-ready="true"]').waitFor();
-    await page.locator(".li-person").first().waitFor();
+    await page.locator(".li-controls").waitFor();
 
     const initial = await page.evaluate(() => ({
       h1s: document.querySelectorAll("h1").length,
       connectTotal: document.querySelector(".li-lane--connect b")?.textContent?.trim(),
       followTotal: document.querySelector(".li-lane--follow b")?.textContent?.trim(),
       resultText: document.querySelector(".li-result-count")?.textContent?.replace(/\s+/g, " ").trim(),
-      batchText: document.querySelector('select option[value="current"]')?.textContent?.trim(),
+      batchText: document.querySelector('select option[value="today"]')?.textContent?.trim(),
+      dailyBatchDate: document.querySelector(".li-page")?.getAttribute("data-daily-batch-date"),
       funTitle: document.querySelector(".li-title")?.textContent?.trim(),
       rule: document.querySelector(".li-lane-rule")?.textContent?.replace(/\s+/g, " ").trim(),
+      groupTitle: document.querySelector(".li-group-head h2")?.textContent?.trim(),
+      groupSummary: document.querySelector(".li-group-head span")?.textContent?.replace(/\s+/g, " ").trim(),
       unknownVisible: [...document.querySelectorAll(".li-badge")].some(
         (node) => node.textContent?.trim().toLowerCase() === "unknown",
       ),
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+      rowCount: document.querySelectorAll(".li-person").length,
+      rowIds: [...document.querySelectorAll(".li-person")].map((card) => card.getAttribute("data-id")),
+      actionCheckboxCount: document.querySelectorAll('.li-actions .li-done input[type="checkbox"]').length,
+      leftCheckboxCount: document.querySelectorAll('.li-person > .li-done input[type="checkbox"]').length,
       cards: [...document.querySelectorAll(".li-person")].map((card) => {
         const badges = [...card.querySelectorAll(".li-badge")].map((badge) => badge.textContent?.trim() ?? "");
         return {
@@ -96,11 +103,20 @@ try {
     assert(initial.funTitle === "LI", `${profile.name}: playful masthead is missing`);
     assert(initial.connectTotal === "923", `${profile.name}: connection count was not 923`);
     assert(initial.followTotal === "212", `${profile.name}: follow count was not 212`);
-    assert(initial.resultText === "40 people", `${profile.name}: default was not the 40-person first batch`);
-    assert(initial.batchText === "current · 1", `${profile.name}: current batch was not 1`);
-    assert(initial.rule?.includes("warmest batches first"), `${profile.name}: priority rule is not explicit`);
+    assert(initial.resultText === `${initial.rowCount} people`, `${profile.name}: daily result count did not match its rows`);
+    assert(initial.rowCount > 0 && initial.rowCount <= 60, `${profile.name}: daily batch did not contain 1–60 remaining people`);
+    assert(initial.batchText === "today · 60", `${profile.name}: daily snapshot was not fixed at 60 people`);
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(initial.dailyBatchDate ?? ""), `${profile.name}: daily batch date is missing`);
+    assert(initial.groupTitle === "today's batch", `${profile.name}: daily batch heading is missing`);
+    assert(initial.groupSummary === `${initial.rowCount} left · 60 total`, `${profile.name}: daily batch total did not stay fixed at 60`);
+    assert(initial.rule?.includes("no refills until tomorrow"), `${profile.name}: no-refill rule is not explicit`);
     assert(!initial.unknownVisible, `${profile.name}: mystery contacts appeared by default`);
     assert(!initial.overflow, `${profile.name}: default view has horizontal overflow`);
+    assert(
+      initial.actionCheckboxCount === initial.rowCount,
+      `${profile.name}: completion checkbox is not grouped with each row's actions`,
+    );
+    assert(initial.leftCheckboxCount === 0, `${profile.name}: completion checkbox drifted back to the left column`);
 
     const tierRank = { A: 0, B: 1, C: 2 };
     for (let index = 1; index < initial.cards.length; index += 1) {
@@ -129,6 +145,20 @@ try {
       await target.locator('input[type="checkbox"]').click();
       let response = await responsePromise;
       assert(response.ok(), `desktop: action mutation returned ${response.status()}`);
+      await target.waitFor({ state: "detached" });
+      const afterAction = await page.evaluate(() => ({
+        ids: [...document.querySelectorAll(".li-person")].map((card) => card.getAttribute("data-id")),
+        groupSummary: document.querySelector(".li-group-head span")?.textContent?.replace(/\s+/g, " ").trim(),
+      }));
+      assert(afterAction.ids.length === initial.rowCount - 1, "desktop: daily batch did not count down by one");
+      assert(
+        afterAction.ids.every((id) => initial.rowIds.includes(id)),
+        "desktop: daily batch refilled after an action",
+      );
+      assert(
+        afterAction.groupSummary === `${initial.rowCount - 1} left · 60 total`,
+        "desktop: fixed daily batch total changed after an action",
+      );
       await page.reload({ waitUntil: "networkidle" });
       await page.locator('.li-page[data-ready="true"]').waitFor();
       await page.locator(".li-controls").waitFor();
@@ -165,6 +195,7 @@ try {
       await page.locator('.li-page[data-ready="true"]').waitFor();
       await page.locator(`.li-person[data-id="${targetId}"]`).waitFor();
 
+      await page.selectOption(".li-controls label:last-child select", "all");
       await page.selectOption('.li-controls select', "all");
       assert(
         (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() === "535 people · showing 100",
@@ -178,6 +209,7 @@ try {
     }
 
     await page.locator(".li-lane--follow").click();
+    await page.selectOption(".li-controls label:last-child select", "all");
     assert(
       (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() === "212 people · showing 100",
       `${profile.name}: follow lane count was not 212`,
@@ -198,6 +230,7 @@ try {
     assert((await page.locator(".li-group").count()) === 17, `${profile.name}: follow categories were not preserved`);
 
     await page.locator(".li-lane--connect").click();
+    if (profile.mobile) await page.locator(".li-person").first().scrollIntoViewIfNeeded();
     await page.screenshot({
       path: resolve(screenshotDir, `stanwood-li-${profile.name}.png`),
       fullPage: false,
@@ -228,5 +261,5 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
-console.log("PASS /li QA: password gate, priority order, 1,135 rows, durable state, two lanes, accessibility, responsive layout.");
+console.log("PASS /li QA: password gate, fixed 60-person daily batch, no mid-day refill, durable state, two lanes, accessibility, responsive layout.");
 console.log(`Screenshots: ${screenshotDir}`);

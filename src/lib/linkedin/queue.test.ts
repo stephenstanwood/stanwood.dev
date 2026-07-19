@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   compareLinkedInPriority,
-  currentLinkedInBatch,
+  nextLinkedInDailyBatch,
   summarizeLinkedInOutreach,
 } from "./queue";
 import type { LinkedInOutreachPerson } from "./types";
@@ -48,13 +48,26 @@ describe("LinkedIn priority queue", () => {
     expect(sorted).toEqual(["b1a", "b1c", "b2a"]);
   });
 
-  it("advances to the first batch with unfinished people", () => {
+  it("selects the next 60 known, unfinished connections across batch boundaries", () => {
     const people = [
       person("done", 1, "A", { actioned: true }),
       person("dismissed", 1, "B", { dismissed: true }),
-      person("next", 2, "A"),
+      person("unknown", 1, "A", { category: "unknown" }),
+      person("later", 2, "A"),
+      person("next", 1, "C"),
     ];
-    expect(currentLinkedInBatch(people)).toBe(2);
+    expect(nextLinkedInDailyBatch(people).map((entry) => entry.stableId)).toEqual([
+      "next",
+      "later",
+    ]);
+  });
+
+  it("caps a daily snapshot without mutating the source list", () => {
+    const people = Array.from({ length: 65 }, (_, index) =>
+      person(`person-${index}`, Math.floor(index / 10) + 1, "A"));
+    const selected = nextLinkedInDailyBatch(people);
+    expect(selected).toHaveLength(60);
+    expect(people[0].stableId).toBe("person-0");
   });
 
   it("counts actioned and dismissed people once", () => {

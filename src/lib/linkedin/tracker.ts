@@ -1,6 +1,11 @@
 import { getLinkedInSql } from "./db";
-import { summarizeLinkedInOutreach } from "./queue";
+import {
+  LINKEDIN_DAILY_BATCH_SIZE,
+  nextLinkedInDailyBatch,
+  summarizeLinkedInOutreach,
+} from "./queue";
 import type {
+  LinkedInDailyBatch,
   LinkedInOutreachKind,
   LinkedInOutreachPerson,
   LinkedInOutreachTier,
@@ -67,6 +72,72 @@ function rowToPerson(row: OutreachRow): LinkedInOutreachPerson {
   };
 }
 
+interface DailyBatchRow {
+  stable_id: string;
+  position: number;
+}
+
+async function getOrCreateLinkedInDailyBatch(
+  people: LinkedInOutreachPerson[],
+): Promise<LinkedInDailyBatch> {
+  const sql = getLinkedInSql();
+  await sql`
+    CREATE TABLE IF NOT EXISTS linkedin_outreach_daily_batch (
+      batch_date date NOT NULL,
+      stable_id text NOT NULL,
+      position integer NOT NULL CHECK (position > 0),
+      created_at timestamptz NOT NULL DEFAULT now(),
+      PRIMARY KEY (batch_date, stable_id),
+      UNIQUE (batch_date, position)
+    )
+  `;
+
+  const [{ batch_date: batchDate }] = (await sql`
+    SELECT ((now() AT TIME ZONE 'America/Los_Angeles')::date)::text AS batch_date
+  `) as Array<{ batch_date: string }>;
+
+  let rows = (await sql`
+    SELECT stable_id, position
+    FROM linkedin_outreach_daily_batch
+    WHERE batch_date = CAST(${batchDate} AS date)
+    ORDER BY position ASC
+  `) as DailyBatchRow[];
+
+  if (rows.length === 0) {
+    const candidates = nextLinkedInDailyBatch(people);
+    if (candidates.length > 0) {
+      const payload = JSON.stringify(candidates.map((person, index) => ({
+        stable_id: person.stableId,
+        position: index + 1,
+      })));
+      await sql`
+        INSERT INTO linkedin_outreach_daily_batch (batch_date, stable_id, position)
+        SELECT CAST(${batchDate} AS date), item.stable_id, item.position
+        FROM json_to_recordset(CAST(${payload} AS json))
+          AS item(stable_id text, position integer)
+        WHERE NOT EXISTS (
+          SELECT 1
+          FROM linkedin_outreach_daily_batch
+          WHERE batch_date = CAST(${batchDate} AS date)
+        )
+        ON CONFLICT DO NOTHING
+      `;
+      rows = (await sql`
+        SELECT stable_id, position
+        FROM linkedin_outreach_daily_batch
+        WHERE batch_date = CAST(${batchDate} AS date)
+        ORDER BY position ASC
+      `) as DailyBatchRow[];
+    }
+  }
+
+  return {
+    date: batchDate,
+    stableIds: rows.map((row) => row.stable_id),
+    targetSize: LINKEDIN_DAILY_BATCH_SIZE,
+  };
+}
+
 export async function getLinkedInTracker() {
   const sql = getLinkedInSql();
   const rows = (await sql`
@@ -84,7 +155,8 @@ export async function getLinkedInTracker() {
       source_order ASC
   `) as OutreachRow[];
   const people = rows.map(rowToPerson);
-  return { people, summary: summarizeLinkedInOutreach(people) };
+  const dailyBatch = await getOrCreateLinkedInDailyBatch(people);
+  return { people, dailyBatch, summary: summarizeLinkedInOutreach(people) };
 }
 
 interface MutationResult {
