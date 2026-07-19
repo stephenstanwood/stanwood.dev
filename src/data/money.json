@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-18T13:10:27.433Z",
+  "lastUpdated": "2026-07-19T01:10:21.239Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-18T13:10:27.433Z",
+        "collectedAt": "2026-07-19T01:10:21.239Z",
         "services": {
           "vercel": {
             "totalCents": 0,
@@ -132,23 +132,23 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 3702,
+            "totalCents": 4920,
             "breakdown": [
+              {
+                "name": "claude-opus-4-8",
+                "cents": 2277
+              },
               {
                 "name": "claude-opus-4-7",
                 "cents": 1652
               },
               {
-                "name": "claude-opus-4-8",
-                "cents": 1121
-              },
-              {
                 "name": "claude-haiku-4-5",
-                "cents": 653
+                "cents": 654
               },
               {
                 "name": "claude-fable-5",
-                "cents": 266
+                "cents": 327
               },
               {
                 "name": "claude-sonnet-4-6",
