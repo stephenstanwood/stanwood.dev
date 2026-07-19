@@ -148,6 +148,7 @@ export async function getLinkedInTracker() {
       actioned_at, dismissed, dismissed_at, updated_at
     FROM linkedin_outreach_people
     WHERE source_active = true
+      AND initial_dismissed = false
     ORDER BY
       CASE kind WHEN 'connect' THEN 0 ELSE 1 END,
       batch ASC NULLS LAST,
@@ -172,14 +173,16 @@ export async function setLinkedInActioned(
   const rows = (await sql`
     WITH old AS (
       SELECT actioned FROM linkedin_outreach_people
-      WHERE stable_id = ${stableId} AND source_active = true
+      WHERE stable_id = ${stableId} AND source_active = true AND initial_dismissed = false
     )
     UPDATE linkedin_outreach_people AS person
     SET actioned = ${actioned},
         actioned_at = CASE WHEN ${actioned} THEN now() ELSE NULL END,
         updated_at = now()
     FROM old
-    WHERE person.stable_id = ${stableId} AND person.source_active = true
+    WHERE person.stable_id = ${stableId}
+      AND person.source_active = true
+      AND person.initial_dismissed = false
     RETURNING old.actioned AS previous_value
   `) as Array<{ previous_value: boolean }>;
   if (rows.length === 0) return { updated: false };
@@ -201,14 +204,16 @@ export async function setLinkedInDismissed(
   const rows = (await sql`
     WITH old AS (
       SELECT dismissed FROM linkedin_outreach_people
-      WHERE stable_id = ${stableId} AND source_active = true
+      WHERE stable_id = ${stableId} AND source_active = true AND initial_dismissed = false
     )
     UPDATE linkedin_outreach_people AS person
     SET dismissed = ${dismissed},
         dismissed_at = CASE WHEN ${dismissed} THEN now() ELSE NULL END,
         updated_at = now()
     FROM old
-    WHERE person.stable_id = ${stableId} AND person.source_active = true
+    WHERE person.stable_id = ${stableId}
+      AND person.source_active = true
+      AND person.initial_dismissed = false
     RETURNING old.dismissed AS previous_value
   `) as Array<{ previous_value: boolean }>;
   if (rows.length === 0) return { updated: false };

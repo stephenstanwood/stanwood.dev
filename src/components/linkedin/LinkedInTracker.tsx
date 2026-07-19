@@ -56,6 +56,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
     () => people.filter((person) => dailyBatchPositions.has(person.stableId)),
     [dailyBatchPositions, people],
   );
+  const dailyBatchSize = dailyBatchPeople.length;
   const dailyBatchRemaining = dailyBatchPeople.filter(
     (person) => !person.actioned && !person.dismissed,
   ).length;
@@ -238,6 +239,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
     <div
       className="li-page"
       data-daily-batch-date={initialDailyBatch.date}
+      data-daily-batch-size={dailyBatchSize}
       data-lane={lane}
       data-ready={ready}
     >
@@ -298,7 +300,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       <div className="li-lane-rule">
         {lane === "connect"
           ? batch === "today"
-            ? `today's ${initialDailyBatch.stableIds.length} — best available at the overnight reset. no refills until tomorrow.`
+            ? `today's ${dailyBatchSize} — best available at the overnight reset. no refills until tomorrow.`
             : "invite lane — warmest batches first, then A → B → C inside each batch."
           : "follow-only lane — do not burn a connection request on these people."}
       </div>
@@ -317,7 +319,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
           <label>
             <span>batch</span>
             <select value={batch} onChange={(event) => { setBatch(event.target.value); setVisibleLimit(100); }}>
-              <option value="today">today · {initialDailyBatch.stableIds.length}</option>
+              <option value="today">today · {dailyBatchSize}</option>
               <option value="all">all batches</option>
               {Array.from({ length: 11 }, (_, index) => index + 1).map((number) => (
                 <option value={number} key={number}>batch {number}</option>
@@ -459,10 +461,18 @@ function PersonCard({
   onCopy: (note: string) => void;
 }) {
   const role = [...new Set([person.title, person.organization].filter(Boolean))].join(" · ");
+
+  function openCardLink(event: React.MouseEvent<HTMLLIElement>) {
+    const target = event.target as HTMLElement;
+    if (target.closest("a, button, input, label, summary, details")) return;
+    window.open(person.linkedinUrl, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <li
       className={`li-person${person.actioned ? " is-done" : ""}${person.dismissed ? " is-dismissed" : ""}`}
       data-id={person.stableId}
+      onClick={openCardLink}
     >
       <div className="li-person-main">
         <div className="li-identity">
@@ -513,7 +523,7 @@ function PersonCard({
             type="checkbox"
             checked={person.actioned}
             disabled={person.dismissed}
-            aria-label={`Mark ${person.name} actioned`}
+            aria-label={`Mark ${person.name} done`}
             onChange={(event) => onActioned(event.target.checked)}
           />
           <span aria-hidden="true">✓</span>
@@ -524,9 +534,10 @@ function PersonCard({
           <button
             type="button"
             className="nah"
-            aria-label={`Dismiss ${person.name}`}
+            aria-label={`Skip ${person.name} or mark as not found`}
+            title="Skip / couldn't find"
             onClick={() => onDismissed(true)}
-          >nah</button>
+          ><span aria-hidden="true">×</span></button>
         )}
       </div>
     </li>
