@@ -478,6 +478,36 @@ function mergeBusinesses(...feeds) {
   return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+async function readExistingSourceBusinesses({ tag, source, sourceUrl }) {
+  const existingPath = resolve(DATA_DIR, "campbellBusinesses.json");
+  let payload;
+
+  try {
+    payload = JSON.parse(await readFile(existingPath, "utf8"));
+  } catch (err) {
+    console.warn(`Warning: could not read previous Campbell businesses for ${source}: ${err.message}`);
+    return [];
+  }
+
+  return (Array.isArray(payload.items) ? payload.items : [])
+    .filter((business) => {
+      return (
+        (business.tags ?? []).includes(tag) ||
+        business.source === source ||
+        business.sourceUrl === sourceUrl ||
+        (business.additionalSourceUrls ?? []).includes(sourceUrl)
+      );
+    })
+    .map((business) => ({
+      ...business,
+      tags: [tag],
+      source,
+      sourceUrl,
+      additionalSourceUrls: [],
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 function normalizeKeyPart(value = "") {
   return cleanSentence(value)
     .toLowerCase()
@@ -1834,8 +1864,8 @@ async function main() {
   const generatedAt = new Date().toISOString();
   const cityCalendarUrls = cityCalendarMonthUrls(new Date(generatedAt));
   const [
-    directoryHtml,
-    eventsHtml,
+    directoryPage,
+    eventsPage,
     cityCalendarHtmlPages,
     libraryPage,
     museumsEventsHtml,
@@ -1845,8 +1875,8 @@ async function main() {
     planningHtml,
     ...otherSourceHtml
   ] = await Promise.all([
-    fetchText(DIRECTORY_URL),
-    fetchText(EVENTS_URL),
+    fetchOptionalText(DIRECTORY_URL, "Downtown Campbell directory"),
+    fetchOptionalText(EVENTS_URL, "Downtown Campbell events"),
     Promise.all(cityCalendarUrls.map((url) => fetchText(url))),
     fetchOptionalText(SCCLD_CAMPBELL_LIBRARY_URL, "Campbell Library events"),
     fetchText(CAMPBELL_MUSEUMS_EVENTS_URL),
@@ -1860,7 +1890,19 @@ async function main() {
   const noticeArchiveHtml = otherSourceHtml.slice(0, PUBLIC_NOTICE_ARCHIVES.length);
   const cusdIcsTexts = otherSourceHtml.slice(PUBLIC_NOTICE_ARCHIVES.length);
 
-  const downtownBusinesses = parseDirectory(directoryHtml);
+  let downtownBusinesses = [];
+  let downtownDirectorySourceNote = "";
+  if (directoryPage.html) {
+    downtownBusinesses = parseDirectory(directoryPage.html);
+  } else {
+    downtownBusinesses = await readExistingSourceBusinesses({
+      tag: "Downtown",
+      source: "Downtown Campbell Directory",
+      sourceUrl: DIRECTORY_URL,
+    });
+    downtownDirectorySourceNote = `Reused previous Downtown Campbell directory because ${directoryPage.error}`;
+    console.warn(`Warning: ${downtownDirectorySourceNote}`);
+  }
   const chamberBusinesses = [];
   for (const slug of CHAMBER_ALPHA_SLUGS) {
     await sleep(175);
@@ -1870,7 +1912,19 @@ async function main() {
   }
   const campbellChamberBusinesses = chamberBusinesses.filter(isCampbellLocatedBusiness);
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
-  const downtownEvents = parseDowntownEvents(eventsHtml, new Date(generatedAt));
+  let downtownEvents = [];
+  let downtownEventsSourceNote = "";
+  if (eventsPage.html) {
+    downtownEvents = parseDowntownEvents(eventsPage.html, new Date(generatedAt));
+  } else {
+    downtownEvents = await readExistingSourceEvents({
+      source: "Downtown Campbell Events",
+      sourceUrl: EVENTS_URL,
+      generatedAt,
+    });
+    downtownEventsSourceNote = `Reused previous Downtown Campbell events because ${eventsPage.error}`;
+    console.warn(`Warning: ${downtownEventsSourceNote}`);
+  }
   const cityCalendarEvents = cityCalendarHtmlPages
     .flatMap((html) => parseCityCalendarEvents(html))
     .filter((event) => !eventEndsBeforeReferenceDay(event, new Date(generatedAt)));
@@ -2012,6 +2066,7 @@ async function main() {
         label: "Downtown Campbell Directory",
         sourceUrl: DIRECTORY_URL,
         count: businesses.filter((business) => business.tags?.includes("Downtown")).length,
+        ...(downtownDirectorySourceNote ? { note: downtownDirectorySourceNote } : {}),
       },
       {
         label: "Campbell Chamber Directory",
@@ -2039,6 +2094,7 @@ async function main() {
         sourceUrl: EVENTS_URL,
         count: filteredDowntownEvents.length,
         parsedCount: downtownEvents.length,
+        ...(downtownEventsSourceNote ? { note: downtownEventsSourceNote } : {}),
       },
       {
         label: "Campbell Library Events",
