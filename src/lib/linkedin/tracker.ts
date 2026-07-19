@@ -77,6 +77,133 @@ interface DailyBatchRow {
   position: number;
 }
 
+const PEOPLE_REFILL_AT = 100;
+const PEOPLE_TARGET = 200;
+const ORGANIZATION_REFILL_AT = 50;
+const ORGANIZATION_TARGET = 100;
+
+async function refillLinkedInDiscoveryPiles(trigger: string): Promise<void> {
+  const sql = getLinkedInSql();
+  const [{ people_remaining: peopleRemaining, organizations_remaining: organizationsRemaining }] =
+    (await sql`
+      SELECT
+        count(*) FILTER (
+          WHERE kind IN ('connect', 'follow')
+            AND (kind <> 'connect' OR category <> 'unknown')
+            AND source_active = true
+            AND initial_dismissed = false
+            AND actioned = false
+            AND dismissed = false
+        )::int AS people_remaining,
+        count(*) FILTER (
+          WHERE kind = 'organization'
+            AND source_active = true
+            AND initial_dismissed = false
+            AND actioned = false
+            AND dismissed = false
+        )::int AS organizations_remaining
+      FROM linkedin_outreach_people
+    `) as Array<{ people_remaining: number; organizations_remaining: number }>;
+
+  const peopleLimit = peopleRemaining < PEOPLE_REFILL_AT
+    ? PEOPLE_TARGET - peopleRemaining
+    : 0;
+  const organizationLimit = organizationsRemaining < ORGANIZATION_REFILL_AT
+    ? ORGANIZATION_TARGET - organizationsRemaining
+    : 0;
+  if (peopleLimit === 0 && organizationLimit === 0) return;
+
+  async function promote(kinds: Array<"follow" | "organization">, limit: number) {
+    if (limit === 0) return [] as Array<{ stable_id: string }>;
+    return (await sql`
+      WITH category_feedback AS (
+        SELECT
+          category,
+          count(*) FILTER (WHERE actioned = true AND dismissed = false)::int AS actioned,
+          count(*) FILTER (WHERE dismissed = true)::int AS dismissed
+        FROM linkedin_outreach_people
+        WHERE kind = ANY(${kinds})
+        GROUP BY category
+      ), ranked AS (
+        SELECT
+          candidate.*,
+          candidate.base_score
+            + LEAST(30, COALESCE(feedback.actioned, 0) * 5)
+            - LEAST(30, COALESCE(feedback.dismissed, 0) * 4)
+            + CASE WHEN EXISTS (
+                SELECT 1 FROM linkedin_outreach_people AS connection
+                WHERE connection.kind = 'connect'
+                  AND connection.actioned = true
+                  AND connection.dismissed = false
+                  AND lower(connection.organization) = lower(candidate.name)
+              ) THEN 24 ELSE 0 END AS learned_score
+        FROM linkedin_outreach_discovery_candidates AS candidate
+        LEFT JOIN category_feedback AS feedback USING (category)
+        WHERE candidate.source_active = true
+          AND candidate.kind = ANY(${kinds})
+          AND NOT EXISTS (
+            SELECT 1 FROM linkedin_outreach_people AS person
+            WHERE person.kind = candidate.kind
+              AND person.normalized_name = candidate.normalized_name
+          )
+        ORDER BY learned_score DESC, candidate.source_order ASC, candidate.name ASC
+        LIMIT ${limit}
+      )
+      INSERT INTO linkedin_outreach_people (
+        stable_id, kind, normalized_name, name, organization, title,
+        category, category_label, reason, note_prompt, note_draft,
+        note_needs_edit, linkedin_url, profile_url_found, email, source,
+        source_order, batch, tier, flags, initial_dismissed, source_digest,
+        source_active, actioned, dismissed, updated_at
+      )
+      SELECT
+        ranked.stable_id, ranked.kind, ranked.normalized_name, ranked.name,
+        ranked.organization, ranked.title, ranked.category,
+        ranked.category_label, ranked.reason, NULL, NULL, false,
+        ranked.linkedin_url, ranked.profile_url_found, NULL, ranked.source,
+        ranked.source_order, NULL, NULL, ranked.flags, false,
+        ranked.source_digest, true, false, false, now()
+      FROM ranked
+      ON CONFLICT DO NOTHING
+      RETURNING stable_id
+    `) as Array<{ stable_id: string }>;
+  }
+
+  const peopleInserted = await promote(["follow"], peopleLimit);
+  const organizationsInserted = await promote(["organization"], organizationLimit);
+  const peopleAfter = peopleRemaining + peopleInserted.length;
+  const organizationsAfter = organizationsRemaining + organizationsInserted.length;
+  const [{ available }] = (await sql`
+    SELECT count(*)::int AS available
+    FROM linkedin_outreach_discovery_candidates AS candidate
+    WHERE candidate.source_active = true
+      AND NOT EXISTS (
+        SELECT 1 FROM linkedin_outreach_people AS person
+        WHERE person.kind = candidate.kind
+          AND person.normalized_name = candidate.normalized_name
+      )
+  `) as Array<{ available: number }>;
+  await sql`
+    INSERT INTO linkedin_outreach_refresh_runs (
+      trigger, remaining_before, candidates_available, inserted,
+      remaining_after, details
+    ) VALUES (
+      ${trigger}, ${peopleRemaining}, ${available},
+      ${peopleInserted.length + organizationsInserted.length}, ${peopleAfter},
+      ${JSON.stringify({
+        peopleInserted: peopleInserted.length,
+        peopleThreshold: PEOPLE_REFILL_AT,
+        peopleTarget: PEOPLE_TARGET,
+        organizationsBefore: organizationsRemaining,
+        organizationsInserted: organizationsInserted.length,
+        organizationsAfter,
+        organizationThreshold: ORGANIZATION_REFILL_AT,
+        organizationTarget: ORGANIZATION_TARGET,
+      })}::jsonb
+    )
+  `;
+}
+
 async function getOrCreateLinkedInDailyBatch(
   people: LinkedInOutreachPerson[],
 ): Promise<LinkedInDailyBatch> {
@@ -140,6 +267,7 @@ async function getOrCreateLinkedInDailyBatch(
 
 export async function getLinkedInTracker() {
   const sql = getLinkedInSql();
+  await refillLinkedInDiscoveryPiles("tracker-load");
   const rows = (await sql`
     SELECT
       stable_id, kind, name, organization, title, category, category_label,
@@ -150,7 +278,7 @@ export async function getLinkedInTracker() {
     WHERE source_active = true
       AND initial_dismissed = false
     ORDER BY
-      CASE kind WHEN 'connect' THEN 0 ELSE 1 END,
+      CASE kind WHEN 'connect' THEN 0 WHEN 'follow' THEN 1 ELSE 2 END,
       batch ASC NULLS LAST,
       CASE tier WHEN 'A' THEN 0 WHEN 'B' THEN 1 WHEN 'C' THEN 2 ELSE 3 END,
       source_order ASC
@@ -193,6 +321,7 @@ export async function setLinkedInActioned(
       VALUES (${stableId}, ${actioned ? "actioned" : "unactioned"}, ${previousValue}, ${actioned})
     `;
   }
+  await refillLinkedInDiscoveryPiles("action-mutation");
   return { updated: true, previousValue };
 }
 
@@ -224,5 +353,6 @@ export async function setLinkedInDismissed(
       VALUES (${stableId}, ${dismissed ? "dismissed" : "restored"}, ${previousValue}, ${dismissed})
     `;
   }
+  await refillLinkedInDiscoveryPiles("dismiss-mutation");
   return { updated: true, previousValue };
 }
