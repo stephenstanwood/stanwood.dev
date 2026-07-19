@@ -7,6 +7,9 @@
 - ESPN API integration for MLB GameRank
 - Mix of apps, games, and tools across pages
 - Retro zine homepage: cream bg, pixel borders, Space Mono / Cabin / Permanent Marker fonts
+- Private LinkedIn tracker: `/li`, gated by `LI_PASSWORD`, with state in
+  `LINKEDIN_TRACKER_DATABASE_URL`. Never commit contact exports or normalized
+  person rows here; source and ingestion stay in the private `stoa.works` repo.
 
 ## Rules
 - NBA Now links to https://nbanow.app (external) — leave NBA Now page alone

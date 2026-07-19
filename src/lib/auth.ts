@@ -1,4 +1,4 @@
-/** Shared crypto helpers for the cookie-auth gate on /money. */
+/** Shared crypto helpers for private-tool cookie auth. */
 
 export async function hashPassword(password: string): Promise<string> {
   const buf = await crypto.subtle.digest(
