@@ -1,0 +1,189 @@
+---
+import { hashPassword, timingSafeEqual } from "../lib/auth";
+
+export const prerender = false;
+
+let error = false;
+let missingPassword = false;
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  const submitted = form.get("password");
+  const expected = import.meta.env.LI_PASSWORD || process.env.LI_PASSWORD;
+  missingPassword = !expected;
+
+  if (typeof submitted === "string" && submitted && expected) {
+    const [submittedHash, expectedHash] = await Promise.all([
+      hashPassword(submitted),
+      hashPassword(expected),
+    ]);
+    if (timingSafeEqual(submittedHash, expectedHash)) {
+      return new Response(null, {
+        status: 303,
+        headers: {
+          Location: "/li",
+          "Set-Cookie": `li_session=${expectedHash}; Path=/; HttpOnly${Astro.url.protocol === "https:" ? "; Secure" : ""}; SameSite=Strict; Max-Age=2592000`,
+          "Cache-Control": "no-store",
+        },
+      });
+    }
+  }
+  error = !missingPassword;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#fffef5" />
+    <title>LI, please — stanwood.dev</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap"
+    />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      :root { --ink: #111; --paper: #fffef5; --pink: #ff3d9a; --blue: #2eb8ff; --green: #a4ff3d; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 15% 12%, rgba(255, 61, 154, 0.18), transparent 31rem),
+          radial-gradient(circle at 88% 82%, rgba(46, 184, 255, 0.2), transparent 30rem),
+          var(--paper);
+        color: var(--ink);
+        font-family: "Space Mono", monospace;
+        padding: 24px;
+      }
+      .scribble {
+        position: fixed;
+        font-family: "Permanent Marker", cursive;
+        opacity: 0.17;
+        pointer-events: none;
+        user-select: none;
+      }
+      .scribble.one { top: 9%; left: 7%; font-size: 44px; transform: rotate(-12deg); }
+      .scribble.two { right: 7%; bottom: 9%; font-size: 38px; transform: rotate(8deg); }
+      .card {
+        position: relative;
+        width: min(400px, 100%);
+        border: 3px solid var(--ink);
+        background: white;
+        box-shadow: 8px 8px 0 var(--ink);
+        padding: 38px 34px 34px;
+        text-align: center;
+        transform: rotate(-0.35deg);
+      }
+      .tape {
+        position: absolute;
+        top: -17px;
+        left: 50%;
+        width: 112px;
+        height: 31px;
+        transform: translateX(-50%) rotate(2deg);
+        background: rgba(164, 255, 61, 0.78);
+        border: 1px solid rgba(17, 17, 17, 0.18);
+      }
+      h1 {
+        display: inline-block;
+        margin: 0 0 14px;
+        border: 3px solid var(--ink);
+        background: var(--pink);
+        box-shadow: 5px 5px 0 var(--ink);
+        color: white;
+        font-family: "Rubik Mono One", sans-serif;
+        font-size: 56px;
+        line-height: 1;
+        padding: 8px 17px;
+        text-shadow: 3px 3px 0 var(--ink);
+        transform: rotate(-2deg);
+      }
+      .tagline { margin: 8px 0 26px; font-family: "Permanent Marker", cursive; font-size: 19px; }
+      .fine-print { margin: -16px 0 25px; color: #4b5563; font-size: 10px; line-height: 1.5; }
+      label {
+        display: block;
+        margin: 0 0 7px 2px;
+        color: #4b5563;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-align: left;
+        text-transform: uppercase;
+      }
+      input {
+        width: 100%;
+        min-height: 46px;
+        border: 2px solid var(--ink);
+        border-radius: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font: 16px "Space Mono", monospace;
+        padding: 9px 12px;
+        outline: none;
+      }
+      input:focus { box-shadow: 0 0 0 4px var(--blue); }
+      button {
+        width: 100%;
+        min-height: 47px;
+        margin-top: 12px;
+        border: 2px solid var(--ink);
+        background: var(--ink);
+        color: white;
+        cursor: pointer;
+        font: 700 12px "Space Mono", monospace;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        transition: transform 100ms ease, box-shadow 100ms ease, background 100ms ease;
+      }
+      button:hover { background: var(--blue); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); transform: translate(-2px, -2px); }
+      button:focus-visible { outline: 4px solid var(--green); outline-offset: 3px; }
+      .error {
+        margin: 0 0 14px;
+        color: #b42318;
+        font-family: "Permanent Marker", cursive;
+        font-size: 16px;
+        transform: rotate(-1deg);
+      }
+      .missing { margin: 18px 0; color: #b42318; font-size: 11px; }
+      @media (max-width: 480px) {
+        .card { padding: 34px 23px 28px; box-shadow: 6px 6px 0 var(--ink); }
+        h1 { font-size: 47px; }
+        .scribble { display: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { transition-duration: 0.01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <span class="scribble one" aria-hidden="true">connect →</span>
+    <span class="scribble two" aria-hidden="true">← follow</span>
+    <main class="card">
+      <span class="tape" aria-hidden="true"></span>
+      <h1>LI</h1>
+      <p class="tagline">the people pile</p>
+      <p class="fine-print">private working list · nothing gets sent automatically</p>
+      {error && <p class="error" role="alert">nope. wrong tiny password.</p>}
+      {missingPassword ? (
+        <p class="missing" role="alert">LI_PASSWORD is not configured.</p>
+      ) : (
+        <form method="post">
+          <label for="password">password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" autofocus required />
+          <button type="submit">let me in</button>
+        </form>
+      )}
+    </main>
+  </body>
+</html>

@@ -28,9 +28,9 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      // Private pages: password-gated queue + personal money dashboard
+      // Private pages: password-gated dashboards and working queues.
       filter: (page) =>
-        !['/tv', '/office', '/money', '/money-login'].includes(
+        !['/tv', '/office', '/money', '/money-login', '/li', '/li-login'].includes(
           new URL(page).pathname.replace(/\/$/, ''),
         ),
     }),

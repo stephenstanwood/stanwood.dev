@@ -10,6 +10,7 @@
     "campbell:sync": "node scripts/sync-campbell-data.mjs",
     "campbell:build-routine": "node scripts/campbell-build-routine.mjs --json --target campbell",
     "money:collect": "node scripts/collect-money.mjs",
+    "qa:li": "node scripts/qa-linkedin-tracker.mjs",
     "test": "vitest run"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "@astrojs/vercel": "^10.0.0",
     "@fontsource-variable/cabin": "^5.2.8",
     "@fontsource/space-mono": "^5.2.9",
+    "@neondatabase/serverless": "^1.1.0",
     "@tailwindcss/vite": "^4.1.18",
     "@vercel/analytics": "^2.0.1",
     "@vercel/og": "^0.10.0",
@@ -32,7 +34,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.7",
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.60.0",
+    "axe-core": "^4.12.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   }
