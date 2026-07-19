@@ -1,4 +1,4 @@
-export type LinkedInOutreachKind = "connect" | "follow";
+export type LinkedInOutreachKind = "connect" | "follow" | "organization";
 export type LinkedInOutreachTier = "A" | "B" | "C";
 
 export interface LinkedInOutreachPerson {
@@ -42,4 +42,5 @@ export interface LinkedInOutreachSummary {
   remaining: number;
   connects: number;
   follows: number;
+  organizations: number;
 }

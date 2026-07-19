@@ -10,7 +10,7 @@ let people: Awaited<ReturnType<typeof getLinkedInTracker>>["people"] = [];
 let dailyBatch: Awaited<ReturnType<typeof getLinkedInTracker>>["dailyBatch"] = {
   date: "",
   stableIds: [],
-  targetSize: 60,
+  targetSize: 50,
 };
 let loadError = false;
 try {
@@ -44,6 +44,7 @@ try {
         --li-blue-soft: #e0f5ff;
         --li-green: #a4ff3d;
         --li-gold: #ffbd3d;
+        --li-gold-soft: #fff0c7;
         --li-red: #ef4444;
         --li-muted: #4b5563;
       }
@@ -66,9 +67,9 @@ try {
         margin: 0 auto;
         padding: 70px 0 110px;
       }
-      .li-page[data-lane="follow"] {
-        --li-lane: var(--li-blue);
-        --li-lane-soft: var(--li-blue-soft);
+      .li-page[data-lane="organization"] {
+        --li-lane: var(--li-gold);
+        --li-lane-soft: var(--li-gold-soft);
       }
       .li-page *, .li-page *::before, .li-page *::after { box-sizing: border-box; }
       .li-page button, .li-page input, .li-page select { font: inherit; }
@@ -225,8 +226,8 @@ try {
         text-align: left;
         transition: transform 100ms ease, box-shadow 100ms ease, background 100ms ease;
       }
-      .li-lane--connect { --button-color: var(--li-pink); }
-      .li-lane--follow { --button-color: var(--li-blue); }
+      .li-lane--people { --button-color: var(--li-pink); }
+      .li-lane--organization { --button-color: var(--li-gold); }
       .li-lane[aria-selected="true"] {
         background: var(--button-color);
         box-shadow: 6px 6px 0 var(--li-ink);
@@ -316,12 +317,14 @@ try {
       .li-group-head span { color: var(--li-muted); font: 700 9px "Space Mono", monospace; }
       .li-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
       .li-person {
+        --li-card-color: var(--li-pink);
+        --li-card-soft: var(--li-pink-soft);
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 13px;
         align-items: start;
         border: 2px solid var(--li-ink);
-        border-left: 10px solid var(--li-lane);
+        border-left: 10px solid var(--li-card-color);
         background: var(--li-white);
         box-shadow: 4px 4px 0 var(--li-ink);
         cursor: pointer;
@@ -330,8 +333,16 @@ try {
       }
       .li-person:nth-child(4n + 2) { transform: rotate(0.08deg); }
       .li-person:nth-child(4n + 4) { transform: rotate(-0.08deg); }
+      .li-person.kind-follow {
+        --li-card-color: var(--li-blue);
+        --li-card-soft: var(--li-blue-soft);
+      }
+      .li-person.kind-organization {
+        --li-card-color: var(--li-gold);
+        --li-card-soft: var(--li-gold-soft);
+      }
       .li-person:hover { box-shadow: 6px 6px 0 var(--li-ink); transform: translate(-1px, -1px); }
-      .li-person.is-done { background: var(--li-lane-soft); }
+      .li-person.is-done { background: var(--li-card-soft); }
       .li-person.is-dismissed { border-left-color: #9ca3af; background: #f3f4f6; opacity: 0.76; }
 
       .li-done {
@@ -362,7 +373,7 @@ try {
         align-items: center;
         min-height: 21px;
         border: 1.5px solid var(--li-ink);
-        background: var(--li-lane-soft);
+        background: var(--li-card-soft);
         color: var(--li-ink);
         padding: 2px 6px;
         font: 700 8px "Space Mono", monospace;
@@ -418,7 +429,10 @@ try {
         text-decoration: none;
         white-space: nowrap;
       }
-      .li-actions a { background: var(--li-lane); box-shadow: 3px 3px 0 var(--li-ink); }
+      .li-actions a { box-shadow: 3px 3px 0 var(--li-ink); }
+      .li-actions a.action-connect { background: var(--li-pink); }
+      .li-actions a.action-follow { background: var(--li-blue); }
+      .li-actions a.action-organization { background: var(--li-gold); }
       .li-actions a:hover { background: var(--li-green); transform: translate(-1px, -1px); }
       .li-actions button { background: var(--li-white); cursor: pointer; }
       .li-actions .nah {
@@ -441,6 +455,25 @@ try {
       }
       .li-empty strong { display: block; font: 23px "Permanent Marker", cursive; }
       .li-empty span { display: block; margin-top: 7px; color: var(--li-muted); font: 10px "Space Mono", monospace; }
+      .li-empty-title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+      }
+      .li-empty-title strong { display: inline; }
+      .li-empty-title span {
+        display: inline-grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        margin: 0;
+        border: 2px solid var(--li-ink);
+        background: var(--li-green);
+        color: var(--li-ink);
+        font: 30px/1 "Permanent Marker", cursive;
+        transform: rotate(-4deg);
+      }
       .li-more {
         display: block;
         min-width: 220px;
