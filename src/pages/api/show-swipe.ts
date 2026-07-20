@@ -1,9 +1,9 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import type { TmdbAction } from "../../lib/showSwipe/types";
 import { errJson, devErrJson, okJson, fetchWithTimeout, toErrMsg } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";

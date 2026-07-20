@@ -1,8 +1,8 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { fetchWithTimeout } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 const MAPS_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 

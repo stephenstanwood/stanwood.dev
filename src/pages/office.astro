@@ -1256,13 +1256,16 @@ function seriesVideos(series: Series): QueueVideo[] {
     const WATCHED_KEY = 'stanford-queue-watched-v1';
     const STANFORD_HIDDEN_KEY = 'stanford-hidden-v1';
 
-    function getWatched() {
-      try { return new Set(JSON.parse(localStorage.getItem(WATCHED_KEY) || '[]')); }
+    function getSet(key) {
+      try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
       catch { return new Set(); }
     }
-    function saveWatched(set) {
-      localStorage.setItem(WATCHED_KEY, JSON.stringify([...set]));
+    function saveSet(key, set) {
+      localStorage.setItem(key, JSON.stringify([...set]));
     }
+    const getWatched = () => getSet(WATCHED_KEY);
+    const saveWatched = (set) => saveSet(WATCHED_KEY, set);
+
     function toggleWatched(id) {
       const w = getWatched();
       const adding = !w.has(id);
@@ -1271,13 +1274,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       if (adding) sendMark(id, 'stanford', 'like');
       renderWatched();
     }
-    function getStanfordHidden() {
-      try { return new Set(JSON.parse(localStorage.getItem(STANFORD_HIDDEN_KEY) || '[]')); }
-      catch { return new Set(); }
-    }
-    function saveStanfordHidden(set) {
-      localStorage.setItem(STANFORD_HIDDEN_KEY, JSON.stringify([...set]));
-    }
+    const getStanfordHidden = () => getSet(STANFORD_HIDDEN_KEY);
+    const saveStanfordHidden = (set) => saveSet(STANFORD_HIDDEN_KEY, set);
+
     function hideStanford(id) {
       const h = getStanfordHidden();
       h.add(id);
@@ -1334,13 +1333,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
     const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
 
-    function getSet(key) {
-      try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
-      catch { return new Set(); }
-    }
-    function saveSet(key, set) {
-      localStorage.setItem(key, JSON.stringify([...set]));
-    }
     const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
     const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
     const getBroaderLiked = () => getSet(BROADER_LIKED_KEY);

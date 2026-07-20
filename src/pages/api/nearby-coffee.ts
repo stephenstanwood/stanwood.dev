@@ -1,9 +1,9 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { validatePlacesKey, searchNearbyPlaces } from "../../lib/placesClient";
 import { errJson, okJson, validateLatLon } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();

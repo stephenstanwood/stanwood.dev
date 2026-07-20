@@ -1,4 +1,3 @@
-export const prerender = false;
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { CLAUDE_SONNET, extractText } from "../../lib/models";
@@ -7,6 +6,8 @@ import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
+
+export const prerender = false;
 
 const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;

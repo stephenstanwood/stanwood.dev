@@ -45,8 +45,8 @@ export default function AIStatusTile() {
 
   useEffect(() => {
     fetch("/api/ai-status")
-      .then((r) => r.json())
-      .then((d: ProviderStatus[]) => setProviders(d))
+      .then((response) => response.json())
+      .then((statuses: ProviderStatus[]) => setProviders(statuses))
       .catch(() => null);
   }, []);
 
@@ -60,7 +60,12 @@ export default function AIStatusTile() {
   }, [providers]);
 
   useEffect(() => {
-    if (paused || !providers || providers.length < 2 || prefersReducedMotion.current) return;
+    const hasMultipleProviders = Boolean(providers && providers.length >= 2);
+    const shouldRotate =
+      !paused &&
+      hasMultipleProviders &&
+      !prefersReducedMotion.current;
+    if (!shouldRotate) return;
     const id = setInterval(rotate, ROTATE_MS);
     return () => clearInterval(id);
   }, [paused, providers, rotate]);

@@ -1,8 +1,9 @@
-export const prerender = false;
 import type { APIRoute } from "astro";
 import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aestheticWeather";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 /**
  * Lightweight weather proxy for the homepage terminal card.

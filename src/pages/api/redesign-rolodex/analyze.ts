@@ -1,6 +1,3 @@
-export const prerender = false;
-export const config = { maxDuration: 120 };
-
 import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
@@ -10,6 +7,9 @@ import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screensh
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
 import { VALID_MODES, type WeirdnessMode } from "../../../lib/redesignRolodex/types";
+
+export const prerender = false;
+export const config = { maxDuration: 120 };
 
 const client = getAnthropicClient();
 

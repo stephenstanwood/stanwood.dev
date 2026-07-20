@@ -1,9 +1,9 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { ImageResponse } from "@vercel/og";
 import { PAGES } from "../../lib/ogPages";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+
+export const prerender = false;
 
 /**
  * Dynamic Open Graph image generator.

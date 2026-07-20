@@ -1,5 +1,3 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { z } from "zod";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
@@ -13,6 +11,8 @@ import type {
   TasteProfile,
   DietaryConstraints,
 } from "../../lib/greenLight/types";
+
+export const prerender = false;
 
 const OptionSchema = z.object({
   order: z.string(),

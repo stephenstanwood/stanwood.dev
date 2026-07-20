@@ -480,6 +480,12 @@ function PersonCard({
   onCopy: (note: string) => void;
 }) {
   const role = [...new Set([person.title, person.organization].filter(Boolean))].join(" · ");
+  const personClassName = [
+    "li-person",
+    `kind-${person.kind}`,
+    person.actioned && "is-done",
+    person.dismissed && "is-dismissed",
+  ].filter(Boolean).join(" ");
 
   function openCardLink(event: React.MouseEvent<HTMLLIElement>) {
     const target = event.target as HTMLElement;
@@ -489,7 +495,7 @@ function PersonCard({
 
   return (
     <li
-      className={`li-person kind-${person.kind}${person.actioned ? " is-done" : ""}${person.dismissed ? " is-dismissed" : ""}`}
+      className={personClassName}
       data-id={person.stableId}
       onClick={openCardLink}
     >

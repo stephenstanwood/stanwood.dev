@@ -1,9 +1,9 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson } from "../../lib/apiHelpers";
 import { MS_PER_MINUTE } from "../../lib/time";
+
+export const prerender = false;
 
 const WEBHOOK_URL = import.meta.env.DISCORD_WEBHOOK_URL;
 

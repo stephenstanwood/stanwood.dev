@@ -1,6 +1,3 @@
-export const prerender = false;
-export const config = { maxDuration: 60 };
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
@@ -12,6 +9,9 @@ import type {
   DesignDirection,
   MoreModifier,
 } from "../../../lib/redesignRolodex/types";
+
+export const prerender = false;
+export const config = { maxDuration: 60 };
 
 const client = getAnthropicClient();
 const VALID_MODIFIERS: MoreModifier[] = ["more", "weirder", "calmer"];

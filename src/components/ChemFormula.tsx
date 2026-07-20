@@ -77,35 +77,38 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
         justifyContent: compact ? 'flex-start' : 'center',
         flexWrap: 'wrap',
       }}>
-        {showElements && elements.map((el, i) => (
-          <div key={el.symbol} style={{ display: 'flex', alignItems: 'center', gap: `${gap}px` }}>
-            {i > 0 && visibleCount > i && (
-              <span style={{
-                fontSize: `${opSize}px`,
-                fontWeight: 700,
-                color: '#444',
-                animation: 'cfFadeIn 0.3s ease',
-              }}>+</span>
-            )}
-            {visibleCount > i && (
-              <div style={{
-                width: `${tileW}px`,
-                height: `${tileH}px`,
-                border: `${compact ? 2 : 3}px solid #111`,
-                borderRadius: '4px',
-                boxShadow: phase === 'react'
-                  ? `0 0 ${compact ? 12 : 24}px ${el.bg}, 0 0 ${compact ? 24 : 48}px ${el.bg}44, ${compact ? 2 : 4}px ${compact ? 2 : 4}px 0 #111`
-                  : `${compact ? 2 : 4}px ${compact ? 2 : 4}px 0 #111`,
-                background: el.bg,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                animation: 'cfSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                transition: 'box-shadow 0.3s, transform 0.3s',
-                transform: phase === 'react' ? 'scale(1.08)' : 'scale(1)',
-              }}>
+        {showElements && elements.map((el, i) => {
+          const shadowOffset = `${compact ? 2 : 4}px ${compact ? 2 : 4}px 0 #111`;
+          const reactionGlow = `0 0 ${compact ? 12 : 24}px ${el.bg}, 0 0 ${compact ? 24 : 48}px ${el.bg}44`;
+          const tileShadow = phase === 'react' ? `${reactionGlow}, ${shadowOffset}` : shadowOffset;
+
+          return (
+            <div key={el.symbol} style={{ display: 'flex', alignItems: 'center', gap: `${gap}px` }}>
+              {i > 0 && visibleCount > i && (
+                <span style={{
+                  fontSize: `${opSize}px`,
+                  fontWeight: 700,
+                  color: '#444',
+                  animation: 'cfFadeIn 0.3s ease',
+                }}>+</span>
+              )}
+              {visibleCount > i && (
+                <div style={{
+                  width: `${tileW}px`,
+                  height: `${tileH}px`,
+                  border: `${compact ? 2 : 3}px solid #111`,
+                  borderRadius: '4px',
+                  boxShadow: tileShadow,
+                  background: el.bg,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                  animation: 'cfSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  transition: 'box-shadow 0.3s, transform 0.3s',
+                  transform: phase === 'react' ? 'scale(1.08)' : 'scale(1)',
+                }}>
                 <span style={{
                   position: 'absolute',
                   top: `${Math.round(5 * scale)}px`,
@@ -132,10 +135,11 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
                   textAlign: 'center',
                   lineHeight: 1.2,
                 }}>{el.name}</span>
-              </div>
-            )}
-          </div>
-        ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
 
         {showElements && visibleCount === 3 && (
           <span style={{

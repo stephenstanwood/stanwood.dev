@@ -1,9 +1,9 @@
-export const prerender = false;
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, getAnthropicClient } from "../../lib/models";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 const MAX_PDF_SIZE = 25 * 1024 * 1024; // ~25 MB in base64 chars
 

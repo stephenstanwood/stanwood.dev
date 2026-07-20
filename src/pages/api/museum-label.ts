@@ -1,12 +1,12 @@
-export const prerender = false;
-export const config = { maxDuration: 60 };
-
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { extractText, stripFences, CLAUDE_SONNET, getAnthropicClient } from "../../lib/models";
 import { getSystemPrompt, MUSEUM_STYLES } from "../../lib/museumPrompt";
 import { logEvent } from "../../lib/logger";
+
+export const prerender = false;
+export const config = { maxDuration: 60 };
 
 const client = getAnthropicClient();
 

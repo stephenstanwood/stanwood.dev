@@ -1,7 +1,8 @@
-export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+
+export const prerender = false;
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
