@@ -339,6 +339,42 @@ const slug = "driverless";
     min-height: 220px;
   }
 
+  .dl-chart-placeholder {
+    width: 100%;
+    min-height: 220px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #f8fafc 0%, #e2e8f0 50%, #f8fafc 100%);
+    background-size: 200% 100%;
+    animation: dl-shimmer 1.4s ease-in-out infinite;
+  }
+
+  .dl-skeleton {
+    display: block;
+    border-radius: 999px;
+    background: #e2e8f0;
+  }
+
+  .dl-skeleton-title {
+    width: min(190px, 70%);
+    height: 16px;
+  }
+
+  .dl-skeleton-meta {
+    width: min(160px, 50%);
+    height: 12px;
+  }
+
+  @keyframes dl-shimmer {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dl-chart-placeholder {
+      animation: none;
+    }
+  }
+
   /* ── Map ──────────────────────────────────────────────── */
   .dl-map-wrap {
     position: relative;

@@ -1,17 +1,31 @@
+import { lazy, Suspense } from "react";
 import HeroStats from "./HeroStats";
 import RideFinder from "./RideFinder";
-import USMap from "./USMap";
-import SafetyChart from "./SafetyChart";
-import GrowthChart from "./GrowthChart";
 import CompanyCards from "./CompanyCards";
 import StateBreakdown from "./StateBreakdown";
-import DisengagementChart from "./DisengagementChart";
 import L4Race from "./L4Race";
 import FirstRide from "./FirstRide";
 import Limits from "./Limits";
 import Myths from "./Myths";
 import SensorStack from "./SensorStack";
 import AVTimeline from "./AVTimeline";
+
+const USMap = lazy(() => import("./USMap"));
+const SafetyChart = lazy(() => import("./SafetyChart"));
+const GrowthChart = lazy(() => import("./GrowthChart"));
+const DisengagementChart = lazy(() => import("./DisengagementChart"));
+
+function DeferredPanelFallback({ full = false }: { full?: boolean }) {
+  return (
+    <div className={`dl-panel${full ? " dl-full" : ""}`} aria-hidden="true">
+      <div className="dl-panel-header">
+        <span className="dl-skeleton dl-skeleton-title" />
+        <span className="dl-skeleton dl-skeleton-meta" />
+      </div>
+      <div className="dl-chart-placeholder" />
+    </div>
+  );
+}
 
 export default function DriverlessDashboard() {
   return (
@@ -102,11 +116,17 @@ export default function DriverlessDashboard() {
         {/* Ride finder — full width, top of grid */}
         <RideFinder />
         {/* Map — full width */}
-        <USMap />
+        <Suspense fallback={<DeferredPanelFallback full />}>
+          <USMap />
+        </Suspense>
 
         {/* Safety + Growth side by side */}
-        <SafetyChart />
-        <GrowthChart />
+        <Suspense fallback={<DeferredPanelFallback />}>
+          <SafetyChart />
+        </Suspense>
+        <Suspense fallback={<DeferredPanelFallback />}>
+          <GrowthChart />
+        </Suspense>
 
         {/* Companies — full width */}
         <CompanyCards />
@@ -130,7 +150,9 @@ export default function DriverlessDashboard() {
         <StateBreakdown />
 
         {/* Disengagement + fun facts side by side */}
-        <DisengagementChart />
+        <Suspense fallback={<DeferredPanelFallback full />}>
+          <DisengagementChart />
+        </Suspense>
 
         {/* AV Timeline — full width */}
         <AVTimeline />
