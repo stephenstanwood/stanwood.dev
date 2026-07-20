@@ -1,34 +1,50 @@
 [
   {
+    "name": "Kimi K3",
+    "org": "Moonshot AI",
+    "date": "2026-07-16",
+    "type": "model",
+    "summary": "Use a 2.8T multimodal coding model today through Kimi.com, Kimi Work, Kimi Code, or the API. It has a 1M-token context window, with downloadable weights promised by July 27.",
+    "url": "https://www.kimi.com/blog/kimi-k3"
+  },
+  {
     "name": "Inkling",
     "org": "Thinking Machines Lab",
     "date": "2026-07-15",
     "type": "model",
-    "summary": "Download a 975B open-weight multimodal model under Apache 2.0 and fine-tune it for your own use — free on Hugging Face, or hit it via API on Together, Fireworks, Modal, and Baseten. Built to flag when it's unsure instead of guessing.",
+    "summary": "Fine-tune or download a 975B open-weight multimodal model under Apache 2.0, with a lighter Inkling-Small preview for cheaper experiments. Tinker handles customization when local hardware is unrealistic.",
     "url": "https://thinkingmachines.ai/news/introducing-inkling/"
   },
   {
-    "name": "GPT-5.6 (Sol, Terra, Luna)",
+    "name": "GPT-5.6",
     "org": "OpenAI",
     "date": "2026-07-09",
     "type": "model",
-    "summary": "Three new frontier models — Terra and Luna land in the API now at $2.50 and $1 per million input tokens, plus a ChatGPT Work agent that runs whole jobs instead of just answering. A cheap tier for shipping agentic apps.",
-    "url": "https://openai.com/index/previewing-gpt-5-6-sol/"
+    "summary": "Build with Sol, Terra, or Luna in ChatGPT, Codex, and the API. The cheaper tiers make agentic apps and Codex runs more affordable, and ChatGPT Work can carry longer projects across files and apps.",
+    "url": "https://openai.com/index/gpt-5-6/"
+  },
+  {
+    "name": "Muse Spark 1.1",
+    "org": "Meta",
+    "date": "2026-07-09",
+    "type": "model",
+    "summary": "Try a multimodal agent model through Meta Model API public preview or Meta AI's Thinking mode. It is aimed at coding, computer use, long-context tool work, and visual-to-code workflows.",
+    "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/"
   },
   {
     "name": "Grok 4.5",
     "org": "xAI",
     "date": "2026-07-08",
     "type": "model",
-    "summary": "Cheap frontier coding and agentic model you can use today at $2 per million input tokens, roughly half Opus's price. Wire it in now via Cursor, Grok Build, the xAI API, OpenRouter, and Vercel to ship agentic work on a budget.",
-    "url": "https://docs.x.ai/developers/release-notes"
+    "summary": "Wire a coding and agent model into Cursor, Grok Build, Vercel, OpenRouter, or the xAI API at $2 per million input tokens. Useful when cost matters more than absolute frontier quality.",
+    "url": "https://x.ai/news/grok-4-5"
   },
   {
     "name": "Video Remix",
     "org": "Google Photos",
     "date": "2026-07-08",
     "type": "tool",
-    "summary": "Edit a clip from your phone's library just by describing the change — relight a dark shot, swap the background, or restyle it as watercolor or sketch in seconds. Runs on Gemini in Google Photos for AI Plus, Pro, and Ultra subscribers.",
+    "summary": "Remix clips from your phone library by describing relighting, background swaps, or visual styles. It is rolling out in Google Photos for Google AI Plus, Pro, and Ultra subscribers in select countries.",
     "url": "https://techcrunch.com/2026/07/08/google-photos-adds-a-new-ai-video-remix-tool/"
   },
   {
@@ -36,7 +52,7 @@
     "org": "Meta",
     "date": "2026-07-07",
     "type": "model",
-    "summary": "Generate and edit images free inside Meta AI, WhatsApp, and Instagram Stories — it plans the layout, pulls live web context, and blends multiple reference images. Handy for social posts and quick mockups without a separate design tool.",
+    "summary": "Create and edit images in Meta AI, Instagram Stories, and WhatsApp with presets, sketch edits, multi-reference composition, and web-grounded planning. The public-account tagging feature was pulled after backlash.",
     "url": "https://about.fb.com/news/2026/07/introducing-muse-image-meta-ai/"
   },
   {
@@ -44,15 +60,7 @@
     "org": "Anthropic",
     "date": "2026-07-07",
     "type": "tool",
-    "summary": "Kick off real work from your phone or browser, close the laptop, and Claude keeps going in the cloud — running scheduled and background tasks with no device online, and pinging you only when it needs a decision. Beta rolling out to Max users now.",
+    "summary": "Start a background Claude task on web or mobile, then let it keep running in Anthropic's cloud while your laptop is closed. Beta starts with Max users, with more plans to follow.",
     "url": "https://claude.com/blog/cowork-web-mobile"
-  },
-  {
-    "name": "gpt-realtime-2.1",
-    "org": "OpenAI",
-    "date": "2026-07-06",
-    "type": "model",
-    "summary": "Build low-latency voice agents that listen, reason, and talk back, with tool use and configurable thinking effort. A cheaper distilled mini variant ships alongside, and p95 latency drops at least 25%. Live in the Realtime API today.",
-    "url": "https://community.openai.com/t/new-realtime-models-on-the-api-gpt-realtime-2-1-and-gpt-realtime-2-1-mini/1385896"
   }
 ]
