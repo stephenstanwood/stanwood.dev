@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
 import { MS_PER_MINUTE, msSince } from "../lib/time";
 import { formatHourMinute } from "../lib/dateFormat";
-
-interface DeployData {
-  lastDeploy: string | null;
-  daysSince: number | null;
-  hoursSince: number | null;
-  project?: string | null;
-  summary?: string | null;
-  sha?: string | null;
-  prNumber?: string | null;
-  error?: string;
-}
+import { fetchShipClockData, type ShipClockData } from "../lib/shipClock";
 
 /** Generate pseudo-barcode bar widths from a string (for visual effect only).
  *  Repeats the SHA pattern to fill ~60 bars for a full-width barcode. */
@@ -41,13 +31,12 @@ function formatElapsed(ms: number): string {
 }
 
 export default function ShipClockTile() {
-  const [data, setData] = useState<DeployData | null>(null);
+  const [data, setData] = useState<ShipClockData | null>(null);
   const [elapsed, setElapsed] = useState("");
 
   useEffect(() => {
-    fetch("/api/ship-clock")
-      .then((r) => r.json())
-      .then((d: DeployData) => setData(d))
+    fetchShipClockData()
+      .then(setData)
       .catch(() => null);
   }, []);
 

@@ -3,39 +3,14 @@ import { shipStatus } from "../lib/shipClockStatus";
 import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
-
-interface HistoryEntry {
-  date: string;
-  message: string | null;
-  sha: string | null;
-  prNumber: string | null;
-}
-
-interface DeployStats {
-  deploysLast30: number;
-  avgDaysBetween: number | null;
-  streakWeeks: number;
-}
-
-interface DeployData {
-  lastDeploy: string | null;
-  daysSince: number | null;
-  hoursSince: number | null;
-  project?: string | null;
-  summary?: string | null;
-  sha?: string | null;
-  prNumber?: string | null;
-  history?: HistoryEntry[];
-  stats?: DeployStats;
-  error?: string;
-}
+import { fetchShipClockData, type ShipClockData, type ShipClockHistoryEntry } from "../lib/shipClock";
 
 const GITHUB_REPO = "https://github.com/stephenstanwood/stanwood.dev";
 
 // Build a 28-cell deploy heatmap: newest right, oldest left
 // each cell = one day; returns array of { active, label } for tooltips
 function buildActivityGrid(
-  history: HistoryEntry[],
+  history: ShipClockHistoryEntry[],
   lastDeploy: string
 ): { active: boolean; label: string }[] {
   const now = Date.now();
@@ -52,19 +27,17 @@ function buildActivityGrid(
 }
 
 export default function ShipClock() {
-  const [data, setData] = useState<DeployData | null>(null);
+  const [data, setData] = useState<ShipClockData | null>(null);
   const [loading, setLoading] = useState(true);
   const { copied, copy } = useCopyToClipboard();
 
   useEffect(() => {
-    fetch("/api/ship-clock")
-      .then((r) => r.json())
-      .then((d: DeployData) => {
-        setData(d);
-        setLoading(false);
-      })
+    fetchShipClockData()
+      .then(setData)
       .catch(() => {
         setData({ lastDeploy: null, daysSince: null, hoursSince: null, error: "fetch failed" });
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, []);

@@ -5,6 +5,7 @@ import { CLAUDE_SONNET, extractText } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
+import type { ShipClockHistoryEntry, ShipClockStats } from "../../lib/shipClock";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
 
@@ -142,10 +143,10 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       }
     }
 
-    const stats = { deploysLast30, avgDaysBetween, streakWeeks };
+    const stats: ShipClockStats = { deploysLast30, avgDaysBetween, streakWeeks };
 
     // Build history from remaining deployments (no Claude — just clean raw messages)
-    const history = (deployments as VercelDeployment[]).slice(1).map((dep) => {
+    const history: ShipClockHistoryEntry[] = (deployments as VercelDeployment[]).slice(1).map((dep) => {
       const { raw, sha: depSha, prNumber: depPr } = extractCommitMeta(dep);
       return {
         date: new Date(dep.created).toISOString(),
