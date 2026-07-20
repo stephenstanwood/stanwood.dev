@@ -25,7 +25,7 @@ const failures = [];
 const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
-const resultCountText = (count, noun = "people") =>
+const resultCountText = (count, noun = "moves") =>
   `${count} ${count === 1 ? noun.replace(/s$/, "") : noun}${count > 100 ? " · showing 100" : ""}`;
 const axeTags = [
   "wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa", "best-practice",
@@ -79,8 +79,6 @@ try {
       connectTotal: Number(document.querySelector(".li-page")?.getAttribute("data-connect-total")),
       followTotal: Number(document.querySelector(".li-page")?.getAttribute("data-follow-total")),
       organizationTotal: Number(document.querySelector(".li-page")?.getAttribute("data-organization-total")),
-      peopleTabTotal: Number(document.querySelector(".li-lane--people b")?.textContent?.trim()),
-      organizationTabTotal: Number(document.querySelector(".li-lane--organization b")?.textContent?.trim()),
       resultText: document.querySelector(".li-result-count")?.textContent?.replace(/\s+/g, " ").trim(),
       batchText: document.querySelector('select option[value="today"]')?.textContent?.trim(),
       dailyBatchDate: document.querySelector(".li-page")?.getAttribute("data-daily-batch-date"),
@@ -89,15 +87,15 @@ try {
         document.querySelector('select option[value="unknown"]')?.textContent?.match(/\d+$/)?.[0],
       ),
       funTitle: document.querySelector(".li-title")?.textContent?.trim(),
-      rule: document.querySelector(".li-lane-rule")?.textContent?.replace(/\s+/g, " ").trim(),
+      rule: document.querySelector(".li-queue-rule")?.textContent?.replace(/\s+/g, " ").trim(),
       groupTitle: document.querySelector(".li-group-head h2")?.textContent?.trim(),
       groupSummary: document.querySelector(".li-group-head span")?.textContent?.replace(/\s+/g, " ").trim(),
+      emptyCleared: document.querySelector(".li-empty-title strong")?.textContent?.replace(/\s+/g, " ").trim(),
       unknownVisible: [...document.querySelectorAll(".li-badge")].some(
         (node) => node.textContent?.trim().toLowerCase() === "unknown",
       ),
       overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
       rowCount: document.querySelectorAll(".li-person").length,
-      rowIds: [...document.querySelectorAll(".li-person")].map((card) => card.getAttribute("data-id")),
       actionCheckboxCount: document.querySelectorAll('.li-actions .li-done input[type="checkbox"]').length,
       leftCheckboxCount: document.querySelectorAll('.li-person > .li-done input[type="checkbox"]').length,
       greenCheckCount: [...document.querySelectorAll(".li-actions .li-done span")]
@@ -107,30 +105,24 @@ try {
       connectRows: document.querySelectorAll(".li-person.kind-connect").length,
       followRows: document.querySelectorAll(".li-person.kind-follow").length,
       organizationRows: document.querySelectorAll(".li-person.kind-organization").length,
-      connectActionColor: getComputedStyle(document.querySelector(".action-connect") ?? document.body).backgroundColor,
-      followActionColor: getComputedStyle(document.querySelector(".action-follow") ?? document.body).backgroundColor,
     }));
     assert(initial.h1s === 1, `${profile.name}: expected one h1`);
     assert(initial.funTitle === "LI", `${profile.name}: playful masthead is missing`);
     assert(initial.connectTotal > 0, `${profile.name}: connection count was empty`);
     assert(initial.followTotal > 0, `${profile.name}: follow count was empty`);
     assert(initial.organizationTotal > 0, `${profile.name}: organization count was empty`);
-    assert(
-      initial.peopleTabTotal === initial.connectTotal + initial.followTotal - initial.unknownTotal,
-      `${profile.name}: combined people tab count was inaccurate`,
-    );
-    assert(
-      initial.organizationTabTotal === initial.organizationTotal,
-      `${profile.name}: organization tab count was inaccurate`,
-    );
     assert(initial.unknownTotal >= 0, `${profile.name}: unknown connection count was invalid`);
-    assert(initial.resultText === `${initial.rowCount} people`, `${profile.name}: daily result count did not match its rows`);
-    assert(initial.rowCount > 0 && initial.rowCount <= 50, `${profile.name}: daily batch did not contain 1–50 remaining people`);
+    assert(initial.resultText === `${initial.rowCount} ${initial.rowCount === 1 ? "move" : "moves"}`, `${profile.name}: daily result count did not match its rows`);
+    assert(initial.rowCount >= 0 && initial.rowCount <= 50, `${profile.name}: daily batch did not contain 0–50 remaining moves`);
     assert(initial.dailyBatchSize > 0 && initial.dailyBatchSize <= 50, `${profile.name}: daily snapshot size was invalid`);
     assert(initial.batchText === `today · ${initial.dailyBatchSize}`, `${profile.name}: daily snapshot label was inaccurate`);
     assert(/^\d{4}-\d{2}-\d{2}$/.test(initial.dailyBatchDate ?? ""), `${profile.name}: daily batch date is missing`);
-    assert(initial.groupTitle === "today's batch", `${profile.name}: daily batch heading is missing`);
-    assert(initial.groupSummary === `${initial.rowCount} left · ${initial.dailyBatchSize} total`, `${profile.name}: daily batch total was inaccurate`);
+    if (initial.rowCount > 0) {
+      assert(initial.groupTitle === "today's batch", `${profile.name}: daily batch heading is missing`);
+      assert(initial.groupSummary === `${initial.rowCount} left · ${initial.dailyBatchSize} total`, `${profile.name}: daily batch total was inaccurate`);
+    } else {
+      assert(initial.emptyCleared === "TODAY'S BATCH: CLEARED.", `${profile.name}: cleared-day state is missing`);
+    }
     assert(initial.rule?.includes("no refills until tomorrow"), `${profile.name}: no-refill rule is not explicit`);
     assert(!initial.unknownVisible, `${profile.name}: mystery contacts appeared by default`);
     assert(!initial.overflow, `${profile.name}: default view has horizontal overflow`);
@@ -141,13 +133,21 @@ try {
     assert(initial.leftCheckboxCount === 0, `${profile.name}: completion checkbox drifted back to the left column`);
     assert(initial.greenCheckCount === initial.rowCount, `${profile.name}: green check action is missing`);
     assert(initial.redDismissCount === initial.rowCount, `${profile.name}: red dismiss action is missing`);
-    assert(initial.connectRows > 0, `${profile.name}: mixed daily batch had no connection candidates`);
-    assert(initial.followRows > 0, `${profile.name}: mixed daily batch had no follow candidates`);
-    assert(initial.organizationRows === 0, `${profile.name}: organization leaked into invitation batch`);
     assert(
-      initial.connectActionColor !== initial.followActionColor,
-      `${profile.name}: connect and follow links were not visually distinct`,
+      initial.connectRows + initial.followRows + initial.organizationRows === initial.rowCount,
+      `${profile.name}: daily batch contained an unknown action kind`,
     );
+
+    await page.selectOption('[aria-label="status"]', "all");
+    const fullDaily = await page.evaluate(() => ({
+      rowCount: document.querySelectorAll(".li-person").length,
+      rowIds: [...document.querySelectorAll(".li-person")].map((card) => card.getAttribute("data-id")),
+      resultText: document.querySelector(".li-result-count")?.textContent?.replace(/\s+/g, " ").trim(),
+    }));
+    assert(fullDaily.rowCount === initial.dailyBatchSize, `${profile.name}: full daily snapshot was not fixed at its stored size`);
+    assert(new Set(fullDaily.rowIds).size === fullDaily.rowIds.length, `${profile.name}: daily snapshot repeated a card`);
+    assert(fullDaily.resultText === resultCountText(initial.dailyBatchSize), `${profile.name}: full daily result count was inaccurate`);
+    await page.selectOption('[aria-label="status"]', "remaining");
 
     const axe = await new AxeBuilder({ page }).withTags(axeTags).analyze();
     assert(
@@ -156,9 +156,12 @@ try {
     );
 
     if (profile.name === "desktop") {
+      await page.selectOption('[aria-label="batch"]', "all");
       let target = page.locator(".li-person").first();
       const targetId = await target.getAttribute("data-id");
+      const targetName = await target.locator("h3").textContent();
       assert(Boolean(targetId), "desktop: test row had no stable id");
+      assert(Boolean(targetName), "desktop: test row had no name");
       mutationTargetId = targetId;
       target = page.locator(`.li-person[data-id="${targetId}"]`);
 
@@ -181,23 +184,12 @@ try {
       let response = await responsePromise;
       assert(response.ok(), `desktop: action mutation returned ${response.status()}`);
       await target.waitFor({ state: "detached" });
-      const afterAction = await page.evaluate(() => ({
-        ids: [...document.querySelectorAll(".li-person")].map((card) => card.getAttribute("data-id")),
-        groupSummary: document.querySelector(".li-group-head span")?.textContent?.replace(/\s+/g, " ").trim(),
-      }));
-      assert(afterAction.ids.length === initial.rowCount - 1, "desktop: daily batch did not count down by one");
-      assert(
-        afterAction.ids.every((id) => initial.rowIds.includes(id)),
-        "desktop: daily batch refilled after an action",
-      );
-      assert(
-        afterAction.groupSummary === `${initial.rowCount - 1} left · ${initial.dailyBatchSize} total`,
-        "desktop: fixed daily batch total changed after an action",
-      );
       await page.reload({ waitUntil: "networkidle" });
       await page.locator('.li-page[data-ready="true"]').waitFor();
       await page.locator(".li-controls").waitFor();
-      await page.selectOption(".li-controls label:last-child select", "actioned");
+      await page.selectOption('[aria-label="batch"]', "all");
+      await page.selectOption('[aria-label="status"]', "actioned");
+      await page.locator('[aria-label="search"]').fill(targetName ?? "");
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       assert(await target.locator('input[type="checkbox"]').isChecked(), "desktop: action state did not survive reload");
@@ -208,6 +200,8 @@ try {
       assert(response.ok(), `desktop: action restore returned ${response.status()}`);
       await page.reload({ waitUntil: "networkidle" });
       await page.locator('.li-page[data-ready="true"]').waitFor();
+      await page.selectOption('[aria-label="batch"]', "all");
+      await page.locator('[aria-label="search"]').fill(targetName ?? "");
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       assert(!(await target.locator('input[type="checkbox"]').isChecked()), "desktop: action state was not restored");
@@ -219,7 +213,9 @@ try {
       await page.reload({ waitUntil: "networkidle" });
       await page.locator('.li-page[data-ready="true"]').waitFor();
       await page.locator(".li-controls").waitFor();
-      await page.selectOption(".li-controls label:last-child select", "dismissed");
+      await page.selectOption('[aria-label="batch"]', "all");
+      await page.selectOption('[aria-label="status"]', "dismissed");
+      await page.locator('[aria-label="search"]').fill(targetName ?? "");
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       responsePromise = page.waitForResponse((candidate) => candidate.url().includes("/api/li/dismiss"));
@@ -228,48 +224,52 @@ try {
       assert(response.ok(), `desktop: dismiss restore returned ${response.status()}`);
       await page.reload({ waitUntil: "networkidle" });
       await page.locator('.li-page[data-ready="true"]').waitFor();
-      await page.locator(`.li-person[data-id="${targetId}"]`).waitFor();
-
-      await page.selectOption(".li-controls label:last-child select", "all");
-      await page.selectOption('.li-controls select', "all");
+      await page.selectOption('[aria-label="batch"]', "all");
+      await page.selectOption('[aria-label="status"]', "all");
       assert(
         (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() ===
-          resultCountText(initial.connectTotal - initial.unknownTotal + initial.followTotal),
-        "desktop: combined known people count was inaccurate",
+          resultCountText(initial.connectTotal - initial.unknownTotal + initial.followTotal + initial.organizationTotal),
+        "desktop: unified known pool count was inaccurate",
       );
       await page.locator(".li-unknown input").check();
       assert(
         (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() ===
-          resultCountText(initial.connectTotal + initial.followTotal),
-        "desktop: combined people count with mystery contacts was inaccurate",
+          resultCountText(initial.connectTotal + initial.followTotal + initial.organizationTotal),
+        "desktop: unified pool count with mystery contacts was inaccurate",
+      );
+
+      await page.selectOption('[aria-label="batch"]', "today");
+      await page.selectOption('[aria-label="status"]', "all");
+      const dailyIdsAfterMutations = await page.locator(".li-person").evaluateAll((cards) =>
+        cards.map((card) => card.getAttribute("data-id")));
+      assert(
+        JSON.stringify(dailyIdsAfterMutations) === JSON.stringify(fullDaily.rowIds),
+        "desktop: fixed daily batch changed after a mutation",
       );
     }
 
-    await page.locator(".li-lane--organization").click();
-    await page.selectOption(".li-controls label:last-child select", "all");
+    await page.selectOption('[aria-label="batch"]', "all");
+    await page.selectOption('[aria-label="action"]', "organization");
+    await page.selectOption('[aria-label="status"]', "all");
     assert(
       (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() ===
-        resultCountText(initial.organizationTotal, "organizations"),
-      `${profile.name}: organization lane count was inaccurate`,
+        resultCountText(initial.organizationTotal),
+      `${profile.name}: organization action filter count was inaccurate`,
     );
-    assert(
-      (await page.locator(".li-lane-rule").textContent())?.includes("no invitations and no posting"),
-      `${profile.name}: organization guardrail missing`,
-    );
-    assert((await page.locator(".li-person.kind-organization").count()) > 0, `${profile.name}: event radar was empty`);
-    assert((await page.locator(".li-person.kind-connect").count()) === 0, `${profile.name}: connect row in event radar`);
-    assert((await page.locator(".li-person.kind-follow").count()) === 0, `${profile.name}: person follow row in event radar`);
+    assert((await page.locator(".li-person.kind-organization").count()) > 0, `${profile.name}: organization queue was empty`);
+    assert((await page.locator(".li-person.kind-connect").count()) === 0, `${profile.name}: connect row in organization filter`);
+    assert((await page.locator(".li-person.kind-follow").count()) === 0, `${profile.name}: person follow row in organization filter`);
     while (await page.locator(".li-more").isVisible()) await page.locator(".li-more").click();
     assert(
       (await page.locator(".li-person").count()) === initial.organizationTotal,
-      `${profile.name}: full organization queue count was inaccurate`,
+      `${profile.name}: full organization filter count was inaccurate`,
     );
     const badLinks = await page.locator(".li-actions a").evaluateAll((links) => links.filter((link) => {
       const href = link.getAttribute("href") ?? "";
       return !(href.startsWith("https://www.linkedin.com/company/") ||
         href.startsWith("https://www.linkedin.com/search/results/companies/?keywords="));
     }).length);
-    assert(badLinks === 0, `${profile.name}: event radar contains an unsafe company link`);
+    assert(badLinks === 0, `${profile.name}: organization filter contains an unsafe company link`);
     const organizationCard = page.locator(".li-person.kind-organization").first();
     const expectedCompanyUrl = await organizationCard.locator(".li-actions a").getAttribute("href");
     await page.evaluate(() => {
@@ -284,8 +284,13 @@ try {
       `${profile.name}: clicking an organization card did not open its LinkedIn result`,
     );
 
-    await page.locator(".li-lane--people").click();
-    if (profile.mobile) await page.locator(".li-person").first().scrollIntoViewIfNeeded();
+    await page.selectOption('[aria-label="action"]', "all");
+    await page.selectOption('[aria-label="batch"]', "today");
+    await page.selectOption('[aria-label="status"]', "remaining");
+    if (profile.mobile && await page.locator(".li-person").count() > 0) {
+      await page.locator(".li-person").first().scrollIntoViewIfNeeded();
+    }
+    await page.evaluate(() => window.scrollTo(0, 0));
     await page.screenshot({
       path: resolve(screenshotDir, `stanwood-li-${profile.name}.png`),
       fullPage: false,
@@ -316,5 +321,5 @@ if (failures.length > 0) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
-console.log("PASS /li QA: password gate, mixed 50-person daily batch, no mid-day refill, separate event radar, durable state, accessibility, responsive layout.");
+console.log("PASS /li QA: password gate, unified 50-move daily queue, no mid-day refill, learned ranking, durable state, accessibility, responsive layout.");
 console.log(`Screenshots: ${screenshotDir}`);

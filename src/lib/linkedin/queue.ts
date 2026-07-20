@@ -5,7 +5,6 @@ import type {
 
 const TIER_RANK = { A: 0, B: 1, C: 2 } as const;
 export const LINKEDIN_DAILY_BATCH_SIZE = 50;
-const DAILY_CONNECT_TARGET = 10;
 
 const CONNECT_CATEGORY_SCORE: Record<string, number> = {
   southbaytoday: 2_000,
@@ -26,7 +25,12 @@ const CONNECT_CATEGORY_SCORE: Record<string, number> = {
 };
 
 function basePriorityScore(person: LinkedInOutreachPerson): number {
-  if (person.kind === "organization") return 1_000_000 - person.sourceOrder;
+  if (person.kind === "organization") {
+    const rankedOrder = person.sourceOrder >= 10_000
+      ? person.sourceOrder - 10_000
+      : person.sourceOrder;
+    return 1_475 - rankedOrder * 2;
+  }
   if (person.kind === "follow") return 1_500 - person.sourceOrder * 3;
   const category = CONNECT_CATEGORY_SCORE[person.category] ?? 700;
   const batch = Math.max(0, 400 - (person.batch ?? 99) * 50);
@@ -34,17 +38,47 @@ function basePriorityScore(person: LinkedInOutreachPerson): number {
   return category + batch + tier - person.sourceOrder / 1_000;
 }
 
-function categoryFeedback(people: LinkedInOutreachPerson[]): Map<string, number> {
-  const feedback = new Map<string, number>();
+interface FeedbackCount {
+  actioned: number;
+  dismissed: number;
+}
+
+function feedbackCounts(
+  people: LinkedInOutreachPerson[],
+  keyFor: (person: LinkedInOutreachPerson) => string,
+): Map<string, FeedbackCount> {
+  const feedback = new Map<string, FeedbackCount>();
   for (const person of people) {
-    const current = feedback.get(person.category) ?? 0;
-    if (person.actioned && !person.dismissed) feedback.set(person.category, current + 28);
-    else if (person.dismissed) feedback.set(person.category, current - 22);
-  }
-  for (const [category, score] of feedback) {
-    feedback.set(category, Math.max(-360, Math.min(360, score)));
+    const key = keyFor(person);
+    const current = feedback.get(key) ?? { actioned: 0, dismissed: 0 };
+    if (person.actioned && !person.dismissed) current.actioned += 1;
+    else if (person.dismissed) current.dismissed += 1;
+    feedback.set(key, current);
   }
   return feedback;
+}
+
+function preferenceBonus(counts: FeedbackCount | undefined, maximum: number): number {
+  if (!counts) return 0;
+  // Two virtual yeses and two virtual passes keep small samples from swinging
+  // tomorrow's queue too sharply while still letting repeated choices teach it.
+  const smoothedPreference =
+    (counts.actioned - counts.dismissed) /
+    (counts.actioned + counts.dismissed + 4);
+  return Math.round(smoothedPreference * maximum);
+}
+
+function learnedPriorityScores(
+  people: LinkedInOutreachPerson[],
+): Map<string, number> {
+  const categoryFeedback = feedbackCounts(people, (person) => person.category);
+  const kindFeedback = feedbackCounts(people, (person) => person.kind);
+  return new Map(people.map((person) => [
+    person.stableId,
+    basePriorityScore(person) +
+      preferenceBonus(categoryFeedback.get(person.category), 240) +
+      preferenceBonus(kindFeedback.get(person.kind), 300),
+  ]));
 }
 
 /** Batch is the pacing plan; A/B/C is priority inside that batch. */
@@ -56,37 +90,24 @@ export function compareLinkedInPriority(
   return scoreDelta || a.sourceOrder - b.sourceOrder || a.name.localeCompare(b.name);
 }
 
+export function rankLinkedInOutreach(
+  people: LinkedInOutreachPerson[],
+): LinkedInOutreachPerson[] {
+  const scores = learnedPriorityScores(people);
+  return [...people].sort((a, b) =>
+    (scores.get(b.stableId) ?? 0) - (scores.get(a.stableId) ?? 0) ||
+    compareLinkedInPriority(a, b));
+}
+
 export function nextLinkedInDailyBatch(
   people: LinkedInOutreachPerson[],
   limit = LINKEDIN_DAILY_BATCH_SIZE,
 ): LinkedInOutreachPerson[] {
-  const feedback = categoryFeedback(people);
-  const score = (person: LinkedInOutreachPerson) =>
-    basePriorityScore(person) + (feedback.get(person.category) ?? 0);
-  const candidates = people.filter((person) =>
-    (person.kind === "connect" || person.kind === "follow") &&
+  return rankLinkedInOutreach(people).filter((person) =>
     (person.kind !== "connect" || person.category !== "unknown") &&
     !person.actioned &&
     !person.dismissed
-  );
-  const connects = candidates
-    .filter((person) => person.kind === "connect")
-    .sort((a, b) => score(b) - score(a) || compareLinkedInPriority(a, b));
-  const follows = candidates
-    .filter((person) => person.kind === "follow")
-    .sort((a, b) => score(b) - score(a) || compareLinkedInPriority(a, b));
-
-  const connectTarget = Math.min(DAILY_CONNECT_TARGET, limit, connects.length);
-  const selected = [
-    ...connects.slice(0, connectTarget),
-    ...follows.slice(0, Math.max(0, limit - connectTarget)),
-  ];
-  if (selected.length < limit) {
-    selected.push(...connects.slice(connectTarget, connectTarget + (limit - selected.length)));
-  }
-  return selected
-    .sort((a, b) => score(b) - score(a) || compareLinkedInPriority(a, b))
-    .slice(0, limit);
+  ).slice(0, limit);
 }
 
 export function summarizeLinkedInOutreach(

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  compareLinkedInPriority,
+  rankLinkedInOutreach,
   summarizeLinkedInOutreach,
 } from "../../lib/linkedin/queue";
 import type {
@@ -10,7 +10,7 @@ import type {
 
 type QueueView = "priority" | "category";
 type QueueStatus = "remaining" | "actioned" | "dismissed" | "all";
-type TrackerLane = "people" | "organization";
+type QueueKind = "all" | "connect" | "follow" | "organization";
 
 interface Props {
   initialPeople: LinkedInOutreachPerson[];
@@ -34,10 +34,10 @@ function statusMatches(person: LinkedInOutreachPerson, status: QueueStatus): boo
 
 export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Props) {
   const [people, setPeople] = useState(initialPeople);
-  const [lane, setLane] = useState<TrackerLane>("people");
   const [view, setView] = useState<QueueView>("priority");
   const [query, setQuery] = useState("");
   const [batch, setBatch] = useState("today");
+  const [kind, setKind] = useState<QueueKind>("all");
   const [tier, setTier] = useState("all");
   const [category, setCategory] = useState("all");
   const [status, setStatus] = useState<QueueStatus>("remaining");
@@ -60,22 +60,20 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
   const dailyBatchRemaining = dailyBatchPeople.filter(
     (person) => !person.actioned && !person.dismissed,
   ).length;
-  const lanePeople = useMemo(
-    () => people.filter((person) =>
-      lane === "organization"
-        ? person.kind === "organization"
-        : person.kind === "connect" || person.kind === "follow"),
-    [lane, people],
+  const rankedPeople = useMemo(() => rankLinkedInOutreach(people), [people]);
+  const rankedPositions = useMemo(
+    () => new Map(rankedPeople.map((person, index) => [person.stableId, index])),
+    [rankedPeople],
   );
-  const rankedLanePeople = lane === "people"
-    ? lanePeople.filter((person) => person.kind !== "connect" || person.category !== "unknown")
-    : lanePeople;
-  const laneReviewed = rankedLanePeople.filter((person) => person.actioned || person.dismissed).length;
-  const laneActioned = rankedLanePeople.filter((person) => person.actioned && !person.dismissed).length;
-  const laneDismissed = rankedLanePeople.filter((person) => person.dismissed).length;
-  const laneRemaining = rankedLanePeople.length - laneActioned - laneDismissed;
-  const laneProgress = rankedLanePeople.length > 0
-    ? Math.round((laneReviewed / rankedLanePeople.length) * 100)
+  const directedPool = rankedPeople.filter(
+    (person) => person.kind !== "connect" || person.category !== "unknown",
+  );
+  const poolReviewed = directedPool.filter((person) => person.actioned || person.dismissed).length;
+  const poolActioned = directedPool.filter((person) => person.actioned && !person.dismissed).length;
+  const poolDismissed = directedPool.filter((person) => person.dismissed).length;
+  const poolRemaining = directedPool.length - poolActioned - poolDismissed;
+  const poolProgress = directedPool.length > 0
+    ? Math.round((poolReviewed / directedPool.length) * 100)
     : 0;
   const unknownCount = people.filter(
     (person) => person.kind === "connect" && person.category === "unknown",
@@ -83,7 +81,8 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
 
   const categories = useMemo(() => {
     const counts = new Map<string, { label: string; count: number }>();
-    for (const person of lanePeople) {
+    for (const person of people) {
+      if (kind !== "all" && person.kind !== kind) continue;
       const current = counts.get(person.category) ?? {
         label: person.categoryLabel,
         count: 0,
@@ -92,14 +91,14 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       counts.set(person.category, current);
     }
     return [...counts.entries()].sort((a, b) => a[1].label.localeCompare(b[1].label));
-  }, [lanePeople]);
+  }, [kind, people]);
 
   const filtered = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    return lanePeople
+    return people
+      .filter((person) => kind === "all" || person.kind === kind)
       .filter((person) => statusMatches(person, status))
       .filter((person) => {
-        if (lane !== "people") return true;
         if (batch === "today") return dailyBatchPositions.has(person.stableId);
         if (batch !== "all") return person.kind === "connect" && String(person.batch) === batch;
         return true;
@@ -107,7 +106,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       .filter((person) => tier === "all" || (person.kind === "connect" && person.tier === tier))
       .filter((person) => category === "all" || person.category === category)
       .filter((person) => {
-        if (lane !== "people" || includeUnknown || category === "unknown") return true;
+        if (includeUnknown || category === "unknown") return true;
         return person.kind !== "connect" || person.category !== "unknown";
       })
       .filter((person) => {
@@ -121,20 +120,19 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         ].join(" ").toLowerCase().includes(normalizedQuery);
       })
       .sort((a, b) => {
-        if (lane === "people" && batch === "today") {
+        if (batch === "today") {
           return (dailyBatchPositions.get(a.stableId) ?? Number.MAX_SAFE_INTEGER) -
             (dailyBatchPositions.get(b.stableId) ?? Number.MAX_SAFE_INTEGER);
         }
-        return compareLinkedInPriority(a, b);
+        return (rankedPositions.get(a.stableId) ?? Number.MAX_SAFE_INTEGER) -
+          (rankedPositions.get(b.stableId) ?? Number.MAX_SAFE_INTEGER);
       });
-  }, [batch, category, dailyBatchPositions, includeUnknown, lane, lanePeople, query, status, tier]);
+  }, [batch, category, dailyBatchPositions, includeUnknown, kind, people, query, rankedPositions, status, tier]);
 
   const visible = filtered.slice(0, visibleLimit);
   const grouped = useMemo(() => {
     if (view === "priority") {
-      const label = lane === "people" && batch === "today"
-        ? "today's batch"
-        : lane === "people" ? "people pile" : "event radar";
+      const label = batch === "today" ? "today's batch" : "full pile";
       return [[label, visible]] as Array<[
         string,
         LinkedInOutreachPerson[],
@@ -147,12 +145,14 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       buckets.set(person.category, bucket);
     }
     return [...buckets.values()]
-      .sort((a, b) => compareLinkedInPriority(a[0], b[0]))
+      .sort((a, b) =>
+        (rankedPositions.get(a[0].stableId) ?? Number.MAX_SAFE_INTEGER) -
+        (rankedPositions.get(b[0].stableId) ?? Number.MAX_SAFE_INTEGER))
       .map((bucket) => [titleCase(bucket[0].categoryLabel), bucket] as [
         string,
         LinkedInOutreachPerson[],
       ]);
-  }, [batch, lane, view, visible]);
+  }, [batch, rankedPositions, view, visible]);
 
   useEffect(() => {
     setReady(true);
@@ -166,18 +166,6 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       () => setToast(null),
       next.undo ? 6_000 : 3_000,
     );
-  }
-
-  function resetLane(nextLane: TrackerLane) {
-    setLane(nextLane);
-    setView("priority");
-    setQuery("");
-    setBatch("today");
-    setTier("all");
-    setCategory("all");
-    setStatus("remaining");
-    setIncludeUnknown(false);
-    setVisibleLimit(100);
   }
 
   async function postMutation(path: "action" | "dismiss", body: object) {
@@ -254,7 +242,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       data-connect-total={summary.connects}
       data-follow-total={summary.follows}
       data-organization-total={summary.organizations}
-      data-lane={lane}
+      data-kind={kind}
       data-ready={ready}
     >
       <a className="li-back" href="/">← stanwood.dev</a>
@@ -263,8 +251,8 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         <div className="li-title-wrap">
           <span className="li-title" aria-hidden="true">LI</span>
           <div>
-            <h1>the people pile</h1>
-            <p>knock it down, one human at a time.</p>
+            <h1>the LinkedIn pile</h1>
+            <p>the 50 best next moves, all in one place.</p>
           </div>
         </div>
         <div className="li-rule-sticker">manual clicks only ✋</div>
@@ -272,79 +260,74 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
 
       <section className="li-scoreboard" aria-label="Overall progress">
         <div className="li-score-main">
-          <span>left in the pile</span>
-          <strong>{laneRemaining}</strong>
+          <span>left in the pool</span>
+          <strong>{poolRemaining}</strong>
         </div>
         <div className="li-score-side">
-          <div><strong>{laneReviewed}</strong><span>reviewed</span></div>
-          <div><strong>{laneActioned}</strong><span>{lane === "organization" ? "followed" : "done"}</span></div>
-          <div><strong>{laneDismissed}</strong><span>skipped</span></div>
+          <div><strong>{poolReviewed}</strong><span>reviewed</span></div>
+          <div><strong>{poolActioned}</strong><span>done</span></div>
+          <div><strong>{poolDismissed}</strong><span>skipped</span></div>
         </div>
-        <div className="li-progress" aria-label={`${laneProgress}% of ${lane} lane reviewed`}>
-          <div style={{ width: `${laneProgress}%` }} />
-          <span>{laneProgress}% through this lane</span>
+        <div className="li-progress" aria-label={`${poolProgress}% of the directed pool reviewed`}>
+          <div style={{ width: `${poolProgress}%` }} />
+          <span>{poolProgress}% through the pool</span>
         </div>
       </section>
 
-      <div className="li-lanes" role="tablist" aria-label="Outreach action">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={lane === "people"}
-          className="li-lane li-lane--people"
-          onClick={() => resetLane("people")}
-        >
-          <span className="li-lane-emoji" aria-hidden="true">👋</span>
-          <span><strong>people</strong><small>connect + follow, ranked together</small></span>
-          <b>{summary.connects + summary.follows - unknownCount}</b>
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={lane === "organization"}
-          className="li-lane li-lane--organization"
-          onClick={() => resetLane("organization")}
-        >
-          <span className="li-lane-emoji" aria-hidden="true">📅</span>
-          <span><strong>event radar</strong><small>organizations worth watching</small></span>
-          <b>{summary.organizations}</b>
-        </button>
-      </div>
-
-      <div className="li-lane-rule">
-        {lane === "people"
-          ? batch === "today"
-            ? `today's ${dailyBatchSize} — the best mix of connects + follows at the overnight reset. no refills until tomorrow.`
-            : "connect or follow is marked on every card. current usefulness beats old address-book order."
-          : "organization follows only — local events first. no invitations and no posting."}
+      <div className="li-queue-rule">
+        {batch === "today"
+          ? `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow.`
+          : "every card says connect, follow, or organization. your checks and passes teach the next overnight ranking."}
       </div>
 
       <section className="li-controls" aria-label="Queue filters">
         <label className="li-search">
-          <span>{lane === "organization" ? "find an organization" : "find somebody"}</span>
+          <span>find a person or organization</span>
           <input
+            aria-label="search"
             type="search"
             value={query}
             placeholder="name, org, or reason"
             onChange={(event) => { setQuery(event.target.value); setVisibleLimit(100); }}
           />
         </label>
-        {lane === "people" && (
-          <label>
-            <span>batch</span>
-            <select value={batch} onChange={(event) => { setBatch(event.target.value); setVisibleLimit(100); }}>
-              <option value="today">today · {dailyBatchSize}</option>
-              <option value="all">all batches</option>
-              {Array.from({ length: 11 }, (_, index) => index + 1).map((number) => (
-                <option value={number} key={number}>batch {number}</option>
+        <label>
+          <span>batch</span>
+          <select aria-label="batch" value={batch} onChange={(event) => { setBatch(event.target.value); setVisibleLimit(100); }}>
+            <option value="today">today · {dailyBatchSize}</option>
+            <option value="all">full pool</option>
+            {(kind === "all" || kind === "connect") &&
+              Array.from({ length: 11 }, (_, index) => index + 1).map((number) => (
+                <option value={number} key={number}>connection batch {number}</option>
               ))}
-            </select>
-          </label>
-        )}
-        {lane === "people" && (
+          </select>
+        </label>
+        <label>
+          <span>action</span>
+          <select
+            aria-label="action"
+            value={kind}
+            onChange={(event) => {
+              const nextKind = event.target.value as QueueKind;
+              setKind(nextKind);
+              if ((nextKind === "follow" || nextKind === "organization") && batch !== "today") {
+                setBatch("all");
+              }
+              setTier("all");
+              setCategory("all");
+              setVisibleLimit(100);
+            }}
+          >
+            <option value="all">all three</option>
+            <option value="connect">connections</option>
+            <option value="follow">people follows</option>
+            <option value="organization">organization follows</option>
+          </select>
+        </label>
+        {(kind === "all" || kind === "connect") && (
           <label>
             <span>tier</span>
-            <select value={tier} onChange={(event) => { setTier(event.target.value); setVisibleLimit(100); }}>
+            <select aria-label="tier" value={tier} onChange={(event) => { setTier(event.target.value); setVisibleLimit(100); }}>
               <option value="all">all tiers</option>
               <option value="A">A · highest</option>
               <option value="B">B</option>
@@ -354,7 +337,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         )}
         <label>
           <span>category</span>
-          <select value={category} onChange={(event) => { setCategory(event.target.value); setVisibleLimit(100); }}>
+          <select aria-label="category" value={category} onChange={(event) => { setCategory(event.target.value); setVisibleLimit(100); }}>
             <option value="all">all categories</option>
             {categories.map(([key, value]) => (
               <option value={key} key={key}>{titleCase(value.label)} · {value.count}</option>
@@ -363,7 +346,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         </label>
         <label>
           <span>status</span>
-          <select value={status} onChange={(event) => { setStatus(event.target.value as QueueStatus); setVisibleLimit(100); }}>
+          <select aria-label="status" value={status} onChange={(event) => { setStatus(event.target.value as QueueStatus); setVisibleLimit(100); }}>
             <option value="remaining">still to do</option>
             <option value="actioned">done</option>
             <option value="dismissed">nah pile</option>
@@ -385,7 +368,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
             onClick={() => { setView("category"); setVisibleLimit(100); }}
           >by category</button>
         </div>
-        {lane === "people" && batch !== "today" && (
+        {batch !== "today" && (kind === "all" || kind === "connect") && (
           <label className="li-unknown">
             <input
               type="checkbox"
@@ -396,9 +379,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
           </label>
         )}
         <div className="li-result-count" aria-live="polite">
-          {filtered.length} {lane === "organization"
-            ? filtered.length === 1 ? "organization" : "organizations"
-            : filtered.length === 1 ? "person" : "people"}
+          {filtered.length} {filtered.length === 1 ? "move" : "moves"}
           {filtered.length > visible.length ? ` · showing ${visible.length}` : ""}
         </div>
       </div>
@@ -406,7 +387,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
       <div className="li-results" id="tracker-results">
         {visible.length === 0 ? (
           <div className="li-empty">
-            {lane === "people" && batch === "today" && dailyBatchRemaining === 0 ? (
+            {batch === "today" && dailyBatchRemaining === 0 ? (
               <>
                 <div className="li-empty-title">
                   <span aria-hidden="true">✓</span>
@@ -423,7 +404,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
           </div>
         ) : grouped.map(([label, entries]) => {
           const allInGroup = view === "priority"
-            ? (lane === "people" && batch === "today" ? dailyBatchPeople : filtered)
+            ? (batch === "today" ? dailyBatchPeople : filtered)
             : filtered.filter((person) => person.category === entries[0].category);
           const remaining = allInGroup.filter((person) => !person.actioned && !person.dismissed).length;
           return (
