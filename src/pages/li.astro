@@ -23,8 +23,8 @@ try {
 ---
 
 <BaseLayout
-  title="The people pile — stanwood.dev"
-  description="Private LinkedIn outreach tracker."
+  title="The LinkedIn pile — stanwood.dev"
+  description="Private ranked LinkedIn queue for connections, people follows, and organization follows."
   slug="li"
   favicon="/favicon.svg"
   themeColor="#fffef5"
@@ -60,16 +60,12 @@ try {
       }
 
       .li-page {
-        --li-lane: var(--li-pink);
-        --li-lane-soft: var(--li-pink-soft);
+        --li-accent: var(--li-pink);
+        --li-accent-soft: var(--li-pink-soft);
         width: min(1180px, calc(100% - 32px));
         min-height: 100vh;
         margin: 0 auto;
         padding: 70px 0 110px;
-      }
-      .li-page[data-lane="organization"] {
-        --li-lane: var(--li-gold);
-        --li-lane-soft: var(--li-gold-soft);
       }
       .li-page *, .li-page *::before, .li-page *::after { box-sizing: border-box; }
       .li-page button, .li-page input, .li-page select { font: inherit; }
@@ -94,7 +90,7 @@ try {
         font-weight: 700;
         text-decoration: none;
       }
-      .li-back:hover { text-decoration: underline 3px var(--li-lane); text-underline-offset: 4px; }
+      .li-back:hover { text-decoration: underline 3px var(--li-accent); text-underline-offset: 4px; }
 
       .li-masthead {
         display: flex;
@@ -111,7 +107,7 @@ try {
         place-items: center;
         flex: 0 0 auto;
         border: 3px solid var(--li-ink);
-        background: var(--li-lane);
+        background: var(--li-accent);
         box-shadow: 6px 6px 0 var(--li-ink);
         font-family: "Rubik Mono One", sans-serif;
         font-size: 48px;
@@ -159,7 +155,7 @@ try {
         align-items: center;
         gap: 18px;
         border-right: 3px solid var(--li-ink);
-        background: var(--li-lane);
+        background: var(--li-accent);
         padding: 22px 24px 31px;
         transition: background 150ms ease;
       }
@@ -211,43 +207,16 @@ try {
         text-transform: uppercase;
       }
 
-      .li-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-      .li-lane {
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr) auto;
-        align-items: center;
-        gap: 14px;
-        min-height: 94px;
-        border: 3px solid var(--li-ink);
-        background: var(--li-white);
-        color: var(--li-ink);
-        cursor: pointer;
-        padding: 15px 18px;
-        text-align: left;
-        transition: transform 100ms ease, box-shadow 100ms ease, background 100ms ease;
-      }
-      .li-lane--people { --button-color: var(--li-pink); }
-      .li-lane--organization { --button-color: var(--li-gold); }
-      .li-lane[aria-selected="true"] {
-        background: var(--button-color);
-        box-shadow: 6px 6px 0 var(--li-ink);
-        transform: translate(-2px, -2px) rotate(-0.25deg);
-      }
-      .li-lane:hover { box-shadow: 5px 5px 0 var(--li-ink); transform: translate(-1px, -1px); }
-      .li-lane-emoji { font-size: 31px; }
-      .li-lane strong { display: block; font: 24px/1 "Permanent Marker", cursive; }
-      .li-lane small { display: block; margin-top: 6px; color: var(--li-ink); font: 700 10px "Space Mono", monospace; }
-      .li-lane b { font-family: "Rubik Mono One", sans-serif; font-size: clamp(20px, 3vw, 32px); }
-      .li-lane-rule {
-        margin: 13px 2px 21px;
+      .li-queue-rule {
+        margin: 3px 2px 21px;
         font: 700 10px/1.5 "Space Mono", monospace;
         text-align: center;
       }
-      .li-lane-rule::before { content: "↳ "; color: var(--li-lane); font-size: 18px; }
+      .li-queue-rule::before { content: "↳ "; color: var(--li-accent); font-size: 18px; }
 
       .li-controls {
         display: grid;
-        grid-template-columns: minmax(210px, 1.5fr) repeat(4, minmax(125px, 0.75fr));
+        grid-template-columns: minmax(210px, 1.5fr) repeat(5, minmax(115px, 0.75fr));
         gap: 10px;
         border: 3px solid var(--li-ink);
         background: var(--li-white);
@@ -273,7 +242,7 @@ try {
         padding: 7px 9px;
         font-size: 12px;
       }
-      .li-controls input:focus, .li-controls select:focus { background: var(--li-lane-soft); }
+      .li-controls input:focus, .li-controls select:focus { background: var(--li-accent-soft); }
 
       .li-viewbar {
         display: flex;
@@ -292,7 +261,7 @@ try {
         padding: 6px 10px;
         font: 700 10px "Space Mono", monospace;
       }
-      .li-view-toggle button[aria-pressed="true"] { background: var(--li-lane); }
+      .li-view-toggle button[aria-pressed="true"] { background: var(--li-accent); }
       .li-unknown {
         display: inline-flex;
         align-items: center;
@@ -301,7 +270,7 @@ try {
         cursor: pointer;
         font: 700 10px "Space Mono", monospace;
       }
-      .li-unknown input { width: 20px; height: 20px; accent-color: var(--li-lane); }
+      .li-unknown input { width: 20px; height: 20px; accent-color: var(--li-accent); }
       .li-result-count { margin-left: auto; color: var(--li-muted); font: 700 10px "Space Mono", monospace; }
 
       .li-group { margin-top: 24px; }
@@ -486,7 +455,7 @@ try {
         padding: 8px 14px;
         font: 700 11px "Space Mono", monospace;
       }
-      .li-more:hover { background: var(--li-lane); transform: translate(-1px, -1px); }
+      .li-more:hover { background: var(--li-accent); transform: translate(-1px, -1px); }
       .li-toast {
         display: flex;
         align-items: center;
@@ -536,8 +505,6 @@ try {
         .li-scoreboard { grid-template-columns: 1fr; }
         .li-score-main { justify-content: center; border-right: 0; border-bottom: 3px solid var(--li-ink); }
         .li-score-side div { min-height: 82px; }
-        .li-lanes { grid-template-columns: 1fr; }
-        .li-lane { min-height: 77px; }
         .li-controls { grid-template-columns: 1fr 1fr; }
         .li-search { grid-column: 1 / -1; }
         .li-person { grid-template-columns: minmax(0, 1fr); }

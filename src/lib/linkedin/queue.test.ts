@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   compareLinkedInPriority,
   nextLinkedInDailyBatch,
+  rankLinkedInOutreach,
   summarizeLinkedInOutreach,
 } from "./queue";
 import type { LinkedInOutreachPerson } from "./types";
@@ -48,7 +49,7 @@ describe("LinkedIn priority queue", () => {
     expect(sorted).toEqual(["b1a", "b1c", "b2a"]);
   });
 
-  it("selects known, unfinished people across connect and follow kinds", () => {
+  it("selects known, unfinished candidates across every action kind", () => {
     const people = [
       person("done", 1, "A", { actioned: true }),
       person("dismissed", 1, "B", { dismissed: true }),
@@ -56,15 +57,22 @@ describe("LinkedIn priority queue", () => {
       person("later", 2, "A"),
       person("next", 1, "C"),
       person("follow", 99, "C", { kind: "follow", batch: null, tier: null, sourceOrder: 1 }),
+      person("organization", 99, "C", {
+        kind: "organization",
+        batch: null,
+        tier: null,
+        sourceOrder: 1,
+      }),
     ];
     expect(nextLinkedInDailyBatch(people).map((entry) => entry.stableId)).toEqual([
       "follow",
+      "organization",
       "next",
       "later",
     ]);
   });
 
-  it("builds a 50-person mixed batch with ten connects when both pools are available", () => {
+  it("builds one 50-item batch from the highest learned priorities without kind quotas", () => {
     const connects = Array.from({ length: 30 }, (_, index) =>
       person(`connect-${index}`, Math.floor(index / 10) + 1, "A", { category: "dc-network" }));
     const follows = Array.from({ length: 60 }, (_, index) =>
@@ -74,12 +82,20 @@ describe("LinkedIn priority queue", () => {
         tier: null,
         sourceOrder: index + 1,
       }));
-    const people = [...connects, ...follows];
+    const organizations = Array.from({ length: 60 }, (_, index) =>
+      person(`organization-${index}`, 99, "C", {
+        kind: "organization",
+        batch: null,
+        tier: null,
+        sourceOrder: 10_000 + index,
+      }));
+    const people = [...connects, ...follows, ...organizations];
     const selected = nextLinkedInDailyBatch(people);
     expect(selected).toHaveLength(50);
-    expect(selected.filter((entry) => entry.kind === "connect")).toHaveLength(10);
-    expect(selected.filter((entry) => entry.kind === "follow")).toHaveLength(40);
-    expect(people[0].stableId).toBe("connect-0");
+    expect(selected.some((entry) => entry.kind === "connect")).toBe(true);
+    expect(selected.some((entry) => entry.kind === "follow")).toBe(true);
+    expect(selected.some((entry) => entry.kind === "organization")).toBe(true);
+    expect(selected).toEqual(rankLinkedInOutreach(people).slice(0, 50));
   });
 
   it("deprioritizes stale Chicago categories and learns from repeated passes", () => {
@@ -89,6 +105,38 @@ describe("LinkedIn priority queue", () => {
       person(`pass-${index}`, 1, "A", { category: "city-year", dismissed: true }));
     const selected = nextLinkedInDailyBatch([chicago, current, ...passes], 1);
     expect(selected[0].stableId).toBe("current");
+  });
+
+  it("learns both action-kind and category preferences from reviewed cards", () => {
+    const connect = person("connect", 1, "A", { category: "neutral-connect" });
+    const organization = person("organization", 99, "C", {
+      kind: "organization",
+      batch: null,
+      tier: null,
+      category: "local-public-sector",
+      sourceOrder: 10_020,
+    });
+    const organizationYeses = Array.from({ length: 12 }, (_, index) =>
+      person(`org-yes-${index}`, 99, "C", {
+        kind: "organization",
+        batch: null,
+        tier: null,
+        category: "local-public-sector",
+        sourceOrder: 10_100 + index,
+        actioned: true,
+      }));
+    const connectPasses = Array.from({ length: 12 }, (_, index) =>
+      person(`connect-pass-${index}`, 1, "A", {
+        category: "neutral-connect",
+        dismissed: true,
+      }));
+
+    expect(nextLinkedInDailyBatch([
+      connect,
+      organization,
+      ...organizationYeses,
+      ...connectPasses,
+    ], 1)[0].stableId).toBe("organization");
   });
 
   it("counts actioned and dismissed people once", () => {
