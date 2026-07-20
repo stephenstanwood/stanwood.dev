@@ -8,11 +8,27 @@
     "url": "https://www.kimi.com/blog/kimi-k3"
   },
   {
+    "name": "Gemini Notebook",
+    "org": "Google",
+    "date": "2026-07-16",
+    "type": "tool",
+    "summary": "Analyze notebooks grounded in your sources with a secure cloud computer that can write and run code. It is live for AI Ultra and eligible Workspace users, with Pro web access rolling out soon.",
+    "url": "https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/"
+  },
+  {
+    "name": "Gemini Omni in Vids",
+    "org": "Google",
+    "date": "2026-07-16",
+    "type": "tool",
+    "summary": "Create short videos that can include your own verified avatar, reference images, background swaps, and lighting fixes. It is available in Vids for Google AI Pro, Ultra, and eligible Workspace users.",
+    "url": "https://blog.google/products-and-platforms/products/workspace/gemini-omni-personal-avatars/"
+  },
+  {
     "name": "Inkling",
     "org": "Thinking Machines Lab",
     "date": "2026-07-15",
     "type": "model",
-    "summary": "Fine-tune or download a 975B open-weight multimodal model under Apache 2.0, with a lighter Inkling-Small preview for cheaper experiments. Tinker handles customization when local hardware is unrealistic.",
+    "summary": "Fine-tune or download a 975B open-weight multimodal model with a lighter Inkling-Small preview for cheaper experiments. Tinker handles customization when local hardware is unrealistic.",
     "url": "https://thinkingmachines.ai/news/introducing-inkling/"
   },
   {
@@ -20,7 +36,7 @@
     "org": "OpenAI",
     "date": "2026-07-09",
     "type": "model",
-    "summary": "Build with Sol, Terra, or Luna in ChatGPT, Codex, and the API. The cheaper tiers make agentic apps and Codex runs more affordable, and ChatGPT Work can carry longer projects across files and apps.",
+    "summary": "Build with Sol, Terra, or Luna in ChatGPT, Codex, and the API. Lower-cost tiers make agentic app builds and long Codex runs more affordable, while ChatGPT Work carries projects across files and apps.",
     "url": "https://openai.com/index/gpt-5-6/"
   },
   {
@@ -28,32 +44,16 @@
     "org": "Meta",
     "date": "2026-07-09",
     "type": "model",
-    "summary": "Try a multimodal agent model through Meta Model API public preview or Meta AI's Thinking mode. It is aimed at coding, computer use, long-context tool work, and visual-to-code workflows.",
+    "summary": "Build coding, computer-use, and visual-to-code agents against Meta's public Model API preview. It can use tools, MCP servers, subagents, and a 1M-token context window.",
     "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/"
   },
   {
-    "name": "Grok 4.5",
-    "org": "xAI",
+    "name": "GPT-Live",
+    "org": "OpenAI",
     "date": "2026-07-08",
     "type": "model",
-    "summary": "Wire a coding and agent model into Cursor, Grok Build, Vercel, OpenRouter, or the xAI API at $2 per million input tokens. Useful when cost matters more than absolute frontier quality.",
-    "url": "https://x.ai/news/grok-4-5"
-  },
-  {
-    "name": "Video Remix",
-    "org": "Google Photos",
-    "date": "2026-07-08",
-    "type": "tool",
-    "summary": "Remix clips from your phone library by describing relighting, background swaps, or visual styles. It is rolling out in Google Photos for Google AI Plus, Pro, and Ultra subscribers in select countries.",
-    "url": "https://techcrunch.com/2026/07/08/google-photos-adds-a-new-ai-video-remix-tool/"
-  },
-  {
-    "name": "Muse Image",
-    "org": "Meta",
-    "date": "2026-07-07",
-    "type": "model",
-    "summary": "Create and edit images in Meta AI, Instagram Stories, and WhatsApp with presets, sketch edits, multi-reference composition, and web-grounded planning. The public-account tagging feature was pulled after backlash.",
-    "url": "https://about.fb.com/news/2026/07/introducing-muse-image-meta-ai/"
+    "summary": "Talk through ideas, support flows, or language practice in a more natural ChatGPT Voice. It listens and speaks at the same time, with Free through Pro rollout live and API access planned.",
+    "url": "https://openai.com/index/introducing-gpt-live/"
   },
   {
     "name": "Claude Cowork on web & mobile",
