@@ -23,6 +23,7 @@ export default function RideFinder() {
       <div className="dl-city-select-wrap">
         <select
           className="dl-city-select"
+          aria-label="Select a city to check driverless ride availability"
           value={selectedCity}
           onChange={(e) => setSelectedCity(e.target.value)}
         >
