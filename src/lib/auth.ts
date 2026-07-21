@@ -19,3 +19,20 @@ export function timingSafeEqual(a: string, b: string): boolean {
   }
   return diff === 0;
 }
+
+/**
+ * Check a submitted login password against the configured one and return the session
+ * token (the expected password's hash) on success, or null on any failure.
+ * Compares hashes rather than raw strings so the check is constant-time.
+ */
+export async function verifySessionPassword(
+  submitted: unknown,
+  expected: string | undefined,
+): Promise<string | null> {
+  if (typeof submitted !== "string" || !submitted || !expected) return null;
+  const [submittedHash, expectedHash] = await Promise.all([
+    hashPassword(submitted),
+    hashPassword(expected),
+  ]);
+  return timingSafeEqual(submittedHash, expectedHash) ? expectedHash : null;
+}

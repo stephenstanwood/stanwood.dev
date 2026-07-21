@@ -32,6 +32,26 @@ function statusMatches(person: LinkedInOutreachPerson, status: QueueStatus): boo
   return true;
 }
 
+/** The two per-person booleans the tracker can toggle. */
+type PersonFlag = "actioned" | "dismissed";
+
+const FLAG_ENDPOINT: Record<PersonFlag, "action" | "dismiss"> = {
+  actioned: "action",
+  dismissed: "dismiss",
+};
+
+function flagMessage(
+  flag: PersonFlag,
+  person: LinkedInOutreachPerson,
+  value: boolean,
+): string {
+  if (flag === "dismissed") {
+    return value ? "skipped / couldn't find. filed away." : "restored to the pile.";
+  }
+  if (!value) return "back in the queue.";
+  return person.kind === "connect" ? "connected. nice." : "followed. radar tuned.";
+}
+
 export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Props) {
   const [people, setPeople] = useState(initialPeople);
   const [view, setView] = useState<QueueView>("priority");
@@ -181,49 +201,35 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
     }
   }
 
-  async function setActioned(
+  /** Optimistically flip `actioned` or `dismissed`, then persist; roll back if the save fails. */
+  async function setFlag(
+    flag: PersonFlag,
     person: LinkedInOutreachPerson,
     value: boolean,
     allowUndo = true,
   ) {
-    const previous = person.actioned;
-    setPeople((current) => current.map((entry) =>
-      entry.stableId === person.stableId ? { ...entry, actioned: value } : entry));
+    const previous = person[flag];
+    const applyLocally = (next: boolean) =>
+      setPeople((current) => current.map((entry) =>
+        entry.stableId === person.stableId ? { ...entry, [flag]: next } : entry));
+
+    applyLocally(value);
     try {
-      await postMutation("action", { id: person.stableId, actioned: value });
+      await postMutation(FLAG_ENDPOINT[flag], { id: person.stableId, [flag]: value });
       announce({
-        message: value
-          ? person.kind === "connect" ? "connected. nice." : "followed. radar tuned."
-          : "back in the queue.",
-        undo: allowUndo ? () => void setActioned(person, previous, false) : undefined,
+        message: flagMessage(flag, person, value),
+        undo: allowUndo ? () => void setFlag(flag, person, previous, false) : undefined,
       });
     } catch (error) {
-      setPeople((current) => current.map((entry) =>
-        entry.stableId === person.stableId ? { ...entry, actioned: previous } : entry));
+      applyLocally(previous);
       announce({ message: error instanceof Error ? error.message : "couldn't save that." });
     }
   }
 
-  async function setDismissed(
-    person: LinkedInOutreachPerson,
-    value: boolean,
-    allowUndo = true,
-  ) {
-    const previous = person.dismissed;
-    setPeople((current) => current.map((entry) =>
-      entry.stableId === person.stableId ? { ...entry, dismissed: value } : entry));
-    try {
-      await postMutation("dismiss", { id: person.stableId, dismissed: value });
-      announce({
-        message: value ? "skipped / couldn't find. filed away." : "restored to the pile.",
-        undo: allowUndo ? () => void setDismissed(person, previous, false) : undefined,
-      });
-    } catch (error) {
-      setPeople((current) => current.map((entry) =>
-        entry.stableId === person.stableId ? { ...entry, dismissed: previous } : entry));
-      announce({ message: error instanceof Error ? error.message : "couldn't save that." });
-    }
-  }
+  const setActioned = (person: LinkedInOutreachPerson, value: boolean) =>
+    setFlag("actioned", person, value);
+  const setDismissed = (person: LinkedInOutreachPerson, value: boolean) =>
+    setFlag("dismissed", person, value);
 
   async function copyNote(note: string) {
     try {

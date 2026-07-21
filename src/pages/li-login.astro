@@ -1,5 +1,5 @@
 ---
-import { hashPassword, timingSafeEqual } from "../lib/auth";
+import { verifySessionPassword } from "../lib/auth";
 
 export const prerender = false;
 
@@ -8,25 +8,19 @@ let missingPassword = false;
 
 if (Astro.request.method === "POST") {
   const form = await Astro.request.formData();
-  const submitted = form.get("password");
   const expected = import.meta.env.LI_PASSWORD || process.env.LI_PASSWORD;
   missingPassword = !expected;
 
-  if (typeof submitted === "string" && submitted && expected) {
-    const [submittedHash, expectedHash] = await Promise.all([
-      hashPassword(submitted),
-      hashPassword(expected),
-    ]);
-    if (timingSafeEqual(submittedHash, expectedHash)) {
-      return new Response(null, {
-        status: 303,
-        headers: {
-          Location: "/li",
-          "Set-Cookie": `li_session=${expectedHash}; Path=/; HttpOnly${Astro.url.protocol === "https:" ? "; Secure" : ""}; SameSite=Strict; Max-Age=2592000`,
-          "Cache-Control": "no-store",
-        },
-      });
-    }
+  const sessionToken = await verifySessionPassword(form.get("password"), expected);
+  if (sessionToken) {
+    return new Response(null, {
+      status: 303,
+      headers: {
+        Location: "/li",
+        "Set-Cookie": `li_session=${sessionToken}; Path=/; HttpOnly${Astro.url.protocol === "https:" ? "; Secure" : ""}; SameSite=Strict; Max-Age=2592000`,
+        "Cache-Control": "no-store",
+      },
+    });
   }
   error = !missingPassword;
 }
