@@ -25,12 +25,11 @@ const HISTORY_KEY = "laplab_history";
 const HISTORY_MAX = 5;
 
 function loadHistory(): HistoryEntry[] {
-  if (typeof localStorage === "undefined") return [];
   return safeGet<HistoryEntry[]>(HISTORY_KEY) ?? [];
 }
 
 function saveToHistory(entry: HistoryEntry) {
-  const existing = loadHistory().filter((e) => e.seed !== entry.seed);
+  const existing = loadHistory().filter((past) => past.seed !== entry.seed);
   const updated = [entry, ...existing].slice(0, HISTORY_MAX);
   safeSet(HISTORY_KEY, updated);
 }

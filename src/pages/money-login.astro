@@ -1,5 +1,5 @@
 ---
-import { hashPassword, timingSafeEqual } from '../lib/auth';
+import { verifySessionPassword } from '../lib/auth';
 
 export const prerender = false;
 
@@ -7,24 +7,21 @@ let error = false;
 
 if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
-  const password = form.get('password') as string | null;
   const expected = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
 
-  if (password && expected) {
-    // Compare hashes in constant time — `password === expected` would be timing-leaky.
-    const [submittedHash, expectedHash] = await Promise.all([
-      hashPassword(password),
-      hashPassword(expected),
-    ]);
-    if (timingSafeEqual(submittedHash, expectedHash)) {
-      return new Response(null, {
-        status: 302,
-        headers: {
-          'Location': '/money',
-          'Set-Cookie': `money_session=${expectedHash}; Path=/; HttpOnly; Secure; SameSite=Strict`,
-        },
-      });
-    }
+  // CLEANUP-FLAG: this cookie diverges from /li-login's — it hardcodes `Secure`
+  // (so login can't complete over plain-http local dev) and omits Max-Age, making
+  // it a session cookie. Worth reconciling with li_session, but that changes
+  // login persistence so it isn't a mechanical cleanup.
+  const sessionToken = await verifySessionPassword(form.get('password'), expected);
+  if (sessionToken) {
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': '/money',
+        'Set-Cookie': `money_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+      },
+    });
   }
   error = true;
 }
