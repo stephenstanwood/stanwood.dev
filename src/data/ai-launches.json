@@ -1,11 +1,27 @@
 [
   {
+    "name": "Project Indigo AI playground",
+    "org": "Adobe",
+    "date": "2026-07-20",
+    "type": "tool",
+    "summary": "Get an LLM critique of your photos and pull clutter out of shots — background people, wires, poles, trash cans, or anything you describe. It lives in a free iOS camera app, still test-phase for select users.",
+    "url": "https://techcrunch.com/2026/07/20/adobe-camera-apps-new-feature-will-critique-your-photos-using-ai/"
+  },
+  {
     "name": "Kimi K3",
     "org": "Moonshot AI",
     "date": "2026-07-16",
     "type": "model",
     "summary": "Use a 2.8T multimodal coding model today through Kimi.com, Kimi Work, Kimi Code, or the API. It has a 1M-token context window, with downloadable weights promised by July 27.",
     "url": "https://www.kimi.com/blog/kimi-k3"
+  },
+  {
+    "name": "dd-cli",
+    "org": "DoorDash",
+    "date": "2026-07-16",
+    "type": "tool",
+    "summary": "Search stores, build carts, and check out from your terminal, or hand the whole thing to an agent. The beta is waitlisted for US and Canada macOS developers and turns food ordering into a scriptable building block.",
+    "url": "https://techcrunch.com/2026/07/16/yes-you-can-now-order-doordash-from-the-command-line/"
   },
   {
     "name": "Gemini Notebook",
@@ -24,6 +40,14 @@
     "url": "https://blog.google/products-and-platforms/products/workspace/gemini-omni-personal-avatars/"
   },
   {
+    "name": "Codex Micro",
+    "org": "OpenAI",
+    "date": "2026-07-15",
+    "type": "tool",
+    "summary": "Run a fleet of coding agents from a $230 limited-run desk keyboard. Light-up keys show agent status, a joystick launches workflows, and a dial sets how hard an agent thinks. It pairs with the ChatGPT desktop app.",
+    "url": "https://techcrunch.com/2026/07/15/amid-hardware-legal-battle-openai-releases-a-230-keyboard-for-codex/"
+  },
+  {
     "name": "Inkling",
     "org": "Thinking Machines Lab",
     "date": "2026-07-15",
@@ -38,29 +62,5 @@
     "type": "model",
     "summary": "Build with Sol, Terra, or Luna in ChatGPT, Codex, and the API. Lower-cost tiers make agentic app builds and long Codex runs more affordable, while ChatGPT Work carries projects across files and apps.",
     "url": "https://openai.com/index/gpt-5-6/"
-  },
-  {
-    "name": "Muse Spark 1.1",
-    "org": "Meta",
-    "date": "2026-07-09",
-    "type": "model",
-    "summary": "Build coding, computer-use, and visual-to-code agents against Meta's public Model API preview. It can use tools, MCP servers, subagents, and a 1M-token context window.",
-    "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/"
-  },
-  {
-    "name": "GPT-Live",
-    "org": "OpenAI",
-    "date": "2026-07-08",
-    "type": "model",
-    "summary": "Talk through ideas, support flows, or language practice in a more natural ChatGPT Voice. It listens and speaks at the same time, with Free through Pro rollout live and API access planned.",
-    "url": "https://openai.com/index/introducing-gpt-live/"
-  },
-  {
-    "name": "Claude Cowork on web & mobile",
-    "org": "Anthropic",
-    "date": "2026-07-07",
-    "type": "tool",
-    "summary": "Start a background Claude task on web or mobile, then let it keep running in Anthropic's cloud while your laptop is closed. Beta starts with Max users, with more plans to follow.",
-    "url": "https://claude.com/blog/cowork-web-mobile"
   }
 ]
