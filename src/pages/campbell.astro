@@ -483,10 +483,20 @@ const photoStories = [
       }
       @media (max-width: 340px) {
         .cb-photo-story-grid {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
         .cb-story-card img {
-          height: 10rem;
+          height: 6.8rem;
+        }
+        .cb-story-body {
+          min-height: 6.45rem;
+        }
+        .cb-story-card h2 {
+          max-width: 7rem;
+          font-size: 1.08rem;
+        }
+        .cb-story-card p {
+          font-size: 0.66rem;
         }
       }
       @media (prefers-reduced-motion: reduce) {
