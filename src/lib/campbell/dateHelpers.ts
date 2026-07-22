@@ -34,8 +34,12 @@ const MONTHS: Record<string, number> = {
   december: 12,
 };
 
+/** Pull one `formatToParts` entry out by type, or undefined if absent. */
+export const datePart = (parts: Intl.DateTimeFormatPart[], type: string) =>
+  parts.find((item) => item.type === type)?.value;
+
 const numericPart = (parts: Intl.DateTimeFormatPart[], type: string) =>
-  Number(parts.find((item) => item.type === type)?.value);
+  Number(datePart(parts, type));
 
 function campbellDateParts(value: Date) {
   const parts = new Intl.DateTimeFormat("en-US", {

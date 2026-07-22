@@ -17,24 +17,24 @@ interface PrivateGate {
 
 const privateGates: PrivateGate[] = [
   {
-    prefixes: ['/money', '/api/money'],
-    loginPath: '/money-login',
-    cookieName: 'money_session',
+    prefixes: ["/money", "/api/money"],
+    loginPath: "/money-login",
+    cookieName: "money_session",
     password: import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD,
-    missingMessage: 'MONEY_PASSWORD not configured',
+    missingMessage: "MONEY_PASSWORD not configured",
   },
   {
-    prefixes: ['/li', '/api/li'],
-    loginPath: '/li-login',
-    cookieName: 'li_session',
+    prefixes: ["/li", "/api/li"],
+    loginPath: "/li-login",
+    cookieName: "li_session",
     password: import.meta.env.LI_PASSWORD || process.env.LI_PASSWORD,
-    missingMessage: 'LI_PASSWORD not configured',
+    missingMessage: "LI_PASSWORD not configured",
   },
 ];
 
 function gateForPath(pathname: string): PrivateGate | undefined {
   return privateGates.find((gate) =>
-    gate.prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + '/')),
+    gate.prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/")),
   );
 }
 
@@ -69,15 +69,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
 
     const expectedToken = await expectedTokenPromise;
-    const cookies = context.request.headers.get('cookie') || '';
+    const cookies = context.request.headers.get("cookie") || "";
     const match = cookies
-      .split(';')
+      .split(";")
       .find((cookie) => cookie.trim().startsWith(`${gate.cookieName}=`));
-    const token = match ? match.split('=')[1].trim() : null;
+    const token = match ? match.split("=")[1].trim() : null;
 
     if (!token || !timingSafeEqual(token, expectedToken)) {
-      if (url.pathname.startsWith('/api/')) {
-        return new Response('Unauthorized', { status: 401 });
+      if (url.pathname.startsWith("/api/")) {
+        return new Response("Unauthorized", { status: 401 });
       }
       return Response.redirect(new URL(gate.loginPath, url.origin), 302);
     }
