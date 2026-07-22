@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T09:24:14.263Z",
+  "generatedAt": "2026-07-22T03:21:12.420Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
@@ -35,8 +35,8 @@
     {
       "label": "Campbell Chamber Events",
       "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
-      "count": 28,
-      "parsedCount": 28
+      "count": 30,
+      "parsedCount": 30
     },
     {
       "label": "Campbell Union School District Events",
@@ -73,32 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Music & Movement Storytime",
-      "date": "Jul 21st | 10:30am - 11:00am",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/69fbb43b8e677a28001a5af0",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-21T10:30:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
-      "title": "Goodnight, Little Storytime",
-      "date": "Jul 21st | 6:30pm - 7:00pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a0606d6278f7c2f008d2816",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-21T18:30:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Historic Preservation Board meeting",
@@ -145,6 +119,32 @@
       ]
     },
     {
+      "title": "Summer 2026 Plant a Seed, Read: Mike Della Penna Magic",
+      "date": "Jul 22nd | 4:00pm - 5:00pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/69d6a8d12866a5b488474e66",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-22T16:00:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
+      "title": "Baby Lapsit for Ages 0 - 18 Months",
+      "date": "Jul 23rd | 10:30am - 11:30am",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/6a062eec43b41b3d00668938",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-23T10:30:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
+    },
+    {
       "title": "Summer Concert Series - San Benito County Line",
       "date": "July 23, 2026, 6:30 PM - 8:00 PM",
       "cost": "free",
@@ -166,7 +166,7 @@
       "date": "July 24, 2026, 6:00 PM - 9:00 PM",
       "cost": "$25",
       "location": "Campbell Historical Museum",
-      "description": "Experience this adults-only social night featuring wine, mocktails, and a rare look at artifacts usually kept behind the scenes. Mix and mingle with fellow history enthusiasts as you test your knowledge with Valley trivia, get creative, and visit our Museum Mystic Tarot Card Read",
+      "description": "SOLD OUT",
       "url": "https://www.campbellca.gov/Calendar.aspx?EID=3991&month=7&year=2026&day=24&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/0845a5_404af5531d30412c8eb11f6da7c691d3~mv2.png",
       "category": "Recreation & Community Services",
@@ -1277,29 +1277,45 @@
     },
     {
       "title": "31st Annual Campbell Oktoberfest",
-      "date": "10/17/26",
+      "date": "Saturday Oct 17, 2026",
       "cost": "Free",
       "location": "Downtown Campbell",
       "description": "Along the streets of downtown, festival-goers will enjoy browsing the 100+ arts & crafts booths, sampling a variety of sweet and savory dishes, sipping wine and beer, and listening to some of the best local bands in the Bay Area.",
-      "url": "https://www.downtowncampbell.com/event/31st-annual-campbell-oktoberfest",
+      "url": "https://business.campbellchamber.net/events/details/31st-annual-campbell-oktoberfest-16544",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/downtowncampbell-campbelloktoberfest-feb26-5219.jpg?itok=A3mb5yBm",
-      "category": "Downtown",
-      "startDate": "2026-10-17T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
+      "category": "Chamber",
+      "startDate": "2026-10-17T10:00",
+      "endDate": "2026-10-17T18:00",
+      "source": "Campbell Chamber Events + Downtown Campbell Events",
+      "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
+      "topics": [
+        "Festivals & Celebrations",
+        "Chamber Events"
+      ],
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "31st Annual Campbell Oktoberfest",
-      "date": "10/18/26",
+      "date": "Sunday Oct 18, 2026",
       "cost": "Free",
       "location": "Downtown Campbell",
       "description": "",
-      "url": "https://www.downtowncampbell.com/event/31st-annual-campbell-oktoberfest",
+      "url": "https://business.campbellchamber.net/events/details/31st-annual-campbell-oktoberfest-16545",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/downtowncampbell-campbelloktoberfest-feb26-5219.jpg?itok=mxbFUXZ2",
-      "category": "Downtown",
-      "startDate": "2026-10-18T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
+      "category": "Chamber",
+      "startDate": "2026-10-18T10:00",
+      "endDate": "2026-10-18T17:00",
+      "source": "Campbell Chamber Events + Downtown Campbell Events",
+      "sourceUrl": "https://business.campbellchamber.net/events/search?Lookahead=360",
+      "topics": [
+        "Festivals & Celebrations",
+        "Chamber Events"
+      ],
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "ACLS Classes in Campbell",
