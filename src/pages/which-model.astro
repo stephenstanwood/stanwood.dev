@@ -277,6 +277,12 @@ const directoryModels = [...MODELS].sort((a, b) => {
         line-height: 1.55;
       }
 
+      .wm-directory-sub a {
+        color: var(--wm-coral);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
       .wm-directory-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -475,31 +481,6 @@ const directoryModels = [...MODELS].sort((a, b) => {
       }
       .wm-dir-count strong {
         color: var(--wm-ink);
-        font-weight: 700;
-      }
-      .wm-shift {
-        border: 2px solid var(--wm-ink, #111);
-        background: #fff;
-        padding: 16px 18px;
-        margin: 0 0 22px;
-      }
-      .wm-shift-title {
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        margin: 0 0 10px;
-        color: var(--wm-ink, #111);
-      }
-      .wm-shift-foot {
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        margin: 0;
-        color: var(--wm-muted, #6b6b6b);
-      }
-      .wm-shift-foot a {
-        color: inherit;
         font-weight: 700;
       }
 
@@ -1076,18 +1057,14 @@ const directoryModels = [...MODELS].sort((a, b) => {
       </h2>
       <p class="wm-directory-sub">
         A deliberately stable snapshot as of April 2026. The labels are family-level on purpose:
-        exact release names move faster than this page should.
+        exact release names move faster than this page should. For what landed this week, see
+        <a href="/radar">AI Radar →</a>
       </p>
     </div>
 
     <p class="wm-dir-count">
       Showing <strong>{directoryModels.length}</strong> models, sorted by their strongest practical signal.
     </p>
-
-    <aside class="wm-shift" aria-label="Keeping this current">
-      <p class="wm-shift-title">This snapshot moves slowly on purpose</p>
-      <p class="wm-shift-foot">New models and price cuts land almost daily — see <a href="/radar">AI Radar →</a> for what's fresh.</p>
-    </aside>
 
     <div class="wm-directory-grid">
       {directoryModels.map((model, idx) => {
