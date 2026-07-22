@@ -220,9 +220,9 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         message: flagMessage(flag, person, value),
         undo: allowUndo ? () => void setFlag(flag, person, previous, false) : undefined,
       });
-    } catch (error) {
+    } catch (err) {
       applyLocally(previous);
-      announce({ message: error instanceof Error ? error.message : "couldn't save that." });
+      announce({ message: err instanceof Error ? err.message : "couldn't save that." });
     }
   }
 

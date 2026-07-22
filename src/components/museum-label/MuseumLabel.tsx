@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { MUSEUM_STYLES, type MuseumLabel as MuseumLabelType } from "../../lib/museumPrompt";
 import { slugify } from "../../lib/slug";
+import { useCopyToClipboard } from "../../hooks/useCopyToClipboard";
 
 type Phase = "upload" | "loading" | "result";
 
@@ -29,7 +30,7 @@ export default function MuseumLabel() {
   const [label, setLabel] = useState<MuseumLabelType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyToClipboard();
   const [downloaded, setDownloaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -93,16 +94,14 @@ export default function MuseumLabel() {
     setPreview(null);
     setLabel(null);
     setError(null);
-    setCopied(false);
     if (fileRef.current) fileRef.current.value = "";
   };
 
   const copyText = () => {
     if (!label) return;
-    const text = `${label.title}\n${label.artist}\n\n${label.period}\n${label.materials}\n${label.dimensions}\n\n${label.description}\n\n${label.accession}`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    void copy(
+      `${label.title}\n${label.artist}\n\n${label.period}\n${label.materials}\n${label.dimensions}\n\n${label.description}\n\n${label.accession}`,
+    );
   };
 
   const downloadImage = async () => {

@@ -2,6 +2,7 @@ import {
   CAMPBELL_TIME_ZONE,
   DAY_MS,
   addCampbellDays,
+  datePart,
   endOfDay,
   parseCampbellDate,
   startOfDay,
@@ -54,10 +55,9 @@ function campbellClockParts(value: Date) {
     hour: "2-digit",
     minute: "2-digit",
   }).formatToParts(value);
-  const part = (type: string) => parts.find((item) => item.type === type)?.value ?? "0";
   return {
-    hour: Number(part("hour")),
-    minute: Number(part("minute")),
+    hour: Number(datePart(parts, "hour") ?? "0"),
+    minute: Number(datePart(parts, "minute") ?? "0"),
   };
 }
 
@@ -83,9 +83,9 @@ function formatEventTime(value: Date) {
     hour: "numeric",
     minute: displayMinute === 0 ? undefined : "2-digit",
   }).formatToParts(value);
-  const hour = parts.find((item) => item.type === "hour")?.value ?? "";
-  const minute = parts.find((item) => item.type === "minute")?.value ?? "";
-  const dayPeriod = parts.find((item) => item.type === "dayPeriod")?.value ?? "";
+  const hour = datePart(parts, "hour") ?? "";
+  const minute = datePart(parts, "minute") ?? "";
+  const dayPeriod = datePart(parts, "dayPeriod") ?? "";
   return `${hour}${minute ? `:${minute}` : ""} ${dayPeriod}`.trim();
 }
 
@@ -126,17 +126,26 @@ export function eventInWindow(event: EventDateFields, windowStart: Date, windowE
   return start.getTime() <= windowEnd.getTime() && end.getTime() >= windowStart.getTime();
 }
 
+/**
+ * The Fri–Sun window a given day belongs to. During a weekend the window is
+ * the remainder of that weekend; on a weekday it is the upcoming one.
+ */
 export function campbellWeekendWindow(referenceDay: Date) {
   const reference = startOfDay(referenceDay);
   const weekday = reference.getUTCDay();
-  const startOffset = weekday === 0 || weekday === 5 || weekday === 6
-    ? 0
-    : (5 - weekday + 7) % 7;
-  const endOffset = weekday === 0
-    ? 0
-    : weekday === 6
-      ? 1
-      : startOffset + 2;
+  const isWeekend = weekday === 0 || weekday === 5 || weekday === 6;
+
+  // Weekdays jump forward to Friday; weekend days start from the day itself.
+  const startOffset = isWeekend ? 0 : (5 - weekday + 7) % 7;
+
+  let endOffset: number;
+  if (weekday === 0) {
+    endOffset = 0; // Sunday — the weekend ends today
+  } else if (weekday === 6) {
+    endOffset = 1; // Saturday — one more day to go
+  } else {
+    endOffset = startOffset + 2; // Friday through Sunday
+  }
 
   return {
     start: addCampbellDays(reference, startOffset),

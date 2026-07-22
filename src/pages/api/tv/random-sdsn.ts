@@ -227,8 +227,8 @@ async function fetchPlaylistVideos(): Promise<ClassicVideo[]> {
   try {
     const videos = await fetchVideosFromPlaylistPage();
     if (videos.length > 0) return videos;
-  } catch (error) {
-    console.warn("Could not parse YouTube playlist page, falling back to feed", error);
+  } catch (err) {
+    console.warn("Could not parse YouTube playlist page, falling back to feed", err);
   }
 
   const fallbackVideos = await fetchVideosFromFeed();
@@ -244,9 +244,9 @@ async function getPlaylistVideos(): Promise<ClassicVideo[]> {
     const videos = await fetchPlaylistVideos();
     cached = { fetchedAt: now, videos };
     return videos;
-  } catch (error) {
+  } catch (err) {
     if (cached) return cached.videos;
-    throw error;
+    throw err;
   }
 }
 

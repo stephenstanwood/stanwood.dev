@@ -16,8 +16,8 @@ let loadError = false;
 try {
   if (!hasLinkedInDatabase()) throw new Error("LinkedIn tracker database is not configured.");
   ({ people, dailyBatch } = await getLinkedInTracker());
-} catch (error) {
-  console.error("LinkedIn tracker load failed", error);
+} catch (err) {
+  console.error("LinkedIn tracker load failed", err);
   loadError = true;
 }
 ---

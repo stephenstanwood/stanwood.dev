@@ -40,7 +40,8 @@ export class ProgressiveJsonParser {
       const dir = this.tryExtractNextDirection();
       if (!dir) break;
       this.directionsExtracted++;
-      events.push({ type: "direction", data: { ...dir, id: this.directionsExtracted + 1 } });
+      // ids are 1-based — the card UI renders them as "Card {id}"
+      events.push({ type: "direction", data: { ...dir, id: this.directionsExtracted } });
       iterations++;
     }
 
