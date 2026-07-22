@@ -1,5 +1,21 @@
 [
   {
+    "name": "Gemini 3.6 Flash",
+    "org": "Google",
+    "date": "2026-07-21",
+    "type": "model",
+    "summary": "Code and run agents on a cheaper workhorse model — $1.50 per million input tokens, output priced well under the old Flash tier, and 17% fewer output tokens per job. Live in the API and GitHub Copilot now.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-6-flash-3-5-flash-lite-3-5-flash-cyber/"
+  },
+  {
+    "name": "Buzz",
+    "org": "Block",
+    "date": "2026-07-21",
+    "type": "tool",
+    "summary": "Run a free, open-source team chat that treats AI agents as real members with their own identity and permissions. Includes code hosting and automations, and plugs into Claude Code, Codex, or goose. Mac, Windows, Linux.",
+    "url": "https://block.xyz/inside/introducing-buzz-where-humans-and-agents-work-together"
+  },
+  {
     "name": "Project Indigo AI playground",
     "org": "Adobe",
     "date": "2026-07-20",
@@ -14,30 +30,6 @@
     "type": "model",
     "summary": "Use a 2.8T multimodal coding model today through Kimi.com, Kimi Work, Kimi Code, or the API. It has a 1M-token context window, with downloadable weights promised by July 27.",
     "url": "https://www.kimi.com/blog/kimi-k3"
-  },
-  {
-    "name": "dd-cli",
-    "org": "DoorDash",
-    "date": "2026-07-16",
-    "type": "tool",
-    "summary": "Search stores, build carts, and check out from your terminal, or hand the whole thing to an agent. The beta is waitlisted for US and Canada macOS developers and turns food ordering into a scriptable building block.",
-    "url": "https://techcrunch.com/2026/07/16/yes-you-can-now-order-doordash-from-the-command-line/"
-  },
-  {
-    "name": "Gemini Notebook",
-    "org": "Google",
-    "date": "2026-07-16",
-    "type": "tool",
-    "summary": "Analyze notebooks grounded in your sources with a secure cloud computer that can write and run code. It is live for AI Ultra and eligible Workspace users, with Pro web access rolling out soon.",
-    "url": "https://blog.google/innovation-and-ai/products/gemini-notebook/notebooklm-gemini-notebook/"
-  },
-  {
-    "name": "Gemini Omni in Vids",
-    "org": "Google",
-    "date": "2026-07-16",
-    "type": "tool",
-    "summary": "Create short videos that can include your own verified avatar, reference images, background swaps, and lighting fixes. It is available in Vids for Google AI Pro, Ultra, and eligible Workspace users.",
-    "url": "https://blog.google/products-and-platforms/products/workspace/gemini-omni-personal-avatars/"
   },
   {
     "name": "Codex Micro",
