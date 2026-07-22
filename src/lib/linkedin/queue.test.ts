@@ -98,6 +98,29 @@ describe("LinkedIn priority queue", () => {
     expect(selected).toEqual(rankLinkedInOutreach(people).slice(0, 50));
   });
 
+  it("keeps automatically discovered agencies out while allowing curated organizations", () => {
+    const generatedAgency = person("generated-agency", 99, "C", {
+      kind: "organization",
+      batch: null,
+      tier: null,
+      category: "local-public-sector",
+      source: "discovery:lookout-agency",
+      sourceOrder: 10_000,
+    });
+    const curatedOrganization = person("curated-organization", 99, "C", {
+      kind: "organization",
+      batch: null,
+      tier: null,
+      category: "local-public-sector",
+      source: "discovery:curated-context",
+      sourceOrder: 1,
+    });
+
+    expect(nextLinkedInDailyBatch([generatedAgency, curatedOrganization])).toEqual([
+      curatedOrganization,
+    ]);
+  });
+
   it("deprioritizes stale Chicago categories and learns from repeated passes", () => {
     const chicago = person("chicago", 1, "A", { category: "city-year" });
     const current = person("current", 5, "B", { category: "nonprofit" });

@@ -5,6 +5,7 @@ import type {
 
 const TIER_RANK = { A: 0, B: 1, C: 2 } as const;
 export const LINKEDIN_DAILY_BATCH_SIZE = 50;
+const AUTO_DISCOVERED_AGENCY_SOURCE = "discovery:lookout-agency";
 
 const CONNECT_CATEGORY_SCORE: Record<string, number> = {
   southbaytoday: 2_000,
@@ -105,6 +106,10 @@ export function nextLinkedInDailyBatch(
 ): LinkedInOutreachPerson[] {
   return rankLinkedInOutreach(people).filter((person) =>
     (person.kind !== "connect" || person.category !== "unknown") &&
+    // Lookout's agency graph is useful private research context, but a directory
+    // record is not enough evidence that Stephen should follow the organization.
+    // Explicitly curated organizations still compete in the same ranked pile.
+    person.source !== AUTO_DISCOVERED_AGENCY_SOURCE &&
     !person.actioned &&
     !person.dismissed
   ).slice(0, limit);
