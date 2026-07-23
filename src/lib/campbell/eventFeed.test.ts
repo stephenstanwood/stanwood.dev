@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import eventFeed from "../../data/campbellEvents.json";
+import { parseCampbellDate, startOfDay } from "./dateHelpers";
 
 const absenceTitlePatterns = [
   /^No .+ Practice$/i,
@@ -53,6 +54,10 @@ function hasSpecificEventTime(event: { startDate?: string }) {
   return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
 }
 
+function eventEnd(event: { startDate?: string; endDate?: string; date?: string }) {
+  return parseCampbellDate(event.endDate || event.startDate || event.date || "");
+}
+
 function titleTokens(title = "") {
   return normalizeTitle(title)
     .split(" ")
@@ -88,6 +93,18 @@ describe("Campbell event feed", () => {
 
     for (const title of titles) {
       expect(absenceTitlePatterns.some((pattern) => pattern.test(title)), title).toBe(false);
+    }
+  });
+
+  it("does not publish events that ended before the generated day", () => {
+    const generatedAt = parseCampbellDate(eventFeed.generatedAt);
+    expect(generatedAt).toBeTruthy();
+    const generatedDay = startOfDay(generatedAt!);
+
+    for (const event of eventFeed.items) {
+      const end = eventEnd(event);
+      if (!end) continue;
+      expect(end.getTime(), event.title).toBeGreaterThanOrEqual(generatedDay.getTime());
     }
   });
 

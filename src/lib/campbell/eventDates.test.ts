@@ -53,6 +53,15 @@ describe("eventDateLabel", () => {
     );
   });
 
+  it("labels long-running events as open-through once they are underway", () => {
+    expect(
+      eventDateLabel(
+        { startDate: "2026-02-27T11:00:00-08:00", endDate: "2026-12-13T16:00:00-08:00" },
+        localDate(2026, 6, 23),
+      ),
+    ).toBe("Open through Sun, Dec 13");
+  });
+
   it("falls back to the source date when structured dates are missing", () => {
     expect(eventDateLabel({ date: "June date TBA" })).toBe("June date TBA");
     expect(eventDateLabel({})).toBe("Date TBA");

@@ -28,7 +28,7 @@ export function eventStart(event: EventDateFields): Date | null {
   return parseCampbellDate(event.startDate ?? "");
 }
 
-function eventEnd(event: EventDateFields): Date | null {
+export function eventEnd(event: EventDateFields): Date | null {
   return parseCampbellDate(event.endDate ?? "") ?? eventStart(event);
 }
 
@@ -89,13 +89,24 @@ function formatEventTime(value: Date) {
   return `${hour}${minute ? `:${minute}` : ""} ${dayPeriod}`.trim();
 }
 
-export function eventDateLabel(event: EventDateFields & { date?: string }): string {
+export function eventDateLabel(event: EventDateFields & { date?: string }, referenceDay?: Date): string {
   const start = eventStart(event);
   if (!start) return event.date || "Date TBA";
 
   const end = eventEnd(event);
   const startDay = formatEventDay(start);
   const startHasTime = eventHasDisplayTime(start);
+  const referenceStart = referenceDay ? startOfDay(referenceDay) : null;
+
+  if (
+    referenceStart &&
+    end &&
+    start.getTime() < referenceStart.getTime() &&
+    end.getTime() >= referenceStart.getTime() &&
+    campbellDayKey(start) !== campbellDayKey(end)
+  ) {
+    return `Open through ${formatEventDay(end)}`;
+  }
 
   if (!end || campbellDayKey(start) === campbellDayKey(end)) {
     if (!startHasTime) return startDay;

@@ -847,8 +847,12 @@ function eventRejectionReason(event) {
   return "";
 }
 
-function filterPublicEvents(events) {
-  return events.filter((event) => !eventRejectionReason(event));
+function eventPublicFilterReason(event, referenceDate = new Date()) {
+  return eventRejectionReason(event) || (eventEndsBeforeReferenceDay(event, referenceDate) ? "past event" : "");
+}
+
+function filterPublicEvents(events, referenceDate = new Date()) {
+  return events.filter((event) => !eventPublicFilterReason(event, referenceDate));
 }
 
 async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
@@ -1862,7 +1866,8 @@ async function writeJson(filename, payload) {
 
 async function main() {
   const generatedAt = new Date().toISOString();
-  const cityCalendarUrls = cityCalendarMonthUrls(new Date(generatedAt));
+  const generatedAtDate = new Date(generatedAt);
+  const cityCalendarUrls = cityCalendarMonthUrls(generatedAtDate);
   const [
     directoryPage,
     eventsPage,
@@ -1915,7 +1920,7 @@ async function main() {
   let downtownEvents = [];
   let downtownEventsSourceNote = "";
   if (eventsPage.html) {
-    downtownEvents = parseDowntownEvents(eventsPage.html, new Date(generatedAt));
+    downtownEvents = parseDowntownEvents(eventsPage.html, generatedAtDate);
   } else {
     downtownEvents = await readExistingSourceEvents({
       source: "Downtown Campbell Events",
@@ -1927,11 +1932,11 @@ async function main() {
   }
   const cityCalendarEvents = cityCalendarHtmlPages
     .flatMap((html) => parseCityCalendarEvents(html))
-    .filter((event) => !eventEndsBeforeReferenceDay(event, new Date(generatedAt)));
+    .filter((event) => !eventEndsBeforeReferenceDay(event, generatedAtDate));
   let libraryEvents = [];
   let librarySourceNote = "";
   if (libraryPage.html) {
-    libraryEvents = parseLibraryEvents(libraryPage.html, new Date(generatedAt));
+    libraryEvents = parseLibraryEvents(libraryPage.html, generatedAtDate);
   } else {
     libraryEvents = await readExistingSourceEvents({
       source: "Campbell Library Events",
@@ -1970,13 +1975,13 @@ async function main() {
     calendarUrl: CUSD_CALENDAR_URL,
     generatedAt,
   }));
-  const filteredCityCalendarEvents = filterPublicEvents(cityCalendarEvents);
-  const filteredDowntownEvents = filterPublicEvents(downtownEvents);
-  const filteredLibraryEvents = filterPublicEvents(libraryEvents);
-  const filteredMuseumEvents = filterPublicEvents(museumEvents);
-  const filteredHeritageTheatreEvents = filterPublicEvents(heritageTheatreEvents);
-  const filteredChamberEvents = filterPublicEvents(chamberEvents);
-  const filteredSchoolEvents = filterPublicEvents(schoolEvents);
+  const filteredCityCalendarEvents = filterPublicEvents(cityCalendarEvents, generatedAtDate);
+  const filteredDowntownEvents = filterPublicEvents(downtownEvents, generatedAtDate);
+  const filteredLibraryEvents = filterPublicEvents(libraryEvents, generatedAtDate);
+  const filteredMuseumEvents = filterPublicEvents(museumEvents, generatedAtDate);
+  const filteredHeritageTheatreEvents = filterPublicEvents(heritageTheatreEvents, generatedAtDate);
+  const filteredChamberEvents = filterPublicEvents(chamberEvents, generatedAtDate);
+  const filteredSchoolEvents = filterPublicEvents(schoolEvents, generatedAtDate);
   const rejectedEvents = [
     ...cityCalendarEvents,
     ...downtownEvents,
@@ -1986,7 +1991,7 @@ async function main() {
     ...chamberEvents,
     ...schoolEvents,
   ].flatMap((event) => {
-    const reason = eventRejectionReason(event);
+    const reason = eventPublicFilterReason(event, generatedAtDate);
     return reason ? [{ title: event.title, source: event.source, reason }] : [];
   });
   const events = mergeEventFeeds(

@@ -5,6 +5,7 @@ import { addCampbellDays, endOfDay, startOfDay } from "../../lib/campbell/dateHe
 import {
   campbellWeekendWindow,
   compareResidentEvents,
+  eventEnd,
   eventDateLabel,
   eventInWindow,
   eventStart,
@@ -193,6 +194,32 @@ function viewFilterFromHash(hash: string) {
   return HASH_VIEW_FILTERS[hash.toLowerCase()] ?? null;
 }
 
+function eventDisplaySortDate(event: CampbellEvent, referenceDay: Date) {
+  const start = eventStart(event);
+  if (!start) return null;
+
+  const end = eventEnd(event);
+  const referenceStart = startOfDay(referenceDay);
+  if (end && start.getTime() < referenceStart.getTime() && end.getTime() >= referenceStart.getTime()) {
+    return endOfDay(referenceStart);
+  }
+
+  return start;
+}
+
+function compareDisplayEvents(a: CampbellEvent, b: CampbellEvent, referenceDay: Date) {
+  const aSortDate = eventDisplaySortDate(a, referenceDay);
+  const bSortDate = eventDisplaySortDate(b, referenceDay);
+  if (!aSortDate && !bSortDate) return compareResidentEvents(a, b);
+  if (!aSortDate) return 1;
+  if (!bSortDate) return -1;
+
+  const displayTimeDiff = aSortDate.getTime() - bSortDate.getTime();
+  if (displayTimeDiff !== 0) return displayTimeDiff;
+
+  return compareResidentEvents(a, b);
+}
+
 // Anchor the tile to Campbell's timezone so server and client render the
 // same day number regardless of where the HTML is generated.
 function eventDateTile(event: CampbellEvent) {
@@ -282,7 +309,7 @@ export default function EventsIndex() {
       if (categoryFilter !== ALL_CATEGORY_FILTER && event.category !== categoryFilter) return false;
       if (!eventMatchesView(event, viewFilter, referenceDay)) return false;
       return eventMatchesQuery(event, query);
-    }).sort(compareResidentEvents);
+    }).sort((a, b) => compareDisplayEvents(a, b, referenceDay));
   }, [categoryFilter, query, referenceDay, sourceFilter, viewFilter]);
 
   const visibleEvents = showAll ? filteredEvents : filteredEvents.slice(0, EVENT_DISPLAY_LIMIT);
@@ -472,7 +499,7 @@ export default function EventsIndex() {
               )}
               <div className="cb-event-card-body">
                 <div className="cb-event-meta">
-                  <span className="cb-event-date">{eventDateLabel(event)}</span>
+                  <span className="cb-event-date">{eventDateLabel(event, referenceDay)}</span>
                   {sourceLabel && (
                     <span className="cb-event-source">
                       {sourceLabel}
