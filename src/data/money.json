@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-23T01:10:28.361Z",
+  "lastUpdated": "2026-07-23T19:10:29.439Z",
   "apiSpend": {
     "months": [
       {
@@ -124,11 +124,24 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-23T01:10:28.361Z",
+        "collectedAt": "2026-07-23T19:10:29.439Z",
         "services": {
           "vercel": {
-            "totalCents": 0,
-            "breakdown": [],
+            "totalCents": 23,
+            "breakdown": [
+              {
+                "name": "Build CPU Minutes",
+                "cents": 21
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 1
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 1
+              }
+            ],
             "note": null
           },
           "anthropic": {
