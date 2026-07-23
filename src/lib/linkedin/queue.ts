@@ -25,14 +25,35 @@ const CONNECT_CATEGORY_SCORE: Record<string, number> = {
   "city-year": 180,
 };
 
+// Stephen explicitly wants more practitioners working on responsible AI,
+// civic AI, and public-sector AI governance in the daily pile. These are
+// editorial priors, not quotas: source order and reviewed-card feedback still
+// decide the final order, while a repeated run of passes can teach the score
+// back down.
+const PUBLIC_INTEREST_AI_CATEGORY_SCORE: Record<string, number> = {
+  "government-ai": 180,
+  "responsible-ai": 180,
+  "civic-ai": 180,
+  "civic-technology-and-government-digital-services": 90,
+  "municipal-county-and-state-technology-leaders": 90,
+  "civic-tech": 90,
+};
+
+function publicInterestAiCategoryScore(person: LinkedInOutreachPerson): number {
+  if (person.kind === "connect") return 0;
+  return PUBLIC_INTEREST_AI_CATEGORY_SCORE[person.category] ?? 0;
+}
+
 function basePriorityScore(person: LinkedInOutreachPerson): number {
   if (person.kind === "organization") {
     const rankedOrder = person.sourceOrder >= 10_000
       ? person.sourceOrder - 10_000
       : person.sourceOrder;
-    return 1_475 - rankedOrder * 2;
+    return 1_475 - rankedOrder * 2 + publicInterestAiCategoryScore(person);
   }
-  if (person.kind === "follow") return 1_500 - person.sourceOrder * 3;
+  if (person.kind === "follow") {
+    return 1_500 - person.sourceOrder * 3 + publicInterestAiCategoryScore(person);
+  }
   const category = CONNECT_CATEGORY_SCORE[person.category] ?? 700;
   const batch = Math.max(0, 400 - (person.batch ?? 99) * 50);
   const tier = person.tier ? (3 - TIER_RANK[person.tier]) * 10 : 0;
