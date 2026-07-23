@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-23T03:21:33.552Z",
+  "generatedAt": "2026-07-23T12:22:40.486Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 27,
-      "parsedCount": 27
+      "count": 25,
+      "parsedCount": 25
     },
     {
       "label": "Downtown Campbell Events",
@@ -73,36 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Historic Preservation Board meeting",
-      "date": "July 22, 2026, All Day",
-      "cost": "",
-      "location": "",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3897&month=7&year=2026&day=22&calType=0",
-      "imageUrl": "",
-      "category": "Historic Preservation Board",
-      "startDate": "2026-07-22T00:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
-      "title": "Pop Up Art Gallery",
-      "date": "July 22, 2026, 3:00 PM - 5:00 PM",
-      "cost": "Free",
-      "location": "The Heritage Theatre",
-      "description": "Visit the Heritage Theatre for a FREE Pop-Up Art Gallery in the lobby featuring original artwork by theatre volunteers, staff, and Campbell members.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3990&month=7&year=2026&day=22&calType=0",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/2961/images/ht_art_day_logo_v3_bg.png?itok=KtytY0Tz",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-22T15:00:00",
-      "endDate": "2026-07-22T17:00:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
     },
     {
       "title": "Baby Lapsit for Ages 0 - 18 Months",
@@ -1818,6 +1788,19 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-12-10T19:30:00"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "12/13/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-12-13T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "BLS Classes in Campbell",
