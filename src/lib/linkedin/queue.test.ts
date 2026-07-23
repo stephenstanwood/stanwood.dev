@@ -162,6 +162,48 @@ describe("LinkedIn priority queue", () => {
     ], 1)[0].stableId).toBe("organization");
   });
 
+  it("gives public-interest AI people a durable editorial prior without a quota", () => {
+    const neutral = person("neutral", 99, "C", {
+      kind: "follow",
+      batch: null,
+      tier: null,
+      category: "general-technology",
+      sourceOrder: 40,
+    });
+    const governmentAi = person("government-ai", 99, "C", {
+      kind: "follow",
+      batch: null,
+      tier: null,
+      category: "government-ai",
+      sourceOrder: 80,
+    });
+
+    expect(nextLinkedInDailyBatch([neutral, governmentAi], 1)[0].stableId).toBe(
+      "government-ai",
+    );
+  });
+
+  it("applies the responsible-AI prior to curated organizations too", () => {
+    const neutral = person("neutral-org", 99, "C", {
+      kind: "organization",
+      batch: null,
+      tier: null,
+      category: "general-technology",
+      sourceOrder: 10_020,
+    });
+    const responsibleAi = person("responsible-ai-org", 99, "C", {
+      kind: "organization",
+      batch: null,
+      tier: null,
+      category: "responsible-ai",
+      sourceOrder: 10_090,
+    });
+
+    expect(nextLinkedInDailyBatch([neutral, responsibleAi], 1)[0].stableId).toBe(
+      "responsible-ai-org",
+    );
+  });
+
   it("counts actioned and dismissed people once", () => {
     const summary = summarizeLinkedInOutreach([
       person("remaining", 1, "A"),
