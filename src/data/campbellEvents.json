@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-22T18:21:53.819Z",
+  "generatedAt": "2026-07-23T00:23:24.949Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 26,
-      "parsedCount": 26
+      "count": 27,
+      "parsedCount": 27
     },
     {
       "label": "Downtown Campbell Events",
@@ -29,8 +29,8 @@
     {
       "label": "Campbell Heritage Theatre Events",
       "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "count": 8,
-      "parsedCount": 8
+      "count": 7,
+      "parsedCount": 7
     },
     {
       "label": "Campbell Chamber Events",
@@ -92,31 +92,17 @@
       "date": "July 22, 2026, 3:00 PM - 5:00 PM",
       "cost": "Free",
       "location": "The Heritage Theatre",
-      "description": "Visit the Heritage Theatre for a Pop-Up Art Gallery in the lobby featuring artwork by theatre volunteers, staff, and Campbell members.",
+      "description": "Visit the Heritage Theatre for a FREE Pop-Up Art Gallery in the lobby featuring original artwork by theatre volunteers, staff, and Campbell members.",
       "url": "https://www.campbellca.gov/Calendar.aspx?EID=3990&month=7&year=2026&day=22&calType=0",
-      "imageUrl": "https://static.wixstatic.com/media/c82d5f_2fb4c6c4a2d0470f82db450a8c6ab429~mv2.png",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/2961/images/ht_art_day_logo_v3_bg.png?itok=KtytY0Tz",
       "category": "Recreation & Community Services",
       "startDate": "2026-07-22T15:00:00",
       "endDate": "2026-07-22T17:00:00",
-      "source": "City of Campbell Calendar + Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "source": "City of Campbell Calendar + Downtown Campbell Events",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
       "additionalSourceUrls": [
-        "https://www.heritagetheatre.org/events-1",
         "https://www.downtowncampbell.com/events"
       ]
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: Mike Della Penna Magic",
-      "date": "Jul 22nd | 4:00pm - 5:00pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/69d6a8d12866a5b488474e66",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-22T16:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Baby Lapsit for Ages 0 - 18 Months",
@@ -160,6 +146,19 @@
       "additionalSourceUrls": [
         "https://www.downtowncampbell.com/events"
       ]
+    },
+    {
+      "title": "Summer 2026 Plant a Seed, Read: DIY Kumihimo Friendship…",
+      "date": "Jul 24th | 4:00pm - 5:30pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/6a2dd52343b41b3d006e32c3",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-24T16:00:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Adult Night at the Museum",
@@ -429,6 +428,20 @@
       "category": "Main Calendar",
       "startDate": "2026-08-05T19:00:00",
       "endDate": "2026-08-05T21:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
+      "title": "Community Meeting - Campbell Community Center Pool Project",
+      "date": "August 6, 2026, 5:00 PM - 6:30 PM",
+      "cost": "",
+      "location": "Orchard City Banquet Hall",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4033&month=8&year=2026&day=6&calType=0",
+      "imageUrl": "",
+      "category": "Recreation & Community Services",
+      "startDate": "2026-08-06T17:00:00",
+      "endDate": "2026-08-06T18:30:00",
       "source": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
