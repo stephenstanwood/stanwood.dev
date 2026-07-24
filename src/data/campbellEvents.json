@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-23T21:22:40.406Z",
+  "generatedAt": "2026-07-24T15:23:10.004Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 25,
-      "parsedCount": 25
+      "count": 24,
+      "parsedCount": 24
     },
     {
       "label": "Downtown Campbell Events",
@@ -73,36 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: Make Your Own Puzzle",
-      "date": "Jul 23rd | 2:00pm - 3:00pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a3443eb2ea730c17ab7f1f5",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-23T14:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
-      "title": "Summer Concert Series - San Benito County Line",
-      "date": "July 23, 2026, 6:30 PM - 8:00 PM",
-      "cost": "free",
-      "location": "Orchard City Green",
-      "description": "SBCL is a talented country band that blends classic country roots with today’s chart-topping hits. From honky-tonk anthems to contemporary country jams, SBCL knows how to keep the energy high and the crowd on their feet.",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3998&month=7&year=2026&day=23&calType=0",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/sanbenitocountylineband.jpeg?itok=bQDHsZoU",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-23T18:30:00",
-      "endDate": "2026-07-23T20:00:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
     },
     {
       "title": "Summer 2026 Plant a Seed, Read: DIY Kumihimo Friendship…",
@@ -215,6 +185,19 @@
       "startDate": "2026-07-27T00:00:00",
       "source": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Paint a Pot for Adults",
+      "date": "Jul 27th | 7:00pm - 8:30pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/6a2099d3caf9343600607298",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-27T19:00:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Planning Commission Regular Meeting",
@@ -1822,7 +1805,7 @@
     {
       "title": "World Ballet Company: The Nutcracker",
       "date": "Dec 16, 2026, 7:00 PM – 9:00 PM",
-      "cost": "",
+      "cost": "$65/$89/$115 + $6.50 FF",
       "location": "Heritage Theatre",
       "description": "Celebrate the season with The Nutcracker, a heartwarming ballet that brings dreams into reality for audiences of all ages.",
       "url": "https://www.heritagetheatre.org/event-details/world-ballet-company-the-nutcracker",
@@ -1830,8 +1813,11 @@
       "category": "Heritage Theatre",
       "startDate": "2026-12-16T19:00:00-08:00",
       "endDate": "2026-12-16T21:00:00-08:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Board Meeting",
