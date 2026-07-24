@@ -2,13 +2,9 @@
 // Source: https://support.mlb.com/s/article/What-Is-MLB-Big-Inning?language=en_US
 // Manual edits are fine; the next sync will overwrite if it succeeds.
 
-export const BIG_INNING_GENERATED_AT = "2026-07-21T10:15:12.327Z";
+export const BIG_INNING_GENERATED_AT = "2026-07-24T10:15:08.310Z";
 
 export const BIG_INNING_RAW: ReadonlyArray<readonly [string, string, string]> = [
-  ["07/20/26", "8:30 PM", "11:30 PM"],
-  ["07/21/26", "7:00 PM", "10:00 PM"],
-  ["07/21/26", "10:00 PM", "12:30 AM"],
-  ["07/22/26", "8:00 PM", "11:00 PM"],
   ["07/23/26", "2:00 PM", "3:30 PM"],
   ["07/24/26", "8:30 PM", "11:30 PM"],
   ["07/25/26", "7:00 PM", "10:00 PM"],
@@ -45,7 +41,7 @@ export const BIG_INNING_RAW: ReadonlyArray<readonly [string, string, string]> = 
   ["08/21/26", "8:30 PM", "11:30 PM"],
   ["08/22/26", "8:00 PM", "10:30 PM"],
   ["08/23/26", "2:00 PM", "5:00 PM"],
-  ["08/24/26", "8:30 PM", "11:30 PM"],
+  ["08/24/26", "8:30 PM", "12:00 AM"],
   ["08/25/26", "7:00 PM", "10:00 PM"],
   ["08/25/26", "10:00 PM", "12:30 AM"],
   ["08/26/26", "7:00 PM", "10:00 PM"],
