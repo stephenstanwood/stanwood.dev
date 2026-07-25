@@ -282,7 +282,9 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
 
       <div className="li-queue-rule">
         {batch === "today"
-          ? `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow.`
+          ? (initialDailyBatch.weekendBreak
+            ? `weekend break — no new batch until monday. leftovers from the last weekday stay open (${dailyBatchSize} in this snapshot).`
+            : `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow (weekends stay empty of new batches).`)
           : "every card says connect, follow, or organization. your checks and passes teach the next overnight ranking."}
       </div>
 
@@ -399,7 +401,11 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
                   <span aria-hidden="true">✓</span>
                   <strong>TODAY'S BATCH: CLEARED.</strong>
                 </div>
-                <span>it stays empty until the overnight reset.</span>
+                <span>
+                  {initialDailyBatch.weekendBreak
+                    ? "weekend break — next fresh batch lands monday morning."
+                    : "it stays empty until the overnight reset (weekends skip)."}
+                </span>
               </>
             ) : (
               <>
