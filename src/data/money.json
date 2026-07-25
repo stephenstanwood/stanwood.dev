@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-25T01:10:24.615Z",
+  "lastUpdated": "2026-07-25T06:10:25.117Z",
   "apiSpend": {
     "months": [
       {
@@ -124,7 +124,7 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-25T01:10:24.615Z",
+        "collectedAt": "2026-07-25T06:10:25.117Z",
         "services": {
           "vercel": {
             "totalCents": 23,
@@ -194,6 +194,13 @@
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
       "note": "Mercury actual Jul 2026; 5 Mercury charges combined"
+    },
+    {
+      "name": "Cursor",
+      "cents": 22000,
+      "category": "ai",
+      "url": "https://cursor.com/settings",
+      "note": "Mercury actual Jul 2026; 2 Mercury charges combined"
     },
     {
       "name": "Claude Max",
@@ -271,13 +278,6 @@
       "category": "infra",
       "url": "https://vercel.com/stephenstanwoods-projects/settings/billing",
       "note": "base plan — usage/overage tracked separately"
-    },
-    {
-      "name": "Cursor",
-      "cents": 2000,
-      "category": "ai",
-      "url": "https://cursor.com/settings",
-      "note": "Mercury actual Jul 2026"
     },
     {
       "name": "Resend Transactional Pro",
