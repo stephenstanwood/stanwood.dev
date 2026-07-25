@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   compareLinkedInPriority,
+  isLinkedInBatchRestDay,
   nextLinkedInDailyBatch,
   rankLinkedInOutreach,
   summarizeLinkedInOutreach,
@@ -211,5 +212,12 @@ describe("LinkedIn priority queue", () => {
       person("nah", 1, "C", { dismissed: true }),
     ]);
     expect(summary).toMatchObject({ total: 3, reviewed: 2, remaining: 1, actioned: 1, dismissed: 1 });
+  });
+
+  it("treats Saturday and Sunday Pacific dates as batch rest days", () => {
+    expect(isLinkedInBatchRestDay("2026-07-24")).toBe(false); // Friday
+    expect(isLinkedInBatchRestDay("2026-07-25")).toBe(true); // Saturday
+    expect(isLinkedInBatchRestDay("2026-07-26")).toBe(true); // Sunday
+    expect(isLinkedInBatchRestDay("2026-07-27")).toBe(false); // Monday
   });
 });

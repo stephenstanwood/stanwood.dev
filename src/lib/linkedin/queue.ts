@@ -7,6 +7,17 @@ const TIER_RANK = { A: 0, B: 1, C: 2 } as const;
 export const LINKEDIN_DAILY_BATCH_SIZE = 50;
 const AUTO_DISCOVERED_AGENCY_SOURCE = "discovery:lookout-agency";
 
+/** Pacific calendar date (`YYYY-MM-DD`) is a Saturday or Sunday — no new daily batch. */
+export function isLinkedInBatchRestDay(isoDate: string): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+  return weekday === 0 || weekday === 6;
+}
+
 const CONNECT_CATEGORY_SCORE: Record<string, number> = {
   southbaytoday: 2_000,
   "south-bay-local": 1_950,

@@ -123,7 +123,11 @@ try {
     } else {
       assert(initial.emptyCleared === "TODAY'S BATCH: CLEARED.", `${profile.name}: cleared-day state is missing`);
     }
-    assert(initial.rule?.includes("no refills until tomorrow"), `${profile.name}: no-refill rule is not explicit`);
+    assert(
+      initial.rule?.includes("no refills until tomorrow") ||
+        initial.rule?.includes("weekend break"),
+      `${profile.name}: no-refill / weekend-break rule is not explicit`,
+    );
     assert(!initial.unknownVisible, `${profile.name}: mystery contacts appeared by default`);
     assert(!initial.overflow, `${profile.name}: default view has horizontal overflow`);
     assert(

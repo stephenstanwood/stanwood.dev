@@ -1,6 +1,7 @@
 import { getLinkedInSql } from "./db";
 import {
   LINKEDIN_DAILY_BATCH_SIZE,
+  isLinkedInBatchRestDay,
   nextLinkedInDailyBatch,
   summarizeLinkedInOutreach,
 } from "./queue";
@@ -219,10 +220,12 @@ async function getOrCreateLinkedInDailyBatch(
     )
   `;
 
-  const [{ batch_date: batchDate }] = (await sql`
+  const [{ batch_date: today }] = (await sql`
     SELECT ((now() AT TIME ZONE 'America/Los_Angeles')::date)::text AS batch_date
   `) as Array<{ batch_date: string }>;
+  const weekendBreak = isLinkedInBatchRestDay(today);
 
+  let batchDate = today;
   let rows = (await sql`
     SELECT stable_id, position
     FROM linkedin_outreach_daily_batch
@@ -230,7 +233,27 @@ async function getOrCreateLinkedInDailyBatch(
     ORDER BY position ASC
   `) as DailyBatchRow[];
 
-  if (rows.length === 0) {
+  // Weekends: never mint a fresh 50. Keep today's leftovers if a snapshot
+  // already exists; otherwise keep working the most recent weekday batch.
+  if (rows.length === 0 && weekendBreak) {
+    const prior = (await sql`
+      SELECT batch_date::text AS batch_date
+      FROM linkedin_outreach_daily_batch
+      WHERE batch_date < CAST(${today} AS date)
+      GROUP BY batch_date
+      ORDER BY batch_date DESC
+      LIMIT 1
+    `) as Array<{ batch_date: string }>;
+    if (prior[0]?.batch_date) {
+      batchDate = prior[0].batch_date;
+      rows = (await sql`
+        SELECT stable_id, position
+        FROM linkedin_outreach_daily_batch
+        WHERE batch_date = CAST(${batchDate} AS date)
+        ORDER BY position ASC
+      `) as DailyBatchRow[];
+    }
+  } else if (rows.length === 0) {
     const candidates = nextLinkedInDailyBatch(people);
     if (candidates.length > 0) {
       const payload = JSON.stringify(candidates.map((person, index) => ({
@@ -262,6 +285,7 @@ async function getOrCreateLinkedInDailyBatch(
     date: batchDate,
     stableIds: rows.map((row) => row.stable_id),
     targetSize: LINKEDIN_DAILY_BATCH_SIZE,
+    weekendBreak,
   };
 }
 

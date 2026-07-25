@@ -31,6 +31,8 @@ export interface LinkedInDailyBatch {
   date: string;
   stableIds: string[];
   targetSize: number;
+  /** True when Pacific today is Sat/Sun — no fresh overnight batch is minted. */
+  weekendBreak: boolean;
 }
 
 export interface LinkedInOutreachSummary {
