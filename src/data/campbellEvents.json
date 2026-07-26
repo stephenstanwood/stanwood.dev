@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-24T15:23:10.004Z",
+  "generatedAt": "2026-07-26T06:26:28.984Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 24,
-      "parsedCount": 24
+      "count": 22,
+      "parsedCount": 22
     },
     {
       "label": "Downtown Campbell Events",
@@ -23,8 +23,8 @@
     {
       "label": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main",
-      "count": 10,
-      "parsedCount": 10
+      "count": 9,
+      "parsedCount": 9
     },
     {
       "label": "Campbell Heritage Theatre Events",
@@ -73,51 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Summer 2026 Plant a Seed, Read: DIY Kumihimo Friendship…",
-      "date": "Jul 24th | 4:00pm - 5:30pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a2dd52343b41b3d006e32c3",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-07-24T16:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
-    },
-    {
-      "title": "Adult Night at the Museum",
-      "date": "July 24, 2026, 6:00 PM - 9:00 PM",
-      "cost": "$25",
-      "location": "Campbell Historical Museum",
-      "description": "We are SOLD OUT. We will host again soon!",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3991&month=7&year=2026&day=24&calType=0",
-      "imageUrl": "https://static.wixstatic.com/media/0845a5_404af5531d30412c8eb11f6da7c691d3~mv2.png",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-24T18:00:00",
-      "endDate": "2026-07-24T21:00:00",
-      "source": "City of Campbell Calendar + Campbell Museums Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.campbellmuseums.com/events-main",
-        "https://www.downtowncampbell.com/events"
-      ]
-    },
-    {
-      "title": "Free Movie Night - Zootopia 2 (PG)",
-      "date": "July 24, 2026, 7:30 PM - 10:00 PM",
-      "cost": "",
-      "location": "Jack Fischer Park",
-      "description": "",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3992&month=7&year=2026&day=24&calType=0",
-      "imageUrl": "",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-07-24T19:30:00",
-      "endDate": "2026-07-24T22:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Artside - A Plein Air",
@@ -211,6 +166,19 @@
       "startDate": "2026-07-28T00:00:00",
       "source": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
+      "title": "Music & Movement Storytime",
+      "date": "Jul 28th | 10:30am - 11:00am",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://sccl.bibliocommons.com/events/69fbb43b8e677a28001a5af1",
+      "imageUrl": "",
+      "category": "Campbell Library",
+      "startDate": "2026-07-28T10:30:00",
+      "source": "Campbell Library Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Power Networking Lunch at iniBurger",
@@ -1835,6 +1803,19 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-12-17T19:30:00"
+    },
+    {
+      "title": "Downtown Campbell Weekly Farmers' Market",
+      "date": "12/20/26",
+      "cost": "",
+      "location": "Downtown Campbell",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "category": "Downtown",
+      "startDate": "2026-12-20T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "ACLS Classes in Campbell",
