@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { EVENT_SOURCES } from "../../data/campbell";
 import eventFeed from "../../data/campbellEvents.json";
-import { addCampbellDays, endOfDay, startOfDay } from "../../lib/campbell/dateHelpers";
+import { addCampbellDays, endOfDay, startOfDay, CAMPBELL_TIME_ZONE } from "../../lib/campbell/dateHelpers";
 import {
   campbellWeekendWindow,
   compareResidentEvents,
@@ -226,7 +226,7 @@ function eventDateTile(event: CampbellEvent) {
   const start = eventStart(event);
   if (!start) return null;
   const part = (options: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", ...options }).format(start);
+    new Intl.DateTimeFormat("en-US", { timeZone: CAMPBELL_TIME_ZONE, ...options }).format(start);
   return { day: part({ day: "numeric" }), month: part({ month: "short" }), weekday: part({ weekday: "short" }) };
 }
 

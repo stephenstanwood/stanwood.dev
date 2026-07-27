@@ -10,6 +10,8 @@ import { logEvent } from "../../lib/logger";
 
 const client = getAnthropicClient();
 
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // ~10 MB of base64 chars
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
 
@@ -37,6 +39,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
   const mediaType = match[1] as AllowedType;
   const imageData = match[2];
+
+  if (imageData.length > MAX_IMAGE_SIZE) {
+    return errJson("image too large (max 10 MB)", 400);
+  }
 
   try {
     const response = await client.messages.create({

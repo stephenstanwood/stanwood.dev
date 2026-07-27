@@ -17,7 +17,7 @@ import {
   type TeamSide,
 } from "../lib/wtwtwSports";
 import { MS_PER_MINUTE } from "../lib/time";
-import { formatHourMinuteInTz } from "../lib/dateFormat";
+import { formatHourMinuteInTz, PACIFIC_TZ } from "../lib/dateFormat";
 import { findActiveWindow, type BigInningSchedule } from "../lib/bigInning";
 
 const POLL_MS = MS_PER_MINUTE;
@@ -88,7 +88,7 @@ export default function LiveSports() {
     const active = findActiveWindow(schedule, now);
     if (!active) return null;
     return {
-      detail: `until ${formatHourMinuteInTz(active.end, "America/Los_Angeles")} PT`,
+      detail: `until ${formatHourMinuteInTz(active.end, PACIFIC_TZ)} PT`,
       href: MLB_TV_URL,
     };
   }, [schedule, now]);

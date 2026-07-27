@@ -22,11 +22,11 @@ import {
   scoreToPercent,
   parseScore,
   getAwayHome,
+  ESPN_SPORTS_BASE,
 } from "./sportsCore";
 
 // --- Constants ---
-const API_URL =
-  "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard";
+const API_URL = `${ESPN_SPORTS_BASE}/basketball/nba/scoreboard`;
 const MAX_WATCH_SCORE = 400;
 const CLOSENESS_PENALTY = 4;
 const OT_MULTIPLIER = 3.5;

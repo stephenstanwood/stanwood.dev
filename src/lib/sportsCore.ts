@@ -3,6 +3,7 @@
  */
 
 import { esc, escUrl } from "./htmlUtils";
+import { PACIFIC_TZ } from "./dateFormat";
 
 // Re-export so sport modules don't need to import htmlUtils separately
 export { esc, escUrl };
@@ -10,7 +11,10 @@ export { esc, escUrl };
 // ── Constants ──
 
 const REFRESH_MS = 30_000;
-export const TIMEZONE = "America/Los_Angeles";
+/** Alias of the canonical Pacific timezone in dateFormat.ts. */
+export const TIMEZONE = PACIFIC_TZ;
+/** Base path for ESPN's public sports API; append `/{league}/scoreboard`. */
+export const ESPN_SPORTS_BASE = "https://site.api.espn.com/apis/site/v2/sports";
 
 // ── Shared ESPN types ──
 
@@ -253,7 +257,7 @@ export async function fetchEspnScoreboard<T = unknown>(
   leaguePath: string,
   yyyymmdd: string,
 ): Promise<{ events?: T[] }> {
-  const url = `https://site.api.espn.com/apis/site/v2/sports/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
+  const url = `${ESPN_SPORTS_BASE}/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`ESPN ${leaguePath} ${yyyymmdd} failed (${res.status})`);
   return res.json();

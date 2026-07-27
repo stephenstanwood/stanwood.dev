@@ -20,6 +20,7 @@ import {
   scoreToPercent,
   parseScore,
   getAwayHome,
+  ESPN_SPORTS_BASE,
 } from "./sportsCore";
 import { safeGet } from "./localStorage";
 
@@ -44,8 +45,7 @@ interface MLBSituation {
 
 // ── MLB-specific constants ──
 
-const API_URL =
-  "https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/scoreboard";
+const API_URL = `${ESPN_SPORTS_BASE}/baseball/mlb/scoreboard`;
 const MAX_WATCH_SCORE = 400;
 const CLOSENESS_PENALTY = 15;
 const EXTRA_INNINGS_MULTIPLIER = 3.5;
