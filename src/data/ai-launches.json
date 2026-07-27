@@ -1,5 +1,29 @@
 [
   {
+    "name": "Claude Opus 5",
+    "org": "Anthropic",
+    "date": "2026-07-24",
+    "type": "model",
+    "summary": "Get near-Fable-5 quality at half the price, now the default on Claude Pro and Max. A low/medium/high effort toggle lets you dial cost against capability per task, with sharper autonomous coding. Live in the API today.",
+    "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/"
+  },
+  {
+    "name": "FLUX 3",
+    "org": "Black Forest Labs",
+    "date": "2026-07-23",
+    "type": "model",
+    "summary": "Generate video with native synced audio, edit images, and render readable text from one multimodal model. Video is in early access at bfl.ai now, with image generation and downloadable open weights coming. Already powering Photoshop and Picsart features.",
+    "url": "https://www.globenewswire.com/news-release/2026/07/23/3332364/0/en/black-forest-labs-unveils-flux-3-a-new-multimodal-frontier-model-for-visual-intelligence.html"
+  },
+  {
+    "name": "Laguna S 2.1",
+    "org": "Poolside",
+    "date": "2026-07-21",
+    "type": "model",
+    "summary": "Download a free, open-weight coding model that punches above rivals 10x its size on SWE-Bench. It's a 118B mixture-of-experts activating just 8B per token, with a 1M-token context. Grab it on Hugging Face or run it via OpenRouter.",
+    "url": "https://venturebeat.com/infrastructure/poolside-drops-laguna-s-2-1-an-open-weight-coding-model-that-beats-rivals-10x-its-size"
+  },
+  {
     "name": "Gemini 3.6 Flash",
     "org": "Google",
     "date": "2026-07-21",
@@ -32,27 +56,11 @@
     "url": "https://www.kimi.com/blog/kimi-k3"
   },
   {
-    "name": "Codex Micro",
-    "org": "OpenAI",
-    "date": "2026-07-15",
-    "type": "tool",
-    "summary": "Run a fleet of coding agents from a $230 limited-run desk keyboard. Light-up keys show agent status, a joystick launches workflows, and a dial sets how hard an agent thinks. It pairs with the ChatGPT desktop app.",
-    "url": "https://techcrunch.com/2026/07/15/amid-hardware-legal-battle-openai-releases-a-230-keyboard-for-codex/"
-  },
-  {
     "name": "Inkling",
     "org": "Thinking Machines Lab",
     "date": "2026-07-15",
     "type": "model",
     "summary": "Fine-tune or download a 975B open-weight multimodal model with a lighter Inkling-Small preview for cheaper experiments. Tinker handles customization when local hardware is unrealistic.",
     "url": "https://thinkingmachines.ai/news/introducing-inkling/"
-  },
-  {
-    "name": "GPT-5.6",
-    "org": "OpenAI",
-    "date": "2026-07-09",
-    "type": "model",
-    "summary": "Build with Sol, Terra, or Luna in ChatGPT, Codex, and the API. Lower-cost tiers make agentic app builds and long Codex runs more affordable, while ChatGPT Work carries projects across files and apps.",
-    "url": "https://openai.com/index/gpt-5-6/"
   }
 ]
