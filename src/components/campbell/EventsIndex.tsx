@@ -368,7 +368,7 @@ export default function EventsIndex() {
       <div className="cb-event-toolbar">
         <GhostInput
           className="cb-event-search"
-          placeholder="Search events, places, costs, or topics"
+          placeholder="Search events"
           ariaLabel="Search events"
           value={query}
           candidates={EVENT_TITLES}

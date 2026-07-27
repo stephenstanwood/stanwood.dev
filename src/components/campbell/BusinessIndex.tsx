@@ -123,7 +123,7 @@ export default function BusinessIndex() {
       <div className="cb-business-toolbar">
         <GhostInput
           className="cb-business-search"
-          placeholder="Search by name, address, phone, or service"
+          placeholder="Search businesses"
           ariaLabel="Search businesses"
           value={query}
           candidates={BUSINESS_NAMES}
