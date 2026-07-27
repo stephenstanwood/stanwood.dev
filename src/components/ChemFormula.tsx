@@ -59,6 +59,11 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   const productTitleSize = compact ? 20 : 34;
   const productSubSize = compact ? 8 : 9;
   const gap = compact ? 6 : 10;
+  const tileBorder = compact ? 2 : 3;
+  const shadowOffset = compact ? 2 : 4;
+  const glowInner = compact ? 12 : 24;
+  const glowOuter = compact ? 24 : 48;
+  const flatShadow = `${shadowOffset}px ${shadowOffset}px 0 #111`;
 
   return (
     <div style={{
@@ -91,11 +96,11 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
               <div style={{
                 width: `${tileW}px`,
                 height: `${tileH}px`,
-                border: `${compact ? 2 : 3}px solid #111`,
+                border: `${tileBorder}px solid #111`,
                 borderRadius: '4px',
                 boxShadow: phase === 'react'
-                  ? `0 0 ${compact ? 12 : 24}px ${el.bg}, 0 0 ${compact ? 24 : 48}px ${el.bg}44, ${compact ? 2 : 4}px ${compact ? 2 : 4}px 0 #111`
-                  : `${compact ? 2 : 4}px ${compact ? 2 : 4}px 0 #111`,
+                  ? `0 0 ${glowInner}px ${el.bg}, 0 0 ${glowOuter}px ${el.bg}44, ${flatShadow}`
+                  : flatShadow,
                 background: el.bg,
                 display: 'flex',
                 flexDirection: 'column',

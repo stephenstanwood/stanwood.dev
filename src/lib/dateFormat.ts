@@ -1,5 +1,8 @@
 /** Shared en-US date/time formatters. */
 
+/** Canonical IANA timezone for this site's Pacific-time content. */
+export const PACIFIC_TZ = "America/Los_Angeles";
+
 type DateInput = Date | string | number;
 
 const MONTH_DAY = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });

@@ -1,8 +1,10 @@
 import { MS_PER_DAY } from "../time";
+import { PACIFIC_TZ } from "../dateFormat";
 
 /** Alias of the canonical day constant in time.ts, kept so Campbell importers don't redefine it. */
 export const DAY_MS = MS_PER_DAY;
-export const CAMPBELL_TIME_ZONE = "America/Los_Angeles";
+/** Alias of the canonical Pacific timezone in dateFormat.ts. */
+export const CAMPBELL_TIME_ZONE = PACIFIC_TZ;
 
 // Council/hearing feeds are considered stale once the newest record is this old.
 export const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;

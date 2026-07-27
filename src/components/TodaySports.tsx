@@ -11,7 +11,7 @@ import {
   yyyymmddInPT,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
-import { formatHourMinuteInTz } from "../lib/dateFormat";
+import { formatHourMinuteInTz, PACIFIC_TZ } from "../lib/dateFormat";
 
 interface TodayGame {
   id: string;
@@ -68,7 +68,7 @@ export default function TodaySports() {
 
           const startSortKey = new Date(ev.date).getTime();
           const startTime =
-            formatHourMinuteInTz(ev.date, "America/Los_Angeles") + " PT";
+            formatHourMinuteInTz(ev.date, PACIFIC_TZ) + " PT";
 
           next.push({
             id,

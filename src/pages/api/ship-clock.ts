@@ -1,7 +1,6 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
-import Anthropic from "@anthropic-ai/sdk";
-import { CLAUDE_SONNET, extractText } from "../../lib/models";
+import { CLAUDE_SONNET, extractText, getAnthropicClient } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
@@ -12,9 +11,7 @@ const VERCEL_TOKEN = import.meta.env.VERCEL_TOKEN;
 const VERCEL_PROJECT_ID = import.meta.env.VERCEL_PROJECT_ID;
 const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
 
-const anthropic = ANTHROPIC_API_KEY
-  ? new Anthropic({ apiKey: ANTHROPIC_API_KEY })
-  : null;
+const anthropic = ANTHROPIC_API_KEY ? getAnthropicClient() : null;
 
 /** Strip PR refs and clean up a raw commit message */
 function cleanRaw(raw: string): string {
