@@ -5,6 +5,13 @@ export const VALID_MODES: WeirdnessMode[] = [
   "alternate-timeline",
 ];
 
+/** Coerce an untrusted mode value to a valid WeirdnessMode, defaulting to "designer". */
+export function parseMode(value: unknown): WeirdnessMode {
+  return VALID_MODES.includes(value as WeirdnessMode)
+    ? (value as WeirdnessMode)
+    : "designer";
+}
+
 export interface SiteAnalysis {
   siteType: string;
   currentAesthetic: string;

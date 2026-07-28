@@ -5,11 +5,11 @@ import type { APIRoute } from "astro";
 import Anthropic from "@anthropic-ai/sdk";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, getAnthropicClient } from "../../../lib/models";
-import { errJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
+import { devErrJson, parseRequestUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { captureScreenshot, screenshotErrorMessage } from "../../../lib/screenshotClient";
 import { buildAnalyzePrompt } from "../../../lib/redesignRolodex/prompt";
 import { ProgressiveJsonParser } from "../../../lib/redesignRolodex/streamParser";
-import { VALID_MODES, type WeirdnessMode } from "../../../lib/redesignRolodex/types";
+import { parseMode } from "../../../lib/redesignRolodex/types";
 
 const client = getAnthropicClient();
 
@@ -23,16 +23,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   try {
     const body = await request.json();
-    const rawUrl = body?.url;
-    const mode: WeirdnessMode = VALID_MODES.includes(body?.mode)
-      ? body.mode
-      : "designer";
+    const mode = parseMode(body?.mode);
 
-    if (!rawUrl || typeof rawUrl !== "string")
-      return errJson("No URL provided", 400);
-
-    const parsed = isValidUrl(rawUrl);
-    if (!parsed) return errJson("Invalid or private URL", 400);
+    const parsed = parseRequestUrl(body?.url);
+    if (parsed instanceof Response) return parsed;
 
     const urlStr = parsed.toString();
 

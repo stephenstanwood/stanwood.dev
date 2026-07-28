@@ -2,6 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+import { createTtlCache } from "../../lib/ttlCache";
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
@@ -26,12 +27,7 @@ export interface ProviderStatus {
   brandColor: string;
 }
 
-// In-memory cache: { data, fetchedAt }
-// CLEANUP-FLAG: serverless functions don't share memory across instances, so this cache only
-// helps when the same instance handles repeated requests within its lifetime. CDN headers
-// (s-maxage/stale-while-revalidate) on the response are the real caching layer here.
-let cache: { data: ProviderStatus[]; fetchedAt: number } | null = null;
-const CACHE_TTL = 3 * 60 * 1000; // 3 minutes
+const statusCache = createTtlCache<ProviderStatus[]>(3 * 60 * 1000); // 3 minutes
 
 function normalizeStatus(indicator: string): ProviderStatus["status"] {
   switch (indicator) {
@@ -145,13 +141,11 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
   };
 
-  // Serve from cache if fresh
-  if (cache && Date.now() - cache.fetchedAt < CACHE_TTL) {
-    return okJson(cache.data, AI_STATUS_CACHE_HEADERS);
-  }
+  const fresh = statusCache.get();
+  if (fresh) return okJson(fresh, AI_STATUS_CACHE_HEADERS);
 
   const data = await fetchAll();
-  cache = { data, fetchedAt: Date.now() };
+  statusCache.set(data);
 
   return okJson(data, AI_STATUS_CACHE_HEADERS);
 };
