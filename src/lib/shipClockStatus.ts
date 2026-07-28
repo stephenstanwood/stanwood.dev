@@ -1,3 +1,15 @@
+/** Deploy metadata from the /api/ship-clock endpoint, shared by the ShipClock components. */
+export interface DeployData {
+  lastDeploy: string | null;
+  daysSince: number | null;
+  hoursSince: number | null;
+  project?: string | null;
+  summary?: string | null;
+  sha?: string | null;
+  prNumber?: string | null;
+  error?: string;
+}
+
 /** Shared "days since last ship" status used by ShipClock and RepoTracker. */
 export function shipStatus(days: number): { label: string; tone: string } {
   if (days === 0) return { label: "shipped today", tone: "hot" };

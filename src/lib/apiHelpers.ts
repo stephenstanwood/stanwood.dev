@@ -58,6 +58,18 @@ export function devErrJson(message: string, errMsg: string): Response {
 }
 
 /**
+ * Parse a user-supplied URL from a request body. Returns the parsed URL, or an error
+ * Response (which the caller should return directly) when it's missing, non-string,
+ * invalid, or points at a private/SSRF target.
+ */
+export function parseRequestUrl(rawUrl: unknown): URL | Response {
+  if (!rawUrl || typeof rawUrl !== "string") return errJson("No URL provided", 400);
+  const parsed = isValidUrl(rawUrl);
+  if (!parsed) return errJson("Invalid or private URL", 400);
+  return parsed;
+}
+
+/**
  * Validate a user-supplied URL and block SSRF targets (localhost, RFC-1918 ranges, .local/.internal).
  * Returns the parsed URL on success, null on failure.
  */

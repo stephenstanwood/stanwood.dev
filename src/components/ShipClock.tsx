@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { shipStatus } from "../lib/shipClockStatus";
+import { shipStatus, type DeployData as DeploySummary } from "../lib/shipClockStatus";
 import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
@@ -17,17 +17,9 @@ interface DeployStats {
   streakWeeks: number;
 }
 
-interface DeployData {
-  lastDeploy: string | null;
-  daysSince: number | null;
-  hoursSince: number | null;
-  project?: string | null;
-  summary?: string | null;
-  sha?: string | null;
-  prNumber?: string | null;
+interface DeployData extends DeploySummary {
   history?: HistoryEntry[];
   stats?: DeployStats;
-  error?: string;
 }
 
 const GITHUB_REPO = "https://github.com/stephenstanwood/stanwood.dev";

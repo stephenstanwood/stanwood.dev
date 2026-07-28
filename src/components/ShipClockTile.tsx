@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
 import { MS_PER_MINUTE, msSince } from "../lib/time";
 import { formatHourMinute } from "../lib/dateFormat";
-
-interface DeployData {
-  lastDeploy: string | null;
-  daysSince: number | null;
-  hoursSince: number | null;
-  project?: string | null;
-  summary?: string | null;
-  sha?: string | null;
-  prNumber?: string | null;
-  error?: string;
-}
+import type { DeployData } from "../lib/shipClockStatus";
 
 /** Generate pseudo-barcode bar widths from a string (for visual effect only).
  *  Repeats the SHA pattern to fill ~60 bars for a full-width barcode. */

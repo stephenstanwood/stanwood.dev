@@ -5,22 +5,20 @@ import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../
 import { getLatestAgenda } from "../../../lib/campbell/agendaScraper";
 import type { DigestSummary } from "../../../lib/campbell/types";
 import { MS_PER_DAY } from "../../../lib/time";
+import { createTtlCache } from "../../../lib/ttlCache";
 
 export const prerender = false;
 
 // Cache the digest for 24 hours (agendas don't change after posting)
-let cached: { data: DigestSummary; ts: number } | null = null;
-const CACHE_TTL = MS_PER_DAY;
+const digestCache = createTtlCache<DigestSummary>(MS_PER_DAY);
 
 const client = getAnthropicClient();
 
 export const POST: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
 
-  // Serve from cache if fresh
-  if (cached && Date.now() - cached.ts < CACHE_TTL) {
-    return okJson(cached.data);
-  }
+  const fresh = digestCache.get();
+  if (fresh) return okJson(fresh);
 
   if (!import.meta.env.ANTHROPIC_API_KEY) return errJson("Service not configured", 503);
 
@@ -58,8 +56,7 @@ ${content}`;
     parsed.sourceUrl = agenda.url;
     parsed.generatedAt = new Date().toISOString();
 
-    // Cache it
-    cached = { data: parsed, ts: Date.now() };
+    digestCache.set(parsed);
 
     return okJson(parsed);
   } catch (err) {

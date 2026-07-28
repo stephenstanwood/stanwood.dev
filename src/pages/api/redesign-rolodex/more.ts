@@ -4,11 +4,10 @@ export const config = { maxDuration: 60 };
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
-import { errJson, okJson, devErrJson, isValidUrl, toErrMsg } from "../../../lib/apiHelpers";
+import { okJson, devErrJson, parseRequestUrl, toErrMsg } from "../../../lib/apiHelpers";
 import { buildMorePrompt } from "../../../lib/redesignRolodex/prompt";
-import { VALID_MODES } from "../../../lib/redesignRolodex/types";
+import { parseMode } from "../../../lib/redesignRolodex/types";
 import type {
-  WeirdnessMode,
   DesignDirection,
   MoreModifier,
 } from "../../../lib/redesignRolodex/types";
@@ -21,10 +20,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
   try {
     const body = await request.json();
-    const rawUrl = body?.url;
-    const mode: WeirdnessMode = VALID_MODES.includes(body?.mode)
-      ? body.mode
-      : "designer";
+    const mode = parseMode(body?.mode);
     const modifier: MoreModifier = VALID_MODIFIERS.includes(body?.modifier)
       ? body.modifier
       : "more";
@@ -38,12 +34,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const nextId: number =
       typeof body?.nextId === "number" ? body.nextId : previousNames.length + 2;
 
-    if (!rawUrl || typeof rawUrl !== "string")
-      return errJson("No URL provided", 400);
-
-    // Same SSRF/private-URL guard as the analyze route — this endpoint takes the URL too
-    const parsed = isValidUrl(rawUrl);
-    if (!parsed) return errJson("Invalid or private URL", 400);
+    const parsed = parseRequestUrl(body?.url);
+    if (parsed instanceof Response) return parsed;
 
     const prompt = buildMorePrompt(parsed.toString(), mode, modifier, previousNames);
 

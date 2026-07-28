@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { errJson, fetchWithTimeout, okJson } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
+import { createTtlCache } from "../../../lib/ttlCache";
 
 export const prerender = false;
 
@@ -19,12 +20,7 @@ interface ClassicVideo {
   index: string | null;
 }
 
-let cached:
-  | {
-      fetchedAt: number;
-      videos: ClassicVideo[];
-    }
-  | null = null;
+const videoCache = createTtlCache<ClassicVideo[]>(CACHE_TTL_MS);
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -237,15 +233,17 @@ async function fetchPlaylistVideos(): Promise<ClassicVideo[]> {
 }
 
 async function getPlaylistVideos(): Promise<ClassicVideo[]> {
-  const now = Date.now();
-  if (cached && now - cached.fetchedAt < CACHE_TTL_MS) return cached.videos;
+  const fresh = videoCache.get();
+  if (fresh) return fresh;
 
   try {
     const videos = await fetchPlaylistVideos();
-    cached = { fetchedAt: now, videos };
+    videoCache.set(videos);
     return videos;
   } catch (err) {
-    if (cached) return cached.videos;
+    // Serve stale videos rather than fail if the upstream fetch breaks
+    const stale = videoCache.stale();
+    if (stale) return stale;
     throw err;
   }
 }
