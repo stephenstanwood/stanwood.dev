@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-29T01:10:35.915Z",
+  "lastUpdated": "2026-07-29T06:10:28.442Z",
   "apiSpend": {
     "months": [
       {
@@ -124,14 +124,14 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-29T01:10:35.915Z",
+        "collectedAt": "2026-07-29T06:10:28.442Z",
         "services": {
           "vercel": {
-            "totalCents": 174,
+            "totalCents": 268,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 171
+                "cents": 265
               },
               {
                 "name": "Fluid Provisioned Memory",
