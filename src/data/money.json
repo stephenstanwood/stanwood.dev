@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-29T13:10:42.911Z",
+  "lastUpdated": "2026-07-29T19:10:26.708Z",
   "apiSpend": {
     "months": [
       {
@@ -124,17 +124,21 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-29T13:10:42.911Z",
+        "collectedAt": "2026-07-29T19:10:26.708Z",
         "services": {
           "vercel": {
-            "totalCents": 295,
+            "totalCents": 501,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 288
+                "cents": 491
               },
               {
                 "name": "Blob Storage Size",
+                "cents": 4
+              },
+              {
+                "name": "Blob Advanced Operations",
                 "cents": 2
               },
               {
@@ -147,10 +151,6 @@
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 1
-              },
-              {
-                "name": "Blob Advanced Operations",
                 "cents": 1
               },
               {
