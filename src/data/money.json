@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-28T01:10:30.484Z",
+  "lastUpdated": "2026-07-29T01:10:35.915Z",
   "apiSpend": {
     "months": [
       {
@@ -124,14 +124,14 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-28T01:10:30.484Z",
+        "collectedAt": "2026-07-29T01:10:35.915Z",
         "services": {
           "vercel": {
-            "totalCents": 23,
+            "totalCents": 174,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 21
+                "cents": 171
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -140,16 +140,20 @@
               {
                 "name": "Fast Origin Transfer",
                 "cents": 1
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 1
               }
             ],
             "note": null
           },
           "anthropic": {
-            "totalCents": 12753,
+            "totalCents": 13423,
             "breakdown": [
               {
                 "name": "claude-opus-4-8",
-                "cents": 9065
+                "cents": 9637
               },
               {
                 "name": "claude-opus-4-7",
@@ -157,11 +161,11 @@
               },
               {
                 "name": "claude-fable-5",
-                "cents": 1360
+                "cents": 1456
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 666
+                "cents": 668
               },
               {
                 "name": "claude-sonnet-4-6",
