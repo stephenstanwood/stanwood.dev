@@ -478,7 +478,7 @@ function mergeBusinesses(...feeds) {
   return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
-async function readExistingSourceBusinesses({ tag, source, sourceUrl }) {
+async function readExistingSourceBusinesses({ tag, source, sourceUrl, preserveSourceUrls = false }) {
   const existingPath = resolve(DATA_DIR, "campbellBusinesses.json");
   let payload;
 
@@ -498,13 +498,20 @@ async function readExistingSourceBusinesses({ tag, source, sourceUrl }) {
         (business.additionalSourceUrls ?? []).includes(sourceUrl)
       );
     })
-    .map((business) => ({
-      ...business,
-      tags: [tag],
-      source,
-      sourceUrl,
-      additionalSourceUrls: [],
-    }))
+    .map((business) => {
+      const existingAdditionalUrls = business.additionalSourceUrls ?? [];
+      return {
+        ...business,
+        tags: [tag],
+        source,
+        sourceUrl: preserveSourceUrls ? (business.sourceUrl || sourceUrl) : sourceUrl,
+        ...(
+          preserveSourceUrls
+            ? (existingAdditionalUrls.length ? { additionalSourceUrls: existingAdditionalUrls } : {})
+            : { additionalSourceUrls: [] }
+        ),
+      };
+    })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -1908,14 +1915,28 @@ async function main() {
     downtownDirectorySourceNote = `Reused previous Downtown Campbell directory because ${directoryPage.error}`;
     console.warn(`Warning: ${downtownDirectorySourceNote}`);
   }
-  const chamberBusinesses = [];
-  for (const slug of CHAMBER_ALPHA_SLUGS) {
-    await sleep(175);
-    const sourceUrl = `${CHAMBER_BASE_URL}/list/searchalpha/${slug}`;
-    const html = await fetchText(sourceUrl);
-    chamberBusinesses.push(...parseChamberBusinesses(html, sourceUrl));
+  let chamberBusinesses = [];
+  let chamberDirectorySourceNote = "";
+  try {
+    for (const slug of CHAMBER_ALPHA_SLUGS) {
+      await sleep(175);
+      const sourceUrl = `${CHAMBER_BASE_URL}/list/searchalpha/${slug}`;
+      const html = await fetchText(sourceUrl);
+      chamberBusinesses.push(...parseChamberBusinesses(html, sourceUrl));
+    }
+  } catch (err) {
+    chamberBusinesses = await readExistingSourceBusinesses({
+      tag: "Chamber",
+      source: "Campbell Chamber Directory",
+      sourceUrl: CHAMBER_DIRECTORY_URL,
+      preserveSourceUrls: true,
+    });
+    chamberDirectorySourceNote = `Reused previous Campbell Chamber directory because ${err.message}`;
+    console.warn(`Warning: ${chamberDirectorySourceNote}`);
   }
-  const campbellChamberBusinesses = chamberBusinesses.filter(isCampbellLocatedBusiness);
+  const campbellChamberBusinesses = chamberDirectorySourceNote
+    ? chamberBusinesses
+    : chamberBusinesses.filter(isCampbellLocatedBusiness);
   const businesses = mergeBusinesses(downtownBusinesses, campbellChamberBusinesses);
   let downtownEvents = [];
   let downtownEventsSourceNote = "";
@@ -2021,7 +2042,7 @@ async function main() {
   if (downtownBusinesses.length < 50) {
     throw new Error(`Downtown directory parse returned only ${downtownBusinesses.length} businesses`);
   }
-  if (chamberBusinesses.length < 300) {
+  if (!chamberDirectorySourceNote && chamberBusinesses.length < 300) {
     throw new Error(`Chamber directory parse returned only ${chamberBusinesses.length} businesses`);
   }
   if (campbellChamberBusinesses.length < 150) {
@@ -2079,6 +2100,7 @@ async function main() {
         count: businesses.filter((business) => business.tags?.includes("Chamber")).length,
         sourceEntries: campbellChamberBusinesses.length,
         totalParsed: chamberBusinesses.length,
+        ...(chamberDirectorySourceNote ? { note: chamberDirectorySourceNote } : {}),
       },
     ],
     items: businesses,
