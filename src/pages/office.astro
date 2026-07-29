@@ -7,7 +7,8 @@ import path from 'node:path';
 import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
 import YesterdaySports from '../components/YesterdaySports.tsx';
-import { daysSince } from '../lib/time';
+import { daysSince, MS_PER_DAY } from '../lib/time';
+import { formatHourMinuteInTz, PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
 
 interface QueueVideo {
@@ -133,7 +134,7 @@ function topicLabel(v: BroaderVideo): string {
 }
 
 function ageInDays(v: BroaderVideo): number {
-  return Math.max(0, (Date.now() - new Date(v.published_at).getTime()) / 86_400_000);
+  return Math.max(0, (Date.now() - new Date(v.published_at).getTime()) / MS_PER_DAY);
 }
 
 function editorialScore(v: BroaderVideo): number {
@@ -214,11 +215,7 @@ function fmtAgo(iso: string) {
 
 function fmtRefresh(iso: string | null) {
   if (!iso) return 'refresh pending';
-  const time = new Intl.DateTimeFormat('en-US', {
-    timeZone: 'America/Los_Angeles',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(new Date(iso));
+  const time = formatHourMinuteInTz(iso, PACIFIC_TZ);
   return `updated ${fmtAgo(iso)} · ${time} PT`;
 }
 
