@@ -13,6 +13,8 @@ const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
 
 const anthropic = ANTHROPIC_API_KEY ? getAnthropicClient() : null;
 
+const CACHE_HEADERS = { "Cache-Control": "public, s-maxage=300, max-age=60" };
+
 /** Strip PR refs and clean up a raw commit message */
 function cleanRaw(raw: string): string {
   return raw.split("\n")[0].trim().replace(/\s*\(#\d+\)\s*$/g, "");
@@ -88,7 +90,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     if (deployments.length === 0) {
       return okJson(
         { lastDeploy: null, daysSince: null, hoursSince: null, error: "no deploys" },
-        { "Cache-Control": "public, s-maxage=300, max-age=60" },
+        CACHE_HEADERS,
       );
     }
 
@@ -154,7 +156,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
     return okJson(
       { lastDeploy: createdAt.toISOString(), daysSince, hoursSince, project, summary, sha, prNumber, history, stats },
-      { "Cache-Control": "public, s-maxage=300, max-age=60" },
+      CACHE_HEADERS,
     );
   } catch (err) {
     console.error("ship-clock fetch failed:", err);
