@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-30T06:10:27.537Z",
+  "lastUpdated": "2026-07-30T13:10:50.274Z",
   "apiSpend": {
     "months": [
       {
@@ -124,10 +124,10 @@
       },
       {
         "month": "2026-07",
-        "collectedAt": "2026-07-30T06:10:27.537Z",
+        "collectedAt": "2026-07-30T13:10:50.274Z",
         "services": {
           "vercel": {
-            "totalCents": 615,
+            "totalCents": 618,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -135,14 +135,14 @@
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 9
-              },
-              {
-                "name": "Fluid Provisioned Memory",
-                "cents": 2
+                "cents": 11
               },
               {
                 "name": "Fluid Active CPU",
+                "cents": 3
+              },
+              {
+                "name": "Fluid Provisioned Memory",
                 "cents": 2
               },
               {
@@ -221,10 +221,10 @@
     },
     {
       "name": "Cursor",
-      "cents": 22000,
+      "cents": 24004,
       "category": "ai",
       "url": "https://cursor.com/settings",
-      "note": "Mercury actual Jul 2026; 2 Mercury charges combined"
+      "note": "Mercury actual Jul 2026; 3 Mercury charges combined"
     },
     {
       "name": "Claude Max",
