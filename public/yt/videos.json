@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-07-31T10:30:16.719681+00:00",
+  "built_at": "2026-08-01T10:30:21.680904+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,7 +8,7 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 28,
-      "video_count": 10,
+      "video_count": 11,
       "video_ids": [
         "5p9VOzJAmW8",
         "IydslKdqzYo",
@@ -19,7 +19,8 @@
         "WwWjH9ynx9U",
         "ylELycbIbfg",
         "IpzIDAqJDwI",
-        "kk8TB8wBj-I"
+        "kk8TB8wBj-I",
+        "vVeCXAFt5f4"
       ]
     },
     {
@@ -167,6 +168,32 @@
       ]
     },
     {
+      "key": "CS229",
+      "is_single": false,
+      "display_name": "CS229",
+      "best_score": 6,
+      "video_count": 17,
+      "video_ids": [
+        "DATnpGoGhM8",
+        "cmNIMjPYdgM",
+        "uJF_gL3jhxI",
+        "8gVi4Rk21Eg",
+        "zRdE8A4UZes",
+        "llnEgyyuYkQ",
+        "fRM41w9jzQo",
+        "ne2ngVAoMG8",
+        "bSmIGBCoffA",
+        "sUS-eTa0l6s",
+        "dqUMCzWjZSI",
+        "_kREM2UAiJ8",
+        "lNTajqxxOn4",
+        "pwQ0l4hFCVI",
+        "hHC-SF3utxg",
+        "xveNBYVTrqw",
+        "J7CossjMvEg"
+      ]
+    },
+    {
       "key": "CME296",
       "is_single": false,
       "display_name": "CME296",
@@ -191,25 +218,6 @@
       "video_count": 1,
       "video_ids": [
         "_U0EUX2E3k0"
-      ]
-    },
-    {
-      "key": "CS229",
-      "is_single": false,
-      "display_name": "CS229",
-      "best_score": 0,
-      "video_count": 10,
-      "video_ids": [
-        "DATnpGoGhM8",
-        "cmNIMjPYdgM",
-        "uJF_gL3jhxI",
-        "8gVi4Rk21Eg",
-        "zRdE8A4UZes",
-        "llnEgyyuYkQ",
-        "fRM41w9jzQo",
-        "ne2ngVAoMG8",
-        "bSmIGBCoffA",
-        "sUS-eTa0l6s"
       ]
     },
     {
@@ -490,6 +498,23 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMay 29, 2026\nThis lecture covers:\n\u2022 LLM-based physical activity coaching\n\u2022 How LLMs can elicit and reason about qualitative context to provide non-prescriptive and agency-promoting support\n\u2022 A reinforcement learning algorithm to enable LLM agents to explicitly reason about uncertainty in"
+    },
+    {
+      "id": "vVeCXAFt5f4",
+      "title": "Stanford CS547 HCI Seminar | Spring 2026 | Show It or Tell It? Text, Visualization, and Combination",
+      "url": "https://www.youtube.com/watch?v=vVeCXAFt5f4",
+      "duration": 3379,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS547",
+      "series_display": "CS547",
+      "lecture_num": null,
+      "score": 24,
+      "categories": [
+        "hci",
+        "applied_ai",
+        "series:CS547"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 13, 2026\nThis lecture covers:\n\u2022 Text, visualization, and their combination\n\u2022 The role of language in information visualization\n\u2022 How to decide what to express via language vs via visualization\n\u2022 How to choose what kind of text to use when creating visualizations, and does that choi"
     },
     {
       "id": "GBd7iuJkW08",
@@ -1611,6 +1636,231 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 7, 2025\nThis seminar covers: \n\u2022 Embodied intelligence with morphing materials and mechanisms\n\u2022 Facing open design challenges, such as complete degradability and biocompatibility, arbitrary shape morphing, and freely reconfigurable degrees of freedom\n\u2022 How addressing these challenge"
     },
     {
+      "id": "DATnpGoGhM8",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 1: Introduction",
+      "url": "https://www.youtube.com/watch?v=DATnpGoGhM8",
+      "duration": 2219,
+      "published_at": "2026-07-29T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 1,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "cmNIMjPYdgM",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 2: Supervised Learning Setup",
+      "url": "https://www.youtube.com/watch?v=cmNIMjPYdgM",
+      "duration": 4690,
+      "published_at": "2026-07-29T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 2,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "uJF_gL3jhxI",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 3: Weighted Least Squares",
+      "url": "https://www.youtube.com/watch?v=uJF_gL3jhxI",
+      "duration": 3734,
+      "published_at": "2026-07-29T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 3,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "8gVi4Rk21Eg",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 4: Exponential Family, GLMs Classification",
+      "url": "https://www.youtube.com/watch?v=8gVi4Rk21Eg",
+      "duration": 4452,
+      "published_at": "2026-07-29T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 4,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "zRdE8A4UZes",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 5: Gaussian Discriminant Analysis",
+      "url": "https://www.youtube.com/watch?v=zRdE8A4UZes",
+      "duration": 4898,
+      "published_at": "2026-07-30T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 5,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "llnEgyyuYkQ",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 6: Dataset Split, ML Advice",
+      "url": "https://www.youtube.com/watch?v=llnEgyyuYkQ",
+      "duration": 4707,
+      "published_at": "2026-07-30T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 6,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "fRM41w9jzQo",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 7: Neural Networks 1 (Architecture)",
+      "url": "https://www.youtube.com/watch?v=fRM41w9jzQo",
+      "duration": 4828,
+      "published_at": "2026-07-30T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 7,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "ne2ngVAoMG8",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 8: Neural Networks 2 (Backprop)",
+      "url": "https://www.youtube.com/watch?v=ne2ngVAoMG8",
+      "duration": 3733,
+      "published_at": "2026-07-30T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 8,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "bSmIGBCoffA",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 9: K-Means and GMM (non-EM)",
+      "url": "https://www.youtube.com/watch?v=bSmIGBCoffA",
+      "duration": 4590,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 9,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "sUS-eTa0l6s",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 10: GMM (EM), PCA",
+      "url": "https://www.youtube.com/watch?v=sUS-eTa0l6s",
+      "duration": 4806,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 10,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "dqUMCzWjZSI",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 11: Diffusion Models",
+      "url": "https://www.youtube.com/watch?v=dqUMCzWjZSI",
+      "duration": 4951,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 11,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "_kREM2UAiJ8",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 12: Representation Learning",
+      "url": "https://www.youtube.com/watch?v=_kREM2UAiJ8",
+      "duration": 4557,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 12,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "lNTajqxxOn4",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 13: LLMs, Next-Word Prediction Loss",
+      "url": "https://www.youtube.com/watch?v=lNTajqxxOn4",
+      "duration": 3642,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 13,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "pwQ0l4hFCVI",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 14: Transformers, In-Context Learning",
+      "url": "https://www.youtube.com/watch?v=pwQ0l4hFCVI",
+      "duration": 4652,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 14,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "hHC-SF3utxg",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 16: Basic Concept in RL, Policy Gradient",
+      "url": "https://www.youtube.com/watch?v=hHC-SF3utxg",
+      "duration": 4399,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 16,
+      "score": 5,
+      "categories": [
+        "civic_open"
+      ],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "xveNBYVTrqw",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 18: GMM (EM), PCA",
+      "url": "https://www.youtube.com/watch?v=xveNBYVTrqw",
+      "duration": 4585,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 18,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "J7CossjMvEg",
+      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 20: GMM (EM), PCA",
+      "url": "https://www.youtube.com/watch?v=J7CossjMvEg",
+      "duration": 4736,
+      "published_at": "2026-07-31T00:00:00+00:00",
+      "series": "CS229",
+      "series_display": "CS229",
+      "lecture_num": 20,
+      "score": 0,
+      "categories": [],
+      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
       "id": "tr-CUpw--ck",
       "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 1 - Diffusion",
       "url": "https://www.youtube.com/watch?v=tr-CUpw--ck",
@@ -1749,136 +1999,6 @@
         "series:AA228V"
       ],
       "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
-    },
-    {
-      "id": "DATnpGoGhM8",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 1: Introduction",
-      "url": "https://www.youtube.com/watch?v=DATnpGoGhM8",
-      "duration": 2219,
-      "published_at": "2026-07-29T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 1,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "cmNIMjPYdgM",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 2: Supervised Learning Setup",
-      "url": "https://www.youtube.com/watch?v=cmNIMjPYdgM",
-      "duration": 4690,
-      "published_at": "2026-07-29T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 2,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "uJF_gL3jhxI",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 3: Weighted Least Squares",
-      "url": "https://www.youtube.com/watch?v=uJF_gL3jhxI",
-      "duration": 3734,
-      "published_at": "2026-07-29T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 3,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "8gVi4Rk21Eg",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 4: Exponential Family, GLMs Classification",
-      "url": "https://www.youtube.com/watch?v=8gVi4Rk21Eg",
-      "duration": 4452,
-      "published_at": "2026-07-29T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 4,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "zRdE8A4UZes",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 5: Gaussian Discriminant Analysis",
-      "url": "https://www.youtube.com/watch?v=zRdE8A4UZes",
-      "duration": 4898,
-      "published_at": "2026-07-30T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 5,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "llnEgyyuYkQ",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 6: Dataset Split, ML Advice",
-      "url": "https://www.youtube.com/watch?v=llnEgyyuYkQ",
-      "duration": 4707,
-      "published_at": "2026-07-30T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 6,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "fRM41w9jzQo",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 7: Neural Networks 1 (Architecture)",
-      "url": "https://www.youtube.com/watch?v=fRM41w9jzQo",
-      "duration": 4828,
-      "published_at": "2026-07-30T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 7,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "ne2ngVAoMG8",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 8: Neural Networks 2 (Backprop)",
-      "url": "https://www.youtube.com/watch?v=ne2ngVAoMG8",
-      "duration": 3733,
-      "published_at": "2026-07-30T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 8,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "bSmIGBCoffA",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 9: K-Means and GMM (non-EM)",
-      "url": "https://www.youtube.com/watch?v=bSmIGBCoffA",
-      "duration": 4590,
-      "published_at": "2026-07-31T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 9,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
-    },
-    {
-      "id": "sUS-eTa0l6s",
-      "title": "Stanford CS229 Machine Learning | Spring 2026 | Lecture 10: GMM (EM), PCA",
-      "url": "https://www.youtube.com/watch?v=sUS-eTa0l6s",
-      "duration": 4806,
-      "published_at": "2026-07-31T00:00:00+00:00",
-      "series": "CS229",
-      "series_display": "CS229",
-      "lecture_num": 10,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
     },
     {
       "id": "BBl8bNJP6ds",
