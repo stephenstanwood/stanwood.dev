@@ -1427,7 +1427,9 @@ function eventSpecificTimesMatch(firstEvent, secondEvent) {
     const firstEnd = eventEndTimestamp(firstEvent);
     const secondEnd = eventEndTimestamp(secondEvent);
     if (firstEnd === Number.MAX_SAFE_INTEGER || secondEnd === Number.MAX_SAFE_INTEGER) return false;
-    return Math.abs(firstEnd - secondEnd) <= 60_000;
+    if (Math.abs(firstEnd - secondEnd) <= 60_000) return true;
+
+    return eventTitlesLookSame(firstEvent, secondEvent) && eventLocationsOverlap(firstEvent, secondEvent);
   }
 
   return true;

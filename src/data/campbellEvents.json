@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-08-01T06:22:56.413Z",
+  "generatedAt": "2026-08-01T09:24:00.302Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 18,
-      "parsedCount": 18
+      "count": 31,
+      "parsedCount": 31
     },
     {
       "label": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events",
-      "count": 49,
-      "parsedCount": 49
+      "count": 48,
+      "parsedCount": 48
     },
     {
       "label": "Campbell Library Events",
@@ -73,19 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "The History of Baseball, America's Favorite Pastime with Dr. Lindsay Bell",
-      "date": "7/31/26",
-      "cost": "$25",
-      "location": "Ainsley House",
-      "description": "Historian Dr. Lindsay Bell explores how a simple game grew into a powerful symbol of American identity, reflecting the nation's values, challenges, and aspirations.",
-      "url": "https://www.downtowncampbell.com/event/2026/07/history-baseball-americas-favorite-pastime-dr-lindsay-bell",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/4229/images/july_31_lindsay_bell.png?itok=jzLnIma5",
-      "category": "Downtown",
-      "startDate": "2026-07-31T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -706,6 +693,34 @@
       ]
     },
     {
+      "title": "City Council Regular Meeting",
+      "date": "September 1, 2026, 7:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3942&month=9&year=2026&day=1&calType=0",
+      "imageUrl": "",
+      "category": "City Council",
+      "startDate": "2026-09-01T19:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": []
+    },
+    {
+      "title": "Parks and Recreation Commission Meeting",
+      "date": "September 2, 2026, 7:00 PM - 9:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3858&month=9&year=2026&day=2&calType=0",
+      "imageUrl": "",
+      "category": "Main Calendar",
+      "startDate": "2026-09-02T19:00:00",
+      "endDate": "2026-09-02T21:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "Board Meeting",
       "date": "Sep 3, 2026, 5:30 PM PDT",
       "cost": "",
@@ -723,19 +738,20 @@
       "endDate": "2026-09-03T19:30:00"
     },
     {
-      "title": "NEIL DIAMOND SUPERSTAR",
-      "date": "Sep 04, 2026, 7:30 PM – 10:30 PM",
+      "title": "Jack Wright's National Touring Tribute presents NEIL DIAMOND SUPERSTAR",
+      "date": "September 4, 2026, 7:30 PM - 9:30 PM",
       "cost": "$30.50/$43.50/$55.50 + $4 Facility Fee",
-      "location": "Heritage Theatre",
+      "location": "The Heritage Theatre",
       "description": "Authentic. Captivating. Unforgettable. NEIL DIAMOND SUPERSTAR is the tribute show you'll feel and remember.",
-      "url": "https://www.heritagetheatre.org/event-details/neil-diamond-superstar",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3968&month=9&year=2026&day=4&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_bfa91cb34e894002b24c1f99ceb6cc9a~mv2.jpg",
       "category": "Heritage Theatre",
-      "startDate": "2026-09-04T19:30:00-07:00",
-      "endDate": "2026-09-04T22:30:00-07:00",
-      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1",
+      "startDate": "2026-09-04T19:30:00",
+      "endDate": "2026-09-04T21:30:00",
+      "source": "City of Campbell Calendar + Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
       "additionalSourceUrls": [
+        "https://www.heritagetheatre.org/events-1",
         "https://www.downtowncampbell.com/events"
       ]
     },
@@ -779,6 +795,32 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
+      "title": "Planning Commission Regular Meeting",
+      "date": "September 8, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3875&month=9&year=2026&day=8&calType=0",
+      "imageUrl": "",
+      "category": "Planning Commission",
+      "startDate": "2026-09-08T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
+      "title": "Civic Improvement Commission",
+      "date": "September 10, 2026, 6:00 PM",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3437&month=9&year=2026&day=10&calType=0",
+      "imageUrl": "",
+      "category": "Civic Improvement Commission",
+      "startDate": "2026-09-10T18:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "9/13/26",
       "cost": "",
@@ -804,6 +846,20 @@
       "endDate": "2026-09-13T16:00:00-07:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
+      "title": "City Council Regular Meeting",
+      "date": "September 15, 2026, 7:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3920&month=9&year=2026&day=15&calType=0",
+      "imageUrl": "",
+      "category": "City Council",
+      "startDate": "2026-09-15T19:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": []
     },
     {
       "title": "BLS Classes in Campbell",
@@ -836,6 +892,20 @@
       "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
+      "title": "Bicycle and Pedestrian Advisory Committee Meeting",
+      "date": "September 17, 2026, 5:00 PM - 6:15 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3846&month=9&year=2026&day=17&calType=0",
+      "imageUrl": "",
+      "category": "Main Calendar",
+      "startDate": "2026-09-17T17:00:00",
+      "endDate": "2026-09-17T18:15:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "San Jose Gambling with Ted Ramos",
       "date": "Sep 18, 2026, 5:30 PM – 7:30 PM",
       "cost": "$25",
@@ -848,6 +918,20 @@
       "endDate": "2026-09-18T19:30:00-07:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
+      "title": "Theatre Event",
+      "date": "September 19, 2026, 11:00 AM - 9:00 PM",
+      "cost": "",
+      "location": "The Heritage Theatre",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3969&month=9&year=2026&day=19&calType=0",
+      "imageUrl": "",
+      "category": "Heritage Theatre",
+      "startDate": "2026-09-19T11:00:00",
+      "endDate": "2026-09-19T21:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -881,6 +965,32 @@
       ]
     },
     {
+      "title": "Planning Commission Regular Meeting",
+      "date": "September 22, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3887&month=9&year=2026&day=22&calType=0",
+      "imageUrl": "",
+      "category": "Planning Commission",
+      "startDate": "2026-09-22T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
+      "title": "Historic Preservation Board meeting",
+      "date": "September 23, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3899&month=9&year=2026&day=23&calType=0",
+      "imageUrl": "",
+      "category": "Historic Preservation Board",
+      "startDate": "2026-09-23T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "Board Meeting",
       "date": "Sep 24, 2026, 5:30 PM PDT",
       "cost": "",
@@ -896,6 +1006,20 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-09-24T19:30:00"
+    },
+    {
+      "title": "16th Annual Caregivers Count! Conference",
+      "date": "September 26, 2026, 9:00 AM - 12:00 PM",
+      "cost": "",
+      "location": "",
+      "description": "Join us for the 16th Annual Caregivers Count! Conference, designed to educate and support family caregivers of aging loved ones.",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4034&month=9&year=2026&day=26&calType=0",
+      "imageUrl": "",
+      "category": "Recreation & Community Services",
+      "startDate": "2026-09-26T09:00:00",
+      "endDate": "2026-09-26T12:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Groovin' in the Garden, A 70's Flashback Fundraiser",
