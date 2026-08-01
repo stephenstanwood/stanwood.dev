@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-01T13:10:15.745Z",
+  "lastUpdated": "2026-08-01T19:10:14.288Z",
   "apiSpend": {
     "months": [
       {
@@ -211,18 +211,18 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-01T13:10:15.745Z",
+        "collectedAt": "2026-08-01T19:10:14.288Z",
         "services": {
           "vercel": {
-            "totalCents": 46,
+            "totalCents": 78,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 28
+                "cents": 56
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 11
+                "cents": 14
               },
               {
                 "name": "Fluid Active CPU",
@@ -230,7 +230,7 @@
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 1
+                "cents": 2
               },
               {
                 "name": "Function Invocations",
@@ -270,13 +270,6 @@
     ]
   },
   "subscriptions": [
-    {
-      "name": "Anthropic",
-      "cents": 35255,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Jul 2026; 7 Mercury charges combined"
-    },
     {
       "name": "Cursor",
       "cents": 24004,
@@ -346,6 +339,13 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
+    },
+    {
+      "name": "Anthropic",
+      "cents": 2505,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Aug 2026"
     },
     {
       "name": "Neon via Vercel",
