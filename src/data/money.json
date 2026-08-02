@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-01T19:10:14.288Z",
+  "lastUpdated": "2026-08-02T01:10:13.810Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-01T19:10:14.288Z",
+        "collectedAt": "2026-08-02T01:10:13.810Z",
         "services": {
           "vercel": {
-            "totalCents": 78,
+            "totalCents": 163,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 56
+                "cents": 137
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 14
+                "cents": 16
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 3
+                "cents": 4
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -234,7 +234,7 @@
               },
               {
                 "name": "Function Invocations",
-                "cents": 1
+                "cents": 2
               },
               {
                 "name": "Web Analytics Events",
@@ -248,9 +248,22 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 0,
-            "breakdown": [],
-            "note": "computed from API key token usage (excludes Claude Code on Max)"
+            "totalCents": 237,
+            "breakdown": [
+              {
+                "name": "claude-opus-4-8",
+                "cents": 197
+              },
+              {
+                "name": "claude-fable-5",
+                "cents": 39
+              },
+              {
+                "name": "claude-haiku-4-5",
+                "cents": 1
+              }
+            ],
+            "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
           },
           "openai": {
             "totalCents": 0,
