@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-02T01:10:13.810Z",
+  "lastUpdated": "2026-08-02T06:10:18.093Z",
   "apiSpend": {
     "months": [
       {
@@ -211,10 +211,10 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-02T01:10:13.810Z",
+        "collectedAt": "2026-08-02T06:10:18.093Z",
         "services": {
           "vercel": {
-            "totalCents": 163,
+            "totalCents": 164,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -222,7 +222,7 @@
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 16
+                "cents": 17
               },
               {
                 "name": "Fluid Active CPU",
@@ -284,13 +284,6 @@
   },
   "subscriptions": [
     {
-      "name": "Cursor",
-      "cents": 24004,
-      "category": "ai",
-      "url": "https://cursor.com/settings",
-      "note": "Mercury actual Jul 2026; 3 Mercury charges combined"
-    },
-    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -305,11 +298,11 @@
       "note": "Mercury actual; nominal $200 plan"
     },
     {
-      "name": "Brave",
-      "cents": 9512,
-      "category": "tools",
-      "url": "https://brave.com",
-      "note": "Mercury actual Jul 2026"
+      "name": "Cursor",
+      "cents": 10080,
+      "category": "ai",
+      "url": "https://cursor.com/settings",
+      "note": "Mercury actual Aug 2026; 2 Mercury charges combined"
     },
     {
       "name": "RFPMart LLC",
@@ -403,6 +396,13 @@
       "note": "Stoa Works bookkeeping"
     },
     {
+      "name": "Brave",
+      "cents": 1259,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Aug 2026"
+    },
+    {
       "name": "Flickr Pro",
       "cents": 1100,
       "category": "media",
@@ -421,7 +421,7 @@
       "cents": 840,
       "category": "infra",
       "url": "https://admin.google.com/ac/billing/subscriptions",
-      "note": "Mercury actual Jul 2026"
+      "note": "Mercury actual Aug 2026"
     },
     {
       "name": "Momentum Plus",
