@@ -1,5 +1,29 @@
 [
   {
+    "name": "DeepSeek-V4-Flash-0731",
+    "org": "DeepSeek",
+    "date": "2026-07-31",
+    "type": "model",
+    "summary": "Run an open-weight (MIT) coding and agent model for pennies — about $0.14 per million input tokens, $0.28 output. This re-tuned build beats the bigger V4-Pro preview on agentic tasks. Grab the weights on Hugging Face or hit the API.",
+    "url": "https://www.marktechpost.com/2026/07/31/deepseek-upgrades-deepseek-v4-flash-0731-with-major-agentic-and-coding-gains/"
+  },
+  {
+    "name": "Seedance 2.5",
+    "org": "ByteDance",
+    "date": "2026-07-31",
+    "type": "tool",
+    "summary": "Generate a full 30-second video in one shot at up to 4K — no stitching clips together. Feed it up to 50 reference images, and fix a single frame without re-rolling the whole thing. Available via API and partner apps.",
+    "url": "https://www.techtimes.com/articles/318975/20260624/bytedance-seedance-25-native-30-second-ai-video-no-stitching-required.htm"
+  },
+  {
+    "name": "Kimi K3",
+    "org": "Moonshot AI",
+    "date": "2026-07-27",
+    "type": "model",
+    "summary": "Download the open weights of this 2.8T multimodal coding model, now live under a modified-MIT license (a 594GB pull). Or just use it via Kimi.com, Kimi Code, or the API, with a 1M-token context window.",
+    "url": "https://www.kimi.com/blog/kimi-k3"
+  },
+  {
     "name": "Claude Opus 5",
     "org": "Anthropic",
     "date": "2026-07-24",
@@ -38,29 +62,5 @@
     "type": "tool",
     "summary": "Run a free, open-source team chat that treats AI agents as real members with their own identity and permissions. Includes code hosting and automations, and plugs into Claude Code, Codex, or goose. Mac, Windows, Linux.",
     "url": "https://block.xyz/inside/introducing-buzz-where-humans-and-agents-work-together"
-  },
-  {
-    "name": "Project Indigo AI playground",
-    "org": "Adobe",
-    "date": "2026-07-20",
-    "type": "tool",
-    "summary": "Get an LLM critique of your photos and pull clutter out of shots — background people, wires, poles, trash cans, or anything you describe. It lives in a free iOS camera app, still test-phase for select users.",
-    "url": "https://techcrunch.com/2026/07/20/adobe-camera-apps-new-feature-will-critique-your-photos-using-ai/"
-  },
-  {
-    "name": "Kimi K3",
-    "org": "Moonshot AI",
-    "date": "2026-07-27",
-    "type": "model",
-    "summary": "Download the open weights of this 2.8T multimodal coding model, now live under a modified-MIT license (a 594GB pull). Or just use it via Kimi.com, Kimi Code, or the API, with a 1M-token context window.",
-    "url": "https://www.kimi.com/blog/kimi-k3"
-  },
-  {
-    "name": "Inkling",
-    "org": "Thinking Machines Lab",
-    "date": "2026-07-15",
-    "type": "model",
-    "summary": "Fine-tune or download a 975B open-weight multimodal model with a lighter Inkling-Small preview for cheaper experiments. Tinker handles customization when local hardware is unrealistic.",
-    "url": "https://thinkingmachines.ai/news/introducing-inkling/"
   }
 ]
