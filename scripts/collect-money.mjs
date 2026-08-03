@@ -149,6 +149,10 @@ async function collectVercel(range) {
 // Cache read is ~10% of input; cache write is ~125% of input (ephemeral 5m).
 const ANTHROPIC_PRICING = {
   "claude-fable-5": { in: 10, out: 50 },
+  "claude-mythos-5": { in: 10, out: 50 },
+  "claude-opus-5": { in: 5, out: 25 },
+  // Sonnet 5 intro pricing ($2/$10) runs through 2026-08-31, then $3/$15.
+  "claude-sonnet-5": { in: 2, out: 10 },
   "claude-opus-4-8": { in: 5, out: 25 },
   "claude-opus-4-7": { in: 15, out: 75 },
   "claude-opus-4-6": { in: 15, out: 75 },
