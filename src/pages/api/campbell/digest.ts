@@ -27,7 +27,7 @@ export const POST: APIRoute = async ({ clientAddress }) => {
   if (!agenda) return errJson("No council agenda available yet", 502);
   const content = agenda.content;
 
-  // 3. Summarize with Claude
+  // 2. Summarize with Claude
   const prompt = `You are summarizing a Campbell, CA city council meeting agenda for residents.
 
 Given the following agenda text, produce a JSON object with these fields:
@@ -52,7 +52,7 @@ ${content}`;
     const raw = extractText(message.content);
     const parsed: DigestSummary = JSON.parse(stripFences(raw));
 
-    // Add metadata
+    // 3. Add metadata
     parsed.sourceUrl = agenda.url;
     parsed.generatedAt = new Date().toISOString();
 

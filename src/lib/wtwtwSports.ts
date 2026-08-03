@@ -80,6 +80,26 @@ export function buildTeamLookup(teamKeys: string[]): Map<string, TeamEntry> {
   return m;
 }
 
+export interface TrackedTeamsContext {
+  teamKeys: string[];
+  leagues: Set<string>;
+  lookup: Map<string, TeamEntry>;
+}
+
+// Resolves the current user's tracked teams (their saved picks unioned with the
+// always-shown defaults) into the leagues + lookup the sports rails need. Shared
+// by LiveSports/TodaySports/YesterdaySports so the three stay in lockstep.
+export function getTrackedTeamsContext(): TrackedTeamsContext {
+  const teamKeys = Array.from(
+    new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
+  );
+  return {
+    teamKeys,
+    leagues: getRelevantLeagues(teamKeys),
+    lookup: buildTeamLookup(teamKeys),
+  };
+}
+
 export function isNbaPlayoff(ev: ESPNEvent): boolean {
   if (ev.season?.type === 3) return true;
   if (ev.season?.slug === "post-season") return true;

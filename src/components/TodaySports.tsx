@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-  ALWAYS_SHOW_TEAMS,
-  buildTeamLookup,
   awayHomeOf,
   fetchEventsForLeagues,
-  getRelevantLeagues,
+  getTrackedTeamsContext,
   isNbaPlayoff,
   matchUserTeam,
-  readUserTeamKeys,
   yyyymmddInPT,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
@@ -36,11 +33,7 @@ export default function TodaySports() {
     let cancelled = false;
 
     async function load() {
-      const teamKeys = Array.from(
-        new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
-      );
-      const leagues = getRelevantLeagues(teamKeys);
-      const lookup = buildTeamLookup(teamKeys);
+      const { leagues, lookup } = getTrackedTeamsContext();
 
       const ymd = yyyymmddInPT(new Date());
       const results = await fetchEventsForLeagues(leagues, ymd);

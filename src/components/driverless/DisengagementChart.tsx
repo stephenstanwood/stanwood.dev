@@ -9,6 +9,7 @@ import {
   LabelList,
 } from "recharts";
 import { disengagementData } from "../../data/driverless/data";
+import ChartTooltipBox from "./ChartTooltipBox";
 
 const chartData = disengagementData.map((d) => ({
   ...d,
@@ -23,10 +24,10 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: ChartP
   if (!active || !payload?.length) return null;
   const { company, milesPerDisengagement } = payload[0].payload;
   return (
-    <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 6, padding: "8px 12px", fontSize: 12 }}>
+    <ChartTooltipBox>
       <strong>{company}</strong>
       <div>{milesPerDisengagement.toLocaleString()} miles between human takeovers</div>
-    </div>
+    </ChartTooltipBox>
   );
 }
 

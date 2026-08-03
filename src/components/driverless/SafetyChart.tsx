@@ -10,6 +10,7 @@ import {
   LabelList,
 } from "recharts";
 import { safetyData } from "../../data/driverless/data";
+import ChartTooltipBox from "./ChartTooltipBox";
 
 const chartData = safetyData.map((d) => ({
   ...d,
@@ -23,11 +24,11 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   const human = payload.find((p) => p.dataKey === "humanRate");
   const waymo = payload.find((p) => p.dataKey === "waymoRate");
   return (
-    <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 6, padding: "8px 12px", fontSize: 12 }}>
+    <ChartTooltipBox>
       <strong>{label}</strong>
       {human && <div style={{ color: "#ef4444" }}>Human drivers: baseline</div>}
       {waymo && <div style={{ color: "#22c55e" }}>Waymo: {waymo.value}% of human rate</div>}
-    </div>
+    </ChartTooltipBox>
   );
 }
 
