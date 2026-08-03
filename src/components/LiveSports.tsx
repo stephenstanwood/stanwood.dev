@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  ALWAYS_SHOW_TEAMS,
   broadcastsOf,
-  buildTeamLookup,
   awayHomeOf,
   fetchEventsForLeagues,
-  getRelevantLeagues,
+  getTrackedTeamsContext,
   isNbaPlayoff,
   matchUserTeam,
-  readUserTeamKeys,
   statusTextOf,
   teamSideOf,
   watchRecordingUrl,
@@ -98,11 +95,7 @@ export default function LiveSports() {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     async function tick() {
-      const teamKeys = Array.from(
-        new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
-      );
-      const leagues = getRelevantLeagues(teamKeys);
-      const lookup = buildTeamLookup(teamKeys);
+      const { leagues, lookup } = getTrackedTeamsContext();
 
       const ymd = yyyymmddInPT(new Date());
 

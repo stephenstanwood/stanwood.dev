@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import {
-  ALWAYS_SHOW_TEAMS,
-  buildTeamLookup,
   awayHomeOf,
   bestUnseenFinishedGame,
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
-  getRelevantLeagues,
+  getTrackedTeamsContext,
   isFinalEvent,
   isLatestStartedEventForTrackedTeams,
   isNbaPlayoff,
   latestStartedAtByTrackedTeam,
   isoDateInPT,
   matchUserTeam,
-  readUserTeamKeys,
   statusTextOf,
   teamColorByAbbr,
   teamSideOf,
@@ -78,11 +75,7 @@ export default function YesterdaySports() {
     let cancelled = false;
 
     async function load() {
-      const teamKeys = Array.from(
-        new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
-      );
-      const leagues = getRelevantLeagues(teamKeys);
-      const lookup = buildTeamLookup(teamKeys);
+      const { leagues, lookup } = getTrackedTeamsContext();
 
       const days = [new Date(), new Date(Date.now() - MS_PER_DAY)].map((d) => {
         const ymd = yyyymmddInPT(d);

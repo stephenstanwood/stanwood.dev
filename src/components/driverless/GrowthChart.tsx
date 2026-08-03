@@ -9,16 +9,17 @@ import {
   ReferenceDot,
 } from "recharts";
 import { growthData } from "../../data/driverless/data";
+import ChartTooltipBox from "./ChartTooltipBox";
 
 interface ChartPayloadEntry { value: number }
 
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: ChartPayloadEntry[]; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 6, padding: "8px 12px", fontSize: 12 }}>
+    <ChartTooltipBox>
       <strong>{label}</strong>
       <div style={{ color: "#3b82f6" }}>{payload[0].value.toLocaleString()}K rides/week</div>
-    </div>
+    </ChartTooltipBox>
   );
 }
 
