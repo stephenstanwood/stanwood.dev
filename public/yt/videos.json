@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-08-03T10:30:08.004835+00:00",
+  "built_at": "2026-08-04T10:30:23.592986+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -63,6 +63,24 @@
       ]
     },
     {
+      "key": "CS329A",
+      "is_single": false,
+      "display_name": "CS329A",
+      "best_score": 11,
+      "video_count": 9,
+      "video_ids": [
+        "Lxh9RF5S-K0",
+        "6YnLB0XbTnI",
+        "-Ggc37xLj_Y",
+        "p7TdPUcPoik",
+        "yVnmHSAy3ck",
+        "Uni9dqyuuDM",
+        "Ml_fp9XkB8Y",
+        "AyO6wyu4DEg",
+        "8JAqLnTaZu4"
+      ]
+    },
+    {
       "key": "__single__LRGX-gTegVA",
       "is_single": true,
       "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
@@ -70,16 +88,6 @@
       "video_count": 1,
       "video_ids": [
         "LRGX-gTegVA"
-      ]
-    },
-    {
-      "key": "__single__5UJ0uWqO1Ho",
-      "is_single": true,
-      "display_name": "Stanford Webinar - Human-Centered AI: Designing Systems People Trust",
-      "best_score": 10,
-      "video_count": 1,
-      "video_ids": [
-        "5UJ0uWqO1Ho"
       ]
     },
     {
@@ -318,16 +326,6 @@
       "video_count": 1,
       "video_ids": [
         "y81IfY-Cc1U"
-      ]
-    },
-    {
-      "key": "__single__LF7Wi_2fJVM",
-      "is_single": true,
-      "display_name": "Innovation for Growth and Sustainability in the Era of AI",
-      "best_score": -6,
-      "video_count": 1,
-      "video_ids": [
-        "LF7Wi_2fJVM"
       ]
     }
   ],
@@ -849,6 +847,147 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 session, Microsoft Chairman and CEO Satya Nadella joins Michael Abbott for a wide-ranging conversation on AI, Microsoft's strategy, and the future of computing. Nadella traces Microsoft's "
     },
     {
+      "id": "Lxh9RF5S-K0",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 4 | Learning from Feedback with Tools/Code",
+      "url": "https://www.youtube.com/watch?v=Lxh9RF5S-K0",
+      "duration": 4273,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nAakanksha Chowdhery\nAdjunct Professor of Computer"
+    },
+    {
+      "id": "6YnLB0XbTnI",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 1 | Course Overview",
+      "url": "https://www.youtube.com/watch?v=6YnLB0XbTnI",
+      "duration": 4182,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "-Ggc37xLj_Y",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 2 | Test-Time Compute Scaling",
+      "url": "https://www.youtube.com/watch?v=-Ggc37xLj_Y",
+      "duration": 3801,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "p7TdPUcPoik",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 3 | Robust Verification",
+      "url": "https://www.youtube.com/watch?v=p7TdPUcPoik",
+      "duration": 4379,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "yVnmHSAy3ck",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 6 | Train Time Scaling/Scaling RL",
+      "url": "https://www.youtube.com/watch?v=yVnmHSAy3ck",
+      "duration": 4359,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 11,
+      "categories": [
+        "applied_ai",
+        "civic_open"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "Uni9dqyuuDM",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 7 | Self-Improvement and Deep Research Agents",
+      "url": "https://www.youtube.com/watch?v=Uni9dqyuuDM",
+      "duration": 4347,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "Ml_fp9XkB8Y",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 5 | Planning and Multi-Step Reasoning",
+      "url": "https://www.youtube.com/watch?v=Ml_fp9XkB8Y",
+      "duration": 4496,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "AyO6wyu4DEg",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 9 | Future Research Areas",
+      "url": "https://www.youtube.com/watch?v=AyO6wyu4DEg",
+      "duration": 4062,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "swe_career"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
+      "id": "8JAqLnTaZu4",
+      "title": "Stanford CS329A Self-Improving AI Agents | Part 8 | Agentic Evaluations and Long Horizon Tasks",
+      "url": "https://www.youtube.com/watch?v=8JAqLnTaZu4",
+      "duration": 4518,
+      "published_at": "2026-08-03T00:00:00+00:00",
+      "series": "CS329A",
+      "series_display": "CS329A",
+      "lecture_num": null,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "Want to dive deeper? This curriculum is covered in the following online courses:\n- XCS329 graduate course: https://online.stanford.edu/courses/cs329a-self-improving-ai-agents\n- Agentic AI professional education program: https://learn.stanford.edu/agentic-ai-2026.html\n\nFollow along with the course schedule and syllabus: https://cs329a.stanford.edu/\n\nView the course playlist: https://www.youtube.com"
+    },
+    {
       "id": "LRGX-gTegVA",
       "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Enterprise Internal Knowledge",
       "url": "https://www.youtube.com/watch?v=LRGX-gTegVA",
@@ -862,21 +1001,6 @@
         "hci"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nThis seminar covers intelligence and unlocking enterprise internal knowledge.\n\nGuest speaker: Yash Patil, CEO of Applied Compute\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science a"
-    },
-    {
-      "id": "5UJ0uWqO1Ho",
-      "title": "Stanford Webinar - Human-Centered AI: Designing Systems People Trust",
-      "url": "https://www.youtube.com/watch?v=5UJ0uWqO1Ho",
-      "duration": 3354,
-      "published_at": "2026-02-02T00:00:00+00:00",
-      "series": null,
-      "series_display": "Stanford Webinar - Human-Centered AI: Designing Systems People Trust",
-      "lecture_num": null,
-      "score": 10,
-      "categories": [
-        "hci"
-      ],
-      "description": "View the details of our Generative AI: Technology, Business, and Society Program https://online.stanford.edu/programs/generative-ai-technology-business-and-society-program\n\nTune into this engaging discussion with Professor James Landay, Co-Director of the Stanford Institute for Human-Centered Artificial Intelligence (HAI), and Vanessa Parli, Managing Director of Programs and External Engagement fo"
     },
     {
       "id": "JuoVZkPBiKk",
@@ -2132,21 +2256,6 @@
         "healthcare_ai"
       ],
       "description": "Learn more about Stanford's online Healthcare AI programs: https://online.stanford.edu/artificial-intelligence/ai-professionals-healthcare\n\nCheck out the AI in Healthcare series playlist: https://stanford.io/3NEt7uE\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://med.stanford.edu/profiles/justin-norden\n\nRecorded on loc"
-    },
-    {
-      "id": "LF7Wi_2fJVM",
-      "title": "Innovation for Growth and Sustainability in the Era of AI",
-      "url": "https://www.youtube.com/watch?v=LF7Wi_2fJVM",
-      "duration": 3378,
-      "published_at": "2026-02-02T00:00:00+00:00",
-      "series": null,
-      "series_display": "Innovation for Growth and Sustainability in the Era of AI",
-      "lecture_num": null,
-      "score": -6,
-      "categories": [
-        "climate_grid"
-      ],
-      "description": "Join Professor Mike Lepech and Jeff Wong, former Ernst & Young Global Chief Innovation Officer, as they discuss scaling innovation in today's AI-powered business environment. They uncover what it takes to lead transformation while balancing performance and purpose, and share practical insights from leaders operating at the intersection of strategy, technology, and sustainability. The session featu"
     }
   ]
 }
