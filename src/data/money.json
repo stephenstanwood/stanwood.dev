@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-04T13:10:13.597Z",
+  "lastUpdated": "2026-08-04T19:10:13.733Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-04T13:10:13.597Z",
+        "collectedAt": "2026-08-04T19:10:13.733Z",
         "services": {
           "vercel": {
-            "totalCents": 519,
+            "totalCents": 730,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 459
+                "cents": 666
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 35
+                "cents": 37
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 10
+                "cents": 11
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -246,7 +246,7 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 1
+                "cents": 2
               },
               {
                 "name": "Blob Data Transfer",
