@@ -16,11 +16,11 @@ const chartData = disengagementData.map((d) => ({
   label: d.milesPerDisengagement.toLocaleString() + " mi",
 }));
 
-interface ChartPayloadEntry {
+interface DisengagementPayloadEntry {
   payload: { company: string; milesPerDisengagement: number };
 }
 
-function CustomTooltip({ active, payload }: { active?: boolean; payload?: ChartPayloadEntry[] }) {
+function DisengagementTooltip({ active, payload }: { active?: boolean; payload?: DisengagementPayloadEntry[] }) {
   if (!active || !payload?.length) return null;
   const { company, milesPerDisengagement } = payload[0].payload;
   return (
@@ -48,7 +48,7 @@ export default function DisengagementChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
             <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => v.toLocaleString()} />
             <YAxis type="category" dataKey="company" tick={{ fontSize: 12, fontWeight: 500 }} width={55} />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<DisengagementTooltip />} />
             <Bar dataKey="milesPerDisengagement" fill="var(--dl-accent)" radius={[0, 4, 4, 0]}>
               <LabelList
                 dataKey="label"

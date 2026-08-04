@@ -212,7 +212,12 @@ function getStatusDetail(event: ESPNEvent): string {
   return event.competitions?.[0]?.status?.type?.shortDetail || "";
 }
 
-function getBroadcasts(event: ESPNEvent): string[] {
+/**
+ * Flat list of broadcast names off `competitions[].broadcasts`. Distinct from
+ * sportsCore's `getBroadcasts`, which reads `geoBroadcasts` and returns only
+ * national carriers.
+ */
+function getBroadcastNames(event: ESPNEvent): string[] {
   const broadcasts = event.competitions?.[0]?.broadcasts || [];
   const names: string[] = [];
   for (const b of broadcasts) {
@@ -863,7 +868,7 @@ export default function WTWTW() {
             </div>
           )}
           {picks.map(({ day, pick, others }, idx) => {
-            const broadcasts = pick ? getBroadcasts(pick.event) : [];
+            const broadcasts = pick ? getBroadcastNames(pick.event) : [];
             const gameState = pick ? getGameState(pick.event) : "scheduled";
             const today = isToday(day.yyyymmdd);
 

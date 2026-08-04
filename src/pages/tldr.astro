@@ -1262,16 +1262,20 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             resultLabel.textContent = "Summary";
             resultLabel.className = "text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono";
           }
-          const wc = data.summary.trim().split(/\s+/).filter(Boolean).length;
-          wordCount.textContent = `${wc} words`;
+          const words = data.summary.trim().split(/\s+/).filter(Boolean).length;
+          wordCount.textContent = `${words} words`;
 
           // Move drop zone below the result and make it compact
           resultSection.after(uploadSection);
           dropZone.classList.add("compact");
-        } catch (err: any) {
+        } catch (err) {
           stopProgress(false);
           setLoading(false);
-          showError(err.message || "Failed to summarize. Please try again.");
+          showError(
+            err instanceof Error && err.message
+              ? err.message
+              : "Failed to summarize. Please try again.",
+          );
         }
       }
 
