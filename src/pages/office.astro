@@ -104,6 +104,11 @@ function isBlockedBroader(v: BroaderVideo): boolean {
 const byRecency = (a: { published_at: string }, b: { published_at: string }) =>
   new Date(b.published_at).getTime() - new Date(a.published_at).getTime();
 
+// CLEANUP-FLAG: with this off, the "stanford talks" sections below (~180 lines
+// of markup, plus the topSeries/restSeries prep) never render. The stanford
+// *state* is still live — renderFollowedSeries() emits [data-hide-stanford]
+// buttons and hideStanford() still posts marks to the Mini — so deleting the
+// dead markup means untangling those two halves, not a mechanical removal.
 const SHOW_STANFORD_TALKS = false;
 // Temporarily parked; flip this back on to restore the pinned rewatch card.
 const SHOW_SDSN_CLASSIC = false;
@@ -113,24 +118,33 @@ const INTERNET_PICK_COUNT = INTERNET_TILE_COUNT - (SHOW_SDSN_CLASSIC ? 1 : 0);
 const INTERNET_MAX_AGE_DAYS = 7;
 const INTERNET_MAX_PER_SOURCE = 2;
 
-const TOPIC_LABELS: Record<string, string> = {
-  hci: 'design',
-  product_craft: 'product craft',
-  solo_builder: 'solo builder',
-  working_method: 'working method',
-  war_stories: 'how it went',
-  swe_craft: 'software craft',
-  systems_db: 'systems',
-  algorithms: 'computer science',
-  applied_ai: 'AI in practice',
-  civic_open: 'public tech',
-  math_viz: 'visual math',
-};
+// [category, chip label] in priority order — first match on a video wins.
+// Serialized into #topic-labels below so the client renderer uses this same
+// list instead of keeping its own copy in sync.
+const TOPIC_LABELS: [string, string][] = [
+  ['hci', 'design'],
+  ['working_method', 'working method'],
+  ['product_craft', 'product craft'],
+  ['solo_builder', 'solo builder'],
+  ['war_stories', 'how it went'],
+  ['swe_craft', 'software craft'],
+  ['systems_db', 'systems'],
+  ['algorithms', 'computer science'],
+  ['applied_ai', 'AI in practice'],
+  ['civic_open', 'public tech'],
+  ['math_viz', 'visual math'],
+];
+
+const TOPIC_FALLBACK_LABEL = 'worth a look';
+
+/** Groups a video by its channel, for the per-source cap on the internet grid. */
+function sourceKey(v: BroaderVideo): string {
+  return v.channel_id || v.channel_handle || v.channel_title || v.id;
+}
 
 function topicLabel(v: BroaderVideo): string {
-  const priority = ['hci', 'working_method', 'product_craft', 'solo_builder', 'war_stories', 'swe_craft', 'systems_db', 'algorithms', 'applied_ai', 'civic_open', 'math_viz'];
-  const category = priority.find((key) => v.categories?.includes(key));
-  return category ? TOPIC_LABELS[category] : 'worth a look';
+  const match = TOPIC_LABELS.find(([category]) => v.categories?.includes(category));
+  return match ? match[1] : TOPIC_FALLBACK_LABEL;
 }
 
 function ageInDays(v: BroaderVideo): number {
@@ -1030,7 +1044,7 @@ function seriesVideos(series: Series): QueueVideo[] {
               class={`bcard ${index === 0 ? 'is-featured' : ''}`}
               data-broader-id={v.id}
               data-published-at={v.published_at}
-              data-source-key={v.channel_id || v.channel_handle || v.channel_title || v.id}
+              data-source-key={sourceKey(v)}
               data-series-key={v.series_key || ''}
               data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
             >
@@ -1157,6 +1171,8 @@ function seriesVideos(series: Series): QueueVideo[] {
   <!-- Ranked reserve pool, consumed client-side as the visible edit is marked -->
   <script is:inline type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
   <script is:inline type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
+  <!-- Topic chip labels, shared with the server-rendered cards above -->
+  <script is:inline type="application/json" id="topic-labels" set:html={JSON.stringify(TOPIC_LABELS)}></script>
 
   <script is:inline>
     // ---- Shared: id-set state in localStorage (watched / hidden / liked / …) ----
@@ -1332,6 +1348,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
     const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
     const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
+    const TOPIC_LABELS = JSON.parse(document.getElementById('topic-labels').textContent) || [];
 
     const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
     const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
@@ -1355,6 +1372,12 @@ function seriesVideos(series: Series): QueueVideo[] {
       updateFeaturedCard();
     }
 
+    // CLEANUP-FLAG: each `*JS` helper below restates its frontmatter twin
+    // (fmtDuration, fmtAgo, sourceKey) and escapeHTML restates lib/htmlUtils
+    // `esc`, because this script is `is:inline` and so cannot import. Dropping
+    // `is:inline` here would let it import from a shared module and delete the
+    // copies, but bundled scripts are deferred ES modules — the gate check in
+    // the <head> and the sibling inline scripts would need auditing first.
     function fmtDurationJS(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);
@@ -1370,20 +1393,11 @@ function seriesVideos(series: Series): QueueVideo[] {
     function escapeHTML(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
+    // Mirrors topicLabel() in the frontmatter — both read the same TOPIC_LABELS list.
     function topicLabelJS(v) {
       const categories = Array.isArray(v.categories) ? v.categories : [];
-      if (categories.includes('hci')) return 'design';
-      if (categories.includes('working_method')) return 'working method';
-      if (categories.includes('product_craft')) return 'product craft';
-      if (categories.includes('solo_builder')) return 'solo builder';
-      if (categories.includes('war_stories')) return 'how it went';
-      if (categories.includes('swe_craft')) return 'software craft';
-      if (categories.includes('systems_db')) return 'systems';
-      if (categories.includes('algorithms')) return 'computer science';
-      if (categories.includes('applied_ai')) return 'AI in practice';
-      if (categories.includes('civic_open')) return 'public tech';
-      if (categories.includes('math_viz')) return 'visual math';
-      return 'worth a look';
+      const match = TOPIC_LABELS.find(([category]) => categories.includes(category));
+      return match ? match[1] : 'worth a look';
     }
     function sourceKeyJS(v) {
       return v.channel_id || v.channel_handle || v.channel_title || v.id;

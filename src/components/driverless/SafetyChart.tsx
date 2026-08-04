@@ -17,9 +17,9 @@ const chartData = safetyData.map((d) => ({
   label: `-${d.reduction}%`,
 }));
 
-interface ChartPayloadEntry { dataKey: string; value: number }
+interface SafetyPayloadEntry { dataKey: string; value: number }
 
-function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: ChartPayloadEntry[]; label?: string }) {
+function SafetyTooltip({ active, payload, label }: { active?: boolean; payload?: SafetyPayloadEntry[]; label?: string }) {
   if (!active || !payload?.length) return null;
   const human = payload.find((p) => p.dataKey === "humanRate");
   const waymo = payload.find((p) => p.dataKey === "waymoRate");
@@ -45,7 +45,7 @@ export default function SafetyChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
             <XAxis dataKey="category" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} width={40} domain={[0, 110]} tickFormatter={(v) => `${v}%`} />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<SafetyTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12 }} />
             <Bar dataKey="humanRate" name="Human Drivers" fill="#ef4444" radius={[4, 4, 0, 0]} />
             <Bar dataKey="waymoRate" name="Waymo" fill="#22c55e" radius={[4, 4, 0, 0]}>

@@ -11,9 +11,9 @@ import {
 import { growthData } from "../../data/driverless/data";
 import ChartTooltipBox from "./ChartTooltipBox";
 
-interface ChartPayloadEntry { value: number }
+interface GrowthPayloadEntry { value: number }
 
-function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: ChartPayloadEntry[]; label?: string }) {
+function GrowthTooltip({ active, payload, label }: { active?: boolean; payload?: GrowthPayloadEntry[]; label?: string }) {
   if (!active || !payload?.length) return null;
   return (
     <ChartTooltipBox>
@@ -42,7 +42,7 @@ export default function GrowthChart() {
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
             <XAxis dataKey="date" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} width={45} tickFormatter={(v) => `${v}K`} domain={[0, 550]} />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<GrowthTooltip />} />
             <Area
               type="monotone"
               dataKey="ridesK"
