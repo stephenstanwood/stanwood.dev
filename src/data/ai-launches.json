@@ -1,5 +1,21 @@
 [
   {
+    "name": "Notetaker",
+    "org": "Wispr Flow",
+    "date": "2026-08-05",
+    "type": "tool",
+    "summary": "Transcribe and summarize any meeting on your Mac without a bot joining the call — it listens to system audio. Pulls names from your calendar and connected apps so jargon and people's names come out spelled right. Free tier included.",
+    "url": "https://9to5mac.com/2026/08/05/wispr-flow-takes-on-ai-meeting-assistants-with-notetaker-its-first-product-beyond-dictation/"
+  },
+  {
+    "name": "MiniMax H3",
+    "org": "MiniMax",
+    "date": "2026-08-03",
+    "type": "model",
+    "summary": "Run a 42.5 GB open-weight video model on your own GPU. It takes text, image, video, and audio in one context and renders 15 seconds of 2K video with stereo sound. Weights on Hugging Face, native ComfyUI support.",
+    "url": "https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-open-weights-comfyui"
+  },
+  {
     "name": "Qwen3.8-Max",
     "org": "Alibaba",
     "date": "2026-08-02",
@@ -24,14 +40,6 @@
     "url": "https://www.marktechpost.com/2026/07/31/deepseek-upgrades-deepseek-v4-flash-0731-with-major-agentic-and-coding-gains/"
   },
   {
-    "name": "Seedance 2.5",
-    "org": "ByteDance",
-    "date": "2026-07-31",
-    "type": "tool",
-    "summary": "Generate a full 30-second video in one shot at up to 4K — no stitching clips together. Feed it up to 50 reference images, and fix a single frame without re-rolling the whole thing. Available via API and partner apps.",
-    "url": "https://www.techtimes.com/articles/318975/20260624/bytedance-seedance-25-native-30-second-ai-video-no-stitching-required.htm"
-  },
-  {
     "name": "GPT-5.6 price cuts",
     "org": "OpenAI",
     "date": "2026-07-30",
@@ -40,27 +48,19 @@
     "url": "https://www.cnbc.com/2026/07/30/open-ai-price-cut-gpt.html"
   },
   {
+    "name": "Kimi K3 open weights",
+    "org": "Moonshot AI",
+    "date": "2026-07-27",
+    "type": "model",
+    "summary": "Download the largest open-weight model yet — 2.8 trillion parameters, a 1M-token context, and native vision, at close to frontier quality. It's a 1.4TB download, so most people will reach it through day-one hosted providers.",
+    "url": "https://www.fastcompany.com/91581267/what-to-know-about-moonshot-ai-and-its-new-open-weight-model-kimi-k3"
+  },
+  {
     "name": "Claude Opus 5",
     "org": "Anthropic",
     "date": "2026-07-24",
     "type": "model",
     "summary": "Get near-Fable-5 quality at half the price, now the default on Claude Pro and Max. A low/medium/high effort toggle lets you dial cost against capability per task, with sharper autonomous coding. Live in the API today.",
     "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/"
-  },
-  {
-    "name": "FLUX 3",
-    "org": "Black Forest Labs",
-    "date": "2026-07-23",
-    "type": "model",
-    "summary": "Generate video with native synced audio, edit images, and render readable text from one multimodal model. Video is in early access at bfl.ai now, with image generation and downloadable open weights coming. Already powering Photoshop and Picsart features.",
-    "url": "https://www.globenewswire.com/news-release/2026/07/23/3332364/0/en/black-forest-labs-unveils-flux-3-a-new-multimodal-frontier-model-for-visual-intelligence.html"
-  },
-  {
-    "name": "Claude Security",
-    "org": "Anthropic",
-    "date": "2026-07-22",
-    "type": "tool",
-    "summary": "Scan your repo for vulnerabilities without leaving the terminal. A set of agents maps the codebase, cross-checks findings, and hands back a report with suggested patches. Installs as a Claude Code plugin on any paid plan.",
-    "url": "https://www.marktechpost.com/2026/07/22/anthropic-releases-claude-security-plugin-for-claude-code-in-beta-a-multi-agent-vulnerability-scanner-that-runs-in-your-terminal/"
   }
 ]
