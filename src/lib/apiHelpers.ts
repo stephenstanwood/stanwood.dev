@@ -73,7 +73,7 @@ export function parseRequestUrl(rawUrl: unknown): URL | Response {
  * Validate a user-supplied URL and block SSRF targets (localhost, RFC-1918 ranges, .local/.internal).
  * Returns the parsed URL on success, null on failure.
  */
-export function isValidUrl(input: string): URL | null {
+function isValidUrl(input: string): URL | null {
   try {
     let normalized = input.trim();
     if (!/^https?:\/\//i.test(normalized)) {

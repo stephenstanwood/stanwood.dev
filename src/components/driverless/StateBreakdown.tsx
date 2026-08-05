@@ -1,4 +1,5 @@
 import { stateData } from "../../data/driverless/data";
+import PanelHeader from "./PanelHeader";
 
 const keyStates = stateData.filter((s) => s.avCount != null && s.avCount > 0);
 
@@ -11,10 +12,7 @@ function formatVehicles(n: number): string {
 export default function StateBreakdown() {
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">State Breakdown</h2>
-        <span className="dl-panel-subtitle">States where self-driving cars are on the road today</span>
-      </div>
+      <PanelHeader title="State Breakdown" subtitle="States where self-driving cars are on the road today" />
       <div className="dl-state-grid">
         {keyStates.map((s) => (
           <div key={s.code} className="dl-state-card">

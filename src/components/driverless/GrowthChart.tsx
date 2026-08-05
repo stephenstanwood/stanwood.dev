@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { growthData } from "../../data/driverless/data";
 import ChartTooltipBox from "./ChartTooltipBox";
+import PanelHeader from "./PanelHeader";
 
 interface GrowthPayloadEntry { value: number }
 
@@ -26,10 +27,7 @@ function GrowthTooltip({ active, payload, label }: { active?: boolean; payload?:
 export default function GrowthChart() {
   return (
     <div className="dl-panel">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Waymo Rides Per Week</h2>
-        <span className="dl-panel-subtitle">From zero to 500K since Dec 2018</span>
-      </div>
+      <PanelHeader title="Waymo Rides Per Week" subtitle="From zero to 500K since Dec 2018" />
       <div className="dl-chart-wrap">
         <ResponsiveContainer width="100%" height={260}>
           <AreaChart data={growthData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>

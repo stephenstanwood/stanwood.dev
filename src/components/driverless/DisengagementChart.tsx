@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { disengagementData } from "../../data/driverless/data";
 import ChartTooltipBox from "./ChartTooltipBox";
+import PanelHeader from "./PanelHeader";
 
 const chartData = disengagementData.map((d) => ({
   ...d,
@@ -34,10 +35,7 @@ function DisengagementTooltip({ active, payload }: { active?: boolean; payload?:
 export default function DisengagementChart() {
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">How Far Without a Human?</h2>
-        <span className="dl-panel-subtitle">Miles between human takeovers (CA DMV 2025)</span>
-      </div>
+      <PanelHeader title="How Far Without a Human?" subtitle="Miles between human takeovers (CA DMV 2025)" />
       <div className="dl-chart-wrap">
         <ResponsiveContainer width="100%" height={180}>
           <BarChart

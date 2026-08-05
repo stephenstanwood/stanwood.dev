@@ -1,5 +1,5 @@
 export type WeirdnessMode = "client-safe" | "designer" | "alternate-timeline";
-export const VALID_MODES: WeirdnessMode[] = [
+const VALID_MODES: WeirdnessMode[] = [
   "client-safe",
   "designer",
   "alternate-timeline",

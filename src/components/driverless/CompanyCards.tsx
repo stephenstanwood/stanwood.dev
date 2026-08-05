@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { companies } from "../../data/driverless/data";
+import PanelHeader from "./PanelHeader";
 
 type Status = "active" | "testing" | "shut-down" | "l2-only";
 
@@ -27,10 +28,7 @@ export default function CompanyCards() {
 
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Who's Driving</h2>
-        <span className="dl-panel-subtitle">The companies building self-driving cars</span>
-      </div>
+      <PanelHeader title="Who's Driving" subtitle="The companies building self-driving cars" />
 
       {/* Status filters */}
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

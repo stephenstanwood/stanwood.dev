@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { safetyData } from "../../data/driverless/data";
 import ChartTooltipBox from "./ChartTooltipBox";
+import PanelHeader from "./PanelHeader";
 
 const chartData = safetyData.map((d) => ({
   ...d,
@@ -35,10 +36,7 @@ function SafetyTooltip({ active, payload, label }: { active?: boolean; payload?:
 export default function SafetyChart() {
   return (
     <div className="dl-panel">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Safety: Waymo vs Human Drivers</h2>
-        <span className="dl-panel-subtitle">Peer-reviewed, 56.7M rider miles</span>
-      </div>
+      <PanelHeader title="Safety: Waymo vs Human Drivers" subtitle="Peer-reviewed, 56.7M rider miles" />
       <div className="dl-chart-wrap">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={chartData} barGap={4} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>

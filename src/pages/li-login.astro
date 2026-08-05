@@ -1,5 +1,7 @@
 ---
-import { verifySessionPassword } from "../lib/auth";
+import { sessionCookie, verifySessionPassword } from "../lib/auth";
+
+const LI_SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 
 export const prerender = false;
 
@@ -17,7 +19,7 @@ if (Astro.request.method === "POST") {
       status: 303,
       headers: {
         Location: "/li",
-        "Set-Cookie": `li_session=${sessionToken}; Path=/; HttpOnly${Astro.url.protocol === "https:" ? "; Secure" : ""}; SameSite=Strict; Max-Age=2592000`,
+        "Set-Cookie": sessionCookie("li_session", sessionToken, Astro.url, LI_SESSION_MAX_AGE),
         "Cache-Control": "no-store",
       },
     });

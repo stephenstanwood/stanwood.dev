@@ -1,3 +1,5 @@
+import PanelHeader from "./PanelHeader";
+
 interface Sensor {
   emoji: string;
   name: string;
@@ -75,10 +77,7 @@ const sensors: Sensor[] = [
 export default function SensorStack() {
   return (
     <div className="dl-panel dl-full dl-sensors">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">How a robotaxi sees the world</h2>
-        <span className="dl-panel-subtitle">Six sensor layers — and what Waymo has that Tesla skips</span>
-      </div>
+      <PanelHeader title="How a robotaxi sees the world" subtitle="Six sensor layers — and what Waymo has that Tesla skips" />
 
       <p className="dl-sensors-lead">
         A modern L4 car runs perception through redundant, overlapping senses — each one covers what

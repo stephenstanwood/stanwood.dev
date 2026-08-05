@@ -1,3 +1,5 @@
+import PanelHeader from "./PanelHeader";
+
 interface RaceEntry {
   company: string;
   date: string;          // first paid driverless ride
@@ -66,10 +68,7 @@ const colorFor = (status: RaceEntry["status"]) =>
 export default function L4Race() {
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">First-to-L4 Race</h2>
-        <span className="dl-panel-subtitle">First paid driverless ride, by company</span>
-      </div>
+      <PanelHeader title="First-to-L4 Race" subtitle="First paid driverless ride, by company" />
 
       <p style={{
         fontSize: 12,
