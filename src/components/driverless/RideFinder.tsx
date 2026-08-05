@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cityRideData } from "../../data/driverless/data";
 import type { RideAvailability } from "../../data/driverless/data";
+import PanelHeader from "./PanelHeader";
 
 const AVAILABILITY_CONFIG: Record<RideAvailability, { label: string; color: string; bg: string }> = {
   available: { label: "Book Now", color: "#16a34a", bg: "#f0fdf4" },
@@ -15,10 +16,7 @@ export default function RideFinder() {
 
   return (
     <div className="dl-panel dl-full dl-ride-finder">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Can I ride one today?</h2>
-        <span className="dl-panel-subtitle">Pick your city to find out</span>
-      </div>
+      <PanelHeader title="Can I ride one today?" subtitle="Pick your city to find out" />
 
       <div className="dl-city-select-wrap">
         <select

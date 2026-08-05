@@ -6,6 +6,7 @@ import {
   LEGISLATION_LABELS,
   type LegislationStatus,
 } from "../../data/driverless/data";
+import PanelHeader from "./PanelHeader";
 
 const stateMap = new Map(stateData.map((s) => [s.code, s]));
 
@@ -54,10 +55,7 @@ export default function USMap() {
 
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Where It's Legal</h2>
-        <span className="dl-panel-subtitle">Self-driving car laws by state</span>
-      </div>
+      <PanelHeader title="Where It's Legal" subtitle="Self-driving car laws by state" />
       <div className="dl-map-wrap" ref={wrapRef}>
         <svg viewBox="280 0 950 610" className="dl-map-svg" aria-label="US self-driving car legislation map">
           {Object.entries(US_STATE_PATHS).map(([code, { name, path }]) => {

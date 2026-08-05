@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PanelHeader from "./PanelHeader";
 
 interface TimelineEvent {
   date: string;
@@ -53,10 +54,7 @@ export default function AVTimeline() {
 
   return (
     <div className="dl-panel dl-full">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">The Road So Far</h2>
-        <span className="dl-panel-subtitle">Key moments in autonomous vehicle history, 2004–2026</span>
-      </div>
+      <PanelHeader title="The Road So Far" subtitle="Key moments in autonomous vehicle history, 2004–2026" />
 
       {/* Filter buttons */}
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

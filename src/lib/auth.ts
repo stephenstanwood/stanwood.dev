@@ -36,3 +36,21 @@ export async function verifySessionPassword(
   ]);
   return timingSafeEqual(submittedHash, expectedHash) ? expectedHash : null;
 }
+
+/**
+ * Build the Set-Cookie header for a private-tool session. `Secure` is attached only
+ * over https so login still completes against a plain-http dev server. Omit `maxAgeSeconds`
+ * for a cookie that dies with the browser session.
+ */
+export function sessionCookie(
+  name: string,
+  token: string,
+  requestUrl: URL,
+  maxAgeSeconds?: number,
+): string {
+  const parts = [`${name}=${token}`, "Path=/", "HttpOnly"];
+  if (requestUrl.protocol === "https:") parts.push("Secure");
+  parts.push("SameSite=Strict");
+  if (maxAgeSeconds !== undefined) parts.push(`Max-Age=${maxAgeSeconds}`);
+  return parts.join("; ");
+}

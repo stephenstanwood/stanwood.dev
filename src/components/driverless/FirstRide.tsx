@@ -1,3 +1,5 @@
+import PanelHeader from "./PanelHeader";
+
 interface Step {
   num: string;
   title: string;
@@ -83,10 +85,7 @@ const quirks: ServiceQuirk[] = [
 export default function FirstRide() {
   return (
     <div className="dl-panel dl-full dl-firstride">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">What it's actually like to ride one</h2>
-        <span className="dl-panel-subtitle">Five steps from app open to drop-off</span>
-      </div>
+      <PanelHeader title="What it's actually like to ride one" subtitle="Five steps from app open to drop-off" />
 
       <ol className="dl-fr-steps">
         {steps.map((s) => (

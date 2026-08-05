@@ -1,3 +1,5 @@
+import PanelHeader from "./PanelHeader";
+
 type Verdict = "true" | "mostly-true" | "partly-true" | "mostly-false" | "false";
 
 interface Myth {
@@ -77,10 +79,7 @@ const myths: Myth[] = [
 export default function Myths() {
   return (
     <div className="dl-panel dl-full dl-myths">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">What people get wrong about robotaxis</h2>
-        <span className="dl-panel-subtitle">Eight common claims, fact-checked against the data</span>
-      </div>
+      <PanelHeader title="What people get wrong about robotaxis" subtitle="Eight common claims, fact-checked against the data" />
 
       <p className="dl-myths-lead">
         Most arguments about self-driving cars are arguments from a 2018 article. Here's where today's

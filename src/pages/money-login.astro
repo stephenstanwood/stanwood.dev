@@ -1,5 +1,5 @@
 ---
-import { verifySessionPassword } from '../lib/auth';
+import { sessionCookie, verifySessionPassword } from '../lib/auth';
 
 export const prerender = false;
 
@@ -9,17 +9,16 @@ if (Astro.request.method === 'POST') {
   const form = await Astro.request.formData();
   const expected = import.meta.env.MONEY_PASSWORD || process.env.MONEY_PASSWORD;
 
-  // CLEANUP-FLAG: this cookie diverges from /li-login's — it hardcodes `Secure`
-  // (so login can't complete over plain-http local dev) and omits Max-Age, making
-  // it a session cookie. Worth reconciling with li_session, but that changes
-  // login persistence so it isn't a mechanical cleanup.
   const sessionToken = await verifySessionPassword(form.get('password'), expected);
   if (sessionToken) {
+    // No Max-Age: money_session stays a session cookie, unlike li_session. Changing
+    // that would change how long a login lasts, so it stays a deliberate difference.
     return new Response(null, {
-      status: 302,
+      status: 303,
       headers: {
         'Location': '/money',
-        'Set-Cookie': `money_session=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+        'Set-Cookie': sessionCookie('money_session', sessionToken, Astro.url),
+        'Cache-Control': 'no-store',
       },
     });
   }

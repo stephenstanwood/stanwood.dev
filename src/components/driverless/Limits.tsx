@@ -1,3 +1,5 @@
+import PanelHeader from "./PanelHeader";
+
 interface Limit {
   emoji: string;
   title: string;
@@ -53,10 +55,7 @@ const limits: Limit[] = [
 export default function Limits() {
   return (
     <div className="dl-panel dl-full dl-limits">
-      <div className="dl-panel-header">
-        <h2 className="dl-panel-title">Where the geofence ends</h2>
-        <span className="dl-panel-subtitle">Six things today's robotaxis still can't do — and what to do instead</span>
-      </div>
+      <PanelHeader title="Where the geofence ends" subtitle="Six things today's robotaxis still can't do — and what to do instead" />
 
       <p className="dl-limits-lead">
         Robotaxi marketing is mostly highlight reel. These are the seams that show up after a few rides — useful to know before you cancel your Uber account.

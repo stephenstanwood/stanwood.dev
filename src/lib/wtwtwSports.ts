@@ -53,7 +53,7 @@ export interface ESPNEvent {
   season?: { type?: number; slug?: string };
 }
 
-export function readUserTeamKeys(): string[] {
+function readUserTeamKeys(): string[] {
   const stored = safeGet<{ teams?: unknown }>(WTWTW_LS_KEY);
   if (stored && Array.isArray(stored.teams)) {
     return stored.teams.filter((k): k is string => typeof k === "string");
@@ -61,7 +61,7 @@ export function readUserTeamKeys(): string[] {
   return [];
 }
 
-export function getRelevantLeagues(teamKeys: string[]): Set<string> {
+function getRelevantLeagues(teamKeys: string[]): Set<string> {
   const out = new Set<string>();
   for (const k of teamKeys) {
     const t = TEAM_REGISTRY[k];
