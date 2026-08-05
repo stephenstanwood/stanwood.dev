@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-04T19:10:13.733Z",
+  "lastUpdated": "2026-08-05T01:10:17.966Z",
   "apiSpend": {
     "months": [
       {
@@ -211,30 +211,30 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-04T19:10:13.733Z",
+        "collectedAt": "2026-08-05T01:10:17.966Z",
         "services": {
           "vercel": {
-            "totalCents": 730,
+            "totalCents": 973,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 666
+                "cents": 904
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 37
+                "cents": 39
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 11
+                "cents": 12
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 4
+                "cents": 5
               },
               {
                 "name": "Function Invocations",
-                "cents": 4
+                "cents": 5
               },
               {
                 "name": "Fast Origin Transfer",
@@ -256,23 +256,23 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 699,
+            "totalCents": 1103,
             "breakdown": [
               {
                 "name": "claude-opus-4-8",
-                "cents": 388
+                "cents": 525
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 230
+                "cents": 384
               },
               {
                 "name": "claude-fable-5",
-                "cents": 80
+                "cents": 191
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 1
+                "cents": 3
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
