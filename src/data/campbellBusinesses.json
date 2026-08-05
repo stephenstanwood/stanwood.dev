@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T06:22:56.413Z",
+  "generatedAt": "2026-08-05T18:22:40.410Z",
   "sourceUrl": "https://www.downtowncampbell.com/directory/all",
   "sources": [
     {
@@ -10,9 +10,9 @@
     {
       "label": "Campbell Chamber Directory",
       "sourceUrl": "https://business.campbellchamber.net/list",
-      "count": 335,
-      "sourceEntries": 336,
-      "totalParsed": 560
+      "count": 337,
+      "sourceEntries": 338,
+      "totalParsed": 562
     }
   ],
   "items": [
@@ -135,6 +135,21 @@
       "address": "476 W Taylor St, Campbell CA 95008",
       "city": "Campbell",
       "url": "https://business.campbellchamber.net/list/member/a1-heating-cooling-2128",
+      "websiteUrl": "",
+      "imageUrl": "",
+      "description": "",
+      "tags": [
+        "Chamber"
+      ],
+      "source": "Campbell Chamber Directory",
+      "sourceUrl": "https://business.campbellchamber.net/list/searchalpha/a"
+    },
+    {
+      "name": "Abbott, Stringham & Lynch",
+      "phone": "(408) 377-8700",
+      "address": "1901 S Bascom Ave., Suite 105, Campbell CA 95008",
+      "city": "Campbell",
+      "url": "https://business.campbellchamber.net/list/member/abbott-stringham-lynch-2581",
       "websiteUrl": "",
       "imageUrl": "",
       "description": "",
@@ -5748,10 +5763,16 @@
       "websiteUrl": "",
       "description": "",
       "tags": [
-        "Downtown"
+        "Downtown",
+        "Chamber"
       ],
-      "source": "Downtown Campbell Directory",
-      "sourceUrl": "https://www.downtowncampbell.com/directory/all"
+      "source": "Downtown Campbell Directory + Campbell Chamber Directory",
+      "sourceUrl": "https://www.downtowncampbell.com/directory/all",
+      "city": "Campbell",
+      "imageUrl": "",
+      "additionalSourceUrls": [
+        "https://business.campbellchamber.net/list/searchalpha/t"
+      ]
     },
     {
       "name": "The Yardstick",
