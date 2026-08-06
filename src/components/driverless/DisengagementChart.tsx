@@ -9,8 +9,13 @@ import {
   LabelList,
 } from "recharts";
 import { disengagementData } from "../../data/driverless/data";
-import ChartTooltipBox from "./ChartTooltipBox";
+import ChartTooltipBox, {
+  CHART_AXIS_TICK,
+  CHART_GRID_STROKE,
+  type ChartTooltipProps,
+} from "./ChartTooltipBox";
 import PanelHeader from "./PanelHeader";
+import { DL_MONO } from "./FilterPill";
 
 const chartData = disengagementData.map((d) => ({
   ...d,
@@ -21,7 +26,7 @@ interface DisengagementPayloadEntry {
   payload: { company: string; milesPerDisengagement: number };
 }
 
-function DisengagementTooltip({ active, payload }: { active?: boolean; payload?: DisengagementPayloadEntry[] }) {
+function DisengagementTooltip({ active, payload }: ChartTooltipProps<DisengagementPayloadEntry>) {
   if (!active || !payload?.length) return null;
   const { company, milesPerDisengagement } = payload[0].payload;
   return (
@@ -43,15 +48,15 @@ export default function DisengagementChart() {
             layout="vertical"
             margin={{ top: 5, right: 70, bottom: 5, left: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => v.toLocaleString()} />
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} horizontal={false} />
+            <XAxis type="number" tick={CHART_AXIS_TICK} tickFormatter={(v) => v.toLocaleString()} />
             <YAxis type="category" dataKey="company" tick={{ fontSize: 12, fontWeight: 500 }} width={55} />
             <Tooltip content={<DisengagementTooltip />} />
             <Bar dataKey="milesPerDisengagement" fill="var(--dl-accent)" radius={[0, 4, 4, 0]}>
               <LabelList
                 dataKey="label"
                 position="right"
-                style={{ fontSize: 11, fill: "var(--dl-muted)", fontFamily: "JetBrains Mono, monospace" }}
+                style={{ fontSize: 11, fill: "var(--dl-muted)", fontFamily: DL_MONO }}
               />
             </Bar>
           </BarChart>

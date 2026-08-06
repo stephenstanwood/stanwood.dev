@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PanelHeader from "./PanelHeader";
+import FilterPill, { DL_MONO, FilterPillRow } from "./FilterPill";
 
 interface TimelineEvent {
   date: string;
@@ -34,11 +35,13 @@ const events: TimelineEvent[] = [
   { date: "Apr 2026", title: "Tesla launches paid unsupervised robotaxi rides", detail: "Tesla begins offering paid robotaxi service in Austin with no safety driver — the company's first true Level 4 deployment after years of driver-assist (L2+). The geo-fenced pilot uses a fleet of Cybercabs and marks Tesla's entry into fully driverless commercial rides.", type: "launch" },
 ];
 
+// Accent colours come from the page's --dl-* palette, matching CompanyCards'
+// statusColors. The tints have no palette variable, so they stay literal.
 const typeConfig = {
-  milestone: { color: "#3b82f6", bg: "#eff6ff", label: "Milestone" },
-  launch:    { color: "#16a34a", bg: "#f0fdf4", label: "Launch" },
-  setback:   { color: "#ef4444", bg: "#fef2f2", label: "Setback" },
-  policy:    { color: "#d97706", bg: "#fffbeb", label: "Policy" },
+  milestone: { color: "var(--dl-blue)", bg: "#eff6ff", label: "Milestone" },
+  launch:    { color: "var(--dl-accent)", bg: "var(--dl-accent-light)", label: "Launch" },
+  setback:   { color: "var(--dl-red)", bg: "#fef2f2", label: "Setback" },
+  policy:    { color: "var(--dl-amber)", bg: "#fffbeb", label: "Policy" },
 };
 
 type EventType = keyof typeof typeConfig;
@@ -57,62 +60,34 @@ export default function AVTimeline() {
       <PanelHeader title="The Road So Far" subtitle="Key moments in autonomous vehicle history, 2004–2026" />
 
       {/* Filter buttons */}
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <button
+      <FilterPillRow>
+        <FilterPill
+          active={activeFilter === null}
+          color="var(--dl-ink)"
+          background="var(--dl-ink)"
+          activeInk="#fff"
           onClick={() => setActiveFilter(null)}
-          style={{
-            fontSize: 12,
-            fontWeight: 600,
-            padding: "5px 12px",
-            borderRadius: 6,
-            border: "1.5px solid",
-            cursor: "pointer",
-            transition: "all 0.12s",
-            borderColor: activeFilter === null ? "var(--dl-ink)" : "var(--dl-border)",
-            background: activeFilter === null ? "var(--dl-ink)" : "transparent",
-            color: activeFilter === null ? "#fff" : "var(--dl-muted)",
-          }}
         >
           All {events.length}
-        </button>
+        </FilterPill>
         {ALL_TYPES.map((type) => {
           const cfg = typeConfig[type];
           const isActive = activeFilter === type;
           return (
-            <button
+            <FilterPill
               key={type}
+              active={isActive}
+              color={cfg.color}
+              background={cfg.bg}
+              count={countOf(type)}
               onClick={() => setActiveFilter(isActive ? null : type)}
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                padding: "5px 12px",
-                borderRadius: 6,
-                border: "1.5px solid",
-                cursor: "pointer",
-                transition: "all 0.12s",
-                borderColor: isActive ? cfg.color : "var(--dl-border)",
-                background: isActive ? cfg.bg : "transparent",
-                color: isActive ? cfg.color : "var(--dl-muted)",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
             >
               <span style={{ width: 8, height: 8, borderRadius: 2, background: cfg.color, flexShrink: 0, display: "inline-block" }} />
               {cfg.label}
-              <span style={{
-                fontSize: 10,
-                fontFamily: "JetBrains Mono, monospace",
-                background: isActive ? cfg.color : "var(--dl-border)",
-                color: isActive ? "#fff" : "var(--dl-muted)",
-                borderRadius: 10,
-                padding: "1px 6px",
-                lineHeight: 1.4,
-              }}>{countOf(type)}</span>
-            </button>
+            </FilterPill>
           );
         })}
-      </div>
+      </FilterPillRow>
 
       {/* Timeline */}
       <div style={{ position: "relative", paddingLeft: 4 }}>
@@ -148,7 +123,7 @@ export default function AVTimeline() {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
                     <span style={{
-                      fontFamily: "JetBrains Mono, monospace",
+                      fontFamily: DL_MONO,
                       fontSize: 11,
                       color: cfg.color,
                       fontWeight: 600,

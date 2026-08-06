@@ -16,6 +16,7 @@ import {
 import { MS_PER_MINUTE } from "../lib/time";
 import { formatHourMinuteInTz, PACIFIC_TZ } from "../lib/dateFormat";
 import { findActiveWindow, type BigInningSchedule } from "../lib/bigInning";
+import RecapMatchup from "./RecapMatchup";
 
 const POLL_MS = MS_PER_MINUTE;
 const SCHEDULE_REFRESH_MS = 30 * MS_PER_MINUTE;
@@ -197,39 +198,13 @@ export default function LiveSports() {
           style={{ borderLeftColor: g.accent }}
           title={`${g.away.shortName} ${g.away.score} — ${g.home.shortName} ${g.home.score} · ${g.statusText}`}
         >
-          <div className="recap-matchup">
-            <div className="recap-team">
-              {g.away.logo && (
-                <img
-                  className="recap-logo"
-                  src={g.away.logo}
-                  alt=""
-                  loading="lazy"
-                />
-              )}
-              <div className="recap-team-text">
-                <span className="recap-team-name">{g.away.shortName}</span>
-                <span className="recap-team-abbr">{g.away.abbr}</span>
-              </div>
-              <span className="recap-score live">{g.away.score}</span>
-            </div>
-            <div className="recap-vs">@</div>
-            <div className="recap-team home">
-              <span className="recap-score live">{g.home.score}</span>
-              <div className="recap-team-text">
-                <span className="recap-team-name">{g.home.shortName}</span>
-                <span className="recap-team-abbr">{g.home.abbr}</span>
-              </div>
-              {g.home.logo && (
-                <img
-                  className="recap-logo"
-                  src={g.home.logo}
-                  alt=""
-                  loading="lazy"
-                />
-              )}
-            </div>
-          </div>
+          <RecapMatchup
+            away={g.away}
+            home={g.home}
+            renderScore={(team) => (
+              <span className="recap-score live">{team.score}</span>
+            )}
+          />
           <div className="recap-meta">
             <span className="recap-live-status">
               <span className="recap-live-dot" />

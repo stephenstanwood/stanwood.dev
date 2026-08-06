@@ -9,17 +9,23 @@ import {
   ReferenceDot,
 } from "recharts";
 import { growthData } from "../../data/driverless/data";
-import ChartTooltipBox from "./ChartTooltipBox";
+import ChartTooltipBox, {
+  CHART_AXIS_TICK,
+  CHART_GRID_STROKE,
+  type ChartTooltipProps,
+} from "./ChartTooltipBox";
 import PanelHeader from "./PanelHeader";
+
+const GROWTH_COLOR = "var(--dl-blue)";
 
 interface GrowthPayloadEntry { value: number }
 
-function GrowthTooltip({ active, payload, label }: { active?: boolean; payload?: GrowthPayloadEntry[]; label?: string }) {
+function GrowthTooltip({ active, payload, label }: ChartTooltipProps<GrowthPayloadEntry>) {
   if (!active || !payload?.length) return null;
   return (
     <ChartTooltipBox>
       <strong>{label}</strong>
-      <div style={{ color: "#3b82f6" }}>{payload[0].value.toLocaleString()}K rides/week</div>
+      <div style={{ color: GROWTH_COLOR }}>{payload[0].value.toLocaleString()}K rides/week</div>
     </ChartTooltipBox>
   );
 }
@@ -33,18 +39,18 @@ export default function GrowthChart() {
           <AreaChart data={growthData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
             <defs>
               <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.02} />
+                <stop offset="5%" stopColor={GROWTH_COLOR} stopOpacity={0.2} />
+                <stop offset="95%" stopColor={GROWTH_COLOR} stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" vertical={false} />
-            <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} width={45} tickFormatter={(v) => `${v}K`} domain={[0, 550]} />
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
+            <XAxis dataKey="date" tick={CHART_AXIS_TICK} />
+            <YAxis tick={CHART_AXIS_TICK} width={45} tickFormatter={(v) => `${v}K`} domain={[0, 550]} />
             <Tooltip content={<GrowthTooltip />} />
             <Area
               type="monotone"
               dataKey="ridesK"
-              stroke="#3b82f6"
+              stroke={GROWTH_COLOR}
               strokeWidth={2.5}
               fill="url(#growthGrad)"
             />
@@ -52,7 +58,7 @@ export default function GrowthChart() {
               x="Mar '26"
               y={500}
               r={5}
-              fill="#3b82f6"
+              fill={GROWTH_COLOR}
               stroke="#fff"
               strokeWidth={2}
             />

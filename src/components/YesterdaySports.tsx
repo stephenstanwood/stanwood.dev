@@ -22,6 +22,7 @@ import {
   type TeamSide as TeamSideBase,
 } from "../lib/wtwtwSports";
 import { MS_PER_DAY } from "../lib/time";
+import RecapMatchup from "./RecapMatchup";
 
 interface YesterdayGame {
   id: string;
@@ -262,51 +263,17 @@ export default function YesterdaySports() {
             style={{ borderLeftColor: g.accent }}
             title={recapTitle(g)}
           >
-            <div className="recap-matchup">
-              <div className="recap-team">
-                {g.away.logo && (
-                  <img
-                    className="recap-logo"
-                    src={g.away.logo}
-                    alt=""
-                    loading="lazy"
-                  />
-                )}
-                <div className="recap-team-text">
-                  <span className="recap-team-name">{g.away.shortName}</span>
-                  <span className="recap-team-abbr">{g.away.abbr}</span>
-                </div>
-                {!hideScores && (
-                  <span
-                    className={`recap-score ${g.away.winner ? "win" : "lose"}`}
-                  >
-                    {g.away.score}
+            <RecapMatchup
+              away={g.away}
+              home={g.home}
+              renderScore={(team) =>
+                hideScores ? null : (
+                  <span className={`recap-score ${team.winner ? "win" : "lose"}`}>
+                    {team.score}
                   </span>
-                )}
-              </div>
-              <div className="recap-vs">@</div>
-              <div className="recap-team home">
-                {!hideScores && (
-                  <span
-                    className={`recap-score ${g.home.winner ? "win" : "lose"}`}
-                  >
-                    {g.home.score}
-                  </span>
-                )}
-                <div className="recap-team-text">
-                  <span className="recap-team-name">{g.home.shortName}</span>
-                  <span className="recap-team-abbr">{g.home.abbr}</span>
-                </div>
-                {g.home.logo && (
-                  <img
-                    className="recap-logo"
-                    src={g.home.logo}
-                    alt=""
-                    loading="lazy"
-                  />
-                )}
-              </div>
-            </div>
+                )
+              }
+            />
             <div className="recap-meta">
               <span className="recap-final">
                 {recapBadge(g)}
