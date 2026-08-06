@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-06T06:10:19.010Z",
+  "lastUpdated": "2026-08-06T13:10:15.978Z",
   "apiSpend": {
     "months": [
       {
@@ -211,29 +211,29 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-06T06:10:19.010Z",
+        "collectedAt": "2026-08-06T13:10:15.978Z",
         "services": {
           "vercel": {
-            "totalCents": 1490,
+            "totalCents": 1540,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1400
+                "cents": 1445
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 50
+                "cents": 53
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 16
-              },
-              {
-                "name": "Fluid Provisioned Memory",
-                "cents": 6
+                "cents": 17
               },
               {
                 "name": "Function Invocations",
+                "cents": 7
+              },
+              {
+                "name": "Fluid Provisioned Memory",
                 "cents": 6
               },
               {
@@ -371,10 +371,10 @@
     },
     {
       "name": "Neon via Vercel",
-      "cents": 2105,
+      "cents": 2183,
       "category": "infra",
       "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Jul 2026"
+      "note": "Mercury actual Aug 2026"
     },
     {
       "name": "Vercel Pro",
@@ -395,7 +395,7 @@
       "cents": 2000,
       "category": "ai",
       "url": "https://www.magicpatterns.com",
-      "note": "Mercury actual Jul 2026"
+      "note": "Mercury actual Aug 2026"
     },
     {
       "name": "Replicate",
