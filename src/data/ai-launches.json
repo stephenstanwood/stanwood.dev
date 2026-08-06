@@ -1,5 +1,13 @@
 [
   {
+    "name": "Muse Code",
+    "org": "Meta",
+    "date": "2026-08-05",
+    "type": "tool",
+    "summary": "Run a terminal coding agent on macOS or Linux that spawns sub-agents and picks up where it left off after a crash. Pay-as-you-go at $1.25/$4.25 per million tokens, or over 90% less if you opt into data sharing.",
+    "url": "https://thenextweb.com/news/meta-muse-code-ai-coding-agent-launch"
+  },
+  {
     "name": "Notetaker",
     "org": "Wispr Flow",
     "date": "2026-08-05",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Download the largest open-weight model yet — 2.8 trillion parameters, a 1M-token context, and native vision, at close to frontier quality. It's a 1.4TB download, so most people will reach it through day-one hosted providers.",
     "url": "https://www.fastcompany.com/91581267/what-to-know-about-moonshot-ai-and-its-new-open-weight-model-kimi-k3"
-  },
-  {
-    "name": "Claude Opus 5",
-    "org": "Anthropic",
-    "date": "2026-07-24",
-    "type": "model",
-    "summary": "Get near-Fable-5 quality at half the price, now the default on Claude Pro and Max. A low/medium/high effort toggle lets you dial cost against capability per task, with sharper autonomous coding. Live in the API today.",
-    "url": "https://techcrunch.com/2026/07/24/anthropic-launches-opus-5/"
   }
 ]
