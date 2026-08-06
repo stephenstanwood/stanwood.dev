@@ -732,18 +732,11 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         requestGeolocation,
       } from "../lib/nearbyUtils";
       import { esc } from "../lib/htmlUtils";
+      // Type-only import: erased at build time, so the server-side Places client
+      // never reaches the browser bundle.
+      import type { PlaceResult } from "../lib/placesClient";
 
-      type CoffeeShop = {
-        id: string;
-        name: string;
-        address: string;
-        lat: number;
-        lng: number;
-        distance: number;
-        rating: number | null;
-        ratingCount: number | null;
-        isOpen: boolean | null;
-      };
+      type CoffeeShop = PlaceResult;
 
       const app = document.getElementById("app")!;
       const hasMaps = app.dataset.hasMaps === "1";

@@ -1,4 +1,5 @@
 import PanelHeader from "./PanelHeader";
+import { DL_MONO } from "./FilterPill";
 
 interface RaceEntry {
   company: string;
@@ -84,7 +85,7 @@ export default function L4Race() {
       <div style={{
         display: "flex",
         justifyContent: "space-between",
-        fontFamily: "JetBrains Mono, monospace",
+        fontFamily: DL_MONO,
         fontSize: 10,
         color: "var(--dl-muted)",
         letterSpacing: "0.05em",
@@ -124,7 +125,7 @@ export default function L4Race() {
                 </div>
                 <div style={{
                   fontSize: 10,
-                  fontFamily: "JetBrains Mono, monospace",
+                  fontFamily: DL_MONO,
                   color: "var(--dl-muted)",
                   marginTop: 2,
                 }}>
@@ -174,7 +175,7 @@ export default function L4Race() {
                   border: `1.5px solid ${color}`,
                   color: color,
                   fontSize: 10,
-                  fontFamily: "JetBrains Mono, monospace",
+                  fontFamily: DL_MONO,
                   fontWeight: 700,
                   padding: "3px 8px",
                   borderRadius: 999,

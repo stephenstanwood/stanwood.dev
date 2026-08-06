@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { companies } from "../../data/driverless/data";
 import PanelHeader from "./PanelHeader";
+import FilterPill, { FilterPillRow } from "./FilterPill";
 
 type Status = "active" | "testing" | "shut-down" | "l2-only";
 
@@ -31,61 +32,33 @@ export default function CompanyCards() {
       <PanelHeader title="Who's Driving" subtitle="The companies building self-driving cars" />
 
       {/* Status filters */}
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-        <button
+      <FilterPillRow>
+        <FilterPill
+          active={activeStatus === null}
+          color="var(--dl-ink)"
+          background="var(--dl-ink)"
+          activeInk="#fff"
           onClick={() => setActiveStatus(null)}
-          style={{
-            fontSize: 12,
-            fontWeight: 600,
-            padding: "5px 12px",
-            borderRadius: 6,
-            border: "1.5px solid",
-            cursor: "pointer",
-            transition: "all 0.12s",
-            borderColor: activeStatus === null ? "var(--dl-ink)" : "var(--dl-border)",
-            background: activeStatus === null ? "var(--dl-ink)" : "transparent",
-            color: activeStatus === null ? "#fff" : "var(--dl-muted)",
-          }}
         >
           All {companies.length}
-        </button>
+        </FilterPill>
         {ALL_STATUSES.filter((s) => countOf(s) > 0).map((s) => {
           const { color, bg } = statusColors[s];
           const isActive = activeStatus === s;
           return (
-            <button
+            <FilterPill
               key={s}
+              active={isActive}
+              color={color}
+              background={bg}
+              count={countOf(s)}
               onClick={() => setActiveStatus(isActive ? null : s)}
-              style={{
-                fontSize: 12,
-                fontWeight: 600,
-                padding: "5px 12px",
-                borderRadius: 6,
-                border: "1.5px solid",
-                cursor: "pointer",
-                transition: "all 0.12s",
-                borderColor: isActive ? color : "var(--dl-border)",
-                background: isActive ? bg : "transparent",
-                color: isActive ? color : "var(--dl-muted)",
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-              }}
             >
               {statusLabels[s]}
-              <span style={{
-                fontSize: 10,
-                fontFamily: "JetBrains Mono, monospace",
-                background: isActive ? color : "var(--dl-border)",
-                color: isActive ? "#fff" : "var(--dl-muted)",
-                borderRadius: 10,
-                padding: "1px 6px",
-                lineHeight: 1.4,
-              }}>{countOf(s)}</span>
-            </button>
+            </FilterPill>
           );
         })}
-      </div>
+      </FilterPillRow>
 
       <div className="dl-company-grid">
         {filtered.map((c) => (
