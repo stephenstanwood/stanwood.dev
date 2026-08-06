@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05T21:21:19.686Z",
+  "generatedAt": "2026-08-06T00:22:20.404Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
@@ -11,8 +11,8 @@
     {
       "label": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events",
-      "count": 46,
-      "parsedCount": 46
+      "count": 50,
+      "parsedCount": 50
     },
     {
       "label": "Campbell Library Events",
@@ -73,19 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Opioid Overdose Prevention Training",
-      "date": "Aug 5th | 2:00pm - 3:00pm",
-      "cost": "Free",
-      "location": "Campbell Library",
-      "description": "",
-      "url": "https://sccl.bibliocommons.com/events/6a0649dfe8af4a2f00729c5c",
-      "imageUrl": "",
-      "category": "Campbell Library",
-      "startDate": "2026-08-05T14:00:00",
-      "source": "Campbell Library Events",
-      "sourceUrl": "https://sccld.org/locations/campbell/"
     },
     {
       "title": "Special Meeting of the Parks and Recreation Commission",
@@ -228,6 +215,22 @@
       "startDate": "2026-08-08T00:00:00",
       "source": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Friends of the Campbell Library Used Book Sale",
+      "date": "Aug 8th | 10:00am - 1:00pm",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "Join us for the Friends of the Campbell Library's monthly book sale held on the second Saturday of each month! There will be gently-used board books, children's books, and adult books available for purchase. We will also have...",
+      "url": "https://sccl.bibliocommons.com/events/6a4ebf4a0d65ac36003e60c6",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=S2t7uzrP",
+      "category": "Campbell Library",
+      "startDate": "2026-08-08T10:00:00",
+      "source": "Campbell Library Events + Downtown Campbell Events",
+      "sourceUrl": "https://sccld.org/locations/campbell/",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -765,6 +768,32 @@
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
+      "title": "Free Kindergarten Readiness",
+      "date": "9/12/26",
+      "cost": "Free",
+      "location": "DaVinci Academy of Silicon Valley",
+      "description": "Experience the Kindergarten classroom with DaVinci Academy teachers on a Saturday morning. For one hour, children participate in short lessons in reading, math, and handwriting, providing a gentle introduction to the DaVinci Program.",
+      "url": "https://www.downtowncampbell.com/event/2026/09/free-kindergarten-readiness",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/10952/images/img_6548.jpg?itok=f4PxhDA3",
+      "category": "Downtown",
+      "startDate": "2026-09-12T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Friends of Campbell Library Second Saturday Book Sale",
+      "date": "9/12/26",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=i9SlZ4V9",
+      "category": "Downtown",
+      "startDate": "2026-09-12T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "9/13/26",
       "cost": "",
@@ -1120,6 +1149,19 @@
       "endDate": "2026-10-06T17:00:00"
     },
     {
+      "title": "Friends of Campbell Library Second Saturday Book Sale",
+      "date": "10/10/26",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=i9SlZ4V9",
+      "category": "Downtown",
+      "startDate": "2026-10-10T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "10/11/26",
       "cost": "",
@@ -1179,6 +1221,19 @@
         "Chamber Events",
         "Community Events"
       ]
+    },
+    {
+      "title": "TK-8th Grade Open House at DaVinci Academy",
+      "date": "10/17/26",
+      "cost": "",
+      "location": "DaVinci Academy of Silicon Valley",
+      "description": "Searching for the right school for your child? You're invited to DaVinci Academy's Open House! Meet our teachers, see the classrooms, and get to know more about our unique program.",
+      "url": "https://www.downtowncampbell.com/event/2026/10/tk-8th-grade-open-house-davinci-academy",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/10952/images/schoolbuilding2026.jpg?itok=8nRTcbpY",
+      "category": "Downtown",
+      "startDate": "2026-10-17T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "31st Annual Campbell Oktoberfest",
@@ -1401,6 +1456,19 @@
       "endDate": "2026-11-03T17:30:00"
     },
     {
+      "title": "Free Kindergarten Readiness",
+      "date": "11/7/26",
+      "cost": "Free",
+      "location": "DaVinci Academy of Silicon Valley",
+      "description": "Experience the Kindergarten classroom with DaVinci Academy teachers on a Saturday morning. For one hour, children participate in short lessons in reading, math, and handwriting, providing a gentle introduction to the DaVinci Program.",
+      "url": "https://www.downtowncampbell.com/event/2026/11/free-kindergarten-readiness",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/10952/images/img_6548.jpg?itok=f4PxhDA3",
+      "category": "Downtown",
+      "startDate": "2026-11-07T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "11/8/26",
       "cost": "",
@@ -1446,6 +1514,19 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-11-12T19:30:00"
+    },
+    {
+      "title": "Friends of Campbell Library Second Saturday Book Sale",
+      "date": "11/14/26",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=i9SlZ4V9",
+      "category": "Downtown",
+      "startDate": "2026-11-14T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -1727,6 +1808,19 @@
       "endDate": "2026-12-10T19:30:00"
     },
     {
+      "title": "Friends of Campbell Library Second Saturday Book Sale",
+      "date": "12/12/26",
+      "cost": "Free",
+      "location": "Campbell Library",
+      "description": "",
+      "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=i9SlZ4V9",
+      "category": "Downtown",
+      "startDate": "2026-12-12T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "12/13/26",
       "cost": "",
@@ -1759,7 +1853,7 @@
     {
       "title": "World Ballet Company: The Nutcracker",
       "date": "Dec 16, 2026, 7:00 PM – 9:00 PM",
-      "cost": "$65/$89/$115 + $6.50 FF",
+      "cost": "",
       "location": "Heritage Theatre",
       "description": "Celebrate the season with The Nutcracker, a heartwarming ballet that brings dreams into reality for audiences of all ages.",
       "url": "https://www.heritagetheatre.org/event-details/world-ballet-company-the-nutcracker",
@@ -1767,11 +1861,8 @@
       "category": "Heritage Theatre",
       "startDate": "2026-12-16T19:00:00-08:00",
       "endDate": "2026-12-16T21:00:00-08:00",
-      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
+      "source": "Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1"
     },
     {
       "title": "Board Meeting",
@@ -1791,19 +1882,6 @@
       "endDate": "2026-12-17T19:30:00"
     },
     {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "12/20/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
-      "category": "Downtown",
-      "startDate": "2026-12-20T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
-    },
-    {
       "title": "ACLS Classes in Campbell",
       "date": "Sunday Dec 20, 2026",
       "cost": "",
@@ -1820,19 +1898,6 @@
         "Chamber Events",
         "Community Events"
       ]
-    },
-    {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "12/27/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
-      "category": "Downtown",
-      "startDate": "2026-12-27T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "CPR and First - Aid Classes in Campbell",
@@ -1869,7 +1934,7 @@
     {
       "title": "Journey USA - The Hits of Journey",
       "date": "Feb 19, 2027, 8:00 PM – 9:40 PM",
-      "cost": "$37-$65 + $4 Facility Fee",
+      "cost": "",
       "location": "Heritage Theatre",
       "description": "With a vocalist who sang for Steve Perry during his solo career and former members of Great White and The Babys, Journey USA delivers the hits of Journey like no other!",
       "url": "https://www.heritagetheatre.org/event-details/journey-usa-the-hits-of-journey",
@@ -1877,11 +1942,8 @@
       "category": "Heritage Theatre",
       "startDate": "2027-02-19T20:00:00-08:00",
       "endDate": "2027-02-19T21:40:00-08:00",
-      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
+      "source": "Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1"
     },
     {
       "title": "Fleetwood Mask: A Tribute to Fleetwood Mac",
