@@ -1,5 +1,13 @@
 [
   {
+    "name": "Agent Plugins 1.0",
+    "org": "Agentic AI Foundation",
+    "date": "2026-08-06",
+    "type": "tool",
+    "summary": "Package your agent skills and MCP servers into one folder — a plugin.json plus a skills/ dir — and load it in VS Code, Cursor, Copilot, ChatGPT, Codex, or Kiro. Write the extension once, run it everywhere.",
+    "url": "https://agent-plugins.org/"
+  },
+  {
     "name": "Muse Code",
     "org": "Meta",
     "date": "2026-08-05",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "High-volume jobs on the fastest GPT-5.6 tier just got 80% cheaper — Luna is now $0.20 per million input tokens, $1.20 output. Mid-tier Terra dropped 20% to $2/$12, and premium Sol runs 2.5x faster in the API.",
     "url": "https://www.cnbc.com/2026/07/30/open-ai-price-cut-gpt.html"
-  },
-  {
-    "name": "Kimi K3 open weights",
-    "org": "Moonshot AI",
-    "date": "2026-07-27",
-    "type": "model",
-    "summary": "Download the largest open-weight model yet — 2.8 trillion parameters, a 1M-token context, and native vision, at close to frontier quality. It's a 1.4TB download, so most people will reach it through day-one hosted providers.",
-    "url": "https://www.fastcompany.com/91581267/what-to-know-about-moonshot-ai-and-its-new-open-weight-model-kimi-k3"
   }
 ]
