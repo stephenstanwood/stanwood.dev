@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import eventFeed from "../../data/campbellEvents.json";
 import { parseCampbellDate, startOfDay } from "./dateHelpers";
+import { eventEnd } from "./eventDates";
 
 const absenceTitlePatterns = [
   /^No .+ Practice$/i,
@@ -52,10 +53,6 @@ function eventDateKey(event: { startDate?: string; date?: string }) {
 
 function hasSpecificEventTime(event: { startDate?: string }) {
   return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
-}
-
-function eventEnd(event: { startDate?: string; endDate?: string; date?: string }) {
-  return parseCampbellDate(event.endDate || event.startDate || event.date || "");
 }
 
 function titleTokens(title = "") {

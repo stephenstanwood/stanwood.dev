@@ -5,6 +5,7 @@ import type {
   TasteProfile,
   DietaryConstraints,
   Recommendation,
+  RecommendRequest,
   RecommendResponse,
 } from "../lib/greenLight/types";
 import { quizQuestions } from "../lib/greenLight/quizQuestions";
@@ -75,15 +76,17 @@ export default function GreenLight() {
     setView("loading");
 
     try {
+      const payload: RecommendRequest = {
+        restaurantName,
+        location: city,
+        tasteProfile: profile,
+        constraints,
+      };
+
       const res = await fetch("/api/recommend", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          restaurantName,
-          location: city,
-          tasteProfile: profile,
-          constraints,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();

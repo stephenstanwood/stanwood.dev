@@ -1,5 +1,5 @@
 import { useState, type SyntheticEvent } from "react";
-import type { TasteProfile } from "../../lib/greenLight/types";
+import type { TasteDimension, TasteProfile } from "../../lib/greenLight/types";
 
 interface Props {
   recentRestaurants: string[];
@@ -9,87 +9,34 @@ interface Props {
   onRetakeQuiz: () => void;
 }
 
-function getVibeLabels(profile: TasteProfile): string[] {
-  const candidates: Array<{ label: string; strength: number }> = [
-    {
-      label:
-        profile.spiceTolerance > 0.33
-          ? "loves heat"
-          : profile.spiceTolerance < -0.33
-            ? "keeps it mild"
-            : "",
-      strength: Math.abs(profile.spiceTolerance),
-    },
-    {
-      label:
-        profile.proteinPreference > 0.33
-          ? "meat-forward"
-          : profile.proteinPreference < -0.33
-            ? "plant-forward"
-            : "",
-      strength: Math.abs(profile.proteinPreference),
-    },
-    {
-      label:
-        profile.portionSize > 0.33
-          ? "big plates"
-          : profile.portionSize < -0.33
-            ? "lighter eater"
-            : "",
-      strength: Math.abs(profile.portionSize),
-    },
-    {
-      label:
-        profile.flavorProfile > 0.33
-          ? "bold & smoky"
-          : profile.flavorProfile < -0.33
-            ? "clean & bright"
-            : "",
-      strength: Math.abs(profile.flavorProfile),
-    },
-    {
-      label:
-        profile.dietaryLeaning > 0.33
-          ? "full indulgence"
-          : profile.dietaryLeaning < -0.33
-            ? "health-conscious"
-            : "",
-      strength: Math.abs(profile.dietaryLeaning),
-    },
-    {
-      label:
-        profile.cuisinePreference > 0.33
-          ? "global palate"
-          : profile.cuisinePreference < -0.33
-            ? "classic flavors"
-            : "",
-      strength: Math.abs(profile.cuisinePreference),
-    },
-    {
-      label:
-        profile.cookingMethod > 0.33
-          ? "grilled & fried"
-          : profile.cookingMethod < -0.33
-            ? "raw & fresh"
-            : "",
-      strength: Math.abs(profile.cookingMethod),
-    },
-    {
-      label:
-        profile.mealFormat > 0.33
-          ? "composed plates"
-          : profile.mealFormat < -0.33
-            ? "bowls & builds"
-            : "",
-      strength: Math.abs(profile.mealFormat),
-    },
-  ];
+/** A dimension only earns a vibe label once it leans this far off center. */
+const VIBE_THRESHOLD = 0.33;
+const MAX_VIBES = 4;
 
-  return candidates
-    .filter((c) => c.label !== "")
+/** [dimension, label when strongly positive, label when strongly negative] */
+const VIBE_LABELS: Array<[TasteDimension, string, string]> = [
+  ["spiceTolerance", "loves heat", "keeps it mild"],
+  ["proteinPreference", "meat-forward", "plant-forward"],
+  ["portionSize", "big plates", "lighter eater"],
+  ["flavorProfile", "bold & smoky", "clean & bright"],
+  ["dietaryLeaning", "full indulgence", "health-conscious"],
+  ["cuisinePreference", "global palate", "classic flavors"],
+  ["cookingMethod", "grilled & fried", "raw & fresh"],
+  ["mealFormat", "composed plates", "bowls & builds"],
+];
+
+/** The profile's strongest leanings, as short human labels, strongest first. */
+function getVibeLabels(profile: TasteProfile): string[] {
+  return VIBE_LABELS.map(([dimension, highLabel, lowLabel]) => {
+    const score = profile[dimension];
+    if (score > VIBE_THRESHOLD) return { label: highLabel, strength: score };
+    if (score < -VIBE_THRESHOLD) return { label: lowLabel, strength: -score };
+    return null;
+  })
+    .filter((vibe) => vibe !== null)
     .sort((a, b) => b.strength - a.strength)
-    .slice(0, 4)
-    .map((c) => c.label);
+    .slice(0, MAX_VIBES)
+    .map((vibe) => vibe.label);
 }
 
 export default function RestaurantSearch({

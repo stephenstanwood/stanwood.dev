@@ -139,6 +139,11 @@ interface Castle {
   builtAt: number; // performance.now() timestamp
 }
 
+/** Blocks can outlive a resize, so every draw pass re-checks them against the grid. */
+function isOnGrid(block: CastleBlock, rows: number, cols: number): boolean {
+  return block.row >= 0 && block.row < rows && block.col >= 0 && block.col < cols;
+}
+
 /* ── Particle ── */
 interface Particle {
   x: number;
@@ -160,13 +165,17 @@ interface Seagull {
 
 function readUrlParams(): { theme: string; speed: "calm" | "normal" | "surge" } {
   if (typeof window === "undefined") return { theme: "tropical", speed: "normal" };
-  const p = new URLSearchParams(window.location.search);
-  const theme = THEME_KEYS.includes(p.get("theme") as keyof typeof THEMES)
-    ? (p.get("theme") as string)
+  const params = new URLSearchParams(window.location.search);
+
+  const themeParam = params.get("theme");
+  const theme = THEME_KEYS.includes(themeParam as keyof typeof THEMES)
+    ? themeParam!
     : "tropical";
-  const speedRaw = p.get("speed");
+
+  const speedParam = params.get("speed");
   const speed: "calm" | "normal" | "surge" =
-    speedRaw === "calm" || speedRaw === "surge" ? speedRaw : "normal";
+    speedParam === "calm" || speedParam === "surge" ? speedParam : "normal";
+
   return { theme, speed };
 }
 
@@ -355,7 +364,7 @@ export default function PixelTide() {
         const castle = castles[ci];
 
         for (const block of castle.blocks) {
-          if (block.row < 0 || block.row >= rows || block.col < 0 || block.col >= cols) continue;
+          if (!isOnGrid(block, rows, cols)) continue;
 
           const bx = block.col * cellSize;
           const by = block.row * cellSize;
@@ -374,7 +383,7 @@ export default function PixelTide() {
         }
 
         for (const block of castle.blocks) {
-          if (block.row < 0 || block.row >= rows || block.col < 0 || block.col >= cols) continue;
+          if (!isOnGrid(block, rows, cols)) continue;
           const tideLine = getTideLine(block.col, t, rows);
           if (block.row >= tideLine - 1) {
             const bx = block.col * cellSize;
