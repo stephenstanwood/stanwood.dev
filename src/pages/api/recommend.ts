@@ -8,11 +8,77 @@ import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
 import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { logEvent } from "../../lib/logger";
-import type {
-  RecommendRequest,
-  TasteProfile,
-  DietaryConstraints,
-} from "../../lib/greenLight/types";
+import type { TasteProfile, DietaryConstraints } from "../../lib/greenLight/types";
+
+const DEFAULT_LOCATION = "Campbell, CA";
+
+// ─── Request validation ──────────────────────────────────────────────────────
+// The body is attacker-controllable and every field below lands in the model
+// prompt, so each is bounded here rather than just cast to its TS type — an
+// unchecked cast meant a body missing `constraints` threw a TypeError (served
+// as a generic 500) and callers could push unbounded strings into the prompt.
+// Fields fall back instead of rejecting: a malformed taste profile should still
+// return a recommendation, just a neutral one.
+
+const DIETARY_LABELS = [
+  "vegetarian",
+  "pescatarian",
+  "dairy-avoidant",
+  "gluten-avoidant",
+  "higher-protein",
+  "lower-carb",
+] as const;
+
+const dimensionScore = z.number().min(-1).max(1).catch(0);
+
+const TasteProfileSchema = z.object({
+  spiceTolerance: dimensionScore,
+  mealFormat: dimensionScore,
+  cuisinePreference: dimensionScore,
+  proteinPreference: dimensionScore,
+  cookingMethod: dimensionScore,
+  portionSize: dimensionScore,
+  flavorProfile: dimensionScore,
+  dietaryLeaning: dimensionScore,
+});
+
+const MAX_DIETARY_LABELS = 10;
+const MAX_DISLIKED = 20;
+const MAX_DISLIKED_LENGTH = 40;
+
+/**
+ * Lists drop only their bad entries rather than the whole array, so one
+ * oversized ingredient doesn't silently discard the rest of someone's dislikes.
+ */
+const ConstraintsSchema = z.object({
+  dietary: z
+    .array(z.unknown())
+    .catch([])
+    .transform((labels) =>
+      labels
+        .filter((label): label is (typeof DIETARY_LABELS)[number] =>
+          DIETARY_LABELS.includes(label as (typeof DIETARY_LABELS)[number]),
+        )
+        .slice(0, MAX_DIETARY_LABELS),
+    ),
+  disliked: z
+    .array(z.unknown())
+    .catch([])
+    .transform((items) =>
+      items
+        .filter((item) => typeof item === "string")
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0 && item.length <= MAX_DISLIKED_LENGTH)
+        .slice(0, MAX_DISLIKED),
+    ),
+  mealSize: z.enum(["lighter", "filling"]).catch("lighter"),
+});
+
+/** Coerce an unknown JSON value to a plain object so the schemas above always parse. */
+function asRecord(value: unknown): Record<string, unknown> {
+  const isPlainObject = typeof value === "object" && value !== null && !Array.isArray(value);
+  return isPlainObject ? (value as Record<string, unknown>) : {};
+}
 
 const OptionSchema = z.object({
   order: z.string(),
@@ -116,31 +182,24 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   try {
-    const body = (await request.json()) as RecommendRequest;
-    const { restaurantName, location, tasteProfile, constraints } = body;
+    const body = asRecord(await request.json());
 
-    if (!restaurantName || typeof restaurantName !== "string") {
+    const { restaurantName, location } = body;
+    if (typeof restaurantName !== "string" || !restaurantName.trim()) {
       return errJson("Restaurant name is required", 400);
     }
-
     const trimmedName = restaurantName.trim();
-
-    // Cap array inputs to prevent token inflation
-    if (constraints?.dietary) {
-      constraints.dietary = constraints.dietary.slice(0, 10);
-    }
-    if (constraints?.disliked) {
-      constraints.disliked = constraints.disliked.slice(0, 20);
-    }
-
     if (trimmedName.length > 200) {
       return errJson("Restaurant name too long (max 200 characters)", 400);
     }
 
     const safeLocation =
-      typeof location === "string" && location.trim().length <= 100
+      typeof location === "string" && location.trim() && location.trim().length <= 100
         ? location.trim()
-        : "Campbell, CA";
+        : DEFAULT_LOCATION;
+
+    const tasteProfile = TasteProfileSchema.parse(asRecord(body.tasteProfile));
+    const constraints = ConstraintsSchema.parse(asRecord(body.constraints));
 
     const userMessage = buildUserMessage(
       trimmedName,
