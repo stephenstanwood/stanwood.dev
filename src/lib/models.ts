@@ -2,8 +2,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 
-export const CLAUDE_SONNET = "claude-sonnet-4-6";
-export const CLAUDE_HAIKU = "claude-haiku-4-5-20251001";
+export const CLAUDE_SONNET = "claude-sonnet-5";
 
 /** Anthropic SDK client wired to the project's ANTHROPIC_API_KEY. Server-side only. */
 export function getAnthropicClient(): Anthropic {
