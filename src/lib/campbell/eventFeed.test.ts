@@ -55,6 +55,10 @@ function hasSpecificEventTime(event: { startDate?: string }) {
   return /\d{4}-\d{2}-\d{2}T(?!00:00)/.test(event.startDate || "");
 }
 
+function isGenericVenuePlaceholder(title = "") {
+  return normalizeTitle(title) === "theatre event";
+}
+
 function titleTokens(title = "") {
   return normalizeTitle(title)
     .split(" ")
@@ -145,6 +149,11 @@ describe("Campbell event feed", () => {
         if ((first.endDate ?? "").slice(0, 16) !== (second.endDate ?? "").slice(0, 16)) continue;
         if (!locationsOverlap(first.location, second.location)) continue;
 
+        expect(
+          isGenericVenuePlaceholder(first.title) || isGenericVenuePlaceholder(second.title),
+          `${first.title} / ${second.title}`,
+        ).toBe(false);
+
         const overlap = titleOverlap(first.title, second.title);
         expect(overlap, `${first.title} / ${second.title}`).toBeLessThan(2);
       }
@@ -167,6 +176,11 @@ describe("Campbell event feed", () => {
         if (!hasSpecificEventTime(first) || !hasSpecificEventTime(second)) continue;
         if ((first.startDate ?? "").slice(0, 16) !== (second.startDate ?? "").slice(0, 16)) continue;
         if (!locationsOverlap(first.location, second.location)) continue;
+
+        expect(
+          isGenericVenuePlaceholder(first.title) || isGenericVenuePlaceholder(second.title),
+          `${first.title} / ${second.title}`,
+        ).toBe(false);
 
         const overlap = titleOverlap(first.title, second.title);
         expect(overlap, `${first.title} / ${second.title}`).toBeLessThan(3);

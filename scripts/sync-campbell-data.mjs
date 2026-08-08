@@ -788,6 +788,16 @@ function eventTitlesLookSame(firstEvent, secondEvent) {
   return overlap >= 2 && eventLocationsOverlap(firstEvent, secondEvent);
 }
 
+function eventTitleIsGenericPlaceholder(title = "") {
+  const normalized = normalizeKeyPart(title);
+  return normalized === "theatre event";
+}
+
+function eventListingsAreGenericVenueDuplicate(firstEvent, secondEvent) {
+  if (!eventLocationsOverlap(firstEvent, secondEvent)) return false;
+  return eventTitleIsGenericPlaceholder(firstEvent.title) || eventTitleIsGenericPlaceholder(secondEvent.title);
+}
+
 function eventListingsLookSame(firstEvent, secondEvent) {
   if (eventDateKey(firstEvent) !== eventDateKey(secondEvent)) return false;
   if (eventSeriesDateKey(firstEvent) === eventSeriesDateKey(secondEvent)) return true;
@@ -1435,13 +1445,20 @@ function eventSpecificTimesMatch(firstEvent, secondEvent) {
   return true;
 }
 
+function eventShouldBePrimary(candidate, existing) {
+  const candidateGeneric = eventTitleIsGenericPlaceholder(candidate.title);
+  const existingGeneric = eventTitleIsGenericPlaceholder(existing.title);
+  if (candidateGeneric !== existingGeneric) return !candidateGeneric;
+  return false;
+}
+
 function mergeSimilarEventListings(events) {
   const mergedEvents = [];
 
   for (const event of events) {
     const existingIndex = mergedEvents.findIndex((existingEvent) =>
       eventSpecificTimesMatch(existingEvent, event) &&
-      eventListingsLookSame(existingEvent, event),
+      (eventListingsLookSame(existingEvent, event) || eventListingsAreGenericVenueDuplicate(existingEvent, event)),
     );
 
     if (existingIndex < 0) {
@@ -1449,7 +1466,10 @@ function mergeSimilarEventListings(events) {
       continue;
     }
 
-    mergedEvents[existingIndex] = mergeEventRecords(mergedEvents[existingIndex], event);
+    const existingEvent = mergedEvents[existingIndex];
+    mergedEvents[existingIndex] = eventShouldBePrimary(event, existingEvent)
+      ? mergeEventRecords(event, existingEvent)
+      : mergeEventRecords(existingEvent, event);
   }
 
   return mergedEvents;
