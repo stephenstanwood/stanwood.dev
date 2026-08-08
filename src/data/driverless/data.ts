@@ -47,7 +47,7 @@ export const cityRideData: CityRideInfo[] = [
     state: "TX",
     options: [
       { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched late 2024" },
-      { service: "Tesla Cybercab", availability: "invite-only", howToBook: "Request access via the Tesla app", note: "Paid unsupervised robotaxi pilot launched April 2026" },
+      { service: "Tesla Cybercab", availability: "invite-only", howToBook: "Request access via the Tesla app", note: "Unsupervised robotaxi rides, expanded across the full Austin metro June 2026" },
     ],
   },
   {
@@ -75,14 +75,14 @@ export const cityRideData: CityRideInfo[] = [
     city: "Dallas",
     state: "TX",
     options: [
-      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Expected 2026" },
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Early access rolling out 2026 (Avis-managed fleet)" },
     ],
   },
   {
     city: "Nashville",
     state: "TN",
     options: [
-      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Announced 2025, launching 2026" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched April 2026 — hail via Waymo One or Lyft" },
     ],
   },
   {
@@ -152,18 +152,18 @@ export const LEGISLATION_LABELS: Record<LegislationStatus, string> = {
 
 export const heroStats = [
   { label: "Self-Driving Cars", value: "4,500+", icon: "🚗" },
-  { label: "Rides / Week", value: "550K+", icon: "🚕" },
-  { label: "Miles Driven", value: "200M+", icon: "🛣️" },
+  { label: "Rides / Week", value: "500K+", icon: "🚕" },
+  { label: "Miles Driven", value: "220M+", icon: "🛣️" },
   { label: "Safer Than Human Drivers", value: "10x", icon: "🛡️" },
 ];
 
-// ── Safety Comparison (Waymo peer-reviewed, 56.7M rider miles) ────
+// ── Safety Comparison (Waymo safety hub, 220.6M rider-only miles thru Mar 2026) ────
 
 export const safetyData: SafetyMetric[] = [
-  { category: "Serious Injury", humanRate: 100, waymoRate: 10, reduction: 90 },
+  { category: "Serious Injury", humanRate: 100, waymoRate: 6, reduction: 94 },
   { category: "Major Crash", humanRate: 100, waymoRate: 18, reduction: 82 },
   { category: "Any Injury", humanRate: 100, waymoRate: 19, reduction: 81 },
-  { category: "Pedestrian Injury", humanRate: 100, waymoRate: 8, reduction: 92 },
+  { category: "Pedestrian Injury", humanRate: 100, waymoRate: 7, reduction: 93 },
 ];
 
 // ── Growth (Waymo rides/week, approximate monthly) ────────────────
@@ -187,7 +187,7 @@ export const growthData: GrowthPoint[] = [
   { date: "Sep '25", ridesK: 320 },
   { date: "Dec '25", ridesK: 400 },
   { date: "Mar '26", ridesK: 500 },
-  { date: "Apr '26", ridesK: 550 },   // current
+  { date: "Jun '26", ridesK: 500 },   // current — Waymo's stated ~500K weekly paid rides
 ];
 
 // ── Companies ──────────────────────────────────────────────────────
@@ -197,9 +197,9 @@ export const companies: Company[] = [
     name: "Waymo",
     type: "Self-driving rides, no human driver",
     vehicles: 3000,
-    cities: ["SF Bay Area", "Los Angeles", "Phoenix", "Austin", "Atlanta", "Miami"],
+    cities: ["SF Bay Area", "Los Angeles", "Phoenix", "Austin", "Atlanta", "Miami", "Nashville"],
     status: "active",
-    note: "500K rides/week, expanding to Dallas, Nashville, DC",
+    note: "500K rides/week, added Nashville April 2026; Dallas and DC next",
   },
   {
     name: "Zoox",
@@ -229,9 +229,9 @@ export const companies: Company[] = [
     name: "Tesla Cybercab",
     type: "Self-driving rides (limited pilot) + driver-assist fleet",
     vehicles: 2900000,
-    cities: ["Austin (Cybercab pilot)"],
+    cities: ["Austin (metro-wide)"],
     status: "active",
-    note: "Paid unsupervised Cybercab rides launched in Austin, Apr 2026 — broader fleet still requires a human at the wheel",
+    note: "Unsupervised Cybercab rides now cover the full Austin metro (June 2026) with a small fleet — broader Tesla fleet still requires a human at the wheel",
   },
 ];
 
