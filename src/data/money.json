@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-08T19:10:19.431Z",
+  "lastUpdated": "2026-08-09T01:10:17.896Z",
   "apiSpend": {
     "months": [
       {
@@ -211,18 +211,18 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-08T19:10:19.431Z",
+        "collectedAt": "2026-08-09T01:10:17.896Z",
         "services": {
           "vercel": {
-            "totalCents": 1951,
+            "totalCents": 2079,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1813
+                "cents": 1938
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 76
+                "cents": 79
               },
               {
                 "name": "Fluid Active CPU",
@@ -272,11 +272,11 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 2514,
+            "totalCents": 2867,
             "breakdown": [
               {
                 "name": "claude-sonnet-5",
-                "cents": 990
+                "cents": 1017
               },
               {
                 "name": "claude-opus-4-8",
@@ -284,15 +284,15 @@
               },
               {
                 "name": "claude-fable-5",
-                "cents": 583
+                "cents": 709
               },
               {
                 "name": "claude-opus-5",
-                "cents": 90
+                "cents": 289
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 8
+                "cents": 9
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
