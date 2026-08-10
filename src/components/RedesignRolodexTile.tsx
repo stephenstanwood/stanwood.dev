@@ -198,6 +198,7 @@ function RedesignRolodexTileInner() {
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="any website..."
+              aria-label="Website URL to redesign"
               className="rrt-input"
               autoComplete="off"
               spellCheck={false}

@@ -77,6 +77,7 @@ export default function RepoTracker() {
         <input
           className="sc-rt-input"
           type="text"
+          aria-label="GitHub repository to check"
           placeholder="owner/repo or github.com/owner/repo"
           value={input}
           onChange={(e) => setInput(e.target.value)}

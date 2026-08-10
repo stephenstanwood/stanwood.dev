@@ -302,16 +302,27 @@ export default function MuseumLabel() {
       {phase === "upload" && (
         <>
           <div
+            role="button"
+            tabIndex={0}
+            aria-label={preview ? "Replace the uploaded image" : "Upload an image"}
             onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
             onDragLeave={() => setDragOver(false)}
             onDrop={handleDrop}
             onClick={() => fileRef.current?.click()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileRef.current?.click();
+              }
+            }}
             className={`ml-dropzone ${dragOver ? "ml-dropzone--active" : ""} ${preview ? "ml-dropzone--has-preview" : ""}`}
           >
             <input
               ref={fileRef}
               type="file"
               accept="image/*"
+              aria-hidden="true"
+              tabIndex={-1}
               className="ml-file-input"
               onChange={(e) => {
                 const file = e.target.files?.[0];

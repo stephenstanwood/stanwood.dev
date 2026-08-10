@@ -129,6 +129,7 @@ export default function RedesignRolodex() {
             <input
               type="text"
               className="rr-input"
+              aria-label="Website URL to redesign"
               placeholder="any website..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
