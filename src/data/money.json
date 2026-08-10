@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-09T19:10:18.161Z",
+  "lastUpdated": "2026-08-10T01:10:19.648Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-09T19:10:18.161Z",
+        "collectedAt": "2026-08-10T01:10:19.648Z",
         "services": {
           "vercel": {
-            "totalCents": 2199,
+            "totalCents": 2219,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2043
+                "cents": 2059
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 87
+                "cents": 90
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 24
+                "cents": 25
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -272,11 +272,11 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 2867,
+            "totalCents": 3162,
             "breakdown": [
               {
                 "name": "claude-sonnet-5",
-                "cents": 1017
+                "cents": 1030
               },
               {
                 "name": "claude-opus-4-8",
@@ -288,7 +288,7 @@
               },
               {
                 "name": "claude-opus-5",
-                "cents": 289
+                "cents": 571
               },
               {
                 "name": "claude-haiku-4-5",
