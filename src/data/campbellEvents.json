@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-08-10T06:24:49.054Z",
+  "generatedAt": "2026-08-10T09:22:11.035Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 24,
-      "parsedCount": 24
+      "count": 23,
+      "parsedCount": 23
     },
     {
       "label": "Downtown Campbell Events",
@@ -73,19 +73,6 @@
       "endDate": "2026-12-20T23:00:00-08:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
-    },
-    {
-      "title": "Downtown Campbell Weekly Farmers' Market",
-      "date": "8/9/26",
-      "cost": "",
-      "location": "Downtown Campbell",
-      "description": "The Campbell Farmers' Market held on Sundays in Downtown Campbell is consistently rated as one of the best if not the best year-round Farmers' Markets in the South Bay. Come and enjoy the festive and vibrant community oriented atmosphere that attracts fans of the Campbell...",
-      "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/news/farmersmarket.jpg?itok=Ei037cnS",
-      "category": "Downtown",
-      "startDate": "2026-08-09T00:00:00",
-      "source": "Downtown Campbell Events",
-      "sourceUrl": "https://www.downtowncampbell.com/events"
     },
     {
       "title": "Emerald Summer Art Camp: Pottery, Painting, Sculpture, Mixed Media",
@@ -174,9 +161,9 @@
       "date": "8/16/26",
       "cost": "",
       "location": "Downtown Campbell",
-      "description": "",
+      "description": "The Campbell Farmers' Market held on Sundays in Downtown Campbell is consistently rated as one of the best if not the best year-round Farmers' Markets in the South Bay. Come and enjoy the festive and vibrant community oriented atmosphere that attracts fans of the Campbell...",
       "url": "https://www.downtowncampbell.com/event/2026/farmers-market",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/news/farmersmarket.jpg?itok=ft5dhQPK",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/news/farmersmarket.jpg?itok=Ei037cnS",
       "category": "Downtown",
       "startDate": "2026-08-16T00:00:00",
       "source": "Downtown Campbell Events",
@@ -1819,7 +1806,7 @@
     {
       "title": "Fleetwood Mask: A Tribute to Fleetwood Mac",
       "date": "Mar 06, 2027, 7:00 PM – 9:00 PM",
-      "cost": "",
+      "cost": "$35/$45/$52/$65 + $4.00 FF",
       "location": "Heritage Theatre",
       "description": "The legendary Fleetwood Mask, a Tribute to Fleetwood Mac, will perform one night only on March 6, 2027, taking you back to the early days and later years of Fleetwood Mac!",
       "url": "https://www.heritagetheatre.org/event-details/fleetwood-mask-a-tribute-to-fleetwood-mac",
@@ -1827,8 +1814,11 @@
       "category": "Heritage Theatre",
       "startDate": "2027-03-06T19:00:00-08:00",
       "endDate": "2027-03-06T21:00:00-08:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "source": "Campbell Heritage Theatre Events + Downtown Campbell Events",
+      "sourceUrl": "https://www.heritagetheatre.org/events-1",
+      "additionalSourceUrls": [
+        "https://www.downtowncampbell.com/events"
+      ]
     },
     {
       "title": "Peninsula Symphony Orchestra: The Planets",
