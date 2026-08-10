@@ -1,5 +1,21 @@
 [
   {
+    "name": "Grok Imagine Image 2.0",
+    "org": "xAI",
+    "date": "2026-08-07",
+    "type": "model",
+    "summary": "Edit images by pointing: a magic wand changes only the region you select, segmentation picks precise areas, and background removal exports subjects with transparency. Takes up to five reference images at once. Live on grok.com/imagine and the mobile apps.",
+    "url": "https://www.unite.ai/xai-ships-grok-imagine-image-2-0-with-precise-editing-and-a-top-arena-ranking/"
+  },
+  {
+    "name": "Kimi K3 in Copilot",
+    "org": "GitHub",
+    "date": "2026-08-06",
+    "type": "model",
+    "summary": "Pick Moonshot's 2.8-trillion-parameter open-weight model from inside Copilot — VS Code, JetBrains, Xcode, the CLI, and GitHub Mobile. Rolling out now to Pro, Pro+, and Max plans at $3 per million input tokens, $15 output.",
+    "url": "https://github.blog/changelog/2026-08-06-kimi-k3-is-now-available-in-github-copilot/"
+  },
+  {
     "name": "Agent Plugins 1.0",
     "org": "Agentic AI Foundation",
     "date": "2026-08-06",
@@ -24,6 +40,14 @@
     "url": "https://9to5mac.com/2026/08/05/wispr-flow-takes-on-ai-meeting-assistants-with-notetaker-its-first-product-beyond-dictation/"
   },
   {
+    "name": "FLUX 3 Video",
+    "org": "Black Forest Labs",
+    "date": "2026-08-04",
+    "type": "model",
+    "summary": "Generate 20-second 1080p clips with dialogue and sound effects from a text prompt or a still image, or continue a video you already have. Draft mode previews a shot at $0.06 per second, then re-renders it at full quality.",
+    "url": "https://xenospectrum.com/en/flux-3-video-general-availability/"
+  },
+  {
     "name": "MiniMax H3",
     "org": "MiniMax",
     "date": "2026-08-03",
@@ -36,31 +60,7 @@
     "org": "Alibaba",
     "date": "2026-08-02",
     "type": "model",
-    "summary": "Call a 2.4-trillion-parameter multimodal model that scores near Claude Fable 5 on coding and long-horizon work. Live now through Alibaba Cloud Model Studio and QwenCloud, with open weights promised within a week.",
+    "summary": "Call a 2.4-trillion-parameter multimodal model that scores near Claude Fable 5 on coding and long-horizon work. Live through Alibaba Cloud Model Studio and QwenCloud at $2 per million input tokens, $6 output.",
     "url": "https://www.marktechpost.com/2026/08/03/alibaba-qwen-releases-qwen3-8-max/"
-  },
-  {
-    "name": "Inkling-Small",
-    "org": "Thinking Machines Lab",
-    "date": "2026-07-31",
-    "type": "model",
-    "summary": "Download an Apache 2.0 reasoning model that takes text, images, and audio with a 1M-token context, and lands within a point of its 975B sibling at a quarter the size. Weights on Hugging Face.",
-    "url": "https://dataconomy.com/2026/07/31/thinking-machines-launches-open-source-inkling-small-model/"
-  },
-  {
-    "name": "DeepSeek-V4-Flash-0731",
-    "org": "DeepSeek",
-    "date": "2026-07-31",
-    "type": "model",
-    "summary": "Run an open-weight (MIT) coding and agent model for pennies — about $0.14 per million input tokens, $0.28 output. This re-tuned build beats the bigger V4-Pro preview on agentic tasks. Grab the weights on Hugging Face or hit the API.",
-    "url": "https://www.marktechpost.com/2026/07/31/deepseek-upgrades-deepseek-v4-flash-0731-with-major-agentic-and-coding-gains/"
-  },
-  {
-    "name": "GPT-5.6 price cuts",
-    "org": "OpenAI",
-    "date": "2026-07-30",
-    "type": "model",
-    "summary": "High-volume jobs on the fastest GPT-5.6 tier just got 80% cheaper — Luna is now $0.20 per million input tokens, $1.20 output. Mid-tier Terra dropped 20% to $2/$12, and premium Sol runs 2.5x faster in the API.",
-    "url": "https://www.cnbc.com/2026/07/30/open-ai-price-cut-gpt.html"
   }
 ]
