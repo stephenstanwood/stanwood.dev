@@ -18,4 +18,4 @@ Force a real run selection:
 node scripts/campbell-build-routine.mjs --json --target campbell --force
 ```
 
-The target is intentionally narrow: the Campbell city guide, its Campbell data/components/API helpers/assets, and shared files only when `/campbell` directly needs them. It must not work on `/about`, `/money`, `/tv`, shop, NBA Now, Show Swipe, or unrelated stanwood.dev surfaces.
+The target is intentionally narrow: the Campbell city guide, its Campbell data/components/API helpers/assets, and shared files only when `/campbell` directly needs them. It must not work on `/about`, `/money`, `/tv`, `/familyroom`, shop, NBA Now, Show Swipe, or unrelated stanwood.dev surfaces.
