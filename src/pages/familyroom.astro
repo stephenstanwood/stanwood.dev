@@ -1,0 +1,869 @@
+---
+// stanwood.dev/familyroom — the family room TV homepage. Memphis Play aesthetic.
+// Runs fullscreen on the Mac Mini wired to the Samsung Q80C.
+// Big key-art tiles, sports rails (shared engine), SDSN Classic, and quick launchers.
+// Show key art is baked from TMDB (static). Sports + SDSN are live.
+import LiveSports from '../components/LiveSports.tsx';
+import TodaySports from '../components/TodaySports.tsx';
+import YesterdaySports from '../components/YesterdaySports.tsx';
+
+const IMG = 'https://image.tmdb.org/t/p/w1280';
+
+const shows = [
+  {
+    title: 'All Creatures Great & Small',
+    caption: 'PBS Masterpiece',
+    href: 'https://www.amazon.com/dp/B08QGM6VTY',
+    art: `${IMG}/l61sjSZCsf99abjlnt2ToG442ol.jpg`,
+  },
+  {
+    title: 'Gilmore Girls',
+    caption: "Lorelai's pick",
+    href: 'https://www.netflix.com/title/70155618',
+    art: `${IMG}/cNTD4BBv0dTHNfTISEzPuBlRwUs.jpg`,
+  },
+  {
+    title: 'Daniel Tiger',
+    caption: 'for the kids',
+    href: 'https://www.amazon.com/dp/B0BX41FYR5',
+    art: `${IMG}/yAIpWHcLmS1O2aCrx4oBhXtwoHt.jpg`,
+  },
+];
+
+const launchers = [
+  { label: 'Netflix', href: 'https://www.netflix.com' },
+  { label: 'Prime Video', href: 'https://www.amazon.com/gp/video/storefront' },
+  { label: 'YouTube TV', href: 'https://tv.youtube.com/' },
+  { label: 'WNBA League Pass', href: 'https://www.wnba.com/league-pass-stream/' },
+  { label: 'MLB.tv', href: 'https://www.mlb.com/tv' },
+];
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#FFFBF7" />
+  <title>the stanwoods · tv</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&family=Archivo:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style is:global>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Archivo', sans-serif;
+      background: linear-gradient(135deg, #FFFBF7 0%, #F8F3ED 100%);
+      color: #1a1a1a;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ===== HEADER / MASTHEAD ===== */
+    .header {
+      padding: 32px 48px 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      border-bottom: 1px solid rgba(22, 166, 166, 0.15);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 48px;
+      right: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, #FF6B5C 0%, #F5B73D 50%, #16A6A6 100%);
+    }
+
+    .masthead {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .wordmark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 56px;
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1;
+      color: #1a1a1a;
+    }
+
+    .wordmark span {
+      color: #FF6B5C;
+    }
+
+    .subtitle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #16A6A6;
+    }
+
+    .clock {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .time {
+      font-family: 'Playfair Display', serif;
+      font-size: 76px;
+      font-weight: 800;
+      line-height: 1;
+      color: #FF6B5C;
+      letter-spacing: -1.5px;
+    }
+
+    .date {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      color: #888;
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      flex: 1;
+      display: flex;
+      padding: 32px 48px;
+      gap: 48px;
+      overflow: auto;
+      position: relative;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 80px;
+      bottom: 40px;
+      width: 3px;
+      background: linear-gradient(180deg, rgba(255, 107, 92, 0) 0%, rgba(255, 107, 92, 0.25) 50%, rgba(255, 107, 92, 0) 100%);
+      pointer-events: none;
+    }
+
+    /* LEFT: TONIGHT'S SHOWS */
+    .left-col {
+      flex: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #FF6B5C;
+      opacity: 0.9;
+    }
+
+    .left-col .section-label {
+      color: #FF6B5C;
+    }
+
+    .sdsn-section .section-label {
+      color: #16A6A6;
+    }
+
+    /* Staggered show grid */
+    .shows-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 0.9fr;
+      gap: 24px;
+      flex: 1;
+      align-items: flex-start;
+    }
+
+    .show-tile {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
+      transition: transform 0.4s cubic-bezier(0.23, 1, 0.320, 1), box-shadow 0.4s ease;
+      aspect-ratio: 9 / 13;
+      border: 2px solid rgba(255, 107, 92, 0.08);
+      display: block;
+    }
+
+    /* Focus ring for d-pad navigation */
+    .show-tile:focus, .recap-tile:focus, .jump-chip:focus, .big-inning-pill:focus {
+      outline: 4px solid #FF6B5C;
+      outline-offset: 2px;
+    }
+
+    /* Bold stagger */
+    .show-tile:nth-child(1) {
+      transform: translateY(-6px) rotate(-0.8deg);
+    }
+
+    .show-tile:nth-child(2) {
+      transform: translateY(12px) rotate(0.5deg);
+    }
+
+    .show-tile:nth-child(3) {
+      transform: translateY(28px) rotate(-0.6deg);
+    }
+
+    .show-tile:hover {
+      transform: translateY(-12px) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-tile:nth-child(2):hover {
+      transform: translateY(0) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-tile:nth-child(3):hover {
+      transform: translateY(16px) scale(1.03) rotate(0deg);
+      box-shadow: 0 28px 80px rgba(255, 107, 92, 0.25);
+    }
+
+    .show-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .show-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 60%);
+      padding: 24px 16px 18px 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: white;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* RIGHT COLUMN: LOBBY */
+    .right-col {
+      flex: 0.8;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    /* SDSN TILE */
+    .sdsn-section {
+      flex: 0;
+    }
+
+    .sdsn-tile {
+      background: linear-gradient(135deg, #FF6B5C 0%, #F5B73D 100%);
+      padding: 32px;
+      border-radius: 0px;
+      color: white;
+      box-shadow: 0 14px 42px rgba(255, 107, 92, 0.3);
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .sdsn-tile::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 380px;
+      height: 380px;
+      background:
+        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255,255,255,0.12) 3px, rgba(255,255,255,0.12) 6px);
+      pointer-events: none;
+    }
+
+    .sdsn-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .sdsn-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 1.12;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .sdsn-meta {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      opacity: 0.98;
+      line-height: 1.7;
+      letter-spacing: 0.6px;
+      font-weight: 600;
+    }
+
+    /* SPORTS SECTION */
+    .sports-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sports-recap-shell, .recap-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .sports-recap-shell > astro-island, .sports-recap-shell .recap-grid { display: contents; }
+
+    .sport-item {
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .sport-item.live {
+      border-left-color: #FF6B5C;
+      background: linear-gradient(90deg, rgba(255, 107, 92, 0.06) 0%, transparent 100%);
+    }
+
+    .sport-item.final {
+      border-left-color: #ddd;
+      background: linear-gradient(90deg, rgba(136, 136, 136, 0.03) 0%, transparent 100%);
+    }
+
+    /* React component sports tile styles */
+    .recap-tile {
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      padding: 14px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      color: #1a1a1a;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .recap-tile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .recap-tile.live {
+      border-left-color: #FF6B5C;
+      background: linear-gradient(90deg, rgba(255, 107, 92, 0.06) 0%, transparent 100%);
+    }
+
+    .recap-tile.final {
+      border-left-color: #ddd;
+      background: linear-gradient(90deg, rgba(136, 136, 136, 0.03) 0%, transparent 100%);
+    }
+
+    .recap-matchup {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .recap-team {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recap-team.home {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .recap-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .recap-team-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      line-height: 1.1;
+    }
+
+    .recap-team-name {
+      font-weight: 700;
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recap-team-abbr {
+      font-size: 9px;
+      color: #888;
+      letter-spacing: 0.03em;
+    }
+
+    .recap-score {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 0 4px;
+      color: #ccc;
+    }
+
+    .recap-score.win {
+      color: #1a1a1a;
+    }
+
+    .recap-score.live {
+      color: #FF6B5C;
+    }
+
+    .recap-vs {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      color: #999;
+      flex-shrink: 0;
+    }
+
+    .recap-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 6px;
+    }
+
+    .recap-final {
+      font-weight: 700;
+      color: #888;
+    }
+
+    .recap-watch {
+      font-weight: 700;
+      color: #FF6B5C;
+    }
+
+    .recap-live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      color: #FF6B5C;
+      font-size: 10px;
+    }
+
+    .recap-live-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FF6B5C;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes livePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    .big-inning-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: white;
+      border-left: 3px solid #FF6B5C;
+      border-top: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 11px;
+      text-decoration: none;
+      color: #1a1a1a;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .big-inning-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .big-inning-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FF6B5C;
+      animation: livePulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    .big-inning-label {
+      font-weight: 700;
+    }
+
+    .big-inning-detail {
+      color: #888;
+      font-size: 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .big-inning-platform {
+      margin-left: auto;
+      color: #FF6B5C;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.03em;
+    }
+
+    .schedule-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .schedule-leader {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.02em;
+      margin-right: 2px;
+    }
+
+    .schedule-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-left: 2px solid #FF6B5C;
+      font-size: 9px;
+    }
+
+    .schedule-teams {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-weight: 700;
+    }
+
+    .schedule-at {
+      color: #999;
+      font-weight: 400;
+    }
+
+    .schedule-time {
+      color: #888;
+      font-size: 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .schedule-time.live {
+      color: #FF6B5C;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* JUMP TO SECTION */
+    .jump-to {
+      flex: 0;
+    }
+
+    .jump-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #16A6A6;
+      margin-bottom: 10px;
+    }
+
+    .service-chips {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .jump-chip {
+      background: white;
+      padding: 11px 14px;
+      border-radius: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transition: all 0.2s ease;
+      border: 1px solid #eee;
+      letter-spacing: 0.3px;
+    }
+
+    .jump-chip:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ACCENT SHAPES */
+    .accent-dot {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .dot-1 {
+      width: 16px;
+      height: 16px;
+      background: #FF6B5C;
+      bottom: 135px;
+      left: 52px;
+      opacity: 0.6;
+      box-shadow: 0 4px 12px rgba(255, 107, 92, 0.25);
+    }
+
+    .dot-2 {
+      width: 10px;
+      height: 10px;
+      background: #16A6A6;
+      top: 110px;
+      left: 76px;
+      opacity: 0.5;
+      box-shadow: 0 2px 8px rgba(22, 166, 166, 0.2);
+    }
+
+    .dot-3 {
+      width: 13px;
+      height: 13px;
+      background: #F5B73D;
+      bottom: 165px;
+      right: 48px;
+      opacity: 0.55;
+      box-shadow: 0 3px 10px rgba(245, 183, 61, 0.25);
+    }
+
+    .accent-rule {
+      position: fixed;
+      background: linear-gradient(180deg, transparent 0%, rgba(255, 107, 92, 0.15) 50%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .rule-1 {
+      width: 3px;
+      height: 320px;
+      left: 30px;
+      top: 300px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / MARQUEE -->
+  <div class="header">
+    <div class="masthead">
+      <div class="wordmark">the <span>stanwoods</span></div>
+      <div class="subtitle">tonight's stage</div>
+    </div>
+    <div class="clock">
+      <div class="time" id="clock-time">—</div>
+      <div class="date" id="clock-date">&nbsp;</div>
+    </div>
+  </div>
+
+  <!-- MAIN STAGE -->
+  <div class="container">
+    <!-- LEFT: TONIGHT'S SHOWS -->
+    <div class="left-col">
+      <div class="section-label">Tonight</div>
+      <div class="shows-grid">
+        {shows.map((s) => (
+          <a class="show-tile wrap" href={s.href}>
+            <img src={s.art} alt={s.title} class="show-image" />
+            <div class="show-label">{s.caption}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- RIGHT: LOBBY (SDSN + SPORTS + JUMP TO) -->
+    <div class="right-col">
+      <!-- SDSN CLASSIC -->
+      <div class="sdsn-section">
+        <div class="section-label">sdsn classic</div>
+        <a class="sdsn-tile" id="sdsn-classic-card" href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d">
+          <div class="sdsn-content">
+            <div class="sdsn-title" data-sdsn-title>loading…</div>
+            <div class="sdsn-meta">
+              <span data-sdsn-channel>SDSN Classic</span> · <span data-sdsn-duration>full game</span> · random
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- SPORTS LIVE/FINAL -->
+      <div class="sports-section">
+        <div class="section-label">Sports</div>
+        <div class="sports-recap-shell">
+          <LiveSports client:only="react" />
+          <YesterdaySports client:only="react" />
+        </div>
+        <TodaySports client:only="react" />
+      </div>
+
+      <!-- JUMP TO -->
+      <div class="jump-to">
+        <div class="jump-label">Jump to</div>
+        <div class="service-chips">
+          {launchers.map((l) => (
+            <a class="jump-chip wrap" href={l.href} rel="noopener">{l.label}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCENT SHAPES -->
+  <div class="accent-dot dot-1"></div>
+  <div class="accent-dot dot-2"></div>
+  <div class="accent-dot dot-3"></div>
+  <div class="accent-rule rule-1"></div>
+
+  <script is:inline>
+    (function () {
+      const timeEl = document.getElementById('clock-time');
+      const dateEl = document.getElementById('clock-date');
+      function tick() {
+        const d = new Date();
+        timeEl.textContent = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        dateEl.textContent = d.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+      }
+      tick();
+      setInterval(tick, 15000);
+
+      async function loadClassic() {
+        const card = document.getElementById('sdsn-classic-card');
+        if (!card) return;
+        try {
+          const res = await fetch('/api/tv/random-sdsn', { cache: 'no-store' });
+          if (!res.ok) throw new Error('sdsn ' + res.status);
+          const v = await res.json();
+          if (v.url) card.href = v.url;
+          const title = card.querySelector('[data-sdsn-title]');
+          const channel = card.querySelector('[data-sdsn-channel]');
+          const duration = card.querySelector('[data-sdsn-duration]');
+          if (title && v.title) title.textContent = v.title;
+          if (channel) channel.textContent = v.playlistTitle || 'SDSN Classic';
+          if (duration) duration.textContent = v.duration || 'full game';
+        } catch (err) {
+          const title = card.querySelector('[data-sdsn-title]');
+          if (title) title.textContent = 'SDSN Classic — open the playlist';
+        }
+      }
+      loadClassic();
+    })();
+  </script>
+
+  <script is:inline>
+    // D-pad / remote navigation. Hardware-agnostic: works with arrow keys from a
+    // Samsung remote (via CEC→libcec→keystrokes), a Flirc'd remote, a BT remote,
+    // the phone remote, or a keyboard. Re-queries each press so late-hydrated
+    // sports tiles join the grid. Enter is native (tiles are <a>).
+    (function () {
+      function items() {
+        return Array.from(document.querySelectorAll('.container a, .service-chips a')).filter(function (el) {
+          var r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        });
+      }
+      function center(el) {
+        var r = el.getBoundingClientRect();
+        return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+      }
+      function move(dir) {
+        var all = items();
+        if (!all.length) return;
+        var cur = (document.activeElement && all.indexOf(document.activeElement) !== -1) ? document.activeElement : null;
+        if (!cur) { all[0].focus(); all[0].scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+        var c = center(cur), best = null, bestScore = Infinity;
+        for (var i = 0; i < all.length; i++) {
+          if (all[i] === cur) continue;
+          var t = center(all[i]), dx = t.x - c.x, dy = t.y - c.y, valid, primary, secondary;
+          if (dir === 'left') { valid = dx < -4; primary = -dx; secondary = Math.abs(dy); }
+          else if (dir === 'right') { valid = dx > 4; primary = dx; secondary = Math.abs(dy); }
+          else if (dir === 'up') { valid = dy < -4; primary = -dy; secondary = Math.abs(dx); }
+          else { valid = dy > 4; primary = dy; secondary = Math.abs(dx); }
+          if (!valid) continue;
+          var score = primary + secondary * 2;
+          if (score < bestScore) { bestScore = score; best = all[i]; }
+        }
+        if (best) { best.focus(); best.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      }
+      document.addEventListener('keydown', function (e) {
+        switch (e.key) {
+          case 'ArrowLeft': move('left'); e.preventDefault(); break;
+          case 'ArrowRight': move('right'); e.preventDefault(); break;
+          case 'ArrowUp': move('up'); e.preventDefault(); break;
+          case 'ArrowDown': move('down'); e.preventDefault(); break;
+          case 'Home': case 'Backspace': case 'Escape': {
+            var all = items();
+            if (all.length) { all[0].focus(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+            e.preventDefault(); break;
+          }
+        }
+      });
+      // Remote-first: land focus on the first tile so a d-pad works immediately.
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var all = items();
+          if (all.length && !(document.activeElement && all.indexOf(document.activeElement) !== -1)) all[0].focus();
+        }, 600);
+      });
+    })();
+  </script>
+</body>
+</html>

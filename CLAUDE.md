@@ -10,6 +10,10 @@
 - Private LinkedIn tracker: `/li`, gated by `LI_PASSWORD`, with state in
   `LINKEDIN_TRACKER_DATABASE_URL`. Never commit contact exports or normalized
   person rows here; source and ingestion stay in the private `stoa.works` repo.
+- Private pages (noindex + excluded from the sitemap in `astro.config.mjs`):
+  `/tv` (personal queue dashboard — Stanford queue, around-the-internet, sports
+  rails), `/familyroom` (family room TV homepage, runs fullscreen on the Mac Mini
+  wired to the Samsung Q80C), `/money`, `/li`. `/office` 301s to `/tv`.
 
 ## Rules
 - NBA Now links to https://nbanow.app (external) — leave NBA Now page alone

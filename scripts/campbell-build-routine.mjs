@@ -232,7 +232,7 @@ Scope allowed:
 - Tests or config only when needed for Campbell verification.
 
 Out of scope:
-- /about, /money, /tv, shop, private pages, NBA Now, Show Swipe, trademark/TMCat surfaces, unrelated homepage work, and any Stoa bid/proposal work.
+- /about, /money, /tv, /familyroom, shop, private pages, NBA Now, Show Swipe, trademark/TMCat surfaces, unrelated homepage work, and any Stoa bid/proposal work.
 - New autonomous panels, explainers, galleries, timelines, "six things" sections, SEO appendices, or filler content.
 - Invented local facts, fake event descriptions, guessed statuses, or uncited new images. If a factual claim cannot be verified, leave it vague or skip it.
 
