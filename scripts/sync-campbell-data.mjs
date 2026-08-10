@@ -793,6 +793,10 @@ function eventTitleIsGenericPlaceholder(title = "") {
   return normalized === "theatre event";
 }
 
+function eventIsUnresolvedGenericPlaceholder(event) {
+  return eventTitleIsGenericPlaceholder(event.title);
+}
+
 function eventListingsAreGenericVenueDuplicate(firstEvent, secondEvent) {
   if (!eventLocationsOverlap(firstEvent, secondEvent)) return false;
   return eventTitleIsGenericPlaceholder(firstEvent.title) || eventTitleIsGenericPlaceholder(secondEvent.title);
@@ -1520,6 +1524,8 @@ function mergeEventFeeds(...feeds) {
 
   return mergedEvents
     .filter((event) => {
+      if (eventIsUnresolvedGenericPlaceholder(event)) return false;
+
       const sources = splitEventSourceNames(event.source);
       if (!sources.includes("Downtown Campbell Events") || hasSpecificEventTime(event)) return true;
       return !mergedBroadDowntownEvents.has(event);

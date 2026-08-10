@@ -160,6 +160,14 @@ describe("Campbell event feed", () => {
     }
   });
 
+  it("does not publish generic venue placeholders as standalone events", () => {
+    const titles = eventFeed.items.map((event) => event.title);
+
+    for (const title of titles) {
+      expect(isGenericVenuePlaceholder(title), title).toBe(false);
+    }
+  });
+
   it("does not duplicate same-start, same-place listings when source calendars disagree on end time", () => {
     const events = eventFeed.items as {
       title: string;
