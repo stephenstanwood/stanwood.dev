@@ -15,15 +15,19 @@ const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // ~10 MB of base64 chars
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
 
-  let image: string;
-  let style: string;
+  let image: unknown;
+  let style: unknown;
   try {
     ({ image, style } = await request.json());
   } catch {
     return errJson("invalid request body", 400);
   }
 
-  if (!image || !style) return errJson("missing image or style", 400);
+  // Both must be strings, not merely truthy — a non-string `image` would otherwise
+  // reach `.match()` below and throw an unhandled TypeError.
+  if (typeof image !== "string" || typeof style !== "string" || !image || !style) {
+    return errJson("missing image or style", 400);
+  }
 
   if (!MUSEUM_STYLES.some((s) => s.id === style)) {
     return errJson(`unknown style: ${style}`, 400);

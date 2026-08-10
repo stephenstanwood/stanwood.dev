@@ -6,10 +6,11 @@ import {
   type Competition,
   esc,
   escUrl,
-  parseRecord,
-  winPct,
   rankPreGames,
   getBroadcasts,
+  broadcastBadgeRow,
+  watchScoreBase,
+  progressMultiplier,
   teamAbbr,
   teamMascot,
   teamFullName,
@@ -57,28 +58,17 @@ function computeWatchScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
 
-  const competitors = comp.competitors || [];
-  if (competitors.length < 2) return 0;
-
-  const score1 = parseScore(competitors[0].score);
-  const score2 = parseScore(competitors[1].score);
-  const scoreDelta = Math.abs(score1 - score2);
-
-  const rec1 = parseRecord(competitors[0]);
-  const rec2 = parseRecord(competitors[1]);
-  const avgWinPct = (winPct(rec1) + winPct(rec2)) / 2;
+  const base = watchScoreBase(comp, CLOSENESS_PENALTY);
+  if (!base) return 0;
 
   const status = comp.status!;
-  const progress = gameProgress(status);
-  const ot = isOvertime(status);
-
-  const closenessScore = Math.max(0, 100 - scoreDelta * CLOSENESS_PENALTY);
-  const qualityMultiplier = 0.5 + avgWinPct;
-  const progressMultiplier = ot
+  // Overtime pins the pace multiplier at its ceiling — a tied game past regulation is
+  // as watchable as it gets, regardless of how far into OT it is.
+  const paceMultiplier = isOvertime(status)
     ? OT_MULTIPLIER
-    : 1.0 + Math.min(progress, 1.0) * MAX_PROGRESS_MULTIPLIER;
+    : progressMultiplier(gameProgress(status), MAX_PROGRESS_MULTIPLIER);
 
-  return closenessScore * qualityMultiplier * progressMultiplier;
+  return base.closenessScore * base.qualityMultiplier * paceMultiplier;
 }
 
 // --- Broadcast helpers ---
@@ -99,7 +89,7 @@ function renderBroadcastBadges(
       ? `<span style="${nationalStyle}">${esc(national[0])}</span>`
       : `<span style="${leaguePassStyle}">League Pass</span>`;
 
-  return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${compact ? "flex-end" : "center"};${compact ? "" : "margin-top:8px;"}">${badge}</div>`;
+  return broadcastBadgeRow(badge, compact);
 }
 
 // --- Rendering helpers ---

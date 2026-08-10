@@ -15,6 +15,16 @@ export function esc(s: unknown): string {
   return String(s).replace(/[&<>"']/g, (c) => ESC_MAP[c] ?? c);
 }
 
+/**
+ * Serialize a value for embedding inside a `<script>` tag. JSON.stringify alone is not
+ * enough: it leaves `<` untouched, so any string containing `</script>` (a YouTube video
+ * title, a scraped event name) closes the tag early and turns the rest into live markup.
+ * `<` parses back to `<`, so consumers see the same data.
+ */
+export function jsonForScriptTag(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
 /** Sanitise a URL — only allow http(s) protocol. */
 export function escUrl(url: string): string {
   try {

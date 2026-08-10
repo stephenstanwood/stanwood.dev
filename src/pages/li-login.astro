@@ -1,5 +1,5 @@
 ---
-import { sessionCookie, verifySessionPassword } from "../lib/auth";
+import { loginRedirect, verifySessionPassword } from "../lib/auth";
 
 const LI_SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
 
@@ -15,13 +15,12 @@ if (Astro.request.method === "POST") {
 
   const sessionToken = await verifySessionPassword(form.get("password"), expected);
   if (sessionToken) {
-    return new Response(null, {
-      status: 303,
-      headers: {
-        Location: "/li",
-        "Set-Cookie": sessionCookie("li_session", sessionToken, Astro.url, LI_SESSION_MAX_AGE),
-        "Cache-Control": "no-store",
-      },
+    return loginRedirect({
+      location: "/li",
+      cookieName: "li_session",
+      token: sessionToken,
+      requestUrl: Astro.url,
+      maxAgeSeconds: LI_SESSION_MAX_AGE,
     });
   }
   error = !missingPassword;

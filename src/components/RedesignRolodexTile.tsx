@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useRef, type SyntheticEvent } from "r
 import { useLoadingMessages } from "../lib/redesignRolodex/useLoadingMessages";
 import { defaultExamples, pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
-import { ghostMatch } from "../lib/redesignRolodex/topSites";
+import { useGhostAutocomplete } from "../lib/redesignRolodex/useGhostAutocomplete";
 import type { WeirdnessMode } from "../lib/redesignRolodex/types";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -17,27 +17,15 @@ export default function RedesignRolodexTile() {
 function RedesignRolodexTileInner() {
   const [EXAMPLE_URLS, setExampleUrls] = useState(() => defaultExamples(3));
   const [url, setUrl] = useState("");
-  const [ghost, setGhost] = useState<string | null>(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const stream = useAnalyzeStream();
+  const { showGhost, ghostSuffix, resolvedUrl, clearGhost, handleKeyDown } =
+    useGhostAutocomplete(url, setUrl);
 
   useEffect(() => {
     setExampleUrls(pickExamples(3));
   }, []);
-
-  // Ghost autocomplete
-  useEffect(() => {
-    setGhost(ghostMatch(url));
-  }, [url]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Tab" && ghost) {
-      e.preventDefault();
-      setUrl(ghost);
-      setGhost(null);
-    }
-  };
 
   // Total cards: screenshot (if available) + directions
   const hasScreenshot = !!stream.screenshotBase64;
@@ -65,9 +53,8 @@ function RedesignRolodexTileInner() {
   const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    const finalUrl = ghost && url.length >= 2 ? ghost : url;
-    setUrl(finalUrl);
-    runAnalysis(finalUrl);
+    setUrl(resolvedUrl);
+    runAnalysis(resolvedUrl);
   };
 
   const handleReset = (e: React.MouseEvent) => {
@@ -75,7 +62,7 @@ function RedesignRolodexTileInner() {
     e.stopPropagation();
     stream.reset();
     setUrl("");
-    setGhost(null);
+    clearGhost();
     setActiveIdx(0);
   };
 
@@ -216,10 +203,10 @@ function RedesignRolodexTileInner() {
               spellCheck={false}
               onClick={(e) => e.stopPropagation()}
             />
-            {ghost && url.length >= 2 && (
+            {showGhost && (
               <span className="rrt-ghost" aria-hidden>
                 <span className="rrt-ghost-typed">{url}</span>
-                <span className="rrt-ghost-rest">{ghost.slice(url.length)}</span>
+                <span className="rrt-ghost-rest">{ghostSuffix}</span>
               </span>
             )}
           </div>

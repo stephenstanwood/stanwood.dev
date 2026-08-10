@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   broadcastsOf,
   awayHomeOf,
+  espnEventKey,
   fetchEventsForLeagues,
   getTrackedTeamsContext,
-  isNbaPlayoff,
-  matchUserTeam,
+  trackedGameMatch,
   statusTextOf,
   teamSideOf,
   watchRecordingUrl,
@@ -108,11 +108,10 @@ export default function LiveSports() {
         for (const ev of events) {
           if (!isInProgress(ev)) continue;
 
-          const matched = matchUserTeam(ev, league, lookup);
-          const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
-          if (!matched && !playoff) continue;
+          const match = trackedGameMatch(ev, league, lookup);
+          if (!match) continue;
 
-          const id = ev.id || `${league}|${ev.date}|${ev.shortName}`;
+          const id = espnEventKey(league, ev);
           if (seen.has(id)) continue;
           seen.add(id);
 
@@ -128,7 +127,7 @@ export default function LiveSports() {
             homeAbbr: homeSide.abbr,
             isLive: true,
             broadcasts: broadcastsOf(ev),
-            matchedKey: matched?.key,
+            matchedKey: match.matched?.key,
           });
 
           const statusText = statusTextOf(ev, "Live");
@@ -138,11 +137,11 @@ export default function LiveSports() {
             league,
             away: awaySide,
             home: homeSide,
-            isPlayoff: playoff,
+            isPlayoff: match.isPlayoff,
             statusText,
             watchHref: watch.href,
             watchLabel: watch.label,
-            accent: matched?.color || "#1a1a1a",
+            accent: match.accent,
           });
         }
       }
