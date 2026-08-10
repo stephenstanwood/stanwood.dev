@@ -54,3 +54,26 @@ export function sessionCookie(
   if (maxAgeSeconds !== undefined) parts.push(`Max-Age=${maxAgeSeconds}`);
   return parts.join("; ");
 }
+
+/**
+ * The post-login redirect: set the session cookie and bounce to the tool. 303 so the
+ * browser re-issues as a GET, and `no-store` so the redirect itself is never cached.
+ * Omit `maxAgeSeconds` for a cookie that dies with the browser session.
+ */
+export function loginRedirect(options: {
+  location: string;
+  cookieName: string;
+  token: string;
+  requestUrl: URL;
+  maxAgeSeconds?: number;
+}): Response {
+  const { location, cookieName, token, requestUrl, maxAgeSeconds } = options;
+  return new Response(null, {
+    status: 303,
+    headers: {
+      Location: location,
+      "Set-Cookie": sessionCookie(cookieName, token, requestUrl, maxAgeSeconds),
+      "Cache-Control": "no-store",
+    },
+  });
+}

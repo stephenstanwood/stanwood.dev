@@ -1,5 +1,5 @@
 ---
-import { sessionCookie, verifySessionPassword } from "../lib/auth";
+import { loginRedirect, verifySessionPassword } from "../lib/auth";
 
 export const prerender = false;
 
@@ -11,15 +11,13 @@ if (Astro.request.method === "POST") {
 
   const sessionToken = await verifySessionPassword(form.get("password"), expected);
   if (sessionToken) {
-    // No Max-Age: money_session stays a session cookie, unlike li_session. Changing
+    // No maxAgeSeconds: money_session stays a session cookie, unlike li_session. Changing
     // that would change how long a login lasts, so it stays a deliberate difference.
-    return new Response(null, {
-      status: 303,
-      headers: {
-        Location: "/money",
-        "Set-Cookie": sessionCookie("money_session", sessionToken, Astro.url),
-        "Cache-Control": "no-store",
-      },
+    return loginRedirect({
+      location: "/money",
+      cookieName: "money_session",
+      token: sessionToken,
+      requestUrl: Astro.url,
     });
   }
   error = true;

@@ -7,6 +7,9 @@ import {
   type Game,
   rankPreGames,
   getBroadcasts,
+  broadcastBadgeRow,
+  watchScoreBase,
+  progressMultiplier,
   teamAbbr,
   teamMascot,
   isLive,
@@ -83,51 +86,33 @@ function getRunnersOnBase(situation: MLBSituation | undefined): number {
   return count;
 }
 
-// CLEANUP-FLAG: computeWatchScore here and in nbaNow.ts share the same
-// closeness × quality × progress skeleton; consider extracting a generic
-// scorer in sportsCore.ts that takes sport-specific multipliers/bonuses.
-// Same applies to renderBroadcastBadges + scoreColorStyle below.
+// CLEANUP-FLAG: scoreColorStyle here and in nbaNow.ts share a win/loss/neutral
+// shape but use entirely different palettes (gold vs green) and signatures;
+// unifying them would mean passing three colors in, which isn't obviously better.
 function computeWatchScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
-  const competitors = comp.competitors || [];
-  if (competitors.length < 2) return 0;
 
-  const score1 = parseScore(competitors[0].score);
-  const score2 = parseScore(competitors[1].score);
-  const scoreDelta = Math.abs(score1 - score2);
-
-  const rec1 = parseRecord(competitors[0]);
-  const rec2 = parseRecord(competitors[1]);
-  const avgWinPct = (winPct(rec1) + winPct(rec2)) / 2;
+  const base = watchScoreBase(comp, CLOSENESS_PENALTY);
+  if (!base) return 0;
 
   const status = comp.status;
-  const progress = gameProgress(status);
-  const extraInnings = isExtraInnings(status);
-  const lateInning = isLateInning(status);
+  // Extra innings pin the pace multiplier at its ceiling — a game past the ninth is
+  // already maximally watchable, regardless of how deep into extras it is.
+  const paceMultiplier = isExtraInnings(status)
+    ? EXTRA_INNINGS_MULTIPLIER
+    : progressMultiplier(gameProgress(status), MAX_PROGRESS_MULTIPLIER);
 
-  const closenessScore = Math.max(0, 100 - scoreDelta * CLOSENESS_PENALTY);
-  const qualityMultiplier = 0.5 + avgWinPct;
+  const lateBonus =
+    isLateInning(status) && base.scoreDelta <= 2 ? LATE_INNING_BONUS : 1.0;
 
-  let progressMultiplier;
-  if (extraInnings) {
-    progressMultiplier = EXTRA_INNINGS_MULTIPLIER;
-  } else {
-    progressMultiplier =
-      1.0 + Math.min(progress, 1.0) * MAX_PROGRESS_MULTIPLIER;
-  }
-
-  let lateBonus = 1.0;
-  if (lateInning && scoreDelta <= 2) lateBonus = LATE_INNING_BONUS;
-
-  const situation = comp.situation as MLBSituation | undefined;
-  const runners = getRunnersOnBase(situation);
+  const runners = getRunnersOnBase(comp.situation as MLBSituation | undefined);
   const runnerBonus = 1.0 + runners * RUNNERS_ON_BASE_BONUS;
 
   return (
-    closenessScore *
-    qualityMultiplier *
-    progressMultiplier *
+    base.closenessScore *
+    base.qualityMultiplier *
+    paceMultiplier *
     lateBonus *
     runnerBonus
   );
@@ -155,16 +140,11 @@ function renderBroadcastBadges(competition: Competition, compact: boolean): stri
   // ESPN lists MLB.TV under "National" — prefer a real network if one is also present.
   const realNational = national.find((n) => n.toUpperCase() !== "MLB.TV");
 
-  let badge;
-  if (realNational) {
-    badge = `<span style="${nationalStyle}">${esc(realNational)}</span>`;
-  } else {
-    badge = `<span style="${mlbTvStyle}">MLB.TV</span>`;
-  }
+  const badge = realNational
+    ? `<span style="${nationalStyle}">${esc(realNational)}</span>`
+    : `<span style="${mlbTvStyle}">MLB.TV</span>`;
 
-  const justify = compact ? "flex-end" : "center";
-  const marginTop = compact ? "" : "margin-top:8px;";
-  return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${justify};${marginTop}">${badge}</div>`;
+  return broadcastBadgeRow(badge, compact);
 }
 
 // ── Baseball-specific rendering ──

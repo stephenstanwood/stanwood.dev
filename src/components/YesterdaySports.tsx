@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import {
   awayHomeOf,
   bestUnseenFinishedGame,
+  espnEventKey,
   fetchEventsForLeagues,
   fetchMlbGamePks,
   fetchWnbaGameIds,
   getTrackedTeamsContext,
   isFinalEvent,
   isLatestStartedEventForTrackedTeams,
-  isNbaPlayoff,
   latestStartedAtByTrackedTeam,
   isoDateInPT,
-  matchUserTeam,
   statusTextOf,
   teamColorByAbbr,
   teamSideOf,
+  trackedGameMatch,
   watchRecordingUrl,
   yyyymmddInPT,
+  DEFAULT_TEAM_ACCENT,
   type ESPNCompetitor,
   type ESPNEvent,
   type TeamSide as TeamSideBase,
@@ -59,7 +60,7 @@ function recapTitle(g: YesterdayGame): string {
 }
 
 function recapEventId(league: string, iso: string, ev: ESPNEvent): string {
-  return ev.id || `${league}|${iso}|${ev.date}|${ev.shortName}`;
+  return espnEventKey(league, ev, iso);
 }
 
 function recapBadge(g: YesterdayGame): string {
@@ -128,9 +129,8 @@ export default function YesterdaySports() {
             ) {
               continue;
             }
-            const matched = matchUserTeam(ev, league, lookup);
-            const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
-            if (!matched && !playoff) continue;
+            const match = trackedGameMatch(ev, league, lookup);
+            if (!match) continue;
 
             const id = recapEventId(league, iso, ev);
             if (seen.has(id)) continue;
@@ -147,7 +147,7 @@ export default function YesterdaySports() {
               awayAbbr: awaySide.abbr,
               homeAbbr: homeSide.abbr,
               isoDate: iso,
-              matchedKey: matched?.key,
+              matchedKey: match.matched?.key,
               mlbGamePks,
               wnbaGameIds,
             });
@@ -160,12 +160,12 @@ export default function YesterdaySports() {
               daySortKey: sortKey,
               away: awaySide,
               home: homeSide,
-              isPlayoff: playoff,
+              isPlayoff: match.isPlayoff,
               isBestWnba: false,
               statusText,
               watchHref: watch.href,
               watchLabel: watch.label,
-              accent: matched?.color || "#1a1a1a",
+              accent: match.accent,
             });
           }
         }
@@ -220,7 +220,7 @@ export default function YesterdaySports() {
                 watchLabel: watch.label,
                 accent:
                   teamColorByAbbr("basketball/wnba", winner.abbr) ||
-                  "#1a1a1a",
+                  DEFAULT_TEAM_ACCENT,
               });
             }
           }

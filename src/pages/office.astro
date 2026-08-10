@@ -10,6 +10,7 @@ import YesterdaySports from '../components/YesterdaySports.tsx';
 import { daysSince, MS_PER_DAY } from '../lib/time';
 import { formatHourMinuteInTz, PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
+import { jsonForScriptTag } from '../lib/htmlUtils';
 
 interface QueueVideo {
   id: string;
@@ -1169,10 +1170,10 @@ function seriesVideos(series: Series): QueueVideo[] {
   </div>
 
   <!-- Ranked reserve pool, consumed client-side as the visible edit is marked -->
-  <script is:inline type="application/json" id="broader-pool" set:html={JSON.stringify(broader.pool || [])}></script>
-  <script is:inline type="application/json" id="broader-series-episodes" set:html={JSON.stringify(broader.series_episodes || {})}></script>
+  <script is:inline type="application/json" id="broader-pool" set:html={jsonForScriptTag(broader.pool || [])}></script>
+  <script is:inline type="application/json" id="broader-series-episodes" set:html={jsonForScriptTag(broader.series_episodes || {})}></script>
   <!-- Topic chip labels, shared with the server-rendered cards above -->
-  <script is:inline type="application/json" id="topic-labels" set:html={JSON.stringify(TOPIC_LABELS)}></script>
+  <script is:inline type="application/json" id="topic-labels" set:html={jsonForScriptTag(TOPIC_LABELS)}></script>
 
   <script is:inline>
     // ---- Shared: id-set state in localStorage (watched / hidden / liked / …) ----

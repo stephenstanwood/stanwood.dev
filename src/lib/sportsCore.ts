@@ -95,6 +95,44 @@ export function parseScore(score: string | undefined | null): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+interface WatchScoreBase {
+  /** Absolute score difference — sports use it to gate their own closeness bonuses. */
+  scoreDelta: number;
+  closenessScore: number;
+  qualityMultiplier: number;
+}
+
+/**
+ * The closeness × quality half of a live-game watch score. Every sport derives these
+ * two factors identically from competitor scores and records, then layers its own
+ * pace/situation multipliers on top. Returns null when the competition has no matchup
+ * to score.
+ */
+export function watchScoreBase(
+  comp: Competition,
+  closenessPenalty: number,
+): WatchScoreBase | null {
+  const competitors = comp.competitors || [];
+  if (competitors.length < 2) return null;
+
+  const scoreDelta = Math.abs(
+    parseScore(competitors[0].score) - parseScore(competitors[1].score),
+  );
+  const avgWinPct =
+    (winPct(parseRecord(competitors[0])) + winPct(parseRecord(competitors[1]))) / 2;
+
+  return {
+    scoreDelta,
+    closenessScore: Math.max(0, 100 - scoreDelta * closenessPenalty),
+    qualityMultiplier: 0.5 + avgWinPct,
+  };
+}
+
+/** Ramps from 1.0 at first pitch/tipoff to 1.0 + `maxBonus` once the game is complete. */
+export function progressMultiplier(progress: number, maxBonus: number): number {
+  return 1.0 + Math.min(progress, 1.0) * maxBonus;
+}
+
 function computePreGameScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
@@ -124,6 +162,16 @@ export function getBroadcasts(competition: Competition) {
     .map((b) => b.media?.shortName)
     .filter(Boolean) as string[];
   return { national: [...new Set(national)] };
+}
+
+/**
+ * Row that wraps a sport's broadcast badge. The badge markup itself is sport-specific
+ * (different palettes and fallback labels); only this container is shared.
+ */
+export function broadcastBadgeRow(badgeHtml: string, compact: boolean): string {
+  const justify = compact ? "flex-end" : "center";
+  const marginTop = compact ? "" : "margin-top:8px;";
+  return `<div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:${justify};${marginTop}">${badgeHtml}</div>`;
 }
 
 // ── Team display helpers ──

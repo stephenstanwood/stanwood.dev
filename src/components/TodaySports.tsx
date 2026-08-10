@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   awayHomeOf,
+  espnEventKey,
   fetchEventsForLeagues,
   getTrackedTeamsContext,
-  isNbaPlayoff,
-  matchUserTeam,
+  trackedGameMatch,
   yyyymmddInPT,
   type ESPNEvent,
 } from "../lib/wtwtwSports";
@@ -47,11 +47,10 @@ export default function TodaySports() {
           // finished games move into the recap grid.
           if (state !== "pre") continue;
 
-          const matched = matchUserTeam(ev, league, lookup);
-          const playoff = league === "basketball/nba" && isNbaPlayoff(ev);
-          if (!matched && !playoff) continue;
+          const match = trackedGameMatch(ev, league, lookup);
+          if (!match) continue;
 
-          const id = ev.id || `${league}|${ev.date}|${ev.shortName}`;
+          const id = espnEventKey(league, ev);
           if (seen.has(id)) continue;
           seen.add(id);
 
@@ -70,8 +69,8 @@ export default function TodaySports() {
             homeAbbr: (home.team?.abbreviation || "HME").toUpperCase(),
             startTime,
             startSortKey,
-            isPlayoff: playoff,
-            accent: matched?.color || "#1a1a1a",
+            isPlayoff: match.isPlayoff,
+            accent: match.accent,
           });
         }
       }

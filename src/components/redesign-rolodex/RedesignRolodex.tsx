@@ -6,7 +6,7 @@ import type {
   DesignDirection,
 } from "../../lib/redesignRolodex/types";
 import { pickExamples, defaultExamples } from "../../lib/redesignRolodex/examples";
-import { ghostMatch } from "../../lib/redesignRolodex/topSites";
+import { useGhostAutocomplete } from "../../lib/redesignRolodex/useGhostAutocomplete";
 import { useAnalyzeStream } from "../../lib/redesignRolodex/useAnalyzeStream";
 import WeirdnessModeToggle from "./WeirdnessModeToggle";
 import LoadingSequence from "./LoadingSequence";
@@ -26,26 +26,14 @@ export default function RedesignRolodex() {
     const params = new URLSearchParams(window.location.search);
     return params.get("url") || "";
   });
-  const [ghost, setGhost] = useState<string | null>(null);
   const [checkedUrl, setCheckedUrl] = useState("");
   const [mode, setMode] = useState<WeirdnessMode>("designer");
   const [loadingMore, setLoadingMore] = useState(false);
   const [extraDirections, setExtraDirections] = useState<DesignDirection[]>([]);
 
   const stream = useAnalyzeStream();
-
-  // Ghost autocomplete
-  useEffect(() => {
-    setGhost(ghostMatch(url));
-  }, [url]);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Tab" && ghost) {
-      e.preventDefault();
-      setUrl(ghost);
-      setGhost(null);
-    }
-  };
+  const { showGhost, ghostSuffix, resolvedUrl, handleKeyDown } =
+    useGhostAutocomplete(url, setUrl);
 
   // Auto-run if URL came from query param
   useEffect(() => {
@@ -60,15 +48,14 @@ export default function RedesignRolodex() {
   const handleSubmit = useCallback(
     async (e?: SyntheticEvent<HTMLFormElement>) => {
       e?.preventDefault();
-      const finalUrl = ghost && url.length >= 2 ? ghost : url;
-      const trimmed = finalUrl.trim();
+      const trimmed = resolvedUrl.trim();
       if (!trimmed) return;
       setUrl(trimmed);
       setCheckedUrl(trimmed);
       setExtraDirections([]);
       stream.analyze(trimmed, mode);
     },
-    [url, ghost, mode, stream.analyze],
+    [resolvedUrl, mode, stream.analyze],
   );
 
   const handleMore = useCallback(
@@ -148,10 +135,10 @@ export default function RedesignRolodex() {
               onKeyDown={handleKeyDown}
               autoFocus
             />
-            {ghost && url.length >= 2 && (
+            {showGhost && (
               <span className="rr-ghost" aria-hidden>
                 <span className="rr-ghost-typed">{url}</span>
-                <span className="rr-ghost-rest">{ghost.slice(url.length)}</span>
+                <span className="rr-ghost-rest">{ghostSuffix}</span>
               </span>
             )}
           </div>

@@ -106,6 +106,46 @@ export function isNbaPlayoff(ev: ESPNEvent): boolean {
   return false;
 }
 
+/** Accent used when a surfaced game has no tracked team to borrow a brand colour from. */
+export const DEFAULT_TEAM_ACCENT = "#1a1a1a";
+
+export interface TrackedGameMatch {
+  /** The tracked team in this matchup, or null when the game qualifies on playoff status alone. */
+  matched: TeamEntry | null;
+  isPlayoff: boolean;
+  accent: string;
+}
+
+/**
+ * Decide whether an event belongs on the sports rails: it must involve a tracked team,
+ * or be an NBA playoff game (which we surface regardless of who's playing). Returns null
+ * when it's neither. Shared by LiveSports/TodaySports/YesterdaySports.
+ */
+export function trackedGameMatch(
+  ev: ESPNEvent,
+  league: string,
+  lookup: Map<string, TeamEntry>,
+): TrackedGameMatch | null {
+  const matched = matchUserTeam(ev, league, lookup);
+  const isPlayoff = league === "basketball/nba" && isNbaPlayoff(ev);
+  if (!matched && !isPlayoff) return null;
+  return { matched, isPlayoff, accent: matched?.color || DEFAULT_TEAM_ACCENT };
+}
+
+/**
+ * Stable dedupe key for an ESPN event. Falls back to a composite when ESPN omits an id;
+ * pass `isoDate` when the same event can be pulled from more than one calendar day.
+ */
+export function espnEventKey(
+  league: string,
+  ev: ESPNEvent,
+  isoDate?: string,
+): string {
+  if (ev.id) return ev.id;
+  const parts = isoDate ? [league, isoDate] : [league];
+  return [...parts, ev.date, ev.shortName].join("|");
+}
+
 function eventStartSortKey(ev: ESPNEvent): number {
   const ms = Date.parse(ev.date);
   return Number.isFinite(ms) ? ms : 0;
