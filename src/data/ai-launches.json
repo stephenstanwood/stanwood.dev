@@ -8,12 +8,20 @@
     "url": "https://www.unite.ai/xai-ships-grok-imagine-image-2-0-with-precise-editing-and-a-top-arena-ranking/"
   },
   {
-    "name": "Kimi K3 in Copilot",
-    "org": "GitHub",
+    "name": "Kitesurf",
+    "org": "Cloudflare",
+    "date": "2026-08-07",
+    "type": "tool",
+    "summary": "Run agent browsing on a cloud browser built for the job, not Chromium — about 3x less CPU and 5x less memory on screenshots, scraping, and form fills, though roughly 1.7x slower. Free in beta on Cloudflare Workers.",
+    "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
+  },
+  {
+    "name": "Hey Noah",
+    "org": "Hey Noah",
     "date": "2026-08-06",
-    "type": "model",
-    "summary": "Pick Moonshot's 2.8-trillion-parameter open-weight model from inside Copilot — VS Code, JetBrains, Xcode, the CLI, and GitHub Mobile. Rolling out now to Pro, Pro+, and Max plans at $3 per million input tokens, $15 output.",
-    "url": "https://github.blog/changelog/2026-08-06-kimi-k3-is-now-available-in-github-copilot/"
+    "type": "tool",
+    "summary": "Text an executive assistant that books meetings, chases follow-ups, and emails your contacts directly instead of waiting for commands. Connects to Granola, Notion, Drive, and Slack. Free 30-day trial, no card.",
+    "url": "https://www.producthunt.com/products/hey-noah"
   },
   {
     "name": "Agent Plugins 1.0",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Run a 42.5 GB open-weight video model on your own GPU. It takes text, image, video, and audio in one context and renders 15 seconds of 2K video with stereo sound. Weights on Hugging Face, native ComfyUI support.",
     "url": "https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-open-weights-comfyui"
-  },
-  {
-    "name": "Qwen3.8-Max",
-    "org": "Alibaba",
-    "date": "2026-08-02",
-    "type": "model",
-    "summary": "Call a 2.4-trillion-parameter multimodal model that scores near Claude Fable 5 on coding and long-horizon work. Live through Alibaba Cloud Model Studio and QwenCloud at $2 per million input tokens, $6 output.",
-    "url": "https://www.marktechpost.com/2026/08/03/alibaba-qwen-releases-qwen3-8-max/"
   }
 ]
