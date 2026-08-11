@@ -100,7 +100,7 @@ export function getTrackedTeamsContext(): TrackedTeamsContext {
   };
 }
 
-export function isNbaPlayoff(ev: ESPNEvent): boolean {
+function isNbaPlayoff(ev: ESPNEvent): boolean {
   if (ev.season?.type === 3) return true;
   if (ev.season?.slug === "post-season") return true;
   return false;
@@ -130,6 +130,59 @@ export function trackedGameMatch(
   const isPlayoff = league === "basketball/nba" && isNbaPlayoff(ev);
   if (!matched && !isPlayoff) return null;
   return { matched, isPlayoff, accent: matched?.color || DEFAULT_TEAM_ACCENT };
+}
+
+/** One rail-worthy game: the event plus everything all three rails re-derive from it. */
+export interface TrackedGame {
+  league: string;
+  event: ESPNEvent;
+  match: TrackedGameMatch;
+  /** Dedupe key, already checked against the `seen` set. */
+  id: string;
+  away: ESPNCompetitor;
+  home: ESPNCompetitor;
+}
+
+/**
+ * Walk fetched scoreboard results and yield only the games a rail should render: those
+ * passing `include`, involving a tracked team (or an NBA playoff game), and with both
+ * competitors present — deduped by event key along the way.
+ *
+ * LiveSports/TodaySports/YesterdaySports differ only in `include` and in what they build
+ * from each game, so this keeps the filter-match-dedupe core in one place. Pass a shared
+ * `seen` set to dedupe across several calls (YesterdaySports walks two days, then its
+ * best-WNBA pick checks the same set).
+ */
+export function* trackedGames(
+  results: Iterable<{ league: string; events: ESPNEvent[] }>,
+  lookup: Map<string, TeamEntry>,
+  options: {
+    include: (ev: ESPNEvent, league: string) => boolean;
+    /** Passed to {@link espnEventKey} when the same event can come from >1 calendar day. */
+    isoDate?: string;
+    seen?: Set<string>;
+  },
+): Generator<TrackedGame> {
+  const seen = options.seen ?? new Set<string>();
+  for (const { league, events } of results) {
+    for (const event of events) {
+      if (!options.include(event, league)) continue;
+
+      const match = trackedGameMatch(event, league, lookup);
+      if (!match) continue;
+
+      const id = espnEventKey(league, event, options.isoDate);
+      if (seen.has(id)) continue;
+      // Marked seen even when the competitors are unusable, so a malformed duplicate
+      // of an event can't reintroduce it later in the walk.
+      seen.add(id);
+
+      const sides = awayHomeOf(event);
+      if (!sides) continue;
+
+      yield { league, event, match, id, away: sides.away, home: sides.home };
+    }
+  }
 }
 
 /**
@@ -186,6 +239,20 @@ export function isFinalEvent(ev: ESPNEvent): boolean {
   if (isPostponedLike(ev)) return false;
   const t = ev.competitions?.[0]?.status?.type;
   return t?.completed === true || t?.state === "post";
+}
+
+/**
+ * Not yet started. No postponed guard is needed here the way `isFinalEvent` needs one:
+ * ESPN reports postponements in the "post" state, so they never look "pre".
+ */
+export function isPreEvent(ev: ESPNEvent): boolean {
+  return ev.competitions?.[0]?.status?.type?.state === "pre";
+}
+
+/** Currently being played. ESPN sometimes only sets the status name, not the state. */
+export function isLiveEvent(ev: ESPNEvent): boolean {
+  const t = ev.competitions?.[0]?.status?.type;
+  return t?.state === "in" || (t?.name || "").includes("IN_PROGRESS");
 }
 
 /** ESPN's human-readable status line (e.g. "Final", "9th Inning"), or fallback. */
@@ -280,7 +347,7 @@ export function broadcastsOf(ev: ESPNEvent): string[] {
   return out;
 }
 
-export function matchUserTeam(
+function matchUserTeam(
   ev: ESPNEvent,
   league: string,
   lookup: Map<string, TeamEntry>,
@@ -387,12 +454,11 @@ export async function fetchEventsForLeagues(
   leagues: Iterable<string>,
   yyyymmdd: string,
 ): Promise<Array<{ league: string; events: ESPNEvent[] }>> {
-  const arr = [...leagues];
   return Promise.all(
-    arr.map((lp) =>
-      fetchEspnScoreboard<ESPNEvent>(lp, yyyymmdd)
-        .then((r) => ({ league: lp, events: r.events || [] }))
-        .catch(() => ({ league: lp, events: [] as ESPNEvent[] })),
+    [...leagues].map((league) =>
+      fetchEspnScoreboard<ESPNEvent>(league, yyyymmdd)
+        .then((board) => ({ league, events: board.events || [] }))
+        .catch(() => ({ league, events: [] as ESPNEvent[] })),
     ),
   );
 }

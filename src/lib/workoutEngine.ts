@@ -25,6 +25,13 @@ export interface EquipmentOptions {
   fins: boolean;
 }
 
+/** Everything available — the assumption when the caller or URL says nothing. */
+export const ALL_EQUIPMENT: EquipmentOptions = {
+  pull: true,
+  kickboard: true,
+  fins: true,
+};
+
 export interface SetItem {
   reps: number;
   distance: number;
@@ -209,7 +216,7 @@ function positionLabel(
 // Warmup always starts with 200+ plain free, then an optional second piece.
 // Total warmup never exceeds 1000.
 
-function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptions = { pull: true, kickboard: true, fins: true }): SetItem[] {
+function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptions = ALL_EQUIPMENT): SetItem[] {
   target = Math.min(target, 1000); // cap warmup at 1000
 
   // Always lead with at least 200 plain free
@@ -980,7 +987,7 @@ const PRESET_TEMPLATES: PresetTemplate[] = [
 // ─── MAIN GENERATOR ────────────────────────────────────────────────────────────
 
 export function generateWorkout({ duration, pace, unit, seed, focus = "any", equipment }: WorkoutInput): Workout {
-  const eq: EquipmentOptions = equipment ?? { pull: true, kickboard: true, fins: true };
+  const eq: EquipmentOptions = equipment ?? ALL_EQUIPMENT;
   const rng = createRng(seed ?? Math.floor(Math.random() * 2147483647));
   const paceSec = parsePace(pace);
   const totalTargetDist = calcTargetDistance(duration, paceSec);

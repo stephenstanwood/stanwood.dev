@@ -237,7 +237,7 @@ export interface PulseStats {
  */
 export function computePulse(launches: Launch[]): PulseStats {
   const now = Date.now();
-  const dayDiff = (d: string) => daysSince(parseLaunchDate(d), now);
+  const daysAgo = (date: string) => daysSince(parseLaunchDate(date), now);
 
   let thisWeek = 0;
   let priorWeek = 0;
@@ -246,16 +246,16 @@ export function computePulse(launches: Launch[]): PulseStats {
   const orgCounts: Record<string, number> = {};
   const typeCounts: Record<string, number> = {};
 
-  for (const l of launches) {
-    const d = dayDiff(l.date);
-    if (d < 0) continue; // skip future-dated entries
-    if (minDaysAgo === null || d < minDaysAgo) minDaysAgo = d;
-    if (d < 7) thisWeek++;
-    else if (d < 14) priorWeek++;
-    if (d < 30) {
+  for (const launch of launches) {
+    const age = daysAgo(launch.date);
+    if (age < 0) continue; // skip future-dated entries
+    if (minDaysAgo === null || age < minDaysAgo) minDaysAgo = age;
+    if (age < 7) thisWeek++;
+    else if (age < 14) priorWeek++;
+    if (age < 30) {
       totalLast30++;
-      orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
-      typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
+      orgCounts[launch.org] = (orgCounts[launch.org] || 0) + 1;
+      typeCounts[launch.type] = (typeCounts[launch.type] || 0) + 1;
     }
   }
 

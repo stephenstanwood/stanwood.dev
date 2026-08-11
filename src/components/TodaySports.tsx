@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-  awayHomeOf,
-  espnEventKey,
   fetchEventsForLeagues,
   getTrackedTeamsContext,
-  trackedGameMatch,
+  isPreEvent,
+  trackedGames,
   yyyymmddInPT,
-  type ESPNEvent,
 } from "../lib/wtwtwSports";
 import { formatHourMinuteInTz, PACIFIC_TZ } from "../lib/dateFormat";
 
@@ -19,10 +17,6 @@ interface TodayGame {
   startSortKey: number;
   isPlayoff: boolean;
   accent: string;
-}
-
-function stateOf(ev: ESPNEvent): string {
-  return ev.competitions?.[0]?.status?.type?.state || "";
 }
 
 export default function TodaySports() {
@@ -39,40 +33,23 @@ export default function TodaySports() {
       const results = await fetchEventsForLeagues(leagues, ymd);
 
       const next: TodayGame[] = [];
-      const seen = new Set<string>();
-      for (const { league, events } of results) {
-        for (const ev of events) {
-          const state = stateOf(ev);
-          // Upcoming only — live games show as big tiles in LiveSports,
-          // finished games move into the recap grid.
-          if (state !== "pre") continue;
-
-          const match = trackedGameMatch(ev, league, lookup);
-          if (!match) continue;
-
-          const id = espnEventKey(league, ev);
-          if (seen.has(id)) continue;
-          seen.add(id);
-
-          const ah = awayHomeOf(ev);
-          if (!ah) continue;
-          const { away, home } = ah;
-
-          const startSortKey = new Date(ev.date).getTime();
-          const startTime =
-            formatHourMinuteInTz(ev.date, PACIFIC_TZ) + " PT";
-
-          next.push({
-            id,
-            league,
-            awayAbbr: (away.team?.abbreviation || "AWY").toUpperCase(),
-            homeAbbr: (home.team?.abbreviation || "HME").toUpperCase(),
-            startTime,
-            startSortKey,
-            isPlayoff: match.isPlayoff,
-            accent: match.accent,
-          });
-        }
+      // Upcoming only — live games show as big tiles in LiveSports,
+      // finished games move into the recap grid.
+      for (const { id, league, event, match, away, home } of trackedGames(
+        results,
+        lookup,
+        { include: isPreEvent },
+      )) {
+        next.push({
+          id,
+          league,
+          awayAbbr: (away.team?.abbreviation || "AWY").toUpperCase(),
+          homeAbbr: (home.team?.abbreviation || "HME").toUpperCase(),
+          startTime: formatHourMinuteInTz(event.date, PACIFIC_TZ) + " PT",
+          startSortKey: new Date(event.date).getTime(),
+          isPlayoff: match.isPlayoff,
+          accent: match.accent,
+        });
       }
 
       next.sort((a, b) => a.startSortKey - b.startSortKey);

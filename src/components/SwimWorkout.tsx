@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { generateWorkout, isSetGroup } from "../lib/workoutEngine";
+import { ALL_EQUIPMENT, generateWorkout, isSetGroup } from "../lib/workoutEngine";
 import type { SetItem as WorkoutItem, Section as WorkoutSection, Workout, WorkoutFocus, EquipmentOptions } from "../lib/workoutEngine";
 import { safeGet, safeSet } from "../lib/localStorage";
 import { daysSince } from "../lib/time";
@@ -375,7 +375,7 @@ export default function SwimWorkout() {
   });
   const [equipment, setEquipment] = useState<EquipmentOptions>(() => {
     const params = readUrlParams();
-    return params?.equipment ?? { pull: true, kickboard: true, fins: true };
+    return params?.equipment ?? ALL_EQUIPMENT;
   });
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
@@ -397,7 +397,7 @@ export default function SwimWorkout() {
       const defaultPace = urlUnit === "meters" ? "1:45" : "1:35";
       const urlPace = params.pace && PACES[urlUnit].some((x) => x.value === params.pace) ? params.pace! : defaultPace;
       const urlFocus = params.focus ?? "any";
-      const urlEquipment = params.equipment ?? { pull: true, kickboard: true, fins: true };
+      const urlEquipment = params.equipment ?? ALL_EQUIPMENT;
       setWorkout(generateWorkout({ duration: urlDuration, pace: urlPace, unit: urlUnit, seed: params.seed, focus: urlFocus, equipment: urlEquipment }));
     }
   }, []);
