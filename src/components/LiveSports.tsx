@@ -1,16 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   broadcastsOf,
-  awayHomeOf,
-  espnEventKey,
   fetchEventsForLeagues,
   getTrackedTeamsContext,
-  trackedGameMatch,
+  isLiveEvent,
   statusTextOf,
   teamSideOf,
+  trackedGames,
   watchRecordingUrl,
   yyyymmddInPT,
-  type ESPNEvent,
   type TeamSide,
 } from "../lib/wtwtwSports";
 import { MS_PER_MINUTE } from "../lib/time";
@@ -38,13 +36,6 @@ interface LiveGame {
 interface BigInningPill {
   detail: string;
   href: string;
-}
-
-function isInProgress(ev: ESPNEvent): boolean {
-  const statusType = ev.competitions?.[0]?.status?.type;
-  if ((statusType?.state || "") === "in") return true;
-  if ((statusType?.name || "").includes("IN_PROGRESS")) return true;
-  return false;
 }
 
 export default function LiveSports() {
@@ -103,47 +94,33 @@ export default function LiveSports() {
       const results = await fetchEventsForLeagues(leagues, ymd);
 
       const next: LiveGame[] = [];
-      const seen = new Set<string>();
-      for (const { league, events } of results) {
-        for (const ev of events) {
-          if (!isInProgress(ev)) continue;
+      for (const { id, league, event, match, away, home } of trackedGames(
+        results,
+        lookup,
+        { include: isLiveEvent },
+      )) {
+        const awaySide = teamSideOf(away);
+        const homeSide = teamSideOf(home);
+        const watch = watchRecordingUrl({
+          league,
+          awayAbbr: awaySide.abbr,
+          homeAbbr: homeSide.abbr,
+          isLive: true,
+          broadcasts: broadcastsOf(event),
+          matchedKey: match.matched?.key,
+        });
 
-          const match = trackedGameMatch(ev, league, lookup);
-          if (!match) continue;
-
-          const id = espnEventKey(league, ev);
-          if (seen.has(id)) continue;
-          seen.add(id);
-
-          const ah = awayHomeOf(ev);
-          if (!ah) continue;
-          const { away, home } = ah;
-
-          const awaySide = teamSideOf(away);
-          const homeSide = teamSideOf(home);
-          const watch = watchRecordingUrl({
-            league,
-            awayAbbr: awaySide.abbr,
-            homeAbbr: homeSide.abbr,
-            isLive: true,
-            broadcasts: broadcastsOf(ev),
-            matchedKey: match.matched?.key,
-          });
-
-          const statusText = statusTextOf(ev, "Live");
-
-          next.push({
-            id,
-            league,
-            away: awaySide,
-            home: homeSide,
-            isPlayoff: match.isPlayoff,
-            statusText,
-            watchHref: watch.href,
-            watchLabel: watch.label,
-            accent: match.accent,
-          });
-        }
+        next.push({
+          id,
+          league,
+          away: awaySide,
+          home: homeSide,
+          isPlayoff: match.isPlayoff,
+          statusText: statusTextOf(event, "Live"),
+          watchHref: watch.href,
+          watchLabel: watch.label,
+          accent: match.accent,
+        });
       }
 
       if (!cancelledRef.current) setGames(next);

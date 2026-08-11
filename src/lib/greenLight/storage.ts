@@ -1,5 +1,11 @@
 import type { StoredProfile, DietaryConstraints, QuizAnswer, TasteProfile } from "./types";
-import { safeSet, safeGet, safeRemove, safeGetString, safeSetString } from "../localStorage";
+import {
+  safeSet,
+  safeGetVersioned,
+  safeRemove,
+  safeGetString,
+  safeSetString,
+} from "../localStorage";
 
 const LS_KEY = "green-light:v1";
 const MAX_RECENT = 5;
@@ -11,9 +17,7 @@ export const defaultConstraints: DietaryConstraints = {
 };
 
 export function loadProfile(): StoredProfile | null {
-  const data = safeGet<StoredProfile>(LS_KEY);
-  if (!data || data.version !== 1) return null;
-  return data;
+  return safeGetVersioned<StoredProfile>(LS_KEY, 1);
 }
 
 export function saveProfile(

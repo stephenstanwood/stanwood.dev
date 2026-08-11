@@ -23,6 +23,19 @@ export function safeGet<T = unknown>(key: string): T | null {
   }
 }
 
+/**
+ * Read a versioned record, discarding anything written by an older schema. Returning null
+ * on a version mismatch is what lets each tool bump its `version` to invalidate saved
+ * state instead of writing a migration.
+ */
+export function safeGetVersioned<T extends { version: number }>(
+  key: string,
+  version: number,
+): T | null {
+  const data = safeGet<T>(key);
+  return data && data.version === version ? data : null;
+}
+
 export function safeRemove(key: string): void {
   try {
     getBrowserStorage()?.removeItem(key);

@@ -14,7 +14,7 @@ import {
   statusTextOf,
   teamColorByAbbr,
   teamSideOf,
-  trackedGameMatch,
+  trackedGames,
   watchRecordingUrl,
   yyyymmddInPT,
   DEFAULT_TEAM_ACCENT,
@@ -115,59 +115,42 @@ export default function YesterdaySports() {
 
       const next: YesterdayGame[] = [];
       const seen = new Set<string>();
+      // A team's older games are dropped so only its most recent one gets a recap tile.
+      const isRecappable = (ev: ESPNEvent, league: string) =>
+        isFinalEvent(ev) &&
+        isLatestStartedEventForTrackedTeams(ev, league, lookup, latestStartedAtByTeam);
+
       for (const { iso, sortKey, results, mlbGamePks } of dayResults) {
-        for (const { league, events } of results) {
-          for (const ev of events) {
-            if (!isFinalEvent(ev)) continue;
-            if (
-              !isLatestStartedEventForTrackedTeams(
-                ev,
-                league,
-                lookup,
-                latestStartedAtByTeam,
-              )
-            ) {
-              continue;
-            }
-            const match = trackedGameMatch(ev, league, lookup);
-            if (!match) continue;
+        for (const { id, league, event, match, away, home } of trackedGames(
+          results,
+          lookup,
+          { include: isRecappable, isoDate: iso, seen },
+        )) {
+          const awaySide = teamSide(away);
+          const homeSide = teamSide(home);
+          const watch = watchRecordingUrl({
+            league,
+            awayAbbr: awaySide.abbr,
+            homeAbbr: homeSide.abbr,
+            isoDate: iso,
+            matchedKey: match.matched?.key,
+            mlbGamePks,
+            wnbaGameIds,
+          });
 
-            const id = recapEventId(league, iso, ev);
-            if (seen.has(id)) continue;
-            seen.add(id);
-
-            const ah = awayHomeOf(ev);
-            if (!ah) continue;
-            const { away, home } = ah;
-
-            const awaySide = teamSide(away);
-            const homeSide = teamSide(home);
-            const watch = watchRecordingUrl({
-              league,
-              awayAbbr: awaySide.abbr,
-              homeAbbr: homeSide.abbr,
-              isoDate: iso,
-              matchedKey: match.matched?.key,
-              mlbGamePks,
-              wnbaGameIds,
-            });
-
-            const statusText = statusTextOf(ev, "Final");
-
-            next.push({
-              id,
-              league,
-              daySortKey: sortKey,
-              away: awaySide,
-              home: homeSide,
-              isPlayoff: match.isPlayoff,
-              isBestWnba: false,
-              statusText,
-              watchHref: watch.href,
-              watchLabel: watch.label,
-              accent: match.accent,
-            });
-          }
+          next.push({
+            id,
+            league,
+            daySortKey: sortKey,
+            away: awaySide,
+            home: homeSide,
+            isPlayoff: match.isPlayoff,
+            isBestWnba: false,
+            statusText: statusTextOf(event, "Final"),
+            watchHref: watch.href,
+            watchLabel: watch.label,
+            accent: match.accent,
+          });
         }
       }
 

@@ -10,6 +10,12 @@ const MAPS_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
  * Proxies Google Static Maps API requests so the API key stays server-side.
  * Accepts query params that map directly to the Static Maps API.
  */
+// CLEANUP-FLAG: the param allowlist keeps the key private but the *values* are
+// forwarded unchecked, so this is an open relay for arbitrary Static Maps calls
+// billed to GOOGLE_PLACES_API_KEY — any `center`/`size`/`scale` works, not just
+// the coffee-map shapes nearest-coffee.astro sends. Tightening it (numeric
+// lat,lng center; size from a fixed set; scale 1|2) would reject requests this
+// route currently serves, so it's a deliberate behavior change, not cleanup.
 export const GET: APIRoute = async ({ url, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
