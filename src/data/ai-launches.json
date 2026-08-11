@@ -1,5 +1,13 @@
 [
   {
+    "name": "Muse Glimmer",
+    "org": "Meta",
+    "date": "2026-08-10",
+    "type": "model",
+    "summary": "Run a 30B open-weight agentic model offline on one consumer GPU — 24GB VRAM for the K-quant build, or a 32GB Mac. Handles text, images, and video, plus tool calling. Apache 2.0, GGUF on Hugging Face.",
+    "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model"
+  },
+  {
     "name": "Grok Imagine Image 2.0",
     "org": "xAI",
     "date": "2026-08-07",
@@ -16,12 +24,12 @@
     "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
   },
   {
-    "name": "Hey Noah",
-    "org": "Hey Noah",
+    "name": "GPT-5.6 Luna on the free tier",
+    "org": "OpenAI",
     "date": "2026-08-06",
-    "type": "tool",
-    "summary": "Text an executive assistant that books meetings, chases follow-ups, and emails your contacts directly instead of waiting for commands. Connects to Granola, Notion, Drive, and Slack. Free 30-day trial, no card.",
-    "url": "https://www.producthunt.com/products/hey-noah"
+    "type": "model",
+    "summary": "Free ChatGPT accounts now get unlimited text chats and Luna as the default model, plus a Think button for harder questions. Limits still apply to file uploads and images. Rolling out through the week of August 10.",
+    "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/"
   },
   {
     "name": "Agent Plugins 1.0",
@@ -40,14 +48,6 @@
     "url": "https://thenextweb.com/news/meta-muse-code-ai-coding-agent-launch"
   },
   {
-    "name": "Notetaker",
-    "org": "Wispr Flow",
-    "date": "2026-08-05",
-    "type": "tool",
-    "summary": "Transcribe and summarize any meeting on your Mac without a bot joining the call — it listens to system audio. Pulls names from your calendar and connected apps so jargon and people's names come out spelled right. Free tier included.",
-    "url": "https://9to5mac.com/2026/08/05/wispr-flow-takes-on-ai-meeting-assistants-with-notetaker-its-first-product-beyond-dictation/"
-  },
-  {
     "name": "FLUX 3 Video",
     "org": "Black Forest Labs",
     "date": "2026-08-04",
@@ -56,11 +56,11 @@
     "url": "https://xenospectrum.com/en/flux-3-video-general-availability/"
   },
   {
-    "name": "MiniMax H3",
-    "org": "MiniMax",
-    "date": "2026-08-03",
+    "name": "DeepSeek V4 Flash",
+    "org": "DeepSeek",
+    "date": "2026-07-31",
     "type": "model",
-    "summary": "Run a 42.5 GB open-weight video model on your own GPU. It takes text, image, video, and audio in one context and renders 15 seconds of 2K video with stereo sound. Weights on Hugging Face, native ComfyUI support.",
-    "url": "https://comfyui-wiki.com/en/news/2026-08-03-minimax-h3-open-weights-comfyui"
+    "summary": "Point your agent at a coding API that costs $0.14 per million input tokens and $0.28 out, with cache hits at $0.0028. Scores 82.7 on Terminal-Bench 2.1. Public beta, available now as deepseek-v4-flash.",
+    "url": "https://precisionaiacademy.com/news/deepseek-v4-stable-release"
   }
 ]
