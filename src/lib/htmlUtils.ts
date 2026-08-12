@@ -1,5 +1,6 @@
 /**
- * Shared HTML/XSS utilities used by MLB GameRank and NBA Now renderers.
+ * Shared HTML escaping, entity decoding, and URL sanitising used by the server-rendered
+ * sports widgets and the feed scrapers.
  */
 
 const ESC_MAP: Record<string, string> = {
@@ -23,6 +24,28 @@ export function esc(s: unknown): string {
  */
 export function jsonForScriptTag(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
+}
+
+const UNESC_MAP: Record<string, string> = {
+  "&quot;": '"',
+  "&apos;": "'",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&nbsp;": " ",
+  "&amp;": "&",
+};
+
+/**
+ * Decode the named and numeric entities that show up in the feeds we scrape (YouTube RSS,
+ * the MLB Big Inning schedule table). The named pass is a single scan rather than one
+ * `.replace` per entity, so `&amp;lt;` in the source stays the literal text `&lt;` instead
+ * of being decoded twice into `<`.
+ */
+export function decodeEntities(value: string): string {
+  return value
+    .replace(/&#x([a-f0-9]+);/gi, (_, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, decimal: string) => String.fromCodePoint(parseInt(decimal, 10)))
+    .replace(/&(?:quot|apos|lt|gt|nbsp|amp);/g, (entity) => UNESC_MAP[entity] ?? entity);
 }
 
 /** Sanitise a URL — only allow http(s) protocol. */

@@ -382,8 +382,11 @@ function computeBestWindow(
   }
 
   if (bestLen >= 2 && bestStart > 0) {
-    const startHour = (currentHour + bestStart) % 24;
-    const endHour = (currentHour + bestStart + bestLen) % 24;
+    // currentHour carries minutes as a fraction; the forecast is hourly, so floor it
+    // before labelling — otherwise the window reads "4.5pm–7.5pm".
+    const hourNow = Math.floor(currentHour);
+    const startHour = (hourNow + bestStart) % 24;
+    const endHour = (hourNow + bestStart + bestLen) % 24;
     const fmt = (h: number) => {
       const h12 = h % 12 || 12;
       return `${h12}${h < 12 ? "am" : "pm"}`;

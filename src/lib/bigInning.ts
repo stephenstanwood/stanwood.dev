@@ -8,6 +8,7 @@ import {
   BIG_INNING_RAW,
 } from "../data/bigInningSchedule";
 import { MS_PER_DAY } from "./time";
+import { decodeEntities } from "./htmlUtils";
 
 export interface BigInningWindow {
   start: string; // ISO 8601 UTC
@@ -91,10 +92,7 @@ export function buildFallbackSchedule(): BigInningSchedule {
 }
 
 function stripTags(s: string): string {
-  return s
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
+  return decodeEntities(s.replace(/<[^>]+>/g, ""))
     .replace(/\s+/g, " ")
     .trim();
 }

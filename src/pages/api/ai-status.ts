@@ -3,6 +3,7 @@ import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 import { createTtlCache } from "../../lib/ttlCache";
+import { MS_PER_MINUTE } from "../../lib/time";
 
 interface StatusPageSummary {
   status: { indicator: string; description: string };
@@ -27,7 +28,7 @@ export interface ProviderStatus {
   brandColor: string;
 }
 
-const statusCache = createTtlCache<ProviderStatus[]>(3 * 60 * 1000); // 3 minutes
+const statusCache = createTtlCache<ProviderStatus[]>(3 * MS_PER_MINUTE);
 
 function normalizeStatus(indicator: string): ProviderStatus["status"] {
   switch (indicator) {

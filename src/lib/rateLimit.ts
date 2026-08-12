@@ -10,11 +10,17 @@ const MAX_ENTRIES = 10_000;
 
 let lastCleanup = Date.now();
 
+// The map is shared by every route, but routes configure different windows (the default
+// minute, /api/feedback's ten). Prune against the widest window seen so far — pruning with
+// the caller's window would drop still-live hits for longer-windowed routes and hand the
+// caller a free reset.
+let widestWindowMs = DEFAULT_WINDOW_MS;
+
 /** Remove stale IP entries to prevent unbounded memory growth. */
-function cleanup(windowMs: number) {
+function cleanup() {
   const now = Date.now();
   for (const [ip, timestamps] of hits) {
-    const recent = timestamps.filter((t) => now - t < windowMs);
+    const recent = timestamps.filter((t) => now - t < widestWindowMs);
     if (recent.length === 0) {
       hits.delete(ip);
     } else {
@@ -30,9 +36,10 @@ export function rateLimit(
   windowMs: number = DEFAULT_WINDOW_MS,
 ): boolean {
   const now = Date.now();
+  if (windowMs > widestWindowMs) widestWindowMs = windowMs;
 
   if (now - lastCleanup > CLEANUP_INTERVAL_MS) {
-    cleanup(windowMs);
+    cleanup();
   }
 
   const timestamps = hits.get(ip) ?? [];
