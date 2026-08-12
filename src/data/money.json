@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-11T19:10:16.298Z",
+  "lastUpdated": "2026-08-12T01:10:14.189Z",
   "apiSpend": {
     "months": [
       {
@@ -211,26 +211,26 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-11T19:10:16.298Z",
+        "collectedAt": "2026-08-12T01:10:14.189Z",
         "services": {
           "vercel": {
-            "totalCents": 4262,
+            "totalCents": 4559,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 4068
+                "cents": 4360
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 110
+                "cents": 113
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 29
+                "cents": 30
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 12
+                "cents": 13
               },
               {
                 "name": "Function Invocations",
@@ -276,27 +276,27 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 3348,
+            "totalCents": 3641,
             "breakdown": [
               {
                 "name": "claude-sonnet-5",
-                "cents": 1124
+                "cents": 1213
+              },
+              {
+                "name": "claude-fable-5",
+                "cents": 900
               },
               {
                 "name": "claude-opus-4-8",
                 "cents": 843
               },
               {
-                "name": "claude-fable-5",
-                "cents": 800
-              },
-              {
                 "name": "claude-opus-5",
-                "cents": 571
+                "cents": 673
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 10
+                "cents": 12
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
