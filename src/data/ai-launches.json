@@ -24,6 +24,14 @@
     "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
   },
   {
+    "name": "GOAT plan",
+    "org": "Command Code",
+    "date": "2026-08-06",
+    "type": "tool",
+    "summary": "Pay $10 a month for $70 of credits across 33 coding models — DeepSeek V4 Flash, GLM-5.2, Qwen 3.8, GPT-5.6 Luna, Kimi K — and swap between them mid-session with /model. Capped at $14 per 5 hours.",
+    "url": "https://commandcode.ai/docs/plans/goat"
+  },
+  {
     "name": "GPT-5.6 Luna on the free tier",
     "org": "OpenAI",
     "date": "2026-08-06",
@@ -48,19 +56,11 @@
     "url": "https://thenextweb.com/news/meta-muse-code-ai-coding-agent-launch"
   },
   {
-    "name": "FLUX 3 Video",
-    "org": "Black Forest Labs",
-    "date": "2026-08-04",
+    "name": "MiniMax H3",
+    "org": "MiniMax",
+    "date": "2026-08-03",
     "type": "model",
-    "summary": "Generate 20-second 1080p clips with dialogue and sound effects from a text prompt or a still image, or continue a video you already have. Draft mode previews a shot at $0.06 per second, then re-renders it at full quality.",
-    "url": "https://xenospectrum.com/en/flux-3-video-general-availability/"
-  },
-  {
-    "name": "DeepSeek V4 Flash",
-    "org": "DeepSeek",
-    "date": "2026-07-31",
-    "type": "model",
-    "summary": "Point your agent at a coding API that costs $0.14 per million input tokens and $0.28 out, with cache hits at $0.0028. Scores 82.7 on Terminal-Bench 2.1. Public beta, available now as deepseek-v4-flash.",
-    "url": "https://precisionaiacademy.com/news/deepseek-v4-stable-release"
+    "summary": "Generate 15-second clips with native stereo audio from text, a still image, or a reference video. Open weights with day-one ComfyUI nodes; int8 quantization gets it down to a 12GB card, or rent it on Comfy Cloud.",
+    "url": "https://blog.comfy.org/p/minimax-h3-day-0-support-in-comfyui"
   }
 ]
