@@ -2,13 +2,15 @@ import type { APIRoute } from "astro";
 import { errJson, fetchWithTimeout, okJson } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { createTtlCache } from "../../../lib/ttlCache";
+import { MS_PER_MINUTE } from "../../../lib/time";
+import { decodeEntities } from "../../../lib/htmlUtils";
 
 export const prerender = false;
 
 const PLAYLIST_ID = "PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d";
 const PLAYLIST_URL = `https://www.youtube.com/playlist?list=${PLAYLIST_ID}`;
 const FEED_URL = `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST_ID}`;
-const CACHE_TTL_MS = 10 * 60 * 1000;
+const CACHE_TTL_MS = 10 * MS_PER_MINUTE;
 
 interface ClassicVideo {
   id: string;
@@ -164,27 +166,16 @@ async function fetchVideosFromPlaylistPage(): Promise<ClassicVideo[]> {
   return [...unique.values()];
 }
 
-function decodeXml(value: string): string {
-  return value
-    .replace(/&#x([a-f0-9]+);/gi, (_, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, decimal: string) => String.fromCodePoint(parseInt(decimal, 10)))
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&");
-}
-
 function readXmlTag(xml: string, tag: string): string | null {
   const match = xml.match(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`));
-  return match ? decodeXml(match[1].trim()) : null;
+  return match ? decodeEntities(match[1].trim()) : null;
 }
 
 function readXmlAttr(xml: string, tag: string, attr: string): string | null {
   const tagMatch = xml.match(new RegExp(`<${tag}\\b[^>]*>`));
   if (!tagMatch) return null;
   const attrMatch = tagMatch[0].match(new RegExp(`${attr}="([^"]+)"`));
-  return attrMatch ? decodeXml(attrMatch[1]) : null;
+  return attrMatch ? decodeEntities(attrMatch[1]) : null;
 }
 
 async function fetchVideosFromFeed(): Promise<ClassicVideo[]> {

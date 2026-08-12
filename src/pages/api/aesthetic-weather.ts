@@ -81,7 +81,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     };
 
     // Build hourly forecast for next 12 hours
-    const hourlyIdx = Math.floor(pacificNow.getHours());
+    const hourlyIdx = pacificNow.getHours();
     const hourly = data.hourly;
     const forecast: HourlyForecast = {
       temperatures: hourly.temperature_2m.slice(hourlyIdx, hourlyIdx + 12),
