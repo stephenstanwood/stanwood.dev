@@ -1,5 +1,13 @@
 [
   {
+    "name": "Grok Bot",
+    "org": "xAI",
+    "date": "2026-08-11",
+    "type": "tool",
+    "summary": "Hand off real work to agents that keep running after you close the laptop — they operate signed-in apps and websites, run scheduled routines, and coordinate with each other. macOS, Windows, Linux, and iOS beta. Needs Cursor Ultra at $200/month.",
+    "url": "https://www.macrumors.com/2026/08/11/grok-bot-macos-ios/"
+  },
+  {
     "name": "Muse Glimmer",
     "org": "Meta",
     "date": "2026-08-10",
@@ -24,6 +32,14 @@
     "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
   },
   {
+    "name": "Seedance 2.5",
+    "org": "ByteDance",
+    "date": "2026-08-07",
+    "type": "model",
+    "summary": "Generate up to 30 seconds of video with native audio in one pass — from text, an image, or up to 30 reference files. Timestamp-level editing redoes single moments. Public developer API opened August 7, verified at 480p and 720p.",
+    "url": "https://evolink.ai/blog/seedance-2-5-api-status"
+  },
+  {
     "name": "GOAT plan",
     "org": "Command Code",
     "date": "2026-08-06",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Package your agent skills and MCP servers into one folder — a plugin.json plus a skills/ dir — and load it in VS Code, Cursor, Copilot, ChatGPT, Codex, or Kiro. Write the extension once, run it everywhere.",
     "url": "https://agent-plugins.org/"
-  },
-  {
-    "name": "Muse Code",
-    "org": "Meta",
-    "date": "2026-08-05",
-    "type": "tool",
-    "summary": "Run a terminal coding agent on macOS or Linux that spawns sub-agents and picks up where it left off after a crash. Pay-as-you-go at $1.25/$4.25 per million tokens, or over 90% less if you opt into data sharing.",
-    "url": "https://thenextweb.com/news/meta-muse-code-ai-coding-agent-launch"
-  },
-  {
-    "name": "MiniMax H3",
-    "org": "MiniMax",
-    "date": "2026-08-03",
-    "type": "model",
-    "summary": "Generate 15-second clips with native stereo audio from text, a still image, or a reference video. Open weights with day-one ComfyUI nodes; int8 quantization gets it down to a 12GB card, or rent it on Comfy Cloud.",
-    "url": "https://blog.comfy.org/p/minimax-h3-day-0-support-in-comfyui"
   }
 ]
