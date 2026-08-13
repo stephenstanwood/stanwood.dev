@@ -119,9 +119,9 @@ export interface TrackedGameMatch {
 /**
  * Decide whether an event belongs on the sports rails: it must involve a tracked team,
  * or be an NBA playoff game (which we surface regardless of who's playing). Returns null
- * when it's neither. Shared by LiveSports/TodaySports/YesterdaySports.
+ * when it's neither. Reached by the rails through {@link trackedGames}.
  */
-export function trackedGameMatch(
+function trackedGameMatch(
   ev: ESPNEvent,
   league: string,
   lookup: Map<string, TeamEntry>,

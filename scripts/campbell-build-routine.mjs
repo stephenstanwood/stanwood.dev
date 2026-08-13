@@ -9,29 +9,27 @@
 
 import { createHash, randomUUID } from "node:crypto";
 import { execFileSync } from "node:child_process";
-import {
-  existsSync,
-  lstatSync,
-  mkdirSync,
-  readFileSync,
-  readdirSync,
-  writeFileSync,
-} from "node:fs";
+import { existsSync, lstatSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  AUTOMATION_ID,
+  CODEX_HOME,
+  STATE_PATH,
+  TARGET_ID,
+  flagValue,
+  readState,
+  writeState,
+} from "./campbell-build-state.mjs";
 
 const args = process.argv.slice(2);
 const DRY = args.includes("--dry-run");
 const JSON_OUT = args.includes("--json");
 const FORCE = args.includes("--force");
-const targetArg = valueAfter("--target");
+const targetArg = flagValue(args, "--target");
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const CODEX_HOME = process.env.CODEX_HOME ?? "/Users/stephenstanwood/.codex";
 const CLAUDE_MEMORY_DIR =
   "/Users/stephenstanwood/.claude/projects/-Users-stephenstanwood-Projects-stanwood-dev/memory";
-const AUTOMATION_ID = "stanwood-campbell-build-routine";
-const TARGET_ID = "stanwood-campbell-guide";
-const STATE_PATH = join(CODEX_HOME, "automations", AUTOMATION_ID, "campbell-build-standard.json");
 const STALE_RUNNING_MS = Number(process.env.CAMPBELL_BUILD_STALE_RUNNING_MS ?? String(6 * 60 * 60 * 1000));
 const REBUILD_INTERVAL_MS = Number(process.env.CAMPBELL_BUILD_INTERVAL_MS ?? String(7 * 24 * 60 * 60 * 1000));
 
@@ -49,6 +47,7 @@ const TARGET_PATHS = [
   "public/images/campbell.webp",
   "public/images/campbell",
   "scripts/campbell-build-routine.mjs",
+  "scripts/campbell-build-state.mjs",
   "scripts/mark-campbell-build-standard.mjs",
   "scripts/mini-crons/stanwood-campbell-build-routine/README.md",
   "scripts/sync-campbell-data.mjs",
@@ -63,11 +62,6 @@ const TARGET_PATHS = [
 if (targetArg && !["campbell", TARGET_ID].includes(targetArg)) {
   console.error(`Unsupported target: ${targetArg}`);
   process.exit(2);
-}
-
-function valueAfter(flag) {
-  const idx = args.indexOf(flag);
-  return idx >= 0 ? args[idx + 1] ?? null : null;
 }
 
 function hashParts(parts) {
@@ -158,20 +152,6 @@ function projectFingerprint() {
     hash: hashParts(files.map(fileDigest)),
     files,
   };
-}
-
-function readState() {
-  if (!existsSync(STATE_PATH)) return null;
-  try {
-    return JSON.parse(readFileSync(STATE_PATH, "utf8"));
-  } catch {
-    return null;
-  }
-}
-
-function writeState(state) {
-  mkdirSync(dirname(STATE_PATH), { recursive: true });
-  writeFileSync(STATE_PATH, `${JSON.stringify(state, null, 2)}\n`);
 }
 
 function msSince(value) {
