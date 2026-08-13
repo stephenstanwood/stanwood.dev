@@ -5,50 +5,38 @@
  * Intended for Codex routine sessions spawned by scripts/campbell-build-routine.mjs.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import {
+  AUTOMATION_ID,
+  BUILD_STATUSES,
+  TARGET_ID,
+  flagValue,
+  readState,
+  writeState,
+} from "./campbell-build-state.mjs";
 
 const args = process.argv.slice(2);
-const CODEX_HOME = process.env.CODEX_HOME ?? "/Users/stephenstanwood/.codex";
-const AUTOMATION_ID = "stanwood-campbell-build-routine";
-const TARGET_ID = "stanwood-campbell-guide";
-const STATE_PATH = join(CODEX_HOME, "automations", AUTOMATION_ID, "campbell-build-standard.json");
 
-function arg(name) {
-  const idx = args.indexOf(name);
-  return idx >= 0 ? args[idx + 1] ?? null : null;
-}
-
-const target = arg("--target");
-const status = arg("--status") ?? "partial";
-const runId = arg("--run-id");
-const memoryFingerprint = arg("--memory-fingerprint");
-const projectFingerprint = arg("--project-fingerprint");
-const note = arg("--note") ?? "";
+const target = flagValue(args, "--target");
+const status = flagValue(args, "--status") ?? "partial";
+const runId = flagValue(args, "--run-id");
+const memoryFingerprint = flagValue(args, "--memory-fingerprint");
+const projectFingerprint = flagValue(args, "--project-fingerprint");
+const note = flagValue(args, "--note") ?? "";
 
 if (!target || !["campbell", TARGET_ID].includes(target)) {
   console.error(
-    `Usage: node scripts/mark-campbell-build-standard.mjs --target ${TARGET_ID} --status built-to-standard|blocked|partial|failed|running [--run-id <id>] [--memory-fingerprint <hash>] [--project-fingerprint <hash>] [--note <text>]`
+    `Usage: node scripts/mark-campbell-build-standard.mjs --target ${TARGET_ID} --status ${BUILD_STATUSES.join("|")} [--run-id <id>] [--memory-fingerprint <hash>] [--project-fingerprint <hash>] [--note <text>]`
   );
   process.exit(2);
 }
 
-if (!["built-to-standard", "blocked", "partial", "failed", "running"].includes(status)) {
+if (!BUILD_STATUSES.includes(status)) {
   console.error(`Invalid status: ${status}`);
   process.exit(2);
 }
 
-function readState() {
-  if (!existsSync(STATE_PATH)) return {};
-  try {
-    return JSON.parse(readFileSync(STATE_PATH, "utf8"));
-  } catch {
-    return {};
-  }
-}
-
 const now = new Date().toISOString();
-const prev = readState();
+const prev = readState() ?? {};
 const nextState = {
   ...prev,
   targetId: TARGET_ID,
@@ -64,6 +52,5 @@ const nextState = {
   ...(status === "blocked" ? { blockedAt: now } : {}),
 };
 
-mkdirSync(dirname(STATE_PATH), { recursive: true });
-writeFileSync(STATE_PATH, `${JSON.stringify(nextState, null, 2)}\n`);
+writeState(nextState);
 console.log(`marked ${TARGET_ID} campbellBuildStandard.status=${status}`);

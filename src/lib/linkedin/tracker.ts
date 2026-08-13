@@ -317,6 +317,39 @@ interface MutationResult {
   previousValue?: boolean;
 }
 
+type PreviousValueRow = { previous_value: boolean };
+
+/**
+ * Shared tail for the two flag mutations: audit the flip (only when the value actually
+ * changed, so a repeated click doesn't pad the log), top up the discovery piles, and
+ * shape the result. Each caller keeps its own UPDATE because the column names differ and
+ * neon's tagged template parameterizes values, not identifiers.
+ */
+async function recordFlagMutation(options: {
+  rows: PreviousValueRow[];
+  stableId: string;
+  nextValue: boolean;
+  /** Audit `action` label for flipping the flag on / back off. */
+  auditActions: { on: string; off: string };
+  refillTrigger: string;
+}): Promise<MutationResult> {
+  const { rows, stableId, nextValue, auditActions, refillTrigger } = options;
+  if (rows.length === 0) return { updated: false };
+
+  const previousValue = rows[0].previous_value;
+  if (previousValue !== nextValue) {
+    await getLinkedInSql()`
+      INSERT INTO linkedin_outreach_audit (stable_id, action, previous_value, new_value)
+      VALUES (
+        ${stableId}, ${nextValue ? auditActions.on : auditActions.off},
+        ${previousValue}, ${nextValue}
+      )
+    `;
+  }
+  await refillLinkedInDiscoveryPiles(refillTrigger);
+  return { updated: true, previousValue };
+}
+
 export async function setLinkedInActioned(
   stableId: string,
   actioned: boolean,
@@ -336,17 +369,14 @@ export async function setLinkedInActioned(
       AND person.source_active = true
       AND person.initial_dismissed = false
     RETURNING old.actioned AS previous_value
-  `) as Array<{ previous_value: boolean }>;
-  if (rows.length === 0) return { updated: false };
-  const previousValue = rows[0].previous_value;
-  if (previousValue !== actioned) {
-    await sql`
-      INSERT INTO linkedin_outreach_audit (stable_id, action, previous_value, new_value)
-      VALUES (${stableId}, ${actioned ? "actioned" : "unactioned"}, ${previousValue}, ${actioned})
-    `;
-  }
-  await refillLinkedInDiscoveryPiles("action-mutation");
-  return { updated: true, previousValue };
+  `) as PreviousValueRow[];
+  return recordFlagMutation({
+    rows,
+    stableId,
+    nextValue: actioned,
+    auditActions: { on: "actioned", off: "unactioned" },
+    refillTrigger: "action-mutation",
+  });
 }
 
 export async function setLinkedInDismissed(
@@ -368,15 +398,12 @@ export async function setLinkedInDismissed(
       AND person.source_active = true
       AND person.initial_dismissed = false
     RETURNING old.dismissed AS previous_value
-  `) as Array<{ previous_value: boolean }>;
-  if (rows.length === 0) return { updated: false };
-  const previousValue = rows[0].previous_value;
-  if (previousValue !== dismissed) {
-    await sql`
-      INSERT INTO linkedin_outreach_audit (stable_id, action, previous_value, new_value)
-      VALUES (${stableId}, ${dismissed ? "dismissed" : "restored"}, ${previousValue}, ${dismissed})
-    `;
-  }
-  await refillLinkedInDiscoveryPiles("dismiss-mutation");
-  return { updated: true, previousValue };
+  `) as PreviousValueRow[];
+  return recordFlagMutation({
+    rows,
+    stableId,
+    nextValue: dismissed,
+    auditActions: { on: "dismissed", off: "restored" },
+    refillTrigger: "dismiss-mutation",
+  });
 }

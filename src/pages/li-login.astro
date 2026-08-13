@@ -1,4 +1,7 @@
 ---
+// `astro check` reports loginRedirect and LI_SESSION_MAX_AGE as ts(6133) "never read".
+// Both are false positives — they are used in the POST branch below, and removing them
+// breaks login. Same hint fires on money-login.astro.
 import { loginRedirect, verifySessionPassword } from "../lib/auth";
 
 const LI_SESSION_MAX_AGE = 30 * 24 * 60 * 60; // 30 days

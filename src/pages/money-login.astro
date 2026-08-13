@@ -1,4 +1,7 @@
 ---
+// `astro check` reports loginRedirect as ts(6133) "never read". That is a false
+// positive — it is called in the POST branch below, and deleting the import breaks
+// login. Same hint fires on li-login.astro.
 import { loginRedirect, verifySessionPassword } from "../lib/auth";
 
 export const prerender = false;
