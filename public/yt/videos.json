@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-08-12T10:30:18.670889+00:00",
+  "built_at": "2026-08-13T10:30:17.339220+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 28,
-      "video_count": 11,
+      "video_count": 10,
       "video_ids": [
-        "5p9VOzJAmW8",
         "IydslKdqzYo",
         "F-OxHWWg59o",
         "yhfuDD3hprA",
@@ -21,6 +20,24 @@
         "IpzIDAqJDwI",
         "kk8TB8wBj-I",
         "vVeCXAFt5f4"
+      ]
+    },
+    {
+      "key": "AA203",
+      "is_single": false,
+      "display_name": "AA203",
+      "best_score": 14,
+      "video_count": 9,
+      "video_ids": [
+        "Au2stLALZew",
+        "FbkNYklySak",
+        "duZJ2_ajLso",
+        "7rejaoMWviw",
+        "R4_fHzTo0IM",
+        "zX8raxUa2DE",
+        "hy-e9g4nugE",
+        "C9mLpI8Td9g",
+        "Fl5EjGhQjgs"
       ]
     },
     {
@@ -118,6 +135,16 @@
       ]
     },
     {
+      "key": "__single__1YdgSwEtf_s",
+      "is_single": true,
+      "display_name": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "best_score": 9,
+      "video_count": 1,
+      "video_ids": [
+        "1YdgSwEtf_s"
+      ]
+    },
+    {
       "key": "__single__Qh7Oxvo5sJI",
       "is_single": true,
       "display_name": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, Applied AI",
@@ -161,9 +188,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 8,
-      "video_count": 10,
+      "video_count": 9,
       "video_ids": [
-        "NMFyMlwmwP8",
         "popjDuA-whA",
         "D7e7oUbtkFM",
         "NUtaN10cVDc",
@@ -216,20 +242,6 @@
         "IvXTl3yj-4Y",
         "iNaRBp4T57Q",
         "oyLUvz9nR6E"
-      ]
-    },
-    {
-      "key": "AA203",
-      "is_single": false,
-      "display_name": "AA203",
-      "best_score": 5,
-      "video_count": 5,
-      "video_ids": [
-        "Au2stLALZew",
-        "FbkNYklySak",
-        "duZJ2_ajLso",
-        "7rejaoMWviw",
-        "R4_fHzTo0IM"
       ]
     },
     {
@@ -344,22 +356,6 @@
     }
   ],
   "queue": [
-    {
-      "id": "5p9VOzJAmW8",
-      "title": "Stanford CS547 HCI Seminar | Winter 2026 | Creation, Evolution, and Formalization of Notations",
-      "url": "https://www.youtube.com/watch?v=5p9VOzJAmW8",
-      "duration": 3407,
-      "published_at": "2026-02-11T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 18,
-      "categories": [
-        "hci",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 30, 2026\nThis lecture covers:\n\u2022 Common patterns and stages for the development of notations across computational, scientific, and artistic fields\n\u2022 The role of cultural context, linking and grounding metaphors, and cognitive processes of analogical alignment\n\u2022 Building a more plu"
-    },
     {
       "id": "IydslKdqzYo",
       "title": "Stanford CS547 HCI Seminar | Winter 2026 | Does GenAI Work in Education?",
@@ -527,6 +523,158 @@
         "series:CS547"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 13, 2026\nThis lecture covers:\n\u2022 Text, visualization, and their combination\n\u2022 The role of language in information visualization\n\u2022 How to decide what to express via language vs via visualization\n\u2022 How to choose what kind of text to use when creating visualizations, and does that choi"
+    },
+    {
+      "id": "Au2stLALZew",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 1: Course Overview",
+      "url": "https://www.youtube.com/watch?v=Au2stLALZew",
+      "duration": 4403,
+      "published_at": "2026-08-11T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 1,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nLecture 1 \u2014 Course Overview; Introduction to Nonlinear Optimization\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com  \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203"
+    },
+    {
+      "id": "FbkNYklySak",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 2: Optimization Theory",
+      "url": "https://www.youtube.com/watch?v=FbkNYklySak",
+      "duration": 4741,
+      "published_at": "2026-08-11T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 2,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 2 \u2014 Optimization Theory\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com   \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ \n\nLecture sli"
+    },
+    {
+      "id": "duZJ2_ajLso",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 3: Calculus of Variations",
+      "url": "https://www.youtube.com/watch?v=duZJ2_ajLso",
+      "duration": 4977,
+      "published_at": "2026-08-11T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 3,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 3 \u2014 Calculus of Variations\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ \n\nLecture sl"
+    },
+    {
+      "id": "7rejaoMWviw",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 4: Optimal Control",
+      "url": "https://www.youtube.com/watch?v=7rejaoMWviw",
+      "duration": 5089,
+      "published_at": "2026-08-11T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 4,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 4 \u2014 Indirect Methods for Optimal Control\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526"
+    },
+    {
+      "id": "R4_fHzTo0IM",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 5: Computational Methods",
+      "url": "https://www.youtube.com/watch?v=R4_fHzTo0IM",
+      "duration": 4684,
+      "published_at": "2026-08-11T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 5,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 5 \u2014 Pontryagin\u2019s Minimum Principle and Computational Methods\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.gi"
+    },
+    {
+      "id": "zX8raxUa2DE",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 6: Optimal Control",
+      "url": "https://www.youtube.com/watch?v=zX8raxUa2DE",
+      "duration": 4829,
+      "published_at": "2026-08-12T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 6,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 6 \u2014 Direct methods for Optimal Control\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ "
+    },
+    {
+      "id": "hy-e9g4nugE",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 7: Dynamic Programming",
+      "url": "https://www.youtube.com/watch?v=hy-e9g4nugE",
+      "duration": 4515,
+      "published_at": "2026-08-12T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 7,
+      "score": 9,
+      "categories": [
+        "algorithms",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 7 \u2014 Dynamic Programming and Discrete-Time LQR\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/s"
+    },
+    {
+      "id": "C9mLpI8Td9g",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 9: Stochastic Dyn. Program",
+      "url": "https://www.youtube.com/watch?v=C9mLpI8Td9g",
+      "duration": 4621,
+      "published_at": "2026-08-12T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 9,
+      "score": 14,
+      "categories": [
+        "civic_open",
+        "algorithms",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 9 \u2014 Stochastic Dynamic Programming, Value Iteration, and Policy Iteration\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://s"
+    },
+    {
+      "id": "Fl5EjGhQjgs",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 10: Reachibility Analysis",
+      "url": "https://www.youtube.com/watch?v=Fl5EjGhQjgs",
+      "duration": 4626,
+      "published_at": "2026-08-12T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 10,
+      "score": 11,
+      "categories": [
+        "applied_ai",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 10 \u2014 Hamilton-Jacobi-Bellman, Hamilton-Jacobi-Isaacs, and Reachibility Analysis\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: htt"
     },
     {
       "id": "GBd7iuJkW08",
@@ -1305,6 +1453,23 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
     },
     {
+      "id": "1YdgSwEtf_s",
+      "title": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "url": "https://www.youtube.com/watch?v=1YdgSwEtf_s",
+      "duration": 4445,
+      "published_at": "2026-08-12T00:00:00+00:00",
+      "series": null,
+      "series_display": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "lecture_num": 8,
+      "score": 9,
+      "categories": [
+        "algorithms",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 8 \u2014 Nonlinearity: Tracking LQR, Iterative LQR, Differential Dynamic Programming\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: htt"
+    },
+    {
       "id": "Qh7Oxvo5sJI",
       "title": "Stanford MS&E435 Economics of the AI Supercycle | Spring 2026 | Applications, Applied AI",
       "url": "https://www.youtube.com/watch?v=Qh7Oxvo5sJI",
@@ -1621,21 +1786,6 @@
         "series:CS221"
       ],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs221-artificial-intelligence-principles-and-techniques\n\nPlease follow along with the course schedule: https://stanford-cs221.github.io/autumn2025/\n\nFollow the playlist: https://yout"
-    },
-    {
-      "id": "NMFyMlwmwP8",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Bringing AI Up To Speed",
-      "url": "https://www.youtube.com/watch?v=NMFyMlwmwP8",
-      "duration": 4437,
-      "published_at": "2026-02-11T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nJanuary 30, 2026\nThis seminar covers: \n\u2022 How to refine testing methodologies to advance the safety of autonomous vehicles\n\u2022 How high-speed autonomous racing provides a unique proving ground to test the boundaries of AI\u2019s physical capabilities\n\u2022 How racing at high speeds and in close prox"
     },
     {
       "id": "popjDuA-whA",
@@ -2120,89 +2270,6 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:38 Diffusion\n00:05:23 Score matching\n00:13:02 Flow matching\n00:19:04 Latent space and guidance\n00:25:11 Image generation architectures\n00:29:47 M"
-    },
-    {
-      "id": "Au2stLALZew",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 1: Course Overview",
-      "url": "https://www.youtube.com/watch?v=Au2stLALZew",
-      "duration": 4403,
-      "published_at": "2026-08-11T00:00:00+00:00",
-      "series": "AA203",
-      "series_display": "AA203",
-      "lecture_num": 1,
-      "score": 5,
-      "categories": [
-        "swe_career",
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nLecture 1 \u2014 Course Overview; Introduction to Nonlinear Optimization\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com  \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203"
-    },
-    {
-      "id": "FbkNYklySak",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 2: Optimization Theory",
-      "url": "https://www.youtube.com/watch?v=FbkNYklySak",
-      "duration": 4741,
-      "published_at": "2026-08-11T00:00:00+00:00",
-      "series": "AA203",
-      "series_display": "AA203",
-      "lecture_num": 2,
-      "score": 5,
-      "categories": [
-        "swe_career",
-        "robotics"
-      ],
-      "description": "Lecture 2 \u2014 Optimization Theory\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com   \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ \n\nLecture sli"
-    },
-    {
-      "id": "duZJ2_ajLso",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 3: Calculus of Variations",
-      "url": "https://www.youtube.com/watch?v=duZJ2_ajLso",
-      "duration": 4977,
-      "published_at": "2026-08-11T00:00:00+00:00",
-      "series": "AA203",
-      "series_display": "AA203",
-      "lecture_num": 3,
-      "score": -4,
-      "categories": [
-        "algorithms",
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "Lecture 3 \u2014 Calculus of Variations\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ \n\nLecture sl"
-    },
-    {
-      "id": "7rejaoMWviw",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 4: Optimal Control",
-      "url": "https://www.youtube.com/watch?v=7rejaoMWviw",
-      "duration": 5089,
-      "published_at": "2026-08-11T00:00:00+00:00",
-      "series": "AA203",
-      "series_display": "AA203",
-      "lecture_num": 4,
-      "score": -4,
-      "categories": [
-        "algorithms",
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "Lecture 4 \u2014 Indirect Methods for Optimal Control\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526"
-    },
-    {
-      "id": "R4_fHzTo0IM",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 5: Computational Methods",
-      "url": "https://www.youtube.com/watch?v=R4_fHzTo0IM",
-      "duration": 4684,
-      "published_at": "2026-08-11T00:00:00+00:00",
-      "series": "AA203",
-      "series_display": "AA203",
-      "lecture_num": 5,
-      "score": -4,
-      "categories": [
-        "algorithms",
-        "robotics",
-        "healthcare_ai"
-      ],
-      "description": "Lecture 5 \u2014 Pontryagin\u2019s Minimum Principle and Computational Methods\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.gi"
     },
     {
       "id": "_U0EUX2E3k0",
