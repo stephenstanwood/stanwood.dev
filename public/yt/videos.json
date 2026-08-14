@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-08-13T10:30:17.339220+00:00",
+  "built_at": "2026-08-14T10:30:25.836153+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -27,7 +27,7 @@
       "is_single": false,
       "display_name": "AA203",
       "best_score": 14,
-      "video_count": 9,
+      "video_count": 18,
       "video_ids": [
         "Au2stLALZew",
         "FbkNYklySak",
@@ -37,7 +37,16 @@
         "zX8raxUa2DE",
         "hy-e9g4nugE",
         "C9mLpI8Td9g",
-        "Fl5EjGhQjgs"
+        "Fl5EjGhQjgs",
+        "3_gxaB_Pp3k",
+        "8Elrw30y0tg",
+        "RtJSHiqOdgQ",
+        "7YdOx-ih0II",
+        "udHX5Auj7ik",
+        "cqPbt3OfRK4",
+        "zanXSI7zSws",
+        "a1g9U_5zO54",
+        "ZXMThMHFD_w"
       ]
     },
     {
@@ -137,7 +146,7 @@
     {
       "key": "__single__1YdgSwEtf_s",
       "is_single": true,
-      "display_name": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "display_name": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: LQR-Style Algorithms",
       "best_score": 9,
       "video_count": 1,
       "video_ids": [
@@ -575,7 +584,7 @@
     },
     {
       "id": "7rejaoMWviw",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 4: Optimal Control",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 4: Indirect Methods",
       "url": "https://www.youtube.com/watch?v=7rejaoMWviw",
       "duration": 5089,
       "published_at": "2026-08-11T00:00:00+00:00",
@@ -609,7 +618,7 @@
     },
     {
       "id": "zX8raxUa2DE",
-      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 6: Optimal Control",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 6: Direct Methods",
       "url": "https://www.youtube.com/watch?v=zX8raxUa2DE",
       "duration": 4829,
       "published_at": "2026-08-12T00:00:00+00:00",
@@ -675,6 +684,158 @@
         "robotics"
       ],
       "description": "Lecture 10 \u2014 Hamilton-Jacobi-Bellman, Hamilton-Jacobi-Isaacs, and Reachibility Analysis\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: htt"
+    },
+    {
+      "id": "3_gxaB_Pp3k",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 11: Introduction to MPC",
+      "url": "https://www.youtube.com/watch?v=3_gxaB_Pp3k",
+      "duration": 4416,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 11,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 11 \u2014 Introduction to Model Predictive Control\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/s"
+    },
+    {
+      "id": "8Elrw30y0tg",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 12: Feasibility of MPC",
+      "url": "https://www.youtube.com/watch?v=8Elrw30y0tg",
+      "duration": 4526,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 12,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "Lecture 12 \u2014 Persistent Feasibility of MPC, Stability, and Explicit MPC\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com  \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordas"
+    },
+    {
+      "id": "RtJSHiqOdgQ",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 13: Intro to Learning",
+      "url": "https://www.youtube.com/watch?v=RtJSHiqOdgQ",
+      "duration": 4805,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 13,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 13 \u2014 Intro to Learning, System Identification, and Adaptive Control\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfor"
+    },
+    {
+      "id": "7YdOx-ih0II",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 14: Intro to IL and RL",
+      "url": "https://www.youtube.com/watch?v=7YdOx-ih0II",
+      "duration": 4422,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 14,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 14 \u2014 Intro to Imitation Learning and Reinforcement Learning\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.git"
+    },
+    {
+      "id": "udHX5Auj7ik",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 15: Imitation Learning",
+      "url": "https://www.youtube.com/watch?v=udHX5Auj7ik",
+      "duration": 4772,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 15,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 15 \u2014 Imitation Learning\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2526/ \n\nLecture slide"
+    },
+    {
+      "id": "cqPbt3OfRK4",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 16: Fundamentals of RL",
+      "url": "https://www.youtube.com/watch?v=cqPbt3OfRK4",
+      "duration": 4431,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 16,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 16 \u2014 Fundamentals of Reinforcement Learning\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/sp2"
+    },
+    {
+      "id": "zanXSI7zSws",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 17: RL Value-Based Methods",
+      "url": "https://www.youtube.com/watch?v=zanXSI7zSws",
+      "duration": 4660,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 17,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Model-free Reinforcement Learning: Value-based Methods\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github.io/aa203/"
+    },
+    {
+      "id": "a1g9U_5zO54",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 18: RL Policy Optimization",
+      "url": "https://www.youtube.com/watch?v=a1g9U_5zO54",
+      "duration": 4818,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 18,
+      "score": 1,
+      "categories": [
+        "civic_open",
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 18 \u2014 Model-free Reinforcement Learning: Policy Optimization\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.git"
+    },
+    {
+      "id": "ZXMThMHFD_w",
+      "title": "Stanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 19: Model-Based RL",
+      "url": "https://www.youtube.com/watch?v=ZXMThMHFD_w",
+      "duration": 4910,
+      "published_at": "2026-08-13T00:00:00+00:00",
+      "series": "AA203",
+      "series_display": "AA203",
+      "lecture_num": 19,
+      "score": -4,
+      "categories": [
+        "algorithms",
+        "robotics",
+        "healthcare_ai"
+      ],
+      "description": "Lecture 19 \u2014 Model-based Reinforcement Learning and Conclusions\n\nRead the companion textbook, Principles of Robot Autonomy, free online: https://porabook.com \n\nTo learn more about enrolling in AA203 Optimal and Learning-Based Control, visit: https://online.stanford.edu/courses/aa203-optimal-and-learning-based-control \n\nFollow along with the course schedule and syllabus: https://stanfordasl.github."
     },
     {
       "id": "GBd7iuJkW08",
@@ -1454,12 +1615,12 @@
     },
     {
       "id": "1YdgSwEtf_s",
-      "title": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "title": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: LQR-Style Algorithms",
       "url": "https://www.youtube.com/watch?v=1YdgSwEtf_s",
       "duration": 4445,
       "published_at": "2026-08-12T00:00:00+00:00",
       "series": null,
-      "series_display": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: Nonlinearity",
+      "series_display": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: LQR-Style Algorithms",
       "lecture_num": 8,
       "score": 9,
       "categories": [
