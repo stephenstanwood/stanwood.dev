@@ -1,5 +1,29 @@
 [
   {
+    "name": "Gemini 3.7 Flash",
+    "org": "Google",
+    "date": "2026-08-13",
+    "type": "model",
+    "summary": "Build coding agents on a cheaper workhorse model — $0.75 per million input tokens and $3.75 output, half the old Flash price through December 31. Generally available now in the Gemini API as gemini-3.7-flash.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/"
+  },
+  {
+    "name": "Harness v0.1",
+    "org": "DeepSeek",
+    "date": "2026-08-13",
+    "type": "tool",
+    "summary": "Run an open-source terminal coding agent under the MIT license, with models, tools, sandboxes, and UI all swappable plugins. Points at DeepSeek, Anthropic, OpenAI, or any OpenAI-compatible endpoint. Developer preview, so expect breaking changes.",
+    "url": "https://github.com/deepseek-ai/deepseek-harness"
+  },
+  {
+    "name": "LFM2.5-VL-3B",
+    "org": "Liquid AI",
+    "date": "2026-08-12",
+    "type": "model",
+    "summary": "Read screens, ground objects, and call tools with a 3B vision model that runs on a phone or laptop and sends no images to a server. Open weights on Hugging Face in GGUF, ONNX, and MLX, with llama.cpp support day one.",
+    "url": "https://www.liquid.ai/blog/lfm2-5-vl-3b"
+  },
+  {
     "name": "Grok Bot",
     "org": "xAI",
     "date": "2026-08-11",
@@ -38,29 +62,5 @@
     "type": "model",
     "summary": "Generate up to 30 seconds of video with native audio in one pass — from text, an image, or up to 30 reference files. Timestamp-level editing redoes single moments. Public developer API opened August 7, verified at 480p and 720p.",
     "url": "https://evolink.ai/blog/seedance-2-5-api-status"
-  },
-  {
-    "name": "GOAT plan",
-    "org": "Command Code",
-    "date": "2026-08-06",
-    "type": "tool",
-    "summary": "Pay $10 a month for $70 of credits across 33 coding models — DeepSeek V4 Flash, GLM-5.2, Qwen 3.8, GPT-5.6 Luna, Kimi K — and swap between them mid-session with /model. Capped at $14 per 5 hours.",
-    "url": "https://commandcode.ai/docs/plans/goat"
-  },
-  {
-    "name": "GPT-5.6 Luna on the free tier",
-    "org": "OpenAI",
-    "date": "2026-08-06",
-    "type": "model",
-    "summary": "Free ChatGPT accounts now get unlimited text chats and Luna as the default model, plus a Think button for harder questions. Limits still apply to file uploads and images. Rolling out through the week of August 10.",
-    "url": "https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/"
-  },
-  {
-    "name": "Agent Plugins 1.0",
-    "org": "Agentic AI Foundation",
-    "date": "2026-08-06",
-    "type": "tool",
-    "summary": "Package your agent skills and MCP servers into one folder — a plugin.json plus a skills/ dir — and load it in VS Code, Cursor, Copilot, ChatGPT, Codex, or Kiro. Write the extension once, run it everywhere.",
-    "url": "https://agent-plugins.org/"
   }
 ]
