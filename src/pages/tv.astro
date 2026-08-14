@@ -1263,16 +1263,16 @@ function seriesVideos(series: Series): QueueVideo[] {
     function bootstrapSync() {
       if (localStorage.getItem(SYNC_FLAG)) return;
       try {
-        const watched = JSON.parse(localStorage.getItem('stanford-queue-watched-v1') || '[]');
-        const sHidden = JSON.parse(localStorage.getItem('stanford-hidden-v1') || '[]');
+        const stanfordWatched = JSON.parse(localStorage.getItem('stanford-queue-watched-v1') || '[]');
+        const stanfordHidden = JSON.parse(localStorage.getItem('stanford-hidden-v1') || '[]');
         // Legacy broader-hidden-v1 mixes likes and passes, so never replay it
         // to the server. Only the action-specific stores below are safe.
-        const bLiked = new Set(JSON.parse(localStorage.getItem('broader-liked-v1') || '[]'));
-        const bPassed = new Set(JSON.parse(localStorage.getItem('broader-passed-v1') || '[]'));
-        watched.forEach(id => sendMark(id, 'stanford', 'like'));
-        sHidden.forEach(id => sendMark(id, 'stanford', 'pass'));
-        bPassed.forEach(id => sendMark(id, 'broader', 'pass'));
-        bLiked.forEach(id => sendMark(id, 'broader', 'like'));
+        const broaderLiked = new Set(JSON.parse(localStorage.getItem('broader-liked-v1') || '[]'));
+        const broaderPassed = new Set(JSON.parse(localStorage.getItem('broader-passed-v1') || '[]'));
+        stanfordWatched.forEach(id => sendMark(id, 'stanford', 'like'));
+        stanfordHidden.forEach(id => sendMark(id, 'stanford', 'pass'));
+        broaderPassed.forEach(id => sendMark(id, 'broader', 'pass'));
+        broaderLiked.forEach(id => sendMark(id, 'broader', 'like'));
         localStorage.setItem(SYNC_FLAG, String(Date.now()));
       } catch {}
     }

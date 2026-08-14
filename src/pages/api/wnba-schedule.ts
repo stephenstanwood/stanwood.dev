@@ -42,17 +42,17 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       8000,
     );
     if (!res.ok) return errJson(`Upstream ${res.status}`, 502);
-    const j: RawSchedule = await res.json();
-    if (!Array.isArray(j.leagueSchedule?.gameDates)) {
+    const schedule: RawSchedule = await res.json();
+    if (!Array.isArray(schedule.leagueSchedule?.gameDates)) {
       return errJson("Unexpected WNBA schedule response", 502);
     }
-    const out: Record<string, string> = {};
-    for (const day of j.leagueSchedule.gameDates) {
-      for (const g of day.games || []) {
-        if (g.gameCode && g.gameId) out[g.gameCode] = g.gameId;
+    const gameIdsByCode: Record<string, string> = {};
+    for (const day of schedule.leagueSchedule.gameDates) {
+      for (const game of day.games || []) {
+        if (game.gameCode && game.gameId) gameIdsByCode[game.gameCode] = game.gameId;
       }
     }
-    return okJson(out, {
+    return okJson(gameIdsByCode, {
       "Cache-Control":
         "public, max-age=0, s-maxage=300, stale-while-revalidate=21600",
     });

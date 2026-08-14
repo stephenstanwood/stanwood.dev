@@ -23,9 +23,15 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     if (!res.ok) throw new Error(`open-meteo ${res.status}`);
 
     const data = await res.json();
-    const temp = Math.round(data.current.temperature_2m);
-    const code = data.current.weather_code as number;
-    const [emoji, desc] = wmoInfo(code);
+    // Guard the upstream shape — a schema drift here would otherwise render
+    // "☀️ NaN°F" and get CDN-cached for half an hour.
+    const current = data?.current;
+    if (typeof current?.temperature_2m !== "number" || typeof current?.weather_code !== "number") {
+      throw new Error("unexpected open-meteo response shape");
+    }
+
+    const temp = Math.round(current.temperature_2m);
+    const [emoji, desc] = wmoInfo(current.weather_code);
 
     const weather = `${emoji} ${temp}°F ${desc.toLowerCase()}`;
 

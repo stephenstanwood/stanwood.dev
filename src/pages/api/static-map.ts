@@ -40,9 +40,8 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
 
   for (const key of allowed) {
     // markers and style can appear multiple times
-    const values = url.searchParams.getAll(key);
-    for (const v of values) {
-      target.searchParams.append(key, v);
+    for (const value of url.searchParams.getAll(key)) {
+      target.searchParams.append(key, value);
     }
   }
 
