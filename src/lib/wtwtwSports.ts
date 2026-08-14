@@ -539,16 +539,16 @@ export async function fetchMlbGamePks(
     const url = `https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=${isoDate}`;
     const res = await fetch(url);
     if (!res.ok) return new Map();
-    const j: StatsApiSchedule = await res.json();
-    const map = new Map<string, number>();
-    for (const day of j.dates || []) {
-      for (const g of day.games || []) {
-        const away = statsApiTeamAbbr(g.teams?.away?.team);
-        const home = statsApiTeamAbbr(g.teams?.home?.team);
-        if (away && home) map.set(`${away}|${home}`, g.gamePk);
+    const schedule: StatsApiSchedule = await res.json();
+    const gamePksByMatchup = new Map<string, number>();
+    for (const day of schedule.dates || []) {
+      for (const game of day.games || []) {
+        const away = statsApiTeamAbbr(game.teams?.away?.team);
+        const home = statsApiTeamAbbr(game.teams?.home?.team);
+        if (away && home) gamePksByMatchup.set(`${away}|${home}`, game.gamePk);
       }
     }
-    return map;
+    return gamePksByMatchup;
   } catch {
     return new Map();
   }
@@ -595,8 +595,8 @@ export async function fetchWnbaGameIds(): Promise<Map<string, string>> {
   try {
     const res = await fetch("/api/wnba-schedule");
     if (!res.ok) return new Map();
-    const j: Record<string, string> = await res.json();
-    return new Map(Object.entries(j));
+    const gameIdsByCode: Record<string, string> = await res.json();
+    return new Map(Object.entries(gameIdsByCode));
   } catch {
     return new Map();
   }

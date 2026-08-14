@@ -6,6 +6,11 @@ export const PACIFIC_TZ = "America/Los_Angeles";
 type DateInput = Date | string | number;
 
 const MONTH_DAY = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+const MONTH_DAY_YEAR = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+});
 const HOUR_MINUTE = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
 
 function toDate(d: DateInput): Date {
@@ -15,6 +20,11 @@ function toDate(d: DateInput): Date {
 /** e.g. "May 16" */
 export function formatMonthDay(d: DateInput): string {
   return MONTH_DAY.format(toDate(d));
+}
+
+/** e.g. "May 16, 2026" */
+export function formatMonthDayYear(d: DateInput): string {
+  return MONTH_DAY_YEAR.format(toDate(d));
 }
 
 /** e.g. "3:45 PM" */

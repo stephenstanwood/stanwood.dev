@@ -1,3 +1,4 @@
+import { formatMonthDayYear } from "./dateFormat";
 import { MS_PER_DAY } from "./time";
 
 // ── Types ────────────────────────────────────────────────────────
@@ -161,12 +162,7 @@ export function daysUntil(dateStr: string | null): number | null {
 
 export function formatRenewalDate(dateStr: string | null): string {
   if (!dateStr) return "???";
-  const date = new Date(dateStr + "T00:00:00");
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  return formatMonthDayYear(new Date(dateStr + "T00:00:00"));
 }
 
 export function sortDomainsByRenewal(domains: Domain[]): Domain[] {

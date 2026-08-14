@@ -18,6 +18,7 @@ import {
   formatRenewalDate,
   sortDomainsByRenewal,
 } from "../../lib/money";
+import { formatMonthDayYear } from "../../lib/dateFormat";
 import { MS_PER_WEEK } from "../../lib/time";
 
 const TAGLINES = [
@@ -73,13 +74,7 @@ export default function MoneyDashboard() {
   const monthly = apiTotal + subsTotal;
   const annualDomains = getAnnualDomainsTotal(data.domains);
   const annualRunRate = getAnnualRunRate(data);
-  const updated = data.lastUpdated
-    ? new Date(data.lastUpdated).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      })
-    : "never";
+  const updated = data.lastUpdated ? formatMonthDayYear(data.lastUpdated) : "never";
 
   return (
     <>

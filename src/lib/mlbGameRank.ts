@@ -86,9 +86,6 @@ function getRunnersOnBase(situation: MLBSituation | undefined): number {
   return count;
 }
 
-// CLEANUP-FLAG: scoreColorStyle here and in nbaNow.ts share a win/loss/neutral
-// shape but use entirely different palettes (gold vs green) and signatures;
-// unifying them would mean passing three colors in, which isn't obviously better.
 function computeWatchScore(game: Game): number {
   const comp = game.competitions?.[0];
   if (!comp) return 0;
@@ -294,6 +291,9 @@ function renderRHE(away: Competitor, home: Competitor): string {
 
 // Gold for the leader, dim for the trailer, neutral when tied or no score yet.
 // Matches both hero and row styles — `glowBlur` controls the text-shadow size.
+// CLEANUP-FLAG: this and scoreColorStyle in nbaNow.ts share a win/loss/neutral
+// shape but use entirely different palettes (gold vs green) and signatures;
+// unifying them would mean passing three colors in, which isn't obviously better.
 function scoreColorStyle(myScore: number, theirScore: number, showScores: boolean, glowBlur: number): string {
   if (!showScores) return "color:#e5e7eb;";
   if (myScore > theirScore) return `color:#fbbf24;text-shadow:0 0 ${glowBlur}px rgba(251,191,36,0.4);`;
