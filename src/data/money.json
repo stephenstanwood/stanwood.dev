@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-14T06:10:18.111Z",
+  "lastUpdated": "2026-08-14T13:10:14.375Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-14T06:10:18.111Z",
+        "collectedAt": "2026-08-14T13:10:14.375Z",
         "services": {
           "vercel": {
-            "totalCents": 5581,
+            "totalCents": 5627,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 5375
+                "cents": 5415
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 116
+                "cents": 120
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 31
+                "cents": 32
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -246,7 +246,7 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 6
+                "cents": 7
               },
               {
                 "name": "Blob Data Transfer",
@@ -320,6 +320,13 @@
   },
   "subscriptions": [
     {
+      "name": "Anthropic",
+      "cents": 25028,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Aug 2026; 3 Mercury charges combined"
+    },
+    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -360,13 +367,6 @@
       "category": "data",
       "url": "https://www.meetup.com/pro",
       "note": "required for SBS Meetup API"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 5028,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Aug 2026; 2 Mercury charges combined"
     },
     {
       "name": "Google Cloud",
