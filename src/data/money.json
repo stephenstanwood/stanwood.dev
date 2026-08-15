@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-15T06:10:15.903Z",
+  "lastUpdated": "2026-08-15T13:10:19.530Z",
   "apiSpend": {
     "months": [
       {
@@ -211,18 +211,18 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-15T06:10:15.903Z",
+        "collectedAt": "2026-08-15T13:10:19.530Z",
         "services": {
           "vercel": {
-            "totalCents": 6225,
+            "totalCents": 6273,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 5994
+                "cents": 6036
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 133
+                "cents": 138
               },
               {
                 "name": "Fluid Active CPU",
@@ -253,15 +253,15 @@
                 "cents": 3
               },
               {
+                "name": "Image Optimization Transformation",
+                "cents": 2
+              },
+              {
                 "name": "Image Optimization Cache Writes",
                 "cents": 1
               },
               {
                 "name": "Edge Requests - Additional CPU Duration",
-                "cents": 1
-              },
-              {
-                "name": "Image Optimization Transformation",
                 "cents": 1
               },
               {
@@ -321,10 +321,10 @@
   "subscriptions": [
     {
       "name": "Anthropic",
-      "cents": 25028,
+      "cents": 27529,
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Aug 2026; 3 Mercury charges combined"
+      "note": "Mercury actual Aug 2026; 4 Mercury charges combined"
     },
     {
       "name": "Claude Max",
