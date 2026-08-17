@@ -1,5 +1,29 @@
 [
   {
+    "name": "GPT-5.6 Luna on ChatGPT Free",
+    "org": "OpenAI",
+    "date": "2026-08-15",
+    "type": "model",
+    "summary": "Free and Go accounts now get unlimited text chats on the current-generation model, with the old five-hour caps gone. Limits on images, files, and tools stay as they were. Rolling out in ChatGPT.",
+    "url": "https://www.unite.ai/openai-gives-free-chatgpt-users-unlimited-text-chats-on-gpt-5-6-luna/"
+  },
+  {
+    "name": "Qwen3.8-27B",
+    "org": "Alibaba",
+    "date": "2026-08-14",
+    "type": "model",
+    "summary": "Run a 27B multimodal model on a 16GB GPU or Mac — text, images, and video, 262K context, nothing leaving your machine. Apache 2.0 weights on Hugging Face, with quantized builds down to 9GB.",
+    "url": "https://the-decoder.com/alibabas-qwen-team-releases-qwen-3-8-models-with-open-weights-under-the-apache-2-0-license/"
+  },
+  {
+    "name": "GLM-5.3",
+    "org": "Z.ai",
+    "date": "2026-08-14",
+    "type": "model",
+    "summary": "Point a coding agent at the company's strongest coder yet — same base model as 5.2, every gain from post-training. Usable now via the GLM Coding Plan from $12.60/month. Open weights wait on a safety review.",
+    "url": "https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/"
+  },
+  {
     "name": "Gemini 3.7 Flash",
     "org": "Google",
     "date": "2026-08-13",
@@ -24,14 +48,6 @@
     "url": "https://www.liquid.ai/blog/lfm2-5-vl-3b"
   },
   {
-    "name": "Grok Bot",
-    "org": "xAI",
-    "date": "2026-08-11",
-    "type": "tool",
-    "summary": "Hand off real work to agents that keep running after you close the laptop — they operate signed-in apps and websites, run scheduled routines, and coordinate with each other. macOS, Windows, Linux, and iOS beta. Needs Cursor Ultra at $200/month.",
-    "url": "https://www.macrumors.com/2026/08/11/grok-bot-macos-ios/"
-  },
-  {
     "name": "Muse Glimmer",
     "org": "Meta",
     "date": "2026-08-10",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Edit images by pointing: a magic wand changes only the region you select, segmentation picks precise areas, and background removal exports subjects with transparency. Takes up to five reference images at once. Live on grok.com/imagine and the mobile apps.",
     "url": "https://www.unite.ai/xai-ships-grok-imagine-image-2-0-with-precise-editing-and-a-top-arena-ranking/"
-  },
-  {
-    "name": "Kitesurf",
-    "org": "Cloudflare",
-    "date": "2026-08-07",
-    "type": "tool",
-    "summary": "Run agent browsing on a cloud browser built for the job, not Chromium — about 3x less CPU and 5x less memory on screenshots, scraping, and form fills, though roughly 1.7x slower. Free in beta on Cloudflare Workers.",
-    "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
-  },
-  {
-    "name": "Seedance 2.5",
-    "org": "ByteDance",
-    "date": "2026-08-07",
-    "type": "model",
-    "summary": "Generate up to 30 seconds of video with native audio in one pass — from text, an image, or up to 30 reference files. Timestamp-level editing redoes single moments. Public developer API opened August 7, verified at 480p and 720p.",
-    "url": "https://evolink.ai/blog/seedance-2-5-api-status"
   }
 ]
