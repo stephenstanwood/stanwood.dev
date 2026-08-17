@@ -214,7 +214,7 @@ export async function fetchNextBatch(
   // Build source order: chosen first, then remaining sources as fallbacks
   const sourceOrder = [plan[chosenIdx], ...plan.filter((_, i) => i !== chosenIdx)];
 
-  let candidates: TmdbMediaItem[] = [];
+  const candidates: TmdbMediaItem[] = [];
 
   for (const entry of sourceOrder) {
     // Try up to 5 pages per source, across a wider page range

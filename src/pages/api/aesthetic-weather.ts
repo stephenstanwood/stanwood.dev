@@ -81,6 +81,11 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     };
 
     // Build hourly forecast for next 12 hours
+    // CLEANUP-FLAG: `forecast_days=1` returns exactly 24 hourly entries (today
+    // only), so slicing from the current hour yields fewer than 12 entries any
+    // time after noon — a 6pm request gets 6. Fixing it means asking Open-Meteo
+    // for `forecast_days=2`, which changes the payload this route serves, so
+    // it's a behavior change rather than cleanup.
     const hourlyIdx = pacificNow.getHours();
     const hourly = data.hourly;
     const forecast: HourlyForecast = {

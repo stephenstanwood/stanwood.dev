@@ -12,49 +12,30 @@ const VALID_ACTIONS = new Set<TmdbAction>([
   "trending", "discover", "now_playing", "tv_on_the_air", "videos",
 ]);
 
-// Cache for repeated identical TMDB URL builds (e.g. multiple cards requesting same discover params)
-const urlCache = new Map<string, string>();
-const URL_CACHE_MAX = 50;
-
 function buildTmdbUrl(
   action: TmdbAction,
   mediaType: "movie" | "tv",
   params: Record<string, string | number | boolean>,
 ): string {
-  const cacheKey = `${action}:${mediaType}:${JSON.stringify(params)}`;
-  const cached = urlCache.get(cacheKey);
-  if (cached) return cached;
-
   const qs = new URLSearchParams({ language: "en-US" });
   for (const [key, val] of Object.entries(params)) {
     if (key !== "id") qs.set(key, String(val));
   }
 
-  let url: string;
   switch (action) {
     case "trending":
-      url = `${TMDB_BASE}/trending/${mediaType}/week?${qs}`;
-      break;
+      return `${TMDB_BASE}/trending/${mediaType}/week?${qs}`;
     case "now_playing":
-      url = `${TMDB_BASE}/movie/now_playing?${qs}`;
-      break;
+      return `${TMDB_BASE}/movie/now_playing?${qs}`;
     case "tv_on_the_air":
-      url = `${TMDB_BASE}/tv/on_the_air?${qs}`;
-      break;
+      return `${TMDB_BASE}/tv/on_the_air?${qs}`;
     case "discover":
-      url = `${TMDB_BASE}/discover/${mediaType}?${qs}`;
-      break;
+      return `${TMDB_BASE}/discover/${mediaType}?${qs}`;
     case "videos":
-      url = `${TMDB_BASE}/${mediaType}/${params.id}/videos?${qs}`;
-      break;
+      return `${TMDB_BASE}/${mediaType}/${params.id}/videos?${qs}`;
     default:
       throw new Error(`Unknown action: ${action}`);
   }
-
-  // Safe: size >= URL_CACHE_MAX guarantees at least one entry exists
-  if (urlCache.size >= URL_CACHE_MAX) urlCache.delete(urlCache.keys().next().value!);
-  urlCache.set(cacheKey, url);
-  return url;
 }
 
 export const POST: APIRoute = async ({ request, clientAddress }) => {

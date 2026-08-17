@@ -148,14 +148,9 @@ function buildUserMessage(
   profile: TasteProfile,
   constraints: DietaryConstraints,
 ): string {
-  const dietary =
-    constraints.dietary.length > 0
-      ? constraints.dietary.join(", ")
-      : "None";
-  const disliked =
-    constraints.disliked.length > 0
-      ? constraints.disliked.join(", ")
-      : "None";
+  const listOrNone = (items: string[]) => (items.length > 0 ? items.join(", ") : "None");
+  const dietary = listOrNone(constraints.dietary);
+  const disliked = listOrNone(constraints.disliked);
 
   return `Restaurant: ${restaurantName}
 Location: ${location}
@@ -240,9 +235,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
 
     const photoCount = restaurantPhotos.length;
 
+    // One pass over the three photo cases — each arm both assigns the photos and
+    // names the source, so the two can't drift apart.
+    let photoSource: string;
     if (photoCount >= 2) {
       recommendation.optionA.photoUrl = restaurantPhotos[0];
       recommendation.optionB.photoUrl = restaurantPhotos[1];
+      photoSource = "google-places";
     } else if (photoCount === 1) {
       recommendation.optionA.photoUrl = restaurantPhotos[0];
       if (recommendation.optionB.photoQuery) {
@@ -252,6 +251,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
         );
         if (fallback) recommendation.optionB.photoUrl = fallback;
       }
+      photoSource = "google-places+pexels";
     } else {
       const [photoA, photoB] = await Promise.all([
         recommendation.optionA.photoQuery
@@ -263,12 +263,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       ]);
       if (photoA) recommendation.optionA.photoUrl = photoA;
       if (photoB) recommendation.optionB.photoUrl = photoB;
+      photoSource = "pexels";
     }
-
-    let photoSource: string;
-    if (photoCount >= 2) photoSource = "google-places";
-    else if (photoCount === 1) photoSource = "google-places+pexels";
-    else photoSource = "pexels";
 
     logEvent("green-light-recommend", {
       restaurant: trimmedName,

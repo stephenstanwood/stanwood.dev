@@ -130,35 +130,19 @@ const DURATIONS: DurationOption[] = [
   { value: 120, label: "2 hours" },
 ];
 
+// Paces are shown exactly as stored ("1:30"), so the label is always the value.
+const paceOptions = (times: string[]): PaceOption[] =>
+  times.map((time) => ({ value: time, label: time }));
+
 const PACES: Record<string, PaceOption[]> = {
-  meters: [
-    { value: "1:20", label: "1:20" },
-    { value: "1:25", label: "1:25" },
-    { value: "1:30", label: "1:30" },
-    { value: "1:35", label: "1:35" },
-    { value: "1:40", label: "1:40" },
-    { value: "1:45", label: "1:45" },
-    { value: "1:50", label: "1:50" },
-    { value: "1:55", label: "1:55" },
-    { value: "2:00", label: "2:00" },
-    { value: "2:10", label: "2:10" },
-    { value: "2:20", label: "2:20" },
-    { value: "2:30", label: "2:30" },
-  ],
-  yards: [
-    { value: "1:10", label: "1:10" },
-    { value: "1:15", label: "1:15" },
-    { value: "1:20", label: "1:20" },
-    { value: "1:25", label: "1:25" },
-    { value: "1:30", label: "1:30" },
-    { value: "1:35", label: "1:35" },
-    { value: "1:40", label: "1:40" },
-    { value: "1:45", label: "1:45" },
-    { value: "1:50", label: "1:50" },
-    { value: "2:00", label: "2:00" },
-    { value: "2:10", label: "2:10" },
-    { value: "2:20", label: "2:20" },
-  ],
+  meters: paceOptions([
+    "1:20", "1:25", "1:30", "1:35", "1:40", "1:45",
+    "1:50", "1:55", "2:00", "2:10", "2:20", "2:30",
+  ]),
+  yards: paceOptions([
+    "1:10", "1:15", "1:20", "1:25", "1:30", "1:35",
+    "1:40", "1:45", "1:50", "2:00", "2:10", "2:20",
+  ]),
 };
 
 // ─── Chevron SVG pattern (for background flair) ────────────────────────────────

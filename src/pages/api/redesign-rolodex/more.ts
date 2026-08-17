@@ -31,8 +31,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
           .slice(0, 50)
           .map((n: string) => n.slice(0, 100))
       : [];
+    // `typeof === "number"` alone lets NaN/Infinity/fractions through, and each
+    // one lands in a React `key` on the client. Require a plain counter value.
     const nextId: number =
-      typeof body?.nextId === "number" ? body.nextId : previousNames.length + 2;
+      Number.isInteger(body?.nextId) && body.nextId >= 0
+        ? body.nextId
+        : previousNames.length + 2;
 
     const parsed = parseRequestUrl(body?.url);
     if (parsed instanceof Response) return parsed;
