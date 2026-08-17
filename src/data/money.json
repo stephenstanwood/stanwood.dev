@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-16T19:10:16.384Z",
+  "lastUpdated": "2026-08-17T01:10:43.054Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-16T19:10:16.384Z",
+        "collectedAt": "2026-08-17T01:10:43.054Z",
         "services": {
           "vercel": {
-            "totalCents": 7034,
+            "totalCents": 7392,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 6776
+                "cents": 7130
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 151
+                "cents": 152
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 37
+                "cents": 38
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -246,7 +246,7 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 8
+                "cents": 9
               },
               {
                 "name": "Blob Data Transfer",
@@ -269,6 +269,10 @@
                 "cents": 1
               },
               {
+                "name": "Blob Simple Operations",
+                "cents": 1
+              },
+              {
                 "name": "ISR Reads",
                 "cents": 1
               }
@@ -276,30 +280,8 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 5356,
-            "breakdown": [
-              {
-                "name": "claude-sonnet-5",
-                "cents": 1710
-              },
-              {
-                "name": "claude-opus-5",
-                "cents": 1521
-              },
-              {
-                "name": "claude-fable-5",
-                "cents": 1266
-              },
-              {
-                "name": "claude-opus-4-8",
-                "cents": 843
-              },
-              {
-                "name": "claude-haiku-4-5",
-                "cents": 16
-              }
-            ],
-            "note": "computed from API key token usage (excludes Claude Code on Max)"
+            "totalCents": null,
+            "note": "Anthropic API 503: {\"type\":\"error\",\"error\":{\"type\":\"overloaded_error\",\"message\":\"Service temporarily unavailable. Please try again later.\"},\"request_id\":\"req_011Ce7Rq2gkjT66LeTbL4UwR\"}"
           },
           "openai": {
             "totalCents": 0,
