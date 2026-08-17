@@ -12,6 +12,9 @@ const client = getAnthropicClient();
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // ~10 MB of base64 chars
 
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"] as const;
+type AllowedType = (typeof ALLOWED_TYPES)[number];
+
 export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress, 20)) return rateLimitResponse();
 
@@ -36,8 +39,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const match = image.match(/^data:(image\/[\w+.-]+);base64,(.+)$/);
   if (!match) return errJson("invalid image format — send a base64 data URL", 400);
 
-  const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"] as const;
-  type AllowedType = (typeof ALLOWED_TYPES)[number];
   if (!ALLOWED_TYPES.includes(match[1] as AllowedType)) {
     return errJson("unsupported image type — use JPEG, PNG, GIF, or WebP", 400);
   }
