@@ -225,13 +225,16 @@ async function getOrCreateLinkedInDailyBatch(
   `) as Array<{ batch_date: string }>;
   const weekendBreak = isLinkedInBatchRestDay(today);
 
+  const readBatchRows = async (date: string) =>
+    (await sql`
+      SELECT stable_id, position
+      FROM linkedin_outreach_daily_batch
+      WHERE batch_date = CAST(${date} AS date)
+      ORDER BY position ASC
+    `) as DailyBatchRow[];
+
   let batchDate = today;
-  let rows = (await sql`
-    SELECT stable_id, position
-    FROM linkedin_outreach_daily_batch
-    WHERE batch_date = CAST(${batchDate} AS date)
-    ORDER BY position ASC
-  `) as DailyBatchRow[];
+  let rows = await readBatchRows(batchDate);
 
   // Weekends: never mint a fresh 50. Keep today's leftovers if a snapshot
   // already exists; otherwise keep working the most recent weekday batch.
@@ -246,12 +249,7 @@ async function getOrCreateLinkedInDailyBatch(
     `) as Array<{ batch_date: string }>;
     if (prior[0]?.batch_date) {
       batchDate = prior[0].batch_date;
-      rows = (await sql`
-        SELECT stable_id, position
-        FROM linkedin_outreach_daily_batch
-        WHERE batch_date = CAST(${batchDate} AS date)
-        ORDER BY position ASC
-      `) as DailyBatchRow[];
+      rows = await readBatchRows(batchDate);
     }
   } else if (rows.length === 0) {
     const candidates = nextLinkedInDailyBatch(people);
@@ -272,12 +270,7 @@ async function getOrCreateLinkedInDailyBatch(
         )
         ON CONFLICT DO NOTHING
       `;
-      rows = (await sql`
-        SELECT stable_id, position
-        FROM linkedin_outreach_daily_batch
-        WHERE batch_date = CAST(${batchDate} AS date)
-        ORDER BY position ASC
-      `) as DailyBatchRow[];
+      rows = await readBatchRows(batchDate);
     }
   }
 
