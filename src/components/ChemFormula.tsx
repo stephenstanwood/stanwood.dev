@@ -1,12 +1,27 @@
 import { useState, useEffect } from 'react';
 
-const elements = [
+const ELEMENTS = [
   { symbol: 'Cl', number: '17', name: 'Chlorine', bg: '#2196F3', accent: '#0d47a1' },
   { symbol: 'Cf', number: '☕', name: 'Coffee', bg: '#5C3D2E', accent: '#3a2418' },
   { symbol: 'Cc', number: '✦', name: 'Claude\nCode', bg: '#FF6B2B', accent: '#c44a10' },
 ];
 
 type Phase = 'idle' | 'slide-in' | 'react' | 'product' | 'hold';
+
+/**
+ * One loop of the reaction animation. Each step waits `delayMs` after the previous
+ * one, then applies its state; the last step's delay is the hold before the loop
+ * restarts from the top.
+ */
+const ANIMATION_STEPS: { delayMs: number; phase?: Phase; visibleCount?: number }[] = [
+  { delayMs: 400, phase: 'slide-in', visibleCount: 1 },
+  { delayMs: 500, visibleCount: 2 },
+  { delayMs: 500, visibleCount: 3 },
+  { delayMs: 1500, phase: 'react' },
+  { delayMs: 700, phase: 'product' },
+  { delayMs: 600, phase: 'hold' },
+  { delayMs: 4000 },
+];
 
 export default function ChemFormula({ compact = false }: { compact?: boolean }) {
   const [phase, setPhase] = useState<Phase>('idle');
@@ -17,33 +32,20 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
 
-    function run() {
-      setPhase('idle');
-      setVisibleCount(0);
-
+    function runStep(index: number) {
+      if (index === 0) {
+        setPhase('idle');
+        setVisibleCount(0);
+      }
+      const step = ANIMATION_STEPS[index];
       timeout = setTimeout(() => {
-        setPhase('slide-in');
-        setVisibleCount(1);
-        timeout = setTimeout(() => {
-          setVisibleCount(2);
-          timeout = setTimeout(() => {
-            setVisibleCount(3);
-            timeout = setTimeout(() => {
-              setPhase('react');
-              timeout = setTimeout(() => {
-                setPhase('product');
-                timeout = setTimeout(() => {
-                  setPhase('hold');
-                  timeout = setTimeout(() => run(), 4000);
-                }, 600);
-              }, 700);
-            }, 1500);
-          }, 500);
-        }, 500);
-      }, 400);
+        if (step.phase !== undefined) setPhase(step.phase);
+        if (step.visibleCount !== undefined) setVisibleCount(step.visibleCount);
+        runStep((index + 1) % ANIMATION_STEPS.length);
+      }, step.delayMs);
     }
 
-    run();
+    runStep(0);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -82,7 +84,7 @@ export default function ChemFormula({ compact = false }: { compact?: boolean }) 
         justifyContent: compact ? 'flex-start' : 'center',
         flexWrap: 'wrap',
       }}>
-        {showElements && elements.map((el, i) => (
+        {showElements && ELEMENTS.map((el, i) => (
           <div key={el.symbol} style={{ display: 'flex', alignItems: 'center', gap: `${gap}px` }}>
             {i > 0 && visibleCount > i && (
               <span style={{
