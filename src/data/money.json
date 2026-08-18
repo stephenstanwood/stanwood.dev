@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-17T19:10:13.642Z",
+  "lastUpdated": "2026-08-18T01:10:19.335Z",
   "apiSpend": {
     "months": [
       {
@@ -211,26 +211,88 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-17T19:10:13.642Z",
+        "collectedAt": "2026-08-18T01:10:19.335Z",
         "services": {
           "vercel": {
-            "totalCents": null,
-            "note": "Vercel API 500: {\"error\":{\"code\":\"usage_data_fetch_failed\",\"message\":\"Failed to fetch usage data. Please try again.\"}}"
+            "totalCents": 9931,
+            "breakdown": [
+              {
+                "name": "Build CPU Minutes",
+                "cents": 9653
+              },
+              {
+                "name": "Blob Storage Size",
+                "cents": 160
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 41
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 17
+              },
+              {
+                "name": "Function Invocations",
+                "cents": 16
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 12
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 12
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 9
+              },
+              {
+                "name": "Blob Data Transfer",
+                "cents": 4
+              },
+              {
+                "name": "Image Optimization Transformation",
+                "cents": 2
+              },
+              {
+                "name": "Image Optimization Cache Writes",
+                "cents": 1
+              },
+              {
+                "name": "Edge Requests - Additional CPU Duration",
+                "cents": 1
+              },
+              {
+                "name": "Image Optimization Cache Reads",
+                "cents": 1
+              },
+              {
+                "name": "Blob Simple Operations",
+                "cents": 1
+              },
+              {
+                "name": "ISR Reads",
+                "cents": 1
+              }
+            ],
+            "note": null
           },
           "anthropic": {
-            "totalCents": 5710,
+            "totalCents": 6001,
             "breakdown": [
               {
                 "name": "claude-opus-5",
-                "cents": 1815
+                "cents": 1914
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 1730
+                "cents": 1810
               },
               {
                 "name": "claude-fable-5",
-                "cents": 1305
+                "cents": 1416
               },
               {
                 "name": "claude-opus-4-8",
@@ -238,7 +300,7 @@
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 17
+                "cents": 18
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
