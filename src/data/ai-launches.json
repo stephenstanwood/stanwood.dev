@@ -16,14 +16,6 @@
     "url": "https://the-decoder.com/alibabas-qwen-team-releases-qwen-3-8-models-with-open-weights-under-the-apache-2-0-license/"
   },
   {
-    "name": "GLM-5.3",
-    "org": "Z.ai",
-    "date": "2026-08-14",
-    "type": "model",
-    "summary": "Point a coding agent at the company's strongest coder yet — same base model as 5.2, every gain from post-training. Usable now via the GLM Coding Plan from $12.60/month. Open weights wait on a safety review.",
-    "url": "https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/"
-  },
-  {
     "name": "Gemini 3.7 Flash",
     "org": "Google",
     "date": "2026-08-13",
@@ -40,6 +32,14 @@
     "url": "https://github.com/deepseek-ai/deepseek-harness"
   },
   {
+    "name": "Grok 4.6",
+    "org": "xAI",
+    "date": "2026-08-12",
+    "type": "model",
+    "summary": "Point agents at a frontier-grade model for $2 per million input tokens and $6 output, with a 500K context window. Currently the cheapest model at the top of the intelligence rankings. Live in the API now.",
+    "url": "https://openrouter.ai/x-ai/grok-4.6"
+  },
+  {
     "name": "LFM2.5-VL-3B",
     "org": "Liquid AI",
     "date": "2026-08-12",
@@ -48,12 +48,12 @@
     "url": "https://www.liquid.ai/blog/lfm2-5-vl-3b"
   },
   {
-    "name": "Muse Glimmer",
-    "org": "Meta",
-    "date": "2026-08-10",
-    "type": "model",
-    "summary": "Run a 30B open-weight agentic model offline on one consumer GPU — 24GB VRAM for the K-quant build, or a 32GB Mac. Handles text, images, and video, plus tool calling. Apache 2.0, GGUF on Hugging Face.",
-    "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model"
+    "name": "Kitesurf",
+    "org": "Cloudflare",
+    "date": "2026-08-07",
+    "type": "tool",
+    "summary": "Run browser agents on a headless browser built for machines, not people — 3-7x less CPU and memory than Chromium. Drives via a CDP endpoint, so existing Puppeteer, Playwright, and MCP clients work. Free during beta.",
+    "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
   },
   {
     "name": "Grok Imagine Image 2.0",
