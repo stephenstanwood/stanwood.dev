@@ -1,5 +1,21 @@
 [
   {
+    "name": "Pika Audio",
+    "org": "Pika",
+    "date": "2026-08-18",
+    "type": "model",
+    "summary": "Score a video, generate a song from lyrics, make sound effects from a sentence, or clone a voice at 48kHz. Four audio models, up to 20x cheaper than comparable ones, through the $10/month API Club.",
+    "url": "https://experiment.pika.art/blog"
+  },
+  {
+    "name": "/design in Claude Code",
+    "org": "Anthropic",
+    "date": "2026-08-17",
+    "type": "tool",
+    "summary": "Type /design and get editable UI artboards that match your codebase's existing style — pick one, tweak it, then have Claude implement it. Research preview in the CLI and desktop app on Pro, Max, Team, and Enterprise.",
+    "url": "https://the-decoder.com/claude-code-gets-a-design-command-that-lets-developers-create-ui-mockups-right-in-the-terminal/"
+  },
+  {
     "name": "GPT-5.6 Luna on ChatGPT Free",
     "org": "OpenAI",
     "date": "2026-08-15",
@@ -40,27 +56,11 @@
     "url": "https://openrouter.ai/x-ai/grok-4.6"
   },
   {
-    "name": "LFM2.5-VL-3B",
-    "org": "Liquid AI",
-    "date": "2026-08-12",
+    "name": "Muse Glimmer",
+    "org": "Meta",
+    "date": "2026-08-10",
     "type": "model",
-    "summary": "Read screens, ground objects, and call tools with a 3B vision model that runs on a phone or laptop and sends no images to a server. Open weights on Hugging Face in GGUF, ONNX, and MLX, with llama.cpp support day one.",
-    "url": "https://www.liquid.ai/blog/lfm2-5-vl-3b"
-  },
-  {
-    "name": "Kitesurf",
-    "org": "Cloudflare",
-    "date": "2026-08-07",
-    "type": "tool",
-    "summary": "Run browser agents on a headless browser built for machines, not people — 3-7x less CPU and memory than Chromium. Drives via a CDP endpoint, so existing Puppeteer, Playwright, and MCP clients work. Free during beta.",
-    "url": "https://techcrunch.com/2026/08/07/cloudflare-launches-kitesurf-a-browser-built-for-ai-agents/"
-  },
-  {
-    "name": "Grok Imagine Image 2.0",
-    "org": "xAI",
-    "date": "2026-08-07",
-    "type": "model",
-    "summary": "Edit images by pointing: a magic wand changes only the region you select, segmentation picks precise areas, and background removal exports subjects with transparency. Takes up to five reference images at once. Live on grok.com/imagine and the mobile apps.",
-    "url": "https://www.unite.ai/xai-ships-grok-imagine-image-2-0-with-precise-editing-and-a-top-arena-ranking/"
+    "summary": "Run a 30B agentic model on your own machine for tool calling, coding, and image input. Quantizes under 20GB, so an M4 Mac or an RTX card handles it. Apache 2.0 weights on Hugging Face, plus Ollama and LM Studio.",
+    "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model"
   }
 ]
