@@ -9,7 +9,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
   slug="nearest-coffee"
   favicon="/favicon-coffee.svg"
   themeColor="#FAFAF8"
-  fontsUrl="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+  fontsUrl="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@400;500;600&display=swap"
   schemaCategory="LifestyleApplication"
 >
   <Fragment slot="head">
@@ -504,58 +504,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         animation: nc-fadeIn 0.45s ease 0.1s both;
       }
 
-      /* ── For moments like ── */
-      .nc-forwhen {
-        margin-top: 40px;
-        margin-bottom: 8px;
-      }
-      @media (min-width: 768px) {
-        .nc-forwhen { margin-top: 48px; }
-      }
-      .nc-forwhen-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: #9A9A9A;
-        margin-bottom: 22px;
-      }
-      .nc-forwhen-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-      @media (min-width: 640px) {
-        .nc-forwhen-grid { grid-template-columns: 1fr 1fr; gap: 22px 44px; }
-      }
-      .nc-forwhen-item {
-        display: flex;
-        gap: 14px;
-        align-items: baseline;
-      }
-      .nc-forwhen-num {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-style: italic;
-        font-size: 18px;
-        color: #C0BDB8;
-        font-weight: 400;
-        flex-shrink: 0;
-        min-width: 22px;
-      }
-      .nc-forwhen-text {
-        font-size: 14px;
-        line-height: 1.65;
-        color: #4A4A4A;
-        margin: 0;
-      }
-      .nc-forwhen-text em {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-style: italic;
-        font-weight: 500;
-        color: #1A1A1A;
-      }
-
       /* ── How it works ── */
       .nc-how {
         margin-top: 40px;
@@ -584,46 +532,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         font-size: 13px;
         line-height: 1.7;
         color: #6B6B6B;
-      }
-
-      /* ── Tips callout ── */
-      .nc-tips {
-        margin: 40px 0 0;
-        background: #F5F2EC;
-        border-radius: 4px;
-        padding: 22px 24px 24px;
-        border-left: 3px solid #5C4033;
-      }
-      @media (min-width: 768px) {
-        .nc-tips { margin-top: 48px; }
-      }
-      .nc-tips-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: #5C4033;
-        margin-bottom: 14px;
-      }
-      .nc-tips ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 11px;
-      }
-      .nc-tips li {
-        font-size: 13.5px;
-        line-height: 1.65;
-        color: #4A4A4A;
-      }
-      .nc-tips em {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-style: italic;
-        font-weight: 500;
-        color: #1A1A1A;
       }
 
       /* ── Reduced motion ── */
@@ -664,31 +572,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       <hr class="nc-rule" style="margin-top: 40px;">
 
-      <!-- For moments like -->
-      <section class="nc-forwhen" aria-label="Why this exists">
-        <span class="nc-forwhen-label">Built for moments like</span>
-        <div class="nc-forwhen-grid">
-          <div class="nc-forwhen-item">
-            <span class="nc-forwhen-num">i.</span>
-            <p class="nc-forwhen-text"><em>You&rsquo;re early for a meeting</em> in a strange neighborhood and need somewhere to land for twenty minutes.</p>
-          </div>
-          <div class="nc-forwhen-item">
-            <span class="nc-forwhen-num">ii.</span>
-            <p class="nc-forwhen-text"><em>The cafe you wanted is closed</em> and you need a fast Plan B before the morning slips away.</p>
-          </div>
-          <div class="nc-forwhen-item">
-            <span class="nc-forwhen-num">iii.</span>
-            <p class="nc-forwhen-text"><em>You&rsquo;re visiting a friend</em> and want to suggest somewhere walkable instead of staring at Google Maps.</p>
-          </div>
-          <div class="nc-forwhen-item">
-            <span class="nc-forwhen-num">iv.</span>
-            <p class="nc-forwhen-text"><em>You just need a desk for an hour</em> and don&rsquo;t care which chain &mdash; closest open seat wins.</p>
-          </div>
-        </div>
-      </section>
-
-      <hr class="nc-rule" style="margin-top: 40px;">
-
       <!-- How it works -->
       <section class="nc-how">
         <div class="nc-how-grid">
@@ -706,19 +589,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           </div>
         </div>
       </section>
-
-      <hr class="nc-rule" style="margin-top: 40px;">
-
-      <aside class="nc-tips" aria-label="Pro tips">
-        <span class="nc-tips-label">Pro tips</span>
-        <ul>
-          <li><em>Indie spot?</em> A short menu, visible roast dates, and a real pastry supplier are good signs. Order the thing the board is proud of.</li>
-          <li><em>Chain drive-thru?</em> Stick to drip, cold brew, or a basic latte. Built for speed and consistency, not slow bar nuance.</li>
-          <li><em>&ldquo;Open now&rdquo; lies sometimes.</em> Google&rsquo;s hours are usually right, but call ahead for tiny shops with weird hours.</li>
-          <li><em>Need a desk?</em> Favor the result with tables, outlets, and a rating over 4.3. Closest is not always the place to sit.</li>
-        </ul>
-      </aside>
-
     </div>
 
     <script>
