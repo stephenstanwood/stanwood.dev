@@ -49,6 +49,19 @@ Common mistakes to avoid:
 - Don't leave large empty areas — fill the 400×280 viewport intentionally
 - Don't forget to set font-family on text elements`;
 
+/** The `directions` array shape both prompts ask the model to return. */
+const DIRECTIONS_JSON_SHAPE = `  "directions": [
+    {
+      "name": "...",
+      "tagline": "...",
+      "palette": ["#...", "#...", "#...", "#...", "#..."],
+      "fontDirection": "...",
+      "layoutNotes": "...",
+      "artDirection": "...",
+      "conceptHtml": "..."
+    }
+  ]`;
+
 export function buildAnalyzePrompt(url: string, mode: WeirdnessMode): string {
   return `You are an expert design director generating radically different redesign directions for a website.
 
@@ -101,17 +114,7 @@ Return valid JSON only (no markdown fences, no commentary):
     "title": "...",
     "description": "..."
   },
-  "directions": [
-    {
-      "name": "...",
-      "tagline": "...",
-      "palette": ["#...", "#...", "#...", "#...", "#..."],
-      "fontDirection": "...",
-      "layoutNotes": "...",
-      "artDirection": "...",
-      "conceptHtml": "..."
-    }
-  ]
+${DIRECTIONS_JSON_SHAPE}
 }`;
 }
 
@@ -158,16 +161,6 @@ ${CONCEPT_HTML_RULES}
 Return valid JSON only:
 
 {
-  "directions": [
-    {
-      "name": "...",
-      "tagline": "...",
-      "palette": ["#...", "#...", "#...", "#...", "#..."],
-      "fontDirection": "...",
-      "layoutNotes": "...",
-      "artDirection": "...",
-      "conceptHtml": "..."
-    }
-  ]
+${DIRECTIONS_JSON_SHAPE}
 }`;
 }

@@ -160,15 +160,7 @@ function RedesignRolodexTileInner() {
     return (
       <div className="proj-tile rrt">
         <div className="rrt-idle">
-          <div className="rrt-header-block">
-            <div className="rrt-title-row">
-              <TileIcon />
-              <div>
-                <div className="rrt-tile-title">Redesign Rolodex</div>
-                <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
-              </div>
-            </div>
-          </div>
+          <TileHeader />
           <div className="rrt-error">{stream.error || "Something went wrong."}</div>
           <button className="rrt-again-idle" onClick={() => stream.reset()}>try again</button>
         </div>
@@ -180,15 +172,7 @@ function RedesignRolodexTileInner() {
   return (
     <div className="proj-tile rrt">
       <div className="rrt-idle">
-        <div className="rrt-header-block">
-          <div className="rrt-title-row">
-            <TileIcon />
-            <div>
-              <div className="rrt-tile-title">Redesign Rolodex</div>
-              <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
-            </div>
-          </div>
-        </div>
+        <TileHeader />
         <form className="rrt-form" onSubmit={handleSubmit}>
           <div className="rrt-input-wrap">
             <input
@@ -235,6 +219,20 @@ function RedesignRolodexTileInner() {
               {ex}
             </button>
           ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TileHeader() {
+  return (
+    <div className="rrt-header-block">
+      <div className="rrt-title-row">
+        <TileIcon />
+        <div>
+          <div className="rrt-tile-title">Redesign Rolodex</div>
+          <div className="rrt-tile-sub">paste a URL, get alternate-universe redesigns</div>
         </div>
       </div>
     </div>

@@ -30,6 +30,25 @@ function formatElapsed(ms: number): string {
   return `${totalDays}d ago`;
 }
 
+/** The receipt with a single status row — what the tile shows before the fetch lands
+ *  and when the deploy lookup comes back empty. */
+function ReceiptStub({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="proj-tile sct-tile">
+      <div className="sct-inner">
+        <div className="sct-logo">stanwood.dev</div>
+        <div className="sct-header">
+          <span className="sct-store">latest update</span>
+        </div>
+        <div className="sct-row">
+          <span className="sct-row-label">{label}</span>
+          {value && <span className="sct-row-value">{value}</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ShipClockTile() {
   const [data, setData] = useState<DeployData | null>(null);
   const [elapsed, setElapsed] = useState("");
@@ -52,38 +71,9 @@ export default function ShipClockTile() {
     return () => clearInterval(id);
   }, [data?.lastDeploy]);
 
-  if (!data) {
-    return (
-      <div className="proj-tile sct-tile">
-        <div className="sct-inner">
-          <div className="sct-logo">stanwood.dev</div>
-          <div className="sct-header">
-            <span className="sct-store">latest update</span>
-          </div>
-          <div className="sct-row">
-            <span className="sct-row-label">loading…</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (!data) return <ReceiptStub label="loading…" />;
 
-  if (data.error || !data.lastDeploy) {
-    return (
-      <div className="proj-tile sct-tile">
-        <div className="sct-inner">
-          <div className="sct-logo">stanwood.dev</div>
-          <div className="sct-header">
-            <span className="sct-store">latest update</span>
-          </div>
-          <div className="sct-row">
-            <span className="sct-row-label">status</span>
-            <span className="sct-row-value">offline</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (data.error || !data.lastDeploy) return <ReceiptStub label="status" value="offline" />;
 
   const deployDate = new Date(data.lastDeploy);
   const dayName = deployDate.toLocaleDateString("en-US", { weekday: "short" }).toLowerCase();

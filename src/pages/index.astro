@@ -77,6 +77,18 @@ const latestMobile = [
   { href: "/ship-clock", emoji: "🕒", name: "Ship Clock", tag: "days since the last deploy", image: "/images/ship-clock.webp", mobileOnly: true },
   { href: "/radar", emoji: "📡", name: "AI Radar", tag: "curated AI launches for builders", image: "/images/ai-radar.webp", mobileOnly: true },
 ];
+
+// Marquee phrases. The @keyframes ticker animation scrolls to translateX(-50%),
+// so the list has to be rendered exactly twice for the loop to be seamless.
+const tickerPhrases = [
+  "\u00a0\u00a0\u00a0stanwood.dev",
+  "building tools to make life simpler & more fun",
+  "campbell, california",
+  "one more commit...",
+  "that looks cool!",
+  "what if we tried this...",
+  "wait, what just happened?",
+];
 ---
 
 <BaseLayout
@@ -1780,34 +1792,12 @@ const latestMobile = [
   <!-- Ticker -->
   <div class="ticker-wrap" title="hover to pause">
     <div class="ticker-inner">
-      &nbsp;&nbsp;&nbsp;stanwood.dev
-      <span class="ticker-sep">◆</span>
-      building tools to make life simpler & more fun
-      <span class="ticker-sep">◆</span>
-      campbell, california
-      <span class="ticker-sep">◆</span>
-      one more commit...
-      <span class="ticker-sep">◆</span>
-      that looks cool!
-      <span class="ticker-sep">◆</span>
-      what if we tried this...
-      <span class="ticker-sep">◆</span>
-      wait, what just happened?
-      <span class="ticker-sep">◆</span>
-      &nbsp;&nbsp;&nbsp;stanwood.dev
-      <span class="ticker-sep">◆</span>
-      building tools to make life simpler & more fun
-      <span class="ticker-sep">◆</span>
-      campbell, california
-      <span class="ticker-sep">◆</span>
-      one more commit...
-      <span class="ticker-sep">◆</span>
-      that looks cool!
-      <span class="ticker-sep">◆</span>
-      what if we tried this...
-      <span class="ticker-sep">◆</span>
-      wait, what just happened?
-      <span class="ticker-sep">◆</span>
+      {[...tickerPhrases, ...tickerPhrases].map((phrase) => (
+        <>
+          {phrase}{" "}
+          <span class="ticker-sep">◆</span>
+        </>
+      ))}
     </div>
   </div>
 

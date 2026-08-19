@@ -448,6 +448,21 @@ function mainPullSet(target: number, pace: number, rng: Rng): SetItem[] {
   return [{ reps, distance: dist, interval, description: `Pull — ${desc}`, stroke: "free", equipment: "pull" }];
 }
 
+/**
+ * Wrap one round's worth of items into a single "Nx through:" group set. The group's
+ * distance is the round total, so callers only describe the round itself.
+ */
+function roundsThrough(rounds: number, items: SetItem[]): SetItem[] {
+  return [{
+    reps: rounds,
+    distance: items.reduce((total, item) => total + item.distance, 0),
+    description: `${rounds}x through:`,
+    stroke: "free",
+    isGroup: true,
+    items,
+  }];
+}
+
 function mainMixedGear(target: number, pace: number, rng: Rng): SetItem[] {
   const swimDist = rng.pick([200, 300]);
   const pullDist = rng.pick([200, 300]);
@@ -459,17 +474,11 @@ function mainMixedGear(target: number, pace: number, rng: Rng): SetItem[] {
   const pullInterval = calcInterval(pullDist, pace, 10);
   const kickInterval = calcInterval(kickDist, pace, 20);
 
-  return [{
-    reps: rounds, distance: roundTotal,
-    description: `${rounds}x through:`,
-    stroke: "free",
-    isGroup: true,
-    items: [
-      { reps: 1, distance: swimDist, interval: swimInterval, description: "Swim free — strong", stroke: "free" },
-      { reps: 1, distance: pullDist, interval: pullInterval, description: "Pull free", stroke: "free", equipment: "pull" },
-      { reps: 1, distance: kickDist, interval: kickInterval, description: "Kick choice", stroke: "choice", equipment: "kickboard" },
-    ],
-  }];
+  return roundsThrough(rounds, [
+    { reps: 1, distance: swimDist, interval: swimInterval, description: "Swim free — strong", stroke: "free" },
+    { reps: 1, distance: pullDist, interval: pullInterval, description: "Pull free", stroke: "free", equipment: "pull" },
+    { reps: 1, distance: kickDist, interval: kickInterval, description: "Kick choice", stroke: "choice", equipment: "kickboard" },
+  ]);
 }
 
 function mainIMSet(target: number, pace: number, rng: Rng): SetItem[] {
@@ -587,16 +596,10 @@ function mainWave(target: number, pace: number, rng: Rng): SetItem[] {
   const rounds = niceReps(target / roundTotal);
   const fastInterval = calcInterval(fastDist, pace, 8);
   const easyInterval = calcInterval(easyDist, pace, 15);
-  return [{
-    reps: rounds, distance: roundTotal,
-    description: `${rounds}x through:`,
-    stroke: "free",
-    isGroup: true,
-    items: [
-      { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — strong effort", stroke: "free" },
-      { reps: 1, distance: easyDist, interval: easyInterval, description: "Free — easy recovery", stroke: "free" },
-    ],
-  }];
+  return roundsThrough(rounds, [
+    { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — strong effort", stroke: "free" },
+    { reps: 1, distance: easyDist, interval: easyInterval, description: "Free — easy recovery", stroke: "free" },
+  ]);
 }
 
 function mainOddsEvens(target: number, pace: number, rng: Rng): SetItem[] {
@@ -681,16 +684,10 @@ function mainRacePace(target: number, pace: number, rng: Rng): SetItem[] {
   const rounds = niceReps(target / roundTotal);
   const fastInterval = calcInterval(fastDist, pace, 5);
   const recoveryInterval = calcInterval(recoveryDist, pace, 20);
-  return [{
-    reps: rounds, distance: roundTotal,
-    description: `${rounds}x through:`,
-    stroke: "free",
-    isGroup: true,
-    items: [
-      { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — race pace", stroke: "free" },
-      { reps: 1, distance: recoveryDist, interval: recoveryInterval, description: "Free — easy", stroke: "free" },
-    ],
-  }];
+  return roundsThrough(rounds, [
+    { reps: 1, distance: fastDist, interval: fastInterval, description: "Free — race pace", stroke: "free" },
+    { reps: 1, distance: recoveryDist, interval: recoveryInterval, description: "Free — easy", stroke: "free" },
+  ]);
 }
 
 function mainBuildSet(target: number, pace: number, rng: Rng): SetItem[] {
