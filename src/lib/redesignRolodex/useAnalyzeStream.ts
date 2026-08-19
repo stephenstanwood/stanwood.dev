@@ -15,14 +15,16 @@ interface StreamState {
   error: string;
 }
 
+/** Everything but `phase` reset — the shape both a fresh mount and a re-run start from. */
+const EMPTY_STREAM: Omit<StreamState, "phase"> = {
+  analysis: null,
+  screenshotBase64: "",
+  directions: [],
+  error: "",
+};
+
 export function useAnalyzeStream() {
-  const [state, setState] = useState<StreamState>({
-    phase: "idle",
-    analysis: null,
-    screenshotBase64: "",
-    directions: [],
-    error: "",
-  });
+  const [state, setState] = useState<StreamState>({ phase: "idle", ...EMPTY_STREAM });
   const abortRef = useRef<AbortController | null>(null);
 
   const analyze = useCallback(async (url: string, mode: WeirdnessMode) => {
@@ -31,13 +33,7 @@ export function useAnalyzeStream() {
     const ac = new AbortController();
     abortRef.current = ac;
 
-    setState({
-      phase: "screenshot",
-      analysis: null,
-      screenshotBase64: "",
-      directions: [],
-      error: "",
-    });
+    setState({ phase: "screenshot", ...EMPTY_STREAM });
 
     try {
       const res = await fetch("/api/redesign-rolodex/analyze", {
@@ -114,13 +110,7 @@ export function useAnalyzeStream() {
 
   const reset = useCallback(() => {
     abortRef.current?.abort();
-    setState({
-      phase: "idle",
-      analysis: null,
-      screenshotBase64: "",
-      directions: [],
-      error: "",
-    });
+    setState({ phase: "idle", ...EMPTY_STREAM });
   }, []);
 
   return { ...state, analyze, reset };
