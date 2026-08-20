@@ -1808,6 +1808,7 @@ function parseAgendaPublicHearingItems(text, record) {
         sourceType: "Agenda item",
         source: record.source,
         sourceUrl: record.agendaUrl,
+        agendaUrl: record.agendaUrl,
         noticeUrl: "",
         extractionNote: "",
       };
@@ -1823,6 +1824,66 @@ function hearingTimestamp(item) {
     .replace(/p\.m\./gi, "PM");
   const parsed = Date.parse(normalized);
   return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function richerText(first = "", second = "") {
+  const left = first.trim();
+  const right = second.trim();
+  return right.length > left.length ? right : left;
+}
+
+function hearingRecordsReferToSameFile(first, second) {
+  if (!first.fileNo || !second.fileNo) return false;
+  if (first.fileNo !== second.fileNo) return false;
+  if (first.body !== second.body) return false;
+
+  const firstTime = hearingTimestamp(first);
+  const secondTime = hearingTimestamp(second);
+  if (firstTime && secondTime) return firstTime === secondTime;
+
+  return compactText(first.hearingAt).toLowerCase() === compactText(second.hearingAt).toLowerCase();
+}
+
+function mergeHearingRecords(first, second) {
+  const primary = first.noticeUrl ? first : second.noticeUrl ? second : first;
+  const secondary = primary === first ? second : first;
+  const agendaUrl =
+    first.agendaUrl ||
+    second.agendaUrl ||
+    (first.sourceType === "Agenda item" ? first.sourceUrl : "") ||
+    (second.sourceType === "Agenda item" ? second.sourceUrl : "");
+
+  return {
+    ...primary,
+    hearingAt: primary.hearingAt || secondary.hearingAt,
+    summary: richerText(primary.summary, secondary.summary),
+    address: primary.address || secondary.address,
+    fileNo: primary.fileNo || secondary.fileNo,
+    planner: primary.planner || secondary.planner,
+    agendaUrl,
+    extractionNote: primary.extractionNote || secondary.extractionNote,
+  };
+}
+
+function dedupeHearingRecords(items) {
+  const merged = [];
+
+  for (const item of items) {
+    const existingIndex = merged.findIndex((existing) => {
+      const exactKey = `${item.body}|${item.title}|${item.hearingAt}`;
+      const existingKey = `${existing.body}|${existing.title}|${existing.hearingAt}`;
+      return exactKey === existingKey || hearingRecordsReferToSameFile(existing, item);
+    });
+
+    if (existingIndex < 0) {
+      merged.push(item);
+      continue;
+    }
+
+    merged[existingIndex] = mergeHearingRecords(merged[existingIndex], item);
+  }
+
+  return merged;
 }
 
 async function parsePublicHearings({ councilRecords, planningRecords, noticeArchives }) {
@@ -1865,11 +1926,7 @@ async function parsePublicHearings({ councilRecords, planningRecords, noticeArch
     });
   }
 
-  return hearingItems
-    .filter((item, index, list) => {
-      const key = `${item.body}|${item.title}|${item.hearingAt}`;
-      return list.findIndex((other) => `${other.body}|${other.title}|${other.hearingAt}` === key) === index;
-    })
+  return dedupeHearingRecords(hearingItems)
     .sort((a, b) => hearingTimestamp(b) - hearingTimestamp(a))
     .slice(0, 24);
 }

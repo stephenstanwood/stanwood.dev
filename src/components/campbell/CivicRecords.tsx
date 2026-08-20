@@ -22,6 +22,7 @@ interface PublicHearing {
   planner?: string;
   sourceType: string;
   sourceUrl: string;
+  agendaUrl?: string;
   noticeUrl?: string;
   extractionNote?: string;
 }
@@ -182,6 +183,11 @@ export default function CivicRecords() {
                 <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
                   {item.sourceType === "Agenda item" ? "Agenda packet" : "Notice archive"}
                 </a>
+                {item.agendaUrl && item.agendaUrl !== item.sourceUrl && (
+                  <a href={item.agendaUrl} target="_blank" rel="noopener noreferrer">
+                    Agenda packet
+                  </a>
+                )}
                 {item.noticeUrl && (
                   <a href={item.noticeUrl} target="_blank" rel="noopener noreferrer">
                     Notice PDF

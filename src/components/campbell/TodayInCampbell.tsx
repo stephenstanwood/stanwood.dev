@@ -29,6 +29,7 @@ interface PublicHearing {
   summary: string;
   sourceType: string;
   sourceUrl: string;
+  agendaUrl?: string;
   noticeUrl?: string;
 }
 
@@ -43,6 +44,10 @@ function eventIsUpcoming(event: CampbellEvent, dayEnd: Date) {
 
 function shortSummary(value: string) {
   return value.trim().replace(/\s+/g, " ").slice(0, 138);
+}
+
+function hearingUrl(hearing: PublicHearing) {
+  return hearing.noticeUrl || hearing.agendaUrl || hearing.sourceUrl;
 }
 
 export default function TodayInCampbell() {
@@ -80,7 +85,11 @@ export default function TodayInCampbell() {
   if (upcomingHearing) {
     cityHallFeature = (
       <div className="cb-today-feature">
-        <a href={upcomingHearing.hearing.noticeUrl || upcomingHearing.hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
+        <a
+          href={hearingUrl(upcomingHearing.hearing)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {upcomingHearing.hearing.title}
         </a>
         <span>{formatEventDay(upcomingHearing.date)} - {upcomingHearing.hearing.body}</span>
@@ -89,7 +98,11 @@ export default function TodayInCampbell() {
   } else if (recentHearings.length > 0) {
     cityHallFeature = (
       <div className="cb-today-feature">
-        <a href={recentHearings[0].hearing.noticeUrl || recentHearings[0].hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
+        <a
+          href={hearingUrl(recentHearings[0].hearing)}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Latest public notice
         </a>
         <span>{recentHearings[0].hearing.title}</span>
@@ -168,7 +181,12 @@ export default function TodayInCampbell() {
         <div className="cb-today-notices">
           <span>Recent public notices</span>
           {recentHearings.slice(0, 3).map(({ hearing, date }) => (
-            <a key={`${hearing.title}-${hearing.hearingAt}`} href={hearing.noticeUrl || hearing.sourceUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              key={`${hearing.title}-${hearing.hearingAt}`}
+              href={hearingUrl(hearing)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span className="cb-notice-date">{formatEventDay(date)}</span>
               {" "}
               <span className="cb-notice-title">{shortSummary(hearing.title)}</span>
