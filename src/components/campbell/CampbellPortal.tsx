@@ -130,6 +130,16 @@ function sectionFromHash(hash: string) {
   return SECTION_HASHES[hash.toLowerCase()] ?? null;
 }
 
+function scrollHashTargetIntoView() {
+  if (typeof window === "undefined") return;
+
+  const targetId = window.location.hash.slice(1);
+  if (!targetId) return;
+
+  const target = document.getElementById(decodeURIComponent(targetId));
+  if (target) target.scrollIntoView({ block: "start" });
+}
+
 function prefersReducedMotion() {
   if (typeof window === "undefined" || !("matchMedia" in window)) return false;
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -152,6 +162,11 @@ export default function CampbellPortal() {
     window.addEventListener("hashchange", syncHashSection);
     return () => window.removeEventListener("hashchange", syncHashSection);
   }, []);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(scrollHashTargetIntoView);
+    return () => window.cancelAnimationFrame(frame);
+  }, [active]);
 
   useEffect(() => {
     const rail = tabRailRef.current;
