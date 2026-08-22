@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-08-21T00:22:44.703Z",
+  "generatedAt": "2026-08-22T12:22:43.010Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 19,
-      "parsedCount": 19
+      "count": 17,
+      "parsedCount": 17
     },
     {
       "label": "Downtown Campbell Events",
       "sourceUrl": "https://www.downtowncampbell.com/events",
-      "count": 49,
-      "parsedCount": 49
+      "count": 50,
+      "parsedCount": 50
     },
     {
       "label": "Campbell Library Events",
@@ -41,8 +41,8 @@
     {
       "label": "Campbell Union School District Events",
       "sourceUrl": "https://www.campbellusd.org/calendar?locale=en",
-      "count": 13,
-      "parsedCount": 42
+      "count": 12,
+      "parsedCount": 41
     }
   ],
   "items": [
@@ -75,59 +75,11 @@
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
     },
     {
-      "title": "Board Meeting",
-      "date": "Aug 20, 2026, 5:30 PM PDT",
-      "cost": "",
-      "location": "",
-      "description": "From CUSD Public Meetings.",
-      "url": "https://www.campbellusd.org/calendar?locale=en",
-      "imageUrl": "",
-      "category": "Schools",
-      "startDate": "2026-08-20T17:30:00",
-      "source": "Campbell Union School District Events",
-      "sourceUrl": "https://calendar.google.com/calendar/ical/campbellusd.org_0k9apnhonup1kh5g71gfu76q8k%40group.calendar.google.com/public/basic.ics",
-      "topics": [
-        "CUSD Public Meetings"
-      ],
-      "endDate": "2026-08-20T19:30:00"
-    },
-    {
-      "title": "Summer Concert Series - The Megatones",
-      "date": "August 20, 2026, 6:30 PM - 8:00 PM",
-      "cost": "free",
-      "location": "Orchard City Green",
-      "description": "For almost 30 years now, The Megatones have delivered their unique dance medleys of contemporary rock classics to groovin' guys 'n gals throughout Northern California. Their crystal vocal harmonies, ripping solos, and compelling beats keep everyone dancing and their diverse...",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4002&month=8&year=2026&day=20&calType=0",
-      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/2879/images/themegatones_band.jpg?itok=_d8G19R5",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-08-20T18:30:00",
-      "endDate": "2026-08-20T20:00:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events"
-      ]
-    },
-    {
-      "title": "Free Movie Night - Super Mario Galaxy Movie (PG)",
-      "date": "August 21, 2026, 8:00 PM - 10:00 PM",
-      "cost": "",
-      "location": "Athletic Fields",
-      "description": "Movie Night Series featuring family friendly films will take place at different park locations in Campbell. Bring your lawn chairs, blankets and sweaters! Feel free to bring a picnic or snacks! Carpooling is recommended",
-      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4005&month=8&year=2026&day=21&calType=0",
-      "imageUrl": "",
-      "category": "Recreation & Community Services",
-      "startDate": "2026-08-21T20:00:00",
-      "endDate": "2026-08-21T22:00:00",
-      "source": "City of Campbell Calendar",
-      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
-    },
-    {
       "title": "Downtown Campbell Summer Sidewalk Sale",
       "date": "8/22/26",
       "cost": "",
       "location": "Downtown Campbell",
-      "description": "Bargain hunters, several times a year we have a sidewalk sale in Downtown Campbell where shops put their overstock and clearance items out to the curb for easy browsing for two days. On Saturday and Sunday August 22nd and...",
+      "description": "Bargain hunters, several times a year we have a sidewalk sale in Downtown Campbell where shops put their overstock and clearance items out to the curb for easy browsing for two days.",
       "url": "https://www.downtowncampbell.com/event/downtown-campbell-summer-sidewalk-sale-0",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/2026-summer-sidewalk-sale.png?itok=2IiJBbcf",
       "category": "Downtown",
@@ -518,6 +470,19 @@
       "description": "Join us for the Friends of the Campbell Library's monthly book sale held on the second Saturday of each month! There will be gently-used board books, children's books, and adult books available for purchase. We will also have...",
       "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=S2t7uzrP",
+      "category": "Downtown",
+      "startDate": "2026-09-12T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Wine & Wellness Benefit for Seeds of Hope Silicon Valley",
+      "date": "9/12/26",
+      "cost": "$75",
+      "location": "Ainsley House",
+      "description": "Join in for an inspiring afternoon of wellness and connection at the Ainsley House as we raise support to build a tiny home community for homeless neighbors in Silicon Valley.",
+      "url": "https://www.downtowncampbell.com/event/2026/09/wine-wellness-benefit-seeds-hope-silicon-valley",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/wine-wellness-banner-with-details.jpg?itok=ffTZHnF0",
       "category": "Downtown",
       "startDate": "2026-09-12T00:00:00",
       "source": "Downtown Campbell Events",
@@ -921,6 +886,19 @@
       "description": "",
       "url": "https://www.downtowncampbell.com/event/friends-campbell-library-second-saturday-book-sale",
       "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/uploads/users/1/images/no_dates_square_second_saturday_book_sales_2026.png?itok=i9SlZ4V9",
+      "category": "Downtown",
+      "startDate": "2026-10-10T00:00:00",
+      "source": "Downtown Campbell Events",
+      "sourceUrl": "https://www.downtowncampbell.com/events"
+    },
+    {
+      "title": "Pour for Paws SVACA Fundraiser",
+      "date": "10/10/26",
+      "cost": "$140+",
+      "location": "Villa Ragusa",
+      "description": "Join us for Pour for Paws in Campbell, an unforgettable evening benefiting the animals at Silicon Valley Animal Control Authority (SVACA). Every dollar raised provides shelter, medical care, and second chances for animals in our community.",
+      "url": "https://www.downtowncampbell.com/event/2026/10/pour-paws-svaca-fundraiser",
+      "imageUrl": "https://www.downtowncampbell.com/sites/default/files/styles/4-thirds_310/public/uploads/users/1/images/pour-for-paws-2026-invite.png?itok=ZegfqYkp",
       "category": "Downtown",
       "startDate": "2026-10-10T00:00:00",
       "source": "Downtown Campbell Events",
