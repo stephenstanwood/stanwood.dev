@@ -155,9 +155,6 @@ const picks = (RELATED[current] ?? [])
     font-size: 11px;
     color: #6b6b6b;
     line-height: 1.3;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   .xm-home {
     font-family: 'Space Mono', ui-monospace, Menlo, monospace;
@@ -175,9 +172,6 @@ const picks = (RELATED[current] ?? [])
   @media (max-width: 700px) {
     .xm-links {
       grid-template-columns: 1fr;
-    }
-    .xm-tag {
-      white-space: normal;
     }
   }
   @media (prefers-reduced-motion: reduce) {
