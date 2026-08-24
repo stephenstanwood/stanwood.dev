@@ -392,9 +392,9 @@ function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
     steps.pop();
   }
 
-  return steps.map((d, i) => ({
-    reps: 1, distance: d,
-    interval: calcInterval(d, pace, 10),
+  return steps.map((distance, i) => ({
+    reps: 1, distance,
+    interval: calcInterval(distance, pace, 10),
     description: `Free — ${positionLabel(i, steps.length, { first: "ease into it", middle: "settle in", last: "strong finish" })}`,
     stroke: "free" as Stroke,
   }));
@@ -405,7 +405,7 @@ function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
   const peak = Math.max(step * 2, Math.min(Math.round(target * 0.2 / step) * step, 500));
 
   const ascending: number[] = [];
-  for (let d = step; d <= peak; d += step) ascending.push(d);
+  for (let distance = step; distance <= peak; distance += step) ascending.push(distance);
   const descending = [...ascending].slice(0, -1).reverse();
   const pyramid = [...ascending, ...descending];
   const pyramidTotal = sum(pyramid);
@@ -415,9 +415,9 @@ function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
     const repDist = rng.pick([100, 200]);
     const repCount = niceReps(remaining / repDist);
     const interval = calcInterval(repDist, pace, 10);
-    const result: SetItem[] = pyramid.map((d, i) => ({
-      reps: 1, distance: d,
-      interval: calcInterval(d, pace, 10),
+    const result: SetItem[] = pyramid.map((distance, i) => ({
+      reps: 1, distance,
+      interval: calcInterval(distance, pace, 10),
       description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
       stroke: "free" as Stroke,
     }));
@@ -425,9 +425,9 @@ function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
     return result;
   }
 
-  return pyramid.map((d, i) => ({
-    reps: 1, distance: d,
-    interval: calcInterval(d, pace, 10),
+  return pyramid.map((distance, i) => ({
+    reps: 1, distance,
+    interval: calcInterval(distance, pace, 10),
     description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
     stroke: "free" as Stroke,
   }));
@@ -622,7 +622,7 @@ function mainCountdown(target: number, pace: number, rng: Rng): SetItem[] {
     [[100, 10], [200, 5], [300, 2]],
   ];
   const pattern = rng.pick(patterns);
-  const patternTotal = pattern.reduce((s, [d, r]) => s + d * r, 0);
+  const patternTotal = pattern.reduce((total, [distance, reps]) => total + distance * reps, 0);
   const scale = target / patternTotal;
 
   return pattern.map(([dist, baseReps], i) => {
@@ -766,9 +766,9 @@ function mainDescendLadder(target: number, pace: number, rng: Rng): SetItem[] {
   for (let r = 0; r < repeats; r++) fullSteps.push(...steps);
   while (sum(fullSteps) > target * 1.15 && fullSteps.length > 3) fullSteps.pop();
 
-  return fullSteps.map((d, i) => ({
-    reps: 1, distance: d,
-    interval: calcInterval(d, pace, 10),
+  return fullSteps.map((distance, i) => ({
+    reps: 1, distance,
+    interval: calcInterval(distance, pace, 10),
     description: `Free — ${positionLabel(i, fullSteps.length, { first: "long & steady", middle: "pick it up", last: "sprint to finish" })}`,
     stroke: "free" as Stroke,
   }));

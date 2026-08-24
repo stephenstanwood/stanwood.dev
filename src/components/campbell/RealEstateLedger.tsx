@@ -5,6 +5,7 @@ import {
   SOURCE_URLS,
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
+import LayerList from "./LayerList";
 
 const LEDGER_FIELDS = [
   { label: "Parcel", body: "APN, jurisdiction, tax-rate area, lot, zoning, and map links." },
@@ -128,26 +129,7 @@ export default function RealEstateLedger() {
         </p>
       </div>
 
-      <div className="cb-property-layer-list">
-        {PROPERTY_LAYERS.map((layer) => (
-          <a
-            key={layer.label}
-            href={layer.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-property-layer"
-          >
-            <div className="cb-property-layer-top">
-              <h4>{layer.label}</h4>
-              <span className={`cb-property-status cb-property-status--${layer.status.toLowerCase()}`}>
-                {layer.status}
-              </span>
-            </div>
-            <p>{layer.body}</p>
-            <em>{layer.sourceLabel}</em>
-          </a>
-        ))}
-      </div>
+      <LayerList layers={PROPERTY_LAYERS} prefix="cb-property" />
 
       <SourceCardGrid sources={REAL_ESTATE_SOURCES} />
 

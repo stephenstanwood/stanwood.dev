@@ -1,0 +1,43 @@
+---
+/**
+ * Homepage project tile: the linked card used by every `.proj-row` /
+ * `.tm-row` section. The static React island tiles (ShipClockTile,
+ * AIRadarTile, …) render their own `.proj-tile` markup and do not use this.
+ */
+
+interface Props {
+  href: string;
+  emoji: string;
+  name: string;
+  tag: string;
+  image?: string;
+  /** Defaults to `name`; set when the image describes more than the tile title. */
+  imageAlt?: string;
+  external?: boolean;
+  mobileOnly?: boolean;
+  /** Extra tile class, e.g. `tm-tile` for the civic-tech and trademark rows. */
+  variant?: string;
+}
+
+const { href, emoji, name, tag, image, imageAlt, external, mobileOnly, variant } = Astro.props;
+
+const className = [
+  "proj-tile",
+  variant,
+  image ? "has-img" : "",
+  mobileOnly ? "mobile-only" : "",
+]
+  .filter(Boolean)
+  .join(" ");
+
+const externalAttrs = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
+---
+
+<a class={className} href={href} {...externalAttrs}>
+  {image && <img class="proj-img" src={image} alt={imageAlt ?? name} loading="lazy" />}
+  <span class="proj-emoji">{emoji}</span>
+  <div class="proj-info">
+    <div class="proj-name">{name}</div>
+    <div class="proj-tag">{tag}</div>
+  </div>
+</a>

@@ -920,22 +920,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       // ── Geolocation ──
 
-      function doRequestLocation() {
-        requestGeolocation({
-          onLoading: renderLoading,
-          onPosition: (lat, lng) => {
-            userLat = lat;
-            userLng = lng;
-            fetchCoffeeShops(lat, lng);
-          },
-          onPermissionDenied: renderPermission,
-          onError: renderError,
-        });
-      }
-
-      // ── Init ──
-
-      initGeolocation({
+      const geoCallbacks = {
         onLoading: renderLoading,
         onPosition: (lat, lng) => {
           userLat = lat;
@@ -943,8 +928,15 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           fetchCoffeeShops(lat, lng);
         },
         onPermissionDenied: renderPermission,
-        onPermissionScreen: renderPermission,
         onError: renderError,
-      });
+      };
+
+      function doRequestLocation() {
+        requestGeolocation(geoCallbacks);
+      }
+
+      // ── Init ──
+
+      initGeolocation({ ...geoCallbacks, onPermissionScreen: renderPermission });
     </script>
 </BaseLayout>
