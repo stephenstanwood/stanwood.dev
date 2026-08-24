@@ -55,22 +55,38 @@ function plainSummary(summary: string) {
   return `${cleaned}.`;
 }
 
-function topicLabel(item: PublicHearing) {
-  const text = `${item.title} ${item.summary}`.toLowerCase();
-  if (/housing|residential|townhome|condominium|unit|subdivision|development/.test(text)) return "Housing and development";
-  if (/fee|tax|budget|capital improvement|cip|charge/.test(text)) return "Fees, taxes, and budget";
-  if (/beer|wine|entertainment|pharmacy|restaurant|bank|conditional use|use permit/.test(text)) return "Business and site use";
-  if (/eir|environment|ceqa|building code|california building code/.test(text)) return "Environment and code";
-  return "Public decision";
-}
+// First matching pattern wins; the fallback topic sits at the end of the list.
+const HEARING_TOPICS: { pattern: RegExp; label: string; impact: string }[] = [
+  {
+    pattern: /housing|residential|townhome|condominium|unit|subdivision|development/,
+    label: "Housing and development",
+    impact: "Why it matters: this could change what gets built, demolished, subdivided, or reviewed at the site.",
+  },
+  {
+    pattern: /fee|tax|budget|capital improvement|cip|charge/,
+    label: "Fees, taxes, and budget",
+    impact: "Why it matters: this could change city fees, business taxes, capital projects, or what services cost.",
+  },
+  {
+    pattern: /beer|wine|entertainment|pharmacy|restaurant|bank|conditional use|use permit/,
+    label: "Business and site use",
+    impact: "Why it matters: this could change how a Campbell property operates, including allowed uses or customer-facing activity.",
+  },
+  {
+    pattern: /eir|environment|ceqa|building code|california building code/,
+    label: "Environment and code",
+    impact: "Why it matters: this could affect development review, environmental impacts, or construction rules.",
+  },
+  {
+    pattern: /.*/,
+    label: "Public decision",
+    impact: "Why it matters: a public body is taking comments or making a decision on this item.",
+  },
+];
 
-function impactLine(item: PublicHearing) {
-  const topic = topicLabel(item);
-  if (topic === "Housing and development") return "Why it matters: this could change what gets built, demolished, subdivided, or reviewed at the site.";
-  if (topic === "Fees, taxes, and budget") return "Why it matters: this could change city fees, business taxes, capital projects, or what services cost.";
-  if (topic === "Business and site use") return "Why it matters: this could change how a Campbell property operates, including allowed uses or customer-facing activity.";
-  if (topic === "Environment and code") return "Why it matters: this could affect development review, environmental impacts, or construction rules.";
-  return "Why it matters: a public body is taking comments or making a decision on this item.";
+function hearingTopic(item: PublicHearing) {
+  const text = `${item.title} ${item.summary}`.toLowerCase();
+  return HEARING_TOPICS.find((topic) => topic.pattern.test(text)) ?? HEARING_TOPICS[HEARING_TOPICS.length - 1];
 }
 
 // A past hearing counts as "Recent" if it happened within the last six months.
@@ -87,10 +103,18 @@ function hearingStatus(item: PublicHearing, today: Date) {
   return date >= recentCutoff(today) ? "Recent" : "Past";
 }
 
+function isUpcomingHearing(item: PublicHearing, today: Date) {
+  return hearingStatus(item, today) === "Upcoming";
+}
+
 function isRecentHearing(item: PublicHearing, today: Date) {
-  const date = parseCampbellDate(item.hearingAt);
-  if (!date || date >= today) return false;
-  return date >= recentCutoff(today);
+  return hearingStatus(item, today) === "Recent";
+}
+
+// Records merged from a notice archive keep the notice as `sourceUrl` and carry
+// the packet separately, so only those need a second "Agenda packet" link.
+function isAgendaSourced(item: PublicHearing) {
+  return item.sourceType === "Agenda item";
 }
 
 function hearingSummary(item: PublicHearing) {
@@ -106,19 +130,15 @@ export default function CivicRecords() {
 
   const filteredHearings = useMemo(() => {
     return PUBLIC_HEARINGS.filter((item) => {
-      const date = parseCampbellDate(item.hearingAt);
-      if (activeFilter === "upcoming") return date ? date >= today : false;
+      if (activeFilter === "upcoming") return isUpcomingHearing(item, today);
       if (activeFilter === "recent") return isRecentHearing(item, today);
       if (activeFilter === "planning") return item.body === "Planning Commission";
       if (activeFilter === "council") return item.body === "City Council";
-      if (activeFilter === "needs-date") return !date;
+      if (activeFilter === "needs-date") return !parseCampbellDate(item.hearingAt);
       return true;
     });
   }, [activeFilter, today]);
-  const upcomingCount = PUBLIC_HEARINGS.filter((item) => {
-    const date = parseCampbellDate(item.hearingAt);
-    return date ? date >= today : false;
-  }).length;
+  const upcomingCount = PUBLIC_HEARINGS.filter((item) => isUpcomingHearing(item, today)).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
   const latestCouncilRecord = preferredCouncilRecord(COUNCIL_RECORDS);
   const latestCouncilDate = parseCampbellDate(latestCouncilRecord?.date ?? "");
@@ -164,14 +184,14 @@ export default function CivicRecords() {
               </div>
               <div className="cb-hearing-status-row">
                 <span>{hearingStatus(item, today)}</span>
-                <em>{topicLabel(item)}</em>
+                <em>{hearingTopic(item).label}</em>
               </div>
               <h4>{item.title}</h4>
               <p className="cb-hearing-when">
                 {item.hearingAt || "Date is in the official notice packet"}
               </p>
               <p className="cb-hearing-summary">{hearingSummary(item)}</p>
-              <p className="cb-hearing-impact">{impactLine(item)}</p>
+              <p className="cb-hearing-impact">{hearingTopic(item).impact}</p>
               {(item.address || item.fileNo || item.planner) && (
                 <div className="cb-hearing-meta">
                   {item.address && <span>{item.address}</span>}
@@ -181,9 +201,9 @@ export default function CivicRecords() {
               )}
               <div className="cb-record-links">
                 <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
-                  {item.sourceType === "Agenda item" ? "Agenda packet" : "Notice archive"}
+                  {isAgendaSourced(item) ? "Agenda packet" : "Notice archive"}
                 </a>
-                {item.agendaUrl && item.agendaUrl !== item.sourceUrl && (
+                {!isAgendaSourced(item) && item.agendaUrl && (
                   <a href={item.agendaUrl} target="_blank" rel="noopener noreferrer">
                     Agenda packet
                   </a>

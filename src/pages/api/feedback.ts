@@ -25,7 +25,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     fetch(WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: msg }),
+      // `page` and `context` are attacker-controlled, so suppress mentions —
+      // otherwise an @everyone in a feedback ping would page the whole server.
+      body: JSON.stringify({ content: msg, allowed_mentions: { parse: [] } }),
     }).catch(() => {});
   }
 

@@ -1865,15 +1865,19 @@ function mergeHearingRecords(first, second) {
   };
 }
 
+function hearingIdentityKey(item) {
+  return `${item.body}|${item.title}|${item.hearingAt}`;
+}
+
 function dedupeHearingRecords(items) {
   const merged = [];
 
   for (const item of items) {
-    const existingIndex = merged.findIndex((existing) => {
-      const exactKey = `${item.body}|${item.title}|${item.hearingAt}`;
-      const existingKey = `${existing.body}|${existing.title}|${existing.hearingAt}`;
-      return exactKey === existingKey || hearingRecordsReferToSameFile(existing, item);
-    });
+    const itemKey = hearingIdentityKey(item);
+    const existingIndex = merged.findIndex(
+      (existing) =>
+        hearingIdentityKey(existing) === itemKey || hearingRecordsReferToSameFile(existing, item),
+    );
 
     if (existingIndex < 0) {
       merged.push(item);

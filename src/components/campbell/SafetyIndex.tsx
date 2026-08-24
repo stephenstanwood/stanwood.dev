@@ -5,6 +5,7 @@ import {
   SOURCE_URLS,
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
+import LayerList from "./LayerList";
 
 const SAFETY_RULES = [
   {
@@ -122,26 +123,7 @@ export default function SafetyIndex() {
         </p>
       </div>
 
-      <div className="cb-safety-layer-list">
-        {SAFETY_LAYERS.map((layer) => (
-          <a
-            key={layer.label}
-            href={layer.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-safety-layer"
-          >
-            <div className="cb-safety-layer-top">
-              <h4>{layer.label}</h4>
-              <span className={`cb-safety-status cb-safety-status--${layer.status.toLowerCase()}`}>
-                {layer.status}
-              </span>
-            </div>
-            <p>{layer.body}</p>
-            <em>{layer.sourceLabel}</em>
-          </a>
-        ))}
-      </div>
+      <LayerList layers={SAFETY_LAYERS} prefix="cb-safety" />
 
       <div className="cb-safety-shortcuts" aria-label="Official Campbell safety shortcuts">
         {SAFETY_SHORTCUTS.map((shortcut) => (

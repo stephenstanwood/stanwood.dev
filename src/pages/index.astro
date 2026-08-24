@@ -9,6 +9,7 @@ import AestheticWeatherTile from "../components/AestheticWeatherTile.tsx";
 import WhichModelTile from "../components/WhichModelTile.tsx";
 import RedesignRolodexTile from "../components/RedesignRolodexTile.tsx";
 import TerminalLoopTile from "../components/TerminalLoopTile.tsx";
+import ProjectTile from "../components/ProjectTile.astro";
 
 const featured = [
   {
@@ -70,6 +71,18 @@ const justForFun = [
   { href: "/pixel-tide", emoji: "🌊", name: "Pixel Tide", tag: "no winning, just vibes", image: "/images/pixel-tide.webp" },
   { href: "/pixel-aquarium", emoji: "🐠", name: "Pixel Aquarium", tag: "feed the fish, day to night", image: "/images/pixel-aquarium.webp" },
   { href: "/museum-label", emoji: "🏷️", name: "Museum Label", tag: "deadpan placard for any object", image: "/images/museum-label.webp" },
+];
+
+const civicTech = [
+  { href: "https://www.stoa.works/portfolio/budget-dashboard", emoji: "💰", name: "Budget Dashboard", tag: "Bay Area city spending, compared", image: "/images/budget-dashboard.webp" },
+  { href: "https://www.stoa.works/portfolio/council-minutes", emoji: "🔍", name: "Council Minutes", tag: "AI search across 11+ city councils", image: "/images/council-minutes.webp", imageAlt: "Council Minutes Search" },
+  { href: "https://www.stoa.works/portfolio/parks-map", emoji: "🌳", name: "Parks Map", tag: "south bay parks & facilities, mapped", image: "/images/parks-map.webp", imageAlt: "Parks & Facilities Map" },
+];
+
+const trademarkTools = [
+  { href: "https://tmcat.app/idm", emoji: "📋", name: "ID Manual Search", tag: "74k+ identifications", image: "/images/id-manual.webp" },
+  { href: "https://tmcat.app/tmep", emoji: "📖", name: "TMEP", tag: "examining procedure manual", image: "/images/tmep.webp" },
+  { href: "https://tmcat.app/ttab", emoji: "⚖️", name: "TTAB Decisions", tag: "full-text search, 43k+ decisions", image: "/images/ttab-decisions.webp" },
 ];
 
 // Mobile-only fallback tiles for dynamic React island sections
@@ -1880,112 +1893,35 @@ const tickerPhrases = [
       <div class="desktop-only"><ShipClockTile client:idle /></div>
       <div class="desktop-only"><AestheticWeatherTile client:idle /></div>
       <div class="desktop-only"><AIRadarTile client:idle /></div>
-      {latestMobile.map((p) => (
-        <a class="proj-tile has-img mobile-only" href={p.href}>
-          <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {latestMobile.map((p) => <ProjectTile {...p} />)}
     </div>
 
     <!-- Civic Tech (Stoa) -->
     <div class="section-label">civic tech</div>
 
     <div class="tm-row">
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/budget-dashboard" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/budget-dashboard.webp" alt="Budget Dashboard" loading="lazy" />
-        <span class="proj-emoji">💰</span>
-        <div class="proj-info">
-          <div class="proj-name">Budget Dashboard</div>
-          <div class="proj-tag">Bay Area city spending, compared</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/council-minutes" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/council-minutes.webp" alt="Council Minutes Search" loading="lazy" />
-        <span class="proj-emoji">🔍</span>
-        <div class="proj-info">
-          <div class="proj-name">Council Minutes</div>
-          <div class="proj-tag">AI search across 11+ city councils</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://www.stoa.works/portfolio/parks-map" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/parks-map.webp" alt="Parks & Facilities Map" loading="lazy" />
-        <span class="proj-emoji">🌳</span>
-        <div class="proj-info">
-          <div class="proj-name">Parks Map</div>
-          <div class="proj-tag">south bay parks & facilities, mapped</div>
-        </div>
-      </a>
+      {civicTech.map((p) => <ProjectTile {...p} external variant="tm-tile" />)}
     </div>
 
     <!-- Trademark Tools -->
     <div class="section-label">trademark tools</div>
 
     <div class="tm-row">
-      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/idm" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/id-manual.webp" alt="ID Manual Search" loading="lazy" />
-        <span class="proj-emoji">📋</span>
-        <div class="proj-info">
-          <div class="proj-name">ID Manual Search</div>
-          <div class="proj-tag">74k+ identifications</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/tmep" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/tmep.webp" alt="TMEP" loading="lazy" />
-        <span class="proj-emoji">📖</span>
-        <div class="proj-info">
-          <div class="proj-name">TMEP</div>
-          <div class="proj-tag">examining procedure manual</div>
-        </div>
-      </a>
-      <a class="proj-tile tm-tile has-img" href="https://tmcat.app/ttab" target="_blank" rel="noopener noreferrer">
-        <img class="proj-img" src="/images/ttab-decisions.webp" alt="TTAB Decisions" loading="lazy" />
-        <span class="proj-emoji">⚖️</span>
-        <div class="proj-info">
-          <div class="proj-name">TTAB Decisions</div>
-          <div class="proj-tag">full-text search, 43k+ decisions</div>
-        </div>
-      </a>
+      {trademarkTools.map((p) => <ProjectTile {...p} external variant="tm-tile" />)}
     </div>
 
     <!-- Local -->
     <div class="section-label">local</div>
 
     <div class="proj-row">
-      {local.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {local.map((p) => <ProjectTile {...p} />)}
     </div>
 
     <!-- Sports & Fitness -->
     <div class="section-label">sports & fitness</div>
 
     <div class="proj-row">
-      {sportsAndFitness.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {sportsAndFitness.map((p) => <ProjectTile {...p} />)}
     </div>
 
     <!-- Technology -->
@@ -1993,18 +1929,7 @@ const tickerPhrases = [
 
     <div class="proj-row">
       <TerminalLoopTile client:idle />
-      {technology.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {technology.map((p) => <ProjectTile {...p} />)}
       <AIStatusTile client:idle />
     </div>
 
@@ -2012,18 +1937,7 @@ const tickerPhrases = [
     <div class="section-label">weird & useful</div>
 
     <div class="proj-row">
-      {weirdAndUseful.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}${p.mobileOnly ? ' mobile-only' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {weirdAndUseful.map((p) => <ProjectTile {...p} />)}
       <div class="desktop-only"><RedesignRolodexTile client:idle /></div>
       <div class="proj-tile wmt-tile desktop-only"><WhichModelTile client:idle /></div>
     </div>
@@ -2032,18 +1946,7 @@ const tickerPhrases = [
     <div class="section-label">just for fun</div>
 
     <div class="proj-row">
-      {justForFun.map((p) => (
-        <a class={`proj-tile${p.image ? ' has-img' : ''}`} href={p.href}>
-          {p.image && (
-            <img class="proj-img" src={p.image} alt={p.name} loading="lazy" />
-          )}
-          <span class="proj-emoji">{p.emoji}</span>
-          <div class="proj-info">
-            <div class="proj-name">{p.name}</div>
-            <div class="proj-tag">{p.tag}</div>
-          </div>
-        </a>
-      ))}
+      {justForFun.map((p) => <ProjectTile {...p} />)}
     </div>
 
     <!-- Footer -->
