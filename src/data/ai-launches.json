@@ -1,11 +1,35 @@
 [
   {
-    "name": "Pika Audio",
-    "org": "Pika",
-    "date": "2026-08-18",
-    "type": "model",
-    "summary": "Score a video, generate a song from lyrics, make sound effects from a sentence, or clone a voice at 48kHz. Four audio models, up to 20x cheaper than comparable ones, through the $10/month API Club.",
-    "url": "https://experiment.pika.art/blog"
+    "name": "Firefly Audio",
+    "org": "Adobe",
+    "date": "2026-08-21",
+    "type": "tool",
+    "summary": "Generate licensed music, voiceovers, and sound effects for your videos from text prompts — 45 voice profiles, a multitrack timeline, and clearance to use all of it commercially. Broadly available in Firefly now.",
+    "url": "https://www.techradar.com/pro/adobe-firefly-just-added-3-ai-audio-tools-for-creators-and-marketers-i-tested-them-all-to-see-if-theyre-any-good"
+  },
+  {
+    "name": "GPT-Image-2 transparent backgrounds",
+    "org": "OpenAI",
+    "date": "2026-08-21",
+    "type": "tool",
+    "summary": "Generate icons, stickers, and product shots as real alpha-channel PNGs by passing background=transparent — no background-removal step. Works in text-to-image, editing, and the Responses image tool, at no extra cost.",
+    "url": "https://the-decoder.com/openais-gpt-image-2-can-now-generate-images-without-a-background/"
+  },
+  {
+    "name": "Router",
+    "org": "Ramp",
+    "date": "2026-08-20",
+    "type": "tool",
+    "summary": "Call OpenAI, Anthropic, DeepSeek, xAI, and Z.ai through one API and swap models without rewriting code. Dashboard tracks spend, latency, and fallbacks. Free through 2026 (you still pay inference), US only.",
+    "url": "https://techcrunch.com/2026/08/20/ramp-launches-its-own-ai-model-router-called-router/"
+  },
+  {
+    "name": "Berd",
+    "org": "Block",
+    "date": "2026-08-19",
+    "type": "tool",
+    "summary": "Run a native desktop workspace for your AI agents — projects, skills, extensions, and local files in one place, with swappable model providers. Apache 2.0, on macOS, Windows, and Linux.",
+    "url": "https://www.producthunt.com/products/berd"
   },
   {
     "name": "/design in Claude Code",
@@ -16,12 +40,12 @@
     "url": "https://the-decoder.com/claude-code-gets-a-design-command-that-lets-developers-create-ui-mockups-right-in-the-terminal/"
   },
   {
-    "name": "GPT-5.6 Luna on ChatGPT Free",
-    "org": "OpenAI",
-    "date": "2026-08-15",
+    "name": "GLM-5.3",
+    "org": "Z.ai",
+    "date": "2026-08-14",
     "type": "model",
-    "summary": "Free and Go accounts now get unlimited text chats on the current-generation model, with the old five-hour caps gone. Limits on images, files, and tools stay as they were. Rolling out in ChatGPT.",
-    "url": "https://www.unite.ai/openai-gives-free-chatgpt-users-unlimited-text-chats-on-gpt-5-6-luna/"
+    "summary": "Point your coding agent at the top-scoring open-weight model on Terminal-Bench, at roughly a sixth of frontier pricing. 744B MoE, 200K context. Live in the API now; weights land on Hugging Face around August 28.",
+    "url": "https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/"
   },
   {
     "name": "Qwen3.8-27B",
@@ -38,29 +62,5 @@
     "type": "model",
     "summary": "Build coding agents on a cheaper workhorse model — $0.75 per million input tokens and $3.75 output, half the old Flash price through December 31. Generally available now in the Gemini API as gemini-3.7-flash.",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/"
-  },
-  {
-    "name": "Harness v0.1",
-    "org": "DeepSeek",
-    "date": "2026-08-13",
-    "type": "tool",
-    "summary": "Run an open-source terminal coding agent under the MIT license, with models, tools, sandboxes, and UI all swappable plugins. Points at DeepSeek, Anthropic, OpenAI, or any OpenAI-compatible endpoint. Developer preview, so expect breaking changes.",
-    "url": "https://github.com/deepseek-ai/deepseek-harness"
-  },
-  {
-    "name": "Grok 4.6",
-    "org": "xAI",
-    "date": "2026-08-12",
-    "type": "model",
-    "summary": "Point agents at a frontier-grade model for $2 per million input tokens and $6 output, with a 500K context window. Currently the cheapest model at the top of the intelligence rankings. Live in the API now.",
-    "url": "https://openrouter.ai/x-ai/grok-4.6"
-  },
-  {
-    "name": "Muse Glimmer",
-    "org": "Meta",
-    "date": "2026-08-10",
-    "type": "model",
-    "summary": "Run a 30B agentic model on your own machine for tool calling, coding, and image input. Quantizes under 20GB, so an M4 Mac or an RTX card handles it. Apache 2.0 weights on Hugging Face, plus Ollama and LM Studio.",
-    "url": "https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model"
   }
 ]
