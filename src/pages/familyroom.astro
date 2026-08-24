@@ -288,6 +288,7 @@ const launchers = [
       padding: 32px;
       border-radius: 0px;
       color: white;
+      display: block;
       box-shadow: 0 14px 42px rgba(255, 107, 92, 0.3);
       position: relative;
       overflow: hidden;
@@ -699,6 +700,62 @@ const launchers = [
       height: 320px;
       left: 30px;
       top: 300px;
+    }
+
+    @media (max-width: 900px) {
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 20px;
+        padding: 24px 20px;
+      }
+
+      .header::after {
+        left: 20px;
+        right: 20px;
+      }
+
+      .wordmark {
+        font-size: clamp(42px, 14vw, 56px);
+      }
+
+      .clock {
+        align-items: baseline;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+        width: 100%;
+      }
+
+      .time {
+        font-size: 46px;
+      }
+
+      .container {
+        flex-direction: column;
+        gap: 40px;
+        overflow: visible;
+        padding: 28px 20px 80px;
+      }
+
+      .container::before,
+      .accent-rule {
+        display: none;
+      }
+
+      .shows-grid {
+        gap: 10px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .shows-grid .show-tile,
+      .shows-grid .show-tile:hover {
+        transform: none;
+      }
+
+      .right-col {
+        min-width: 0;
+      }
     }
   </style>
 </head>
