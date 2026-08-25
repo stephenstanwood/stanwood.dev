@@ -73,6 +73,26 @@ const EVENT_SHORTCUTS: EventShortcut[] = [
   { label: "Free", query: "Free", view: "next30" },
 ];
 
+// Feed source/category names are verbose; these are the short chip labels.
+// Anything not listed falls through to the raw feed name.
+const SOURCE_SHORT_LABELS: Record<string, string> = {
+  "City of Campbell Calendar": "City calendar",
+  "Downtown Campbell Events": "Downtown",
+  "Campbell Library Events": "Library",
+  "Campbell Chamber Events": "Chamber",
+  "Campbell Museums Events": "Museums",
+  "Campbell Heritage Theatre Events": "Heritage Theatre",
+  "Campbell Union School District Events": "Schools",
+};
+
+const CATEGORY_SHORT_LABELS: Record<string, string> = {
+  "Campbell Library": "Library",
+  "Main Calendar": "City calendar",
+  "Recreation & Community Services": "City programs",
+  "Civic Improvement Commission": "Civic commission",
+  "Historic Preservation Board": "Historic board",
+};
+
 const SOURCE_FILTERS = [
   { id: ALL_SOURCE_FILTER, label: "Every calendar" },
   ...SOURCE_COUNTS.map((source) => ({
@@ -110,23 +130,11 @@ const EVENT_ANCHORS = [
 ];
 
 function eventSourceFilterLabel(label: string) {
-  if (label === "City of Campbell Calendar") return "City calendar";
-  if (label === "Downtown Campbell Events") return "Downtown";
-  if (label === "Campbell Library Events") return "Library";
-  if (label === "Campbell Chamber Events") return "Chamber";
-  if (label === "Campbell Museums Events") return "Museums";
-  if (label === "Campbell Heritage Theatre Events") return "Heritage Theatre";
-  if (label === "Campbell Union School District Events") return "Schools";
-  return label;
+  return SOURCE_SHORT_LABELS[label] ?? label;
 }
 
 function eventCategoryLabel(label: string) {
-  if (label === "Campbell Library") return "Library";
-  if (label === "Main Calendar") return "City calendar";
-  if (label === "Recreation & Community Services") return "City programs";
-  if (label === "Civic Improvement Commission") return "Civic commission";
-  if (label === "Historic Preservation Board") return "Historic board";
-  return label;
+  return CATEGORY_SHORT_LABELS[label] ?? label;
 }
 
 function eventCardSourceLabel(event: CampbellEvent) {

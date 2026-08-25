@@ -152,17 +152,24 @@ export function getAnnualRunRate(data: MoneyData): number {
 
 // ── Date helpers ─────────────────────────────────────────────────
 
+/**
+ * Renewal dates are bare `YYYY-MM-DD`. Appending a time forces local-midnight
+ * parsing — a bare date string would be read as UTC and land on the previous
+ * day for anyone west of Greenwich.
+ */
+function parseLocalDate(dateStr: string): Date {
+  return new Date(dateStr + "T00:00:00");
+}
+
 export function daysUntil(dateStr: string | null): number | null {
   if (!dateStr) return null;
-  const target = new Date(dateStr + "T00:00:00");
-  const now = new Date();
-  const ms = target.getTime() - now.getTime();
+  const ms = parseLocalDate(dateStr).getTime() - Date.now();
   return Math.ceil(ms / MS_PER_DAY);
 }
 
 export function formatRenewalDate(dateStr: string | null): string {
   if (!dateStr) return "???";
-  return formatMonthDayYear(new Date(dateStr + "T00:00:00"));
+  return formatMonthDayYear(parseLocalDate(dateStr));
 }
 
 export function sortDomainsByRenewal(domains: Domain[]): Domain[] {

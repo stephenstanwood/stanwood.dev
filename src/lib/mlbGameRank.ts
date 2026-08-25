@@ -411,6 +411,11 @@ function renderHeroCard(game: Game): string {
   `;
 }
 
+// CLEANUP-FLAG: renderGameRow/renderNoGames here and in nbaNow.ts are the same
+// two-team-row and hero-card layouts with different palettes, and MLB additionally
+// renders team records. A shared parameterized renderer is possible, but nbaNow.ts
+// is mirrored into the external nbanow.app repo (see the nbanow-sync notes), so a
+// shared module here would have to be duplicated or vendored there anyway.
 function renderGameRow(game: Game, rank: number, isPreGame: boolean, watchPct?: number): string {
   const comp = game.competitions?.[0];
   const status = comp?.status;
