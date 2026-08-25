@@ -1,5 +1,13 @@
 [
   {
+    "name": "DeepSeek V4 Flash Vision Exp",
+    "org": "DeepSeek",
+    "date": "2026-08-21",
+    "type": "model",
+    "summary": "Add image understanding to your app for about $0.22 per million input tokens off-peak, with a 1M-token context window. Experimental vision variant of V4 Flash, live on the API and OpenRouter now.",
+    "url": "https://openrouter.ai/deepseek/deepseek-v4-flash-vision-exp"
+  },
+  {
     "name": "Firefly Audio",
     "org": "Adobe",
     "date": "2026-08-21",
@@ -14,6 +22,14 @@
     "type": "tool",
     "summary": "Generate icons, stickers, and product shots as real alpha-channel PNGs by passing background=transparent — no background-removal step. Works in text-to-image, editing, and the Responses image tool, at no extra cost.",
     "url": "https://the-decoder.com/openais-gpt-image-2-can-now-generate-images-without-a-background/"
+  },
+  {
+    "name": "Qwen-UI-Agent",
+    "org": "Alibaba",
+    "date": "2026-08-20",
+    "type": "model",
+    "summary": "Run a GUI agent locally that drives phones, desktops, and browsers by looking at the screen. Apache 2.0 weights in 8B and 2B sizes on Hugging Face, small enough for a consumer GPU.",
+    "url": "https://github.com/Tongyi-MAI/MAI-UI"
   },
   {
     "name": "Router",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Point your coding agent at the top-scoring open-weight model on Terminal-Bench, at roughly a sixth of frontier pricing. 744B MoE, 200K context. Live in the API now; weights land on Hugging Face around August 28.",
     "url": "https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/"
-  },
-  {
-    "name": "Qwen3.8-27B",
-    "org": "Alibaba",
-    "date": "2026-08-14",
-    "type": "model",
-    "summary": "Run a 27B multimodal model on a 16GB GPU or Mac — text, images, and video, 262K context, nothing leaving your machine. Apache 2.0 weights on Hugging Face, with quantized builds down to 9GB.",
-    "url": "https://the-decoder.com/alibabas-qwen-team-releases-qwen-3-8-models-with-open-weights-under-the-apache-2-0-license/"
-  },
-  {
-    "name": "Gemini 3.7 Flash",
-    "org": "Google",
-    "date": "2026-08-13",
-    "type": "model",
-    "summary": "Build coding agents on a cheaper workhorse model — $0.75 per million input tokens and $3.75 output, half the old Flash price through December 31. Generally available now in the Gemini API as gemini-3.7-flash.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-3-7-flash/"
   }
 ]
