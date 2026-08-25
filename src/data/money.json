@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-25T01:10:16.566Z",
+  "lastUpdated": "2026-08-25T06:10:17.958Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-25T01:10:16.566Z",
+        "collectedAt": "2026-08-25T06:10:17.958Z",
         "services": {
           "vercel": {
-            "totalCents": 25214,
+            "totalCents": 25358,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 24791
+                "cents": 24931
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 248
+                "cents": 250
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 60
+                "cents": 61
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -234,7 +234,7 @@
               },
               {
                 "name": "Function Invocations",
-                "cents": 22
+                "cents": 23
               },
               {
                 "name": "Blob Advanced Operations",
@@ -331,6 +331,13 @@
       "note": "Mercury actual Aug 2026; 6 Mercury charges combined"
     },
     {
+      "name": "Cursor",
+      "cents": 30080,
+      "category": "ai",
+      "url": "https://cursor.com/settings",
+      "note": "Mercury actual Aug 2026; 3 Mercury charges combined"
+    },
+    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -343,13 +350,6 @@
       "category": "ai",
       "url": "https://chatgpt.com",
       "note": "Mercury actual; nominal $200 plan"
-    },
-    {
-      "name": "Cursor",
-      "cents": 10080,
-      "category": "ai",
-      "url": "https://cursor.com/settings",
-      "note": "Mercury actual Aug 2026; 2 Mercury charges combined"
     },
     {
       "name": "RFPMart LLC",
