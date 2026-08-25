@@ -472,18 +472,6 @@ const directoryModels = [...MODELS].sort((a, b) => {
         font-weight: 600;
       }
 
-      .wm-dir-count {
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        color: var(--wm-muted);
-        margin: 0 0 14px;
-        padding-left: 4px;
-      }
-      .wm-dir-count strong {
-        color: var(--wm-ink);
-        font-weight: 700;
-      }
-
       /* ─── Quick Picks cheat sheet ─────────────────────────────── */
       .wm-quick {
         max-width: 1100px;
@@ -844,15 +832,11 @@ const directoryModels = [...MODELS].sort((a, b) => {
         All {MODELS.length} model families, side-by-side
       </h2>
       <p class="wm-directory-sub">
-        A deliberately stable snapshot as of April 2026. The labels are family-level on purpose:
-        exact release names move faster than this page should. For what landed this week, see
-        <a href="/radar">AI Radar →</a>
+        Sorted by each family's strongest practical signal. A deliberately stable snapshot as of
+        April 2026 — the labels are family-level on purpose: exact release names move faster than
+        this page should. For what landed this week, see <a href="/radar">AI Radar →</a>
       </p>
     </div>
-
-    <p class="wm-dir-count">
-      Showing <strong>{directoryModels.length}</strong> models, sorted by their strongest practical signal.
-    </p>
 
     <div class="wm-directory-grid">
       {directoryModels.map((model, idx) => {
