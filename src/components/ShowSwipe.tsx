@@ -61,23 +61,27 @@ export default function ShowSwipe() {
     portalRef.current = document.getElementById("ss-liked-mount");
   }, []);
 
+  // Both the initial load and the out-of-cards refetch land here: an empty batch
+  // means "nothing left to show", anything else swaps in the new deck.
+  const showBatch = useCallback((batch: ShowSwipeCard[]) => {
+    if (!aliveRef.current) return;
+    if (batch.length === 0) {
+      setView("empty");
+      return;
+    }
+    setCards(batch);
+    setView("swiping");
+  }, []);
+
   const loadCards = useCallback(
-    async (mt: MediaType, era: Era) => {
+    async (media: MediaType, selectedEra: Era) => {
       if (fetchingRef.current) return;
       fetchingRef.current = true;
       setError(null);
       setView("loading");
 
       try {
-        const batch = await fetchNextBatch(mt, era, new Set());
-        if (!aliveRef.current) return;
-
-        if (batch.length === 0) {
-          setView("empty");
-        } else {
-          setCards(batch);
-          setView("swiping");
-        }
+        showBatch(await fetchNextBatch(media, selectedEra, new Set()));
       } catch (err) {
         if (!aliveRef.current) return;
         console.error("Failed to load cards:", err);
@@ -87,7 +91,7 @@ export default function ShowSwipe() {
         fetchingRef.current = false;
       }
     },
-    [],
+    [showBatch],
   );
 
   useEffect(() => {
@@ -99,12 +103,12 @@ export default function ShowSwipe() {
   }, [mediaType, era, loadCards]);
 
   const maybeFetchMore = useCallback(
-    async (currentCards: ShowSwipeCard[], mt: MediaType, era: Era) => {
+    async (currentCards: ShowSwipeCard[], media: MediaType, selectedEra: Era) => {
       if (fetchingRef.current || currentCards.length >= REFETCH_THRESHOLD) return;
       fetchingRef.current = true;
       try {
         const existingIds = new Set(currentCards.map((c) => c.tmdbId));
-        const batch = await fetchNextBatch(mt, era, existingIds);
+        const batch = await fetchNextBatch(media, selectedEra, existingIds);
         if (!aliveRef.current) return;
         setCards((prev) => {
           const ids = new Set(prev.map((c) => c.tmdbId));
@@ -147,16 +151,12 @@ export default function ShowSwipe() {
         if (remaining.length === 0) {
           setView("loading");
           fetchingRef.current = false;
+          // CLEANUP-FLAG: this refetch is kicked off from inside a setCards updater,
+          // so the updater is not pure — React StrictMode double-invokes it and fires
+          // two TMDB batches. Moving the "deck ran out" refetch into an effect keyed on
+          // cards.length would fix it, but that reshapes the load/advance flow.
           fetchNextBatch(mediaType, era, new Set())
-            .then((batch) => {
-              if (!aliveRef.current) return;
-              if (batch.length === 0) {
-                setView("empty");
-              } else {
-                setCards(batch);
-                setView("swiping");
-              }
-            })
+            .then(showBatch)
             .catch(() => {
               if (!aliveRef.current) return;
               setView("empty");
@@ -168,7 +168,7 @@ export default function ShowSwipe() {
         return remaining;
       });
     },
-    [mediaType, era, maybeFetchMore],
+    [mediaType, era, maybeFetchMore, showBatch],
   );
 
   const handleSwipe = useCallback(

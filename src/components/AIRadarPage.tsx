@@ -11,6 +11,7 @@ import {
   sortLaunches,
   computePulse,
 } from "../lib/aiRadar";
+import { countBy } from "../lib/arrays";
 
 const STANCE_LABELS: Record<string, string> = {
   closed: "closed weights",
@@ -18,6 +19,52 @@ const STANCE_LABELS: Record<string, string> = {
   mixed: "mixed",
   infra: "infrastructure",
 };
+
+const FIELD_MAP_TYPES: { type: string; emoji: string; whatItIs: string; whyMatters: string }[] = [
+  { type: "model", emoji: "🧠", whatItIs: "A new foundation model — the brain.", whyMatters: "Shifts what's possible. New ceiling on reasoning, coding, context." },
+  { type: "product", emoji: "📱", whatItIs: "A consumer app or feature.", whyMatters: "How non-builders actually feel AI in their day." },
+  { type: "tool", emoji: "🔧", whatItIs: "A developer API, SDK, or capability.", whyMatters: "What you can build with this week — the new primitives." },
+  { type: "infra", emoji: "⚙️", whatItIs: "Hardware, platforms, the backbone.", whyMatters: "Who runs what at what price — the rails everyone shares." },
+];
+
+const TELLS: { emoji: string; name: string; watch: string; means: string }[] = [
+  {
+    emoji: "🎯",
+    name: "Benchmark cherry-picking",
+    watch: "Charts that only show the benchmarks they win. Comparisons against last year's model, not this week's.",
+    means: "Real on a narrow slice — often weaker on the harder evals (GPQA, ARC-AGI, Humanity's Last Exam) that didn't make the slide.",
+  },
+  {
+    emoji: "🚀",
+    name: "Available soon vs. now",
+    watch: "\"Rolling out over the coming weeks.\" Waitlists. A blog post but no API page, no pricing, no model ID.",
+    means: "Marketing landed today; the product might land later. Treat the date as when it became real to journalists, not to you.",
+  },
+  {
+    emoji: "💰",
+    name: "Cheaper, dressed as a leap",
+    watch: "Headlines built on \"10× cheaper\" or \"3× faster\" with no matching jump on capability evals.",
+    means: "Big win if you're spending on inference. Not a new ceiling — same model territory at a better price.",
+  },
+  {
+    emoji: "🎬",
+    name: "Demo magic vs. ship",
+    watch: "Highlight reels, narrator voiceover, \"hand-picked examples,\" only logged-out demos.",
+    means: "Stage version ≠ API version. The cherry-picked scene is the ceiling, not the median run you'll get.",
+  },
+  {
+    emoji: "🪪",
+    name: "Open-weights ≠ open-source",
+    watch: "\"Llama community license,\" commercial caps (\"700M monthly users\"), custom acceptable-use clauses.",
+    means: "Free to download. Not free to ship. Read the license before betting a product on a model.",
+  },
+  {
+    emoji: "📋",
+    name: "Model card vs. blog post",
+    watch: "Performance claims with no methodology. \"Internal evals\" footnotes. No system card on launch day.",
+    means: "If they didn't publish the eval setup, the numbers are vibes. Wait a week for independent runs (Artificial Analysis, LMSYS).",
+  },
+];
 
 const sorted = sortLaunches(launches as Launch[]);
 const pulse = computePulse(sorted);
@@ -31,10 +78,8 @@ export default function AIRadarPage() {
   const grouped = groupByDate(sorted);
 
   // Count badges: type and org counts, both from the full dataset.
-  const typeCounts: Record<string, number> = {};
-  for (const l of sorted) typeCounts[l.type] = (typeCounts[l.type] || 0) + 1;
-  const orgCounts: Record<string, number> = {};
-  for (const l of sorted) orgCounts[l.org] = (orgCounts[l.org] || 0) + 1;
+  const typeCounts = countBy(sorted, (l) => l.type);
+  const orgCounts = countBy(sorted, (l) => l.org);
 
   // Stats bar
   const uniqueOrgs = new Set(sorted.map((l) => l.org)).size;
@@ -47,52 +92,6 @@ export default function AIRadarPage() {
     tool: sorted.find((l) => l.type === "tool"),
     infra: sorted.find((l) => l.type === "infra"),
   };
-
-  const fieldMapTypes: { type: string; emoji: string; whatItIs: string; whyMatters: string }[] = [
-    { type: "model", emoji: "🧠", whatItIs: "A new foundation model — the brain.", whyMatters: "Shifts what's possible. New ceiling on reasoning, coding, context." },
-    { type: "product", emoji: "📱", whatItIs: "A consumer app or feature.", whyMatters: "How non-builders actually feel AI in their day." },
-    { type: "tool", emoji: "🔧", whatItIs: "A developer API, SDK, or capability.", whyMatters: "What you can build with this week — the new primitives." },
-    { type: "infra", emoji: "⚙️", whatItIs: "Hardware, platforms, the backbone.", whyMatters: "Who runs what at what price — the rails everyone shares." },
-  ];
-
-  const tells: { emoji: string; name: string; watch: string; means: string }[] = [
-    {
-      emoji: "🎯",
-      name: "Benchmark cherry-picking",
-      watch: "Charts that only show the benchmarks they win. Comparisons against last year's model, not this week's.",
-      means: "Real on a narrow slice — often weaker on the harder evals (GPQA, ARC-AGI, Humanity's Last Exam) that didn't make the slide.",
-    },
-    {
-      emoji: "🚀",
-      name: "Available soon vs. now",
-      watch: "\"Rolling out over the coming weeks.\" Waitlists. A blog post but no API page, no pricing, no model ID.",
-      means: "Marketing landed today; the product might land later. Treat the date as when it became real to journalists, not to you.",
-    },
-    {
-      emoji: "💰",
-      name: "Cheaper, dressed as a leap",
-      watch: "Headlines built on \"10× cheaper\" or \"3× faster\" with no matching jump on capability evals.",
-      means: "Big win if you're spending on inference. Not a new ceiling — same model territory at a better price.",
-    },
-    {
-      emoji: "🎬",
-      name: "Demo magic vs. ship",
-      watch: "Highlight reels, narrator voiceover, \"hand-picked examples,\" only logged-out demos.",
-      means: "Stage version ≠ API version. The cherry-picked scene is the ceiling, not the median run you'll get.",
-    },
-    {
-      emoji: "🪪",
-      name: "Open-weights ≠ open-source",
-      watch: "\"Llama community license,\" commercial caps (\"700M monthly users\"), custom acceptable-use clauses.",
-      means: "Free to download. Not free to ship. Read the license before betting a product on a model.",
-    },
-    {
-      emoji: "📋",
-      name: "Model card vs. blog post",
-      watch: "Performance claims with no methodology. \"Internal evals\" footnotes. No system card on launch day.",
-      means: "If they didn't publish the eval setup, the numbers are vibes. Wait a week for independent runs (Artificial Analysis, LMSYS).",
-    },
-  ];
 
   return (
     <div className="rp-page">
@@ -219,7 +218,7 @@ export default function AIRadarPage() {
           <span className="rp-fieldmap-sub">what we track</span>
         </div>
         <div className="rp-fieldmap-grid">
-          {fieldMapTypes.map(({ type, emoji, whatItIs, whyMatters }) => {
+          {FIELD_MAP_TYPES.map(({ type, emoji, whatItIs, whyMatters }) => {
             const example = latestByType[type];
             const count = typeCounts[type] || 0;
             const hasExample = !!example;
@@ -317,7 +316,7 @@ export default function AIRadarPage() {
           to your inbox.
         </p>
         <div className="rp-tells-grid">
-          {tells.map((t) => (
+          {TELLS.map((t) => (
             <article key={t.name} className="rp-tell-card">
               <div className="rp-tell-head">
                 <span className="rp-tell-emoji" aria-hidden="true">{t.emoji}</span>

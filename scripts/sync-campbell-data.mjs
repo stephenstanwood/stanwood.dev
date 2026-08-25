@@ -350,12 +350,22 @@ function parseDirectory(html) {
     .filter(Boolean);
 }
 
-function parseChamberBusinesses(html, sourceUrl) {
+/**
+ * GrowthZone directory + event listings both render one card per
+ * `gz-list-card-wrapper` div. Split on that opener and glue it back onto each
+ * block so per-card regexes see a well-formed fragment.
+ */
+function splitGrowthZoneCards(html) {
+  const opener = '<div class="gz-list-card-wrapper';
   return html
-    .split('<div class="gz-list-card-wrapper')
+    .split(opener)
     .slice(1)
-    .map((block) => {
-      const card = `<div class="gz-list-card-wrapper${block}`;
+    .map((block) => `${opener}${block}`);
+}
+
+function parseChamberBusinesses(html, sourceUrl) {
+  return splitGrowthZoneCards(html)
+    .map((card) => {
       const titleLink = card.match(/<h5[^>]*class="[^"]*gz-card-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<\/h5>/i);
       const name = cleanHtml(titleLink?.[2] ?? "");
       const url = absoluteUrl(titleLink?.[1] ?? "", CHAMBER_BASE_URL);
@@ -1144,11 +1154,8 @@ function parseGrowthZoneResultsCount(html) {
 }
 
 function parseChamberEventCards(html) {
-  return html
-    .split('<div class="gz-list-card-wrapper')
-    .slice(1)
-    .map((block) => {
-      const card = `<div class="gz-list-card-wrapper${block}`;
+  return splitGrowthZoneCards(html)
+    .map((card) => {
       const titleLink = card.match(/<h5[^>]*class="[^"]*gz-card-title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
       const title = cleanHtml(titleLink?.[2] ?? "");
       const url = absoluteUrl(titleLink?.[1] ?? "", CHAMBER_BASE_URL);
