@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-25T13:10:16.553Z",
+  "lastUpdated": "2026-08-25T19:10:15.847Z",
   "apiSpend": {
     "months": [
       {
@@ -211,26 +211,26 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-25T13:10:16.553Z",
+        "collectedAt": "2026-08-25T19:10:15.847Z",
         "services": {
           "vercel": {
-            "totalCents": 26347,
+            "totalCents": 28651,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 25914
+                "cents": 28210
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 253
+                "cents": 256
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 62
+                "cents": 63
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 25
+                "cents": 26
               },
               {
                 "name": "Function Invocations",
@@ -238,7 +238,7 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 20
+                "cents": 21
               },
               {
                 "name": "Fast Origin Transfer",
@@ -250,7 +250,11 @@
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 7
+                "cents": 8
+              },
+              {
+                "name": "Edge Requests - Additional CPU Duration",
+                "cents": 3
               },
               {
                 "name": "Image Optimization Transformation",
@@ -258,10 +262,6 @@
               },
               {
                 "name": "Image Optimization Cache Writes",
-                "cents": 2
-              },
-              {
-                "name": "Edge Requests - Additional CPU Duration",
                 "cents": 2
               },
               {
