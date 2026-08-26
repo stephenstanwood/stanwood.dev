@@ -1,5 +1,21 @@
 [
   {
+    "name": "Memory across Claude and Cowork",
+    "org": "Anthropic",
+    "date": "2026-08-25",
+    "type": "tool",
+    "summary": "Tell it a project detail in chat and Cowork picks it up too — memory now spans both, and saves topics mid-conversation instead of at the end. On by default for Free, Pro, and Max across web, desktop, and mobile.",
+    "url": "https://techcrunch.com/2026/08/25/claude-cowork-finally-remembers-what-you-told-the-app-in-chat/"
+  },
+  {
+    "name": "Aloud",
+    "org": "Aloud",
+    "date": "2026-08-21",
+    "type": "tool",
+    "summary": "Talk through your app while it records voice, screen, and transcript, then hand the cleaned-up plan to Claude Code, Cursor, or Codex as tasks. Whisper runs on-device, so nothing leaves your Mac.",
+    "url": "https://www.producthunt.com/products/aloud-4"
+  },
+  {
     "name": "DeepSeek V4 Flash Vision Exp",
     "org": "DeepSeek",
     "date": "2026-08-21",
@@ -24,14 +40,6 @@
     "url": "https://the-decoder.com/openais-gpt-image-2-can-now-generate-images-without-a-background/"
   },
   {
-    "name": "Qwen-UI-Agent",
-    "org": "Alibaba",
-    "date": "2026-08-20",
-    "type": "model",
-    "summary": "Run a GUI agent locally that drives phones, desktops, and browsers by looking at the screen. Apache 2.0 weights in 8B and 2B sizes on Hugging Face, small enough for a consumer GPU.",
-    "url": "https://github.com/Tongyi-MAI/MAI-UI"
-  },
-  {
     "name": "Router",
     "org": "Ramp",
     "date": "2026-08-20",
@@ -48,19 +56,11 @@
     "url": "https://www.producthunt.com/products/berd"
   },
   {
-    "name": "/design in Claude Code",
-    "org": "Anthropic",
-    "date": "2026-08-17",
-    "type": "tool",
-    "summary": "Type /design and get editable UI artboards that match your codebase's existing style — pick one, tweak it, then have Claude implement it. Research preview in the CLI and desktop app on Pro, Max, Team, and Enterprise.",
-    "url": "https://the-decoder.com/claude-code-gets-a-design-command-that-lets-developers-create-ui-mockups-right-in-the-terminal/"
-  },
-  {
-    "name": "GLM-5.3",
-    "org": "Z.ai",
+    "name": "Qwen3.8-27B",
+    "org": "Alibaba",
     "date": "2026-08-14",
     "type": "model",
-    "summary": "Point your coding agent at the top-scoring open-weight model on Terminal-Bench, at roughly a sixth of frontier pricing. 744B MoE, 200K context. Live in the API now; weights land on Hugging Face around August 28.",
-    "url": "https://www.unite.ai/z-ai-launches-glm-5-3-with-frontier-coding-and-a-cyber-capability-that-outgrew-its-training/"
+    "summary": "Run a strong local coding model on a single 24GB card — an 18GB Ollama download at 4-bit, Apache 2.0, natively multimodal with a 262K context window. Weights on Hugging Face and ModelScope.",
+    "url": "https://huggingface.co/Qwen/Qwen3.8-27B"
   }
 ]
