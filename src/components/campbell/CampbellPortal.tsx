@@ -93,6 +93,9 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
 
 type TabAccent = "green" | "blue" | "clay" | "red" | "gold";
 
+// CLEANUP-FLAG: TABS and TAB_META are parallel tables keyed by the same Section, so adding
+// a section means editing two places and TypeScript only catches the TAB_META half. Merging
+// accent/image onto the TABS entries would make one table authoritative.
 const TAB_META: Record<Section, { accent: TabAccent; image?: { src: string; objectPosition?: string } }> = {
   events: { accent: "green", image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" } },
   digest: { accent: "blue", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
@@ -151,6 +154,8 @@ export default function CampbellPortal() {
   const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeIndex = TABS.findIndex((tab) => tab.id === active);
   const activeTab = TABS[activeIndex] ?? TABS[0];
+  const activeMeta = TAB_META[activeTab.id];
+  const activeImage = activeMeta.image;
 
   useEffect(() => {
     function syncHashSection() {
@@ -278,22 +283,20 @@ export default function CampbellPortal() {
       </section>
 
       <div
-        className={`cb-content cb-accent-${TAB_META[activeTab.id].accent}`}
+        className={`cb-content cb-accent-${activeMeta.accent}`}
         id={panelId(activeTab.id)}
         role="tabpanel"
         aria-labelledby={tabId(activeTab.id)}
         tabIndex={-1}
       >
-        <div
-          className={`cb-panel-banner${TAB_META[activeTab.id].image ? "" : " cb-panel-banner--pattern"}`}
-        >
-          {TAB_META[activeTab.id].image && (
+        <div className={`cb-panel-banner${activeImage ? "" : " cb-panel-banner--pattern"}`}>
+          {activeImage && (
             <img
-              src={TAB_META[activeTab.id].image!.src}
+              src={activeImage.src}
               alt=""
               loading="lazy"
               decoding="async"
-              style={{ objectPosition: TAB_META[activeTab.id].image!.objectPosition }}
+              style={{ objectPosition: activeImage.objectPosition }}
             />
           )}
           <div className="cb-panel-banner-copy">

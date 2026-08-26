@@ -15,6 +15,52 @@ const SafetyChart = lazy(() => import("./SafetyChart"));
 const GrowthChart = lazy(() => import("./GrowthChart"));
 const DisengagementChart = lazy(() => import("./DisengagementChart"));
 
+/** The month this whole page describes. The monthly refresh task moves this one string;
+ *  the milestone tag below names a specific event and is dated separately on purpose. */
+const SNAPSHOT_MONTH = "April 2026";
+
+const FOR_WHEN = [
+  {
+    title: "Your first robotaxi ride",
+    body: "what to expect when the car shows up with no one in it, and which service to try first in your city.",
+  },
+  {
+    title: "The dinner-table argument",
+    body: 'a fact-checked answer to "are these things actually safe?" with the real numbers and sources.',
+  },
+  {
+    title: "Watching the buildout",
+    body: "which states allow what, who's racing Waymo, and when the next city is likely to flip on.",
+  },
+  {
+    title: "Cutting through the hype",
+    body: 'Tesla FSD vs. Waymo, L2+ vs. L4, and what "driverless" actually means in 2026.',
+  },
+];
+
+const GLOSSARY = [
+  {
+    term: "Disengagement rate",
+    definition:
+      "How often a human had to override the AV per 1,000 miles. Lower is better — it measures how reliably the system handles real-world conditions without intervention.",
+  },
+  {
+    term: "Driverless miles",
+    definition:
+      "Miles logged with zero safety driver present. The gold standard metric — it proves the system can operate entirely on its own at scale.",
+  },
+  {
+    term: "Level 4 vs L2+",
+    definition:
+      "Level 4 means fully autonomous within a defined area — no human needed. L2+ (like Tesla FSD) still requires a licensed driver ready to take over at any moment.",
+  },
+  {
+    term: "Permit status",
+    definition:
+      "States issue permits in tiers: testing (safety driver required), driverless testing, and commercial deployment. Each tier requires a separate application and safety data review.",
+  },
+];
+
 function DeferredPanelFallback({ full = false }: { full?: boolean }) {
   return (
     <div className={`dl-panel${full ? " dl-full" : ""}`} aria-hidden="true">
@@ -44,35 +90,25 @@ export default function DriverlessDashboard() {
         />
         <div className="dl-hero-overlay">
           <h1 className="dl-hero-overlay-title">Driverless</h1>
-          <span className="dl-hero-overlay-sub">april 2026 snapshot · self-driving by the numbers</span>
+          <span className="dl-hero-overlay-sub">{SNAPSHOT_MONTH.toLowerCase()} snapshot · self-driving by the numbers</span>
         </div>
       </div>
 
       {/* Header */}
       <header className="dl-header">
-        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of April 2026 — fleets, safety data, where you can ride today, and what's coming next.</p>
+        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of {SNAPSHOT_MONTH} — fleets, safety data, where you can ride today, and what's coming next.</p>
       </header>
 
       {/* Built for moments like */}
       <section className="dl-forwhen" aria-label="Who this dashboard is for">
         <p className="dl-forwhen-label">Built for moments like</p>
         <div className="dl-forwhen-grid">
-          <div className="dl-forwhen-card">
-            <span className="dl-forwhen-num">01</span>
-            <p className="dl-forwhen-text"><strong>Your first robotaxi ride</strong> <span>— what to expect when the car shows up with no one in it, and which service to try first in your city.</span></p>
-          </div>
-          <div className="dl-forwhen-card">
-            <span className="dl-forwhen-num">02</span>
-            <p className="dl-forwhen-text"><strong>The dinner-table argument</strong> <span>— a fact-checked answer to "are these things actually safe?" with the real numbers and sources.</span></p>
-          </div>
-          <div className="dl-forwhen-card">
-            <span className="dl-forwhen-num">03</span>
-            <p className="dl-forwhen-text"><strong>Watching the buildout</strong> <span>— which states allow what, who's racing Waymo, and when the next city is likely to flip on.</span></p>
-          </div>
-          <div className="dl-forwhen-card">
-            <span className="dl-forwhen-num">04</span>
-            <p className="dl-forwhen-text"><strong>Cutting through the hype</strong> <span>— Tesla FSD vs. Waymo, L2+ vs. L4, and what "driverless" actually means in 2026.</span></p>
-          </div>
+          {FOR_WHEN.map((moment, index) => (
+            <div className="dl-forwhen-card" key={moment.title}>
+              <span className="dl-forwhen-num">{String(index + 1).padStart(2, "0")}</span>
+              <p className="dl-forwhen-text"><strong>{moment.title}</strong> <span>— {moment.body}</span></p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -89,22 +125,12 @@ export default function DriverlessDashboard() {
       <div className="dl-context">
         <p className="dl-context-label">Reading this dashboard</p>
         <div className="dl-context-grid">
-          <div className="dl-context-item">
-            <span className="dl-context-term">Disengagement rate</span>
-            <span className="dl-context-def">How often a human had to override the AV per 1,000 miles. Lower is better — it measures how reliably the system handles real-world conditions without intervention.</span>
-          </div>
-          <div className="dl-context-item">
-            <span className="dl-context-term">Driverless miles</span>
-            <span className="dl-context-def">Miles logged with zero safety driver present. The gold standard metric — it proves the system can operate entirely on its own at scale.</span>
-          </div>
-          <div className="dl-context-item">
-            <span className="dl-context-term">Level 4 vs L2+</span>
-            <span className="dl-context-def">Level 4 means fully autonomous within a defined area — no human needed. L2+ (like Tesla FSD) still requires a licensed driver ready to take over at any moment.</span>
-          </div>
-          <div className="dl-context-item">
-            <span className="dl-context-term">Permit status</span>
-            <span className="dl-context-def">States issue permits in tiers: testing (safety driver required), driverless testing, and commercial deployment. Each tier requires a separate application and safety data review.</span>
-          </div>
+          {GLOSSARY.map((entry) => (
+            <div className="dl-context-item" key={entry.term}>
+              <span className="dl-context-term">{entry.term}</span>
+              <span className="dl-context-def">{entry.definition}</span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -160,7 +186,7 @@ export default function DriverlessDashboard() {
 
       {/* Footer */}
       <footer className="dl-footer">
-        <p>Last updated April 2026. All data is a point-in-time snapshot.</p>
+        <p>Last updated {SNAPSHOT_MONTH}. All data is a point-in-time snapshot.</p>
         <p>
           Sources:{" "}
           <a href="https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting" target="_blank" rel="noopener noreferrer">NHTSA crash reports</a>,{" "}
