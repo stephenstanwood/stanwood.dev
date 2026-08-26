@@ -237,12 +237,8 @@ const ALL_TEAMS: TeamEntry[] = [
   ...NCAAM_TEAMS,
 ];
 
-export const TEAM_REGISTRY: Record<string, TeamEntry> = ALL_TEAMS.reduce(
-  (acc, t) => {
-    acc[t.key] = t;
-    return acc;
-  },
-  {} as Record<string, TeamEntry>,
+export const TEAM_REGISTRY: Record<string, TeamEntry> = Object.fromEntries(
+  ALL_TEAMS.map((team) => [team.key, team]),
 );
 
 // ---------------------------------------------------------------------------
@@ -251,7 +247,7 @@ export const TEAM_REGISTRY: Record<string, TeamEntry> = ALL_TEAMS.reduce(
 
 /** Return every team whose `league` field matches the given ESPN league path. */
 export function getTeamsByLeague(leaguePath: string): TeamEntry[] {
-  return ALL_TEAMS.filter((t) => t.league === leaguePath);
+  return ALL_TEAMS.filter((team) => team.league === leaguePath);
 }
 
 /** Look up a single team by its unique key (e.g. "nba-warriors"). */

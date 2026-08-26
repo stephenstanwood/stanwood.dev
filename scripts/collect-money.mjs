@@ -81,6 +81,15 @@ function materialFingerprint(value) {
   return JSON.stringify(stripCollectionTimestamps(value));
 }
 
+/**
+ * Format a failed upstream response the same way for every collector: service name,
+ * status code, and a truncated body so a long HTML error page can't flood money.json.
+ */
+async function upstreamErrorNote(service, res) {
+  const body = await res.text().catch(() => "");
+  return `${service} API ${res.status}: ${body.slice(0, 200)}`;
+}
+
 function parseManualCents(name) {
   const raw = process.env[`${name}_USAGE_CENTS`];
   if (!raw) return null;
@@ -118,8 +127,7 @@ async function collectVercel(range) {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    return { totalCents: null, note: `Vercel API ${res.status}: ${body.slice(0, 200)}` };
+    return { totalCents: null, note: await upstreamErrorNote("Vercel", res) };
   }
 
   const text = await res.text();
@@ -165,11 +173,14 @@ const ANTHROPIC_PRICING = {
   "claude-3-5-haiku": { in: 0.8, out: 4 },
 };
 
+/** "claude-sonnet-5-20251001" -> "claude-sonnet-5" — pricing is keyed by the undated id. */
+function baseModelName(model) {
+  return model.replace(/-\d{8}$/, "");
+}
+
 function priceFor(model) {
   if (!model) return null;
-  // Strip date suffix like "-20251001"
-  const base = model.replace(/-\d{8}$/, "");
-  return ANTHROPIC_PRICING[base] || null;
+  return ANTHROPIC_PRICING[baseModelName(model)] || null;
 }
 
 async function collectAnthropic(range) {
@@ -195,8 +206,7 @@ async function collectAnthropic(range) {
       headers: { "x-api-key": key, "anthropic-version": "2023-06-01" },
     });
     if (!res.ok) {
-      const body = await res.text().catch(() => "");
-      return { totalCents: null, note: `Anthropic API ${res.status}: ${body.slice(0, 200)}` };
+      return { totalCents: null, note: await upstreamErrorNote("Anthropic", res) };
     }
 
     const data = await res.json();
@@ -231,7 +241,7 @@ async function collectAnthropic(range) {
       (tokens.cacheCreate / 1_000_000) * (price.in * 1.25);
     const cents = Math.round(dollars * 100);
     totalCents += cents;
-    breakdown.push({ name: model.replace(/-\d{8}$/, ""), cents });
+    breakdown.push({ name: baseModelName(model), cents });
   }
 
   breakdown.sort((a, b) => b.cents - a.cents);
@@ -263,8 +273,7 @@ async function collectOpenAI(range) {
     headers: { Authorization: `Bearer ${key}` },
   });
   if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    return { totalCents: null, note: `OpenAI API ${res.status}: ${body.slice(0, 200)}` };
+    return { totalCents: null, note: await upstreamErrorNote("OpenAI", res) };
   }
 
   const data = await res.json();
@@ -310,8 +319,7 @@ async function mercuryGet(path, token) {
     headers: { Authorization: `Bearer ${token}`, accept: "application/json" },
   });
   if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Mercury API ${res.status}: ${body.slice(0, 200)}`);
+    throw new Error(await upstreamErrorNote("Mercury", res));
   }
   return res.json();
 }

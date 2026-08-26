@@ -835,9 +835,9 @@ const launchers = [
       const timeEl = document.getElementById('clock-time');
       const dateEl = document.getElementById('clock-date');
       function tick() {
-        const d = new Date();
-        timeEl.textContent = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-        dateEl.textContent = d.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
+        const now = new Date();
+        timeEl.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        dateEl.textContent = now.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' });
       }
       tick();
       setInterval(tick, 15000);
@@ -845,19 +845,18 @@ const launchers = [
       async function loadClassic() {
         const card = document.getElementById('sdsn-classic-card');
         if (!card) return;
+        const title = card.querySelector('[data-sdsn-title]');
+        const channel = card.querySelector('[data-sdsn-channel]');
+        const duration = card.querySelector('[data-sdsn-duration]');
         try {
           const res = await fetch('/api/tv/random-sdsn', { cache: 'no-store' });
           if (!res.ok) throw new Error('sdsn ' + res.status);
-          const v = await res.json();
-          if (v.url) card.href = v.url;
-          const title = card.querySelector('[data-sdsn-title]');
-          const channel = card.querySelector('[data-sdsn-channel]');
-          const duration = card.querySelector('[data-sdsn-duration]');
-          if (title && v.title) title.textContent = v.title;
-          if (channel) channel.textContent = v.playlistTitle || 'SDSN Classic';
-          if (duration) duration.textContent = v.duration || 'full game';
-        } catch (err) {
-          const title = card.querySelector('[data-sdsn-title]');
+          const classic = await res.json();
+          if (classic.url) card.href = classic.url;
+          if (title && classic.title) title.textContent = classic.title;
+          if (channel) channel.textContent = classic.playlistTitle || 'SDSN Classic';
+          if (duration) duration.textContent = classic.duration || 'full game';
+        } catch {
           if (title) title.textContent = 'SDSN Classic — open the playlist';
         }
       }
@@ -881,10 +880,17 @@ const launchers = [
         var r = el.getBoundingClientRect();
         return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
       }
+      // Focus can sit on <body> or on chrome outside the grid; only treat it as
+      // "current" when it is one of the tiles we navigate between.
+      function focusedItem(all) {
+        return (document.activeElement && all.indexOf(document.activeElement) !== -1)
+          ? document.activeElement
+          : null;
+      }
       function move(dir) {
         var all = items();
         if (!all.length) return;
-        var cur = (document.activeElement && all.indexOf(document.activeElement) !== -1) ? document.activeElement : null;
+        var cur = focusedItem(all);
         if (!cur) { all[0].focus(); all[0].scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
         var c = center(cur), best = null, bestScore = Infinity;
         for (var i = 0; i < all.length; i++) {
@@ -917,7 +923,7 @@ const launchers = [
       window.addEventListener('load', function () {
         setTimeout(function () {
           var all = items();
-          if (all.length && !(document.activeElement && all.indexOf(document.activeElement) !== -1)) all[0].focus();
+          if (all.length && !focusedItem(all)) all[0].focus();
         }, 600);
       });
     })();

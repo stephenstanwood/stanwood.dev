@@ -18,12 +18,17 @@ interface CampbellBusinessRecord {
 
 type BusinessFilter = "all" | "downtown" | "chamber" | "both";
 
+function hasTag(business: CampbellBusinessRecord, tag: string) {
+  return business.tags?.includes(tag) ?? false;
+}
+
+/** A storefront that appears in the Downtown directory *and* the Chamber roster. */
+function isOnBothLists(business: CampbellBusinessRecord) {
+  return hasTag(business, "Downtown") && hasTag(business, "Chamber");
+}
+
 const BUSINESSES = businessFeed.items as CampbellBusinessRecord[];
 const BUSINESS_DISPLAY_LIMIT = 48;
-const DOWNTOWN_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown")).length;
-const CHAMBER_COUNT = BUSINESSES.filter((business) => hasTag(business, "Chamber")).length;
-const BOTH_COUNT = BUSINESSES.filter((business) => hasTag(business, "Downtown") && hasTag(business, "Chamber")).length;
-const PHONE_COUNT = BUSINESSES.filter((business) => business.phone).length;
 const BUSINESS_SOURCES = businessFeed.sources ?? [
   { label: "Downtown Campbell Directory", sourceUrl: businessFeed.sourceUrl },
 ];
@@ -33,9 +38,19 @@ const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "chamber", label: "Chamber list" },
   { id: "both", label: "Both lists" },
 ];
-function hasTag(business: CampbellBusinessRecord, tag: string) {
-  return business.tags?.includes(tag) ?? false;
-}
+const BUSINESS_SNAPSHOT: { label: string; count: number }[] = [
+  { label: "Places listed", count: BUSINESSES.length },
+  {
+    label: "Downtown storefronts",
+    count: BUSINESSES.filter((business) => hasTag(business, "Downtown")).length,
+  },
+  {
+    label: "Chamber listings",
+    count: BUSINESSES.filter((business) => hasTag(business, "Chamber")).length,
+  },
+  { label: "Listed both ways", count: BUSINESSES.filter(isOnBothLists).length },
+  { label: "Phone available", count: BUSINESSES.filter((business) => business.phone).length },
+];
 
 const BUSINESS_NAMES = Array.from(new Set(BUSINESSES.map((business) => business.name)));
 
@@ -54,7 +69,7 @@ function directoryLabel(label: string) {
 }
 
 function businessSourceLabel(business: CampbellBusinessRecord) {
-  if (hasTag(business, "Downtown") && hasTag(business, "Chamber")) return "Downtown + Chamber";
+  if (isOnBothLists(business)) return "Downtown + Chamber";
   if (hasTag(business, "Downtown")) return "Downtown directory";
   if (hasTag(business, "Chamber")) return "Chamber member";
   return business.source;
@@ -71,7 +86,7 @@ export default function BusinessIndex() {
     return BUSINESSES.filter((business) => {
       if (activeFilter === "downtown" && !hasTag(business, "Downtown")) return false;
       if (activeFilter === "chamber" && !hasTag(business, "Chamber")) return false;
-      if (activeFilter === "both" && !(hasTag(business, "Downtown") && hasTag(business, "Chamber"))) return false;
+      if (activeFilter === "both" && !isOnBothLists(business)) return false;
       if (!needle) return true;
 
       return [
@@ -98,26 +113,12 @@ export default function BusinessIndex() {
   return (
     <div className="cb-businesses">
       <div className="cb-business-snapshot" aria-label="Campbell business directory snapshot">
-        <div>
-          <strong>{BUSINESSES.length}</strong>
-          <span>Places listed</span>
-        </div>
-        <div>
-          <strong>{DOWNTOWN_COUNT}</strong>
-          <span>Downtown storefronts</span>
-        </div>
-        <div>
-          <strong>{CHAMBER_COUNT}</strong>
-          <span>Chamber listings</span>
-        </div>
-        <div>
-          <strong>{BOTH_COUNT}</strong>
-          <span>Listed both ways</span>
-        </div>
-        <div>
-          <strong>{PHONE_COUNT}</strong>
-          <span>Phone available</span>
-        </div>
+        {BUSINESS_SNAPSHOT.map((stat) => (
+          <div key={stat.label}>
+            <strong>{stat.count}</strong>
+            <span>{stat.label}</span>
+          </div>
+        ))}
       </div>
 
       <div className="cb-business-toolbar">

@@ -114,6 +114,11 @@ function learnedPriorityScores(
   ]));
 }
 
+// CLEANUP-FLAG: two overlapping notions of "priority" live here — compareLinkedInPriority
+// recomputes basePriorityScore per comparison while learnedPriorityScores already memoizes
+// it per person, so rankLinkedInOutreach pays for the same score twice on every tie. Folding
+// the tiebreak into the memoized map would fix both, but compareLinkedInPriority is exported
+// and asserted on directly in queue.test.ts, so the collapse needs its own change.
 /** Batch is the pacing plan; A/B/C is priority inside that batch. */
 export function compareLinkedInPriority(
   a: LinkedInOutreachPerson,
