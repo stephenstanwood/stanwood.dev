@@ -2,7 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ShipClockApp from "../components/ShipClock.tsx";
 import RepoTracker from "../components/RepoTracker.tsx";
+import { shipTierRows } from "../lib/shipClockStatus";
 const title = "Ship Clock — stanwood.dev";
+const tiers = shipTierRows();
 ---
 
 <BaseLayout
@@ -540,8 +542,6 @@ const title = "Ship Clock — stanwood.dev";
       .sc-tier--good .sc-tier-label { color: #1a9d3f; }
       .sc-tier--warn .sc-tier-days,
       .sc-tier--warn .sc-tier-label { color: #c97718; }
-      .sc-tier--cool .sc-tier-days,
-      .sc-tier--cool .sc-tier-label { color: #8a6cb5; }
       .sc-tier--bad  .sc-tier-days,
       .sc-tier--bad  .sc-tier-label { color: #c52727; }
 
@@ -716,47 +716,21 @@ const title = "Ship Clock — stanwood.dev";
     <!-- Cadence ladder -->
     <div class="sc-cadence">
       <h2 class="sc-cadence-heading">The Cadence Ladder</h2>
-      <p class="sc-cadence-sub">how to read your number · five tiers</p>
+      <p class="sc-cadence-sub">how to read your number</p>
 
       <div class="sc-tier-list">
-        <div class="sc-tier sc-tier--hot">
-          <div class="sc-tier-days">0d</div>
-          <div class="sc-tier-body">
-            <span class="sc-tier-label">shipped today 🚀</span>
-            <p class="sc-tier-text">In the zone. Daily-driver project — every day is a build day.</p>
+        {tiers.map((tier) => (
+          <div class={`sc-tier sc-tier--${tier.tone}`}>
+            <div class="sc-tier-days">{tier.range}</div>
+            <div class="sc-tier-body">
+              <span class="sc-tier-label">{tier.label}</span>
+              <p class="sc-tier-text">{tier.blurb}</p>
+            </div>
           </div>
-        </div>
-        <div class="sc-tier sc-tier--good">
-          <div class="sc-tier-days">1–3d</div>
-          <div class="sc-tier-body">
-            <span class="sc-tier-label">fresh off the line</span>
-            <p class="sc-tier-text">Active development. Healthy side-project rhythm — most indie shippers live here.</p>
-          </div>
-        </div>
-        <div class="sc-tier sc-tier--warn">
-          <div class="sc-tier-days">4–6d</div>
-          <div class="sc-tier-body">
-            <span class="sc-tier-label">clock is ticking</span>
-            <p class="sc-tier-text">Between sprints. Not bad — but block out a shipping day before momentum slips.</p>
-          </div>
-        </div>
-        <div class="sc-tier sc-tier--cool">
-          <div class="sc-tier-days">1–2w</div>
-          <div class="sc-tier-body">
-            <span class="sc-tier-label">getting rusty</span>
-            <p class="sc-tier-text">Probably waiting on a decision or a review. A typo fix or version bump resets the clock — momentum compounds.</p>
-          </div>
-        </div>
-        <div class="sc-tier sc-tier--bad">
-          <div class="sc-tier-days">14d+</div>
-          <div class="sc-tier-body">
-            <span class="sc-tier-label">dust is collecting</span>
-            <p class="sc-tier-text">Abandonment risk. Even a README polish counts — ship something, anything, today.</p>
-          </div>
-        </div>
+        ))}
       </div>
 
-      <p class="sc-cadence-note">Status labels match the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
+      <p class="sc-cadence-note">Status labels come straight from the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
     </div>
 
     <RepoTracker client:idle />

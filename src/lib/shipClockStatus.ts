@@ -10,12 +10,47 @@ export interface DeployData {
   error?: string;
 }
 
+export interface ShipTier {
+  /** Inclusive upper bound in days; null means open-ended. */
+  maxDays: number | null;
+  label: string;
+  tone: "hot" | "good" | "warn" | "bad";
+  blurb: string;
+}
+
+/**
+ * Single source of truth for the "days since last ship" ladder. The counter,
+ * RepoTracker, and the cadence ladder on /ship-clock all read from this list,
+ * so labels, tones, and day ranges can't drift apart.
+ */
+export const SHIP_TIERS: ShipTier[] = [
+  { maxDays: 0, label: "shipped today", tone: "hot", blurb: "In the zone. Daily-driver project — every day is a build day." },
+  { maxDays: 1, label: "shipped yesterday", tone: "good", blurb: "Streak intact. Yesterday still counts — keep the loop tight." },
+  { maxDays: 3, label: "fresh off the line", tone: "good", blurb: "Active development. Healthy side-project rhythm — most indie shippers live here." },
+  { maxDays: 6, label: "clock is ticking", tone: "warn", blurb: "Between sprints. Not bad — but block out a shipping day before momentum slips." },
+  { maxDays: 13, label: "getting rusty", tone: "warn", blurb: "Probably waiting on a decision or a review. A typo fix or version bump resets the clock — momentum compounds." },
+  { maxDays: null, label: "dust is collecting", tone: "bad", blurb: "Abandonment risk. Even a README polish counts — ship something, anything, today." },
+];
+
 /** Shared "days since last ship" status used by ShipClock and RepoTracker. */
 export function shipStatus(days: number): { label: string; tone: string } {
-  if (days === 0) return { label: "shipped today", tone: "hot" };
-  if (days === 1) return { label: "shipped yesterday", tone: "good" };
-  if (days <= 3) return { label: "fresh off the line", tone: "good" };
-  if (days <= 6) return { label: "clock is ticking", tone: "warn" };
-  if (days <= 13) return { label: "getting rusty", tone: "warn" };
-  return { label: "dust is collecting", tone: "bad" };
+  const tier =
+    SHIP_TIERS.find((t) => t.maxDays === null || days <= t.maxDays) ??
+    SHIP_TIERS[SHIP_TIERS.length - 1];
+  return { label: tier.label, tone: tier.tone };
+}
+
+/** The tiers with their day ranges rendered for display ("0d", "2–3d", "14d+"). */
+export function shipTierRows(): (ShipTier & { range: string })[] {
+  let min = 0;
+  return SHIP_TIERS.map((tier) => {
+    const range =
+      tier.maxDays === null
+        ? `${min}d+`
+        : tier.maxDays === min
+          ? `${min}d`
+          : `${min}–${tier.maxDays}d`;
+    min = (tier.maxDays ?? min) + 1;
+    return { ...tier, range };
+  });
 }
