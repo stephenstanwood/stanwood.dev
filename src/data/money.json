@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-27T13:10:30.550Z",
+  "lastUpdated": "2026-08-27T19:10:23.684Z",
   "apiSpend": {
     "months": [
       {
@@ -211,22 +211,22 @@
       },
       {
         "month": "2026-08",
-        "collectedAt": "2026-08-27T13:10:30.550Z",
+        "collectedAt": "2026-08-27T19:10:23.684Z",
         "services": {
           "vercel": {
-            "totalCents": 33428,
+            "totalCents": 33777,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 32938
+                "cents": 33278
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 277
+                "cents": 280
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 71
+                "cents": 72
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -238,19 +238,19 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 22
+                "cents": 23
               },
               {
                 "name": "Fast Origin Transfer",
                 "cents": 20
               },
               {
-                "name": "Web Analytics Events",
-                "cents": 17
+                "name": "Blob Data Transfer",
+                "cents": 19
               },
               {
-                "name": "Blob Data Transfer",
-                "cents": 16
+                "name": "Web Analytics Events",
+                "cents": 18
               },
               {
                 "name": "Edge Requests - Additional CPU Duration",
@@ -325,10 +325,10 @@
   "subscriptions": [
     {
       "name": "Anthropic",
-      "cents": 39031,
+      "cents": 41555,
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Aug 2026; 6 Mercury charges combined"
+      "note": "Mercury actual Aug 2026; 7 Mercury charges combined"
     },
     {
       "name": "Cursor",
