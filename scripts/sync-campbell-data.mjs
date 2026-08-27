@@ -1035,15 +1035,58 @@ const MONTH_NUMBERS = {
   dec: "12",
 };
 
-function parseLibraryEventStartDate(dateTime = "", referenceDate = new Date()) {
-  const match = cleanSentence(dateTime).match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
-  if (!match) return "";
+function libraryEventYear(month, day, referenceDate = new Date()) {
+  let year = referenceDate.getFullYear();
+  const candidate = new Date(year, Number(month) - 1, Number(day));
+  const referenceStart = new Date(referenceDate);
+  referenceStart.setHours(0, 0, 0, 0);
+  if (candidate.getTime() < referenceStart.getTime() - 30 * 24 * 60 * 60 * 1000) {
+    year += 1;
+  }
+  return year;
+}
+
+function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
+  const cleaned = cleanSentence(dateTime);
+  const rangeMatch = cleaned.match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*-\s*(?:([A-Z][a-z]{2})\s+)?(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*All day/i);
+  if (rangeMatch) {
+    const startMonth = MONTH_NUMBERS[rangeMatch[1].slice(0, 3).toLowerCase()];
+    const endMonth = MONTH_NUMBERS[(rangeMatch[3] ?? rangeMatch[1]).slice(0, 3).toLowerCase()];
+    if (!startMonth || !endMonth) return { startDate: "", endDate: "" };
+
+    const startDay = rangeMatch[2].padStart(2, "0");
+    const endDay = rangeMatch[4].padStart(2, "0");
+    const startYear = libraryEventYear(startMonth, startDay, referenceDate);
+    let endYear = libraryEventYear(endMonth, endDay, referenceDate);
+    const endIsBeforeStart =
+      Number(endMonth) < Number(startMonth) ||
+      (Number(endMonth) === Number(startMonth) && Number(endDay) < Number(startDay));
+    if (endIsBeforeStart) endYear = startYear + 1;
+
+    return {
+      startDate: `${startYear}-${startMonth}-${startDay}T00:00:00`,
+      endDate: `${endYear}-${endMonth}-${endDay}T23:59:59`,
+    };
+  }
+
+  const allDayMatch = cleaned.match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*All day/i);
+  if (allDayMatch) {
+    const month = MONTH_NUMBERS[allDayMatch[1].slice(0, 3).toLowerCase()];
+    if (!month) return { startDate: "", endDate: "" };
+
+    const day = allDayMatch[2].padStart(2, "0");
+    const year = libraryEventYear(month, day, referenceDate);
+    return { startDate: `${year}-${month}-${day}T00:00:00`, endDate: "" };
+  }
+
+  const match = cleaned.match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
+  if (!match) return { startDate: "", endDate: "" };
 
   const month = MONTH_NUMBERS[match[1].slice(0, 3).toLowerCase()];
-  if (!month) return "";
+  if (!month) return { startDate: "", endDate: "" };
 
-  let year = referenceDate.getFullYear();
   const day = match[2].padStart(2, "0");
+  const year = libraryEventYear(month, day, referenceDate);
   let hour = Number(match[3]);
   const minute = (match[4] ?? "00").padStart(2, "0");
   const meridiem = (match[5] ?? "").toLowerCase();
@@ -1051,14 +1094,7 @@ function parseLibraryEventStartDate(dateTime = "", referenceDate = new Date()) {
   if (meridiem === "pm" && hour < 12) hour += 12;
   if (meridiem === "am" && hour === 12) hour = 0;
 
-  const candidate = new Date(year, Number(month) - 1, Number(day));
-  const referenceStart = new Date(referenceDate);
-  referenceStart.setHours(0, 0, 0, 0);
-  if (candidate.getTime() < referenceStart.getTime() - 30 * 24 * 60 * 60 * 1000) {
-    year += 1;
-  }
-
-  return `${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:00`;
+  return { startDate: `${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:00`, endDate: "" };
 }
 
 function extractLibraryEventsSection(html) {
@@ -1127,7 +1163,7 @@ function parseLibraryEvents(html, referenceDate = new Date()) {
       const location = cleanHtml(
         itemHtml.match(/<div[^>]*class="[^"]*c-events-widget__event-location[^"]*"[^>]*>[\s\S]*?<span[^>]*class="[^"]*notranslate[^"]*"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "",
       );
-      const startDate = parseLibraryEventStartDate(date, referenceDate);
+      const { startDate, endDate } = parseLibraryEventDates(date, referenceDate);
 
       if (!title || !url || !date) return null;
 
@@ -1141,6 +1177,7 @@ function parseLibraryEvents(html, referenceDate = new Date()) {
         imageUrl: "",
         category: "Campbell Library",
         startDate,
+        ...(endDate && endDate !== startDate ? { endDate } : {}),
         source: "Campbell Library Events",
         sourceUrl: SCCLD_CAMPBELL_LIBRARY_URL,
       };

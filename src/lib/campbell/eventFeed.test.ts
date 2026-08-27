@@ -215,6 +215,29 @@ describe("Campbell event feed", () => {
     }
   });
 
+  it("parses Library all-day ranges into structured dates", () => {
+    const events = eventFeed.items as {
+      title: string;
+      date?: string;
+      source?: string;
+      startDate?: string;
+      endDate?: string;
+    }[];
+    const rangeEvents = events.filter((event) =>
+      event.source?.includes("Campbell Library Events") &&
+      /\|\s*All day/i.test(event.date ?? "") &&
+      /\s+-\s+/.test(event.date ?? ""),
+    );
+
+    for (const event of rangeEvents) {
+      expect(event.startDate, `${event.title} startDate`).toMatch(/^\d{4}-\d{2}-\d{2}T00:00:00$/);
+      expect(event.endDate, `${event.title} endDate`).toMatch(/^\d{4}-\d{2}-\d{2}T23:59:59$/);
+      expect(parseCampbellDate(event.endDate!)!.getTime(), `${event.title} endDate order`).toBeGreaterThan(
+        parseCampbellDate(event.startDate!)!.getTime(),
+      );
+    }
+  });
+
   it("parses City calendar date labels into structured dates", () => {
     const events = eventFeed.items as {
       title: string;
