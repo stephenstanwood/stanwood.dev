@@ -295,6 +295,7 @@ export default function EventsIndex() {
   const [categoryFilter, setCategoryFilter] = useState(ALL_CATEGORY_FILTER);
   const [viewFilter, setViewFilter] = useState<EventViewFilter>("next14");
   const [showAll, setShowAll] = useState(false);
+  const [loadedImageUrls, setLoadedImageUrls] = useState<Set<string>>(() => new Set());
   const [failedImageUrls, setFailedImageUrls] = useState<Set<string>>(() => new Set());
   const [referenceDay] = useState(() => startOfDay(new Date()));
 
@@ -360,6 +361,30 @@ export default function EventsIndex() {
       categoryFilter === ALL_CATEGORY_FILTER &&
       viewFilter === (shortcut.view ?? "next14")
     );
+  }
+
+  function markImageLoaded(imageUrl: string) {
+    setLoadedImageUrls((current) => {
+      if (current.has(imageUrl)) return current;
+      const next = new Set(current);
+      next.add(imageUrl);
+      return next;
+    });
+  }
+
+  function markImageFailed(imageUrl: string) {
+    setFailedImageUrls((current) => {
+      if (current.has(imageUrl)) return current;
+      const next = new Set(current);
+      next.add(imageUrl);
+      return next;
+    });
+    setLoadedImageUrls((current) => {
+      if (!current.has(imageUrl)) return current;
+      const next = new Set(current);
+      next.delete(imageUrl);
+      return next;
+    });
   }
 
   return (
@@ -467,8 +492,9 @@ export default function EventsIndex() {
       <div className="cb-live-events">
         {visibleEvents.map((event) => {
           const imageUrl = event.imageUrl.trim();
-          const showImage = imageUrl.length > 0 && !failedImageUrls.has(imageUrl);
-          const tile = showImage ? null : eventDateTile(event);
+          const hasImageCandidate = imageUrl.length > 0 && !failedImageUrls.has(imageUrl);
+          const imageIsLoaded = hasImageCandidate && loadedImageUrls.has(imageUrl);
+          const tile = imageIsLoaded ? null : eventDateTile(event);
           const sourceLabel = eventCardSourceLabel(event);
           return (
             <a
@@ -476,21 +502,15 @@ export default function EventsIndex() {
               href={event.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`cb-event-card${showImage ? "" : " cb-event-card--text"}`}
+              className={`cb-event-card${imageIsLoaded ? "" : " cb-event-card--text"}`}
             >
-              {showImage ? (
+              {imageIsLoaded ? (
                 <img
                   src={imageUrl}
                   alt=""
                   loading="lazy"
-                  onError={() => {
-                    setFailedImageUrls((current) => {
-                      if (current.has(imageUrl)) return current;
-                      const next = new Set(current);
-                      next.add(imageUrl);
-                      return next;
-                    });
-                  }}
+                  decoding="async"
+                  onError={() => markImageFailed(imageUrl)}
                 />
               ) : (
                 <span className="cb-event-tile" aria-hidden="true">
@@ -502,6 +522,17 @@ export default function EventsIndex() {
                     </>
                   ) : (
                     <b className="cb-event-tile-tba">TBA</b>
+                  )}
+                  {hasImageCandidate && (
+                    <img
+                      className="cb-event-preload"
+                      src={imageUrl}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={() => markImageLoaded(imageUrl)}
+                      onError={() => markImageFailed(imageUrl)}
+                    />
                   )}
                 </span>
               )}

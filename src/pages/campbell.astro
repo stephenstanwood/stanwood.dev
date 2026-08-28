@@ -1875,12 +1875,14 @@ const photoStories = [
         grid-template-columns: 4.25rem 1fr;
       }
       .cb-event-tile {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 0.05rem;
         min-height: 5.1rem;
+        overflow: hidden;
         border-radius: 6px;
         border: 1px solid color-mix(in srgb, var(--accent, var(--cb-green)) 24%, var(--cb-cream));
         background: var(--accent-light, var(--cb-green-light));
@@ -1920,6 +1922,15 @@ const photoStories = [
         object-fit: cover;
         border-radius: 6px;
         background: var(--cb-blue-light);
+      }
+      .cb-event-card .cb-event-preload {
+        position: absolute;
+        inset: auto;
+        width: 1px;
+        height: 1px;
+        min-height: 0;
+        opacity: 0;
+        pointer-events: none;
       }
       .cb-event-card-body {
         display: flex;
