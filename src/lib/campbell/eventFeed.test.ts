@@ -168,6 +168,16 @@ describe("Campbell event feed", () => {
     }
   });
 
+  it("uses public Heritage Theatre event pages instead of hidden Wix detail pages", () => {
+    const events = eventFeed.items as { source?: string; title: string; url?: string }[];
+    const theatreEvents = events.filter((event) => event.source === "Campbell Heritage Theatre Events");
+
+    for (const event of theatreEvents) {
+      expect(event.url, event.title).toMatch(/^https:\/\/www\.heritagetheatre\.org\/events\//);
+      expect(event.url, event.title).not.toContain("/event-details/");
+    }
+  });
+
   it("does not duplicate same-start, same-place listings when source calendars disagree on end time", () => {
     const events = eventFeed.items as {
       title: string;

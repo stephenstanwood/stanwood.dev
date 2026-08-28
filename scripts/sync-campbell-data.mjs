@@ -1267,6 +1267,16 @@ function extractWixLocation(event) {
   return name;
 }
 
+function extractWixEventUrl(event, { baseUrl, sourceUrl }) {
+  const slug = cleanSentence(event.slug ?? "");
+  if (!slug) return sourceUrl;
+
+  const detailsPath = baseUrl === HERITAGE_THEATRE_BASE_URL
+    ? `/events/${slug}`
+    : `/event-details/${slug}`;
+  return absoluteUrl(detailsPath, baseUrl);
+}
+
 function parseWixEvents(html, { baseUrl, sourceUrl, source, category }) {
   const warmupData = extractJsonScript(html, "wix-warmup-data");
   const appsWarmupData = warmupData?.appsWarmupData ?? {};
@@ -1314,7 +1324,7 @@ function parseWixEvents(html, { baseUrl, sourceUrl, source, category }) {
           cost: extractWixCost(event),
           location: extractWixLocation(event),
           description: cleanSentence(cleanHtml(descriptionSource)).slice(0, 280),
-          url: event.slug ? absoluteUrl(`/event-details/${event.slug}`, baseUrl) : sourceUrl,
+          url: extractWixEventUrl(event, { baseUrl, sourceUrl }),
           imageUrl: extractWixImageUrl(event.mainImage ?? event.coverImage ?? event.image),
           category,
           startDate,
