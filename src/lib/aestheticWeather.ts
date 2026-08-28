@@ -1,4 +1,5 @@
 import { MS_PER_DAY } from "./time";
+import { PACIFIC_TZ } from "./dateFormat";
 
 // WMO weather codes → emoji + description
 const WMO: Record<number, [string, string]> = {
@@ -33,6 +34,26 @@ export function wmoInfo(code: number): [string, string] {
 export const DEFAULT_WEATHER_LAT = 37.2872;
 export const DEFAULT_WEATHER_LON = -121.95;
 export const DEFAULT_WEATHER_LOCATION = "Campbell, CA";
+
+/**
+ * Build an Open-Meteo forecast URL. Both weather routes want Fahrenheit readings
+ * stamped in Pacific time, so those are baked in; `fields` carries the per-route
+ * selection (`current`, `daily`, `hourly`, `forecast_days`).
+ */
+export function openMeteoForecastUrl(
+  lat: number,
+  lon: number,
+  fields: Record<string, string>,
+): string {
+  const query = new URLSearchParams({
+    latitude: String(lat),
+    longitude: String(lon),
+    ...fields,
+    temperature_unit: "fahrenheit",
+    timezone: PACIFIC_TZ,
+  });
+  return `https://api.open-meteo.com/v1/forecast?${query}`;
+}
 
 // --- Types ---
 

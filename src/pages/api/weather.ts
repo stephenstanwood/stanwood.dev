@@ -1,6 +1,11 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
-import { wmoInfo, DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON } from "../../lib/aestheticWeather";
+import {
+  wmoInfo,
+  openMeteoForecastUrl,
+  DEFAULT_WEATHER_LAT,
+  DEFAULT_WEATHER_LON,
+} from "../../lib/aestheticWeather";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
 
@@ -16,7 +21,9 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${DEFAULT_WEATHER_LAT}&longitude=${DEFAULT_WEATHER_LON}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=America/Los_Angeles`;
+    const url = openMeteoForecastUrl(DEFAULT_WEATHER_LAT, DEFAULT_WEATHER_LON, {
+      current: "temperature_2m,weather_code",
+    });
 
     const res = await fetchWithTimeout(url, {}, 4_000);
 

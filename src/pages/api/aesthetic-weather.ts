@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import {
   buildResponse,
+  openMeteoForecastUrl,
   DEFAULT_WEATHER_LAT,
   DEFAULT_WEATHER_LON,
   DEFAULT_WEATHER_LOCATION,
@@ -8,6 +9,7 @@ import {
   type HourlyForecast,
 } from "../../lib/aestheticWeather";
 import { okJson, fetchWithTimeout, validateLatLon } from "../../lib/apiHelpers";
+import { PACIFIC_TZ } from "../../lib/dateFormat";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
@@ -31,12 +33,13 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
       }
     }
 
-    const apiUrl =
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-      `&current=temperature_2m,relative_humidity_2m,weather_code,cloud_cover,wind_speed_10m,apparent_temperature,is_day,uv_index,precipitation` +
-      `&daily=sunrise,sunset` +
-      `&hourly=temperature_2m,weather_code,cloud_cover,precipitation_probability` +
-      `&temperature_unit=fahrenheit&timezone=America/Los_Angeles&forecast_days=1`;
+    const apiUrl = openMeteoForecastUrl(lat, lon, {
+      current:
+        "temperature_2m,relative_humidity_2m,weather_code,cloud_cover,wind_speed_10m,apparent_temperature,is_day,uv_index,precipitation",
+      daily: "sunrise,sunset",
+      hourly: "temperature_2m,weather_code,cloud_cover,precipitation_probability",
+      forecast_days: "1",
+    });
 
     const res = await fetchWithTimeout(apiUrl, {}, 5_000);
 
@@ -45,7 +48,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     const data = await res.json();
     const current = data.current;
 
-    // Open-Meteo returns times in the requested timezone (America/Los_Angeles) with no
+    // Open-Meteo returns times in the requested timezone (Pacific) with no
     // offset suffix, e.g. "2026-03-12T06:23". Parse the components directly — passing the
     // string to `new Date()` would interpret it as the server's local zone (UTC on Vercel).
     const sunriseRaw = data.daily.sunrise[0];
@@ -62,7 +65,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
 
     // Use Pacific time — server may be UTC
     const now = new Date();
-    const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+    const pacificNow = new Date(now.toLocaleString("en-US", { timeZone: PACIFIC_TZ }));
     const currentHour = pacificNow.getHours() + pacificNow.getMinutes() / 60;
 
     const input: WeatherInput = {
@@ -98,13 +101,16 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
       ),
     };
 
-    const formatTime = ({ hour, minute }: { hour: number; minute: number }) => {
+    // Formats the already-Pacific hour/minute pair from Open-Meteo. The shared
+    // formatters in lib/dateFormat take a Date, which would mean re-attaching a
+    // timezone to values that never carried one.
+    const formatClockParts = ({ hour, minute }: { hour: number; minute: number }) => {
       const period = hour >= 12 ? "PM" : "AM";
-      const h12 = hour % 12 === 0 ? 12 : hour % 12;
-      return `${h12}:${String(minute).padStart(2, "0")} ${period}`;
+      const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+      return `${hour12}:${String(minute).padStart(2, "0")} ${period}`;
     };
-    const sunriseStr = formatTime(sunriseParts);
-    const sunsetStr = formatTime(sunsetParts);
+    const sunriseStr = formatClockParts(sunriseParts);
+    const sunsetStr = formatClockParts(sunsetParts);
 
     const response = buildResponse(
       input,

@@ -47,6 +47,7 @@ const PUBLIC_NOTICE_ARCHIVES = [
   { body: "Planning Commission", href: `${CITY_BASE_URL}/Archive.aspx?AMID=44`, limit: 10 },
 ];
 const MAX_NOTICE_PDF_BYTES = 4_000_000;
+const MS_PER_DAY = 86_400_000;
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
 const CHAMBER_ALPHA_SLUGS = ["0-9", ..."abcdefghijklmnopqrstuvwxyz"];
 
@@ -536,7 +537,7 @@ function downtownYearForMonthDay(month, day, referenceDate = new Date()) {
   const referenceYear = referenceDate.getFullYear();
   const candidate = new Date(referenceYear, month - 1, day);
   const reference = new Date(referenceYear, referenceDate.getMonth(), referenceDate.getDate());
-  const daysFromReference = Math.round((candidate.getTime() - reference.getTime()) / 86_400_000);
+  const daysFromReference = Math.round((candidate.getTime() - reference.getTime()) / MS_PER_DAY);
 
   // Downtown omits the year on some upcoming cards. If the month/day appears
   // far behind the sync date, it is almost certainly an early-next-year event.
@@ -1040,7 +1041,7 @@ function libraryEventYear(month, day, referenceDate = new Date()) {
   const candidate = new Date(year, Number(month) - 1, Number(day));
   const referenceStart = new Date(referenceDate);
   referenceStart.setHours(0, 0, 0, 0);
-  if (candidate.getTime() < referenceStart.getTime() - 30 * 24 * 60 * 60 * 1000) {
+  if (candidate.getTime() < referenceStart.getTime() - 30 * MS_PER_DAY) {
     year += 1;
   }
   return year;
@@ -1676,8 +1677,8 @@ async function fetchEscribeCouncilRecords() {
     method: "POST",
     contentType: "application/json",
     body: JSON.stringify({
-      calendarStartDate: toDateInput(new Date(now - ESCRIBE_LOOKBACK_DAYS * 24 * 60 * 60 * 1000)),
-      calendarEndDate: toDateInput(new Date(now + ESCRIBE_LOOKAHEAD_DAYS * 24 * 60 * 60 * 1000)),
+      calendarStartDate: toDateInput(new Date(now - ESCRIBE_LOOKBACK_DAYS * MS_PER_DAY)),
+      calendarEndDate: toDateInput(new Date(now + ESCRIBE_LOOKAHEAD_DAYS * MS_PER_DAY)),
     }),
   });
 
