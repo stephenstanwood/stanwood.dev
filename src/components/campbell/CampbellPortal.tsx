@@ -24,7 +24,20 @@ import BusinessIndex from "./BusinessIndex";
 import RealEstateLedger from "./RealEstateLedger";
 import TodayInCampbell from "./TodayInCampbell";
 
-const TABS: { id: Section; label: string; eyebrow: string; summary: string; intent: string; Icon: LucideIcon }[] = [
+type TabAccent = "green" | "blue" | "clay" | "red" | "gold";
+
+type TabConfig = {
+  id: Section;
+  label: string;
+  eyebrow: string;
+  summary: string;
+  intent: string;
+  Icon: LucideIcon;
+  accent: TabAccent;
+  image?: { src: string; objectPosition?: string };
+};
+
+const TABS: TabConfig[] = [
   {
     id: "events",
     label: "Events",
@@ -32,6 +45,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Find today's plans, weekend options, public meetings, and original calendar links.",
     intent: "Use this when you are deciding what to do next.",
     Icon: CalendarDays,
+    accent: "green",
+    image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" },
   },
   {
     id: "digest",
@@ -40,6 +55,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Open public notices, Council packets, minutes, videos, and plain-English summaries.",
     intent: "Use this before a meeting, hearing, or local decision.",
     Icon: Landmark,
+    accent: "blue",
+    image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" },
   },
   {
     id: "businesses",
@@ -48,6 +65,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Look up downtown shops, Chamber members, restaurants, services, and website links.",
     intent: "Use this when you need a local place, owner, or storefront link.",
     Icon: Store,
+    accent: "clay",
+    image: { src: "/images/campbell/pruneyard-aerial.webp", objectPosition: "50% 42%" },
   },
   {
     id: "safety",
@@ -56,6 +75,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Find police logs, crime maps, records requests, reporting links, and oversight pages.",
     intent: "Use this when you need the official public-safety route.",
     Icon: ShieldCheck,
+    accent: "red",
+    image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" },
   },
   {
     id: "homes",
@@ -64,6 +85,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Check permits, parcels, project maps, county records, and development links.",
     intent: "Use this when a property, project, or permit is the question.",
     Icon: House,
+    accent: "gold",
+    image: { src: "/images/campbell/water-tower-aerial.webp", objectPosition: "50% 30%" },
   },
   {
     id: "history",
@@ -72,6 +95,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Follow Ainsley House, downtown roots, the water tower, and local milestones.",
     intent: "Use this for the local context behind Campbell's landmarks.",
     Icon: History,
+    accent: "gold",
+    image: { src: "/images/campbell/ainsley-house.webp", objectPosition: "50% 55%" },
   },
   {
     id: "data",
@@ -80,6 +105,8 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Open Census snapshots, city maps, budgets, map layers, and county data.",
     intent: "Use this when you need sourced numbers or a map layer.",
     Icon: Map,
+    accent: "blue",
+    image: { src: "/images/campbell/downtown-vta-station.webp", objectPosition: "50% 58%" },
   },
   {
     id: "links",
@@ -88,24 +115,10 @@ const TABS: { id: Section; label: string; eyebrow: string; summary: string; inte
     summary: "Jump to forms for services, permits, recreation, schools, transit, and help.",
     intent: "Use this when you already know the task and need the right form.",
     Icon: ClipboardList,
+    accent: "green",
+    image: { src: "/images/campbell/campbell-park.webp", objectPosition: "28% 55%" },
   },
 ];
-
-type TabAccent = "green" | "blue" | "clay" | "red" | "gold";
-
-// CLEANUP-FLAG: TABS and TAB_META are parallel tables keyed by the same Section, so adding
-// a section means editing two places and TypeScript only catches the TAB_META half. Merging
-// accent/image onto the TABS entries would make one table authoritative.
-const TAB_META: Record<Section, { accent: TabAccent; image?: { src: string; objectPosition?: string } }> = {
-  events: { accent: "green", image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" } },
-  digest: { accent: "blue", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
-  businesses: { accent: "clay", image: { src: "/images/campbell/pruneyard-aerial.webp", objectPosition: "50% 42%" } },
-  safety: { accent: "red", image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" } },
-  homes: { accent: "gold", image: { src: "/images/campbell/water-tower-aerial.webp", objectPosition: "50% 30%" } },
-  history: { accent: "gold", image: { src: "/images/campbell/ainsley-house.webp", objectPosition: "50% 55%" } },
-  data: { accent: "blue", image: { src: "/images/campbell/downtown-vta-station.webp", objectPosition: "50% 58%" } },
-  links: { accent: "green", image: { src: "/images/campbell/campbell-park.webp", objectPosition: "28% 55%" } },
-};
 
 const SECTION_HASHES: Record<string, Section> = {
   "#campbell-events": "events",
@@ -154,8 +167,7 @@ export default function CampbellPortal() {
   const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const activeIndex = TABS.findIndex((tab) => tab.id === active);
   const activeTab = TABS[activeIndex] ?? TABS[0];
-  const activeMeta = TAB_META[activeTab.id];
-  const activeImage = activeMeta.image;
+  const activeImage = activeTab.image;
 
   useEffect(() => {
     function syncHashSection() {
@@ -254,7 +266,7 @@ export default function CampbellPortal() {
               id={tabId(tab.id)}
               type="button"
               role="tab"
-              className={`cb-tab cb-accent-${TAB_META[tab.id].accent} ${active === tab.id ? "cb-tab--active" : ""}`}
+              className={`cb-tab cb-accent-${tab.accent} ${active === tab.id ? "cb-tab--active" : ""}`}
               aria-selected={active === tab.id}
               aria-controls={panelId(tab.id)}
               tabIndex={active === tab.id ? 0 : -1}
@@ -283,7 +295,7 @@ export default function CampbellPortal() {
       </section>
 
       <div
-        className={`cb-content cb-accent-${activeMeta.accent}`}
+        className={`cb-content cb-accent-${activeTab.accent}`}
         id={panelId(activeTab.id)}
         role="tabpanel"
         aria-labelledby={tabId(activeTab.id)}
