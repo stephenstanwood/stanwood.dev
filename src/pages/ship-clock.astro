@@ -764,6 +764,14 @@ const tiers = shipTierRows();
         </div>
       </div>
 
+      {/*
+        CLEANUP-FLAG: this snippet exists twice — once as syntax-highlighted markup
+        below, once as a plain string in the copy-button script at the bottom of the
+        file. They have already drifted: the displayed version wraps the Vercel URL
+        across three lines, the copied one is a single line. Deduping means either
+        rendering the highlight spans from one source string or dropping the
+        hand-written highlighting, both of which change what the page looks like.
+      */}
       <div class="sc-code-block" id="sc-snippet"><span class="sc-code-comment">// GET /api/ship-clock</span>
 <span class="sc-code-key">const</span> <span class="sc-code-var">url</span> = &#96;<span class="sc-code-str">https://api.vercel.com/v6/deployments</span>
 <span class="sc-code-str">  ?projectId=&#36;&#123;</span><span class="sc-code-var">VERCEL_PROJECT_ID</span><span class="sc-code-str">&#125;</span>
