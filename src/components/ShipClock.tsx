@@ -106,8 +106,8 @@ export default function ShipClock() {
 
   function handleShare() {
     const text = isToday
-      ? "stanwood.dev shipped today 🚀 — ship-clock.stanwood.dev"
-      : `stanwood.dev: ${days}d since last deploy — "${status.label}" — ship-clock.stanwood.dev`;
+      ? "stanwood.dev shipped today 🚀 — stanwood.dev/ship-clock"
+      : `stanwood.dev: ${days}d since last deploy — "${status.label}" — stanwood.dev/ship-clock`;
     copy(text);
   }
 
