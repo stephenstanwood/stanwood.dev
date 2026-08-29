@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const DATA_DIR = resolve(ROOT, "src/data");
@@ -574,6 +574,51 @@ function parseDowntownDateRange(date = "", referenceDate = new Date()) {
   return range;
 }
 
+function parseDowntownClockTime(value = "") {
+  const match = cleanSentence(value).match(/^(\d{1,2})(?::(\d{2}))?\s*([ap]m)$/i);
+  if (!match) return "";
+
+  let hour = Number(match[1]);
+  const minute = match[2] ?? "00";
+  const meridiem = match[3].toLowerCase();
+  if (meridiem === "pm" && hour < 12) hour += 12;
+  if (meridiem === "am" && hour === 12) hour = 0;
+
+  return `${String(hour).padStart(2, "0")}:${minute.padStart(2, "0")}:00`;
+}
+
+function parseDowntownDetailTimes(html = "") {
+  const startText = cleanHtml(
+    html.match(/<div[^>]*class="[^"]*time-start[^"]*"[\s\S]*?<div[^>]*class="[^"]*time[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "",
+  );
+  const endText = cleanHtml(
+    html.match(/<div[^>]*class="[^"]*time-end[^"]*"[\s\S]*?<div[^>]*class="[^"]*time[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "",
+  );
+
+  return {
+    startText,
+    endText,
+    startTime: parseDowntownClockTime(startText),
+    endTime: parseDowntownClockTime(endText),
+  };
+}
+
+export function applyDowntownDetailTimes(event, detailHtml = "") {
+  const datePart = (event.startDate ?? "").match(/^(\d{4}-\d{2}-\d{2})T00:00:00$/)?.[1] ?? "";
+  if (!datePart || event.endDate) return event;
+
+  const { startText, endText, startTime, endTime } = parseDowntownDetailTimes(detailHtml);
+  if (!startTime) return event;
+
+  const timeLabel = endText ? `${startText} - ${endText}` : startText;
+  return {
+    ...event,
+    date: event.date ? `${event.date}, ${timeLabel}` : timeLabel,
+    startDate: `${datePart}T${startTime}`,
+    ...(endTime ? { endDate: `${datePart}T${endTime}` } : {}),
+  };
+}
+
 function parseCityCalendarEndDate(date = "", startDate = "") {
   const cleaned = cleanSentence(date);
   const match = cleaned.match(/-\s*([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})/);
@@ -958,6 +1003,36 @@ function parseDowntownEvents(html, referenceDate = new Date()) {
       };
     })
     .filter(Boolean);
+}
+
+async function enrichDowntownEventTimes(events) {
+  const enrichedEvents = [];
+  const detailHtmlByUrl = new Map();
+
+  for (const event of events) {
+    if (
+      !hasSpecificEventTime(event) &&
+      !event.endDate &&
+      /^https:\/\/www\.downtowncampbell\.com\/event\//.test(event.url ?? "")
+    ) {
+      try {
+        if (!detailHtmlByUrl.has(event.url)) {
+          await sleep(125);
+          detailHtmlByUrl.set(event.url, await fetchText(event.url));
+        }
+        const detailHtml = detailHtmlByUrl.get(event.url);
+        enrichedEvents.push(applyDowntownDetailTimes(event, detailHtml));
+        continue;
+      } catch (err) {
+        detailHtmlByUrl.set(event.url, "");
+        console.warn(`Warning: reused Downtown list date for ${event.title} because ${err.message}`);
+      }
+    }
+
+    enrichedEvents.push(event);
+  }
+
+  return enrichedEvents;
 }
 
 function splitCalendarBlocks(html) {
@@ -2085,7 +2160,7 @@ async function main() {
   let downtownEvents = [];
   let downtownEventsSourceNote = "";
   if (eventsPage.html) {
-    downtownEvents = parseDowntownEvents(eventsPage.html, generatedAtDate);
+    downtownEvents = await enrichDowntownEventTimes(parseDowntownEvents(eventsPage.html, generatedAtDate));
   } else {
     downtownEvents = await readExistingSourceEvents({
       source: "Downtown Campbell Events",
@@ -2350,7 +2425,9 @@ async function main() {
   console.log(`Wrote ${publicHearings.length} public hearings -> ${publicHearingsPath}`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exitCode = 1;
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((err) => {
+    console.error(err);
+    process.exitCode = 1;
+  });
+}
