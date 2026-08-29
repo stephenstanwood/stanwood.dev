@@ -1,5 +1,21 @@
 [
   {
+    "name": "Gemini Omni 1.1 Flash",
+    "org": "Google",
+    "date": "2026-08-27",
+    "type": "model",
+    "summary": "Stretch a generated clip out to 40 seconds in ten-second chunks, pin the first and last frames to storyboard a shot, then upscale toward 4K. Draft at 360p for $0.03 a second first.",
+    "url": "https://ai.google.dev/gemini-api/docs/video"
+  },
+  {
+    "name": "Gemini 3.5 Transcribe",
+    "org": "Google",
+    "date": "2026-08-26",
+    "type": "model",
+    "summary": "Transcribe recorded or live audio in 85+ languages with speaker labels, word-level timestamps, and up to 1,000 custom vocabulary terms. Roughly half a cent a minute, and there's a free tier.",
+    "url": "https://ai.google.dev/gemini-api/docs/changelog"
+  },
+  {
     "name": "Qwen3.8-Flash-Next",
     "org": "Alibaba",
     "date": "2026-08-26",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Talk through your app while it records voice, screen, and transcript, then hand the cleaned-up plan to Claude Code, Cursor, or Codex as tasks. Whisper runs on-device, so nothing leaves your Mac.",
     "url": "https://www.producthunt.com/products/aloud-4"
-  },
-  {
-    "name": "Firefly Audio",
-    "org": "Adobe",
-    "date": "2026-08-21",
-    "type": "tool",
-    "summary": "Generate licensed music, voiceovers, and sound effects for your videos from text prompts — 45 voice profiles, a multitrack timeline, and clearance to use all of it commercially. Broadly available in Firefly now.",
-    "url": "https://www.techradar.com/pro/adobe-firefly-just-added-3-ai-audio-tools-for-creators-and-marketers-i-tested-them-all-to-see-if-theyre-any-good"
-  },
-  {
-    "name": "GPT-Image-2 transparent backgrounds",
-    "org": "OpenAI",
-    "date": "2026-08-21",
-    "type": "tool",
-    "summary": "Generate icons, stickers, and product shots as real alpha-channel PNGs by passing background=transparent — no background-removal step. Works in text-to-image, editing, and the Responses image tool, at no extra cost.",
-    "url": "https://the-decoder.com/openais-gpt-image-2-can-now-generate-images-without-a-background/"
   }
 ]
