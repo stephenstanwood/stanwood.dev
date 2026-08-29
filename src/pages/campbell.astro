@@ -1067,6 +1067,17 @@ const photoStories = [
       @media (min-width: 640px) {
         .cb-source-grid { grid-template-columns: 1fr 1fr; }
       }
+      /*
+       * CLEANUP-FLAG: this "card surface" declaration set — color/text-decoration/
+       * background/border/border-radius/transition plus the matching :hover lift —
+       * is repeated verbatim by .cb-event-card, .cb-property-metric,
+       * .cb-property-layer, .cb-safety-layer and .cb-safety-metric (and a second
+       * pill/chip set is shared by .cb-event-count and .cb-business-count).
+       * Grouping them means moving rules
+       * across ~1600 lines of one `is:global` block, which changes cascade order
+       * for anything that later touches the same properties, so it needs a real
+       * audit rather than a mechanical merge.
+       */
       .cb-source-card {
         display: flex;
         flex-direction: column;

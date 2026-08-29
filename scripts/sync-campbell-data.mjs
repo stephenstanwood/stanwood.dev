@@ -48,6 +48,7 @@ const PUBLIC_NOTICE_ARCHIVES = [
 ];
 const MAX_NOTICE_PDF_BYTES = 4_000_000;
 const MS_PER_DAY = 86_400_000;
+const END_OF_DAY = "23:59:59";
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
 const CHAMBER_ALPHA_SLUGS = ["0-9", ..."abcdefghijklmnopqrstuvwxyz"];
 
@@ -533,19 +534,48 @@ function normalizeKeyPart(value = "") {
     .trim();
 }
 
-function downtownYearForMonthDay(month, day, referenceDate = new Date()) {
-  const referenceYear = referenceDate.getFullYear();
-  const candidate = new Date(referenceYear, month - 1, day);
-  const reference = new Date(referenceYear, referenceDate.getMonth(), referenceDate.getDate());
-  const daysFromReference = Math.round((candidate.getTime() - reference.getTime()) / MS_PER_DAY);
-
-  // Downtown omits the year on some upcoming cards. If the month/day appears
-  // far behind the sync date, it is almost certainly an early-next-year event.
-  return daysFromReference < -45 ? referenceYear + 1 : referenceYear;
+function pad2(value) {
+  return String(value).padStart(2, "0");
 }
 
-function downtownIsoDate(year, month, day, time = "00:00:00") {
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${time}`;
+/** Local-time ISO date, no zone suffix — the shape every Campbell feed parser emits. */
+function isoDate(year, month, day) {
+  return `${year}-${pad2(month)}-${pad2(day)}`;
+}
+
+function isoDateTime(year, month, day, time = "00:00:00") {
+  return `${isoDate(year, month, day)}T${time}`;
+}
+
+function isoClockTime(hour, minute = 0, second = 0) {
+  return `${pad2(hour)}:${pad2(minute)}:${pad2(second)}`;
+}
+
+/** 12-hour clock to 24-hour. A blank meridiem leaves the hour as written. */
+function to24Hour(hour, meridiem = "") {
+  const parsed = Number(hour);
+  const lowerMeridiem = meridiem.toLowerCase();
+  if (lowerMeridiem === "pm" && parsed < 12) return parsed + 12;
+  if (lowerMeridiem === "am" && parsed === 12) return 0;
+  return parsed;
+}
+
+/**
+ * Whole days from the reference calendar day to month/day within the reference
+ * year; negative means the date has already passed. Feeds that omit the year use
+ * this to decide whether a stale-looking month/day is really next year's.
+ */
+function daysFromReferenceDay(month, day, referenceDate) {
+  const referenceYear = referenceDate.getFullYear();
+  const candidate = new Date(referenceYear, Number(month) - 1, Number(day));
+  const referenceDay = new Date(referenceYear, referenceDate.getMonth(), referenceDate.getDate());
+  return (candidate.getTime() - referenceDay.getTime()) / MS_PER_DAY;
+}
+
+function downtownYearForMonthDay(month, day, referenceDate = new Date()) {
+  const referenceYear = referenceDate.getFullYear();
+  const daysFromReference = Math.round(daysFromReferenceDay(month, day, referenceDate));
+  return daysFromReference < -45 ? referenceYear + 1 : referenceYear;
 }
 
 function parseDowntownDateRange(date = "", referenceDate = new Date()) {
@@ -553,7 +583,7 @@ function parseDowntownDateRange(date = "", referenceDate = new Date()) {
   const fullDate = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
   if (fullDate) {
     const year = fullDate[3].length === 2 ? `20${fullDate[3]}` : fullDate[3];
-    return { startDate: downtownIsoDate(year, fullDate[1], fullDate[2]) };
+    return { startDate: isoDateTime(year, fullDate[1], fullDate[2]) };
   }
 
   const monthDayRange = cleaned.match(/^(\d{1,2})\/(\d{1,2})(?:\s*-\s*(\d{1,2})\/(\d{1,2}))?/);
@@ -562,13 +592,13 @@ function parseDowntownDateRange(date = "", referenceDate = new Date()) {
   const startMonth = Number(monthDayRange[1]);
   const startDay = Number(monthDayRange[2]);
   const startYear = downtownYearForMonthDay(startMonth, startDay, referenceDate);
-  const range = { startDate: downtownIsoDate(startYear, startMonth, startDay) };
+  const range = { startDate: isoDateTime(startYear, startMonth, startDay) };
 
   if (monthDayRange[3] && monthDayRange[4]) {
     const endMonth = Number(monthDayRange[3]);
     const endDay = Number(monthDayRange[4]);
     const endYear = endMonth < startMonth ? startYear + 1 : startYear;
-    range.endDate = downtownIsoDate(endYear, endMonth, endDay, "23:59:59");
+    range.endDate = isoDateTime(endYear, endMonth, endDay, END_OF_DAY);
   }
 
   return range;
@@ -578,13 +608,7 @@ function parseDowntownClockTime(value = "") {
   const match = cleanSentence(value).match(/^(\d{1,2})(?::(\d{2}))?\s*([ap]m)$/i);
   if (!match) return "";
 
-  let hour = Number(match[1]);
-  const minute = match[2] ?? "00";
-  const meridiem = match[3].toLowerCase();
-  if (meridiem === "pm" && hour < 12) hour += 12;
-  if (meridiem === "am" && hour === 12) hour = 0;
-
-  return `${String(hour).padStart(2, "0")}:${minute.padStart(2, "0")}:00`;
+  return isoClockTime(to24Hour(match[1], match[3]), match[2] ?? "00");
 }
 
 function parseDowntownDetailTimes(html = "") {
@@ -627,24 +651,15 @@ function parseCityCalendarEndDate(date = "", startDate = "") {
   const month = MONTH_NUMBERS[match[1].slice(0, 3).toLowerCase()];
   if (!month) return "";
 
-  const day = match[2].padStart(2, "0");
-  const datePart = `${match[3]}-${month}-${day}`;
+  const datePart = isoDate(match[3], month, match[2]);
   if (datePart === startDate.slice(0, 10)) return "";
 
-  return `${datePart}T23:59:59`;
-}
-
-function cityCalendarIsoDate(year, month, day, hour = 0, minute = 0, second = 0) {
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:${String(second).padStart(2, "0")}`;
+  return `${datePart}T${END_OF_DAY}`;
 }
 
 function parseCityCalendarTime(hour, minute = "0", meridiem = "") {
-  let parsedHour = Number(hour);
-  const lowerMeridiem = meridiem.toLowerCase();
-  if (lowerMeridiem === "pm" && parsedHour < 12) parsedHour += 12;
-  if (lowerMeridiem === "am" && parsedHour === 12) parsedHour = 0;
   return {
-    hour: parsedHour,
+    hour: to24Hour(hour, meridiem),
     minute: Number(minute),
   };
 }
@@ -669,7 +684,7 @@ function parseCityCalendarDate(date = "") {
   const startTime = start[4]
     ? parseCityCalendarTime(start[4], start[5], start[6])
     : { hour: 0, minute: 0 };
-  const startDate = cityCalendarIsoDate(start[3], startMonth, start[2], startTime.hour, startTime.minute);
+  const startDate = isoDateTime(start[3], startMonth, start[2], isoClockTime(startTime.hour, startTime.minute));
   const range = { startDate, endDate: "" };
   const endText = cleaned.slice(start[0].length).match(/^\s*-\s*(.+)$/)?.[1] ?? "";
   if (!endText) return range;
@@ -701,7 +716,12 @@ function parseCityCalendarDate(date = "") {
     }
   }
 
-  range.endDate = cityCalendarIsoDate(endParts.year, endParts.month, endParts.day, endTime.hour, endTime.minute);
+  range.endDate = isoDateTime(
+    endParts.year,
+    endParts.month,
+    endParts.day,
+    isoClockTime(endTime.hour, endTime.minute),
+  );
   return range;
 }
 
@@ -1112,14 +1132,8 @@ const MONTH_NUMBERS = {
 };
 
 function libraryEventYear(month, day, referenceDate = new Date()) {
-  let year = referenceDate.getFullYear();
-  const candidate = new Date(year, Number(month) - 1, Number(day));
-  const referenceStart = new Date(referenceDate);
-  referenceStart.setHours(0, 0, 0, 0);
-  if (candidate.getTime() < referenceStart.getTime() - 30 * MS_PER_DAY) {
-    year += 1;
-  }
-  return year;
+  const year = referenceDate.getFullYear();
+  return daysFromReferenceDay(month, day, referenceDate) < -30 ? year + 1 : year;
 }
 
 function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
@@ -1130,8 +1144,8 @@ function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
     const endMonth = MONTH_NUMBERS[(rangeMatch[3] ?? rangeMatch[1]).slice(0, 3).toLowerCase()];
     if (!startMonth || !endMonth) return { startDate: "", endDate: "" };
 
-    const startDay = rangeMatch[2].padStart(2, "0");
-    const endDay = rangeMatch[4].padStart(2, "0");
+    const startDay = pad2(rangeMatch[2]);
+    const endDay = pad2(rangeMatch[4]);
     const startYear = libraryEventYear(startMonth, startDay, referenceDate);
     let endYear = libraryEventYear(endMonth, endDay, referenceDate);
     const endIsBeforeStart =
@@ -1140,8 +1154,8 @@ function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
     if (endIsBeforeStart) endYear = startYear + 1;
 
     return {
-      startDate: `${startYear}-${startMonth}-${startDay}T00:00:00`,
-      endDate: `${endYear}-${endMonth}-${endDay}T23:59:59`,
+      startDate: isoDateTime(startYear, startMonth, startDay),
+      endDate: isoDateTime(endYear, endMonth, endDay, END_OF_DAY),
     };
   }
 
@@ -1150,9 +1164,9 @@ function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
     const month = MONTH_NUMBERS[allDayMatch[1].slice(0, 3).toLowerCase()];
     if (!month) return { startDate: "", endDate: "" };
 
-    const day = allDayMatch[2].padStart(2, "0");
+    const day = pad2(allDayMatch[2]);
     const year = libraryEventYear(month, day, referenceDate);
-    return { startDate: `${year}-${month}-${day}T00:00:00`, endDate: "" };
+    return { startDate: isoDateTime(year, month, day), endDate: "" };
   }
 
   const match = cleaned.match(/\b([A-Z][a-z]{2})\s+(\d{1,2})(?:st|nd|rd|th)?\s*\|\s*(\d{1,2})(?::(\d{2}))?\s*([ap]m)?/i);
@@ -1161,16 +1175,11 @@ function parseLibraryEventDates(dateTime = "", referenceDate = new Date()) {
   const month = MONTH_NUMBERS[match[1].slice(0, 3).toLowerCase()];
   if (!month) return { startDate: "", endDate: "" };
 
-  const day = match[2].padStart(2, "0");
+  const day = pad2(match[2]);
   const year = libraryEventYear(month, day, referenceDate);
-  let hour = Number(match[3]);
-  const minute = (match[4] ?? "00").padStart(2, "0");
-  const meridiem = (match[5] ?? "").toLowerCase();
+  const time = isoClockTime(to24Hour(match[3], match[5] ?? ""), match[4] ?? "00");
 
-  if (meridiem === "pm" && hour < 12) hour += 12;
-  if (meridiem === "am" && hour === 12) hour = 0;
-
-  return { startDate: `${year}-${month}-${day}T${String(hour).padStart(2, "0")}:${minute}:00`, endDate: "" };
+  return { startDate: isoDateTime(year, month, day, time), endDate: "" };
 }
 
 function extractLibraryEventsSection(html) {
@@ -1447,11 +1456,12 @@ function parseIcsDate(value = "") {
 }
 
 function localIso(date) {
-  return [
+  return isoDateTime(
     date.getFullYear(),
-    String(date.getMonth() + 1).padStart(2, "0"),
-    String(date.getDate()).padStart(2, "0"),
-  ].join("-") + `T${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
+    date.getMonth() + 1,
+    date.getDate(),
+    isoClockTime(date.getHours(), date.getMinutes(), date.getSeconds()),
+  );
 }
 
 function parseIcsEvents(text, { label, sourceUrl, calendarUrl, generatedAt }) {
