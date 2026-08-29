@@ -115,6 +115,20 @@ interface FocusOption {
 
 // ─── Constants ─────────────────────────────────────────────────────────────────
 
+/** Shared look for the shuffle/copy/share/print row under a generated workout. */
+const ACTION_BUTTON_CLASS =
+  "flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 " +
+  "text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 " +
+  "hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm";
+
+function CheckIcon() {
+  return (
+    <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
 const FOCUSES: FocusOption[] = [
   { value: "any",       label: "Any",        description: "Surprise me" },
   { value: "endurance", label: "Endurance",  description: "Long, steady sets" },
@@ -133,6 +147,8 @@ const DURATIONS: DurationOption[] = [
 // Paces are shown exactly as stored ("1:30"), so the label is always the value.
 const paceOptions = (times: string[]): PaceOption[] =>
   times.map((time) => ({ value: time, label: time }));
+
+const DEFAULT_PACE: Record<string, string> = { meters: "1:45", yards: "1:35" };
 
 const PACES: Record<string, PaceOption[]> = {
   meters: paceOptions([
@@ -337,30 +353,37 @@ function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
 
 // ─── Main component ────────────────────────────────────────────────────────────
 
+/**
+ * URL params resolved against the option lists a shared link can legitimately carry.
+ * Anything unrecognized (or absent, as on the server) falls back to the default.
+ */
+function urlSettings() {
+  const params = readUrlParams();
+  const unit: "meters" | "yards" = params?.unit === "yards" ? "yards" : "meters";
+  return {
+    unit,
+    duration:
+      params?.duration && DURATIONS.some((d) => d.value === params.duration)
+        ? params.duration
+        : 60,
+    pace:
+      params?.pace && PACES[unit].some((p) => p.value === params.pace)
+        ? params.pace
+        : DEFAULT_PACE[unit],
+    focus: params?.focus ?? ("any" as WorkoutFocus),
+    equipment: params?.equipment ?? ALL_EQUIPMENT,
+    seed: params?.seed ?? null,
+  };
+}
+
 export default function SwimWorkout() {
   // Initialize from URL params if present
-  const [unit, setUnit] = useState<"meters" | "yards">(() => {
-    const params = readUrlParams();
-    return params?.unit === "yards" ? "yards" : "meters";
-  });
-  const [duration, setDuration] = useState(() => {
-    const params = readUrlParams();
-    return params?.duration && DURATIONS.some((d) => d.value === params.duration) ? params.duration! : 60;
-  });
-  const [pace, setPace] = useState(() => {
-    const params = readUrlParams();
-    const urlUnit = params?.unit === "yards" ? "yards" : "meters";
-    if (params?.pace && PACES[urlUnit].some((x) => x.value === params.pace)) return params.pace!;
-    return urlUnit === "meters" ? "1:45" : "1:35";
-  });
-  const [focus, setFocus] = useState<WorkoutFocus>(() => {
-    const params = readUrlParams();
-    return params?.focus ?? "any";
-  });
-  const [equipment, setEquipment] = useState<EquipmentOptions>(() => {
-    const params = readUrlParams();
-    return params?.equipment ?? ALL_EQUIPMENT;
-  });
+  const [fromUrl] = useState(urlSettings);
+  const [unit, setUnit] = useState<"meters" | "yards">(fromUrl.unit);
+  const [duration, setDuration] = useState(fromUrl.duration);
+  const [pace, setPace] = useState(fromUrl.pace);
+  const [focus, setFocus] = useState<WorkoutFocus>(fromUrl.focus);
+  const [equipment, setEquipment] = useState<EquipmentOptions>(fromUrl.equipment);
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [animating, setAnimating] = useState(false);
   const { copied: copiedLink, copy: copyLinkToClipboard } = useCopyToClipboard();
@@ -374,16 +397,8 @@ export default function SwimWorkout() {
 
   // Auto-generate from URL seed on first mount
   useEffect(() => {
-    const params = readUrlParams();
-    if (params?.seed) {
-      const urlUnit = params.unit === "yards" ? "yards" : "meters";
-      const urlDuration = params.duration && DURATIONS.some((x) => x.value === params.duration) ? params.duration! : 60;
-      const defaultPace = urlUnit === "meters" ? "1:45" : "1:35";
-      const urlPace = params.pace && PACES[urlUnit].some((x) => x.value === params.pace) ? params.pace! : defaultPace;
-      const urlFocus = params.focus ?? "any";
-      const urlEquipment = params.equipment ?? ALL_EQUIPMENT;
-      setWorkout(generateWorkout({ duration: urlDuration, pace: urlPace, unit: urlUnit, seed: params.seed, focus: urlFocus, equipment: urlEquipment }));
-    }
+    const { seed, ...settings } = urlSettings();
+    if (seed) setWorkout(generateWorkout({ ...settings, seed }));
   }, []);
 
   // When unit changes, reset pace to default for that unit
@@ -679,7 +694,7 @@ export default function SwimWorkout() {
           <div className="mt-6 flex flex-wrap gap-3 print:hidden">
             <button
               onClick={() => generate(false)}
-              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
+              className={ACTION_BUTTON_CLASS}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -688,12 +703,10 @@ export default function SwimWorkout() {
             </button>
             <button
               onClick={copyText}
-              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
+              className={ACTION_BUTTON_CLASS}
             >
               {copiedText ? (
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
+                <CheckIcon />
               ) : (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -703,12 +716,10 @@ export default function SwimWorkout() {
             </button>
             <button
               onClick={copyLink}
-              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
+              className={ACTION_BUTTON_CLASS}
             >
               {copiedLink ? (
-                <svg className="w-4 h-4 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
+                <CheckIcon />
               ) : (
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -718,7 +729,7 @@ export default function SwimWorkout() {
             </button>
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 rounded-xl bg-white/70 border border-stone-200 px-5 py-2.5 text-sm font-semibold text-stone-700 shadow-sm hover:bg-white hover:border-teal-300 hover:text-teal-700 transition-all active:scale-[0.97] backdrop-blur-sm"
+              className={ACTION_BUTTON_CLASS}
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
