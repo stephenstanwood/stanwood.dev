@@ -25,7 +25,7 @@ export type TasteProfile = DimensionScores;
 
 // ─── Quiz ────────────────────────────────────────────────────────────────────
 
-export interface QuizChoice {
+interface QuizChoice {
   label: string;
   subtitle?: string;
   emoji?: string;

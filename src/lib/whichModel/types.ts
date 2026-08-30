@@ -25,7 +25,7 @@ export const TRAIT_LABELS: Record<Trait, string> = {
   ecosystem: "Ecosystem",
 };
 
-export type TraitScores = Record<Trait, number>;
+type TraitScores = Record<Trait, number>;
 
 export interface ModelProfile {
   id: string;

@@ -109,7 +109,7 @@ function isNbaPlayoff(ev: ESPNEvent): boolean {
 /** Accent used when a surfaced game has no tracked team to borrow a brand colour from. */
 export const DEFAULT_TEAM_ACCENT = "#1a1a1a";
 
-export interface TrackedGameMatch {
+interface TrackedGameMatch {
   /** The tracked team in this matchup, or null when the game qualifies on playoff status alone. */
   matched: TeamEntry | null;
   isPlayoff: boolean;
