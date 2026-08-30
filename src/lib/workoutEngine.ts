@@ -230,13 +230,11 @@ function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptio
 
   const secondDist = Math.round(remaining / 50) * 50;
 
-  // Build flavor pool based on available equipment
   const flavorPool: string[] = ["choice", "build", "IM", "kansas", "reverseIM", "drill"];
   if (eq.kickboard && eq.pull) flavorPool.push("SKPS");
   if (eq.kickboard) flavorPool.push("kick");
   if (eq.pull) flavorPool.push("pull");
 
-  // Pick a flavor for the second piece
   const flavor = rng.pick(flavorPool);
 
   switch (flavor) {
@@ -409,28 +407,22 @@ function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
   const descending = [...ascending].slice(0, -1).reverse();
   const pyramid = [...ascending, ...descending];
   const pyramidTotal = sum(pyramid);
+  const result: SetItem[] = pyramid.map((distance, index) => ({
+    reps: 1, distance,
+    interval: calcInterval(distance, pace, 10),
+    description: index < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
+    stroke: "free" as Stroke,
+  }));
 
   if (pyramidTotal < target * 0.6) {
     const remaining = target - pyramidTotal;
-    const repDist = rng.pick([100, 200]);
-    const repCount = niceReps(remaining / repDist);
-    const interval = calcInterval(repDist, pace, 10);
-    const result: SetItem[] = pyramid.map((distance, i) => ({
-      reps: 1, distance,
-      interval: calcInterval(distance, pace, 10),
-      description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
-      stroke: "free" as Stroke,
-    }));
-    result.push({ reps: repCount, distance: repDist, interval, description: "Free — hold best pace", stroke: "free" });
-    return result;
+    const repeatDistance = rng.pick([100, 200]);
+    const repeatCount = niceReps(remaining / repeatDistance);
+    const interval = calcInterval(repeatDistance, pace, 10);
+    result.push({ reps: repeatCount, distance: repeatDistance, interval, description: "Free — hold best pace", stroke: "free" });
   }
 
-  return pyramid.map((distance, i) => ({
-    reps: 1, distance,
-    interval: calcInterval(distance, pace, 10),
-    description: i < pyramid.length / 2 ? "Free — build up" : "Free — bring it home",
-    stroke: "free" as Stroke,
-  }));
+  return result;
 }
 
 function mainNegSplit(target: number, pace: number, rng: Rng): SetItem[] {

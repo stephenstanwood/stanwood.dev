@@ -415,9 +415,12 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
             )}
           </div>
         ) : grouped.map(([label, entries]) => {
-          const allInGroup = view === "priority"
-            ? (batch === "today" ? dailyBatchPeople : filtered)
-            : filtered.filter((person) => person.category === entries[0].category);
+          let allInGroup = filtered;
+          if (view === "priority" && batch === "today") {
+            allInGroup = dailyBatchPeople;
+          } else if (view !== "priority") {
+            allInGroup = filtered.filter((person) => person.category === entries[0].category);
+          }
           const remaining = allInGroup.filter((person) => !person.actioned && !person.dismissed).length;
           return (
             <section className="li-group" key={label}>

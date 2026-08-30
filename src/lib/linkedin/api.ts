@@ -1,6 +1,13 @@
+import type { APIRoute } from "astro";
 import { errJson, okJson } from "../apiHelpers";
+import { rateLimit, rateLimitResponse } from "../rateLimit";
 
-export async function readLinkedInMutation(
+type LinkedInMutation = (
+  id: string,
+  value: boolean,
+) => Promise<{ updated: boolean }>;
+
+async function readLinkedInMutation(
   request: Request,
 ): Promise<{ id: string; value: boolean } | Response> {
   if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")) {
@@ -22,6 +29,16 @@ export async function readLinkedInMutation(
   return { id: record.id, value };
 }
 
-export function linkedInMutationResponse(updated: boolean): Response {
+function linkedInMutationResponse(updated: boolean): Response {
   return updated ? okJson({ ok: true }) : errJson("Person not found.", 404);
+}
+
+export function createLinkedInMutationRoute(mutate: LinkedInMutation): APIRoute {
+  return async ({ request, clientAddress }) => {
+    if (!rateLimit(clientAddress)) return rateLimitResponse();
+    const parsed = await readLinkedInMutation(request);
+    if (parsed instanceof Response) return parsed;
+    const result = await mutate(parsed.id, parsed.value);
+    return linkedInMutationResponse(result.updated);
+  };
 }

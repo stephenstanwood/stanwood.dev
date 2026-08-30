@@ -236,15 +236,18 @@ async function documentBufferToText(buffer, { contentType = "" } = {}) {
   return { text: "", skipped: `Unsupported notice document type${contentType ? `: ${contentType}` : ""}` };
 }
 
-async function pdfBufferToText(buffer) {
+async function documentBufferViaCommand(
+  buffer,
+  { filename, command, commandArgs, failureMessage },
+) {
   const dir = await mkdtemp(resolve(tmpdir(), "campbell-notice-"));
-  const pdfPath = resolve(dir, "notice.pdf");
+  const documentPath = resolve(dir, filename);
 
   try {
-    await writeFile(pdfPath, buffer);
+    await writeFile(documentPath, buffer);
     const result = spawnSync(
-      "pdftotext",
-      ["-f", "1", "-l", "8", "-layout", pdfPath, "-"],
+      command,
+      commandArgs(documentPath),
       { encoding: "utf8", maxBuffer: 2 * 1024 * 1024 },
     );
 
@@ -252,7 +255,7 @@ async function pdfBufferToText(buffer) {
       return { text: "", skipped: result.error.message };
     }
     if (result.status !== 0 && !result.stdout) {
-      return { text: "", skipped: result.stderr.trim() || "pdftotext failed" };
+      return { text: "", skipped: result.stderr.trim() || failureMessage };
     }
 
     return { text: result.stdout, skipped: "" };
@@ -261,29 +264,22 @@ async function pdfBufferToText(buffer) {
   }
 }
 
-async function wordBufferToText(buffer, { extension = ".doc" } = {}) {
-  const dir = await mkdtemp(resolve(tmpdir(), "campbell-notice-"));
-  const docPath = resolve(dir, `notice${extension}`);
+function pdfBufferToText(buffer) {
+  return documentBufferViaCommand(buffer, {
+    filename: "notice.pdf",
+    command: "pdftotext",
+    commandArgs: (documentPath) => ["-f", "1", "-l", "8", "-layout", documentPath, "-"],
+    failureMessage: "pdftotext failed",
+  });
+}
 
-  try {
-    await writeFile(docPath, buffer);
-    const result = spawnSync(
-      "textutil",
-      ["-convert", "txt", "-stdout", docPath],
-      { encoding: "utf8", maxBuffer: 2 * 1024 * 1024 },
-    );
-
-    if (result.error) {
-      return { text: "", skipped: result.error.message };
-    }
-    if (result.status !== 0 && !result.stdout) {
-      return { text: "", skipped: result.stderr.trim() || "textutil failed" };
-    }
-
-    return { text: result.stdout, skipped: "" };
-  } finally {
-    await rm(dir, { recursive: true, force: true });
-  }
+function wordBufferToText(buffer, { extension = ".doc" } = {}) {
+  return documentBufferViaCommand(buffer, {
+    filename: `notice${extension}`,
+    command: "textutil",
+    commandArgs: (documentPath) => ["-convert", "txt", "-stdout", documentPath],
+    failureMessage: "textutil failed",
+  });
 }
 
 async function readLimitedResponse(res, limitBytes) {
@@ -952,6 +948,14 @@ function filterPublicEvents(events, referenceDate = new Date()) {
   return events.filter((event) => !eventPublicFilterReason(event, referenceDate));
 }
 
+function oneYearEventWindow(generatedAt) {
+  const start = new Date(generatedAt);
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(start);
+  end.setFullYear(end.getFullYear() + 1);
+  return { start, end };
+}
+
 async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
   const existingPath = resolve(DATA_DIR, "campbellEvents.json");
   let payload;
@@ -963,10 +967,7 @@ async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
     return [];
   }
 
-  const today = new Date(generatedAt);
-  today.setHours(0, 0, 0, 0);
-  const oneYearOut = new Date(today);
-  oneYearOut.setFullYear(oneYearOut.getFullYear() + 1);
+  const { start: today, end: oneYearOut } = oneYearEventWindow(generatedAt);
 
   return (Array.isArray(payload.items) ? payload.items : [])
     .filter((event) => {
@@ -1465,10 +1466,7 @@ function localIso(date) {
 }
 
 function parseIcsEvents(text, { label, sourceUrl, calendarUrl, generatedAt }) {
-  const today = new Date(generatedAt);
-  today.setHours(0, 0, 0, 0);
-  const oneYearOut = new Date(today);
-  oneYearOut.setFullYear(oneYearOut.getFullYear() + 1);
+  const { start: today, end: oneYearOut } = oneYearEventWindow(generatedAt);
 
   return [...unfoldIcs(text).matchAll(/BEGIN:VEVENT([\s\S]*?)END:VEVENT/g)]
     .map(([, block]) => {
