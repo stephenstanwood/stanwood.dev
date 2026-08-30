@@ -1,11 +1,19 @@
 [
   {
+    "name": "Hy4 preview",
+    "org": "Tencent",
+    "date": "2026-08-28",
+    "type": "model",
+    "summary": "Build code, analyze long documents, or automate office work with a new open-source model. Try it free for two weeks in CodeBuddy or WorkBuddy, call the API, or download the weights.",
+    "url": "https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/"
+  },
+  {
     "name": "Gemini Omni 1.1 Flash",
     "org": "Google",
     "date": "2026-08-27",
     "type": "model",
-    "summary": "Stretch a generated clip out to 40 seconds in ten-second chunks, pin the first and last frames to storyboard a shot, then upscale toward 4K. Draft at 360p for $0.03 a second first.",
-    "url": "https://ai.google.dev/gemini-api/docs/video"
+    "summary": "Stretch a generated clip out to 40 seconds in ten-second chunks, pin the first and last frames to storyboard a shot, then upscale to 4K. Draft at 360p for $0.03 a second first.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/"
   },
   {
     "name": "Gemini 3.5 Transcribe",
@@ -13,15 +21,15 @@
     "date": "2026-08-26",
     "type": "model",
     "summary": "Transcribe recorded or live audio in 85+ languages with speaker labels, word-level timestamps, and up to 1,000 custom vocabulary terms. Roughly half a cent a minute, and there's a free tier.",
-    "url": "https://ai.google.dev/gemini-api/docs/changelog"
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/"
   },
   {
     "name": "Qwen3.8-Flash-Next",
     "org": "Alibaba",
     "date": "2026-08-26",
     "type": "model",
-    "summary": "Download open weights for a 125B mixture-of-experts model that activates only 6B per token, so it runs fast on modest hardware with a 262K context. Hosted version is $0.16 per million input tokens.",
-    "url": "https://huggingface.co/Qwen/Qwen3.8-Flash-Next"
+    "summary": "Use an open model to read images, write code, and work through long documents. Download it for a high-memory machine, or try the hosted version when local setup is more than you need.",
+    "url": "https://qwen.ai/blog?id=qwen3.8-flash-next"
   },
   {
     "name": "Built-in browser in Cowork",
@@ -32,35 +40,27 @@
     "url": "https://claude.com/blog/cowork-built-in-browser"
   },
   {
-    "name": "GLM-5.3-Flash",
-    "org": "Z.ai",
-    "date": "2026-08-26",
-    "type": "model",
-    "summary": "Swap in a multimodal 1M-context model for $0.075 per million input tokens during the launch promo through Sept 9. Weights are MIT on Hugging Face if you'd rather self-host.",
-    "url": "https://openrouter.ai/z-ai/glm-5.3-flash"
+    "name": "Shared memory in Claude",
+    "org": "Anthropic",
+    "date": "2026-08-25",
+    "type": "tool",
+    "summary": "Carry the same project context between Claude chat and Cowork, then inspect, edit, or delete what it remembers. Memory is available now on Free, Pro, and Max plans across web, desktop, and mobile.",
+    "url": "https://claude.com/blog/claudes-memory-works-everywhere-and-you-decide-whats-in-it"
+  },
+  {
+    "name": "Keenable Search API",
+    "org": "Keenable",
+    "date": "2026-08-25",
+    "type": "tool",
+    "summary": "Add live web search and clean page text to an agent without paying upfront. The public endpoint needs no key, and a free account includes 100,000 searches a month.",
+    "url": "https://techcrunch.com/2026/08/25/accel-backed-keenable-is-indexing-the-web-for-ai-agents/"
   },
   {
     "name": "Wan 3.0",
     "org": "Alibaba",
     "date": "2026-08-24",
     "type": "model",
-    "summary": "Generate a 30-second video in one continuous shot with director-style camera moves, or turn a PDF or slide deck straight into video. API only, from $0.05 per output second at 480p.",
-    "url": "https://winbuzzer.com/2026/08/25/alibaba-launches-wan3-0-for-30-second-ai-video-from-documents-xcxwbn/"
-  },
-  {
-    "name": "Keenable Search API",
-    "org": "Keenable",
-    "date": "2026-08-24",
-    "type": "tool",
-    "summary": "Give your agent live web search and clean-markdown page fetch over a 100-billion-document index. The MCP server works with no API key at all — point Claude Code or Cursor at it and go.",
-    "url": "https://keenable.ai/"
-  },
-  {
-    "name": "Aloud",
-    "org": "Aloud",
-    "date": "2026-08-21",
-    "type": "tool",
-    "summary": "Talk through your app while it records voice, screen, and transcript, then hand the cleaned-up plan to Claude Code, Cursor, or Codex as tasks. Whisper runs on-device, so nothing leaves your Mac.",
-    "url": "https://www.producthunt.com/products/aloud-4"
+    "summary": "Create a 30-second video in one shot with camera moves and sound, or turn a PDF or slide deck directly into video. The public API needs no application and starts at $0.035 per second during launch pricing.",
+    "url": "https://modelstudio.console.alibabacloud.com/model-releases/wan3.0-video"
   }
 ]
