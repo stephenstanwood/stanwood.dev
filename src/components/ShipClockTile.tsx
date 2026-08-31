@@ -3,19 +3,19 @@ import { MS_PER_MINUTE, msSince } from "../lib/time";
 import { formatHourMinute } from "../lib/dateFormat";
 import type { DeployData } from "../lib/shipClockStatus";
 
-/** Generate pseudo-barcode bar widths from a string (for visual effect only).
- *  Repeats the SHA pattern to fill ~60 bars for a full-width barcode. */
+const BARCODE_BAR_COUNT = 60; // enough bars to span the tile width
+
+/** Generate pseudo-barcode widths from a string (for visual effect only).
+ *  Repeats the SHA pattern, emitting alternating bar/gap widths — so the returned
+ *  array is BARCODE_BAR_COUNT * 2 long and even indexes are bars, odd ones gaps. */
 function barsFromSha(sha: string): number[] {
-  const bars: number[] = [];
-  const target = 60; // enough bars to span the tile width
-  let i = 0;
-  while (bars.length < target * 2) {
+  const widths: number[] = [];
+  for (let i = 0; widths.length < BARCODE_BAR_COUNT * 2; i++) {
     const code = sha.charCodeAt(i % sha.length);
-    bars.push(code % 2 === 0 ? 2 : 1); // bar width
-    bars.push(code % 3 === 0 ? 2 : 1); // gap width
-    i++;
+    widths.push(code % 2 === 0 ? 2 : 1); // bar width
+    widths.push(code % 3 === 0 ? 2 : 1); // gap width
   }
-  return bars;
+  return widths;
 }
 
 function formatElapsed(ms: number): string {

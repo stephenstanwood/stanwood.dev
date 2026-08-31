@@ -223,12 +223,26 @@ function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptio
   const freeLead = 200;
   const remaining = target - freeLead;
 
+  const moderateFree = (distance: number): SetItem => ({
+    reps: 1,
+    distance,
+    description: "Moderate free",
+    stroke: "free",
+  });
+
   // If not much room left, just do all free
   if (remaining < 200) {
-    return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
+    return [moderateFree(target)];
   }
 
   const secondDist = Math.round(remaining / 50) * 50;
+
+  /** Every flavor opens with the plain-free lead, then adds its own pieces. */
+  const afterLead = (...rest: SetItem[]): SetItem[] => [moderateFree(freeLead), ...rest];
+
+  /** Used when a flavor needs more distance than `secondDist` has to give. */
+  const choiceStroke = (): SetItem[] =>
+    afterLead({ reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" });
 
   const flavorPool: string[] = ["choice", "build", "IM", "kansas", "reverseIM", "drill"];
   if (eq.kickboard && eq.pull) flavorPool.push("SKPS");
@@ -239,101 +253,80 @@ function buildWarmup(target: number, _pace: number, rng: Rng, eq: EquipmentOptio
 
   switch (flavor) {
     case "choice":
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
-      ];
+      return choiceStroke();
 
     case "SKPS": {
       const leg = Math.round(secondDist / 4 / 50) * 50;
-      if (leg < 50) {
-        return [
-          { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-          { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
-        ];
-      }
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
+      if (leg < 50) return choiceStroke();
+      return afterLead(
         { reps: 1, distance: leg, description: "Swim free", stroke: "free" },
         { reps: 1, distance: leg, description: "Kick", stroke: "free", equipment: "kickboard" },
         { reps: 1, distance: leg, description: "Pull", stroke: "free", equipment: "pull" },
         { reps: 1, distance: leg, description: "Swim free", stroke: "free" },
-      ];
+      );
     }
 
     case "build": {
       const reps = niceReps(secondDist / 100);
       const dist = Math.round(secondDist / reps / 50) * 50 || 100;
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps, distance: dist, description: "Build (moderate → fast)", stroke: "free" },
-      ];
+      return afterLead({ reps, distance: dist, description: "Build (moderate → fast)", stroke: "free" });
     }
 
     case "IM":
-      if (secondDist < 200) {
-        return [
-          { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-          { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
-        ];
-      }
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 4, distance: 50, description: "IM order (fly, back, breast, free)", stroke: "IM" },
-      ];
+      if (secondDist < 200) return choiceStroke();
+      return afterLead({
+        reps: 4,
+        distance: 50,
+        description: "IM order (fly, back, breast, free)",
+        stroke: "IM",
+      });
 
     case "kansas":
-      if (secondDist < 300) {
-        return [
-          { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-          { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
-        ];
-      }
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 1, distance: 300, description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)", stroke: "mixed" },
-      ];
+      if (secondDist < 300) return choiceStroke();
+      return afterLead({
+        reps: 1,
+        distance: 300,
+        description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)",
+        stroke: "mixed",
+      });
 
     case "reverseIM":
-      if (secondDist < 200) {
-        return [
-          { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-          { reps: 1, distance: secondDist, description: "Moderate choice stroke", stroke: "choice" },
-        ];
-      }
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 4, distance: 50, description: "Reverse IM order (free, breast, back, fly)", stroke: "IM" },
-      ];
+      if (secondDist < 200) return choiceStroke();
+      return afterLead({
+        reps: 4,
+        distance: 50,
+        description: "Reverse IM order (free, breast, back, fly)",
+        stroke: "IM",
+      });
 
-    case "kick": {
-      const kickDist = Math.round(secondDist / 50) * 50;
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 1, distance: kickDist, description: "Kick — moderate, loosen up legs", stroke: "free", equipment: "kickboard" },
-      ];
-    }
+    // `secondDist` is already a multiple of 50, so kick/pull use it as-is.
+    case "kick":
+      return afterLead({
+        reps: 1,
+        distance: secondDist,
+        description: "Kick — moderate, loosen up legs",
+        stroke: "free",
+        equipment: "kickboard",
+      });
 
-    case "pull": {
-      const pullDist = Math.round(secondDist / 50) * 50;
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps: 1, distance: pullDist, description: "Pull — easy, focus on catch", stroke: "free", equipment: "pull" },
-      ];
-    }
+    case "pull":
+      return afterLead({
+        reps: 1,
+        distance: secondDist,
+        description: "Pull — easy, focus on catch",
+        stroke: "free",
+        equipment: "pull",
+      });
 
     case "drill": {
       const drillType = rng.pick(["Catch-up", "Fingertip drag", "Single-arm", "6-kick switch"]);
       const reps = niceReps(secondDist / 50);
       const dist = Math.round(secondDist / reps / 50) * 50 || 50;
-      return [
-        { reps: 1, distance: freeLead, description: "Moderate free", stroke: "free" },
-        { reps, distance: dist, description: `${drillType} drill / swim by 25`, stroke: "free" },
-      ];
+      return afterLead({ reps, distance: dist, description: `${drillType} drill / swim by 25`, stroke: "free" });
     }
 
     default:
-      return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
+      return [moderateFree(target)];
   }
 }
 
@@ -836,71 +829,90 @@ function buildCooldown(target: number, _pace: number, rng: Rng): SetItem[] {
   const freeEnd = 200;
   const remaining = target - freeEnd;
 
+  const moderateFree = (distance: number, description = "Moderate free"): SetItem => ({
+    reps: 1,
+    distance,
+    description,
+    stroke: "free",
+  });
+
   if (remaining < 200) {
-    return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
+    return [moderateFree(target)];
   }
 
   const firstDist = Math.round(remaining / 50) * 50;
+
+  // CLEANUP-FLAG: buildCooldown takes no EquipmentOptions, so the "pull" flavor below
+  // can prescribe a pull buoy even when the user unchecked it on /swim. buildWarmup and
+  // the main-set picker both gate on `eq`; this one never got the parameter. Fixing it
+  // changes generated workouts (an equipment-gated flavor pool reshuffles rng.pick), so
+  // it needs its own change, not a mechanical cleanup.
+
+  /** Every flavor closes with the plain-free swim-down. */
+  const beforeFreeEnd = (...lead: SetItem[]): SetItem[] => [...lead, moderateFree(freeEnd)];
+
+  /** Used when a flavor needs more distance than `firstDist` has to give. */
+  const backstroke = (): SetItem[] =>
+    beforeFreeEnd({ reps: 1, distance: firstDist, description: "Moderate backstroke", stroke: "back" });
 
   const flavor = rng.pick(["back", "choice", "kansas", "IM", "pull", "build", "breast"]);
 
   switch (flavor) {
     case "back":
-      return [
-        { reps: 1, distance: firstDist, description: "Moderate backstroke", stroke: "back" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      return backstroke();
 
     case "choice":
-      return [
-        { reps: 1, distance: firstDist, description: "Moderate choice — loosen up", stroke: "choice" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      return beforeFreeEnd({
+        reps: 1,
+        distance: firstDist,
+        description: "Moderate choice — loosen up",
+        stroke: "choice",
+      });
 
     case "kansas":
-      if (firstDist < 300) {
-        return [
-          { reps: 1, distance: firstDist, description: "Moderate backstroke", stroke: "back" },
-          { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-        ];
-      }
-      return [
-        { reps: 1, distance: 300, description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)", stroke: "mixed" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      if (firstDist < 300) return backstroke();
+      return beforeFreeEnd({
+        reps: 1,
+        distance: 300,
+        description: "Kansas (50 free, 50 back, 100 breast, 50 back, 50 free)",
+        stroke: "mixed",
+      });
 
     case "IM":
-      if (firstDist < 200) {
-        return [
-          { reps: 1, distance: firstDist, description: "Moderate backstroke", stroke: "back" },
-          { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-        ];
-      }
-      return [
-        { reps: 4, distance: 50, description: "Easy IM order (fly, back, breast, free)", stroke: "IM" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      if (firstDist < 200) return backstroke();
+      return beforeFreeEnd({
+        reps: 4,
+        distance: 50,
+        description: "Easy IM order (fly, back, breast, free)",
+        stroke: "IM",
+      });
 
     case "pull":
-      return [
-        { reps: 1, distance: firstDist, description: "Easy pull — flush the legs", stroke: "free", equipment: "pull" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      return beforeFreeEnd({
+        reps: 1,
+        distance: firstDist,
+        description: "Easy pull — flush the legs",
+        stroke: "free",
+        equipment: "pull",
+      });
 
     case "build":
+      // The only flavor that reworks the closing free, so it doesn't use beforeFreeEnd.
       return [
-        { reps: 1, distance: firstDist, description: "Easy free — build last 50", stroke: "free" },
-        { reps: 1, distance: freeEnd, description: "Moderate free — stretch it out", stroke: "free" },
+        moderateFree(firstDist, "Easy free — build last 50"),
+        moderateFree(freeEnd, "Moderate free — stretch it out"),
       ];
 
     case "breast":
-      return [
-        { reps: 1, distance: firstDist, description: "Easy breaststroke — long glide", stroke: "breast" },
-        { reps: 1, distance: freeEnd, description: "Moderate free", stroke: "free" },
-      ];
+      return beforeFreeEnd({
+        reps: 1,
+        distance: firstDist,
+        description: "Easy breaststroke — long glide",
+        stroke: "breast",
+      });
 
     default:
-      return [{ reps: 1, distance: target, description: "Moderate free", stroke: "free" }];
+      return [moderateFree(target)];
   }
 }
 
