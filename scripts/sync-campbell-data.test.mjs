@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyDowntownDetailTimes } from "./sync-campbell-data.mjs";
+import { applyDowntownDetailTimes, normalizeBusinessAddress } from "./sync-campbell-data.mjs";
 
 describe("Downtown Campbell event detail enrichment", () => {
   it("adds detail-page times to a date-only single-day event", () => {
@@ -48,5 +48,13 @@ describe("Downtown Campbell event detail enrichment", () => {
     };
 
     expect(applyDowntownDetailTimes(event, "<div>No event time listed</div>")).toEqual(event);
+  });
+});
+
+describe("Campbell business address cleanup", () => {
+  it("normalizes the Chamber's Campbell Avenue typo", () => {
+    expect(normalizeBusinessAddress("365 E Campell Ave, Campbell CA 95008")).toBe(
+      "365 E Campbell Ave, Campbell CA 95008",
+    );
   });
 });

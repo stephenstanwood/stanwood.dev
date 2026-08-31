@@ -329,7 +329,7 @@ function parseDirectory(html) {
       const name = cleanHtml(link?.[2] ?? nameCell);
       const url = absoluteUrl(link?.[1] ?? "");
       const phone = cleanHtml(extractCell(row, "location_phone"));
-      const address = cleanHtml(extractCell(row, "location_street"));
+      const address = normalizeBusinessAddress(cleanHtml(extractCell(row, "location_street")));
 
       if (!name || !url) return null;
 
@@ -374,7 +374,7 @@ function parseChamberBusinesses(html, sourceUrl) {
         .filter(Boolean);
       const city = cleanHtml(addressBlock.match(/<span[^>]*class="[^"]*gz-address-city[^"]*"[^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? "");
       const cityStateZip = cleanHtml(addressBlock.match(/<div[^>]*itemprop="citystatezip"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
-      const address = [...streetParts, cityStateZip].filter(Boolean).join(", ");
+      const address = normalizeBusinessAddress([...streetParts, cityStateZip].filter(Boolean).join(", "));
       const phone = cleanHtml(card.match(/<li[^>]*class="[^"]*gz-card-phone[^"]*"[^>]*>[\s\S]*?<span>([\s\S]*?)<\/span>/i)?.[1] ?? "");
       const websiteUrl = absoluteUrl(card.match(/<li[^>]*class="[^"]*gz-card-website[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"/i)?.[1] ?? "", CHAMBER_BASE_URL);
       const imageUrl = absoluteUrl(card.match(/<img[^>]*class="[^"]*gz-results-img[^"]*"[^>]*src="([^"]+)"/i)?.[1] ?? "", CHAMBER_BASE_URL);
@@ -401,6 +401,12 @@ function parseChamberBusinesses(html, sourceUrl) {
 function isCampbellLocatedBusiness(business) {
   const text = `${business.address} ${business.city}`.toLowerCase();
   return /\bcampbell\b/.test(text) || /\b95008\b/.test(text);
+}
+
+export function normalizeBusinessAddress(address = "") {
+  return address
+    .replace(/\bCampell Ave\b/gi, "Campbell Ave")
+    .replace(/\bCampell Avenue\b/gi, "Campbell Avenue");
 }
 
 function businessKey(business) {
