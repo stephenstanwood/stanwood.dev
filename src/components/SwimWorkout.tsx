@@ -74,22 +74,19 @@ function workoutToText(workout: Workout): string {
     `${workout.totalDistance.toLocaleString()}${unit}  ·  ~${workout.estimatedMinutes} min  ·  Pace: ${workout.pace}/100${unit}`,
     "",
   ];
+  // Grouped sets (e.g. rounds) flatten to their sub-items; both render identically.
+  const itemLine = (item: WorkoutItem): string => {
+    const reps = item.reps > 1 ? `${item.reps}× ` : "";
+    const timing = item.intervalDisplay ? `  @ ${item.intervalDisplay}` : "";
+    const equip = item.equipment ? ` [${item.equipment}]` : "";
+    return `  ${reps}${item.distance}${unit}  ${item.description}${equip}${timing}`;
+  };
+
   for (const section of workout.sections) {
     lines.push(`─── ${section.name} (${section.distance}${unit}) ───`);
     for (const item of section.items) {
-      if (isSetGroup(item)) {
-        for (const sub of item.items) {
-          const reps = sub.reps > 1 ? `${sub.reps}× ` : "";
-          const timing = sub.intervalDisplay ? `  @ ${sub.intervalDisplay}` : "";
-          const equip = sub.equipment ? ` [${sub.equipment}]` : "";
-          lines.push(`  ${reps}${sub.distance}${unit}  ${sub.description}${equip}${timing}`);
-        }
-      } else {
-        const reps = item.reps > 1 ? `${item.reps}× ` : "";
-        const timing = item.intervalDisplay ? `  @ ${item.intervalDisplay}` : "";
-        const equip = item.equipment ? ` [${item.equipment}]` : "";
-        lines.push(`  ${reps}${item.distance}${unit}  ${item.description}${equip}${timing}`);
-      }
+      const rendered = isSetGroup(item) ? item.items.map(itemLine) : [itemLine(item)];
+      lines.push(...rendered);
     }
     lines.push("");
   }
@@ -214,10 +211,7 @@ function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
   const repsLabel = item.reps > 1 ? `${item.reps} × ` : "";
   const totalDist = item.reps * item.distance;
 
-  let timingLabel = "";
-  if (item.intervalDisplay) {
-    timingLabel = `@ ${item.intervalDisplay}`;
-  }
+  const timingLabel = item.intervalDisplay ? `@ ${item.intervalDisplay}` : "";
 
   return (
     <div className="flex items-start gap-3 py-1.5">
@@ -338,8 +332,7 @@ function PrintWorkout({ workout }: { workout: Workout | null }) {
 function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
   const reps = item.reps > 1 ? `${item.reps} × ` : "";
   const dist = `${item.distance}${unit}`;
-  let timing = "";
-  if (item.intervalDisplay) timing = `@ ${item.intervalDisplay}`;
+  const timing = item.intervalDisplay ? `@ ${item.intervalDisplay}` : "";
   const equip = item.equipment ? ` [${item.equipment}]` : "";
 
   return (
