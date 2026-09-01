@@ -898,7 +898,7 @@ function eventWithCleanTitle(event) {
   };
 }
 
-function eventRejectionReason(event) {
+export function eventRejectionReason(event) {
   const title = cleanSentence(event.title);
   const text = [
     title,
@@ -920,6 +920,7 @@ function eventRejectionReason(event) {
   }
 
   const titleBlocks = [
+    [/^Private Event$/i, "private event"],
     [/\bno\s+.+\bpractice\b/i, "practice absence"],
     [/\b(?:team|wave|swim)\s+practice\b/i, "team practice"],
     [/\b(?:cancelled|canceled|closure)\b/i, "cancellation notice"],

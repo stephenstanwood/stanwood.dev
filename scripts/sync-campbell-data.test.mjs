@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { applyDowntownDetailTimes, normalizeBusinessAddress } from "./sync-campbell-data.mjs";
+import { applyDowntownDetailTimes, eventRejectionReason, normalizeBusinessAddress } from "./sync-campbell-data.mjs";
 
 describe("Downtown Campbell event detail enrichment", () => {
   it("adds detail-page times to a date-only single-day event", () => {
@@ -55,6 +55,19 @@ describe("Campbell business address cleanup", () => {
   it("normalizes the Chamber's Campbell Avenue typo", () => {
     expect(normalizeBusinessAddress("365 E Campell Ave, Campbell CA 95008")).toBe(
       "365 E Campbell Ave, Campbell CA 95008",
+    );
+  });
+});
+
+describe("Campbell public event filtering", () => {
+  it("filters exact private-event placeholders from public calendar output", () => {
+    expect(eventRejectionReason({ title: "Private Event" })).toBe("private event");
+  });
+
+  it("keeps named public meetings available for residents", () => {
+    expect(eventRejectionReason({ title: "City Council Regular Meeting", category: "City Council" })).toBe("");
+    expect(eventRejectionReason({ title: "Planning Commission Regular Meeting", category: "Planning Commission" })).toBe(
+      "",
     );
   });
 });

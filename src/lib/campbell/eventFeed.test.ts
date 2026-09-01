@@ -4,6 +4,7 @@ import { parseCampbellDate, startOfDay } from "./dateHelpers";
 import { eventEnd } from "./eventDates";
 
 const absenceTitlePatterns = [
+  /^Private Event$/i,
   /^No .+ Practice$/i,
   /^CCC Pool Closed$/i,
   /\b(?:library|pool|facility|office|programs?) closed\b/i,

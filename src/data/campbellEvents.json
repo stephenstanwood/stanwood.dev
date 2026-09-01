@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-01T06:22:38.910Z",
+  "generatedAt": "2026-09-01T09:24:19.859Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
       "label": "City of Campbell Calendar",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
-      "count": 15,
-      "parsedCount": 15
+      "count": 28,
+      "parsedCount": 31
     },
     {
       "label": "Downtown Campbell Events",
@@ -652,17 +652,20 @@
     },
     {
       "title": "Peninsula Symphony Orchestra: John Williams' World",
-      "date": "Oct 02, 2026, 7:30 PM – 10:30 PM",
+      "date": "October 2, 2026, 7:30 PM",
       "cost": "",
-      "location": "Heritage Theatre",
+      "location": "The Heritage Theatre",
       "description": "Music by John Williams, featuring cellist Christopher Costanza",
-      "url": "https://www.heritagetheatre.org/events/peninsula-symphony-orchestra-john-williams-world",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4010&month=10&year=2026&day=2&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_fef540a15a714f35bb4e7b02d5ebcc54~mv2.png",
       "category": "Heritage Theatre",
-      "startDate": "2026-10-02T19:30:00-07:00",
+      "startDate": "2026-10-02T19:30:00",
+      "source": "City of Campbell Calendar + Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
       "endDate": "2026-10-02T22:30:00-07:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "additionalSourceUrls": [
+        "https://www.heritagetheatre.org/events-1"
+      ]
     },
     {
       "title": "Wall Mural Painting Class for Beginners (4-week class)",
@@ -680,17 +683,20 @@
     },
     {
       "title": "AIM for Seva presents Raman Bhaje: A Musical Celebration of Lord Rama featuring Soorya Gayathri",
-      "date": "Oct 03, 2026, 4:30 PM – 7:00 PM",
+      "date": "October 3, 2026, 4:30 PM - 7:30 PM",
       "cost": "",
-      "location": "Heritage Theatre",
+      "location": "The Heritage Theatre",
       "description": "Donors Appreciation Event",
-      "url": "https://www.heritagetheatre.org/events/aim-for-seva-presents-raman-bhaje-a-musical-celebration-of-lord-rama-featuring-soorya-gayathri-1",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3970&month=10&year=2026&day=3&calType=0",
       "imageUrl": "https://static.wixstatic.com/media/c82d5f_ee027407abe64d49948a3112bfedb6ea~mv2.jpg",
       "category": "Heritage Theatre",
-      "startDate": "2026-10-03T16:30:00-07:00",
-      "endDate": "2026-10-03T19:00:00-07:00",
-      "source": "Campbell Heritage Theatre Events",
-      "sourceUrl": "https://www.heritagetheatre.org/events-1"
+      "startDate": "2026-10-03T16:30:00",
+      "endDate": "2026-10-03T19:30:00",
+      "source": "City of Campbell Calendar + Campbell Heritage Theatre Events",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": [
+        "https://www.heritagetheatre.org/events-1"
+      ]
     },
     {
       "title": "Downtown Campbell Weekly Farmers' Market",
@@ -719,6 +725,20 @@
       "endDate": "2026-10-04T16:00:00-07:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
+      "title": "Youth Commission Regular Meeting",
+      "date": "October 5, 2026, 7:00 PM - 8:30 PM",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4040&month=10&year=2026&day=5&calType=0",
+      "imageUrl": "",
+      "category": "Youth Commission",
+      "startDate": "2026-10-05T19:00:00",
+      "endDate": "2026-10-05T20:30:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Membership 101 8-8:45am",
@@ -753,6 +773,47 @@
         "CUSD Public Meetings"
       ],
       "endDate": "2026-10-06T17:00:00"
+    },
+    {
+      "title": "City Council Regular Meeting",
+      "date": "October 6, 2026, 7:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3944&month=10&year=2026&day=6&calType=0",
+      "imageUrl": "",
+      "category": "City Council",
+      "startDate": "2026-10-06T19:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": []
+    },
+    {
+      "title": "Parks and Recreation Commission Meeting",
+      "date": "October 7, 2026, 7:00 PM - 9:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3859&month=10&year=2026&day=7&calType=0",
+      "imageUrl": "",
+      "category": "Main Calendar",
+      "startDate": "2026-10-07T19:00:00",
+      "endDate": "2026-10-07T21:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
+      "title": "Civic Improvement Commission",
+      "date": "October 8, 2026, 6:00 PM",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3438&month=10&year=2026&day=8&calType=0",
+      "imageUrl": "",
+      "category": "Civic Improvement Commission",
+      "startDate": "2026-10-08T18:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Friends of Campbell Library Second Saturday Book Sale",
@@ -809,6 +870,19 @@
       "endDate": "2026-10-11T13:00:00-07:00",
       "source": "Campbell Museums Events",
       "sourceUrl": "https://www.campbellmuseums.com/events-main"
+    },
+    {
+      "title": "Planning Commission Regular Meeting",
+      "date": "October 13, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3876&month=10&year=2026&day=13&calType=0",
+      "imageUrl": "",
+      "category": "Planning Commission",
+      "startDate": "2026-10-13T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "Board Meeting",
@@ -949,6 +1023,34 @@
       "endDate": "2026-10-20T17:30:00"
     },
     {
+      "title": "City Council Regular Meeting",
+      "date": "October 20, 2026, 7:00 PM",
+      "cost": "",
+      "location": "Council Chamber",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3922&month=10&year=2026&day=20&calType=0",
+      "imageUrl": "",
+      "category": "City Council",
+      "startDate": "2026-10-20T19:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
+      "additionalSourceUrls": []
+    },
+    {
+      "title": "How to Identify and Avoid Becoming a Victim to Common Scams",
+      "date": "October 22, 2026, 1:00 PM - 2:00 PM",
+      "cost": "",
+      "location": "",
+      "description": "Fraud Prevention Seminar presented by County of Santa Clara- Office of the District Attorney",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=4035&month=10&year=2026&day=22&calType=0",
+      "imageUrl": "",
+      "category": "Recreation & Community Services",
+      "startDate": "2026-10-22T13:00:00",
+      "endDate": "2026-10-22T14:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "Downtown Campbell Weekly Farmers' Market",
       "date": "10/25/26, 9:00am - 1:00pm",
       "cost": "",
@@ -977,6 +1079,19 @@
       "endDate": "2026-10-25T18:00:00"
     },
     {
+      "title": "Planning Commission Regular Meeting",
+      "date": "October 27, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3888&month=10&year=2026&day=27&calType=0",
+      "imageUrl": "",
+      "category": "Planning Commission",
+      "startDate": "2026-10-27T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
+    },
+    {
       "title": "Power Networking Lunch at Erik's DeliCafe",
       "date": "Tuesday Oct 27, 2026",
       "cost": "",
@@ -993,6 +1108,19 @@
         "Luncheon",
         "Chamber Events"
       ]
+    },
+    {
+      "title": "Historic Preservation Board meeting",
+      "date": "October 28, 2026, All Day",
+      "cost": "",
+      "location": "",
+      "description": "",
+      "url": "https://www.campbellca.gov/Calendar.aspx?EID=3900&month=10&year=2026&day=28&calType=0",
+      "imageUrl": "",
+      "category": "Historic Preservation Board",
+      "startDate": "2026-10-28T00:00:00",
+      "source": "City of Campbell Calendar",
+      "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0"
     },
     {
       "title": "West Valley College Multi-Chamber Morning Mixer",
