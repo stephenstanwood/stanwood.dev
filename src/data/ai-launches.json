@@ -1,5 +1,21 @@
 [
   {
+    "name": "Free tier for meeting notes",
+    "org": "Circleback",
+    "date": "2026-08-31",
+    "type": "tool",
+    "summary": "Record and transcribe unlimited meetings for free, then ask an AI what was said. The free plan includes the mobile and Apple Watch apps plus Slack and Linear, with 30 days of history.",
+    "url": "https://techcrunch.com/2026/08/31/meeting-notetaker-circleback-adds-a-free-tier-to-attract-more-customers/"
+  },
+  {
+    "name": "OpenClaw 2.0",
+    "org": "OpenClaw",
+    "date": "2026-08-30",
+    "type": "tool",
+    "summary": "Run an open-source agent that sets itself up from what you already have — a ChatGPT or Claude subscription, API keys, or local models. The rebuilt browser app does setup by conversation.",
+    "url": "https://openclaw.ai/blog/openclaw-2-accidentally"
+  },
+  {
     "name": "Hy4 preview",
     "org": "Tencent",
     "date": "2026-08-28",
@@ -24,19 +40,11 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/"
   },
   {
-    "name": "Qwen3.8-Flash-Next",
-    "org": "Alibaba",
-    "date": "2026-08-26",
-    "type": "model",
-    "summary": "Use an open model to read images, write code, and work through long documents. Download it for a high-memory machine, or try the hosted version when local setup is more than you need.",
-    "url": "https://qwen.ai/blog?id=qwen3.8-flash-next"
-  },
-  {
     "name": "Built-in browser in Cowork",
     "org": "Anthropic",
     "date": "2026-08-26",
     "type": "tool",
-    "summary": "Hand off web chores \u2014 filling forms, pulling numbers out of a dashboard \u2014 to a browser that lives inside the desktop app. No extension to install, and it never touches your own tabs or passwords.",
+    "summary": "Hand off web chores — filling forms, pulling numbers out of a dashboard — to a browser that lives inside the desktop app. No extension to install, and it never touches your own tabs or passwords.",
     "url": "https://claude.com/blog/cowork-built-in-browser"
   },
   {
@@ -44,7 +52,7 @@
     "org": "Z.ai",
     "date": "2026-08-26",
     "type": "model",
-    "summary": "Run a frontier-grade coding and agent model yourself \u2014 MIT-licensed weights on Hugging Face, a 1M-token context, image and video input. Or call the hosted API at a tenth of the previous GLM's price.",
+    "summary": "Run a frontier-grade coding and agent model yourself — MIT-licensed weights on Hugging Face, a 1M-token context, image and video input. Or call the hosted API at a tenth of the previous GLM's price.",
     "url": "https://z.ai/blog/glm-5.3-flash"
   },
   {
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Add live web search and clean page text to an agent without paying upfront. The public endpoint needs no key, and a free account includes 100,000 searches a month.",
     "url": "https://techcrunch.com/2026/08/25/accel-backed-keenable-is-indexing-the-web-for-ai-agents/"
-  },
-  {
-    "name": "Wan 3.0",
-    "org": "Alibaba",
-    "date": "2026-08-24",
-    "type": "model",
-    "summary": "Create a 30-second video in one shot with camera moves and sound, or turn a PDF or slide deck directly into video. The public API needs no application and starts at $0.035 per second during launch pricing.",
-    "url": "https://modelstudio.console.alibabacloud.com/model-releases/wan3.0-video"
   }
 ]
