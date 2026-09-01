@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-01T01:10:20.743Z",
+  "lastUpdated": "2026-09-01T13:10:18.368Z",
   "apiSpend": {
     "months": [
       {
@@ -319,6 +319,72 @@
             "note": "track manually at recraft.ai"
           }
         }
+      },
+      {
+        "month": "2026-09",
+        "collectedAt": "2026-09-01T13:10:18.368Z",
+        "services": {
+          "vercel": {
+            "totalCents": 365,
+            "breakdown": [
+              {
+                "name": "Build CPU Minutes",
+                "cents": 337
+              },
+              {
+                "name": "Blob Storage Size",
+                "cents": 16
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 4
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 2
+              },
+              {
+                "name": "Blob Data Transfer",
+                "cents": 2
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 1
+              },
+              {
+                "name": "Function Invocations",
+                "cents": 1
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 1
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 1
+              }
+            ],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": "computed from API key token usage (excludes Claude Code on Max)"
+          },
+          "openai": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "neon": {
+            "totalCents": null,
+            "note": "manual from Neon usage recap email"
+          },
+          "recraft": {
+            "totalCents": null,
+            "note": "track manually at recraft.ai"
+          }
+        }
       }
     ]
   },
@@ -401,6 +467,13 @@
       "note": "Mercury actual Aug 2026"
     },
     {
+      "name": "Brave",
+      "cents": 2040,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Sep 2026"
+    },
+    {
       "name": "Vercel Pro",
       "cents": 2000,
       "category": "infra",
@@ -434,13 +507,6 @@
       "category": "tools",
       "url": "https://next.waveapps.com",
       "note": "Stoa Works bookkeeping"
-    },
-    {
-      "name": "Brave",
-      "cents": 1259,
-      "category": "tools",
-      "url": "https://brave.com",
-      "note": "Mercury actual Aug 2026"
     },
     {
       "name": "Flickr Pro",
