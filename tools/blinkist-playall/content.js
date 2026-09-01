@@ -6,6 +6,7 @@
 
 const DEBUG = true;
 const log = (...args) => DEBUG && console.log('[BPA]', ...args);
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const LIBRARY_PATHS = [
   '/en/app/library',
@@ -84,49 +85,6 @@ function scrapeSavedItems(root) {
   return items;
 }
 
-// Fetch the full /library/saved page and scrape it. Home page only shows a
-// carousel of ~8 items; the full list lives at /en/app/library/saved.
-async function fetchFullSavedList() {
-  try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 5000);
-    const res = await fetch('https://www.blinkist.com/en/app/library/saved', {
-      credentials: 'include',
-      signal: ctrl.signal,
-    });
-    clearTimeout(timer);
-    if (!res.ok) {
-      log('fetchFullSavedList: HTTP', res.status);
-      return null;
-    }
-    const html = await res.text();
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    const items = scrapeSavedItems(doc);
-    log(`fetchFullSavedList: parsed ${items.length} items from SPA shell`);
-    return items;
-  } catch (err) {
-    log('fetchFullSavedList error', err);
-    return null;
-  }
-}
-
-// Fallback: scroll the Saved carousel to force lazy-loaded tiles to render,
-// then scrape whatever is now in the DOM.
-async function scrollSavedCarouselAndScrape() {
-  const section = findSavedSection();
-  if (!section) return [];
-  const rightBtn = section.querySelector(
-    'button[aria-label*="slide right" i], button[aria-label*="next" i]'
-  );
-  if (rightBtn) {
-    for (let i = 0; i < 15 && !rightBtn.disabled; i++) {
-      rightBtn.click();
-      await new Promise((r) => setTimeout(r, 220));
-    }
-  }
-  return scrapeSavedItems(findSavedSection() || document);
-}
-
 async function runScrapeAndStart(btn) {
   btn.disabled = true;
   btn.textContent = 'Scanning saved…';
@@ -134,7 +92,7 @@ async function runScrapeAndStart(btn) {
   let items = scrapeSavedItems(document);
   if (items.length < 10) {
     for (let i = 0; i < 10 && items.length < 10; i++) {
-      await new Promise((r) => setTimeout(r, 400));
+      await sleep(400);
       items = scrapeSavedItems(document);
     }
   }
@@ -143,7 +101,7 @@ async function runScrapeAndStart(btn) {
   for (let i = 0; i < 10 && items.length !== prevCount; i++) {
     prevCount = items.length;
     window.scrollTo(0, document.body.scrollHeight);
-    await new Promise((r) => setTimeout(r, 600));
+    await sleep(600);
     items = scrapeSavedItems(document);
   }
   log(`final scrape: ${items.length} items`, items);
@@ -232,7 +190,7 @@ async function runLibraryMode() {
           runScrapeAndStart(btn);
           break;
         }
-        await new Promise((r) => setTimeout(r, 300));
+        await sleep(300);
       }
     }
   }
