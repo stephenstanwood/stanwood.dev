@@ -17,7 +17,7 @@ const DisengagementChart = lazy(() => import("./DisengagementChart"));
 
 /** The month this whole page describes. The monthly refresh task moves this one string;
  *  the milestone tag below names a specific event and is dated separately on purpose. */
-const SNAPSHOT_MONTH = "April 2026";
+const SNAPSHOT_MONTH = "September 2026";
 
 const FOR_WHEN = [
   {
@@ -114,10 +114,10 @@ export default function DriverlessDashboard() {
 
       {/* Milestone callout */}
       <div className="dl-milestone">
-        <div className="dl-milestone-tag">April 2026 milestone</div>
-        <p className="dl-milestone-headline">Tesla finally goes driverless in Austin</p>
+        <div className="dl-milestone-tag">August 2026 milestone</div>
+        <p className="dl-milestone-headline">A car with no steering wheel starts charging fares</p>
         <p className="dl-milestone-body">
-          After years of L2+ "Full Self-Driving" with a human at the wheel, Tesla begins paid Cybercab rides in Austin with no safety driver — its first true Level 4 deployment. Waymo crosses 550K rides/week the same month. Five companies are now operating commercial driverless rides in the US, eight years after Waymo became the first.
+          Federal safety rules have always assumed a person could grab the wheel. In July, regulators granted Zoox the first commercial exemption ever given to a purpose-built robotaxi — no steering wheel, no pedals — and paid rides started on the Las Vegas Strip in August. Waymo opened Dallas and Houston to every rider the same month, putting it in 11 metros, and Tesla now runs rides with nobody in the front seat in six.
         </p>
       </div>
 
