@@ -15,7 +15,7 @@ export default function RedesignRolodexTile() {
 }
 
 function RedesignRolodexTileInner() {
-  const [EXAMPLE_URLS, setExampleUrls] = useState(() => defaultExamples(3));
+  const [exampleUrls, setExampleUrls] = useState(() => defaultExamples(3));
   const [url, setUrl] = useState("");
   const [activeIdx, setActiveIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -205,7 +205,7 @@ function RedesignRolodexTileInner() {
           </button>
         </form>
         <div className="rrt-examples">
-          {EXAMPLE_URLS.map((ex) => (
+          {exampleUrls.map((ex) => (
             <button
               key={ex}
               className="rrt-ex"

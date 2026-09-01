@@ -1438,7 +1438,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       card.dataset.sourceKey = sourceKeyJS(v);
       if (v.series_key) card.dataset.seriesKey = v.series_key;
       if (v.episode_number != null) card.dataset.episodeNumber = String(v.episode_number);
-      const thumbStyle = v.thumb ? `background-image:url(${v.thumb})` : '';
+      const thumbStyle = v.thumb ? `background-image:url(${escapeHTML(v.thumb)})` : '';
       const safeId = escapeHTML(v.id);
       const seriesBadge = v.series_key
         ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';

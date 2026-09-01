@@ -13,9 +13,15 @@ async function refresh() {
     return;
   }
   const current = state.items[state.index];
-  el.innerHTML =
-    `<b>${state.status}</b> — ${state.index + 1} / ${state.items.length}<br>` +
-    `Now: ${current ? current.title : '—'}`;
+  // Book titles are scraped off blinkist.com, so build the status line out of
+  // text nodes rather than innerHTML — a title containing markup would
+  // otherwise execute inside the popup.
+  el.replaceChildren(
+    Object.assign(document.createElement('b'), { textContent: state.status }),
+    document.createTextNode(` — ${state.index + 1} / ${state.items.length}`),
+    document.createElement('br'),
+    document.createTextNode(`Now: ${current ? current.title : '—'}`)
+  );
 }
 
 document.getElementById('pause').onclick = async () => {

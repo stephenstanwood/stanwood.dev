@@ -66,6 +66,14 @@ const TELLS: { emoji: string; name: string; watch: string; means: string }[] = [
   },
 ];
 
+/** Caption under the "since last drop" figure. */
+function sinceLastDropLabel(daysSinceLast: number | null): string {
+  if (daysSinceLast === null) return "no recent launches";
+  if (daysSinceLast === 0) return "shipped today";
+  if (daysSinceLast === 1) return "yesterday";
+  return "freshness signal";
+}
+
 const sorted = sortLaunches(launches as Launch[]);
 const pulse = computePulse(sorted);
 
@@ -151,13 +159,7 @@ export default function AIRadarPage() {
               </div>
               <div className="rp-pulse-label">since last drop</div>
               <div className="rp-pulse-foot">
-                {pulse.daysSinceLast === null
-                  ? "no recent launches"
-                  : pulse.daysSinceLast === 0
-                  ? "shipped today"
-                  : pulse.daysSinceLast === 1
-                  ? "yesterday"
-                  : "freshness signal"}
+                {sinceLastDropLabel(pulse.daysSinceLast)}
               </div>
             </div>
             {pulse.topOrg && (
