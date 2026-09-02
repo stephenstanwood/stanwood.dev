@@ -409,7 +409,7 @@ function SettingsPanel({
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3
+        <h2
           className="text-sm font-bold uppercase tracking-widest"
           style={{
             fontFamily: "'Oswald', sans-serif",
@@ -418,7 +418,7 @@ function SettingsPanel({
           }}
         >
           Settings
-        </h3>
+        </h2>
         {prefs.teams.length > 0 && (
           <button
             onClick={onClose}
