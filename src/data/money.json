@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-02T13:10:23.893Z",
+  "lastUpdated": "2026-09-02T19:10:19.276Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-02T13:10:23.893Z",
+        "collectedAt": "2026-09-02T19:10:19.276Z",
         "services": {
           "vercel": {
-            "totalCents": 561,
+            "totalCents": 823,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 511
+                "cents": 769
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 28
+                "cents": 31
               },
               {
                 "name": "Fluid Active CPU",
@@ -348,15 +348,15 @@
                 "cents": 3
               },
               {
+                "name": "Web Analytics Events",
+                "cents": 3
+              },
+              {
                 "name": "Fast Origin Transfer",
                 "cents": 3
               },
               {
                 "name": "Function Invocations",
-                "cents": 2
-              },
-              {
-                "name": "Web Analytics Events",
                 "cents": 2
               },
               {
@@ -406,13 +406,6 @@
     ]
   },
   "subscriptions": [
-    {
-      "name": "Anthropic",
-      "cents": 41555,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Aug 2026; 7 Mercury charges combined"
-    },
     {
       "name": "Cursor",
       "cents": 37996,
@@ -475,6 +468,13 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
+    },
+    {
+      "name": "Anthropic",
+      "cents": 2550,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Neon via Vercel",
