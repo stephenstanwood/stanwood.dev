@@ -156,6 +156,7 @@ async function collectVercel(range) {
 // Pricing per million tokens (USD). Input / output / cache_read / cache_write.
 // Cache read is ~10% of input; cache write is ~125% of input (ephemeral 5m).
 const ANTHROPIC_PRICING = {
+  "claude-fable-5-1": { in: 10, out: 50 },
   "claude-fable-5": { in: 10, out: 50 },
   "claude-mythos-5": { in: 10, out: 50 },
   "claude-opus-5": { in: 5, out: 25 },
