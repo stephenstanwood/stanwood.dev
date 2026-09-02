@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PanelHeader from "./PanelHeader";
-import FilterPill, { DL_MONO, FilterPillRow } from "./FilterPill";
+import FilterPill, { FilterPillRow } from "./FilterPill";
+import { DL_MONO } from "./tokens";
 
 interface TimelineEvent {
   date: string;

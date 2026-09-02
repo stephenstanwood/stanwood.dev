@@ -1,7 +1,6 @@
 /**
- * Shared utilities for Nearest Coffee page.
- * Contains geolocation, progress bar, distance/walk helpers,
- * map styling, and carousel setup logic.
+ * Shared utilities for the Nearest Coffee page: distance/walk formatting,
+ * static-map zoom, the loading progress bar, and geolocation.
  */
 
 // ── Distance & walk helpers ──

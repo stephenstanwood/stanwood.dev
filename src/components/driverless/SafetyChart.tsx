@@ -16,7 +16,7 @@ import ChartTooltipBox, {
   type ChartTooltipProps,
 } from "./ChartTooltipBox";
 import PanelHeader from "./PanelHeader";
-import { DL_MONO } from "./FilterPill";
+import { DL_MONO } from "./tokens";
 
 const HUMAN_COLOR = "var(--dl-red)";
 const WAYMO_COLOR = "var(--dl-green)";

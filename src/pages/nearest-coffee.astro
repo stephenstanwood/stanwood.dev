@@ -767,33 +767,19 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
             ratingMobile = `<p class="nc-rating-inline">${rText}</p>`;
           }
 
-          // Maps
-          let mapDesktop = "";
-          let mapMobile = "";
-          if (hasMaps) {
-            const desktopUrl = buildMapUrl(primary, "480x360");
-            const mobileUrl = buildMapUrl(primary, "600x300");
-            mapDesktop = `
-              <div class="nc-map-wrap nc-map-skeleton">
+          // Maps — same card at two sizes, one per breakpoint
+          const buildMapCard = (size: string, extraClass = "") => `
+              <div class="nc-map-wrap${extraClass} nc-map-skeleton">
                 <img
-                  src="${desktopUrl}"
+                  src="${buildMapUrl(primary, size)}"
                   alt="Map to ${esc(primary.name)}"
                   class="nc-map-img"
                   loading="lazy"
                   onload="this.style.opacity='1';this.parentElement.classList.remove('nc-map-skeleton');"
                 />
               </div>`;
-            mapMobile = `
-              <div class="nc-map-wrap nc-map-mobile nc-map-skeleton">
-                <img
-                  src="${mobileUrl}"
-                  alt="Map to ${esc(primary.name)}"
-                  class="nc-map-img"
-                  loading="lazy"
-                  onload="this.style.opacity='1';this.parentElement.classList.remove('nc-map-skeleton');"
-                />
-              </div>`;
-          }
+          const mapDesktop = hasMaps ? buildMapCard("480x360") : "";
+          const mapMobile = hasMaps ? buildMapCard("600x300", " nc-map-mobile") : "";
 
           // Secondary list
           secondaryShops = secondary;

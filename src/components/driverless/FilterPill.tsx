@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
-
-/** The dashboard's monospace stack, as an inline-style value. */
-export const DL_MONO = '"JetBrains Mono", monospace';
+import { DL_MONO } from "./tokens";
 
 /** Wrapper for a panel's row of filter pills. */
 export function FilterPillRow({ children }: { children: ReactNode }) {

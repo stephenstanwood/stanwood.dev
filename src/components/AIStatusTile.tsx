@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import type { ProviderStatus } from "../pages/api/ai-status";
 import { timeAgo } from "../lib/time";
+import { useJsonOnMount } from "../hooks/useJsonOnMount";
 
 const BRAND: Record<string, { bg: string; logoColor: string }> = {
   chatgpt: { bg: "#0d0d0d", logoColor: "#10a37f" },
@@ -33,7 +34,7 @@ function LogoSvg({ id, size = 36 }: { id: string; size?: number }) {
 const ROTATE_MS = 5000;
 
 export default function AIStatusTile() {
-  const [providers, setProviders] = useState<ProviderStatus[] | null>(null);
+  const { data: providers } = useJsonOnMount<ProviderStatus[]>("/api/ai-status");
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
@@ -41,13 +42,6 @@ export default function AIStatusTile() {
 
   useEffect(() => {
     prefersReducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/ai-status")
-      .then((r) => r.json())
-      .then((d: ProviderStatus[]) => setProviders(d))
-      .catch(() => null);
   }, []);
 
   const rotate = useCallback(() => {
