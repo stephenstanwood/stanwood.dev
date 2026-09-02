@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-02T01:10:19.532Z",
+  "lastUpdated": "2026-09-02T06:10:16.912Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-02T01:10:19.532Z",
+        "collectedAt": "2026-09-02T06:10:16.912Z",
         "services": {
           "vercel": {
-            "totalCents": 509,
+            "totalCents": 526,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 470
+                "cents": 483
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 22
+                "cents": 25
               },
               {
                 "name": "Fluid Active CPU",
@@ -348,6 +348,10 @@
                 "cents": 2
               },
               {
+                "name": "Function Invocations",
+                "cents": 2
+              },
+              {
                 "name": "Web Analytics Events",
                 "cents": 2
               },
@@ -358,10 +362,6 @@
               {
                 "name": "Blob Advanced Operations",
                 "cents": 2
-              },
-              {
-                "name": "Function Invocations",
-                "cents": 1
               }
             ],
             "note": null
@@ -544,7 +544,7 @@
       "cents": 840,
       "category": "infra",
       "url": "https://admin.google.com/ac/billing/subscriptions",
-      "note": "Mercury actual Aug 2026"
+      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Momentum Plus",
