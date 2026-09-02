@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { MS_PER_MINUTE, msSince } from "../lib/time";
 import { formatHourMinute } from "../lib/dateFormat";
+import { useJsonOnMount } from "../hooks/useJsonOnMount";
 import type { DeployData } from "../lib/shipClockStatus";
 
 const BARCODE_BAR_COUNT = 60; // enough bars to span the tile width
@@ -30,6 +31,16 @@ function formatElapsed(ms: number): string {
   return `${totalDays}d ago`;
 }
 
+/** One label/value line item on the receipt. */
+function ReceiptRow({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="sct-row">
+      <span className="sct-row-label">{label}</span>
+      {value && <span className="sct-row-value">{value}</span>}
+    </div>
+  );
+}
+
 /** The receipt with a single status row — what the tile shows before the fetch lands
  *  and when the deploy lookup comes back empty. */
 function ReceiptStub({ label, value }: { label: string; value?: string }) {
@@ -40,25 +51,15 @@ function ReceiptStub({ label, value }: { label: string; value?: string }) {
         <div className="sct-header">
           <span className="sct-store">latest update</span>
         </div>
-        <div className="sct-row">
-          <span className="sct-row-label">{label}</span>
-          {value && <span className="sct-row-value">{value}</span>}
-        </div>
+        <ReceiptRow label={label} value={value} />
       </div>
     </div>
   );
 }
 
 export default function ShipClockTile() {
-  const [data, setData] = useState<DeployData | null>(null);
+  const { data } = useJsonOnMount<DeployData>("/api/ship-clock");
   const [elapsed, setElapsed] = useState("");
-
-  useEffect(() => {
-    fetch("/api/ship-clock")
-      .then((r) => r.json())
-      .then((d: DeployData) => setData(d))
-      .catch(() => null);
-  }, []);
 
   // Tick every 30s
   useEffect(() => {
@@ -92,23 +93,14 @@ export default function ShipClockTile() {
           <span className="sct-store">latest update</span>
           {elapsed && <span className="sct-elapsed">{elapsed}</span>}
         </div>
-        <div className="sct-row">
-          <span className="sct-row-label">day</span>
-          <span className="sct-row-value">{dayName}</span>
-        </div>
-        <div className="sct-row">
-          <span className="sct-row-label">date</span>
-          <span className="sct-row-value">{dateStr}</span>
-        </div>
-        <div className="sct-row">
-          <span className="sct-row-label">time</span>
-          <span className="sct-row-value">{timeStr}</span>
-        </div>
+        <ReceiptRow label="day" value={dayName} />
+        <ReceiptRow label="date" value={dateStr} />
+        <ReceiptRow label="time" value={timeStr} />
         {(data.sha || data.prNumber) && (
-          <div className="sct-row">
-            <span className="sct-row-label">order #</span>
-            <span className="sct-row-value">{data.prNumber ? `PR${data.prNumber}` : data.sha}</span>
-          </div>
+          <ReceiptRow
+            label="order #"
+            value={data.prNumber ? `PR${data.prNumber}` : data.sha!}
+          />
         )}
         {data.summary && (
           <>

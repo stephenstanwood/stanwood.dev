@@ -15,7 +15,7 @@ import ChartTooltipBox, {
   type ChartTooltipProps,
 } from "./ChartTooltipBox";
 import PanelHeader from "./PanelHeader";
-import { DL_MONO } from "./FilterPill";
+import { DL_MONO } from "./tokens";
 
 const chartData = disengagementData.map((d) => ({
   ...d,

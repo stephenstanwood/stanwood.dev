@@ -1,5 +1,5 @@
 import PanelHeader from "./PanelHeader";
-import { DL_MONO } from "./FilterPill";
+import { DL_MONO } from "./tokens";
 
 interface RaceEntry {
   company: string;

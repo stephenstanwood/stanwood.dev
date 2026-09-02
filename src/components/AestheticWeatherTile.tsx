@@ -1,22 +1,15 @@
-import { useState, useEffect } from "react";
+import { useJsonOnMount } from "../hooks/useJsonOnMount";
 import type { AestheticWeatherResponse } from "../lib/aestheticWeather";
 
 export default function AestheticWeatherTile() {
-  const [data, setData] = useState<AestheticWeatherResponse | null>(null);
-  const [error, setError] = useState(false);
+  const { data: response, failed } = useJsonOnMount<
+    AestheticWeatherResponse & { error?: unknown }
+  >("/api/aesthetic-weather");
 
-  useEffect(() => {
-    fetch("/api/aesthetic-weather")
-      .then((r) => r.json())
-      .then((d) => {
-        if (d.error) {
-          setError(true);
-        } else {
-          setData(d);
-        }
-      })
-      .catch(() => setError(true));
-  }, []);
+  // The route answers 200 with an `error` field when upstream weather is down,
+  // so a body carrying one counts as a failure just like a rejected fetch.
+  const error = failed || Boolean(response?.error);
+  const data = error ? null : response;
 
   if (!data && !error) {
     return (
