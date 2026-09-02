@@ -1,11 +1,11 @@
 [
   {
-    "name": "Free tier for meeting notes",
-    "org": "Circleback",
-    "date": "2026-08-31",
-    "type": "tool",
-    "summary": "Record and transcribe unlimited meetings for free, then ask an AI what was said. The free plan includes the mobile and Apple Watch apps plus Slack and Linear, with 30 days of history.",
-    "url": "https://techcrunch.com/2026/08/31/meeting-notetaker-circleback-adds-a-free-tier-to-attract-more-customers/"
+    "name": "Claude Fable 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-01",
+    "type": "model",
+    "summary": "Run longer coding and agent sessions for about 25% less than Fable 5 — up to 45% on agentic work, thanks to a 75% cut in cache-read pricing. One million tokens of context, 128K output per response.",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
   },
   {
     "name": "OpenClaw 2.0",
@@ -14,14 +14,6 @@
     "type": "tool",
     "summary": "Run an open-source agent that sets itself up from what you already have — a ChatGPT or Claude subscription, API keys, or local models. The rebuilt browser app does setup by conversation.",
     "url": "https://openclaw.ai/blog/openclaw-2-accidentally"
-  },
-  {
-    "name": "Hy4 preview",
-    "org": "Tencent",
-    "date": "2026-08-28",
-    "type": "model",
-    "summary": "Build code, analyze long documents, or automate office work with a new open-source model. Try it free for two weeks in CodeBuddy or WorkBuddy, call the API, or download the weights.",
-    "url": "https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/"
   },
   {
     "name": "Gemini Omni 1.1 Flash",
@@ -54,6 +46,14 @@
     "type": "model",
     "summary": "Run a frontier-grade coding and agent model yourself — MIT-licensed weights on Hugging Face, a 1M-token context, image and video input. Or call the hosted API at a tenth of the previous GLM's price.",
     "url": "https://z.ai/blog/glm-5.3-flash"
+  },
+  {
+    "name": "Granite 4.2",
+    "org": "IBM",
+    "date": "2026-08-25",
+    "type": "model",
+    "summary": "Run a reasoning model on your own hardware — 3B, 8B, and 30B weights under Apache 2.0, free from Hugging Face and Ollama. A thinking switch turns step-by-step reasoning on or off. 128K context.",
+    "url": "https://research.ibm.com/blog/introducing-granite-4-2"
   },
   {
     "name": "Keenable Search API",
