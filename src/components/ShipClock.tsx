@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import { shipStatus, type DeployData as DeploySummary } from "../lib/shipClockStatus";
 import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
+import { useJsonOnMount } from "../hooks/useJsonOnMount";
 
 interface HistoryEntry {
   date: string;
@@ -44,24 +44,10 @@ function buildActivityGrid(
 }
 
 export default function ShipClock() {
-  const [data, setData] = useState<DeployData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, failed } = useJsonOnMount<DeployData>("/api/ship-clock");
   const { copied, copy } = useCopyToClipboard();
 
-  useEffect(() => {
-    fetch("/api/ship-clock")
-      .then((r) => r.json())
-      .then((d: DeployData) => {
-        setData(d);
-        setLoading(false);
-      })
-      .catch(() => {
-        setData({ lastDeploy: null, daysSince: null, hoursSince: null, error: "fetch failed" });
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
+  if (!data && !failed) {
     return (
       <div className="sc-card">
         <div className="sc-number">...</div>
@@ -70,7 +56,7 @@ export default function ShipClock() {
     );
   }
 
-  if (!data || (data.error && data.error !== "no deploys")) {
+  if (failed || !data || (data.error && data.error !== "no deploys")) {
     return (
       <div className="sc-card">
         <div className="sc-error">couldn't reach mission control</div>

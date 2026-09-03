@@ -4,7 +4,7 @@
  */
 
 import { haversineMeters } from "./geo";
-import { errJson } from "./apiHelpers";
+import { errJson, fetchWithTimeout } from "./apiHelpers";
 
 const PLACES_API_KEY = import.meta.env.GOOGLE_PLACES_API_KEY;
 
@@ -93,18 +93,26 @@ export async function searchNearbyPlaces(
       },
     };
 
-    const res = await fetch(
-      "https://places.googleapis.com/v1/places:searchNearby",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Goog-Api-Key": PLACES_API_KEY!,
-          "X-Goog-FieldMask": fieldMask,
+    // Timeout + catch so a hung or unreachable Places endpoint surfaces as this
+    // module's own 502 instead of stalling the request or rejecting into the route.
+    let res: Response;
+    try {
+      res = await fetchWithTimeout(
+        "https://places.googleapis.com/v1/places:searchNearby",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Goog-Api-Key": PLACES_API_KEY!,
+            "X-Goog-FieldMask": fieldMask,
+          },
+          body: JSON.stringify(body),
         },
-        body: JSON.stringify(body),
-      },
-    );
+      );
+    } catch (err) {
+      console.error("Places API request failed:", err);
+      return { error: errJson("Unable to search nearby places", 502) };
+    }
 
     if (!res.ok) {
       console.error("Places API error:", res.status);
