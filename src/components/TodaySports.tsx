@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   fetchEventsForLeagues,
   getTrackedTeamsContext,
@@ -7,6 +6,7 @@ import {
   yyyymmddInPT,
 } from "../lib/wtwtwSports";
 import { formatHourMinuteInTz, PACIFIC_TZ } from "../lib/dateFormat";
+import { useAsyncList } from "../hooks/useAsyncList";
 
 interface TodayGame {
   id: string;
@@ -20,51 +20,35 @@ interface TodayGame {
 }
 
 export default function TodaySports() {
-  const [games, setGames] = useState<TodayGame[]>([]);
-  const [ready, setReady] = useState(false);
+  const { items: games, ready } = useAsyncList<TodayGame>(async () => {
+    const { leagues, lookup } = getTrackedTeamsContext();
 
-  useEffect(() => {
-    let cancelled = false;
+    const ymd = yyyymmddInPT(new Date());
+    const results = await fetchEventsForLeagues(leagues, ymd);
 
-    async function load() {
-      const { leagues, lookup } = getTrackedTeamsContext();
-
-      const ymd = yyyymmddInPT(new Date());
-      const results = await fetchEventsForLeagues(leagues, ymd);
-
-      const next: TodayGame[] = [];
-      // Upcoming only — live games show as big tiles in LiveSports,
-      // finished games move into the recap grid.
-      for (const { id, league, event, match, away, home } of trackedGames(
-        results,
-        lookup,
-        { include: isPreEvent },
-      )) {
-        next.push({
-          id,
-          league,
-          awayAbbr: (away.team?.abbreviation || "AWY").toUpperCase(),
-          homeAbbr: (home.team?.abbreviation || "HME").toUpperCase(),
-          startTime: formatHourMinuteInTz(event.date, PACIFIC_TZ) + " PT",
-          startSortKey: new Date(event.date).getTime(),
-          isPlayoff: match.isPlayoff,
-          accent: match.accent,
-        });
-      }
-
-      next.sort((a, b) => a.startSortKey - b.startSortKey);
-
-      if (!cancelled) {
-        setGames(next);
-        setReady(true);
-      }
+    const next: TodayGame[] = [];
+    // Upcoming only — live games show as big tiles in LiveSports,
+    // finished games move into the recap grid.
+    for (const { id, league, event, match, away, home } of trackedGames(
+      results,
+      lookup,
+      { include: isPreEvent },
+    )) {
+      next.push({
+        id,
+        league,
+        awayAbbr: (away.team?.abbreviation || "AWY").toUpperCase(),
+        homeAbbr: (home.team?.abbreviation || "HME").toUpperCase(),
+        startTime: formatHourMinuteInTz(event.date, PACIFIC_TZ) + " PT",
+        startSortKey: new Date(event.date).getTime(),
+        isPlayoff: match.isPlayoff,
+        accent: match.accent,
+      });
     }
 
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    next.sort((a, b) => a.startSortKey - b.startSortKey);
+    return next;
+  });
 
   if (!ready || games.length === 0) return null;
 
