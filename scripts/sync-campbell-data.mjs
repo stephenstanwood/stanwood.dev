@@ -46,7 +46,7 @@ const PUBLIC_NOTICE_ARCHIVES = [
   { body: "City Council", href: `${CITY_BASE_URL}/Archive.aspx?AMID=43`, limit: 8 },
   { body: "Planning Commission", href: `${CITY_BASE_URL}/Archive.aspx?AMID=44`, limit: 10 },
 ];
-const MAX_NOTICE_PDF_BYTES = 4_000_000;
+const MAX_NOTICE_PDF_BYTES = 16_000_000;
 const MS_PER_DAY = 86_400_000;
 const END_OF_DAY = "23:59:59";
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
@@ -1902,9 +1902,26 @@ function extractProjectAddress(text) {
   return cleanSentence(match?.[1] ?? "");
 }
 
+function extractProjectPlanner(text) {
+  const line = text
+    .replace(/\r/g, "\n")
+    .split("\n")
+    .find((candidate) => /Project Planner:/i.test(candidate));
+  if (line) {
+    const planner = line.replace(/^.*Project Planner:\s*/i, "").trim().split(/\s{2,}/)[0] ?? "";
+    return cleanSentence(planner);
+  }
+
+  const normalized = normalizeText(text);
+  return cleanSentence(normalized.match(/Project Planner:\s*([^\n]+)/i)?.[1] ?? "");
+}
+
 function extractProjectDescription(text) {
   const match = text.match(/Project Description:\s*([\s\S]*?)(?=\s+(?:Council District|File No\.|APN:|Applicant:|Property Owner:|You may participate|Application Type:|Project Planner:|$))/i);
-  if (match) return cleanSentence(match[1]);
+  if (match) return cleanSentence(match[1].replace(/-\s+/g, "-"));
+
+  const twoColumnDescription = extractTwoColumnProjectDescription(text);
+  if (twoColumnDescription) return twoColumnDescription;
 
   const cityNotice =
     text.match(/Public Hearing to consider\s+([\s\S]*?)(?=\s+(?:Interested persons|This public hearing|Please be advised|Questions may be|In compliance|$))/i) ??
@@ -1912,14 +1929,45 @@ function extractProjectDescription(text) {
   return cleanSentence(cityNotice?.[1] ?? "");
 }
 
-function parseNoticeDetails(text) {
+function extractTwoColumnProjectDescription(text) {
+  const lines = text.replace(/\r/g, "\n").split("\n");
+  const headerIndex = lines.findIndex((line) => /\bPROJECT DESCRIPTION\b/i.test(line));
+  if (headerIndex < 0) return "";
+
+  const descriptionLines = [];
+  for (const rawLine of lines.slice(headerIndex + 1)) {
+    const trimmed = rawLine.trim();
+    if (!trimmed && descriptionLines.length > 0) break;
+    if (!trimmed) continue;
+    if (/^(?:File No\.|APN:|Applicant:|Property Owner:|Application Type:|Project Planner:|Contact:|In compliance|Please be advised|Scan the QR)/i.test(trimmed)) {
+      break;
+    }
+
+    const columns = rawLine.split(/\s{2,}/).map((part) => part.trim()).filter(Boolean);
+    if (columns.length < 2) continue;
+
+    const candidate = columns.at(-1) ?? "";
+    if (/^(?:PROJECT DESCRIPTION|You may participate|Register online|Watch YouTube|https?:|\(?https?:|\u2751)/i.test(candidate)) {
+      continue;
+    }
+    if (/(?:Project Address|Zoning|Neighborhood Association|Council District):/i.test(candidate)) {
+      continue;
+    }
+
+    descriptionLines.push(candidate);
+  }
+
+  return cleanSentence(descriptionLines.join(" ").replace(/-\s+/g, "-"));
+}
+
+export function parseNoticeDetails(text) {
   const normalized = normalizeText(text);
   return {
     hearingAt: parseNoticeHearingTime(normalized),
     address: extractProjectAddress(text),
     summary: extractProjectDescription(text),
     fileNo: cleanSentence(normalized.match(/File No\.:\s*([A-Z0-9-]+)/i)?.[1] ?? ""),
-    planner: cleanSentence(normalized.match(/Project Planner:\s*([^\n]+)/i)?.[1] ?? ""),
+    planner: extractProjectPlanner(text),
   };
 }
 

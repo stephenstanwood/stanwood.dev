@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { applyDowntownDetailTimes, eventRejectionReason, normalizeBusinessAddress } from "./sync-campbell-data.mjs";
+import {
+  applyDowntownDetailTimes,
+  eventRejectionReason,
+  normalizeBusinessAddress,
+  parseNoticeDetails,
+} from "./sync-campbell-data.mjs";
 
 describe("Downtown Campbell event detail enrichment", () => {
   it("adds detail-page times to a date-only single-day event", () => {
@@ -69,5 +74,36 @@ describe("Campbell public event filtering", () => {
     expect(eventRejectionReason({ title: "Planning Commission Regular Meeting", category: "Planning Commission" })).toBe(
       "",
     );
+  });
+});
+
+describe("Campbell public notice parsing", () => {
+  it("extracts details from two-column Planning Commission notices", () => {
+    const text = `
+      Notice of Public Hearing
+      The Planning Commission of the City of Campbell will hold a Public Hearing at 7:00 p.m., or shortly thereafter, on Tuesday September
+      22, 2026,in the Police Department Emergency Operations Center, 100 N First Street, Campbell, CA , to consider the following item:
+      PROJECT INFO                                                                       PROJECT DESCRIPTION
+      Project Address: 1581 W Campbell Avenue                                            Request to allow the establishment of an approximately 26,000-
+      Zoning | Area Plan: NC | N/A                                                       square-foot grocery store (Apni Mandi Farmer's Market) with off-site
+      Neighborhood Association(s): Moreland West                                         alcohol sales and 24-hour operation, including construction of an
+      Neighborhood Assoc.                                                                approximately 920-square-foot mezzanine, tenant-related building
+      Council District: 4                                                                facade alterations, and associated parking lot modifications
+      File No.: PLN-2025-167
+      APN: 307-16-015
+      Application Type: Conditional Use Permit with Site and
+      Architectural Review
+      Project Planner: Daniel Fama, Senior Planner                                         \u2751 Watch YouTube live-stream:
+      Contact: danielf@campbellca.gov | (408) 866-2193
+    `;
+
+    expect(parseNoticeDetails(text)).toMatchObject({
+      hearingAt: "September 22, 2026 at 7:00 p.m.",
+      address: "1581 W Campbell Avenue",
+      fileNo: "PLN-2025-167",
+      planner: "Daniel Fama, Senior Planner",
+      summary:
+        "Request to allow the establishment of an approximately 26,000-square-foot grocery store (Apni Mandi Farmer's Market) with off-site alcohol sales and 24-hour operation, including construction of an approximately 920-square-foot mezzanine, tenant-related building facade alterations, and associated parking lot modifications",
+    });
   });
 });
