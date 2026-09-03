@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-08-17T10:30:04.724983+00:00",
+  "built_at": "2026-09-03T21:22:42.944556+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 28,
-      "video_count": 9,
+      "video_count": 8,
       "video_ids": [
-        "F-OxHWWg59o",
         "yhfuDD3hprA",
         "QZ61wToFILM",
         "Q_UxyEepuQA",
@@ -196,9 +195,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 8,
-      "video_count": 9,
+      "video_count": 8,
       "video_ids": [
-        "popjDuA-whA",
         "D7e7oUbtkFM",
         "NUtaN10cVDc",
         "b6uxaRL_ipw",
@@ -343,13 +341,13 @@
       ]
     },
     {
-      "key": "__single__dyb_cFywuik",
+      "key": "__single__ZlLV9ZHauAM",
       "is_single": true,
-      "display_name": "Lecture 15 - PCA and ICA | Stanford CS229: Machine Learning Andrew Ng - Autumn 2018",
-      "best_score": 0,
+      "display_name": "When AI Stops Being a Project: Turning Technology into Real Value for Patients and Providers",
+      "best_score": -4,
       "video_count": 1,
       "video_ids": [
-        "dyb_cFywuik"
+        "ZlLV9ZHauAM"
       ]
     },
     {
@@ -364,23 +362,6 @@
     }
   ],
   "queue": [
-    {
-      "id": "F-OxHWWg59o",
-      "title": "Stanford CS547 HCI Seminar | Winter 2026 | What's Up with AI?",
-      "url": "https://www.youtube.com/watch?v=F-OxHWWg59o",
-      "duration": 3793,
-      "published_at": "2026-03-04T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 24,
-      "categories": [
-        "hci",
-        "applied_ai",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 20, 2026\nThis lecture covers:\n\u2022 A better understanding of what AI systems are actually doing\n\u2022 What concerns we should have about where they are going\n\u2022 How to approach issues with the recognition that large language models and similar systems have no real understanding or inten"
-    },
     {
       "id": "yhfuDD3hprA",
       "title": "Stanford CS547 HCI Seminar | Winter 2026 | Computational Ecosystems",
@@ -1932,21 +1913,6 @@
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs221-artificial-intelligence-principles-and-techniques\n\nPlease follow along with the course schedule: https://stanford-cs221.github.io/autumn2025/\n\nFollow the playlist: https://yout"
     },
     {
-      "id": "popjDuA-whA",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | \ud835\udebf0: An Open Foundation Model",
-      "url": "https://www.youtube.com/watch?v=popjDuA-whA",
-      "duration": 3850,
-      "published_at": "2026-03-03T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 20, 2026\n\ud835\udebf0: An Open Foundation Model Towards Universal Humanoid Loco-Manipulation\n\nThis seminar covers: \n\u2022 Addressing challenging humanoid loco-manipulation tasks\n\u2022 Decoupling the learning process to maximize the utility of heterogeneous data sources\n\u2022 Extensive real-world expe"
-    },
-    {
       "id": "D7e7oUbtkFM",
       "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Gen Control, Action Chunking, Moravec\u2019s Paradox",
       "url": "https://www.youtube.com/watch?v=D7e7oUbtkFM",
@@ -2537,17 +2503,20 @@
       "description": ""
     },
     {
-      "id": "dyb_cFywuik",
-      "title": "Lecture 15 - PCA and ICA | Stanford CS229: Machine Learning Andrew Ng - Autumn 2018",
-      "url": "https://www.youtube.com/watch?v=dyb_cFywuik",
-      "duration": 4715,
-      "published_at": "2026-02-26T00:00:00+00:00",
+      "id": "ZlLV9ZHauAM",
+      "title": "When AI Stops Being a Project: Turning Technology into Real Value for Patients and Providers",
+      "url": "https://www.youtube.com/watch?v=ZlLV9ZHauAM",
+      "duration": 2210,
+      "published_at": "2026-08-28T00:00:00+00:00",
       "series": null,
-      "series_display": "Lecture 15 - PCA and ICA | Stanford CS229: Machine Learning Andrew Ng - Autumn 2018",
-      "lecture_num": 15,
-      "score": 0,
-      "categories": [],
-      "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nAndrew Ng \nAdjunct Professor of Computer Science\nhttps://www.andrewng.org/\n \nTo follow along with the course schedule and syllabus, visit: \nhttp://cs229.stanford.edu/syllabus-autumn2018.html"
+      "series_display": "When AI Stops Being a Project: Turning Technology into Real Value for Patients and Providers",
+      "lecture_num": null,
+      "score": -4,
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "description": "Learn more about Stanford's online Healthcare AI programs: https://stanford.io/3NEt7uE\nCheck out the AI in Healthcare series playlist:https://stanford.io/3NEt7uE\n\nMatt Lungren, Stanford University - https://profiles.stanford.edu/matthew-lungren\nJustin Norden, Stanford University - https://profiles.stanford.edu/justin-norden\n\nGuest speaker: Sandeep Dadlani,  Optum Insight CEO\n\nA fast-paced Stanford"
     },
     {
       "id": "y81IfY-Cc1U",
