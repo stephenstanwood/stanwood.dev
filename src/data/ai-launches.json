@@ -1,11 +1,43 @@
 [
   {
+    "name": "Gemini 3.8 Flash",
+    "org": "Google",
+    "date": "2026-09-02",
+    "type": "model",
+    "summary": "Point a coding agent at a much better workhorse for the same $0.75 per million input tokens as 3.7 Flash. Terminal-Bench jumps from 81.6% to 90.8%. Available now in AI Studio and the Gemini API.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
+  },
+  {
+    "name": "Google Pics",
+    "org": "Google",
+    "date": "2026-09-01",
+    "type": "tool",
+    "summary": "Make posters, flyers, and social graphics by describing them at pics.new, then tap any object in the image to change just that part. Text inside an image can be edited or translated into 29 languages.",
+    "url": "https://blog.google/products-and-platforms/products/workspace/google-pics/"
+  },
+  {
     "name": "Claude Fable 5.1",
     "org": "Anthropic",
     "date": "2026-09-01",
     "type": "model",
     "summary": "Run longer coding and agent sessions for about 25% less than Fable 5 — up to 45% on agentic work, thanks to a 75% cut in cache-read pricing. One million tokens of context, 128K output per response.",
     "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+  },
+  {
+    "name": "Hybrid Compute on Mac",
+    "org": "Perplexity",
+    "date": "2026-09-01",
+    "type": "tool",
+    "summary": "Let a cloud agent do the thinking while your private files stay on your Mac — a local model handles them behind an on-device privacy gate. Needs Apple silicon, 24GB of memory, and a Pro or Max plan.",
+    "url": "https://www.macstories.net/news/perplexity-introduces-hybrid-compute-to-keep-sensitive-data-local/"
+  },
+  {
+    "name": "DeepSeek-V4-Flash-Vision-Exp",
+    "org": "DeepSeek",
+    "date": "2026-08-31",
+    "type": "model",
+    "summary": "Download a vision model that reads screenshots, charts, and documents, with MIT weights you can host or resell with no strings. First multimodal release in the V4 family.",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash-Vision-Exp"
   },
   {
     "name": "OpenClaw 2.0",
@@ -24,43 +56,11 @@
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-omni-1-1-flash/"
   },
   {
-    "name": "Gemini 3.5 Transcribe",
-    "org": "Google",
-    "date": "2026-08-26",
-    "type": "model",
-    "summary": "Transcribe recorded or live audio in 85+ languages with speaker labels, word-level timestamps, and up to 1,000 custom vocabulary terms. Roughly half a cent a minute, and there's a free tier.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5-transcribe/"
-  },
-  {
-    "name": "Built-in browser in Cowork",
-    "org": "Anthropic",
-    "date": "2026-08-26",
-    "type": "tool",
-    "summary": "Hand off web chores — filling forms, pulling numbers out of a dashboard — to a browser that lives inside the desktop app. No extension to install, and it never touches your own tabs or passwords.",
-    "url": "https://claude.com/blog/cowork-built-in-browser"
-  },
-  {
     "name": "GLM-5.3-Flash",
     "org": "Z.ai",
     "date": "2026-08-26",
     "type": "model",
     "summary": "Run a frontier-grade coding and agent model yourself — MIT-licensed weights on Hugging Face, a 1M-token context, image and video input. Or call the hosted API at a tenth of the previous GLM's price.",
     "url": "https://z.ai/blog/glm-5.3-flash"
-  },
-  {
-    "name": "Granite 4.2",
-    "org": "IBM",
-    "date": "2026-08-25",
-    "type": "model",
-    "summary": "Run a reasoning model on your own hardware — 3B, 8B, and 30B weights under Apache 2.0, free from Hugging Face and Ollama. A thinking switch turns step-by-step reasoning on or off. 128K context.",
-    "url": "https://research.ibm.com/blog/introducing-granite-4-2"
-  },
-  {
-    "name": "Keenable Search API",
-    "org": "Keenable",
-    "date": "2026-08-25",
-    "type": "tool",
-    "summary": "Add live web search and clean page text to an agent without paying upfront. The public endpoint needs no key, and a free account includes 100,000 searches a month.",
-    "url": "https://techcrunch.com/2026/08/25/accel-backed-keenable-is-indexing-the-web-for-ai-agents/"
   }
 ]
