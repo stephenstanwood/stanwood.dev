@@ -92,20 +92,46 @@ function tzAbbr(iana: string): string {
 // ── localStorage ───────────────────────────────────────────────────────────
 
 const LS_KEY = "wtwtw:v1";
+const DEFAULTS_MIGRATION_KEY = "wtwtw:stephen-defaults-restored:v1";
+
+export const DEFAULT_TEAM_KEYS = [
+  "nfl-steelers",
+  "ncaam-michigan",
+  "nba-warriors",
+  "wnba-valkyries",
+  "mlb-cubs",
+  "mlb-giants",
+];
+
+export function resolvePrefs(
+  parsed: { teams: unknown; timezone: unknown } | null,
+  defaultsAlreadyRestored: boolean,
+  defaultTimezone: string,
+): WTWTWPrefs {
+  if (parsed && Array.isArray(parsed.teams) && typeof parsed.timezone === "string") {
+    const valid = parsed.teams.filter(
+      (key): key is string =>
+        typeof key === "string" && TEAM_REGISTRY[key] !== undefined
+    );
+    if (valid.length > 0 || defaultsAlreadyRestored) {
+      return { teams: valid, timezone: parsed.timezone };
+    }
+    return { teams: [...DEFAULT_TEAM_KEYS], timezone: parsed.timezone };
+  }
+  return { teams: [...DEFAULT_TEAM_KEYS], timezone: defaultTimezone };
+}
 
 function loadPrefs(): WTWTWPrefs {
-  const parsed = safeGet<{ teams: unknown; timezone: unknown }>(LS_KEY);
-  if (parsed && Array.isArray(parsed.teams) && typeof parsed.timezone === "string") {
-    const valid = (parsed.teams as string[]).filter(
-      (k) => TEAM_REGISTRY[k] !== undefined
-    );
-    return { teams: valid, timezone: parsed.timezone };
-  }
-  return { teams: [], timezone: getDefaultTimezone() };
+  return resolvePrefs(
+    safeGet<{ teams: unknown; timezone: unknown }>(LS_KEY),
+    safeGet<boolean>(DEFAULTS_MIGRATION_KEY) === true,
+    getDefaultTimezone(),
+  );
 }
 
 function savePrefs(prefs: WTWTWPrefs): void {
   safeSet(LS_KEY, prefs);
+  safeSet(DEFAULTS_MIGRATION_KEY, true);
 }
 
 // ── ESPN helpers ────────────────────────────────────────────────────────────
