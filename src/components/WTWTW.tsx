@@ -12,6 +12,15 @@ import { toErrMsg } from "../lib/apiHelpers";
 import { formatHourMinute, formatHourMinuteInTz } from "../lib/dateFormat";
 import { msSince } from "../lib/time";
 
+// ── Style tokens ───────────────────────────────────────────────────────────
+// The two font stacks below are repeated across this file's inline styles; naming
+// them keeps the quoting consistent and makes a stack swap a one-line change.
+
+/** Monospace stack used for times, scores, and broadcast chips. */
+const MONO = "'JetBrains Mono', monospace";
+/** Display stack used for day headings and matchup titles. */
+const DISPLAY = "'Oswald', sans-serif";
+
 // ── Types ──────────────────────────────────────────────────────────────────
 
 interface DayInfo {
@@ -155,6 +164,11 @@ function hitsWindow(isoStart: string, tz: string): boolean {
   return startMin < windowEnd && endMin > windowStart;
 }
 
+// CLEANUP-FLAG: this formats "today in tz" to an en-US "MM/DD/YYYY" string and
+// immediately reparses it with `new Date(...)`, relying on engines treating that
+// form as local midnight. It works in every browser today and pairs correctly with
+// formatYYYYMMDD's local getters, but the round-trip is not spec-guaranteed — the
+// tz-aware day should be built from Intl formatToParts instead.
 function getUpcoming7Days(tz: string): DayInfo[] {
   const nowLocal = new Date(
     new Intl.DateTimeFormat("en-US", {
@@ -268,7 +282,7 @@ function GameStatusBadge({ event }: { event: ESPNEvent }) {
           background: "rgba(34,197,94,0.15)",
           color: "#22c55e",
           border: "1px solid rgba(34,197,94,0.3)",
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: MONO,
         }}
       >
         <span
@@ -294,7 +308,7 @@ function GameStatusBadge({ event }: { event: ESPNEvent }) {
           background: "rgba(255,255,255,0.05)",
           color: "rgba(255,255,255,0.35)",
           border: "1px solid rgba(255,255,255,0.1)",
-          fontFamily: "'JetBrains Mono', monospace",
+          fontFamily: MONO,
         }}
       >
         {detail || "FINAL"}
@@ -327,14 +341,14 @@ function ScoreDisplay({ event }: { event: ESPNEvent }) {
       <div className="flex items-center gap-2 flex-1">
         <span
           className="text-xs uppercase tracking-wide"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)", minWidth: 28 }}
+          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.35)", minWidth: 28 }}
         >
           {awayTeam?.team?.abbreviation || "AWY"}
         </span>
         <span
           className="text-lg font-bold"
           style={{
-            fontFamily: "'Oswald', sans-serif",
+            fontFamily: DISPLAY,
             color: state === "final" && awayScore < homeScore
               ? "rgba(255,255,255,0.35)"
               : "rgba(255,255,255,0.9)",
@@ -348,7 +362,7 @@ function ScoreDisplay({ event }: { event: ESPNEvent }) {
         <span
           className="text-lg font-bold"
           style={{
-            fontFamily: "'Oswald', sans-serif",
+            fontFamily: DISPLAY,
             color: state === "final" && homeScore < awayScore
               ? "rgba(255,255,255,0.35)"
               : "rgba(255,255,255,0.9)",
@@ -358,7 +372,7 @@ function ScoreDisplay({ event }: { event: ESPNEvent }) {
         </span>
         <span
           className="text-xs uppercase tracking-wide"
-          style={{ fontFamily: "'JetBrains Mono', monospace", color: "rgba(255,255,255,0.35)", minWidth: 28, textAlign: "right" }}
+          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.35)", minWidth: 28, textAlign: "right" }}
         >
           {homeTeam?.team?.abbreviation || "HME"}
         </span>
@@ -438,7 +452,7 @@ function SettingsPanel({
         <h2
           className="text-sm font-bold uppercase tracking-widest"
           style={{
-            fontFamily: "'Oswald', sans-serif",
+            fontFamily: DISPLAY,
             color: "rgba(255,255,255,0.7)",
             letterSpacing: "0.15em",
           }}
@@ -697,7 +711,8 @@ export default function WTWTW() {
       setRawData(new Map());
       return;
     }
-    isRefresh ? setRefreshing(true) : setLoading(true);
+    const setBusy = isRefresh ? setRefreshing : setLoading;
+    setBusy(true);
     setError(null);
     try {
       const leaguePaths = [...new Set(currentTeams.map((t) => t.league))];
@@ -722,7 +737,7 @@ export default function WTWTW() {
     } catch (err) {
       setError(toErrMsg(err));
     } finally {
-      isRefresh ? setRefreshing(false) : setLoading(false);
+      setBusy(false);
     }
   }
 
@@ -874,7 +889,7 @@ export default function WTWTW() {
               className="animate-pulse rounded-2xl p-5 text-white/40"
               style={{
                 background: "#111D32",
-                fontFamily: "'JetBrains Mono', monospace",
+                fontFamily: MONO,
                 fontSize: "0.875rem",
               }}
             >
@@ -920,7 +935,7 @@ export default function WTWTW() {
                   <div
                     className="text-sm font-bold uppercase tracking-widest"
                     style={{
-                      fontFamily: "'Oswald', sans-serif",
+                      fontFamily: DISPLAY,
                       color: pick
                         ? "rgba(255,255,255,0.7)"
                         : "rgba(255,255,255,0.25)",
@@ -932,7 +947,7 @@ export default function WTWTW() {
                     {today && (
                       <span
                         className="ml-2 text-xs font-normal normal-case tracking-normal"
-                        style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'JetBrains Mono', monospace" }}
+                        style={{ color: "rgba(255,255,255,0.25)", fontFamily: MONO }}
                       >
                         {day.label}
                       </span>
@@ -946,7 +961,7 @@ export default function WTWTW() {
                     <div className="mt-3">
                       <div
                         className="text-xl font-bold text-white"
-                        style={{ fontFamily: "'Oswald', sans-serif" }}
+                        style={{ fontFamily: DISPLAY }}
                       >
                         {pick.event?.name || "Game"}
                       </div>
@@ -957,7 +972,7 @@ export default function WTWTW() {
                           <span
                             className="text-sm font-medium"
                             style={{
-                              fontFamily: "'JetBrains Mono', monospace",
+                              fontFamily: MONO,
                               color: "rgba(255,255,255,0.5)",
                             }}
                           >
@@ -986,7 +1001,7 @@ export default function WTWTW() {
                             style={{
                               background: "rgba(255,255,255,0.07)",
                               color: "rgba(255,255,255,0.45)",
-                              fontFamily: "'JetBrains Mono', monospace",
+                              fontFamily: MONO,
                               border: "1px solid rgba(255,255,255,0.1)",
                             }}
                           >
@@ -1010,7 +1025,7 @@ export default function WTWTW() {
                         <span
                           className="text-xs uppercase tracking-widest mb-0.5"
                           style={{
-                            fontFamily: "'JetBrains Mono', monospace",
+                            fontFamily: MONO,
                             color: "rgba(255,255,255,0.2)",
                             letterSpacing: "0.12em",
                           }}
@@ -1029,7 +1044,7 @@ export default function WTWTW() {
                               <span
                                 className="text-sm"
                                 style={{
-                                  fontFamily: "'Oswald', sans-serif",
+                                  fontFamily: DISPLAY,
                                   color: "rgba(255,255,255,0.5)",
                                   fontWeight: 600,
                                 }}
@@ -1040,7 +1055,7 @@ export default function WTWTW() {
                                 <span
                                   className="text-xs font-bold"
                                   style={{
-                                    fontFamily: "'JetBrains Mono', monospace",
+                                    fontFamily: MONO,
                                     color: otherState === "live" ? "#22c55e" : "rgba(255,255,255,0.3)",
                                   }}
                                 >
@@ -1051,7 +1066,7 @@ export default function WTWTW() {
                                 <span
                                   className="text-xs"
                                   style={{
-                                    fontFamily: "'JetBrains Mono', monospace",
+                                    fontFamily: MONO,
                                     color: "rgba(255,255,255,0.3)",
                                   }}
                                 >
