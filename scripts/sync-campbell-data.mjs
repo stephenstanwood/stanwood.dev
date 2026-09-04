@@ -52,6 +52,15 @@ const END_OF_DAY = "23:59:59";
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
 const CHAMBER_ALPHA_SLUGS = ["0-9", ..."abcdefghijklmnopqrstuvwxyz"];
 
+// CLEANUP-FLAG: this decoder is deliberately wider than src/lib/htmlUtils
+// decodeEntities (it also folds typographic entities and em-dashes down to ASCII for
+// plain-text storage), but it has two defects that helper already avoids:
+//   1. `&amp;` is replaced before `&lt;`/`&gt;`, so source text `&amp;lt;` decodes twice
+//      into `<` instead of staying the literal `&lt;`.
+//   2. `String.fromCharCode` truncates astral-plane numeric entities (emoji in a scraped
+//      event title), where `String.fromCodePoint` would not.
+// Fixing either changes scraper output for those inputs, so it needs a deliberate pass
+// with the committed data re-synced — not a drive-by edit.
 function decodeHtml(value = "") {
   return value
     .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
