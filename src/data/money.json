@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-05T06:10:13.738Z",
+  "lastUpdated": "2026-09-05T13:10:16.868Z",
   "apiSpend": {
     "months": [
       {
@@ -322,26 +322,26 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-05T06:10:13.738Z",
+        "collectedAt": "2026-09-05T13:10:16.868Z",
         "services": {
           "vercel": {
-            "totalCents": 1657,
+            "totalCents": 1718,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1541
+                "cents": 1596
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 59
+                "cents": 62
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 15
+                "cents": 16
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 10
+                "cents": 11
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -365,6 +365,10 @@
               },
               {
                 "name": "Edge Requests - Additional CPU Duration",
+                "cents": 1
+              },
+              {
+                "name": "ISR Reads",
                 "cents": 1
               }
             ],
@@ -486,10 +490,10 @@
     },
     {
       "name": "Neon via Vercel",
-      "cents": 2183,
+      "cents": 2185,
       "category": "infra",
       "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Aug 2026"
+      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Brave",
