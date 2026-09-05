@@ -3,7 +3,6 @@ import { useLoadingMessages } from "../lib/redesignRolodex/useLoadingMessages";
 import { defaultExamples, pickExamples } from "../lib/redesignRolodex/examples";
 import { useAnalyzeStream } from "../lib/redesignRolodex/useAnalyzeStream";
 import { useGhostAutocomplete } from "../lib/redesignRolodex/useGhostAutocomplete";
-import type { WeirdnessMode } from "../lib/redesignRolodex/types";
 import ErrorBoundary from "./ErrorBoundary";
 
 export default function RedesignRolodexTile() {
@@ -14,6 +13,12 @@ export default function RedesignRolodexTile() {
   );
 }
 
+// CLEANUP-FLAG: this tile and src/components/redesign-rolodex/RedesignRolodex.tsx
+// keep two parallel state machines over the same useAnalyzeStream — url + ghost
+// autocomplete, shuffle-examples-on-mount, active card index, submit/reset. They
+// have drifted (auto-cycle here, manual nav there; mode picker only in the full
+// page), so folding them into one "rolodex session" hook is a real refactor with
+// UX decisions in it, not a mechanical dedupe.
 function RedesignRolodexTileInner() {
   const [exampleUrls, setExampleUrls] = useState(() => defaultExamples(3));
   const [url, setUrl] = useState("");
@@ -45,7 +50,7 @@ function RedesignRolodexTileInner() {
     (targetUrl: string) => {
       if (!targetUrl.trim()) return;
       setActiveIdx(0);
-      stream.analyze(targetUrl.trim(), "designer" as WeirdnessMode);
+      stream.analyze(targetUrl.trim(), "designer");
     },
     [stream.analyze],
   );

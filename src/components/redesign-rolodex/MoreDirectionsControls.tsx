@@ -1,11 +1,17 @@
-import { useState, useEffect } from "react";
 import type { MoreModifier } from "../../lib/redesignRolodex/types";
+import { useCyclingIndex } from "../../hooks/useCyclingIndex";
 
 const LOADING_MESSAGES = [
   "exploring new aesthetics...",
   "raiding the font library...",
   "finding fresh directions...",
   "reshuffling reality...",
+];
+
+const MODIFIERS: { modifier: MoreModifier; label: string; className: string }[] = [
+  { modifier: "more", label: "More directions", className: "rr-more-btn" },
+  { modifier: "weirder", label: "Go weirder", className: "rr-more-btn rr-more-weirder" },
+  { modifier: "calmer", label: "Back toward reality", className: "rr-more-btn rr-more-calmer" },
 ];
 
 export default function MoreDirectionsControls({
@@ -17,16 +23,10 @@ export default function MoreDirectionsControls({
   loading: boolean;
   disabled?: boolean;
 }) {
-  const [msgIdx, setMsgIdx] = useState(0);
-
-  useEffect(() => {
-    if (!loading) return;
-    setMsgIdx(0);
-    const interval = setInterval(() => {
-      setMsgIdx((i) => (i + 1) % LOADING_MESSAGES.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [loading]);
+  const msgIdx = useCyclingIndex(LOADING_MESSAGES.length, 2000, {
+    enabled: loading,
+    resetKey: loading,
+  });
 
   return (
     <div className="rr-more-controls">
@@ -36,32 +36,17 @@ export default function MoreDirectionsControls({
           <span className="rr-more-loading-text">{LOADING_MESSAGES[msgIdx]}</span>
         </div>
       ) : (
-        <>
+        MODIFIERS.map((m) => (
           <button
-            className="rr-more-btn"
-            onClick={() => onMore("more")}
+            key={m.modifier}
+            className={m.className}
+            onClick={() => onMore(m.modifier)}
             disabled={disabled}
             type="button"
           >
-            More directions
+            {m.label}
           </button>
-          <button
-            className="rr-more-btn rr-more-weirder"
-            onClick={() => onMore("weirder")}
-            disabled={disabled}
-            type="button"
-          >
-            Go weirder
-          </button>
-          <button
-            className="rr-more-btn rr-more-calmer"
-            onClick={() => onMore("calmer")}
-            disabled={disabled}
-            type="button"
-          >
-            Back toward reality
-          </button>
-        </>
+        ))
       )}
     </div>
   );

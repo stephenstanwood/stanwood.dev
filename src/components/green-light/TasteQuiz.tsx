@@ -1,6 +1,32 @@
 import { useState } from "react";
 import type { QuizQuestion, QuizAnswer } from "../../lib/greenLight/types";
 
+type QuizOption = QuizQuestion["optionA"];
+
+/** One of the two "which sounds better" cards. */
+function QuizOptionCard({
+  option,
+  onPick,
+}: {
+  option: QuizOption;
+  onPick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="he-quiz-card"
+      onClick={onPick}
+      aria-label={`Choose: ${option.label}`}
+    >
+      {option.emoji && <span className="he-quiz-card-emoji">{option.emoji}</span>}
+      <span className="he-quiz-card-label">{option.label}</span>
+      {option.subtitle && (
+        <span className="he-quiz-card-sub">{option.subtitle}</span>
+      )}
+    </button>
+  );
+}
+
 interface Props {
   questions: QuizQuestion[];
   onComplete: (answers: QuizAnswer[]) => void;
@@ -12,7 +38,7 @@ export default function TasteQuiz({ questions, onComplete }: Props) {
   const [animating, setAnimating] = useState(false);
 
   const question = questions[current];
-  const progress = ((current) / questions.length) * 100;
+  const progress = (current / questions.length) * 100;
 
   function pick(selected: "A" | "B") {
     if (animating) return;
@@ -50,37 +76,9 @@ export default function TasteQuiz({ questions, onComplete }: Props) {
 
       {/* Question cards */}
       <div className={`he-quiz-cards ${animating ? "he-fade-out" : "he-fade-in"}`}>
-        <button
-          type="button"
-          className="he-quiz-card"
-          onClick={() => pick("A")}
-          aria-label={`Choose: ${question.optionA.label}`}
-        >
-          {question.optionA.emoji && (
-            <span className="he-quiz-card-emoji">{question.optionA.emoji}</span>
-          )}
-          <span className="he-quiz-card-label">{question.optionA.label}</span>
-          {question.optionA.subtitle && (
-            <span className="he-quiz-card-sub">{question.optionA.subtitle}</span>
-          )}
-        </button>
-
+        <QuizOptionCard option={question.optionA} onPick={() => pick("A")} />
         <span className="he-quiz-or">or</span>
-
-        <button
-          type="button"
-          className="he-quiz-card"
-          onClick={() => pick("B")}
-          aria-label={`Choose: ${question.optionB.label}`}
-        >
-          {question.optionB.emoji && (
-            <span className="he-quiz-card-emoji">{question.optionB.emoji}</span>
-          )}
-          <span className="he-quiz-card-label">{question.optionB.label}</span>
-          {question.optionB.subtitle && (
-            <span className="he-quiz-card-sub">{question.optionB.subtitle}</span>
-          )}
-        </button>
+        <QuizOptionCard option={question.optionB} onPick={() => pick("B")} />
       </div>
     </div>
   );
