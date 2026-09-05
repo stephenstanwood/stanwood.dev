@@ -44,7 +44,7 @@ function SafetyTooltip({ active, payload, label }: ChartTooltipProps<SafetyPaylo
 export default function SafetyChart() {
   return (
     <div className="dl-panel">
-      <PanelHeader title="Safety: Waymo vs Human Drivers" subtitle="Peer-reviewed, 56.7M rider miles" />
+      <PanelHeader title="Safety: Waymo vs Human Drivers" subtitle="Waymo safety data, 220.6M rider-only miles" />
       <div className="dl-chart-wrap">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={chartData} barGap={4} margin={{ top: 20, right: 20, bottom: 5, left: 0 }}>

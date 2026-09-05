@@ -40,7 +40,7 @@ function DisengagementTooltip({ active, payload }: ChartTooltipProps<Disengageme
 export default function DisengagementChart() {
   return (
     <div className="dl-panel dl-full">
-      <PanelHeader title="How Far Without a Human?" subtitle="Miles between human takeovers (CA DMV 2025)" />
+      <PanelHeader title="How Far Without a Human?" subtitle="Miles between human takeovers (CA DMV, Dec 2024–Nov 2025)" />
       <div className="dl-chart-wrap">
         <ResponsiveContainer width="100%" height={180}>
           <BarChart
