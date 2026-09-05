@@ -1,6 +1,13 @@
 import { useState } from "react";
 import type { DietaryConstraints as Constraints, DietaryLabel } from "../../lib/greenLight/types";
 
+type MealSize = Constraints["mealSize"];
+
+const MEAL_SIZES: { value: MealSize; label: string }[] = [
+  { value: "lighter", label: "Lighter" },
+  { value: "filling", label: "Filling" },
+];
+
 const DIETARY_OPTIONS: { value: DietaryLabel; label: string }[] = [
   { value: "vegetarian", label: "Vegetarian" },
   { value: "pescatarian", label: "Pescatarian" },
@@ -18,7 +25,7 @@ interface Props {
 export default function DietaryConstraints({ initial, onComplete }: Props) {
   const [dietary, setDietary] = useState<DietaryLabel[]>(initial.dietary);
   const [dislikedText, setDislikedText] = useState(initial.disliked.join(", "));
-  const [mealSize, setMealSize] = useState<"lighter" | "filling">(initial.mealSize);
+  const [mealSize, setMealSize] = useState<MealSize>(initial.mealSize);
 
   function toggleDietary(value: DietaryLabel) {
     setDietary((prev) =>
@@ -71,22 +78,17 @@ export default function DietaryConstraints({ initial, onComplete }: Props) {
       <div className="he-meal-size">
         <span className="he-field-label">Typical meal size</span>
         <div className="he-toggle-group">
-          <button
-            type="button"
-            className={`he-toggle ${mealSize === "lighter" ? "he-toggle-active" : ""}`}
-            onClick={() => setMealSize("lighter")}
-            aria-pressed={mealSize === "lighter"}
-          >
-            Lighter
-          </button>
-          <button
-            type="button"
-            className={`he-toggle ${mealSize === "filling" ? "he-toggle-active" : ""}`}
-            onClick={() => setMealSize("filling")}
-            aria-pressed={mealSize === "filling"}
-          >
-            Filling
-          </button>
+          {MEAL_SIZES.map((size) => (
+            <button
+              key={size.value}
+              type="button"
+              className={`he-toggle ${mealSize === size.value ? "he-toggle-active" : ""}`}
+              onClick={() => setMealSize(size.value)}
+              aria-pressed={mealSize === size.value}
+            >
+              {size.label}
+            </button>
+          ))}
         </div>
       </div>
 

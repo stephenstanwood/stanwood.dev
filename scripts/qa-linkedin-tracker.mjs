@@ -27,6 +27,27 @@ const assert = (condition, message) => {
 };
 const resultCountText = (count, noun = "moves") =>
   `${count} ${count === 1 ? noun.replace(/s$/, "") : noun}${count > 100 ? " · showing 100" : ""}`;
+/**
+ * Reload /li and re-apply the filter row. Locators go stale across a reload and
+ * every mutation assertion below rebuilds the same state, so this is the one
+ * place that knows the "reload, wait for hydration, re-filter" sequence.
+ */
+const reloadLiPage = async (page, { batch = "all", status, search } = {}) => {
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator('.li-page[data-ready="true"]').waitFor();
+  await page.locator(".li-controls").waitFor();
+  await page.selectOption('[aria-label="batch"]', batch);
+  if (status) await page.selectOption('[aria-label="status"]', status);
+  if (search !== undefined) await page.locator('[aria-label="search"]').fill(search);
+};
+/** Stub window.open so a card click records its destination on <html>. */
+const captureWindowOpen = (page, attribute) =>
+  page.evaluate((attr) => {
+    window.open = (url) => {
+      document.documentElement.setAttribute(attr, String(url));
+      return null;
+    };
+  }, attribute);
 const axeTags = [
   "wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22a", "wcag22aa", "best-practice",
 ];
@@ -170,12 +191,7 @@ try {
       target = page.locator(`.li-person[data-id="${targetId}"]`);
 
       const expectedLinkedInUrl = await target.locator(".li-actions a").getAttribute("href");
-      await page.evaluate(() => {
-        window.open = (url) => {
-          document.documentElement.setAttribute("data-qa-opened-url", String(url));
-          return null;
-        };
-      });
+      await captureWindowOpen(page, "data-qa-opened-url");
       await target.locator(".li-person-main").click({ position: { x: 4, y: 4 } });
       const openedLinkedInUrl = await page.locator("html").getAttribute("data-qa-opened-url");
       assert(
@@ -188,12 +204,7 @@ try {
       let response = await responsePromise;
       assert(response.ok(), `desktop: action mutation returned ${response.status()}`);
       await target.waitFor({ state: "detached" });
-      await page.reload({ waitUntil: "networkidle" });
-      await page.locator('.li-page[data-ready="true"]').waitFor();
-      await page.locator(".li-controls").waitFor();
-      await page.selectOption('[aria-label="batch"]', "all");
-      await page.selectOption('[aria-label="status"]', "actioned");
-      await page.locator('[aria-label="search"]').fill(targetName ?? "");
+      await reloadLiPage(page, { status: "actioned", search: targetName ?? "" });
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       assert(await target.locator('input[type="checkbox"]').isChecked(), "desktop: action state did not survive reload");
@@ -202,10 +213,7 @@ try {
       await target.locator('input[type="checkbox"]').click();
       response = await responsePromise;
       assert(response.ok(), `desktop: action restore returned ${response.status()}`);
-      await page.reload({ waitUntil: "networkidle" });
-      await page.locator('.li-page[data-ready="true"]').waitFor();
-      await page.selectOption('[aria-label="batch"]', "all");
-      await page.locator('[aria-label="search"]').fill(targetName ?? "");
+      await reloadLiPage(page, { search: targetName ?? "" });
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       assert(!(await target.locator('input[type="checkbox"]').isChecked()), "desktop: action state was not restored");
@@ -214,22 +222,14 @@ try {
       await target.locator("button.nah").click();
       response = await responsePromise;
       assert(response.ok(), `desktop: dismiss mutation returned ${response.status()}`);
-      await page.reload({ waitUntil: "networkidle" });
-      await page.locator('.li-page[data-ready="true"]').waitFor();
-      await page.locator(".li-controls").waitFor();
-      await page.selectOption('[aria-label="batch"]', "all");
-      await page.selectOption('[aria-label="status"]', "dismissed");
-      await page.locator('[aria-label="search"]').fill(targetName ?? "");
+      await reloadLiPage(page, { status: "dismissed", search: targetName ?? "" });
       target = page.locator(`.li-person[data-id="${targetId}"]`);
       await target.waitFor();
       responsePromise = page.waitForResponse((candidate) => candidate.url().includes("/api/li/dismiss"));
       await target.locator("button.restore").click();
       response = await responsePromise;
       assert(response.ok(), `desktop: dismiss restore returned ${response.status()}`);
-      await page.reload({ waitUntil: "networkidle" });
-      await page.locator('.li-page[data-ready="true"]').waitFor();
-      await page.selectOption('[aria-label="batch"]', "all");
-      await page.selectOption('[aria-label="status"]', "all");
+      await reloadLiPage(page, { status: "all" });
       assert(
         (await page.locator(".li-result-count").textContent())?.replace(/\s+/g, " ").trim() ===
           resultCountText(initial.connectTotal - initial.unknownTotal + initial.followTotal + initial.organizationTotal),
@@ -276,12 +276,7 @@ try {
     assert(badLinks === 0, `${profile.name}: organization filter contains an unsafe company link`);
     const organizationCard = page.locator(".li-person.kind-organization").first();
     const expectedCompanyUrl = await organizationCard.locator(".li-actions a").getAttribute("href");
-    await page.evaluate(() => {
-      window.open = (url) => {
-        document.documentElement.setAttribute("data-qa-org-opened-url", String(url));
-        return null;
-      };
-    });
+    await captureWindowOpen(page, "data-qa-org-opened-url");
     await organizationCard.locator(".li-person-main").click({ position: { x: 4, y: 4 } });
     assert(
       (await page.locator("html").getAttribute("data-qa-org-opened-url")) === expectedCompanyUrl,
@@ -291,7 +286,7 @@ try {
     await page.selectOption('[aria-label="action"]', "all");
     await page.selectOption('[aria-label="batch"]', "today");
     await page.selectOption('[aria-label="status"]', "remaining");
-    if (profile.mobile && await page.locator(".li-person").count() > 0) {
+    if (profile.mobile && (await page.locator(".li-person").count()) > 0) {
       await page.locator(".li-person").first().scrollIntoViewIfNeeded();
     }
     await page.evaluate(() => window.scrollTo(0, 0));

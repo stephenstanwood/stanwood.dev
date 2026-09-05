@@ -24,7 +24,6 @@ export default function RolodexViewer({
 }: Props) {
   const totalCards = 1 + directions.length;
   const [activeIdx, setActiveIdx] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef<number | null>(null);
 
   const prev = useCallback(
@@ -96,14 +95,13 @@ export default function RolodexViewer({
 
         <div
           className="rr-rolodex-track"
-          ref={containerRef}
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
         >
           {/* Current site card */}
           <div
-            className={`rr-rolodex-slot ${getSlotClass(0, activeIdx)}`}
-            style={getSlotStyle(0, activeIdx)}
+            className={`rr-rolodex-slot ${slotState(0, activeIdx).className}`}
+            style={slotState(0, activeIdx).style}
           >
             <CurrentSiteCard
               analysis={analysis}
@@ -115,8 +113,8 @@ export default function RolodexViewer({
           {directions.map((d, i) => (
             <div
               key={d.id}
-              className={`rr-rolodex-slot ${getSlotClass(i + 1, activeIdx)}`}
-              style={getSlotStyle(i + 1, activeIdx)}
+              className={`rr-rolodex-slot ${slotState(i + 1, activeIdx).className}`}
+              style={slotState(i + 1, activeIdx).style}
             >
               <DesignDirectionCard
                 direction={d}
@@ -153,50 +151,65 @@ export default function RolodexViewer({
   );
 }
 
-function getSlotClass(idx: number, activeIdx: number): string {
-  const diff = idx - activeIdx;
-  if (diff === 0) return "rr-slot-active";
-  if (diff === -1) return "rr-slot-prev";
-  if (diff === 1) return "rr-slot-next";
-  if (diff < -1) return "rr-slot-far-prev";
-  return "rr-slot-far-next";
-}
-
-function getSlotStyle(
-  idx: number,
-  activeIdx: number,
-): React.CSSProperties {
-  const diff = idx - activeIdx;
-  if (diff === 0) {
-    return {
+/**
+ * Position of a card relative to the active one, keyed by that offset. The two
+ * "far" states are the catch-all for anything more than one card away.
+ */
+const SLOT_STATES = {
+  active: {
+    className: "rr-slot-active",
+    style: {
       transform: "translateY(0) scale(1) rotateX(0deg)",
       opacity: 1,
       zIndex: 10,
       pointerEvents: "auto",
-    };
-  }
-  if (diff === -1) {
-    return {
+    },
+  },
+  prev: {
+    className: "rr-slot-prev",
+    style: {
       transform: "translateY(-60%) scale(0.88) rotateX(15deg)",
       opacity: 0.5,
       zIndex: 5,
       pointerEvents: "none",
-    };
-  }
-  if (diff === 1) {
-    return {
+    },
+  },
+  next: {
+    className: "rr-slot-next",
+    style: {
       transform: "translateY(60%) scale(0.88) rotateX(-15deg)",
       opacity: 0.5,
       zIndex: 5,
       pointerEvents: "none",
-    };
-  }
-  // Far away
-  const sign = diff < 0 ? -1 : 1;
-  return {
-    transform: `translateY(${sign * 110}%) scale(0.75) rotateX(${sign * 25}deg)`,
-    opacity: 0,
-    zIndex: 0,
-    pointerEvents: "none",
-  };
+    },
+  },
+  farPrev: {
+    className: "rr-slot-far-prev",
+    style: {
+      transform: "translateY(-110%) scale(0.75) rotateX(-25deg)",
+      opacity: 0,
+      zIndex: 0,
+      pointerEvents: "none",
+    },
+  },
+  farNext: {
+    className: "rr-slot-far-next",
+    style: {
+      transform: "translateY(110%) scale(0.75) rotateX(25deg)",
+      opacity: 0,
+      zIndex: 0,
+      pointerEvents: "none",
+    },
+  },
+} as const satisfies Record<
+  string,
+  { className: string; style: React.CSSProperties }
+>;
+
+function slotState(idx: number, activeIdx: number) {
+  const diff = idx - activeIdx;
+  if (diff === 0) return SLOT_STATES.active;
+  if (diff === -1) return SLOT_STATES.prev;
+  if (diff === 1) return SLOT_STATES.next;
+  return diff < -1 ? SLOT_STATES.farPrev : SLOT_STATES.farNext;
 }

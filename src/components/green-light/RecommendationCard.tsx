@@ -8,6 +8,36 @@ interface PickerProps {
   onPick: (choice: "A" | "B") => void;
 }
 
+/** One of the two side-by-side order options. */
+function PickerOption({
+  option,
+  choice,
+  onPick,
+}: {
+  option: Recommendation;
+  choice: "A" | "B";
+  onPick: (choice: "A" | "B") => void;
+}) {
+  return (
+    <button
+      type="button"
+      className="he-picker-card"
+      onClick={() => onPick(choice)}
+      aria-label={`Pick: ${option.order}`}
+    >
+      {option.photoUrl && (
+        <div className="he-picker-photo">
+          <img src={option.photoUrl} alt="" loading="lazy" />
+        </div>
+      )}
+      <p className="he-picker-order">{option.order}</p>
+      {option.whyItWorks.length > 0 && (
+        <p className="he-picker-why">{option.whyItWorks[0]}</p>
+      )}
+    </button>
+  );
+}
+
 export function RecommendationPicker({
   response,
   restaurantName,
@@ -27,41 +57,9 @@ export function RecommendationPicker({
       <p className="he-picker-sub">Tap the one that sounds better</p>
 
       <div className="he-picker-cards">
-        <button
-          type="button"
-          className="he-picker-card"
-          onClick={() => onPick("A")}
-          aria-label={`Pick: ${response.optionA.order}`}
-        >
-          {response.optionA.photoUrl && (
-            <div className="he-picker-photo">
-              <img src={response.optionA.photoUrl} alt="" loading="lazy" />
-            </div>
-          )}
-          <p className="he-picker-order">{response.optionA.order}</p>
-          {response.optionA.whyItWorks.length > 0 && (
-            <p className="he-picker-why">{response.optionA.whyItWorks[0]}</p>
-          )}
-        </button>
-
+        <PickerOption option={response.optionA} choice="A" onPick={onPick} />
         <span className="he-picker-or">or</span>
-
-        <button
-          type="button"
-          className="he-picker-card"
-          onClick={() => onPick("B")}
-          aria-label={`Pick: ${response.optionB.order}`}
-        >
-          {response.optionB.photoUrl && (
-            <div className="he-picker-photo">
-              <img src={response.optionB.photoUrl} alt="" loading="lazy" />
-            </div>
-          )}
-          <p className="he-picker-order">{response.optionB.order}</p>
-          {response.optionB.whyItWorks.length > 0 && (
-            <p className="he-picker-why">{response.optionB.whyItWorks[0]}</p>
-          )}
-        </button>
+        <PickerOption option={response.optionB} choice="B" onPick={onPick} />
       </div>
     </div>
   );
@@ -73,6 +71,21 @@ interface ResultProps {
   recommendation: Recommendation;
   onTryAgain: () => void;
   onNewSearch: () => void;
+}
+
+/** A titled bullet list inside the result card; renders nothing when empty. */
+function ResultSection({ title, items }: { title: string; items: string[] }) {
+  if (items.length === 0) return null;
+  return (
+    <div className="he-result-section">
+      <h4 className="he-result-subhead">{title}</h4>
+      <ul className="he-result-list">
+        {items.map((item, i) => (
+          <li key={i}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export function RecommendationResult({
@@ -91,27 +104,8 @@ export function RecommendationResult({
         <h3 className="he-result-heading">Your order</h3>
         <p className="he-result-order">{recommendation.order}</p>
 
-        {recommendation.quickMods.length > 0 && (
-          <div className="he-result-section">
-            <h4 className="he-result-subhead">Quick mods</h4>
-            <ul className="he-result-list">
-              {recommendation.quickMods.map((mod, i) => (
-                <li key={i}>{mod}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {recommendation.whyItWorks.length > 0 && (
-          <div className="he-result-section">
-            <h4 className="he-result-subhead">Why it works</h4>
-            <ul className="he-result-list">
-              {recommendation.whyItWorks.map((reason, i) => (
-                <li key={i}>{reason}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <ResultSection title="Quick mods" items={recommendation.quickMods} />
+        <ResultSection title="Why it works" items={recommendation.whyItWorks} />
       </div>
 
       <div className="he-actions">
