@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-04T21:22:13.159Z",
+  "generatedAt": "2026-09-05T06:31:27.418Z",
   "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
   "sources": [
     {
@@ -29,8 +29,8 @@
     {
       "label": "Campbell Heritage Theatre Events",
       "sourceUrl": "https://www.heritagetheatre.org/events-1",
-      "count": 12,
-      "parsedCount": 12
+      "count": 11,
+      "parsedCount": 11
     },
     {
       "label": "Campbell Chamber Events",
@@ -99,11 +99,10 @@
       "category": "Heritage Theatre",
       "startDate": "2026-09-04T19:30:00",
       "endDate": "2026-09-04T21:30:00",
-      "source": "City of Campbell Calendar + Downtown Campbell Events + Campbell Heritage Theatre Events",
+      "source": "City of Campbell Calendar + Downtown Campbell Events",
       "sourceUrl": "https://www.campbellca.gov/calendar.aspx?view=list&CID=0",
       "additionalSourceUrls": [
-        "https://www.downtowncampbell.com/events",
-        "https://www.heritagetheatre.org/events-1"
+        "https://www.downtowncampbell.com/events"
       ]
     },
     {
