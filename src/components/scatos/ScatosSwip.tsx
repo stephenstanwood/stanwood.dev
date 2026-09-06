@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, BedDouble, Bath, Check, ChevronLeft, ChevronRigh
   LogOut, Footprints, NotebookPen, CheckCheck, Info, RefreshCw, Images } from 'lucide-react';
 import ScatosLogo from './ScatosLogo';
 import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types';
+import { homeListingLinks, homeMapLinks, isInSearchArea } from '../../lib/scatos/location';
 
 type Tab = 'browse' | 'saved' | 'matches' | 'passed';
 type Filters = { maxPrice: number; minBeds: number; vanMeter: boolean; fisher: boolean; nearTown: boolean };
@@ -77,9 +78,29 @@ function SchoolBadges({ home }: { home: Home }) {
   </div>;
 }
 
+function HomeLocation({ home }: { home: Home }) {
+  const maps = homeMapLinks(home);
+  return <div className="sc-home-location">
+    <div className="sc-map-preview">
+      <iframe key={home.id} src={maps.embed} title={`Map of ${home.address}`} loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade" tabIndex={-1} aria-hidden="true" inert />
+      <a className="sc-map-open" href={maps.map} target="_blank" rel="noopener noreferrer"
+        aria-label={`Open ${home.address} in Google Maps`}>
+        <span><MapPin size={15} /> Open in Google Maps <MoveUpRight size={14} /></span>
+      </a>
+    </div>
+    <div className="sc-portal-links" aria-label={`Listing links for ${home.address}`}>
+      {homeListingLinks(home).map(link => <a key={link.name} href={link.url} target="_blank" rel="noopener noreferrer">
+        {link.direct ? link.name : `Find on ${link.name}`} <MoveUpRight size={15} />
+      </a>)}
+    </div>
+  </div>;
+}
+
 function FiltersForm({ filters, setFilters, count }: { filters: Filters; setFilters: (filters: Filters) => void; count: number }) {
   return <div className="sc-filter-form">
     <div className="sc-fixed-rule"><School size={20} /><div><strong>Los Gatos High</strong><span>Always required. Boundary checked.</span></div><Check size={17} /></div>
+    <p className="sc-area-rule"><MapPin size={15} /> In town, north of The Cats.</p>
     <label className="sc-field">Up to <strong>{dollars(filters.maxPrice)}</strong>
       <input type="range" min="1000000" max="4000000" step="100000" value={filters.maxPrice}
         aria-label="Maximum price" onChange={event => setFilters({ ...filters, maxPrice: Number(event.target.value) })} />
@@ -112,6 +133,7 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
       <div className="sc-detail-price"><strong>{dollars(home.price)}</strong>{matched && <span className="sc-badge match"><Heart size={14} fill="currentColor" /> You both saved it</span>}</div>
       <p className="sc-location">Los Gatos, CA {home.zip}</p><SchoolBadges home={home} />
       <div className="sc-detail-facts">{[[number(home.beds), 'beds'], [number(home.baths), 'baths'], [number(home.sqft), 'sq ft inside'], [number(home.lotSqft), 'sq ft lot']].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+      <HomeLocation home={home} />
       {home.status === 'archived' && <p className="sc-callout">This home is no longer in the verified active feed. Keep it here for the things you love about it. The price is the last observed asking price.</p>}
       <section><h3><School size={19} /> The school path</h3><dl className="sc-school-path">
         <div><dt>Elementary</dt><dd>{home.schools.elementary || 'Assignment not verified'}</dd></div>
@@ -119,9 +141,8 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
         <div><dt>High</dt><dd>Los Gatos High School <Check size={15} /></dd></div>
       </dl><p className="sc-fine">District boundaries checked {dateLabel(home.schools.verifiedAt)} using the listing’s map location. Confirm the exact address with the district before buying.</p>
       <div className="sc-links"><a href={home.schools.highSource} target="_blank" rel="noopener noreferrer">High-school boundary result <MoveUpRight size={14} /></a><a href="https://www.schoolsitelocator.com/apps/losgatos/" target="_blank" rel="noopener noreferrer">Elementary & middle locator <MoveUpRight size={14} /></a></div></section>
-      <section><h3><Sprout size={19} /> The everyday stuff</h3><p>{home.yard}. {home.lotSqft ? `The whole lot is ${number(home.lotSqft)} sq ft; usable play space needs a look at the photos or a visit.` : 'Usable play space needs a look at the photos or a visit.'}</p>
-      {home.features.length > 0 && <div className="sc-badges">{home.features.map(feature => <span className="sc-badge neutral" key={feature}>{feature}</span>)}</div>}
-      <p>{home.townMiles} miles from Town Plaza, straight-line.{home.walkableClaim ? ' The listing mentions walking into town.' : ''}</p><a className="sc-inline-link" href={maps} target="_blank" rel="noopener noreferrer"><Footprints size={16} /> Check the actual walk <MoveUpRight size={14} /></a></section>
+      <section><h3><Footprints size={19} /> Around the neighborhood</h3>
+      <p>{home.townMiles} miles from Town Plaza, straight-line.</p><a className="sc-inline-link" href={maps} target="_blank" rel="noopener noreferrer"><Footprints size={16} /> Walking directions to Town Plaza <MoveUpRight size={14} /></a></section>
       <section><h3><NotebookPen size={19} /> What caught your eye?</h3><label className="sc-sr-only" htmlFor="sc-note">Your private note for {home.address}</label><textarea id="sc-note" maxLength={1000} value={note} onChange={event => { setNote(event.target.value); setNoteSaved(false); }} placeholder="The kitchen. That yard. Room for an office…" rows={3} />
         <div className="sc-note-bottom"><span className="sc-fine">Your note, saved with this home.</span><button type="button" className="sc-small-button" disabled={busy} onClick={async () => { try { await onSave(home, choice?.decision || 'save', note); setNoteSaved(true); setDetailError(''); } catch { setDetailError('Your note wasn’t saved. Please try again.'); } }}>{noteSaved ? 'Note saved' : 'Save note'}</button></div></section>
       <section className="sc-listing-source"><h3>Take a closer look</h3><div className="sc-links">{home.sources.map(source => <a key={source.name} href={source.url} target="_blank" rel="noopener noreferrer">{source.name} <MoveUpRight size={14} /></a>)}</div><p className="sc-fine">Listing and photos courtesy of {home.office || 'the listing brokerage'}. MLS {home.id}. Checked {dateLabel(home.checkedAt)}.</p></section>
@@ -181,7 +202,7 @@ export default function ScatosSwip() {
   }
   const choices = useMemo(() => new Map((state?.choices || []).map(choice => [choice.id, choice])), [state?.choices]);
   const matches = useMemo(() => new Set(state?.matches || []), [state?.matches]);
-  const eligible = useMemo(() => (state?.homes || []).filter(home => home.status === 'active' && home.price <= filters.maxPrice && home.beds >= filters.minBeds
+  const eligible = useMemo(() => (state?.homes || []).filter(home => home.status === 'active' && isInSearchArea(home) && home.price <= filters.maxPrice && home.beds >= filters.minBeds
     && (!filters.vanMeter || isVanMeter(home)) && (!filters.fisher || isFisher(home)) && (!filters.nearTown || home.townMiles <= 1)), [state?.homes, filters]);
   const deck = eligible.filter(home => !choices.has(home.id));
   const currentIndex = Math.max(0, deck.findIndex(home => home.id === browsingId));
@@ -239,7 +260,7 @@ export default function ScatosSwip() {
     return () => window.removeEventListener('keydown', onKey);
   });
   const onPointerDown = (event: React.PointerEvent) => {
-    if (busy || event.button !== 0 || (event.target as HTMLElement).closest('button,a')) return;
+    if (busy || event.button !== 0 || (event.target as HTMLElement).closest('button,a,.sc-home-location')) return;
     pointer.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
   };
   const onPointerMove = (event: React.PointerEvent) => {
@@ -290,7 +311,8 @@ export default function ScatosSwip() {
                 <h2><button type="button" onClick={() => setDetail(current)}>{current.address}<MoveUpRight size={21} /></button></h2><p className="sc-location"><MapPin size={14} /> Los Gatos, CA {current.zip}</p>
                 <div className="sc-house-facts"><span><BedDouble size={18} /><strong>{current.beds}</strong> beds</span><span><Bath size={18} /><strong>{current.baths}</strong> baths</span><span><strong>{number(current.sqft)}</strong> sq ft</span></div>
                 <SchoolBadges home={current} />
-                <div className="sc-house-notes"><span><Sprout size={17} />{current.yard}</span><span><Footprints size={17} />{current.townMiles} mi to Town Plaza <small>(straight-line)</small></span></div>
+                <div className="sc-house-notes"><span><Footprints size={17} />{current.townMiles} mi to Town Plaza <small>(straight-line)</small></span></div>
+                <HomeLocation home={current} />
                 <div className="sc-card-footer"><span>{current.office}</span><button type="button" className="sc-text-button" onClick={() => setDetail(current)}>The little details <MoveUpRight size={15} /></button></div>
               </div>
             </article></div>
@@ -299,7 +321,7 @@ export default function ScatosSwip() {
               <button type="button" className="sc-action save" disabled={busy} onClick={() => void save(current, 'save').catch(() => {})}><span><Heart size={27} /></span>Save for someday</button></div>
             <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
           </> : <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{eligible.length ? 'All caught up. Go live a little.' : 'A little too particular—for today.'}</h2><p>{eligible.length ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.'}</p><button className="sc-primary" type="button" onClick={() => eligible.length ? setTab('saved') : changeFilters(DEFAULT_FILTERS)}>{eligible.length ? 'Visit my saved homes' : 'Reset bonus filters'}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>
-          : gridHomes.length ? <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {number(home.sqft)} sq ft</p></div></button><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>
+          : gridHomes.length ? <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {number(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>
           : <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{EMPTY_LIST[tab].title}</h2><p>{EMPTY_LIST[tab].blurb(partnerName(profile))}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>}
       </section>
       <aside className="sc-right-rail"><div className="sc-someday-note"><span className="sc-note-sun" aria-hidden="true">✺</span><h2>A place for<br />your next chapter.</h2><p>No countdown.<br />No pressure.<br />Just possibilities.</p><div className="sc-note-houses" aria-hidden="true"><House size={32} strokeWidth={1.5} /><Sprout size={28} strokeWidth={1.5} /></div></div>
@@ -314,7 +336,7 @@ export default function ScatosSwip() {
     {infoOpen && <Modal title="Good homes. Clear sources." onClose={() => setInfoOpen(false)}><div className="sc-info-body"><p>First, the official Los Gatos High attendance boundary. Then Los Gatos addresses, detached houses, 4+ bedrooms, 2+ bathrooms, and an asking price up to $4 million.</p>
       <h3>Where the homes come from</h3>{state?.feed?.sources.map(source => <div className="sc-source-row" key={source.name}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.name} <MoveUpRight size={14} /></a><span>{source.status === 'ok' ? 'Checked' : 'Check unavailable'}</span></div>)}
       <p className="sc-fine">MLSListings is the original local MLS feed, including participating brokerages and partner MLSs. GoReal provides a second public listing index. Duplicate homes appear once. No feed can promise every private or off-market listing.</p>
-      <h3>What the bonuses mean</h3><p>Van Meter and Fisher use the district’s published attendance areas. Yard labels come from listing descriptions; lot size is not usable lawn area. Distance to Town Plaza is straight-line, not a walking time.</p>
+      <h3>Location & schools</h3><p>Homes must be north of The Cats and in the 95030 or 95032 ZIP codes. Mountain addresses in 95033 are excluded. Van Meter and Fisher use the district’s published attendance areas. Distance to Town Plaza is straight-line.</p>
       <h3>Made for a someday move</h3><p>Your saves and notes stay in your private collection when a home leaves the active feed. Each of you has a separate profile. Matches appear when you both save the same home.</p>
       <h3>School timing</h3><p>Under current California rules, a February 2024 birthday means TK in fall 2028 and kindergarten in fall 2029. LGUSD currently offers TK at all four elementary schools; TK placement may differ from the home school used for kindergarten.</p><a className="sc-inline-link" href="https://www.lgusd.org/apps/pages/index.jsp?uREC_ID=2893247&type=d&pREC_ID=2548876" target="_blank" rel="noopener noreferrer">Current LGUSD TK policy <MoveUpRight size={14} /></a>
       <h3>The morning refresh</h3><p>The Mac Mini checks listings every day at 4:45 a.m. Pacific. If a source fails, the last verified homes are kept. Listings not verified for 72 hours leave the active deck; saved examples remain.</p><p className="sc-fine">Listing photos belong to their respective brokers and photographers. Use the source links for complete and current listing details.</p></div></Modal>}

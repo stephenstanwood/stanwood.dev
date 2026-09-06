@@ -5,6 +5,7 @@ export interface Home {
   price: number; beds: number; baths: number; sqft: number | null;
   lotSqft: number | null; yearBuilt: number | null; status: 'active' | 'archived';
   photos: string[]; office: string; agent: string; url: string;
+  portalLinks?: { redfin?: string; zillow?: string };
   lat: number; lng: number; listedAt: string | null; daysOnMarket: number | null;
   yard: string; features: string[]; walkableClaim: boolean; townMiles: number;
   score: number; checkedAt: string; firstSeen: string; previousPrice?: number;

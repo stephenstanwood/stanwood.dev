@@ -29,6 +29,7 @@ ELEMENTARY = 'https://www.schoolsitelocator.com/server/rest/services/ssl_IM/MapS
 ELEMENTARY_PAGE = 'https://www.schoolsitelocator.com/apps/losgatos/'
 DISTRICT = 'Los Gatos-Saratoga Joint Union High'
 MAX_PRICE = 4_000_000
+SEARCH_AREA = json.loads(Path(__file__).with_name('search-area.json').read_text())
 NOW = datetime.now(timezone.utc).isoformat()
 
 
@@ -238,6 +239,14 @@ def parse_mls(body, url):
     }
 
 
+def in_search_area(lat, lng, zip_code):
+    if not all(isinstance(value, (int, float)) and not isinstance(value, bool)
+               and math.isfinite(value) for value in (lat, lng)):
+        return False
+    return (SEARCH_AREA['southBoundaryLatitude'] <= lat <= 90 and -180 <= lng <= 180
+            and str(zip_code) in SEARCH_AREA['allowedZipCodes'])
+
+
 def feature_summary(remarks):
     lower = remarks.lower()
     features = []
@@ -246,7 +255,7 @@ def feature_summary(remarks):
     elif re.search(r'\b(backyard|back yard|rear yard|yard)\b', lower):
         yard = 'Yard mentioned in listing'
     else:
-        yard = 'Yard needs a closer look'
+        yard = ''
     for pattern, label in [
         (r'\b(?:office|study)\b', 'Office space mentioned'),
         (r'\b(?:adu|guest house|guest cottage)\b', 'Guest space mentioned'),
@@ -342,6 +351,9 @@ def collect(output, receipts):
             if not in_geometry(point, boundary):
                 excluded_school += 1
                 continue
+            if not in_search_area(point[1], point[0], secondary.get('zip')):
+                excluded_preferences += 1
+                continue
             # Exact school boundary has already passed; preferences come next.
             if (secondary.get('price', MAX_PRICE + 1) > MAX_PRICE or secondary.get('beds', 0) < 4
                     or secondary.get('baths', 0) < 2 or secondary.get('propertyType') != 'single_family'):
@@ -352,7 +364,8 @@ def collect(output, receipts):
             if not in_geometry([listing['lng'], listing['lat']], boundary):
                 excluded_school += 1
                 continue
-            if (listing['city'] != 'Los Gatos' or listing['status'] != 'Active'
+            if (not in_search_area(listing['lat'], listing['lng'], listing['zip'])
+                    or listing['city'] != 'Los Gatos' or listing['status'] != 'Active'
                     or listing['propertyType'] != 'Single Family Residence'
                     or not listing['price'] or listing['price'] > MAX_PRICE
                     or (listing['beds'] or 0) < 4 or listing['baths'] < 2):
@@ -409,6 +422,7 @@ def collect(output, receipts):
     indexed = {normalized_address(card['address']) for card in cards.values()}
     extra = [r for key, r in goreal.items() if key not in indexed
              and in_geometry([r.get('longitude'), r.get('latitude')], boundary)
+             and in_search_area(r.get('latitude'), r.get('longitude'), r.get('zip'))
              and r.get('propertyType') == 'single_family' and r.get('beds', 0) >= 4
              and r.get('baths', 0) >= 2 and 0 < r.get('price', 0) <= MAX_PRICE]
     if extra:

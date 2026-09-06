@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 import { neon } from '@neondatabase/serverless';
@@ -13,6 +13,7 @@ assert(password, 'SCATOS_PASSWORD is required');
 mkdirSync(folder, { recursive: true });
 const sql = neon(process.env.SCATOS_DATABASE_URL);
 const checks = [];
+const searchArea = JSON.parse(readFileSync(new URL('./search-area.json', import.meta.url), 'utf8'));
 const touched = new Set();
 const before = smokeOnly ? [] : await sql`SELECT * FROM scatosswip.choices`;
 if (!smokeOnly) writeFileSync(`${folder}/choices-before.json`, JSON.stringify(before), { mode: 0o600 });
@@ -76,6 +77,7 @@ try {
   const initial = await state(stephen);
   assert.equal(initial.profile, 'stephen');
   assert(initial.homes.length > 0);
+  assert(initial.homes.every(h => h.lat >= searchArea.southBoundaryLatitude && searchArea.allowedZipCodes.includes(h.zip)), 'Out-of-area homes must not appear, including old saves.');
   assert(initial.homes.filter(h => h.status === 'active').every(h => h.schools.high === 'Los Gatos High School' && h.price <= 4_000_000 && h.beds >= 4 && h.baths >= 2));
   const id = initial.homes.find(h => h.status === 'active' && !initial.choices.some(c => c.id === h.id))?.id;
   assert(id, 'Need an unswiped home for UI verification.');
@@ -89,8 +91,23 @@ try {
   const trackBrowsing = request => { if (request.method() === 'POST' && request.url().endsWith('/api/lg/state')) browsePosts.push(request.url()); };
   page.on('request', trackBrowsing);
   const firstAddress = await page.locator('.sc-card-content h2').textContent();
+  const firstHome = initial.homes.find(h => h.address === firstAddress);
+  assert(firstHome);
+  const firstMap = await page.locator('.sc-swipe-card .sc-map-preview iframe').getAttribute('src');
+  assert.equal(new URL(firstMap).searchParams.get('q'), `${firstHome.lat},${firstHome.lng}`);
+  const mapLink = page.locator('.sc-swipe-card .sc-map-open');
+  assert.equal(new URL(await mapLink.getAttribute('href')).searchParams.get('query'), `${firstHome.lat},${firstHome.lng}`);
+  assert.equal(await mapLink.getAttribute('target'), '_blank');
+  for (const portal of ['redfin', 'zillow']) {
+    const link = page.locator('.sc-swipe-card .sc-portal-links a').filter({ hasText: new RegExp(portal, 'i') });
+    assert.equal(await link.count(), 1);
+    assert.equal(await link.getAttribute('target'), '_blank');
+    if (firstHome.portalLinks?.[portal]) assert.equal(await link.getAttribute('href'), firstHome.portalLinks[portal]);
+  }
+  assert(!/yard needs|yard mentioned|usable play space|lawn or play area|space mentioned/i.test(await page.locator('.sc-swipe-card').innerText()));
   await page.getByRole('button', { name: 'Previous home', exact: true }).click();
   assert.notEqual(await page.locator('.sc-card-content h2').textContent(), firstAddress);
+  assert.notEqual(await page.locator('.sc-swipe-card .sc-map-preview iframe').getAttribute('src'), firstMap);
   await page.getByRole('button', { name: 'Next home', exact: true }).click();
   assert.equal(await page.locator('.sc-card-content h2').textContent(), firstAddress);
   await page.keyboard.press('ArrowRight');
@@ -101,10 +118,18 @@ try {
   assert.deepEqual(browsePosts, []);
   page.off('request', trackBrowsing);
   checks.push('Previous/Next wrap around; arrow keys browse without requests or recorded choices.');
+  checks.push('The Cats cutoff and town ZIPs apply to every served home; cards have matching map coordinates, both portal links, and no yard assessments.');
 
   for (const viewport of [{ width: 1440, height: 950 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewport);
     await page.locator('.sc-photo img').first().evaluate(image => image.decode().catch(() => {}));
+    await page.locator('.sc-map-preview').first().scrollIntoViewIfNeeded();
+    const mapBody = page.frameLocator('.sc-swipe-card .sc-map-preview iframe').locator('body');
+    await mapBody.waitFor({ state: 'attached' });
+    await page.frameLocator('.sc-swipe-card .sc-map-preview iframe').locator('.gm-style img').first().evaluate(image => image.decode());
+    await page.frameLocator('.sc-swipe-card .sc-map-preview iframe').getByText('Terms', { exact: true }).waitFor();
+    assert(!/must be used in an iframe|API key is invalid|request denied/i.test(await mapBody.innerText()));
+    await page.evaluate(() => window.scrollTo(0, 0));
     const dims = await page.evaluate(() => ({ width: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
     assert(dims.scroll <= dims.width, `${viewport.width}px horizontal overflow: ${JSON.stringify(dims)}`);
     await page.screenshot({ path: `${folder}/explore-${viewport.width}.png`, fullPage: true });
@@ -119,9 +144,21 @@ try {
   const filterDialog = page.getByRole('dialog');
   await filterDialog.getByText('Van Meter Elementary', { exact: true }).click();
   await filterDialog.getByRole('button', { name: /^Explore \d/ }).click();
-  const firstId = (await state(stephen)).homes.filter(h => h.status === 'active' && /Van Meter/.test(h.schools.elementary || '') && !initial.choices.some(c => c.id === h.id))[0].id;
+  const vanMeterHome = initial.homes.find(h => h.status === 'active' && /Van Meter/.test(h.schools.elementary || '') && !initial.choices.some(c => c.id === h.id));
+  if (!vanMeterHome) {
+    // A household may already have swiped every Van Meter home; still verify
+    // the filter without requiring new inventory or changing their decisions.
+    assert.equal(await page.locator('.sc-swipe-card').count(), 0);
+    await page.getByRole('button', { name: /^Filters/ }).click();
+    await page.getByRole('dialog').getByText('Van Meter Elementary', { exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: /^Explore \d/ }).click();
+  }
+  const firstId = vanMeterHome?.id || id;
   await page.getByRole('button', { name: 'The little details' }).click();
   assert(await page.getByRole('dialog').getByText('The school path').isVisible());
+  assert.equal(await page.getByRole('dialog').locator('.sc-map-preview iframe').count(), 1);
+  assert.equal(await page.getByRole('dialog').locator('.sc-portal-links a').count(), 2);
+  assert(!/yard needs|usable play space|space mentioned/i.test(await page.getByRole('dialog').innerText()));
   await page.keyboard.press('Escape');
   checks.push('Mobile filters and accessible details dialog work.');
   if (process.argv.includes('--mock-decisions')) {

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch
-from collect import in_geometry, normalized_address, feature_summary, parse_mls, assigned_names, fetch_mls_index
+from collect import in_geometry, in_search_area, SEARCH_AREA, normalized_address, feature_summary, parse_mls, assigned_names, fetch_mls_index
 
 
 class SchoolFirstTests(unittest.TestCase):
@@ -29,10 +29,21 @@ class SchoolFirstTests(unittest.TestCase):
 
     def test_lot_or_pool_is_not_usable_yard_or_walkability(self):
         yard, features, walk = feature_summary('A five acre lot. A pool. Minutes by car to downtown.')
-        self.assertEqual(yard, 'Yard needs a closer look')
+        self.assertEqual(yard, '')
         self.assertIn('Pool mentioned', features)
         self.assertFalse(walk)
         self.assertTrue(feature_summary('A short stroll to downtown Los Gatos.')[2])
+
+    def test_south_of_the_cats_and_mountain_zip_are_excluded(self):
+        south = SEARCH_AREA['southBoundaryLatitude']
+        self.assertTrue(in_search_area(south, -121.98, '95030'))
+        self.assertTrue(in_search_area(south + .01, -121.98, '95032'))
+        self.assertFalse(in_search_area(south - .000001, -121.98, '95030'))
+        self.assertFalse(in_search_area(south + .04, -122.12, '95033'))
+        self.assertFalse(in_search_area(south + .01, -121.98, None))
+        for lat, lng in [(None, -121.98), (float('nan'), -121.98), (37.23, None),
+                         (37.23, float('inf')), (91, -121.98), (37.23, -181)]:
+            self.assertFalse(in_search_area(lat, lng, '95032'))
 
     def test_broken_source_is_a_failure_not_empty_inventory(self):
         with self.assertRaises(ValueError):

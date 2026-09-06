@@ -4,6 +4,7 @@ import { neon } from '@neondatabase/serverless';
 const url = process.env.SCATOS_DATABASE_URL;
 if (!url) throw new Error('SCATOS_DATABASE_URL is required');
 const sql = neon(url);
+const searchArea = JSON.parse(readFileSync(new URL('./search-area.json', import.meta.url), 'utf8'));
 const args = process.argv.slice(2);
 if (args[0] === '--init') {
   const statements = readFileSync(new URL('./schema.sql', import.meta.url), 'utf8').split(';').map(s => s.trim()).filter(Boolean);
@@ -21,6 +22,8 @@ if (args[0] === '--init') {
     if (!/^[A-Z0-9-]{4,35}$/.test(home.id) || ids.has(home.id) || home.city !== 'Los Gatos'
         || home.status !== 'Active' || home.propertyType !== 'Single Family Residence'
         || !Number.isFinite(home.price) || home.price <= 0 || home.price > 4_000_000
+        || !Number.isFinite(home.lat) || home.lat < searchArea.southBoundaryLatitude || home.lat > 90
+        || !Number.isFinite(home.lng) || Math.abs(home.lng) > 180 || !searchArea.allowedZipCodes.includes(home.zip)
         || home.beds < 4 || home.baths < 2 || home.schools?.high !== 'Los Gatos High School'
         || !home.schools?.highSource?.startsWith('https://los-gatos-saratoga-union-high.schoolexplorerapp.com/GeoData/AnalyzeLocation?')
         || !/^[a-f0-9]{64}$/.test(home.schools?.boundaryHash || '')
@@ -30,7 +33,9 @@ if (args[0] === '--init') {
   const queries = [];
   for (const home of feed.listings) {
     queries.push(sql`INSERT INTO scatosswip.listings(id,data,last_seen) VALUES (${home.id},${JSON.stringify(home)}::jsonb,${feed.generatedAt})
-      ON CONFLICT (id) DO UPDATE SET data=EXCLUDED.data,active=true,last_seen=EXCLUDED.last_seen,
+      ON CONFLICT (id) DO UPDATE SET data=EXCLUDED.data || jsonb_build_object('portalLinks',
+        COALESCE(scatosswip.listings.data->'portalLinks', '{}'::jsonb) || COALESCE(EXCLUDED.data->'portalLinks', '{}'::jsonb)),
+      active=true,last_seen=EXCLUDED.last_seen,
       previous_price=CASE WHEN (scatosswip.listings.data->>'price')::numeric <> (EXCLUDED.data->>'price')::numeric
         THEN (scatosswip.listings.data->>'price')::numeric ELSE scatosswip.listings.previous_price END`);
     queries.push(sql`INSERT INTO scatosswip.price_history(listing_id,price,observed_at)
