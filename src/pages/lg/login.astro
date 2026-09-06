@@ -1,4 +1,7 @@
 ---
+// `astro check` reports loginRedirect, COOKIE and SESSION_AGE as ts(6133) "never read".
+// All three are false positives — they are used in the POST branch below, and removing
+// them breaks login. Same hint fires on li-login.astro and money-login.astro.
 import ScatosLayout from '../../layouts/ScatosLayout.astro';
 import ScatosLogo from '../../components/scatos/ScatosLogo';
 import { createSession, hasScatosPassword, COOKIE, SESSION_AGE, isSameOrigin } from '../../lib/scatos/auth';

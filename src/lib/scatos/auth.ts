@@ -1,10 +1,11 @@
-import { timingSafeEqual, verifySessionPassword } from '../auth';
+import { readCookie, timingSafeEqual, toHex, verifySessionPassword } from '../auth';
 import type { Profile } from './types';
 
 export const COOKIE = 'scatos_session';
 export const SESSION_AGE = 60 * 60 * 24 * 90;
 const profiles = new Set(['stephen', 'madeleine']);
-export const isProfile = (value: unknown): value is Profile => typeof value === 'string' && profiles.has(value);
+// Internal to this module: both session paths validate the profile before trusting it.
+const isProfile = (value: unknown): value is Profile => typeof value === 'string' && profiles.has(value);
 function password() { return import.meta.env.SCATOS_PASSWORD || process.env.SCATOS_PASSWORD; }
 function sessionSecret() { return import.meta.env.SCATOS_SESSION_SECRET || process.env.SCATOS_SESSION_SECRET; }
 export function hasScatosPassword() { return Boolean(password() && sessionSecret()); }
@@ -15,7 +16,7 @@ async function sign(value: string): Promise<string> {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret),
     { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(value));
-  return [...new Uint8Array(signature)].map(b => b.toString(16).padStart(2, '0')).join('');
+  return toHex(signature);
 }
 export async function createSession(submitted: unknown, profile: unknown): Promise<string | null> {
   const code = typeof submitted === 'string' ? submitted.toLowerCase() : submitted;
@@ -24,8 +25,7 @@ export async function createSession(submitted: unknown, profile: unknown): Promi
   return `${payload}.${await sign(payload)}`;
 }
 export async function getSession(request: Request): Promise<Profile | null> {
-  const cookie = (request.headers.get('cookie') || '').split(';')
-    .map(part => part.trim()).find(part => part.startsWith(`${COOKIE}=`))?.slice(COOKIE.length + 1);
+  const cookie = readCookie(request.headers.get('cookie'), COOKIE);
   if (!cookie || !hasScatosPassword()) return null;
   const parts = cookie.split('.');
   if (parts.length !== 3 || !isProfile(parts[0]) || !/^\d+$/.test(parts[1]) || !/^[a-f0-9]{64}$/.test(parts[2])) return null;

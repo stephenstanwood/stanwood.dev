@@ -1,5 +1,5 @@
 import { defineMiddleware } from "astro:middleware";
-import { hashPassword, timingSafeEqual } from "./lib/auth";
+import { hashPassword, readCookie, timingSafeEqual } from "./lib/auth";
 import { getSession } from "./lib/scatos/auth";
 
 /**
@@ -84,11 +84,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     }
 
     const expectedToken = await expectedTokenPromise;
-    const cookies = context.request.headers.get("cookie") || "";
-    const match = cookies
-      .split(";")
-      .find((cookie) => cookie.trim().startsWith(`${gate.cookieName}=`));
-    const token = match ? match.split("=")[1].trim() : null;
+    const token = readCookie(context.request.headers.get("cookie"), gate.cookieName);
 
     if (!token || !timingSafeEqual(token, expectedToken)) {
       if (url.pathname.startsWith("/api/")) {

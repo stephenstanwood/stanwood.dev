@@ -36,24 +36,24 @@ function pickTagline(): string {
 
 export default function MoneyDashboard() {
   const [data, setData] = useState<MoneyData | null>(null);
-  const [err, setErr] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/money", { credentials: "include" })
-      .then((r) => {
-        if (!r.ok) throw new Error(`${r.status}`);
-        return r.json();
+      .then((response) => {
+        if (!response.ok) throw new Error(`${response.status}`);
+        return response.json();
       })
-      .then((d) => setData(d))
-      .catch((e) => setErr(String(e)));
+      .then((json) => setData(json))
+      .catch((cause) => setError(String(cause)));
   }, []);
 
-  if (err) {
+  if (error) {
     return (
       <div className="mo-state">
         <div className="mo-state-emoji">🔒</div>
         <div className="mo-state-msg">
-          {err.includes("401") ? "password please" : `error: ${err}`}
+          {error.includes("401") ? "password please" : `error: ${error}`}
         </div>
       </div>
     );
