@@ -24,12 +24,12 @@ if (Astro.request.method === 'POST') {
       const token = await createSession(form.get('password'), profile);
       if (token) return loginRedirect({ location: '/lg', cookieName: COOKIE, token, requestUrl: Astro.url, maxAgeSeconds: SESSION_AGE });
       Astro.response.status = 401;
-      error = hasScatosPassword() ? 'That access code doesn’t match. Give it another try.' : 'ScatosSwip is getting ready. Please check back shortly.';
+      error = hasScatosPassword() ? 'That access code doesn’t match. Give it another try.' : 'ScatosSwipe is getting ready. Please check back shortly.';
     } catch { error = 'That sign-in could not be read. Please try again.'; Astro.response.status = 400; }
   }
 }
 ---
-<ScatosLayout title="Welcome home, someday — ScatosSwip">
+<ScatosLayout title="Welcome home, someday — ScatosSwipe">
   <div class="sc-login">
     <section class="sc-login-story">
       <ScatosLogo large />
