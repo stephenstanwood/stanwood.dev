@@ -34,7 +34,7 @@ export default defineConfig({
     sitemap({
       // Private pages: password-gated dashboards and working queues.
       filter: (page) =>
-        !['/tv', '/familyroom', '/money', '/money-login', '/li', '/li-login'].includes(
+        !['/tv', '/familyroom', '/money', '/money-login', '/li', '/li-login', '/lg', '/lg/login', '/lg/logout'].includes(
           new URL(page).pathname.replace(/\/$/, ''),
         ),
     }),

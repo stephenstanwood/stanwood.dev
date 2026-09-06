@@ -1,10 +1,11 @@
 import { defineMiddleware } from "astro:middleware";
 import { hashPassword, timingSafeEqual } from "./lib/auth";
+import { getSession } from "./lib/scatos/auth";
 
 /**
  * Middleware — runs as Vercel Edge Middleware (before filesystem):
  *   1. Host-based routing for custom domains (nbanow.app, showswipe.app)
- *   2. Cookie auth gates for private tools (/money and /li)
+ *   2. Cookie auth gates for private tools (/money, /li, and /lg)
  */
 
 interface PrivateGate {
@@ -45,6 +46,20 @@ const expectedTokens = new Map(
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
+
+  const scatosPath = url.pathname.replace(/\/$/, '');
+  if (scatosPath === '/lg' || scatosPath.startsWith('/lg/') || scatosPath === '/api/lg' || scatosPath.startsWith('/api/lg/')) {
+    if (!['/lg/login', '/lg/logout'].includes(scatosPath) && !await getSession(context.request)) {
+      if (scatosPath.startsWith('/api/')) return new Response(JSON.stringify({ error: 'Please sign in again.' }), {
+        status: 401, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, no-store' },
+      });
+      return new Response(null, { status: 302, headers: { Location: '/lg/login', 'Cache-Control': 'private, no-store' } });
+    }
+    const response = await next();
+    response.headers.set('Cache-Control', 'private, no-store');
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    return response;
+  }
 
   // ── Host-based routing for custom domains ──
   // Skip during prerender: in production, Vercel postbuild rewrites handle

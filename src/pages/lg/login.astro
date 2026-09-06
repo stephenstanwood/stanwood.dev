@@ -1,0 +1,52 @@
+---
+import ScatosLayout from '../../layouts/ScatosLayout.astro';
+import ScatosLogo from '../../components/scatos/ScatosLogo';
+import { createSession, hasScatosPassword, COOKIE, SESSION_AGE, isSameOrigin } from '../../lib/scatos/auth';
+import { loginRedirect } from '../../lib/auth';
+import { House, Heart } from 'lucide-react';
+export const prerender = false;
+let error = '';
+let profile = 'stephen';
+if (Astro.request.method === 'POST') {
+  if (!isSameOrigin(Astro.request)) {
+    Astro.response.status = 403;
+    error = 'Please sign in from this page.';
+  } else if (Number(Astro.request.headers.get('content-length') || 0) > 2048) {
+    Astro.response.status = 413;
+    error = 'Please check the access code.';
+  } else {
+    try {
+      const form = await Astro.request.formData();
+      profile = form.get('profile') === 'madeleine' ? 'madeleine' : 'stephen';
+      const token = await createSession(form.get('password'), profile);
+      if (token) return loginRedirect({ location: '/lg', cookieName: COOKIE, token, requestUrl: Astro.url, maxAgeSeconds: SESSION_AGE });
+      Astro.response.status = 401;
+      error = hasScatosPassword() ? 'That access code doesn’t match. Give it another try.' : 'ScatosSwip is getting ready. Please check back shortly.';
+    } catch { error = 'That sign-in could not be read. Please try again.'; Astro.response.status = 400; }
+  }
+}
+---
+<ScatosLayout title="Welcome home, someday — ScatosSwip">
+  <div class="sc-login">
+    <section class="sc-login-story">
+      <ScatosLogo large />
+      <h1>A home crush.<br />A shared someday.</h1>
+      <p>A little browsing around Los Gatos. A place to keep what you love. All the time in the world.</p>
+      <div class="sc-login-doodle" aria-hidden="true"><span class="sc-doodle-house"><House size={75} strokeWidth={1.3} /></span><span class="sc-doodle-flower">✳</span><span class="sc-doodle-heart"><Heart size={38} strokeWidth={1.5} /></span></div>
+    </section>
+    <section class="sc-login-card">
+      <h2>Who’s daydreaming?</h2><p>Your own swipes. A little overlap to discover.</p>
+      <form method="post" action="/lg/login">
+        <fieldset><legend>Choose your profile</legend><div class="sc-profile-options">
+          <label><input type="radio" name="profile" value="stephen" checked={profile === 'stephen'} /><span class="sc-avatar stephen">S</span>Stephen</label>
+          <label><input type="radio" name="profile" value="madeleine" checked={profile === 'madeleine'} /><span class="sc-avatar madeleine">M</span>Madeleine</label>
+        </div></fieldset>
+        <label class="sc-login-password" for="password">Your shared access code</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200" placeholder="Just between you two" />
+        {error && <p class="sc-error" role="alert">{error}</p>}
+        <button type="submit" class="sc-primary">Let’s have a look <Heart size={17} /></button>
+        <p class="sc-fine">Private. Saved across your phones and computers.</p>
+      </form>
+    </section>
+  </div>
+</ScatosLayout>
