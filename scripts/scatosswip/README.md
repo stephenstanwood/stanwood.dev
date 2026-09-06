@@ -1,6 +1,6 @@
 # ScatosSwip
 
-Private house browsing at `https://stanwood.dev/lg`. Separate Stephen/Madeleine profiles, persistent saves, private notes, mutual matches, undo, photo galleries, school and budget filters. A relaxed collection for a possible move over the next five years. No public homepage tile, analytics, or sitemap entry.
+Private house browsing at `https://stanwood.dev/lg`. Separate Stephen/Madeleine profiles, persistent saves, private notes, mutual matches, undo, photo galleries, school and budget filters. Previous/Next controls and the left/right arrow keys browse undecided homes without recording a choice; swiping or the explicit save/pass buttons make decisions. Browsing wraps around and leaves every undecided home available. A relaxed collection for a possible move over the next five years. No public homepage tile, analytics, or sitemap entry.
 
 ## Search contract
 
@@ -45,11 +45,11 @@ node --env-file=.env.local scripts/scatosswip/publish.mjs --init
 python3 scripts/scatosswip/collect.py --output /tmp/scatos-feed.json --receipts /tmp/scatos-receipts
 node --env-file=.env.local scripts/scatosswip/publish.mjs /tmp/scatos-feed.json
 npm run dev -- --host 127.0.0.1 --port 4345
-node --env-file=.env.local scripts/scatosswip/qa.mjs
+node --env-file=.env.local scripts/scatosswip/qa.mjs --smoke --mock-decisions
 npm run build
 ```
 
-QA tests login, profile isolation, no-store APIs, CSRF protection, persistence, mutual matches, notes, undo, keyboard/pointer swipes, failed writes, saved archives, 320/390/768/1440 layouts, and accessibility. Its scoped temporary choices are restored in `finally`; use `--smoke` against production for read-only checks. Never run mutation QA while the couple is actively using the app.
+QA tests login, profile isolation, no-store APIs, CSRF protection, persistence, mutual matches, notes, undo, keyboard/pointer swipes, failed writes, saved archives, 320/390/768/1440 layouts, and accessibility. Its scoped temporary choices are restored in `finally`; use `--smoke` against production for read-only checks. Add `--mock-decisions` locally to test voting/undo after browsing with isolated UI responses and no database writes. Never run mutation QA while the couple is actively using the app.
 
 ## Family timing
 
