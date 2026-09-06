@@ -1,5 +1,6 @@
 import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
 import type { Choice, FeedInfo, Home, Profile, ScatosState } from './types';
+import { isInSearchArea } from './location';
 
 let client: NeonQueryFunction<false, false> | undefined;
 export function scatosSql() {
@@ -19,6 +20,10 @@ export async function getState(profile: Profile): Promise<ScatosState> {
     sql`SELECT listing_id AS id FROM scatosswip.choices WHERE decision='save' GROUP BY listing_id HAVING count(DISTINCT profile)=2`,
     sql`SELECT data FROM scatosswip.meta WHERE id='feed'`,
   ]);
-  return { profile, homes: homes.map(row => row.home as Home), choices: choices as Choice[],
-    matches: matches.map(row => String(row.id)), feed: (meta[0]?.data as FeedInfo) || null };
+  // Apply changed household boundaries immediately, even before the next
+  // collector run. Stored saves and notes remain intact if preferences change.
+  const visibleHomes = homes.map(row => row.home as Home).filter(isInSearchArea);
+  const visibleIds = new Set(visibleHomes.map(home => home.id));
+  return { profile, homes: visibleHomes, choices: choices as Choice[],
+    matches: matches.map(row => String(row.id)).filter(id => visibleIds.has(id)), feed: (meta[0]?.data as FeedInfo) || null };
 }

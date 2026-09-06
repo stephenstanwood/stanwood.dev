@@ -7,12 +7,18 @@ Private house browsing at `https://stanwood.dev/lg`. Separate Stephen/Madeleine 
 1. Fetch the **official Los Gatos High attendance polygon first** from the district-linked [School Explorer](https://www.lgsuhsd.org/enrollment). Fail closed if it is missing or ambiguous.
 2. Start MLS discovery with its native **HighSchoolDistrict = Los Gatos-Saratoga Joint Union High** search. Narrow to Los Gatos detached houses. Cross-reference GoReal's small Los Gatos index for map coordinates; reject points outside the exact LGHS polygon before opening details wherever coordinates are available.
 3. Check actual LGHS assignment with the official `GeoData/AnalyzeLocation` endpoint. District membership alone, nearby school lists, a Los Gatos mailing address, and a ZIP code never qualify a home.
-4. Require active detached single-family houses, Los Gatos city as listed, price ≤ $4M, ≥4 beds, ≥2 baths. Los Gatos mailing addresses in the mountains remain eligible when officially assigned LGHS; proximity to town ranks in-town houses ahead.
-5. Add Van Meter/Fisher bonuses from the **LGUSD-linked SchoolSiteLocator attendance-area service**, not nearby-school lists. Rank yards mentioned in listing text and walking-to-downtown claims as soft bonuses. Lot size is not treated as usable yard. Town distance is explicitly straight-line to Town Plaza, with a walking-directions link.
+4. Require active detached single-family houses, Los Gatos city as listed, price ≤ $4M, ≥4 beds, ≥2 baths. Require coordinates at or north of The Cats (37.2137825 latitude, from the restaurant’s own Google Maps embed) and ZIP 95030 or 95032. Exclude the 95033 mountain postal area, including remote addresses west of town that lie north of the latitude cutoff. The shared rule is in `search-area.json`; collector, publisher, and live API enforce it. Out-of-area saves and notes stay stored but are hidden from the app.
+5. Add Van Meter/Fisher bonuses from the **LGUSD-linked SchoolSiteLocator attendance-area service**, not nearby-school lists. Use listing-text yard and walking-to-downtown signals only for internal ranking. Cards and details omit generated yard assessments and feature commentary. Town distance is explicitly straight-line to Town Plaza, with a walking-directions link.
 
 MLSListings supplies the primary source data from participating brokers and partner MLSs. GoReal is the second discovery index. Respect robots.txt and TLS; no logins, CAPTCHA bypasses, proxy workarounds, or paid data subscriptions. Original listing/photo attribution stays on each card. No copied marketing descriptions or downloaded photo archive.
 
 Incomplete pagination, source/parser failures, and a suspicious empty feed never silently replace the last successful inventory. Partial results may refresh individually verified homes, but never archive unseen homes. A successful complete refresh archives missing homes. Unverified records leave the active deck after 72h; saves and notes remain as inspiration. Store price changes separately in `scatosswip.price_history`.
+
+## Maps and property links
+
+Every browse, saved, matched, and passed card, plus the detail view, includes a Google Maps preview pinned to the listing coordinates and a link to open that location in Google Maps. The preview uses Google’s live embed, preserving its map labels and attribution without storing screenshots or requiring a Maps API key.
+
+Verified Redfin and Zillow property URLs live in each private database listing’s `portalLinks` object (`redfin` and `zillow`). The publisher preserves those URLs through daily refreshes. Record exact property URLs from the portals; never invent property IDs. New homes without a recorded URL get an explicitly labeled address search (site-specific web search for Redfin, Zillow’s address search for Zillow). No private property-link registry is committed to the public repository.
 
 ## Storage and access
 
@@ -24,7 +30,7 @@ Each session cookie includes an HMAC-signed profile and 90-day expiry. APIs deri
 
 Native LaunchAgent `dev.stanwood.scatosswip-refresh`, every day at **4:45 a.m. Pacific** (the Mini's system timezone). Independent installed copy at `~/.local/share/scatosswip`, so a dirty or changing shared git checkout cannot break the morning run. `run.py` uses an OS file lock, 25-minute collection timeout, atomic database publication and a dated receipt. Raw receipts retain 14 days; saves and price history remain in Postgres.
 
-Installed files: `collect.py`, `publish.mjs`, `schema.sql`, `run.py`, `package.json`, `package-lock.json`, and a mode-600 `.env` containing only `SCATOS_DATABASE_URL`. Install dependencies with `npm ci --omit=dev` in that folder. The access password is only needed by the web app, not the collector.
+Installed files: `search-area.json`, `collect.py`, `publish.mjs`, `schema.sql`, `run.py`, `package.json`, `package-lock.json`, and a mode-600 `.env` containing only `SCATOS_DATABASE_URL`. Install dependencies with `npm ci --omit=dev` in that folder. The access password is only needed by the web app, not the collector.
 
 Schedule file: `~/Library/LaunchAgents/dev.stanwood.scatosswip-refresh.plist`. Bootstrap via `launchctl bootstrap gui/$(id -u) <plist>`. Run now via `launchctl kickstart gui/$(id -u)/dev.stanwood.scatosswip-refresh`.
 
