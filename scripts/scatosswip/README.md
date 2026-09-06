@@ -16,7 +16,7 @@ Incomplete pagination, source/parser failures, and a suspicious empty feed never
 
 ## Storage and access
 
-Environment variables: `SCATOS_DATABASE_URL`, `SCATOS_PASSWORD`. An isolated `scatosswip` schema uses the existing private-app Postgres service. `schema.sql` only creates this app's tables. No contact or other application tables are read or modified.
+Environment variables: `SCATOS_DATABASE_URL`, `SCATOS_PASSWORD`, `SCATOS_SESSION_SECRET`. Access codes are case-insensitive. The independent signing secret stays random even when the household chooses a memorable access code. An isolated `scatosswip` schema uses the existing private-app Postgres service. `schema.sql` only creates this app's tables. No contact or other application tables are read or modified.
 
 Each session cookie includes an HMAC-signed profile and 90-day expiry. APIs derive identity from the cookie and reject cross-origin writes. Responses are private/no-store; server and client state are never prerendered. Profile selection intentionally uses one shared household access code. Notes belong to their author. No password/token is stored in source control or browser localStorage; localStorage only remembers optional filters.
 
