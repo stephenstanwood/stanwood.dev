@@ -84,6 +84,24 @@ try {
   const csrf = await stephen.request.post(`${base}/api/lg/state`, { headers: { Origin: 'https://example.com' }, data: { id, decision: 'save' } });
   assert.equal(csrf.status(), 403);
   checks.push('Only qualifying homes are served; invalid writes and cross-origin writes rejected.');
+  const beforeBrowsing = await state(stephen);
+  const browsePosts = [];
+  const trackBrowsing = request => { if (request.method() === 'POST' && request.url().endsWith('/api/lg/state')) browsePosts.push(request.url()); };
+  page.on('request', trackBrowsing);
+  const firstAddress = await page.locator('.sc-card-content h2').textContent();
+  await page.getByRole('button', { name: 'Previous home', exact: true }).click();
+  assert.notEqual(await page.locator('.sc-card-content h2').textContent(), firstAddress);
+  await page.getByRole('button', { name: 'Next home', exact: true }).click();
+  assert.equal(await page.locator('.sc-card-content h2').textContent(), firstAddress);
+  await page.keyboard.press('ArrowRight');
+  assert.notEqual(await page.locator('.sc-card-content h2').textContent(), firstAddress);
+  await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('.sc-card-content h2').textContent(), firstAddress);
+  assert.deepEqual((await state(stephen)).choices, beforeBrowsing.choices);
+  assert.deepEqual(browsePosts, []);
+  page.off('request', trackBrowsing);
+  checks.push('Previous/Next wrap around; arrow keys browse without requests or recorded choices.');
+
   for (const viewport of [{ width: 1440, height: 950 }, { width: 768, height: 1024 }, { width: 390, height: 844 }, { width: 320, height: 740 }]) {
     await page.setViewportSize(viewport);
     await page.locator('.sc-photo img').first().evaluate(image => image.decode().catch(() => {}));
@@ -106,6 +124,37 @@ try {
   assert(await page.getByRole('dialog').getByText('The school path').isVisible());
   await page.keyboard.press('Escape');
   checks.push('Mobile filters and accessible details dialog work.');
+  if (process.argv.includes('--mock-decisions')) {
+    await page.getByRole('button', { name: 'Filters', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Reset filters', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: /^Explore \d/ }).click();
+    // Exercise cursor changes without touching either person's real choices.
+    const fixture = structuredClone(await state(stephen));
+    await page.route('**/api/lg/state', async route => {
+      if (route.request().method() === 'POST') {
+        const body = route.request().postDataJSON();
+        fixture.choices = fixture.choices.filter(choice => choice.id !== body.id);
+        if (body.decision !== null) fixture.choices.push({ id: body.id, decision: body.decision, note: body.note || '', updatedAt: new Date().toISOString() });
+      }
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(fixture) });
+    });
+    try {
+      const skipped = await page.locator('.sc-card-content h2').textContent();
+      await page.getByRole('button', { name: 'Next home', exact: true }).click();
+      const chosen = await page.locator('.sc-card-content h2').textContent();
+      assert.notEqual(chosen, skipped);
+      await action(page, () => page.getByRole('button', { name: 'Not quite', exact: true }).click());
+      assert.notEqual(await page.locator('.sc-card-content h2').textContent(), chosen);
+      assert.notEqual(await page.locator('.sc-card-content h2').textContent(), skipped);
+      await action(page, () => page.getByRole('button', { name: 'Undo', exact: true }).click());
+      assert.equal(await page.locator('.sc-card-content h2').textContent(), chosen);
+      await page.getByRole('button', { name: 'Previous home', exact: true }).click();
+      assert.equal(await page.locator('.sc-card-content h2').textContent(), skipped);
+      assert.deepEqual((await state(stephen)).choices, initial.choices);
+      checks.push('After browsing ahead, a decision advances correctly and Undo returns to that home; tested with isolated UI responses.');
+    } finally { await page.unroute('**/api/lg/state'); await page.reload(); await page.locator('[data-ready="true"]').waitFor(); }
+  }
+
   if (!smokeOnly) {
     // Test a failed write before any successful one: the card must not advance.
     const address = await page.locator('.sc-card-content h2').textContent();
@@ -139,7 +188,8 @@ try {
     await page.getByRole('button', { name: /Explore/ }).click();
     const beforePass = await page.locator('.sc-card-content h2').textContent();
     await page.locator('h1').first().click();
-    await action(page, () => page.keyboard.press('ArrowLeft'));
+    await page.getByRole('button', { name: 'Not quite', exact: true }).focus();
+    await action(page, () => page.keyboard.press('Enter'));
     assert.notEqual(await page.locator('.sc-card-content h2').textContent(), beforePass);
     await action(page, () => page.getByRole('button', { name: 'Undo', exact: true }).click());
     assert.equal(await page.locator('.sc-card-content h2').textContent(), beforePass);

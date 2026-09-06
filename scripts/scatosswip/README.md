@@ -1,6 +1,6 @@
 # ScatosSwip
 
-Private house browsing at `https://stanwood.dev/lg`. Separate Stephen/Madeleine profiles, persistent saves, private notes, mutual matches, undo, photo galleries, school and budget filters. A relaxed collection for a possible move over the next five years. No public homepage tile, analytics, or sitemap entry.
+Private house browsing at `https://stanwood.dev/lg`. Separate Stephen/Madeleine profiles, persistent saves, private notes, mutual matches, undo, photo galleries, school and budget filters. Previous/Next controls and the left/right arrow keys browse undecided homes without recording a choice; swiping or the explicit save/pass buttons make decisions. Browsing wraps around and leaves every undecided home available. A relaxed collection for a possible move over the next five years. No public homepage tile, analytics, or sitemap entry.
 
 ## Search contract
 
@@ -16,7 +16,7 @@ Incomplete pagination, source/parser failures, and a suspicious empty feed never
 
 ## Storage and access
 
-Environment variables: `SCATOS_DATABASE_URL`, `SCATOS_PASSWORD`. An isolated `scatosswip` schema uses the existing private-app Postgres service. `schema.sql` only creates this app's tables. No contact or other application tables are read or modified.
+Environment variables: `SCATOS_DATABASE_URL`, `SCATOS_PASSWORD`, `SCATOS_SESSION_SECRET`. Access codes are case-insensitive. The independent signing secret stays random even when the household chooses a memorable access code. An isolated `scatosswip` schema uses the existing private-app Postgres service. `schema.sql` only creates this app's tables. No contact or other application tables are read or modified.
 
 Each session cookie includes an HMAC-signed profile and 90-day expiry. APIs derive identity from the cookie and reject cross-origin writes. Responses are private/no-store; server and client state are never prerendered. Profile selection intentionally uses one shared household access code. Notes belong to their author. No password/token is stored in source control or browser localStorage; localStorage only remembers optional filters.
 
@@ -45,11 +45,11 @@ node --env-file=.env.local scripts/scatosswip/publish.mjs --init
 python3 scripts/scatosswip/collect.py --output /tmp/scatos-feed.json --receipts /tmp/scatos-receipts
 node --env-file=.env.local scripts/scatosswip/publish.mjs /tmp/scatos-feed.json
 npm run dev -- --host 127.0.0.1 --port 4345
-node --env-file=.env.local scripts/scatosswip/qa.mjs
+node --env-file=.env.local scripts/scatosswip/qa.mjs --smoke --mock-decisions
 npm run build
 ```
 
-QA tests login, profile isolation, no-store APIs, CSRF protection, persistence, mutual matches, notes, undo, keyboard/pointer swipes, failed writes, saved archives, 320/390/768/1440 layouts, and accessibility. Its scoped temporary choices are restored in `finally`; use `--smoke` against production for read-only checks. Never run mutation QA while the couple is actively using the app.
+QA tests login, profile isolation, no-store APIs, CSRF protection, persistence, mutual matches, notes, undo, keyboard/pointer swipes, failed writes, saved archives, 320/390/768/1440 layouts, and accessibility. Its scoped temporary choices are restored in `finally`; use `--smoke` against production for read-only checks. Add `--mock-decisions` locally to test voting/undo after browsing with isolated UI responses and no database writes. Never run mutation QA while the couple is actively using the app.
 
 ## Family timing
 

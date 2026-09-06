@@ -121,6 +121,7 @@ export default function ScatosSwip() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [tab, setTab] = useState<Tab>('browse');
+  const [browsingId, setBrowsingId] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
@@ -159,7 +160,7 @@ export default function ScatosSwip() {
     } catch { /* Private browsing may disable local storage. Swipes still sync. */ }
   }, [state?.profile]);
   function changeFilters(next: Filters) {
-    setFilters(next);
+    setFilters(next); setBrowsingId(null);
     try { localStorage.setItem(`scatos-filters-${state?.profile}`, JSON.stringify(next)); } catch { /* optional preference */ }
   }
   const choices = useMemo(() => new Map((state?.choices || []).map(choice => [choice.id, choice])), [state?.choices]);
@@ -167,7 +168,13 @@ export default function ScatosSwip() {
   const eligible = useMemo(() => (state?.homes || []).filter(home => home.status === 'active' && home.price <= filters.maxPrice && home.beds >= filters.minBeds
     && (!filters.vanMeter || isVanMeter(home)) && (!filters.fisher || isFisher(home)) && (!filters.nearTown || home.townMiles <= 1)), [state?.homes, filters]);
   const deck = eligible.filter(home => !choices.has(home.id));
-  const current = deck[0];
+  const currentIndex = Math.max(0, deck.findIndex(home => home.id === browsingId));
+  const current = deck[currentIndex];
+  function browse(delta: number) {
+    if (busyRef.current || deck.length < 2) return;
+    setBrowsingId(deck[(currentIndex + delta + deck.length) % deck.length].id);
+    setDrag(0);
+  }
   const savedHomes = (state?.homes || []).filter(home => choices.get(home.id)?.decision === 'save');
   const matchedHomes = savedHomes.filter(home => matches.has(home.id));
   const passedHomes = (state?.homes || []).filter(home => choices.get(home.id)?.decision === 'pass');
@@ -183,6 +190,10 @@ export default function ScatosSwip() {
       if (response.status === 401) { window.location.assign('/lg/login'); throw new Error('Please sign in again.'); }
       const data: ScatosState & { error?: string } = await response.json();
       if (!response.ok) throw new Error(data.error || 'That change wasn’t saved. Please try again.');
+      if (home.id === current?.id) {
+        const next = deck[(currentIndex + 1) % deck.length];
+        setBrowsingId(next?.id !== home.id ? next?.id || null : null);
+      }
       setState(data); setUndo({ id: home.id, previous });
       if (decision === 'save' && data.matches.includes(home.id) && !matches.has(home.id)) setMatchHome(home);
       else if (note === undefined) notice(decision === 'save' ? 'Saved for someday.' : 'Passed. There’s no rush.');
@@ -196,16 +207,16 @@ export default function ScatosSwip() {
       const response = await fetch('/api/lg/state', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: undo.id, decision: undo.previous?.decision || null, note: undo.previous?.note || '' }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Undo wasn’t saved. Try again.');
-      setState(data); setUndo(null); notice('Back where it was.');
+      setState(data); setBrowsingId(undo.id); setUndo(null); notice('Back where it was.');
     } catch (err) { setError(err instanceof Error ? err.message : 'Undo failed.'); }
     finally { busyRef.current = false; setBusy(false); }
   }
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
       if (tab !== 'browse' || !current || busy || detail || infoOpen || filterOpen || matchHome
-          || (event.target instanceof HTMLElement && /INPUT|TEXTAREA|SELECT|BUTTON|A/.test(event.target.tagName)) || event.altKey || event.metaKey || event.ctrlKey) return;
+          || (event.target instanceof HTMLElement && /INPUT|TEXTAREA|SELECT|BUTTON|A/.test(event.target.tagName) && !event.target.closest('.sc-browse-controls')) || event.altKey || event.metaKey || event.ctrlKey) return;
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-        event.preventDefault(); void save(current, event.key === 'ArrowRight' ? 'save' : 'pass').catch(() => {});
+        event.preventDefault(); browse(event.key === 'ArrowRight' ? 1 : -1);
       }
     }
     window.addEventListener('keydown', onKey);
@@ -250,9 +261,14 @@ export default function ScatosSwip() {
         {loading ? <div className="sc-loading"><span className="sc-loading-house"><House size={42} /></span><h2>Finding your little corner of Los Gatos…</h2><p>Getting the latest school-checked homes.</p></div>
           : !state ? <div className="sc-empty"><House size={44} /><h2>Your homes are taking a moment.</h2><button className="sc-primary" type="button" onClick={() => { setLoading(true); void load(); }}>Try again</button></div>
           : tab === 'browse' ? current ? <>
+            <div className="sc-browse-controls" role="group" aria-label="Browse without choosing">
+              <button type="button" aria-label="Previous home" disabled={busy || deck.length < 2} onClick={() => browse(-1)}><ArrowLeft size={17} /> Previous</button>
+              <span className="sc-browse-position" aria-live="polite">{currentIndex + 1} of {deck.length}<small>No choice needed</small></span>
+              <button type="button" aria-label="Next home" disabled={busy || deck.length < 2} onClick={() => browse(1)}>Next <ArrowRight size={17} /></button>
+            </div>
             <div className="sc-deck"><div className="sc-card-under" aria-hidden="true" /><article className={`sc-swipe-card${busy ? ' is-saving' : ''}`} style={{ transform: `translateX(${drag}px) rotate(${drag / 22}deg)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointer.current = null; setDrag(0); }}>
               {Math.abs(drag) > 24 && <span className={`sc-swipe-stamp ${drag > 0 ? 'save' : 'pass'}`}>{drag > 0 ? 'Someday?' : 'Not quite'}</span>}
-              <Photo home={current} />
+              <Photo key={current.id} home={current} />
               <div className="sc-card-content"><div className="sc-price-line"><strong>{dollars(current.price)}</strong><span className="sc-live-label"><span /> For sale</span></div>
                 {current.previousPrice && current.previousPrice > current.price && <p className="sc-price-change">Down {dollars(current.previousPrice - current.price)} since our last price check</p>}
                 <h2><button type="button" onClick={() => setDetail(current)}>{current.address}<MoveUpRight size={21} /></button></h2><p className="sc-location"><MapPin size={14} /> Los Gatos, CA {current.zip}</p>
@@ -265,7 +281,7 @@ export default function ScatosSwip() {
             <div className="sc-swipe-actions"><button type="button" className="sc-action pass" disabled={busy} onClick={() => void save(current, 'pass').catch(() => {})}><span><X size={27} /></span>Not quite</button>
               <button type="button" className="sc-action undo" disabled={!undo || busy} onClick={() => void undoLast()}><span><RotateCcw size={19} /></span>Undo</button>
               <button type="button" className="sc-action save" disabled={busy} onClick={() => void save(current, 'save').catch(() => {})}><span><Heart size={27} /></span>Save for someday</button></div>
-            <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys work, too.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
+            <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
           </> : <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{eligible.length ? 'All caught up. Go live a little.' : 'A little too particular—for today.'}</h2><p>{eligible.length ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.'}</p><button className="sc-primary" type="button" onClick={() => eligible.length ? setTab('saved') : changeFilters(DEFAULT_FILTERS)}>{eligible.length ? 'Visit my saved homes' : 'Reset bonus filters'}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>
           : gridHomes.length ? <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {number(home.sqft)} sq ft</p></div></button><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>
           : <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{tab === 'matches' ? 'A shared crush is coming.' : tab === 'saved' ? 'Room for a few house crushes.' : 'A clean slate.'}</h2><p>{tab === 'matches' ? 'When you and ' + name(profile === 'stephen' ? 'madeleine' : 'stephen') + ' save the same home, it lands here.' : tab === 'saved' ? 'Save a home while you explore. Come back to it whenever.' : 'Homes you pass on will appear here.'}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>}
