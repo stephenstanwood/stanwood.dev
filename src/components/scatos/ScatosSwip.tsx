@@ -282,7 +282,7 @@ export default function ScatosSwip() {
   const profile = state?.profile || 'stephen';
   const stale = Boolean(state?.feed?.generatedAt && Date.now() - Date.parse(state.feed.generatedAt) > 36 * 3600_000);
   return <div className="sc-app" data-ready={Boolean(state)}>
-    <header className="sc-header"><a href="/lg" className="sc-brand-link" aria-label="ScatosSwip home"><ScatosLogo /></a><span className="sc-header-note">A home crush, at your own pace.</span>
+    <header className="sc-header"><a href="/lg" className="sc-brand-link" aria-label="ScatosSwipe home"><ScatosLogo /></a><span className="sc-header-note">A home crush, at your own pace.</span>
       <div className="sc-account"><span className={`sc-avatar ${profile}`}>{name(profile).slice(0, 1)}</span><span>{name(profile)}</span><a href="/lg/login" className="sc-switch" title="Switch profile">Switch</a><form action="/lg/logout" method="post"><button type="submit" className="sc-icon" aria-label="Sign out"><LogOut size={17} /></button></form></div>
     </header>
     <nav className="sc-tabs" aria-label="Your homes">{([

@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ request }) => {
 export const POST: APIRoute = async ({ request }) => {
   const profile = await getSession(request);
   if (!profile) return json({ error: 'Please sign in again.' }, 401);
-  if (!isSameOrigin(request)) return json({ error: 'Open ScatosSwip to make changes.' }, 403);
+  if (!isSameOrigin(request)) return json({ error: 'Open ScatosSwipe to make changes.' }, 403);
   if (!request.headers.get('content-type')?.includes('application/json')) return json({ error: 'Expected JSON.' }, 415);
   let body;
   try {
