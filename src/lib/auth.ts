@@ -1,13 +1,18 @@
 /** Shared crypto helpers for private-tool cookie auth. */
 
+/** Lowercase hex for a WebCrypto digest/signature — the wire format for every session token here. */
+export function toHex(buffer: ArrayBuffer): string {
+  return Array.from(new Uint8Array(buffer))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 export async function hashPassword(password: string): Promise<string> {
-  const buf = await crypto.subtle.digest(
+  const digest = await crypto.subtle.digest(
     "SHA-256",
     new TextEncoder().encode(password),
   );
-  return Array.from(new Uint8Array(buf))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+  return toHex(digest);
 }
 
 // Constant-time string equality — both inputs are SHA-256 hex (fixed length 64).
@@ -35,6 +40,19 @@ export async function verifySessionPassword(
     hashPassword(expected),
   ]);
   return timingSafeEqual(submittedHash, expectedHash) ? expectedHash : null;
+}
+
+/**
+ * Read one cookie value out of a raw `Cookie` header. Returns null when the header
+ * is absent or the cookie is not in it. Splits on the first `=` only, so a value
+ * that itself contains `=` survives intact.
+ */
+export function readCookie(header: string | null, name: string): string | null {
+  for (const part of (header || "").split(";")) {
+    const trimmed = part.trim();
+    if (trimmed.startsWith(`${name}=`)) return trimmed.slice(name.length + 1);
+  }
+  return null;
 }
 
 /**

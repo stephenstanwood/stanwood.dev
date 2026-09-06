@@ -63,21 +63,21 @@ function readUserTeamKeys(): string[] {
 
 function getRelevantLeagues(teamKeys: string[]): Set<string> {
   const out = new Set<string>();
-  for (const k of teamKeys) {
-    const t = TEAM_REGISTRY[k];
-    if (t) out.add(t.league);
+  for (const key of teamKeys) {
+    const team = TEAM_REGISTRY[key];
+    if (team) out.add(team.league);
   }
-  for (const lp of PLAYOFF_LEAGUES) out.add(lp);
+  for (const league of PLAYOFF_LEAGUES) out.add(league);
   return out;
 }
 
 export function buildTeamLookup(teamKeys: string[]): Map<string, TeamEntry> {
-  const m = new Map<string, TeamEntry>();
-  for (const k of teamKeys) {
-    const t = TEAM_REGISTRY[k];
-    if (t) m.set(`${t.league}|${t.abbreviation.toUpperCase()}`, t);
+  const lookup = new Map<string, TeamEntry>();
+  for (const key of teamKeys) {
+    const team = TEAM_REGISTRY[key];
+    if (team) lookup.set(`${team.league}|${team.abbreviation.toUpperCase()}`, team);
   }
-  return m;
+  return lookup;
 }
 
 export interface TrackedTeamsContext {
@@ -211,12 +211,21 @@ function eventStartSortKey(ev: ESPNEvent): number {
 // rail's own callers and tests keep importing it from this module.
 export { isPostponedLike };
 
+/**
+ * The status block for an event's first competition — the object every
+ * started/final/live/pre check below reads. ESPN nests it four levels deep and
+ * omits it entirely on malformed entries, so the optional chain lives here once.
+ */
+function statusTypeOf(ev: ESPNEvent) {
+  return ev.competitions?.[0]?.status?.type;
+}
+
 function eventHasStarted(ev: ESPNEvent): boolean {
   if (isPostponedLike(ev)) return false;
-  const t = ev.competitions?.[0]?.status?.type;
-  if (t?.completed) return true;
-  if (t?.state === "in" || t?.state === "post") return true;
-  if ((t?.name || "").includes("IN_PROGRESS")) return true;
+  const status = statusTypeOf(ev);
+  if (status?.completed) return true;
+  if (status?.state === "in" || status?.state === "post") return true;
+  if ((status?.name || "").includes("IN_PROGRESS")) return true;
   return false;
 }
 
@@ -228,17 +237,17 @@ export function competitorsOf(ev: ESPNEvent): ESPNCompetitor[] {
 export function awayHomeOf(
   ev: ESPNEvent,
 ): { away: ESPNCompetitor; home: ESPNCompetitor } | null {
-  const cs = competitorsOf(ev);
-  const away = cs.find((c) => c.homeAway === "away");
-  const home = cs.find((c) => c.homeAway === "home");
+  const competitors = competitorsOf(ev);
+  const away = competitors.find((c) => c.homeAway === "away");
+  const home = competitors.find((c) => c.homeAway === "home");
   if (!away || !home) return null;
   return { away, home };
 }
 
 export function isFinalEvent(ev: ESPNEvent): boolean {
   if (isPostponedLike(ev)) return false;
-  const t = ev.competitions?.[0]?.status?.type;
-  return t?.completed === true || t?.state === "post";
+  const status = statusTypeOf(ev);
+  return status?.completed === true || status?.state === "post";
 }
 
 /**
@@ -246,19 +255,19 @@ export function isFinalEvent(ev: ESPNEvent): boolean {
  * ESPN reports postponements in the "post" state, so they never look "pre".
  */
 export function isPreEvent(ev: ESPNEvent): boolean {
-  return ev.competitions?.[0]?.status?.type?.state === "pre";
+  return statusTypeOf(ev)?.state === "pre";
 }
 
 /** Currently being played. ESPN sometimes only sets the status name, not the state. */
 export function isLiveEvent(ev: ESPNEvent): boolean {
-  const t = ev.competitions?.[0]?.status?.type;
-  return t?.state === "in" || (t?.name || "").includes("IN_PROGRESS");
+  const status = statusTypeOf(ev);
+  return status?.state === "in" || (status?.name || "").includes("IN_PROGRESS");
 }
 
 /** ESPN's human-readable status line (e.g. "Final", "9th Inning"), or fallback. */
 export function statusTextOf(ev: ESPNEvent, fallback: string): string {
-  const t = ev.competitions?.[0]?.status?.type;
-  return t?.shortDetail || t?.detail || fallback;
+  const status = statusTypeOf(ev);
+  return status?.shortDetail || status?.detail || fallback;
 }
 
 /** Common fields the sports rails render for one side of a matchup. */
@@ -377,13 +386,12 @@ function matchUserTeams(
 ): TeamEntry[] {
   const out: TeamEntry[] = [];
   const seen = new Set<string>();
-  const cs = ev.competitions?.[0]?.competitors || [];
-  for (const c of cs) {
-    const abbr = (c.team?.abbreviation || "").toUpperCase();
-    const t = lookup.get(`${league}|${abbr}`);
-    if (t && !seen.has(t.key)) {
-      seen.add(t.key);
-      out.push(t);
+  for (const competitor of competitorsOf(ev)) {
+    const abbr = (competitor.team?.abbreviation || "").toUpperCase();
+    const team = lookup.get(`${league}|${abbr}`);
+    if (team && !seen.has(team.key)) {
+      seen.add(team.key);
+      out.push(team);
     }
   }
   return out;
@@ -395,11 +403,11 @@ function trackedEventTeamKeys(
   lookup: Map<string, TeamEntry>,
 ): string[] {
   const out = new Set<string>();
-  for (const t of matchUserTeams(ev, league, lookup)) out.add(t.key);
+  for (const team of matchUserTeams(ev, league, lookup)) out.add(team.key);
 
   if (league === "basketball/nba" && isNbaPlayoff(ev)) {
-    for (const c of ev.competitions?.[0]?.competitors || []) {
-      const abbr = (c.team?.abbreviation || "").toUpperCase();
+    for (const competitor of competitorsOf(ev)) {
+      const abbr = (competitor.team?.abbreviation || "").toUpperCase();
       if (abbr) out.add(`${league}|${abbr}`);
     }
   }

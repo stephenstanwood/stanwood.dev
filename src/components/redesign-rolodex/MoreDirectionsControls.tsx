@@ -23,7 +23,7 @@ export default function MoreDirectionsControls({
   loading: boolean;
   disabled?: boolean;
 }) {
-  const msgIdx = useCyclingIndex(LOADING_MESSAGES.length, 2000, {
+  const messageIndex = useCyclingIndex(LOADING_MESSAGES.length, 2000, {
     enabled: loading,
     resetKey: loading,
   });
@@ -33,7 +33,7 @@ export default function MoreDirectionsControls({
       {loading ? (
         <div className="rr-more-loading">
           <div className="rr-more-spinner" />
-          <span className="rr-more-loading-text">{LOADING_MESSAGES[msgIdx]}</span>
+          <span className="rr-more-loading-text">{LOADING_MESSAGES[messageIndex]}</span>
         </div>
       ) : (
         MODIFIERS.map((m) => (
