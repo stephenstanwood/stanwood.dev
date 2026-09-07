@@ -50,9 +50,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   try {
+    // Optional chaining, matching every other route here: a JSON body of `null`
+    // or a bare scalar then falls through to the 400 below instead of throwing a
+    // TypeError that the catch would report as a 500.
     const body = await request.json();
-    const base64: unknown = body.pdf;
-    const format = parseSummaryFormat(body.format);
+    const base64: unknown = body?.pdf;
+    const format = parseSummaryFormat(body?.format);
 
     if (typeof base64 !== "string" || !base64) {
       return errJson("Please upload a PDF file", 400);
