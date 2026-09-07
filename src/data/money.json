@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-07T01:10:16.842Z",
+  "lastUpdated": "2026-09-07T06:10:13.214Z",
   "apiSpend": {
     "months": [
       {
@@ -322,26 +322,26 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-07T01:10:16.842Z",
+        "collectedAt": "2026-09-07T06:10:13.214Z",
         "services": {
           "vercel": {
-            "totalCents": 2035,
+            "totalCents": 2082,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1851
+                "cents": 1891
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 79
+                "cents": 82
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 43
+                "cents": 45
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 21
+                "cents": 22
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -349,7 +349,7 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 8
+                "cents": 9
               },
               {
                 "name": "Fast Origin Transfer",
@@ -521,7 +521,7 @@
       "cents": 2000,
       "category": "ai",
       "url": "https://www.magicpatterns.com",
-      "note": "Mercury actual Aug 2026"
+      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Replicate",
