@@ -277,6 +277,33 @@ def miles_to_town(lat, lng):
     return round(3958.8 * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a)), 1)
 
 
+# Ranking weights for the browsing deck. Nothing here filters a home out; the
+# hard eligibility rules (school boundary, city, price, rooms) run separately.
+SCORE_VAN_METER = 25
+SCORE_FISHER = 15
+SCORE_WALKABLE = 12
+SCORE_LAWN = 8
+SCORE_YARD = 4
+SCORE_FIVE_PLUS_BEDS = 6
+
+
+def listing_score(schools, yard, walk, beds):
+    score = 0
+    if 'Van Meter' in (schools['elementary'] or ''):
+        score += SCORE_VAN_METER
+    if 'Fisher' in (schools['middle'] or ''):
+        score += SCORE_FISHER
+    if walk:
+        score += SCORE_WALKABLE
+    if yard.startswith('Lawn'):
+        score += SCORE_LAWN
+    elif yard.startswith('Yard mentioned'):
+        score += SCORE_YARD
+    if beds >= 5:
+        score += SCORE_FIVE_PLUS_BEDS
+    return score
+
+
 def assigned_names(result):
     return sorted(set(feature.get('properties', {}).get('name', '')
                       for feature in geometry_features(result)))
@@ -317,7 +344,12 @@ def collect(output, receipts):
     if 'los-gatos-saratoga-joint-union-high' not in index_url.lower():
         raise ValueError('MLS did not honor the district search')
     last_match = re.search(r'<a[^>]*aria-label="Last"[^>]*href="([^"]+)"', body)
-    last_page = int(re.search(r'/(\d+)\?', last_match.group(1)).group(1)) if last_match else 1
+    last_page = 1
+    if last_match:
+        page_number = re.search(r'/(\d+)\?', last_match.group(1))
+        if not page_number:
+            raise ValueError('MLS pagination link shape changed')
+        last_page = int(page_number.group(1))
     visited = {urllib.parse.urlparse(index_url).path}
     queue = pages[:]
     while queue:
@@ -355,6 +387,11 @@ def collect(output, receipts):
                 excluded_preferences += 1
                 continue
             # Exact school boundary has already passed; preferences come next.
+            # CLEANUP-FLAG: this preference test and the coverage-gap test near the
+            # end of collect() encode the same rule in two phrasings, and they
+            # disagree on a listed price of 0: here it passes, there it is
+            # excluded. Reconciling them means picking one intended meaning for a
+            # zero price, which is a data decision, not a mechanical refactor.
             if (secondary.get('price', MAX_PRICE + 1) > MAX_PRICE or secondary.get('beds', 0) < 4
                     or secondary.get('baths', 0) < 2 or secondary.get('propertyType') != 'single_family'):
                 excluded_preferences += 1
@@ -411,7 +448,7 @@ def collect(output, receipts):
                                          if o.get('date', '')[:10] >= NOW[:10]]
             else:
                 listing['openHouses'] = []  # Human-dated MLS rows lack an explicit year.
-            listing['score'] = (25 if 'Van Meter' in (schools['elementary'] or '') else 0) + (15 if 'Fisher' in (schools['middle'] or '') else 0) + (12 if walk else 0) + (8 if yard.startswith('Lawn') else 4 if yard.startswith('Yard mentioned') else 0) + (6 if listing['beds'] >= 5 else 0)
+            listing['score'] = listing_score(schools, yard, walk, listing['beds'])
             if key not in seen_addresses:
                 seen_addresses.add(key)
                 survivors.append(listing)

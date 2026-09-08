@@ -33,11 +33,19 @@ const privateGates: PrivateGate[] = [
   },
 ];
 
-function gateForPath(pathname: string): PrivateGate | undefined {
-  return privateGates.find((gate) =>
-    gate.prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/")),
-  );
+/** True when `pathname` is one of `prefixes` or sits underneath one of them. */
+function matchesPrefix(pathname: string, prefixes: string[]): boolean {
+  return prefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix + "/"));
 }
+
+function gateForPath(pathname: string): PrivateGate | undefined {
+  return privateGates.find((gate) => matchesPrefix(pathname, gate.prefixes));
+}
+
+// Sign-in and sign-out must stay reachable without a session.
+const SCATOS_PREFIXES = ["/lg", "/api/lg"];
+const SCATOS_PUBLIC_PREFIXES = ["/lg/login", "/lg/logout"];
+const SCATOS_CACHE_CONTROL = "private, no-store";
 
 // Hash once per cold start; private-tool passwords are fixed at deploy time.
 const expectedTokens = new Map(
@@ -47,17 +55,25 @@ const expectedTokens = new Map(
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
-  const scatosPath = url.pathname.replace(/\/$/, '');
-  if (scatosPath === '/lg' || scatosPath.startsWith('/lg/') || scatosPath === '/api/lg' || scatosPath.startsWith('/api/lg/')) {
-    if (!['/lg/login', '/lg/logout'].includes(scatosPath) && !await getSession(context.request)) {
-      if (scatosPath.startsWith('/api/')) return new Response(JSON.stringify({ error: 'Please sign in again.' }), {
-        status: 401, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'private, no-store' },
+  // ScatosSwip has its own signed session, so it gates ahead of the password
+  // table above and adds no-store/noindex headers to everything it serves.
+  if (matchesPrefix(url.pathname, SCATOS_PREFIXES)) {
+    const isPublicScatosPath = matchesPrefix(url.pathname, SCATOS_PUBLIC_PREFIXES);
+    if (!isPublicScatosPath && !(await getSession(context.request))) {
+      if (url.pathname.startsWith("/api/")) {
+        return new Response(JSON.stringify({ error: "Please sign in again." }), {
+          status: 401,
+          headers: { "Content-Type": "application/json", "Cache-Control": SCATOS_CACHE_CONTROL },
+        });
+      }
+      return new Response(null, {
+        status: 302,
+        headers: { Location: "/lg/login", "Cache-Control": SCATOS_CACHE_CONTROL },
       });
-      return new Response(null, { status: 302, headers: { Location: '/lg/login', 'Cache-Control': 'private, no-store' } });
     }
     const response = await next();
-    response.headers.set('Cache-Control', 'private, no-store');
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    response.headers.set("Cache-Control", SCATOS_CACHE_CONTROL);
+    response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
     return response;
   }
 
