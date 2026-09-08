@@ -50,6 +50,9 @@ const MAX_NOTICE_PDF_BYTES = 16_000_000;
 const MS_PER_DAY = 86_400_000;
 const END_OF_DAY = "23:59:59";
 const USER_AGENT = "stanwood.dev Campbell guide data sync (public pages; respectful one-shot fetch)";
+const TRANSIENT_HTML_FETCH_STATUSES = new Set([502, 503, 504]);
+const HTML_FETCH_RETRY_DELAYS_MS = [500, 1500];
+const HTML_FETCH_TIMEOUT_MS = 30_000;
 const CHAMBER_ALPHA_SLUGS = ["0-9", ..."abcdefghijklmnopqrstuvwxyz"];
 
 // CLEANUP-FLAG: this decoder is deliberately wider than src/lib/htmlUtils
@@ -103,18 +106,45 @@ function absoluteUrl(href = "", base = BASE_URL) {
 }
 
 async function fetchText(url) {
-  const res = await fetch(url, {
-    headers: {
-      "user-agent": USER_AGENT,
-      "accept": "text/html,application/xhtml+xml",
-    },
-  });
+  for (let attempt = 0; attempt <= HTML_FETCH_RETRY_DELAYS_MS.length; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), HTML_FETCH_TIMEOUT_MS);
+    let res;
+    try {
+      res = await fetch(url, {
+        headers: {
+          "user-agent": USER_AGENT,
+          "accept": "text/html,application/xhtml+xml",
+        },
+        signal: controller.signal,
+      });
+    } catch (err) {
+      const message = err?.name === "AbortError"
+        ? `Timed out fetching ${url} after ${HTML_FETCH_TIMEOUT_MS}ms`
+        : `Failed to fetch ${url}: ${err.message}`;
+      if (attempt === HTML_FETCH_RETRY_DELAYS_MS.length) {
+        throw new Error(message, { cause: err });
+      }
+      await sleep(HTML_FETCH_RETRY_DELAYS_MS[attempt]);
+      continue;
+    } finally {
+      clearTimeout(timeout);
+    }
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+    if (res.ok) {
+      return res.text();
+    }
+
+    const failure = `Failed to fetch ${url}: ${res.status} ${res.statusText}`;
+    if (!TRANSIENT_HTML_FETCH_STATUSES.has(res.status) || attempt === HTML_FETCH_RETRY_DELAYS_MS.length) {
+      throw new Error(failure);
+    }
+
+    await res.text().catch(() => "");
+    await sleep(HTML_FETCH_RETRY_DELAYS_MS[attempt]);
   }
 
-  return res.text();
+  throw new Error(`Failed to fetch ${url}`);
 }
 
 async function fetchOptionalText(url, label) {
