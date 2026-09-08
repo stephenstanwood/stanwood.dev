@@ -10,12 +10,12 @@ type Tab = 'browse' | 'saved' | 'matches' | 'passed';
 type Filters = { maxPrice: number; minBeds: number; vanMeter: boolean; fisher: boolean; nearTown: boolean };
 const DEFAULT_FILTERS: Filters = { maxPrice: 4_000_000, minBeds: 4, vanMeter: false, fisher: false, nearTown: false };
 const dollars = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
-const number = (value: number | null) => value ? value.toLocaleString('en-US') : '—';
+const formatNumber = (value: number | null) => value ? value.toLocaleString('en-US') : '—';
 const isVanMeter = (home: Home) => /Van Meter/i.test(home.schools.elementary || '');
 const isFisher = (home: Home) => /Fisher/i.test(home.schools.middle || '');
 const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' });
-const name = (profile: string) => profile === 'stephen' ? 'Stephen' : 'Madeleine';
-const partnerName = (profile: string) => name(profile === 'stephen' ? 'madeleine' : 'stephen');
+const profileName = (profile: string) => profile === 'stephen' ? 'Stephen' : 'Madeleine';
+const partnerProfileName = (profile: string) => profileName(profile === 'stephen' ? 'madeleine' : 'stephen');
 
 // Header copy per tab, and the copy shown when a list tab has nothing in it.
 // `browse` has its own two empty states (all caught up vs. filtered to nothing),
@@ -126,13 +126,13 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
   const [note, setNote] = useState(choice?.note || '');
   const [noteSaved, setNoteSaved] = useState(false);
   const [detailError, setDetailError] = useState('');
-  const maps = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(home.address + ', Los Gatos, CA ' + home.zip)}&destination=Los+Gatos+Town+Plaza&travelmode=walking`;
+  const walkingDirectionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(home.address + ', Los Gatos, CA ' + home.zip)}&destination=Los+Gatos+Town+Plaza&travelmode=walking`;
   return <Modal title={home.address} onClose={onClose} wide>
     <Photo home={home} />
     <div className="sc-detail-body">
       <div className="sc-detail-price"><strong>{dollars(home.price)}</strong>{matched && <span className="sc-badge match"><Heart size={14} fill="currentColor" /> You both saved it</span>}</div>
       <p className="sc-location">Los Gatos, CA {home.zip}</p><SchoolBadges home={home} />
-      <div className="sc-detail-facts">{[[number(home.beds), 'beds'], [number(home.baths), 'baths'], [number(home.sqft), 'sq ft inside'], [number(home.lotSqft), 'sq ft lot']].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
+      <div className="sc-detail-facts">{[[formatNumber(home.beds), 'beds'], [formatNumber(home.baths), 'baths'], [formatNumber(home.sqft), 'sq ft inside'], [formatNumber(home.lotSqft), 'sq ft lot']].map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div>
       <HomeLocation home={home} />
       {home.status === 'archived' && <p className="sc-callout">This home is no longer in the verified active feed. Keep it here for the things you love about it. The price is the last observed asking price.</p>}
       <section><h3><School size={19} /> The school path</h3><dl className="sc-school-path">
@@ -142,7 +142,7 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
       </dl><p className="sc-fine">District boundaries checked {dateLabel(home.schools.verifiedAt)} using the listing’s map location. Confirm the exact address with the district before buying.</p>
       <div className="sc-links"><a href={home.schools.highSource} target="_blank" rel="noopener noreferrer">High-school boundary result <MoveUpRight size={14} /></a><a href="https://www.schoolsitelocator.com/apps/losgatos/" target="_blank" rel="noopener noreferrer">Elementary & middle locator <MoveUpRight size={14} /></a></div></section>
       <section><h3><Footprints size={19} /> Around the neighborhood</h3>
-      <p>{home.townMiles} miles from Town Plaza, straight-line.</p><a className="sc-inline-link" href={maps} target="_blank" rel="noopener noreferrer"><Footprints size={16} /> Walking directions to Town Plaza <MoveUpRight size={14} /></a></section>
+      <p>{home.townMiles} miles from Town Plaza, straight-line.</p><a className="sc-inline-link" href={walkingDirectionsUrl} target="_blank" rel="noopener noreferrer"><Footprints size={16} /> Walking directions to Town Plaza <MoveUpRight size={14} /></a></section>
       <section><h3><NotebookPen size={19} /> What caught your eye?</h3><label className="sc-sr-only" htmlFor="sc-note">Your private note for {home.address}</label><textarea id="sc-note" maxLength={1000} value={note} onChange={event => { setNote(event.target.value); setNoteSaved(false); }} placeholder="The kitchen. That yard. Room for an office…" rows={3} />
         <div className="sc-note-bottom"><span className="sc-fine">Your note, saved with this home.</span><button type="button" className="sc-small-button" disabled={busy} onClick={async () => { try { await onSave(home, choice?.decision || 'save', note); setNoteSaved(true); setDetailError(''); } catch { setDetailError('Your note wasn’t saved. Please try again.'); } }}>{noteSaved ? 'Note saved' : 'Save note'}</button></div></section>
       <section className="sc-listing-source"><h3>Take a closer look</h3><div className="sc-links">{home.sources.map(source => <a key={source.name} href={source.url} target="_blank" rel="noopener noreferrer">{source.name} <MoveUpRight size={14} /></a>)}</div><p className="sc-fine">Listing and photos courtesy of {home.office || 'the listing brokerage'}. MLS {home.id}. Checked {dateLabel(home.checkedAt)}.</p></section>
@@ -169,7 +169,7 @@ export default function ScatosSwip() {
   const [drag, setDrag] = useState(0);
   const pointer = useRef<{ x: number; y: number; id: number } | null>(null);
   const busyRef = useRef(false);
-  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const toastTimeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const load = useCallback(async (quiet = false) => {
     try {
@@ -186,7 +186,7 @@ export default function ScatosSwip() {
     const refresh = () => { if (!document.hidden && !busyRef.current) void load(true); };
     const interval = setInterval(refresh, 60_000);
     window.addEventListener('focus', refresh);
-    return () => { clearInterval(interval); clearTimeout(timeout.current); window.removeEventListener('focus', refresh); };
+    return () => { clearInterval(interval); clearTimeout(toastTimeout.current); window.removeEventListener('focus', refresh); };
   }, [load]);
   useEffect(() => {
     if (!state?.profile) return;
@@ -212,11 +212,12 @@ export default function ScatosSwip() {
     setBrowsingId(deck[(currentIndex + delta + deck.length) % deck.length].id);
     setDrag(0);
   }
-  const savedHomes = (state?.homes || []).filter(home => choices.get(home.id)?.decision === 'save');
+  const homesDecided = (decision: Decision) => (state?.homes || []).filter(home => choices.get(home.id)?.decision === decision);
+  const savedHomes = homesDecided('save');
   const matchedHomes = savedHomes.filter(home => matches.has(home.id));
-  const passedHomes = (state?.homes || []).filter(home => choices.get(home.id)?.decision === 'pass');
+  const passedHomes = homesDecided('pass');
   const gridHomes = tab === 'saved' ? savedHomes : tab === 'matches' ? matchedHomes : passedHomes;
-  const notice = (message: string) => { setToast(message); clearTimeout(timeout.current); timeout.current = setTimeout(() => setToast(''), 4000); };
+  const notice = (message: string) => { setToast(message); clearTimeout(toastTimeout.current); toastTimeout.current = setTimeout(() => setToast(''), 4000); };
 
   async function save(home: Home, decision: Decision, note?: string) {
     if (busyRef.current) return;
@@ -281,9 +282,45 @@ export default function ScatosSwip() {
   const filterCount = Number(filters.maxPrice !== 4_000_000) + Number(filters.minBeds !== 4) + Number(filters.vanMeter) + Number(filters.fisher) + Number(filters.nearTown);
   const profile = state?.profile || 'stephen';
   const stale = Boolean(state?.feed?.generatedAt && Date.now() - Date.parse(state.feed.generatedAt) > 36 * 3600_000);
+  // The main panel has five mutually exclusive states. Early returns keep them
+  // legible; this was a five-deep nested ternary chain.
+  function mainPanel() {
+    if (loading) return <div className="sc-loading"><span className="sc-loading-house"><House size={42} /></span><h2>Finding your little corner of Los Gatos…</h2><p>Getting the latest school-checked homes.</p></div>;
+    if (!state) return <div className="sc-empty"><House size={44} /><h2>Your homes are taking a moment.</h2><button className="sc-primary" type="button" onClick={() => { setLoading(true); void load(); }}>Try again</button></div>;
+    if (tab !== 'browse') {
+      if (!gridHomes.length) return <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{EMPTY_LIST[tab].title}</h2><p>{EMPTY_LIST[tab].blurb(partnerProfileName(profile))}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>;
+      return <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {formatNumber(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>;
+    }
+    if (!current) return <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{eligible.length ? 'All caught up. Go live a little.' : 'A little too particular—for today.'}</h2><p>{eligible.length ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.'}</p><button className="sc-primary" type="button" onClick={() => eligible.length ? setTab('saved') : changeFilters(DEFAULT_FILTERS)}>{eligible.length ? 'Visit my saved homes' : 'Reset bonus filters'}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>;
+    return <>
+      <div className="sc-browse-controls" role="group" aria-label="Browse without choosing">
+        <button type="button" aria-label="Previous home" disabled={busy || deck.length < 2} onClick={() => browse(-1)}><ArrowLeft size={17} /> Previous</button>
+        <span className="sc-browse-position" aria-live="polite">{currentIndex + 1} of {deck.length}<small>No choice needed</small></span>
+        <button type="button" aria-label="Next home" disabled={busy || deck.length < 2} onClick={() => browse(1)}>Next <ArrowRight size={17} /></button>
+      </div>
+      <div className="sc-deck"><div className="sc-card-under" aria-hidden="true" /><article className={`sc-swipe-card${busy ? ' is-saving' : ''}`} style={{ transform: `translateX(${drag}px) rotate(${drag / 22}deg)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointer.current = null; setDrag(0); }}>
+        {Math.abs(drag) > 24 && <span className={`sc-swipe-stamp ${drag > 0 ? 'save' : 'pass'}`}>{drag > 0 ? 'Someday?' : 'Not quite'}</span>}
+        <Photo key={current.id} home={current} />
+        <div className="sc-card-content"><div className="sc-price-line"><strong>{dollars(current.price)}</strong><span className="sc-live-label"><span /> For sale</span></div>
+          {current.previousPrice && current.previousPrice > current.price && <p className="sc-price-change">Down {dollars(current.previousPrice - current.price)} since our last price check</p>}
+          <h2><button type="button" onClick={() => setDetail(current)}>{current.address}<MoveUpRight size={21} /></button></h2><p className="sc-location"><MapPin size={14} /> Los Gatos, CA {current.zip}</p>
+          <div className="sc-house-facts"><span><BedDouble size={18} /><strong>{current.beds}</strong> beds</span><span><Bath size={18} /><strong>{current.baths}</strong> baths</span><span><strong>{formatNumber(current.sqft)}</strong> sq ft</span></div>
+          <SchoolBadges home={current} />
+          <div className="sc-house-notes"><span><Footprints size={17} />{current.townMiles} mi to Town Plaza <small>(straight-line)</small></span></div>
+          <HomeLocation home={current} />
+          <div className="sc-card-footer"><span>{current.office}</span><button type="button" className="sc-text-button" onClick={() => setDetail(current)}>The little details <MoveUpRight size={15} /></button></div>
+        </div>
+      </article></div>
+      <div className="sc-swipe-actions"><button type="button" className="sc-action pass" disabled={busy} onClick={() => void save(current, 'pass').catch(() => {})}><span><X size={27} /></span>Not quite</button>
+        <button type="button" className="sc-action undo" disabled={!undo || busy} onClick={() => void undoLast()}><span><RotateCcw size={19} /></span>Undo</button>
+        <button type="button" className="sc-action save" disabled={busy} onClick={() => void save(current, 'save').catch(() => {})}><span><Heart size={27} /></span>Save for someday</button></div>
+      <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
+    </>;
+  }
+
   return <div className="sc-app" data-ready={Boolean(state)}>
     <header className="sc-header"><a href="/lg" className="sc-brand-link" aria-label="ScatosSwipe home"><ScatosLogo /></a><span className="sc-header-note">A home crush, at your own pace.</span>
-      <div className="sc-account"><span className={`sc-avatar ${profile}`}>{name(profile).slice(0, 1)}</span><span>{name(profile)}</span><a href="/lg/login" className="sc-switch" title="Switch profile">Switch</a><form action="/lg/logout" method="post"><button type="submit" className="sc-icon" aria-label="Sign out"><LogOut size={17} /></button></form></div>
+      <div className="sc-account"><span className={`sc-avatar ${profile}`}>{profileName(profile).slice(0, 1)}</span><span>{profileName(profile)}</span><a href="/lg/login" className="sc-switch" title="Switch profile">Switch</a><form action="/lg/logout" method="post"><button type="submit" className="sc-icon" aria-label="Sign out"><LogOut size={17} /></button></form></div>
     </header>
     <nav className="sc-tabs" aria-label="Your homes">{([
       ['browse', 'Explore', House, deck.length], ['saved', 'My saves', Heart, savedHomes.length],
@@ -295,34 +332,7 @@ export default function ScatosSwip() {
         {tab === 'browse' && <button type="button" className="sc-filter-button" aria-label="Filters" onClick={() => setFilterOpen(true)}><SlidersHorizontal size={18} /><span>Filters{filterCount ? ` (${filterCount})` : ''}</span></button>}</div>
         {error && <div role="alert" className="sc-error"><p>{error}</p><button type="button" onClick={() => void load()}><RefreshCw size={15} /> Try again</button></div>}
         {state && (stale || state.feed?.lastError || !state.feed?.complete) && <p className="sc-feed-notice"><Info size={17} />{state.feed?.lastError || 'The feed is due for a fresh check. Showing the last verified homes.'}</p>}
-        {loading ? <div className="sc-loading"><span className="sc-loading-house"><House size={42} /></span><h2>Finding your little corner of Los Gatos…</h2><p>Getting the latest school-checked homes.</p></div>
-          : !state ? <div className="sc-empty"><House size={44} /><h2>Your homes are taking a moment.</h2><button className="sc-primary" type="button" onClick={() => { setLoading(true); void load(); }}>Try again</button></div>
-          : tab === 'browse' ? current ? <>
-            <div className="sc-browse-controls" role="group" aria-label="Browse without choosing">
-              <button type="button" aria-label="Previous home" disabled={busy || deck.length < 2} onClick={() => browse(-1)}><ArrowLeft size={17} /> Previous</button>
-              <span className="sc-browse-position" aria-live="polite">{currentIndex + 1} of {deck.length}<small>No choice needed</small></span>
-              <button type="button" aria-label="Next home" disabled={busy || deck.length < 2} onClick={() => browse(1)}>Next <ArrowRight size={17} /></button>
-            </div>
-            <div className="sc-deck"><div className="sc-card-under" aria-hidden="true" /><article className={`sc-swipe-card${busy ? ' is-saving' : ''}`} style={{ transform: `translateX(${drag}px) rotate(${drag / 22}deg)` }} onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={() => { pointer.current = null; setDrag(0); }}>
-              {Math.abs(drag) > 24 && <span className={`sc-swipe-stamp ${drag > 0 ? 'save' : 'pass'}`}>{drag > 0 ? 'Someday?' : 'Not quite'}</span>}
-              <Photo key={current.id} home={current} />
-              <div className="sc-card-content"><div className="sc-price-line"><strong>{dollars(current.price)}</strong><span className="sc-live-label"><span /> For sale</span></div>
-                {current.previousPrice && current.previousPrice > current.price && <p className="sc-price-change">Down {dollars(current.previousPrice - current.price)} since our last price check</p>}
-                <h2><button type="button" onClick={() => setDetail(current)}>{current.address}<MoveUpRight size={21} /></button></h2><p className="sc-location"><MapPin size={14} /> Los Gatos, CA {current.zip}</p>
-                <div className="sc-house-facts"><span><BedDouble size={18} /><strong>{current.beds}</strong> beds</span><span><Bath size={18} /><strong>{current.baths}</strong> baths</span><span><strong>{number(current.sqft)}</strong> sq ft</span></div>
-                <SchoolBadges home={current} />
-                <div className="sc-house-notes"><span><Footprints size={17} />{current.townMiles} mi to Town Plaza <small>(straight-line)</small></span></div>
-                <HomeLocation home={current} />
-                <div className="sc-card-footer"><span>{current.office}</span><button type="button" className="sc-text-button" onClick={() => setDetail(current)}>The little details <MoveUpRight size={15} /></button></div>
-              </div>
-            </article></div>
-            <div className="sc-swipe-actions"><button type="button" className="sc-action pass" disabled={busy} onClick={() => void save(current, 'pass').catch(() => {})}><span><X size={27} /></span>Not quite</button>
-              <button type="button" className="sc-action undo" disabled={!undo || busy} onClick={() => void undoLast()}><span><RotateCcw size={19} /></span>Undo</button>
-              <button type="button" className="sc-action save" disabled={busy} onClick={() => void save(current, 'save').catch(() => {})}><span><Heart size={27} /></span>Save for someday</button></div>
-            <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
-          </> : <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{eligible.length ? 'All caught up. Go live a little.' : 'A little too particular—for today.'}</h2><p>{eligible.length ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.'}</p><button className="sc-primary" type="button" onClick={() => eligible.length ? setTab('saved') : changeFilters(DEFAULT_FILTERS)}>{eligible.length ? 'Visit my saved homes' : 'Reset bonus filters'}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>
-          : gridHomes.length ? <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {number(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>
-          : <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{EMPTY_LIST[tab].title}</h2><p>{EMPTY_LIST[tab].blurb(partnerName(profile))}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>}
+        {mainPanel()}
       </section>
       <aside className="sc-right-rail"><div className="sc-someday-note"><span className="sc-note-sun" aria-hidden="true">✺</span><h2>A place for<br />your next chapter.</h2><p>No countdown.<br />No pressure.<br />Just possibilities.</p><div className="sc-note-houses" aria-hidden="true"><House size={32} strokeWidth={1.5} /><Sprout size={28} strokeWidth={1.5} /></div></div>
         <div className="sc-together"><div className="sc-avatar-pair"><span className="sc-avatar stephen">S</span><span className="sc-avatar madeleine">M</span><Heart size={17} fill="currentColor" /></div><h2>{matchedHomes.length ? `${matchedHomes.length} shared ${matchedHomes.length === 1 ? 'crush' : 'crushes'}` : 'Two swipes. One someday.'}</h2><p>Save separately. See what you both love.</p><button type="button" className="sc-text-button" onClick={() => setTab('matches')}>Our matches <MoveUpRight size={15} /></button></div>
