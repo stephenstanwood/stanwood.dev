@@ -43,9 +43,18 @@ const UNESC_MAP: Record<string, string> = {
  */
 export function decodeEntities(value: string): string {
   return value
-    .replace(/&#x([a-f0-9]+);/gi, (_, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
-    .replace(/&#(\d+);/g, (_, decimal: string) => String.fromCodePoint(parseInt(decimal, 10)))
+    .replace(/&#x([a-f0-9]+);/gi, (entity, hex: string) => codePoint(entity, parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (entity, decimal: string) => codePoint(entity, parseInt(decimal, 10)))
     .replace(/&(?:quot|apos|lt|gt|nbsp|amp);/g, (entity) => UNESC_MAP[entity] ?? entity);
+}
+
+/**
+ * Numeric entity → character, falling back to the raw entity text when the value is
+ * outside Unicode. Feeds do emit garbage like `&#99999999;`, and String.fromCodePoint
+ * throws a RangeError on those — which would take down a whole scrape run over one title.
+ */
+function codePoint(entity: string, value: number): string {
+  return value >= 0 && value <= 0x10ffff ? String.fromCodePoint(value) : entity;
 }
 
 /** Sanitise a URL — only allow http(s) protocol. */

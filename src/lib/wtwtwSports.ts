@@ -303,6 +303,12 @@ export function teamSideOf(c: ESPNCompetitor): TeamSide {
 const FINISHED_CLOSENESS_PENALTY = 4;
 const OT_BONUS_PER_PERIOD = 0.25; // 1 OT → 1.25×, 2 OT → 1.5×
 
+// CLEANUP-FLAG: this plus the closeness/quality math in finishedGameWatchScore below
+// restates sportsCore's parseRecord + winPct + watchScoreBase, which this file already
+// imports from. They are not interchangeable: sportsCore's winPct returns 0.5 for a team
+// with no games played, this one returns 0, so a recap ranking swapped onto the shared
+// helper would reorder early-season games. Unifying means picking one default, which is a
+// behavior change rather than cleanup.
 function winPctFromRecord(c: ESPNCompetitor): number {
   const m = /(\d+)\s*-\s*(\d+)/.exec(c.records?.[0]?.summary || "");
   if (!m) return 0;
