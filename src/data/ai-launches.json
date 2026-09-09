@@ -1,5 +1,21 @@
 [
   {
+    "name": "ChatGPT Images 2.5",
+    "org": "OpenAI",
+    "date": "2026-09-08",
+    "type": "model",
+    "summary": "Generate and edit images with much better likeness for people and pets, up to 50% faster. Rolling out to every ChatGPT tier plus Codex, with a @Sketch tool for drawing references and two new API models, Flare and Sunburst.",
+    "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
+  },
+  {
+    "name": "Project HydraFusion",
+    "org": "GitHub",
+    "date": "2026-09-04",
+    "type": "tool",
+    "summary": "Cut coding-agent costs by letting Copilot CLI pick and combine models per task — 67% cheaper than Claude Opus 5 on Terminal-Bench 2.1, with a slightly higher pass rate. Free research preview on every Copilot plan, behind /experimental.",
+    "url": "https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/"
+  },
+  {
     "name": "GPT-6 Astra",
     "org": "OpenAI",
     "date": "2026-09-03",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Point a coding agent at a much better workhorse for the same $0.75 per million input tokens as 3.7 Flash. Terminal-Bench jumps from 81.6% to 90.8%. Available now in AI Studio and the Gemini API.",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
-  },
-  {
-    "name": "Claude Fable 5.1",
-    "org": "Anthropic",
-    "date": "2026-09-01",
-    "type": "model",
-    "summary": "Run longer coding and agent sessions for about 25% less than Fable 5 — up to 45% on agentic work, thanks to a 75% cut in cache-read pricing. One million tokens of context, 128K output per response.",
-    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
-  },
-  {
-    "name": "Google Pics",
-    "org": "Google",
-    "date": "2026-09-01",
-    "type": "tool",
-    "summary": "Make posters, flyers, and social graphics by describing them at pics.new, then tap any object in the image to change just that part. Text inside an image can be edited or translated into 29 languages.",
-    "url": "https://blog.google/products-and-platforms/products/workspace/google-pics/"
   }
 ]
