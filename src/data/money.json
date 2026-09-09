@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-09T01:10:26.508Z",
+  "lastUpdated": "2026-09-09T06:10:15.807Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-09T01:10:26.508Z",
+        "collectedAt": "2026-09-09T06:10:15.807Z",
         "services": {
           "vercel": {
-            "totalCents": 3246,
+            "totalCents": 3325,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2981
+                "cents": 3056
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 104
+                "cents": 107
               },
               {
                 "name": "Blob Data Transfer",
@@ -344,12 +344,12 @@
                 "cents": 29
               },
               {
-                "name": "Fluid Provisioned Memory",
+                "name": "Web Analytics Events",
                 "cents": 12
               },
               {
-                "name": "Web Analytics Events",
-                "cents": 11
+                "name": "Fluid Provisioned Memory",
+                "cents": 12
               },
               {
                 "name": "Blob Advanced Operations",
@@ -469,6 +469,13 @@
       "note": "required for SBS Meetup API"
     },
     {
+      "name": "Anthropic",
+      "cents": 5054,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Sep 2026; 2 Mercury charges combined"
+    },
+    {
       "name": "Google Cloud",
       "cents": 5000,
       "category": "infra",
@@ -488,13 +495,6 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 2550,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Neon via Vercel",
