@@ -16,7 +16,10 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
 
   const page = url.searchParams.get("page") ?? "index";
-  const config = PAGES[page];
+  // Own-property check, not a bare `PAGES[page]`: `?page=toString` would otherwise
+  // resolve to an inherited Object.prototype member, skip the 404 below, and render
+  // a card full of `undefined` that the immutable Cache-Control pins for a week.
+  const config = Object.hasOwn(PAGES, page) ? PAGES[page] : undefined;
 
   if (!config) {
     return new Response("Unknown page", { status: 404 });
