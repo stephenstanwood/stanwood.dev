@@ -1,5 +1,21 @@
 [
   {
+    "name": "DeepSeek V4.1 Flash",
+    "org": "DeepSeek",
+    "date": "2026-09-10",
+    "type": "model",
+    "summary": "Run a 1M-context multimodal model for pennies — $0.30 per million input tokens at peak, half that off-peak. It beats the older V4 Pro on speed and cost, and the 485B weights are up on Hugging Face.",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
+  },
+  {
+    "name": "Suno v6",
+    "org": "Suno",
+    "date": "2026-09-09",
+    "type": "model",
+    "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone; v6 and v6-wild need a paid plan.",
+    "url": "https://suno.com/blog/introducing-v6"
+  },
+  {
     "name": "ChatGPT Images 2.5",
     "org": "OpenAI",
     "date": "2026-09-08",
@@ -8,20 +24,12 @@
     "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
   },
   {
-    "name": "Project HydraFusion",
-    "org": "GitHub",
-    "date": "2026-09-04",
+    "name": "Desert Ant Labs",
+    "org": "Desert Ant Labs",
+    "date": "2026-09-08",
     "type": "tool",
-    "summary": "Cut coding-agent costs by letting Copilot CLI pick and combine models per task — 67% cheaper than Claude Opus 5 on Terminal-Bench 2.1, with a slightly higher pass rate. Free research preview on every Copilot plan, behind /experimental.",
-    "url": "https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/"
-  },
-  {
-    "name": "GPT-6 Astra",
-    "org": "OpenAI",
-    "date": "2026-09-03",
-    "type": "model",
-    "summary": "Swap in a new flagship for hard reasoning and long agent runs — live as gpt-6-astra in the API and rolling out to ChatGPT Plus and Pro. Costs $10 per million input tokens, $50 per million output.",
-    "url": "https://openai.com/index/gpt-6-astra/"
+    "summary": "Ship transcription, audio cleanup, PII redaction, and language ID that run entirely on-device, via Swift, Kotlin, or JavaScript SDKs. 18 models, no token billing, free up to 100,000 monthly active devices.",
+    "url": "https://desertant.com/blog/introducing-desert-ant-labs/"
   },
   {
     "name": "K2 Horizon",
@@ -40,27 +48,19 @@
     "url": "https://github.com/NousResearch/hermes-agent"
   },
   {
-    "name": "Muse Spark 1.3",
-    "org": "Meta",
-    "date": "2026-09-02",
-    "type": "model",
-    "summary": "Point an agent at long multi-file coding jobs at $1.25 per million input tokens with a 1M-token context, live now in Muse Code and the Meta Model API. It uses about 20% fewer tool calls and 25% fewer tokens than 1.2.",
-    "url": "https://research.meta.ai/blog/introducing-muse-spark-1-3"
-  },
-  {
-    "name": "Background Computer Use",
-    "org": "Anthropic",
-    "date": "2026-09-02",
-    "type": "tool",
-    "summary": "Hand off clicking and typing while you keep working — Claude drives apps in the background on Mac and Windows without grabbing your mouse. In beta for Pro and Max subscribers in Cowork and Claude Code.",
-    "url": "https://9to5mac.com/2026/09/02/anthropic-upgrades-claude-codes-computer-use-to-run-in-the-background-on-mac/"
-  },
-  {
     "name": "Gemini 3.8 Flash",
     "org": "Google",
     "date": "2026-09-02",
     "type": "model",
     "summary": "Point a coding agent at a much better workhorse for the same $0.75 per million input tokens as 3.7 Flash. Terminal-Bench jumps from 81.6% to 90.8%. Available now in AI Studio and the Gemini API.",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
+  },
+  {
+    "name": "Claude Fable 5.1",
+    "org": "Anthropic",
+    "date": "2026-09-01",
+    "type": "model",
+    "summary": "Point a coding agent at harder, longer-running work, with better root-cause debugging and research. Typical workloads cost about 25% less than before, up to 45% for agentic tasks, and cache reads drop to $0.25 per million tokens.",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
   }
 ]
