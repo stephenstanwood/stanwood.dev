@@ -490,6 +490,20 @@ function preferredDuplicateBusiness(existing, business) {
   return businessScore > existingScore ? business : existing;
 }
 
+/**
+ * Union the source URLs of two records that are being merged. Each record carries one
+ * canonical `sourceUrl` plus any URLs it already absorbed from earlier merges; callers
+ * drop the winner's own `sourceUrl` back out of the result.
+ */
+function mergedSourceUrls(a, b) {
+  return new Set([
+    a.sourceUrl,
+    ...(a.additionalSourceUrls ?? []),
+    b.sourceUrl,
+    ...(b.additionalSourceUrls ?? []),
+  ].filter(Boolean));
+}
+
 function mergeBusinesses(...feeds) {
   const byKey = new Map();
 
@@ -504,12 +518,7 @@ function mergeBusinesses(...feeds) {
 
     const tags = new Set([...(existing.tags ?? []), ...(business.tags ?? [])]);
     const sources = new Set([existing.source, business.source].filter(Boolean));
-    const sourceUrls = new Set([
-      existing.sourceUrl,
-      ...(existing.additionalSourceUrls ?? []),
-      business.sourceUrl,
-      ...(business.additionalSourceUrls ?? []),
-    ].filter(Boolean));
+    const sourceUrls = mergedSourceUrls(existing, business);
     const preferred = preferredDuplicateBusiness(existing, business);
     const fallback = preferred === existing ? business : existing;
 
@@ -531,18 +540,25 @@ function mergeBusinesses(...feeds) {
   return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
-async function readExistingSourceBusinesses({ tag, source, sourceUrl, preserveSourceUrls = false }) {
-  const existingPath = resolve(DATA_DIR, "campbellBusinesses.json");
-  let payload;
-
+/**
+ * Read the previously published items out of a data file. Returns null (after a warning)
+ * when the file is missing or unparseable so callers can fall back to "no prior items".
+ */
+async function readExistingItems(filename, label, source) {
   try {
-    payload = JSON.parse(await readFile(existingPath, "utf8"));
+    const payload = JSON.parse(await readFile(resolve(DATA_DIR, filename), "utf8"));
+    return Array.isArray(payload.items) ? payload.items : [];
   } catch (err) {
-    console.warn(`Warning: could not read previous Campbell businesses for ${source}: ${err.message}`);
-    return [];
+    console.warn(`Warning: could not read previous Campbell ${label} for ${source}: ${err.message}`);
+    return null;
   }
+}
 
-  return (Array.isArray(payload.items) ? payload.items : [])
+async function readExistingSourceBusinesses({ tag, source, sourceUrl, preserveSourceUrls = false }) {
+  const items = await readExistingItems("campbellBusinesses.json", "businesses", source);
+  if (!items) return [];
+
+  return items
     .filter((business) => {
       return (
         (business.tags ?? []).includes(tag) ||
@@ -1003,19 +1019,12 @@ function oneYearEventWindow(generatedAt) {
 }
 
 async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
-  const existingPath = resolve(DATA_DIR, "campbellEvents.json");
-  let payload;
-
-  try {
-    payload = JSON.parse(await readFile(existingPath, "utf8"));
-  } catch (err) {
-    console.warn(`Warning: could not read previous Campbell events for ${source}: ${err.message}`);
-    return [];
-  }
+  const items = await readExistingItems("campbellEvents.json", "events", source);
+  if (!items) return [];
 
   const { start: today, end: oneYearOut } = oneYearEventWindow(generatedAt);
 
-  return (Array.isArray(payload.items) ? payload.items : [])
+  return items
     .filter((event) => {
       const fromSource =
         splitEventSourceNames(event.source).includes(source) ||
@@ -1588,12 +1597,7 @@ function mergeEventRecords(existing, event) {
     ...splitEventSourceNames(existing.source),
     ...splitEventSourceNames(event.source),
   ]);
-  const sourceUrls = new Set([
-    existing.sourceUrl,
-    ...(existing.additionalSourceUrls ?? []),
-    event.sourceUrl,
-    ...(event.additionalSourceUrls ?? []),
-  ].filter(Boolean));
+  const sourceUrls = mergedSourceUrls(existing, event);
   const topics = new Set([...(existing.topics ?? []), ...(event.topics ?? [])]);
 
   return {

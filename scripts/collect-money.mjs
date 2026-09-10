@@ -580,7 +580,7 @@ async function main() {
   if (mercuryResult.note) console.log(`  Mercury:      ${mercuryResult.note}`);
 
   // Subs total
-  const subsTotal = (data.subscriptions || []).reduce((s, x) => s + (x.cents || 0), 0);
+  const subsTotal = (data.subscriptions || []).reduce((sum, sub) => sum + (sub.cents || 0), 0);
   console.log(`  Subs total:    ${centsStr(subsTotal)}`);
   console.log(`  Monthly total: ${centsStr(totalTracked + subsTotal)}`);
 }
