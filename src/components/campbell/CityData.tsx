@@ -20,18 +20,18 @@ export default function CityData() {
       </div>
 
       <div className="cb-data-stat-grid">
-        {CAMPBELL_METRICS.map((s) => (
+        {CAMPBELL_METRICS.map((metric) => (
           <a
-            key={s.label}
+            key={metric.label}
             className="cb-data-stat"
-            href={s.sourceUrl}
+            href={metric.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
             <div className="cb-data-stat-body">
-              <span className="cb-data-stat-value">{s.value}</span>
-              <span className="cb-data-stat-label">{s.label}</span>
-              <span className="cb-data-stat-sub">{s.note}</span>
+              <span className="cb-data-stat-value">{metric.value}</span>
+              <span className="cb-data-stat-label">{metric.label}</span>
+              <span className="cb-data-stat-sub">{metric.note}</span>
             </div>
           </a>
         ))}
@@ -52,16 +52,16 @@ export default function CityData() {
         </button>
         {showMapLinks && (
           <div className="cb-data-gis-list" id="campbell-map-links">
-            {MAP_LINKS.map((g) => (
+            {MAP_LINKS.map((link) => (
               <a
-                key={g.label}
-                href={g.href}
+                key={link.label}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="cb-data-gis-link"
               >
-                <span className="cb-data-gis-label">{g.label}</span>
-                <span className="cb-data-gis-desc">{g.desc}</span>
+                <span className="cb-data-gis-label">{link.label}</span>
+                <span className="cb-data-gis-desc">{link.desc}</span>
               </a>
             ))}
             <p className="cb-data-gis-note">

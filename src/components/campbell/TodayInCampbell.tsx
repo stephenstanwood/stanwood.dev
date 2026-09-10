@@ -180,7 +180,7 @@ export default function TodayInCampbell() {
       {recentHearings.length > 1 && (
         <div className="cb-today-notices">
           <span>Recent public notices</span>
-          {recentHearings.slice(0, 3).map(({ hearing, date }) => (
+          {recentHearings.map(({ hearing, date }) => (
             <a
               key={`${hearing.title}-${hearing.hearingAt}`}
               href={hearingUrl(hearing)}

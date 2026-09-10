@@ -161,16 +161,16 @@ function calcSetDuration(set: SetItem, pacePer100: number): number {
 }
 
 function groupDistance(items: SetItem[]): number {
-  return items.reduce((sum, item) => {
-    if (item.items) return sum + item.reps * groupDistance(item.items);
-    return sum + (item.reps || 1) * (item.distance || 0);
+  return items.reduce((total, item) => {
+    if (item.items) return total + item.reps * groupDistance(item.items);
+    return total + (item.reps || 1) * (item.distance || 0);
   }, 0);
 }
 
 function groupDuration(items: SetItem[], pacePer100: number): number {
-  return items.reduce((sum, item) => {
-    if (item.items) return sum + item.reps * groupDuration(item.items, pacePer100);
-    return sum + calcSetDuration(item, pacePer100);
+  return items.reduce((total, item) => {
+    if (item.items) return total + item.reps * groupDuration(item.items, pacePer100);
+    return total + calcSetDuration(item, pacePer100);
   }, 0);
 }
 

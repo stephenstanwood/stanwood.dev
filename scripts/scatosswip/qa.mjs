@@ -44,6 +44,12 @@ async function context(profile, viewport = { width: 1440, height: 950 }) {
   await page.evaluate(() => document.querySelector('astro-dev-toolbar')?.remove());
   return { ctx, page };
 }
+// Reload and wait for the app to re-hydrate; used wherever a test asserts that
+// state survives a full page load.
+async function reloadReady(page) {
+  await page.reload();
+  await page.locator('[data-ready="true"]').waitFor();
+}
 async function state(ctx) {
   const response = await ctx.request.get(`${base}/api/lg/state`);
   assert.equal(response.status(), 200);
@@ -189,7 +195,7 @@ try {
       assert.equal(await page.locator('.sc-card-content h2').textContent(), skipped);
       assert.deepEqual((await state(stephen)).choices, initial.choices);
       checks.push('After browsing ahead, a decision advances correctly and Undo returns to that home; tested with isolated UI responses.');
-    } finally { await page.unroute('**/api/lg/state'); await page.reload(); await page.locator('[data-ready="true"]').waitFor(); }
+    } finally { await page.unroute('**/api/lg/state'); await reloadReady(page); }
   }
 
   if (!smokeOnly) {
@@ -203,7 +209,7 @@ try {
     await page.unroute('**/api/lg/state');
     const saved = await action(page, () => page.getByRole('button', { name: 'Save for someday', exact: true }).click());
     assert(saved.choices.some(c => c.id === firstId && c.decision === 'save'));
-    await page.reload(); await page.locator('[data-ready="true"]').waitFor();
+    await reloadReady(page);
     assert((await state(stephen)).choices.some(c => c.id === firstId && c.decision === 'save'));
     const { ctx: madeleine, page: mPage } = await context('madeleine', { width: 390, height: 844 });
     const mState = await state(madeleine);
@@ -213,7 +219,7 @@ try {
     const mutual = await state(stephen);
     assert(mutual.matches.includes(firstId));
     assert((await state(madeleine)).matches.includes(firstId));
-    await page.reload(); await page.locator('[data-ready="true"]').waitFor();
+    await reloadReady(page);
     await page.getByRole('button', { name: /Our matches/ }).click();
     await page.getByRole('button', { name: 'View ' + mutual.homes.find(h => h.id === firstId).address, exact: true }).click();
     await page.locator('#sc-note').fill('QA note: a yard for someday.');
@@ -242,7 +248,7 @@ try {
     try { const archived = await state(stephen); assert(archived.homes.some(h => h.id === firstId && h.status === 'archived')); }
     finally { await sql`UPDATE scatosswip.listings SET active=true WHERE id=${firstId}`; }
     checks.push('Saved homes remain after leaving the active feed.');
-    await mPage.reload(); await mPage.locator('[data-ready="true"]').waitFor();
+    await reloadReady(mPage);
     const touchCard = await mPage.locator('.sc-swipe-card').boundingBox();
     const touchAddress = await mPage.locator('.sc-card-content h2').textContent();
     const cdp = await madeleine.newCDPSession(mPage);

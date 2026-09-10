@@ -129,6 +129,24 @@ const EVENT_ANCHORS = [
   },
 ];
 
+/**
+ * Set updaters that hand back the identical Set when nothing changed, so React can bail
+ * out of the re-render instead of seeing a new reference every image event.
+ */
+function setWith(current: Set<string>, value: string): Set<string> {
+  if (current.has(value)) return current;
+  const next = new Set(current);
+  next.add(value);
+  return next;
+}
+
+function setWithout(current: Set<string>, value: string): Set<string> {
+  if (!current.has(value)) return current;
+  const next = new Set(current);
+  next.delete(value);
+  return next;
+}
+
 function eventSourceFilterLabel(label: string) {
   return SOURCE_SHORT_LABELS[label] ?? label;
 }
@@ -364,27 +382,12 @@ export default function EventsIndex() {
   }
 
   function markImageLoaded(imageUrl: string) {
-    setLoadedImageUrls((current) => {
-      if (current.has(imageUrl)) return current;
-      const next = new Set(current);
-      next.add(imageUrl);
-      return next;
-    });
+    setLoadedImageUrls((current) => setWith(current, imageUrl));
   }
 
   function markImageFailed(imageUrl: string) {
-    setFailedImageUrls((current) => {
-      if (current.has(imageUrl)) return current;
-      const next = new Set(current);
-      next.add(imageUrl);
-      return next;
-    });
-    setLoadedImageUrls((current) => {
-      if (!current.has(imageUrl)) return current;
-      const next = new Set(current);
-      next.delete(imageUrl);
-      return next;
-    });
+    setFailedImageUrls((current) => setWith(current, imageUrl));
+    setLoadedImageUrls((current) => setWithout(current, imageUrl));
   }
 
   return (

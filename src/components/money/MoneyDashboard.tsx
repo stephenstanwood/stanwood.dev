@@ -327,23 +327,23 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
         <span className="mo-section-total">{formatCents(total)}/yr</span>
       </div>
       <div className="mo-domains">
-        {sorted.map((d) => {
-          const days = daysUntil(d.renewsAt);
+        {sorted.map((domain) => {
+          const days = daysUntil(domain.renewsAt);
           let renewalClass = "mo-domain-renewal";
           if (days !== null) {
             if (days < 30) renewalClass += " mo-domain-renewal--very-soon";
             else if (days < 90) renewalClass += " mo-domain-renewal--soon";
           }
           return (
-            <div key={d.name} className="mo-domain-row">
+            <div key={domain.name} className="mo-domain-row">
               <div>
-                <div className="mo-domain-name">{d.name}</div>
-                <div className="mo-domain-registrar">{d.registrar}</div>
+                <div className="mo-domain-name">{domain.name}</div>
+                <div className="mo-domain-registrar">{domain.registrar}</div>
               </div>
               <div className={renewalClass}>
-                {d.renewsAt ? (
+                {domain.renewsAt ? (
                   <>
-                    {formatRenewalDate(d.renewsAt)}
+                    {formatRenewalDate(domain.renewsAt)}
                     {days !== null && days >= 0 && (
                       <div style={{ fontSize: 9, opacity: 0.6 }}>
                         in {days} day{days === 1 ? "" : "s"}
@@ -357,10 +357,10 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
               <div
                 className={
                   "mo-domain-price" +
-                  (d.annualCents === 0 ? " mo-domain-price--zero" : "")
+                  (domain.annualCents === 0 ? " mo-domain-price--zero" : "")
                 }
               >
-                {domainPriceLabel(d.annualCents)}
+                {domainPriceLabel(domain.annualCents)}
               </div>
               <div
                 style={{
@@ -369,7 +369,7 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
                   fontStyle: "italic",
                 }}
               >
-                {d.note || ""}
+                {domain.note || ""}
               </div>
             </div>
           );
