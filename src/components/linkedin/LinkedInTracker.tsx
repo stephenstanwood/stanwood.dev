@@ -12,6 +12,12 @@ type QueueView = "priority" | "category";
 type QueueStatus = "remaining" | "actioned" | "dismissed" | "all";
 type QueueKind = "all" | "connect" | "follow" | "organization";
 
+const OPEN_ACTION_LABEL: Record<LinkedInOutreachPerson["kind"], string> = {
+  connect: "open to connect ↗",
+  follow: "open to follow ↗",
+  organization: "open company ↗",
+};
+
 interface Props {
   initialPeople: LinkedInOutreachPerson[];
   initialDailyBatch: LinkedInDailyBatch;
@@ -77,6 +83,15 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
     [dailyBatchPositions, people],
   );
   const dailyBatchSize = dailyBatchPeople.length;
+  let queueRule: string;
+  if (batch !== "today") {
+    queueRule =
+      "every card says connect, follow, or organization. your checks and passes teach the next overnight ranking.";
+  } else if (initialDailyBatch.weekendBreak) {
+    queueRule = `weekend break — no new batch until monday. leftovers from the last weekday stay open (${dailyBatchSize} in this snapshot).`;
+  } else {
+    queueRule = `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow (weekends stay empty of new batches).`;
+  }
   const dailyBatchRemaining = dailyBatchPeople.filter(
     (person) => !person.actioned && !person.dismissed,
   ).length;
@@ -280,13 +295,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         </div>
       </section>
 
-      <div className="li-queue-rule">
-        {batch === "today"
-          ? (initialDailyBatch.weekendBreak
-            ? `weekend break — no new batch until monday. leftovers from the last weekday stay open (${dailyBatchSize} in this snapshot).`
-            : `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow (weekends stay empty of new batches).`)
-          : "every card says connect, follow, or organization. your checks and passes teach the next overnight ranking."}
-      </div>
+      <div className="li-queue-rule">{queueRule}</div>
 
       <section className="li-controls" aria-label="Queue filters">
         <label className="li-search">
@@ -539,9 +548,7 @@ function PersonCard({
           target="_blank"
           rel="noopener noreferrer"
         >
-          {person.kind === "connect"
-            ? "open to connect ↗"
-            : person.kind === "follow" ? "open to follow ↗" : "open company ↗"}
+          {OPEN_ACTION_LABEL[person.kind]}
         </a>
         <label className="li-done">
           <input

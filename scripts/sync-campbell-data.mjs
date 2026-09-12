@@ -569,16 +569,20 @@ async function readExistingSourceBusinesses({ tag, source, sourceUrl, preserveSo
     })
     .map((business) => {
       const existingAdditionalUrls = business.additionalSourceUrls ?? [];
+      let additionalSourceFields;
+      if (!preserveSourceUrls) {
+        additionalSourceFields = { additionalSourceUrls: [] };
+      } else if (existingAdditionalUrls.length > 0) {
+        additionalSourceFields = { additionalSourceUrls: existingAdditionalUrls };
+      } else {
+        additionalSourceFields = {};
+      }
       return {
         ...business,
         tags: [tag],
         source,
         sourceUrl: preserveSourceUrls ? (business.sourceUrl || sourceUrl) : sourceUrl,
-        ...(
-          preserveSourceUrls
-            ? (existingAdditionalUrls.length ? { additionalSourceUrls: existingAdditionalUrls } : {})
-            : { additionalSourceUrls: [] }
-        ),
+        ...additionalSourceFields,
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -1450,10 +1454,12 @@ function parseWixEvents(html, { baseUrl, sourceUrl, source, category }) {
       for (const event of wixEvents) {
         const dates = widget?.dates?.events?.[event.id] ?? {};
         const title = cleanSentence(event.title ?? "");
-        const descriptionSource =
-          typeof event.description === "string" ? event.description :
-          typeof event.about === "string" ? event.about :
-          "";
+        let descriptionSource = "";
+        if (typeof event.description === "string") {
+          descriptionSource = event.description;
+        } else if (typeof event.about === "string") {
+          descriptionSource = event.about;
+        }
         const date = cleanSentence(
           dates.fullDate ??
           event.scheduling?.startDateFormatted ??
@@ -2098,7 +2104,8 @@ function hearingRecordsReferToSameFile(first, second) {
 }
 
 function mergeHearingRecords(first, second) {
-  const primary = first.noticeUrl ? first : second.noticeUrl ? second : first;
+  let primary = first;
+  if (!first.noticeUrl && second.noticeUrl) primary = second;
   const secondary = primary === first ? second : first;
   const agendaUrl =
     first.agendaUrl ||

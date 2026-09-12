@@ -34,6 +34,9 @@ export default function MuseumLabel() {
   const [downloaded, setDownloaded] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  let downloadButtonLabel = "Download Image";
+  if (downloading) downloadButtonLabel = "Saving…";
+  else if (downloaded) downloadButtonLabel = "Saved!";
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -71,16 +74,16 @@ export default function MuseumLabel() {
     setLabel(null);
 
     try {
-      const res = await fetch("/api/museum-label", {
+      const response = await fetch("/api/museum-label", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image: preview, style: styleToUse }),
       });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || `Error ${res.status}`);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || `Error ${response.status}`);
       }
-      const data: MuseumLabelType = await res.json();
+      const data: MuseumLabelType = await response.json();
       setLabel(data);
       setPhase("result");
     } catch (err: unknown) {
@@ -112,11 +115,11 @@ export default function MuseumLabel() {
       // so canvas text rendering picks them up instead of falling back to serif.
       if (document.fonts?.ready) await document.fonts.ready;
 
-      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-        const i = new Image();
-        i.onload = () => resolve(i);
-        i.onerror = reject;
-        i.src = preview;
+      const imageElement = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const loadedImage = new Image();
+        loadedImage.onload = () => resolve(loadedImage);
+        loadedImage.onerror = reject;
+        loadedImage.src = preview;
       });
 
       const W = 1080;
@@ -137,13 +140,13 @@ export default function MuseumLabel() {
         const words = text.split(/\s+/);
         const lines: string[] = [];
         let line = "";
-        for (const w of words) {
-          const test = line ? `${line} ${w}` : w;
-          if (probe.measureText(test).width <= maxWidth) {
-            line = test;
+        for (const word of words) {
+          const candidateLine = line ? `${line} ${word}` : word;
+          if (probe.measureText(candidateLine).width <= maxWidth) {
+            line = candidateLine;
           } else {
             if (line) lines.push(line);
-            line = w;
+            line = word;
           }
         }
         if (line) lines.push(line);
@@ -190,21 +193,21 @@ export default function MuseumLabel() {
       ctx.fillStyle = "#1a1612";
       ctx.fillRect(0, 0, W, PHOTO_H);
 
-      const imgRatio = img.width / img.height;
+      const imageRatio = imageElement.width / imageElement.height;
       const stripRatio = W / PHOTO_H;
       let sx: number, sy: number, sw: number, sh: number;
-      if (imgRatio > stripRatio) {
-        sh = img.height;
-        sw = img.height * stripRatio;
-        sx = (img.width - sw) / 2;
+      if (imageRatio > stripRatio) {
+        sh = imageElement.height;
+        sw = imageElement.height * stripRatio;
+        sx = (imageElement.width - sw) / 2;
         sy = 0;
       } else {
-        sw = img.width;
-        sh = img.width / stripRatio;
+        sw = imageElement.width;
+        sh = imageElement.width / stripRatio;
         sx = 0;
-        sy = (img.height - sh) / 2;
+        sy = (imageElement.height - sh) / 2;
       }
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, W, PHOTO_H);
+      ctx.drawImage(imageElement, sx, sy, sw, sh, 0, 0, W, PHOTO_H);
 
       let y = PHOTO_H + PADDING + 48;
 
@@ -396,7 +399,7 @@ export default function MuseumLabel() {
               disabled={downloading}
               aria-busy={downloading}
             >
-              {downloading ? "Saving…" : downloaded ? "Saved!" : "Download Image"}
+              {downloadButtonLabel}
             </button>
           </div>
         </div>

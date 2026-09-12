@@ -216,7 +216,8 @@ export default function ScatosSwip() {
   const savedHomes = homesDecided('save');
   const matchedHomes = savedHomes.filter(home => matches.has(home.id));
   const passedHomes = homesDecided('pass');
-  const gridHomes = tab === 'saved' ? savedHomes : tab === 'matches' ? matchedHomes : passedHomes;
+  const homesByListTab = { saved: savedHomes, matches: matchedHomes, passed: passedHomes };
+  const gridHomes = tab === 'browse' ? [] : homesByListTab[tab];
   const notice = (message: string) => { setToast(message); clearTimeout(toastTimeout.current); toastTimeout.current = setTimeout(() => setToast(''), 4000); };
 
   async function save(home: Home, decision: Decision, note?: string) {
@@ -289,9 +290,17 @@ export default function ScatosSwip() {
     if (!state) return <div className="sc-empty"><House size={44} /><h2>Your homes are taking a moment.</h2><button className="sc-primary" type="button" onClick={() => { setLoading(true); void load(); }}>Try again</button></div>;
     if (tab !== 'browse') {
       if (!gridHomes.length) return <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{EMPTY_LIST[tab].title}</h2><p>{EMPTY_LIST[tab].blurb(partnerProfileName(profile))}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>;
-      return <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {formatNumber(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={tab === 'passed' ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, tab === 'passed' ? 'save' : 'pass').catch(() => {})}>{tab === 'passed' ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>;
+      const isPassedList = tab === 'passed';
+      return <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {formatNumber(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={isPassedList ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, isPassedList ? 'save' : 'pass').catch(() => {})}>{isPassedList ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>;
     }
-    if (!current) return <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{eligible.length ? 'All caught up. Go live a little.' : 'A little too particular—for today.'}</h2><p>{eligible.length ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.'}</p><button className="sc-primary" type="button" onClick={() => eligible.length ? setTab('saved') : changeFilters(DEFAULT_FILTERS)}>{eligible.length ? 'Visit my saved homes' : 'Reset bonus filters'}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>;
+    if (!current) {
+      const hasEligibleHomes = eligible.length > 0;
+      const emptyTitle = hasEligibleHomes ? 'All caught up. Go live a little.' : 'A little too particular—for today.';
+      const emptyBlurb = hasEligibleHomes ? 'Fresh finds arrive in the morning. Your saved homes aren’t going anywhere.' : 'Try easing a bonus filter. Los Gatos High stays a must.';
+      const emptyActionLabel = hasEligibleHomes ? 'Visit my saved homes' : 'Reset bonus filters';
+      const handleEmptyAction = () => hasEligibleHomes ? setTab('saved') : changeFilters(DEFAULT_FILTERS);
+      return <div className="sc-empty"><div className="sc-empty-art"><House size={52} strokeWidth={1.5} /><Sparkles size={27} /></div><h2>{emptyTitle}</h2><p>{emptyBlurb}</p><button className="sc-primary" type="button" onClick={handleEmptyAction}>{emptyActionLabel}</button>{undo && <button type="button" className="sc-text-button" disabled={busy} onClick={() => void undoLast()}>Undo last swipe</button>}</div>;
+    }
     return <>
       <div className="sc-browse-controls" role="group" aria-label="Browse without choosing">
         <button type="button" aria-label="Previous home" disabled={busy || deck.length < 2} onClick={() => browse(-1)}><ArrowLeft size={17} /> Previous</button>
