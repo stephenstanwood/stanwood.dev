@@ -95,24 +95,30 @@ function RedesignRolodexTileInner() {
 
     const fullPageUrl = `/redesign-rolodex?url=${encodeURIComponent(url.trim())}`;
     const stillStreaming = stream.phase === "screenshot" || stream.phase === "analyzing" || stream.phase === "directions";
+    let conceptPreview: React.ReactNode = null;
+    if (isScreenshotCard) {
+      conceptPreview = (
+        <img
+          src={`data:image/jpeg;base64,${stream.screenshotBase64}`}
+          alt="Current site"
+          className="rrt-concept-img"
+        />
+      );
+    } else if (direction?.conceptHtml) {
+      conceptPreview = (
+        <iframe
+          srcDoc={direction.conceptHtml}
+          sandbox="allow-same-origin"
+          title={direction.name}
+          className="rrt-concept-iframe"
+        />
+      );
+    }
 
     return (
       <div className="proj-tile rrt rrt-has-result">
         <div className="rrt-concept-fill">
-          {isScreenshotCard ? (
-            <img
-              src={`data:image/jpeg;base64,${stream.screenshotBase64}`}
-              alt="Current site"
-              className="rrt-concept-img"
-            />
-          ) : direction?.conceptHtml ? (
-            <iframe
-              srcDoc={direction.conceptHtml}
-              sandbox="allow-same-origin"
-              title={direction.name}
-              className="rrt-concept-iframe"
-            />
-          ) : null}
+          {conceptPreview}
           <div className="rrt-concept-overlay" />
           <div className="rrt-concept-meta">
             <span className="rrt-meta-name">

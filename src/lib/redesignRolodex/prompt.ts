@@ -1,5 +1,7 @@
 import type { WeirdnessMode } from "./types";
 
+type MoreModifier = "more" | "weirder" | "calmer";
+
 const MODE_GUIDANCE: Record<WeirdnessMode, string> = {
   "client-safe": `Mode: Client-safe.
 Generate redesigns that stay grounded in plausible, polished modern design.
@@ -19,6 +21,14 @@ Think "what if this website existed in a different universe?" Drift into
 unexpected aesthetics: retro-futurism, brutalist, cinematic, analog,
 experimental, post-internet, Y2K. Still recognizable as a redesign
 of the same site, but radically different in feel.`,
+};
+
+const MORE_GUIDANCE_BY_MODIFIER: Record<MoreModifier, string> = {
+  more: "Generate a fresh set of directions with similar range to before.",
+  weirder:
+    "Push EVEN FURTHER into unexpected, wild, experimental territory. Be more daring than the previous batch.",
+  calmer:
+    "Pull back slightly toward more grounded, usable territory — but still generate distinctly different directions.",
 };
 
 const CONCEPT_HTML_RULES = `
@@ -121,15 +131,10 @@ ${DIRECTIONS_JSON_SHAPE}
 export function buildMorePrompt(
   url: string,
   mode: WeirdnessMode,
-  modifier: "more" | "weirder" | "calmer",
+  modifier: MoreModifier,
   previousNames: string[],
 ): string {
-  const modifierGuidance =
-    modifier === "weirder"
-      ? "Push EVEN FURTHER into unexpected, wild, experimental territory. Be more daring than the previous batch."
-      : modifier === "calmer"
-        ? "Pull back slightly toward more grounded, usable territory — but still generate distinctly different directions."
-        : "Generate a fresh set of directions with similar range to before.";
+  const modifierGuidance = MORE_GUIDANCE_BY_MODIFIER[modifier];
 
   return `You are an expert design director generating MORE redesign directions for a website.
 
