@@ -684,7 +684,22 @@ function parseDowntownDetailTimes(html = "") {
   };
 }
 
+function downtownDetailIsCanceled(html = "") {
+  const eventDateText = cleanHtml(
+    html.match(/<h5[^>]*class="[^"]*event-date[^"]*"[^>]*>([\s\S]*?)<\/h5>/i)?.[1] ?? "",
+  );
+  const detailTimeText = cleanHtml(
+    html.match(/<div[^>]*class="[^"]*time-start[^"]*"[\s\S]*?<div[^>]*class="[^"]*time[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "",
+  );
+
+  return /status-canceled|status-cancelled/i.test(html) || /\bcancell?ed\b/i.test(`${eventDateText} ${detailTimeText}`);
+}
+
 export function applyDowntownDetailTimes(event, detailHtml = "") {
+  if (downtownDetailIsCanceled(detailHtml)) {
+    return { ...event, status: "canceled" };
+  }
+
   const datePart = (event.startDate ?? "").match(/^(\d{4}-\d{2}-\d{2})T00:00:00$/)?.[1] ?? "";
   if (!datePart || event.endDate) return event;
 
@@ -954,6 +969,8 @@ function eventWithCleanTitle(event) {
 }
 
 export function eventRejectionReason(event) {
+  if (/\bcancell?ed\b/i.test(event.status ?? "")) return "cancellation notice";
+
   const title = cleanSentence(event.title);
   const text = [
     title,

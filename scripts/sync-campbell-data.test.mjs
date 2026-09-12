@@ -54,6 +54,25 @@ describe("Downtown Campbell event detail enrichment", () => {
 
     expect(applyDowntownDetailTimes(event, "<div>No event time listed</div>")).toEqual(event);
   });
+
+  it("marks canceled detail pages so they are filtered from the public feed", () => {
+    const event = {
+      title: "Groovin' in the Garden",
+      date: "9/26/26",
+      startDate: "2026-09-26T00:00:00",
+    };
+    const detailHtml = `
+      <h5 class="event-date">This event has been <span class="publish-status status-canceled">canceled</span>.</h5>
+      <div class="time-start">
+        <div><strong>Starts at:</strong></div>
+        <div class="time">CANCELED</div>
+      </div>
+    `;
+
+    const enriched = applyDowntownDetailTimes(event, detailHtml);
+    expect(enriched).toMatchObject({ status: "canceled" });
+    expect(eventRejectionReason(enriched)).toBe("cancellation notice");
+  });
 });
 
 describe("Campbell business address cleanup", () => {
