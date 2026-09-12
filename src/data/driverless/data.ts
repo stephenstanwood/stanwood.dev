@@ -24,8 +24,8 @@ export const cityRideData: CityRideInfo[] = [
     city: "San Francisco",
     state: "CA",
     options: [
-      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Full SF + Peninsula coverage" },
-      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com/waitlist", note: "Custom bidirectional vehicle, limited pilot" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Full Bay Area coverage, now including San Jose and SJC airport curbside" },
+      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com", note: "Explorers program — east side of SF, Marina to the Embarcadero" },
     ],
   },
   {
@@ -33,63 +33,115 @@ export const cityRideData: CityRideInfo[] = [
     state: "CA",
     options: [
       { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Santa Monica, West Hollywood, downtown LA" },
+      { service: "Zoox", availability: "coming-soon", howToBook: "Sign up at zoox.com", note: "Testing ahead of a future launch" },
     ],
   },
   {
     city: "Phoenix",
     state: "AZ",
     options: [
-      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Largest Waymo coverage area — Tempe, Chandler, Mesa" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Largest Waymo coverage area — Tempe, Chandler, Mesa, plus Sky Harbor curbside" },
     ],
   },
   {
     city: "Austin",
     state: "TX",
     options: [
-      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched late 2024" },
-      { service: "Tesla Cybercab", availability: "invite-only", howToBook: "Request access via the Tesla app", note: "Paid unsupervised robotaxi pilot launched April 2026" },
+      { service: "Waymo One", availability: "available", howToBook: "Book through the Uber app", note: "Waymo rides in Austin are dispatched by Uber" },
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised Model Ys, 6am–10pm daily" },
+      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com", note: "Early rides for employees, friends, and family" },
     ],
   },
   {
     city: "Atlanta",
     state: "GA",
     options: [
-      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Midtown, Buckhead, Airport area" },
+      { service: "Waymo One", availability: "available", howToBook: "Book through the Uber app", note: "Midtown, Buckhead, Airport area" },
+      { service: "Zoox", availability: "coming-soon", howToBook: "Sign up at zoox.com", note: "Announced, not yet carrying public riders" },
     ],
   },
   {
     city: "Miami",
     state: "FL",
     options: [
-      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched 2025" },
-    ],
-  },
-  {
-    city: "Las Vegas",
-    state: "NV",
-    options: [
-      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com/waitlist", note: "Strip area pilot" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Public rides since January 2026" },
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised rides launched July 2026" },
+      { service: "Zoox", availability: "invite-only", howToBook: "Sign up at zoox.com", note: "Early rides for employees, friends, and family" },
     ],
   },
   {
     city: "Dallas",
     state: "TX",
     options: [
-      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Expected 2026" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Opened to every rider in August 2026" },
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised rides launched April 2026" },
+    ],
+  },
+  {
+    city: "Houston",
+    state: "TX",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Opened to every rider in August 2026" },
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised rides launched April 2026" },
+    ],
+  },
+  {
+    city: "San Antonio",
+    state: "TX",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched February 2026, with airport rides since March" },
+    ],
+  },
+  {
+    city: "Orlando",
+    state: "FL",
+    options: [
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Launched February 2026" },
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised rides launched July 2026" },
+    ],
+  },
+  {
+    city: "Tampa",
+    state: "FL",
+    options: [
+      { service: "Tesla Robotaxi", availability: "available", howToBook: "Download the Tesla Robotaxi app", note: "Unsupervised rides launched July 2026" },
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join the waitlist at waymo.com", note: "Driverless operations began July 2026, employees first" },
     ],
   },
   {
     city: "Nashville",
     state: "TN",
     options: [
-      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Announced 2025, launching 2026" },
+      { service: "Waymo One", availability: "available", howToBook: "Download the Waymo One app", note: "Opened to every rider in June 2026 — 60 square miles" },
+    ],
+  },
+  {
+    city: "Las Vegas",
+    state: "NV",
+    options: [
+      { service: "Zoox", availability: "available", howToBook: "Download the Zoox app", note: "Paid rides on and around the Strip since August 2026" },
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join the waitlist at waymo.com", note: "Driverless operations began July 2026, employees first" },
+    ],
+  },
+  {
+    city: "San Diego",
+    state: "CA",
+    options: [
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join the waitlist at waymo.com", note: "Cleared to run driverless; about 40 square miles to start" },
+    ],
+  },
+  {
+    city: "Denver",
+    state: "CO",
+    options: [
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join the waitlist at waymo.com", note: "Waymo's first real winter city — roughly 50 square miles downtown" },
     ],
   },
   {
     city: "Washington DC",
     state: "DC",
     options: [
-      { service: "Waymo One", availability: "coming-soon", howToBook: "Join waitlist at waymo.com", note: "Expansion announced for 2026" },
+      { service: "Waymo One", availability: "coming-soon", howToBook: "Join the waitlist at waymo.com", note: "Announced for 2026, still waiting on a DC driverless law" },
     ],
   },
 ];
@@ -152,18 +204,18 @@ export const LEGISLATION_LABELS: Record<LegislationStatus, string> = {
 
 export const heroStats = [
   { label: "Self-Driving Cars", value: "4,500+", icon: "🚗" },
-  { label: "Rides / Week", value: "550K+", icon: "🚕" },
-  { label: "Miles Driven", value: "200M+", icon: "🛣️" },
+  { label: "Rides / Week", value: "500K+", icon: "🚕" },
+  { label: "Miles Driven", value: "220M+", icon: "🛣️" },
   { label: "Safer Than Human Drivers", value: "10x", icon: "🛡️" },
 ];
 
-// ── Safety Comparison (Waymo peer-reviewed, 56.7M rider miles) ────
+// ── Safety Comparison (Waymo safety hub, 220.6M rider-only miles thru Mar 2026)
 
 export const safetyData: SafetyMetric[] = [
-  { category: "Serious Injury", humanRate: 100, waymoRate: 10, reduction: 90 },
+  { category: "Serious Injury", humanRate: 100, waymoRate: 6, reduction: 94 },
   { category: "Major Crash", humanRate: 100, waymoRate: 18, reduction: 82 },
-  { category: "Any Injury", humanRate: 100, waymoRate: 19, reduction: 81 },
-  { category: "Pedestrian Injury", humanRate: 100, waymoRate: 8, reduction: 92 },
+  { category: "Any Injury", humanRate: 100, waymoRate: 18, reduction: 82 },
+  { category: "Pedestrian Injury", humanRate: 100, waymoRate: 7, reduction: 93 },
 ];
 
 // ── Growth (Waymo rides/week, approximate monthly) ────────────────
@@ -187,7 +239,7 @@ export const growthData: GrowthPoint[] = [
   { date: "Sep '25", ridesK: 320 },
   { date: "Dec '25", ridesK: 400 },
   { date: "Mar '26", ridesK: 500 },
-  { date: "Apr '26", ridesK: 550 },   // current
+  { date: "Aug '26", ridesK: 500 },   // current — held flat since Q1 2026
 ];
 
 // ── Companies ──────────────────────────────────────────────────────
@@ -196,26 +248,26 @@ export const companies: Company[] = [
   {
     name: "Waymo",
     type: "Self-driving rides, no human driver",
-    vehicles: 3000,
-    cities: ["SF Bay Area", "Los Angeles", "Phoenix", "Austin", "Atlanta", "Miami"],
+    vehicles: 3791,
+    cities: ["SF Bay Area", "Los Angeles", "Phoenix", "Austin", "Atlanta", "Miami", "Dallas", "Houston", "San Antonio", "Orlando", "Nashville"],
     status: "active",
-    note: "500K rides/week, expanding to Dallas, Nashville, DC",
+    note: "500K rides/week across 11 metros. Driving without a human in Denver, Las Vegas, San Diego, and Tampa ahead of public launches.",
   },
   {
     name: "Zoox",
     type: "Self-driving rides, no human driver",
-    vehicles: 50,
-    cities: ["San Francisco", "Las Vegas"],
+    vehicles: 105,
+    cities: ["Las Vegas", "San Francisco", "Austin", "Miami", "Atlanta", "Los Angeles"],
     status: "active",
-    note: "Amazon-backed, fully custom vehicle (drives both directions)",
+    note: "Amazon-backed, fully custom vehicle (drives both directions). First robotaxi with no steering wheel cleared by NHTSA to charge fares — paid Las Vegas rides began August 2026.",
   },
   {
     name: "Aurora",
     type: "Self-driving semi trucks, no human driver",
-    vehicles: 200,
-    cities: ["Dallas \u2194 Houston", "Fort Worth \u2194 El Paso"],
+    vehicles: 25,
+    cities: ["Dallas \u2194 Houston", "Fort Worth \u2194 El Paso", "Fort Worth \u2194 Phoenix"],
     status: "active",
-    note: "250K+ miles of commercial freight with zero incidents",
+    note: "Nearly 440K driverless freight miles with no collisions blamed on the Aurora Driver. 10 commercial routes; aiming for 200 trucks by the end of 2026.",
   },
   {
     name: "Cruise",
@@ -226,16 +278,16 @@ export const companies: Company[] = [
     note: "Shut down by GM after incidents in San Francisco",
   },
   {
-    name: "Tesla Cybercab",
-    type: "Self-driving rides (limited pilot) + driver-assist fleet",
+    name: "Tesla Robotaxi",
+    type: "Self-driving rides (six metros) + driver-assist fleet",
     vehicles: 2900000,
-    cities: ["Austin (Cybercab pilot)"],
+    cities: ["Austin", "Dallas", "Houston", "Miami", "Orlando", "Tampa"],
     status: "active",
-    note: "Paid unsupervised Cybercab rides launched in Austin, Apr 2026 — broader fleet still requires a human at the wheel",
+    note: "Unsupervised rides with nobody in the front seat now run in six metros, 6am–10pm daily. The wider Tesla fleet is still driver-assist that needs a human at the wheel.",
   },
 ];
 
-// ── Disengagement Rates (CA DMV 2025 report) ──────────────────────
+// ── Disengagement Rates (CA DMV report for Dec 2024–Nov 2025, released Feb 2026)
 
 export const disengagementData: DisengagementEntry[] = [
   { company: "Zoox", milesPerDisengagement: 60682 },
@@ -251,10 +303,11 @@ export const stateData: StateData[] = [
   // Commercial deployment active
   { code: "CA", name: "California", legislation: "active", registeredVehicles: 31057329, avCount: 2819, testMiles: 9000000 },
   { code: "AZ", name: "Arizona", legislation: "active", registeredVehicles: 6447062, avCount: 500 },
-  { code: "TX", name: "Texas", legislation: "active", registeredVehicles: 23477492, avCount: 200 },
+  { code: "TX", name: "Texas", legislation: "active", registeredVehicles: 23477492, avCount: 1400 },
   { code: "FL", name: "Florida", legislation: "active", registeredVehicles: 19519552, avCount: 50 },
   { code: "GA", name: "Georgia", legislation: "active", registeredVehicles: 9437843, avCount: 100 },
   { code: "NV", name: "Nevada", legislation: "active", registeredVehicles: 2681539, avCount: 50 },
+  { code: "TN", name: "Tennessee", legislation: "active", registeredVehicles: 6200000 },
   // Legislation enacted / permitted
   { code: "AL", name: "Alabama", legislation: "permitted", registeredVehicles: 4900000 },
   { code: "AR", name: "Arkansas", legislation: "permitted", registeredVehicles: 2700000 },
@@ -274,7 +327,6 @@ export const stateData: StateData[] = [
   { code: "PA", name: "Pennsylvania", legislation: "permitted", registeredVehicles: 10800000 },
   { code: "SC", name: "South Carolina", legislation: "permitted", registeredVehicles: 4800000 },
   { code: "SD", name: "South Dakota", legislation: "permitted", registeredVehicles: 1000000 },
-  { code: "TN", name: "Tennessee", legislation: "permitted", registeredVehicles: 6200000 },
   { code: "UT", name: "Utah", legislation: "permitted", registeredVehicles: 2800000 },
   { code: "VA", name: "Virginia", legislation: "permitted", registeredVehicles: 7500000 },
   { code: "WI", name: "Wisconsin", legislation: "permitted", registeredVehicles: 5300000 },
