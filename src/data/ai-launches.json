@@ -8,12 +8,36 @@
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
   },
   {
+    "name": "SWE-2",
+    "org": "Cognition",
+    "date": "2026-09-10",
+    "type": "model",
+    "summary": "Hand off bigger coding jobs in Devin for less. This new model is available now in Devin Desktop and CLI, with web access rolling out.",
+    "url": "https://cognition.com/blog/swe-2"
+  },
+  {
+    "name": "Harden",
+    "org": "Harden",
+    "date": "2026-09-10",
+    "type": "tool",
+    "summary": "Let coding agents work more independently while a local safety layer checks commands, file edits, and tool calls. It is free for individual developers on macOS and Linux.",
+    "url": "https://harden.run/"
+  },
+  {
     "name": "Suno v6",
     "org": "Suno",
     "date": "2026-09-09",
     "type": "model",
-    "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone; v6 and v6-wild need a paid plan.",
+    "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone. v6 and v6-wild need a paid plan.",
     "url": "https://suno.com/blog/introducing-v6"
+  },
+  {
+    "name": "AuK",
+    "org": "Tencent",
+    "date": "2026-09-09",
+    "type": "model",
+    "summary": "Create, clone, clean up, separate, and edit voices from one plain-English prompt. The model and code are free to use commercially, with a ready-to-try Hugging Face demo.",
+    "url": "https://huggingface.co/tencent/AuK"
   },
   {
     "name": "ChatGPT Images 2.5",
@@ -24,43 +48,19 @@
     "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
   },
   {
+    "name": "Muse",
+    "org": "Meta",
+    "date": "2026-09-08",
+    "type": "tool",
+    "summary": "Delegate errands and multi-step projects across email, calendars, shopping, travel, and the web. It keeps working in the background, is free for most uses, and is rolling out now in the U.S.",
+    "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
+  },
+  {
     "name": "Desert Ant Labs",
     "org": "Desert Ant Labs",
     "date": "2026-09-08",
     "type": "tool",
     "summary": "Ship transcription, audio cleanup, PII redaction, and language ID that run entirely on-device, via Swift, Kotlin, or JavaScript SDKs. 18 models, no token billing, free up to 100,000 monthly active devices.",
     "url": "https://desertant.com/blog/introducing-desert-ant-labs/"
-  },
-  {
-    "name": "K2 Horizon",
-    "org": "Institute of Foundation Models",
-    "date": "2026-09-03",
-    "type": "model",
-    "summary": "Run a capable open model locally at 0.9B, 3.7B, or 7B, or self-host up to 375B. Apache 2.0 with weights, training data, and code published, plus day-zero Ollama, vLLM, and GGUF support.",
-    "url": "https://huggingface.co/collections/IFM/k2-horizon"
-  },
-  {
-    "name": "Hermes Desktop",
-    "org": "Nous Research",
-    "date": "2026-09-03",
-    "type": "tool",
-    "summary": "Set up a local model in one click — the app reads your RAM, VRAM, and GPU, picks a model that fits, and starts a llama.cpp server. MIT-licensed and free on Mac, Windows, and Linux.",
-    "url": "https://github.com/NousResearch/hermes-agent"
-  },
-  {
-    "name": "Gemini 3.8 Flash",
-    "org": "Google",
-    "date": "2026-09-02",
-    "type": "model",
-    "summary": "Point a coding agent at a much better workhorse for the same $0.75 per million input tokens as 3.7 Flash. Terminal-Bench jumps from 81.6% to 90.8%. Available now in AI Studio and the Gemini API.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/"
-  },
-  {
-    "name": "Claude Fable 5.1",
-    "org": "Anthropic",
-    "date": "2026-09-01",
-    "type": "model",
-    "summary": "Point a coding agent at harder, longer-running work, with better root-cause debugging and research. Typical workloads cost about 25% less than before, up to 45% for agentic tasks, and cache reads drop to $0.25 per million tokens.",
-    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
   }
 ]
