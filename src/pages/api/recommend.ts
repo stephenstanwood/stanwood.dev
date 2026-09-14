@@ -6,7 +6,7 @@ import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../lib/models";
 import { fetchRestaurantPhotos, fetchPexelsPhoto } from "../../lib/photoClient";
 import { describeLevel } from "../../lib/greenLight/tasteProfile";
-import { errJson, devErrJson, okJson, toErrMsg } from "../../lib/apiHelpers";
+import { errJson, devErrJson, isRecord, okJson, toErrMsg } from "../../lib/apiHelpers";
 import { logEvent } from "../../lib/logger";
 import type { TasteProfile, DietaryConstraints } from "../../lib/greenLight/types";
 
@@ -76,8 +76,7 @@ const ConstraintsSchema = z.object({
 
 /** Coerce an unknown JSON value to a plain object so the schemas above always parse. */
 function asRecord(value: unknown): Record<string, unknown> {
-  const isPlainObject = typeof value === "object" && value !== null && !Array.isArray(value);
-  return isPlainObject ? (value as Record<string, unknown>) : {};
+  return isRecord(value) ? value : {};
 }
 
 const OptionSchema = z.object({

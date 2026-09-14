@@ -14,12 +14,12 @@ interface Props {
 const SWIPE_THRESHOLD = 80;
 const VELOCITY_THRESHOLD = 0.5;
 const COUNTDOWN_SECONDS = 5;
+const FLY_OFF_MS = 350; // matches the transform transition below
 const DRAG_ROTATION_MULTIPLIER = 0.06; // degrees of card tilt per pixel of drag
 const OVERLAY_OPACITY_DISTANCE = 120; // px of drag to reach full overlay opacity
 const OVERLAY_OPACITY_MAX = 0.8;
 
 export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, active, parentFlyDirection }: Props) {
-  const cardRef = useRef<HTMLDivElement>(null);
   const startX = useRef(0);
   const startTime = useRef(0);
   const [deltaX, setDeltaX] = useState(0);
@@ -44,19 +44,26 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     setCountdown(COUNTDOWN_SECONDS);
   }, []);
 
-  // When trailer can't be embedded, skip immediately
-  const handleTrailerError = useCallback(() => {
+  // Fly the card off-screen, then hand control back once the animation lands
+  const autoAdvance = useCallback(() => {
     setFlyOff("left");
-    setTimeout(() => onAutoAdvance(), 350);
+    setTimeout(onAutoAdvance, FLY_OFF_MS);
   }, [onAutoAdvance]);
+
+  const triggerSwipe = useCallback(
+    (direction: SwipeDirection) => {
+      clearCountdown();
+      setFlyOff(direction);
+      setTimeout(() => onSwipe(direction), FLY_OFF_MS);
+    },
+    [onSwipe, clearCountdown],
+  );
 
   // Tick the countdown
   useEffect(() => {
     if (countdown === null) return;
     if (countdown <= 0) {
-      // Auto-advance with fly-off
-      setFlyOff("left");
-      setTimeout(() => onAutoAdvance(), 350);
+      autoAdvance();
       return;
     }
     countdownTimer.current = setTimeout(() => {
@@ -65,7 +72,7 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     return () => {
       if (countdownTimer.current) clearTimeout(countdownTimer.current);
     };
-  }, [countdown, onAutoAdvance]);
+  }, [countdown, autoAdvance]);
 
   // Clean up on unmount
   useEffect(() => {
@@ -101,14 +108,11 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     const absDelta = Math.abs(deltaX);
 
     if (absDelta > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
-      const direction: SwipeDirection = deltaX > 0 ? "right" : "left";
-      clearCountdown();
-      setFlyOff(direction);
-      setTimeout(() => onSwipe(direction), 350);
+      triggerSwipe(deltaX > 0 ? "right" : "left");
     } else {
       setDeltaX(0);
     }
-  }, [swiping, deltaX, onSwipe, clearCountdown]);
+  }, [swiping, deltaX, triggerSwipe]);
 
   // Touch
   const handleTouchStart = useCallback(
@@ -149,15 +153,6 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
     };
   }, [moveDrag, endDrag]);
 
-  const triggerSwipe = useCallback(
-    (direction: SwipeDirection) => {
-      clearCountdown();
-      setFlyOff(direction);
-      setTimeout(() => onSwipe(direction), 350);
-    },
-    [onSwipe, clearCountdown],
-  );
-
   const rotation = deltaX * DRAG_ROTATION_MULTIPLIER;
   const overlayOpacity = Math.min(Math.abs(deltaX) / OVERLAY_OPACITY_DISTANCE, OVERLAY_OPACITY_MAX);
 
@@ -180,7 +175,6 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
 
   return (
     <div
-      ref={cardRef}
       className="ss-card"
       style={style}
       onTouchStart={handleTouchStart}
@@ -247,7 +241,7 @@ export default function SwipeCard({ card, onSwipe, onAutoAdvance, onShare, activ
           title={card.title}
           originalLanguage={card.originalLanguage}
           onEnded={handleTrailerEnded}
-          onError={handleTrailerError}
+          onError={autoAdvance} // can't embed → skip immediately
         />
       </div>
 

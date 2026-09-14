@@ -1,9 +1,10 @@
 import type { APIRoute } from "astro";
-import { errJson, fetchWithTimeout, okJson } from "../../../lib/apiHelpers";
+import { errJson, fetchWithTimeout, isRecord, okJson } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { createTtlCache } from "../../../lib/ttlCache";
 import { MS_PER_MINUTE } from "../../../lib/time";
 import { decodeEntities } from "../../../lib/htmlUtils";
+import { pickRandom } from "../../../lib/arrays";
 
 export const prerender = false;
 
@@ -23,10 +24,6 @@ interface ClassicVideo {
 }
 
 const videoCache = createTtlCache<ClassicVideo[]>(CACHE_TTL_MS);
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value);
-}
 
 function compactText(value: unknown): string | null {
   if (!isRecord(value)) return null;
@@ -244,7 +241,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
   try {
     const videos = await getPlaylistVideos();
-    const video = videos[Math.floor(Math.random() * videos.length)];
+    const video = pickRandom(videos);
 
     return okJson(
       {

@@ -56,25 +56,16 @@ async function fetchTrailer(
   const data = await tmdbFetch<TmdbVideosResponse>("videos", mediaType, {
     id: tmdbId,
   });
-  const videos = data.results ?? [];
+  const youtube = (data.results ?? []).filter((video) => video.site === "YouTube");
 
-  // Priority: official YouTube trailer > any trailer > teaser > any YouTube
-  const official = videos.find(
-    (v) => v.site === "YouTube" && v.type === "Trailer" && v.official,
+  // Priority: official trailer > any trailer > teaser > anything on YouTube
+  return (
+    youtube.find((video) => video.type === "Trailer" && video.official) ??
+    youtube.find((video) => video.type === "Trailer") ??
+    youtube.find((video) => video.type === "Teaser") ??
+    youtube[0] ??
+    null
   );
-  if (official) return official;
-
-  const trailer = videos.find(
-    (v) => v.site === "YouTube" && v.type === "Trailer",
-  );
-  if (trailer) return trailer;
-
-  const teaser = videos.find(
-    (v) => v.site === "YouTube" && v.type === "Teaser",
-  );
-  if (teaser) return teaser;
-
-  return videos.find((v) => v.site === "YouTube") ?? null;
 }
 
 export async function resolveCard(

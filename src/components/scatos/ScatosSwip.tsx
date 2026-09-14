@@ -5,10 +5,12 @@ import { ArrowLeft, ArrowRight, BedDouble, Bath, Check, ChevronLeft, ChevronRigh
 import ScatosLogo from './ScatosLogo';
 import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types';
 import { homeListingLinks, homeMapLinks, isInSearchArea } from '../../lib/scatos/location';
+import { safeGet, safeSet } from '../../lib/localStorage';
 
 type Tab = 'browse' | 'saved' | 'matches' | 'passed';
 type Filters = { maxPrice: number; minBeds: number; vanMeter: boolean; fisher: boolean; nearTown: boolean };
 const DEFAULT_FILTERS: Filters = { maxPrice: 4_000_000, minBeds: 4, vanMeter: false, fisher: false, nearTown: false };
+const filtersStorageKey = (profile: string | undefined) => `scatos-filters-${profile}`;
 const dollars = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
 const formatNumber = (value: number | null) => value ? value.toLocaleString('en-US') : '—';
 const isVanMeter = (home: Home) => /Van Meter/i.test(home.schools.elementary || '');
@@ -190,15 +192,14 @@ export default function ScatosSwip() {
   }, [load]);
   useEffect(() => {
     if (!state?.profile) return;
-    try {
-      const saved = JSON.parse(localStorage.getItem(`scatos-filters-${state.profile}`) || 'null');
-      if (saved && Number.isFinite(saved.maxPrice) && saved.maxPrice >= 1_000_000 && saved.maxPrice <= 4_000_000 && [4, 5, 6].includes(saved.minBeds))
-        setFilters({ maxPrice: saved.maxPrice, minBeds: saved.minBeds, vanMeter: saved.vanMeter === true, fisher: saved.fisher === true, nearTown: saved.nearTown === true });
-    } catch { /* Private browsing may disable local storage. Swipes still sync. */ }
+    // Storage is optional (private browsing may disable it); swipes still sync.
+    const saved = safeGet<Filters>(filtersStorageKey(state.profile));
+    if (saved && Number.isFinite(saved.maxPrice) && saved.maxPrice >= 1_000_000 && saved.maxPrice <= 4_000_000 && [4, 5, 6].includes(saved.minBeds))
+      setFilters({ maxPrice: saved.maxPrice, minBeds: saved.minBeds, vanMeter: saved.vanMeter === true, fisher: saved.fisher === true, nearTown: saved.nearTown === true });
   }, [state?.profile]);
   function changeFilters(next: Filters) {
     setFilters(next); setBrowsingId(null);
-    try { localStorage.setItem(`scatos-filters-${state?.profile}`, JSON.stringify(next)); } catch { /* optional preference */ }
+    safeSet(filtersStorageKey(state?.profile), next);
   }
   const choices = useMemo(() => new Map((state?.choices || []).map(choice => [choice.id, choice])), [state?.choices]);
   const matches = useMemo(() => new Set(state?.matches || []), [state?.matches]);

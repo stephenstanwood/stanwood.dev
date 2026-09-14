@@ -1,18 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const mlbTeams: Array<[string, string]> = [
-  ["ARI", "Arizona Diamondbacks"], ["ATL", "Atlanta Braves"], ["BAL", "Baltimore Orioles"],
-  ["BOS", "Boston Red Sox"], ["CHC", "Chicago Cubs"], ["CHW", "Chicago White Sox"],
-  ["CIN", "Cincinnati Reds"], ["CLE", "Cleveland Guardians"], ["COL", "Colorado Rockies"],
-  ["DET", "Detroit Tigers"], ["HOU", "Houston Astros"], ["KC", "Kansas City Royals"],
-  ["LAA", "Los Angeles Angels"], ["LAD", "Los Angeles Dodgers"], ["MIA", "Miami Marlins"],
-  ["MIL", "Milwaukee Brewers"], ["MIN", "Minnesota Twins"], ["NYM", "New York Mets"],
-  ["NYY", "New York Yankees"], ["OAK", "Oakland Athletics"], ["PHI", "Philadelphia Phillies"],
-  ["PIT", "Pittsburgh Pirates"], ["SD", "San Diego Padres"], ["SEA", "Seattle Mariners"],
-  ["SF", "San Francisco Giants"], ["STL", "St. Louis Cardinals"], ["TB", "Tampa Bay Rays"],
-  ["TEX", "Texas Rangers"], ["TOR", "Toronto Blue Jays"], ["WSH", "Washington Nationals"],
-];
+import { getTeamsByLeague } from "../lib/teamRegistry";
+
+// Same catalog the sports engine uses, so chip abbreviations always match the
+// ESPN codes on each game row (the old inline list still said "OAK" after ESPN
+// moved the Athletics to "ATH", which silently broke that chip).
+const mlbTeams = getTeamsByLeague("baseball/mlb")
+  .map((team): [string, string] => [team.abbreviation, team.fullName])
+  .sort(([a], [b]) => a.localeCompare(b));
 ---
 
 <BaseLayout
