@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14T01:10:13.381Z",
+  "lastUpdated": "2026-09-14T06:10:17.207Z",
   "apiSpend": {
     "months": [
       {
@@ -322,7 +322,7 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-14T01:10:13.381Z",
+        "collectedAt": "2026-09-14T06:10:17.207Z",
         "services": {
           "vercel": {
             "totalCents": 3790,
@@ -455,6 +455,13 @@
       "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
     },
     {
+      "name": "Anthropic",
+      "cents": 7579,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Sep 2026; 3 Mercury charges combined"
+    },
+    {
       "name": "Midjourney",
       "cents": 6000,
       "category": "ai",
@@ -467,13 +474,6 @@
       "category": "data",
       "url": "https://www.meetup.com/pro",
       "note": "required for SBS Meetup API"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 5054,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Sep 2026; 2 Mercury charges combined"
     },
     {
       "name": "Google Cloud",
