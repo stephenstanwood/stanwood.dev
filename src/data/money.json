@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14T06:10:17.207Z",
+  "lastUpdated": "2026-09-14T19:10:21.028Z",
   "apiSpend": {
     "months": [
       {
@@ -322,14 +322,14 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-14T06:10:17.207Z",
+        "collectedAt": "2026-09-14T19:10:21.028Z",
         "services": {
           "vercel": {
-            "totalCents": 3790,
+            "totalCents": 3937,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 3444
+                "cents": 3581
               },
               {
                 "name": "Blob Storage Size",
@@ -337,7 +337,7 @@
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 80
+                "cents": 89
               },
               {
                 "name": "Fluid Active CPU",
@@ -353,7 +353,7 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 15
+                "cents": 16
               },
               {
                 "name": "Function Invocations",
@@ -434,6 +434,13 @@
       "note": "Mercury actual Aug 2026; 4 Mercury charges combined"
     },
     {
+      "name": "Anthropic",
+      "cents": 27579,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Sep 2026; 4 Mercury charges combined"
+    },
+    {
       "name": "Claude Max",
       "cents": 20000,
       "category": "ai",
@@ -453,13 +460,6 @@
       "category": "data",
       "url": "https://www.paypal.com",
       "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 7579,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Sep 2026; 3 Mercury charges combined"
     },
     {
       "name": "Midjourney",
