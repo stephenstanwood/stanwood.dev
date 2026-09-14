@@ -1442,14 +1442,15 @@ function seriesVideos(series: Series): QueueVideo[] {
       const safeId = escapeHTML(v.id);
       const seriesBadge = v.series_key
         ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';
+      let exploreBadge = '';
+      if (v.source === 'discovery') exploreBadge = '<span class="explore-badge">discovery</span>';
+      else if (v.exploration) exploreBadge = '<span class="explore-badge">wildcard</span>';
       const likeTitle = v.series_key ? 'follow this series' : 'more like this';
       const passTitle = v.series_key ? 'hide this series' : 'not for me';
       card.innerHTML = `
         <a class="bcard-link" href="${escapeHTML(v.url)}" target="_blank" rel="noopener" aria-label="${escapeHTML(v.title)} on YouTube">
           <div class="bcard-thumb" style="${thumbStyle}">
-          ${v.source === 'discovery'
-            ? '<span class="explore-badge">discovery</span>'
-            : v.exploration ? '<span class="explore-badge">wildcard</span>' : ''}
+            ${exploreBadge}
             ${seriesBadge}
             <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
           </div>

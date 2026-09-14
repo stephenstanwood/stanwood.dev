@@ -3,7 +3,7 @@
  * Google Places photos with Pexels fallback.
  */
 
-import { shuffle } from "./arrays";
+import { pickRandom, shuffle } from "./arrays";
 import { fetchWithTimeout } from "./apiHelpers";
 
 export async function fetchRestaurantPhotos(
@@ -38,10 +38,10 @@ export async function fetchRestaurantPhotos(
     const selected = shuffle(photos.slice(0, 6)).slice(0, 2);
 
     const urls = await Promise.all(
-      selected.map(async (p) => {
+      selected.map(async (photo) => {
         try {
           const photoRes = await fetchWithTimeout(
-            `https://places.googleapis.com/v1/${p.name}/media?maxWidthPx=400&skipHttpRedirect=true&key=${placesKey}`,
+            `https://places.googleapis.com/v1/${photo.name}/media?maxWidthPx=400&skipHttpRedirect=true&key=${placesKey}`,
             {},
             3000,
           );
@@ -53,7 +53,7 @@ export async function fetchRestaurantPhotos(
         }
       }),
     );
-    return urls.filter((u): u is string => u !== null);
+    return urls.filter((url): url is string => url !== null);
   } catch (err) {
     console.error("fetchRestaurantPhotos error:", err);
     return [];
@@ -73,12 +73,8 @@ export async function fetchPexelsPhoto(
     );
     if (!res.ok) return null;
     const data = await res.json();
-    if (data.photos?.length > 0) {
-      const photo =
-        data.photos[Math.floor(Math.random() * data.photos.length)];
-      return photo.src.medium;
-    }
-    return null;
+    const photo = pickRandom<{ src: { medium: string } }>(data.photos ?? []);
+    return photo?.src.medium ?? null;
   } catch (err) {
     console.error("fetchPexelsPhoto error:", err);
     return null;

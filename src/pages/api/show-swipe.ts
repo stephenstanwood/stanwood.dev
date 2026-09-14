@@ -3,7 +3,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 import type { TmdbAction } from "../../lib/showSwipe/types";
-import { errJson, devErrJson, okJson, fetchWithTimeout, toErrMsg } from "../../lib/apiHelpers";
+import { errJson, devErrJson, okJson, fetchWithTimeout, isRecord, toErrMsg } from "../../lib/apiHelpers";
 
 const TMDB_TOKEN = import.meta.env.TMDB_API_KEY;
 const TMDB_BASE = "https://api.themoviedb.org/3";
@@ -47,10 +47,9 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     const body = await request.json();
     const action = typeof body?.action === "string" ? body.action : null;
     const mediaType = typeof body?.mediaType === "string" ? body.mediaType : null;
-    const params =
-      body?.params && typeof body.params === "object" && !Array.isArray(body.params)
-        ? (body.params as Record<string, string | number | boolean>)
-        : {};
+    const params = isRecord(body?.params)
+      ? (body.params as Record<string, string | number | boolean>)
+      : {};
 
     if (!action || !mediaType) return errJson("action and mediaType are required", 400);
     if (mediaType !== "movie" && mediaType !== "tv") return errJson("mediaType must be 'movie' or 'tv'", 400);

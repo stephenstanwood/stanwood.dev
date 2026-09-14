@@ -670,6 +670,10 @@ const breeds: Breed[] = [
       const SAND_HEIGHT = 8;
       const SAND_LINE = ROWS - SAND_HEIGHT;
 
+      function randomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
       // --- Pixel helpers ---
       function px(x, y, color) {
         ctx.fillStyle = color;
@@ -742,8 +746,8 @@ const breeds: Breed[] = [
 
       // --- Create fish ---
       function createFish(x, y) {
-        const palette = FISH_PALETTES[Math.floor(Math.random() * FISH_PALETTES.length)];
-        const size = FISH_SIZES[Math.floor(Math.random() * FISH_SIZES.length)];
+        const palette = randomItem(FISH_PALETTES);
+        const size = randomItem(FISH_SIZES);
         const shapeIdx = Math.floor(Math.random() * FISH_SHAPES.length);
         return {
           x, y,
@@ -1146,7 +1150,7 @@ const breeds: Breed[] = [
 
         const color = selectedColorIdx !== null
           ? FOOD_COLORS[selectedColorIdx]
-          : FOOD_COLORS[Math.floor(Math.random() * FOOD_COLORS.length)];
+          : randomItem(FOOD_COLORS);
         // Drop 2-4 food pellets near click
         const count = 2 + Math.floor(Math.random() * 3);
         for (let i = 0; i < count; i++) {
@@ -1168,7 +1172,7 @@ const breeds: Breed[] = [
       function maybeSpawnFish() {
         spawnCheck++;
         if (spawnCheck % 300 === 0 && fishes.length < 20 && fedCount > fishes.length * 2) {
-          const parent = fishes[Math.floor(Math.random() * fishes.length)];
+          const parent = randomItem(fishes);
           const baby = createFish(parent.x + (Math.random() - 0.5) * 8, parent.y);
           // Inherit parent colors with slight variation
           baby.color = lerpColor(parent.color, baby.color, 0.3);

@@ -17,3 +17,8 @@ export function countBy<T>(items: readonly T[], key: (item: T) => string): Recor
   }
   return counts;
 }
+
+/** Uniformly random element, or undefined for an empty array. */
+export function pickRandom<T>(arr: readonly T[]): T | undefined {
+  return arr[Math.floor(Math.random() * arr.length)];
+}

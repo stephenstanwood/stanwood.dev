@@ -39,6 +39,11 @@ export function validateLatLon(
   return { latitude: lat, longitude: lon };
 }
 
+/** Narrow an unknown JSON value to a plain (non-array) object. */
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 /** Extract a string message from an unknown caught value. */
 export function toErrMsg(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
