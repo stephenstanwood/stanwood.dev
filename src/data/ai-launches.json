@@ -1,5 +1,13 @@
 [
   {
+    "name": "Projects",
+    "org": "Cursor",
+    "date": "2026-09-10",
+    "type": "tool",
+    "summary": "Hand a feature, migration, or app to a coordinator agent that plans the work, farms it out to parallel subagents in the cloud, and brings back results to review. Keeps context for months and runs on after you close the laptop. Beta for all users.",
+    "url": "https://cursor.com/changelog/projects"
+  },
+  {
     "name": "Agents API",
     "org": "OpenAI",
     "date": "2026-09-10",
@@ -16,20 +24,20 @@
     "url": "https://openai.com/index/introducing-gpt-live-1-in-the-api/"
   },
   {
-    "name": "Pizza Bot",
-    "org": "AWS",
-    "date": "2026-09-10",
-    "type": "tool",
-    "summary": "Run AI agents in the background and review finished work in an email-style inbox with approve-or-answer queues. Self-hosted, Apache 2.0, desktop apps for Mac, Windows, and Linux, and it works with Anthropic, OpenAI, Gemini, or local Ollama models.",
-    "url": "https://aws.amazon.com/blogs/opensource/introducing-pizza-bot-an-open-source-inbox-for-ai-agents-that-work-in-the-background/"
-  },
-  {
     "name": "DeepSeek V4.1 Flash",
     "org": "DeepSeek",
     "date": "2026-09-10",
     "type": "model",
     "summary": "Run a 1M-context multimodal model for pennies — $0.30 per million input tokens at peak, half that off-peak. It beats the older V4 Pro on speed and cost, and the 485B weights are up on Hugging Face.",
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
+  },
+  {
+    "name": "ML Intern",
+    "org": "Hugging Face",
+    "date": "2026-09-09",
+    "type": "tool",
+    "summary": "Describe an ML idea in plain English and it finds the models and datasets, estimates the compute bill, trains the model, uploads it to the Hub, and builds a demo. Free in HuggingChat, plus an open-source CLI. One demo run cost under 50 cents.",
+    "url": "https://github.com/huggingface/ml-intern"
   },
   {
     "name": "Suno v6",
@@ -40,12 +48,12 @@
     "url": "https://suno.com/blog/introducing-v6"
   },
   {
-    "name": "AuK",
-    "org": "Tencent",
-    "date": "2026-09-09",
+    "name": "Mercury 2.5",
+    "org": "Inception",
+    "date": "2026-09-08",
     "type": "model",
-    "summary": "Create, clone, clean up, separate, and edit voices from one plain-English prompt. The model and code are free to use commercially, with a ready-to-try Hugging Face demo.",
-    "url": "https://huggingface.co/tencent/AuK"
+    "summary": "Get 1,100 tokens per second from a diffusion LLM with 260K context, tool calls, and JSON output. Launch pricing is $0.04 per million input and $0.15 output, with 100M free tokens, via Inception's API or OpenRouter.",
+    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-2-5"
   },
   {
     "name": "ChatGPT Images 2.5",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Generate and edit images with much better likeness for people and pets, up to 50% faster. Rolling out to every ChatGPT tier plus Codex, with a @Sketch tool for drawing references and two new API models, Flare and Sunburst.",
     "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
-  },
-  {
-    "name": "Muse",
-    "org": "Meta",
-    "date": "2026-09-08",
-    "type": "tool",
-    "summary": "Delegate errands and multi-step projects across email, calendars, shopping, travel, and the web. It keeps working in the background, is free for most uses, and is rolling out now in the U.S.",
-    "url": "https://about.fb.com/news/2026/09/introducing-muse-personal-ai-agent/"
   }
 ]
