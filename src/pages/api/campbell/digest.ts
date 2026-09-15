@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { errJson, devErrJson, okJson, toErrMsg } from "../../../lib/apiHelpers";
+import { errJson, devErrJson, isRecord, okJson, toErrMsg } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { CLAUDE_SONNET, extractText, stripFences, getAnthropicClient } from "../../../lib/models";
 import { getLatestAgenda } from "../../../lib/campbell/agendaScraper";
@@ -50,15 +50,20 @@ ${content}`;
     });
 
     const raw = extractText(message.content);
-    const parsed: DigestSummary = JSON.parse(stripFences(raw));
+    const parsed: unknown = JSON.parse(stripFences(raw));
+    // Model output is untrusted: never cache a non-object payload as a digest.
+    if (!isRecord(parsed)) throw new Error("Digest response was not a JSON object");
 
     // 3. Add metadata
-    parsed.sourceUrl = agenda.url;
-    parsed.generatedAt = new Date().toISOString();
+    const digest = {
+      ...parsed,
+      sourceUrl: agenda.url,
+      generatedAt: new Date().toISOString(),
+    } as DigestSummary;
 
-    digestCache.set(parsed);
+    digestCache.set(digest);
 
-    return okJson(parsed);
+    return okJson(digest);
   } catch (err) {
     console.error("Digest error:", err);
     return devErrJson("Failed to generate digest", toErrMsg(err));

@@ -26,26 +26,10 @@ export interface CampbellSource {
   why: string;
 }
 
-export interface CampbellPropertyMetric {
-  label: string;
-  value: string;
-  note: string;
-  sourceLabel: string;
-  sourceUrl: string;
-}
-
 export interface CampbellPropertyLayer {
   label: string;
   status: "Ready" | "Partial" | "Hard";
   body: string;
-  sourceLabel: string;
-  sourceUrl: string;
-}
-
-export interface CampbellSafetyMetric {
-  label: string;
-  value: string;
-  note: string;
   sourceLabel: string;
   sourceUrl: string;
 }
@@ -431,7 +415,7 @@ export const REAL_ESTATE_SOURCES: CampbellSource[] = [
   },
 ];
 
-export const SAFETY_METRICS: CampbellSafetyMetric[] = [
+export const SAFETY_METRICS: CampbellMetric[] = [
   {
     label: "Calls for service",
     value: "31,691",
@@ -552,7 +536,7 @@ export const SAFETY_SOURCES: CampbellSource[] = [
   },
 ];
 
-export const PROPERTY_METRICS: CampbellPropertyMetric[] = [
+export const PROPERTY_METRICS: CampbellMetric[] = [
   {
     label: "Net secured assessed value",
     value: "$14.97B",

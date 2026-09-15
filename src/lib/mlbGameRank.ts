@@ -26,6 +26,7 @@ import {
   ESPN_SPORTS_BASE,
 } from "./sportsCore";
 import { safeGet } from "./localStorage";
+import { clamp } from "./math";
 
 // ── MLB-specific types ──
 
@@ -66,7 +67,7 @@ function gameProgress(status: Status | undefined): number {
   let halfInnings = (period - 1) * 2;
   if (/^Bot/i.test(detail) || /^End/i.test(detail)) halfInnings += 1;
   else if (/^Mid/i.test(detail)) halfInnings += 1;
-  return Math.max(0, Math.min(halfInnings / 18, 1.0));
+  return clamp(halfInnings / 18, 0, 1);
 }
 
 function isExtraInnings(status: Status | undefined): boolean {
@@ -318,6 +319,26 @@ function formatFirstPitch(dateStr: string): string {
   return formatGameTime(dateStr, true);
 }
 
+/** National broadcaster for the hero card, falling back to the streaming default. */
+function heroNetwork(comp: Competition): string {
+  const { national } = getBroadcasts(comp);
+  return national.length > 0 ? national[0] : "MLB.TV";
+}
+
+function renderHeroLogo(competitor: Competitor): string {
+  const logo = escUrl(competitor?.team?.logo || "");
+  if (!logo) return "";
+  return `<img src="${logo}" alt="${teamMascot(competitor)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />`;
+}
+
+/** "SF 81-60 · LAD 90-51" hero line, or nothing until both records exist. */
+function renderRecordsLine(away: Competitor, home: Competitor): string {
+  const awayRec = formatRecord(away);
+  const homeRec = formatRecord(home);
+  if (!awayRec || !homeRec) return "";
+  return `<div class="hero-line" style="font-family:Orbitron,monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);margin-top:8px;">${teamAbbr(away)} ${awayRec} &middot; ${teamAbbr(home)} ${homeRec}</div>`;
+}
+
 function renderHeroCard(game: Game): string {
   const comp = game.competitions?.[0];
   const status = comp?.status;
@@ -333,21 +354,10 @@ function renderHeroCard(game: Game): string {
   const state = status?.type?.state;
   const hasScores = state && state !== "pre";
 
-  const { national } = getBroadcasts(comp!);
-  const network = national.length > 0 ? national[0] : "MLB.TV";
-
-  const awayLogo = escUrl(away?.team?.logo || "");
-  const homeLogo = escUrl(home?.team?.logo || "");
+  const network = heroNetwork(comp!);
 
   const awayScoreColor = scoreColorStyle(awayScore, homeScore, !!hasScores, 10);
   const homeScoreColor = scoreColorStyle(homeScore, awayScore, !!hasScores, 10);
-
-  const awayRec = formatRecord(away);
-  const homeRec = formatRecord(home);
-  const recordsLine =
-    awayRec && homeRec
-      ? `<div class="hero-line" style="font-family:Orbitron,monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);margin-top:8px;">${esc(teamAbbr(away))} ${awayRec} &middot; ${esc(teamAbbr(home))} ${homeRec}</div>`
-      : "";
 
   return `
     <div class="hero-card p-5" data-away="${teamAbbr(away)}" data-home="${teamAbbr(home)}">
@@ -358,11 +368,11 @@ function renderHeroCard(game: Game): string {
         <div class="hero-line">versus the</div>
         <div class="hero-line hl-team">${teamMascot(home)}</div>
         <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
-        ${recordsLine}
+        ${renderRecordsLine(away, home)}
       </div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
-        ${awayLogo ? `<img src="${awayLogo}" alt="${teamMascot(away)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+        ${renderHeroLogo(away)}
         ${
           hasScores
             ? `<div class="score-detail" style="flex-direction:column;gap:6px;">
@@ -372,7 +382,7 @@ function renderHeroCard(game: Game): string {
               </div>`
             : `<span class="font-score" style="font-size:20px;color:rgba(255,255,255,0.15);font-weight:700;">VS</span>`
         }
-        ${homeLogo ? `<img src="${homeLogo}" alt="${teamMascot(home)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+        ${renderHeroLogo(home)}
       </div>
 
       <div style="margin-top:16px;" class="text-center">
@@ -492,36 +502,25 @@ function renderNoGames(events: Game[]): string {
     const comp = best.competitions?.[0];
     const { away, home } = getAwayHome(comp?.competitors || []);
     const time = formatFirstPitch(best.date!);
-    const { national } = getBroadcasts(comp!);
-    const network = national.length > 0 ? national[0] : "MLB.TV";
-
-    const awayLogo = escUrl(away?.team?.logo || "");
-    const homeLogo = escUrl(home?.team?.logo || "");
-
-    const awayRecPre = formatRecord(away);
-    const homeRecPre = formatRecord(home);
-    const recordsLinePre =
-      awayRecPre && homeRecPre
-        ? `<div class="hero-line" style="font-family:Orbitron,monospace;font-size:11px;letter-spacing:0.15em;color:rgba(255,255,255,0.35);margin-top:8px;">${esc(teamAbbr(away!))} ${awayRecPre} &middot; ${esc(teamAbbr(home!))} ${homeRecPre}</div>`
-        : "";
+    const network = heroNetwork(comp!);
 
     return `
       <div class="hero-card p-5">
         <div class="hero-sentence">
           <div class="hero-line">the best game</div>
           <div class="hero-line">today is the</div>
-          <div class="hero-line hl-team">${teamMascot(away!)}</div>
+          <div class="hero-line hl-team">${teamMascot(away)}</div>
           <div class="hero-line">versus the</div>
-          <div class="hero-line hl-team">${teamMascot(home!)}</div>
+          <div class="hero-line hl-team">${teamMascot(home)}</div>
           <div class="hero-line hl-time">${esc(time)} pacific</div>
           <div class="hero-line">on <span class="hl-network">${esc(network)}</span></div>
-          ${recordsLinePre}
+          ${renderRecordsLine(away, home)}
         </div>
 
         <div style="display:flex;align-items:center;justify-content:center;gap:28px;margin-top:28px;">
-          ${awayLogo ? `<img src="${awayLogo}" alt="${teamMascot(away!)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+          ${renderHeroLogo(away)}
           <span class="font-score" style="font-size:20px;color:rgba(255,255,255,0.15);font-weight:700;">VS</span>
-          ${homeLogo ? `<img src="${homeLogo}" alt="${teamMascot(home!)}" width="96" height="96" style="object-fit:contain;opacity:0.9;" />` : ""}
+          ${renderHeroLogo(home)}
         </div>
       </div>
     `;

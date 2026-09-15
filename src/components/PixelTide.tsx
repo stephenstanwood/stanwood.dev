@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback, useState } from "react";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
+import { clamp } from "../lib/math";
 
 /* ── Beach Themes ── */
 interface BeachTheme {
@@ -252,7 +253,7 @@ export default function PixelTide() {
       const aspect = 3 / 4;
       const h = Math.floor(w * aspect);
 
-      cellSize = Math.max(6, Math.min(10, Math.floor(w / 80)));
+      cellSize = clamp(Math.floor(w / 80), 6, 10);
       cols = Math.floor(w / cellSize);
       rows = Math.floor(h / cellSize);
 
@@ -512,7 +513,7 @@ export default function PixelTide() {
         if (sg.x > canvasW + px * 6) sg.x = -px * 6;
 
         // Target Y: stay above the tide with a gentle offset
-        const sgCol = Math.max(0, Math.min(cols - 1, Math.floor(sg.x / cellSize)));
+        const sgCol = clamp(Math.floor(sg.x / cellSize), 0, cols - 1);
         const tideLine = getTideLine(sgCol, t, rows);
         const safeRow = Math.max(3, tideLine - 9);
         const targetY = safeRow * cellSize;
@@ -520,7 +521,7 @@ export default function PixelTide() {
         // Lerp smoothly toward safe zone
         sg.pixelY += (targetY - sg.pixelY) * 0.05;
         // Clamp so they don't go off-canvas top
-        sg.pixelY = Math.max(px * 3, Math.min(canvasH * 0.65, sg.pixelY));
+        sg.pixelY = clamp(sg.pixelY, px * 3, canvasH * 0.65);
 
         const sx = Math.round(sg.x);
         const sy = Math.round(sg.pixelY);

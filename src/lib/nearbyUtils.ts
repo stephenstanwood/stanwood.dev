@@ -3,6 +3,8 @@
  * static-map zoom, the loading progress bar, and geolocation.
  */
 
+import { clamp } from "./math";
+
 // ── Distance & walk helpers ──
 
 /** Split a distance in meters into a display value and its unit (under 0.1 mi → feet). */
@@ -32,7 +34,7 @@ export function computeZoom(distanceMeters: number): number {
   // Logarithmic scale calibrated so 0.1 km → zoom 19, 1 km → zoom 15, 10 km → zoom 12.
   // Clamped to the range visible on the Nearest Coffee static map (12–17).
   const zoom = Math.round(15.5 - Math.log2(Math.max(km, 0.1)));
-  return Math.min(Math.max(zoom, 12), 17);
+  return clamp(zoom, 12, 17);
 }
 
 // ── Progress bar ──

@@ -14,6 +14,8 @@
  *  - Skew towards longer distances (100s–400s)
  */
 
+import { clamp } from "./math";
+
 // ─── Types ──────────────────────────────────────────────────────────────────────
 
 type Stroke = "free" | "back" | "breast" | "fly" | "IM" | "choice" | "mixed";
@@ -393,7 +395,7 @@ function mainLadder(target: number, pace: number, rng: Rng): SetItem[] {
 
 function mainPyramid(target: number, pace: number, rng: Rng): SetItem[] {
   const step = target >= 2000 ? 100 : 50;
-  const peak = Math.max(step * 2, Math.min(Math.round(target * 0.2 / step) * step, 500));
+  const peak = clamp(Math.round(target * 0.2 / step) * step, step * 2, 500);
 
   const ascending: number[] = [];
   for (let distance = step; distance <= peak; distance += step) ascending.push(distance);
