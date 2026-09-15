@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-15T06:10:15.624Z",
+  "lastUpdated": "2026-09-15T13:10:17.282Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-15T06:10:15.624Z",
+        "collectedAt": "2026-09-15T13:10:17.282Z",
         "services": {
           "vercel": {
-            "totalCents": 4896,
+            "totalCents": 4919,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 4530
+                "cents": 4548
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 148
+                "cents": 153
               },
               {
                 "name": "Blob Data Transfer",
