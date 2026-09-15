@@ -6,6 +6,7 @@ import ScatosLogo from './ScatosLogo';
 import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types';
 import { homeListingLinks, homeMapLinks, isInSearchArea } from '../../lib/scatos/location';
 import { safeGet, safeSet } from '../../lib/localStorage';
+import { clamp } from '../../lib/math';
 
 type Tab = 'browse' | 'saved' | 'matches' | 'passed';
 type Filters = { maxPrice: number; minBeds: number; vanMeter: boolean; fisher: boolean; nearTown: boolean };
@@ -273,7 +274,7 @@ export default function ScatosSwip() {
     if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) { pointer.current = null; setDrag(0); return; }
     if (Math.abs(dx) > 10) {
       event.currentTarget.setPointerCapture(event.pointerId);
-      setDrag(Math.max(-155, Math.min(155, dx)));
+      setDrag(clamp(dx, -155, 155));
     }
   };
   const onPointerUp = () => {

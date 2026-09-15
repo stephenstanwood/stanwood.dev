@@ -1,4 +1,5 @@
 import { CAMPBELL_HISTORY, CAMPBELL_METRICS } from "../../data/campbell";
+import MetricStrip from "./MetricStrip";
 
 export default function HistoryTimeline() {
   return (
@@ -23,21 +24,11 @@ export default function HistoryTimeline() {
         ))}
       </div>
 
-      <div className="cb-metric-strip">
-        {CAMPBELL_METRICS.slice(0, 3).map((metric) => (
-          <a
-            key={metric.label}
-            href={metric.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-mini-metric"
-          >
-            <span>{metric.value}</span>
-            <strong>{metric.label}</strong>
-            <em>{metric.note}</em>
-          </a>
-        ))}
-      </div>
+      <MetricStrip
+        metrics={CAMPBELL_METRICS.slice(0, 3)}
+        className="cb-metric-strip"
+        metricClassName="cb-mini-metric"
+      />
     </div>
   );
 }

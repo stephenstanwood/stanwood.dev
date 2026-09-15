@@ -6,6 +6,7 @@ import {
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
 import LayerList from "./LayerList";
+import MetricStrip from "./MetricStrip";
 
 const SAFETY_RULES = [
   {
@@ -97,21 +98,12 @@ export default function SafetyIndex() {
         })}
       </div>
 
-      <div className="cb-safety-metrics" aria-label="Campbell public safety metrics">
-        {SAFETY_METRICS.map((metric) => (
-          <a
-            key={metric.label}
-            href={metric.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-safety-metric"
-          >
-            <span>{metric.value}</span>
-            <strong>{metric.label}</strong>
-            <em>{metric.note}</em>
-          </a>
-        ))}
-      </div>
+      <MetricStrip
+        metrics={SAFETY_METRICS}
+        className="cb-safety-metrics"
+        metricClassName="cb-safety-metric"
+        ariaLabel="Campbell public safety metrics"
+      />
 
       <div className="cb-section-head cb-safety-layer-head">
         <span className="cb-section-kicker">Official paths</span>

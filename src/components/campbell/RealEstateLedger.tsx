@@ -6,6 +6,7 @@ import {
 } from "../../data/campbell";
 import SourceCardGrid from "./SourceCardGrid";
 import LayerList from "./LayerList";
+import MetricStrip from "./MetricStrip";
 
 const LEDGER_FIELDS = [
   { label: "Parcel", body: "APN, jurisdiction, tax-rate area, lot, zoning, and map links." },
@@ -61,21 +62,12 @@ const SALES_FEED_STATUS = [
 export default function RealEstateLedger() {
   return (
     <div className="cb-homes">
-      <div className="cb-property-metrics" aria-label="Campbell property roll metrics">
-        {PROPERTY_METRICS.map((metric) => (
-          <a
-            key={metric.label}
-            href={metric.sourceUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-property-metric"
-          >
-            <span>{metric.value}</span>
-            <strong>{metric.label}</strong>
-            <em>{metric.note}</em>
-          </a>
-        ))}
-      </div>
+      <MetricStrip
+        metrics={PROPERTY_METRICS}
+        className="cb-property-metrics"
+        metricClassName="cb-property-metric"
+        ariaLabel="Campbell property roll metrics"
+      />
 
       <div className="cb-ledger-grid">
         {LEDGER_FIELDS.map((field) => (

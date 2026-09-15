@@ -5,6 +5,7 @@ import type {
   TasteDimension,
   DimensionScores,
 } from "./types";
+import { clamp } from "../math";
 
 const ALL_DIMENSIONS: TasteDimension[] = [
   "spiceTolerance",
@@ -17,21 +18,19 @@ const ALL_DIMENSIONS: TasteDimension[] = [
   "dietaryLeaning",
 ];
 
+function zeroedDimensions(): Record<TasteDimension, number> {
+  return Object.fromEntries(ALL_DIMENSIONS.map((dim) => [dim, 0])) as Record<
+    TasteDimension,
+    number
+  >;
+}
+
 export function computeTasteProfile(
   answers: QuizAnswer[],
   questions: QuizQuestion[],
 ): TasteProfile {
-  const sums: Record<TasteDimension, number> = {
-    spiceTolerance: 0,
-    mealFormat: 0,
-    cuisinePreference: 0,
-    proteinPreference: 0,
-    cookingMethod: 0,
-    portionSize: 0,
-    flavorProfile: 0,
-    dietaryLeaning: 0,
-  };
-  const counts: Record<TasteDimension, number> = { ...sums };
+  const sums = zeroedDimensions();
+  const counts = zeroedDimensions();
 
   for (const answer of answers) {
     const question = questions.find((q) => q.id === answer.questionId);
@@ -49,13 +48,9 @@ export function computeTasteProfile(
 
   const profile = {} as TasteProfile;
   for (const dim of ALL_DIMENSIONS) {
-    profile[dim] = counts[dim] > 0 ? clamp(sums[dim] / counts[dim]) : 0;
+    profile[dim] = counts[dim] > 0 ? clamp(sums[dim] / counts[dim], -1, 1) : 0;
   }
   return profile;
-}
-
-function clamp(v: number): number {
-  return Math.max(-1, Math.min(1, v));
 }
 
 /**
@@ -73,7 +68,7 @@ export function nudgeProfile(
   for (const [dim, value] of Object.entries(chosenSignals)) {
     const dimension = dim as TasteDimension;
     if (typeof value === "number") {
-      updated[dimension] = clamp(current[dimension] + LEARN_RATE * value);
+      updated[dimension] = clamp(current[dimension] + LEARN_RATE * value, -1, 1);
     }
   }
   return updated;
