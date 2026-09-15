@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-14T19:10:21.028Z",
+  "lastUpdated": "2026-09-15T01:10:15.317Z",
   "apiSpend": {
     "months": [
       {
@@ -322,14 +322,14 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-14T19:10:21.028Z",
+        "collectedAt": "2026-09-15T01:10:15.317Z",
         "services": {
           "vercel": {
-            "totalCents": 3937,
+            "totalCents": 4857,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 3581
+                "cents": 4492
               },
               {
                 "name": "Blob Storage Size",
@@ -337,7 +337,7 @@
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 89
+                "cents": 97
               },
               {
                 "name": "Fluid Active CPU",
@@ -345,7 +345,7 @@
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 17
+                "cents": 18
               },
               {
                 "name": "Web Analytics Events",
@@ -383,19 +383,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 5608,
+            "totalCents": 6304,
             "breakdown": [
               {
                 "name": "claude-opus-5",
-                "cents": 2809
+                "cents": 3288
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 1547
+                "cents": 1646
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 1034
+                "cents": 1150
               },
               {
                 "name": "claude-fable-5",
@@ -403,7 +403,7 @@
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 18
+                "cents": 20
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
