@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini 3.8 Live",
+    "org": "Google",
+    "date": "2026-09-15",
+    "type": "model",
+    "summary": "Build voice agents that reason and talk at once, call functions in the background mid-conversation, and see what the camera sees. Live in the Gemini API and AI Studio at $0.005 per minute in and $0.018 out, plus a new 3.5 Transcribe speech-to-text model.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/"
+  },
+  {
     "name": "Projects",
     "org": "Cursor",
     "date": "2026-09-10",
@@ -46,14 +54,6 @@
     "type": "model",
     "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone. v6 and v6-wild need a paid plan.",
     "url": "https://suno.com/blog/introducing-v6"
-  },
-  {
-    "name": "Mercury 2.5",
-    "org": "Inception",
-    "date": "2026-09-08",
-    "type": "model",
-    "summary": "Get 1,100 tokens per second from a diffusion LLM with 260K context, tool calls, and JSON output. Launch pricing is $0.04 per million input and $0.15 output, with 100M free tokens, via Inception's API or OpenRouter.",
-    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-2-5"
   },
   {
     "name": "ChatGPT Images 2.5",
