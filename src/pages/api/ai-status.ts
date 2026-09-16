@@ -30,6 +30,12 @@ export interface ProviderStatus {
 
 const statusCache = createTtlCache<ProviderStatus[]>(3 * MS_PER_MINUTE);
 
+const AI_STATUS_CACHE_HEADERS = {
+  "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
+};
+
+const INCIDENT_SUMMARY_MAX = 120;
+
 function normalizeStatus(indicator: string): ProviderStatus["status"] {
   switch (indicator) {
     case "none":
@@ -84,10 +90,12 @@ async function fetchProvider(
     if (data.incidents && data.incidents.length > 0) {
       const latest = data.incidents[0];
       incidentTitle = latest.name;
-      if (latest.incident_updates && latest.incident_updates.length > 0) {
-        const body = latest.incident_updates[0].body;
-        // Truncate to ~120 chars
-        incidentSummary = body.length > 120 ? body.slice(0, 117) + "…" : body;
+      const body = latest.incident_updates?.[0]?.body;
+      // Upstream shape is only declared, not validated — skip a missing/non-string body
+      // rather than throw and downgrade the whole provider to "unknown".
+      if (typeof body === "string") {
+        incidentSummary =
+          body.length > INCIDENT_SUMMARY_MAX ? body.slice(0, INCIDENT_SUMMARY_MAX - 3) + "…" : body;
       }
     }
 
@@ -137,10 +145,6 @@ async function fetchAll(): Promise<ProviderStatus[]> {
 
 export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress)) return rateLimitResponse();
-
-  const AI_STATUS_CACHE_HEADERS = {
-    "Cache-Control": "public, s-maxage=180, max-age=60, stale-while-revalidate=60",
-  };
 
   const fresh = statusCache.get();
   if (fresh) return okJson(fresh, AI_STATUS_CACHE_HEADERS);

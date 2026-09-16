@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from "react";
 const WORDS = ["sleep", "swim", "build", "dad", "repeat"];
 
 export default function TerminalLoopTile() {
-  const [display, setDisplay] = useState("");
   const [wordIdx, setWordIdx] = useState(0);
   const [charIdx, setCharIdx] = useState(0);
   const [deleting, setDeleting] = useState(false);
   const innerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // The visible text is always the current word cut at the cursor, so it is
+  // derived rather than mirrored in a fourth piece of state.
+  const display = WORDS[wordIdx].slice(0, charIdx);
 
   useEffect(() => {
     return () => {
@@ -24,7 +26,6 @@ export default function TerminalLoopTile() {
         const timer = setTimeout(() => {
           if (isLast) {
             innerTimerRef.current = setTimeout(() => {
-              setDisplay("");
               setWordIdx(0);
               setCharIdx(0);
             }, 1500);
@@ -35,7 +36,6 @@ export default function TerminalLoopTile() {
         return () => clearTimeout(timer);
       }
       const timer = setTimeout(() => {
-        setDisplay(word.slice(0, charIdx + 1));
         setCharIdx(charIdx + 1);
       }, 80 + Math.random() * 60);
       return () => clearTimeout(timer);
@@ -44,7 +44,6 @@ export default function TerminalLoopTile() {
     if (deleting && charIdx > 0) {
       const timer = setTimeout(() => {
         setCharIdx(charIdx - 1);
-        setDisplay(WORDS[wordIdx].slice(0, charIdx - 1));
       }, 40);
       return () => clearTimeout(timer);
     }

@@ -77,7 +77,7 @@ const ALL_EXAMPLES = [
 ];
 
 export default function WhichModelTile() {
-  const [examples, setExamples] = useState(() => ALL_EXAMPLES);
+  const [examples, setExamples] = useState(ALL_EXAMPLES);
   const { value: ex, fading } = useCycling(examples, 3000, 300);
   const brandColor = BRAND_COLORS[ex.org] || "#666";
 
@@ -119,20 +119,20 @@ export default function WhichModelTile() {
           padding: "4px 0",
         }}
       >
-        {MODELS.map((m) => (
+        {MODELS.map((model) => (
           <div
-            key={m.org}
+            key={model.org}
             style={{
               display: "flex",
               alignItems: "center",
               gap: "3px",
               fontSize: "11px",
               fontWeight: 600,
-              color: BRAND_COLORS[m.org],
+              color: BRAND_COLORS[model.org],
             }}
           >
-            <ModelLogo org={m.org} size={12} color={BRAND_COLORS[m.org]} />
-            {m.label}
+            <ModelLogo org={model.org} size={12} color={BRAND_COLORS[model.org]} />
+            {model.label}
           </div>
         ))}
       </div>
