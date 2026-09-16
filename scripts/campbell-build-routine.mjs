@@ -65,32 +65,37 @@ if (targetArg && !["campbell", TARGET_ID].includes(targetArg)) {
 }
 
 function hashParts(parts) {
-  const h = createHash("sha256");
-  for (const part of parts) h.update(String(part)).update("\0");
-  return h.digest("hex").slice(0, 20);
+  const hash = createHash("sha256");
+  for (const part of parts) hash.update(String(part)).update("\0");
+  return hash.digest("hex").slice(0, 20);
+}
+
+/** Dedupe a path list, drop anything missing on disk, and sort for a stable fingerprint. */
+function uniqueExistingPaths(paths) {
+  return [...new Set(paths)].filter((path) => existsSync(path)).sort();
 }
 
 function listFiles(root, opts = {}) {
   if (!existsSync(root)) return [];
   const out = [];
   const max = opts.maxFiles ?? 1_500;
-  const st = lstatSync(root);
-  if (st.isFile()) return opts.include && !opts.include.test(root) ? [] : [root];
+  const rootStat = lstatSync(root);
+  if (rootStat.isFile()) return opts.include && !opts.include.test(root) ? [] : [root];
 
   const walk = (dir) => {
     if (out.length >= max) return;
     for (const name of readdirSync(dir).sort()) {
-      const p = join(dir, name);
-      const rel = relative(root, p);
+      const path = join(dir, name);
+      const rel = relative(root, path);
       if (opts.exclude?.test(rel)) continue;
-      const child = lstatSync(p);
+      const child = lstatSync(path);
       if (child.isDirectory()) {
-        walk(p);
+        walk(path);
         continue;
       }
       if (!child.isFile()) continue;
       if (opts.include && !opts.include.test(rel)) continue;
-      out.push(p);
+      out.push(path);
       if (out.length >= max) return;
     }
   };
@@ -104,23 +109,23 @@ function gitTrackedFiles(pathspecs) {
       cwd: REPO_ROOT,
       encoding: "utf8",
     });
-    return out.split("\0").filter(Boolean).map((p) => join(REPO_ROOT, p));
+    return out.split("\0").filter(Boolean).map((rel) => join(REPO_ROOT, rel));
   } catch {
-    return pathspecs.flatMap((p) => listFiles(join(REPO_ROOT, p)));
+    return pathspecs.flatMap((spec) => listFiles(join(REPO_ROOT, spec)));
   }
 }
 
 function fileDigest(path) {
-  const st = lstatSync(path);
+  const stat = lstatSync(path);
   const rel = path.startsWith(REPO_ROOT) ? relative(REPO_ROOT, path) : path;
-  if (st.size > 800_000 || /\.(pdf|png|jpg|jpeg|webp|gif|zip|sqlite|db)$/i.test(path)) {
-    return `${rel}:${st.size}:${Math.floor(st.mtimeMs)}`;
+  if (stat.size > 800_000 || /\.(pdf|png|jpg|jpeg|webp|gif|zip|sqlite|db)$/i.test(path)) {
+    return `${rel}:${stat.size}:${Math.floor(stat.mtimeMs)}`;
   }
-  return `${rel}:${st.size}:${hashParts([readFileSync(path, "utf8")])}`;
+  return `${rel}:${stat.size}:${hashParts([readFileSync(path, "utf8")])}`;
 }
 
 function memoryFingerprint() {
-  const files = [
+  const files = uniqueExistingPaths([
     join(CODEX_HOME, "memories/MEMORY.md"),
     join(CODEX_HOME, "memories/memory_summary.md"),
     join(CODEX_HOME, "skills/prototype-ui-design-loop/SKILL.md"),
@@ -135,7 +140,7 @@ function memoryFingerprint() {
       exclude: /(^|\/)(archive|archived)\//i,
       maxFiles: 500,
     }),
-  ].filter((p, idx, arr) => existsSync(p) && arr.indexOf(p) === idx).sort();
+  ]);
 
   return {
     hash: hashParts(files.map(fileDigest)),
@@ -144,10 +149,7 @@ function memoryFingerprint() {
 }
 
 function projectFingerprint() {
-  const files = gitTrackedFiles(TARGET_PATHS)
-    .filter((p, idx, arr) => arr.indexOf(p) === idx)
-    .filter((p) => existsSync(p))
-    .sort();
+  const files = uniqueExistingPaths(gitTrackedFiles(TARGET_PATHS));
   return {
     hash: hashParts(files.map(fileDigest)),
     files,
@@ -155,8 +157,8 @@ function projectFingerprint() {
 }
 
 function msSince(value) {
-  const t = Date.parse(value ?? "");
-  return Number.isFinite(t) ? Date.now() - t : Infinity;
+  const parsedMs = Date.parse(value ?? "");
+  return Number.isFinite(parsedMs) ? Date.now() - parsedMs : Infinity;
 }
 
 function shouldSkip(state, memoryHash, projectHash) {
@@ -185,7 +187,7 @@ function shouldSkip(state, memoryHash, projectHash) {
 }
 
 function relativeFiles(files) {
-  return files.map((p) => relative(REPO_ROOT, p)).sort();
+  return files.map((path) => relative(REPO_ROOT, path)).sort();
 }
 
 function buildPrompt(runId, memoryHash, projectHash, files) {

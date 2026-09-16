@@ -73,11 +73,11 @@ export default function YesterdaySports() {
   const { items: games, ready } = useAsyncList<YesterdayGame>(async () => {
     const { leagues, lookup } = getTrackedTeamsContext();
 
-    const days = [new Date(), new Date(Date.now() - MS_PER_DAY)].map((d) => {
-      const ymd = yyyymmddInPT(d);
+    const days = [new Date(), new Date(Date.now() - MS_PER_DAY)].map((date) => {
+      const ymd = yyyymmddInPT(date);
       return {
         ymd,
-        iso: isoDateInPT(d),
+        iso: isoDateInPT(date),
         sortKey: parseInt(ymd, 10),
       };
     });
@@ -156,9 +156,9 @@ export default function YesterdaySports() {
     // next-best WNBA game too so the recap still has two watch options.
     if (leagues.has("basketball/wnba")) {
       const yesterdayYmd = yyyymmddInPT(new Date(Date.now() - MS_PER_DAY));
-      const yDay = dayResults.find((d) => d.ymd === yesterdayYmd);
+      const yDay = dayResults.find((day) => day.ymd === yesterdayYmd);
       const wnbaEvents =
-        yDay?.results.find((r) => r.league === "basketball/wnba")?.events ?? [];
+        yDay?.results.find((result) => result.league === "basketball/wnba")?.events ?? [];
 
       if (yDay) {
         const pick = bestUnseenFinishedGame(wnbaEvents, (ev) =>
@@ -167,11 +167,11 @@ export default function YesterdaySports() {
         const best = pick?.event ?? null;
         if (pick && best) {
           const id = recapEventId("basketball/wnba", yDay.iso, best);
-          const ah = awayHomeOf(best);
-          if (ah) {
+          const sides = awayHomeOf(best);
+          if (sides) {
             seen.add(id);
-            const awaySide = teamSide(ah.away);
-            const homeSide = teamSide(ah.home);
+            const awaySide = teamSide(sides.away);
+            const homeSide = teamSide(sides.home);
             const watch = watchRecordingUrl({
               league: "basketball/wnba",
               awayAbbr: awaySide.abbr,
@@ -189,7 +189,7 @@ export default function YesterdaySports() {
               home: homeSide,
               isPlayoff: false,
               isBestWnba: true,
-              wnbaBadge: pick?.isOverallBest
+              wnbaBadge: pick.isOverallBest
                 ? "Best WNBA game"
                 : "Next best WNBA game",
               statusText,

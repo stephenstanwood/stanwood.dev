@@ -107,11 +107,9 @@ export class ProgressiveJsonParser {
   private findNextChar(ch: string, from: number): number {
     for (let i = from; i < this.buffer.length; i++) {
       if (this.buffer[i] === ch) return i;
-      // Skip whitespace and commas between array elements
-      if (/[\s,]/.test(this.buffer[i])) continue;
-      // If we hit ] that means array ended, or any other unexpected character
-      if (this.buffer[i] === "]") return -1;
-      return -1;
+      // Only whitespace and commas may sit between array elements; anything
+      // else (including the closing `]`) means there is no next element.
+      if (!/[\s,]/.test(this.buffer[i])) return -1;
     }
     return -1;
   }

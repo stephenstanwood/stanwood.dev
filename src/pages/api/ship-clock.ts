@@ -2,7 +2,7 @@ export const prerender = false;
 import type { APIRoute } from "astro";
 import { CLAUDE_SONNET, extractText, getAnthropicClient } from "../../lib/models";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
-import { okJson, fetchWithTimeout } from "../../lib/apiHelpers";
+import { okJson, fetchWithTimeout, isRecord } from "../../lib/apiHelpers";
 import { MS_PER_HOUR, MS_PER_DAY, MS_PER_WEEK } from "../../lib/time";
 
 type VercelDeployment = { created: number; meta?: Record<string, string>; uid?: string };
@@ -14,6 +14,11 @@ const ANTHROPIC_API_KEY = import.meta.env.ANTHROPIC_API_KEY;
 const anthropic = ANTHROPIC_API_KEY ? getAnthropicClient() : null;
 
 const CACHE_HEADERS = { "Cache-Control": "public, s-maxage=300, max-age=60" };
+
+/** Payload shape the tile expects when there is no deploy to report. */
+function emptyPayload(error: string) {
+  return { lastDeploy: null, daysSince: null, hoursSince: null, error };
+}
 
 /** Strip PR refs and clean up a raw commit message */
 function cleanRaw(raw: string): string {
@@ -59,10 +64,13 @@ Return ONLY valid JSON, nothing else.`,
       ],
     });
 
-    const parsed = JSON.parse(extractText(res.content));
+    const parsed: unknown = JSON.parse(extractText(res.content));
+    // Model output is untrusted: only pass through string fields so a malformed
+    // reply can't put an object or number into the public JSON payload.
+    if (!isRecord(parsed)) return { project: null, summary: cleaned };
     return {
-      project: parsed.project ?? null,
-      summary: parsed.summary ?? cleaned,
+      project: typeof parsed.project === "string" ? parsed.project : null,
+      summary: typeof parsed.summary === "string" ? parsed.summary : cleaned,
     };
   } catch {
     return { project: null, summary: cleaned };
@@ -73,7 +81,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
   if (!rateLimit(clientAddress, 10)) return rateLimitResponse();
 
   if (!VERCEL_TOKEN || !VERCEL_PROJECT_ID) {
-    return okJson({ lastDeploy: null, daysSince: null, hoursSince: null, error: "missing config" });
+    return okJson(emptyPayload("missing config"));
   }
 
   try {
@@ -88,10 +96,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const deployments = data.deployments ?? [];
 
     if (deployments.length === 0) {
-      return okJson(
-        { lastDeploy: null, daysSince: null, hoursSince: null, error: "no deploys" },
-        CACHE_HEADERS,
-      );
+      return okJson(emptyPayload("no deploys"), CACHE_HEADERS);
     }
 
     const createdAt = new Date(deployments[0].created);
@@ -126,14 +131,14 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
     // Deploys in the last 30 days
     const thirtyDaysAgo = new Date(now.getTime() - 30 * MS_PER_DAY);
-    const deploysLast30 = allDates.filter((d) => d > thirtyDaysAgo).length;
+    const deploysLast30 = allDates.filter((date) => date > thirtyDaysAgo).length;
 
     // Streak: consecutive weeks (ending now) that had at least one deploy
     let streakWeeks = 0;
     for (let week = 0; week < 12; week++) {
       const weekEnd = new Date(now.getTime() - week * MS_PER_WEEK);
       const weekStart = new Date(now.getTime() - (week + 1) * MS_PER_WEEK);
-      const hasDeployInWeek = allDates.some((d) => d >= weekStart && d < weekEnd);
+      const hasDeployInWeek = allDates.some((date) => date >= weekStart && date < weekEnd);
       if (hasDeployInWeek) {
         streakWeeks++;
       } else {
@@ -160,6 +165,6 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     );
   } catch (err) {
     console.error("ship-clock fetch failed:", err);
-    return okJson({ lastDeploy: null, daysSince: null, hoursSince: null, error: "api error" });
+    return okJson(emptyPayload("api error"));
   }
 };
