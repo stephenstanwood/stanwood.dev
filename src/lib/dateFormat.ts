@@ -32,6 +32,11 @@ export function formatHourMinute(d: DateInput): string {
   return HOUR_MINUTE.format(toDate(d));
 }
 
+/** Calendar day as "YYYY-MM-DD" in the given IANA timezone (en-CA yields ISO order). */
+export function isoDateInTz(d: DateInput, timeZone: string): string {
+  return toDate(d).toLocaleDateString("en-CA", { timeZone });
+}
+
 /** e.g. "3:45 PM" — formatted in the given IANA timezone. */
 export function formatHourMinuteInTz(d: DateInput, timeZone: string): string {
   return new Intl.DateTimeFormat("en-US", {

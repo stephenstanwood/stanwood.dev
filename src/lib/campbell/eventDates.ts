@@ -7,6 +7,7 @@ import {
   parseCampbellDate,
   startOfDay,
 } from "./dateHelpers";
+import { isoDateInTz } from "../dateFormat";
 
 /** The structured date fields shared by every Campbell event feed item. */
 export interface EventDateFields {
@@ -40,12 +41,7 @@ function eventIsLongRunning(event: EventDateFields): boolean {
 }
 
 function campbellDayKey(value: Date) {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: CAMPBELL_TIME_ZONE,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(value);
+  return isoDateInTz(value, CAMPBELL_TIME_ZONE);
 }
 
 function campbellClockParts(value: Date) {

@@ -1,6 +1,7 @@
 import { shipStatus, type DeployData as DeploySummary } from "../lib/shipClockStatus";
 import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
+import { pluralize } from "../lib/text";
 import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 import { useJsonOnMount } from "../hooks/useJsonOnMount";
 
@@ -110,7 +111,7 @@ export default function ShipClock() {
           <>
             <div className="sc-number">{days}</div>
             <div className="sc-label">
-              {days === 1 ? "day" : "days"} since last deploy
+              {pluralize(days, "day")} since last deploy
             </div>
           </>
         )}
@@ -146,7 +147,7 @@ export default function ShipClock() {
           <div className="sc-stat">
             <span className="sc-stat-num">{stats.streakWeeks}</span>
             <span className="sc-stat-label">
-              {stats.streakWeeks === 1 ? "week" : "weeks"} streak
+              {pluralize(stats.streakWeeks, "week")} streak
             </span>
           </div>
           <div className="sc-stat-divider" />

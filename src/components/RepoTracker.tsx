@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { shipStatus } from "../lib/shipClockStatus";
 import { daysSince } from "../lib/time";
+import { pluralize } from "../lib/text";
 
 interface CommitData {
   days: number;
@@ -103,7 +104,7 @@ export default function RepoTracker() {
               <>
                 <div className="sc-number">{data.days}</div>
                 <div className="sc-label">
-                  {data.days === 1 ? "day" : "days"} since last commit
+                  {pluralize(data.days, "day")} since last commit
                 </div>
               </>
             )}

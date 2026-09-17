@@ -11,6 +11,7 @@ import { daysSince, MS_PER_DAY } from '../lib/time';
 import { formatHourMinuteInTz, PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
 import { jsonForScriptTag } from '../lib/htmlUtils';
+import { pluralize } from '../lib/text';
 
 interface QueueVideo {
   id: string;
@@ -1097,7 +1098,7 @@ function seriesVideos(series: Series): QueueVideo[] {
               </span>
             </div>
             <span class="series-meta">
-              {topSeries.video_count} {topSeries.video_count === 1 ? 'video' : 'videos'}
+              {topSeries.video_count} {pluralize(topSeries.video_count, 'video')}
             </span>
           </div>
           <ul class="videos">
@@ -1138,7 +1139,7 @@ function seriesVideos(series: Series): QueueVideo[] {
                   </span>
                 </div>
                 <span class="series-meta">
-                  {s.video_count} {s.video_count === 1 ? 'video' : 'videos'}
+                  {s.video_count} {pluralize(s.video_count, 'video')}
                 </span>
               </div>
               <ul class="videos">

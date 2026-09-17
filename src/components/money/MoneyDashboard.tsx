@@ -20,6 +20,7 @@ import {
 } from "../../lib/money";
 import { formatMonthDayYear } from "../../lib/dateFormat";
 import { MS_PER_WEEK } from "../../lib/time";
+import { pluralize } from "../../lib/text";
 
 const TAGLINES = [
   "money out the door 💸",
@@ -346,7 +347,7 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
                     {formatRenewalDate(domain.renewsAt)}
                     {days !== null && days >= 0 && (
                       <div style={{ fontSize: 9, opacity: 0.6 }}>
-                        in {days} day{days === 1 ? "" : "s"}
+                        in {days} {pluralize(days, "day")}
                       </div>
                     )}
                   </>

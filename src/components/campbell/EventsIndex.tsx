@@ -12,6 +12,7 @@ import {
 } from "../../lib/campbell/eventDates";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
+import { pluralize } from "../../lib/text";
 
 interface CampbellEvent {
   title: string;
@@ -268,7 +269,7 @@ function eventResultLabel(
     sourceFilter !== ALL_SOURCE_FILTER ||
     categoryFilter !== ALL_CATEGORY_FILTER ||
     query.trim().length > 0;
-  const noun = count === 1 ? "event" : "events";
+  const noun = pluralize(count, "event");
 
   if (viewFilter === "all" && !hasExtraFilter && count === total) return "All events";
   if (hasExtraFilter) return `${count} ${noun}`;

@@ -29,8 +29,8 @@ export function validateLatLon(
   if (
     typeof lat !== "number" ||
     typeof lon !== "number" ||
-    !isFinite(lat) ||
-    !isFinite(lon) ||
+    !Number.isFinite(lat) ||
+    !Number.isFinite(lon) ||
     Math.abs(lat) > 90 ||
     Math.abs(lon) > 180
   ) {

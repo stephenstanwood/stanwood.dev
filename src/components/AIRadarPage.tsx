@@ -12,6 +12,7 @@ import {
   computePulse,
 } from "../lib/aiRadar";
 import { countBy } from "../lib/arrays";
+import { pluralize } from "../lib/text";
 
 const STANCE_LABELS: Record<string, string> = {
   closed: "closed weights",
@@ -123,7 +124,7 @@ export default function AIRadarPage() {
           {availableTypes.map((t) => (
             <span key={t}>
               <span className="rp-stats-sep">·</span>
-              <span style={{ color: "#555" }}>{typeCounts[t] || 0} {TYPE_LABELS[t].toLowerCase()}{typeCounts[t] !== 1 ? "s" : ""}</span>
+              <span style={{ color: "#555" }}>{typeCounts[t] || 0} {pluralize(typeCounts[t] || 0, TYPE_LABELS[t].toLowerCase())}</span>
             </span>
           ))}
         </div>

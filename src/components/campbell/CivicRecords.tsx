@@ -10,6 +10,7 @@ import {
 } from "../../lib/campbell/dateHelpers";
 import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
 import SourceCardGrid from "./SourceCardGrid";
+import { pluralize } from "../../lib/text";
 
 interface PublicHearing {
   id: string;
@@ -156,8 +157,8 @@ export default function CivicRecords() {
             <h4>What is coming through City Hall</h4>
             <p>
               {upcomingCount > 0
-                ? `${upcomingCount} upcoming hearing${upcomingCount === 1 ? "" : "s"} on the calendar.`
-                : `No upcoming hearings found. Showing ${recentCount} recent notice${recentCount === 1 ? "" : "s"} and packet items.`}
+                ? `${upcomingCount} upcoming ${pluralize(upcomingCount, "hearing")} on the calendar.`
+                : `No upcoming hearings found. Showing ${recentCount} recent ${pluralize(recentCount, "notice")} and packet items.`}
             </p>
           </div>
         </div>
