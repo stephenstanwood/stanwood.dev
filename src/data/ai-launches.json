@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Docs + Slides",
+    "org": "Anthropic",
+    "date": "2026-09-16",
+    "type": "tool",
+    "summary": "Ask for a doc or a deck in a normal chat and get an editable document or presentation you can edit in place, present, or export to Word, PowerPoint, or PDF. Cowork folds into chat too. Pro and Max first, Free and Team later.",
+    "url": "https://venturebeat.com/technology/anthropic-is-killing-off-cowork-and-folding-it-into-claude-launching-claude-docs-and-claude-slides"
+  },
+  {
     "name": "Gemini 3.8 Live",
     "org": "Google",
     "date": "2026-09-15",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone. v6 and v6-wild need a paid plan.",
     "url": "https://suno.com/blog/introducing-v6"
-  },
-  {
-    "name": "ChatGPT Images 2.5",
-    "org": "OpenAI",
-    "date": "2026-09-08",
-    "type": "model",
-    "summary": "Generate and edit images with much better likeness for people and pets, up to 50% faster. Rolling out to every ChatGPT tier plus Codex, with a @Sketch tool for drawing references and two new API models, Flare and Sunburst.",
-    "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
   }
 ]
