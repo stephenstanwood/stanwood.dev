@@ -5,6 +5,7 @@
 import { TEAM_REGISTRY, type TeamEntry } from "./teamRegistry";
 import { fetchEspnScoreboard, parseScore, TIMEZONE, isPostponedLike } from "./sportsCore";
 import { safeGet } from "./localStorage";
+import { isoDateInTz } from "./dateFormat";
 
 const WTWTW_LS_KEY = "wtwtw:v1";
 export const ALWAYS_SHOW_TEAMS = [
@@ -456,7 +457,7 @@ export function isLatestStartedEventForTrackedTeams(
 
 /** YYYY-MM-DD for MLB StatsAPI, computed in Pacific Time. */
 export function isoDateInPT(d: Date): string {
-  return d.toLocaleDateString("en-CA", { timeZone: TIMEZONE });
+  return isoDateInTz(d, TIMEZONE);
 }
 
 /** YYYYMMDD for ESPN, computed in Pacific Time. */

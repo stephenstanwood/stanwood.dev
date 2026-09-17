@@ -12,6 +12,7 @@ import WeirdnessModeToggle from "./WeirdnessModeToggle";
 import LoadingSequence from "./LoadingSequence";
 import RolodexViewer from "./RolodexViewer";
 import MoreDirectionsControls from "./MoreDirectionsControls";
+import { pluralize } from "../../lib/text";
 
 export default function RedesignRolodex() {
   // Stable set for SSR/first paint; shuffle on the client after mount to avoid hydration mismatch.
@@ -206,7 +207,7 @@ export default function RedesignRolodex() {
         </button>
         <span className="rr-result-url">{checkedUrl}</span>
         <span className="rr-result-count">
-          {allDirections.length} direction{allDirections.length !== 1 ? "s" : ""}
+          {allDirections.length} {pluralize(allDirections.length, "direction")}
           {stream.phase === "directions" && <span className="rr-streaming-dot" />}
         </span>
       </div>

@@ -7,6 +7,8 @@ import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types
 import { homeListingLinks, homeMapLinks, isInSearchArea } from '../../lib/scatos/location';
 import { safeGet, safeSet } from '../../lib/localStorage';
 import { clamp } from '../../lib/math';
+import { PACIFIC_TZ } from '../../lib/dateFormat';
+import { pluralize } from '../../lib/text';
 
 type Tab = 'browse' | 'saved' | 'matches' | 'passed';
 type Filters = { maxPrice: number; minBeds: number; vanMeter: boolean; fisher: boolean; nearTown: boolean };
@@ -16,7 +18,7 @@ const dollars = (value: number) => new Intl.NumberFormat('en-US', { style: 'curr
 const formatNumber = (value: number | null) => value ? value.toLocaleString('en-US') : '—';
 const isVanMeter = (home: Home) => /Van Meter/i.test(home.schools.elementary || '');
 const isFisher = (home: Home) => /Fisher/i.test(home.schools.middle || '');
-const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' });
+const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: PACIFIC_TZ });
 const profileName = (profile: string) => profile === 'stephen' ? 'Stephen' : 'Madeleine';
 const partnerProfileName = (profile: string) => profileName(profile === 'stephen' ? 'madeleine' : 'stephen');
 
@@ -325,7 +327,7 @@ export default function ScatosSwip() {
       <div className="sc-swipe-actions"><button type="button" className="sc-action pass" disabled={busy} onClick={() => void save(current, 'pass').catch(() => {})}><span><X size={27} /></span>Not quite</button>
         <button type="button" className="sc-action undo" disabled={!undo || busy} onClick={() => void undoLast()}><span><RotateCcw size={19} /></span>Undo</button>
         <button type="button" className="sc-action save" disabled={busy} onClick={() => void save(current, 'save').catch(() => {})}><span><Heart size={27} /></span>Save for someday</button></div>
-      <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {deck.length === 1 ? 'home' : 'homes'} to explore</span></p>
+      <p className="sc-swipe-hint"><span className="sc-desktop-hint"><ArrowLeft size={13} /> <ArrowRight size={13} /> Arrow keys browse. No choice needed.</span><span className="sc-mobile-hint">Swipe left to pass. Right to save.</span><span>{deck.length} {pluralize(deck.length, 'home')} to explore</span></p>
     </>;
   }
 
@@ -346,12 +348,12 @@ export default function ScatosSwip() {
         {mainPanel()}
       </section>
       <aside className="sc-right-rail"><div className="sc-someday-note"><span className="sc-note-sun" aria-hidden="true">✺</span><h2>A place for<br />your next chapter.</h2><p>No countdown.<br />No pressure.<br />Just possibilities.</p><div className="sc-note-houses" aria-hidden="true"><House size={32} strokeWidth={1.5} /><Sprout size={28} strokeWidth={1.5} /></div></div>
-        <div className="sc-together"><div className="sc-avatar-pair"><span className="sc-avatar stephen">S</span><span className="sc-avatar madeleine">M</span><Heart size={17} fill="currentColor" /></div><h2>{matchedHomes.length ? `${matchedHomes.length} shared ${matchedHomes.length === 1 ? 'crush' : 'crushes'}` : 'Two swipes. One someday.'}</h2><p>Save separately. See what you both love.</p><button type="button" className="sc-text-button" onClick={() => setTab('matches')}>Our matches <MoveUpRight size={15} /></button></div>
+        <div className="sc-together"><div className="sc-avatar-pair"><span className="sc-avatar stephen">S</span><span className="sc-avatar madeleine">M</span><Heart size={17} fill="currentColor" /></div><h2>{matchedHomes.length ? `${matchedHomes.length} shared ${pluralize(matchedHomes.length, 'crush', 'crushes')}` : 'Two swipes. One someday.'}</h2><p>Save separately. See what you both love.</p><button type="button" className="sc-text-button" onClick={() => setTab('matches')}>Our matches <MoveUpRight size={15} /></button></div>
       </aside>
     </div>
     <footer className="sc-footer"><span><span className="sc-refresh-dot" />{state?.feed ? `Checked ${dateLabel(state.feed.generatedAt)}. Fresh finds daily at 4:45 a.m. Pacific.` : 'Fresh finds daily at 4:45 a.m. Pacific.'}</span><button type="button" className="sc-text-button" onClick={() => setInfoOpen(true)}><Info size={15} /> Sources & the fine print</button></footer>
     <div className="sc-toast" role="status" aria-live="polite">{toast && <span><Check size={17} />{toast}</span>}</div>
-    {filterOpen && <Modal title="The wish list" onClose={() => setFilterOpen(false)}><FiltersForm filters={filters} setFilters={changeFilters} count={eligible.length} /><button type="button" className="sc-primary" onClick={() => setFilterOpen(false)}>Explore {eligible.length} {eligible.length === 1 ? 'home' : 'homes'}</button></Modal>}
+    {filterOpen && <Modal title="The wish list" onClose={() => setFilterOpen(false)}><FiltersForm filters={filters} setFilters={changeFilters} count={eligible.length} /><button type="button" className="sc-primary" onClick={() => setFilterOpen(false)}>Explore {eligible.length} {pluralize(eligible.length, 'home')}</button></Modal>}
     {detail && <Detail home={state?.homes.find(home => home.id === detail.id) || detail} choice={choices.get(detail.id)} matched={matches.has(detail.id)} busy={busy} onClose={() => setDetail(null)} onSave={save} />}
     {matchHome && <Modal title="Oh, you both like this one." onClose={() => setMatchHome(null)}><div className="sc-match-celebration"><div className="sc-match-hearts" aria-hidden="true"><Heart size={62} fill="currentColor" /><Sparkles size={32} /></div><p>A shared house crush.<br />That’s a lovely place to start.</p><Photo home={matchHome} compact /><h3>{matchHome.address}</h3><button type="button" className="sc-primary" onClick={() => { setMatchHome(null); setTab('matches'); }}>See our matches</button><button type="button" className="sc-text-button" onClick={() => setMatchHome(null)}>Keep exploring</button></div></Modal>}
     {infoOpen && <Modal title="Good homes. Clear sources." onClose={() => setInfoOpen(false)}><div className="sc-info-body"><p>First, the official Los Gatos High attendance boundary. Then Los Gatos addresses, detached houses, 4+ bedrooms, 2+ bathrooms, and an asking price up to $4 million.</p>

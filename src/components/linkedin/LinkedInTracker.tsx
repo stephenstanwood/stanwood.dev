@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { pluralize } from "../../lib/text";
 import {
   rankLinkedInOutreach,
   summarizeLinkedInOutreach,
@@ -396,7 +397,7 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
           </label>
         )}
         <div className="li-result-count" aria-live="polite">
-          {filtered.length} {filtered.length === 1 ? "move" : "moves"}
+          {filtered.length} {pluralize(filtered.length, "move")}
           {filtered.length > visible.length ? ` · showing ${visible.length}` : ""}
         </div>
       </div>
