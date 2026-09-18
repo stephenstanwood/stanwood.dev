@@ -1,5 +1,21 @@
 [
   {
+    "name": "Bonsai 2 27B",
+    "org": "PrismML",
+    "date": "2026-09-17",
+    "type": "model",
+    "summary": "Run a 27B reasoning, coding, and vision model on a laptop: ternary weights squeeze it to 5.9GB while keeping 98% of full-precision scores. 262K context, Apache 2.0, MLX builds for Mac and iPhone plus CUDA. Weights on Hugging Face.",
+    "url": "https://prismml.com/news/bonsai-2-27b"
+  },
+  {
+    "name": "Home MCP",
+    "org": "Google",
+    "date": "2026-09-16",
+    "type": "tool",
+    "summary": "Point Claude, ChatGPT, or your own agent at your Nest and Matter devices over MCP to control lights, read camera summaries, or build a custom dashboard. A second Home Developer MCP feeds Home API docs into Claude Code and Cursor. US early access on Home Premium Advanced.",
+    "url": "https://techcrunch.com/2026/09/16/your-ai-agents-can-now-control-your-google-home-devices/"
+  },
+  {
     "name": "Claude Docs + Slides",
     "org": "Anthropic",
     "date": "2026-09-16",
@@ -32,14 +48,6 @@
     "url": "https://openai.com/index/introducing-the-agents-api/"
   },
   {
-    "name": "GPT-Live-1",
-    "org": "OpenAI",
-    "date": "2026-09-10",
-    "type": "model",
-    "summary": "Build voice agents that listen and talk at the same time, handle interruptions, and run over phone lines. 12 voices, transcripts included, $0.05 per minute billed by the second, plus whatever backend model you plug in.",
-    "url": "https://openai.com/index/introducing-gpt-live-1-in-the-api/"
-  },
-  {
     "name": "DeepSeek V4.1 Flash",
     "org": "DeepSeek",
     "date": "2026-09-10",
@@ -48,19 +56,11 @@
     "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
   },
   {
-    "name": "ML Intern",
-    "org": "Hugging Face",
-    "date": "2026-09-09",
-    "type": "tool",
-    "summary": "Describe an ML idea in plain English and it finds the models and datasets, estimates the compute bill, trains the model, uploads it to the Hub, and builds a demo. Free in HuggingChat, plus an open-source CLI. One demo run cost under 50 cents.",
-    "url": "https://github.com/huggingface/ml-intern"
-  },
-  {
-    "name": "Suno v6",
-    "org": "Suno",
-    "date": "2026-09-09",
+    "name": "ChatGPT Images 2.5",
+    "org": "OpenAI",
+    "date": "2026-09-08",
     "type": "model",
-    "summary": "Edit specific sections of a generated song by prompt, use images or video as creative references, and pull instruments out of samples. v6-mini is free for everyone. v6 and v6-wild need a paid plan.",
-    "url": "https://suno.com/blog/introducing-v6"
+    "summary": "Doodle a layout with @Sketch and get a finished image that follows it, with sharper detail, better reference-photo fidelity, and half the wait. Free for every ChatGPT tier. Two API models, Flare (fast) and Sunburst (precise), at $30 per million output tokens.",
+    "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
   }
 ]
