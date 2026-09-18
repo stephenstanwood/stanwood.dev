@@ -59,13 +59,16 @@ const THEMES: Record<string, BeachTheme> = {
 
 const THEME_KEYS = Object.keys(THEMES) as (keyof typeof THEMES)[];
 
-const TIDE_SPEED_MULTIPLIER: Record<"calm" | "normal" | "surge", number> = {
+type TideSpeed = "calm" | "normal" | "surge";
+const TIDE_SPEEDS: readonly TideSpeed[] = ["calm", "normal", "surge"];
+
+const TIDE_SPEED_MULTIPLIER: Record<TideSpeed, number> = {
   calm: 0.4,
   normal: 1,
   surge: 2.5,
 };
 
-const TIDE_SPEED_LABEL: Record<"calm" | "normal" | "surge", string> = {
+const TIDE_SPEED_LABEL: Record<TideSpeed, string> = {
   calm: "🌊 calm",
   normal: "🌊🌊 normal",
   surge: "🌊🌊🌊 surge",
@@ -164,7 +167,7 @@ interface Seagull {
   frame: number;  // animation counter
 }
 
-function readUrlParams(): { theme: string; speed: "calm" | "normal" | "surge" } {
+function readUrlParams(): { theme: string; speed: TideSpeed } {
   if (typeof window === "undefined") return { theme: "tropical", speed: "normal" };
   const params = new URLSearchParams(window.location.search);
 
@@ -174,7 +177,7 @@ function readUrlParams(): { theme: string; speed: "calm" | "normal" | "surge" } 
     : "tropical";
 
   const speedParam = params.get("speed");
-  const speed: "calm" | "normal" | "surge" =
+  const speed: TideSpeed =
     speedParam === "calm" || speedParam === "surge" ? speedParam : "normal";
 
   return { theme, speed };
@@ -191,7 +194,7 @@ export default function PixelTide() {
   const themeRef = useRef<BeachTheme>(THEMES[initParams.theme] ?? THEMES.tropical);
   const tideSpeedRef = useRef(1);
   const [activeTheme, setActiveTheme] = useState<string>(initParams.theme);
-  const [tideSpeed, setTideSpeed] = useState<"calm" | "normal" | "surge">(initParams.speed);
+  const [tideSpeed, setTideSpeed] = useState<TideSpeed>(initParams.speed);
   const [stats, setStats] = useState({ built: 0, lost: 0, standing: 0, oldestSec: 0 });
   const statsRef = useRef({ built: 0, lost: 0 });
   const [tideRising, setTideRising] = useState(false);
@@ -682,7 +685,7 @@ export default function PixelTide() {
 
         {/* Tide speed selector */}
         <div className="flex items-center gap-1">
-          {(["calm", "normal", "surge"] as const).map((s) => (
+          {TIDE_SPEEDS.map((s) => (
             <button
               key={s}
               onClick={() => setTideSpeed(s)}

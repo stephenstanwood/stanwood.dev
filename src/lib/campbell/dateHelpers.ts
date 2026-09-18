@@ -7,7 +7,7 @@ export const DAY_MS = MS_PER_DAY;
 export const CAMPBELL_TIME_ZONE = PACIFIC_TZ;
 
 // Council/hearing feeds are considered stale once the newest record is this old.
-export const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
+const COUNCIL_SOURCE_STALE_AFTER_DAYS = 90;
 
 const MONTHS: Record<string, number> = {
   jan: 1,
@@ -168,4 +168,22 @@ export function parseCampbellDate(value = ""): Date | null {
 
   const parsed = new Date(normalized);
   return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+/**
+ * True when a council record's listed date is older than COUNCIL_SOURCE_STALE_AFTER_DAYS
+ * as of `referenceDay`. Both sides are compared at Campbell-midnight granularity, and a
+ * missing or unparseable date is treated as not stale (the UI then falls back to the
+ * generic "meetings happen on…" copy rather than a misleading staleness warning).
+ */
+export function councilSourceLooksStale(
+  record: { date: string } | undefined,
+  referenceDay: Date = new Date(),
+): boolean {
+  const recordDate = parseCampbellDate(record?.date ?? "");
+  if (!recordDate) return false;
+  const ageDays = Math.floor(
+    (startOfDay(referenceDay).getTime() - startOfDay(recordDate).getTime()) / DAY_MS,
+  );
+  return ageDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
 }

@@ -48,10 +48,14 @@ const VALID_FOCUSES: WorkoutFocus[] = ["any", "endurance", "speed", "technique"]
 function readUrlParams() {
   if (typeof window === "undefined") return null;
   const params = new URLSearchParams(window.location.search);
-  const duration = params.get("d") ? parseInt(params.get("d")!, 10) : null;
+  const intParam = (key: string) => {
+    const raw = params.get(key);
+    return raw ? parseInt(raw, 10) : null;
+  };
+  const duration = intParam("d");
   const pace = params.get("p");
   const unit = params.get("u") as "meters" | "yards" | null;
-  const seedParam = params.get("s") ? parseInt(params.get("s")!, 10) : null;
+  const seed = intParam("s");
   const focusParam = params.get("f") as WorkoutFocus | null;
   const focus = focusParam && VALID_FOCUSES.includes(focusParam) ? focusParam : null;
   const eqParam = params.get("eq");
@@ -64,7 +68,7 @@ function readUrlParams() {
       fins: gears.includes("fins"),
     };
   }
-  return { duration, pace, unit, seed: seedParam, focus, equipment };
+  return { duration, pace, unit, seed, focus, equipment };
 }
 
 function workoutToText(workout: Workout): string {

@@ -3,8 +3,7 @@ import { CIVIC_SOURCES } from "../../data/campbell";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
 import {
-  COUNCIL_SOURCE_STALE_AFTER_DAYS,
-  DAY_MS,
+  councilSourceLooksStale,
   parseCampbellDate,
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
@@ -142,11 +141,7 @@ export default function CivicRecords() {
   const upcomingCount = PUBLIC_HEARINGS.filter((item) => isUpcomingHearing(item, today)).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
   const latestCouncilRecord = preferredCouncilRecord(COUNCIL_RECORDS);
-  const latestCouncilDate = parseCampbellDate(latestCouncilRecord?.date ?? "");
-  const latestCouncilAgeDays = latestCouncilDate
-    ? Math.floor((today.getTime() - latestCouncilDate.getTime()) / DAY_MS)
-    : 0;
-  const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+  const latestCouncilIsStale = councilSourceLooksStale(latestCouncilRecord, today);
 
   return (
     <div className="cb-records">
@@ -232,7 +227,7 @@ export default function CivicRecords() {
             <span className="cb-live-record-kicker">Meeting portal</span>
             <h4>Council packets, minutes, and video</h4>
             <p>
-              {councilSourceLooksStale && latestCouncilRecord
+              {latestCouncilIsStale && latestCouncilRecord
                 ? `The city meeting portal currently lists ${latestCouncilRecord.date} as the newest council packet. Open the official source for anything posted after that.`
                 : "Open the official agenda, minutes, or meeting video from the city's eScribe meeting portal."}
             </p>

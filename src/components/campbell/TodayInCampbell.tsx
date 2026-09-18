@@ -3,8 +3,7 @@ import eventFeed from "../../data/campbellEvents.json";
 import councilFeed from "../../data/campbellCouncilRecords.json";
 import hearingFeed from "../../data/campbellPublicHearings.json";
 import {
-  COUNCIL_SOURCE_STALE_AFTER_DAYS,
-  DAY_MS,
+  councilSourceLooksStale,
   endOfDay,
   parseCampbellDate,
   startOfDay,
@@ -73,11 +72,7 @@ export default function TodayInCampbell() {
     .find((item) => item.date.getTime() >= referenceDay.getTime());
   const recentHearings = hearingsByDate.slice(0, 3);
   const latestCouncil = preferredCouncilRecord(COUNCIL_RECORDS);
-  const latestCouncilDate = parseCampbellDate(latestCouncil?.date ?? "");
-  const latestCouncilAgeDays = latestCouncilDate
-    ? Math.floor((referenceDay.getTime() - startOfDay(latestCouncilDate).getTime()) / DAY_MS)
-    : 0;
-  const councilSourceLooksStale = latestCouncilAgeDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
+  const latestCouncilIsStale = councilSourceLooksStale(latestCouncil, referenceDay);
   const latestCouncilPrimaryUrl = latestCouncil?.mediaUrl || latestCouncil?.agendaUrl;
   const latestCouncilPrimaryLabel = latestCouncil?.mediaUrl ? "Newest council video" : "Newest listed council packet";
 
@@ -147,7 +142,7 @@ export default function TodayInCampbell() {
                 {latestCouncilPrimaryLabel}
               </a>
               <span>
-                {councilSourceLooksStale
+                {latestCouncilIsStale
                   ? `City meeting portal currently lists ${latestCouncil.date} as newest`
                   : latestCouncil.date}
               </span>

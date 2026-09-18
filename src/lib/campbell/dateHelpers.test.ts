@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { addCampbellDays, endOfDay, parseCampbellDate, startOfDay } from "./dateHelpers";
+import {
+  addCampbellDays,
+  councilSourceLooksStale,
+  endOfDay,
+  parseCampbellDate,
+  startOfDay,
+} from "./dateHelpers";
 
 describe("Campbell date helpers", () => {
   it("parses timezone-free ISO event times as Campbell local time", () => {
@@ -28,5 +34,23 @@ describe("Campbell date helpers", () => {
     expect(addCampbellDays(new Date("2026-10-31T07:00:00.000Z"), 2).toISOString()).toBe(
       "2026-11-02T08:00:00.000Z",
     );
+  });
+});
+
+describe("councilSourceLooksStale", () => {
+  const referenceDay = new Date("2026-09-18T12:00:00-07:00");
+
+  it("is stale once the newest record is older than the threshold", () => {
+    expect(councilSourceLooksStale({ date: "May 1, 2026" }, referenceDay)).toBe(true);
+  });
+
+  it("is fresh for a recent record", () => {
+    expect(councilSourceLooksStale({ date: "September 15, 2026" }, referenceDay)).toBe(false);
+  });
+
+  it("treats a missing or unparseable date as not stale", () => {
+    expect(councilSourceLooksStale(undefined, referenceDay)).toBe(false);
+    expect(councilSourceLooksStale({ date: "" }, referenceDay)).toBe(false);
+    expect(councilSourceLooksStale({ date: "sometime soon" }, referenceDay)).toBe(false);
   });
 });
