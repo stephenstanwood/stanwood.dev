@@ -1,11 +1,5 @@
 import { useState, useCallback } from "react";
-import {
-  CAMPBELL_TIME_ZONE,
-  COUNCIL_SOURCE_STALE_AFTER_DAYS,
-  DAY_MS,
-  parseCampbellDate,
-  startOfDay,
-} from "../../lib/campbell/dateHelpers";
+import { CAMPBELL_TIME_ZONE, councilSourceLooksStale } from "../../lib/campbell/dateHelpers";
 import {
   preferredCouncilRecord,
   type CampbellCouncilRecord,
@@ -14,16 +8,6 @@ import {
 import councilFeed from "../../data/campbellCouncilRecords.json";
 
 const LATEST_COUNCIL_RECORD = preferredCouncilRecord(councilFeed.items as CampbellCouncilRecord[]);
-
-function councilSourceLooksStale() {
-  const latestDate = parseCampbellDate(LATEST_COUNCIL_RECORD?.date ?? "");
-  if (!latestDate) return false;
-
-  const ageDays = Math.floor(
-    (startOfDay(new Date()).getTime() - startOfDay(latestDate).getTime()) / DAY_MS,
-  );
-  return ageDays > COUNCIL_SOURCE_STALE_AFTER_DAYS;
-}
 
 export default function CouncilDigest() {
   const [digest, setDigest] = useState<DigestSummary | null>(null);
@@ -49,7 +33,7 @@ export default function CouncilDigest() {
   }, []);
 
   if (!digest && !loading && !error) {
-    const sourceLooksStale = councilSourceLooksStale();
+    const sourceLooksStale = councilSourceLooksStale(LATEST_COUNCIL_RECORD);
 
     return (
       <div className="cb-digest-empty">
