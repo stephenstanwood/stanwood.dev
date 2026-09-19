@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-09-18T10:30:08.516087+00:00",
+  "built_at": "2026-09-19T10:30:09.384300+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -309,6 +309,16 @@
       "video_count": 1,
       "video_ids": [
         "smSp11lXLJI"
+      ]
+    },
+    {
+      "key": "__single__br-guoJ58gA",
+      "is_single": true,
+      "display_name": "Stanford Webinar - A Conversation on the Future of Translational Medicine",
+      "best_score": -4,
+      "video_count": 1,
+      "video_ids": [
+        "br-guoJ58gA"
       ]
     },
     {
@@ -2170,6 +2180,22 @@
       "score": 0,
       "categories": [],
       "description": ""
+    },
+    {
+      "id": "br-guoJ58gA",
+      "title": "Stanford Webinar - A Conversation on the Future of Translational Medicine",
+      "url": "https://www.youtube.com/watch?v=br-guoJ58gA",
+      "duration": 2968,
+      "published_at": "2026-09-18T00:00:00+00:00",
+      "series": null,
+      "series_display": "Stanford Webinar - A Conversation on the Future of Translational Medicine",
+      "lecture_num": null,
+      "score": -4,
+      "categories": [
+        "applied_ai",
+        "healthcare_ai"
+      ],
+      "description": "View the details of our Drug Development: From Discovery to Commercialization Graduate Certificate:\n\n\ud83c\udf93 https://online.stanford.edu/programs/drug-development-discovery-commercialization-graduate-certificate\n\nWhat does it take to move a discovery from the lab into the clinic, and who's equipped to lead that work? Translational medicine is the discipline sitting at that critical crossroads \u2014 bridging"
     },
     {
       "id": "ZlLV9ZHauAM",
