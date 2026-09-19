@@ -2103,6 +2103,43 @@ function hearingRecordsReferToSameFile(first, second) {
   return compactText(first.hearingAt).toLowerCase() === compactText(second.hearingAt).toLowerCase();
 }
 
+function normalizeStreetAddress(value = "") {
+  return compactText(value)
+    .toLowerCase()
+    .replace(/[.,]/g, "")
+    .replace(/\bavenue\b/g, "ave")
+    .replace(/\bstreet\b/g, "st")
+    .replace(/\broad\b/g, "rd")
+    .replace(/\bdrive\b/g, "dr")
+    .replace(/\blane\b/g, "ln")
+    .replace(/\bboulevard\b/g, "blvd")
+    .replace(/\bcourt\b/g, "ct")
+    .replace(/\bcircle\b/g, "cir")
+    .replace(/\bparkway\b/g, "pkwy")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function projectAddressKey(item) {
+  const text = normalizeStreetAddress([item.address, item.title, item.summary].filter(Boolean).join(" "));
+  const match = text.match(
+    /\b\d{2,6}\s+(?:[nsew]\s+)?[a-z0-9' -]+?\s+(?:ave|st|rd|dr|ln|blvd|way|ct|cir|pkwy)\b/,
+  );
+  return match?.[0] ?? "";
+}
+
+function hearingRecordsReferToSameProject(first, second) {
+  if (first.body !== second.body) return false;
+  if (first.fileNo && second.fileNo && first.fileNo !== second.fileNo) return false;
+
+  const firstTime = hearingTimestamp(first);
+  const secondTime = hearingTimestamp(second);
+  if (firstTime && secondTime && firstTime !== secondTime) return false;
+
+  const firstAddress = projectAddressKey(first);
+  return Boolean(firstAddress && firstAddress === projectAddressKey(second));
+}
+
 function mergeHearingRecords(first, second) {
   let primary = first;
   if (!first.noticeUrl && second.noticeUrl) primary = second;
@@ -2129,14 +2166,16 @@ function hearingIdentityKey(item) {
   return `${item.body}|${item.title}|${item.hearingAt}`;
 }
 
-function dedupeHearingRecords(items) {
+export function dedupeHearingRecords(items) {
   const merged = [];
 
   for (const item of items) {
     const itemKey = hearingIdentityKey(item);
     const existingIndex = merged.findIndex(
       (existing) =>
-        hearingIdentityKey(existing) === itemKey || hearingRecordsReferToSameFile(existing, item),
+        hearingIdentityKey(existing) === itemKey ||
+        hearingRecordsReferToSameFile(existing, item) ||
+        hearingRecordsReferToSameProject(existing, item),
     );
 
     if (existingIndex < 0) {

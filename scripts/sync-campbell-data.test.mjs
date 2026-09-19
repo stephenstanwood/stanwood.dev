@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   applyDowntownDetailTimes,
+  dedupeHearingRecords,
   eventRejectionReason,
   normalizeBusinessAddress,
   parseNoticeDetails,
@@ -123,6 +124,46 @@ describe("Campbell public notice parsing", () => {
       planner: "Daniel Fama, Senior Planner",
       summary:
         "Request to allow the establishment of an approximately 26,000-square-foot grocery store (Apni Mandi Farmer's Market) with off-site alcohol sales and 24-hour operation, including construction of an approximately 920-square-foot mezzanine, tenant-related building facade alterations, and associated parking lot modifications",
+    });
+  });
+
+  it("merges skipped notice PDFs with matching agenda items for the same project address", () => {
+    const records = dedupeHearingRecords([
+      {
+        id: "notice-3454",
+        body: "Planning Commission",
+        title: "1063 Dell Ave - Allow establishment of a contractor's equipment yard.",
+        hearingAt: "",
+        summary: "1063 Dell Ave - Allow establishment of a contractor's equipment yard.",
+        address: "",
+        fileNo: "",
+        planner: "",
+        sourceType: "Public notice",
+        noticeUrl: "https://www.campbellca.gov/Archive.aspx?ADID=3454",
+        extractionNote: "PDF is 31MB",
+      },
+      {
+        id: "agenda-planning-commission-August-11-2026-2",
+        body: "Planning Commission",
+        title: "1063 Dell Avenue - Conditional Use Permit and Tree Removal Permit",
+        hearingAt: "August 11, 2026 at 7:00 PM",
+        summary: "Allow the establishment of a contractor's equipment yard on property located at 1063 Dell Avenue.",
+        address: "",
+        fileNo: "PLN-2026-58",
+        planner: "Daniel Fama, Senior",
+        sourceType: "Agenda item",
+        sourceUrl: "https://www.campbellca.gov/AgendaCenter/ViewFile/Agenda/_08112026-3266",
+        agendaUrl: "https://www.campbellca.gov/AgendaCenter/ViewFile/Agenda/_08112026-3266",
+      },
+    ]);
+
+    expect(records).toHaveLength(1);
+    expect(records[0]).toMatchObject({
+      id: "notice-3454",
+      hearingAt: "August 11, 2026 at 7:00 PM",
+      fileNo: "PLN-2026-58",
+      noticeUrl: "https://www.campbellca.gov/Archive.aspx?ADID=3454",
+      agendaUrl: "https://www.campbellca.gov/AgendaCenter/ViewFile/Agenda/_08112026-3266",
     });
   });
 });
