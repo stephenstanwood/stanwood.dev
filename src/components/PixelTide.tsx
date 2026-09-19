@@ -445,10 +445,7 @@ export default function PixelTide() {
           }
         }
 
-        if (castle.blocks.length === 0) {
-          castles.splice(ci, 1);
-          statsRef.current.lost++;
-        } else if (eroded) {
+        if (castle.blocks.length > 0 && eroded) {
           const occupied = new Set(castle.blocks.map(b => `${b.col},${b.row}`));
           let changed = true;
           while (changed) {
@@ -475,10 +472,11 @@ export default function PixelTide() {
               }
             }
           }
-          if (castle.blocks.length === 0) {
-            castles.splice(ci, 1);
-            statsRef.current.lost++;
-          }
+        }
+
+        if (castle.blocks.length === 0) {
+          castles.splice(ci, 1);
+          statsRef.current.lost++;
         }
       }
 
