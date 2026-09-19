@@ -24,16 +24,16 @@ const OUT_PATH = join(__dirname, "..", "src", "data", "money.json");
 // ── Load .env.local ──────────────────────────────────────────────
 function loadEnv() {
   for (const name of [".env.local", ".env"]) {
-    const p = join(__dirname, "..", name);
-    if (!existsSync(p)) continue;
-    for (const line of readFileSync(p, "utf-8").split("\n")) {
+    const envPath = join(__dirname, "..", name);
+    if (!existsSync(envPath)) continue;
+    for (const line of readFileSync(envPath, "utf-8").split("\n")) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith("#")) continue;
-      const eq = trimmed.indexOf("=");
-      if (eq < 0) continue;
-      const key = trimmed.slice(0, eq).trim();
-      const val = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
-      if (!process.env[key]) process.env[key] = val;
+      const separatorIndex = trimmed.indexOf("=");
+      if (separatorIndex < 0) continue;
+      const key = trimmed.slice(0, separatorIndex).trim();
+      const value = trimmed.slice(separatorIndex + 1).trim().replace(/^["']|["']$/g, "");
+      if (!process.env[key]) process.env[key] = value;
     }
   }
 }
@@ -42,12 +42,12 @@ loadEnv();
 // ── Helpers ──────────────────────────────────────────────────────
 function monthRange() {
   const now = new Date();
-  const y = now.getFullYear();
-  const m = now.getMonth();
-  const from = new Date(Date.UTC(y, m, 1));
-  const to = new Date(Date.UTC(y, m + 1, 1));
+  const year = now.getFullYear();
+  const monthIndex = now.getMonth();
+  const from = new Date(Date.UTC(year, monthIndex, 1));
+  const to = new Date(Date.UTC(year, monthIndex + 1, 1));
   return {
-    label: `${y}-${String(m + 1).padStart(2, "0")}`,
+    label: `${year}-${String(monthIndex + 1).padStart(2, "0")}`,
     from,
     to,
     fromUnix: Math.floor(from.getTime() / 1000),
@@ -55,8 +55,8 @@ function monthRange() {
   };
 }
 
-function centsStr(c) {
-  return c < 100 ? `${c}\u00a2` : `$${(c / 100).toFixed(2)}`;
+function centsStr(cents) {
+  return cents < 100 ? `${cents}\u00a2` : `$${(cents / 100).toFixed(2)}`;
 }
 
 function dollarsToCents(amount) {
@@ -530,17 +530,17 @@ async function main() {
     collectRecraft(),
   ]);
 
-  const unwrap = (r) =>
-    r.status === "fulfilled"
-      ? r.value
-      : { totalCents: null, note: `Error: ${r.reason?.message || r.reason}` };
+  const settledValue = (result) =>
+    result.status === "fulfilled"
+      ? result.value
+      : { totalCents: null, note: `Error: ${result.reason?.message || result.reason}` };
 
-  month.services.vercel = unwrap(vercel);
-  month.services.anthropic = unwrap(anthropic);
-  month.services.openai = unwrap(openai);
-  month.services.neon = unwrap(neon);
-  month.services.recraft = unwrap(recraft);
-  const mercuryResult = unwrap(mercury);
+  month.services.vercel = settledValue(vercel);
+  month.services.anthropic = settledValue(anthropic);
+  month.services.openai = settledValue(openai);
+  month.services.neon = settledValue(neon);
+  month.services.recraft = settledValue(recraft);
+  const mercuryResult = settledValue(mercury);
   if (mercuryResult.expenses) {
     data.subscriptions = mergeMercuryExpenses(data.subscriptions || [], mercuryResult.expenses);
   }
