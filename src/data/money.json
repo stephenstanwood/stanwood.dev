@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-19T19:10:20.932Z",
+  "lastUpdated": "2026-09-20T01:10:18.407Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-19T19:10:20.932Z",
+        "collectedAt": "2026-09-20T01:10:18.407Z",
         "services": {
           "vercel": {
-            "totalCents": 7714,
+            "totalCents": 7775,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 7166
+                "cents": 7220
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 234
+                "cents": 239
               },
               {
                 "name": "Blob Data Transfer",
@@ -341,7 +341,11 @@
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 53
+                "cents": 54
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 25
               },
               {
                 "name": "Blob Advanced Operations",
@@ -349,10 +353,6 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 24
-              },
-              {
-                "name": "Fluid Provisioned Memory",
                 "cents": 24
               },
               {
@@ -391,19 +391,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 8167,
+            "totalCents": 9270,
             "breakdown": [
               {
                 "name": "claude-opus-5",
-                "cents": 4124
+                "cents": 5024
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 2193
+                "cents": 2277
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 1623
+                "cents": 1739
               },
               {
                 "name": "claude-fable-5",
@@ -411,7 +411,7 @@
               },
               {
                 "name": "claude-haiku-4-5",
-                "cents": 27
+                "cents": 30
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
