@@ -733,20 +733,27 @@ function parseCityCalendarEndDate(date = "", startDate = "") {
   return `${datePart}T${END_OF_DAY}`;
 }
 
-const CITY_CALENDAR_MONTH_NAMES = {
-  "01": "January",
-  "02": "February",
-  "03": "March",
-  "04": "April",
-  "05": "May",
-  "06": "June",
-  "07": "July",
-  "08": "August",
-  "09": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December",
-};
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const MONTH_NUMBERS = Object.fromEntries(
+  MONTH_NAMES.map((month, index) => [
+    month.slice(0, 3).toLowerCase(),
+    String(index + 1).padStart(2, "0"),
+  ]),
+);
 
 function parseCityCalendarTime(hour, minute = "0", meridiem = "") {
   return {
@@ -1219,7 +1226,7 @@ function splitModernCityCalendarSections(html) {
 }
 
 function parseModernCityCalendarEventDate({ year, month, day }, timeText = "") {
-  const monthName = CITY_CALENDAR_MONTH_NAMES[month];
+  const monthName = MONTH_NAMES[Number(month) - 1];
   if (!monthName) return { date: "", startDate: "", endDate: "" };
 
   const date = cleanSentence(`${monthName} ${Number(day)}, ${year}${timeText ? `, ${timeText}` : ""}`);
@@ -1312,21 +1319,6 @@ async function enrichCityCalendarEvents(events) {
 
   return enrichedEvents;
 }
-
-const MONTH_NUMBERS = {
-  jan: "01",
-  feb: "02",
-  mar: "03",
-  apr: "04",
-  may: "05",
-  jun: "06",
-  jul: "07",
-  aug: "08",
-  sep: "09",
-  oct: "10",
-  nov: "11",
-  dec: "12",
-};
 
 function libraryEventYear(month, day, referenceDate = new Date()) {
   const year = referenceDate.getFullYear();
