@@ -1,27 +1,43 @@
 [
   {
+    "name": "Qwen3.8-Omni-Flash",
+    "org": "Alibaba",
+    "date": "2026-09-18",
+    "type": "model",
+    "summary": "Feed text, images, audio, or video into one 1M-token context, then have the model plan, call tools, and finish multimedia work such as video editing or summarization. Available through Qwen APIs with OpenAI-compatible calls.",
+    "url": "https://qwen.ai/blog?id=qwen3.8-omni-flash"
+  },
+  {
+    "name": "Grok Voice Transcribe 2.0",
+    "org": "xAI",
+    "date": "2026-09-18",
+    "type": "model",
+    "summary": "Transcribe noisy calls, recordings, or live audio with timestamps, speaker labels, keyword biasing, and automatic language switching. The API costs $0.10 per hour for batch or $0.20 for streaming, making searchable video and voice features cheap to ship.",
+    "url": "https://x.ai/news/grok-voice-transcribe-2"
+  },
+  {
     "name": "Bonsai 2 27B",
     "org": "PrismML",
     "date": "2026-09-17",
     "type": "model",
-    "summary": "Run a 27B reasoning, coding, and vision model on a laptop: ternary weights squeeze it to 5.9GB while keeping 98% of full-precision scores. 262K context, Apache 2.0, MLX builds for Mac and iPhone plus CUDA. Weights on Hugging Face.",
+    "summary": "Run a 27B reasoning, coding, and vision model on a laptop: ternary weights squeeze it to 5.9GB while keeping 98% of full-precision scores. It has 262K context, Apache 2.0 weights on Hugging Face, and MLX builds for Mac and iPhone plus CUDA.",
     "url": "https://prismml.com/news/bonsai-2-27b"
-  },
-  {
-    "name": "Home MCP",
-    "org": "Google",
-    "date": "2026-09-16",
-    "type": "tool",
-    "summary": "Point Claude, ChatGPT, or your own agent at your Nest and Matter devices over MCP to control lights, read camera summaries, or build a custom dashboard. A companion Developer MCP feeds Home API docs into Claude Code and Cursor. US early access, Premium Advanced plan.",
-    "url": "https://techcrunch.com/2026/09/16/your-ai-agents-can-now-control-your-google-home-devices/"
   },
   {
     "name": "Claude Docs + Slides",
     "org": "Anthropic",
     "date": "2026-09-16",
     "type": "tool",
-    "summary": "Ask for a doc or a deck in a normal chat and get an editable document or presentation you can edit in place, present, or export to Word, PowerPoint, or PDF. Cowork folds into chat too. Pro and Max first, Free and Team later.",
+    "summary": "Ask for a doc or deck in a normal chat and get an editable document or presentation you can revise in place, present, or export to Word, PowerPoint, or PDF. Cowork is folded into chat too, with Pro and Max access first.",
     "url": "https://venturebeat.com/technology/anthropic-is-killing-off-cowork-and-folding-it-into-claude-launching-claude-docs-and-claude-slides"
+  },
+  {
+    "name": "Jev",
+    "org": "TypeSafe AI",
+    "date": "2026-09-15",
+    "type": "model",
+    "summary": "Turn messy input into typed choices, scores, and confidence values your code can use directly without parsing prose. Early-access API calls take 70–500ms, cost $0.042 per million input tokens, and charge nothing for output.",
+    "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
   },
   {
     "name": "Gemini 3.8 Live",
@@ -32,35 +48,19 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/"
   },
   {
-    "name": "Projects",
-    "org": "Cursor",
-    "date": "2026-09-10",
+    "name": "Cline Desktop",
+    "org": "Cline",
+    "date": "2026-09-14",
     "type": "tool",
-    "summary": "Hand a feature, migration, or app to a coordinator agent that plans the work, farms it out to parallel subagents in the cloud, and brings back results to review. Keeps context for months and runs on after you close the laptop. Beta for all users.",
-    "url": "https://cursor.com/changelog/projects"
+    "summary": "Run parallel coding agents from one open-source desktop app, schedule recurring work, and pick from 300-plus hosted or open-weight models. It supports local workspaces, plugins, MCP servers, and skills on macOS and Windows.",
+    "url": "https://cline.bot/blog/cline-desktop-an-open-source-app-for-open-weight-models"
   },
   {
     "name": "Agents API",
     "org": "OpenAI",
     "date": "2026-09-10",
     "type": "tool",
-    "summary": "Build cloud agents on the same harness that runs Codex with one API call. It handles sessions, context compaction, sub-agents, and crash recovery, and you pick the sandbox. Public beta for all developers, no fee beyond tokens and tools.",
+    "summary": "Build cloud agents on the same harness that runs Codex with one API call, including sessions, context compaction, sub-agents, crash recovery, and your choice of sandbox. The public beta is open to all developers with no fee beyond tokens and tools.",
     "url": "https://openai.com/index/introducing-the-agents-api/"
-  },
-  {
-    "name": "DeepSeek V4.1 Flash",
-    "org": "DeepSeek",
-    "date": "2026-09-10",
-    "type": "model",
-    "summary": "Run a 1M-context multimodal model for pennies — $0.30 per million input tokens at peak, half that off-peak. It beats the older V4 Pro on speed and cost, and the 485B weights are up on Hugging Face.",
-    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
-  },
-  {
-    "name": "ChatGPT Images 2.5",
-    "org": "OpenAI",
-    "date": "2026-09-08",
-    "type": "model",
-    "summary": "Doodle a layout with @Sketch and get a finished image that follows it, with sharper detail, better reference-photo fidelity, and half the wait. Free for every ChatGPT tier. Two API models, Flare (fast) and Sunburst (precise), at $30 per million output tokens.",
-    "url": "https://openai.com/index/introducing-chatgpt-images-2-5/"
   }
 ]
