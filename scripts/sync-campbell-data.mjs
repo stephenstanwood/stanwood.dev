@@ -733,6 +733,21 @@ function parseCityCalendarEndDate(date = "", startDate = "") {
   return `${datePart}T${END_OF_DAY}`;
 }
 
+const CITY_CALENDAR_MONTH_NAMES = {
+  "01": "January",
+  "02": "February",
+  "03": "March",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "August",
+  "09": "September",
+  "10": "October",
+  "11": "November",
+  "12": "December",
+};
+
 function parseCityCalendarTime(hour, minute = "0", meridiem = "") {
   return {
     hour: to24Hour(hour, meridiem),
@@ -1149,7 +1164,7 @@ function extractCalendarLocation(itemHtml) {
   return location === "Event Location" ? "" : location;
 }
 
-function parseCityCalendarEvents(html) {
+function parseLegacyCityCalendarEvents(html) {
   return splitCalendarBlocks(html).flatMap((block) => {
     const category = cleanHtml(block.match(/<h2[^>]*class="[^"]*title[^"]*"[^>]*>([\s\S]*?)<\/h2>/i)?.[1] ?? "");
     const items = [...block.matchAll(/<li>\s*([\s\S]*?)\s*<\/li>/gi)];
@@ -1191,6 +1206,111 @@ function parseCityCalendarEvents(html) {
       })
       .filter(Boolean);
   });
+}
+
+function splitModernCityCalendarSections(html) {
+  const starts = [...html.matchAll(/id="calendar-events-header-(\d{4})-(\d{2})-(\d{2})"/gi)];
+  return starts.map((match, index) => ({
+    year: match[1],
+    month: match[2],
+    day: match[3],
+    html: html.slice(match.index ?? 0, starts[index + 1]?.index ?? html.length),
+  }));
+}
+
+function parseModernCityCalendarEventDate({ year, month, day }, timeText = "") {
+  const monthName = CITY_CALENDAR_MONTH_NAMES[month];
+  if (!monthName) return { date: "", startDate: "", endDate: "" };
+
+  const date = cleanSentence(`${monthName} ${Number(day)}, ${year}${timeText ? `, ${timeText}` : ""}`);
+  const parsedDate = parseCityCalendarDate(date);
+
+  return {
+    date,
+    startDate: parsedDate.startDate,
+    endDate: parsedDate.endDate,
+  };
+}
+
+export function parseCityCalendarDetailDescription(html = "") {
+  const candidates = [
+    html.match(/<div[^>]*id="event-description"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "",
+    html.match(/<div[^>]*id="time-details"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "",
+  ];
+
+  for (const candidate of candidates) {
+    const description = truncateEventDescription(cleanHtml(candidate));
+    if (description) return description;
+  }
+
+  return "";
+}
+
+function parseModernCityCalendarEvents(html) {
+  return splitModernCityCalendarSections(html).flatMap((section) => {
+    const items = [...section.html.matchAll(/<li\b[^>]*id="event-[^"]+"[\s\S]*?<\/li>/gi)];
+
+    return items
+      .map(([itemHtml]) => {
+        const titleLink = itemHtml.match(/<a\b(?=[^>]*\bcalendar-title-link\b)[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/i);
+        const title = cleanHtml(titleLink?.[2] ?? "");
+        const details = [...itemHtml.matchAll(/<div[^>]*class="[^"]*\bfw-bold\b[^"]*\btext-break\b[^"]*"[^>]*>([\s\S]*?)<\/div>/gi)]
+          .map(([, value]) => cleanHtml(value))
+          .filter(Boolean);
+        const timeIndex = details.findIndex((value) => /\b(?:\d{1,2}(?::\d{2})?\s*(?:AM|PM)|all\s+day)\b/i.test(value));
+        const timeText = timeIndex >= 0 ? details[timeIndex] : "";
+        const location = details.find((_, index) => index !== timeIndex) ?? "";
+        const category = cleanHtml(itemHtml.match(/<div[^>]*class="[^"]*\bbadge\b[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1] ?? "");
+        const parsedDate = parseModernCityCalendarEventDate(section, timeText);
+        const url = absoluteUrl(titleLink?.[1] ?? "", CITY_BASE_URL);
+
+        if (!title || !url || !parsedDate.startDate) return null;
+
+        return {
+          title,
+          date: parsedDate.date,
+          cost: "",
+          location,
+          description: "",
+          url,
+          imageUrl: "",
+          category,
+          startDate: parsedDate.startDate,
+          ...(parsedDate.endDate ? { endDate: parsedDate.endDate } : {}),
+          source: "City of Campbell Calendar",
+          sourceUrl: CITY_CALENDAR_URL,
+        };
+      })
+      .filter(Boolean);
+  });
+}
+
+export function parseCityCalendarEvents(html) {
+  const legacyEvents = parseLegacyCityCalendarEvents(html);
+  return legacyEvents.length ? legacyEvents : parseModernCityCalendarEvents(html);
+}
+
+async function enrichCityCalendarEvents(events) {
+  const enrichedEvents = [];
+
+  for (const event of events) {
+    if (event.description || !/\/m\/calendar\/event\/detail\//i.test(event.url)) {
+      enrichedEvents.push(event);
+      continue;
+    }
+
+    try {
+      await sleep(100);
+      const detailHtml = await fetchText(event.url);
+      const description = parseCityCalendarDetailDescription(detailHtml);
+      enrichedEvents.push(description ? { ...event, description } : event);
+    } catch (err) {
+      console.warn(`Warning: reused City calendar list details for ${event.title} because ${err.message}`);
+      enrichedEvents.push(event);
+    }
+  }
+
+  return enrichedEvents;
 }
 
 const MONTH_NUMBERS = {
@@ -1615,6 +1735,19 @@ async function fetchChamberEventsHtml() {
   };
 }
 
+function endDateLooksBroadPlaceholder(endDate = "") {
+  return /T23:59(?::(?:00|59))?(?:Z|[+-]\d{2}:\d{2})?$/.test(endDate);
+}
+
+export function mergedEventEndDate(existing, event) {
+  if (!existing.endDate) return event.endDate;
+  if (!event.endDate) return existing.endDate;
+  if (endDateLooksBroadPlaceholder(existing.endDate) && !endDateLooksBroadPlaceholder(event.endDate)) {
+    return event.endDate;
+  }
+  return existing.endDate;
+}
+
 function mergeEventRecords(existing, event) {
   const sourceNames = new Set([
     ...splitEventSourceNames(existing.source),
@@ -1627,7 +1760,7 @@ function mergeEventRecords(existing, event) {
     ...existing,
     date: existing.date || event.date,
     startDate: existing.startDate || event.startDate,
-    endDate: existing.endDate || event.endDate,
+    endDate: mergedEventEndDate(existing, event),
     cost: existing.cost || event.cost,
     location: existing.location || event.location,
     description: existing.description || event.description,
@@ -2339,9 +2472,11 @@ async function main() {
     downtownEventsSourceNote = `Reused previous Downtown Campbell events because ${eventsPage.error}`;
     console.warn(`Warning: ${downtownEventsSourceNote}`);
   }
-  const cityCalendarEvents = cityCalendarHtmlPages
-    .flatMap((html) => parseCityCalendarEvents(html))
-    .filter((event) => !eventEndsBeforeReferenceDay(event, generatedAtDate));
+  const cityCalendarEvents = await enrichCityCalendarEvents(
+    cityCalendarHtmlPages
+      .flatMap((html) => parseCityCalendarEvents(html))
+      .filter((event) => !eventEndsBeforeReferenceDay(event, generatedAtDate)),
+  );
   let libraryEvents = [];
   let librarySourceNote = "";
   if (libraryPage.html) {

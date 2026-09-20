@@ -3,7 +3,10 @@ import {
   applyDowntownDetailTimes,
   dedupeHearingRecords,
   eventRejectionReason,
+  mergedEventEndDate,
   normalizeBusinessAddress,
+  parseCityCalendarDetailDescription,
+  parseCityCalendarEvents,
   parseNoticeDetails,
 } from "./sync-campbell-data.mjs";
 
@@ -94,6 +97,71 @@ describe("Campbell public event filtering", () => {
     expect(eventRejectionReason({ title: "Planning Commission Regular Meeting", category: "Planning Commission" })).toBe(
       "",
     );
+  });
+});
+
+describe("Campbell City calendar parsing", () => {
+  it("parses the current CivicPlus list-card markup", () => {
+    const events = parseCityCalendarEvents(`
+      <div id="calendar-events-header-2026-09-01">
+        <h2 class="calendar-section-title">Tuesday, September 1</h2>
+      </div>
+      <ul aria-labelledby="calendar-events-header-2026-09-01">
+        <li id="event-3919" class="calendar-list-event">
+          <a href="/m/calendar/event/detail/3919" class="no-underline-link calendar-title-link">
+            <h3 class="fs-5 text-break mb-0">City Council Regular Meeting</h3>
+          </a>
+          <div class="fw-bold d-flex gap-1 text-break">
+            <svg></svg>
+            7:00 PM - 11:59 PM
+          </div>
+          <div class="fw-bold d-flex gap-1 mt-2 mt-lg-0 text-break">
+            <svg></svg>
+            Council Chamber
+          </div>
+          <div class="badge rounded-pill text-dark text-border-primary fw-semibold mw-100 text-truncate">
+            City Council
+          </div>
+        </li>
+      </ul>
+    `);
+
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      title: "City Council Regular Meeting",
+      date: "September 1, 2026, 7:00 PM - 11:59 PM",
+      startDate: "2026-09-01T19:00:00",
+      endDate: "2026-09-01T23:59:00",
+      location: "Council Chamber",
+      category: "City Council",
+      url: "https://www.campbellca.gov/m/calendar/event/detail/3919",
+      source: "City of Campbell Calendar",
+    });
+  });
+
+  it("extracts the short official summary from current detail pages", () => {
+    expect(parseCityCalendarDetailDescription(`
+      <div id="event-description" class="title-truncate title-truncate-3 mb-2">
+        Join us for the 16th Annual Caregivers Count! Conference, designed to educate and support family caregivers of aging loved ones.
+      </div>
+    `)).toBe(
+      "Join us for the 16th Annual Caregivers Count! Conference, designed to educate and support family caregivers of aging loved ones.",
+    );
+
+    expect(parseCityCalendarDetailDescription(`
+      <div id="time-details" class="title-truncate title-truncate-2 mb-2">
+        The meeting will begin promptly at 6:30pm, and is expected to be 60-90 minutes in length.
+      </div>
+    `)).toBe("The meeting will begin promptly at 6:30pm, and is expected to be 60-90 minutes in length.");
+  });
+});
+
+describe("Campbell event feed merging", () => {
+  it("keeps a precise end time over CivicPlus' broad 11:59 PM placeholder", () => {
+    expect(mergedEventEndDate(
+      { endDate: "2026-10-02T23:59:00" },
+      { endDate: "2026-10-02T22:30:00-07:00" },
+    )).toBe("2026-10-02T22:30:00-07:00");
   });
 });
 
