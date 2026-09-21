@@ -38,19 +38,23 @@ const EMPTY_LIST: Record<Exclude<Tab, 'browse'>, { title: string; blurb: (partne
 };
 
 function Modal({ title, children, onClose, wide = false }: { title: string; children: React.ReactNode; onClose: () => void; wide?: boolean }) {
-  const ref = useRef<HTMLDialogElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    const dialog = ref.current;
+    const dialog = dialogRef.current;
     dialog?.showModal();
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => { dialog?.close(); document.body.style.overflow = previousOverflow; };
   }, []);
-  return <dialog ref={ref} className={`sc-modal${wide ? ' wide' : ''}`} onCancel={onClose}
-    onClick={event => { if (event.target === event.currentTarget) {
-      const box = event.currentTarget.getBoundingClientRect();
-      if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) onClose();
-    } }} aria-label={title}>
+  function closeFromBackdrop(event: React.MouseEvent<HTMLDialogElement>) {
+    if (event.target !== event.currentTarget) return;
+    const dialogBounds = event.currentTarget.getBoundingClientRect();
+    const clickedOutsideDialog = event.clientX < dialogBounds.left || event.clientX > dialogBounds.right
+      || event.clientY < dialogBounds.top || event.clientY > dialogBounds.bottom;
+    if (clickedOutsideDialog) onClose();
+  }
+  return <dialog ref={dialogRef} className={`sc-modal${wide ? ' wide' : ''}`} onCancel={onClose}
+    onClick={closeFromBackdrop} aria-label={title}>
     <div className="sc-modal-head"><h2>{title}</h2><button type="button" className="sc-icon" onClick={onClose} aria-label="Close dialog"><X size={22} /></button></div>
     {children}
   </dialog>;
@@ -60,14 +64,17 @@ function Photo({ home, compact = false }: { home: Home; compact?: boolean }) {
   const [index, setIndex] = useState(0);
   const [failed, setFailed] = useState(false);
   useEffect(() => { setIndex(0); setFailed(false); }, [home.id]);
-  function next(delta: number) { setFailed(false); setIndex(i => (i + delta + home.photos.length) % home.photos.length); }
+  function showAdjacentPhoto(delta: number) {
+    setFailed(false);
+    setIndex(currentIndex => (currentIndex + delta + home.photos.length) % home.photos.length);
+  }
   return <div className={`sc-photo${compact ? ' compact' : ''}`}>
     {home.photos[index] && !failed ? <img src={home.photos[index]} alt={`${home.address}, listing photo ${index + 1}`}
       draggable={false} loading={compact ? 'lazy' : 'eager'} decoding="async" referrerPolicy="no-referrer" onError={() => setFailed(true)} />
       : <div className="sc-photo-fallback"><House size={54} strokeWidth={1.3} /><span>Photos are on the listing</span></div>}
     {!compact && home.photos.length > 1 && <>
-      <button type="button" className="sc-photo-arrow previous" aria-label="Previous photo" onClick={event => { event.stopPropagation(); next(-1); }}><ChevronLeft size={24} /></button>
-      <button type="button" className="sc-photo-arrow next" aria-label="Next photo" onClick={event => { event.stopPropagation(); next(1); }}><ChevronRight size={24} /></button>
+      <button type="button" className="sc-photo-arrow previous" aria-label="Previous photo" onClick={event => { event.stopPropagation(); showAdjacentPhoto(-1); }}><ChevronLeft size={24} /></button>
+      <button type="button" className="sc-photo-arrow next" aria-label="Next photo" onClick={event => { event.stopPropagation(); showAdjacentPhoto(1); }}><ChevronRight size={24} /></button>
       <span className="sc-photo-count"><Images size={14} /> {index + 1} / {home.photos.length}</span>
     </>}
     {home.status === 'archived' && <span className="sc-photo-label archived">Saved inspiration</span>}
@@ -132,6 +139,24 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
   const [noteSaved, setNoteSaved] = useState(false);
   const [detailError, setDetailError] = useState('');
   const walkingDirectionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(home.address + ', Los Gatos, CA ' + home.zip)}&destination=Los+Gatos+Town+Plaza&travelmode=walking`;
+  const isSaved = choice?.decision === 'save';
+  async function saveNote() {
+    try {
+      await onSave(home, choice?.decision || 'save', note);
+      setNoteSaved(true);
+      setDetailError('');
+    } catch {
+      setDetailError('Your note wasn’t saved. Please try again.');
+    }
+  }
+  async function toggleSaved() {
+    try {
+      await onSave(home, isSaved ? 'pass' : 'save');
+      onClose();
+    } catch {
+      setDetailError('That change wasn’t saved. Please try again.');
+    }
+  }
   return <Modal title={home.address} onClose={onClose} wide>
     <Photo home={home} />
     <div className="sc-detail-body">
@@ -149,12 +174,47 @@ function Detail({ home, choice, matched, onClose, onSave, busy }: { home: Home; 
       <section><h3><Footprints size={19} /> Around the neighborhood</h3>
       <p>{home.townMiles} miles from Town Plaza, straight-line.</p><a className="sc-inline-link" href={walkingDirectionsUrl} target="_blank" rel="noopener noreferrer"><Footprints size={16} /> Walking directions to Town Plaza <MoveUpRight size={14} /></a></section>
       <section><h3><NotebookPen size={19} /> What caught your eye?</h3><label className="sc-sr-only" htmlFor="sc-note">Your private note for {home.address}</label><textarea id="sc-note" maxLength={1000} value={note} onChange={event => { setNote(event.target.value); setNoteSaved(false); }} placeholder="The kitchen. That yard. Room for an office…" rows={3} />
-        <div className="sc-note-bottom"><span className="sc-fine">Your note, saved with this home.</span><button type="button" className="sc-small-button" disabled={busy} onClick={async () => { try { await onSave(home, choice?.decision || 'save', note); setNoteSaved(true); setDetailError(''); } catch { setDetailError('Your note wasn’t saved. Please try again.'); } }}>{noteSaved ? 'Note saved' : 'Save note'}</button></div></section>
+        <div className="sc-note-bottom"><span className="sc-fine">Your note, saved with this home.</span><button type="button" className="sc-small-button" disabled={busy} onClick={() => void saveNote()}>{noteSaved ? 'Note saved' : 'Save note'}</button></div></section>
       <section className="sc-listing-source"><h3>Take a closer look</h3><div className="sc-links">{home.sources.map(source => <a key={source.name} href={source.url} target="_blank" rel="noopener noreferrer">{source.name} <MoveUpRight size={14} /></a>)}</div><p className="sc-fine">Listing and photos courtesy of {home.office || 'the listing brokerage'}. MLS {home.id}. Checked {dateLabel(home.checkedAt)}.</p></section>
       {detailError && <p className="sc-error" role="alert">{detailError}</p>}
-      <button type="button" className="sc-primary" disabled={busy} onClick={async () => { try { await onSave(home, choice?.decision === 'save' ? 'pass' : 'save'); onClose(); } catch { setDetailError('That change wasn’t saved. Please try again.'); } }}><Heart size={19} fill={choice?.decision === 'save' ? 'currentColor' : 'none'} />{choice?.decision === 'save' ? 'Remove from my saved homes' : 'Save this home'}</button>
+      <button type="button" className="sc-primary" disabled={busy} onClick={() => void toggleSaved()}><Heart size={19} fill={isSaved ? 'currentColor' : 'none'} />{isSaved ? 'Remove from my saved homes' : 'Save this home'}</button>
     </div>
   </Modal>;
+}
+
+function HomeGridCard({ home, matched, note, isPassedList, busy, onOpen, onSave }: {
+  home: Home;
+  matched: boolean;
+  note?: string;
+  isPassedList: boolean;
+  busy: boolean;
+  onOpen: () => void;
+  onSave: (home: Home, decision: Decision) => Promise<void>;
+}) {
+  const decision: Decision = isPassedList ? 'save' : 'pass';
+  const actionLabel = isPassedList ? `Save ${home.address}` : `Remove ${home.address} from saves`;
+  const listingStatus = home.status === 'active' ? 'For sale' : 'Saved inspiration';
+  return <article className="sc-mini-card">
+    <button type="button" className="sc-mini-open" onClick={onOpen} aria-label={`View ${home.address}`}>
+      <Photo home={home} compact />
+      <div className="sc-mini-copy">
+        <strong>{dollars(home.price)}</strong>
+        <h2>{home.address}</h2>
+        <p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {formatNumber(home.sqft)} sq ft</p>
+      </div>
+    </button>
+    <HomeLocation home={home} />
+    <div className="sc-mini-bottom">
+      {matched
+        ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span>
+        : <span className="sc-fine">{listingStatus}</span>}
+      <button type="button" className="sc-icon" aria-label={actionLabel} disabled={busy}
+        onClick={() => void onSave(home, decision).catch(() => {})}>
+        {isPassedList ? <Heart size={18} /> : <X size={18} />}
+      </button>
+    </div>
+    {note && <p className="sc-mini-note"><NotebookPen size={14} />{note}</p>}
+  </article>;
 }
 
 export default function ScatosSwip() {
@@ -256,8 +316,12 @@ export default function ScatosSwip() {
   }
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
+      const isInteractiveOutsideBrowseControls = event.target instanceof HTMLElement
+        && /INPUT|TEXTAREA|SELECT|BUTTON|A/.test(event.target.tagName)
+        && !event.target.closest('.sc-browse-controls');
+      const hasModifierKey = event.altKey || event.metaKey || event.ctrlKey;
       if (tab !== 'browse' || !current || busy || detail || infoOpen || filterOpen || matchHome
-          || (event.target instanceof HTMLElement && /INPUT|TEXTAREA|SELECT|BUTTON|A/.test(event.target.tagName) && !event.target.closest('.sc-browse-controls')) || event.altKey || event.metaKey || event.ctrlKey) return;
+          || isInteractiveOutsideBrowseControls || hasModifierKey) return;
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault(); browse(event.key === 'ArrowRight' ? 1 : -1);
       }
@@ -295,7 +359,16 @@ export default function ScatosSwip() {
     if (tab !== 'browse') {
       if (!gridHomes.length) return <div className="sc-empty"><div className="sc-empty-art"><Heart size={50} strokeWidth={1.5} /><Sparkles size={25} /></div><h2>{EMPTY_LIST[tab].title}</h2><p>{EMPTY_LIST[tab].blurb(partnerProfileName(profile))}</p><button className="sc-primary" type="button" onClick={() => setTab('browse')}>Explore homes</button></div>;
       const isPassedList = tab === 'passed';
-      return <div className="sc-home-grid">{gridHomes.map(home => <article key={home.id} className="sc-mini-card"><button type="button" className="sc-mini-open" onClick={() => setDetail(home)} aria-label={`View ${home.address}`}><Photo home={home} compact /><div className="sc-mini-copy"><strong>{dollars(home.price)}</strong><h2>{home.address}</h2><p>{home.beds} beds <span>•</span> {home.baths} baths <span>•</span> {formatNumber(home.sqft)} sq ft</p></div></button><HomeLocation home={home} /><div className="sc-mini-bottom">{matches.has(home.id) ? <span className="sc-badge match"><Heart size={13} fill="currentColor" /> Both of you</span> : <span className="sc-fine">{home.status === 'active' ? 'For sale' : 'Saved inspiration'}</span>}<button type="button" className="sc-icon" aria-label={isPassedList ? `Save ${home.address}` : `Remove ${home.address} from saves`} disabled={busy} onClick={() => void save(home, isPassedList ? 'save' : 'pass').catch(() => {})}>{isPassedList ? <Heart size={18} /> : <X size={18} />}</button></div>{choices.get(home.id)?.note && <p className="sc-mini-note"><NotebookPen size={14} />{choices.get(home.id)?.note}</p>}</article>)}</div>;
+      return <div className="sc-home-grid">{gridHomes.map(home => <HomeGridCard
+        key={home.id}
+        home={home}
+        matched={matches.has(home.id)}
+        note={choices.get(home.id)?.note}
+        isPassedList={isPassedList}
+        busy={busy}
+        onOpen={() => setDetail(home)}
+        onSave={save}
+      />)}</div>;
     }
     if (!current) {
       const hasEligibleHomes = eligible.length > 0;
