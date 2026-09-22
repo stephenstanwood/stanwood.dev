@@ -9,7 +9,7 @@ import {
 import { safeGet, safeSet } from "../lib/localStorage";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
 import { toErrMsg } from "../lib/apiHelpers";
-import { formatHourMinute, formatHourMinuteInTz } from "../lib/dateFormat";
+import { formatHourMinute, formatHourMinuteInTz, isoDateInTz } from "../lib/dateFormat";
 import { msSince } from "../lib/time";
 
 // ── Style tokens ───────────────────────────────────────────────────────────
@@ -164,20 +164,14 @@ function hitsWindow(isoStart: string, tz: string): boolean {
   return startMin < windowEnd && endMin > windowStart;
 }
 
-// CLEANUP-FLAG: this formats "today in tz" to an en-US "MM/DD/YYYY" string and
-// immediately reparses it with `new Date(...)`, relying on engines treating that
-// form as local midnight. It works in every browser today and pairs correctly with
-// formatYYYYMMDD's local getters, but the round-trip is not spec-guaranteed — the
-// tz-aware day should be built from Intl formatToParts instead.
+// The day list has to start on "today in `tz`", but everything downstream
+// (formatYYYYMMDD, toLocaleDateString) reads *local* date getters — so take the
+// tz-local calendar fields and rebuild them as a local midnight. Constructing from
+// numeric parts avoids parsing a formatted string back into a Date, which is only
+// spec-defined for the ISO form (and that one parses as UTC, not local, midnight).
 function getUpcoming7Days(tz: string): DayInfo[] {
-  const nowLocal = new Date(
-    new Intl.DateTimeFormat("en-US", {
-      timeZone: tz,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    }).format(new Date())
-  );
+  const [year, month, day] = isoDateInTz(new Date(), tz).split("-").map(Number);
+  const nowLocal = new Date(year, month - 1, day);
 
   const days: DayInfo[] = [];
   for (let i = 0; i < 7; i++) {

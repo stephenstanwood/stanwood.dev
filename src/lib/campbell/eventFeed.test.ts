@@ -21,6 +21,12 @@ const absenceTitlePatterns = [
   /\bIntervention Conferences\b/i,
 ];
 
+// The dedupe predicates below (generic-word list, title-token overlap,
+// location overlap) intentionally re-implement the ones in
+// scripts/sync-campbell-data.mjs rather than importing them. These tests assert
+// against the *published* feed, so sharing the script's helpers would let a bug
+// in the script's own dedupe logic pass its own test. The cost is drift: change
+// the heuristic in the script and this copy has to be updated by hand.
 const genericTitleWords = new Set([
   "and",
   "annual",
