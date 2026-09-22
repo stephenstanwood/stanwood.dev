@@ -1,5 +1,21 @@
 [
   {
+    "name": "MiMo-V2.6 Pro + Flash",
+    "org": "Xiaomi",
+    "date": "2026-09-22",
+    "type": "model",
+    "summary": "Download open weights that top the open-weight intelligence leaderboards: Pro is a trillion-parameter omnimodal reasoner, Flash is the small MIT-licensed sibling. Xiaomi also published 7,000-plus reinforcement-learning environments and the RL code on Hugging Face.",
+    "url": "https://huggingface.co/XiaomiMiMo"
+  },
+  {
+    "name": "Grok 4.7",
+    "org": "xAI",
+    "date": "2026-09-21",
+    "type": "model",
+    "summary": "Swap in a coding model with a 500K context and four reasoning levels, already wired into Cursor, Grok Build, and the API. Pricing is unchanged from 4.6 at $2 per million input tokens and $6 output.",
+    "url": "https://x.ai/news/grok-4-7"
+  },
+  {
     "name": "Qwen3.8-Omni-Flash",
     "org": "Alibaba",
     "date": "2026-09-18",
@@ -32,14 +48,6 @@
     "url": "https://venturebeat.com/technology/anthropic-is-killing-off-cowork-and-folding-it-into-claude-launching-claude-docs-and-claude-slides"
   },
   {
-    "name": "Jev",
-    "org": "TypeSafe AI",
-    "date": "2026-09-15",
-    "type": "model",
-    "summary": "Turn messy input into typed choices, scores, and confidence values your code can use directly without parsing prose. Early-access API calls take 70–500ms, cost $0.042 per million input tokens, and charge nothing for output.",
-    "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev"
-  },
-  {
     "name": "Gemini 3.8 Live",
     "org": "Google",
     "date": "2026-09-15",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Run parallel coding agents from one open-source desktop app, schedule recurring work, and pick from 300-plus hosted or open-weight models. It supports local workspaces, plugins, MCP servers, and skills on macOS and Windows.",
     "url": "https://cline.bot/blog/cline-desktop-an-open-source-app-for-open-weight-models"
-  },
-  {
-    "name": "Agents API",
-    "org": "OpenAI",
-    "date": "2026-09-10",
-    "type": "tool",
-    "summary": "Build cloud agents on the same harness that runs Codex with one API call, including sessions, context compaction, sub-agents, crash recovery, and your choice of sandbox. The public beta is open to all developers with no fee beyond tokens and tools.",
-    "url": "https://openai.com/index/introducing-the-agents-api/"
   }
 ]
