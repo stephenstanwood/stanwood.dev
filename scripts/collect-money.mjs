@@ -154,17 +154,20 @@ async function collectVercel(range) {
 
 // ── Anthropic ────────────────────────────────────────────────────
 // Pricing per million tokens (USD). Input / output / cache_read / cache_write.
-// Cache read is ~10% of input; cache write is ~125% of input (ephemeral 5m).
+// Cache read is 10% of input unless `crMult` says otherwise (Fable 5.1 2.5%,
+// Opus 5.5 5%); cache write is 125% of input (ephemeral 5m).
 const ANTHROPIC_PRICING = {
-  "claude-fable-5-1": { in: 10, out: 50 },
+  "claude-fable-5-1": { in: 10, out: 50, crMult: 0.025 },
   "claude-fable-5": { in: 10, out: 50 },
   "claude-mythos-5": { in: 10, out: 50 },
+  "claude-opus-5-5": { in: 4, out: 20, crMult: 0.05 },
   "claude-opus-5": { in: 5, out: 25 },
-  // Sonnet 5 intro pricing ($2/$10) runs through 2026-08-31, then $3/$15.
+  // Sonnet 5's $2/$10 launch price became the standard rate; the planned
+  // 2026-09-01 increase to $3/$15 was cancelled.
   "claude-sonnet-5": { in: 2, out: 10 },
   "claude-opus-4-8": { in: 5, out: 25 },
-  "claude-opus-4-7": { in: 15, out: 75 },
-  "claude-opus-4-6": { in: 15, out: 75 },
+  "claude-opus-4-7": { in: 5, out: 25 },
+  "claude-opus-4-6": { in: 5, out: 25 },
   "claude-opus-4": { in: 15, out: 75 },
   "claude-sonnet-4-6": { in: 3, out: 15 },
   "claude-sonnet-4-5": { in: 3, out: 15 },
@@ -238,7 +241,7 @@ async function collectAnthropic(range) {
     const dollars =
       (tokens.input / 1_000_000) * price.in +
       (tokens.output / 1_000_000) * price.out +
-      (tokens.cacheRead / 1_000_000) * (price.in * 0.1) +
+      (tokens.cacheRead / 1_000_000) * (price.in * (price.crMult ?? 0.1)) +
       (tokens.cacheCreate / 1_000_000) * (price.in * 1.25);
     const cents = Math.round(dollars * 100);
     totalCents += cents;
