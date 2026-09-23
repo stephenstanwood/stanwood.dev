@@ -139,12 +139,12 @@ async function collectVercel(range) {
   for (const c of charges) {
     if (c.ChargeCategory !== "Usage") continue;
     const name = c.ServiceName || "Other";
-    if (name === "Pro") continue; // base subscription tracked in subscriptions section
+    if (name === "Pro") continue;
     byService[name] = (byService[name] || 0) + (c.BilledCost || 0);
   }
 
   const breakdown = Object.entries(byService)
-    .map(([name, dollars]) => ({ name, cents: Math.round(dollars * 100) }))
+    .map(([name, dollars]) => ({ name, cents: dollarsToCents(dollars) }))
     .filter((b) => b.cents > 0)
     .sort((a, b) => b.cents - a.cents);
 
@@ -153,8 +153,8 @@ async function collectVercel(range) {
 }
 
 // ── Anthropic ────────────────────────────────────────────────────
-// Pricing per million tokens (USD). Input / output / cache_read / cache_write.
-// Cache read is 10% of input unless `crMult` says otherwise (Fable 5.1 2.5%,
+// Pricing per million tokens (USD), input / output. Cache rates derive from input:
+// cache read is 10% of input unless `crMult` says otherwise (Fable 5.1 2.5%,
 // Opus 5.5 5%); cache write is 125% of input (ephemeral 5m).
 const ANTHROPIC_PRICING = {
   "claude-fable-5-1": { in: 10, out: 50, crMult: 0.025 },
@@ -248,8 +248,6 @@ async function collectAnthropic(range) {
     breakdown.push({ name: baseModelName(model), cents });
   }
 
-  breakdown.sort((a, b) => b.cents - a.cents);
-  const filtered = breakdown.filter((b) => b.cents > 0);
   const note =
     unknownTokens > 0
       ? "computed from API key token usage; skipped unpriced Anthropic tokens"
@@ -257,7 +255,7 @@ async function collectAnthropic(range) {
 
   return {
     totalCents,
-    breakdown: filtered,
+    breakdown: breakdown.filter((b) => b.cents > 0).sort((a, b) => b.cents - a.cents),
     note,
   };
 }
@@ -295,10 +293,10 @@ async function collectOpenAI(range) {
   }
 
   const breakdown = Object.entries(byLine)
-    .map(([name, dollars]) => ({ name, cents: Math.round(dollars * 100) }))
+    .map(([name, dollars]) => ({ name, cents: dollarsToCents(dollars) }))
     .sort((a, b) => b.cents - a.cents);
 
-  return { totalCents: Math.round(totalDollars * 100), breakdown, note: null };
+  return { totalCents: dollarsToCents(totalDollars), breakdown, note: null };
 }
 
 // ── Neon ─────────────────────────────────────────────────────────
