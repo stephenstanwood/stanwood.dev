@@ -1,5 +1,21 @@
 [
   {
+    "name": "Claude Opus 5.5",
+    "org": "Anthropic",
+    "date": "2026-09-22",
+    "type": "model",
+    "summary": "Get near-Fable coding and agent quality for about 40% less than Opus 5 on typical workloads. API pricing is $4 in and $20 out per million tokens, with cheaper cache reads and a faster 2x-priced mode.",
+    "url": "https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/"
+  },
+  {
+    "name": "GPT-6 Sol + Luna",
+    "org": "OpenAI",
+    "date": "2026-09-22",
+    "type": "model",
+    "summary": "Build on the new GPT-6 pair at half the old price: Sol handles coding and agent work at $2 in and $10 out per million tokens, and Luna covers high-volume tasks at $0.10 and $0.50. Both are live in ChatGPT, Codex, and the API.",
+    "url": "https://venturebeat.com/technology/openai-releases-gpt-6-sol-and-luna-models-slashing-api-costs-50-or-more"
+  },
+  {
     "name": "MiMo-V2.6 Pro + Flash",
     "org": "Xiaomi",
     "date": "2026-09-22",
@@ -14,22 +30,6 @@
     "type": "model",
     "summary": "Swap in a coding model with a 500K context and four reasoning levels, already wired into Cursor, Grok Build, and the API. Pricing is unchanged from 4.6 at $2 per million input tokens and $6 output.",
     "url": "https://x.ai/news/grok-4-7"
-  },
-  {
-    "name": "Qwen3.8-Omni-Flash",
-    "org": "Alibaba",
-    "date": "2026-09-18",
-    "type": "model",
-    "summary": "Feed text, images, audio, or video into one 1M-token context, then have the model plan, call tools, and finish multimedia work such as video editing or summarization. Available through Qwen APIs with OpenAI-compatible calls.",
-    "url": "https://qwen.ai/blog?id=qwen3.8-omni-flash"
-  },
-  {
-    "name": "Grok Voice Transcribe 2.0",
-    "org": "xAI",
-    "date": "2026-09-18",
-    "type": "model",
-    "summary": "Transcribe noisy calls, recordings, or live audio with timestamps, speaker labels, keyword biasing, and automatic language switching. The API costs $0.10 per hour for batch or $0.20 for streaming, making searchable video and voice features cheap to ship.",
-    "url": "https://x.ai/news/grok-voice-transcribe-2"
   },
   {
     "name": "Bonsai 2 27B",
