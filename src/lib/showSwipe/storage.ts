@@ -27,6 +27,16 @@ function save(data: ShowSwipeStorage): void {
   safeSet(LS_KEY, data);
 }
 
+function adjustGenreScores(
+  stored: ShowSwipeStorage,
+  genreIds: number[],
+  delta: number,
+): void {
+  for (const gid of genreIds) {
+    stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) + delta;
+  }
+}
+
 export function recordSwipe(
   item: SwipedItem,
   direction: "left" | "right",
@@ -35,15 +45,11 @@ export function recordSwipe(
 
   if (direction === "right") {
     stored.liked = [item, ...stored.liked].slice(0, MAX_HISTORY);
-    for (const gid of item.genreIds) {
-      stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) + 1;
-    }
+    adjustGenreScores(stored, item.genreIds, 1);
   } else {
     stored.disliked = [item, ...stored.disliked].slice(0, MAX_HISTORY);
-    for (const gid of item.genreIds) {
-      // Half-weight penalty: dislikes don't fully cancel likes, so mixed-genre results still surface
-      stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) - 0.5;
-    }
+    // Half-weight penalty: dislikes don't fully cancel likes, so mixed-genre results still surface
+    adjustGenreScores(stored, item.genreIds, -0.5);
   }
 
   if (!stored.seenIds.includes(item.tmdbId)) {
@@ -94,12 +100,8 @@ export function getLiked(): SwipedItem[] {
 export function removeLiked(tmdbId: number): void {
   const stored = loadStorage() ?? getDefault();
   const item = stored.liked.find((i) => i.tmdbId === tmdbId);
-  if (item) {
-    // Reverse the genre score boost
-    for (const gid of item.genreIds) {
-      stored.genreScores[gid] = (stored.genreScores[gid] ?? 0) - 1;
-    }
-  }
+  // Reverse the like's genre score boost
+  if (item) adjustGenreScores(stored, item.genreIds, -1);
   stored.liked = stored.liked.filter((i) => i.tmdbId !== tmdbId);
   save(stored);
 }

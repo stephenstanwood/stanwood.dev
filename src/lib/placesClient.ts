@@ -17,7 +17,6 @@ interface GooglePlace {
   userRatingCount?: number;
   businessStatus?: "OPERATIONAL" | "CLOSED_TEMPORARILY" | "CLOSED_PERMANENTLY";
   currentOpeningHours?: { openNow?: boolean };
-  primaryType?: string;
 }
 
 export interface PlaceResult {
@@ -30,7 +29,6 @@ export interface PlaceResult {
   rating: number | null;
   ratingCount: number | null;
   isOpen: boolean | null;
-  primaryType?: string | null;
 }
 
 interface SearchStep {
@@ -42,13 +40,9 @@ interface SearchOptions {
   latitude: number;
   longitude: number;
   steps: SearchStep[];
-  /** Extra fields beyond the base set (e.g. "places.primaryType") */
-  extraFields?: string[];
-  /** Extra properties to include in each result from the raw place */
-  mapExtra?: (p: GooglePlace) => Record<string, unknown>;
 }
 
-const BASE_FIELDS = [
+const FIELD_MASK = [
   "places.id",
   "places.displayName",
   "places.formattedAddress",
@@ -57,7 +51,7 @@ const BASE_FIELDS = [
   "places.userRatingCount",
   "places.businessStatus",
   "places.currentOpeningHours",
-];
+].join(",");
 
 /**
  * Validate that the API key is configured. Returns an error Response or null.
@@ -76,9 +70,7 @@ export function validatePlacesKey(): Response | null {
 export async function searchNearbyPlaces(
   opts: SearchOptions,
 ): Promise<{ results?: PlaceResult[]; error?: Response }> {
-  const { latitude, longitude, steps, extraFields = [], mapExtra } = opts;
-
-  const fieldMask = [...BASE_FIELDS, ...extraFields].join(",");
+  const { latitude, longitude, steps } = opts;
 
   for (const step of steps) {
     const body = {
@@ -104,7 +96,7 @@ export async function searchNearbyPlaces(
           headers: {
             "Content-Type": "application/json",
             "X-Goog-Api-Key": PLACES_API_KEY!,
-            "X-Goog-FieldMask": fieldMask,
+            "X-Goog-FieldMask": FIELD_MASK,
           },
           body: JSON.stringify(body),
         },
@@ -139,7 +131,6 @@ export async function searchNearbyPlaces(
           rating: p.rating ?? null,
           ratingCount: p.userRatingCount ?? null,
           isOpen: p.currentOpeningHours?.openNow ?? null,
-          ...(mapExtra ? mapExtra(p) : {}),
         };
       })
       .filter((p) => p.isOpen !== false)
