@@ -1,5 +1,21 @@
 [
   {
+    "name": "Antigravity Agent API",
+    "org": "Google",
+    "date": "2026-09-23",
+    "type": "tool",
+    "summary": "Spin up a hosted coding agent with its own Linux sandbox in one API call. It runs code, browses, and manages files on Gemini 3.8 Flash, and the new Files and Credentials APIs let it use your data, MCP servers, and third-party services. Sandbox compute is free during preview.",
+    "url": "https://ai.google.dev/gemini-api/docs/antigravity-agent"
+  },
+  {
+    "name": "Gemini 3.8 Flash TTS",
+    "org": "Google",
+    "date": "2026-09-23",
+    "type": "model",
+    "summary": "Design a voice by describing it, pick from 2,000-plus stock voices, or clone one from 30 seconds of audio across 100-plus languages. A cheaper Flash-Lite TTS ships alongside, both live now in the Gemini API and AI Studio.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
+  },
+  {
     "name": "Claude Opus 5.5",
     "org": "Anthropic",
     "date": "2026-09-22",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Ask for a doc or deck in a normal chat and get an editable document or presentation you can revise in place, present, or export to Word, PowerPoint, or PDF. Cowork is folded into chat too, with Pro and Max access first.",
     "url": "https://venturebeat.com/technology/anthropic-is-killing-off-cowork-and-folding-it-into-claude-launching-claude-docs-and-claude-slides"
-  },
-  {
-    "name": "Gemini 3.8 Live",
-    "org": "Google",
-    "date": "2026-09-15",
-    "type": "model",
-    "summary": "Build voice agents that reason and talk at once, call functions in the background mid-conversation, and see what the camera sees. Live in the Gemini API and AI Studio at $0.005 per minute in and $0.018 out, plus a new 3.5 Transcribe speech-to-text model.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-live-gemini-3-8-live-extended-thinking/"
-  },
-  {
-    "name": "Cline Desktop",
-    "org": "Cline",
-    "date": "2026-09-14",
-    "type": "tool",
-    "summary": "Run parallel coding agents from one open-source desktop app, schedule recurring work, and pick from 300-plus hosted or open-weight models. It supports local workspaces, plugins, MCP servers, and skills on macOS and Windows.",
-    "url": "https://cline.bot/blog/cline-desktop-an-open-source-app-for-open-weight-models"
   }
 ]
