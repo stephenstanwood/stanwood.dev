@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-25T01:10:37.303Z",
+  "lastUpdated": "2026-09-25T06:10:20.300Z",
   "apiSpend": {
     "months": [
       {
@@ -322,18 +322,18 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-25T01:10:37.303Z",
+        "collectedAt": "2026-09-25T06:10:20.300Z",
         "services": {
           "vercel": {
-            "totalCents": 11187,
+            "totalCents": 11268,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 10470
+                "cents": 10544
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 308
+                "cents": 312
               },
               {
                 "name": "Blob Data Transfer",
@@ -341,11 +341,11 @@
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 72
+                "cents": 73
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 32
+                "cents": 33
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -356,11 +356,11 @@
                 "cents": 31
               },
               {
-                "name": "Function Invocations",
-                "cents": 24
+                "name": "Fast Origin Transfer",
+                "cents": 25
               },
               {
-                "name": "Fast Origin Transfer",
+                "name": "Function Invocations",
                 "cents": 24
               },
               {
@@ -439,18 +439,18 @@
   },
   "subscriptions": [
     {
-      "name": "Cursor",
-      "cents": 37996,
-      "category": "ai",
-      "url": "https://cursor.com/settings",
-      "note": "Mercury actual Aug 2026; 4 Mercury charges combined"
-    },
-    {
       "name": "Anthropic",
       "cents": 32587,
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
       "note": "Mercury actual Sep 2026; 6 Mercury charges combined"
+    },
+    {
+      "name": "Cursor",
+      "cents": 20000,
+      "category": "ai",
+      "url": "https://cursor.com/settings",
+      "note": "Mercury actual Sep 2026"
     },
     {
       "name": "Claude Max",
