@@ -16,6 +16,22 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
   },
   {
+    "name": "CLM-8B",
+    "org": "Stanford + NVIDIA",
+    "date": "2026-09-23",
+    "type": "model",
+    "summary": "Make agents choose tools and next actions without paying a language model to write prose. The Apache-2.0 weights, code, fine-tuning guide, TypeSafe-compatible API, and local playground are available now, with reusable action caching for faster decisions.",
+    "url": "https://github.com/Contrastive-LM/CLM"
+  },
+  {
+    "name": "Gemini Connected Apps",
+    "org": "Google",
+    "date": "2026-09-23",
+    "type": "tool",
+    "summary": "Run projects, design assets, and build websites from Gemini by connecting Airtable, Linear, Adobe, Squarespace, Webflow, and more. The integrations are rolling out now and work inside chat with an @ mention or plain-language request.",
+    "url": "https://blog.google/innovation-and-ai/products/gemini-app/new-connected-apps-gemini/"
+  },
+  {
     "name": "Claude Opus 5.5",
     "org": "Anthropic",
     "date": "2026-09-22",
@@ -40,27 +56,11 @@
     "url": "https://huggingface.co/XiaomiMiMo"
   },
   {
-    "name": "Grok 4.7",
-    "org": "xAI",
-    "date": "2026-09-21",
-    "type": "model",
-    "summary": "Swap in a coding model with a 500K context and four reasoning levels, already wired into Cursor, Grok Build, and the API. Pricing is unchanged from 4.6 at $2 per million input tokens and $6 output.",
-    "url": "https://x.ai/news/grok-4-7"
-  },
-  {
     "name": "Bonsai 2 27B",
     "org": "PrismML",
     "date": "2026-09-17",
     "type": "model",
     "summary": "Run a 27B reasoning, coding, and vision model on a laptop: ternary weights squeeze it to 5.9GB while keeping 98% of full-precision scores. It has 262K context, Apache 2.0 weights on Hugging Face, and MLX builds for Mac and iPhone plus CUDA.",
     "url": "https://prismml.com/news/bonsai-2-27b"
-  },
-  {
-    "name": "Claude Docs + Slides",
-    "org": "Anthropic",
-    "date": "2026-09-16",
-    "type": "tool",
-    "summary": "Ask for a doc or deck in a normal chat and get an editable document or presentation you can revise in place, present, or export to Word, PowerPoint, or PDF. Cowork is folded into chat too, with Pro and Max access first.",
-    "url": "https://venturebeat.com/technology/anthropic-is-killing-off-cowork-and-folding-it-into-claude-launching-claude-docs-and-claude-slides"
   }
 ]
