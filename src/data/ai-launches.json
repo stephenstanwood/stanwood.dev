@@ -1,10 +1,18 @@
 [
   {
+    "name": "Whiteboard",
+    "org": "/dev/fast",
+    "date": "2026-09-24",
+    "type": "tool",
+    "summary": "Review agent-written code on a visual canvas that links diagrams and decision traces to source files. The free, MIT-licensed desktop app connects to Codex or Claude Code and shows focused diffs of what changed.",
+    "url": "https://github.com/devdotfast/whiteboard"
+  },
+  {
     "name": "Antigravity Agent API",
     "org": "Google",
     "date": "2026-09-23",
     "type": "tool",
-    "summary": "Spin up a hosted coding agent with its own Linux sandbox in one API call. It runs code, browses, and edits files on Gemini 3.8 Flash. New Files and Credentials APIs connect it to your data and MCP servers. Sandbox compute is free in preview.",
+    "summary": "Spin up a hosted coding agent with its own Linux sandbox in one API call. It runs code, browses, and edits files on Gemini 3.8 Flash, with preview access for individual free-tier projects.",
     "url": "https://ai.google.dev/gemini-api/docs/antigravity-agent"
   },
   {
@@ -24,36 +32,28 @@
     "url": "https://github.com/Contrastive-LM/CLM"
   },
   {
-    "name": "Gemini Connected Apps",
-    "org": "Google",
-    "date": "2026-09-23",
-    "type": "tool",
-    "summary": "Run projects, design assets, and build websites from Gemini by connecting Airtable, Linear, Adobe, Squarespace, Webflow, and more. The integrations are rolling out now and work inside chat with an @ mention or plain-language request.",
-    "url": "https://blog.google/innovation-and-ai/products/gemini-app/new-connected-apps-gemini/"
-  },
-  {
     "name": "Claude Opus 5.5",
     "org": "Anthropic",
     "date": "2026-09-22",
     "type": "model",
     "summary": "Get near-Fable coding and agent quality for about 40% less than Opus 5 on typical workloads. API pricing is $4 in and $20 out per million tokens, with cheaper cache reads and a faster 2x-priced mode.",
-    "url": "https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/"
+    "url": "https://www.anthropic.com/claude-opus-5-5"
   },
   {
     "name": "GPT-6 Sol + Luna",
     "org": "OpenAI",
     "date": "2026-09-22",
     "type": "model",
-    "summary": "Build on the new GPT-6 pair at half the old price: Sol handles coding and agent work at $2 in and $10 out per million tokens, and Luna covers high-volume tasks at $0.10 and $0.50. Both are live in ChatGPT, Codex, and the API.",
-    "url": "https://venturebeat.com/technology/openai-releases-gpt-6-sol-and-luna-models-slashing-api-costs-50-or-more"
+    "summary": "Build coding agents with Sol at $2 input and $10 output per million tokens, or high-volume features with Luna at $0.10 and $0.50. Both are available in the API, Codex, and ChatGPT Work.",
+    "url": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
   },
   {
-    "name": "MiMo-V2.6 Pro + Flash",
+    "name": "MiMo-V2.6 Distill 9B",
     "org": "Xiaomi",
     "date": "2026-09-22",
     "type": "model",
-    "summary": "Download open weights that top the open-weight intelligence leaderboards: Pro is a trillion-parameter omnimodal reasoner, Flash is the small MIT-licensed sibling. Xiaomi also published 7,000-plus reinforcement-learning environments and the RL code on Hugging Face.",
-    "url": "https://huggingface.co/XiaomiMiMo"
+    "summary": "Run a 9B coding and tool-use model locally, or fine-tune it for an agent. MIT-licensed weights and quantizations are on Hugging Face, making it the practical local option in Xiaomi's V2.6 release.",
+    "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B"
   },
   {
     "name": "Bonsai 2 27B",
