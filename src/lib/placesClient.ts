@@ -111,6 +111,8 @@ export async function searchNearbyPlaces(
       return { error: errJson("Unable to search nearby places", 502) };
     }
 
+    // CLEANUP-FLAG: validate the Places response before using its rows; malformed
+    // upstream entries can currently throw or produce results at 0,0.
     const data = await res.json();
     const places: GooglePlace[] = Array.isArray(data?.places) ? data.places : [];
 
