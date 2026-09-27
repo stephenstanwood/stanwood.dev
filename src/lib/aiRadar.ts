@@ -170,12 +170,12 @@ export function relativeAge(dateStr: string): string {
 }
 
 /** Extract common formatted parts from a parsed Date. Used by formatLaunchDate and formatLaunchDateFull. */
-function extractDateParts(d: Date) {
+function extractDateParts(date: Date) {
   return {
-    dayName: d.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
-    dayNum: d.getDate().toString(),
-    month: d.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
-    year: d.getFullYear().toString(),
+    dayName: date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
+    dayNum: date.getDate().toString(),
+    month: date.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
+    year: date.getFullYear().toString(),
   };
 }
 
@@ -198,9 +198,8 @@ export function sortLaunches(launches: Launch[]): Launch[] {
 /** Human-readable date range for a sorted (newest-first) Launch array. */
 export function getDateRange(items: Launch[]): string {
   if (items.length === 0) return "";
-  const dates = items.map((l) => parseLaunchDate(l.date));
-  const oldest = dates[dates.length - 1];
-  const newest = dates[0];
+  const oldest = parseLaunchDate(items[items.length - 1].date);
+  const newest = parseLaunchDate(items[0].date);
   if (oldest.toDateString() === newest.toDateString()) return formatMonthDay(newest);
   if (oldest.getFullYear() !== newest.getFullYear())
     return `${formatMonthDay(oldest)} ${oldest.getFullYear()} – ${formatMonthDay(newest)} ${newest.getFullYear()}`;
@@ -210,9 +209,9 @@ export function getDateRange(items: Launch[]): string {
 /** Group an array of launches by date, newest first. */
 export function groupByDate(items: Launch[]): { date: string; launches: Launch[] }[] {
   const groups: Record<string, Launch[]> = {};
-  for (const l of items) {
-    if (!groups[l.date]) groups[l.date] = [];
-    groups[l.date].push(l);
+  for (const launch of items) {
+    if (!groups[launch.date]) groups[launch.date] = [];
+    groups[launch.date].push(launch);
   }
   return Object.entries(groups)
     .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
