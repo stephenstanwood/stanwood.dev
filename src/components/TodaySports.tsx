@@ -19,9 +19,9 @@ interface TodayGame {
   accent: string;
 }
 
-export default function TodaySports() {
+export default function TodaySports({ teamKeys }: { teamKeys?: string[] } = {}) {
   const { items: games, ready } = useAsyncList<TodayGame>(async () => {
-    const { leagues, lookup } = getTrackedTeamsContext();
+    const { leagues, lookup } = getTrackedTeamsContext(teamKeys);
 
     const ymd = yyyymmddInPT(new Date());
     const results = await fetchEventsForLeagues(leagues, ymd);

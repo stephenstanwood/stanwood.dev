@@ -38,7 +38,7 @@ interface BigInningPill {
   href: string;
 }
 
-export default function LiveSports() {
+export default function LiveSports({ teamKeys }: { teamKeys?: string[] } = {}) {
   const [games, setGames] = useState<LiveGame[]>([]);
   const [schedule, setSchedule] = useState<BigInningSchedule | null>(null);
   const [now, setNow] = useState<number>(() => Date.now());
@@ -87,7 +87,7 @@ export default function LiveSports() {
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     async function tick() {
-      const { leagues, lookup } = getTrackedTeamsContext();
+      const { leagues, lookup } = getTrackedTeamsContext(teamKeys);
 
       const ymd = yyyymmddInPT(new Date());
 

@@ -6,10 +6,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
-import YesterdaySports from '../components/YesterdaySports.tsx';
-import { daysSince, MS_PER_DAY } from '../lib/time';
+import ReplaySports from '../components/ReplaySports.tsx';
+import { TV_TEAM_KEYS } from '../lib/tvReplays';
+import { daysSince } from '../lib/time';
 import { formatHourMinuteInTz, PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
+import { chooseInternetPicks, eligibleInternetVideo, sourceKey, topicKey, topicLabel, INTERNET_MAX_PER_SOURCE } from '../lib/tvInternet';
 import { jsonForScriptTag } from '../lib/htmlUtils';
 import { pluralize } from '../lib/text';
 
@@ -50,6 +52,8 @@ interface BroaderVideo {
   source?: 'trusted' | 'discovery';
   editorial_score?: number;
   editorial_reason?: string;
+  topic?: string;
+  title_categories?: string[];
   language?: string;
   default_audio_language?: string;
   default_language?: string;
@@ -117,93 +121,6 @@ const SHOW_SDSN_CLASSIC = false;
 const AUTO_UNLOCK_IN_DEV = import.meta.env.DEV;
 const INTERNET_TILE_COUNT = 20;
 const INTERNET_PICK_COUNT = INTERNET_TILE_COUNT - (SHOW_SDSN_CLASSIC ? 1 : 0);
-const INTERNET_MAX_AGE_DAYS = 7;
-const INTERNET_MAX_PER_SOURCE = 2;
-
-// [category, chip label] in priority order — first match on a video wins.
-// Serialized into #topic-labels below so the client renderer uses this same
-// list instead of keeping its own copy in sync.
-const TOPIC_LABELS: [string, string][] = [
-  ['hci', 'design'],
-  ['working_method', 'working method'],
-  ['product_craft', 'product craft'],
-  ['solo_builder', 'solo builder'],
-  ['war_stories', 'how it went'],
-  ['swe_craft', 'software craft'],
-  ['systems_db', 'systems'],
-  ['algorithms', 'computer science'],
-  ['applied_ai', 'AI in practice'],
-  ['civic_open', 'public tech'],
-  ['math_viz', 'visual math'],
-];
-
-const TOPIC_FALLBACK_LABEL = 'worth a look';
-
-/** Groups a video by its channel, for the per-source cap on the internet grid. */
-function sourceKey(v: BroaderVideo): string {
-  return v.channel_id || v.channel_handle || v.channel_title || v.id;
-}
-
-function topicLabel(v: BroaderVideo): string {
-  const match = TOPIC_LABELS.find(([category]) => v.categories?.includes(category));
-  return match ? match[1] : TOPIC_FALLBACK_LABEL;
-}
-
-function ageInDays(v: BroaderVideo): number {
-  return Math.max(0, (Date.now() - new Date(v.published_at).getTime()) / MS_PER_DAY);
-}
-
-// First matching category wins, in priority order, so a "solo_builder" video
-// outranks a "working_method" one, etc.
-const UTILITY_BONUS_BY_CATEGORY: [string, number][] = [
-  ['solo_builder', 4],
-  ['working_method', 3],
-  ['product_craft', 2],
-];
-
-function editorialScore(v: BroaderVideo): number {
-  const pipelineRank = v.rank_score;
-  const quality = pipelineRank ?? (v.score ?? 0) - ageInDays(v) * 1.25;
-  const explorationCost = v.exploration ? 2 : 0;
-  const utilityBonus =
-    UTILITY_BONUS_BY_CATEGORY.find(([cat]) => v.categories?.includes(cat))?.[1] ?? 0;
-  return quality + utilityBonus - explorationCost;
-}
-
-function chooseInternetPicks(items: BroaderVideo[], count: number): BroaderVideo[] {
-  const ranked = [...items].sort((a, b) => {
-    const scoreDiff = editorialScore(b) - editorialScore(a);
-    return scoreDiff || byRecency(a, b);
-  });
-  const selected: BroaderVideo[] = [];
-  const channelCounts = new Map<string, number>();
-  const topicCounts = new Map<string, number>();
-
-  for (const video of ranked) {
-    if (ageInDays(video) > INTERNET_MAX_AGE_DAYS || editorialScore(video) < 2) continue;
-    const channelKey = video.channel_id || video.channel_handle || video.channel_title;
-    const topic = topicLabel(video);
-    const topicLimit = topic === 'AI in practice' ? 2 : 3;
-    if ((channelCounts.get(channelKey) ?? 0) > 0 || (topicCounts.get(topic) ?? 0) >= topicLimit) continue;
-    selected.push(video);
-    channelCounts.set(channelKey, 1);
-    topicCounts.set(topic, (topicCounts.get(topic) ?? 0) + 1);
-    if (selected.length === count) return selected;
-  }
-
-  for (const video of ranked) {
-    if (selected.some((pick) => pick.id === video.id)) continue;
-    if (ageInDays(video) > INTERNET_MAX_AGE_DAYS || editorialScore(video) < 2) continue;
-    const channelKey = video.channel_id || video.channel_handle || video.channel_title;
-    if ((channelCounts.get(channelKey) ?? 0) >= INTERNET_MAX_PER_SOURCE) continue;
-    selected.push(video);
-    channelCounts.set(channelKey, (channelCounts.get(channelKey) ?? 0) + 1);
-    if (selected.length === count) return selected;
-  }
-
-  return selected;
-}
-
 const seenBroaderIds = new Set<string>();
 const allBroader = [...(broader.queue ?? []), ...(broader.pool ?? [])]
   .filter((video) => {
@@ -215,8 +132,7 @@ const internetPicks = chooseInternetPicks(allBroader, INTERNET_PICK_COUNT);
 const internetPickIds = new Set(internetPicks.map((video) => video.id));
 broader.queue = internetPicks;
 broader.pool = allBroader
-  .filter((video) => !internetPickIds.has(video.id))
-  .sort((a, b) => editorialScore(b) - editorialScore(a) || byRecency(a, b));
+  .filter((video) => !internetPickIds.has(video.id) && eligibleInternetVideo(video));
 
 function fmtDuration(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -606,6 +522,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       z-index: 2;
     }
     .topic-chip { display: none; }
+    .bcard-reason { font-family: Cabin, sans-serif; font-size: .82rem; line-height: 1.35; color: #555; margin: 0 0 .65rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .mark-actions { display: flex; flex-direction: row-reverse; gap: 4px; }
     .bhide {
       display: inline-flex;
@@ -802,6 +719,15 @@ function seriesVideos(series: Series): QueueVideo[] {
     .recap-final { font-weight: 700; color: #444; }
     .recap-watch { font-weight: 700; color: var(--cool); }
 
+    .replay-controls { display: flex; align-items: center; justify-content: space-between; margin: -1rem 0 1rem; font-size: .75rem; color: #555; }
+    .replay-controls button { background: transparent; border: 2px solid var(--ink); padding: .55rem .75rem; font: inherit; cursor: pointer; min-height: 44px; color: var(--ink); }
+    .replay-slot { display: flex; justify-content: space-between; gap: .6rem; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .replay-slot > span:last-child { color: #666; white-space: nowrap; }
+    .replay-note { font-size: .65rem; color: #666; line-height: 1.4; }
+    .replay-pending { justify-content: center; min-height: 135px; box-shadow: 4px 4px 0 var(--ink); }
+    .replay-pending p { font-size: .8rem; color: #666; margin: .4rem 0; }
+    .replay-grid .recap-meta { gap: .5rem; flex-wrap: wrap; }
+
     /* Live tile variant — same big-tile chrome, with pulsing LIVE indicator
        and no winner/loser score emphasis (no winner yet). */
     .recap-tile.live .recap-score.live { color: var(--ink); }
@@ -955,7 +881,7 @@ function seriesVideos(series: Series): QueueVideo[] {
             <path d="M19 8 Q14.5 12 19 16"/>
           </svg>
         </a>
-        <a id="best-wnba-launcher" href="https://www.wnba.com/watch" target="_blank" rel="noopener" data-wnba-auth-launch="true" title="Yesterday's best WNBA game" aria-label="Yesterday's best WNBA game">
+        <a id="best-wnba-launcher" href="https://www.wnba.com/watch" target="_blank" rel="noopener" data-wnba-auth-launch="true" title="Best other WNBA game" aria-label="Best other WNBA game">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18"/>
@@ -981,11 +907,11 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     <section class="sports-section" aria-label="Sports">
       <h2 class="section-title">sports</h2>
+      <ReplaySports client:only="react" />
       <div class="sports-recap-shell">
-        <LiveSports client:only="react" />
-        <YesterdaySports client:only="react" />
+        <LiveSports teamKeys={TV_TEAM_KEYS} client:only="react" />
       </div>
-      <TodaySports client:only="react" />
+      <TodaySports teamKeys={TV_TEAM_KEYS} client:only="react" />
     </section>
 
     {SHOW_STANFORD_TALKS && data.queue.length === 0 && (
@@ -999,7 +925,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         <h2 class="section-title" id="internet-title">around the internet</h2>
         <div class="internet-meta" aria-label="queue details">
           <span class="meta-pill">{fmtRefresh(broader.built_at)}</span>
-          <span class="meta-pill">{broader.channel_count} trusted sources</span>
+          <span class="meta-pill">a different mix every day</span>
           {Boolean(broader.discovery_query_count) && <span class="meta-pill">open discovery</span>}
           <span class="meta-pill" id="classic-count">
             {broader.queue.length} picks{SHOW_SDSN_CLASSIC ? ' + a classic' : ''}
@@ -1047,6 +973,9 @@ function seriesVideos(series: Series): QueueVideo[] {
               data-broader-id={v.id}
               data-published-at={v.published_at}
               data-source-key={sourceKey(v)}
+              data-topic={topicKey(v)}
+              data-title={v.title}
+              data-language={v.language}
               data-series-key={v.series_key || ''}
               data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
             >
@@ -1061,6 +990,7 @@ function seriesVideos(series: Series): QueueVideo[] {
                 </div>
                 <div class="bcard-body">
                   <p class="bcard-title">{v.title}</p>
+                  {v.editorial_reason && <p class="bcard-reason">{v.editorial_reason}</p>}
                   <div class="bcard-meta">
                     <span class="bcard-chan">{v.channel_title}</span>
                     <span>{fmtAgo(v.published_at)}</span>
@@ -1173,10 +1103,10 @@ function seriesVideos(series: Series): QueueVideo[] {
   <!-- Ranked reserve pool, consumed client-side as the visible edit is marked -->
   <script is:inline type="application/json" id="broader-pool" set:html={jsonForScriptTag(broader.pool || [])}></script>
   <script is:inline type="application/json" id="broader-series-episodes" set:html={jsonForScriptTag(broader.series_episodes || {})}></script>
-  <!-- Topic chip labels, shared with the server-rendered cards above -->
-  <script is:inline type="application/json" id="topic-labels" set:html={jsonForScriptTag(TOPIC_LABELS)}></script>
 
-  <script is:inline>
+  <script>
+    // @ts-nocheck -- existing page interaction code; the shared selection policy is typed and tested.
+    import { canAddInternetVideo, sourceKey as sourceKeyJS, topicLabel as topicLabelJS, topicKey } from '../lib/tvInternet';
     // ---- Shared: id-set state in localStorage (watched / hidden / liked / …) ----
     function getSet(key) {
       try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
@@ -1350,7 +1280,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
     const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
     const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
-    const TOPIC_LABELS = JSON.parse(document.getElementById('topic-labels').textContent) || [];
 
     const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
     const saveBroaderHidden = (s) => saveSet(BROADER_HIDDEN_KEY, s);
@@ -1374,12 +1303,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       updateFeaturedCard();
     }
 
-    // CLEANUP-FLAG: each `*JS` helper below restates its frontmatter twin
-    // (fmtDuration, fmtAgo, sourceKey) and escapeHTML restates lib/htmlUtils
-    // `esc`, because this script is `is:inline` and so cannot import. Dropping
-    // `is:inline` here would let it import from a shared module and delete the
-    // copies, but bundled scripts are deferred ES modules — the gate check in
-    // the <head> and the sibling inline scripts would need auditing first.
+    // Card presentation helpers are shared by feedback-driven refills.
     function fmtDurationJS(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);
@@ -1394,15 +1318,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     }
     function escapeHTML(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    }
-    // Mirrors topicLabel() in the frontmatter — both read the same TOPIC_LABELS list.
-    function topicLabelJS(v) {
-      const categories = Array.isArray(v.categories) ? v.categories : [];
-      const match = TOPIC_LABELS.find(([category]) => categories.includes(category));
-      return match ? match[1] : 'worth a look';
-    }
-    function sourceKeyJS(v) {
-      return v.channel_id || v.channel_handle || v.channel_title || v.id;
     }
     function updateFeaturedCard() {
       const cards = Array.from(document.querySelectorAll('[data-broader-id]'));
@@ -1437,6 +1352,9 @@ function seriesVideos(series: Series): QueueVideo[] {
       card.dataset.broaderId = v.id;
       card.dataset.publishedAt = v.published_at;
       card.dataset.sourceKey = sourceKeyJS(v);
+      card.dataset.topic = topicKey(v);
+      card.dataset.title = v.title;
+      card.dataset.language = v.language;
       if (v.series_key) card.dataset.seriesKey = v.series_key;
       if (v.episode_number != null) card.dataset.episodeNumber = String(v.episode_number);
       const thumbStyle = v.thumb ? `background-image:url(${escapeHTML(v.thumb)})` : '';
@@ -1457,6 +1375,7 @@ function seriesVideos(series: Series): QueueVideo[] {
           </div>
           <div class="bcard-body">
             <p class="bcard-title">${escapeHTML(v.title)}</p>
+            ${v.editorial_reason ? `<p class="bcard-reason">${escapeHTML(v.editorial_reason)}</p>` : ''}
             <div class="bcard-meta">
               <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
               <span>${fmtAgoJS(v.published_at)}</span>
@@ -1646,14 +1565,18 @@ function seriesVideos(series: Series): QueueVideo[] {
         card.classList.remove('balance-hidden');
       });
       const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
-      // Keep the grid at a full 20 tiles. If the classic endpoint is down,
-      // a current pick fills its spot instead of leaving an orphan card.
+      // Refill up to the target only while quality and diversity caps hold.
       const target = Number(grid.dataset.tileTarget) || 20;
       const needed = Math.max(0, target - visible);
       const hidden = getBroaderHidden();
       const banned = getBannedSeries();
       const followed = getFollowedSeries();
-      const sourceLimit = Number(grid.dataset.sourceLimit) || 2;
+      const sourceLimit = Number(grid.dataset.sourceLimit) || 1;
+      const selected = Array.from(grid.querySelectorAll(".bcard:not(.hidden)[data-broader-id]")).map(card => ({
+        id: card.dataset.broaderId, title: card.dataset.title, topic: card.dataset.topic,
+        channel_id: card.dataset.sourceKey, channel_title: "", language: card.dataset.language,
+        published_at: card.dataset.publishedAt, rank_score: 100,
+      }));
       const sourceCounts = new Map();
       grid.querySelectorAll('.bcard:not(.hidden)[data-source-key]').forEach(card => {
         const key = card.dataset.sourceKey;
@@ -1674,38 +1597,28 @@ function seriesVideos(series: Series): QueueVideo[] {
         if (hidden.has(v.id)) continue;
         if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
         const sourceKey = sourceKeyJS(v);
-        if ((sourceCounts.get(sourceKey) || 0) >= sourceLimit) {
+        if ((sourceCounts.get(sourceKey) || 0) >= sourceLimit || !canAddInternetVideo(v, selected)) {
           deferred.push(v);
           continue;
         }
         if (v.series_key) seenSeriesOnGrid.add(v.series_key);
         const card = buildCard(v);
         grid.appendChild(card);
+        selected.push(v);
         sourceCounts.set(sourceKey, (sourceCounts.get(sourceKey) || 0) + 1);
         added++;
       }
       POOL.push(...deferred);
       balanceCompleteRows(grid);
       updateFeaturedCard();
-    }
-
-    function gridColumnCount(grid) {
-      const columns = getComputedStyle(grid).gridTemplateColumns;
-      if (!columns || columns === 'none') return 1;
-      const repeatedTracks = columns.match(/^repeat\(\s*(\d+)/);
-      if (repeatedTracks) return Number(repeatedTracks[1]);
-      return Math.max(1, columns.split(/\s+/).filter(Boolean).length);
+      const countLabel = document.getElementById("classic-count");
+      if (countLabel) countLabel.textContent = `${grid.querySelectorAll(".bcard:not(.hidden):not(.balance-hidden)").length} picks`;
     }
 
     function balanceCompleteRows(grid) {
+      // Keep every qualified pick visible, including an incomplete final row.
       grid.querySelectorAll('.balance-hidden').forEach(card => {
         card.classList.remove('balance-hidden');
-      });
-      const visibleCards = Array.from(grid.querySelectorAll('.bcard:not(.hidden)'));
-      const remainder = visibleCards.length % gridColumnCount(grid);
-      if (remainder === 0) return;
-      visibleCards.slice(-remainder).forEach(card => {
-        card.classList.add('balance-hidden');
       });
     }
 
@@ -1770,78 +1683,6 @@ function seriesVideos(series: Series): QueueVideo[] {
       });
     })();
   </script>
-  <script>
-    // Point the basketball launcher at the previous day's best WNBA game page.
-    // WNBA.com exposes full-game replay choices from the game page once the
-    // replay is ready, while synthesized /watch/video URLs can load a shell
-    // with no playable video. Falls back to the WNBA Watch page (the
-    // static href) on off-days or if the game can't be resolved.
-    import { fetchEspnScoreboard } from '../lib/sportsCore';
-    import {
-      competitorsOf,
-      fetchWnbaGameIds,
-      finishedGameWatchScore,
-      isFinalEvent,
-      isoDateInPT,
-      watchRecordingUrl,
-      yyyymmddInPT,
-      type ESPNEvent,
-    } from '../lib/wtwtwSports';
-    import { MS_PER_DAY } from '../lib/time';
 
-    const launcher = document.getElementById('best-wnba-launcher');
-    if (launcher instanceof HTMLAnchorElement) {
-      (async () => {
-        try {
-          const yesterday = new Date(Date.now() - MS_PER_DAY);
-          const ymd = yyyymmddInPT(yesterday);
-          const iso = isoDateInPT(yesterday);
-          const [board, wnbaGameIds] = await Promise.all([
-            fetchEspnScoreboard<ESPNEvent>('basketball/wnba', ymd),
-            fetchWnbaGameIds(),
-          ]);
-          const finals = (board.events || []).filter(isFinalEvent);
-          if (finals.length === 0) return;
-
-          let best: ESPNEvent | null = null;
-          let bestScore = -Infinity;
-          for (const ev of finals) {
-            const score = finishedGameWatchScore(ev);
-            if (score > bestScore) {
-              bestScore = score;
-              best = ev;
-            }
-          }
-          if (!best) return;
-
-          const cs = competitorsOf(best);
-          const away = cs.find((c) => c.homeAway === 'away');
-          const home = cs.find((c) => c.homeAway === 'home');
-          const watch = watchRecordingUrl({
-            league: 'basketball/wnba',
-            awayAbbr: away?.team?.abbreviation,
-            homeAbbr: home?.team?.abbreviation,
-            isoDate: iso,
-            wnbaGameIds,
-          });
-          // Only override the static fallback when a real WNBA target resolved.
-          if (!watch.href.includes('/game/')) {
-            return;
-          }
-
-          launcher.href = watch.href;
-          const awayName =
-            away?.team?.shortDisplayName || away?.team?.abbreviation || 'Away';
-          const homeName =
-            home?.team?.shortDisplayName || home?.team?.abbreviation || 'Home';
-          const label = `Yesterday's best WNBA game: ${awayName} @ ${homeName}`;
-          launcher.title = label;
-          launcher.setAttribute('aria-label', label);
-        } catch {
-          /* keep the WNBA League Pass fallback href */
-        }
-      })();
-    }
-  </script>
 </body>
 </html>
