@@ -95,6 +95,14 @@ const RecommendationSchema = z.object({
 });
 
 type Recommendation = z.infer<typeof RecommendationSchema>;
+type RecommendationOption = z.infer<typeof OptionSchema>;
+
+/** Fill in a stock photo from the option's own photoQuery; no-op when there's no query or no hit. */
+async function attachPexelsPhoto(option: RecommendationOption, pexelsKey: string): Promise<void> {
+  if (!option.photoQuery) return;
+  const photo = await fetchPexelsPhoto(option.photoQuery, pexelsKey);
+  if (photo) option.photoUrl = photo;
+}
 
 const client = getAnthropicClient();
 
@@ -243,25 +251,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       photoSource = "google-places";
     } else if (photoCount === 1) {
       recommendation.optionA.photoUrl = restaurantPhotos[0];
-      if (recommendation.optionB.photoQuery) {
-        const fallback = await fetchPexelsPhoto(
-          recommendation.optionB.photoQuery,
-          pexelsKey,
-        );
-        if (fallback) recommendation.optionB.photoUrl = fallback;
-      }
+      await attachPexelsPhoto(recommendation.optionB, pexelsKey);
       photoSource = "google-places+pexels";
     } else {
-      const [photoA, photoB] = await Promise.all([
-        recommendation.optionA.photoQuery
-          ? fetchPexelsPhoto(recommendation.optionA.photoQuery, pexelsKey)
-          : null,
-        recommendation.optionB.photoQuery
-          ? fetchPexelsPhoto(recommendation.optionB.photoQuery, pexelsKey)
-          : null,
+      await Promise.all([
+        attachPexelsPhoto(recommendation.optionA, pexelsKey),
+        attachPexelsPhoto(recommendation.optionB, pexelsKey),
       ]);
-      if (photoA) recommendation.optionA.photoUrl = photoA;
-      if (photoB) recommendation.optionB.photoUrl = photoB;
       photoSource = "pexels";
     }
 

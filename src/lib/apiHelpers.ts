@@ -1,17 +1,22 @@
 /** Shared API response helpers. */
 
-export function errJson(error: string, status: number): Response {
-  return new Response(JSON.stringify({ error }), {
+export function jsonResponse(
+  data: unknown,
+  status = 200,
+  extraHeaders?: Record<string, string>,
+): Response {
+  return new Response(JSON.stringify(data), {
     status,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...extraHeaders },
   });
 }
 
+export function errJson(error: string, status: number): Response {
+  return jsonResponse({ error }, status);
+}
+
 export function okJson(data: unknown, extraHeaders?: Record<string, string>): Response {
-  return new Response(JSON.stringify(data), {
-    status: 200,
-    headers: { "Content-Type": "application/json", ...extraHeaders },
-  });
+  return jsonResponse(data, 200, extraHeaders);
 }
 
 export function fetchWithTimeout(
@@ -56,10 +61,7 @@ export function toErrMsg(err: unknown): string {
 export function devErrJson(message: string, errMsg: string): Response {
   const body =
     import.meta.env.DEV ? { error: message, debug: errMsg } : { error: message };
-  return new Response(JSON.stringify(body), {
-    status: 500,
-    headers: { "Content-Type": "application/json" },
-  });
+  return jsonResponse(body, 500);
 }
 
 /**

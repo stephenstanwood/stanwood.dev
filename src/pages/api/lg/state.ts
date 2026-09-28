@@ -1,18 +1,15 @@
 import type { APIRoute } from 'astro';
 import { getSession, isSameOrigin } from '../../../lib/scatos/auth';
 import { getState, scatosSql } from '../../../lib/scatos/db';
+import { jsonResponse } from '../../../lib/apiHelpers';
 
 export const prerender = false;
 
 /** ScatosSwip responses are per-household and must never be cached or indexed. */
 const json = (data: unknown, status = 200) =>
-  new Response(JSON.stringify(data), {
-    status,
-    headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'private, no-store',
-      'X-Robots-Tag': 'noindex, nofollow',
-    },
+  jsonResponse(data, status, {
+    'Cache-Control': 'private, no-store',
+    'X-Robots-Tag': 'noindex, nofollow',
   });
 
 const MAX_BODY_CHARS = 4000;
