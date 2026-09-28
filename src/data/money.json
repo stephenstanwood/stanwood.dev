@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-27T19:10:19.128Z",
+  "lastUpdated": "2026-09-28T01:10:16.158Z",
   "apiSpend": {
     "months": [
       {
@@ -322,30 +322,30 @@
       },
       {
         "month": "2026-09",
-        "collectedAt": "2026-09-27T19:10:19.128Z",
+        "collectedAt": "2026-09-28T01:10:16.158Z",
         "services": {
           "vercel": {
-            "totalCents": 11850,
+            "totalCents": 11887,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 11048
+                "cents": 11065
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 352
+                "cents": 356
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 194
+                "cents": 207
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 81
+                "cents": 82
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 37
+                "cents": 38
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -353,7 +353,7 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 35
+                "cents": 36
               },
               {
                 "name": "Fast Origin Transfer",
@@ -391,7 +391,7 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 13465,
+            "totalCents": 13884,
             "breakdown": [
               {
                 "name": "claude-opus-5",
@@ -399,15 +399,15 @@
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 3195
+                "cents": 3276
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 2302
+                "cents": 2414
               },
               {
                 "name": "claude-opus-5-5",
-                "cents": 1895
+                "cents": 2121
               },
               {
                 "name": "claude-fable-5",
