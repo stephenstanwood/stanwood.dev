@@ -29,6 +29,7 @@ export interface ESPNCompetitor {
   score?: string;
   winner?: boolean;
   records?: Array<{ type?: string; summary?: string }>;
+  linescores?: Array<{ value: number; period?: number }>;
 }
 
 interface ESPNStatusType {
@@ -51,7 +52,8 @@ export interface ESPNEvent {
   shortName?: string;
   name?: string;
   competitions?: ESPNCompetition[];
-  season?: { type?: number; slug?: string };
+  season?: { year?: number; type?: number; slug?: string };
+  week?: { number?: number };
 }
 
 function readUserTeamKeys(): string[] {
@@ -90,9 +92,9 @@ export interface TrackedTeamsContext {
 // Resolves the current user's tracked teams (their saved picks unioned with the
 // always-shown defaults) into the leagues + lookup the sports rails need. Shared
 // by LiveSports/TodaySports/YesterdaySports so the three stay in lockstep.
-export function getTrackedTeamsContext(): TrackedTeamsContext {
+export function getTrackedTeamsContext(override?: string[]): TrackedTeamsContext {
   const teamKeys = Array.from(
-    new Set([...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
+    new Set(override ?? [...readUserTeamKeys(), ...ALWAYS_SHOW_TEAMS]),
   );
   return {
     teamKeys,
