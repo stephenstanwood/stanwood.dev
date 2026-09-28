@@ -1,6 +1,7 @@
 import { defineMiddleware } from "astro:middleware";
 import { hashPassword, readCookie, timingSafeEqual } from "./lib/auth";
 import { getSession } from "./lib/scatos/auth";
+import { jsonResponse } from "./lib/apiHelpers";
 
 /**
  * Middleware — runs as Vercel Edge Middleware (before filesystem):
@@ -61,9 +62,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const isPublicScatosPath = matchesPrefix(url.pathname, SCATOS_PUBLIC_PREFIXES);
     if (!isPublicScatosPath && !(await getSession(context.request))) {
       if (url.pathname.startsWith("/api/")) {
-        return new Response(JSON.stringify({ error: "Please sign in again." }), {
-          status: 401,
-          headers: { "Content-Type": "application/json", "Cache-Control": SCATOS_CACHE_CONTROL },
+        return jsonResponse({ error: "Please sign in again." }, 401, {
+          "Cache-Control": SCATOS_CACHE_CONTROL,
         });
       }
       return new Response(null, {
