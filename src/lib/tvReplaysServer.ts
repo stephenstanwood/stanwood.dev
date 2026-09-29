@@ -4,6 +4,8 @@ import { awayHomeOf, isoDateInPT, teamSideOf, watchRecordingUrl, type ESPNEvent 
 import { bestReplay, latestFinal, nbaReplayReadyAt, nflReplayUrl, nflWeekendDates, type ReplayCard, type ReplayFeed, type ReplaySlot } from "./tvReplays";
 import { MS_PER_DAY } from "./time";
 
+// CLEANUP-FLAG: this feed relies on unchecked ESPN, WNBA, MLB, and NBA payload
+// shapes. Shared validation would touch every league and its fallback behavior.
 async function json(url: string): Promise<any> {
   const res = await fetchWithTimeout(url, { headers: { Accept: "application/json" } }, 8000);
   if (!res.ok) throw new Error(`Sports upstream ${res.status}`);

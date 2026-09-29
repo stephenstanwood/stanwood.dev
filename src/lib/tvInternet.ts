@@ -15,34 +15,43 @@ export const TOPIC_LABELS: [string, string][] = [
   ["civic_open", "public tech"], ["product_craft", "product craft"], ["solo_builder", "independent products"],
   ["working_method", "working method"], ["applied_ai", "AI in practice"],
 ];
-export function sourceKey(v: InternetVideo): string { return (v.channel_id || v.channel_handle || v.channel_title || v.id).toLowerCase(); }
-export function topicKey(v: InternetVideo): string {
-  if (/\b(?:AI|LLM|GPT|Claude|Codex|Gemini|Opus|Jev|OpenJevs?|agentic|agents?)\b/i.test(v.title) || v.title_categories?.includes("applied_ai")) return "applied_ai";
-  if (v.topic) return v.topic;
-  const cats = v.title_categories ?? v.categories;
-  return TOPIC_LABELS.find(([cat]) => cats?.includes(cat))?.[0] ?? "working_method";
+export function sourceKey(video: InternetVideo): string {
+  return (video.channel_id || video.channel_handle || video.channel_title || video.id).toLowerCase();
 }
-export function topicLabel(v: InternetVideo): string { return TOPIC_LABELS.find(([key]) => key === topicKey(v))?.[1] ?? "working method"; }
+export function topicKey(video: InternetVideo): string {
+  if (/\b(?:AI|LLM|GPT|Claude|Codex|Gemini|Opus|Jev|OpenJevs?|agentic|agents?)\b/i.test(video.title) || video.title_categories?.includes("applied_ai")) return "applied_ai";
+  if (video.topic) return video.topic;
+  const categories = video.title_categories ?? video.categories;
+  return TOPIC_LABELS.find(([category]) => categories?.includes(category))?.[0] ?? "working_method";
+}
+export function topicLabel(video: InternetVideo): string {
+  return TOPIC_LABELS.find(([key]) => key === topicKey(video))?.[1] ?? "working method";
+}
 const STOP = new Set("the a an to of in on for with and or how why what is are was i my your this that it we you from new build use using".split(" "));
-export function similarTitles(a: string, b: string): boolean {
+export function similarTitles(firstTitle: string, secondTitle: string): boolean {
   const tokens = (title: string) => new Set((title.toLowerCase().match(/[a-z0-9]+/g) ?? []).filter(s => s.length > 2 && !STOP.has(s)));
-  const aa = tokens(a), bb = tokens(b);
-  return aa.size > 0 && bb.size > 0 && [...aa].filter(t => bb.has(t)).length / Math.min(aa.size, bb.size) >= 0.7;
+  const firstTokens = tokens(firstTitle), secondTokens = tokens(secondTitle);
+  return firstTokens.size > 0 && secondTokens.size > 0 &&
+    [...firstTokens].filter(token => secondTokens.has(token)).length / Math.min(firstTokens.size, secondTokens.size) >= 0.7;
 }
-export function eligibleInternetVideo(v: InternetVideo, now = Date.now()): boolean {
-  const age = (now - Date.parse(v.published_at)) / 86_400_000;
-  return isEnglishVideo(v) && Number.isFinite(age) && age >= -1 && age <= INTERNET_MAX_AGE_DAYS && (v.rank_score ?? v.score ?? 0) >= 3;
+export function eligibleInternetVideo(video: InternetVideo, now = Date.now()): boolean {
+  const age = (now - Date.parse(video.published_at)) / 86_400_000;
+  return isEnglishVideo(video) && Number.isFinite(age) && age >= -1 && age <= INTERNET_MAX_AGE_DAYS &&
+    (video.rank_score ?? video.score ?? 0) >= 3;
 }
-export function canAddInternetVideo(v: InternetVideo, selected: InternetVideo[], now = Date.now()): boolean {
-  return eligibleInternetVideo(v, now) && !selected.some(p => p.id === v.id || sourceKey(p) === sourceKey(v) || similarTitles(p.title, v.title)) &&
-    selected.filter(p => topicKey(p) === topicKey(v)).length < INTERNET_MAX_PER_TOPIC;
+export function canAddInternetVideo(video: InternetVideo, selected: InternetVideo[], now = Date.now()): boolean {
+  if (!eligibleInternetVideo(video, now)) return false;
+  if (selected.some(pick => pick.id === video.id || sourceKey(pick) === sourceKey(video) || similarTitles(pick.title, video.title))) {
+    return false;
+  }
+  return selected.filter(pick => topicKey(pick) === topicKey(video)).length < INTERNET_MAX_PER_TOPIC;
 }
 /** Preserve the pipeline's cooldown-aware order; refills obey identical hard caps. */
 export function chooseInternetPicks<T extends InternetVideo>(items: T[], count: number, now = Date.now()): T[] {
   const selected: T[] = [];
-  for (const v of items) {
-    if (!canAddInternetVideo(v, selected, now)) continue;
-    selected.push(v);
+  for (const video of items) {
+    if (!canAddInternetVideo(video, selected, now)) continue;
+    selected.push(video);
     if (selected.length >= count) break;
   }
   return selected;
