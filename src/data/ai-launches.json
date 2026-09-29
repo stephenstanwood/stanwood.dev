@@ -1,5 +1,21 @@
 [
   {
+    "name": "Claude Sonnet 5.5",
+    "org": "Anthropic",
+    "date": "2026-09-28",
+    "type": "model",
+    "summary": "Build apps, fix bugs, and produce polished documents with a faster everyday model. It is live in Claude and the API at $2 input and $10 output per million tokens, and typically uses fewer tokens per task than Sonnet 5.",
+    "url": "https://www.anthropic.com/claude-sonnet-5-5"
+  },
+  {
+    "name": "Holo4 35B-A3B",
+    "org": "H Company",
+    "date": "2026-09-28",
+    "type": "model",
+    "summary": "Build agents that operate apps through screenshots, code, APIs, and MCP tools. Apache-licensed weights and 4-bit downloads are available now, along with a hosted API priced at $0.30 input and $2 output per million tokens.",
+    "url": "https://huggingface.co/Hcompany/Holo4-35B-A3B"
+  },
+  {
     "name": "Whiteboard",
     "org": "/dev/fast",
     "date": "2026-09-24",
@@ -24,14 +40,6 @@
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
   },
   {
-    "name": "CLM-8B",
-    "org": "Stanford + NVIDIA",
-    "date": "2026-09-23",
-    "type": "model",
-    "summary": "Make agents choose tools and next actions without paying a language model to write prose. The Apache-2.0 weights, code, fine-tuning guide, TypeSafe-compatible API, and local playground are available now, with reusable action caching for faster decisions.",
-    "url": "https://github.com/Contrastive-LM/CLM"
-  },
-  {
     "name": "Claude Opus 5.5",
     "org": "Anthropic",
     "date": "2026-09-22",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Run a 9B coding and tool-use model locally, or fine-tune it for an agent. MIT-licensed weights and quantizations are on Hugging Face, making it the practical local option in Xiaomi's V2.6 release.",
     "url": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B"
-  },
-  {
-    "name": "Bonsai 2 27B",
-    "org": "PrismML",
-    "date": "2026-09-17",
-    "type": "model",
-    "summary": "Run a 27B reasoning, coding, and vision model on a laptop: ternary weights squeeze it to 5.9GB while keeping 98% of full-precision scores. It has 262K context, Apache 2.0 weights on Hugging Face, and MLX builds for Mac and iPhone plus CUDA.",
-    "url": "https://prismml.com/news/bonsai-2-27b"
   }
 ]
