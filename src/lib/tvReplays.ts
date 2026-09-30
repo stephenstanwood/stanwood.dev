@@ -36,8 +36,12 @@ export function involves(event: ESPNEvent, teams: string[]): boolean {
   return competitorsOf(event).some(c => teams.includes(c.team?.abbreviation?.toUpperCase() ?? ""));
 }
 
+function hasCompletedMatchup(event: ESPNEvent): boolean {
+  return isFinalEvent(event) && Boolean(awayHomeOf(event));
+}
+
 export function latestFinal(events: ESPNEvent[], now = new Date()): ESPNEvent | undefined {
-  return events.filter(e => isFinalEvent(e) && awayHomeOf(e) && Date.parse(e.date) <= +now)
+  return events.filter(e => hasCompletedMatchup(e) && Date.parse(e.date) <= +now)
     .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))[0];
 }
 
@@ -45,7 +49,8 @@ export function latestFinal(events: ESPNEvent[], now = new Date()): ESPNEvent | 
 export function nflWeekendDates(now = new Date()): string[] {
   const local = new Date(`${isoDateInPT(now)}T12:00:00Z`);
   const sunday = new Date(+local - local.getUTCDay() * MS_PER_DAY);
-  return [-3, -2, -1, 0, 1].map(offset => new Date(+sunday + offset * MS_PER_DAY).toISOString().slice(0, 10))
+  return [-3, -2, -1, 0, 1]
+    .map(offset => new Date(+sunday + offset * MS_PER_DAY).toISOString().slice(0, 10))
     .filter(date => date <= isoDateInPT(now));
 }
 
@@ -55,17 +60,20 @@ export function nflWatchScore(event: ESPNEvent): number {
   if (!sides) return -Infinity;
   const margin = Math.abs(Number(sides.away.score) - Number(sides.home.score));
   if (!Number.isFinite(margin)) return -Infinity;
-  const quality = competitorsOf(event).reduce((sum, c) => {
-    const parts = (c.records?.find(r => r.type === "total")?.summary ?? c.records?.[0]?.summary ?? "").split("-").map(Number);
-    const [w, l, t = 0] = parts;
-    return sum + (w + l + t > 0 ? (w + t / 2) / (w + l + t) : 0.5);
+  const quality = competitorsOf(event).reduce((sum, competitor) => {
+    const record = competitor.records?.find(record => record.type === "total")?.summary
+      ?? competitor.records?.[0]?.summary
+      ?? "";
+    const [wins, losses, ties = 0] = record.split("-").map(Number);
+    const games = wins + losses + ties;
+    return sum + (games > 0 ? (wins + ties / 2) / games : 0.5);
   }, 0) / 2;
-  let away = 0, home = 0, lastLeader = 0, swings = 0;
+  let awayPoints = 0, homePoints = 0, lastLeader = 0, leadChanges = 0;
   for (let i = 0; i < 4; i++) {
-    away += sides.away.linescores?.[i]?.value ?? 0;
-    home += sides.home.linescores?.[i]?.value ?? 0;
-    const leader = Math.sign(away - home);
-    if (leader && lastLeader && leader !== lastLeader) swings++;
+    awayPoints += sides.away.linescores?.[i]?.value ?? 0;
+    homePoints += sides.home.linescores?.[i]?.value ?? 0;
+    const leader = Math.sign(awayPoints - homePoints);
+    if (leader && lastLeader && leader !== lastLeader) leadChanges++;
     if (leader) lastLeader = leader;
   }
   const thirdMargin = Math.abs(
@@ -75,12 +83,12 @@ export function nflWatchScore(event: ESPNEvent): number {
   const hasQuarters = (sides.away.linescores?.length ?? 0) >= 4 && (sides.home.linescores?.length ?? 0) >= 4;
   return Math.max(0, 80 - margin * 4) + quality * 10 +
     ((event.competitions?.[0]?.status?.period ?? 4) > 4 ? 18 : 0) +
-    Math.min(swings, 3) * 4 + (hasQuarters && thirdMargin <= 8 ? 8 : 0) +
+    Math.min(leadChanges, 3) * 4 + (hasQuarters && thirdMargin <= 8 ? 8 : 0) +
     (event.season?.type === 3 ? 6 : 0);
 }
 
 export function bestReplay(events: ESPNEvent[], league: string, excluded: string[], now = new Date()): ESPNEvent | undefined {
-  let finals = events.filter(e => isFinalEvent(e) && awayHomeOf(e) && !involves(e, excluded) && Date.parse(e.date) <= +now);
+  let finals = events.filter(e => hasCompletedMatchup(e) && !involves(e, excluded) && Date.parse(e.date) <= +now);
   // Basketball gets the best of the latest completed slate, including on off-days.
   if (league !== "football/nfl") {
     const latest = latestFinal(finals, now);
