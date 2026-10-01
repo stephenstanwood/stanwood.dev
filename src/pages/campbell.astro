@@ -1625,35 +1625,30 @@ const photoStories = [
           flex-direction: column;
         }
       }
-      .cb-anchor-grid,
-      .cb-ledger-grid {
+      .cb-anchor-grid {
         display: grid;
         grid-template-columns: 1fr;
         gap: 0.7rem;
         margin-bottom: 1rem;
       }
       @media (min-width: 640px) {
-        .cb-anchor-grid,
-        .cb-ledger-grid { grid-template-columns: 1fr 1fr; }
+        .cb-anchor-grid { grid-template-columns: 1fr 1fr; }
       }
-      .cb-anchor-card,
-      .cb-ledger-card {
+      .cb-anchor-card {
         padding: 0.9rem 1rem;
         background: var(--cb-card-bg);
         border: 1px solid var(--cb-border);
         border-left: 3px solid var(--cb-gold);
         border-radius: 8px;
       }
-      .cb-anchor-card span,
-      .cb-ledger-card span {
+      .cb-anchor-card span {
         display: block;
         font-size: 0.88rem;
         font-weight: 800;
         color: var(--cb-ink);
         margin-bottom: 0.3rem;
       }
-      .cb-anchor-card p,
-      .cb-ledger-card p {
+      .cb-anchor-card p {
         font-size: 0.8rem;
         line-height: 1.5;
         color: var(--cb-gray);
@@ -2630,17 +2625,9 @@ const photoStories = [
       .cb-safety-status {
         min-width: 4.35rem;
       }
-      .cb-property-status--ready {
-        color: var(--cb-green);
-        background: var(--cb-green-light);
-      }
-      .cb-property-status--partial {
+      .cb-property-status {
         color: var(--cb-gold);
         background: var(--cb-gold-light);
-      }
-      .cb-property-status--hard {
-        color: var(--cb-blue);
-        background: var(--cb-blue-light);
       }
       .cb-safety-start {
         display: grid;
@@ -2775,91 +2762,6 @@ const photoStories = [
         color: var(--cb-gray);
         font-size: 0.76rem;
         line-height: 1.45;
-      }
-      .cb-sales-status {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.65rem;
-        margin: 0 0 1rem;
-      }
-      @media (min-width: 780px) {
-        .cb-sales-status { grid-template-columns: repeat(3, 1fr); }
-      }
-      .cb-sales-status-card {
-        display: grid;
-        gap: 0.45rem;
-        padding: 0.85rem 0.9rem;
-        color: var(--cb-ink);
-        text-decoration: none;
-        background: var(--cb-blue-light);
-        border: 1px solid #C7D4CF;
-        border-radius: 8px;
-      }
-      .cb-sales-status-card:hover {
-        border-color: #A8BDB4;
-      }
-      .cb-sales-status-card div {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.35rem;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .cb-sales-status-card strong {
-        color: var(--cb-blue-hover);
-        font-size: 0.82rem;
-        line-height: 1.25;
-      }
-      .cb-sales-status-card em {
-        color: var(--cb-gray);
-        font-size: 0.68rem;
-        font-style: normal;
-        font-weight: 850;
-      }
-      .cb-sales-status-card p {
-        margin: 0;
-        color: var(--cb-gray);
-        font-size: 0.75rem;
-        line-height: 1.45;
-      }
-      .cb-safety-rules {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.65rem;
-        margin: 0 0 1rem;
-      }
-      @media (min-width: 720px) {
-        .cb-safety-rules { grid-template-columns: repeat(3, 1fr); }
-      }
-      .cb-safety-rule {
-        min-height: 6.35rem;
-        padding: 0.8rem 0.9rem;
-        background: var(--cb-card-bg);
-        border: 1px solid var(--cb-border);
-        border-radius: 8px;
-      }
-      .cb-safety-rule span {
-        display: block;
-        font-size: 0.78rem;
-        font-weight: 850;
-        color: var(--cb-ink);
-        margin-bottom: 0.32rem;
-      }
-      .cb-safety-rule p {
-        font-size: 0.76rem;
-        line-height: 1.5;
-        color: var(--cb-gray);
-        margin: 0;
-      }
-      .cb-privacy-note {
-        font-size: 0.8rem;
-        line-height: 1.55;
-        color: var(--cb-gray);
-        margin: 1rem 0 0;
-        padding: 0.75rem 0.9rem;
-        background: var(--cb-gold-light);
-        border-left: 3px solid var(--cb-gold);
-        border-radius: 8px;
       }
       /* -- Who handles that panel -- */
       .cb-who-band {

@@ -8,21 +8,6 @@ import SourceCardGrid from "./SourceCardGrid";
 import LayerList from "./LayerList";
 import MetricStrip from "./MetricStrip";
 
-const SAFETY_RULES = [
-  {
-    label: "Official first",
-    body: "Prefer CPD, CityProtect, council records, and posted policies before third-party crime scores.",
-  },
-  {
-    label: "Context before ranking",
-    body: "Explain what happened, where the data comes from, and what it leaves out before making comparisons.",
-  },
-  {
-    label: "Privacy floor",
-    body: "Keep victim-level details, people-search dossiers, and panic-map framing out of the guide.",
-  },
-];
-
 const SAFETY_SHORTCUTS = [
   {
     label: "Report a non-emergency crime",
@@ -36,7 +21,7 @@ const SAFETY_SHORTCUTS = [
   },
   {
     label: "Read media logs",
-    body: "Official CPD incident-log PDFs. Best used for context and trends, not victim-level republishing.",
+    body: "Open Campbell Police Department incident summaries in the posted PDFs.",
     href: SOURCE_URLS.cpdMediaLogs,
   },
   {
@@ -107,11 +92,10 @@ export default function SafetyIndex() {
 
       <div className="cb-section-head cb-safety-layer-head">
         <span className="cb-section-kicker">Official paths</span>
-        <h3>Useful crime coverage without turning people into content.</h3>
+        <h3>Police reports, maps, and policies</h3>
         <p>
-          Crime data is public, but not all public data should be republished as
-          raw rows. The stronger version explains official reports, map limits,
-          meeting dates, policies, and patterns in plain English.
+          Open Campbell police records, incident summaries, and public oversight
+          pages.
         </p>
       </div>
 
@@ -132,22 +116,7 @@ export default function SafetyIndex() {
         ))}
       </div>
 
-      <div className="cb-safety-rules" aria-label="Safety publishing rules">
-        {SAFETY_RULES.map((rule) => (
-          <article key={rule.label} className="cb-safety-rule">
-            <span>{rule.label}</span>
-            <p>{rule.body}</p>
-          </article>
-        ))}
-      </div>
-
       <SourceCardGrid sources={SAFETY_SOURCES} />
-
-      <p className="cb-privacy-note">
-        Safety records are useful when they come from official sources and keep
-        context intact. This guide should not publish victim-identifying incident
-        rows or synthetic danger scores.
-      </p>
     </div>
   );
 }

@@ -8,13 +8,6 @@ import SourceCardGrid from "./SourceCardGrid";
 import LayerList from "./LayerList";
 import MetricStrip from "./MetricStrip";
 
-const LEDGER_FIELDS = [
-  { label: "Parcel", body: "APN, jurisdiction, tax-rate area, lot, zoning, and map links." },
-  { label: "Assessment", body: "Assessed value, base-year clues, exemptions, and roll changes where public." },
-  { label: "Transfers", body: "Recorded deeds, transfer-tax hints, and document references without publishing owner dossiers." },
-  { label: "Permits", body: "Planning, building, code, and public-hearing records tied back to addresses." },
-];
-
 const PROPERTY_SHORTCUTS = [
   {
     label: "Find active projects",
@@ -38,27 +31,6 @@ const PROPERTY_SHORTCUTS = [
   },
 ];
 
-const SALES_FEED_STATUS = [
-  {
-    label: "Sales feed",
-    status: "Not live yet",
-    body: "A real Campbell sales feed needs official transfer fields, not scraped listing blurbs.",
-    href: SOURCE_URLS.assessorRecords,
-  },
-  {
-    label: "Likely official fields",
-    status: "Assessor path",
-    body: "The county assessor describes records that can include buyer, seller, APN, property address, transfer date, recording date, document number, and indicated sales price.",
-    href: SOURCE_URLS.assessorRecords,
-  },
-  {
-    label: "Recorder data",
-    status: "Index only",
-    body: "The Clerk-Recorder data subscription is useful for recorded-document references, but the office says it is document-index data, not a property sales database.",
-    href: SOURCE_URLS.clerkRecorderDataSales,
-  },
-];
-
 export default function RealEstateLedger() {
   return (
     <div className="cb-homes">
@@ -68,15 +40,6 @@ export default function RealEstateLedger() {
         metricClassName="cb-property-metric"
         ariaLabel="Campbell property roll metrics"
       />
-
-      <div className="cb-ledger-grid">
-        {LEDGER_FIELDS.map((field) => (
-          <article key={field.label} className="cb-ledger-card">
-            <span>{field.label}</span>
-            <p>{field.body}</p>
-          </article>
-        ))}
-      </div>
 
       <div className="cb-property-shortcuts" aria-label="Campbell property and permit shortcuts">
         {PROPERTY_SHORTCUTS.map((shortcut) => (
@@ -93,43 +56,18 @@ export default function RealEstateLedger() {
         ))}
       </div>
 
-      <div className="cb-sales-status" aria-label="Campbell real estate sales feed status">
-        {SALES_FEED_STATUS.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cb-sales-status-card"
-          >
-            <div>
-              <strong>{item.label}</strong>
-              <em>{item.status}</em>
-            </div>
-            <p>{item.body}</p>
-          </a>
-        ))}
-      </div>
-
       <div className="cb-section-head cb-property-layer-head">
-        <span className="cb-section-kicker">Official paths</span>
-        <h3>What can become a real sales ledger?</h3>
+        <span className="cb-section-kicker">Property records</span>
+        <h3>Look up a Campbell property</h3>
         <p>
-          Start with public parcel and permit context, then use official transfer
-          fields when the data path is complete. Sale rumors and scraped
-          people-search dossiers stay out.
+          Find parcel details, assessed values, recorded documents, maps, and
+          building records through city and county services.
         </p>
       </div>
 
       <LayerList layers={PROPERTY_LAYERS} prefix="cb-property" />
 
       <SourceCardGrid sources={REAL_ESTATE_SOURCES} />
-
-      <p className="cb-privacy-note">
-        Real estate documents are public records, but this guide should publish
-        address-level facts, document references, and market context - not
-        unnecessary personal profiles.
-      </p>
     </div>
   );
 }

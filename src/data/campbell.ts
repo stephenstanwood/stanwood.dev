@@ -28,7 +28,7 @@ export interface CampbellSource {
 
 export interface CampbellPropertyLayer {
   label: string;
-  status: "Ready" | "Partial" | "Hard";
+  status: "Search" | "Documents" | "Records" | "Maps" | "Permits";
   body: string;
   sourceLabel: string;
   sourceUrl: string;
@@ -457,7 +457,7 @@ export const SAFETY_LAYERS: CampbellSafetyLayer[] = [
   {
     label: "Media logs",
     status: "Official",
-    body: "CPD publishes media-log PDFs with incident summaries. They are useful for official context, but the page should summarize patterns and source limits instead of republishing personal details.",
+    body: "Read the Police Department's posted incident summaries in its media-log PDFs.",
     sourceLabel: "CPD Media Logs",
     sourceUrl: SOURCE_URLS.cpdMediaLogs,
   },
@@ -478,7 +478,7 @@ export const SAFETY_LAYERS: CampbellSafetyLayer[] = [
   {
     label: "Transparency materials",
     status: "Policy",
-    body: "Policies, training materials, ALPR/Flock links, drone links, and annual reports belong beside crime data so residents can inspect how policing systems are used.",
+    body: "Read department policies, training materials, license-plate reader and drone information, and annual reports.",
     sourceLabel: "Transparency Portal",
     sourceUrl: SOURCE_URLS.policeTransparency,
   },
@@ -570,36 +570,36 @@ export const PROPERTY_METRICS: CampbellMetric[] = [
 export const PROPERTY_LAYERS: CampbellPropertyLayer[] = [
   {
     label: "Parcel and assessed value lookup",
-    status: "Ready",
-    body: "Public lookup works address-by-address or APN-by-APN. Good first step for a property page, but not a bulk citywide sales feed by itself.",
+    status: "Search",
+    body: "Search by property address or assessor's parcel number (APN) for parcel details and assessed value.",
     sourceLabel: "Assessor real property search",
     sourceUrl: SOURCE_URLS.assessorSearch,
   },
   {
     label: "Recorded documents",
-    status: "Partial",
-    body: "Recorder data can identify deeds, liens, maps, and document references. The Clerk-Recorder says its office has document index data, not a ready sales-price database.",
+    status: "Documents",
+    body: "Read about the Clerk-Recorder's document-index data for deeds, liens, maps, and document references.",
     sourceLabel: "Clerk-Recorder data sales",
     sourceUrl: SOURCE_URLS.clerkRecorderDataSales,
   },
   {
-    label: "Indicated sale price and transfer fields",
-    status: "Hard",
-    body: "The Assessor data path is the likely official source for transfer dates, recording dates, document numbers, and indicated sales price. That probably means a data request or paid file before we publish a true ledger.",
+    label: "Property records and map purchases",
+    status: "Records",
+    body: "See the Assessor's options for searching property records and buying maps.",
     sourceLabel: "Assessor records and data",
     sourceUrl: SOURCE_URLS.assessorRecords,
   },
   {
-    label: "Parcel geometry",
-    status: "Ready",
-    body: "The county publishes parcel map layers for mapping and spatial joins. That makes neighborhood rollups and zoning overlays feasible without scraping individual search pages.",
+    label: "Parcel maps",
+    status: "Maps",
+    body: "Find the county's downloadable parcel boundaries and other map data.",
     sourceLabel: "County parcel map data",
     sourceUrl: SOURCE_URLS.countyGisData,
   },
   {
     label: "Building permits and construction context",
-    status: "Partial",
-    body: "Campbell points residents to MGO, permit status, permit maps, inspections, and building records. It is the bridge between a sale, a remodel, and a public hearing.",
+    status: "Permits",
+    body: "Find Campbell's permit portal, permit status, inspections, and building records.",
     sourceLabel: "Campbell Building",
     sourceUrl: SOURCE_URLS.campbellBuilding,
   },
