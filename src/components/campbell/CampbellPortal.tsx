@@ -31,7 +31,6 @@ type TabConfig = {
   label: string;
   eyebrow: string;
   summary: string;
-  intent: string;
   Icon: LucideIcon;
   accent: TabAccent;
   image?: { src: string; objectPosition?: string };
@@ -42,8 +41,7 @@ const TABS: TabConfig[] = [
     id: "events",
     label: "Events",
     eyebrow: "Today + weekend",
-    summary: "Find today's plans, weekend options, public meetings, and original calendar links.",
-    intent: "Use this when you are deciding what to do next.",
+    summary: "Find events, weekend plans, and public meetings.",
     Icon: CalendarDays,
     accent: "green",
     image: { src: "/images/campbell/farmers-market.webp", objectPosition: "50% 38%" },
@@ -52,8 +50,7 @@ const TABS: TabConfig[] = [
     id: "digest",
     label: "City Hall",
     eyebrow: "Hearings + packets",
-    summary: "Open public notices, Council packets, minutes, videos, and plain-English summaries.",
-    intent: "Use this before a meeting, hearing, or local decision.",
+    summary: "Follow hearings, council decisions, and meeting records.",
     Icon: Landmark,
     accent: "blue",
     image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" },
@@ -62,8 +59,7 @@ const TABS: TabConfig[] = [
     id: "businesses",
     label: "Businesses",
     eyebrow: "Storefronts",
-    summary: "Look up downtown shops, Chamber members, restaurants, services, and website links.",
-    intent: "Use this when you need a local place, owner, or storefront link.",
+    summary: "Look up local shops, restaurants, and services.",
     Icon: Store,
     accent: "clay",
     image: { src: "/images/campbell/pruneyard-aerial.webp", objectPosition: "50% 42%" },
@@ -71,9 +67,8 @@ const TABS: TabConfig[] = [
   {
     id: "safety",
     label: "Safety",
-    eyebrow: "Official paths",
-    summary: "Find police logs, crime maps, records requests, reporting links, and oversight pages.",
-    intent: "Use this when you need the official public-safety route.",
+    eyebrow: "Police + reports",
+    summary: "Report a problem or find police records and crime maps.",
     Icon: ShieldCheck,
     accent: "red",
     image: { src: "/images/campbell/city-hall.webp", objectPosition: "50% 48%" },
@@ -82,8 +77,7 @@ const TABS: TabConfig[] = [
     id: "homes",
     label: "Homes + Permits",
     eyebrow: "Property",
-    summary: "Check permits, parcels, project maps, county records, and development links.",
-    intent: "Use this when a property, project, or permit is the question.",
+    summary: "Check a property, permit, or proposed development.",
     Icon: House,
     accent: "gold",
     image: { src: "/images/campbell/water-tower-aerial.webp", objectPosition: "50% 30%" },
@@ -92,8 +86,7 @@ const TABS: TabConfig[] = [
     id: "history",
     label: "History",
     eyebrow: "Orchard City",
-    summary: "Follow Ainsley House, downtown roots, the water tower, and local milestones.",
-    intent: "Use this for the local context behind Campbell's landmarks.",
+    summary: "Explore Campbell's landmarks and orchard roots.",
     Icon: History,
     accent: "gold",
     image: { src: "/images/campbell/ainsley-house.webp", objectPosition: "50% 55%" },
@@ -102,8 +95,7 @@ const TABS: TabConfig[] = [
     id: "data",
     label: "Numbers + Maps",
     eyebrow: "Numbers",
-    summary: "Open Census snapshots, city maps, budgets, map layers, and county data.",
-    intent: "Use this when you need sourced numbers or a map layer.",
+    summary: "Find census figures, city budgets, and local maps.",
     Icon: Map,
     accent: "blue",
     image: { src: "/images/campbell/downtown-vta-station.webp", objectPosition: "50% 58%" },
@@ -112,8 +104,7 @@ const TABS: TabConfig[] = [
     id: "links",
     label: "Resident Links",
     eyebrow: "Get it done",
-    summary: "Jump to forms for services, permits, recreation, schools, transit, and help.",
-    intent: "Use this when you already know the task and need the right form.",
+    summary: "Find services, forms, schools, recreation, and transit.",
     Icon: ClipboardList,
     accent: "green",
     image: { src: "/images/campbell/campbell-park.webp", objectPosition: "28% 55%" },
@@ -287,11 +278,6 @@ export default function CampbellPortal() {
             </button>
           ))}
         </div>
-
-        <p className="cb-tabs-footer">
-          <strong>{activeTab.intent}</strong>
-          <span>{activeTab.label}: {activeTab.summary}</span>
-        </p>
       </section>
 
       <div

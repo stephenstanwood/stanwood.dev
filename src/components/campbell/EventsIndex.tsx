@@ -393,12 +393,14 @@ export default function EventsIndex() {
 
   return (
     <div className="cb-events" id="campbell-events-next14">
+      <div className="cb-section-jump-anchors" aria-hidden="true">
+        <span id="campbell-events-weekend" />
+      </div>
       <div className="cb-events-intro">
         <span>Upcoming Events</span>
-        <h3>What is happening next in Campbell.</h3>
+        <h3>What's happening in Campbell.</h3>
         <p>
-          Search city, downtown, library, theater, school, and Chamber calendars.
-          The public-meetings shortcut keeps city and school meetings easy to find.
+          Find local events or check the next public meeting.
         </p>
       </div>
 
@@ -588,9 +590,7 @@ export default function EventsIndex() {
         <span className="cb-section-kicker">Check details</span>
         <h3>Confirm an event before you go.</h3>
         <p>
-          Each card opens the original calendar or listing. Public meetings stay
-          visible here; closures, no-school days, and team-only notices stay out
-          of the guide.
+          Open the original listing for the latest time, location, and ticket details.
         </p>
       </div>
 
