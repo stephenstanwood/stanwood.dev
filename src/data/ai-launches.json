@@ -1,5 +1,21 @@
 [
   {
+    "name": "invideo MCP",
+    "org": "invideo",
+    "date": "2026-09-30",
+    "type": "tool",
+    "summary": "Ask Claude, Codex, or Cursor to cut footage, mix audio, and generate clips on a video timeline you can edit yourself. Manual editing is free, while AI generation uses credits and assistant plan requirements apply.",
+    "url": "https://invideo.io/news/introducing-invideo-mcp/"
+  },
+  {
+    "name": "GitBot",
+    "org": "GitBot",
+    "date": "2026-09-30",
+    "type": "tool",
+    "summary": "Turn repeat coding jobs into reusable bots for Claude Code, Codex, or OpenCode. The free, open-source workspace runs on your computer, uses your existing agent login, and keeps instructions and conversations together.",
+    "url": "https://github.com/gitbot-hq/GitBot"
+  },
+  {
     "name": "Dots",
     "org": "OpenAI",
     "date": "2026-09-29",
@@ -24,14 +40,6 @@
     "url": "https://learn.chatgpt.com/docs/cloud"
   },
   {
-    "name": "Plugin Extensions",
-    "org": "OpenAI",
-    "date": "2026-09-29",
-    "type": "tool",
-    "summary": "Give your plugin a sidebar app, a panel beside chat, or a custom file viewer. Developers can build native ChatGPT interfaces with the TypeScript or Python SDK, and extensions are available on all plans.",
-    "url": "https://developers.openai.com/plugins/build/extensions"
-  },
-  {
     "name": "Claude Sonnet 5.5",
     "org": "Anthropic",
     "date": "2026-09-28",
@@ -46,14 +54,6 @@
     "type": "model",
     "summary": "Build agents that operate apps through screenshots, code, APIs, and MCP tools. Apache-licensed weights and 4-bit downloads are available now, along with a hosted API priced at $0.30 input and $2 output per million tokens.",
     "url": "https://huggingface.co/Hcompany/Holo4-35B-A3B"
-  },
-  {
-    "name": "Whiteboard",
-    "org": "/dev/fast",
-    "date": "2026-09-24",
-    "type": "tool",
-    "summary": "Review agent-written code on a visual canvas that links diagrams and decision traces to source files. The free, MIT-licensed desktop app connects to Codex or Claude Code and shows focused diffs of what changed.",
-    "url": "https://github.com/devdotfast/whiteboard"
   },
   {
     "name": "Gemini 3.8 Flash TTS",
