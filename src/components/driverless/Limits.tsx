@@ -12,7 +12,7 @@ const limits: Limit[] = [
     emoji: "🛣️",
     title: "Most still won't take a freeway",
     reality:
-      "Waymo only opened freeway rides in Phoenix and SF in 2025, and Zoox is surface-streets only. Cross-town rides that obviously need 101 or I-10 still get routed down arterials, and a 12-minute Uber can become a 28-minute Waymo.",
+      "Waymo is gradually rolling out freeway access, so not every rider or route can use it yet. You can join the interest list in the app and preview the route before booking. A trip may still take surface streets even after you have freeway access.",
     workaround: "Check the upfront ETA before booking. If the quote is suspiciously long, a human driver may be the move.",
   },
   {
@@ -26,8 +26,8 @@ const limits: Limit[] = [
     emoji: "✈️",
     title: "Airports are a special case",
     reality:
-      "Phoenix Sky Harbor is the only major US airport with curbside Waymo pickups. SFO, LAX, and Austin-Bergstrom all force the car to a designated rideshare lot — you walk 5–10 minutes from the terminal each way.",
-    workaround: "Time your pickup for the lot walk, and don't expect drop-offs at departures curbs. A human driver is often the better airport play.",
+      "Waymo serves Phoenix Sky Harbor, San Antonio International, SFO, and San Jose Mineta. SFO access is still limited and uses the Rental Car Center or Grand Hyatt, reached by AirTrain. San Jose has curbside terminal drop-offs, with pickups at designated stops.",
+    workaround: "Check the pickup point and access in the app before booking. Allow time for an AirTrain ride or a walk to the designated stop.",
   },
   {
     emoji: "👮",
@@ -47,7 +47,7 @@ const limits: Limit[] = [
     emoji: "🌨️",
     title: "Snow, ice, and dense fog stop the show",
     reality:
-      "Heavy rain causes a temporary pullover; snow and ice cause the whole fleet to pause. None of the major US services run a winter program, which is why Phoenix, Austin, and SoCal got commercial deployments first.",
+      "Waymo began welcoming public riders in Denver in September 2026, bringing service to a city with real winters. Weather still matters: your trip depends on what the service can handle in local conditions that day.",
     workaround: "Check the in-app status before relying on a robotaxi for an early-morning ride during a storm window.",
   },
 ];

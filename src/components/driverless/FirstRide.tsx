@@ -64,14 +64,14 @@ interface ServiceQuirk {
 const quirks: ServiceQuirk[] = [
   {
     service: "Waymo One",
-    vehicle: "White Jaguar I-Pace",
+    vehicle: "Jaguar I-Pace or Ojai",
     unique: "The original. Largest service area, most consistent experience.",
-    cities: "SF · LA · Phoenix · Austin · Atlanta · Miami",
+    cities: "15 US metros · five still adding riders",
   },
   {
     service: "Tesla Cybercab",
     vehicle: "Two-seat Tesla coupe",
-    unique: "No steering wheel, no pedals. Tesla's first true L4 — invite-only pilot.",
+    unique: "No steering wheel, no pedals. Available through Tesla's Robotaxi app in limited areas of Austin.",
     cities: "Austin only",
   },
   {

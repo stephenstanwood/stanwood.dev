@@ -36,7 +36,7 @@ export default function RideFinder() {
 
       {!selectedCity && (
         <div className="dl-ride-empty">
-          <p>Self-driving taxis currently operate in 7 US cities, with 3 more launching in 2026.</p>
+          <p>Waymo now serves riders in 15 US metros. Some cities and services still require an invitation.</p>
         </div>
       )}
 

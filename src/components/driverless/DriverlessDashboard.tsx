@@ -17,7 +17,7 @@ const DisengagementChart = lazy(() => import("./DisengagementChart"));
 
 /** The month this whole page describes. The monthly refresh task moves this one string;
  *  the milestone tag below names a specific event and is dated separately on purpose. */
-const SNAPSHOT_MONTH = "April 2026";
+const SNAPSHOT_MONTH = "October 2026";
 
 const FOR_WHEN = [
   {
@@ -114,10 +114,10 @@ export default function DriverlessDashboard() {
 
       {/* Milestone callout */}
       <div className="dl-milestone">
-        <div className="dl-milestone-tag">April 2026 milestone</div>
-        <p className="dl-milestone-headline">Tesla finally goes driverless in Austin</p>
+        <div className="dl-milestone-tag">September 2026 milestone</div>
+        <p className="dl-milestone-headline">Waymo reaches 15 US cities</p>
         <p className="dl-milestone-body">
-          After years of L2+ "Full Self-Driving" with a human at the wheel, Tesla begins paid Cybercab rides in Austin with no safety driver — its first true Level 4 deployment. Waymo crosses 550K rides/week the same month. Five companies are now operating commercial driverless rides in the US, eight years after Waymo became the first.
+          Waymo began welcoming public riders in Denver, San Diego, and Tampa on September 1, then Las Vegas on September 14. That brings its US service to 15 metros. Access in the newest cities is still rolling out gradually — download the app and sign up to ride.
         </p>
       </div>
 
