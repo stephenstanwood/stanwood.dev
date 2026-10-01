@@ -81,6 +81,9 @@ export function parseRequestUrl(rawUrl: unknown): URL | Response {
  * Returns the parsed URL on success, null on failure.
  */
 function isValidUrl(input: string): URL | null {
+  // CLEANUP-FLAG: this hostname denylist accepts other 127/8 loopback addresses
+  // and cannot check DNS resolution or redirect destinations. Complete SSRF
+  // protection needs a contract at the screenshot service's fetch boundary.
   try {
     let normalized = input.trim();
     if (!/^https?:\/\//i.test(normalized)) {

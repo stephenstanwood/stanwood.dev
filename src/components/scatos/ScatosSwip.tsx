@@ -7,7 +7,7 @@ import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types
 import { homeListingLinks, homeMapLinks, isInSearchArea } from '../../lib/scatos/location';
 import { safeGet, safeSet } from '../../lib/localStorage';
 import { clamp } from '../../lib/math';
-import { PACIFIC_TZ } from '../../lib/dateFormat';
+import { formatMonthDayInTz, PACIFIC_TZ } from '../../lib/dateFormat';
 import { pluralize } from '../../lib/text';
 
 type Tab = 'browse' | 'saved' | 'matches' | 'passed';
@@ -18,7 +18,7 @@ const dollars = (value: number) => new Intl.NumberFormat('en-US', { style: 'curr
 const formatNumber = (value: number | null) => value ? value.toLocaleString('en-US') : '—';
 const isVanMeter = (home: Home) => /Van Meter/i.test(home.schools.elementary || '');
 const isFisher = (home: Home) => /Fisher/i.test(home.schools.middle || '');
-const dateLabel = (date: string) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: PACIFIC_TZ });
+const dateLabel = (date: string) => formatMonthDayInTz(date, PACIFIC_TZ);
 const profileName = (profile: string) => profile === 'stephen' ? 'Stephen' : 'Madeleine';
 const partnerProfileName = (profile: string) => profileName(profile === 'stephen' ? 'madeleine' : 'stephen');
 
