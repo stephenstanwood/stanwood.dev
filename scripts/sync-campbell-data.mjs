@@ -1086,6 +1086,49 @@ async function readExistingSourceEvents({ source, sourceUrl, generatedAt }) {
     .sort((a, b) => eventTimestamp(a) - eventTimestamp(b) || a.title.localeCompare(b.title));
 }
 
+export function normalizeDowntownEventImageUrl(href = "") {
+  const imageUrl = absoluteUrl(href);
+  if (!imageUrl) return "";
+
+  const image = new URL(imageUrl);
+  if (image.origin !== BASE_URL) return imageUrl;
+  const originalPath = image.pathname.replace(
+    /^\/sites\/default\/files\/styles\/[^/]+\/public\//,
+    "/sites/default/files/",
+  );
+  if (originalPath === image.pathname) return imageUrl;
+
+  image.pathname = originalPath;
+  image.searchParams.delete("itok");
+  return image.toString();
+}
+
+export async function repairDowntownEventImages(events, request = fetch) {
+  const checkedImages = new Map();
+  for (const event of events) {
+    const imageUrl = event.imageUrl ?? "";
+    const originalUrl = normalizeDowntownEventImageUrl(imageUrl);
+    if (imageUrl === originalUrl || checkedImages.has(imageUrl)) continue;
+
+    let repairedUrl = imageUrl;
+    try {
+      const options = { method: "HEAD", headers: { "user-agent": USER_AGENT }, signal: AbortSignal.timeout(10_000) };
+      const thumbnail = await request(imageUrl, options);
+      if (thumbnail.status === 404) {
+        const original = await request(originalUrl, { ...options, signal: AbortSignal.timeout(10_000) });
+        if (original.ok && original.headers.get("content-type")?.startsWith("image/")) repairedUrl = originalUrl;
+      }
+    } catch {
+      // Preserve the source URL on transient failures; the page has a date-tile fallback.
+    }
+    checkedImages.set(imageUrl, repairedUrl);
+  }
+
+  return events.map(event => checkedImages.has(event.imageUrl)
+    ? { ...event, imageUrl: checkedImages.get(event.imageUrl) }
+    : event);
+}
+
 function parseDowntownEvents(html, referenceDate = new Date()) {
   const articles = [...html.matchAll(/<article\b[\s\S]*?<\/article>/gi)];
 
@@ -2464,6 +2507,7 @@ async function main() {
     downtownEventsSourceNote = `Reused previous Downtown Campbell events because ${eventsPage.error}`;
     console.warn(`Warning: ${downtownEventsSourceNote}`);
   }
+  downtownEvents = await repairDowntownEventImages(downtownEvents);
   const cityCalendarEvents = await enrichCityCalendarEvents(
     cityCalendarHtmlPages
       .flatMap((html) => parseCityCalendarEvents(html))

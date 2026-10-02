@@ -5,10 +5,56 @@ import {
   eventRejectionReason,
   mergedEventEndDate,
   normalizeBusinessAddress,
+  normalizeDowntownEventImageUrl,
   parseCityCalendarDetailDescription,
   parseCityCalendarEvents,
   parseNoticeDetails,
+  repairDowntownEventImages,
 } from "./sync-campbell-data.mjs";
+
+describe("Downtown Campbell event photos", () => {
+  it.each(["teaser-mini", "4-thirds_310"])("uses the source photo instead of a broken %s thumbnail", (style) => {
+    expect(normalizeDowntownEventImageUrl(
+      `/sites/default/files/styles/${style}/public/uploads/users/1/images/downtowncampbell-thrilltheworld-lessons-jul24.jpg?itok=qanqZ-KH`,
+    )).toBe(
+      "https://www.downtowncampbell.com/sites/default/files/uploads/users/1/images/downtowncampbell-thrilltheworld-lessons-jul24.jpg",
+    );
+  });
+
+  it("preserves source photos and other providers' image routes", () => {
+    for (const url of [
+      "https://www.downtowncampbell.com/sites/default/files/uploads/users/1/news/farmersmarket.jpg",
+      "https://example.com/sites/default/files/styles/teaser-mini/public/photo.jpg?itok=keep",
+    ]) {
+      expect(normalizeDowntownEventImageUrl(url)).toBe(url);
+    }
+    expect(normalizeDowntownEventImageUrl("")).toBe("");
+  });
+
+  it("repairs a confirmed 404 once per photo while preserving working thumbnails", async () => {
+    const broken = "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/photo.jpg?itok=old";
+    const working = "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/working.jpg?itok=valid";
+    const original = "https://www.downtowncampbell.com/sites/default/files/photo.jpg";
+    const calls = [];
+    const events = [{ title: "First date", imageUrl: broken }, { title: "Next date", imageUrl: broken }, { title: "Working photo", imageUrl: working }];
+    const repaired = await repairDowntownEventImages(events, async url => {
+      calls.push(url);
+      return new Response(null, { status: url === broken ? 404 : 200, headers: { "content-type": "image/jpeg" } });
+    });
+    expect(repaired).toEqual([{ title: "First date", imageUrl: original }, { title: "Next date", imageUrl: original }, events[2]]);
+    expect(calls).toEqual([broken, original, working]);
+    expect(events[0].imageUrl).toBe(broken);
+  });
+
+  it("keeps the existing URL when the replacement is HTML or the source times out", async () => {
+    const events = [{ title: "Event", imageUrl: "https://www.downtowncampbell.com/sites/default/files/styles/teaser-mini/public/photo.jpg?itok=old" }];
+    expect(await repairDowntownEventImages(events, async url => new Response(null, {
+      status: url.includes("/styles/") ? 404 : 200,
+      headers: { "content-type": "text/html" },
+    }))).toEqual(events);
+    expect(await repairDowntownEventImages(events, async () => { throw new Error("timeout"); })).toEqual(events);
+  });
+});
 
 describe("Downtown Campbell event detail enrichment", () => {
   it("adds detail-page times to a date-only single-day event", () => {
