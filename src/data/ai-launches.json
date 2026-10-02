@@ -1,19 +1,35 @@
 [
   {
+    "name": "Suno Speech",
+    "org": "Suno",
+    "date": "2026-10-01",
+    "type": "model",
+    "summary": "Create spoken stories, poems, or pep talks with original background music in one track. Describe the voice and musical style you want, then try the public beta on web or mobile.",
+    "url": "https://suno.com/blog/introducing-speech-beta"
+  },
+  {
+    "name": "MAI-Transcribe-2-Streaming",
+    "org": "Microsoft",
+    "date": "2026-10-01",
+    "type": "model",
+    "summary": "Add live captions, dictation, or voice controls to your app in 60 languages, with text arriving as people speak. Available now through Microsoft Foundry and Vercel at an introductory $0.54 per audio hour through December.",
+    "url": "https://microsoft.ai/news/our-first-streaming-transcription-model/"
+  },
+  {
+    "name": "Strands Decider 2B",
+    "org": "AWS",
+    "date": "2026-10-01",
+    "type": "model",
+    "summary": "Sort customer messages, choose the next tool for an AI assistant, or score its answers without paying for every API call. This free, open-source model runs locally on Macs and PCs, with code and training materials included.",
+    "url": "https://strandsagents.com/blog/introducing-strands-decider/"
+  },
+  {
     "name": "invideo MCP",
     "org": "invideo",
     "date": "2026-09-30",
     "type": "tool",
     "summary": "Ask Claude, Codex, or Cursor to cut footage, mix audio, and generate clips on a video timeline you can edit yourself. Manual editing is free, while AI generation uses credits and assistant plan requirements apply.",
     "url": "https://invideo.io/news/introducing-invideo-mcp/"
-  },
-  {
-    "name": "GitBot",
-    "org": "GitBot",
-    "date": "2026-09-30",
-    "type": "tool",
-    "summary": "Turn repeat coding jobs into reusable bots for Claude Code, Codex, or OpenCode. The free, open-source workspace runs on your computer, uses your existing agent login, and keeps instructions and conversations together.",
-    "url": "https://github.com/gitbot-hq/GitBot"
   },
   {
     "name": "Dots",
@@ -32,14 +48,6 @@
     "url": "https://openai.com/index/introducing-gpt-6-1-sol/"
   },
   {
-    "name": "Codex Cloud",
-    "org": "OpenAI",
-    "date": "2026-09-29",
-    "type": "tool",
-    "summary": "Run coding tasks in a reusable cloud environment and review changes from desktop, web, or phone while your laptop sleeps. Available now on Plus and higher plans.",
-    "url": "https://learn.chatgpt.com/docs/cloud"
-  },
-  {
     "name": "Claude Sonnet 5.5",
     "org": "Anthropic",
     "date": "2026-09-28",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Build agents that operate apps through screenshots, code, APIs, and MCP tools. Apache-licensed weights and 4-bit downloads are available now, along with a hosted API priced at $0.30 input and $2 output per million tokens.",
     "url": "https://huggingface.co/Hcompany/Holo4-35B-A3B"
-  },
-  {
-    "name": "Gemini 3.8 Flash TTS",
-    "org": "Google",
-    "date": "2026-09-23",
-    "type": "model",
-    "summary": "Design a voice by describing it, pick from 2,000-plus stock voices, or clone one from 30 seconds of audio across 100-plus languages. A cheaper Flash-Lite TTS ships alongside, both live now in the Gemini API and AI Studio.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-8-text-to-speech/"
   }
 ]
