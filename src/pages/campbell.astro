@@ -2274,38 +2274,6 @@ const photoStories = [
           align-items: center;
         }
       }
-      .cb-business-snapshot {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 0.55rem;
-        margin: 0 0 0.85rem;
-      }
-      .cb-business-snapshot div {
-        min-width: 0;
-        padding: 0.72rem 0.78rem;
-        border: 1px solid var(--cb-border);
-        border-radius: 8px;
-        background: rgba(248, 251, 250, 0.82);
-      }
-      .cb-business-snapshot strong {
-        display: block;
-        color: var(--cb-blue-hover);
-        font-size: 1.3rem;
-        line-height: 1;
-      }
-      .cb-business-snapshot span {
-        display: block;
-        margin-top: 0.25rem;
-        color: var(--cb-gray);
-        font-size: 0.72rem;
-        font-weight: 760;
-        line-height: 1.25;
-      }
-      @media (max-width: 820px) {
-        .cb-business-snapshot {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
       .cb-business-search,
       .cb-business-select {
         width: 100%;
@@ -2373,11 +2341,11 @@ const photoStories = [
       }
       .cb-business-grid {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         gap: 0.65rem;
       }
       @media (min-width: 640px) {
-        .cb-business-grid { grid-template-columns: 1fr 1fr; }
+        .cb-business-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
       .cb-business-card {
         display: flex;
@@ -2395,6 +2363,7 @@ const photoStories = [
       .cb-business-body {
         flex: 1;
         min-width: 0;
+        overflow-wrap: anywhere;
       }
       .cb-biz-mono {
         display: inline-flex;

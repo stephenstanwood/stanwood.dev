@@ -38,20 +38,6 @@ const BUSINESS_FILTERS: { id: BusinessFilter; label: string }[] = [
   { id: "chamber", label: "Chamber list" },
   { id: "both", label: "Both lists" },
 ];
-const BUSINESS_SNAPSHOT: { label: string; count: number }[] = [
-  { label: "Places listed", count: BUSINESSES.length },
-  {
-    label: "Downtown storefronts",
-    count: BUSINESSES.filter((business) => hasTag(business, "Downtown")).length,
-  },
-  {
-    label: "Chamber listings",
-    count: BUSINESSES.filter((business) => hasTag(business, "Chamber")).length,
-  },
-  { label: "Listed both ways", count: BUSINESSES.filter(isOnBothLists).length },
-  { label: "Phone available", count: BUSINESSES.filter((business) => business.phone).length },
-];
-
 const BUSINESS_NAMES = Array.from(new Set(BUSINESSES.map((business) => business.name)));
 
 const MONO_TONES = ["blue", "gold", "green", "red", "clay"] as const;
@@ -112,15 +98,6 @@ export default function BusinessIndex() {
 
   return (
     <div className="cb-businesses">
-      <div className="cb-business-snapshot" aria-label="Campbell business directory snapshot">
-        {BUSINESS_SNAPSHOT.map((stat) => (
-          <div key={stat.label}>
-            <strong>{stat.count}</strong>
-            <span>{stat.label}</span>
-          </div>
-        ))}
-      </div>
-
       <div className="cb-business-toolbar">
         <GhostInput
           className="cb-business-search"
