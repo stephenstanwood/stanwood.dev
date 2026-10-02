@@ -72,6 +72,9 @@ export function useAnalyzeStream() {
         const lines = buffer.split("\n");
         buffer = lines.pop() || ""; // Keep incomplete line
 
+        // CLEANUP-FLAG: eventType resets for each reader chunk, so an event header
+        // is lost when its data line arrives in a later chunk. SSE parsing needs
+        // state across chunks before this loop can safely handle split events.
         let eventType = "";
         for (const line of lines) {
           if (line.startsWith("event: ")) {
