@@ -8,8 +8,7 @@ export interface StreamEvent {
   data: unknown;
 }
 
-// Max directions to extract per chunk — guards against malformed streaming responses
-// that never terminate a direction object, preventing an infinite loop.
+// Bound per-chunk work when an upstream response contains many directions.
 const MAX_DIRECTIONS_PER_CHUNK = 20;
 
 export class ProgressiveJsonParser {
@@ -34,15 +33,12 @@ export class ProgressiveJsonParser {
       }
     }
 
-    // Try to extract directions one by one; cap iterations to prevent runaway loops
-    let iterations = 0;
-    while (iterations < MAX_DIRECTIONS_PER_CHUNK) {
-      const dir = this.tryExtractNextDirection();
-      if (!dir) break;
+    for (let extracted = 0; extracted < MAX_DIRECTIONS_PER_CHUNK; extracted++) {
+      const direction = this.tryExtractNextDirection();
+      if (!direction) break;
       this.directionsExtracted++;
       // ids are 1-based — the card UI renders them as "Card {id}"
-      events.push({ type: "direction", data: { ...dir, id: this.directionsExtracted } });
-      iterations++;
+      events.push({ type: "direction", data: { ...direction, id: this.directionsExtracted } });
     }
 
     return events;
@@ -50,63 +46,58 @@ export class ProgressiveJsonParser {
 
   private tryExtractAnalysis(): Record<string, unknown> | null {
     const key = '"siteAnalysis"';
-    const idx = this.buffer.indexOf(key);
-    if (idx === -1) return null;
+    const keyIndex = this.buffer.indexOf(key);
+    if (keyIndex === -1) return null;
 
-    const colonIdx = this.buffer.indexOf(":", idx + key.length);
-    if (colonIdx === -1) return null;
+    const colonIndex = this.buffer.indexOf(":", keyIndex + key.length);
+    if (colonIndex === -1) return null;
 
-    // Skip whitespace after colon
-    let objStart = colonIdx + 1;
-    while (objStart < this.buffer.length && /\s/.test(this.buffer[objStart])) objStart++;
-    if (this.buffer[objStart] !== "{") return null;
+    let objectStart = colonIndex + 1;
+    while (objectStart < this.buffer.length && /\s/.test(this.buffer[objectStart])) objectStart++;
+    if (this.buffer[objectStart] !== "{") return null;
 
-    const objEnd = this.findMatchingBrace(objStart);
-    if (objEnd === -1) return null;
-
-    try {
-      return JSON.parse(this.buffer.slice(objStart, objEnd + 1));
-    } catch {
-      return null;
-    }
+    return this.parseObjectAt(objectStart);
   }
 
   private tryExtractNextDirection(): Record<string, unknown> | null {
     const key = '"directions"';
-    const idx = this.buffer.indexOf(key);
-    if (idx === -1) return null;
+    const keyIndex = this.buffer.indexOf(key);
+    if (keyIndex === -1) return null;
 
-    const arrStart = this.buffer.indexOf("[", idx + key.length);
-    if (arrStart === -1) return null;
+    const arrayStart = this.buffer.indexOf("[", keyIndex + key.length);
+    if (arrayStart === -1) return null;
 
     // Skip past already-extracted directions
-    let pos = arrStart + 1;
+    let position = arrayStart + 1;
     let skipped = 0;
     while (skipped < this.directionsExtracted) {
-      const nextObj = this.findNextChar("{", pos);
-      if (nextObj === -1) return null;
-      const end = this.findMatchingBrace(nextObj);
-      if (end === -1) return null;
-      pos = end + 1;
+      const objectStart = this.findNextChar("{", position);
+      if (objectStart === -1) return null;
+      const objectEnd = this.findMatchingBrace(objectStart);
+      if (objectEnd === -1) return null;
+      position = objectEnd + 1;
       skipped++;
     }
 
-    // Find next direction object
-    const nextObj = this.findNextChar("{", pos);
-    if (nextObj === -1) return null;
-    const end = this.findMatchingBrace(nextObj);
+    const objectStart = this.findNextChar("{", position);
+    if (objectStart === -1) return null;
+    return this.parseObjectAt(objectStart);
+  }
+
+  private parseObjectAt(start: number): Record<string, unknown> | null {
+    const end = this.findMatchingBrace(start);
     if (end === -1) return null;
 
     try {
-      return JSON.parse(this.buffer.slice(nextObj, end + 1));
+      return JSON.parse(this.buffer.slice(start, end + 1));
     } catch {
       return null;
     }
   }
 
-  private findNextChar(ch: string, from: number): number {
+  private findNextChar(target: string, from: number): number {
     for (let i = from; i < this.buffer.length; i++) {
-      if (this.buffer[i] === ch) return i;
+      if (this.buffer[i] === target) return i;
       // Only whitespace and commas may sit between array elements; anything
       // else (including the closing `]`) means there is no next element.
       if (!/[\s,]/.test(this.buffer[i])) return -1;
@@ -120,27 +111,27 @@ export class ProgressiveJsonParser {
     let escaped = false;
 
     for (let i = start; i < this.buffer.length; i++) {
-      const ch = this.buffer[i];
+      const character = this.buffer[i];
 
       if (escaped) {
         escaped = false;
         continue;
       }
 
-      if (ch === "\\" && inString) {
+      if (character === "\\" && inString) {
         escaped = true;
         continue;
       }
 
-      if (ch === '"') {
+      if (character === '"') {
         inString = !inString;
         continue;
       }
 
       if (inString) continue;
 
-      if (ch === "{") depth++;
-      else if (ch === "}") {
+      if (character === "{") depth++;
+      else if (character === "}") {
         depth--;
         if (depth === 0) return i;
       }
