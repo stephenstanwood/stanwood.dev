@@ -1,5 +1,13 @@
 [
   {
+    "name": "Muse Gadgets",
+    "org": "Meta",
+    "date": "2026-10-02",
+    "type": "tool",
+    "summary": "Build a personal AI gadget on a Raspberry Pi or ESP32, connecting Muse to displays, buttons, and sensors. Open-source SDKs are available now for hobby projects, with a Muse account and SDK token required.",
+    "url": "https://gadgets.muse.ai/"
+  },
+  {
     "name": "Suno Speech",
     "org": "Suno",
     "date": "2026-10-01",
@@ -8,20 +16,20 @@
     "url": "https://suno.com/blog/introducing-speech-beta"
   },
   {
+    "name": "Claude Code Mods",
+    "org": "Anthropic",
+    "date": "2026-10-01",
+    "type": "tool",
+    "summary": "Customize your coding assistant with TypeScript: rewrite prompts, retry tool calls, add buttons, or replace built-in features. Package and share these changes as plugins in the Claude Code CLI and desktop app.",
+    "url": "https://claude.com/blog/claude-code-mods"
+  },
+  {
     "name": "MAI-Transcribe-2-Streaming",
     "org": "Microsoft",
     "date": "2026-10-01",
     "type": "model",
     "summary": "Add live captions, dictation, or voice controls to your app in 60 languages, with text arriving as people speak. Available now through Microsoft Foundry and Vercel at an introductory $0.54 per audio hour through December.",
     "url": "https://microsoft.ai/news/our-first-streaming-transcription-model/"
-  },
-  {
-    "name": "Strands Decider 2B",
-    "org": "AWS",
-    "date": "2026-10-01",
-    "type": "model",
-    "summary": "Sort customer messages, choose the next tool for an AI assistant, or score its answers without paying for every API call. This free, open-source model runs locally on Macs and PCs, with code and training materials included.",
-    "url": "https://strandsagents.com/blog/introducing-strands-decider/"
   },
   {
     "name": "invideo MCP",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Build apps, fix bugs, and produce polished documents with a faster everyday model. It is live in Claude and the API at $2 input and $10 output per million tokens, and typically uses fewer tokens per task than Sonnet 5.",
     "url": "https://www.anthropic.com/claude-sonnet-5-5"
-  },
-  {
-    "name": "Holo4 35B-A3B",
-    "org": "H Company",
-    "date": "2026-09-28",
-    "type": "model",
-    "summary": "Build agents that operate apps through screenshots, code, APIs, and MCP tools. Apache-licensed weights and 4-bit downloads are available now, along with a hosted API priced at $0.30 input and $2 output per million tokens.",
-    "url": "https://huggingface.co/Hcompany/Holo4-35B-A3B"
   }
 ]
