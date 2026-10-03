@@ -124,6 +124,7 @@ export default function BusinessIndex() {
             key={filter.id}
             type="button"
             className={activeFilter === filter.id ? "is-active" : ""}
+            aria-pressed={activeFilter === filter.id}
             onClick={() => {
               setActiveFilter(filter.id);
               setShowAll(false);
