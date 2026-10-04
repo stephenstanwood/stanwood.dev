@@ -40,14 +40,6 @@
     "url": "https://invideo.io/news/introducing-invideo-mcp/"
   },
   {
-    "name": "Dots",
-    "org": "OpenAI",
-    "date": "2026-09-29",
-    "type": "tool",
-    "summary": "Put an always-on agent to work across connected apps to draft content, investigate feedback, and prepare work for review. It has its own cloud computer and is rolling out to Pro users in eligible markets.",
-    "url": "https://openai.com/index/introducing-dots/"
-  },
-  {
     "name": "GPT-6.1 Sol",
     "org": "OpenAI",
     "date": "2026-09-29",
@@ -62,5 +54,13 @@
     "type": "model",
     "summary": "Build apps, fix bugs, and produce polished documents with a faster everyday model. It is live in Claude and the API at $2 input and $10 output per million tokens, and typically uses fewer tokens per task than Sonnet 5.",
     "url": "https://www.anthropic.com/claude-sonnet-5-5"
+  },
+  {
+    "name": "Holo4",
+    "org": "H Company",
+    "date": "2026-09-28",
+    "type": "model",
+    "summary": "Build agents that click through apps, write code, and call APIs to automate work across your tools. Run the open-source Holo4-35B-A3B version on your own hardware, or use the paid API.",
+    "url": "https://hcompany.ai/newsroom/holo4"
   }
 ]
