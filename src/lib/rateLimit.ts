@@ -42,6 +42,9 @@ export function rateLimit(
     cleanup();
   }
 
+  // CLEANUP-FLAG: all routes share an IP key, so unrelated requests count against
+  // each other's limits and a short-window call discards longer-window hits here.
+  // Enforcing each route's policy independently needs separate bucket identities.
   const timestamps = hits.get(ip) ?? [];
   const recent = timestamps.filter((t) => now - t < windowMs);
 
