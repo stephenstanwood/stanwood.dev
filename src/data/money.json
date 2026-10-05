@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-29T06:10:42.079Z",
+  "lastUpdated": "2026-10-05T13:10:13.097Z",
   "apiSpend": {
     "months": [
       {
@@ -434,17 +434,105 @@
             "note": "track manually at recraft.ai"
           }
         }
+      },
+      {
+        "month": "2026-10",
+        "collectedAt": "2026-10-05T13:10:13.097Z",
+        "services": {
+          "vercel": {
+            "totalCents": 444,
+            "breakdown": [
+              {
+                "name": "Build CPU Minutes",
+                "cents": 193
+              },
+              {
+                "name": "Blob Data Transfer",
+                "cents": 120
+              },
+              {
+                "name": "Blob Storage Size",
+                "cents": 74
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 15
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 11
+              },
+              {
+                "name": "CDN Requests - Additional CPU Duration",
+                "cents": 7
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 7
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 7
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 4
+              },
+              {
+                "name": "Function Invocations",
+                "cents": 2
+              },
+              {
+                "name": "Image Optimization Transformation",
+                "cents": 2
+              },
+              {
+                "name": "Image Optimization Cache Writes",
+                "cents": 1
+              },
+              {
+                "name": "ISR Reads",
+                "cents": 1
+              }
+            ],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 2520,
+            "breakdown": [
+              {
+                "name": "claude-opus-5-5",
+                "cents": 1309
+              },
+              {
+                "name": "claude-sonnet-5",
+                "cents": 679
+              },
+              {
+                "name": "claude-fable-5-1",
+                "cents": 532
+              }
+            ],
+            "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
+          },
+          "openai": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "neon": {
+            "totalCents": null,
+            "note": "manual from Neon usage recap email"
+          },
+          "recraft": {
+            "totalCents": null,
+            "note": "track manually at recraft.ai"
+          }
+        }
       }
     ]
   },
   "subscriptions": [
-    {
-      "name": "Anthropic",
-      "cents": 35183,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Sep 2026; 7 Mercury charges combined"
-    },
     {
       "name": "Cursor",
       "cents": 20000,
@@ -509,18 +597,18 @@
       "note": "PDF wrangling — AI Assistant tier cancelled"
     },
     {
-      "name": "Neon via Vercel",
-      "cents": 2185,
-      "category": "infra",
-      "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Sep 2026"
+      "name": "Anthropic",
+      "cents": 2545,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Oct 2026"
     },
     {
-      "name": "Brave",
-      "cents": 2040,
-      "category": "tools",
-      "url": "https://brave.com",
-      "note": "Mercury actual Sep 2026"
+      "name": "Neon via Vercel",
+      "cents": 2105,
+      "category": "infra",
+      "url": "https://vercel.com/marketplace/neon",
+      "note": "Mercury actual Oct 2026"
     },
     {
       "name": "Vercel Pro",
@@ -558,6 +646,13 @@
       "note": "Stoa Works bookkeeping"
     },
     {
+      "name": "Google Workspace",
+      "cents": 1680,
+      "category": "infra",
+      "url": "https://admin.google.com/ac/billing/subscriptions",
+      "note": "Mercury actual Oct 2026; 2 Mercury charges combined"
+    },
+    {
       "name": "Flickr Pro",
       "cents": 1100,
       "category": "media",
@@ -572,11 +667,11 @@
       "note": "email forwarding"
     },
     {
-      "name": "Google Workspace",
-      "cents": 840,
-      "category": "infra",
-      "url": "https://admin.google.com/ac/billing/subscriptions",
-      "note": "Mercury actual Sep 2026"
+      "name": "Brave",
+      "cents": 544,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Oct 2026"
     },
     {
       "name": "Momentum Plus",
