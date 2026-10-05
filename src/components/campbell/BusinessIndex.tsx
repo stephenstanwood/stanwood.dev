@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import businessFeed from "../../data/campbellBusinesses.json";
+import FilterButtons from "./FilterButtons";
 import GhostInput from "./GhostInput";
 
 interface CampbellBusinessRecord {
@@ -118,22 +119,16 @@ export default function BusinessIndex() {
         )}
       </div>
 
-      <div className="cb-business-filters" role="group" aria-label="Business source filters">
-        {BUSINESS_FILTERS.map((filter) => (
-          <button
-            key={filter.id}
-            type="button"
-            className={activeFilter === filter.id ? "is-active" : ""}
-            aria-pressed={activeFilter === filter.id}
-            onClick={() => {
-              setActiveFilter(filter.id);
-              setShowAll(false);
-            }}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
+      <FilterButtons
+        className="cb-business-filters"
+        ariaLabel="Business source filters"
+        options={BUSINESS_FILTERS}
+        active={activeFilter}
+        onSelect={(filter) => {
+          setActiveFilter(filter);
+          setShowAll(false);
+        }}
+      />
 
       <div className="cb-business-grid">
         {visibleBusinesses.map((business) => {
