@@ -8,6 +8,7 @@ import {
   startOfDay,
 } from "../../lib/campbell/dateHelpers";
 import { preferredCouncilRecord, type CampbellCouncilRecord } from "../../lib/campbell/types";
+import FilterButtons from "./FilterButtons";
 import SourceCardGrid from "./SourceCardGrid";
 import { pluralize } from "../../lib/text";
 
@@ -158,19 +159,13 @@ export default function CivicRecords() {
           </div>
         </div>
 
-        <div className="cb-hearing-filters" role="group" aria-label="Public hearing filters">
-          {HEARING_FILTERS.map((filter) => (
-            <button
-              key={filter.id}
-              type="button"
-              className={activeFilter === filter.id ? "is-active" : ""}
-              aria-pressed={activeFilter === filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-            >
-              {filter.label}
-            </button>
-          ))}
-        </div>
+        <FilterButtons
+          className="cb-hearing-filters"
+          ariaLabel="Public hearing filters"
+          options={HEARING_FILTERS}
+          active={activeFilter}
+          onSelect={setActiveFilter}
+        />
 
         <div className="cb-hearing-list">
           {filteredHearings.map((item) => (

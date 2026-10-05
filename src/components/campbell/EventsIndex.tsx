@@ -10,6 +10,7 @@ import {
   eventInWindow,
   eventStart,
 } from "../../lib/campbell/eventDates";
+import FilterButtons from "./FilterButtons";
 import GhostInput from "./GhostInput";
 import SourceCardGrid from "./SourceCardGrid";
 import { pluralize } from "../../lib/text";
@@ -439,7 +440,7 @@ export default function EventsIndex() {
         )}
       </div>
 
-      <div className="cb-event-shortcuts" aria-label="Resident event shortcuts">
+      <div className="cb-event-shortcuts" role="group" aria-label="Resident event shortcuts">
         {EVENT_SHORTCUTS.map((shortcut) => {
           const isActive = shortcutIsActive(shortcut);
 
@@ -457,39 +458,27 @@ export default function EventsIndex() {
         })}
       </div>
 
-      <div className="cb-event-filter-group" aria-label="Event calendar filters">
-        {SOURCE_FILTERS.map((filter) => (
-          <button
-            key={filter.id}
-            type="button"
-            className={sourceFilter === filter.id ? "is-active" : ""}
-            onClick={() => {
-              setSourceFilter(filter.id);
-              setShowAll(false);
-            }}
-            aria-pressed={sourceFilter === filter.id}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
+      <FilterButtons
+        className="cb-event-filter-group"
+        ariaLabel="Event calendar filters"
+        options={SOURCE_FILTERS}
+        active={sourceFilter}
+        onSelect={(filter) => {
+          setSourceFilter(filter);
+          setShowAll(false);
+        }}
+      />
 
-      <div className="cb-event-filter-group" aria-label="Event date filters">
-        {VIEW_FILTERS.map((filter) => (
-          <button
-            key={filter.id}
-            type="button"
-            className={viewFilter === filter.id ? "is-active" : ""}
-            onClick={() => {
-              setViewFilter(filter.id);
-              setShowAll(false);
-            }}
-            aria-pressed={viewFilter === filter.id}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
+      <FilterButtons
+        className="cb-event-filter-group"
+        ariaLabel="Event date filters"
+        options={VIEW_FILTERS}
+        active={viewFilter}
+        onSelect={(filter) => {
+          setViewFilter(filter);
+          setShowAll(false);
+        }}
+      />
 
       <p className="cb-event-context" aria-live="polite">
         {contextLabel}
