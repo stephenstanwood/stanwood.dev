@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-09-28T10:30:07.499916+00:00",
+  "built_at": "2026-10-05T10:30:07.967481+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -70,7 +70,7 @@
       "is_single": false,
       "display_name": "CS153",
       "best_score": 12,
-      "video_count": 12,
+      "video_count": 13,
       "video_ids": [
         "O5PfU_uDhS0",
         "CBaLU0dDEY8",
@@ -83,7 +83,8 @@
         "Lri2LNYtERM",
         "g50FHC-PzK8",
         "F_7M4Hc-usM",
-        "d0Pfu6B7gIM"
+        "d0Pfu6B7gIM",
+        "8cAQdELWYuo"
       ]
     },
     {
@@ -139,6 +140,16 @@
         "dIFAi87Ws4E",
         "26FtD08ZpOU",
         "9EEm4iMAF5s"
+      ]
+    },
+    {
+      "key": "CME295",
+      "is_single": false,
+      "display_name": "CME295",
+      "best_score": 9,
+      "video_count": 1,
+      "video_ids": [
+        "114i2Kz-LZA"
       ]
     },
     {
@@ -202,6 +213,26 @@
         "hHC-SF3utxg",
         "xveNBYVTrqw",
         "J7CossjMvEg"
+      ]
+    },
+    {
+      "key": "__single__y4xvZnl102w",
+      "is_single": true,
+      "display_name": "Webinar: What AI Can and Cannot Do: Intelligence Augmentation in Practice with Michael Bernstein",
+      "best_score": 6,
+      "video_count": 1,
+      "video_ids": [
+        "y4xvZnl102w"
+      ]
+    },
+    {
+      "key": "__single__6EIkeKruJaI",
+      "is_single": true,
+      "display_name": "Webinar: AI Agent Simulation of Human Behavior with Michael Bernstein",
+      "best_score": 6,
+      "video_count": 1,
+      "video_ids": [
+        "6EIkeKruJaI"
       ]
     },
     {
@@ -1105,6 +1136,23 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus, visit: https://cs153.stanford.edu/\n\nIn this CS153 session, Microsoft Chairman and CEO Satya Nadella joins Michael Abbott for a wide-ranging conversation on AI, Microsoft's strategy, and the future of computing. Nadella traces Microsoft's "
     },
     {
+      "id": "8cAQdELWYuo",
+      "title": "Stanford CS153 Frontier Systems | Teaching AI to Touch Atoms",
+      "url": "https://www.youtube.com/watch?v=8cAQdELWYuo",
+      "duration": 2529,
+      "published_at": "2026-09-29T00:00:00+00:00",
+      "series": "CS153",
+      "series_display": "CS153",
+      "lecture_num": null,
+      "score": 11,
+      "categories": [
+        "applied_ai",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nFollow along with the course schedule and syllabus; visit: https://cs153.stanford.edu/\n\nIn this CS 153 Frontier Systems lecture, Periodic Labs cofounders Liam Ferriss and Dorje Chubak \u2014 veterans of OpenAI's post-training team and DeepMind's Genome project, respectively \u2014 walked students th"
+    },
+    {
       "id": "Lxh9RF5S-K0",
       "title": "Stanford CS329A Self-Improving AI Agents | Part 4 | Learning from Feedback with Tools/Code",
       "url": "https://www.youtube.com/watch?v=Lxh9RF5S-K0",
@@ -1549,6 +1597,23 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
     },
     {
+      "id": "114i2Kz-LZA",
+      "title": "Stanford CME295 Transformers & LLMs | Autumn 2026 | Lecture 1 - Transformers",
+      "url": "https://www.youtube.com/watch?v=114i2Kz-LZA",
+      "duration": 6268,
+      "published_at": "2026-09-28T00:00:00+00:00",
+      "series": "CME295",
+      "series_display": "CME295",
+      "lecture_num": 1,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "systems_db",
+        "series:CME295"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Welcome\n00:03:43 Difference from last year\u2019s edition\n00:05:01 Class logistics\n00:12:42 Timeline\n00:16:56 Tokenization\n00:37:27 Word2vec (CBOW, Skip-gram)\n00:48:26 RNN, "
+    },
+    {
       "id": "1YdgSwEtf_s",
       "title": "AStanford AA203 Optimal and Learning-Based Control | Spring 2026 | Lecture 8: LQR-Style Algorithms",
       "url": "https://www.youtube.com/watch?v=1YdgSwEtf_s",
@@ -1926,6 +1991,36 @@
       "score": 0,
       "categories": [],
       "description": "For more information about Stanford\u2019s Artificial Intelligence professional and graduate programs, visit: https://stanford.io/ai\n\nFor information on the graduate course, CS229 Machine Learning, including the syllabus and course materials, visit the course's website: https://cs229.stanford.edu/index.html-spr26\n\nTeaching Team:\nChris R\u00e9, Professor of Computer Science\nTengyu Ma, Assistant Professor of "
+    },
+    {
+      "id": "y4xvZnl102w",
+      "title": "Webinar: What AI Can and Cannot Do: Intelligence Augmentation in Practice with Michael Bernstein",
+      "url": "https://www.youtube.com/watch?v=y4xvZnl102w",
+      "duration": 3574,
+      "published_at": "2026-09-30T00:00:00+00:00",
+      "series": null,
+      "series_display": "Webinar: What AI Can and Cannot Do: Intelligence Augmentation in Practice with Michael Bernstein",
+      "lecture_num": null,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "- Explore these concepts in the AI-Powered Product Innovation course: https://bit.ly/pin-stf-webinar\n- Learn how to build intelligent AI agents: https://online.stanford.edu/programs/agentic-ai\n- Browse all Stanford Online AI courses: https://online.stanford.edu/artificial-intelligence/courses-and-programs\n\nArtificial intelligence is transforming how organizations approach problem-solving, decision"
+    },
+    {
+      "id": "6EIkeKruJaI",
+      "title": "Webinar: AI Agent Simulation of Human Behavior with Michael Bernstein",
+      "url": "https://www.youtube.com/watch?v=6EIkeKruJaI",
+      "duration": 3630,
+      "published_at": "2026-09-29T00:00:00+00:00",
+      "series": null,
+      "series_display": "Webinar: AI Agent Simulation of Human Behavior with Michael Bernstein",
+      "lecture_num": null,
+      "score": 6,
+      "categories": [
+        "applied_ai"
+      ],
+      "description": "- Explore these concepts and more in the UI/UX Design for AI Products course: https://bit.ly/stf-aid-webinar\n- Learn how to build intelligent AI agents: https://online.stanford.edu/programs/agentic-ai\n- Browse all Stanford Online AI courses: https://online.stanford.edu/artificial-intelligence/courses-and-programs\n\nWhat happens when AI agents are designed to simulate human behavior?\n\nIn this Stanfo"
     },
     {
       "id": "tr-CUpw--ck",
