@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-05T13:10:13.097Z",
+  "lastUpdated": "2026-10-05T19:10:22.695Z",
   "apiSpend": {
     "months": [
       {
@@ -437,14 +437,14 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-05T13:10:13.097Z",
+        "collectedAt": "2026-10-05T19:10:22.695Z",
         "services": {
           "vercel": {
-            "totalCents": 444,
+            "totalCents": 527,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 193
+                "cents": 266
               },
               {
                 "name": "Blob Data Transfer",
@@ -452,22 +452,22 @@
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 74
+                "cents": 78
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 15
+                "cents": 16
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 11
-              },
-              {
-                "name": "CDN Requests - Additional CPU Duration",
-                "cents": 7
+                "cents": 12
               },
               {
                 "name": "Web Analytics Events",
+                "cents": 8
+              },
+              {
+                "name": "CDN Requests - Additional CPU Duration",
                 "cents": 7
               },
               {
@@ -476,11 +476,11 @@
               },
               {
                 "name": "Blob Advanced Operations",
-                "cents": 4
+                "cents": 6
               },
               {
                 "name": "Function Invocations",
-                "cents": 2
+                "cents": 3
               },
               {
                 "name": "Image Optimization Transformation",
@@ -576,6 +576,13 @@
       "note": "required for SBS Meetup API"
     },
     {
+      "name": "Anthropic",
+      "cents": 5093,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Oct 2026; 2 Mercury charges combined"
+    },
+    {
       "name": "Google Cloud",
       "cents": 5000,
       "category": "infra",
@@ -595,13 +602,6 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 2545,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Oct 2026"
     },
     {
       "name": "Neon via Vercel",
