@@ -19,8 +19,10 @@ async function sign(value: string): Promise<string> {
   return toHex(signature);
 }
 export async function createSession(submitted: unknown, profile: unknown): Promise<string | null> {
-  const code = typeof submitted === 'string' ? submitted.toLowerCase() : submitted;
-  if (!isProfile(profile) || !sessionSecret() || !await verifySessionPassword(code, password()?.toLowerCase())) return null;
+  const normalizedCode = typeof submitted === 'string' ? submitted.toLowerCase() : submitted;
+  if (!isProfile(profile) || !sessionSecret()) return null;
+  const passwordHash = await verifySessionPassword(normalizedCode, password()?.toLowerCase());
+  if (!passwordHash) return null;
   const payload = `${profile}.${Math.floor(Date.now() / 1000) + SESSION_AGE}`;
   return `${payload}.${await sign(payload)}`;
 }
@@ -28,10 +30,14 @@ export async function getSession(request: Request): Promise<Profile | null> {
   const cookie = readCookie(request.headers.get('cookie'), COOKIE);
   if (!cookie || !hasScatosPassword()) return null;
   const parts = cookie.split('.');
-  if (parts.length !== 3 || !isProfile(parts[0]) || !/^\d+$/.test(parts[1]) || !/^[a-f0-9]{64}$/.test(parts[2])) return null;
-  const expiry = Number(parts[1]);
+  if (parts.length !== 3) return null;
+  const [profile, expiryText, signature] = parts;
+  if (!isProfile(profile)) return null;
+  if (!/^\d+$/.test(expiryText) || !/^[a-f0-9]{64}$/.test(signature)) return null;
+  const expiry = Number(expiryText);
   if (expiry < Date.now() / 1000 || expiry > Date.now() / 1000 + SESSION_AGE + 60) return null;
-  return timingSafeEqual(parts[2], await sign(`${parts[0]}.${parts[1]}`)) ? parts[0] : null;
+  const expectedSignature = await sign(`${profile}.${expiryText}`);
+  return timingSafeEqual(signature, expectedSignature) ? profile : null;
 }
 export function isSameOrigin(request: Request) {
   const origin = request.headers.get('origin');
