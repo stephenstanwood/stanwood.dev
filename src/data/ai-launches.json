@@ -1,11 +1,19 @@
 [
   {
-    "name": "Muse Gadgets",
-    "org": "Meta",
-    "date": "2026-10-02",
+    "name": "Rill Browser",
+    "org": "Manifold AI",
+    "date": "2026-10-06",
     "type": "tool",
-    "summary": "Build a personal AI gadget on a Raspberry Pi or ESP32, connecting Muse to displays, buttons, and sensors. Open-source SDKs are available now for hobby projects, with a Muse account and SDK token required.",
-    "url": "https://gadgets.muse.ai/"
+    "summary": "Turn a webpage into a coding task for Claude Code or Codex without leaving your browser. The free Mac beta uses your existing plan and requires Apple silicon with macOS 14 or later.",
+    "url": "https://rill.love/"
+  },
+  {
+    "name": "Spira Maxima",
+    "org": "Spira",
+    "date": "2026-10-05",
+    "type": "model",
+    "summary": "Turn a script, product photos, or a recording into a finished vertical video with a presenter, captions, and music. Try clips up to 20 seconds on the free plan, with longer videos available on paid plans.",
+    "url": "https://spira.ai/spira-maxima"
   },
   {
     "name": "Suno Speech",
@@ -22,14 +30,6 @@
     "type": "tool",
     "summary": "Customize your coding assistant with TypeScript: rewrite prompts, retry tool calls, add buttons, or replace built-in features. Package and share these changes as plugins in the Claude Code CLI and desktop app.",
     "url": "https://claude.com/blog/claude-code-mods"
-  },
-  {
-    "name": "MAI-Transcribe-2-Streaming",
-    "org": "Microsoft",
-    "date": "2026-10-01",
-    "type": "model",
-    "summary": "Add live captions, dictation, or voice controls to your app in 60 languages, with text arriving as people speak. Available now through Microsoft Foundry and Vercel at an introductory $0.54 per audio hour through December.",
-    "url": "https://microsoft.ai/news/our-first-streaming-transcription-model/"
   },
   {
     "name": "invideo MCP",
@@ -56,11 +56,11 @@
     "url": "https://www.anthropic.com/claude-sonnet-5-5"
   },
   {
-    "name": "Holo4",
-    "org": "H Company",
+    "name": "Eleven v4 + Turbo",
+    "org": "ElevenLabs",
     "date": "2026-09-28",
     "type": "model",
-    "summary": "Build agents that click through apps, write code, and call APIs to automate work across your tools. Run the open-source Holo4-35B-A3B version on your own hardware, or use the paid API.",
-    "url": "https://hcompany.ai/newsroom/holo4"
+    "summary": "Create expressive voiceovers, audiobooks, or game dialogue while keeping voices consistent across scenes. Eleven v4 and its faster Turbo version are available now in the web tools and API, with a free account to start.",
+    "url": "https://elevenlabs.io/blog/eleven-v4"
   }
 ]
