@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import RecapMatchup from "./RecapMatchup";
 import { REPLAY_SLOTS, type ReplayFeed } from "../lib/tvReplays";
 import { formatMonthDayInTz, PACIFIC_TZ } from "../lib/dateFormat";
+import { safeGet, safeGetString, safeSet, safeSetString } from "../lib/localStorage";
 
 const CACHE_KEY = "tv-replays-v1";
 const SCORES_STORAGE_KEY = "tv-replay-scores";
@@ -12,14 +13,9 @@ export default function ReplaySports() {
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     let active = true;
-    let previous: ReplayFeed | null = null;
-    try {
-      previous = JSON.parse(localStorage.getItem(CACHE_KEY) ?? "null");
-      if (previous?.cards) setFeed(previous);
-      setShowScores(localStorage.getItem(SCORES_STORAGE_KEY) === "show");
-    } catch {
-      /* storage may be unavailable */
-    }
+    const previous = safeGet<ReplayFeed>(CACHE_KEY);
+    if (previous?.cards) setFeed(previous);
+    setShowScores(safeGetString(SCORES_STORAGE_KEY) === "show");
     fetch("/api/tv/replays")
       .then(async (response) => {
         if (!response.ok) throw new Error("Replay feed unavailable");
@@ -32,11 +28,7 @@ export default function ReplaySports() {
         });
         if (!active) return;
         setFeed(next);
-        try {
-          localStorage.setItem(CACHE_KEY, JSON.stringify(next));
-        } catch {
-          /* optional cache */
-        }
+        safeSet(CACHE_KEY, next);
       })
       .catch(() => {
         if (active) setFailed(true);
@@ -62,11 +54,7 @@ export default function ReplaySports() {
         <span>Full game replays</span>
         <button type="button" aria-pressed={showScores} onClick={() => {
           setShowScores(!showScores);
-          try {
-            localStorage.setItem(SCORES_STORAGE_KEY, showScores ? "hide" : "show");
-          } catch {
-            /* optional preference persistence */
-          }
+          safeSetString(SCORES_STORAGE_KEY, showScores ? "hide" : "show");
         }}>
           {showScores ? "Hide scores" : "Show scores"}
         </button>
