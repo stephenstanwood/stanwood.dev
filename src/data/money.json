@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-06T06:10:17.001Z",
+  "lastUpdated": "2026-10-07T13:10:18.399Z",
   "apiSpend": {
     "months": [
       {
@@ -437,50 +437,50 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-06T06:10:17.001Z",
+        "collectedAt": "2026-10-07T13:10:18.399Z",
         "services": {
           "vercel": {
-            "totalCents": 664,
+            "totalCents": 1081,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 389
+                "cents": 767
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 123
+                "cents": 125
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 84
+                "cents": 105
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 17
+                "cents": 22
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 12
+                "cents": 15
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 9
+                "cents": 11
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 10
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 10
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
                 "cents": 8
               },
               {
-                "name": "Fluid Provisioned Memory",
-                "cents": 8
-              },
-              {
-                "name": "Blob Advanced Operations",
-                "cents": 7
-              },
-              {
                 "name": "Function Invocations",
-                "cents": 3
+                "cents": 4
               },
               {
                 "name": "Image Optimization Transformation",
@@ -498,19 +498,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 3133,
+            "totalCents": 3741,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 1674
+                "cents": 2036
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 811
+                "cents": 938
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 648
+                "cents": 767
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
@@ -629,7 +629,7 @@
       "cents": 2000,
       "category": "ai",
       "url": "https://www.magicpatterns.com",
-      "note": "Mercury actual Sep 2026"
+      "note": "Mercury actual Oct 2026"
     },
     {
       "name": "Replicate",
