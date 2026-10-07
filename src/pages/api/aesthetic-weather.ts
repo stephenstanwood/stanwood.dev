@@ -91,14 +91,12 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     // it's a behavior change rather than cleanup.
     const hourlyIdx = pacificNow.getHours();
     const hourly = data.hourly;
+    const nextTwelve = (values: number[]) => values.slice(hourlyIdx, hourlyIdx + 12);
     const forecast: HourlyForecast = {
-      temperatures: hourly.temperature_2m.slice(hourlyIdx, hourlyIdx + 12),
-      weatherCodes: hourly.weather_code.slice(hourlyIdx, hourlyIdx + 12),
-      cloudCovers: hourly.cloud_cover.slice(hourlyIdx, hourlyIdx + 12),
-      precipProbs: hourly.precipitation_probability.slice(
-        hourlyIdx,
-        hourlyIdx + 12
-      ),
+      temperatures: nextTwelve(hourly.temperature_2m),
+      weatherCodes: nextTwelve(hourly.weather_code),
+      cloudCovers: nextTwelve(hourly.cloud_cover),
+      precipProbs: nextTwelve(hourly.precipitation_probability),
     };
 
     // Formats the already-Pacific hour/minute pair from Open-Meteo. The shared
@@ -112,13 +110,7 @@ export const GET: APIRoute = async ({ url, clientAddress }) => {
     const sunriseStr = formatClockParts(sunriseParts);
     const sunsetStr = formatClockParts(sunsetParts);
 
-    const response = buildResponse(
-      input,
-      forecast,
-      location,
-      sunriseStr,
-      sunsetStr
-    );
+    const response = buildResponse(input, forecast, location, sunriseStr, sunsetStr);
 
     return okJson(response, { "Cache-Control": "public, s-maxage=1800, max-age=900" });
   } catch {
