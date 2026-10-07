@@ -53,6 +53,7 @@ interface BroaderVideo {
   editorial_score?: number;
   editorial_reason?: string;
   topic?: string;
+  theme?: string;
   title_categories?: string[];
   language?: string;
   default_audio_language?: string;
@@ -974,6 +975,8 @@ function seriesVideos(series: Series): QueueVideo[] {
               data-published-at={v.published_at}
               data-source-key={sourceKey(v)}
               data-topic={topicKey(v)}
+              data-theme={v.theme || ''}
+              data-duration={String(v.duration || 0)}
               data-title={v.title}
               data-language={v.language}
               data-series-key={v.series_key || ''}
@@ -1353,6 +1356,8 @@ function seriesVideos(series: Series): QueueVideo[] {
       card.dataset.publishedAt = v.published_at;
       card.dataset.sourceKey = sourceKeyJS(v);
       card.dataset.topic = topicKey(v);
+      card.dataset.theme = v.theme || '';
+      card.dataset.duration = String(v.duration || 0);
       card.dataset.title = v.title;
       card.dataset.language = v.language;
       if (v.series_key) card.dataset.seriesKey = v.series_key;
@@ -1574,6 +1579,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       const sourceLimit = Number(grid.dataset.sourceLimit) || 1;
       const selected = Array.from(grid.querySelectorAll(".bcard:not(.hidden)[data-broader-id]")).map(card => ({
         id: card.dataset.broaderId, title: card.dataset.title, topic: card.dataset.topic,
+        theme: card.dataset.theme, duration: Number(card.dataset.duration) || 0,
         channel_id: card.dataset.sourceKey, channel_title: "", language: card.dataset.language,
         published_at: card.dataset.publishedAt, rank_score: 100,
       }));

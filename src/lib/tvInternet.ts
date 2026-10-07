@@ -9,6 +9,8 @@ export interface InternetVideo {
   channel_handle?: string;
   channel_title: string;
   topic?: string;
+  theme?: string;
+  duration?: number;
   categories?: string[];
   title_categories?: string[];
   rank_score?: number;
@@ -18,43 +20,58 @@ export interface InternetVideo {
   default_language?: string;
 }
 
-export const INTERNET_MAX_AGE_DAYS = 21;
+export const INTERNET_MAX_AGE_DAYS = 14;
 export const INTERNET_MAX_PER_SOURCE = 1;
 export const INTERNET_MAX_PER_TOPIC = 3;
+export const INTERNET_TOPIC_CAPS: Record<string, number> = { ai_practice: 4 };
+export const INTERNET_LONG_SECONDS = 60 * 60;
+export const INTERNET_MAX_LONG = 3;
 
-// CLEANUP-FLAG: topic classification and title similarity also live in
-// scripts/tv-queue/selection.py. Shared fixtures should guard these editorial
-// rules against drift between the nightly builder and browser refills.
+// The nightly builder (scripts/tv-queue/selection.py) applies these same
+// editorial rules; tvInternet.test.ts fails if the topic lists drift apart.
 export const TOPIC_LABELS: [string, string][] = [
-  ["hci", "design"], ["war_stories", "how it went"], ["systems_db", "systems"],
-  ["swe_craft", "software craft"], ["algorithms", "computer science"], ["math_viz", "visual computing"],
-  ["civic_open", "public tech"], ["product_craft", "product craft"], ["solo_builder", "independent products"],
-  ["working_method", "working method"], ["applied_ai", "AI in practice"],
+  ["ai_practice", "AI in practice"], ["dev_world", "dev world"], ["war_stories", "war stories"],
+  ["how_it_works", "how it works"], ["software_craft", "software craft"], ["design", "design"],
+  ["product", "product & startups"], ["visual_computing", "visual computing"],
+  ["tech_history", "tech history"], ["public_tech", "public tech"], ["making", "builds"],
 ];
+// Keyword categories from older editions and the builder's fallback path.
+const LEGACY_TOPICS: Record<string, string> = {
+  applied_ai: "ai_practice", hci: "design", war_stories: "war_stories", systems_db: "how_it_works",
+  swe_craft: "software_craft", algorithms: "how_it_works", math_viz: "visual_computing",
+  civic_open: "public_tech", product_craft: "product", solo_builder: "product",
+  working_method: "software_craft", dev_culture: "dev_world", explainers: "how_it_works",
+  tech_history: "tech_history", creative_code: "visual_computing", making: "making",
+};
+const DEFAULT_TOPIC = "software_craft";
 
 const AI_TITLE_PATTERN = /\b(?:AI|LLM|GPT|Claude|Codex|Gemini|Opus|Jev|OpenJevs?|agentic|agents?)\b/i;
 const TITLE_STOP_WORDS = new Set(
   "the a an to of in on for with and or how why what is are was i my your this that it we you from new build use using".split(" "),
 );
+const KNOWN_TOPICS = new Set(TOPIC_LABELS.map(([key]) => key));
 
 export function sourceKey(video: InternetVideo): string {
   return (video.channel_id || video.channel_handle || video.channel_title || video.id).toLowerCase();
 }
 
 export function topicKey(video: InternetVideo): string {
-  if (
-    AI_TITLE_PATTERN.test(video.title) ||
-    video.title_categories?.includes("applied_ai")
-  ) {
-    return "applied_ai";
-  }
-  if (video.topic) return video.topic;
-  const categories = video.title_categories ?? video.categories;
-  return TOPIC_LABELS.find(([category]) => categories?.includes(category))?.[0] ?? "working_method";
+  // The title leads, so an AI setup video can't dodge the AI cap by
+  // masquerading as design or SaaS.
+  if (AI_TITLE_PATTERN.test(video.title)) return "ai_practice";
+  const topic = video.topic ? LEGACY_TOPICS[video.topic] ?? video.topic : "";
+  if (KNOWN_TOPICS.has(topic)) return topic;
+  const legacy = (video.title_categories ?? video.categories ?? []).find((category) => category in LEGACY_TOPICS);
+  return legacy ? LEGACY_TOPICS[legacy] : DEFAULT_TOPIC;
 }
 
 export function topicLabel(video: InternetVideo): string {
-  return TOPIC_LABELS.find(([key]) => key === topicKey(video))?.[1] ?? "working method";
+  return TOPIC_LABELS.find(([key]) => key === topicKey(video))?.[1] ?? "software craft";
+}
+
+/** Editor's subject tag, normalized so "Code Review" and "code-review" collide. */
+export function themeKey(video: InternetVideo): string {
+  return (String(video.theme ?? "").toLowerCase().match(/[a-z0-9+#]+/g) ?? []).join(" ");
 }
 
 function titleTokens(title: string): Set<string> {
@@ -83,15 +100,23 @@ export function eligibleInternetVideo(video: InternetVideo, now = Date.now()): b
 export function canAddInternetVideo(video: InternetVideo, selected: InternetVideo[], now = Date.now()): boolean {
   if (!eligibleInternetVideo(video, now)) return false;
 
+  const theme = themeKey(video);
   const repeatsSelection = selected.some((pick) => {
     if (pick.id === video.id) return true;
     if (sourceKey(pick) === sourceKey(video)) return true;
+    if (theme && themeKey(pick) === theme) return true;
     return similarTitles(pick.title, video.title);
   });
   if (repeatsSelection) return false;
 
-  const topicCount = selected.filter((pick) => topicKey(pick) === topicKey(video)).length;
-  return topicCount < INTERNET_MAX_PER_TOPIC;
+  if ((video.duration ?? 0) >= INTERNET_LONG_SECONDS) {
+    const longCount = selected.filter((pick) => (pick.duration ?? 0) >= INTERNET_LONG_SECONDS).length;
+    if (longCount >= INTERNET_MAX_LONG) return false;
+  }
+
+  const topic = topicKey(video);
+  const topicCount = selected.filter((pick) => topicKey(pick) === topic).length;
+  return topicCount < (INTERNET_TOPIC_CAPS[topic] ?? INTERNET_MAX_PER_TOPIC);
 }
 
 /** Preserve the pipeline's cooldown-aware order; refills obey identical hard caps. */
