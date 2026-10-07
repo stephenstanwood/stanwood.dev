@@ -1,5 +1,13 @@
 [
   {
+    "name": "Mistral Large 4",
+    "org": "Mistral",
+    "date": "2026-10-06",
+    "type": "model",
+    "summary": "Run reasoning, coding, and image-understanding tasks on a 1-trillion-parameter model at $1.36 input and $4.18 output per million tokens. The API preview is live in Mistral Studio, with open weights due by the end of October.",
+    "url": "https://mistral.ai/news/mistral-large-4/"
+  },
+  {
     "name": "Rill Browser",
     "org": "Manifold AI",
     "date": "2026-10-06",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Build apps, fix bugs, and produce polished documents with a faster everyday model. It is live in Claude and the API at $2 input and $10 output per million tokens, and typically uses fewer tokens per task than Sonnet 5.",
     "url": "https://www.anthropic.com/claude-sonnet-5-5"
-  },
-  {
-    "name": "Eleven v4 + Turbo",
-    "org": "ElevenLabs",
-    "date": "2026-09-28",
-    "type": "model",
-    "summary": "Create expressive voiceovers, audiobooks, or game dialogue while keeping voices consistent across scenes. Eleven v4 and its faster Turbo version are available now in the web tools and API, with a free account to start.",
-    "url": "https://elevenlabs.io/blog/eleven-v4"
   }
 ]
