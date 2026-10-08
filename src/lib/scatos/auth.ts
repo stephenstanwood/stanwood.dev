@@ -21,8 +21,8 @@ async function sign(value: string): Promise<string> {
 export async function createSession(submitted: unknown, profile: unknown): Promise<string | null> {
   const normalizedCode = typeof submitted === 'string' ? submitted.toLowerCase() : submitted;
   if (!isProfile(profile) || !sessionSecret()) return null;
-  const passwordHash = await verifySessionPassword(normalizedCode, password()?.toLowerCase());
-  if (!passwordHash) return null;
+  const verified = await verifySessionPassword(normalizedCode, password()?.toLowerCase());
+  if (!verified) return null;
   const payload = `${profile}.${Math.floor(Date.now() / 1000) + SESSION_AGE}`;
   return `${payload}.${await sign(payload)}`;
 }
