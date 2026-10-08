@@ -26,6 +26,7 @@ export const INTERNET_MAX_PER_TOPIC = 3;
 export const INTERNET_TOPIC_CAPS: Record<string, number> = { ai_practice: 4 };
 export const INTERNET_LONG_SECONDS = 60 * 60;
 export const INTERNET_MAX_LONG = 3;
+const INTERNET_MIN_RANK = 3;
 
 // The nightly builder (scripts/tv-queue/selection.py) applies these same
 // editorial rules; tvInternet.test.ts fails if the topic lists drift apart.
@@ -66,7 +67,8 @@ export function topicKey(video: InternetVideo): string {
 }
 
 export function topicLabel(video: InternetVideo): string {
-  return TOPIC_LABELS.find(([key]) => key === topicKey(video))?.[1] ?? "software craft";
+  const topic = topicKey(video);
+  return TOPIC_LABELS.find(([key]) => key === topic)?.[1] ?? topic;
 }
 
 /** Editor's subject tag, normalized so "Code Review" and "code-review" collide. */
@@ -94,7 +96,7 @@ export function eligibleInternetVideo(video: InternetVideo, now = Date.now()): b
   if (!Number.isFinite(ageDays) || ageDays < -1 || ageDays > INTERNET_MAX_AGE_DAYS) {
     return false;
   }
-  return (video.rank_score ?? video.score ?? 0) >= 3;
+  return (video.rank_score ?? video.score ?? 0) >= INTERNET_MIN_RANK;
 }
 
 export function canAddInternetVideo(video: InternetVideo, selected: InternetVideo[], now = Date.now()): boolean {
