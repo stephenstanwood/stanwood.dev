@@ -1,5 +1,21 @@
 [
   {
+    "name": "Claude Haiku 5.5",
+    "org": "Anthropic",
+    "date": "2026-10-07",
+    "type": "model",
+    "summary": "Run subagents, chat features, and computer-use tasks at $0.10 input and $0.50 output per million tokens for prompts under 100K. It is live in the Claude API and major clouds, roughly 75% cheaper than Haiku 4.5.",
+    "url": "https://www.anthropic.com/claude/haiku"
+  },
+  {
+    "name": "EmbeddingGemma 2",
+    "org": "Google DeepMind",
+    "date": "2026-10-06",
+    "type": "model",
+    "summary": "Add on-device search across text, code, images, audio, and video with one free 740M-parameter embedding model. Download it from Hugging Face or Kaggle under Apache 2.0 and run it in about 567 MB of RAM.",
+    "url": "https://huggingface.co/collections/google/embeddinggemma"
+  },
+  {
     "name": "Mistral Large 4",
     "org": "Mistral",
     "date": "2026-10-06",
@@ -40,27 +56,11 @@
     "url": "https://claude.com/blog/claude-code-mods"
   },
   {
-    "name": "invideo MCP",
-    "org": "invideo",
-    "date": "2026-09-30",
-    "type": "tool",
-    "summary": "Ask Claude, Codex, or Cursor to cut footage, mix audio, and generate clips on a video timeline you can edit yourself. Manual editing is free, while AI generation uses credits and assistant plan requirements apply.",
-    "url": "https://invideo.io/news/introducing-invideo-mcp/"
-  },
-  {
     "name": "GPT-6.1 Sol",
     "org": "OpenAI",
     "date": "2026-09-29",
     "type": "model",
     "summary": "Build coding and computer-use agents with near-Astra capability at $2 input and $10 output per million tokens. It is available now in the API, Codex, and ChatGPT Work for paid plans.",
     "url": "https://openai.com/index/introducing-gpt-6-1-sol/"
-  },
-  {
-    "name": "Claude Sonnet 5.5",
-    "org": "Anthropic",
-    "date": "2026-09-28",
-    "type": "model",
-    "summary": "Build apps, fix bugs, and produce polished documents with a faster everyday model. It is live in Claude and the API at $2 input and $10 output per million tokens, and typically uses fewer tokens per task than Sonnet 5.",
-    "url": "https://www.anthropic.com/claude-sonnet-5-5"
   }
 ]
