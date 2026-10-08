@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07T19:10:17.781Z",
+  "lastUpdated": "2026-10-08T01:10:16.854Z",
   "apiSpend": {
     "months": [
       {
@@ -437,34 +437,34 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-07T19:10:17.781Z",
+        "collectedAt": "2026-10-08T01:10:16.854Z",
         "services": {
           "vercel": {
-            "totalCents": 1095,
+            "totalCents": 1266,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 769
+                "cents": 938
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 129
+                "cents": 136
               },
               {
                 "name": "Blob Storage Size",
-                "cents": 109
+                "cents": 101
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 23
+                "cents": 24
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 15
+                "cents": 16
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 11
+                "cents": 12
               },
               {
                 "name": "Fluid Provisioned Memory",
@@ -498,19 +498,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 3741,
+            "totalCents": 4476,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 2036
+                "cents": 2520
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 938
+                "cents": 1078
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 767
+                "cents": 878
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
