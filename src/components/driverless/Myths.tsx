@@ -22,8 +22,8 @@ const myths: Myth[] = [
     claim: "Self-driving cars are way safer than human drivers.",
     verdict: "mostly-true",
     reality:
-      "Across 56.7M rider-only miles, Waymo logged 90% fewer serious-injury crashes and 92% fewer pedestrian-injury crashes than the human baseline for the same cities. The catch: most of those miles are in mild-weather urban grids — not snowy interstates.",
-    receipt: "Waymo / Swiss Re peer-reviewed safety study, 2024",
+      "Across 271.3M rider-only miles through June 2026, Waymo logged 95% fewer serious-injury crashes and 93% fewer pedestrian-injury crashes than the human baseline for the same cities. The catch: these comparisons cover surface streets — not snowy interstates.",
+    receipt: "Waymo Safety Impact data hub, through June 2026",
   },
   {
     claim: "These things constantly block traffic and clog intersections.",
@@ -50,8 +50,8 @@ const myths: Myth[] = [
     claim: "Tesla FSD is the same thing as a Waymo.",
     verdict: "false",
     reality:
-      "Waymo, Zoox, and Aurora all run multi-sensor stacks (LiDAR + radar + cameras) with no human required. Tesla FSD is camera-only Level 2+, which means a licensed driver has to be ready to take over at all times. The Cybercab pilot in Austin is Tesla's first true Level 4 deployment, and it's invite-only with a tiny fleet.",
-    receipt: "SAE level definitions; Tesla FSD owner's manual",
+      "Waymo, Zoox, and Aurora all run multi-sensor stacks (LiDAR + radar + cameras) with no human required. Tesla FSD is camera-only Level 2+, which means a licensed driver has to be ready to take over at all times. Tesla's separate Robotaxi service now operates in six metros, with Cybercab rides in limited areas of Austin.",
+    receipt: "Tesla Robotaxi support and Cybercab FAQ; Tesla FSD owner's manual",
   },
   {
     claim: "If a robotaxi hits something, you're on the hook as the rider.",
@@ -64,8 +64,8 @@ const myths: Myth[] = [
     claim: "They only work in California and Phoenix.",
     verdict: "false",
     reality:
-      "As of April 2026, commercial driverless rides are running in San Francisco, Los Angeles, Phoenix, Austin, Atlanta, and Miami — six metros across five states. Dallas, Nashville, and DC are next on Waymo's 2026 expansion list.",
-    receipt: "Waymo press releases; this dashboard's city tracker",
+      "As of October 2026, Waymo serves riders in the San Francisco Bay Area, Los Angeles, San Diego, Phoenix, Austin, Dallas, Houston, San Antonio, Atlanta, Miami, Orlando, Tampa, Nashville, Denver, and Las Vegas — 15 metros across eight states. Five markets are still adding riders gradually. DC is planned, with no public rides yet.",
+    receipt: "Waymo service areas and September 2026 launch announcements",
   },
   {
     claim: "They get confused by anything unusual on the road.",

@@ -22,7 +22,7 @@ const entries: RaceEntry[] = [
     city: "Phoenix",
     yearNum: 2018 + 11 / 12,
     status: "active",
-    scale: "550K rides/wk · 6 cities",
+    scale: "500K+ rides/wk · 15 metros",
     yearsBehind: null,
   },
   {
@@ -31,7 +31,7 @@ const entries: RaceEntry[] = [
     city: "San Francisco",
     yearNum: 2022 + 1 / 12,
     status: "shut-down",
-    scale: "Shut down Mar 2024",
+    scale: "Robotaxi funding ended Dec 2024",
     yearsBehind: 3.2,
   },
   {
@@ -40,7 +40,7 @@ const entries: RaceEntry[] = [
     city: "Dallas ↔ Houston",
     yearNum: 2024 + 3 / 12,
     status: "active",
-    scale: "200 trucks · freight only",
+    scale: "200 trucks · year-end target",
     yearsBehind: 5.3,
   },
   {
@@ -49,7 +49,7 @@ const entries: RaceEntry[] = [
     city: "San Francisco",
     yearNum: 2025,
     status: "active",
-    scale: "50 vehicles · invite-only",
+    scale: "50 vehicles · Vegas public / SF waitlist",
     yearsBehind: 6.1,
   },
   {
@@ -58,7 +58,7 @@ const entries: RaceEntry[] = [
     city: "Austin",
     yearNum: 2026 + 3 / 12,
     status: "active",
-    scale: "Cybercab pilot · invite-only",
+    scale: "6 metros · Cybercab in Austin",
     yearsBehind: 7.3,
   },
 ];
