@@ -29,7 +29,7 @@ function isOnBothLists(business: CampbellBusinessRecord) {
 }
 
 const BUSINESSES = businessFeed.items as CampbellBusinessRecord[];
-const BUSINESS_DISPLAY_LIMIT = 48;
+const BUSINESS_DISPLAY_LIMIT = 12;
 const BUSINESS_SOURCES = businessFeed.sources ?? [
   { label: "Downtown Campbell Directory", sourceUrl: businessFeed.sourceUrl },
 ];

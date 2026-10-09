@@ -35,6 +35,7 @@ try {
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <style is:global>
+
       :root {
         --li-paper: #fffef5;
         --li-ink: #111111;
@@ -52,6 +53,7 @@ try {
 
       body {
         min-width: 320px;
+        min-height: 100vh;
         background:
           radial-gradient(circle at 10% 2%, rgba(255, 61, 154, 0.12), transparent 31rem),
           radial-gradient(circle at 93% 17%, rgba(46, 184, 255, 0.13), transparent 34rem),
@@ -123,22 +125,13 @@ try {
         letter-spacing: -0.045em;
         line-height: 0.95;
       }
+      .li-progress-details { margin:0 0 20px; font-size:13px; }
+      .li-progress-details summary { cursor:pointer; min-height:36px; }
       .li-masthead p {
         margin: 10px 0 0;
         font-family: "Permanent Marker", cursive;
         font-size: clamp(16px, 2.3vw, 21px);
         transform: rotate(-0.5deg);
-      }
-      .li-rule-sticker {
-        border: 2px solid var(--li-ink);
-        background: var(--li-green);
-        box-shadow: 4px 4px 0 var(--li-ink);
-        padding: 9px 13px;
-        font: 700 10px "Space Mono", monospace;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        transform: rotate(2deg);
-        white-space: nowrap;
       }
 
       .li-scoreboard {
@@ -217,13 +210,15 @@ try {
 
       .li-controls {
         display: grid;
-        grid-template-columns: minmax(210px, 1.5fr) repeat(5, minmax(115px, 0.75fr));
+        grid-template-columns: minmax(0, 1fr);
         gap: 10px;
         border: 3px solid var(--li-ink);
         background: var(--li-white);
         box-shadow: 5px 5px 0 var(--li-ink);
         padding: 13px;
       }
+      .li-filter-details > summary { min-height: 44px; padding: 12px 0; font: 700 12px "Space Mono", monospace; cursor: pointer; }
+      .li-filter-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding-bottom: 4px; }
       .li-controls label { min-width: 0; }
       .li-controls label > span {
         display: block;
@@ -491,10 +486,11 @@ try {
         text-align: center;
       }
       .li-load-error strong { display: block; font: 30px "Permanent Marker", cursive; }
+      .li-load-error a { display: inline-block; margin-top: 20px; min-height: 44px; padding: 11px 18px; background: var(--li-ink); color: white; font: 700 12px "Space Mono", monospace; text-decoration: none; }
       .li-load-error span { display: block; margin-top: 8px; color: var(--li-muted); font: 11px "Space Mono", monospace; }
 
       @media (max-width: 950px) {
-        .li-controls { grid-template-columns: 1.4fr repeat(2, 1fr); }
+        .li-filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .li-search { grid-column: span 1; }
         .li-scoreboard { grid-template-columns: 0.8fr 1.2fr; }
       }
@@ -502,11 +498,10 @@ try {
         .li-page { width: min(100% - 20px, 1180px); padding-top: 58px; }
         .li-masthead { align-items: flex-start; }
         .li-title { width: 73px; height: 65px; font-size: 37px; }
-        .li-rule-sticker { display: none; }
         .li-scoreboard { grid-template-columns: 1fr; }
         .li-score-main { justify-content: center; border-right: 0; border-bottom: 3px solid var(--li-ink); }
         .li-score-side div { min-height: 82px; }
-        .li-controls { grid-template-columns: 1fr 1fr; }
+        .li-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .li-search { grid-column: 1 / -1; }
         .li-person { grid-template-columns: minmax(0, 1fr); }
         .li-actions { grid-column: 1; flex-wrap: wrap; justify-content: flex-end; }
@@ -517,10 +512,12 @@ try {
       @media (max-width: 460px) {
         .li-title-wrap { gap: 13px; }
         .li-masthead h1 { font-size: 28px; }
-        .li-masthead p { font-size: 14px; }
+        .li-progress-details { margin:0 0 20px; font-size:13px; }
+      .li-progress-details summary { cursor:pointer; min-height:36px; }
+      .li-masthead p { font-size: 14px; }
         .li-score-main strong { font-size: 48px; }
         .li-score-side strong { font-size: 22px; }
-        .li-controls { grid-template-columns: 1fr; }
+        .li-filter-grid { grid-template-columns: 1fr; }
         .li-search { grid-column: auto; }
         .li-view-toggle { width: 100%; }
         .li-view-toggle button { flex: 1; }
@@ -535,13 +532,14 @@ try {
           transition-duration: 0.01ms !important;
         }
       }
-    </style>
+
+</style>
   </Fragment>
 
   {loadError ? (
     <div class="li-load-error">
-      <strong>the pile is having a day.</strong>
-      <span>the private data store did not answer. try again in a minute.</span>
+      <strong>Your queue couldn’t load.</strong>
+      <a href="/li">Try again</a>
     </div>
   ) : (
     <LinkedInTracker initialPeople={people} initialDailyBatch={dailyBatch} client:load />

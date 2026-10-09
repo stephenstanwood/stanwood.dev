@@ -300,7 +300,7 @@ function GameStatusBadge({ event }: { event: ESPNEvent }) {
         className="inline-flex items-center text-xs font-bold px-2.5 py-1 rounded-full"
         style={{
           background: "rgba(255,255,255,0.05)",
-          color: "rgba(255,255,255,0.35)",
+          color: "rgba(255,255,255,0.75)",
           border: "1px solid rgba(255,255,255,0.1)",
           fontFamily: MONO,
         }}
@@ -335,7 +335,7 @@ function ScoreDisplay({ event }: { event: ESPNEvent }) {
       <div className="flex items-center gap-2 flex-1">
         <span
           className="text-xs uppercase tracking-wide"
-          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.35)", minWidth: 28 }}
+          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.75)", minWidth: 28 }}
         >
           {awayTeam?.team?.abbreviation || "AWY"}
         </span>
@@ -366,7 +366,7 @@ function ScoreDisplay({ event }: { event: ESPNEvent }) {
         </span>
         <span
           className="text-xs uppercase tracking-wide"
-          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.35)", minWidth: 28, textAlign: "right" }}
+          style={{ fontFamily: MONO, color: "rgba(255,255,255,0.75)", minWidth: 28, textAlign: "right" }}
         >
           {homeTeam?.team?.abbreviation || "HME"}
         </span>
@@ -458,7 +458,7 @@ function SettingsPanel({
             onClick={onClose}
             className="text-xs font-medium px-3 py-1 rounded-full transition-colors"
             style={{
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(255,255,255,0.75)",
               background: "rgba(255,255,255,0.05)",
             }}
           >
@@ -471,7 +471,7 @@ function SettingsPanel({
       <div className="mb-5">
         <label
           className="block text-xs font-medium mb-2 uppercase tracking-wider"
-          style={{ color: "rgba(255,255,255,0.4)" }}
+          style={{ color: "rgba(255,255,255,0.75)" }}
         >
           Timezone
         </label>
@@ -506,11 +506,11 @@ function SettingsPanel({
       <div className="mb-5">
         <label
           className="block text-xs font-medium mb-2 uppercase tracking-wider"
-          style={{ color: "rgba(255,255,255,0.4)" }}
+          style={{ color: "rgba(255,255,255,0.75)" }}
         >
           My Teams ({prefs.teams.length}/10)
           {prefs.teams.length > 1 && (
-            <span style={{ color: "rgba(255,255,255,0.25)" }}>
+            <span style={{ color: "rgba(255,255,255,0.75)" }}>
               {" "}
               — higher = more priority
             </span>
@@ -519,7 +519,7 @@ function SettingsPanel({
         {prefs.teams.length === 0 ? (
           <p
             className="text-sm py-3"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "rgba(255,255,255,0.75)" }}
           >
             Pick teams from the leagues below to get started.
           </p>
@@ -550,14 +550,14 @@ function SettingsPanel({
                 >
                   <span
                     className="text-xs shrink-0 select-none"
-                    style={{ color: "rgba(255,255,255,0.2)" }}
+                    style={{ color: "rgba(255,255,255,0.75)" }}
                     aria-hidden="true"
                   >
                     ⠿
                   </span>
                   <span
                     className="text-xs font-bold w-5 text-center shrink-0"
-                    style={{ color: "rgba(255,255,255,0.25)" }}
+                    style={{ color: "rgba(255,255,255,0.75)" }}
                   >
                     {idx + 1}
                   </span>
@@ -567,20 +567,20 @@ function SettingsPanel({
                   />
                   <span
                     className="text-sm font-medium flex-1"
-                    style={{ color: team.textColor }}
+                    style={{ color: "#e3eaff" }}
                   >
                     {team.label}
                   </span>
                   <span
                     className="text-xs"
-                    style={{ color: "rgba(255,255,255,0.2)" }}
+                    style={{ color: "rgba(255,255,255,0.75)" }}
                   >
                     {LEAGUES.find((l) => l.path === team.league)?.label}
                   </span>
                   <button
                     onClick={() => removeTeam(key)}
                     className="text-xs px-1 transition-colors hover:text-red-400"
-                    style={{ color: "rgba(255,255,255,0.3)" }}
+                    style={{ color: "rgba(255,255,255,0.75)" }}
                     aria-label={`Remove ${team.label}`}
                   >
                     ✕
@@ -596,7 +596,7 @@ function SettingsPanel({
       <div className="mb-3">
         <label
           className="block text-xs font-medium mb-2 uppercase tracking-wider"
-          style={{ color: "rgba(255,255,255,0.4)" }}
+          style={{ color: "rgba(255,255,255,0.75)" }}
         >
           Browse Teams
         </label>
@@ -767,7 +767,7 @@ export default function WTWTW() {
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
               style={{
                 backgroundColor: `${team.textColor}15`,
-                color: team.textColor,
+                color: "#e3eaff",
               }}
             >
               <span
@@ -788,7 +788,7 @@ export default function WTWTW() {
             disabled={refreshing}
             className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all"
             style={{
-              color: "rgba(255,255,255,0.3)",
+              color: "rgba(255,255,255,0.75)",
               background: "rgba(255,255,255,0.03)",
               border: "1px solid rgba(255,255,255,0.07)",
             }}
@@ -819,7 +819,7 @@ export default function WTWTW() {
               background: settingsOpen
                 ? "rgba(99, 102, 241, 0.2)"
                 : "rgba(255,255,255,0.05)",
-              color: settingsOpen ? "#a5b4fc" : "rgba(255,255,255,0.4)",
+              color: settingsOpen ? "#a5b4fc" : "rgba(255,255,255,0.75)",
             }}
             aria-label="Toggle settings"
           >
@@ -858,7 +858,7 @@ export default function WTWTW() {
         >
           <p
             className="text-sm mb-3"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            style={{ color: "rgba(255,255,255,0.75)" }}
           >
             No teams selected yet.
           </p>
@@ -880,7 +880,7 @@ export default function WTWTW() {
         <div className="grid gap-4">
           {loading && (
             <div
-              className="animate-pulse rounded-2xl p-5 text-white/40"
+              className="animate-pulse rounded-2xl p-5 text-white/75"
               style={{
                 background: "#111D32",
                 fontFamily: MONO,
@@ -930,9 +930,7 @@ export default function WTWTW() {
                     className="text-sm font-bold uppercase tracking-widest"
                     style={{
                       fontFamily: DISPLAY,
-                      color: pick
-                        ? "rgba(255,255,255,0.7)"
-                        : "rgba(255,255,255,0.25)",
+                      color: "rgba(255,255,255,0.7)",
                       fontSize: "0.8rem",
                       letterSpacing: "0.15em",
                     }}
@@ -941,7 +939,7 @@ export default function WTWTW() {
                     {today && (
                       <span
                         className="ml-2 text-xs font-normal normal-case tracking-normal"
-                        style={{ color: "rgba(255,255,255,0.25)", fontFamily: MONO }}
+                        style={{ color: "rgba(255,255,255,0.75)", fontFamily: MONO }}
                       >
                         {day.label}
                       </span>
@@ -967,7 +965,7 @@ export default function WTWTW() {
                             className="text-sm font-medium"
                             style={{
                               fontFamily: MONO,
-                              color: "rgba(255,255,255,0.5)",
+                              color: "rgba(255,255,255,0.75)",
                             }}
                           >
                             {formatHourMinuteInTz(pick.event?.date, prefs.timezone)}{" "}
@@ -994,7 +992,7 @@ export default function WTWTW() {
                             className="text-xs px-2 py-0.5 rounded font-medium"
                             style={{
                               background: "rgba(255,255,255,0.07)",
-                              color: "rgba(255,255,255,0.45)",
+                              color: "rgba(255,255,255,0.75)",
                               fontFamily: MONO,
                               border: "1px solid rgba(255,255,255,0.1)",
                             }}
@@ -1020,7 +1018,7 @@ export default function WTWTW() {
                           className="text-xs uppercase tracking-widest mb-0.5"
                           style={{
                             fontFamily: MONO,
-                            color: "rgba(255,255,255,0.2)",
+                            color: "rgba(255,255,255,0.75)",
                             letterSpacing: "0.12em",
                           }}
                         >
@@ -1039,7 +1037,7 @@ export default function WTWTW() {
                                 className="text-sm"
                                 style={{
                                   fontFamily: DISPLAY,
-                                  color: "rgba(255,255,255,0.5)",
+                                  color: "rgba(255,255,255,0.75)",
                                   fontWeight: 600,
                                 }}
                               >
@@ -1061,7 +1059,7 @@ export default function WTWTW() {
                                   className="text-xs"
                                   style={{
                                     fontFamily: MONO,
-                                    color: "rgba(255,255,255,0.3)",
+                                    color: "rgba(255,255,255,0.75)",
                                   }}
                                 >
                                   {formatHourMinuteInTz(other.event?.date, prefs.timezone)}
@@ -1090,7 +1088,7 @@ export default function WTWTW() {
                 ) : (
                   <div
                     className="mt-2 text-sm"
-                    style={{ color: "rgba(255,255,255,0.35)" }}
+                    style={{ color: "rgba(255,255,255,0.75)" }}
                   >
                     No evening games (5 PM&ndash;11:30 PM).
                   </div>

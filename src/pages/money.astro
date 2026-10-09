@@ -5,7 +5,7 @@ export const prerender = false;
 ---
 
 <BaseLayout
-  title="$$$ — stanwood.dev"
+  title="Money — stanwood.dev"
   description="Money out the door."
   slug="money"
   favicon="/favicon.svg"
@@ -16,6 +16,7 @@ export const prerender = false;
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow" />
     <style is:global>
+
       :root {
         --mo-bg: #fffef5;
         --mo-ink: #111;
@@ -56,21 +57,19 @@ export const prerender = false;
         font-size: 13px;
         color: var(--mo-ink);
         text-decoration: none;
-        opacity: 0.6;
+        opacity: 0.85;
         transition: opacity 0.2s;
         z-index: 10;
       }
       .mo-back:hover { opacity: 1; }
-
-      /* ── MASTHEAD ── */
       .mo-masthead {
         margin-bottom: 40px;
         text-align: center;
         position: relative;
       }
       .mo-title {
-        font-family: 'Rubik Mono One', 'Permanent Marker', sans-serif;
-        font-size: clamp(48px, 12vw, 96px);
+        font-family: 'Permanent Marker', cursive;
+        font-size: clamp(40px, 7vw, 68px);
         line-height: 0.9;
         letter-spacing: -0.02em;
         margin: 0;
@@ -83,60 +82,46 @@ export const prerender = false;
         box-shadow: 6px 6px 0 var(--mo-ink);
         transform: rotate(-1.5deg);
       }
-      .mo-tagline {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(16px, 3vw, 22px);
-        color: var(--mo-ink);
-        margin-top: 18px;
-        transform: rotate(0.8deg);
-        display: inline-block;
-      }
       .mo-updated {
         display: block;
         font-family: 'Space Mono', monospace;
         font-size: 10px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        opacity: 0.4;
+        opacity: 0.85;
         margin-top: 14px;
       }
-
-      /* ── HERO TOTAL ── */
       .mo-hero {
+        container-type: inline-size;
         background: var(--mo-pink);
         border: var(--mo-pixel) solid var(--mo-ink);
         box-shadow: 6px 6px 0 var(--mo-ink);
         padding: 32px 24px;
         text-align: center;
         margin-bottom: 20px;
-        transform: rotate(-0.4deg);
+        transform: none;
       }
       .mo-hero-label {
         font-family: 'Space Mono', monospace;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.15em;
-        color: #fff;
-        opacity: 0.85;
+        color: #17131a;
         margin-bottom: 8px;
       }
       .mo-hero-amount {
         font-family: 'Rubik Mono One', 'Permanent Marker', sans-serif;
-        font-size: clamp(56px, 14vw, 104px);
+        font-size: clamp(24px, 11cqi, 88px);
         line-height: 1;
-        color: #fff;
-        text-shadow: 4px 4px 0 var(--mo-ink);
+        color: #17131a;
         margin: 0;
       }
       .mo-hero-sub {
         font-family: 'Space Mono', monospace;
         font-size: 12px;
-        color: #fff;
-        opacity: 0.9;
+        color: #17131a;
         margin-top: 12px;
       }
-
-      /* ── ANNUAL BANNER ── */
       .mo-annual {
         display: flex;
         align-items: center;
@@ -154,16 +139,15 @@ export const prerender = false;
         font-family: 'Permanent Marker', cursive;
         font-size: 22px;
         font-weight: normal;
-        color: var(--mo-orange);
+        color: #933c16;
       }
-
-      /* ── SECTIONS ── */
       .mo-section {
         margin-bottom: 44px;
       }
       .mo-section-head {
         display: flex;
         align-items: baseline;
+        flex-wrap: wrap;
         gap: 12px;
         margin-bottom: 16px;
         padding-bottom: 10px;
@@ -171,30 +155,30 @@ export const prerender = false;
       }
       .mo-section-title {
         font-family: 'Permanent Marker', cursive;
-        font-size: clamp(24px, 5vw, 34px);
+        font-size: clamp(22px, 4vw, 30px);
         line-height: 1;
         margin: 0;
       }
       .mo-section-sub {
         font-family: 'Space Mono', monospace;
         font-size: 11px;
-        opacity: 0.5;
+        color: #635961;
         font-style: italic;
       }
       .mo-section-total {
         margin-left: auto;
         font-family: 'Rubik Mono One', monospace;
-        font-size: 18px;
+        font-size: 16px;
+        white-space: nowrap;
       }
-
-      /* ── CARDS ── */
       .mo-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
         gap: 14px;
       }
 
       .mo-card {
+        min-width: 0;
         border: var(--mo-pixel) solid var(--mo-ink);
         box-shadow: 4px 4px 0 var(--mo-ink);
         background: #fff;
@@ -218,6 +202,7 @@ export const prerender = false;
         margin-bottom: 10px;
       }
       .mo-card-name {
+        overflow-wrap: anywhere;
         font-family: 'Space Mono', monospace;
         font-size: 13px;
         font-weight: 700;
@@ -248,7 +233,7 @@ export const prerender = false;
       .mo-card-note {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
-        opacity: 0.5;
+        opacity: 0.85;
         margin-top: 8px;
         line-height: 1.5;
       }
@@ -272,8 +257,6 @@ export const prerender = false;
         white-space: nowrap;
         max-width: 70%;
       }
-
-      /* ── DOMAIN ROWS ── */
       .mo-domains {
         border: var(--mo-pixel) solid var(--mo-ink);
         box-shadow: 4px 4px 0 var(--mo-ink);
@@ -294,100 +277,27 @@ export const prerender = false;
 
       .mo-domain-name {
         font-weight: 700;
+        overflow-wrap: anywhere;
       }
       .mo-domain-registrar {
         font-size: 10px;
-        opacity: 0.5;
+        opacity: 0.85;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
       .mo-domain-renewal {
         font-size: 11px;
       }
-      .mo-domain-renewal--soon { color: var(--mo-orange); font-weight: 700; }
+      .mo-domain-renewal--soon { color: #933c16; font-weight: 700; }
       .mo-domain-renewal--very-soon { color: #e11; font-weight: 700; }
       .mo-domain-price {
         text-align: right;
         font-weight: 700;
       }
       .mo-domain-price--zero {
-        opacity: 0.3;
+        opacity: 0.85;
         text-decoration: line-through;
       }
-
-      /* ── SPENDING BREAKDOWN ── */
-      .mo-breakdown {
-        border: var(--mo-pixel) solid var(--mo-ink);
-        box-shadow: 4px 4px 0 var(--mo-ink);
-        background: #fff;
-        padding: 20px 24px;
-        margin-bottom: 40px;
-      }
-      .mo-breakdown-header {
-        display: flex;
-        align-items: baseline;
-        gap: 12px;
-        margin-bottom: 14px;
-      }
-      .mo-breakdown-title {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(20px, 4vw, 28px);
-        line-height: 1;
-      }
-      .mo-breakdown-sub {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        opacity: 0.4;
-        text-transform: lowercase;
-        letter-spacing: 0.06em;
-      }
-      .mo-breakdown-bar {
-        display: flex;
-        height: 24px;
-        gap: 3px;
-        margin-bottom: 14px;
-        border-radius: 2px;
-        overflow: hidden;
-      }
-      .mo-breakdown-segment {
-        min-width: 4px;
-        border-radius: 2px;
-        transition: opacity 0.15s;
-        cursor: default;
-      }
-      .mo-breakdown-segment:hover { opacity: 0.75; }
-      .mo-breakdown-legend {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px 20px;
-      }
-      .mo-breakdown-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-family: 'Space Mono', monospace;
-      }
-      .mo-breakdown-dot {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .mo-breakdown-label {
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-      .mo-breakdown-amount {
-        font-size: 12px;
-      }
-      .mo-breakdown-pct {
-        font-size: 10px;
-        opacity: 0.4;
-      }
-
-      /* ── EMPTY/LOADING/AUTH STATES ── */
       .mo-state {
         text-align: center;
         padding: 80px 24px;
@@ -400,30 +310,21 @@ export const prerender = false;
         font-family: 'Permanent Marker', cursive;
         font-size: 24px;
       }
-
-      /* ── FOOTER ── */
-      .mo-footer {
-        margin-top: 56px;
-        text-align: center;
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        opacity: 0.35;
+      @media (max-width: 800px) {
+        .mo-domain-row {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 8px;
+        }
+        .mo-domain-row > :last-child { grid-column: 1 / -1; }
       }
-
-      /* ── RESPONSIVE ── */
       @media (max-width: 640px) {
         .mo-page { padding: 56px 16px 48px; }
         .mo-cards { grid-template-columns: 1fr; }
-        .mo-domain-row {
-          grid-template-columns: 1fr 1fr;
-          gap: 6px;
-        }
         .mo-domain-row > :nth-child(2) { text-align: right; }
         .mo-back { top: 14px; left: 14px; }
       }
-    </style>
+
+</style>
   </Fragment>
 
   <div class="mo-page">

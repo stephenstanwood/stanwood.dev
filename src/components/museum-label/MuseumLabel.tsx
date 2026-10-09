@@ -43,8 +43,8 @@ export default function MuseumLabel() {
       setError("Please upload an image file.");
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      setError("Image must be under 10 MB.");
+    if (file.size > 3 * 1024 * 1024) {
+      setError("Image must be under 3 MB.");
       return;
     }
     setError(null);
@@ -288,6 +288,8 @@ export default function MuseumLabel() {
         {MUSEUM_STYLES.map((s) => (
           <button
             key={s.id}
+            type="button"
+            aria-pressed={style === s.id}
             onClick={() => {
               setStyle(s.id);
               if (phase === "result" && s.id !== style) generate(s.id);
@@ -341,7 +343,7 @@ export default function MuseumLabel() {
               <div className="ml-dropzone-empty">
                 <span className="ml-dropzone-icon">🖼️</span>
                 <p className="ml-dropzone-text">Drop a photo of any object</p>
-                <p className="ml-dropzone-hint">or click to browse — JPG, PNG, WebP up to 10 MB</p>
+                <p className="ml-dropzone-hint">or click to browse — JPG, PNG, WebP up to 3 MB</p>
               </div>
             )}
           </div>

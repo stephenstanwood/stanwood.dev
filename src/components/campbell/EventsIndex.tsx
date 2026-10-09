@@ -43,7 +43,7 @@ const EVENTS = feed.items as CampbellEvent[];
 const SOURCE_COUNTS = feed.sources ?? [];
 const ALL_SOURCE_FILTER = "all";
 const ALL_CATEGORY_FILTER = "all";
-const EVENT_DISPLAY_LIMIT = 18;
+const EVENT_DISPLAY_LIMIT = 8;
 type EventViewFilter = "today" | "weekend" | "all" | "next14" | "next30" | "public";
 const HASH_VIEW_FILTERS: Record<string, EventViewFilter> = {
   "#campbell-events-next14": "next14",
@@ -111,25 +111,6 @@ const CATEGORY_OPTIONS = [
 ];
 
 const EVENT_TITLES = Array.from(new Set(EVENTS.map((event) => event.title)));
-
-const EVENT_ANCHORS = [
-  {
-    label: "Downtown",
-    items: "Farmers' market, festivals, shop events, nightlife, and seasonal walks.",
-  },
-  {
-    label: "City",
-    items: "Council meetings, recreation, community center, parks, pool, and public meetings.",
-  },
-  {
-    label: "Culture",
-    items: "Heritage Theatre, Ainsley House, museum programs, library events, and school performances.",
-  },
-  {
-    label: "Neighborhoods",
-    items: "Block events, school-board dates, Chamber events, and recurring group meetups.",
-  },
-];
 
 /**
  * Set updaters that hand back the identical Set when nothing changed, so React can bail
@@ -397,13 +378,6 @@ export default function EventsIndex() {
       <div className="cb-section-jump-anchors" aria-hidden="true">
         <span id="campbell-events-weekend" />
       </div>
-      <div className="cb-events-intro">
-        <span>Upcoming Events</span>
-        <h3>What's happening in Campbell.</h3>
-        <p>
-          Find local events or check the next public meeting.
-        </p>
-      </div>
 
       <div className="cb-event-toolbar">
         <GhostInput
@@ -543,7 +517,6 @@ export default function EventsIndex() {
                 <h4>{event.title}</h4>
                 <p>{event.location || "Campbell"}{event.cost ? ` · ${event.cost}` : ""}</p>
                 {event.description && <p className="cb-event-desc">{event.description}</p>}
-                <span className="cb-event-open">Open listing</span>
               </div>
             </a>
           );
@@ -566,24 +539,11 @@ export default function EventsIndex() {
         </button>
       )}
 
-      <div className="cb-anchor-grid">
-        {EVENT_ANCHORS.map((anchor) => (
-          <article key={anchor.label} className="cb-anchor-card">
-            <span>{anchor.label}</span>
-            <p>{anchor.items}</p>
-          </article>
-        ))}
-      </div>
-
-      <div className="cb-section-head cb-event-source-head">
-        <span className="cb-section-kicker">Check details</span>
-        <h3>Confirm an event before you go.</h3>
-        <p>
-          Open the original listing for the latest time, location, and ticket details.
-        </p>
-      </div>
-
-      <SourceCardGrid sources={EVENT_SOURCES} />
+      <details className="cb-event-sources">
+        <summary>More calendars</summary>
+        <p>Check the original listing for the latest time, location, and tickets.</p>
+        <SourceCardGrid sources={EVENT_SOURCES} />
+      </details>
     </div>
   );
 }

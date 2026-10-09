@@ -14,6 +14,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 >
   <Fragment slot="head">
     <style is:global>
+
       body {
         font-family: 'Inter', system-ui, -apple-system, sans-serif;
         background: #FAFAF8;
@@ -22,8 +23,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
-
-      /* ── Page layout ── */
       .nc-page {
         max-width: 860px;
         margin: 0 auto;
@@ -32,8 +31,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       @media (min-width: 768px) {
         .nc-page { padding: 56px 48px 120px; }
       }
-
-      /* ── Navigation ── */
       .nc-back {
         font-size: 13px;
         font-weight: 500;
@@ -43,36 +40,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         transition: color 0.2s;
       }
       .nc-back:hover { color: #1A1A1A; }
-
-      /* ── Hero ── */
-      .nc-hero {
-        margin-top: 28px;
-        margin-bottom: 8px;
-        border-radius: 2px;
-        overflow: hidden;
-        background: #F2F0EC;
-        aspect-ratio: 16 / 7;
-        position: relative;
-      }
-      @media (min-width: 768px) {
-        .nc-hero { aspect-ratio: 24 / 7; margin-top: 36px; }
-      }
-      .nc-hero img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: contrast(0.97) saturate(0.92);
-      }
-      .nc-hero::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, transparent 60%, rgba(250,250,248,0.55));
-        pointer-events: none;
-      }
-
-      /* ── Header ── */
       .nc-header {
         margin-top: 32px;
         margin-bottom: 40px;
@@ -98,16 +65,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         letter-spacing: -0.02em;
         max-width: 480px;
       }
-
-      /* ── Divider ── */
-      .nc-rule {
-        border: none;
-        height: 1px;
-        background: #E5E3DF;
-        margin: 0;
-      }
-
-      /* ── Loading ── */
       .nc-loading {
         padding: 20px 0 56px;
       }
@@ -130,8 +87,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         font-weight: 400;
         letter-spacing: 0.02em;
       }
-
-      /* ── Permission ── */
       .nc-permission {
         padding: 8px 0 56px;
         max-width: 380px;
@@ -142,8 +97,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         color: #6B6B6B;
         margin-bottom: 28px;
       }
-
-      /* ── Buttons ── */
       .nc-btn {
         display: inline-flex;
         align-items: center;
@@ -161,8 +114,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         transition: background 0.2s;
       }
       .nc-btn:hover { background: #5C4033; }
-
-      /* ── Error ── */
       .nc-error {
         padding: 8px 0 56px;
         max-width: 400px;
@@ -180,8 +131,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         color: #6B6B6B;
         margin-bottom: 28px;
       }
-
-      /* ── Primary result ── */
       .nc-result {
         padding: 8px 0 0;
       }
@@ -199,8 +148,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           gap: 56px;
         }
       }
-
-      /* Status */
       .nc-status {
         display: inline-flex;
         align-items: center;
@@ -219,8 +166,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         background: #3D6B4F;
         animation: nc-pulse 2s ease-in-out infinite;
       }
-
-      /* Inline distance (mobile) */
       .nc-meta-line {
         display: flex;
         align-items: center;
@@ -235,8 +180,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       @media (min-width: 768px) {
         .nc-meta-line { display: none; }
       }
-
-      /* Shop name */
       .nc-shop-name {
         font-family: 'Playfair Display', Georgia, serif;
         font-size: clamp(1.75rem, 3vw + 0.5rem, 2.5rem);
@@ -246,24 +189,18 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         letter-spacing: -0.01em;
         margin-bottom: 10px;
       }
-
-      /* Address */
       .nc-address {
         font-size: 14px;
         line-height: 1.6;
         color: #6B6B6B;
         margin-bottom: 8px;
       }
-
-      /* Rating inline */
       .nc-rating-inline {
         font-size: 13px;
         color: #6B6B6B;
         margin-bottom: 24px;
       }
       .nc-rating-star { color: #5C4033; }
-
-      /* CTA */
       .nc-cta {
         display: inline-flex;
         align-items: center;
@@ -278,8 +215,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .nc-cta:hover { color: #1A1A1A; }
       .nc-cta svg { transition: transform 0.2s; }
       .nc-cta:hover svg { transform: translateX(3px); }
-
-      /* ── Aside: distance + map (desktop) ── */
       .nc-aside {
         display: none;
       }
@@ -317,8 +252,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         color: #6B6B6B;
         margin-top: 2px;
       }
-
-      /* Map */
       .nc-map-wrap {
         margin-top: 20px;
         overflow: hidden;
@@ -327,7 +260,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         aspect-ratio: 4 / 3;
         position: relative;
       }
-      /* Mobile map: full width below CTA */
       .nc-map-mobile {
         display: block;
         margin-top: 28px;
@@ -346,8 +278,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .nc-map-skeleton {
         animation: nc-skeleton 1.5s ease-in-out infinite;
       }
-
-      /* ── Nearby list ── */
       .nc-nearby {
         margin-top: 48px;
       }
@@ -459,8 +389,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .nc-nearby-rating-star {
         color: #5C4033;
       }
-
-      /* ── Footer ── */
       .nc-footer {
         margin-top: 48px;
         padding-top: 24px;
@@ -483,8 +411,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         color: #6B6B6B;
         margin-top: 6px;
       }
-
-      /* ── Animations ── */
       @keyframes nc-pulse {
         0%, 100% { opacity: 1; }
         50% { opacity: 0.3; }
@@ -503,38 +429,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
       .nc-fade-in-delay {
         animation: nc-fadeIn 0.45s ease 0.1s both;
       }
-
-      /* ── How it works ── */
-      .nc-how {
-        margin-top: 40px;
-      }
-      @media (min-width: 768px) {
-        .nc-how { margin-top: 48px; }
-      }
-      .nc-how-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-      @media (min-width: 640px) {
-        .nc-how-grid { grid-template-columns: repeat(3, 1fr); gap: 40px; }
-      }
-      .nc-how-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #5C4033;
-        margin-bottom: 10px;
-      }
-      .nc-how-body {
-        font-size: 13px;
-        line-height: 1.7;
-        color: #6B6B6B;
-      }
-
-      /* ── Reduced motion ── */
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
           animation-duration: 0.01ms !important;
@@ -542,7 +436,11 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
           transition-duration: 0.01ms !important;
         }
       }
-    </style>
+      .nc-header { margin-top: 40px; margin-bottom: 32px; }
+      .nc-title { font-size: clamp(40px, 8vw, 64px); }
+      .nc-privacy { font-size: 12px; color: #6b6b6b; margin-top: 24px; }
+
+</style>
   </Fragment>
 
     <a href="#app" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#5C4033] focus:text-[#FAFAF8] focus:rounded focus:font-semibold">Skip to content</a>
@@ -552,17 +450,6 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
         <a href="/" class="nc-back" aria-label="Back to stanwood.dev">&larr; stanwood.dev</a>
       </nav>
 
-      <div class="nc-hero">
-        <img
-          src="/images/nearest-coffee.webp"
-          alt="A quiet cafe morning with golden light through the window"
-          width="800"
-          height="449"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-
       <header class="nc-header">
         <span class="nc-label">Nearest Coffee</span>
         <h1 class="nc-title">Your nearest open coffee.</h1>
@@ -570,25 +457,7 @@ const hasMapsKey = Boolean(import.meta.env.GOOGLE_PLACES_API_KEY);
 
       <div id="app" data-has-maps={hasMapsKey ? "1" : ""}></div>
 
-      <hr class="nc-rule" style="margin-top: 40px;">
-
-      <!-- How it works -->
-      <section class="nc-how">
-        <div class="nc-how-grid">
-          <div>
-            <span class="nc-how-label">How it works</span>
-            <p class="nc-how-body">Share your location and it queries Google Places for coffee shops open right now &mdash; sorted by walking distance, closest first.</p>
-          </div>
-          <div>
-            <span class="nc-how-label">What you get</span>
-            <p class="nc-how-body">The nearest open shop with its name, address, walking estimate, and a map. Plus up to four alternatives nearby with ratings and walk times &mdash; each linking straight to directions.</p>
-          </div>
-          <div>
-            <span class="nc-how-label">Privacy</span>
-            <p class="nc-how-body">Your coordinates go to the server only to run the Places query. They&rsquo;re never stored, logged, or tied to you in any way.</p>
-          </div>
-        </div>
-      </section>
+      <p class="nc-privacy">Your location is used to find coffee nearby.</p>
     </div>
 
     <script>

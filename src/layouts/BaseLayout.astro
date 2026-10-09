@@ -47,6 +47,23 @@ if (customDomain || !slug) {
 
 const ogImage = slug ? `${siteUrl}/api/og?page=${slug}` : `${siteUrl}/images/og-homepage.png`;
 const displayName = schemaName || title.replace(" — stanwood.dev", "");
+const javascriptAction: Record<string, string> = {
+  tldr: "summarize a PDF",
+  "nearest-coffee": "find nearby coffee shops",
+  "green-light": "get your menu picks",
+  "museum-label": "create a museum label",
+  "redesign-rolodex": "explore design directions",
+  "ship-clock": "load recent releases",
+  wtwtw: "load your teams’ schedule",
+  "mlb-gamerank": "load live game scores",
+  campbell: "switch sections and filter events",
+  "pixel-tide": "play with the tide",
+  "pixel-aquarium": "bring the aquarium to life",
+  "show-swipe": "browse trailers and save your picks",
+  shop: "choose a size and check out",
+  money: "view your spending",
+  li: "manage your LinkedIn queue",
+};
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -113,9 +130,10 @@ const pageSchema =
   <body>
     <a href="#main-content" class="skip-nav">Skip to content</a>
     <main id="main-content">
+      {javascriptAction[slug] && <noscript><p class="no-js-note">Turn on JavaScript to {javascriptAction[slug]}.</p></noscript>}
       <slot />
     </main>
     <ExploreMore current={slug} />
-    <Analytics />
+    {!["money", "li", "lg", "money-login", "li-login"].includes(slug) && <Analytics />}
   </body>
 </html>

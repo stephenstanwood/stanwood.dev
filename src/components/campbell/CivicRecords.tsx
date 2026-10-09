@@ -41,6 +41,7 @@ const HEARING_FILTERS: { id: HearingFilter; label: string }[] = [
 
 const COUNCIL_RECORDS = (councilFeed.items as CampbellCouncilRecord[]).slice(0, 8);
 const PUBLIC_HEARINGS = hearingFeed.items as PublicHearing[];
+const HEARING_DISPLAY_LIMIT = 6;
 
 function plainSummary(summary: string) {
   const cleaned = summary.trim().replace(/\.$/, "");
@@ -57,31 +58,26 @@ function plainSummary(summary: string) {
 }
 
 // First matching pattern wins; the fallback topic sits at the end of the list.
-const HEARING_TOPICS: { pattern: RegExp; label: string; impact: string }[] = [
+const HEARING_TOPICS: { pattern: RegExp; label: string }[] = [
   {
     pattern: /housing|residential|townhome|condominium|unit|subdivision|development/,
     label: "Housing and development",
-    impact: "Why it matters: this could change what gets built, demolished, subdivided, or reviewed at the site.",
   },
   {
     pattern: /fee|tax|budget|capital improvement|cip|charge/,
     label: "Fees, taxes, and budget",
-    impact: "Why it matters: this could change city fees, business taxes, capital projects, or what services cost.",
   },
   {
     pattern: /beer|wine|entertainment|pharmacy|restaurant|bank|conditional use|use permit/,
     label: "Business and site use",
-    impact: "Why it matters: this could change how a Campbell property operates, including allowed uses or customer-facing activity.",
   },
   {
     pattern: /eir|environment|ceqa|building code|california building code/,
     label: "Environment and code",
-    impact: "Why it matters: this could affect development review, environmental impacts, or construction rules.",
   },
   {
     pattern: /.*/,
     label: "Public decision",
-    impact: "Why it matters: a public body is taking comments or making a decision on this item.",
   },
 ];
 
@@ -127,6 +123,7 @@ function hearingSummary(item: PublicHearing) {
 
 export default function CivicRecords() {
   const [activeFilter, setActiveFilter] = useState<HearingFilter>("all");
+  const [showAll, setShowAll] = useState(false);
   const [today] = useState(() => startOfDay(new Date()));
 
   const filteredHearings = useMemo(() => {
@@ -139,6 +136,8 @@ export default function CivicRecords() {
       return true;
     });
   }, [activeFilter, today]);
+  const visibleHearings = showAll ? filteredHearings : filteredHearings.slice(0, HEARING_DISPLAY_LIMIT);
+  const hiddenHearingCount = filteredHearings.length - visibleHearings.length;
   const upcomingCount = PUBLIC_HEARINGS.filter((item) => isUpcomingHearing(item, today)).length;
   const recentCount = PUBLIC_HEARINGS.filter((item) => isRecentHearing(item, today)).length;
   const latestCouncilRecord = preferredCouncilRecord(COUNCIL_RECORDS);
@@ -164,11 +163,14 @@ export default function CivicRecords() {
           ariaLabel="Public hearing filters"
           options={HEARING_FILTERS}
           active={activeFilter}
-          onSelect={setActiveFilter}
+          onSelect={(filter) => {
+            setActiveFilter(filter);
+            setShowAll(false);
+          }}
         />
 
         <div className="cb-hearing-list">
-          {filteredHearings.map((item) => (
+          {visibleHearings.map((item) => (
             <article className="cb-hearing-card" key={item.id}>
               <div className="cb-hearing-topline">
                 <span>{item.body}</span>
@@ -183,7 +185,6 @@ export default function CivicRecords() {
                 {item.hearingAt || "Date is in the official notice packet"}
               </p>
               <p className="cb-hearing-summary">{hearingSummary(item)}</p>
-              <p className="cb-hearing-impact">{hearingTopic(item).impact}</p>
               {(item.address || item.fileNo || item.planner) && (
                 <div className="cb-hearing-meta">
                   {item.address && <span>{item.address}</span>}
@@ -209,6 +210,12 @@ export default function CivicRecords() {
             </article>
           ))}
         </div>
+
+        {hiddenHearingCount > 0 && (
+          <button type="button" className="cb-hearing-more cb-business-more" onClick={() => setShowAll(true)}>
+            Show {hiddenHearingCount} more hearings
+          </button>
+        )}
 
         {filteredHearings.length === 0 && (
           <p className="cb-hearing-empty">

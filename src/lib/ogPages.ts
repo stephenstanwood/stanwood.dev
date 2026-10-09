@@ -80,7 +80,7 @@ export const PAGES: Record<string, PageConfig> = {
   swim: {
     emoji: "\u{1F3CA}",
     title: "Lap Lab",
-    tagline: "Generate custom swim workouts for any duration and pace.",
+    tagline: "Your pool. Your pace. Your next swim.",
     bg: "#0f172a",
     bg2: "#1e293b",
     accent: "#38bdf8",
@@ -120,7 +120,7 @@ export const PAGES: Record<string, PageConfig> = {
   "which-model": {
     emoji: "\u{1F9E0}",
     title: "Which Model?",
-    tagline: "Match your task to the right AI model.",
+    tagline: "Pick your task. Find an AI tool to start with.",
     bg: "#0f1117",
     bg2: "#1a1f2e",
     accent: "#f472b6",
@@ -136,7 +136,7 @@ export const PAGES: Record<string, PageConfig> = {
   driverless: {
     emoji: "\u{1F697}",
     title: "Driverless",
-    tagline: "Tracking the self-driving revolution across the US.",
+    tagline: "Where to ride. What the numbers say.",
     bg: "#0a2e1a",
     bg2: "#16a34a",
     accent: "#f0fdf4",

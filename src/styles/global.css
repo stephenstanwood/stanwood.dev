@@ -7,6 +7,14 @@
 @import "@fontsource-variable/cabin/wght.css";
 @import "@fontsource-variable/cabin/wght-italic.css";
 
+.no-js-note {
+  width: min(42rem, calc(100% - 2rem));
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  font: 14px/1.5 system-ui, sans-serif;
+}
+
 /* ── Animation names referenced from page <style> blocks and React islands ──
    These carry no utility classes of their own; pages apply them by name
    (SwimWorkout.tsx → gradientShift, mlb-gamerank/nba-now → shimmer). */
@@ -65,7 +73,10 @@ button:active:not(:disabled),
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: inherit;
-  opacity: 0.35;
+  opacity: 0.75;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
   transition: opacity 0.15s;
 }
 .retro-back:hover {

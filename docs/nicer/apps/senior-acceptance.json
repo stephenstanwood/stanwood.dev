@@ -1,0 +1,474 @@
+{
+  "kind": "senior-finisher",
+  "status": "accepted-frozen",
+  "name": "Apps collection senior finish",
+  "model": "gpt-6-astra",
+  "modelId": "gpt-6-astra",
+  "reasoningEffort": "max",
+  "makerModel": "gpt-6.1-sol,gpt-6-astra",
+  "makerModelIds": [
+    "gpt-6.1-sol",
+    "gpt-6-astra"
+  ],
+  "independent": false,
+  "runId": "/root/senior_finish_resume",
+  "sessionId": null,
+  "identityNote": "Managed tool exposes canonical invocation identities; provider session UUID unavailable, not fabricated.",
+  "invocations": [
+    {
+      "runId": "/root/senior_finish",
+      "sessionId": null,
+      "startedAt": "2026-10-09T22:07:51Z",
+      "status": "interrupted-after-source-batch"
+    },
+    {
+      "runId": "/root/senior_finish_resume",
+      "sessionId": null,
+      "startedAt": "2026-10-09T22:22:08Z",
+      "completedAt": "2026-10-09T22:47:38Z",
+      "status": "completed"
+    }
+  ],
+  "finishing": {
+    "authority": "exclusive-source-owner",
+    "ownerRunId": "/root/senior_finish_resume",
+    "builderModelId": "gpt-6.1-sol",
+    "handoffRunId": "01a1228a-0e3f-7e22-8512-99e9ae3c8294",
+    "startedAt": "2026-10-09T22:07:51Z",
+    "completedAt": "2026-10-09T22:47:38Z",
+    "workspace": "/Users/stephenstanwood/.codex/worktrees/apps-elegance/stanwood.dev",
+    "branch": "codex/apps-elegance",
+    "baseCommit": "e71410002c21fdbd15776a4b80c121d4c323be6b",
+    "changedPaths": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "docs/nicer/apps/BUILD-STATE.md",
+      "docs/nicer/apps/finisher-findings.md",
+      "docs/nicer/apps/pass-1.md",
+      "docs/nicer/apps/senior-acceptance.json",
+      "scripts/qa-app-accessibility.mjs",
+      "scripts/qa-app-interactions.mjs",
+      "scripts/qa-app-responsive.mjs",
+      "scripts/qa-app-sweep.mjs",
+      "scripts/qa-campbell-finish.mjs",
+      "src/components/ShipClock.tsx",
+      "src/components/WTWTW.tsx",
+      "src/components/WhichModel.tsx",
+      "src/components/campbell/BusinessIndex.tsx",
+      "src/components/campbell/CivicRecords.tsx",
+      "src/components/campbell/EventsIndex.tsx",
+      "src/components/campbell/TodayInCampbell.tsx",
+      "src/components/linkedin/LinkedInTracker.tsx",
+      "src/components/museum-label/MuseumLabel.tsx",
+      "src/layouts/BaseLayout.astro",
+      "src/lib/ogPages.ts",
+      "src/pages/campbell.astro",
+      "src/pages/familyroom.astro",
+      "src/pages/green-light.astro",
+      "src/pages/li-login.astro",
+      "src/pages/li.astro",
+      "src/pages/money-login.astro",
+      "src/pages/money.astro",
+      "src/pages/museum-label.astro",
+      "src/pages/pixel-aquarium.astro",
+      "src/pages/radar.astro",
+      "src/pages/redesign-rolodex.astro",
+      "src/pages/ship-clock.astro",
+      "src/pages/shop.astro",
+      "src/pages/tldr.astro",
+      "src/pages/tv.astro",
+      "src/styles/global.css",
+      "src/styles/scatosswip.css"
+    ],
+    "changedPathsBasis": "Source and QA hashes compared with evidence/senior/source-before.json, plus finisher-created helpers and explicitly owned documentation. Builder changes are included in the full source freeze, not attributed to this finisher.",
+    "inspectedFinalArtifacts": true,
+    "summary": "Removed repeated copy, simplified default lists and private filters, repaired native responsive/contrast/recovery defects, retained all core results/preferences/source links and individual app identities."
+  },
+  "sourceFreeze": {
+    "path": "evidence/senior/source-freeze.json",
+    "sha256": "03ab749f355172762e11ff18a493e6adace37a8e379a2f730cdf95e5856d83be",
+    "frozenAt": "2026-10-09T22:47:38Z",
+    "pendingBuildSteps": [],
+    "evidenceManifest": "evidence/senior/evidence-freeze.json",
+    "evidenceManifestSha256": "ec8f0c1a2b29abce268bd17dc60ded8c88a8e6a736e597bc17999f6d6349da6b"
+  },
+  "imageReads": {
+    "preBatch": 54,
+    "postBatch": 19,
+    "total": 73,
+    "budget": {
+      "preBatch": 60,
+      "postBatch": 20
+    },
+    "priorPixelsReread": false,
+    "postBatchArtifacts": [
+      {
+        "read": 1,
+        "path": "evidence/senior-responsive/money-320-1x-failure.png",
+        "sha256": "e919cf15680949e2cb1b3793685de0c9c8a64249151b4d0dcab11893bea6334e",
+        "finalArtifact": false
+      },
+      {
+        "read": 2,
+        "path": "evidence/senior-responsive/money-1440-2x-failure.png",
+        "sha256": "e75651b8e2723b4232514118118ee825ce152e23486031ea0139641a2ca28942",
+        "finalArtifact": false
+      },
+      {
+        "read": 3,
+        "path": "evidence/senior-responsive/lg-login-1440-2x-failure.png",
+        "sha256": "671d7fee4c42938123a4919bf35cb74b5ea1de460fd11c7b97fecc412556f8b4",
+        "finalArtifact": false
+      },
+      {
+        "read": 4,
+        "path": "evidence/senior-share/share-contact.png",
+        "sha256": "caeceb91075d303330297749723768ede0b09b9e0ee3e209d734f6c2f499d1d5",
+        "finalArtifact": true
+      },
+      {
+        "read": 5,
+        "path": "evidence/senior-campbell/hero-overlap-1440.png",
+        "sha256": "83cbfeafbf7edaaa04c65823fe38bab643ba96dd527948220ab57674dacad78a",
+        "finalArtifact": false
+      },
+      {
+        "read": 6,
+        "path": "evidence/senior-campbell/long-lists-inspection.png",
+        "sha256": "01d852a7192350ee3bd696cd9f6b2ff197947eb2829f509f569e0ebaf8f3b166",
+        "finalArtifact": false
+      },
+      {
+        "read": 7,
+        "path": "evidence/senior-contact/core-375.png",
+        "sha256": "0bbe83cf0f80ea4ebca4587b65cf127ed9aabe3dff521fa84aef36f3db4d3e28",
+        "finalArtifact": true
+      },
+      {
+        "read": 8,
+        "path": "evidence/senior-contact/core-1440.png",
+        "sha256": "5248f7f5980eee51d769a95d8098b3b6959979d86b0fe518648fe15b624aa694",
+        "finalArtifact": true
+      },
+      {
+        "read": 9,
+        "path": "evidence/senior-contact/campbell-sections-390.png",
+        "sha256": "e2df5c5b0d08b28d97868b403004e73e8f67ec1b12099b9f835d604aae2d99b0",
+        "finalArtifact": true
+      },
+      {
+        "read": 10,
+        "path": "evidence/senior-contact/campbell-sections-1440.png",
+        "sha256": "4aff281f1d65f1b01c1bf7e0356c55f03461c02782e143c13000fef3842000df",
+        "finalArtifact": true
+      },
+      {
+        "read": 11,
+        "path": "evidence/senior-contact/private-375.png",
+        "sha256": "a8d438f82064b3803b5ad4a65eb35ad4c4108f2b9169ac3b7c1b9fd8740e4bec",
+        "finalArtifact": true
+      },
+      {
+        "read": 12,
+        "path": "evidence/senior-contact/private-1440.png",
+        "sha256": "03a119155fdb62c73be7022adcb620f1ffabb202658b96e6adb404a3c18c4f23",
+        "finalArtifact": true
+      },
+      {
+        "read": 13,
+        "path": "evidence/senior-contact/tools-375.png",
+        "sha256": "41998bf0cd506a040a1a14d91ae9076be78d139b181fe599261676d4845cb8fd",
+        "finalArtifact": true
+      },
+      {
+        "read": 14,
+        "path": "evidence/senior-contact/tools-1440.png",
+        "sha256": "81efc5cf7d49068aa253bfba3302f9ae1322d0ce36bf95f4da911975a6bd4c57",
+        "finalArtifact": true
+      },
+      {
+        "read": 15,
+        "path": "evidence/senior-contact/media-and-reference-375.png",
+        "sha256": "ee5a9ad7576c8e4b022b663196b34859915506c55b30a2bee51f2fdfd501c47a",
+        "finalArtifact": true
+      },
+      {
+        "read": 16,
+        "path": "evidence/senior-contact/media-and-reference-1440.png",
+        "sha256": "38a05d83ab4f3fa4674b7e21f51d79b81520e414150b885baabea8642754787a",
+        "finalArtifact": true
+      },
+      {
+        "read": 17,
+        "path": "evidence/senior-contact/print-and-no-js.png",
+        "sha256": "7326d413e7c02cb8e2f4b502fb173ce48adf8a8f0cce11e20ab10ad175fa3368",
+        "finalArtifact": true
+      },
+      {
+        "read": 18,
+        "path": "evidence/senior-contact/repaired-details.png",
+        "sha256": "7160a43226cdd77eabe3d780c09bacfac63212b6a1fa893f26e2ab84e074ac05",
+        "finalArtifact": true
+      },
+      {
+        "read": 19,
+        "path": "evidence/senior-final-details/favicons-16px.png",
+        "sha256": "7e9a05662055019415d2e1aa3c899c53c81f5dd3c2b6c6818d4d60a7ec378da2",
+        "finalArtifact": true
+      }
+    ]
+  },
+  "checks": {
+    "unitTests": {
+      "files": 19,
+      "passed": 163,
+      "evidence": "evidence/senior/tests.log",
+      "note": "Retained passing core tests; no unrelated rerun."
+    },
+    "campbellTests": {
+      "files": 5,
+      "passed": 34,
+      "evidence": "evidence/senior/campbell-tests-final.log",
+      "note": "Rechecked after hearing/business list changes."
+    },
+    "astroCheck": {
+      "errors": 0,
+      "warnings": 0,
+      "existingHints": 22,
+      "evidence": "evidence/senior/astro-check-tv-final.log"
+    },
+    "productionBuild": {
+      "passed": true,
+      "evidence": "evidence/senior/build-tv-final.log",
+      "note": "Includes final TV colour correction; fixtures absent; dev server stopped for build."
+    },
+    "coreWorkflows": {
+      "passed": 19,
+      "total": 19,
+      "evidence": "evidence/senior-interactions/results.json",
+      "log": "evidence/senior/interactions.log",
+      "note": "Includes pre-request 3 MiB upload rejection, retry/recovery, preferences, keyboard and paused Aquarium mouse/touch redraw. External POSTs intercepted."
+    },
+    "captures": {
+      "passed": 84,
+      "total": 84,
+      "widths": [
+        375,
+        768,
+        1440
+      ],
+      "evidence": "evidence/senior/final-captures-coverage.json",
+      "phases": {
+        "senior-final": 69,
+        "senior-private-final": 6,
+        "senior-login-final": 9,
+        "senior-tv-final": 3
+      },
+      "note": "TV final phase supersedes exactly three prior TV rows, so effective coverage remains 84 (168 full-page/viewport PNGs). All other final captures remain source-current."
+    },
+    "accessibility": {
+      "routes": 26,
+      "violations": 0,
+      "tags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+        "wcag22aa"
+      ],
+      "evidence": "evidence/senior/final-accessibility-coverage.json",
+      "sources": [
+        "evidence/senior-accessibility-final-full/results.json",
+        "evidence/senior-accessibility-tv-final/results.json"
+      ],
+      "note": "Full final sweep plus affected TV correction. Automated selected-rule proof, not a screen-reader certification."
+    },
+    "extremeResponsive": {
+      "passed": 72,
+      "total": 72,
+      "variants": [
+        "320px",
+        "1024px",
+        "1920px",
+        "1440px at 200% CSS zoom"
+      ],
+      "evidence": "evidence/senior/final-responsive-coverage.json",
+      "sources": [
+        "evidence/senior-responsive/results.json",
+        "evidence/senior-responsive-final/results.json",
+        "evidence/senior-responsive-campbell/results.json"
+      ]
+    },
+    "campbell": {
+      "passed": 24,
+      "total": 24,
+      "widths": [
+        1440,
+        390,
+        320
+      ],
+      "tabs": 8,
+      "evidence": "evidence/senior-campbell/results.json",
+      "log": "evidence/senior/campbell.log",
+      "note": "Warmed images or date-tile fallback, credits, overflow, keyboard, shortcuts, disclosures, filters/reset and Show more checked. All 18 hearings and 422 businesses retained."
+    },
+    "boundedSweep": {
+      "landscape": 26,
+      "noJavaScript": 12,
+      "printExports": 5,
+      "evidence": "evidence/senior/final-sweep-coverage.json",
+      "note": "844x390 landscape; no-JS notices/static content/native forms; print includes generated Lap Lab workout. Final Campbell source rechecked. Local LCP/CLS samples are diagnostic only."
+    },
+    "metadata": {
+      "evidence": "evidence/senior-final-details/metadata-final.json",
+      "faviconAssetsReadAt16px": 19,
+      "ogCardsRead": 4,
+      "note": "Current feature descriptions checked. Private noindex retained; TV/Family Room intentionally retain private metadata and browser-default favicon rather than a public share card."
+    },
+    "sourceHygiene": {
+      "diffCheck": "pass",
+      "temporaryFixturePages": 0,
+      "qaProcessesRemaining": 0,
+      "note": "Protected APIs/auth/feed/calculation/shared-sports paths unchanged. No changed production TODO/FIXME/debug/console.log matches."
+    }
+  },
+  "sweepDimensions": [
+    {
+      "dimension": "First viewport",
+      "outcome": "accepted",
+      "finding": "All 23 surfaces read at phone/desktop before the batch; final affected contact sheets confirm subject, promise and early controls."
+    },
+    {
+      "dimension": "Composition and rhythm",
+      "outcome": "repaired",
+      "finding": "Removed repeated panels and copy; compact phone TV rows and bounded Campbell lists. City Hall 320px now 7023px and Businesses 3792px; remaining length is actual official records and source descriptions."
+    },
+    {
+      "dimension": "Typography",
+      "outcome": "repaired",
+      "finding": "Preserved distinct app type; Money amount now follows available container width. 320px and CSS 200% zoom fit."
+    },
+    {
+      "dimension": "Colour and surface",
+      "outcome": "repaired",
+      "finding": "Radar, WTWTW empty labels, Campbell active-hover tab and TV loaded links corrected; final selected Axe contrast rules clear."
+    },
+    {
+      "dimension": "Photography",
+      "outcome": "accepted",
+      "finding": "Campbell all eight section crops, credits and event fallback checked; existing app/product/household images retained. No image generation or feed-photo edits."
+    },
+    {
+      "dimension": "Motion",
+      "outcome": "accepted",
+      "finding": "Reduced-motion captures and paused Aquarium direct input work; Pixel Tide keyboard remains usable. No new decorative motion."
+    },
+    {
+      "dimension": "Interaction and states",
+      "outcome": "accepted with scope limit",
+      "finding": "19 core workflows plus Campbell list/filter/keyboard and retry checks pass. Default platform 404 was not redesigned or separately inspected; outside this app scope."
+    },
+    {
+      "dimension": "Navigation and orientation",
+      "outcome": "accepted",
+      "finding": "Hub serves grouped app links; concise app footers preserve return paths. Campbell tabs/shortcuts and private profile controls retained."
+    },
+    {
+      "dimension": "Copy craft",
+      "outcome": "repaired",
+      "finding": "Deleted generic impact paragraphs, repeated introductions and implementation narration. Outcome labels and factual comparison limits remain."
+    },
+    {
+      "dimension": "Performance",
+      "outcome": "bounded proof",
+      "finding": "Local unthrottled development LCP/CLS samples and image/font source inspection completed. No production/field performance claim or new performance infrastructure."
+    },
+    {
+      "dimension": "Accessibility beyond the floor",
+      "outcome": "accepted with scope limit",
+      "finding": "Final 26-route WCAG 2/2.1/2.2 A/AA selected Axe rules clear; headings/landmarks, focus and keyboard paths inspected. No physical screen-reader session."
+    },
+    {
+      "dimension": "Responsive",
+      "outcome": "accepted with scope limit",
+      "finding": "84 standard route-width captures, 72 extreme cases and 26 landscape views pass. 200% uses CSS zoom in Chromium; no physical-device or native browser-zoom claim."
+    },
+    {
+      "dimension": "Metadata and share surface",
+      "outcome": "accepted",
+      "finding": "Public titles/descriptions/canonicals retained; corrected stale feature descriptions and four OG promises. 19 distinct favicon assets read at 16px. Private noindex unchanged; no public private-tool share-card requirement."
+    },
+    {
+      "dimension": "Print and no-JS",
+      "outcome": "bounded proof",
+      "finding": "Five print exports and twelve no-JS routes checked. Lap Lab workout prints alone; dynamic tools explain JavaScript requirement while static content/native sign-in forms remain available. Not full offline app parity."
+    },
+    {
+      "dimension": "Distinctiveness",
+      "outcome": "accepted; fleet comparison not applicable",
+      "finding": "Zine hub, quiet editorial tools, pixel games, TV and private household screens retain separate identities. Compared within this collection; no unrelated Stoa fleet audit."
+    },
+    {
+      "dimension": "Source hygiene",
+      "outcome": "accepted",
+      "finding": "Native CSS consolidated at repaired sites; dead Driverless panels removed by builder, legacy data retained for old jobs. No fixture pages or QA processes left; diff check passes."
+    }
+  ],
+  "claimLocks": {
+    "protectedFileSha256": {
+      "src/lib/auth.ts": "53f475809a296961e3abb38bf05c03ee578d6349c701bb3ecdc635f13a5000a4",
+      "src/lib/scatos/auth.ts": "a3f8eddbca3b6827e38337310b97715a192bc39617c561a4783fdc0aa163f181",
+      "src/middleware.ts": "655863557534bb01e410e564ef73781eb0f205af659779de9e3d4bd0ef83a64d",
+      "src/lib/money.ts": "468327832230c0140e8ec13003631f4e8269bc1e22c1c96896ab1dea14901edd",
+      "src/lib/sportsCore.ts": "4d85da69e63640586a9da9ed3e8a3b9f493344ff614bfca493074be8094c288a",
+      "src/styles/sports.css": "16de6968cc3a74039b7ac32b26d364e9a394b873218e7084ea24475cb7623caf",
+      "public/yt/videos.json": "09dbffe1afa7342c9e2da071457fd04d8bd8e49a965056bb93015e2d90c9584b",
+      "src/data/driverless/data.ts": "b1c39a177b5dd8d3f1c07ae429eba1f09c3c68e90bbb80f39a24d8a526906000",
+      "src/data/driverless/guide.ts": "91620be46d1c717c3775fb286cd8469e3b7d36b1b2bfcaef4697eadd1ad5f85b"
+    },
+    "retained": [
+      "About biography and external NBA Now untouched",
+      "API/auth/session/calculation/shared-sports paths unchanged",
+      "No feed/schedule edits; public/yt/videos.json unchanged; broad builder remains disabled",
+      "WTWTW six defaults and preference migration preserved",
+      "Shop price 32 and checkout URL unchanged",
+      "Private noindex, no public tiles, distinct household profiles retained",
+      "All eight Campbell tabs, official source links, photos and credits retained",
+      "Waymo 15 areas, 271.3M rider-only miles through June 2026 and 95/82/82 comparison with operating-area/surface-street/excluding-freeways limits retained; facts verified by lead",
+      "Which Model six opinionated starting picks without invented benchmark/version/pricing tables",
+      "Driverless legacy data retained for older jobs; current guide.ts remains source",
+      "Unrelated PRs 516/482 untouched"
+    ]
+  },
+  "limitations": [
+    "LI/Scatos real datastore and credentials unavailable locally; working UI verified with explicitly synthetic data. Money read-only view was available.",
+    "200% CSS zoom and headless Chromium landscape are not native browser zoom, physical-device or screen-reader testing.",
+    "Performance is local unthrottled development evidence, not production/field measurement.",
+    "Print/no-JS coverage is bounded smoke: five print routes and twelve no-JS routes, not offline parity.",
+    "Build retains local Node 26 versus deployed Node 24 warning and 22 existing unused-code hints."
+  ],
+  "topFixes": [],
+  "actionableFindings": [],
+  "authorityTransfer": {
+    "at": "2026-10-09T22:47:38Z",
+    "to": "lead gpt-6.1-sol / 01a1228a-0e3f-7e22-8512-99e9ae3c8294",
+    "granted": [
+      "read-only rendering",
+      "commit accepted bytes",
+      "PR and merge",
+      "deployment and live verification",
+      "wrap"
+    ],
+    "sourceRepairs": "Senior retains source repair authority for any later source-backed finding."
+  },
+  "release": {
+    "claimed": false,
+    "receiptPath": "evidence/release.json",
+    "owner": "lead",
+    "note": "Reserved ignored path for actual commit/PR/merge/deployment/live and wrap receipts; do not require a second documentation PR."
+  },
+  "usage": {
+    "tokens": null,
+    "note": "Provider token accounting unavailable. ISO timestamps record elapsed span including waits, not active model time."
+  }
+}

@@ -1,201 +1,30 @@
-import { lazy, Suspense } from "react";
-import HeroStats from "./HeroStats";
-import RideFinder from "./RideFinder";
-import CompanyCards from "./CompanyCards";
-import StateBreakdown from "./StateBreakdown";
-import L4Race from "./L4Race";
-import FirstRide from "./FirstRide";
-import Limits from "./Limits";
-import Myths from "./Myths";
-import SensorStack from "./SensorStack";
-import AVTimeline from "./AVTimeline";
-
-const USMap = lazy(() => import("./USMap"));
-const SafetyChart = lazy(() => import("./SafetyChart"));
-const GrowthChart = lazy(() => import("./GrowthChart"));
-const DisengagementChart = lazy(() => import("./DisengagementChart"));
-
-/** The month this whole page describes. The monthly refresh task moves this one string;
- *  the milestone tag below names a specific event and is dated separately on purpose. */
-const SNAPSHOT_MONTH = "April 2026";
-
-const FOR_WHEN = [
-  {
-    title: "Your first robotaxi ride",
-    body: "what to expect when the car shows up with no one in it, and which service to try first in your city.",
-  },
-  {
-    title: "The dinner-table argument",
-    body: 'a fact-checked answer to "are these things actually safe?" with the real numbers and sources.',
-  },
-  {
-    title: "Watching the buildout",
-    body: "which states allow what, who's racing Waymo, and when the next city is likely to flip on.",
-  },
-  {
-    title: "Cutting through the hype",
-    body: 'Tesla FSD vs. Waymo, L2+ vs. L4, and what "driverless" actually means in 2026.',
-  },
-];
-
-const GLOSSARY = [
-  {
-    term: "Disengagement rate",
-    definition:
-      "How often a human had to override the AV per 1,000 miles. Lower is better — it measures how reliably the system handles real-world conditions without intervention.",
-  },
-  {
-    term: "Driverless miles",
-    definition:
-      "Miles logged with zero safety driver present. The gold standard metric — it proves the system can operate entirely on its own at scale.",
-  },
-  {
-    term: "Level 4 vs L2+",
-    definition:
-      "Level 4 means fully autonomous within a defined area — no human needed. L2+ (like Tesla FSD) still requires a licensed driver ready to take over at any moment.",
-  },
-  {
-    term: "Permit status",
-    definition:
-      "States issue permits in tiers: testing (safety driver required), driverless testing, and commercial deployment. Each tier requires a separate application and safety data review.",
-  },
-];
-
-function DeferredPanelFallback({ full = false }: { full?: boolean }) {
-  return (
-    <div className={`dl-panel${full ? " dl-full" : ""}`} aria-hidden="true">
-      <div className="dl-panel-header">
-        <span className="dl-skeleton dl-skeleton-title" />
-        <span className="dl-skeleton dl-skeleton-meta" />
-      </div>
-      <div className="dl-chart-placeholder" />
-    </div>
-  );
-}
+import { useState } from "react";
+import { CHECKED, RIDE_CITIES, SAFETY } from "../../data/driverless/guide";
 
 export default function DriverlessDashboard() {
-  return (
-    <div className="dl-page">
-      <a href="/" className="dl-back">&larr; stanwood.dev</a>
-
-      {/* Hero image */}
-      <div className="dl-hero-img">
-        <img
-          src="/images/self-driving.webp"
-          alt="Driverless robotaxi waiting at a curb with no one in the driver's seat"
-          loading="eager"
-          decoding="async"
-          width="1456"
-          height="546"
-        />
-        <div className="dl-hero-overlay">
-          <h1 className="dl-hero-overlay-title">Driverless</h1>
-          <span className="dl-hero-overlay-sub">{SNAPSHOT_MONTH.toLowerCase()} snapshot · self-driving by the numbers</span>
-        </div>
-      </div>
-
-      {/* Header */}
-      <header className="dl-header">
-        <p className="dl-subtitle">A snapshot of the autonomous-vehicle landscape as of {SNAPSHOT_MONTH} — fleets, safety data, where you can ride today, and what's coming next.</p>
-      </header>
-
-      {/* Built for moments like */}
-      <section className="dl-forwhen" aria-label="Who this dashboard is for">
-        <p className="dl-forwhen-label">Built for moments like</p>
-        <div className="dl-forwhen-grid">
-          {FOR_WHEN.map((moment, index) => (
-            <div className="dl-forwhen-card" key={moment.title}>
-              <span className="dl-forwhen-num">{String(index + 1).padStart(2, "0")}</span>
-              <p className="dl-forwhen-text"><strong>{moment.title}</strong> <span>— {moment.body}</span></p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Milestone callout */}
-      <div className="dl-milestone">
-        <div className="dl-milestone-tag">April 2026 milestone</div>
-        <p className="dl-milestone-headline">Tesla finally goes driverless in Austin</p>
-        <p className="dl-milestone-body">
-          After years of L2+ "Full Self-Driving" with a human at the wheel, Tesla begins paid Cybercab rides in Austin with no safety driver — its first true Level 4 deployment. Waymo crosses 550K rides/week the same month. Five companies are now operating commercial driverless rides in the US, eight years after Waymo became the first.
-        </p>
-      </div>
-
-      {/* Key context */}
-      <div className="dl-context">
-        <p className="dl-context-label">Reading this dashboard</p>
-        <div className="dl-context-grid">
-          {GLOSSARY.map((entry) => (
-            <div className="dl-context-item" key={entry.term}>
-              <span className="dl-context-term">{entry.term}</span>
-              <span className="dl-context-def">{entry.definition}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Hero stats */}
-      <HeroStats />
-
-      {/* Main grid */}
-      <div className="dl-grid">
-        {/* Ride finder — full width, top of grid */}
-        <RideFinder />
-        {/* Map — full width */}
-        <Suspense fallback={<DeferredPanelFallback full />}>
-          <USMap />
-        </Suspense>
-
-        {/* Safety + Growth side by side */}
-        <Suspense fallback={<DeferredPanelFallback />}>
-          <SafetyChart />
-        </Suspense>
-        <Suspense fallback={<DeferredPanelFallback />}>
-          <GrowthChart />
-        </Suspense>
-
-        {/* Companies — full width */}
-        <CompanyCards />
-
-        {/* First ride walkthrough — full width */}
-        <FirstRide />
-
-        {/* Limits — full width */}
-        <Limits />
-
-        {/* Myths — full width */}
-        <Myths />
-
-        {/* Sensor stack — full width, pairs with Tesla-vs-Waymo angle */}
-        <SensorStack />
-
-        {/* L4 Race — full width */}
-        <L4Race />
-
-        {/* State breakdown — full width */}
-        <StateBreakdown />
-
-        {/* Disengagement + fun facts side by side */}
-        <Suspense fallback={<DeferredPanelFallback full />}>
-          <DisengagementChart />
-        </Suspense>
-
-        {/* AV Timeline — full width */}
-        <AVTimeline />
-      </div>
-
-      {/* Footer */}
-      <footer className="dl-footer">
-        <p>Last updated {SNAPSHOT_MONTH}. All data is a point-in-time snapshot.</p>
-        <p>
-          Sources:{" "}
-          <a href="https://www.nhtsa.gov/laws-regulations/standing-general-order-crash-reporting" target="_blank" rel="noopener noreferrer">NHTSA crash reports</a>,{" "}
-          <a href="https://www.dmv.ca.gov/portal/vehicle-industry-services/autonomous-vehicles/california-autonomous-vehicle-regulations/" target="_blank" rel="noopener noreferrer">California DMV</a>,{" "}
-          <a href="https://www.fhwa.dot.gov/policyinformation/statistics/2023/mv1.cfm" target="_blank" rel="noopener noreferrer">Federal Highway Administration</a>,{" "}
-          <a href="https://www.ncsl.org/transportation/autonomous-vehicles" target="_blank" rel="noopener noreferrer">National Conference of State Legislatures</a>,{" "}
-          <a href="https://waymo.com/safety/impact/" target="_blank" rel="noopener noreferrer">Waymo safety data</a>
-        </p>
-      </footer>
+  const [query, setQuery] = useState("");
+  const cities = RIDE_CITIES.filter(({city,state}) => `${city} ${state}`.toLowerCase().includes(query.trim().toLowerCase()));
+  return <div className="dl-page">
+    <header className="dl-heading"><span className="dl-kicker">Driverless, in the real world</span><h1>Room for<br />one less driver.</h1><p>Where you can ride. What the published numbers say.</p></header>
+    <div className="dl-facts" aria-label="Waymo snapshot">
+      <div><strong>271.3M</strong><span>Waymo rider-only miles<br />through June 2026</span></div>
+      <div><strong>95%</strong><span>fewer serious-injury-or-worse crashes<br />in Waymo’s comparison</span></div>
+      <div><strong>{RIDE_CITIES.length}</strong><span>Waymo service areas<br />listed on {CHECKED}</span></div>
     </div>
-  );
+    <section className="dl-rides" aria-labelledby="dl-rides-title">
+      <div className="dl-section-head"><h2 id="dl-rides-title">Find a ride</h2><a href="https://waymo.com/rides/" target="_blank" rel="noopener noreferrer">Waymo coverage ↗</a></div>
+      <label className="dl-search"><span>City or state</span><input type="search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="Try San Francisco or TX" /></label>
+      <p className="dl-search-count" role="status">{cities.length} {cities.length === 1 ? "service area" : "service areas"}</p>
+      <ul className="dl-city-list">{cities.map(({city,state,uber})=><li key={city}><span>{city} <small>{state}</small></span><a href={uber ? "https://waymo.com/waymo-on-uber/" : "https://waymo.com/rides/"} target="_blank" rel="noopener noreferrer" aria-label={`${city}: ride with ${uber ? "Uber" : "Waymo"}`}>{uber ? "Via Uber" : "Waymo"} ↗</a></li>)}</ul>
+      {!cities.length && <div className="dl-empty"><p>No listed Waymo service area matches that search.</p><button type="button" onClick={()=>setQuery("")}>See all areas</button></div>}
+      <p className="dl-note">Service covers parts of each area. Check your pickup and destination in the provider’s app. Also exploring: <a href="https://zoox.com/" target="_blank" rel="noopener noreferrer">Zoox ↗</a>.</p>
+    </section>
+    <section className="dl-safety" aria-labelledby="dl-safety-title">
+      <div className="dl-section-head"><h2 id="dl-safety-title">A clearer safety picture</h2><span>Waymo · through June 2026</span></div>
+      <p>Reported crash reductions versus human drivers traveling the same distance in comparable operating areas.</p>
+      <ul>{SAFETY.map(({label,reduction})=><li key={label}><div><span>{label}</span><strong>{reduction}% fewer</strong></div><div className="dl-bar" aria-hidden="true"><span style={{width:`${reduction}%`}} /></div></li>)}</ul>
+      <details><summary>What these numbers cover</summary><p>Waymo’s published comparison covers rider-only driving on surface streets, excluding freeways. It is company-reported research within its operating areas; it doesn’t describe every road, situation, or autonomous vehicle.</p><a href="https://waymo.com/safety/impact/" target="_blank" rel="noopener noreferrer">Read the data and methodology ↗</a></details>
+    </section>
+    <footer className="dl-footer">Availability checked {CHECKED}. Sources: <a href="https://waymo.com/rides/">Waymo rides</a> · <a href="https://waymo.com/safety/impact/">Waymo safety impact</a>.</footer>
+  </div>;
 }

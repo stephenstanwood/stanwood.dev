@@ -37,7 +37,8 @@ if (Astro.request.method === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <meta name="theme-color" content="#fffef5" />
-    <title>LI, please — stanwood.dev</title>
+    <title>LinkedIn pile — stanwood.dev</title>
+    <meta name="description" content="Sign in to your private LinkedIn queue." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -55,7 +56,6 @@ if (Astro.request.method === "POST") {
         margin: 0;
         display: grid;
         place-items: center;
-        overflow: hidden;
         background:
           radial-gradient(circle at 15% 12%, rgba(255, 61, 154, 0.18), transparent 31rem),
           radial-gradient(circle at 88% 82%, rgba(46, 184, 255, 0.2), transparent 30rem),
@@ -64,15 +64,6 @@ if (Astro.request.method === "POST") {
         font-family: "Space Mono", monospace;
         padding: 24px;
       }
-      .scribble {
-        position: fixed;
-        font-family: "Permanent Marker", cursive;
-        opacity: 0.17;
-        pointer-events: none;
-        user-select: none;
-      }
-      .scribble.one { top: 9%; left: 7%; font-size: 44px; transform: rotate(-12deg); }
-      .scribble.two { right: 7%; bottom: 9%; font-size: 38px; transform: rotate(8deg); }
       .card {
         position: relative;
         width: min(400px, 100%);
@@ -157,7 +148,6 @@ if (Astro.request.method === "POST") {
       @media (max-width: 480px) {
         .card { padding: 34px 23px 28px; box-shadow: 6px 6px 0 var(--ink); }
         h1 { font-size: 47px; }
-        .scribble { display: none; }
       }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { transition-duration: 0.01ms !important; }
@@ -165,16 +155,14 @@ if (Astro.request.method === "POST") {
     </style>
   </head>
   <body>
-    <span class="scribble one" aria-hidden="true">connect →</span>
-    <span class="scribble two" aria-hidden="true">← follow</span>
     <main class="card">
       <span class="tape" aria-hidden="true"></span>
       <h1>LI</h1>
-      <p class="tagline">the people pile</p>
+      <p class="tagline">the LinkedIn pile</p>
       <p class="fine-print">private working list · nothing gets sent automatically</p>
-      {error && <p class="error" role="alert">nope. wrong tiny password.</p>}
+      {error && <p class="error" role="alert">That password didn’t match.</p>}
       {missingPassword ? (
-        <p class="missing" role="alert">LI_PASSWORD is not configured.</p>
+        <p class="missing" role="alert">Sign-in is temporarily unavailable.</p>
       ) : (
         <form method="post">
           <label for="password">password</label>
