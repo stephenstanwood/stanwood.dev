@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-08T19:10:40.148Z",
+  "lastUpdated": "2026-10-09T01:10:12.854Z",
   "apiSpend": {
     "months": [
       {
@@ -437,14 +437,14 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-08T19:10:40.148Z",
+        "collectedAt": "2026-10-09T01:10:12.854Z",
         "services": {
           "vercel": {
-            "totalCents": 1305,
+            "totalCents": 1335,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 963
+                "cents": 990
               },
               {
                 "name": "Blob Data Transfer",
@@ -456,11 +456,11 @@
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 27
+                "cents": 28
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 17
+                "cents": 18
               },
               {
                 "name": "Web Analytics Events",
@@ -468,7 +468,7 @@
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 12
+                "cents": 13
               },
               {
                 "name": "Blob Advanced Operations",
@@ -498,19 +498,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 4476,
+            "totalCents": 4850,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 2520
+                "cents": 2596
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 1078
+                "cents": 1263
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 878
+                "cents": 991
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
