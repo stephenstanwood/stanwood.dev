@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-09T01:10:12.854Z",
+  "lastUpdated": "2026-10-09T06:10:12.939Z",
   "apiSpend": {
     "months": [
       {
@@ -437,10 +437,10 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-09T01:10:12.854Z",
+        "collectedAt": "2026-10-09T06:10:12.939Z",
         "services": {
           "vercel": {
-            "totalCents": 1335,
+            "totalCents": 1336,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -464,7 +464,7 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 13
+                "cents": 14
               },
               {
                 "name": "Fluid Provisioned Memory",
