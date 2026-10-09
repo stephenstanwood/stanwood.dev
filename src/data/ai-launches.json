@@ -1,5 +1,13 @@
 [
   {
+    "name": "GPT-6 + Intelligent UI",
+    "org": "OpenAI",
+    "date": "2026-10-07",
+    "type": "model",
+    "summary": "Get answers as interactive charts, calculators, forms, and buttons instead of plain text. It is rolling out to every ChatGPT tier, with GPT-6 Sol on paid plans and GPT-6 Luna on Free and Go.",
+    "url": "https://openai.com/index/gpt-6-for-everyone/"
+  },
+  {
     "name": "Claude Haiku 5.5",
     "org": "Anthropic",
     "date": "2026-10-07",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Customize your coding assistant with TypeScript: rewrite prompts, retry tool calls, add buttons, or replace built-in features. Package and share these changes as plugins in the Claude Code CLI and desktop app.",
     "url": "https://claude.com/blog/claude-code-mods"
-  },
-  {
-    "name": "GPT-6.1 Sol",
-    "org": "OpenAI",
-    "date": "2026-09-29",
-    "type": "model",
-    "summary": "Build coding and computer-use agents with near-Astra capability at $2 input and $10 output per million tokens. It is available now in the API, Codex, and ChatGPT Work for paid plans.",
-    "url": "https://openai.com/index/introducing-gpt-6-1-sol/"
   }
 ]
