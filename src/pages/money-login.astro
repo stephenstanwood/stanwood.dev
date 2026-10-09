@@ -33,7 +33,9 @@ if (Astro.request.method === "POST") {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>$$$ — stanwood.dev</title>
+  <title>Money — stanwood.dev</title>
+  <meta name="description" content="Sign in to your spending dashboard." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Mono+One&family=Space+Mono:wght@400;700&display=swap" />
   <style>
@@ -52,14 +54,14 @@ if (Astro.request.method === "POST") {
       border: 3px solid #111;
       box-shadow: 6px 6px 0 #111;
       background: #fff;
-      padding: 40px 36px;
+      padding: 36px 24px;
       width: 100%;
       max-width: 360px;
       text-align: center;
     }
     h1 {
-      font-family: 'Rubik Mono One', sans-serif;
-      font-size: 48px;
+      font-family: 'Permanent Marker', cursive;
+      font-size: clamp(34px, 10vw, 48px);
       line-height: 1;
       background: #ffb938;
       border: 3px solid #111;
@@ -114,7 +116,7 @@ if (Astro.request.method === "POST") {
 </head>
 <body>
   <div class="box">
-    <h1>$$$</h1>
+    <h1>Money</h1>
     {error && <div class="error">wrong password</div>}
     <form method="POST">
       <label for="pw">password</label>

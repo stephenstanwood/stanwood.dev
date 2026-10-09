@@ -401,7 +401,7 @@ export default function SwimWorkout() {
   // When unit changes, reset pace to default for that unit
   const handleUnitChange = (newUnit: "meters" | "yards") => {
     setUnit(newUnit);
-    setPace(PACES[newUnit][0].value); // 1:10 SCY, 1:20 LCM
+    setPace(DEFAULT_PACE[newUnit]);
   };
 
   const generate = useCallback((scroll = true) => {
@@ -481,72 +481,25 @@ export default function SwimWorkout() {
     <>
       {/* ─── Configuration ─────────────────────────────────────────────── */}
       <div className="mt-8 space-y-6 print:hidden">
-        {/* Unit toggle */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
-            Pool
+        <div className="swim-config">
+          <label>Pool
+            <select value={unit} onChange={event => handleUnitChange(event.target.value as "meters" | "yards")}>
+              <option value="yards">Yards</option><option value="meters">Meters</option>
+            </select>
           </label>
-          <div className="flex gap-1 rounded-xl bg-stone-100 p-1 w-fit">
-            {(["yards", "meters"] as const).map((u) => (
-              <button
-                key={u}
-                onClick={() => handleUnitChange(u)}
-                className={`rounded-lg px-5 py-2 text-sm font-semibold transition-all ${
-                  unit === u
-                    ? "bg-white text-teal-700 shadow-sm"
-                    : "text-stone-500 hover:text-stone-700"
-                }`}
-              >
-                {u === "yards" ? "Yards (SCY)" : "Meters (LCM)"}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Duration */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
-            Duration
+          <label>Time
+            <select value={duration} onChange={event => setDuration(Number(event.target.value))}>
+              {DURATIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </select>
           </label>
-          <div className="flex flex-wrap gap-2">
-            {DURATIONS.map((d) => (
-              <button
-                key={d.value}
-                onClick={() => setDuration(d.value)}
-                className={`rounded-xl px-5 py-2.5 text-sm font-semibold transition-all ${
-                  duration === d.value
-                    ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
-                    : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"
-                }`}
-              >
-                {d.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Pace */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
-            Pace per 100{unitLabel}
+          <label>Pace per 100{unitLabel}
+            <select value={pace} onChange={event => setPace(event.target.value)}>
+              {currentPaces.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+            </select>
           </label>
-          <div className="grid grid-cols-4 gap-2">
-            {currentPaces.map((p) => (
-              <button
-                key={p.value}
-                onClick={() => setPace(p.value)}
-                className={`rounded-xl px-4 py-2.5 text-sm font-mono font-semibold transition-all ${
-                  pace === p.value
-                    ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
-                    : "bg-white/70 text-stone-600 border border-stone-200 hover:border-teal-300 hover:text-teal-700"
-                }`}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
         </div>
-
+        <details className="swim-options">
+          <summary>Focus &amp; equipment</summary>
         {/* Focus */}
         <div>
           <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
@@ -557,6 +510,7 @@ export default function SwimWorkout() {
               <button
                 key={f.value}
                 onClick={() => setFocus(f.value)}
+                aria-pressed={focus === f.value}
                 className={`rounded-xl px-4 py-2.5 text-left transition-all ${
                   focus === f.value
                     ? "bg-teal-600 text-white shadow-md shadow-teal-300/40"
@@ -587,6 +541,7 @@ export default function SwimWorkout() {
                 key={key}
                 onClick={() => setEquipment(prev => ({ ...prev, [key]: !prev[key] }))}
                 title={label}
+                aria-pressed={equipment[key]}
                 className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
                   equipment[key]
                     ? "bg-teal-600 text-white shadow-sm"
@@ -600,12 +555,11 @@ export default function SwimWorkout() {
           <p className="mt-1.5 text-[11px] text-stone-400">Uncheck gear you don't have — we'll skip those sets.</p>
         </div>
 
+        </details>
         {/* Recent workouts */}
         {history.length > 0 && (
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-stone-400 mb-2">
-              Recent
-            </label>
+          <details className="swim-recent">
+            <summary>Recent workouts</summary>
             <div className="space-y-1.5">
               {history.map((entry, i) => {
                 const unitLabel = entry.unit === "meters" ? "m" : "y";
@@ -633,23 +587,11 @@ export default function SwimWorkout() {
                 );
               })}
             </div>
-          </div>
+          </details>
         )}
 
-        {/* Generate button */}
-        <button
-          onClick={() => generate()}
-          className="group relative w-full rounded-2xl px-6 py-4 text-lg font-bold text-white shadow-lg shadow-teal-400/30 hover:shadow-xl hover:shadow-teal-400/40 transition-all active:scale-[0.98] overflow-hidden"
-          style={{
-            background: "linear-gradient(135deg, #0d9488, #0891b2, #06b6d4, #0d9488)",
-            backgroundSize: "300% 300%",
-            animation: "gradientShift 6s ease infinite",
-          }}
-        >
-          <span className="relative z-10">
-            {workout ? "New Workout" : "Generate Workout"}
-          </span>
-          <ChevronPattern className="absolute inset-0 w-full h-full text-white opacity-30" />
+        <button onClick={() => generate()} className="swim-generate">
+          {workout ? "New workout" : "Make my workout"}
         </button>
       </div>
 
@@ -657,7 +599,7 @@ export default function SwimWorkout() {
       {workout && (
         <div
           ref={workoutRef}
-          className={`mt-10 print:hidden ${animating ? "animate-fadeIn" : ""}`}
+          className={`swim-result mt-10 print:hidden ${animating ? "animate-fadeIn" : ""}`}
         >
           {/* Workout header card */}
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-700 via-teal-600 to-cyan-600 p-6 sm:p-8 text-white shadow-xl shadow-teal-900/20">

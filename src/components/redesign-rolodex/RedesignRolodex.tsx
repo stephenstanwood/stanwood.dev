@@ -16,9 +16,9 @@ import { pluralize } from "../../lib/text";
 
 export default function RedesignRolodex() {
   // Stable set for SSR/first paint; shuffle on the client after mount to avoid hydration mismatch.
-  const [examples, setExamples] = useState<string[]>(() => defaultExamples(4));
+  const [examples, setExamples] = useState<string[]>(() => defaultExamples(3));
   useEffect(() => {
-    setExamples(pickExamples(4));
+    setExamples(pickExamples(3));
   }, []);
 
   // Check for ?url= query param on mount
@@ -122,20 +122,22 @@ export default function RedesignRolodex() {
       <div className="rr-form-container rr-fade-in">
         <h1 className="rr-title">Redesign Rolodex</h1>
         <p className="rr-subtitle">
-          Paste a URL. Spin through alternate-universe redesigns.
+          A fresh look for any website.
         </p>
 
         <form className="rr-form" onSubmit={handleSubmit}>
           <div className="rr-input-wrap">
             <input
               type="text"
+              inputMode="url"
+              autoCapitalize="none"
+              spellCheck={false}
               className="rr-input"
               aria-label="Website URL to redesign"
               placeholder="any website..."
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={handleKeyDown}
-              autoFocus
             />
             {showGhost && (
               <span className="rr-ghost" aria-hidden>
@@ -154,11 +156,6 @@ export default function RedesignRolodex() {
         </form>
 
         <WeirdnessModeToggle value={mode} onChange={setMode} />
-
-        <p className="rr-helper">
-          Best for landing pages, products, portfolios, tools, and marketing
-          sites.
-        </p>
 
         {stream.phase === "error" && stream.error && (
           <div className="rr-error">

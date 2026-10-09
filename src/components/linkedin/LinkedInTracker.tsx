@@ -84,15 +84,9 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
     [dailyBatchPositions, people],
   );
   const dailyBatchSize = dailyBatchPeople.length;
-  let queueRule: string;
-  if (batch !== "today") {
-    queueRule =
-      "every card says connect, follow, or organization. your checks and passes teach the next overnight ranking.";
-  } else if (initialDailyBatch.weekendBreak) {
-    queueRule = `weekend break — no new batch until monday. leftovers from the last weekday stay open (${dailyBatchSize} in this snapshot).`;
-  } else {
-    queueRule = `today's ${dailyBatchSize} — the highest-ranked connections, people follows, and organization follows at the overnight reset. no refills until tomorrow (weekends stay empty of new batches).`;
-  }
+  const queueRule = initialDailyBatch.weekendBreak
+    ? "Weekend break. New picks arrive Monday; your remaining contacts stay here."
+    : "New picks arrive each weekday morning.";
   const dailyBatchRemaining = dailyBatchPeople.filter(
     (person) => !person.actioned && !person.dismissed,
   ).length;
@@ -271,15 +265,15 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
 
       <header className="li-masthead">
         <div className="li-title-wrap">
-          <span className="li-title" aria-hidden="true">LI</span>
           <div>
             <h1>the LinkedIn pile</h1>
-            <p>the 50 best next moves, all in one place.</p>
+            <p>Today’s connections, one at a time.</p>
           </div>
         </div>
-        <div className="li-rule-sticker">manual clicks only ✋</div>
+
       </header>
 
+      <details className="li-progress-details"><summary>{poolRemaining} left in the pool · {poolReviewed} reviewed</summary>
       <section className="li-scoreboard" aria-label="Overall progress">
         <div className="li-score-main">
           <span>left in the pool</span>
@@ -296,7 +290,8 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
         </div>
       </section>
 
-      <div className="li-queue-rule">{queueRule}</div>
+      <p className="li-queue-rule">{queueRule}</p>
+      </details>
 
       <section className="li-controls" aria-label="Queue filters">
         <label className="li-search">
@@ -309,6 +304,9 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
             onChange={(event) => { setQuery(event.target.value); setVisibleLimit(100); }}
           />
         </label>
+        <details className="li-filter-details">
+          <summary>Filters</summary>
+          <div className="li-filter-grid">
         <label>
           <span>batch</span>
           <select aria-label="batch" value={batch} onChange={(event) => { setBatch(event.target.value); setVisibleLimit(100); }}>
@@ -371,6 +369,8 @@ export default function LinkedInTracker({ initialPeople, initialDailyBatch }: Pr
             <option value="all">everything</option>
           </select>
         </label>
+          </div>
+        </details>
       </section>
 
       <div className="li-viewbar">

@@ -106,12 +106,8 @@ export default function TodayInCampbell() {
   }
 
   return (
-    <section className="cb-today" aria-label="Today in Campbell">
-      <div className="cb-today-head">
-        <span>{formatEventDay(referenceDay)}</span>
-        <h2>Today in Campbell</h2>
-        <p>Events, public notices, and the next city record worth opening.</p>
-      </div>
+    <details className="cb-today">
+      <summary>Today at a glance <span>{formatEventDay(referenceDay)}</span></summary>
 
       <div className="cb-today-grid">
         <article className="cb-today-card">
@@ -189,6 +185,6 @@ export default function TodayInCampbell() {
           ))}
         </div>
       )}
-    </section>
+    </details>
   );
 }

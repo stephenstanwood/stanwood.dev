@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="TL;DR — stanwood.dev"
-  description="Drop a long PDF and get a plain-English summary in seconds. Contracts, research papers, legal docs — skip the jargon and get the point. Free, private, no sign-up."
+  description="Upload a PDF up to 3 MB. Get a plain-English paragraph, bullet points, or a review of possible red flags."
   slug="tldr"
   favicon="/favicon-tldr.svg"
   themeColor="#080a0f"
@@ -14,6 +14,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <Fragment slot="head">
     <style>
+
+
       body {
         font-family: 'Inter', system-ui, sans-serif;
         background: #080a0f;
@@ -24,74 +26,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         -moz-osx-font-smoothing: grayscale;
       }
 
-      /* subtle noise overlay */
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        opacity: 0.035;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 0;
-      }
-
-      /* ambient glow from hero */
-      body::after {
-        content: '';
-        position: fixed;
-        top: -20%;
-        left: 10%;
-        width: 80%;
-        height: 50%;
-        background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.06) 0%, rgba(74, 222, 128, 0.03) 40%, transparent 70%);
-        pointer-events: none;
-        z-index: 0;
-      }
-
       .tldr-main { position: relative; z-index: 1; }
-
-      /* hero banner */
-      .hero-banner {
-        position: relative;
-        width: 100%;
-        height: 220px;
-        border-radius: 1rem;
-        overflow: hidden;
-        margin-top: 1.5rem;
-        box-shadow: 0 0 30px rgba(0, 212, 255, 0.1), 0 0 60px rgba(74, 222, 128, 0.05);
-        border: 1px solid rgba(0, 212, 255, 0.1);
-      }
-      .hero-banner img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-      .hero-banner::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 60%;
-        background: linear-gradient(to top, #080a0f, transparent);
-        pointer-events: none;
-      }
-      .hero-banner::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.015) 2px, rgba(0, 212, 255, 0.015) 4px);
-        pointer-events: none;
-        z-index: 1;
-      }
-      @media (min-width: 640px) {
-        .hero-banner { height: 280px; }
-      }
-
-      .title-glow {
-        text-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.1);
-      }
 
       .drop-zone {
         transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, transform 0.3s ease;
@@ -108,8 +43,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         box-shadow: 0 0 40px rgba(0, 212, 255, 0.2), 0 0 60px rgba(74, 222, 128, 0.1), inset 0 0 40px rgba(0, 212, 255, 0.05);
         transform: scale(1.02);
       }
-
-      /* compact drop zone when shown after result */
       .drop-zone.compact {
         padding-top: 2rem;
         padding-bottom: 2rem;
@@ -117,15 +50,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       .drop-zone.compact svg {
         height: 1.5rem;
         width: 1.5rem;
-      }
-
-      /* pulsing glow on idle */
-      @keyframes pulseGlow {
-        0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.05); }
-        50% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.12); }
-      }
-      .drop-zone:not(.dragover) {
-        animation: pulseGlow 3s ease-in-out infinite;
       }
 
       .fade-in {
@@ -136,54 +60,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         to   { opacity: 1; transform: translateY(0); }
       }
 
-      /* terminal cursor blink */
-      @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-      }
-      .terminal-cursor {
-        display: inline-block;
-        width: 2px;
-        height: 1em;
-        background: #00D4FF;
-        margin-left: 2px;
-        vertical-align: text-bottom;
-        animation: blink 0.8s step-end infinite;
-        box-shadow: 0 0 6px rgba(0, 212, 255, 0.6);
-      }
-
       .mono { font-family: 'JetBrains Mono', monospace; }
-
-      /* typewriter title */
-      .typewriter-title {
-        display: inline;
-      }
-      .typewriter-title .char {
-        opacity: 0;
-      }
-      .typewriter-title .char.visible {
-        opacity: 1;
-      }
-
-      /* progress bar */
-      .progress-track {
-        height: 4px;
-        background: #1a1a2e;
-        border-radius: 2px;
-        overflow: hidden;
-        width: 100%;
-        max-width: 280px;
-      }
-      .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #00D4FF, #4ADE80);
-        border-radius: 2px;
-        transition: width 0.3s ease-out;
-        width: 0%;
-        box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
-      }
-
-      /* format toggle */
       .format-toggle {
         display: inline-flex;
         border: 1px solid rgba(0, 212, 255, 0.15);
@@ -207,8 +84,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         color: #00D4FF;
         background: rgba(0, 212, 255, 0.08);
       }
-
-      /* bullet summary list */
       .summary-bullets {
         list-style: none;
         padding: 0;
@@ -232,8 +107,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         font-size: 16px;
         line-height: 1.45;
       }
-
-      /* red-flag list */
       .summary-flags {
         list-style: none;
         padding: 0;
@@ -286,228 +159,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         line-height: 1.55;
       }
 
-      /* ── How it works / privacy ── */
-      .tldr-how {
-        margin-top: 28px;
-      }
-      .tldr-how-eyebrow {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 6px;
-      }
-      .tldr-how-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #4ADE80;
-      }
-      .tldr-how-tag {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #71717A;
-        padding: 2px 8px;
-        border: 1px solid #1a1f2e;
-        border-radius: 4px;
-      }
-      .tldr-how-intro {
-        font-size: 13px;
-        line-height: 1.6;
-        color: #a1a1aa;
-        margin: 0 0 16px;
-        max-width: 520px;
-      }
-      .tldr-how-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      @media (max-width: 640px) {
-        .tldr-how-grid { grid-template-columns: 1fr; }
-      }
-      .tldr-how-card {
-        position: relative;
-        background: #0d1117;
-        border: 1px solid #1a1f2e;
-        border-left: 3px solid rgba(74, 222, 128, 0.55);
-        border-radius: 10px;
-        padding: 14px 16px 13px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .tldr-how-step {
-        position: absolute;
-        top: 10px;
-        right: 12px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        color: #3a3f52;
-      }
-      .tldr-how-title {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: #4ADE80;
-        margin: 0;
-        padding-right: 28px;
-      }
-      .tldr-how-body {
-        font-size: 13px;
-        line-height: 1.55;
-        color: #d4d4d8;
-        margin: 0;
-      }
-      .tldr-how-body strong {
-        color: #E4E4E7;
-        font-weight: 600;
-      }
-      .tldr-how-fine {
-        margin-top: 14px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px 14px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11px;
-        color: #71717A;
-      }
-      .tldr-how-fine-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-      }
-      .tldr-how-fine-item::before {
-        content: '';
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: #3a3f52;
-        flex-shrink: 0;
-      }
-
-      /* ── Red flags, decoded ── */
-      .tldr-decode {
-        margin-top: 64px;
-        padding-top: 40px;
-        border-top: 1px solid #1a1f2e;
-      }
-      .tldr-decode-eyebrow {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 8px;
-      }
-      .tldr-decode-label {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: #fca5a5;
-      }
-      .tldr-decode-tag {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #71717A;
-        padding: 2px 8px;
-        border: 1px solid #1a1f2e;
-        border-radius: 4px;
-      }
-      .tldr-decode-intro {
-        font-size: 13px;
-        line-height: 1.6;
-        color: #a1a1aa;
-        margin: 0 0 22px;
-        max-width: 520px;
-      }
-      .tldr-decode-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-      }
-      @media (max-width: 640px) {
-        .tldr-decode-grid { grid-template-columns: 1fr; }
-      }
-      .tldr-decode-card {
-        background: #0d1117;
-        border: 1px solid #1a1f2e;
-        border-left: 3px solid rgba(239, 68, 68, 0.55);
-        border-radius: 10px;
-        padding: 14px 16px 13px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-      .tldr-decode-head {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .tldr-decode-emoji {
-        font-size: 16px;
-        line-height: 1;
-        flex-shrink: 0;
-      }
-      .tldr-decode-name {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12.5px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: #fca5a5;
-      }
-      .tldr-decode-what {
-        font-size: 13px;
-        line-height: 1.55;
-        color: #E4E4E7;
-        margin: 0;
-      }
-      .tldr-decode-why {
-        font-size: 12px;
-        line-height: 1.55;
-        color: #a1a1aa;
-        margin: 0;
-      }
-      .tldr-decode-trigger {
-        font-size: 11px;
-        line-height: 1.5;
-        color: #71717A;
-        margin: 4px 0 0;
-        padding-top: 8px;
-        border-top: 1px dashed #1a1f2e;
-        font-family: 'JetBrains Mono', monospace;
-      }
-      .tldr-decode-trigger-label {
-        display: inline-block;
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: #fca5a5;
-        margin-right: 8px;
-      }
-      .tldr-decode-foot {
-        margin-top: 18px;
-        font-size: 11px;
-        font-family: 'JetBrains Mono', monospace;
-        color: #3a3f52;
-        line-height: 1.6;
-      }
+      .tldr-note { color: #a1a1aa; font-size: 12px; line-height: 1.7; margin-top: 24px; max-width: 58ch; }
+      .format-btn { min-height: 44px; color: #a1a1aa; }
+      .drop-zone:hover { border-color: #00d4ff; }
 
 
-    </style>
+</style>
   </Fragment>
 
     <div class="tldr-main mx-auto max-w-2xl px-6 pt-16 pb-24">
@@ -516,68 +173,23 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <a href="/" class="retro-back">&larr; stanwood.dev</a>
       </div>
 
-      <!-- Hero -->
-      <div class="hero-banner">
-        <img src="/images/tldr.webp" alt="Glowing stack of compressed pages" loading="lazy" decoding="async" />
-      </div>
-
       <!-- Header -->
       <header class="mt-8">
         <h1 class="text-5xl font-bold tracking-tight text-white mono">
-          <span id="typewriter" class="typewriter-title title-glow"><span class="char">T</span><span class="char">L</span><span class="char">;</span><span class="char">D</span><span class="char">R</span></span><span id="cursor" class="terminal-cursor"></span>
+          TL;DR
         </h1>
         <p class="mt-4 text-[#a1a1aa] leading-relaxed max-w-lg">
-          You got a long PDF and you don't want to read it. Same.
-          Drop it here and get the short version &mdash; or scan it for
-          red flags before you sign anything.
+          A long PDF. The short version.
         </p>
       </header>
 
-      <!-- How it works / privacy story -->
-      <section class="tldr-how" aria-label="How it works and what happens to your file">
-        <div class="tldr-how-eyebrow">
-          <span class="tldr-how-label">How it works</span>
-          <span class="tldr-how-tag">no sign-up · no storage</span>
-        </div>
-        <p class="tldr-how-intro">
-          Your PDF might be a lease, a job offer, or a contract you'd rather no one else read. Here's the whole path it takes when you drop it — four stops, then it's gone.
-        </p>
-        <div class="tldr-how-grid">
-          <div class="tldr-how-card">
-            <span class="tldr-how-step">01</span>
-            <p class="tldr-how-title">Stays in your browser</p>
-            <p class="tldr-how-body">When you drop a file, it loads into <strong>this tab</strong> as base64. No upload happens yet, no copy hits a server. Close the tab and it's already forgotten.</p>
-          </div>
-          <div class="tldr-how-card">
-            <span class="tldr-how-step">02</span>
-            <p class="tldr-how-title">One call to Claude</p>
-            <p class="tldr-how-body">The PDF is sent to <strong>Anthropic's API</strong> with a single prompt — paragraph, bullets, or red flags. Anthropic's API terms say it isn't kept for model training.</p>
-          </div>
-          <div class="tldr-how-card">
-            <span class="tldr-how-step">03</span>
-            <p class="tldr-how-title">Summary comes back</p>
-            <p class="tldr-how-body">A short answer streams back through the page — usually in <strong>5–15 seconds</strong>. You can copy it, download it as text, or just close the tab. Nothing waits for you.</p>
-          </div>
-          <div class="tldr-how-card">
-            <span class="tldr-how-step">04</span>
-            <p class="tldr-how-title">Then it's gone</p>
-            <p class="tldr-how-body">stanwood.dev <strong>never stores</strong> the PDF, the summary, your IP, or any account. There's no database to leak from — because there's no database.</p>
-          </div>
-        </div>
-        <div class="tldr-how-fine">
-          <span class="tldr-how-fine-item">25 MB max</span>
-          <span class="tldr-how-fine-item">text PDFs work best — scanned pages need OCR first</span>
-          <span class="tldr-how-fine-item">not legal advice — run anything binding past a human too</span>
-        </div>
-      </section>
-
       <!-- Format toggle -->
       <div class="mt-8 flex items-center gap-3 flex-wrap">
-        <span class="text-xs text-[#3a3f52] mono uppercase tracking-widest">output</span>
+        <span class="text-xs text-[#a1a1aa] mono uppercase tracking-widest">output</span>
         <div class="format-toggle" role="group" aria-label="Summary format">
-          <button class="format-btn active" data-format="paragraph" id="btnParagraph">paragraph</button>
-          <button class="format-btn" data-format="bullets" id="btnBullets">bullets</button>
-          <button class="format-btn" data-format="red-flags" id="btnRedFlags">🚩 red flags</button>
+          <button class="format-btn active" aria-pressed="true" data-format="paragraph" id="btnParagraph">paragraph</button>
+          <button class="format-btn" aria-pressed="false" data-format="bullets" id="btnBullets">bullets</button>
+          <button class="format-btn" aria-pressed="false" data-format="red-flags" id="btnRedFlags">🚩 red flags</button>
         </div>
       </div>
 
@@ -585,7 +197,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <section id="uploadSection" class="mt-6">
         <div
           id="dropZone"
-          class="drop-zone relative flex flex-col items-center justify-center rounded-2xl bg-[#0d1117] px-8 py-20 text-center cursor-pointer"
+          class="drop-zone relative flex flex-col items-center justify-center rounded-2xl bg-[#0d1117] px-6 py-12 text-center cursor-pointer"
         >
           <div id="uploadPrompt">
             <svg class="mx-auto h-10 w-10 text-[#1e3a4a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -594,19 +206,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             <p class="mt-4 text-sm font-medium text-[#E4E4E7]">
               Drop a PDF here, or click to upload.
             </p>
-            <p class="mt-1 text-xs text-[#71717A]">
-              Sent to AI to summarize, then discarded.
+            <p class="mt-1 text-xs text-[#a1a1aa]">
+              Choose a PDF to get started.
             </p>
           </div>
 
           <!-- Loading state (hidden by default) -->
           <div id="loadingState" class="hidden">
-            <p id="fileName" class="text-xs text-[#71717A] mono rounded-full bg-[#131a24] px-3 py-1 inline-block"></p>
+            <p id="fileName" class="text-xs text-[#a1a1aa] mono rounded-full bg-[#131a24] px-3 py-1 inline-block"></p>
             <div class="mt-4 flex flex-col items-center gap-2">
-              <div class="progress-track">
-                <div id="progressFill" class="progress-fill"></div>
-              </div>
-              <span id="progressLabel" class="text-xs text-[#71717A] mono">Reading...</span>
+              <span class="text-sm text-[#a1a1aa]" role="status">Reading your PDF…</span>
             </div>
           </div>
 
@@ -629,18 +238,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 <h2 id="resultLabel" class="text-xs font-semibold uppercase tracking-widest text-[#4ADE80] mono">
                   Summary
                 </h2>
-                <span id="wordCount" class="text-[10px] text-[#3a3f52] mono"></span>
+                <span id="wordCount" class="text-[10px] text-[#a1a1aa] mono"></span>
               </div>
               <div class="flex items-center gap-1">
                 <button
                   id="copyBtn"
-                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#71717A] hover:text-[#00D4FF] hover:bg-[#131a24] transition-colors mono"
+                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#a1a1aa] hover:text-[#00D4FF] hover:bg-[#131a24] transition-colors mono"
                 >
                   copy
                 </button>
                 <button
                   id="downloadBtn"
-                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#71717A] hover:text-[#4ADE80] hover:bg-[#131a24] transition-colors mono"
+                  class="rounded-lg px-3 py-1.5 text-xs font-medium text-[#a1a1aa] hover:text-[#4ADE80] hover:bg-[#131a24] transition-colors mono"
                   title="Download as .txt"
                 >
                   download
@@ -657,253 +266,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         <p class="text-sm text-[#f87171] text-center mono"></p>
       </div>
 
-      <!-- Red flags, decoded -->
-      <section class="tldr-decode" aria-label="Common red flag categories">
-        <div class="tldr-decode-eyebrow">
-          <span class="tldr-decode-label">🚩 Red flags, decoded</span>
-          <span class="tldr-decode-tag">9 things to scan for</span>
-        </div>
-        <p class="tldr-decode-intro">
-          Most contracts hide the same handful of moves. Once you can name them, a 40-page PDF skims in five minutes — and the 🚩 output below makes a lot more sense.
-        </p>
-
-        <div class="tldr-decode-grid">
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">🔁</span>
-              <span class="tldr-decode-name">Auto-renewal</span>
-            </div>
-            <p class="tldr-decode-what">Locks you into another full term unless you cancel in a specific window — usually with a price hike on the second cycle.</p>
-            <p class="tldr-decode-why">The default isn't "ends when the term ends." The default is "rolls over forever, paid by you."</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"shall automatically renew", "30 days written notice", "evergreen"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">⚖️</span>
-              <span class="tldr-decode-name">Forced arbitration</span>
-            </div>
-            <p class="tldr-decode-what">You agree disputes go to a private arbitrator, not court — and you waive the right to join class actions.</p>
-            <p class="tldr-decode-why">Almost every consumer ToS has this now. It strips your single biggest piece of leverage when something goes wrong.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"binding arbitration", "class action waiver", "JAMS / AAA rules"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">🚫</span>
-              <span class="tldr-decode-name">Non-compete / non-solicit</span>
-            </div>
-            <p class="tldr-decode-what">Restricts where you can work, who you can hire, or which clients you can call after the contract ends.</p>
-            <p class="tldr-decode-why">Often unenforceable, often signed anyway. Worth flagging in any job offer, contractor agreement, or partnership doc.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"shall not engage", "for a period of 12 months", "directly or indirectly"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">💡</span>
-              <span class="tldr-decode-name">IP assignment</span>
-            </div>
-            <p class="tldr-decode-what">Anything you make on company time — and sometimes off it — belongs to the company. Side projects can get swept in.</p>
-            <p class="tldr-decode-why">Read this once before signing any employment offer. The carve-out for personal projects is the part that matters.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"work for hire", "all rights, title, and interest", "prior inventions schedule"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">🛡️</span>
-              <span class="tldr-decode-name">Liability waiver</span>
-            </div>
-            <p class="tldr-decode-what">You agree not to sue for injury, damage, or losses — sometimes including ones caused by their own negligence.</p>
-            <p class="tldr-decode-why">Standard for gyms, tours, and rentals. The line to scrutinize is whether "gross negligence" is also waived.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"hold harmless", "release from any and all claims", "assumption of risk"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">✏️</span>
-              <span class="tldr-decode-name">Unilateral changes</span>
-            </div>
-            <p class="tldr-decode-what">The other side can rewrite the terms whenever they want. Your only remedy is usually to stop using the service.</p>
-            <p class="tldr-decode-why">Means the deal you signed is not the deal you have. Pricing, scope, and policies can all shift mid-flight.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"may modify these terms at any time", "continued use constitutes acceptance"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">💸</span>
-              <span class="tldr-decode-name">Hidden fees</span>
-            </div>
-            <p class="tldr-decode-what">Annual maintenance charges, "facility upgrade" fees, processing fees, late fees stacked with grace periods that don't actually grant grace.</p>
-            <p class="tldr-decode-why">Buried deep, never mentioned at signup. Add them all up and the headline price is a polite fiction.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"administrative fee", "subject to applicable fees", "in addition to"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">🔓</span>
-              <span class="tldr-decode-name">Cancellation friction</span>
-            </div>
-            <p class="tldr-decode-what">Must cancel in writing, by mail, with 30+ days notice, in a 14-day window — calls and emails don't count.</p>
-            <p class="tldr-decode-why">The harder it is to leave, the more revenue is captured by people who try and give up. Pair this with auto-renewal and you've got the whole gym-membership trap.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"written notice via certified mail", "must be received by", "no exceptions"</p>
-          </article>
-
-          <article class="tldr-decode-card">
-            <div class="tldr-decode-head">
-              <span class="tldr-decode-emoji" aria-hidden="true">📡</span>
-              <span class="tldr-decode-name">Broad data sharing</span>
-            </div>
-            <p class="tldr-decode-what">"We may share your information with partners and affiliates" — a phrase that covers ad networks, data brokers, and anyone they're paid to share with.</p>
-            <p class="tldr-decode-why">"We don't sell your data" can be technically true while the same data flows to third parties through ad-tech sharing instead.</p>
-            <p class="tldr-decode-trigger"><span class="tldr-decode-trigger-label">trigger</span>"affiliates and business partners", "for marketing purposes", "service providers"</p>
-          </article>
-        </div>
-
-        <p class="tldr-decode-foot">Drop a contract above and the 🚩 mode will surface the ones that actually appear in your doc — by name, with the exact language they used.</p>
-      </section>
-
-      <!-- Examples -->
-      <section class="mt-16 pt-10 border-t border-[#1a1f2e]">
-        <p class="text-xs font-semibold uppercase tracking-widest text-[#3a3f52] mono mb-8 text-center">example outputs</p>
-        <div class="flex flex-col gap-5">
-
-          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#00D4FF]">Residential Lease</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 14 pages · paragraph</span>
-            </div>
-            <p class="text-sm leading-relaxed text-[#a1a1aa]">12-month lease for a 2BR apartment at $2,400/mo. Rent is due the 1st; $75 late fee after the 5th. Security deposit is one month ($2,400), returned within 21 days of move-out minus documented deductions. No pets, no subletting without written approval. Landlord gives 24-hour notice before entry except emergencies. Tenant pays electricity and internet; landlord covers water and trash. Early termination requires 60 days notice and forfeits the deposit.</p>
-          </div>
-
-          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#4ADE80]">Privacy Policy</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 8 pages · bullets</span>
-            </div>
-            <ul class="summary-bullets">
-              <li>The service collects your name, email, usage data, and device info at signup and during normal app use.</li>
-              <li>Data is used for service delivery, product improvement, and targeted advertising via third-party ad partners.</li>
-              <li>Information is shared with analytics vendors, payment processors, and a vaguely defined "business partners" category.</li>
-              <li>You can request data deletion, but it may take up to 30 days and won't cover data already shared with third parties.</li>
-              <li>California residents have additional rights under CCPA; no data is sold outright, but ad-partner sharing achieves roughly the same result.</li>
-            </ul>
-          </div>
-
-          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#fca5a5]">Gym Membership</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 9 pages · 🚩 red flags</span>
-            </div>
-            <ul class="summary-flags">
-              <li>
-                <span class="flag-icon">🚩</span>
-                <div class="flag-body">
-                  <span class="flag-label">Auto-renewal trap</span>
-                  <span class="flag-text">Membership rolls over to month-to-month at a 12% rate hike unless you mail a written cancellation 30 days before term ends — calls and emails don't count.</span>
-                </div>
-              </li>
-              <li>
-                <span class="flag-icon">🚩</span>
-                <div class="flag-body">
-                  <span class="flag-label">Annual maintenance fee</span>
-                  <span class="flag-text">A $59 "facility upkeep" charge hits every September on top of monthly dues — buried on page 6, not mentioned at sign-up.</span>
-                </div>
-              </li>
-              <li>
-                <span class="flag-icon">🚩</span>
-                <div class="flag-body">
-                  <span class="flag-label">Early-cancel penalty</span>
-                  <span class="flag-text">Leaving before month 12 forfeits any prepaid balance and adds a flat $150 fee, even with a documented medical reason.</span>
-                </div>
-              </li>
-              <li>
-                <span class="flag-icon">🚩</span>
-                <div class="flag-body">
-                  <span class="flag-label">Liability waiver</span>
-                  <span class="flag-text">You waive the right to sue for injuries — including those caused by faulty equipment or staff negligence. Disputes go to arbitration in their home county.</span>
-                </div>
-              </li>
-              <li>
-                <span class="flag-icon">🚩</span>
-                <div class="flag-body">
-                  <span class="flag-label">Personal-trainer auto-charge</span>
-                  <span class="flag-text">A free intro session enrolls you in a $89/session monthly package unless you opt out in writing within 7 days.</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#a78bfa]">Research Paper</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 22 pages · paragraph</span>
-            </div>
-            <p class="text-sm leading-relaxed text-[#a1a1aa]">Researchers tested whether spaced repetition flashcard apps improve long-term retention versus massed practice (cramming) for vocabulary learning. 120 college students studied 200 foreign language words over 4 weeks using one of three methods. Spaced repetition users retained 67% of words at the 6-month follow-up vs. 41% for massed practice and 38% for passive re-reading. The effect was strongest for low-frequency words. Conclusion: spaced repetition significantly outperforms cramming for long-term retention, especially for harder material. Limitations: study used a controlled vocabulary list, not naturalistic learning conditions.</p>
-          </div>
-
-          <div class="rounded-xl bg-[#0d1117] border border-[#1a1f2e] px-6 py-5">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-[10px] font-bold uppercase tracking-widest mono text-[#f59e0b]">Employment Offer</span>
-              <span class="text-[10px] text-[#3a3f52] mono">· 6 pages · bullets</span>
-            </div>
-            <ul class="summary-bullets">
-              <li>Full-time software engineer role at $145k base salary plus 0.15% equity with a 4-year vest and 1-year cliff.</li>
-              <li>Benefits include 15 days PTO, standard health/dental/vision, and a flexible start date within 30 days.</li>
-              <li>Non-compete restricts working for direct competitors for 12 months post-employment.</li>
-              <li>Arbitration clause waives your right to participate in class action lawsuits.</li>
-              <li>IP assignment covers all work built on company time or with company resources — side projects require written approval.</li>
-            </ul>
-          </div>
-
-        </div>
-        <p class="text-xs text-[#3a3f52] mono text-center mt-6">works on contracts, papers, policies, reports, manuals — anything text-heavy</p>
-      </section>
+      <p class="tldr-note">PDFs up to 3 MB. Sent to Anthropic for processing; this app doesn’t save your file. AI can miss details — check the original before signing.</p>
     </div>
 
     <script>
-      async function sleep(ms: number) {
-        return new Promise(r => setTimeout(r, ms));
-      }
-
-      // Typewriter animation — type, pause, delete, repeat
-      (() => {
-        const chars = document.querySelectorAll<HTMLSpanElement>('#typewriter .char');
-
-        async function typeAll() {
-          for (let i = 0; i < chars.length; i++) {
-            chars[i].classList.add('visible');
-            await sleep(150);
-          }
-        }
-
-        async function deleteAll() {
-          for (let i = chars.length - 1; i >= 0; i--) {
-            chars[i].classList.remove('visible');
-            await sleep(100);
-          }
-        }
-
-        async function loop() {
-          await sleep(400);
-          while (true) {
-            await typeAll();
-            await sleep(2500);
-            await deleteAll();
-            await sleep(800);
-          }
-        }
-
-        loop();
-      })();
-
       const dropZone = document.getElementById("dropZone")!;
       const fileInput = document.getElementById("fileInput") as HTMLInputElement;
       const uploadPrompt = document.getElementById("uploadPrompt")!;
       const uploadSection = document.getElementById("uploadSection")!;
       const loadingState = document.getElementById("loadingState")!;
       const fileNameEl = document.getElementById("fileName")!;
-      const progressFill = document.getElementById("progressFill")!;
-      const progressLabel = document.getElementById("progressLabel")!;
       const resultSection = document.getElementById("resultSection")!;
       const summaryContent = document.getElementById("summaryContent")!;
       const copyBtn = document.getElementById("copyBtn")!;
@@ -915,7 +287,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       const btnBullets = document.getElementById("btnBullets")!;
       const btnRedFlags = document.getElementById("btnRedFlags")!;
 
-      let progressInterval: ReturnType<typeof setInterval> | null = null;
       type Format = "paragraph" | "bullets" | "red-flags";
       let selectedFormat: Format = "paragraph";
       let lastSummaryText = "";
@@ -930,6 +301,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         selectedFormat = f;
         (Object.keys(formatBtns) as Format[]).forEach((key) => {
           formatBtns[key].classList.toggle("active", key === f);
+          formatBtns[key].setAttribute("aria-pressed", String(key === f));
         });
       }
 
@@ -946,46 +318,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         errorMsg.classList.add("hidden");
       }
 
-      function startProgress() {
-        let pct = 0;
-        progressFill.style.width = "0%";
-        progressLabel.textContent = "Reading PDF...";
-
-        progressInterval = setInterval(() => {
-          if (pct < 30) {
-            pct += Math.random() * 8 + 2;           // fast to 30%
-          } else if (pct < 60) {
-            pct += Math.random() * 3 + 0.5;         // medium to 60%
-          } else if (pct < 85) {
-            pct += Math.random() * 1.5 + 0.2;       // slow to 85%
-          } else if (pct < 95) {
-            pct += Math.random() * 0.4 + 0.05;      // crawl to 95%
-          }
-          pct = Math.min(pct, 95);
-          progressFill.style.width = `${pct}%`;
-
-          // update label at milestones
-          if (pct > 25 && pct < 55) {
-            progressLabel.textContent = "Analyzing content...";
-          } else if (pct >= 55 && pct < 80) {
-            progressLabel.textContent = "Summarizing...";
-          } else if (pct >= 80) {
-            progressLabel.textContent = "Almost done...";
-          }
-        }, 300);
-      }
-
-      function stopProgress(success: boolean) {
-        if (progressInterval) {
-          clearInterval(progressInterval);
-          progressInterval = null;
-        }
-        if (success) {
-          progressFill.style.width = "100%";
-          progressLabel.textContent = "Done!";
-        }
-      }
-
       function setLoading(loading: boolean, name = "") {
         if (loading) {
           uploadPrompt.classList.add("hidden");
@@ -998,7 +330,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           // Move upload section back to top
           const header = document.querySelector("header")!;
           header.after(uploadSection);
-          startProgress();
         } else {
           uploadPrompt.classList.remove("hidden");
           loadingState.classList.add("hidden");
@@ -1026,8 +357,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           return;
         }
 
-        if (file.size > 25 * 1024 * 1024) {
-          showError("That file is too large (max 25 MB).");
+        if (file.size > 3 * 1024 * 1024) {
+          showError("That file is too large (max 3 MB).");
           return;
         }
 
@@ -1048,10 +379,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             throw new Error(data.error || "Something went wrong");
           }
 
-          stopProgress(true);
-
-          // Short delay so user sees 100%
-          await sleep(400);
 
           setLoading(false);
 
@@ -1147,7 +474,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           resultSection.after(uploadSection);
           dropZone.classList.add("compact");
         } catch (err) {
-          stopProgress(false);
           setLoading(false);
           showError(
             err instanceof Error && err.message

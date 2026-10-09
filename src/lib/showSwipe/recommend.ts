@@ -215,6 +215,7 @@ export async function fetchNextBatch(
   const sourceOrder = [plan[chosenIdx], ...plan.filter((_, i) => i !== chosenIdx)];
 
   const candidates: TmdbMediaItem[] = [];
+  let successfulSources = 0;
 
   for (const entry of sourceOrder) {
     // Try up to 5 pages per source, across a wider page range
@@ -222,6 +223,7 @@ export async function fetchNextBatch(
       const page = Math.floor(Math.random() * 10) + 1;
       try {
         const rawItems = await fetchFromSource(entry.source, mediaType, page);
+        successfulSources++;
         const filtered = filterCandidates(rawItems, allSeen, mediaType, era, entry.source);
         // Add new candidates (dedup against what we already have)
         const existingIds = new Set(candidates.map((c) => c.id));
@@ -242,10 +244,14 @@ export async function fetchNextBatch(
     if (candidates.length >= BUFFER_SIZE) break;
   }
 
+  if (successfulSources === 0) throw new Error("Could not load trailers. Please try again.");
+
   const batch = shuffle(candidates).slice(0, BUFFER_SIZE + 4);
   const results = await Promise.allSettled(
     batch.map((item) => resolveCard(item, mediaType)),
   );
+
+  if (results.length && results.every(result => result.status === "rejected")) throw new Error("Could not load trailers. Please try again.");
 
   const resolved: ShowSwipeCard[] = [];
   for (const result of results) {

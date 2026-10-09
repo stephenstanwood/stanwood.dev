@@ -26,4 +26,4 @@
 - `dev.stanwood.big-inning-sync` (launchd, 3:15 AM PT) — scrapes MLB Big Inning schedule via puppeteer, rewrites `src/data/bigInningSchedule.ts`, commits + pushes if changed. Script: `~/scripts/big-inning-sync/sync.mjs` on Mini. Page is Salesforce Lightning so curl doesn't work — needs a real browser.
 
 ## Scheduled tasks (run via Claude desktop app on the laptop)
-- `driverless-monthly-refresh` (1st of month, 2:30 AM PT) — researches current US AV stats from primary sources, updates `src/data/driverless/data.ts` + dated labels in `src/components/driverless/`, opens a sourced PR for review (no auto-merge). Task prompt: `~/.claude/scheduled-tasks/driverless-monthly-refresh/SKILL.md`.
+- Driverless maintenance: the current page renders `src/data/driverless/guide.ts` through `src/components/driverless/DriverlessDashboard.tsx`. Maintain its concise, sourced and dated Waymo availability/safety snapshot, including comparison limits. The old `src/data/driverless/data.ts` is no longer rendered; do not restore retired dashboard panels. Any refresh should open a sourced PR for review (no auto-merge).

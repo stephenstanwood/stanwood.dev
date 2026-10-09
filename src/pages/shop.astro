@@ -28,7 +28,7 @@ const products: Product[] = [
 
 <BaseLayout
   title="Shop — stanwood.dev"
-  description="Simple tees and merch with something to say. Designed by a developer, printed on demand, shipped to your door. No algorithms, just good shirts."
+  description="Simple tees with something to say. Printed on demand and shipped to your door."
   slug="shop"
   favicon="/favicon-shop.svg"
   themeColor="#fffef5"
@@ -54,7 +54,7 @@ const products: Product[] = [
         display: inline-block;
         font-family: 'Space Mono', monospace;
         font-size: 11px;
-        color: #888;
+        color: #5b5951;
         text-decoration: none;
         margin-bottom: 32px;
         transition: color 0.15s;
@@ -106,8 +106,8 @@ const products: Product[] = [
         box-shadow: 7px 7px 0 #333;
       }
       .product-card[data-color="black"] .product-price { color: #f0f0f0; }
-      .product-card[data-color="black"] .size-link { color: #666; }
-      .product-card[data-color="black"] .size-link:hover { color: #999; }
+      .product-card[data-color="black"] .size-link { color: #b6b6b6; }
+      .product-card[data-color="black"] .size-link:hover { color: #666; }
       .product-card[data-color="black"] .design-display {
         border-bottom-color: #333;
       }
@@ -216,7 +216,7 @@ const products: Product[] = [
       .size-link {
         font-family: 'Space Mono', monospace;
         font-size: 9px;
-        color: #999;
+        color: #666;
         text-decoration: underline;
         text-underline-offset: 2px;
         cursor: pointer;
@@ -254,23 +254,16 @@ const products: Product[] = [
       }
 
       /* ── Size chart modal ── */
-      .size-modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        background: rgba(0, 0, 0, 0.5);
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-      }
-      .size-modal.open { display: flex; }
+      .size-modal::backdrop {background:rgba(0,0,0,.55);}
+      .size-modal { display:none; border:0; background:transparent; padding:8px; margin:auto; width:min(520px,calc(100% - 24px)); max-height:calc(100dvh - 24px); }
+      .size-modal[open] { display: flex; }
 
       .size-modal-inner {
         background: white;
         border: 3px solid #111;
         box-shadow: 8px 8px 0 #111;
         padding: 32px;
+        box-sizing: border-box;
         max-width: 480px;
         width: 100%;
         position: relative;
@@ -298,7 +291,7 @@ const products: Product[] = [
       .size-modal .size-note {
         font-family: 'Space Mono', monospace;
         font-size: 10px;
-        color: #888;
+        color: #5b5951;
         margin-bottom: 16px;
       }
 
@@ -328,14 +321,14 @@ const products: Product[] = [
         text-align: center;
         font-family: 'Cabin', sans-serif;
         font-size: 14px;
-        color: #888;
+        color: #5b5951;
         max-width: 400px;
         margin: 36px auto 0;
         line-height: 1.6;
       }
 
       .blurb-link {
-        color: #888;
+        color: #5b5951;
         text-decoration: underline;
         text-underline-offset: 2px;
         transition: color 0.15s;
@@ -348,12 +341,13 @@ const products: Product[] = [
         margin-top: 40px;
         font-family: 'Space Mono', monospace;
         font-size: 10px;
-        color: #bbb;
+        color: #666;
         letter-spacing: 0.08em;
       }
       .shop-footer a {
-        color: #888;
-        text-decoration: none;
+        color: #5b5951;
+        text-decoration: underline;
+        text-underline-offset: 3px;
       }
       .shop-footer a:hover { color: #111; }
 
@@ -433,10 +427,10 @@ const products: Product[] = [
   </div>
 
   <!-- Size chart modal -->
-  <div class="size-modal" id="sizeModal">
+  <dialog class="size-modal" id="sizeModal" aria-labelledby="size-heading">
     <div class="size-modal-inner">
-      <button class="size-modal-close" id="sizeClose">&times;</button>
-      <h3>Size Chart</h3>
+      <button class="size-modal-close" id="sizeClose" aria-label="Close size chart">&times;</button>
+      <h3 id="size-heading">Size Chart</h3>
       <p class="size-note">BELLA+CANVAS 3001 &middot; Unisex &middot; true to size, slightly fitted</p>
       <table class="size-table">
         <thead>
@@ -452,7 +446,7 @@ const products: Product[] = [
         </tbody>
       </table>
     </div>
-  </div>
+  </dialog>
 
   <script>
     // Color swatch toggling
@@ -493,16 +487,16 @@ const products: Product[] = [
     });
 
     // Size chart modal
-    const modal = document.getElementById('sizeModal')!;
+    const modal = document.getElementById('sizeModal') as HTMLDialogElement;
     const closeBtn = document.getElementById('sizeClose')!;
 
     document.querySelectorAll('[data-size-chart]').forEach((btn) => {
-      btn.addEventListener('click', () => modal.classList.add('open'));
+      btn.addEventListener('click', () => { modal.showModal(); });
     });
 
-    closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+    closeBtn.addEventListener('click', () => modal.close());
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('open');
+      if (e.target === modal) { const box=modal.getBoundingClientRect(); if(e.clientX<box.left||e.clientX>box.right||e.clientY<box.top||e.clientY>box.bottom) modal.close(); }
     });
   </script>
 </BaseLayout>

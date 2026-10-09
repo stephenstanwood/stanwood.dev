@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BedDouble, Bath, Check, ChevronLeft, ChevronRight, Heart,
-  House, MapPin, MoveUpRight, RotateCcw, School, SlidersHorizontal, Sparkles, Sprout, X,
+  House, MapPin, MoveUpRight, RotateCcw, School, SlidersHorizontal, Sparkles, X,
   LogOut, Footprints, NotebookPen, CheckCheck, Info, RefreshCw, Images } from 'lucide-react';
 import ScatosLogo from './ScatosLogo';
 import type { Choice, Decision, Home, ScatosState } from '../../lib/scatos/types';
@@ -413,18 +413,15 @@ export default function ScatosSwip() {
       ['matches', 'Our matches', CheckCheck, matchedHomes.length], ['passed', 'Passed', RotateCcw, passedHomes.length],
     ] as const).map(([key, label, Icon, count]) => <button type="button" key={key} className={tab === key ? 'active' : ''} aria-current={tab === key ? 'page' : undefined} onClick={() => { setTab(key); setError(''); }}><Icon size={18} /><span>{label}</span>{count > 0 && <small>{count}</small>}</button>)}</nav>
     <div className="sc-layout"><aside className="sc-sidebar"><div className="sc-wish-title"><span className="sc-small-flower" aria-hidden="true">✳</span><h2>The wish list</h2></div><FiltersForm filters={filters} setFilters={changeFilters} count={eligible.length} />
-      <div className="sc-sidebar-note"><Heart size={21} /><p>Somewhere for all the little things.</p><span>A yard. A guest room. A walk into town.</span></div></aside>
+      </aside>
       <section className="sc-main" aria-label="House browsing"><div className="sc-intro"><div><h1>{TAB_INTRO[tab].title}</h1><p>{TAB_INTRO[tab].blurb}</p></div>
         {tab === 'browse' && <button type="button" className="sc-filter-button" aria-label="Filters" onClick={() => setFilterOpen(true)}><SlidersHorizontal size={18} /><span>Filters{filterCount ? ` (${filterCount})` : ''}</span></button>}</div>
         {error && <div role="alert" className="sc-error"><p>{error}</p><button type="button" onClick={() => void load()}><RefreshCw size={15} /> Try again</button></div>}
         {state && (stale || state.feed?.lastError || !state.feed?.complete) && <p className="sc-feed-notice"><Info size={17} />{state.feed?.lastError || 'The feed is due for a fresh check. Showing the last verified homes.'}</p>}
         {mainPanel()}
       </section>
-      <aside className="sc-right-rail"><div className="sc-someday-note"><span className="sc-note-sun" aria-hidden="true">✺</span><h2>A place for<br />your next chapter.</h2><p>No countdown.<br />No pressure.<br />Just possibilities.</p><div className="sc-note-houses" aria-hidden="true"><House size={32} strokeWidth={1.5} /><Sprout size={28} strokeWidth={1.5} /></div></div>
-        <div className="sc-together"><div className="sc-avatar-pair"><span className="sc-avatar stephen">S</span><span className="sc-avatar madeleine">M</span><Heart size={17} fill="currentColor" /></div><h2>{matchedHomes.length ? `${matchedHomes.length} shared ${pluralize(matchedHomes.length, 'crush', 'crushes')}` : 'Two swipes. One someday.'}</h2><p>Save separately. See what you both love.</p><button type="button" className="sc-text-button" onClick={() => setTab('matches')}>Our matches <MoveUpRight size={15} /></button></div>
-      </aside>
     </div>
-    <footer className="sc-footer"><span><span className="sc-refresh-dot" />{state?.feed ? `Checked ${dateLabel(state.feed.generatedAt)}. Fresh finds daily at 4:45 a.m. Pacific.` : 'Fresh finds daily at 4:45 a.m. Pacific.'}</span><button type="button" className="sc-text-button" onClick={() => setInfoOpen(true)}><Info size={15} /> Sources & the fine print</button></footer>
+    <footer className="sc-footer"><span><span className="sc-refresh-dot" />{state?.feed ? `Checked ${dateLabel(state.feed.generatedAt)}.` : 'Fresh finds daily.'}</span><button type="button" className="sc-text-button" onClick={() => setInfoOpen(true)}><Info size={15} /> Sources & the fine print</button></footer>
     <div className="sc-toast" role="status" aria-live="polite">{toast && <span><Check size={17} />{toast}</span>}</div>
     {filterOpen && <Modal title="The wish list" onClose={() => setFilterOpen(false)}><FiltersForm filters={filters} setFilters={changeFilters} count={eligible.length} /><button type="button" className="sc-primary" onClick={() => setFilterOpen(false)}>Explore {eligible.length} {pluralize(eligible.length, 'home')}</button></Modal>}
     {detail && <Detail home={state?.homes.find(home => home.id === detail.id) || detail} choice={choices.get(detail.id)} matched={matches.has(detail.id)} busy={busy} onClose={() => setDetail(null)} onSave={save} />}
@@ -435,6 +432,6 @@ export default function ScatosSwip() {
       <h3>Location & schools</h3><p>Homes must be north of The Cats and in the 95030 or 95032 ZIP codes. Mountain addresses in 95033 are excluded. Van Meter and Fisher use the district’s published attendance areas. Distance to Town Plaza is straight-line.</p>
       <h3>Made for a someday move</h3><p>Your saves and notes stay in your private collection when a home leaves the active feed. Each of you has a separate profile. Matches appear when you both save the same home.</p>
       <h3>School timing</h3><p>Under current California rules, a February 2024 birthday means TK in fall 2028 and kindergarten in fall 2029. LGUSD currently offers TK at all four elementary schools; TK placement may differ from the home school used for kindergarten.</p><a className="sc-inline-link" href="https://www.lgusd.org/apps/pages/index.jsp?uREC_ID=2893247&type=d&pREC_ID=2548876" target="_blank" rel="noopener noreferrer">Current LGUSD TK policy <MoveUpRight size={14} /></a>
-      <h3>The morning refresh</h3><p>The Mac Mini checks listings every day at 4:45 a.m. Pacific. If a source fails, the last verified homes are kept. Listings not verified for 72 hours leave the active deck; saved examples remain.</p><p className="sc-fine">Listing photos belong to their respective brokers and photographers. Use the source links for complete and current listing details.</p></div></Modal>}
+      <h3>Keeping listings current</h3><p>Homes are checked daily. Saved homes stay in your collection when a listing leaves the active feed. Check the broker’s page for current availability.</p><p className="sc-fine">Listing photos belong to their respective brokers and photographers. Use the source links for complete and current listing details.</p></div></Modal>}
   </div>;
 }

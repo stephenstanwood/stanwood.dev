@@ -19,21 +19,7 @@ import {
   sortDomainsByRenewal,
 } from "../../lib/money";
 import { formatMonthDayYear } from "../../lib/dateFormat";
-import { MS_PER_WEEK } from "../../lib/time";
 import { pluralize } from "../../lib/text";
-
-const TAGLINES = [
-  "money out the door 💸",
-  "the damage, itemized",
-  "what's eating your wallet",
-  "receipts from the void",
-  "the books, kinda",
-];
-
-function pickTagline(): string {
-  const weekIndex = Math.floor(Date.now() / MS_PER_WEEK) % TAGLINES.length;
-  return TAGLINES[weekIndex];
-}
 
 export default function MoneyDashboard() {
   const [data, setData] = useState<MoneyData | null>(null);
@@ -54,7 +40,7 @@ export default function MoneyDashboard() {
       <div className="mo-state">
         <div className="mo-state-emoji">🔒</div>
         <div className="mo-state-msg">
-          {error.includes("401") ? "password please" : `error: ${error}`}
+          {error.includes("401") ? "Please sign in again." : "Couldn’t load your spending. Try refreshing the page."}
         </div>
       </div>
     );
@@ -81,16 +67,13 @@ export default function MoneyDashboard() {
     <>
       {/* ── MASTHEAD ── */}
       <header className="mo-masthead">
-        <h1 className="mo-title">$$$</h1>
-        <div>
-          <span className="mo-tagline">{pickTagline()}</span>
-        </div>
-        <span className="mo-updated">last collected: {updated}</span>
+        <h1 className="mo-title">Money</h1>
+        <span className="mo-updated">Updated {updated}</span>
       </header>
 
       {/* ── HERO TOTAL ── */}
       <div className="mo-hero">
-        <div className="mo-hero-label">this month's damage</div>
+        <div className="mo-hero-label">Monthly spend</div>
         <div className="mo-hero-amount">{formatCents(monthly)}</div>
         <div className="mo-hero-sub">
           {formatCents(apiTotal)} variable APIs + {formatCents(subsTotal)} subscriptions
@@ -106,8 +89,6 @@ export default function MoneyDashboard() {
         </span>
       </div>
 
-      {/* ── SPENDING BREAKDOWN ── */}
-      <SpendingBreakdown subs={data.subscriptions} apiTotal={apiTotal} />
 
       {/* ── VARIABLE APIs ── */}
       <ApiSection month={latest} total={apiTotal} />
@@ -118,7 +99,7 @@ export default function MoneyDashboard() {
       {/* ── DOMAINS ── */}
       <DomainsSection domains={data.domains} total={annualDomains} />
 
-      <div className="mo-footer">collected via scripts/collect-money.mjs</div>
+
     </>
   );
 }
@@ -134,8 +115,8 @@ function ApiSection({ month, total }: { month: MonthEntry | null; total: number 
   return (
     <section className="mo-section">
       <div className="mo-section-head">
-        <h2 className="mo-section-title">🔌 variable apis</h2>
-        <span className="mo-section-sub">the wild west</span>
+        <h2 className="mo-section-title">API usage</h2>
+        <span className="mo-section-sub">this month</span>
         <span className="mo-section-total">{formatCents(total)}</span>
       </div>
       <div className="mo-cards">
@@ -166,7 +147,7 @@ function ApiSection({ month, total }: { month: MonthEntry | null; total: number 
                 </span>
                 <span
                   className="mo-chip"
-                  style={{ background: meta.color, color: "#fff", borderColor: "#000" }}
+                  style={{ background: "#f5f4ee", color: "#252127", borderColor: "#aaa" }}
                 >
                   API
                 </span>
@@ -207,7 +188,7 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
   return (
     <section className="mo-section">
       <div className="mo-section-head">
-        <h2 className="mo-section-title">📦 expenses</h2>
+        <h2 className="mo-section-title">Subscriptions</h2>
         <span className="mo-section-sub">subscriptions + charges</span>
         <span className="mo-section-total">{formatCents(total)}/mo</span>
       </div>
@@ -232,8 +213,8 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
                 <span
                   className="mo-chip"
                   style={{
-                    background: cat.color,
-                    color: "#fff",
+                    background: "#f5f4ee",
+                    color: "#252127",
                     borderColor: "#000",
                   }}
                 >
@@ -246,7 +227,7 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
                   style={{
                     fontFamily: "'Space Mono', monospace",
                     fontSize: 11,
-                    opacity: 0.5,
+                    opacity: 0.85,
                     marginLeft: 4,
                   }}
                 >
@@ -262,69 +243,13 @@ function SubsSection({ subs, total }: { subs: Subscription[]; total: number }) {
   );
 }
 
-function SpendingBreakdown({ subs, apiTotal }: { subs: Subscription[]; apiTotal: number }) {
-  const byCategory: Record<string, number> = {};
-  for (const sub of subs) {
-    if (sub.cents) {
-      byCategory[sub.category] = (byCategory[sub.category] || 0) + sub.cents;
-    }
-  }
-  if (apiTotal > 0) {
-    byCategory["_api"] = apiTotal;
-  }
-
-  const total = Object.values(byCategory).reduce((s, v) => s + v, 0);
-  if (total === 0) return null;
-
-  const API_META = { label: "APIs", color: "#b76dff", bg: "#f0e8ff" };
-
-  const categories = Object.entries(byCategory)
-    .sort((a, b) => b[1] - a[1])
-    .map(([cat, cents]) => ({
-      cat,
-      cents,
-      pct: (cents / total) * 100,
-      pctRound: Math.round((cents / total) * 100),
-      meta: cat === "_api" ? API_META : (CATEGORY_META[cat] || { label: cat.toUpperCase(), color: "#666", bg: "#f0f0f0" }),
-    }));
-
-  return (
-    <div className="mo-breakdown">
-      <div className="mo-breakdown-header">
-        <span className="mo-breakdown-title">where it goes</span>
-        <span className="mo-breakdown-sub">monthly subscriptions by category</span>
-      </div>
-      <div className="mo-breakdown-bar">
-        {categories.map(({ cat, pct, meta }) => (
-          <div
-            key={cat}
-            className="mo-breakdown-segment"
-            style={{ width: `${pct}%`, background: meta.color }}
-            title={`${meta.label}: ${Math.round(pct)}%`}
-          />
-        ))}
-      </div>
-      <div className="mo-breakdown-legend">
-        {categories.map(({ cat, cents, pctRound, meta }) => (
-          <div key={cat} className="mo-breakdown-item">
-            <div className="mo-breakdown-dot" style={{ background: meta.color }} />
-            <span className="mo-breakdown-label">{meta.label}</span>
-            <span className="mo-breakdown-amount">{formatCents(cents)}</span>
-            <span className="mo-breakdown-pct">{pctRound}%</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function DomainsSection({ domains, total }: { domains: Domain[]; total: number }) {
   const sorted = sortDomainsByRenewal(domains);
   return (
     <section className="mo-section">
       <div className="mo-section-head">
-        <h2 className="mo-section-title">🌐 domains</h2>
-        <span className="mo-section-sub">annual rent</span>
+        <h2 className="mo-section-title">Domains</h2>
+        <span className="mo-section-sub">renewals</span>
         <span className="mo-section-total">{formatCents(total)}/yr</span>
       </div>
       <div className="mo-domains">
@@ -366,7 +291,7 @@ function DomainsSection({ domains, total }: { domains: Domain[]; total: number }
               <div
                 style={{
                   fontSize: 10,
-                  opacity: 0.5,
+                  opacity: 0.85,
                   fontStyle: "italic",
                 }}
               >

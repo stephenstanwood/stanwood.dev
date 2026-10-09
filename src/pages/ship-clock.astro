@@ -2,14 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ShipClockApp from "../components/ShipClock.tsx";
 import RepoTracker from "../components/RepoTracker.tsx";
-import { shipTierRows } from "../lib/shipClockStatus";
 const title = "Ship Clock — stanwood.dev";
-const tiers = shipTierRows();
 ---
 
 <BaseLayout
   title={title}
-  description="A single number on the wall: days since your last deploy. Connect your GitHub repo and keep yourself honest. One number, zero excuses, maximum accountability."
+  description="The latest stanwood.dev update, recent releases, and days since the last production deploy."
   slug="ship-clock"
   favicon="/favicon-ship-clock.svg"
   themeColor="#fffef5"
@@ -18,11 +16,12 @@ const tiers = shipTierRows();
 >
   <Fragment slot="head">
     <style is:global>
+
       :root {
         --sc-bg: #fffef5;
         --sc-ink: #111;
         --sc-pixel: 3px;
-        --sc-accent: #ff5c1a;
+        --sc-accent: #a63b19;
       }
 
       body {
@@ -102,19 +101,15 @@ const tiers = shipTierRows();
         margin-bottom: 8px;
       }
 
+      .sc-retry { margin-top: 16px; padding: 10px 18px; min-height: 44px; border: 2px solid var(--sc-ink); background: var(--sc-ink); color: #fff; font: 700 13px 'Space Mono', monospace; cursor: pointer; }
+      .sc-retry:focus-visible { outline: 3px solid var(--sc-accent); outline-offset: 4px; }
+
       .sc-wrap {
         display: flex;
         flex-direction: column;
         gap: 16px;
         max-width: 480px;
         width: 100%;
-      }
-
-      .sc-what-shipped {
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 4px 4px 0 var(--sc-ink);
-        background: #fff;
-        padding: 20px 24px;
       }
 
       .sc-section-label {
@@ -234,8 +229,6 @@ const tiers = shipTierRows();
         transition: opacity 0.15s;
       }
       .sc-meta-link:hover { opacity: 1 !important; }
-
-      /* ── Status label ── */
       .sc-status {
         font-family: 'Space Mono', monospace;
         font-size: clamp(11px, 2.5vw, 13px);
@@ -249,61 +242,6 @@ const tiers = shipTierRows();
       .sc-status--warn { color: #f59e0b; }
       .sc-status--bad  { color: #ef4444; }
 
-      /* ── Activity heatmap ── */
-      .sc-activity {
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 4px 4px 0 var(--sc-ink);
-        background: #fff;
-        padding: 16px 20px;
-      }
-
-      .sc-dots {
-        display: grid;
-        grid-template-columns: repeat(28, 1fr);
-        gap: 3px;
-        margin-top: 8px;
-      }
-
-      .sc-dot {
-        aspect-ratio: 1;
-        border-radius: 2px;
-        background: #e5e5e5;
-        cursor: default;
-      }
-      .sc-dot--active {
-        background: var(--sc-ink);
-      }
-
-      /* ── Share button ── */
-      .sc-share-btn {
-        margin-top: 20px;
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        text-transform: lowercase;
-        color: var(--sc-ink);
-        background: transparent;
-        border: 1.5px solid var(--sc-ink);
-        padding: 6px 16px;
-        cursor: pointer;
-        opacity: 0.45;
-        transition: opacity 0.15s;
-      }
-      .sc-share-btn:hover { opacity: 1; }
-
-      /* ── Stats strip ── */
-      .sc-stats {
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 4px 4px 0 var(--sc-ink);
-        background: #fff;
-        padding: 16px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        flex-wrap: wrap;
-      }
-
       .sc-stat {
         display: flex;
         flex-direction: column;
@@ -311,260 +249,14 @@ const tiers = shipTierRows();
         gap: 2px;
       }
 
-      .sc-stat-num {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(22px, 5vw, 32px);
-        line-height: 1;
-        color: var(--sc-ink);
-      }
-
-      .sc-stat-label {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        text-transform: lowercase;
-        opacity: 0.5;
-        white-space: nowrap;
-      }
-
-      .sc-stat-divider {
-        width: 1px;
-        height: 36px;
-        background: var(--sc-ink);
-        opacity: 0.12;
-      }
-
       @media (max-width: 480px) {
         .sc-card {
           padding: 32px 24px;
         }
-        .sc-what-shipped,
-        .sc-history,
-        .sc-activity,
-        .sc-stats {
+        .sc-history {
           padding: 14px 16px;
         }
-        .sc-dots {
-          gap: 2px;
-        }
       }
-
-      /* ── How it works / build your own ── */
-      .sc-explainer {
-        max-width: 480px;
-        width: 100%;
-        margin-top: 40px;
-        padding-top: 32px;
-        border-top: 1.5px solid rgba(0,0,0,0.08);
-      }
-
-      .sc-explainer-heading {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(20px, 5vw, 28px);
-        color: var(--sc-ink);
-        margin: 0 0 6px;
-      }
-
-      .sc-explainer-sub {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: lowercase;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        margin: 0 0 20px;
-      }
-
-      .sc-steps {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-bottom: 24px;
-      }
-
-      .sc-step {
-        display: flex;
-        gap: 14px;
-        align-items: flex-start;
-      }
-
-      .sc-step-num {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        font-weight: 700;
-        color: var(--sc-accent);
-        opacity: 0.7;
-        padding-top: 2px;
-        flex-shrink: 0;
-        width: 22px;
-      }
-
-      .sc-step-title {
-        font-family: 'Cabin', sans-serif;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--sc-ink);
-        margin-bottom: 2px;
-      }
-
-      .sc-step-body {
-        font-family: 'Cabin', sans-serif;
-        font-size: 13px;
-        color: var(--sc-ink);
-        opacity: 0.55;
-        line-height: 1.5;
-      }
-
-      .sc-code-block {
-        margin: 0 0 12px;
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 3px 3px 0 var(--sc-ink);
-        background: #111;
-        color: #fffef5;
-        padding: 16px 18px;
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        line-height: 1.7;
-        overflow-x: auto;
-        white-space: pre;
-        position: relative;
-      }
-
-      .sc-code-comment { color: rgba(255,254,245,0.3); }
-      .sc-code-key     { color: #ff5c1a; }
-      .sc-code-str     { color: #7dde8a; }
-      .sc-code-var     { color: #ffd06e; }
-
-      .sc-copy-btn {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        letter-spacing: 0.1em;
-        text-transform: lowercase;
-        color: var(--sc-ink);
-        background: transparent;
-        border: 1.5px solid var(--sc-ink);
-        padding: 5px 14px;
-        cursor: pointer;
-        opacity: 0.4;
-        transition: opacity 0.15s;
-        margin-bottom: 8px;
-      }
-      .sc-copy-btn:hover { opacity: 1; }
-
-      .sc-explainer-note {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        color: var(--sc-ink);
-        opacity: 0.35;
-        line-height: 1.6;
-        margin-top: 8px;
-      }
-
-      /* ── Cadence ladder ── */
-      .sc-cadence {
-        max-width: 480px;
-        width: 100%;
-        margin-top: 40px;
-        padding-top: 32px;
-        border-top: 1.5px solid rgba(0,0,0,0.08);
-      }
-
-      .sc-cadence-heading {
-        font-family: 'Permanent Marker', cursive;
-        font-size: clamp(20px, 5vw, 28px);
-        color: var(--sc-ink);
-        margin: 0 0 6px;
-      }
-
-      .sc-cadence-sub {
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: lowercase;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        margin: 0 0 18px;
-      }
-
-      .sc-tier-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .sc-tier {
-        display: grid;
-        grid-template-columns: 78px 1fr;
-        gap: 14px;
-        align-items: center;
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 3px 3px 0 var(--sc-ink);
-        background: #fff;
-        padding: 14px 16px;
-      }
-
-      .sc-tier-days {
-        font-family: 'Permanent Marker', cursive;
-        font-size: 26px;
-        line-height: 1;
-        text-align: center;
-        padding: 6px 8px;
-        border: 2px solid currentColor;
-      }
-
-      .sc-tier-body {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        min-width: 0;
-      }
-
-      .sc-tier-label {
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: lowercase;
-      }
-
-      .sc-tier-text {
-        font-family: 'Cabin', sans-serif;
-        font-size: 13px;
-        color: var(--sc-ink);
-        opacity: 0.6;
-        line-height: 1.5;
-        margin: 0;
-      }
-
-      .sc-tier--hot  .sc-tier-days,
-      .sc-tier--hot  .sc-tier-label { color: var(--sc-accent); }
-      .sc-tier--good .sc-tier-days,
-      .sc-tier--good .sc-tier-label { color: #1a9d3f; }
-      .sc-tier--warn .sc-tier-days,
-      .sc-tier--warn .sc-tier-label { color: #c97718; }
-      .sc-tier--bad  .sc-tier-days,
-      .sc-tier--bad  .sc-tier-label { color: #c52727; }
-
-      .sc-cadence-note {
-        font-family: 'Space Mono', monospace;
-        font-size: 10px;
-        color: var(--sc-ink);
-        opacity: 0.4;
-        line-height: 1.6;
-        margin-top: 14px;
-      }
-
-      @media (max-width: 480px) {
-        .sc-tier {
-          grid-template-columns: 64px 1fr;
-          padding: 12px 14px;
-          gap: 12px;
-        }
-        .sc-tier-days { font-size: 20px; padding: 5px 6px; }
-        .sc-tier-text { font-size: 12px; }
-      }
-
-      /* ── Repo tracker ── */
       .sc-rt-wrap {
         max-width: 480px;
         width: 100%;
@@ -629,33 +321,6 @@ const tiers = shipTierRows();
         background: #fff;
         padding: 16px 20px;
       }
-
-      /* ── Hero image ── */
-      .sc-hero {
-        width: 100%;
-        max-width: 480px;
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 24px;
-        position: relative;
-        border: var(--sc-pixel) solid var(--sc-ink);
-        box-shadow: 4px 4px 0 var(--sc-ink);
-      }
-      .sc-hero img {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-        display: block;
-      }
-      .sc-hero::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, transparent 30%, rgba(255, 254, 245, 0.85) 100%);
-        pointer-events: none;
-      }
-
-      /* ── Intro header ── */
       .sc-intro {
         text-align: center;
         margin-bottom: 20px;
@@ -669,136 +334,37 @@ const tiers = shipTierRows();
         margin: 0 0 4px;
         line-height: 1.05;
       }
-      .sc-intro-sub {
+      .sc-intro-sub { color:#6d6b63;
         font-family: 'Space Mono', monospace;
         font-size: 11px;
         color: var(--sc-ink);
-        opacity: 0.4;
+        opacity:1;
         margin: 0 0 10px;
         letter-spacing: 0.08em;
         text-transform: lowercase;
       }
-      .sc-intro-desc {
-        font-family: 'Cabin', sans-serif;
-        font-size: 13px;
-        color: var(--sc-ink);
-        opacity: 0.5;
-        margin: 0;
-        line-height: 1.55;
-        max-width: 360px;
-        margin-inline: auto;
-      }
-    </style>
+      .sc-page { justify-content: flex-start; min-height: auto; padding-top: 88px; gap: 24px; }
+      .sc-intro { margin: 0; }
+      .sc-track-another { width: 100%; max-width: 480px; font-size: 13px; }
+      .sc-track-another summary { cursor: pointer; padding: 14px 0; border-bottom: 1px solid #cbc9be; }
+
+</style>
   </Fragment>
 
   <div class="sc-page">
     <a href="/" class="sc-back">← stanwood.dev</a>
 
-    <div class="sc-hero">
-      <img
-        src="/images/ship-clock.webp"
-        alt="A wall clock above a developer's desk with code on screen"
-        loading="eager"
-        decoding="async"
-        width="960"
-        height="540"
-      />
-    </div>
-
     <div class="sc-intro">
       <h1 class="sc-intro-title">Ship Clock</h1>
-      <p class="sc-intro-sub">stanwood.dev · production deploy tracker</p>
-      <p class="sc-intro-desc">One number on the wall. Days since this site last shipped — no spin, no excuses. Updates every five minutes from Vercel.</p>
+      <p class="sc-intro-sub">The latest from stanwood.dev.</p>
     </div>
-
     <ShipClockApp client:idle />
 
-    <!-- Cadence ladder -->
-    <div class="sc-cadence">
-      <h2 class="sc-cadence-heading">The Cadence Ladder</h2>
-      <p class="sc-cadence-sub">how to read your number</p>
+    <details class="sc-track-another">
+      <summary>Check another GitHub repo</summary>
+      <RepoTracker client:visible />
+    </details>
 
-      <div class="sc-tier-list">
-        {tiers.map((tier) => (
-          <div class={`sc-tier sc-tier--${tier.tone}`}>
-            <div class="sc-tier-days">{tier.range}</div>
-            <div class="sc-tier-body">
-              <span class="sc-tier-label">{tier.label}</span>
-              <p class="sc-tier-text">{tier.blurb}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <p class="sc-cadence-note">Status labels come straight from the counter above. The 28-day grid shows your real cadence — gaps speak louder than the headline number.</p>
-    </div>
-
-    <RepoTracker client:idle />
-
-    <!-- How it works / build your own -->
-    <div class="sc-explainer">
-      <h2 class="sc-explainer-heading">Build Your Own</h2>
-      <p class="sc-explainer-sub">three steps · ~30 minutes</p>
-
-      <div class="sc-steps">
-        <div class="sc-step">
-          <span class="sc-step-num">01</span>
-          <div>
-            <p class="sc-step-title">Create a Vercel read token</p>
-            <p class="sc-step-body">In Vercel → Account Settings → Tokens, create a scoped read token. Grab your Project ID from the project settings URL.</p>
-          </div>
-        </div>
-        <div class="sc-step">
-          <span class="sc-step-num">02</span>
-          <div>
-            <p class="sc-step-title">Call the deployments API</p>
-            <p class="sc-step-body">One fetch pulls the last 25 production deploys with commit metadata attached. The rest is arithmetic.</p>
-          </div>
-        </div>
-        <div class="sc-step">
-          <span class="sc-step-num">03</span>
-          <div>
-            <p class="sc-step-title">Mount a counter component</p>
-            <p class="sc-step-body">Compute <code>daysSince</code> from <code>deployments[0].created</code> and display it. Poll every 5 minutes with a <code>setInterval</code> or use stale-while-revalidate caching.</p>
-          </div>
-        </div>
-      </div>
-
-      <pre class="sc-code-block" id="sc-snippet" tabindex="0"><span class="sc-code-comment">// GET /api/ship-clock</span>
-<span class="sc-code-key">const</span> <span class="sc-code-var">url</span> =
-  &#96;<span class="sc-code-str">https://api.vercel.com/v6/deployments</span>&#96; +
-  &#96;<span class="sc-code-str">?projectId=&#36;&#123;</span><span class="sc-code-var">VERCEL_PROJECT_ID</span><span class="sc-code-str">&#125;</span>&#96; +
-  &#96;<span class="sc-code-str">&amp;target=production&amp;limit=25&amp;state=READY</span>&#96;;
-
-<span class="sc-code-key">const</span> <span class="sc-code-var">res</span> = <span class="sc-code-key">await</span> fetch(<span class="sc-code-var">url</span>, &#123;
-  headers: &#123; Authorization: &#96;<span class="sc-code-str">Bearer &#36;&#123;</span><span class="sc-code-var">VERCEL_TOKEN</span><span class="sc-code-str">&#125;</span>&#96; &#125;
-&#125;);
-
-<span class="sc-code-key">const</span> &#123; deployments &#125; = <span class="sc-code-key">await</span> <span class="sc-code-var">res</span>.json();
-<span class="sc-code-key">const</span> <span class="sc-code-var">lastDeploy</span> = <span class="sc-code-key">new</span> Date(deployments[0].created);
-<span class="sc-code-key">const</span> <span class="sc-code-var">daysSince</span> = Math.floor(
-  (Date.now() - <span class="sc-code-var">lastDeploy</span>.getTime()) / 86400000
-);</pre>
-
-      <button class="sc-copy-btn" id="sc-copy-btn">copy snippet</button>
-
-      <p class="sc-explainer-note">
-        Works with any Vercel project. Swap in GitHub Actions or Fly.io by adapting the deployment source.<br>
-        Commit metadata (message, SHA, PR number) lives in <code>deployments[0].meta</code>.
-      </p>
-    </div>
   </div>
 
-  <script>
-    const btn = document.getElementById('sc-copy-btn');
-    const snippet = document.getElementById('sc-snippet');
-    if (btn && snippet) {
-      btn.addEventListener('click', () => {
-        navigator.clipboard.writeText(snippet.textContent ?? '').then(() => {
-          btn.textContent = 'copied!';
-          setTimeout(() => { btn.textContent = 'copy snippet'; }, 2000);
-        });
-      });
-    }
-  </script>
 </BaseLayout>

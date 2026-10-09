@@ -1,8 +1,6 @@
 import { type KeyboardEvent, useEffect, useRef, useState } from "react";
 import {
   CalendarDays,
-  ChevronLeft,
-  ChevronRight,
   ClipboardList,
   History,
   House,
@@ -147,11 +145,6 @@ function scrollHashTargetIntoView() {
   if (target) target.scrollIntoView({ block: "start" });
 }
 
-function prefersReducedMotion() {
-  if (typeof window === "undefined" || !("matchMedia" in window)) return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 export default function CampbellPortal() {
   const [active, setActive] = useState<Section>("events");
   const tabRailRef = useRef<HTMLDivElement>(null);
@@ -201,15 +194,6 @@ export default function CampbellPortal() {
     window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}${nextHash}`);
   }
 
-  function scrollSections(direction: -1 | 1) {
-    const rail = tabRailRef.current;
-    if (!rail) return;
-    rail.scrollBy({
-      left: direction * Math.max(300, rail.clientWidth * 0.82),
-      behavior: prefersReducedMotion() ? "auto" : "smooth",
-    });
-  }
-
   function handleTabKeyDown(event: KeyboardEvent<HTMLButtonElement>, index: number) {
     const lastIndex = TABS.length - 1;
     let nextIndex: number | null = null;
@@ -235,21 +219,6 @@ export default function CampbellPortal() {
   return (
     <div className="cb-portal">
       <section className="cb-tabs-shell" aria-label="Browse Campbell guide sections">
-        <div className="cb-tabs-head">
-          <div>
-            <span>Browse Campbell</span>
-            <h2>Start anywhere.</h2>
-          </div>
-          <div className="cb-tabs-controls" aria-label="Scroll section list">
-            <button type="button" onClick={() => scrollSections(-1)} aria-label="Previous sections">
-              <ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" />
-            </button>
-            <button type="button" onClick={() => scrollSections(1)} aria-label="Next sections">
-              <ChevronRight size={18} strokeWidth={2.4} aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-
         <div className="cb-tabs" role="tablist" aria-label="Campbell sections" ref={tabRailRef}>
           {TABS.map((tab, index) => (
             <button
@@ -267,14 +236,7 @@ export default function CampbellPortal() {
               onClick={() => selectSection(tab.id)}
               onKeyDown={(event) => handleTabKeyDown(event, index)}
             >
-              <span className="cb-tab-topline">
-                <span className="cb-tab-icon">
-                  <tab.Icon size={18} strokeWidth={2.35} aria-hidden="true" />
-                </span>
-                <span className="cb-tab-eyebrow">{tab.eyebrow}</span>
-              </span>
               <span className="cb-tab-label">{tab.label}</span>
-              <span className="cb-tab-summary">{tab.summary}</span>
             </button>
           ))}
         </div>

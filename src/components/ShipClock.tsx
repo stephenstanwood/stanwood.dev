@@ -1,8 +1,7 @@
-import { shipStatus, type DeployData as DeploySummary } from "../lib/shipClockStatus";
-import { MS_PER_DAY, daysSince, timeAgo } from "../lib/time";
+import { type DeployData as DeploySummary } from "../lib/shipClockStatus";
+import { timeAgo } from "../lib/time";
 import { formatMonthDay, formatHourMinute } from "../lib/dateFormat";
 import { pluralize } from "../lib/text";
-import { useCopyToClipboard } from "../hooks/useCopyToClipboard";
 import { useJsonOnMount } from "../hooks/useJsonOnMount";
 
 interface HistoryEntry {
@@ -12,47 +11,20 @@ interface HistoryEntry {
   prNumber: string | null;
 }
 
-interface DeployStats {
-  deploysLast30: number;
-  avgDaysBetween: number | null;
-  streakWeeks: number;
-}
-
 interface DeployData extends DeploySummary {
   history?: HistoryEntry[];
-  stats?: DeployStats;
 }
 
 const GITHUB_REPO = "https://github.com/stephenstanwood/stanwood.dev";
 
-// Build a 28-cell deploy heatmap: newest right, oldest left
-// each cell = one day; returns array of { active, label } for tooltips
-function buildActivityGrid(
-  history: HistoryEntry[],
-  lastDeploy: string
-): { active: boolean; label: string }[] {
-  const now = Date.now();
-  const allDates = [lastDeploy, ...history.map((h) => h.date)]
-    .map((d) => new Date(d).getTime());
-
-  return Array.from({ length: 28 }, (_, i) => {
-    const daysAgo = 27 - i; // index 0 = oldest, index 27 = today
-    const cellTs = now - daysAgo * MS_PER_DAY;
-    const active = allDates.some((ts) => daysSince(ts, now) === daysAgo);
-    const dateStr = formatMonthDay(cellTs);
-    return { active, label: active ? `deployed · ${dateStr}` : dateStr };
-  });
-}
-
 export default function ShipClock() {
   const { data, failed } = useJsonOnMount<DeployData>("/api/ship-clock");
-  const { copied, copy } = useCopyToClipboard();
 
   if (!data && !failed) {
     return (
       <div className="sc-card">
         <div className="sc-number">...</div>
-        <div className="sc-label">loading mission data</div>
+        <div className="sc-label">Checking the latest deploy…</div>
       </div>
     );
   }
@@ -60,8 +32,8 @@ export default function ShipClock() {
   if (failed || !data || (data.error && data.error !== "no deploys")) {
     return (
       <div className="sc-card">
-        <div className="sc-error">couldn't reach mission control</div>
-        <div className="sc-label">try again later</div>
+        <div className="sc-error">Couldn’t load the latest deploy.</div>
+        <button className="sc-retry" type="button" onClick={() => window.location.reload()}>Try again</button>
       </div>
     );
   }
@@ -70,7 +42,7 @@ export default function ShipClock() {
     return (
       <div className="sc-card">
         <div className="sc-number">—</div>
-        <div className="sc-label">no deploys yet</div>
+        <div className="sc-label">No deployments yet</div>
       </div>
     );
   }
@@ -87,16 +59,6 @@ export default function ShipClock() {
   const days = data.daysSince!;
   const isToday = days === 0;
   const history = data.history ?? [];
-  const stats = data.stats;
-  const status = shipStatus(days);
-  const activityGrid = buildActivityGrid(history, data.lastDeploy!);
-
-  function handleShare() {
-    const text = isToday
-      ? "stanwood.dev shipped today 🚀 — stanwood.dev/ship-clock"
-      : `stanwood.dev: ${days}d since last deploy — "${status.label}" — stanwood.dev/ship-clock`;
-    copy(text);
-  }
 
   return (
     <div className="sc-wrap">
@@ -104,8 +66,8 @@ export default function ShipClock() {
       <div className="sc-card">
         {isToday ? (
           <>
-            <div className="sc-number sc-today">shipped today 🚀</div>
-            <div className="sc-label">days since last deploy</div>
+            <div className="sc-number sc-today">Shipped today</div>
+            <div className="sc-label">Latest deployment</div>
           </>
         ) : (
           <>
@@ -115,90 +77,12 @@ export default function ShipClock() {
             </div>
           </>
         )}
-        <div className={`sc-status sc-status--${status.tone}`}>
-          {status.label}
-        </div>
         <div className="sc-meta">
           {formattedDate} at {formattedTime}
         </div>
-        <button className="sc-share-btn" onClick={handleShare}>
-          {copied ? "copied!" : "copy status"}
-        </button>
       </div>
 
-      {/* Activity heatmap */}
-      <div className="sc-activity">
-        <div className="sc-section-label">last 28 days</div>
-        <div className="sc-dots">
-          {activityGrid.map((cell, i) => (
-            <span
-              key={i}
-              className={`sc-dot${cell.active ? " sc-dot--active" : ""}`}
-              title={cell.label}
-              aria-label={cell.label}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Stats strip */}
-      {stats && (
-        <div className="sc-stats">
-          <div className="sc-stat">
-            <span className="sc-stat-num">{stats.streakWeeks}</span>
-            <span className="sc-stat-label">
-              {pluralize(stats.streakWeeks, "week")} streak
-            </span>
-          </div>
-          <div className="sc-stat-divider" />
-          <div className="sc-stat">
-            <span className="sc-stat-num">{stats.deploysLast30}</span>
-            <span className="sc-stat-label">deploys (30d)</span>
-          </div>
-          {stats.avgDaysBetween !== null && (
-            <>
-              <div className="sc-stat-divider" />
-              <div className="sc-stat">
-                <span className="sc-stat-num">{stats.avgDaysBetween}</span>
-                <span className="sc-stat-label">avg days</span>
-              </div>
-            </>
-          )}
-        </div>
-      )}
-
-      {/* What shipped */}
-      {(data.summary || data.project) && (
-        <div className="sc-what-shipped">
-          <div className="sc-section-label">what shipped</div>
-          <div className="sc-shipped-row">
-            {data.project && (
-              <span className="sc-project-badge">{data.project}</span>
-            )}
-            <span className="sc-shipped-summary">{data.summary}</span>
-          </div>
-          <div className="sc-shipped-meta">
-            {data.sha && (
-              <a
-                className="sc-sha sc-meta-link"
-                href={`${GITHUB_REPO}/commit/${data.sha}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >{data.sha}</a>
-            )}
-            {data.prNumber && (
-              <a
-                className="sc-pr sc-meta-link"
-                href={`${GITHUB_REPO}/pull/${data.prNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >PR #{data.prNumber}</a>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Deploy history */}
+      {data.summary && <div className="sc-shipped"><div className="sc-section-label">What shipped</div><p className="sc-shipped-summary">{data.summary}</p>{data.prNumber && <a className="sc-meta-link" href={`${GITHUB_REPO}/pull/${data.prNumber}`} target="_blank" rel="noopener noreferrer">PR #{data.prNumber} ↗</a>}</div>}
       {history.length > 0 && (
         <div className="sc-history">
           <div className="sc-section-label">recent deploys</div>

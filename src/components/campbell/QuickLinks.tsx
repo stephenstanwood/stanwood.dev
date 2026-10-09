@@ -25,6 +25,14 @@ type QuickLink = {
   tone?: "gold" | "green" | "red";
 };
 
+const residentServices = [
+  ["Water service", "San Jose Water", "https://www.sjwater.com/"],
+  ["Power & gas", "PG&E", "https://www.pge.com/outagecenter"],
+  ["Trash & bulky pickup", "West Valley Collection", "https://westvalleyrecycles.com"],
+  ["Buses & light rail", "VTA", "https://www.vta.org"],
+  ["K–8 schools", "Campbell Union", "https://www.campbellusd.org"],
+  ["High schools", "Campbell Union High", "https://www.cuhsd.org"],
+];
 const linkGroups: { title: string; kicker: string; links: QuickLink[] }[] = [
   {
     title: "Handle something today",
@@ -144,6 +152,7 @@ function linkGroupId(title: string) {
 export default function QuickLinks() {
   return (
     <div className="cb-links">
+      <section className="cb-link-group" aria-label="Resident services"><div className="cb-link-group-head"><h3>Local services</h3></div><div className="cb-links-grid">{residentServices.map(([title,owner,href])=><a className="cb-link-card" key={href} href={href} target="_blank" rel="noopener noreferrer"><div className="cb-link-text"><span className="cb-link-title">{title}</span><span className="cb-link-desc">{owner}</span></div><span className="cb-link-arrow" aria-hidden="true">→</span></a>)}</div></section>
       {linkGroups.map((group) => {
         const groupId = linkGroupId(group.title);
 

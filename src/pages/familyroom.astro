@@ -54,6 +54,7 @@ const launchers = [
     rel="stylesheet"
   />
   <style is:global>
+
     * {
       margin: 0;
       padding: 0;
@@ -73,7 +74,8 @@ const launchers = [
       text-decoration: none;
     }
 
-    /* ===== HEADER / MASTHEAD ===== */
+    a:focus-visible,button:focus-visible{outline:4px solid #136d6d;outline-offset:5px;}
+    .fr-skip{position:fixed;top:-100px;left:20px;background:#fff;padding:16px;z-index:100;}.fr-skip:focus{top:16px;}
     .header {
       padding: 32px 48px 28px 48px;
       display: flex;
@@ -145,8 +147,6 @@ const launchers = [
       text-align: right;
       letter-spacing: 0.5px;
     }
-
-    /* ===== MAIN CONTAINER ===== */
     .container {
       flex: 1;
       display: flex;
@@ -166,8 +166,6 @@ const launchers = [
       background: linear-gradient(180deg, rgba(255, 107, 92, 0) 0%, rgba(255, 107, 92, 0.25) 50%, rgba(255, 107, 92, 0) 100%);
       pointer-events: none;
     }
-
-    /* LEFT: TONIGHT'S SHOWS */
     .left-col {
       flex: 1.6;
       display: flex;
@@ -192,8 +190,6 @@ const launchers = [
     .sdsn-section .section-label {
       color: #16A6A6;
     }
-
-    /* Staggered show grid */
     .shows-grid {
       display: grid;
       grid-template-columns: 1.15fr 1fr 0.9fr;
@@ -211,14 +207,10 @@ const launchers = [
       border: 2px solid rgba(255, 107, 92, 0.08);
       display: block;
     }
-
-    /* Focus ring for d-pad navigation */
     .show-tile:focus, .recap-tile:focus, .jump-chip:focus, .big-inning-pill:focus {
       outline: 4px solid #FF6B5C;
       outline-offset: 2px;
     }
-
-    /* Bold stagger */
     .show-tile:nth-child(1) {
       transform: translateY(-6px) rotate(-0.8deg);
     }
@@ -269,16 +261,12 @@ const launchers = [
       text-align: center;
       line-height: 1.4;
     }
-
-    /* RIGHT COLUMN: LOBBY */
     .right-col {
       flex: 0.8;
       display: flex;
       flex-direction: column;
       gap: 28px;
     }
-
-    /* SDSN TILE */
     .sdsn-section {
       flex: 0;
     }
@@ -333,8 +321,6 @@ const launchers = [
       letter-spacing: 0.6px;
       font-weight: 600;
     }
-
-    /* SPORTS SECTION */
     .sports-section {
       flex: 1;
       display: flex;
@@ -342,33 +328,14 @@ const launchers = [
       gap: 12px;
     }
 
+    .sports-section:not(:has(.recap-tile, .big-inning-pill, .schedule-chip)) { display: none; }
+
     .sports-recap-shell, .recap-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
     }
     .sports-recap-shell > astro-island, .sports-recap-shell .recap-grid { display: contents; }
-
-    .sport-item {
-      background: white;
-      border-left: 3px solid #FF6B5C;
-      padding: 14px 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .sport-item.live {
-      border-left-color: #FF6B5C;
-      background: linear-gradient(90deg, rgba(255, 107, 92, 0.06) 0%, transparent 100%);
-    }
-
-    .sport-item.final {
-      border-left-color: #ddd;
-      background: linear-gradient(90deg, rgba(136, 136, 136, 0.03) 0%, transparent 100%);
-    }
-
-    /* React component sports tile styles */
     .recap-tile {
       background: white;
       border-left: 3px solid #FF6B5C;
@@ -611,8 +578,6 @@ const launchers = [
       align-items: center;
       gap: 3px;
     }
-
-    /* JUMP TO SECTION */
     .jump-to {
       flex: 0;
     }
@@ -652,56 +617,6 @@ const launchers = [
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
-    /* ACCENT SHAPES */
-    .accent-dot {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .dot-1 {
-      width: 16px;
-      height: 16px;
-      background: #FF6B5C;
-      bottom: 135px;
-      left: 52px;
-      opacity: 0.6;
-      box-shadow: 0 4px 12px rgba(255, 107, 92, 0.25);
-    }
-
-    .dot-2 {
-      width: 10px;
-      height: 10px;
-      background: #16A6A6;
-      top: 110px;
-      left: 76px;
-      opacity: 0.5;
-      box-shadow: 0 2px 8px rgba(22, 166, 166, 0.2);
-    }
-
-    .dot-3 {
-      width: 13px;
-      height: 13px;
-      background: #F5B73D;
-      bottom: 165px;
-      right: 48px;
-      opacity: 0.55;
-      box-shadow: 0 3px 10px rgba(245, 183, 61, 0.25);
-    }
-
-    .accent-rule {
-      position: fixed;
-      background: linear-gradient(180deg, transparent 0%, rgba(255, 107, 92, 0.15) 50%, transparent 100%);
-      pointer-events: none;
-    }
-
-    .rule-1 {
-      width: 3px;
-      height: 320px;
-      left: 30px;
-      top: 300px;
-    }
-
     @media (max-width: 900px) {
       .header {
         align-items: flex-start;
@@ -738,8 +653,7 @@ const launchers = [
         padding: 28px 20px 80px;
       }
 
-      .container::before,
-      .accent-rule {
+      .container::before {
         display: none;
       }
 
@@ -757,23 +671,25 @@ const launchers = [
         min-width: 0;
       }
     }
-  </style>
+
+</style>
 </head>
 <body>
+  <a class="fr-skip" href="#familyroom-content">Skip to shows</a>
   <!-- HEADER / MARQUEE -->
-  <div class="header">
+  <header class="header">
     <div class="masthead">
-      <div class="wordmark">the <span>stanwoods</span></div>
+      <h1 class="wordmark">the <span>stanwoods</span></h1>
       <div class="subtitle">tonight's stage</div>
     </div>
     <div class="clock">
       <div class="time" id="clock-time">—</div>
       <div class="date" id="clock-date">&nbsp;</div>
     </div>
-  </div>
+  </header>
 
   <!-- MAIN STAGE -->
-  <div class="container">
+  <main id="familyroom-content" class="container">
     <!-- LEFT: TONIGHT'S SHOWS -->
     <div class="left-col">
       <div class="section-label">Tonight</div>
@@ -822,13 +738,8 @@ const launchers = [
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- ACCENT SHAPES -->
-  <div class="accent-dot dot-1"></div>
-  <div class="accent-dot dot-2"></div>
-  <div class="accent-dot dot-3"></div>
-  <div class="accent-rule rule-1"></div>
 
   <script is:inline>
     (function () {
@@ -880,7 +791,7 @@ const launchers = [
         var r = el.getBoundingClientRect();
         return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
       }
-      // Focus can sit on <body> or on chrome outside the grid; only treat it as
+      // Focus can sit on the body or on chrome outside the grid; only treat it as
       // "current" when it is one of the tiles we navigate between.
       function focusedItem(all) {
         return (document.activeElement && all.indexOf(document.activeElement) !== -1)

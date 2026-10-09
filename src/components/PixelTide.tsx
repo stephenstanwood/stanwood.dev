@@ -645,6 +645,13 @@ export default function PixelTide() {
       if (touch) handlePlace(touch.clientX, touch.clientY);
     }
 
+    function onKeyDown(event: KeyboardEvent) {
+      if(event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      const rect=canvas!.getBoundingClientRect();
+      handlePlace(rect.left+rect.width/2,rect.top+rect.height*.1);
+    }
+    canvas.addEventListener("keydown", onKeyDown);
     canvas.addEventListener("click", onClick);
     canvas.addEventListener("touchstart", onTouch, { passive: false });
 
@@ -652,6 +659,7 @@ export default function PixelTide() {
       stopped = true;
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("keydown", onKeyDown);
       canvas.removeEventListener("click", onClick);
       canvas.removeEventListener("touchstart", onTouch);
     };
@@ -670,7 +678,7 @@ export default function PixelTide() {
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                 activeTheme === key
                   ? "bg-white/20 text-white shadow-sm"
-                  : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
+                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white/60"
               }`}
             >
               {THEMES[key].label}
@@ -690,7 +698,7 @@ export default function PixelTide() {
               className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
                 tideSpeed === s
                   ? "bg-white/20 text-white shadow-sm"
-                  : "bg-white/5 text-white/40 hover:bg-white/10 hover:text-white/60"
+                  : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white/60"
               }`}
             >
               {TIDE_SPEED_LABEL[s]}
@@ -703,13 +711,16 @@ export default function PixelTide() {
       <div className="w-full max-w-3xl">
         <canvas
           ref={canvasRef}
+          tabIndex={0}
+          role="button"
+          aria-label="Pixel beach. Click or press Enter to build a sandcastle."
           className="w-full rounded-2xl shadow-2xl cursor-crosshair"
           style={{ imageRendering: "pixelated" }}
         />
       </div>
 
       {/* Stats row */}
-      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs tabular-nums" style={{ color: "rgba(245, 198, 160, 0.55)", fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "0.02em" }}>
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs tabular-nums" style={{ color: "rgba(245, 198, 160, 0.8)", fontFamily: "'Space Grotesk', sans-serif", letterSpacing: "0.02em" }}>
         <span>
           <span style={{ color: "rgba(245, 198, 160, 0.85)" }}>{stats.standing}</span> standing
         </span>
@@ -733,12 +744,12 @@ export default function PixelTide() {
 
       {/* Hint + reset */}
       <div className="flex items-center gap-4">
-        <p className="text-white/40 text-sm tracking-wide">
+        <p className="text-white/70 text-sm tracking-wide">
           tap or click anywhere to build a sandcastle
         </p>
         <button
           onClick={handleReset}
-          className="text-white/25 text-xs hover:text-white/50 transition-colors"
+          className="text-white/70 text-xs hover:text-white/50 transition-colors"
         >
           reset
         </button>
@@ -749,7 +760,7 @@ export default function PixelTide() {
             url.searchParams.set("speed", tideSpeed);
             copy(url.toString());
           }}
-          className="text-white/25 text-xs hover:text-white/50 transition-colors"
+          className="text-white/70 text-xs hover:text-white/50 transition-colors"
         >
           {copied ? "copied!" : "share"}
         </button>
