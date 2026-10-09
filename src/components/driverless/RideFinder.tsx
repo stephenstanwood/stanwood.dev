@@ -36,7 +36,7 @@ export default function RideFinder() {
 
       {!selectedCity && (
         <div className="dl-ride-empty">
-          <p>Self-driving taxis currently operate in 7 US cities, with 3 more launching in 2026.</p>
+          <p>Self-driving taxis currently carry paying riders in 13 US metros, with 3 more on the way.</p>
         </div>
       )}
 

@@ -12,7 +12,7 @@ const limits: Limit[] = [
     emoji: "🛣️",
     title: "Most still won't take a freeway",
     reality:
-      "Waymo only opened freeway rides in Phoenix and SF in 2025, and Zoox is surface-streets only. Cross-town rides that obviously need 101 or I-10 still get routed down arterials, and a 12-minute Uber can become a 28-minute Waymo.",
+      "Waymo opened freeway rides in late 2025, pulled them all back in May 2026 after its cars drove into closed construction zones, and only started switching them back on city by city at the end of July. Zoox is surface-streets only. Cross-town rides that obviously need 101 or I-10 can still get routed down arterials, and a 12-minute Uber can become a 28-minute Waymo.",
     workaround: "Check the upfront ETA before booking. If the quote is suspiciously long, a human driver may be the move.",
   },
   {
@@ -26,7 +26,7 @@ const limits: Limit[] = [
     emoji: "✈️",
     title: "Airports are a special case",
     reality:
-      "Phoenix Sky Harbor is the only major US airport with curbside Waymo pickups. SFO, LAX, and Austin-Bergstrom all force the car to a designated rideshare lot — you walk 5–10 minutes from the terminal each way.",
+      "Phoenix Sky Harbor and San Jose Mineta are the only major US airports with curbside Waymo pickups. SFO opened to Waymo in January 2026 but sends you to the Rental Car Center, and LAX and Austin-Bergstrom still force the car to a designated rideshare lot — a 5–15 minute walk or AirTrain ride from the terminal each way.",
     workaround: "Time your pickup for the lot walk, and don't expect drop-offs at departures curbs. A human driver is often the better airport play.",
   },
   {
@@ -47,7 +47,7 @@ const limits: Limit[] = [
     emoji: "🌨️",
     title: "Snow, ice, and dense fog stop the show",
     reality:
-      "Heavy rain causes a temporary pullover; snow and ice cause the whole fleet to pause. None of the major US services run a winter program, which is why Phoenix, Austin, and SoCal got commercial deployments first.",
+      "Heavy rain causes a temporary pullover; snow and ice cause the whole fleet to pause. No US service carries paying riders through a real winter yet, which is why Phoenix, Austin, and SoCal got commercial deployments first. Denver is the first test — Waymo has been driving it since summer 2026 with heated sensors, but has not opened it to riders.",
     workaround: "Check the in-app status before relying on a robotaxi for an early-morning ride during a storm window.",
   },
 ];
