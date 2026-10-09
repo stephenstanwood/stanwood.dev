@@ -10,3 +10,5 @@
 - Limits: LI/Scatos working data is synthetic; Money was read-only. Chromium CSS zoom/landscape is not physical-device proof. Local development performance samples are not production metrics.
 - Authority transfer: the lead may now render read-only and commit, promote and deploy these accepted bytes. The senior retains source repair authority for a later source-backed finding. QA server stopped and temporary fixtures removed.
 - Release evidence belongs in ignored `evidence/release.json`: actual commit/PR/merge/deployment/live results and wrap status. This acceptance does not claim deployment; no second documentation PR is needed to record shipping.
+
+- TV production continuation (2026-10-09T22:59:59Z): [delta acceptance](tv-live-correction.json) supersedes only the historical TV source hash after three native contrast fixes. Final TV SHA-256: `8b477d2eac0d67e241b53811f1a87f6a55d0ddeba705eef30bc55ee628022752`. Astro/build and 375/1440 Axe/pixels pass with scores hidden and shown; two additional focused image reads. Read-only rendering and shipping authority returns to the lead. Original PR 527 receipt and full-collection evidence remain unchanged.
