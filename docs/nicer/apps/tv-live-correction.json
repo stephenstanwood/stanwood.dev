@@ -1,0 +1,143 @@
+{
+  "kind": "senior-finisher-continuation",
+  "status": "accepted-frozen",
+  "modelId": "gpt-6-astra",
+  "reasoningEffort": "max",
+  "runId": "/root/senior_finish_resume",
+  "sessionId": null,
+  "independent": false,
+  "upstreamMakerModelIds": [
+    "gpt-6.1-sol",
+    "gpt-6-astra"
+  ],
+  "deltaMakerModelId": "gpt-6-astra",
+  "startedAt": "2026-10-09T22:56:54Z",
+  "completedAt": "2026-10-09T22:59:59Z",
+  "baseCommit": "8726c51015868e447cf18d413376120003e3301a",
+  "historicalAcceptance": {
+    "path": "senior-acceptance.json",
+    "sha256": "f6c442215bf32b77b455a42b34a40e692497d77498b265919271abb0dac038ac",
+    "sourceManifestSha256": "03ab749f355172762e11ff18a493e6adace37a8e379a2f730cdf95e5856d83be",
+    "note": "Original PR 527 acceptance and source manifest remain unchanged historical proof."
+  },
+  "trigger": {
+    "evidence": "evidence/live-tv-unlocked/results.json",
+    "finding": "Unlocked production TV at 1440px exposed sixteen faint team-abbreviation nodes missed by the phone-only Axe layout."
+  },
+  "scope": [
+    "src/pages/tv.astro native CSS",
+    "docs/nicer/apps/tv-live-correction.json",
+    "docs/nicer/apps/BUILD-STATE.md delta pointer"
+  ],
+  "sourceDelta": {
+    "path": "src/pages/tv.astro",
+    "beforeSha256": "b2d603789a5817eee030a20043bb638d04a9f4f3feed62f8d06dd27c10927715",
+    "afterSha256": "8b477d2eac0d67e241b53811f1a87f6a55d0ddeba705eef30bc55ee628022752",
+    "changes": {
+      ".recap-team-abbr": "#888 \u2192 #666",
+      ".recap-vs": "#888 \u2192 #666",
+      ".recap-score": "#aaa \u2192 #666"
+    },
+    "note": "The existing Show scores state exposed adjacent 2.32:1 score text; all three styles now have 5.74:1 contrast on white. No layout, auth, feed, calculation or interaction change."
+  },
+  "checks": {
+    "astro": {
+      "errors": 0,
+      "warnings": 0,
+      "existingHints": 22,
+      "evidence": "evidence/tv-live-correction/astro-check.log"
+    },
+    "build": {
+      "passed": true,
+      "evidence": "evidence/tv-live-correction/build.log",
+      "devStoppedDuringBuild": true
+    },
+    "axe": {
+      "tags": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+        "wcag22aa"
+      ],
+      "widths": [
+        375,
+        1440
+      ],
+      "states": [
+        "scores hidden",
+        "scores shown"
+      ],
+      "cases": 4,
+      "violations": 0,
+      "loadedReplayLinksPerCase": 8,
+      "evidence": "evidence/tv-live-correction/results.json"
+    },
+    "render": {
+      "cases": 4,
+      "pngs": 8,
+      "runtimeErrors": 0,
+      "overflow": false,
+      "brokenImages": 0
+    },
+    "postProtection": "All POSTs intercepted; existing development auto-unlock used. No auth bypass was added.",
+    "diffCheck": "pass",
+    "pendingBuildSteps": []
+  },
+  "visualRead": {
+    "additionalImageReads": 2,
+    "priorArchivedImageReads": 73,
+    "inspected": [
+      {
+        "path": "evidence/tv-live-correction/inspected-375.png",
+        "sha256": "bb93576b8f3a89bfeb3ccc8e531a7d8175744835f85c90370c8157c836c42701"
+      },
+      {
+        "path": "evidence/tv-live-correction/inspected-1440.png",
+        "sha256": "9877e95e92ef4e76712b7db139632a6404ca5c493206422e20483ed2e726ee6f"
+      }
+    ],
+    "finding": "Loaded replay metadata and both score states are legible and retain the existing composition at phone and desktop widths."
+  },
+  "evidenceSha256": {
+    "astro-check.log": "112f54f5282b1eedf6d1b7f2b823a2b94dbb53fb8113ec938d6cd9bcfab7a3b1",
+    "before.json": "db9ef4bca19c6a637dcbcfad8bf77b0e2e7eb25d566c9980504c42a18f5a7e69",
+    "build.log": "9948d672d19f16b76e82814e045e5056ae830085e91d1fe5a679415941c36143",
+    "first-qa.log": "7a1f44851dad4a9dbb4f7f7a01c1db38b7aaa49051fc655e1a2df902163f2a23",
+    "first-results.json": "920d063ad89cd86abd0932ae95ee107ad9c13f02220c1fb26248c52a0f5b6144",
+    "inspected-1440.png": "9877e95e92ef4e76712b7db139632a6404ca5c493206422e20483ed2e726ee6f",
+    "inspected-375.png": "bb93576b8f3a89bfeb3ccc8e531a7d8175744835f85c90370c8157c836c42701",
+    "qa.log": "d9838af316a1228321efa7db6a528b3104062f406d741fb6c307a6d2208a973c",
+    "qa.mjs": "993269e7d400b901ea655d51bdbf9b7b49f6a4b879106382b21754ef75c68188",
+    "results.json": "07d252eb77b0bcb5d1db5e8a813cb43904ee73be7a27c894c56ef62cd793c6d1",
+    "tv-1440-default-viewport.png": "e1a83a6b7e9e45dbae988bc24b0a23e6341490c50e9ca783b749cc9ec429bed3",
+    "tv-1440-default.png": "3e1398eeeac84cf052c2ae02492e89b72315a4f53ae07de488934bfdd16126e2",
+    "tv-1440-scores-viewport.png": "c426df7147f3ae616e114023424b29492e4df84d4816ab8ae8be291f48af62f9",
+    "tv-1440-scores.png": "27c17fcbfc6145bdf54ae88d222868c883da0965d7b6a450f9da5ea84104947a",
+    "tv-375-default-viewport.png": "f7d81e6135a7ebeb462aadfdbdb2dddadef1a2f9c2f6668e3e6fc2026282ca12",
+    "tv-375-default.png": "8a15c8f4d91d6f787a5acd74d16abf4bcc60de6eb12dee0dbd4e68451f5b9df2",
+    "tv-375-scores-viewport.png": "79058d2a5dc85c28874f37530c2c9e76b5378ed57e9e78370be5d29c3d1ca660",
+    "tv-375-scores.png": "53a4dd9ba08a01d2022dc73e3e3790eb8ca0f9c5ffe540785330df3b357230aa"
+  },
+  "limitations": [
+    "Local headless Chromium at two viewport widths; no physical-device claim.",
+    "The lead owns deployment and the subsequent live unlocked TV recheck."
+  ],
+  "actionableFindings": [],
+  "authorityTransfer": {
+    "at": "2026-10-09T22:59:59Z",
+    "to": "lead gpt-6.1-sol / 01a1228a-0e3f-7e22-8512-99e9ae3c8294",
+    "granted": [
+      "read-only rendering",
+      "commit and corrective PR",
+      "merge and deployment",
+      "live verification and wrap"
+    ],
+    "sourceRepairs": "Senior retains repair ownership for a later named TV defect."
+  },
+  "release": {
+    "claimed": false,
+    "owner": "lead",
+    "receiptPath": "evidence/release.json"
+  }
+}
