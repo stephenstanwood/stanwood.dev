@@ -25,6 +25,8 @@ const HISTORY_KEY = "laplab_history";
 const HISTORY_MAX = 5;
 
 function loadHistory(): HistoryEntry[] {
+  // CLEANUP-FLAG: saved history is cast without checking its entries. Handling
+  // corrupt or older records needs a migration/fallback policy for saved workouts.
   return safeGet<HistoryEntry[]>(HISTORY_KEY) ?? [];
 }
 
@@ -355,16 +357,18 @@ function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
  * Anything unrecognized (or absent, as on the server) falls back to the default.
  */
 function urlSettings() {
+  // CLEANUP-FLAG: server rendering uses defaults, but client hydration reads the
+  // URL. Non-default links need a shared initialization policy to avoid mismatches.
   const params = readUrlParams();
   const unit: "meters" | "yards" = params?.unit === "yards" ? "yards" : "meters";
   return {
     unit,
     duration:
-      params?.duration && DURATIONS.some((d) => d.value === params.duration)
+      params?.duration && DURATIONS.some((option) => option.value === params.duration)
         ? params.duration
         : 60,
     pace:
-      params?.pace && PACES[unit].some((p) => p.value === params.pace)
+      params?.pace && PACES[unit].some((option) => option.value === params.pace)
         ? params.pace
         : DEFAULT_PACE[unit],
     focus: params?.focus ?? ("any" as WorkoutFocus),
@@ -374,7 +378,6 @@ function urlSettings() {
 }
 
 export default function SwimWorkout() {
-  // Initialize from URL params if present
   const [fromUrl] = useState(urlSettings);
   const [unit, setUnit] = useState<"meters" | "yards">(fromUrl.unit);
   const [duration, setDuration] = useState(fromUrl.duration);
@@ -398,23 +401,32 @@ export default function SwimWorkout() {
     if (seed) setWorkout(generateWorkout({ ...settings, seed }));
   }, []);
 
-  // When unit changes, reset pace to default for that unit
   const handleUnitChange = (newUnit: "meters" | "yards") => {
     setUnit(newUnit);
     setPace(DEFAULT_PACE[newUnit]);
   };
 
+  const displayWorkout = useCallback((nextWorkout: Workout) => {
+    setAnimating(true);
+    setWorkout(nextWorkout);
+    setTimeout(() => setAnimating(false), 400);
+  }, []);
+
+  const scrollToWorkout = useCallback(() => {
+    setTimeout(() => {
+      workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  }, []);
+
   const generate = useCallback((scroll = true) => {
     const seed = Math.floor(Math.random() * 2147483647);
-    const w = generateWorkout({ duration, pace, unit, seed, focus, equipment });
-    setAnimating(true);
-    setWorkout(w);
-    setTimeout(() => setAnimating(false), 400);
+    const nextWorkout = generateWorkout({ duration, pace, unit, seed, focus, equipment });
+    displayWorkout(nextWorkout);
 
     const entry: HistoryEntry = {
-      name: w.name,
-      totalDistance: w.totalDistance,
-      estimatedMinutes: w.estimatedMinutes,
+      name: nextWorkout.name,
+      totalDistance: nextWorkout.totalDistance,
+      estimatedMinutes: nextWorkout.estimatedMinutes,
       unit,
       pace,
       duration,
@@ -426,12 +438,8 @@ export default function SwimWorkout() {
     saveToHistory(entry);
     setHistory(loadHistory());
 
-    if (scroll) {
-      setTimeout(() => {
-        workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }
-  }, [duration, pace, unit, focus, equipment]);
+    if (scroll) scrollToWorkout();
+  }, [duration, pace, unit, focus, equipment, displayWorkout, scrollToWorkout]);
 
   const loadFromHistory = useCallback((entry: HistoryEntry) => {
     setUnit(entry.unit);
@@ -439,7 +447,7 @@ export default function SwimWorkout() {
     setPace(entry.pace);
     setFocus(entry.focus);
     setEquipment(entry.equipment);
-    const w = generateWorkout({
+    const nextWorkout = generateWorkout({
       duration: entry.duration,
       pace: entry.pace,
       unit: entry.unit,
@@ -447,13 +455,9 @@ export default function SwimWorkout() {
       focus: entry.focus,
       equipment: entry.equipment,
     });
-    setAnimating(true);
-    setWorkout(w);
-    setTimeout(() => setAnimating(false), 400);
-    setTimeout(() => {
-      workoutRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
-  }, []);
+    displayWorkout(nextWorkout);
+    scrollToWorkout();
+  }, [displayWorkout, scrollToWorkout]);
 
   const handlePrint = () => {
     window.print();
@@ -462,9 +466,12 @@ export default function SwimWorkout() {
   const copyLink = useCallback(() => {
     if (!workout?.seed) return;
     const url = new URL(window.location.href);
-    const eqKeys = (Object.keys(equipment) as Array<keyof EquipmentOptions>).filter(k => equipment[k]);
-    const allEnabled = eqKeys.length === 3;
-    url.search = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}${focus !== "any" ? `&f=${focus}` : ""}${!allEnabled ? `&eq=${eqKeys.join(",")}` : ""}`;
+    const enabledEquipmentKeys = (Object.keys(equipment) as Array<keyof EquipmentOptions>).filter(key => equipment[key]);
+    const allEnabled = enabledEquipmentKeys.length === 3;
+    let query = `?d=${duration}&p=${encodeURIComponent(pace)}&u=${unit}&s=${workout.seed}`;
+    if (focus !== "any") query += `&f=${focus}`;
+    if (!allEnabled) query += `&eq=${enabledEquipmentKeys.join(",")}`;
+    url.search = query;
     url.hash = "";
     copyLinkToClipboard(url.toString());
   }, [workout, duration, pace, unit, focus, equipment, copyLinkToClipboard]);
