@@ -1,5 +1,37 @@
 [
   {
+    "name": "Microsoft-Decision-1",
+    "org": "Microsoft",
+    "date": "2026-10-09",
+    "type": "model",
+    "summary": "Choose which AI should handle a request, sort customer feedback, or check an assistant's next action without generating a long reply. Available through OpenRouter and Microsoft Foundry, with confidence scores for each option.",
+    "url": "https://commandline.microsoft.com/microsoft-decision-1-model-foundry/"
+  },
+  {
+    "name": "LightOnOCR-3",
+    "org": "LightOn",
+    "date": "2026-10-08",
+    "type": "model",
+    "summary": "Turn PDFs and scans into text, labeled page sections, image descriptions, and chart data. Try the browser demo or download the models to build document tools, with an Apache 2.0 license that allows commercial use.",
+    "url": "https://huggingface.co/blog/lightonai/lightonocr-3"
+  },
+  {
+    "name": "Claude Docs, Slides, and Design",
+    "org": "Anthropic",
+    "date": "2026-10-08",
+    "type": "tool",
+    "summary": "Create documents, slide decks, and designs directly in a Claude conversation, now on every plan including Free. Edit them on your phone and export decks to PowerPoint, PDF, or editable Google Slides.",
+    "url": "https://claude.com/resources/articles/dashboards-and-motion"
+  },
+  {
+    "name": "Playground",
+    "org": "Google",
+    "date": "2026-10-07",
+    "type": "tool",
+    "summary": "Build and share browser games by describing the rules, characters, and physics in chat. U.S. adults can create immediately with a Google One AI plan, while free creation access is waitlisted.",
+    "url": "https://blog.google/innovation-and-ai/technology/ai/playground-experimental-gaming-platform/"
+  },
+  {
     "name": "GPT-6 + Intelligent UI",
     "org": "OpenAI",
     "date": "2026-10-07",
@@ -12,24 +44,16 @@
     "org": "Anthropic",
     "date": "2026-10-07",
     "type": "model",
-    "summary": "Run subagents, chat features, and computer-use tasks at $0.10 input and $0.50 output per million tokens for prompts under 100K. It is live in the Claude API and major clouds, roughly 75% cheaper than Haiku 4.5.",
-    "url": "https://www.anthropic.com/claude/haiku"
+    "summary": "Power live customer support, quick summaries, and small coding tasks with a fast, low-cost model. It is available through the Claude API and major clouds, with average costs roughly 75% below Haiku 4.5.",
+    "url": "https://www.anthropic.com/claude-haiku-5-5"
   },
   {
-    "name": "EmbeddingGemma 2",
-    "org": "Google DeepMind",
+    "name": "Google AI Edge Foresight",
+    "org": "Google",
     "date": "2026-10-06",
-    "type": "model",
-    "summary": "Add on-device search across text, code, images, audio, and video with one free 740M-parameter embedding model. Download it from Hugging Face or Kaggle under Apache 2.0 and run it in about 567 MB of RAM.",
-    "url": "https://huggingface.co/collections/google/embeddinggemma"
-  },
-  {
-    "name": "Mistral Large 4",
-    "org": "Mistral",
-    "date": "2026-10-06",
-    "type": "model",
-    "summary": "Run reasoning, coding, and image-understanding tasks on a 1-trillion-parameter model at $1.36 input and $4.18 output per million tokens. The API preview is live in Mistral Studio, with open weights due by the end of October.",
-    "url": "https://mistral.ai/news/mistral-large-4/"
+    "type": "tool",
+    "summary": "Turn meeting audio and shorthand into polished notes, then ask questions across your notes and project files. This experimental Mac app runs its AI offline and is optimized for Apple silicon, without a cloud subscription.",
+    "url": "https://developers.google.com/edge/foresight"
   },
   {
     "name": "Rill Browser",
@@ -38,29 +62,5 @@
     "type": "tool",
     "summary": "Turn a webpage into a coding task for Claude Code or Codex without leaving your browser. The free Mac beta uses your existing plan and requires Apple silicon with macOS 14 or later.",
     "url": "https://rill.love/"
-  },
-  {
-    "name": "Spira Maxima",
-    "org": "Spira",
-    "date": "2026-10-05",
-    "type": "model",
-    "summary": "Turn a script, product photos, or a recording into a finished vertical video with a presenter, captions, and music. Try clips up to 20 seconds on the free plan, with longer videos available on paid plans.",
-    "url": "https://spira.ai/spira-maxima"
-  },
-  {
-    "name": "Suno Speech",
-    "org": "Suno",
-    "date": "2026-10-01",
-    "type": "model",
-    "summary": "Create spoken stories, poems, or pep talks with original background music in one track. Describe the voice and musical style you want, then try the public beta on web or mobile.",
-    "url": "https://suno.com/blog/introducing-speech-beta"
-  },
-  {
-    "name": "Claude Code Mods",
-    "org": "Anthropic",
-    "date": "2026-10-01",
-    "type": "tool",
-    "summary": "Customize your coding assistant with TypeScript: rewrite prompts, retry tool calls, add buttons, or replace built-in features. Package and share these changes as plugins in the Claude Code CLI and desktop app.",
-    "url": "https://claude.com/blog/claude-code-mods"
   }
 ]
