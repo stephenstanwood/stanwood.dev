@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-09T10:30:07.813233+00:00",
+  "built_at": "2026-10-10T10:30:48.769195+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -8,9 +8,8 @@
       "is_single": false,
       "display_name": "CS547",
       "best_score": 28,
-      "video_count": 8,
+      "video_count": 7,
       "video_ids": [
-        "yhfuDD3hprA",
         "QZ61wToFILM",
         "Q_UxyEepuQA",
         "WwWjH9ynx9U",
@@ -143,13 +142,30 @@
       ]
     },
     {
+      "key": "AA274A",
+      "is_single": false,
+      "display_name": "AA274A",
+      "best_score": 9,
+      "video_count": 7,
+      "video_ids": [
+        "emb_KF3OSu0",
+        "AN4jXyWwV7Q",
+        "hFCIZjVkSaw",
+        "Izu4_AUiHyk",
+        "nluc4rMiipA",
+        "Kv5G2OlrIbU",
+        "Lgt5ONBtFI0"
+      ]
+    },
+    {
       "key": "CME295",
       "is_single": false,
       "display_name": "CME295",
       "best_score": 9,
-      "video_count": 1,
+      "video_count": 2,
       "video_ids": [
-        "114i2Kz-LZA"
+        "114i2Kz-LZA",
+        "GaIeu3npx04"
       ]
     },
     {
@@ -177,9 +193,8 @@
       "is_single": false,
       "display_name": "Robotics Seminar",
       "best_score": 8,
-      "video_count": 8,
+      "video_count": 7,
       "video_ids": [
-        "D7e7oUbtkFM",
         "NUtaN10cVDc",
         "b6uxaRL_ipw",
         "3W36pd50Wqw",
@@ -240,9 +255,8 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": 5,
-      "video_count": 8,
+      "video_count": 7,
       "video_ids": [
-        "tr-CUpw--ck",
         "_WaR2fjZpEQ",
         "agN3AlfGFrk",
         "WUUq6TVAu8U",
@@ -250,16 +264,6 @@
         "IvXTl3yj-4Y",
         "iNaRBp4T57Q",
         "oyLUvz9nR6E"
-      ]
-    },
-    {
-      "key": "AA228V",
-      "is_single": false,
-      "display_name": "AA228V",
-      "best_score": 4,
-      "video_count": 1,
-      "video_ids": [
-        "_U0EUX2E3k0"
       ]
     },
     {
@@ -364,22 +368,6 @@
     }
   ],
   "queue": [
-    {
-      "id": "yhfuDD3hprA",
-      "title": "Stanford CS547 HCI Seminar | Winter 2026 | Computational Ecosystems",
-      "url": "https://www.youtube.com/watch?v=yhfuDD3hprA",
-      "duration": 3711,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "CS547",
-      "series_display": "CS547",
-      "lecture_num": null,
-      "score": 18,
-      "categories": [
-        "hci",
-        "series:CS547"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nMarch 6, 2026\nThis lecture covers:\n\u2022  Advancing human values through integrative computing and changing practice\n\u2022  Examples of computational ecosystems built over the last decade that transform how we plan, coordinate, connect, learn, and innovate\n\u2022  Recent efforts to support human prac"
-    },
     {
       "id": "QZ61wToFILM",
       "title": "Stanford CS547 HCI Seminar | Spring 2026 | Observing the User Experience in 2026",
@@ -1597,6 +1585,119 @@
       "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
     },
     {
+      "id": "emb_KF3OSu0",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Sensors & Intro to CV",
+      "url": "https://www.youtube.com/watch?v=emb_KF3OSu0",
+      "duration": 4574,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nLecture 8 \u2014 Robotic Sensors and Introduction to Computer Vision\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent "
+    },
+    {
+      "id": "AN4jXyWwV7Q",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Motion Planning Sampling-Based",
+      "url": "https://www.youtube.com/watch?v=AN4jXyWwV7Q",
+      "duration": 4746,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n \nLecture 7 \u2014 Motion Planning II: Sampling-Based Methods\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent edition "
+    },
+    {
+      "id": "hFCIZjVkSaw",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Motion Planning Graph Search Methods",
+      "url": "https://www.youtube.com/watch?v=hFCIZjVkSaw",
+      "duration": 4523,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 9,
+      "categories": [
+        "algorithms",
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n \nLecture 6 \u2014 Motion Planning I: Graph Search Methods\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent edition and"
+    },
+    {
+      "id": "Izu4_AUiHyk",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Advanced Trajectory Optimization",
+      "url": "https://www.youtube.com/watch?v=Izu4_AUiHyk",
+      "duration": 4665,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n \nLecture 5 \u2014 Advanced Methods for Trajectory Optimization\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent editio"
+    },
+    {
+      "id": "nluc4rMiipA",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Trajectory Tracking",
+      "url": "https://www.youtube.com/watch?v=nluc4rMiipA",
+      "duration": 4706,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n \nLecture 4 \u2014 Trajectory Tracking and Closed-Loop Control\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent edition"
+    },
+    {
+      "id": "Kv5G2OlrIbU",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Trajectory Optimization",
+      "url": "https://www.youtube.com/watch?v=Kv5G2OlrIbU",
+      "duration": 4480,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nLecture 3 \u2014 Trajectory Optimization: Open-Loop Motion Control and Differential Flatness\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below p"
+    },
+    {
+      "id": "Lgt5ONBtFI0",
+      "title": "Stanford AA274A Principles of Robotic Autonomy | Autumn 2019 | Overview, Mobile Robot Kinematics",
+      "url": "https://www.youtube.com/watch?v=Lgt5ONBtFI0",
+      "duration": 4522,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "AA274A",
+      "series_display": "AA274A",
+      "lecture_num": null,
+      "score": 5,
+      "categories": [
+        "swe_career",
+        "robotics"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n \nLecture 1 \u2014 Course Overview, Mobile Robot Kinematics\n \nNote: This lecture was recorded as part of the 2019 edition of the course. Course content, structure, assignments, and other materials may have changed since this recording. The course links below point to the most recent edition an"
+    },
+    {
       "id": "114i2Kz-LZA",
       "title": "Stanford CME295 Transformers & LLMs | Autumn 2026 | Lecture 1 - Transformers",
       "url": "https://www.youtube.com/watch?v=114i2Kz-LZA",
@@ -1612,6 +1713,23 @@
         "series:CME295"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Welcome\n00:03:43 Difference from last year\u2019s edition\n00:05:01 Class logistics\n00:12:42 Timeline\n00:16:56 Tokenization\n00:37:27 Word2vec (CBOW, Skip-gram)\n00:48:26 RNN, "
+    },
+    {
+      "id": "GaIeu3npx04",
+      "title": "Stanford CME295 Transformers & LLMs | Autumn 2026 | Lecture 2 - Large Language Models",
+      "url": "https://www.youtube.com/watch?v=GaIeu3npx04",
+      "duration": 6195,
+      "published_at": "2026-10-09T00:00:00+00:00",
+      "series": "CME295",
+      "series_display": "CME295",
+      "lecture_num": 2,
+      "score": 9,
+      "categories": [
+        "applied_ai",
+        "systems_db",
+        "series:CME295"
+      ],
+      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the course schedule and syllabus, visit: https://cme295.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Welcome\n00:03:43 Difference with last year\u2019s edition\n00:05:01 Class logistics\n00:12:42 Timeline\n00:16:56 Tokenization\n00:37:27 Word2vec (CBOW, Skip-gram)\n00:48:26 RNN, "
     },
     {
       "id": "1YdgSwEtf_s",
@@ -1645,21 +1763,6 @@
         "swe_career"
       ],
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nThis seminar covers applications, applied AI, and agent monetization.\n\nFollow along with the course schedule: https://mse435.stanford.edu/\n\nGuest Speaker: Tuhin Srivastava, Founder / CEO, Baseten\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science and Enginee"
-    },
-    {
-      "id": "D7e7oUbtkFM",
-      "title": "Stanford Robotics Seminar ENGR319 | Winter 2026 | Gen Control, Action Chunking, Moravec\u2019s Paradox",
-      "url": "https://www.youtube.com/watch?v=D7e7oUbtkFM",
-      "duration": 3230,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "Robotics Seminar",
-      "series_display": "Robotics Seminar",
-      "lecture_num": null,
-      "score": 2,
-      "categories": [
-        "robotics"
-      ],
-      "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nFebruary 27, 2026\nThis seminar covers: \n\u2022 Mathematical evidence for Moravec\u2019s claim\n\u2022 Key innovations in modern robot learning\n\nTo follow along with the seminar schedule, visit: https://stanfordasl.github.io/robotics_seminar/\n\nMax Simchowitz is an Assistant Professor at the Machine Learn"
     },
     {
       "id": "NUtaN10cVDc",
@@ -2023,21 +2126,6 @@
       "description": "- Explore these concepts and more in the UI/UX Design for AI Products course: https://bit.ly/stf-aid-webinar\n- Learn how to build intelligent AI agents: https://online.stanford.edu/programs/agentic-ai\n- Browse all Stanford Online AI courses: https://online.stanford.edu/artificial-intelligence/courses-and-programs\n\nWhat happens when AI agents are designed to simulate human behavior?\n\nIn this Stanfo"
     },
     {
-      "id": "tr-CUpw--ck",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 1 - Diffusion",
-      "url": "https://www.youtube.com/watch?v=tr-CUpw--ck",
-      "duration": 6386,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 1,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:06:04 Class logistics\n00:12:23 Outline of the class\n00:17:47 Motivating example\n00:23:31 Intuition behind diffusion\n00:26:33 Image representation\n00"
-    },
-    {
       "id": "_WaR2fjZpEQ",
       "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 2 - Score matching",
       "url": "https://www.youtube.com/watch?v=_WaR2fjZpEQ",
@@ -2144,23 +2232,6 @@
         "series:CME296"
       ],
       "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:01:38 Diffusion\n00:05:23 Score matching\n00:13:02 Flow matching\n00:19:04 Latent space and guidance\n00:25:11 Image generation architectures\n00:29:47 M"
-    },
-    {
-      "id": "_U0EUX2E3k0",
-      "title": "Stanford AA228V I Validation of Safety Critical Systems I Explainability",
-      "url": "https://www.youtube.com/watch?v=_U0EUX2E3k0",
-      "duration": 4422,
-      "published_at": "2026-04-10T00:00:00+00:00",
-      "series": "AA228V",
-      "series_display": "AA228V",
-      "lecture_num": null,
-      "score": 4,
-      "categories": [
-        "algorithms",
-        "robotics",
-        "series:AA228V"
-      ],
-      "description": "To learn more and enroll in the course: https://online.stanford.edu/courses/aa228v-validation-safety-critical-systems\n\nFollow along with the course by visiting the course website: https://aa228v.stanford.edu/\n\nTextbook: https://algorithmsbook.com/validation/\n\nLearn more about the Robotics and Autonomous Systems Graduate Certificate:\nhttps://online.stanford.edu/programs/robotics-and-autonomous-syst"
     },
     {
       "id": "BBl8bNJP6ds",
