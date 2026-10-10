@@ -14,6 +14,8 @@ MLSListings supplies the primary source data from participating brokers and part
 
 Incomplete pagination, source/parser failures, and a suspicious empty feed never silently replace the last successful inventory. Partial results may refresh individually verified homes, but never archive unseen homes. A successful complete refresh archives missing homes. Unverified records leave the active deck after 72h; saves and notes remain as inspiration. Store price changes separately in `scatosswip.price_history`.
 
+Public requests, including robots.txt, retry HTTP 502/503/504 at most twice with 4s/8s backoff. A longer `Retry-After` is honored up to 60s; beyond that the source remains unavailable until the next refresh. Access denials, TLS failures, and parser failures are not retried by the HTTP client. Exhausted retries still produce a failed or partial refresh and preserve the last verified inventory.
+
 ## Maps and property links
 
 Every browse, saved, matched, and passed card, plus the detail view, includes a Google Maps preview pinned to the listing coordinates and a link to open that location in Google Maps. The preview uses Google’s live embed, preserving its map labels and attribution without storing screenshots or requiring a Maps API key.

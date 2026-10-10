@@ -19,6 +19,7 @@ import urllib.parse
 import urllib.request
 import urllib.robotparser
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 AGENT = 'ScatosSwip/1.0 (+https://stanwood.dev/lg; personal home search)'
@@ -61,6 +62,34 @@ class PublicClient:
         self.last_request = {}
 
     def raw(self, url, data=None):
+        # Both robots.txt and source requests can have brief upstream outages.
+        # Retry only transient server errors; denied requests and TLS failures
+        # still fail immediately. Exhausted retries retain the partial-feed path.
+        for attempt in range(3):
+            try:
+                return self._request_once(url, data)
+            except urllib.error.HTTPError as error:
+                if error.code not in (502, 503, 504) or attempt == 2:
+                    raise
+                delay = 4 * (2 ** attempt)
+                retry_after = error.headers.get('Retry-After') if error.headers else None
+                if retry_after:
+                    try:
+                        seconds = float(retry_after)
+                    except ValueError:
+                        try:
+                            seconds = (parsedate_to_datetime(retry_after) - datetime.now(timezone.utc)).total_seconds()
+                        except (TypeError, ValueError, OverflowError):
+                            seconds = 0
+                    if math.isfinite(seconds):
+                        delay = max(delay, seconds)
+                # Respect a longer Retry-After by deferring to the next refresh,
+                # rather than retrying early or exceeding the collection budget.
+                if delay > 60:
+                    raise
+                time.sleep(delay)
+
+    def _request_once(self, url, data=None):
         host = urllib.parse.urlsplit(url).netloc
         time.sleep(max(0, .55 - (time.monotonic() - self.last_request.get(host, 0))))
         self.last_request[host] = time.monotonic()
