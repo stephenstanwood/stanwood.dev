@@ -1,11 +1,11 @@
 [
   {
-    "name": "Microsoft-Decision-1",
-    "org": "Microsoft",
+    "name": "Clef-omni",
+    "org": "Cloudflare",
     "date": "2026-10-09",
     "type": "model",
-    "summary": "Choose which AI should handle a request, sort customer feedback, or check an assistant's next action without generating a long reply. Available through OpenRouter and Microsoft Foundry, with confidence scores for each option.",
-    "url": "https://commandline.microsoft.com/microsoft-decision-1-model-foundry/"
+    "summary": "Classify text, images, audio, and video in one API call to build media tagging or moderation tools. Download the open weights or use the hosted API at $0.15 per million input tokens.",
+    "url": "https://blog.cloudflare.com/clef-faster-cheaper-multimodal/"
   },
   {
     "name": "LightOnOCR-3",
