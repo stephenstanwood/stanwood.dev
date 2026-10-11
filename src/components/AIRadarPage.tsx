@@ -4,7 +4,7 @@ import {
   ORG_COLORS,
   TYPE_LABELS,
   relativeAge,
-  formatLaunchDateFull,
+  formatLaunchDate,
   getDateRange,
   groupByDate,
   sortLaunches,
@@ -12,22 +12,22 @@ import {
 import { countBy } from "../lib/arrays";
 import { pluralize } from "../lib/text";
 
-const sorted = sortLaunches(launches as Launch[]);
+const sortedLaunches = sortLaunches(launches as Launch[]);
 
 export default function AIRadarPage() {
-  const availableTypes = [...new Set(sorted.map((l) => l.type))].filter(
-    (t) => TYPE_LABELS[t]
+  const availableTypes = [...new Set(sortedLaunches.map((launch) => launch.type))].filter(
+    (type) => TYPE_LABELS[type]
   );
 
-  const latest = sorted[0];
-  const grouped = groupByDate(sorted);
+  // CLEANUP-FLAG: the lead story assumes a nonempty feed; an empty published
+  // dataset crashes prerendering. Handling it needs an explicit page fallback.
+  const latest = sortedLaunches[0];
+  const grouped = groupByDate(sortedLaunches);
 
-  // Count badges: type and org counts, both from the full dataset.
-  const typeCounts = countBy(sorted, (l) => l.type);
+  const typeCounts = countBy(sortedLaunches, (launch) => launch.type);
 
-  // Stats bar
-  const uniqueOrgs = new Set(sorted.map((l) => l.org)).size;
-  const dateRange = getDateRange(sorted);
+  const uniqueOrgs = new Set(sortedLaunches.map((launch) => launch.org)).size;
+  const dateRange = getDateRange(sortedLaunches);
 
   return (
     <div className="rp-page">
@@ -39,19 +39,19 @@ export default function AIRadarPage() {
             <span className="rp-dot" />
             AI RADAR
           </h1>
-          <span className="rp-count">{sorted.length} tracked</span>
+          <span className="rp-count">{sortedLaunches.length} tracked</span>
         </div>
         <p className="rp-tagline">New tools, models, and releases. Straight to the source.</p>
         <div className="rp-stats">
-          <span>{sorted.length} launches</span>
+          <span>{sortedLaunches.length} launches</span>
           <span className="rp-stats-sep">·</span>
           <span>{uniqueOrgs} orgs</span>
           <span className="rp-stats-sep">·</span>
           <span>{dateRange}</span>
-          {availableTypes.map((t) => (
-            <span key={t}>
+          {availableTypes.map((type) => (
+            <span key={type}>
               <span className="rp-stats-sep">·</span>
-              <span style={{ color: "#555" }}>{typeCounts[t] || 0} {pluralize(typeCounts[t] || 0, TYPE_LABELS[t].toLowerCase())}</span>
+              <span style={{ color: "#555" }}>{typeCounts[type] || 0} {pluralize(typeCounts[type] || 0, TYPE_LABELS[type].toLowerCase())}</span>
             </span>
           ))}
         </div>
@@ -79,9 +79,9 @@ export default function AIRadarPage() {
 
       {/* Timeline */}
       <div className="rp-timeline">
-        {grouped.map(({ date, launches: items }, gi) => {
-          const { dayName, dayNum, month } = formatLaunchDateFull(date);
-          const isFirst = gi === 0;
+        {grouped.map(({ date, launches: items }, groupIndex) => {
+          const { dayName, dayNum, month } = formatLaunchDate(date);
+          const isFirst = groupIndex === 0;
           const visibleItems = isFirst ? items.slice(1) : items;
           if (visibleItems.length === 0) return null;
           return (
@@ -94,22 +94,22 @@ export default function AIRadarPage() {
                 <span className="rp-day-name">{dayName}</span>
               </div>
               <div className="rp-day-entries">
-                {visibleItems.map((l) => (
+                {visibleItems.map((launch) => (
                   <a
-                    key={l.name}
-                    href={l.url}
+                    key={launch.name}
+                    href={launch.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="rp-entry"
-                    style={{ borderLeftColor: ORG_COLORS[l.org] || "#888" }}
+                    style={{ borderLeftColor: ORG_COLORS[launch.org] || "#888" }}
                   >
                     <div className="rp-entry-header">
-                      <span className="rp-entry-name">{l.name}</span>
-                      <span className="rp-entry-badge">{TYPE_LABELS[l.type] || "LAUNCH"}</span>
+                      <span className="rp-entry-name">{launch.name}</span>
+                      <span className="rp-entry-badge">{TYPE_LABELS[launch.type] || "LAUNCH"}</span>
                     </div>
                     <p className="rp-entry-summary">
-                      <span className="rp-org" style={{ color: "#38493f" }}>{l.org}</span>
-                      {" — "}{l.summary}
+                      <span className="rp-org" style={{ color: "#38493f" }}>{launch.org}</span>
+                      {" — "}{launch.summary}
                     </p>
                   </a>
                 ))}

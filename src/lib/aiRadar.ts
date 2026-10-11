@@ -46,105 +46,6 @@ export const TYPE_LABELS: Record<string, string> = {
 };
 
 /**
- * Curated profiles for the major AI labs. The radar's org chips reference these
- * by exact name so click-to-filter keeps working — keep names in sync with the
- * launch data and ORG_COLORS above.
- */
-export interface LabProfile {
-  name: string;
-  founded: string;
-  hq: string;
-  oneLine: string;
-  signature: string;
-  flag: string;
-  stance: "closed" | "open" | "mixed" | "infra";
-}
-
-export const LAB_PROFILES: LabProfile[] = [
-  {
-    name: "OpenAI",
-    founded: "2015",
-    hq: "San Francisco",
-    oneLine: "Set the pace for the modern wave — ChatGPT made conversational AI a household tool overnight.",
-    signature: "GPT-5 · ChatGPT · Sora · Realtime API",
-    flag: "🇺🇸",
-    stance: "closed",
-  },
-  {
-    name: "Anthropic",
-    founded: "2021",
-    hq: "San Francisco",
-    oneLine: "Founded by ex-OpenAI safety researchers; Claude is the model coding tools quietly standardize on.",
-    signature: "Claude Sonnet · Claude Opus · MCP · Skills",
-    flag: "🇺🇸",
-    stance: "closed",
-  },
-  {
-    name: "Google",
-    founded: "2014",
-    hq: "Mountain View / London",
-    oneLine: "DeepMind + Brain merged into the Gemini team; the only lab with the chips, the data, and the products.",
-    signature: "Gemini 3 · AI Studio · Vertex · Veo",
-    flag: "🇺🇸",
-    stance: "mixed",
-  },
-  {
-    name: "Meta",
-    founded: "2013",
-    hq: "Menlo Park",
-    oneLine: "Open-weights leader in the West — Llama set the floor every other open lab is measured against.",
-    signature: "Llama · Movie Gen · Ray-Ban Display",
-    flag: "🇺🇸",
-    stance: "open",
-  },
-  {
-    name: "xAI",
-    founded: "2023",
-    hq: "Palo Alto",
-    oneLine: "Musk's lab. Massive Memphis training cluster, edgier brand voice, integrated tightly with X.",
-    signature: "Grok · Colossus supercluster",
-    flag: "🇺🇸",
-    stance: "mixed",
-  },
-  {
-    name: "Mistral",
-    founded: "2023",
-    hq: "Paris",
-    oneLine: "Europe's flagship lab — punches above its weight on small, efficient, mostly open-weights models.",
-    signature: "Mistral Large · Mixtral · Codestral",
-    flag: "🇫🇷",
-    stance: "open",
-  },
-  {
-    name: "DeepSeek",
-    founded: "2023",
-    hq: "Hangzhou",
-    oneLine: "Sparked the 2025 cost-collapse — frontier-class reasoning at a fraction of the price, weights and all.",
-    signature: "DeepSeek-R1 · V3 · open weights",
-    flag: "🇨🇳",
-    stance: "open",
-  },
-  {
-    name: "Alibaba",
-    founded: "2023",
-    hq: "Hangzhou",
-    oneLine: "Qwen team ships open-weights models at every size with ruthless cadence — the workhorse of Chinese AI.",
-    signature: "Qwen 3 · Qwen-VL · Qwen-Coder",
-    flag: "🇨🇳",
-    stance: "open",
-  },
-  {
-    name: "NVIDIA",
-    founded: "1993",
-    hq: "Santa Clara",
-    oneLine: "Sells the picks and shovels. Every other lab on this list trains on its chips — H100, B200, GB200, and counting.",
-    signature: "Blackwell · CUDA · NeMo · Nemotron",
-    flag: "🇺🇸",
-    stance: "infra",
-  },
-];
-
-/**
  * Parse a YYYY-MM-DD date string at noon local time so that formatting
  * functions reflect the correct calendar day regardless of timezone offset.
  */
@@ -169,25 +70,20 @@ export function relativeAge(dateStr: string): string {
   return `${years}yr ago`;
 }
 
-/** Extract common formatted parts from a parsed Date. Used by formatLaunchDate and formatLaunchDateFull. */
-function extractDateParts(date: Date) {
+/** Format a launch date for both the radar timeline and homepage tile. */
+export function formatLaunchDate(dateStr: string): {
+  dayName: string;
+  dayNum: string;
+  month: string;
+  year: string;
+} {
+  const date = parseLaunchDate(dateStr);
   return {
     dayName: date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase(),
     dayNum: date.getDate().toString(),
     month: date.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
     year: date.getFullYear().toString(),
   };
-}
-
-/** Extract { day, date, month } strings from a YYYY-MM-DD date string. */
-export function formatLaunchDate(dateStr: string): { day: string; date: string; month: string } {
-  const { dayName, dayNum, month } = extractDateParts(parseLaunchDate(dateStr));
-  return { day: dayName, date: dayNum, month };
-}
-
-/** Extract { dayName, dayNum, month, year } strings from a YYYY-MM-DD date string. */
-export function formatLaunchDateFull(dateStr: string): { dayName: string; dayNum: string; month: string; year: string } {
-  return extractDateParts(parseLaunchDate(dateStr));
 }
 
 /** Sort launches newest first. */
@@ -216,66 +112,4 @@ export function groupByDate(items: Launch[]): { date: string; launches: Launch[]
   return Object.entries(groups)
     .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime())
     .map(([date, launches]) => ({ date, launches }));
-}
-
-export interface PulseStats {
-  thisWeek: number;
-  priorWeek: number;
-  weekDelta: number;
-  daysSinceLast: number | null;
-  topOrg: { name: string; count: number } | null;
-  topType: { type: string; count: number } | null;
-  totalLast30: number;
-  typeBreakdown: { type: string; count: number; pct: number }[];
-}
-
-/**
- * Compute at-a-glance stats for the radar — pace this week vs prior, freshness,
- * top org and type over the last 30 days, plus a stacked breakdown of types.
- * Pass the unsorted or sorted launches; ordering doesn't matter.
- */
-export function computePulse(launches: Launch[]): PulseStats {
-  const now = Date.now();
-  const daysAgo = (date: string) => daysSince(parseLaunchDate(date), now);
-
-  let thisWeek = 0;
-  let priorWeek = 0;
-  let totalLast30 = 0;
-  let minDaysAgo: number | null = null;
-  const orgCounts: Record<string, number> = {};
-  const typeCounts: Record<string, number> = {};
-
-  for (const launch of launches) {
-    const age = daysAgo(launch.date);
-    if (age < 0) continue; // skip future-dated entries
-    if (minDaysAgo === null || age < minDaysAgo) minDaysAgo = age;
-    if (age < 7) thisWeek++;
-    else if (age < 14) priorWeek++;
-    if (age < 30) {
-      totalLast30++;
-      orgCounts[launch.org] = (orgCounts[launch.org] || 0) + 1;
-      typeCounts[launch.type] = (typeCounts[launch.type] || 0) + 1;
-    }
-  }
-
-  const topOrgEntry = Object.entries(orgCounts).sort((a, b) => b[1] - a[1])[0];
-  const topTypeEntry = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0];
-  const typeBreakdown = Object.entries(typeCounts)
-    .sort((a, b) => b[1] - a[1])
-    .map(([type, count]) => ({
-      type,
-      count,
-      pct: totalLast30 > 0 ? Math.round((count / totalLast30) * 100) : 0,
-    }));
-
-  return {
-    thisWeek,
-    priorWeek,
-    weekDelta: thisWeek - priorWeek,
-    daysSinceLast: minDaysAgo,
-    topOrg: topOrgEntry ? { name: topOrgEntry[0], count: topOrgEntry[1] } : null,
-    topType: topTypeEntry ? { type: topTypeEntry[0], count: topTypeEntry[1] } : null,
-    totalLast30,
-    typeBreakdown,
-  };
 }
