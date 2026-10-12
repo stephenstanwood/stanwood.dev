@@ -24,14 +24,6 @@
     "url": "https://claude.com/resources/articles/dashboards-and-motion"
   },
   {
-    "name": "Playground",
-    "org": "Google",
-    "date": "2026-10-07",
-    "type": "tool",
-    "summary": "Build and share browser games by describing the rules, characters, and physics in chat. U.S. adults can create immediately with a Google One AI plan, while free creation access is waitlisted.",
-    "url": "https://blog.google/innovation-and-ai/technology/ai/playground-experimental-gaming-platform/"
-  },
-  {
     "name": "GPT-6 + Intelligent UI",
     "org": "OpenAI",
     "date": "2026-10-07",
@@ -62,5 +54,13 @@
     "type": "tool",
     "summary": "Turn a webpage into a coding task for Claude Code or Codex without leaving your browser. The free Mac beta uses your existing plan and requires Apple silicon with macOS 14 or later.",
     "url": "https://rill.love/"
+  },
+  {
+    "name": "EmbeddingGemma 2",
+    "org": "Google",
+    "date": "2026-10-06",
+    "type": "model",
+    "summary": "Add on-device search across text, code, images, audio, and video with one small open model. It runs in under 600 MB of RAM, downloads free from Hugging Face, and its Apache 2.0 license allows commercial use.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/"
   }
 ]
