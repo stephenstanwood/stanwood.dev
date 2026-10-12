@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
  * The index resets to 0 whenever `resetKey` changes, so a caller that swaps the
  * backing list can restart the rotation without its own effect.
  *
- * Unlike `useCycling`, this returns only the index — for callers that pick the
- * item themselves or drive positional UI (slots, dots) off the number.
+ * Returns only the index, so callers pick the item themselves or drive
+ * positional UI (slots, dots) off the number.
  *
  * @param length - Number of items to cycle through; <= 1 holds the index at 0
  * @param intervalMs - Time between advances
