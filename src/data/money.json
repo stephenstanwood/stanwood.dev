@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-13T01:10:14.524Z",
+  "lastUpdated": "2026-10-13T06:10:19.174Z",
   "apiSpend": {
     "months": [
       {
@@ -437,7 +437,7 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-13T01:10:14.524Z",
+        "collectedAt": "2026-10-13T06:10:19.174Z",
         "services": {
           "vercel": {
             "totalCents": 1477,
@@ -559,18 +559,18 @@
       "note": "Mercury actual; nominal $200 plan"
     },
     {
+      "name": "Anthropic",
+      "cents": 10203,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Oct 2026; 4 Mercury charges combined"
+    },
+    {
       "name": "RFPMart LLC",
       "cents": 8200,
       "category": "data",
       "url": "https://www.paypal.com",
       "note": "Mercury actual Jun 2026; 2 Mercury charges combined"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 7628,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Oct 2026; 3 Mercury charges combined"
     },
     {
       "name": "Midjourney",
