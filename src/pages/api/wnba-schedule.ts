@@ -3,7 +3,7 @@
 // from browsers, so this route mirrors the minimal { gameCode → gameId } map.
 
 import type { APIRoute } from "astro";
-import { errJson, fetchWithTimeout, okJson } from "../../lib/apiHelpers";
+import { BROWSER_USER_AGENT, errJson, fetchWithTimeout, okJson } from "../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
 
 export const prerender = false;
@@ -34,8 +34,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
       wnbaScheduleUrl(),
       {
         headers: {
-          "User-Agent":
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+          "User-Agent": BROWSER_USER_AGENT,
           Accept: "application/json",
         },
       },
