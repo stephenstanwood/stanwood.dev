@@ -93,7 +93,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     if (!res.ok) throw new Error(`Vercel API ${res.status}`);
 
     const data = await res.json();
-    const deployments = data.deployments ?? [];
+    const deployments: VercelDeployment[] = Array.isArray(data?.deployments) ? data.deployments : [];
 
     if (deployments.length === 0) {
       return okJson(emptyPayload("no deploys"), CACHE_HEADERS);
@@ -107,7 +107,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
 
     const { raw: rawCommit, sha, prNumber } = extractCommitMeta(deployments[0]);
 
-    // Summarize via Claude (cached for 5 min by s-maxage anyway)
+    // Summarize via Claude; CACHE_HEADERS' s-maxage keeps this to ~one call per 5 min
     let project: string | null = null;
     let summary: string | null = null;
     if (rawCommit) {
@@ -117,7 +117,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     }
 
     // Compute stats from all deployments
-    const allDates = (deployments as VercelDeployment[]).map((deployment) => new Date(deployment.created));
+    const allDates = deployments.map((deployment) => new Date(deployment.created));
 
     // Average days between consecutive deploys
     let avgDaysBetween: number | null = null;
@@ -149,7 +149,7 @@ export const GET: APIRoute = async ({ clientAddress }) => {
     const stats = { deploysLast30, avgDaysBetween, streakWeeks };
 
     // Build history from remaining deployments (no Claude — just clean raw messages)
-    const history = (deployments as VercelDeployment[]).slice(1).map((dep) => {
+    const history = deployments.slice(1).map((dep) => {
       const { raw, sha: depSha, prNumber: depPr } = extractCommitMeta(dep);
       return {
         date: new Date(dep.created).toISOString(),

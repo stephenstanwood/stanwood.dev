@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { errJson, fetchWithTimeout, isRecord, okJson } from "../../../lib/apiHelpers";
+import { BROWSER_USER_AGENT, errJson, fetchWithTimeout, isRecord, okJson } from "../../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../../lib/rateLimit";
 import { createTtlCache } from "../../../lib/ttlCache";
 import { MS_PER_MINUTE } from "../../../lib/time";
@@ -24,6 +24,10 @@ interface ClassicVideo {
 }
 
 const videoCache = createTtlCache<ClassicVideo[]>(CACHE_TTL_MS);
+
+function defaultThumbnail(videoId: string): string {
+  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+}
 
 function compactText(value: unknown): string | null {
   if (!isRecord(value)) return null;
@@ -53,7 +57,7 @@ function thumbnailFromRenderer(renderer: Record<string, unknown>, videoId: strin
     }
   }
 
-  return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  return defaultThumbnail(videoId);
 }
 
 function extractInitialDataJson(html: string): string {
@@ -142,8 +146,7 @@ async function fetchVideosFromPlaylistPage(): Promise<ClassicVideo[]> {
     PLAYLIST_URL,
     {
       headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+        "User-Agent": BROWSER_USER_AGENT,
         "Accept-Language": "en-US,en;q=0.9",
       },
     },
@@ -198,7 +201,7 @@ async function fetchVideosFromFeed(): Promise<ClassicVideo[]> {
       title,
       url: `https://www.youtube.com/watch?v=${id}&list=${PLAYLIST_ID}`,
       channelTitle: readXmlTag(entry, "name") ?? "YouTube",
-      thumb: readXmlAttr(entry, "media:thumbnail", "url") ?? `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+      thumb: readXmlAttr(entry, "media:thumbnail", "url") ?? defaultThumbnail(id),
       duration: null,
       index: null,
     });

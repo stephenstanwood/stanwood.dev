@@ -19,6 +19,13 @@ export function okJson(data: unknown, extraHeaders?: Record<string, string>): Re
   return jsonResponse(data, 200, extraHeaders);
 }
 
+/**
+ * Desktop Chrome User-Agent for upstreams (YouTube, WNBA.com) that serve a
+ * stripped or blocked response to obvious bot agents.
+ */
+export const BROWSER_USER_AGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
+
 export function fetchWithTimeout(
   url: string,
   init: RequestInit = {},
