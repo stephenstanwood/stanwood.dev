@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-14T01:10:17.375Z",
+  "lastUpdated": "2026-10-14T13:10:19.490Z",
   "apiSpend": {
     "months": [
       {
@@ -437,7 +437,7 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-14T01:10:17.375Z",
+        "collectedAt": "2026-10-14T13:10:19.490Z",
         "services": {
           "vercel": {
             "totalCents": 1477,
@@ -538,6 +538,13 @@
   },
   "subscriptions": [
     {
+      "name": "Anthropic",
+      "cents": 30203,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Oct 2026; 5 Mercury charges combined"
+    },
+    {
       "name": "Cursor",
       "cents": 20000,
       "category": "ai",
@@ -557,13 +564,6 @@
       "category": "ai",
       "url": "https://chatgpt.com",
       "note": "Mercury actual; nominal $200 plan"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 10203,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Oct 2026; 4 Mercury charges combined"
     },
     {
       "name": "RFPMart LLC",
