@@ -30,7 +30,7 @@ Each session cookie includes an HMAC-signed profile and 90-day expiry. APIs deri
 
 ## Mini schedule
 
-Native LaunchAgent `dev.stanwood.scatosswip-refresh`, every day at **4:45 a.m. Pacific** (the Mini's system timezone). Independent installed copy at `~/.local/share/scatosswip`, so a dirty or changing shared git checkout cannot break the morning run. `run.py` uses an OS file lock, 25-minute collection timeout, atomic database publication and a dated receipt. Raw receipts retain 14 days; saves and price history remain in Postgres.
+Native LaunchAgent `dev.stanwood.scatosswip-refresh`, every day at **4:45 a.m. Pacific** (the Mini's system timezone). The launcher uses the stable macOS `/usr/bin/python3` interpreter; Homebrew version/link churn must not break it. Independent installed copy at `~/.local/share/scatosswip`, so a dirty or changing shared git checkout cannot break the morning run. `run.py` uses an OS file lock, 25-minute collection timeout, atomic database publication and a dated receipt. Raw receipts retain 14 days; saves and price history remain in Postgres.
 
 Installed files: `search-area.json`, `collect.py`, `publish.mjs`, `schema.sql`, `run.py`, `package.json`, `package-lock.json`, and a mode-600 `.env` containing only `SCATOS_DATABASE_URL`. Install dependencies with `npm ci --omit=dev` in that folder. The access password is only needed by the web app, not the collector.
 

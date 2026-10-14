@@ -3,7 +3,7 @@
 <plist version="1.0"><dict>
   <key>Label</key><string>dev.stanwood.scatosswip-refresh</string>
   <key>ProgramArguments</key><array>
-    <string>/opt/homebrew/bin/python3</string>
+    <string>/usr/bin/python3</string>
     <string>/Users/stephenstanwood/.local/share/scatosswip/run.py</string>
   </array>
   <key>WorkingDirectory</key><string>/Users/stephenstanwood/.local/share/scatosswip</string>
