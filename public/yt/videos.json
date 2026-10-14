@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-13T10:30:05.618433+00:00",
+  "built_at": "2026-10-14T10:30:07.013947+00:00",
   "channel": "@stanfordonline",
   "lookback_days": 183,
   "series": [
@@ -119,10 +119,8 @@
       "is_single": false,
       "display_name": "CS336",
       "best_score": 9,
-      "video_count": 18,
+      "video_count": 16,
       "video_ids": [
-        "JuoVZkPBiKk",
-        "kuYAsz7zspQ",
         "lVynu4bo1rY",
         "cKSwj_qZ8Jg",
         "izZba4UA7iY",
@@ -255,9 +253,8 @@
       "is_single": false,
       "display_name": "CME296",
       "best_score": 5,
-      "video_count": 7,
+      "video_count": 6,
       "video_ids": [
-        "_WaR2fjZpEQ",
         "agN3AlfGFrk",
         "WUUq6TVAu8U",
         "HpFdSlMeXzQ",
@@ -1297,38 +1294,6 @@
       "description": "For more information about Stanford\u2019s graduate programs, visit: https://online.stanford.edu/graduate-education\n\nTo follow along with the seminar schedule, visit: https://hci.stanford.edu/\n\nThis seminar covers intelligence and unlocking enterprise internal knowledge.\n\nGuest speaker: Yash Patil, CEO of Applied Compute\n\nInstructor: Apoorv Agrawal is a Stanford Adjunct Lecturer in Management Science a"
     },
     {
-      "id": "JuoVZkPBiKk",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 1: Overview, Tokenization",
-      "url": "https://www.youtube.com/watch?v=JuoVZkPBiKk",
-      "duration": 4762,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 1,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus, visit: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunor"
-    },
-    {
-      "id": "kuYAsz7zspQ",
-      "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 2: PyTorch (einops)",
-      "url": "https://www.youtube.com/watch?v=kuYAsz7zspQ",
-      "duration": 4645,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CS336",
-      "series_display": "CS336",
-      "lecture_num": 2,
-      "score": 9,
-      "categories": [
-        "applied_ai",
-        "series:CS336"
-      ],
-      "description": "For more information about Stanford's online Artificial Intelligence programs, visit: https://stanford.io/ai\n\nTo learn more about enrolling in this course, visit: https://online.stanford.edu/courses/cs336-language-modeling-scratch\n\nFollow along with the course schedule and syllabus: https://cs336.stanford.edu/\n\nPercy Liang\nProfessor of Computer Science (and courtesy in Statistics)\n\nTatsunori Hashi"
-    },
-    {
       "id": "lVynu4bo1rY",
       "title": "Stanford CS336 Language Modeling from Scratch | Spring 2026 | Lecture 3: Architectures",
       "url": "https://www.youtube.com/watch?v=lVynu4bo1rY",
@@ -2124,21 +2089,6 @@
         "applied_ai"
       ],
       "description": "- Explore these concepts and more in the UI/UX Design for AI Products course: https://bit.ly/stf-aid-webinar\n- Learn how to build intelligent AI agents: https://online.stanford.edu/programs/agentic-ai\n- Browse all Stanford Online AI courses: https://online.stanford.edu/artificial-intelligence/courses-and-programs\n\nWhat happens when AI agents are designed to simulate human behavior?\n\nIn this Stanfo"
-    },
-    {
-      "id": "_WaR2fjZpEQ",
-      "title": "Stanford CME296 Diffusion & Large Vision Models | Spring 2026 | Lecture 2 - Score matching",
-      "url": "https://www.youtube.com/watch?v=_WaR2fjZpEQ",
-      "duration": 6528,
-      "published_at": "2026-04-14T00:00:00+00:00",
-      "series": "CME296",
-      "series_display": "CME296",
-      "lecture_num": 2,
-      "score": -1,
-      "categories": [
-        "series:CME296"
-      ],
-      "description": "Learn more details about this course: https://online.stanford.edu/courses/cme296-diffusion-and-large-vision-models\n\nTo follow along with the course schedule and syllabus, visit: https://cme296.stanford.edu/syllabus/\n\nChapters:\n00:00:00 Introduction\n00:04:33 Motivation behind score matching\n00:14:30 Lanvegin sampling\n00:18:43 Score estimation\n00:19:50 Implicit score matching, sliced score matching\n"
     },
     {
       "id": "agN3AlfGFrk",
