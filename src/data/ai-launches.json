@@ -1,5 +1,13 @@
 [
   {
+    "name": "Muse Spark Open",
+    "org": "Meta",
+    "date": "2026-10-15",
+    "type": "model",
+    "summary": "Run an open-weight coding and agent model with a 1M-token context through OpenRouter, Groq, or Together, or download the weights from Hugging Face. Running it locally takes about 1 TB of memory, such as two M5 Ultra Mac Studios.",
+    "url": "https://research.meta.ai/blog/muse-spark-open"
+  },
+  {
     "name": "Gemini 4 Argon",
     "org": "Google",
     "date": "2026-10-13",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Power live customer support, quick summaries, and small coding tasks with a fast, low-cost model. It is available through the Claude API and major clouds, with average costs roughly 75% below Haiku 4.5.",
     "url": "https://www.anthropic.com/claude-haiku-5-5"
-  },
-  {
-    "name": "EmbeddingGemma 2",
-    "org": "Google",
-    "date": "2026-10-06",
-    "type": "model",
-    "summary": "Add on-device search across text, code, images, audio, and video with one small open model. It runs in under 600 MB of RAM, downloads free from Hugging Face, and its Apache 2.0 license allows commercial use.",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/embeddinggemma-2/"
   }
 ]
