@@ -1,5 +1,13 @@
 [
   {
+    "name": "Beam",
+    "org": "Reflection AI",
+    "date": "2026-10-16",
+    "type": "model",
+    "summary": "Build coding and agent tools on a 501B open-weight model you can use commercially under Apache 2.0. Call it through Baseten's hosted API or download the weights from Hugging Face, including FP8 and NVFP4 versions for cheaper serving.",
+    "url": "https://reflection.ai/blog/beam-is-available"
+  },
+  {
     "name": "Muse Spark Open",
     "org": "Meta",
     "date": "2026-10-15",
@@ -30,14 +38,6 @@
     "type": "model",
     "summary": "Build agents and coding tools on a frontier model with a 1M-token context through Meta's Model API at $4 per million input tokens. The stronger Wonder Full is limited to paid Muse Code plans starting at $50 a month.",
     "url": "https://venturebeat.com/technology/metas-new-muse-wonder-and-muse-wonder-full-models-achieve-frontier-performance-but-only-the-weaker-one-is-available-via-api"
-  },
-  {
-    "name": "Clef-omni",
-    "org": "Cloudflare",
-    "date": "2026-10-09",
-    "type": "model",
-    "summary": "Classify text, images, audio, and video in one API call to build media tagging or moderation tools. Download the open weights or use the hosted API at $0.15 per million input tokens.",
-    "url": "https://blog.cloudflare.com/clef-faster-cheaper-multimodal/"
   },
   {
     "name": "Claude Docs, Slides, and Design",
