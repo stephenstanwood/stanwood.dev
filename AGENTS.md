@@ -23,7 +23,7 @@
 
 ## Scheduled jobs (run on Mac Mini)
 - `dev.stanwood.scatosswip-refresh` (launchd, 4:45 AM Pacific) — official LGHS boundary first, then live listing collection and atomic publication to private Postgres. Installed at `~/.local/share/scatosswip`; verify `~/.local/state/scatosswip/latest-run.json`. No daily git commits.
-- `dev.stanwood.big-inning-sync` (launchd, 3:15 AM PT) — scrapes MLB Big Inning schedule via puppeteer, rewrites `src/data/bigInningSchedule.ts`, commits + pushes if changed. Script: `~/scripts/big-inning-sync/sync.mjs` on Mini. Page is Salesforce Lightning so curl doesn't work — needs a real browser.
+- `dev.stanwood.big-inning-sync` (launchd, 11:15 AM Pacific) — checks the MLB Big Inning schedule via Puppeteer; publishes valid changes from an isolated worktree. Verified seasonal absence preserves the saved schedule. Canonical source, tests and installation: `scripts/big-inning-sync/README.md`; runtime: `~/scripts/big-inning-sync` on Mini. Receipt: `~/.local/state/big-inning-sync/latest-run.json`.
 
 ## Scheduled tasks (run via Claude desktop app on the laptop)
 - Driverless maintenance: the current page renders `src/data/driverless/guide.ts` through `src/components/driverless/DriverlessDashboard.tsx`. Maintain its concise, sourced and dated Waymo availability/safety snapshot, including comparison limits. The old `src/data/driverless/data.ts` is no longer rendered; do not restore retired dashboard panels. Any refresh should open a sourced PR for review (no auto-merge).
