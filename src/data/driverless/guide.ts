@@ -19,6 +19,9 @@ export const RIDE_CITIES = [
   { city: "San Francisco Bay Area", state: "CA" },
   { city: "Tampa", state: "FL" },
 ];
+export const SAFETY_THROUGH = "June 2026";
+export const RIDER_ONLY_MILES = "271.3M";
+/** The first row is the headline "serious injury or worse" stat on the dashboard. */
 export const SAFETY = [
   { label: "Serious injury or worse", reduction: 95 },
   { label: "Airbag deployment", reduction: 82 },
