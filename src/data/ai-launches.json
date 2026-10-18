@@ -1,5 +1,21 @@
 [
   {
+    "name": "DeepSeek V4.1-Flash-1017",
+    "org": "DeepSeek",
+    "date": "2026-10-17",
+    "type": "model",
+    "summary": "Run a cheap open-weight coding and agent model with a 1M-token context, MIT-licensed on Hugging Face or via the API at $0.15/$0.60 per million tokens. A new Search API adds web search for $0.75 per 1,000 requests.",
+    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+  },
+  {
+    "name": "ChatGPT for Chrome tab control",
+    "org": "OpenAI",
+    "date": "2026-10-16",
+    "type": "tool",
+    "summary": "Let ChatGPT read across your open Chrome tabs or, in Work mode, take them over to fill forms, send messages, and download files. Install the extension and tag @Chrome in a ChatGPT Work or Codex chat.",
+    "url": "https://9to5google.com/2026/10/16/chatgpt-gets-deeper-google-chrome-integration-including-control-over-tabs/"
+  },
+  {
     "name": "Beam",
     "org": "Reflection AI",
     "date": "2026-10-16",
@@ -32,14 +48,6 @@
     "url": "https://www.ghacks.net/2026/10/14/google-play-lets-us-users-build-personal-android-apps-in-ai-studio-without-a-developer-account/"
   },
   {
-    "name": "Muse Wonder",
-    "org": "Meta",
-    "date": "2026-10-12",
-    "type": "model",
-    "summary": "Build agents and coding tools on a frontier model with a 1M-token context through Meta's Model API at $4 per million input tokens. The stronger Wonder Full is limited to paid Muse Code plans starting at $50 a month.",
-    "url": "https://venturebeat.com/technology/metas-new-muse-wonder-and-muse-wonder-full-models-achieve-frontier-performance-but-only-the-weaker-one-is-available-via-api"
-  },
-  {
     "name": "Claude Docs, Slides, and Design",
     "org": "Anthropic",
     "date": "2026-10-08",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Get answers as interactive charts, calculators, forms, and buttons instead of plain text. It is rolling out to every ChatGPT tier, with GPT-6 Sol on paid plans and GPT-6 Luna on Free and Go.",
     "url": "https://openai.com/index/gpt-6-for-everyone/"
-  },
-  {
-    "name": "Claude Haiku 5.5",
-    "org": "Anthropic",
-    "date": "2026-10-07",
-    "type": "model",
-    "summary": "Power live customer support, quick summaries, and small coding tasks with a fast, low-cost model. It is available through the Claude API and major clouds, with average costs roughly 75% below Haiku 4.5.",
-    "url": "https://www.anthropic.com/claude-haiku-5-5"
   }
 ]
