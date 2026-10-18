@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-17T01:10:15.802Z",
+  "lastUpdated": "2026-10-18T01:10:13.914Z",
   "apiSpend": {
     "months": [
       {
@@ -437,7 +437,7 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-17T01:10:15.802Z",
+        "collectedAt": "2026-10-18T01:10:13.914Z",
         "services": {
           "vercel": {
             "totalCents": 1477,
@@ -502,19 +502,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 16221,
+            "totalCents": 17965,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 12084
+                "cents": 13647
               },
               {
                 "name": "claude-sonnet-5",
-                "cents": 2243
+                "cents": 2294
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 1894
+                "cents": 2024
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
