@@ -16,14 +16,6 @@
     "url": "https://9to5google.com/2026/10/16/chatgpt-gets-deeper-google-chrome-integration-including-control-over-tabs/"
   },
   {
-    "name": "Beam",
-    "org": "Reflection AI",
-    "date": "2026-10-16",
-    "type": "model",
-    "summary": "Build coding and agent tools on a 501B open-weight model you can use commercially under Apache 2.0. Call it through Baseten's hosted API or download the weights from Hugging Face, including FP8 and NVFP4 versions for cheaper serving.",
-    "url": "https://reflection.ai/blog/beam-is-available"
-  },
-  {
     "name": "Muse Spark Open",
     "org": "Meta",
     "date": "2026-10-15",
@@ -46,6 +38,14 @@
     "type": "tool",
     "summary": "Describe an Android app in AI Studio and install it on your own phone through Google Play, with no developer account or $25 fee. It's US-only for adults for now, with private sharing to friends coming later.",
     "url": "https://www.ghacks.net/2026/10/14/google-play-lets-us-users-build-personal-android-apps-in-ai-studio-without-a-developer-account/"
+  },
+  {
+    "name": "Drama 3",
+    "org": "Fish Audio",
+    "date": "2026-10-13",
+    "type": "model",
+    "summary": "Direct AI voiceovers in plain language, shifting emotion mid-sentence or within a single word across 83 languages. Use it in the web app or API at a $10 per million characters launch price through November 12, or download the open weights.",
+    "url": "https://fish.audio/blog/fish-audio-drama-3/"
   },
   {
     "name": "Claude Docs, Slides, and Design",
