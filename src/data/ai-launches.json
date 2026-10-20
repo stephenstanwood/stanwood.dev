@@ -1,5 +1,13 @@
 [
   {
+    "name": "FLUX 3 Max",
+    "org": "fal + Black Forest Labs",
+    "date": "2026-10-19",
+    "type": "model",
+    "summary": "Turn a text prompt or starting image into a 5–20 second 720p video with native audio, with a 10-second clip rendering in about 12 seconds. Use it on fal at a $2.55-per-minute launch price for three weeks, then $10.20.",
+    "url": "https://www.prnewswire.com/news-releases/fal-launches-flux-3-max-delivering-1-tier-image-to-video-quality-at-industry-leading-speeds-302913033.html"
+  },
+  {
     "name": "DeepSeek V4.1-Flash-1017",
     "org": "DeepSeek",
     "date": "2026-10-17",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Create documents, slide decks, and designs directly in a Claude conversation, now on every plan including Free. Edit them on your phone and export decks to PowerPoint, PDF, or editable Google Slides.",
     "url": "https://claude.com/resources/articles/dashboards-and-motion"
-  },
-  {
-    "name": "GPT-6 + Intelligent UI",
-    "org": "OpenAI",
-    "date": "2026-10-07",
-    "type": "model",
-    "summary": "Get answers as interactive charts, calculators, forms, and buttons instead of plain text. It is rolling out to every ChatGPT tier, with GPT-6 Sol on paid plans and GPT-6 Luna on Free and Go.",
-    "url": "https://openai.com/index/gpt-6-for-everyone/"
   }
 ]
