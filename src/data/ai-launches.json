@@ -1,19 +1,27 @@
 [
   {
+    "name": "Exa 3.0",
+    "org": "Exa",
+    "date": "2026-10-19",
+    "type": "tool",
+    "summary": "Give your app current web results, code references, and local business or product data through one search API. The new Lite tier costs $4 per 1,000 requests, with compact excerpts that help reduce model input costs.",
+    "url": "https://exa.ai/blog/exa-3"
+  },
+  {
+    "name": "Mercury 3",
+    "org": "Inception",
+    "date": "2026-10-19",
+    "type": "model",
+    "summary": "Build fast chat apps and coding agents with a 1M-token context and an API compatible with OpenAI. Launch pricing is $0.10 per million input tokens and $0.35 per million output tokens, with 100 million free tokens to try.",
+    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-3"
+  },
+  {
     "name": "FLUX 3 Max",
     "org": "fal + Black Forest Labs",
     "date": "2026-10-19",
     "type": "model",
-    "summary": "Turn a text prompt or starting image into a 5–20 second 720p video with native audio, with a 10-second clip rendering in about 12 seconds. Use it on fal at a $2.55-per-minute launch price for three weeks, then $10.20.",
-    "url": "https://www.prnewswire.com/news-releases/fal-launches-flux-3-max-delivering-1-tier-image-to-video-quality-at-industry-leading-speeds-302913033.html"
-  },
-  {
-    "name": "DeepSeek V4.1-Flash-1017",
-    "org": "DeepSeek",
-    "date": "2026-10-17",
-    "type": "model",
-    "summary": "Run a cheap open-weight coding and agent model with a 1M-token context, MIT-licensed on Hugging Face or via the API at $0.15/$0.60 per million tokens. A new Search API adds web search for $0.75 per 1,000 requests.",
-    "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017"
+    "summary": "Turn a text prompt or starting image into a 5–20 second 720p video with native audio, with a 10-second clip rendering in about 12 seconds. Use it on fal for $2.55 per minute through November 7, then $10.20.",
+    "url": "https://fal.ai/flux-3-max"
   },
   {
     "name": "ChatGPT for Chrome tab control",
@@ -24,6 +32,14 @@
     "url": "https://9to5google.com/2026/10/16/chatgpt-gets-deeper-google-chrome-integration-including-control-over-tabs/"
   },
   {
+    "name": "GPT-Live prompt-to-voice",
+    "org": "OpenAI",
+    "date": "2026-10-16",
+    "type": "tool",
+    "summary": "Design a voice for a GPT-Live app by describing its accent, tone, and speaking style, without recording samples. Creation is free through the API or voice Playground, while generated speech uses regular GPT-Live session pricing.",
+    "url": "https://developers.openai.com/api/docs/guides/custom-voices"
+  },
+  {
     "name": "Muse Spark Open",
     "org": "Meta",
     "date": "2026-10-15",
@@ -32,20 +48,12 @@
     "url": "https://research.meta.ai/blog/muse-spark-open"
   },
   {
-    "name": "Gemini 4 Argon",
-    "org": "Google",
-    "date": "2026-10-13",
-    "type": "model",
-    "summary": "Hand long coding and research jobs to a frontier model that can write up to 1M tokens of output. Use it through the paid Gemini API at an introductory $2/$10 per million tokens through November 30, or in the Gemini app on Pro and Ultra.",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-argon/"
-  },
-  {
     "name": "Personal apps on Google Play",
     "org": "Google",
     "date": "2026-10-13",
     "type": "tool",
-    "summary": "Describe an Android app in AI Studio and install it on your own phone through Google Play, with no developer account or $25 fee. It's US-only for adults for now, with private sharing to friends coming later.",
-    "url": "https://www.ghacks.net/2026/10/14/google-play-lets-us-users-build-personal-android-apps-in-ai-studio-without-a-developer-account/"
+    "summary": "Describe an Android app in AI Studio and install it on your own phone through Google Play, with no developer account or $25 fee. Rolling out to US adults, with private sharing to friends coming later.",
+    "url": "https://blog.google/products-and-platforms/platforms/google-play/google-play-updates-october-2026/"
   },
   {
     "name": "Drama 3",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Direct AI voiceovers in plain language, shifting emotion mid-sentence or within a single word across 83 languages. Use it in the web app or API at a $10 per million characters launch price through November 12, or download the open weights.",
     "url": "https://fish.audio/blog/fish-audio-drama-3/"
-  },
-  {
-    "name": "Claude Docs, Slides, and Design",
-    "org": "Anthropic",
-    "date": "2026-10-08",
-    "type": "tool",
-    "summary": "Create documents, slide decks, and designs directly in a Claude conversation, now on every plan including Free. Edit them on your phone and export decks to PowerPoint, PDF, or editable Google Slides.",
-    "url": "https://claude.com/resources/articles/dashboards-and-motion"
   }
 ]
