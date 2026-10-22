@@ -1,5 +1,37 @@
 [
   {
+    "name": "Flint",
+    "org": "Recursive",
+    "date": "2026-10-21",
+    "type": "model",
+    "summary": "Fix bugs and build features with a coding model that runs on your own computer. Download the Apache 2.0 weights for Ollama or LM Studio, or use the optimized Mac runner on supported chips with at least 48 GB of memory.",
+    "url": "https://recursive.com/updates/introducing-recursive-flint"
+  },
+  {
+    "name": "UseIt Studio",
+    "org": "UseIt",
+    "date": "2026-10-21",
+    "type": "tool",
+    "summary": "Design stickers, packaging, cards, and brand kits by describing what you want, then refine individual elements through conversation. The browser app exports editable files with real dimensions, bleed, and cut lines so you can move from mockup to printing.",
+    "url": "https://useit.im/"
+  },
+  {
+    "name": "Granite Speech 5.0",
+    "org": "IBM",
+    "date": "2026-10-21",
+    "type": "model",
+    "summary": "Transcribe recordings in six languages and translate speech into or from English. Download the Apache 2.0 model and run it with Transformers, llama.cpp, or Apple Silicon tools to build private transcription features without per-minute API fees.",
+    "url": "https://huggingface.co/blog/ibm-granite/granite-speech-5"
+  },
+  {
+    "name": "Voxtral 3",
+    "org": "Mistral",
+    "date": "2026-10-20",
+    "type": "model",
+    "summary": "Build voice agents that can listen, call your tools, and speak back in real time through one SDK. The API starts at $0.04 per minute for complete agents, with standalone batch transcription from $0.0035 per minute across 50+ languages.",
+    "url": "https://mistral.ai/news/voxtral-3/"
+  },
+  {
     "name": "Exa 3.0",
     "org": "Exa",
     "date": "2026-10-19",
@@ -24,43 +56,11 @@
     "url": "https://fal.ai/flux-3-max"
   },
   {
-    "name": "ChatGPT for Chrome tab control",
-    "org": "OpenAI",
-    "date": "2026-10-16",
-    "type": "tool",
-    "summary": "Let ChatGPT read across your open Chrome tabs or, in Work mode, take them over to fill forms, send messages, and download files. Install the extension and tag @Chrome in a ChatGPT Work or Codex chat.",
-    "url": "https://9to5google.com/2026/10/16/chatgpt-gets-deeper-google-chrome-integration-including-control-over-tabs/"
-  },
-  {
-    "name": "GPT-Live prompt-to-voice",
-    "org": "OpenAI",
-    "date": "2026-10-16",
-    "type": "tool",
-    "summary": "Design a voice for a GPT-Live app by describing its accent, tone, and speaking style, without recording samples. Creation is free through the API or voice Playground, while generated speech uses regular GPT-Live session pricing.",
-    "url": "https://developers.openai.com/api/docs/guides/custom-voices"
-  },
-  {
-    "name": "Muse Spark Open",
-    "org": "Meta",
+    "name": "FLUX.3 Image Klein",
+    "org": "Black Forest Labs",
     "date": "2026-10-15",
     "type": "model",
-    "summary": "Run an open-weight coding and agent model with a 1M-token context through OpenRouter, Groq, or Together, or download the weights from Hugging Face. Running it locally takes about 1 TB of memory, such as two M5 Ultra Mac Studios.",
-    "url": "https://research.meta.ai/blog/muse-spark-open"
-  },
-  {
-    "name": "Personal apps on Google Play",
-    "org": "Google",
-    "date": "2026-10-13",
-    "type": "tool",
-    "summary": "Describe an Android app in AI Studio and install it on your own phone through Google Play, with no developer account or $25 fee. Rolling out to US adults, with private sharing to friends coming later.",
-    "url": "https://blog.google/products-and-platforms/platforms/google-play/google-play-updates-october-2026/"
-  },
-  {
-    "name": "Drama 3",
-    "org": "Fish Audio",
-    "date": "2026-10-13",
-    "type": "model",
-    "summary": "Direct AI voiceovers in plain language, shifting emotion mid-sentence or within a single word across 83 languages. Use it in the web app or API at a $10 per million characters launch price through November 12, or download the open weights.",
-    "url": "https://fish.audio/blog/fish-audio-drama-3/"
+    "summary": "Generate and edit images with control over where objects appear, using prompts and multiple reference images. Download the open weights for your own image workflows, or try the browser demo on Hugging Face.",
+    "url": "https://huggingface.co/blog/flux-3"
   }
 ]
