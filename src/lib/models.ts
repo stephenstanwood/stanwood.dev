@@ -2,16 +2,16 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 
-export const CLAUDE_SONNET = "claude-sonnet-5";
+export const CLAUDE_SONNET = "claude-sonnet-5-5";
 
 /** Anthropic SDK client wired to the project's ANTHROPIC_API_KEY. Server-side only. */
 export function getAnthropicClient(): Anthropic {
   return new Anthropic({ apiKey: import.meta.env.ANTHROPIC_API_KEY });
 }
 
-/** Extract trimmed text from the first content block of a Claude response. */
+/** Extract trimmed text from the first text block, skipping thinking/tool blocks. */
 export function extractText(content: Array<{ type: string; text?: string }>): string {
-  const block = content[0];
+  const block = content.find((block) => block.type === "text");
   return block?.type === "text" ? (block.text ?? "").trim() : "";
 }
 

@@ -17,6 +17,7 @@
 import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { anthropicUsageDollars } from "./lib/anthropic-usage-cost.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_PATH = join(__dirname, "..", "src", "data", "money.json");
@@ -155,7 +156,7 @@ async function collectVercel(range) {
 // ── Anthropic ────────────────────────────────────────────────────
 // Pricing per million tokens (USD), input / output. Cache rates derive from input:
 // cache read is 10% of input unless `crMult` says otherwise (Fable 5.1 2.5%,
-// Opus 5.5 5%); cache write is 125% of input (ephemeral 5m).
+// Opus/Sonnet 5.5 5%); writes are 125% (5m) or 200% (1h) of input.
 const ANTHROPIC_PRICING = {
   "claude-fable-5-1": { in: 10, out: 50, crMult: 0.025 },
   "claude-fable-5": { in: 10, out: 50 },
@@ -164,6 +165,8 @@ const ANTHROPIC_PRICING = {
   "claude-opus-5": { in: 5, out: 25 },
   // Sonnet 5's $2/$10 launch price became the standard rate; the planned
   // 2026-09-01 increase to $3/$15 was cancelled.
+  // https://platform.claude.com/docs/en/about-claude/pricing (2026-10-23)
+  "claude-sonnet-5-5": { in: 2, out: 10, crMult: 0.05 },
   "claude-sonnet-5": { in: 2, out: 10 },
   "claude-opus-4-8": { in: 5, out: 25 },
   "claude-opus-4-7": { in: 5, out: 25 },
@@ -217,13 +220,13 @@ async function collectAnthropic(range) {
     for (const bucket of data.data || []) {
       for (const result of bucket.results || []) {
         const model = result.model || "unknown";
-        if (!byModel[model]) byModel[model] = { input: 0, output: 0, cacheRead: 0, cacheCreate: 0 };
+        if (!byModel[model]) byModel[model] = { input: 0, output: 0, cacheRead: 0, cacheCreate5m: 0, cacheCreate1h: 0 };
         byModel[model].input += result.uncached_input_tokens || 0;
         byModel[model].output += result.output_tokens || 0;
         byModel[model].cacheRead += result.cache_read_input_tokens || 0;
         const cc = result.cache_creation || {};
-        byModel[model].cacheCreate +=
-          (cc.ephemeral_1h_input_tokens || 0) + (cc.ephemeral_5m_input_tokens || 0);
+        byModel[model].cacheCreate5m += cc.ephemeral_5m_input_tokens || 0;
+        byModel[model].cacheCreate1h += cc.ephemeral_1h_input_tokens || 0;
       }
     }
     pageToken = data.has_more ? data.next_page : null;
@@ -238,11 +241,7 @@ async function collectAnthropic(range) {
       unknownTokens += tokens.input + tokens.output;
       continue;
     }
-    const dollars =
-      (tokens.input / 1_000_000) * price.in +
-      (tokens.output / 1_000_000) * price.out +
-      (tokens.cacheRead / 1_000_000) * (price.in * (price.crMult ?? 0.1)) +
-      (tokens.cacheCreate / 1_000_000) * (price.in * 1.25);
+    const dollars = anthropicUsageDollars(tokens, price);
     const cents = Math.round(dollars * 100);
     totalCents += cents;
     breakdown.push({ name: baseModelName(model), cents });
