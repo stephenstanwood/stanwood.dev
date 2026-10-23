@@ -1,5 +1,29 @@
 [
   {
+    "name": "Canva Craft",
+    "org": "Canva",
+    "date": "2026-10-22",
+    "type": "model",
+    "summary": "Generate product graphics, posters, and social images at up to 2K resolution, with prompts that specify layout, object placement, and text. Use it in Canva’s Dream Lab or add image generation to your app through the public API.",
+    "url": "https://www.canva.com/newsroom/news/canva-craft/"
+  },
+  {
+    "name": "Decisions API",
+    "org": "OpenAI",
+    "date": "2026-10-22",
+    "type": "tool",
+    "summary": "Route support requests, classify images, or choose an agent’s next step without generating a full chat response. The API is now generally available at $0.10 per million input tokens, with no output charges and up to 400 questions per request.",
+    "url": "https://openai.com/index/decisions-api/"
+  },
+  {
+    "name": "Resend Inboxes",
+    "org": "Resend",
+    "date": "2026-10-22",
+    "type": "tool",
+    "summary": "Give your AI agents an email address to receive tasks, track conversations, and draft replies. Connect through an API, CLI, or MCP, with up to three free inboxes and controls over what agents can do.",
+    "url": "https://resend.com/blog/announcing-inboxes"
+  },
+  {
     "name": "Flint",
     "org": "Recursive",
     "date": "2026-10-21",
@@ -32,35 +56,11 @@
     "url": "https://mistral.ai/news/voxtral-3/"
   },
   {
-    "name": "Exa 3.0",
-    "org": "Exa",
-    "date": "2026-10-19",
-    "type": "tool",
-    "summary": "Give your app current web results, code references, and local business or product data through one search API. The new Lite tier costs $4 per 1,000 requests, with compact excerpts that help reduce model input costs.",
-    "url": "https://exa.ai/blog/exa-3"
-  },
-  {
-    "name": "Mercury 3",
-    "org": "Inception",
-    "date": "2026-10-19",
-    "type": "model",
-    "summary": "Build fast chat apps and coding agents with a 1M-token context and an API compatible with OpenAI. Launch pricing is $0.10 per million input tokens and $0.35 per million output tokens, with 100 million free tokens to try.",
-    "url": "https://www.inceptionlabs.ai/blog/introducing-mercury-3"
-  },
-  {
     "name": "FLUX 3 Max",
     "org": "fal + Black Forest Labs",
     "date": "2026-10-19",
     "type": "model",
     "summary": "Turn a text prompt or starting image into a 5–20 second 720p video with native audio, with a 10-second clip rendering in about 12 seconds. Use it on fal for $2.55 per minute through November 7, then $10.20.",
     "url": "https://fal.ai/flux-3-max"
-  },
-  {
-    "name": "FLUX.3 Image Klein",
-    "org": "Black Forest Labs",
-    "date": "2026-10-15",
-    "type": "model",
-    "summary": "Generate and edit images with control over where objects appear, using prompts and multiple reference images. Download the open weights for your own image workflows, or try the browser demo on Hugging Face.",
-    "url": "https://huggingface.co/blog/flux-3"
   }
 ]
