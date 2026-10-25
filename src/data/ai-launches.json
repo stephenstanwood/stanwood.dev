@@ -1,19 +1,27 @@
 [
   {
+    "name": "myPip",
+    "org": "myPip",
+    "date": "2026-10-24",
+    "type": "tool",
+    "summary": "Build playable games by describing an idea, then change them through conversation. Start free in your browser, with built-in multiplayer and shared editing so friends can help build and test the same game.",
+    "url": "https://mypip.dev/"
+  },
+  {
+    "name": "zCAD AI",
+    "org": "zCAD",
+    "date": "2026-10-24",
+    "type": "tool",
+    "summary": "Create 3D parts with real dimensions from text or a reference image, then export them to your design software. Try it free for non-commercial projects, with private models and commercial use on paid plans.",
+    "url": "https://zcad.ai/products/ai"
+  },
+  {
     "name": "Kimi K3.1 Pro",
     "org": "Moonshot AI",
     "date": "2026-10-23",
     "type": "model",
     "summary": "Build apps, fix bugs, and create 3D models from prompts or reference images. Use it in Kimi chat, Kimi Code, or through the API, with a faster version available on higher subscription plans.",
     "url": "https://www.kimi.com/en/blog/kimi-k3-1-pro"
-  },
-  {
-    "name": "Nemotron 3.5 Bolt E4B 4GB",
-    "org": "NVIDIA",
-    "date": "2026-10-23",
-    "type": "model",
-    "summary": "Build chat assistants and game characters that run on your own computer and use your app’s tools. Download it for Ollama or LM Studio, with some supported NVIDIA setups using about 4 GB of memory.",
-    "url": "https://research.nvidia.com/labs/nemotron/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB/"
   },
   {
     "name": "Canva Craft",
@@ -46,14 +54,6 @@
     "type": "model",
     "summary": "Fix bugs and build features with a coding model that runs on your own computer. Download the Apache 2.0 weights for Ollama or LM Studio, or use the optimized Mac runner on supported chips with at least 48 GB of memory.",
     "url": "https://recursive.com/updates/introducing-recursive-flint"
-  },
-  {
-    "name": "UseIt Studio",
-    "org": "UseIt",
-    "date": "2026-10-21",
-    "type": "tool",
-    "summary": "Design stickers, packaging, cards, and brand kits by describing what you want, then refine individual elements through conversation. The browser app exports editable files with real dimensions, bleed, and cut lines so you can move from mockup to printing.",
-    "url": "https://useit.im/"
   },
   {
     "name": "Voxtral 3",
