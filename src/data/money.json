@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-25T01:10:18.041Z",
+  "lastUpdated": "2026-10-25T06:10:17.828Z",
   "apiSpend": {
     "months": [
       {
@@ -437,10 +437,10 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-25T01:10:18.041Z",
+        "collectedAt": "2026-10-25T06:10:17.828Z",
         "services": {
           "vercel": {
-            "totalCents": 1631,
+            "totalCents": 1633,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -448,7 +448,7 @@
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 202
+                "cents": 203
               },
               {
                 "name": "Blob Storage Size",
@@ -468,7 +468,7 @@
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 19
+                "cents": 20
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -553,7 +553,7 @@
       "cents": 20000,
       "category": "ai",
       "url": "https://cursor.com/settings",
-      "note": "Mercury actual Sep 2026"
+      "note": "Mercury actual Oct 2026"
     },
     {
       "name": "Claude Max",
