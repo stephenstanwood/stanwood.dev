@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-26T19:10:15.778Z",
+  "lastUpdated": "2026-10-27T01:10:16.455Z",
   "apiSpend": {
     "months": [
       {
@@ -437,18 +437,18 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-26T19:10:15.778Z",
+        "collectedAt": "2026-10-27T01:10:16.455Z",
         "services": {
           "vercel": {
-            "totalCents": 1791,
+            "totalCents": 2058,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1276
+                "cents": 1457
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 237
+                "cents": 277
               },
               {
                 "name": "Blob Storage Size",
@@ -456,23 +456,23 @@
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 45
+                "cents": 86
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 44
+                "cents": 45
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 26
+                "cents": 27
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 24
+                "cents": 25
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 13
+                "cents": 14
               },
               {
                 "name": "Blob Advanced Operations",
@@ -487,26 +487,26 @@
                 "cents": 2
               },
               {
+                "name": "Blob Simple Operations",
+                "cents": 2
+              },
+              {
                 "name": "ISR Reads",
                 "cents": 2
               },
               {
                 "name": "Image Optimization Cache Writes",
                 "cents": 1
-              },
-              {
-                "name": "Blob Simple Operations",
-                "cents": 1
               }
             ],
             "note": null
           },
           "anthropic": {
-            "totalCents": 24813,
+            "totalCents": 25343,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 18431
+                "cents": 18824
               },
               {
                 "name": "claude-sonnet-5",
@@ -518,10 +518,10 @@
               },
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 528
+                "cents": 665
               }
             ],
-            "note": "computed from API key token usage (excludes Claude Code on Max)"
+            "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
           },
           "openai": {
             "totalCents": 0,
