@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { TOPIC_LABELS, canAddInternetVideo, chooseInternetPicks, eligibleInternetVideo, themeKey, topicKey, topicLabel, type InternetVideo } from "./tvInternet";
+import { TOPIC_LABELS, canAddInternetVideo, chooseInternetPicks, eligibleInternetVideo, formatRuntime, listingHeadline, playAllUrl, stillUrl, themeKey, topicKey, topicLabel, type InternetVideo } from "./tvInternet";
 const now = Date.parse("2026-09-28T12:00Z");
 function video(id: string, topic = "design"): InternetVideo {
   return { id, title: `An unusual ${id} lesson`, channel_id: id, channel_title: id, published_at: "2026-09-27T12:00Z", language: "en", topic, rank_score: 80 };
@@ -44,6 +44,28 @@ describe("TV internet diversity", () => {
     const a = { ...video("a"), title: "Debugging browser rendering performance" };
     const b = { ...video("b"), title: "Browser rendering performance debugging explained" };
     expect(canAddInternetVideo(b, [a], now)).toBe(false);
+  });
+  it("judges an edition by its own build time, so a stalled builder never empties the page", () => {
+    const built = Date.parse("2026-10-14T10:30Z");
+    const pick = { ...video("x"), published_at: "2026-10-08T12:00Z" };
+    expect(eligibleInternetVideo(pick, Date.parse("2026-10-27T12:00Z"))).toBe(false);
+    expect(eligibleInternetVideo(pick, built)).toBe(true);
+  });
+  it("prefers the editor's honest headline and de-shouts old titles", () => {
+    expect(listingHeadline({ title: "I Tested HTML vs Markdown!", headline: "Markdown vs. HTML as agent context" })).toBe("Markdown vs. HTML as agent context");
+    expect(listingHeadline({ title: "Every app is now open source... " })).toBe("Every app is now open source");
+    expect(listingHeadline({ title: "🔥 This changed everything!!", headline: "  " })).toBe("This changed everything");
+  });
+  it("never shows the custom thumbnail", () => {
+    expect(stillUrl({ id: "abc", still: "https://i.ytimg.com/vi/abc/maxres1.jpg" })).toContain("maxres1");
+    expect(stillUrl({ id: "abc" })).toBe("https://i.ytimg.com/vi/abc/hq2.jpg");
+  });
+  it("formats listings runtimes and the play-all playlist", () => {
+    expect(formatRuntime(355)).toBe("6 min");
+    expect(formatRuntime(20)).toBe("1 min");
+    expect(formatRuntime(3600)).toBe("1 hr");
+    expect(formatRuntime(3900)).toBe("1 hr 5 min");
+    expect(playAllUrl(["a", "b"])).toBe("https://www.youtube.com/watch_videos?video_ids=a,b");
   });
   it("matches the nightly builder's topic list", () => {
     const selection = readFileSync(new URL("../../scripts/tv-queue/selection.py", import.meta.url), "utf8");

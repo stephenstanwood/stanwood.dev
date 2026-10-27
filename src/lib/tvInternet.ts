@@ -4,6 +4,8 @@ import { MS_PER_DAY } from "./time";
 export interface InternetVideo {
   id: string;
   title: string;
+  headline?: string;
+  still?: string;
   published_at: string;
   channel_id?: string;
   channel_handle?: string;
@@ -119,6 +121,40 @@ export function canAddInternetVideo(video: InternetVideo, selected: InternetVide
   const topic = topicKey(video);
   const topicCount = selected.filter((pick) => topicKey(pick) === topic).length;
   return topicCount < (INTERNET_TOPIC_CAPS[topic] ?? INTERNET_MAX_PER_TOPIC);
+}
+
+const EMOJI_PATTERN = /[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu;
+
+/** The editor's honest headline; older editions fall back to a de-shouted YouTube title. */
+export function listingHeadline(video: Pick<InternetVideo, "title" | "headline">): string {
+  const headline = video.headline?.trim();
+  if (headline) return headline;
+  return video.title
+    .replace(EMOJI_PATTERN, "")
+    .replace(/\s*(?:[!]+|\.{3,}|…)\s*$/u, "")
+    .replace(/!+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** A still from inside the video, never the creator's custom thumbnail. */
+export function stillUrl(video: Pick<InternetVideo, "id" | "still">): string {
+  return video.still || `https://i.ytimg.com/vi/${encodeURIComponent(video.id)}/hq2.jpg`;
+}
+
+/** Listings-style runtime: "6 min", "1 hr", "1 hr 5 min". */
+export function formatRuntime(seconds: number): string {
+  const minutes = Math.max(1, Math.round((Number(seconds) || 0) / 60));
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  if (hours === 0) return `${minutes} min`;
+  return rest === 0 ? `${hours} hr` : `${hours} hr ${rest} min`;
+}
+
+/** YouTube's anonymous playlist: the whole edition, back to back, in order. */
+export function playAllUrl(ids: string[]): string {
+  const list = ids.slice(0, 50).map(encodeURIComponent).join(",");
+  return `https://www.youtube.com/watch_videos?video_ids=${list}`;
 }
 
 /** Preserve the pipeline's cooldown-aware order; refills obey identical hard caps. */

@@ -1,6 +1,7 @@
 ---
-// Stanford queue + Around the internet. Both are launchpads — click to open
-// on YouTube (Stanford disabled embedding, so no in-page player).
+// Sports rails + Around the internet: a nightly edition of TV-style YouTube
+// listings (scripts/tv-queue). Listings are launchpads that open on YouTube.
+// The Stanford queue below is parked.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -9,9 +10,12 @@ import TodaySports from '../components/TodaySports.tsx';
 import ReplaySports from '../components/ReplaySports.tsx';
 import { TV_TEAM_KEYS } from '../lib/tvReplays';
 import { daysSince } from '../lib/time';
-import { formatHourMinuteInTz, PACIFIC_TZ } from '../lib/dateFormat';
+import { PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
-import { chooseInternetPicks, eligibleInternetVideo, sourceKey, topicKey, topicLabel, INTERNET_MAX_PER_SOURCE } from '../lib/tvInternet';
+import {
+  chooseInternetPicks, eligibleInternetVideo, formatRuntime, listingHeadline, playAllUrl, sourceKey, stillUrl,
+  topicKey, topicLabel, INTERNET_MAX_PER_SOURCE,
+} from '../lib/tvInternet';
 import { jsonForScriptTag } from '../lib/htmlUtils';
 import { pluralize } from '../lib/text';
 
@@ -41,7 +45,10 @@ interface BroaderVideo {
   channel_title: string;
   channel_id?: string;
   channel_handle?: string;
-  thumb?: string;
+  headline?: string;
+  still?: string;
+  start_at?: number;
+  ad_seconds?: number;
   series_key?: string;
   episode_number?: number;
   exploration?: boolean;
@@ -120,20 +127,39 @@ const SHOW_STANFORD_TALKS = false;
 // Temporarily parked; flip this back on to restore the pinned rewatch card.
 const SHOW_SDSN_CLASSIC = false;
 const AUTO_UNLOCK_IN_DEV = import.meta.env.DEV;
-const INTERNET_TILE_COUNT = 20;
-const INTERNET_PICK_COUNT = INTERNET_TILE_COUNT - (SHOW_SDSN_CLASSIC ? 1 : 0);
+const INTERNET_MAX_PICKS = 20;
+// The edition is judged as of its own build, so a stalled builder leaves the
+// last edition up (flagged as stale on the page) instead of quietly emptying it.
+const editionTime = broader.built_at ? Date.parse(broader.built_at) : Date.now();
 const seenBroaderIds = new Set<string>();
-const allBroader = [...(broader.queue ?? []), ...(broader.pool ?? [])]
-  .filter((video) => {
-    if (!isEnglishVideo(video) || isBlockedBroader(video) || seenBroaderIds.has(video.id)) return false;
-    seenBroaderIds.add(video.id);
-    return true;
-  });
-const internetPicks = chooseInternetPicks(allBroader, INTERNET_PICK_COUNT);
+const inventory = [...(broader.queue ?? []), ...(broader.pool ?? [])].filter((video) => {
+  if (!isEnglishVideo(video) || isBlockedBroader(video) || seenBroaderIds.has(video.id)) return false;
+  seenBroaderIds.add(video.id);
+  return true;
+});
+// The visible edition is the editor's edit only; reserve picks wait offstage
+// and step in, in rank order, when a listing is marked.
+const editIds = new Set((broader.queue ?? []).map((video) => video.id));
+const internetPicks = chooseInternetPicks(inventory.filter((video) => editIds.has(video.id)), INTERNET_MAX_PICKS, editionTime);
 const internetPickIds = new Set(internetPicks.map((video) => video.id));
-broader.queue = internetPicks;
-broader.pool = allBroader
-  .filter((video) => !internetPickIds.has(video.id) && eligibleInternetVideo(video));
+const internetReserve = inventory.filter((video) => !internetPickIds.has(video.id) && eligibleInternetVideo(video, editionTime));
+const internetListings = [...internetPicks, ...internetReserve];
+const editionSeconds = internetPicks.reduce((sum, video) => sum + (video.duration || 0), 0);
+const editionLabel = broader.built_at
+  ? `${new Date(broader.built_at).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric', timeZone: PACIFIC_TZ })} edition`
+  : 'edition pending';
+
+function fmtClock(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  return `${m}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+function listingNotes(v: BroaderVideo): string[] {
+  const notes: string[] = [];
+  if (v.start_at) notes.push(`starts at ${fmtClock(v.start_at)}`);
+  if ((v.ad_seconds ?? 0) >= 45) notes.push(`${Math.round((v.ad_seconds ?? 0) / 60)} min sponsor read`);
+  return notes;
+}
 
 function fmtDuration(seconds: number) {
   const h = Math.floor(seconds / 3600);
@@ -147,12 +173,6 @@ function fmtAgo(iso: string) {
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
   return `${Math.floor(days / 30)}mo ago`;
-}
-
-function fmtRefresh(iso: string | null) {
-  if (!iso) return 'refresh pending';
-  const time = formatHourMinuteInTz(iso, PACIFIC_TZ);
-  return `updated ${fmtAgo(iso)} · ${time} PT`;
 }
 
 const topSeries = data.series?.[0] ?? null;
@@ -182,7 +202,7 @@ function seriesVideos(series: Series): QueueVideo[] {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;600&family=Permanent+Marker&family=Space+Mono:wght@400;700&display=swap"
     rel="stylesheet"
   />
   <script is:inline>
@@ -385,147 +405,174 @@ function seriesVideos(series: Series): QueueVideo[] {
       background: var(--paper);
       border: var(--border);
     }
-    /* Around the internet */
-    .internet-section {
-      margin-top: 0;
+    /* Around the internet: one nightly edition of TV-style listings */
+    .internet-section { margin-top: 0; }
+    .listings-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .75rem 1.5rem;
+      margin: 2.5rem 0 .4rem;
     }
-    .section-head {
-      display: block;
+    .listings-head h2.section-title { margin: 0; }
+    .play-all {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem .8rem;
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: 4px 4px 0 var(--ink);
+      color: var(--ink);
+      font-size: .78rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform .05s ease, box-shadow .05s ease, background .1s ease;
     }
-    .section-kicker, .section-note { display: none; }
+    .play-all:hover {
+      background: var(--lime);
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0 var(--ink);
+    }
     .internet-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 0;
-      margin: -1.45rem 0 1rem;
+      margin: 0 0 1.5rem;
       color: var(--muted);
-      font-size: 0.7rem;
+      font-size: .72rem;
     }
-    .meta-pill {
-      white-space: nowrap;
-    }
-    .meta-pill + .meta-pill::before { content: ' · '; white-space: pre; }
-    .broader-grid {
+    .internet-meta > span + span::before { content: ' · '; white-space: pre; }
+    .internet-meta .edition-stale { color: var(--hot); font-weight: 700; }
+    .internet-meta .edition-stale[hidden] { display: none; }
+
+    .listings {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.25rem;
+      counter-reset: listing;
     }
-    .bcard {
-      background: var(--paper);
-      border: var(--border);
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      color: var(--ink);
+    .listing {
+      --lane: #8e8e93;
       position: relative;
       min-width: 0;
-      transition: transform 0.05s ease, box-shadow 0.05s ease;
+      border-top: 2px solid var(--ink);
+      counter-increment: listing;
     }
-    .bcard:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 8px 8px 0 var(--ink);
-    }
-    .bcard.hidden,
-    .bcard.balance-hidden { display: none; }
-    .bcard-link {
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      min-width: 0;
+    .listing[hidden] { display: none; }
+    /* Riso-ish inks, one per lane. */
+    .listing[data-topic="ai_practice"] { --lane: #00a95c; }
+    .listing[data-topic="dev_world"] { --lane: #ff6c2f; }
+    .listing[data-topic="war_stories"] { --lane: #f15060; }
+    .listing[data-topic="how_it_works"] { --lane: #0078bf; }
+    .listing[data-topic="software_craft"] { --lane: #765ba7; }
+    .listing[data-topic="design"] { --lane: #ff48b0; }
+    .listing[data-topic="product"] { --lane: #bb8b41; }
+    .listing[data-topic="visual_computing"] { --lane: #00838a; }
+    .listing[data-topic="tech_history"] { --lane: #925f52; }
+    .listing[data-topic="public_tech"] { --lane: #3d5588; }
+    .listing[data-topic="making"] { --lane: #67b346; }
+    .listing-link {
+      display: grid;
+      grid-template-columns: 168px minmax(0, 1fr);
+      gap: 1rem;
+      padding: 1rem 0 1.15rem;
       color: inherit;
       text-decoration: none;
     }
-    .bcard-thumb {
-      aspect-ratio: 16 / 9;
-      background: #000 center/cover no-repeat;
-      border-bottom: 2px solid var(--ink);
+    .listing-still {
       position: relative;
-    }
-    .pick-badge { display: none; }
-    .explore-badge,
-    .series-badge,
-    .classic-badge {
-      position: absolute;
-      left: 6px;
-      z-index: 1;
+      align-self: start;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
       border: 2px solid var(--ink);
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 1px 5px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      background: var(--lane);
+      isolation: isolate;
     }
-    .bcard-dur {
+    .listing-still img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.12) brightness(1.06);
+      transition: filter .2s ease;
+    }
+    /* Duotone: the lane's ink in the shadows, paper in the highlights. Real
+       colour comes back on hover or focus. */
+    .listing-still::after {
+      content: '';
       position: absolute;
-      bottom: 6px;
-      right: 6px;
-      background: var(--ink);
-      color: var(--paper);
-      font-size: 0.7rem;
-      padding: 1px 5px;
-      font-weight: 700;
+      inset: 0;
+      z-index: 1;
+      background: var(--lane);
+      mix-blend-mode: screen;
+      transition: opacity .2s ease;
     }
-    .bcard-body {
-      padding: .65rem .75rem .75rem;
-      flex: 1;
+    .listing-link:hover .listing-still img,
+    .listing-link:focus-visible .listing-still img { filter: none; }
+    .listing-link:hover .listing-still::after,
+    .listing-link:focus-visible .listing-still::after { opacity: 0; }
+    .listing-body {
       display: flex;
       flex-direction: column;
+      gap: .3rem;
+      min-width: 0;
     }
-    .bcard-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      line-height: 1.3;
-      margin: 0 0 .35rem;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .bcard-meta {
-      font-size: 0.72rem;
-      color: #666;
-      margin-top: auto;
+    .listing-kicker {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
       gap: .5rem;
-    }
-    .bcard-chan {
-      color: #333;
+      padding-right: 4.25rem;
+      font-size: .66rem;
       font-weight: 700;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .listing-num::before { content: counter(listing, decimal-leading-zero); }
+    .listing-lane {
+      padding: 0 .35rem;
+      border: 1.5px solid var(--ink);
+      background: color-mix(in srgb, var(--lane) 30%, var(--paper));
       white-space: nowrap;
     }
-    .explore-badge {
-      top: 6px;
-      background: var(--lime);
+    .listing-runtime { color: var(--muted); white-space: nowrap; }
+    .listing-headline {
+      font-size: .98rem;
+      font-weight: 700;
+      line-height: 1.3;
+      text-wrap: pretty;
     }
-    .series-badge {
-      bottom: 6px;
-      background: var(--yellow);
+    .listing-link:hover .listing-headline {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
     }
-    .classic-badge {
-      top: 6px;
-      background: var(--hot);
-      color: var(--paper);
+    .listing-blurb {
+      font-family: 'Cabin', sans-serif;
+      font-size: .92rem;
+      line-height: 1.4;
+      color: #3f3f3f;
     }
-    .sdsn-card .bcard-thumb {
-      background-color: #171717;
-    }
-    .sdsn-card-loading .bcard-thumb {
-      background:
-        linear-gradient(135deg, #171717 0 48%, #2a2a2a 48% 52%, #171717 52% 100%);
-    }
-    .bcard-actions {
+    .listing-credit { font-size: .7rem; color: var(--muted); }
+    .listing-credit > span + span::before { content: ' · '; white-space: pre; }
+    .listing-creator { color: var(--ink); font-weight: 700; }
+    .listing-marks {
       position: absolute;
-      top: 6px;
-      right: 6px;
+      top: .8rem;
+      right: 0;
       z-index: 2;
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity .1s ease;
     }
-    .topic-chip { display: none; }
-    .bcard-reason { font-family: Cabin, sans-serif; font-size: .82rem; line-height: 1.35; color: #555; margin: 0 0 .65rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .mark-actions { display: flex; flex-direction: row-reverse; gap: 4px; }
-    .bhide {
+    .listing:hover .listing-marks,
+    .listing:focus-within .listing-marks { opacity: 1; }
+    .listing-mark {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -535,15 +582,58 @@ function seriesVideos(series: Series): QueueVideo[] {
       background: var(--paper);
       border: 2px solid var(--ink);
       color: var(--ink);
-      font-size: 0.7rem;
+      font-size: .75rem;
       font-weight: 700;
       cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.1s ease, background 0.1s ease, color 0.1s ease;
     }
-    .bcard:hover .bhide, .bhide:focus-visible { opacity: 1; }
-    .bhide:hover { background: var(--hot); color: var(--paper); }
-    .bhide.like:hover { background: var(--lime); color: var(--ink); }
+    .listing-mark:hover { background: var(--hot); color: var(--paper); }
+    .listing-mark.like:hover { background: var(--lime); color: var(--ink); }
+
+    /* The lead listing becomes a feature box across the full width. */
+    .listing.is-lead {
+      grid-column: 1 / -1;
+      margin: 0 0 1.75rem;
+      background: var(--paper);
+      border: var(--border);
+      box-shadow: var(--shadow);
+    }
+    .listing.is-lead .listing-link {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      padding: 0;
+    }
+    .listing.is-lead .listing-still {
+      align-self: stretch;
+      border: 0;
+      border-right: var(--border);
+    }
+    .listing.is-lead .listing-still::before {
+      content: 'start here';
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      padding: 1px 6px;
+      background: var(--yellow);
+      border: 2px solid var(--ink);
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .listing.is-lead .listing-body {
+      justify-content: center;
+      gap: .55rem;
+      padding: 1.4rem 1.4rem 1.4rem 0;
+    }
+    .listing.is-lead .listing-headline {
+      font-size: clamp(1.2rem, 2.1vw, 1.55rem);
+      line-height: 1.2;
+    }
+    .listing.is-lead .listing-blurb { font-size: 1.04rem; }
+    .listing.is-lead .listing-marks { top: 1.1rem; right: 1.1rem; }
+    .listing.is-lead .listing-kicker { padding-right: 4.75rem; }
+    .classic-listing .listing-lane { background: var(--yellow); }
     .queue-status {
       min-height: 1.5em;
       margin: 0.75rem 0 0;
@@ -560,6 +650,7 @@ function seriesVideos(series: Series): QueueVideo[] {
       color: #666;
       text-align: center;
     }
+    .footer a { color: inherit; }
 
     .page-head {
       display: flex;
@@ -833,28 +924,31 @@ function seriesVideos(series: Series): QueueVideo[] {
       align-items: center;
       gap: 0.3rem;
     }
-    @media (max-width: 1040px) {
-      .broader-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 900px) {
+      .listings { grid-template-columns: 1fr; }
     }
     @media (pointer: coarse) {
-      .bhide { min-width: 44px; height: 44px; font-size: 0.9rem; opacity: 1; }
+      .listing-marks { opacity: 1; }
+      .listing-mark { min-width: 44px; height: 44px; font-size: 0.9rem; }
+      .listing-kicker { padding-right: 6.5rem; }
+      .listing.is-lead .listing-kicker { padding-right: 7rem; }
     }
     @media (max-width: 620px) {
       body { padding: 1rem 0.75rem 1.5rem; }
       .page-head { margin-bottom: 1.25rem; }
       .corner-launchers { gap: 0.85rem; }
-      .internet-meta { margin-top: -1.45rem; }
-      .broader-grid { grid-template-columns: 1fr; gap: 12px; }
-      .bcard { min-height: 154px; }
-      .bcard-link { display: grid; grid-template-columns: 112px minmax(0, 1fr); }
-      .bcard-thumb { align-self: start; margin: 8px 0 8px 8px; border: 0; }
-      .bcard-body { padding: 8px 10px 10px; }
-      .bcard-title { font-size: 0.8rem; }
-      .bcard-reason { font-size: 0.78rem; margin-bottom: 8px; }
-      .bcard-meta { flex-direction: column; gap: 2px; font-size: 0.65rem; }
-      .bcard-actions { top: auto; right: auto; bottom: 8px; left: 8px; }
-      .explore-badge, .series-badge { display: none; }
-      .bhide { min-width: 44px; height: 44px; font-size: 0.9rem; opacity: 1; }
+      .listings-head { margin-top: 2rem; }
+      .listing-link { grid-template-columns: 104px minmax(0, 1fr); gap: .75rem; min-height: 150px; padding: .8rem 0 1rem; }
+      .listing-kicker,
+      .listing.is-lead .listing-kicker { flex-wrap: wrap; padding-right: 0; }
+      .listing-headline { font-size: .9rem; }
+      .listing-blurb { font-size: .86rem; }
+      /* Marks tuck under the still instead of taking a row of their own. */
+      .listing-marks { top: calc(.8rem + 58.5px + .6rem); right: auto; left: 0; opacity: 1; }
+      .listing.is-lead .listing-marks { position: static; justify-content: flex-end; padding: 0 1rem .9rem; }
+      .listing.is-lead .listing-link { grid-template-columns: 1fr; gap: 0; min-height: 0; }
+      .listing.is-lead .listing-still { border-right: 0; border-bottom: var(--border); }
+      .listing.is-lead .listing-body { padding: .9rem 1rem .5rem; }
       .schedule-row { align-items: stretch; flex-direction: column; }
       .schedule-chip { width: 100%; justify-content: space-between; }
     }
@@ -931,93 +1025,91 @@ function seriesVideos(series: Series): QueueVideo[] {
       </div>
     )}
 
-    {broader.queue.length > 0 && (
-      <section class="internet-section" aria-labelledby="internet-title">
-        <h2 class="section-title" id="internet-title">around the internet</h2>
-        <div class="internet-meta" aria-label="queue details">
-          <span class="meta-pill">{fmtRefresh(broader.built_at)}</span>
-          <span class="meta-pill" id="classic-count">
-            {broader.queue.length} picks{SHOW_SDSN_CLASSIC ? ' + a classic' : ''}
-          </span>
+    {internetPicks.length > 0 && (
+      <section class="internet-section" aria-labelledby="internet-title" data-built-at={broader.built_at ?? ''}>
+        <div class="listings-head">
+          <h2 class="section-title" id="internet-title">around the internet</h2>
+          <a
+            class="play-all"
+            id="play-all"
+            href={playAllUrl(internetPicks.map((v) => v.id))}
+            target="_blank"
+            rel="noopener"
+            title="Every pick back to back, in order, as a YouTube playlist"
+          ><span aria-hidden="true">▶</span> play the edition</a>
         </div>
-        <div
-          class="broader-grid"
+        <p class="internet-meta" aria-label="edition details">
+          <span>{editionLabel}</span>
+          <span id="edition-count">{internetPicks.length} picks</span>
+          <span id="edition-runtime">{formatRuntime(editionSeconds)}</span>
+          <span class="edition-stale" id="edition-stale" hidden></span>
+        </p>
+        <ol
+          class="listings"
           id="broader-grid"
-          data-tile-target={INTERNET_TILE_COUNT}
+          data-tile-target={internetPicks.length}
           data-source-limit={INTERNET_MAX_PER_SOURCE}
+          data-edition-time={String(editionTime)}
         >
-          {SHOW_SDSN_CLASSIC && (
-            <article
-              class="bcard sdsn-card sdsn-card-loading"
-              id="sdsn-classic-card"
-              data-published-at="9999-12-31T00:00:00.000Z"
-            >
-              <a
-                class="bcard-link"
-                href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d"
-                target="_blank"
-                rel="noopener"
-                aria-label="Random SDSN Classic"
+          {internetListings.map((v, index) => {
+            const inEdition = index < internetPicks.length;
+            const notes = listingNotes(v);
+            return (
+              <li
+                class:list={['listing', { 'is-lead': index === 0 }]}
+                hidden={!inEdition}
+                data-state={inEdition ? 'shown' : 'reserve'}
+                data-broader-id={v.id}
+                data-published-at={v.published_at}
+                data-source-key={sourceKey(v)}
+                data-topic={topicKey(v)}
+                data-theme={v.theme || ''}
+                data-duration={String(v.duration || 0)}
+                data-title={v.title}
+                data-language={v.language}
+                data-series-key={v.series_key || ''}
               >
-                <div class="bcard-thumb" data-sdsn-thumb>
-                  <span class="classic-badge">classic</span>
-                  <span class="bcard-dur" data-sdsn-duration>...</span>
+                <a class="listing-link" href={v.url} target="_blank" rel="noopener" title={`On YouTube as “${v.title}”`}>
+                  <span class="listing-still">
+                    <img src={stillUrl(v)} alt="" width="320" height="180" loading={index < 3 ? 'eager' : 'lazy'} decoding="async" />
+                  </span>
+                  <span class="listing-body">
+                    <span class="listing-kicker">
+                      <span class="listing-num" aria-hidden="true"></span>
+                      <span class="listing-lane">{topicLabel(v)}</span>
+                      <span class="listing-runtime">{formatRuntime(v.duration)}</span>
+                    </span>
+                    <span class="listing-headline">{listingHeadline(v)}</span>
+                    {v.editorial_reason && <span class="listing-blurb">{v.editorial_reason}</span>}
+                    <span class="listing-credit">
+                      <span class="listing-creator">{v.channel_title}</span>
+                      {notes.map((note) => <span>{note}</span>)}
+                    </span>
+                  </span>
+                </a>
+                <div class="listing-marks">
+                  <button class="listing-mark like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow this series' : 'more like this'} aria-label={v.series_key ? 'Follow this series' : 'More like this'}>✓</button>
+                  <button class="listing-mark" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide this series' : 'not for me'} aria-label={v.series_key ? 'Hide this series' : 'Not for me'}>×</button>
                 </div>
-                <div class="bcard-body">
-                  <p class="bcard-title" data-sdsn-title>loading sdsn classic...</p>
-                  <div class="bcard-meta">
-                    <span class="bcard-chan" data-sdsn-channel>SDSN Classic</span>
-                    <span>random</span>
-                  </div>
-                </div>
+              </li>
+            );
+          })}
+          {SHOW_SDSN_CLASSIC && (
+            <li class="listing classic-listing" id="sdsn-classic-card" hidden>
+              <a class="listing-link" href="https://www.youtube.com/playlist?list=PLk7eG7txNmA0aOww_rvQJy49xGEZe_U5d" target="_blank" rel="noopener">
+                <span class="listing-still"><img alt="" width="320" height="180" data-sdsn-thumb /></span>
+                <span class="listing-body">
+                  <span class="listing-kicker">
+                    <span class="listing-lane">a classic</span>
+                    <span class="listing-runtime" data-sdsn-duration></span>
+                  </span>
+                  <span class="listing-headline" data-sdsn-title>SDSN Classic</span>
+                  <span class="listing-credit"><span class="listing-creator" data-sdsn-channel>SDSN Classic</span><span>rewatch shelf</span></span>
+                </span>
               </a>
-              <div class="bcard-actions">
-                <span class="topic-chip">rewatch shelf</span>
-              </div>
-            </article>
+            </li>
           )}
-          {broader.queue.map((v, index) => (
-            <article
-              class={`bcard ${index === 0 ? 'is-featured' : ''}`}
-              data-broader-id={v.id}
-              data-published-at={v.published_at}
-              data-source-key={sourceKey(v)}
-              data-topic={topicKey(v)}
-              data-theme={v.theme || ''}
-              data-duration={String(v.duration || 0)}
-              data-title={v.title}
-              data-language={v.language}
-              data-series-key={v.series_key || ''}
-              data-episode-number={v.episode_number != null ? String(v.episode_number) : ''}
-            >
-              <a class="bcard-link" href={v.url} target="_blank" rel="noopener" aria-label={`${v.title} on YouTube`}>
-                <div class="bcard-thumb" style={v.thumb ? `background-image:url(${v.thumb})` : ''}>
-                  {index === 0 && <span class="pick-badge">start here</span>}
-                  {(v.source === 'discovery' || v.exploration) && (
-                    <span class="explore-badge">{v.source === 'discovery' ? 'discovery' : 'wildcard'}</span>
-                  )}
-                  {v.series_key && <span class="series-badge">series · ep {v.episode_number}</span>}
-                  <span class="bcard-dur">{fmtDuration(v.duration)}</span>
-                </div>
-                <div class="bcard-body">
-                  <p class="bcard-title">{v.title}</p>
-                  {v.editorial_reason && <p class="bcard-reason">{v.editorial_reason}</p>}
-                  <div class="bcard-meta">
-                    <span class="bcard-chan">{v.channel_title}</span>
-                    <span>{fmtAgo(v.published_at)}</span>
-                  </div>
-                </div>
-              </a>
-              <div class="bcard-actions">
-                <span class="topic-chip">{topicLabel(v)}</span>
-                <div class="mark-actions">
-                  <button class="bhide" data-mark-broader={v.id} data-action="pass" title={v.series_key ? 'hide this series' : 'not for me'} aria-label={v.series_key ? 'Hide this series' : 'Not for me'}>×</button>
-                  <button class="bhide like" data-mark-broader={v.id} data-action="like" title={v.series_key ? 'follow this series' : 'more like this'} aria-label={v.series_key ? 'Follow this series' : 'More like this'}>✓</button>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        </ol>
         <p class="queue-status" id="queue-status" aria-live="polite"></p>
         <div id="followed-series-container"></div>
       </section>
@@ -1107,17 +1199,15 @@ function seriesVideos(series: Series): QueueVideo[] {
     )}
 
     <div class="footer">
-      ✓ means more like this · × means not for me · both clear the card and shape future edits
+      ✓ more like this · × not for me · either one brings in the next pick and shapes tomorrow's edition · sponsor times via <a href="https://sponsor.ajay.app/" target="_blank" rel="noopener">SponsorBlock</a>
     </div>
   </div>
 
-  <!-- Ranked reserve pool, consumed client-side as the visible edit is marked -->
-  <script is:inline type="application/json" id="broader-pool" set:html={jsonForScriptTag(broader.pool || [])}></script>
   <script is:inline type="application/json" id="broader-series-episodes" set:html={jsonForScriptTag(broader.series_episodes || {})}></script>
 
   <script>
     // @ts-nocheck -- existing page interaction code; the shared selection policy is typed and tested.
-    import { canAddInternetVideo, sourceKey as sourceKeyJS, topicLabel as topicLabelJS, topicKey } from '../lib/tvInternet';
+    import { canAddInternetVideo, formatRuntime, playAllUrl } from '../lib/tvInternet';
     // ---- Shared: id-set state in localStorage (watched / hidden / liked / …) ----
     function getSet(key) {
       try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
@@ -1138,7 +1228,7 @@ function seriesVideos(series: Series): QueueVideo[] {
         if (input.value.trim().toLowerCase() === 'meow') {
           try { localStorage.setItem('yt-gate-v1', 'meow'); } catch {}
           document.documentElement.classList.add('yt-unlocked');
-          requestAnimationFrame(refillIfNeeded);
+          requestAnimationFrame(refreshListings);
         } else {
           gate.classList.remove('shake');
           void gate.offsetWidth;
@@ -1283,13 +1373,13 @@ function seriesVideos(series: Series): QueueVideo[] {
 
     renderWatched();
 
-    // ---- Around the internet: hide + refill from reserve pool ----
+    // ---- Around the internet: listings, marks, and reserve swaps ----
     const BROADER_HIDDEN_KEY = 'broader-hidden-v1';
     const BROADER_LIKED_KEY = 'broader-liked-v1';
     const BROADER_PASSED_KEY = 'broader-passed-v1';
     const BROADER_FOLLOWED_SERIES_KEY = 'broader-followed-series-v1';
     const BROADER_BANNED_SERIES_KEY = 'broader-banned-series-v1';
-    const POOL = JSON.parse(document.getElementById('broader-pool').textContent) || [];
+    const STALE_AFTER_MS = 36 * 60 * 60 * 1000;
     const SERIES_EPISODES = JSON.parse(document.getElementById('broader-series-episodes').textContent) || {};
 
     const getBroaderHidden = () => getSet(BROADER_HIDDEN_KEY);
@@ -1303,18 +1393,7 @@ function seriesVideos(series: Series): QueueVideo[] {
     const getBannedSeries = () => getSet(BROADER_BANNED_SERIES_KEY);
     const saveBannedSeries = (s) => saveSet(BROADER_BANNED_SERIES_KEY, s);
 
-    function renderBroaderHidden() {
-      const h = getBroaderHidden();
-      const banned = getBannedSeries();
-      document.querySelectorAll('[data-broader-id]').forEach(card => {
-        const byId = h.has(card.dataset.broaderId);
-        const bySeries = card.dataset.seriesKey && banned.has(card.dataset.seriesKey);
-        card.classList.toggle('hidden', byId || bySeries);
-      });
-      updateFeaturedCard();
-    }
-
-    // Card presentation helpers are shared by feedback-driven refills.
+    // Followed-series rows share these with the Stanford list markup.
     function fmtDurationJS(seconds) {
       const h = Math.floor(seconds / 3600);
       const m = Math.floor((seconds % 3600) / 60);
@@ -1330,81 +1409,84 @@ function seriesVideos(series: Series): QueueVideo[] {
     function escapeHTML(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
-    function updateFeaturedCard() {
-      const cards = Array.from(document.querySelectorAll('[data-broader-id]'));
-      cards.forEach(card => {
-        card.classList.remove('is-featured');
-        card.querySelector('.pick-badge')?.remove();
-      });
-      const firstVisible = cards.find(card =>
-        !card.classList.contains('hidden') && !card.classList.contains('balance-hidden')
-      );
-      if (firstVisible) {
-        firstVisible.classList.add('is-featured');
-        const thumb = firstVisible.querySelector('.bcard-thumb');
-        if (thumb) {
-          const badge = document.createElement('span');
-          badge.className = 'pick-badge';
-          badge.textContent = 'start here';
-          thumb.prepend(badge);
-        }
-      }
-    }
     function announceMark(action) {
       const status = document.getElementById('queue-status');
       if (!status) return;
       status.textContent = action === 'like'
-        ? 'Got it — more like that in future edits.'
+        ? 'Got it — more like that in future editions.'
         : 'Got it — that one is out.';
     }
-    function buildCard(v) {
-      const card = document.createElement('article');
-      card.className = 'bcard';
-      card.dataset.broaderId = v.id;
-      card.dataset.publishedAt = v.published_at;
-      card.dataset.sourceKey = sourceKeyJS(v);
-      card.dataset.topic = topicKey(v);
-      card.dataset.theme = v.theme || '';
-      card.dataset.duration = String(v.duration || 0);
-      card.dataset.title = v.title;
-      card.dataset.language = v.language;
-      if (v.series_key) card.dataset.seriesKey = v.series_key;
-      if (v.episode_number != null) card.dataset.episodeNumber = String(v.episode_number);
-      const thumbStyle = v.thumb ? `background-image:url(${escapeHTML(v.thumb)})` : '';
-      const safeId = escapeHTML(v.id);
-      const seriesBadge = v.series_key
-        ? `<span class="series-badge">series · ep ${v.episode_number}</span>` : '';
-      let exploreBadge = '';
-      if (v.source === 'discovery') exploreBadge = '<span class="explore-badge">discovery</span>';
-      else if (v.exploration) exploreBadge = '<span class="explore-badge">wildcard</span>';
-      const likeTitle = v.series_key ? 'follow this series' : 'more like this';
-      const passTitle = v.series_key ? 'hide this series' : 'not for me';
-      card.innerHTML = `
-        <a class="bcard-link" href="${escapeHTML(v.url)}" target="_blank" rel="noopener" aria-label="${escapeHTML(v.title)} on YouTube">
-          <div class="bcard-thumb" style="${thumbStyle}">
-            ${exploreBadge}
-            ${seriesBadge}
-            <span class="bcard-dur">${fmtDurationJS(v.duration)}</span>
-          </div>
-          <div class="bcard-body">
-            <p class="bcard-title">${escapeHTML(v.title)}</p>
-            ${v.editorial_reason ? `<p class="bcard-reason">${escapeHTML(v.editorial_reason)}</p>` : ''}
-            <div class="bcard-meta">
-              <span class="bcard-chan">${escapeHTML(v.channel_title)}</span>
-              <span>${fmtAgoJS(v.published_at)}</span>
-            </div>
-          </div>
-        </a>
-        <div class="bcard-actions">
-          <span class="topic-chip">${escapeHTML(topicLabelJS(v))}</span>
-          <div class="mark-actions">
-            <button class="bhide" data-mark-broader="${safeId}" data-action="pass" title="${passTitle}" aria-label="${passTitle}">×</button>
-            <button class="bhide like" data-mark-broader="${safeId}" data-action="like" title="${likeTitle}" aria-label="${likeTitle}">✓</button>
-          </div>
-        </div>
-      `;
-      card.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
-      return card;
+
+    function listingVideo(item) {
+      return {
+        id: item.dataset.broaderId, title: item.dataset.title, topic: item.dataset.topic,
+        theme: item.dataset.theme, duration: Number(item.dataset.duration) || 0,
+        channel_id: item.dataset.sourceKey, channel_title: '', language: item.dataset.language,
+        published_at: item.dataset.publishedAt, rank_score: 100,
+      };
+    }
+
+    // Marked listings leave; reserve picks step in, in rank order, under the
+    // same caps the editor used. The edition never grows past its own size.
+    function refreshListings() {
+      const grid = document.getElementById('broader-grid');
+      if (!grid) return;
+      const hidden = getBroaderHidden();
+      const banned = getBannedSeries();
+      const followed = getFollowedSeries();
+      const items = Array.from(grid.querySelectorAll('[data-broader-id]'));
+      items.forEach(item => {
+        const seriesKey = item.dataset.seriesKey;
+        if (hidden.has(item.dataset.broaderId) || (seriesKey && banned.has(seriesKey))) {
+          item.dataset.state = 'gone';
+        }
+      });
+      const editionTime = Number(grid.dataset.editionTime) || Date.now();
+      const target = Number(grid.dataset.tileTarget) || 0;
+      const shown = items.filter(item => item.dataset.state === 'shown');
+      const selected = shown.map(listingVideo);
+      const seenSeries = new Set(shown.map(item => item.dataset.seriesKey).filter(Boolean));
+      for (const item of items) {
+        if (selected.length >= target) break;
+        if (item.dataset.state !== 'reserve') continue;
+        const seriesKey = item.dataset.seriesKey;
+        if (seriesKey && (followed.has(seriesKey) || seenSeries.has(seriesKey))) continue;
+        const video = listingVideo(item);
+        if (!canAddInternetVideo(video, selected, editionTime)) continue;
+        item.dataset.state = 'shown';
+        selected.push(video);
+        if (seriesKey) seenSeries.add(seriesKey);
+      }
+      let lead = null;
+      items.forEach(item => {
+        item.hidden = item.dataset.state !== 'shown';
+        if (!item.hidden && !lead) lead = item;
+        item.classList.toggle('is-lead', item === lead);
+      });
+      updateEditionSummary(items.filter(item => !item.hidden));
+    }
+
+    function updateEditionSummary(visible) {
+      const count = document.getElementById('edition-count');
+      const runtime = document.getElementById('edition-runtime');
+      const playAll = document.getElementById('play-all');
+      const seconds = visible.reduce((sum, item) => sum + (Number(item.dataset.duration) || 0), 0);
+      if (count) count.textContent = `${visible.length} ${visible.length === 1 ? 'pick' : 'picks'}`;
+      if (runtime) runtime.textContent = formatRuntime(seconds);
+      if (playAll) playAll.href = playAllUrl(visible.map(item => item.dataset.broaderId));
+    }
+
+    // A static page can't know the builder stalled, but the reader can: say so
+    // plainly instead of leaving an old edition looking current.
+    function flagStaleEdition() {
+      const section = document.querySelector('.internet-section[data-built-at]');
+      const note = document.getElementById('edition-stale');
+      if (!section || !note) return;
+      const builtAt = Date.parse(section.dataset.builtAt || '');
+      if (!Number.isFinite(builtAt) || Date.now() - builtAt < STALE_AFTER_MS) return;
+      const day = new Date(builtAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Los_Angeles' });
+      note.textContent = `no new edition since ${day} — the Mini's tv-listings job hasn't published`;
+      note.hidden = false;
     }
 
     function wireMarkButton(btn) {
@@ -1413,8 +1495,9 @@ function seriesVideos(series: Series): QueueVideo[] {
         e.stopPropagation();
         const id = btn.dataset.markBroader;
         const action = btn.dataset.action || 'pass';
-        const card = btn.closest('[data-broader-id]');
-        const seriesKey = card && card.dataset.seriesKey;
+        const item = btn.closest('[data-broader-id]');
+        const seriesKey = item && item.dataset.seriesKey;
+        const hadFocus = document.activeElement === btn;
         const hidden = getBroaderHidden();
         hidden.add(id);
         saveBroaderHidden(hidden);
@@ -1429,71 +1512,48 @@ function seriesVideos(series: Series): QueueVideo[] {
         }
         saveBroaderLiked(liked);
         saveBroaderPassed(passed);
-
         if (seriesKey) {
-          if (action === 'like') {
-            const f = getFollowedSeries();
-            f.add(seriesKey);
-            saveFollowedSeries(f);
-          } else {
-            const b = getBannedSeries();
-            b.add(seriesKey);
-            saveBannedSeries(b);
-          }
-          sendMark(id, 'broader', action);
-          announceMark(action);
-          renderFollowedSeries();
-          renderBroaderHidden();
-          refillIfNeeded();
-          return;
+          const store = action === 'like' ? getFollowedSeries() : getBannedSeries();
+          store.add(seriesKey);
+          (action === 'like' ? saveFollowedSeries : saveBannedSeries)(store);
         }
 
         sendMark(id, 'broader', action);
         announceMark(action);
-        renderBroaderHidden();
-        refillIfNeeded();
+        if (seriesKey) renderFollowedSeries();
+        refreshListings();
+        if (hadFocus) {
+          // Keep keyboard users in place: move to the next listing still showing.
+          const visible = Array.from(document.querySelectorAll('[data-broader-id]:not([hidden])'));
+          const next = visible.find(el => item && (item.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)) || visible[visible.length - 1];
+          next?.querySelector('.listing-link')?.focus();
+        }
       });
     }
 
     async function loadSdsnClassicCard() {
       const card = document.getElementById('sdsn-classic-card');
       if (!card) return;
-
       try {
         const response = await fetch('/api/tv/random-sdsn', { cache: 'no-store' });
         if (!response.ok) throw new Error('SDSN Classic unavailable');
-
         const video = await response.json();
         if (!video || typeof video.url !== 'string' || typeof video.title !== 'string') {
           throw new Error('SDSN Classic payload malformed');
         }
-
-        const thumb = card.querySelector('[data-sdsn-thumb]');
+        const link = card.querySelector('.listing-link');
+        const still = card.querySelector('[data-sdsn-thumb]');
         const title = card.querySelector('[data-sdsn-title]');
         const channel = card.querySelector('[data-sdsn-channel]');
         const duration = card.querySelector('[data-sdsn-duration]');
-
-        const link = card.querySelector('.bcard-link');
         if (link) link.href = video.url;
-        if (thumb && typeof video.thumb === 'string') {
-          thumb.style.backgroundImage = `url(${video.thumb})`;
-        }
+        if (still && typeof video.thumb === 'string') still.src = video.thumb;
         if (title) title.textContent = video.title;
         if (channel) channel.textContent = video.channelTitle || 'SDSN Classic';
-        if (duration) {
-          if (video.duration) duration.textContent = video.duration;
-          else duration.hidden = true;
-        }
-
-        card.classList.remove('sdsn-card-loading');
+        if (duration) duration.textContent = video.duration || '';
+        card.hidden = false;
       } catch {
-        card.classList.add('hidden');
-        refillIfNeeded();
-        const classicCount = document.getElementById('classic-count');
-        const visiblePicks = document.querySelectorAll(
-          '[data-broader-id]:not(.hidden):not(.balance-hidden)'
-        ).length;
-        if (classicCount) classicCount.textContent = `${visiblePicks} current picks`;
+        card.hidden = true;
       }
     }
 
@@ -1571,83 +1631,12 @@ function seriesVideos(series: Series): QueueVideo[] {
       });
     }
 
-    function refillIfNeeded() {
-      const grid = document.getElementById('broader-grid');
-      if (!grid) return;
-      grid.querySelectorAll('.balance-hidden').forEach(card => {
-        card.classList.remove('balance-hidden');
-      });
-      const visible = grid.querySelectorAll('.bcard:not(.hidden)').length;
-      // Refill up to the target only while quality and diversity caps hold.
-      const target = Number(grid.dataset.tileTarget) || 20;
-      const needed = Math.max(0, target - visible);
-      const hidden = getBroaderHidden();
-      const banned = getBannedSeries();
-      const followed = getFollowedSeries();
-      const sourceLimit = Number(grid.dataset.sourceLimit) || 1;
-      const selected = Array.from(grid.querySelectorAll(".bcard:not(.hidden)[data-broader-id]")).map(card => ({
-        id: card.dataset.broaderId, title: card.dataset.title, topic: card.dataset.topic,
-        theme: card.dataset.theme, duration: Number(card.dataset.duration) || 0,
-        channel_id: card.dataset.sourceKey, channel_title: "", language: card.dataset.language,
-        published_at: card.dataset.publishedAt, rank_score: 100,
-      }));
-      const sourceCounts = new Map();
-      grid.querySelectorAll('.bcard:not(.hidden)[data-source-key]').forEach(card => {
-        const key = card.dataset.sourceKey;
-        sourceCounts.set(key, (sourceCounts.get(key) || 0) + 1);
-      });
-      const seenSeriesOnGrid = new Set(
-        Array.from(grid.querySelectorAll('[data-series-key]'))
-          .map(el => el.dataset.seriesKey)
-          .filter(Boolean)
-      );
-      let added = 0;
-      let checked = 0;
-      const available = POOL.length;
-      const deferred = [];
-      while (added < needed && checked < available && POOL.length > 0) {
-        const v = POOL.shift();
-        checked++;
-        if (hidden.has(v.id)) continue;
-        if (v.series_key && (banned.has(v.series_key) || followed.has(v.series_key) || seenSeriesOnGrid.has(v.series_key))) continue;
-        const sourceKey = sourceKeyJS(v);
-        if ((sourceCounts.get(sourceKey) || 0) >= sourceLimit || !canAddInternetVideo(v, selected)) {
-          deferred.push(v);
-          continue;
-        }
-        if (v.series_key) seenSeriesOnGrid.add(v.series_key);
-        const card = buildCard(v);
-        grid.appendChild(card);
-        selected.push(v);
-        sourceCounts.set(sourceKey, (sourceCounts.get(sourceKey) || 0) + 1);
-        added++;
-      }
-      POOL.push(...deferred);
-      balanceCompleteRows(grid);
-      updateFeaturedCard();
-      const countLabel = document.getElementById("classic-count");
-      if (countLabel) countLabel.textContent = `${grid.querySelectorAll(".bcard:not(.hidden):not(.balance-hidden)").length} picks`;
-    }
-
-    function balanceCompleteRows(grid) {
-      // Keep every qualified pick visible, including an incomplete final row.
-      grid.querySelectorAll('.balance-hidden').forEach(card => {
-        card.classList.remove('balance-hidden');
-      });
-    }
-
-    // Wire up any pre-rendered mark buttons
+    // Wire up the rendered mark buttons
     document.querySelectorAll('[data-mark-broader]').forEach(wireMarkButton);
     renderFollowedSeries();
-    renderBroaderHidden();
-    refillIfNeeded();
+    refreshListings();
+    flagStaleEdition();
     loadSdsnClassicCard();
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(refillIfNeeded, 100);
-    });
   </script>
   <script is:inline>
     // WNBA's watch pages can render as logged-out even when the browser has a
