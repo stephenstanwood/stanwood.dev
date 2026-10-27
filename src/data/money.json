@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-27T13:10:12.989Z",
+  "lastUpdated": "2026-10-27T19:10:19.282Z",
   "apiSpend": {
     "months": [
       {
@@ -437,18 +437,18 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-27T13:10:12.989Z",
+        "collectedAt": "2026-10-27T19:10:19.282Z",
         "services": {
           "vercel": {
-            "totalCents": 2169,
+            "totalCents": 2519,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1528
+                "cents": 1871
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 297
+                "cents": 299
               },
               {
                 "name": "Blob Storage Size",
@@ -456,19 +456,19 @@
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 100
+                "cents": 102
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 46
+                "cents": 47
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 29
+                "cents": 30
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 26
+                "cents": 27
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -547,10 +547,10 @@
   "subscriptions": [
     {
       "name": "Anthropic",
-      "cents": 45383,
+      "cents": 47888,
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Oct 2026; 11 Mercury charges combined"
+      "note": "Mercury actual Oct 2026; 12 Mercury charges combined"
     },
     {
       "name": "Cursor",
