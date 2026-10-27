@@ -11,8 +11,8 @@
   `LINKEDIN_TRACKER_DATABASE_URL`. Never commit contact exports or normalized
   person rows here; source and ingestion stay in the private `stoa.works` repo.
 - Private pages (noindex + excluded from the sitemap in `astro.config.mjs`):
-  `/tv` (personal queue dashboard — Stanford queue, around-the-internet, sports
-  rails), `/familyroom` (family room TV homepage, runs fullscreen on the Mac Mini
+  `/tv` (personal dashboard — sports rails and the around-the-internet
+  listings; the Stanford queue is hidden), `/familyroom` (family room TV homepage, runs fullscreen on the Mac Mini
   wired to the Samsung Q80C), `/money`, `/li`, `/lg`. `/office` 301s to `/tv`.
 
 - Private ScatosSwip house browsing: `/lg`, signed household profiles with
@@ -26,6 +26,7 @@
 - Project pages get the "more from stanwood.dev" footer band via `src/components/ExploreMore.astro` (rendered by BaseLayout). New project pages: add entries to its TILES + RELATED maps.
 
 ## Scheduled jobs (run on Mac Mini)
+- `dev.stanwood.tv-listings` (launchd, 2:15 AM Pacific) — builds `/tv`'s "Around the internet" edition (editor headlines, in-video stills, SponsorBlock-aware links) from an isolated worktree and pushes `public/yt/broader.json` to main. The only scheduler for that section; failure-only #tasks alerts; receipt `~/.local/state/tv-listings/latest-run.json`. Canonical source and install: `scripts/tv-queue/README.md`. It replaced `dev.stanwood.youtube-nightly` (retired 2026-10-27; its hidden Stanford half no longer runs).
 - `dev.stanwood.scatosswip-refresh` (launchd, 4:45 AM Pacific) — official LGHS boundary first, then live listing collection and atomic publication to private Postgres. Installed at `~/.local/share/scatosswip`; verify `~/.local/state/scatosswip/latest-run.json`. No daily git commits.
 - `dev.stanwood.big-inning-sync` (launchd, 11:15 AM Pacific) — checks the MLB Big Inning schedule via Puppeteer; publishes valid changes from an isolated worktree. Verified seasonal absence preserves the saved schedule. Canonical source, tests and installation: `scripts/big-inning-sync/README.md`; runtime: `~/scripts/big-inning-sync` on Mini. Receipt: `~/.local/state/big-inning-sync/latest-run.json`.
 
