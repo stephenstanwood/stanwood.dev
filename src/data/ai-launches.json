@@ -1,5 +1,13 @@
 [
   {
+    "name": "WebAI",
+    "org": "Opera",
+    "date": "2026-10-27",
+    "type": "tool",
+    "summary": "Add AI features to websites and extensions that run on the visitor's own machine, with no API keys or per-request costs. Try the early preview free in Opera One by turning on the Web AI API in settings.",
+    "url": "https://blogs.opera.com/news/2026/10/webai-local-ai-for-the-web-now-in-opera/"
+  },
+  {
     "name": "GPT-6.1 Terra",
     "org": "OpenAI",
     "date": "2026-10-26",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Give your AI agents an email address to receive tasks, track conversations, and draft replies. Connect through an API, CLI, or MCP, with up to three free inboxes and controls over what agents can do.",
     "url": "https://resend.com/blog/announcing-inboxes"
-  },
-  {
-    "name": "Flint",
-    "org": "Recursive",
-    "date": "2026-10-21",
-    "type": "model",
-    "summary": "Fix bugs and build features with a coding model that runs on your own computer. Download the Apache 2.0 weights for Ollama or LM Studio, or use the optimized Mac runner on supported chips with at least 48 GB of memory.",
-    "url": "https://recursive.com/updates/introducing-recursive-flint"
   }
 ]
