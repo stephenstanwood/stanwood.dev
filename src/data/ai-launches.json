@@ -1,11 +1,35 @@
 [
   {
+    "name": "Copilot Fusion",
+    "org": "GitHub",
+    "date": "2026-10-28",
+    "type": "tool",
+    "summary": "Pick Fusion in the Copilot model picker and it routes each coding task to the right models for you, with Standard, High, or Max effort. Works on all Copilot plans in VS Code, JetBrains, the CLI, and the Copilot app.",
+    "url": "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion"
+  },
+  {
+    "name": "Replica",
+    "org": "GitHub",
+    "date": "2026-10-28",
+    "type": "tool",
+    "summary": "Turn plain-language ideas into clickable prototypes built from your own design system's components. Free and open source under MIT, with an optional self-hosted hub for sharing prototypes and collecting comments.",
+    "url": "https://github.com/github/replica"
+  },
+  {
     "name": "WebAI",
     "org": "Opera",
     "date": "2026-10-27",
     "type": "tool",
     "summary": "Add AI features to websites and extensions that run on the visitor's own machine, with no API keys or per-request costs. Try the early preview free in Opera One by turning on the Web AI API in settings.",
     "url": "https://blogs.opera.com/news/2026/10/webai-local-ai-for-the-web-now-in-opera/"
+  },
+  {
+    "name": "LFM3",
+    "org": "Liquid AI",
+    "date": "2026-10-27",
+    "type": "model",
+    "summary": "Run small open-weight models for text, vision, and audio on a phone or laptop, then fine-tune them on a single GPU. Download from Hugging Face in GGUF or MLX, free for commercial use under $10M revenue.",
+    "url": "https://huggingface.co/collections/LiquidAI/lfm3"
   },
   {
     "name": "GPT-6.1 Terra",
@@ -24,36 +48,12 @@
     "url": "https://mypip.dev/"
   },
   {
-    "name": "zCAD AI",
-    "org": "zCAD",
-    "date": "2026-10-24",
-    "type": "tool",
-    "summary": "Create 3D parts with real dimensions from text or a reference image, then export them to your design software. Try it free for non-commercial projects, with private models and commercial use on paid plans.",
-    "url": "https://zcad.ai/products/ai"
-  },
-  {
     "name": "Kimi K3.1 Pro",
     "org": "Moonshot AI",
     "date": "2026-10-23",
     "type": "model",
     "summary": "Build apps, fix bugs, and create 3D models from prompts or reference images. Use it in Kimi chat, Kimi Code, or through the API, with a faster version available on higher subscription plans.",
     "url": "https://www.kimi.com/en/blog/kimi-k3-1-pro"
-  },
-  {
-    "name": "MiniMax M3.1 Flash",
-    "org": "MiniMax",
-    "date": "2026-10-23",
-    "type": "model",
-    "summary": "Power cheap, fast agents with a 1M-token model that reads text, images, and video. Call it through the low-cost API or download the open weights from Hugging Face, free for non-commercial use with attribution required for commercial products.",
-    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash"
-  },
-  {
-    "name": "Canva Craft",
-    "org": "Canva",
-    "date": "2026-10-22",
-    "type": "model",
-    "summary": "Generate product graphics, posters, and social images at up to 2K resolution, with prompts that specify layout, object placement, and text. Use it in Canva’s Dream Lab or add image generation to your app through the public API.",
-    "url": "https://www.canva.com/newsroom/news/canva-craft/"
   },
   {
     "name": "Resend Inboxes",
