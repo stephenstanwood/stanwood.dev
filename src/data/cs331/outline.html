@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1b2b43">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="A friendly, complete guide to CS 331 Modules 1–5: agents, search, uncertainty, games, and constraint satisfaction.">
+  <title>The full study outline · CS 331 Midterm Lab</title>
+  <style>:root{font-family:"Avenir Next",Avenir,"Segoe UI",sans-serif;color:#1b2b43;background:#f1f5fa;font-size:16px;line-height:1.55;--blue:#245fb7;--ink:#1b2b43;--muted:#59677b;--line:#d8e1ec;--paper:#fff;--green:#17684a;--red:#a13c41}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,a,select,input{touch-action:manipulation}button,.button{cursor:pointer;min-height:44px}button{border:0;background:none;color:inherit}button:disabled{opacity:.45;cursor:default}a{color:#1858a7;text-underline-offset:3px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,[tabindex="0"]:focus-visible{outline:3px solid #e99d26;outline-offset:4px}h1,h2,h3,p{margin-top:0}h1{font-size:clamp(2rem,4.7vw,3.9rem);line-height:1.08;letter-spacing:-.045em;font-weight:650;margin-bottom:22px}h2{font-size:1.35rem;line-height:1.3;letter-spacing:-.02em;margin-bottom:12px}h3{font-size:1.12rem}p{margin-bottom:18px}small,.small{font-size:.85rem}.quiet{color:var(--muted);font-size:.9rem}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}.skip{position:fixed;top:-80px;left:20px;z-index:20;padding:12px 20px;background:#fff}.skip:focus{top:12px}header{max-width:1260px;margin:auto;min-height:104px;display:flex;align-items:center;gap:40px;padding:16px 38px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:13px;text-align:left;padding:0}.brand svg{width:35px;height:35px;color:var(--blue)}.brand>span{font-size:1.25rem;font-weight:700;letter-spacing:-.035em}.brand small{display:block;color:var(--muted);font-weight:500;letter-spacing:0;font-size:.73rem;margin-top:1px}header nav{display:flex;gap:10px;margin-left:auto}header nav button{padding:8px 15px;border-radius:8px;font-size:.93rem;color:var(--muted)}header nav button[aria-current]{background:#e2ebf8;color:#164d99;font-weight:650}.exam-link{font-size:.9rem;white-space:nowrap;display:flex;gap:14px;align-items:center}.exam-link span{font-size:1.3rem;color:var(--blue)}main{max-width:1184px;margin:auto;padding:36px 0 80px;min-height:calc(100vh - 190px)}main:focus{outline:none}footer{max-width:1184px;margin:auto;display:flex;justify-content:space-between;gap:28px;border-top:1px solid var(--line);padding:20px 0 28px;color:var(--muted);font-size:.76rem}.course-line{color:#486078;font-size:.93rem;margin-bottom:18px}.home-intro{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:48px;padding:24px 0 36px}.intro-copy{font-size:1.1rem;max-width:46ch;color:#52647c;margin-bottom:0}.intro-diagram{background:#e6eef8;border-radius:50% 10px 10px 10px;padding:30px 26px 0}.diagram-heading{display:block;text-align:right;padding-right:28px;color:#44617f;font-size:.88rem}.intro-diagram svg{width:100%;display:block;opacity:.85}.home-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;margin-bottom:48px}.practice-panel{background:var(--ink);color:#fff;border-radius:16px;padding:28px 32px 14px}.panel-heading{display:flex;align-items:baseline;justify-content:space-between;gap:20px}.panel-heading h2{margin-bottom:9px}.practice-panel .quiet{color:#c1cde0}.practice-panel>p{color:#c7d3e5;font-size:.95rem}.topic-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 24px}.topic-buttons button{font-size:.85rem;padding:8px 13px;border:1px solid #3f526e;border-radius:7px;min-height:40px;color:#d6e1f2}.topic-buttons button[aria-pressed="true"]{background:white;color:#1a375e;border-color:white;font-weight:650}.primary,.secondary,.button{display:inline-flex;justify-content:center;align-items:center;gap:18px;min-height:46px;padding:11px 19px;border-radius:8px;text-decoration:none;font-size:.95rem;font-weight:650}.primary{background:var(--blue);color:#fff;border:1px solid var(--blue)}.primary:hover:not(:disabled){background:#164d99}.secondary{background:#fff;border:1px solid #bfccdc;color:var(--ink)}.secondary:hover:not(:disabled){background:#edf2f8}.start{background:#f2b45a;color:#172c48;border-color:#f2b45a;justify-content:space-between;min-width:235px;margin-bottom:20px}.start:hover:not(:disabled){background:#f6c77d}.start span{font-size:1.3rem}.other-modes{border-top:1px solid #3a4b63}.other-modes>button{width:100%;display:flex;align-items:center;gap:17px;text-align:left;padding:19px 0;border-bottom:1px solid #3a4b63}.other-modes>button:last-child{border:0}.other-modes small{display:block;color:#b9c8dd;font-weight:400;font-size:.81rem}.other-modes strong{font-size:.97rem}.mode-icon{font-size:1.5rem;color:#b7cce8;width:20px}.other-modes>button>span:last-child{margin-left:auto;font-size:1.4rem}.exam-brief{padding:27px 32px;background:#fff;border:1px solid var(--line);border-radius:12px}.exam-brief h2{font-size:1.07rem}.date{font-size:2rem;font-weight:650;letter-spacing:-.04em;line-height:1.3;margin-bottom:20px}dl{margin:0 0 18px}dl>div{display:grid;grid-template-columns:85px 1fr;gap:12px;padding:8px 0}dt{color:var(--muted);font-size:.86rem}dd{margin:0;font-size:.93rem;font-weight:550}.exam-brief>p:not(.date){font-size:.86rem;color:var(--muted);margin-bottom:8px}.text-button{color:#1858a7;text-align:left;font-size:.88rem;padding:6px 0;text-decoration:underline;text-underline-offset:4px}.module-list{margin-top:17px;border-top:1px solid var(--line)}.module-row{display:flex;align-items:center;width:100%;gap:20px;text-align:left;padding:20px 4px;border-bottom:1px solid var(--line)}.module-row:hover{background:#e9f0f9}.module-dot{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--topic) 12%,white);color:var(--topic);font-weight:700}.module-title strong{font-size:1rem;font-weight:650}.module-title small{display:block;color:var(--muted);margin-top:2px}.module-coverage{margin-left:auto;min-width:132px;font-size:.77rem;color:var(--muted)}progress{accent-color:var(--blue);height:6px;border:0;border-radius:4px;overflow:hidden;background:#dce4ee}progress::-webkit-progress-bar{background:#dce4ee}progress::-webkit-progress-value{background:var(--blue);border-radius:4px}progress::-moz-progress-bar{background:var(--blue)}.module-coverage progress{display:block;width:100%;margin-top:8px}.chevron{font-size:1.7rem;color:#6b7f99}.resume{display:flex;align-items:center;justify-content:space-between;gap:20px;background:#e0ebf9;border:1px solid #c8d9ee;padding:17px 22px;border-radius:10px;margin-bottom:24px}.resume span{display:block;font-size:.88rem;color:#486078}.session-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:17px;font-size:.9rem}.session-progress{display:block;width:100%;margin-bottom:30px}.clock{font-variant-numeric:tabular-nums;background:#e2ebf8;color:#194e94;padding:7px 13px;border-radius:6px;font-weight:650}.clock.urgent{background:#f9dfe1;color:#912c34}.question-layout{display:grid;grid-template-columns:minmax(0,1fr) 225px;gap:40px;align-items:start}.question-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:32px 36px}.question-meta{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:25px}.topic-tag{font-size:.77rem;font-weight:650;color:var(--topic,#245fb7);display:inline-block}.question-card h1{font-size:1.5rem;letter-spacing:-.02em;line-height:1.5;font-weight:600;margin-bottom:26px;max-width:70ch}.question-card h1:focus,.feedback h2:focus{outline:none}.question-meta .quiet{font-size:.77rem}.problem-figure{margin:0 0 27px;padding:8px 10px 15px;background:#f5f8fc;border:1px solid #dfe7f1;border-radius:8px}.problem-figure svg{display:block;width:100%;min-width:480px;max-height:390px}.diagram-scroll{overflow-x:auto}.problem-figure figcaption{font-size:.78rem;color:#52647a;margin:8px 8px 0}.text-alternative{font-size:.77rem;color:#52647a;margin:8px 8px 0}.text-alternative p{margin:10px 0 0}.edge{fill:none;stroke:#839bb8;stroke-width:2}.max-node{fill:#3064ac}.min-node{fill:#2b796d}.node-text{font-size:16px;text-anchor:middle;fill:white;font-weight:600}.leaf{fill:white;stroke:#9aafc9;stroke-width:1.5}.leaf-text{font-size:17px;text-anchor:middle;fill:#243e61;font-weight:600}.leaf-label{font-size:12px;fill:#617792;text-anchor:middle}.pruned .leaf{fill:#f9e4e4;stroke:#c56f72}.pruned .edge{stroke-dasharray:5 4}.prune-mark{stroke:#a5353d;stroke-width:3}.axis{stroke:#b9c8da;stroke-width:1}.land-line{stroke:#3064ac;stroke-width:3}fieldset{padding:0;border:0;margin:0;min-width:0}fieldset:disabled{opacity:1}legend{font-size:.8rem;font-weight:600;color:#617188;margin-bottom:12px;padding:0}.answers{display:grid;gap:10px}.answer{border:1px solid #cbd7e5;padding:15px;display:flex;align-items:center;gap:13px;border-radius:8px;cursor:pointer;font-size:.96rem;line-height:1.5;position:relative;min-height:58px}.answer input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}.answer:has(input:focus-visible){outline:3px solid #e99d26;outline-offset:3px}.answer-letter{border:1px solid #c7d4e4;min-width:27px;height:28px;border-radius:5px;display:grid;place-items:center;font-size:.76rem;color:#52677f}.answer.selected{background:#edf3fd;border-color:#4f7ebc;box-shadow:inset 0 0 0 1px #4f7ebc}.answer.selected .answer-letter{background:#245fb7;color:#fff;border-color:#245fb7}.answer-correct{background:#ecf6ef!important;border-color:#5b9274!important;box-shadow:none!important}.answer-wrong{background:#fcf0f0!important;border-color:#bc777a!important;box-shadow:none!important}.answer-mark{margin-left:auto;color:#17684a;font-weight:700}.match-row{display:grid;grid-template-columns:1fr 1.4fr;align-items:center;gap:20px;border-bottom:1px solid var(--line);padding:14px 0;font-size:.91rem}.match-row label{font-weight:550}.match-row select{width:100%;border:1px solid #c1cfe0;min-height:46px;border-radius:7px;background:white;color:var(--ink);padding:9px 30px 9px 12px;font-size:.9rem}.match-row select:disabled{opacity:1;color:#455870}.question-actions{display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}.key-help{font-size:.75rem;color:#65758a}.session-aside{padding-top:20px;font-size:.88rem;color:var(--muted)}.session-aside h2{color:#243e61;font-size:1.05rem}.session-aside p{line-height:1.65}.question-source{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:.8rem}.question-source p{margin:12px 0}.feedback{margin-top:27px;padding:22px 24px;background:#f0f6f1;border-left:4px solid #538568;border-radius:0 8px 8px 0}.feedback.review{background:#f9f2e8;border-color:#bb832f}.feedback h2{font-size:1.15rem}.feedback p,.feedback li{font-size:.94rem}.feedback p:last-child{margin-bottom:0}.feedback a{font-size:.8rem}.feedback ol{padding-left:22px}.source-note{font-size:.8rem!important;color:#66758a}.question-map{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:20px}.question-map button{border:1px solid #bfcde0;background:white;min-height:36px;border-radius:6px;font-size:.8rem;position:relative}.question-map .done{background:#dce9f8;color:#224f8d}.question-map .current{outline:2px solid #3064ac;outline-offset:1px}.question-map button span{position:absolute;right:3px;top:-2px;color:#a15b2e}.wide{width:100%}.page-heading{max-width:800px;padding:18px 0 27px}.page-heading h1{font-size:clamp(2rem,4vw,3.2rem)}.page-heading>p:last-child{font-size:1.02rem;color:var(--muted)}.learn-layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:48px}.lesson-nav{display:flex;flex-direction:column;gap:9px}.lesson-nav button{display:flex;gap:12px;text-align:left;border-radius:8px;padding:13px;font-size:.88rem;color:var(--muted);line-height:1.45}.lesson-nav button span{font-size:.78rem;min-width:23px;margin-top:2px}.lesson-nav [aria-current]{color:#174d98;background:#e0eafa;font-weight:650}.lesson{background:#fff;border:1px solid var(--line);padding:35px 40px;border-radius:12px;max-width:840px}.lesson h2{font-size:1.85rem;margin:13px 0 24px;line-height:1.3}.lesson p{line-height:1.8;font-size:.98rem}.scope-note{color:#566a82;font-size:.85rem!important;background:#eef3f9;padding:15px 18px;border-radius:6px}.lesson table{font-size:.83rem;width:100%;border-collapse:collapse;margin:25px 0}.lesson th,.lesson td{text-align:left;vertical-align:top;padding:11px;border-bottom:1px solid var(--line)}.lesson th{font-weight:650}.lesson caption{text-align:left;font-weight:650;font-size:.93rem;padding-bottom:10px}.actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.lesson .actions{margin-top:30px}.lesson .actions a{font-size:.83rem}.bank-toolbar{background:#e6edf7;border-radius:10px;padding:1px 22px 21px;margin-bottom:25px}.bank-toolbar .topic-buttons button{color:#455b76;border-color:#acbdd4}.bank-toolbar .topic-buttons [aria-pressed=true]{color:#fff;background:#245fb7;border-color:#245fb7}.bank-search{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.bank-search>label:first-child{font-size:.86rem;font-weight:600}.bank-search input[type=search]{min-height:42px;max-width:350px;flex:1;min-width:160px;border:1px solid #b6c7db;border-radius:7px;padding:9px 12px;background:#fff}.check-line{font-size:.83rem;display:flex;align-items:center;gap:9px;min-height:44px}.check-line input{width:18px;height:18px;accent-color:var(--blue)}.bank-item{border-bottom:1px solid var(--line);background:white}.bank-item:first-of-type{border-radius:9px 9px 0 0}.bank-item>summary{display:grid;grid-template-columns:85px minmax(0,1fr) 110px;gap:18px;align-items:start;padding:23px;cursor:pointer;font-size:.95rem}.bank-kind{font-size:.72rem;color:var(--muted);text-align:right}.bank-body{padding:0 30px 28px 125px;font-size:.9rem;max-width:950px}.bank-body li{margin:8px 0}.bank-body .solution{background:#edf3f9;border-radius:7px;padding:13px 18px;margin:20px 0}.solution summary{font-weight:650;cursor:pointer}.solution p{margin-top:13px}.bank-body .problem-figure svg{max-height:300px}.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:8px 0 35px}.stat-strip>div{border-left:3px solid #8eafd6;padding-left:22px}.stat-strip strong{font-size:2.6rem;display:block;line-height:1.2;letter-spacing:-.04em}.stat-strip strong span{font-size:1.1rem;color:var(--muted);font-weight:500}.stat-strip>div>span{font-size:.82rem;color:var(--muted)}.progress-table-wrap{overflow-x:auto;background:white;padding:22px 28px;border:1px solid var(--line);border-radius:10px}.progress-table{border-collapse:collapse;text-align:left;width:100%;font-size:.9rem;min-width:680px}.progress-table caption{text-align:left;font-weight:650;font-size:1.2rem;padding:0 0 20px}.progress-table th,.progress-table td{padding:16px 12px;border-bottom:1px solid var(--line);vertical-align:middle}.progress-table thead th{font-size:.77rem;color:var(--muted);font-weight:550}.progress-table tbody th{font-weight:550}.progress-table small{display:block;color:var(--muted);font-size:.7rem}.progress-table button{font-size:.8rem;padding:6px 12px;min-height:36px}.backup-panel{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-top:35px;background:#e4edf8;padding:28px;border-radius:10px}.backup-panel p{margin-bottom:0;font-size:.88rem;color:var(--muted);max-width:55ch}.backup-panel .actions{flex:none;max-width:340px}.backup-panel .actions p{width:100%}.file-input{width:1px;height:1px;opacity:0;position:absolute}.button:has(+.file-input:focus-visible){outline:3px solid #e99d26}.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.info-panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:30px}.info-panel dl>div{grid-template-columns:95px 1fr}.info-panel p{font-size:.92rem}.info-panel a{font-size:.86rem}.scope-list{margin-top:40px}.scope-list article{padding:24px 0;border-bottom:1px solid var(--line);max-width:80ch}.scope-list article h3{margin-bottom:8px}.scope-list article p{margin-bottom:10px;font-size:.94rem}.scope-list article a{font-size:.82rem}.research-note{max-width:80ch;background:#e4edf8;padding:28px 30px;border-radius:9px;margin-top:35px;font-size:.9rem}.summary-head{padding:25px 0 40px}.summary-head h1{font-size:3.6rem}.summary-head>p{color:var(--muted)}.summary-head .actions{margin-top:25px}.review-list h2{margin-bottom:24px}.review-item{background:white;border:1px solid var(--line);border-radius:8px;margin-bottom:12px}.review-item>summary{display:flex;align-items:flex-start;gap:15px;padding:20px;cursor:pointer;font-size:.91rem}.review-item>summary strong{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px}.result-icon{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center}.result-icon.good{background:#e6f2e8;color:#17684a}.result-icon.miss{background:#f8e9d6;color:#98631f}.review-body{padding:5px 28px 25px 63px;max-width:900px;font-size:.95rem}.review-body a{font-size:.8rem}.review-body .problem-figure{margin-top:20px}.review-body .problem-figure svg{max-height:290px}summary{cursor:pointer}dialog{color:var(--ink);background:#fff;max-width:500px;width:calc(100% - 36px);padding:32px;border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 90px #14284244}dialog::backdrop{background:#152b4866}dialog p{color:var(--muted);font-size:.95rem}dialog .actions{justify-content:flex-end;margin-top:25px}@media(max-width:1260px){main,footer{margin-left:38px;margin-right:38px}}@media(max-width:900px){header{gap:16px;padding:15px 24px}.exam-link{display:none}header nav{gap:0}header nav button{padding:8px 11px}.home-intro{gap:20px}.intro-diagram{padding:20px 8px 0}.home-grid{grid-template-columns:1.2fr 1fr;gap:20px}.practice-panel,.exam-brief{padding:24px}.question-layout{grid-template-columns:minmax(0,1fr);gap:22px}.session-aside{display:none}.question-layout:has(.question-map) .session-aside{display:block}.question-map{grid-template-columns:repeat(10,1fr)}.question-card{padding:28px}.learn-layout{grid-template-columns:180px 1fr;gap:22px}.lesson{padding:28px}.module-coverage{min-width:100px}.module-title small{max-width:40ch}.backup-panel{align-items:flex-start;flex-direction:column}.backup-panel .actions{max-width:none}}@media(max-width:650px){header{min-height:100px;flex-wrap:wrap;justify-content:center;gap:12px;padding:18px 18px 9px}.brand{margin-right:auto}.brand>span{font-size:1.1rem}.brand small{font-size:.68rem}header nav{margin:0;width:100%;justify-content:space-between}header nav button{font-size:.85rem;flex:1;min-height:39px}main{margin:0;padding:20px 18px 55px}footer{margin:0 18px;display:block;font-size:.7rem}footer>span{display:block;margin-bottom:8px}.home-intro{grid-template-columns:1fr;padding:15px 0 30px}.home-intro h1{font-size:2.6rem}.course-line{font-size:.82rem;margin-bottom:14px}.intro-copy{font-size:1rem}.intro-diagram{display:none}.home-grid{grid-template-columns:1fr;gap:20px;margin-bottom:30px}.practice-panel{padding:24px 22px 10px}.panel-heading h2{font-size:1.18rem}.panel-heading .quiet{font-size:.75rem}.topic-buttons{gap:7px}.topic-buttons button{font-size:.78rem;padding:8px 10px;min-height:40px}.start{width:100%;min-width:0}.exam-brief{padding:24px}.exam-brief dl>div{padding:6px 0}.module-row{gap:12px;flex-wrap:wrap;padding:17px 0;position:relative}.module-title{width:calc(100% - 65px)}.module-title strong{font-size:.9rem}.module-title small{font-size:.76rem}.module-dot{width:30px;height:30px;font-size:.8rem}.module-coverage{margin-left:42px;width:calc(100% - 80px);display:flex;gap:16px;align-items:center;font-size:.7rem}.module-coverage progress{flex:1;width:80px;margin:0}.chevron{position:absolute;right:0;top:18px}.resume{padding:15px;gap:12px}.resume strong{font-size:.86rem}.resume span{font-size:.76rem}.resume .primary{font-size:.82rem;padding:10px 13px}.session-top{gap:10px;font-size:.75rem;flex-wrap:wrap}.session-top .text-button{font-size:.75rem}.session-top .quiet{font-size:.75rem}.session-progress{margin-bottom:18px}.question-card{padding:23px 18px;border-radius:10px}.question-card h1{font-size:1.18rem;line-height:1.55;margin-bottom:22px}.question-meta{margin-bottom:18px;gap:10px}.question-meta .quiet,.topic-tag{font-size:.67rem}.answer{padding:13px 12px;font-size:.9rem;gap:11px;min-height:58px}.answer-letter{min-width:25px;height:26px}.question-actions{margin-top:23px;padding-top:20px;gap:12px}.question-actions>.primary{flex:1;font-size:.86rem}.key-help{width:100%;font-size:.7rem}.match-row{grid-template-columns:1fr;gap:9px;padding:13px 0}.match-row label{font-size:.86rem}.match-row select{font-size:.85rem}.problem-figure{padding:4px 0 12px;margin-bottom:23px}.problem-figure svg{min-width:460px;max-height:300px}.feedback{margin-top:22px;padding:18px 16px}.feedback p,.feedback li{font-size:.88rem}.feedback h2{font-size:1.08rem}.question-map{grid-template-columns:repeat(6,1fr)}.page-heading{padding:12px 0 18px}.page-heading h1{font-size:2.2rem}.page-heading>p:last-child{font-size:.92rem}.learn-layout{grid-template-columns:1fr;gap:20px}.lesson-nav{flex-direction:row;overflow-x:auto;padding:2px 2px 8px;gap:7px}.lesson-nav button{flex:none;max-width:145px;font-size:.76rem;padding:10px;border:1px solid #d1dceb;gap:6px}.lesson-nav button span{min-width:15px}.lesson{padding:24px 18px}.lesson h2{font-size:1.5rem}.lesson p{font-size:.91rem;line-height:1.75}.lesson table{font-size:.72rem;display:block;overflow-x:auto}.lesson td,.lesson th{padding:8px}.lesson .actions{align-items:flex-start;flex-direction:column}.bank-toolbar{padding:1px 14px 18px}.bank-search{gap:10px}.bank-search>label:first-child{width:100%;font-size:.8rem}.bank-search input[type=search]{max-width:none;width:100%}.check-line{width:100%;font-size:.77rem}.bank-item>summary{grid-template-columns:1fr;gap:7px;padding:18px;font-size:.9rem}.bank-kind{text-align:left;font-size:.67rem}.bank-body{padding:0 18px 22px;font-size:.86rem}.stat-strip{gap:12px}.stat-strip>div{padding-left:11px}.stat-strip strong{font-size:2rem}.stat-strip strong span{font-size:.8rem}.stat-strip>div>span{font-size:.7rem;line-height:1.4;display:block}.progress-table-wrap{padding:16px}.backup-panel{padding:22px 18px}.backup-panel h2{font-size:1.15rem}.backup-panel p{font-size:.82rem}.info-grid{grid-template-columns:1fr;gap:18px}.info-panel{padding:24px 20px}.info-panel dl>div{grid-template-columns:85px 1fr}.info-panel dd{font-size:.85rem}.info-panel p{font-size:.86rem}.scope-list article p{font-size:.88rem}.research-note{padding:23px 20px;font-size:.86rem}.summary-head{padding:15px 0 32px}.summary-head h1{font-size:2.8rem}.summary-head>p{font-size:.92rem}.review-item>summary{padding:16px;gap:11px;font-size:.85rem}.review-body{padding:0 18px 20px;font-size:.88rem}.review-body .problem-figure svg{min-width:460px}.actions .primary,.actions .secondary{font-size:.85rem}.question-actions .flag{font-size:.75rem}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+.mobile-game{display:none}@media(max-width:650px){.desktop-game{display:none}.mobile-game{display:block;padding:13px 10px 5px}.mobile-root{margin:0 auto 15px;background:#3064ac;color:white;font-size:.86rem;font-weight:650;max-width:125px;text-align:center;padding:9px 8px;border-radius:7px}.mobile-branch{display:flex;align-items:center;gap:12px;padding:12px 0;position:relative;border-top:1px solid #c4d3e5}.mobile-min{background:#2b796d;color:white;border-radius:6px;text-align:center;padding:8px 5px;min-width:65px;max-width:82px;font-size:.73rem;font-weight:600}.mobile-leaves{display:flex;justify-content:space-around;gap:9px;flex:1;min-width:0}.mobile-leaf{min-width:36px;flex:1;text-align:center}.mobile-leaf strong{display:block;background:white;border:1px solid #9aafc9;border-radius:7px;font-size:1rem;padding:5px 2px}.mobile-leaf small{display:block;color:#617792;font-size:.65rem;margin-top:3px}.mobile-leaf.is-pruned strong{background:#f8e1e2;color:#a5353d;text-decoration:line-through;border-color:#bf7b80}}
+
+.numeric label{display:block;font-size:.9rem;margin-bottom:10px}.numeric input{width:180px;max-width:100%;font-size:1.1rem;min-height:50px;border:1px solid #b7c7db;border-radius:7px;padding:10px 13px}@media(max-width:650px){.match-row select,.bank-search input[type=search]{font-size:16px}}
+
+/* The full outline is a quiet reading space alongside the practice game. */
+header nav a{display:inline-flex;align-items:center;padding:8px 15px;border-radius:8px;font-size:.93rem;color:var(--muted);text-decoration:none;min-height:44px}
+header nav a:hover{background:#e2ebf8;color:#164d99}
+.outline-invite{display:flex;align-items:center;justify-content:space-between;gap:28px;padding:23px 27px;margin-bottom:28px;background:#e6eef8;border-inline-start:4px solid var(--blue);border-radius:0 10px 10px 0}
+.outline-invite h2{font-size:1.15rem;margin-bottom:5px}
+.outline-invite p{margin:0;font-size:.92rem;color:#486078}
+.outline-invite .secondary{flex:none}
+.outline-header{min-height:88px;gap:20px;justify-content:space-between}
+.outline-brand{text-decoration:none;color:var(--ink)}
+.outline-header .actions{justify-content:flex-end}
+.outline-main{padding-top:45px}
+.outline-heading{max-width:760px;margin:0 0 44px 276px}
+.outline-heading h1{font-size:clamp(2.6rem,4.8vw,4rem);margin-bottom:22px}
+.outline-heading>p:not(.course-line){font-size:1.12rem;color:#486078;max-width:58ch}
+.outline-reading-time{color:var(--muted);font-size:.82rem}
+.outline-layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;align-items:start}
+.outline-sidebar{position:sticky;top:28px}
+.outline-toc{display:flex;flex-direction:column;gap:5px}
+.outline-toc>p{font-size:.83rem;color:var(--muted);margin:0 0 12px 12px;font-weight:600}
+.outline-toc a{display:flex;gap:11px;align-items:baseline;padding:11px 12px;border-radius:6px;color:#52647c;text-decoration:none;font-size:.86rem;line-height:1.45;border-inline-start:3px solid transparent}
+.outline-toc a span{font-size:.77rem;flex:none;width:15px;color:#6c7f99}
+.outline-toc a:hover{background:#e6eef8}
+.outline-toc a[aria-current="true"]{background:#dfeaf9;color:#164d99;font-weight:650;border-inline-start-color:var(--blue)}
+.outline-toc .outline-plan-link{margin-top:8px;border-top:1px solid var(--line);border-radius:0;padding-top:16px}
+.outline-back{display:inline-block;margin:25px 15px;font-size:.82rem}
+.outline-article{background:white;border:1px solid var(--line);border-radius:12px;padding:38px 44px;max-width:calc(72ch + 88px);min-width:0;font-size:1.04rem;line-height:1.8}
+.outline-article:focus{outline:none}
+.outline-article p{margin-bottom:22px}
+.outline-article strong{font-weight:650}
+.outline-article ul,.outline-article ol{padding-inline-start:25px;margin:12px 0 25px}
+.outline-article li{padding-inline-start:4px;margin:9px 0}
+.outline-article li p{margin:0 0 12px}
+.outline-article code{font-size:.9em;background:#edf2f8;color:#253f63;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}
+.outline-section{padding-top:44px;margin-top:40px;border-top:1px solid var(--line);scroll-margin-top:24px}
+.outline-section h2{font-size:clamp(1.65rem,2.8vw,2.12rem);line-height:1.3;letter-spacing:-.03em;margin-bottom:26px;color:var(--ink)}
+.outline-number{display:block;color:var(--topic,var(--blue));font-size:.86rem;font-weight:650;letter-spacing:0;margin-bottom:12px}
+.outline-section-actions{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:30px;padding-top:12px}
+.outline-section-actions>a:not(.secondary,.primary){font-size:.8rem}
+.outline-section-actions .secondary{border-color:color-mix(in srgb,var(--topic,var(--blue)) 35%,white);color:var(--topic,var(--blue));font-size:.85rem}
+.outline-table{overflow:auto;max-inline-size:100%;max-block-size:36rem;container-type:inline-size;margin:28px 0 32px;border:1px solid var(--line);border-radius:8px;isolation:isolate}
+.outline-table table{border-collapse:separate;border-spacing:0;inline-size:100%;font-size:.86rem;line-height:1.6}
+.outline-table caption{text-align:left;padding:15px 17px;font-weight:650;background:#edf3fa;color:#2e496c}
+.outline-table thead{position:sticky;inset-block-start:0;z-index:2;background:#e7eef8}
+.outline-table th,.outline-table td{text-align:left;vertical-align:top;padding:14px 17px;border-bottom:1px solid var(--line)}
+.outline-table tbody th{position:sticky;inset-inline-start:0;z-index:1;background:#f5f8fc;min-inline-size:10rem;font-weight:600}
+.outline-table tbody tr:last-child>*{border-bottom:0}
+.outline-table td{overflow-wrap:break-word}
+.outline-study-plan{--topic:var(--blue)}
+.outline-study-plan h2{margin-top:0}
+.outline-footer{font-size:.8rem}
+@container(max-width:34rem){
+  .outline-table table,.outline-table tbody,.outline-table tr,.outline-table th,.outline-table td{display:block}
+  .outline-table thead{display:none}
+  .outline-table tbody tr{border-top:1px solid var(--line)}
+  .outline-table th,.outline-table td{border-bottom:0;min-inline-size:0;padding:12px 15px}
+  .outline-table tbody th{position:static;background:#edf3fa}
+  .outline-table td::before{content:attr(data-label) ": ";display:block;font-weight:600;font-size:.8rem;color:#486078;margin-bottom:3px}
+  .outline-table tbody tr:first-child{border-top:0}
+}
+@media(max-width:1000px){
+  .outline-layout{grid-template-columns:180px minmax(0,1fr);gap:26px}
+  .outline-heading{margin-left:206px}
+  .outline-article{padding:30px}
+  .outline-toc a{font-size:.8rem;padding-inline:8px;gap:7px}
+}
+@media(max-width:700px){
+  header nav{min-width:0}
+  header nav a,header nav button{font-size:.78rem;padding:8px 4px;justify-content:center;flex:1 1 0;min-width:0;min-height:44px}
+  .outline-invite{align-items:flex-start;flex-direction:column;gap:17px;padding:20px;margin-bottom:24px}
+  .outline-invite .secondary{width:100%}
+  .outline-header{flex-wrap:nowrap;min-height:82px;padding:17px 18px;gap:12px;justify-content:space-between}
+  .outline-header .brand{margin-right:0}
+  .outline-header .secondary{font-size:.78rem;padding:8px 12px;min-height:42px}
+  .outline-print{display:none}
+  .outline-main{padding-top:28px}
+  .outline-heading{margin:0 0 30px}
+  .outline-heading h1{font-size:2.7rem}
+  .outline-heading>p:not(.course-line){font-size:1rem}
+  .outline-layout{grid-template-columns:1fr;gap:27px}
+  .outline-sidebar{position:static}
+  .outline-toc{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+  .outline-toc>p{grid-column:1/-1;margin:0 0 5px 3px}
+  .outline-toc a{font-size:.77rem;padding:10px 6px;gap:7px;border:1px solid #d5dfec;border-inline-start-width:3px;align-items:center;min-height:48px}
+  .outline-toc .outline-plan-link{margin:0;padding:10px;border-radius:6px}
+  .outline-back{display:none}
+  .outline-article{padding:25px 20px;font-size:1rem;line-height:1.78;border-radius:9px}
+  .outline-section{padding-top:31px;margin-top:31px}
+  .outline-section h2{font-size:1.72rem;margin-bottom:23px}
+  .outline-section-actions{align-items:flex-start;gap:15px}
+  .outline-section-actions>.secondary,.outline-section-actions>.primary{width:100%;font-size:.85rem}
+  .outline-table{max-block-size:none}
+  .outline-footer{display:flex}
+}
+@media print{
+  :root,body{background:#fff;color:#000;font-size:11pt}
+  .outline-header,.outline-sidebar,.outline-heading,.outline-footer,.outline-section-actions,.skip{display:none!important}
+  .outline-main{max-width:none;margin:0;padding:0;min-height:0}
+  .outline-layout{display:block}
+  .outline-article{border:0;padding:0;max-width:none;font-size:11pt;line-height:1.5}
+  .outline-section{padding-top:20px;margin-top:20px}
+  .outline-section h2{font-size:18pt;break-after:avoid}
+  .outline-article a{color:#000;text-decoration:underline}
+  .outline-table{overflow:visible;max-block-size:none;container-type:normal}
+  .outline-table thead,.outline-table tbody th{position:static}
+  .outline-table tr{break-inside:avoid}
+}
+</style>
+</head>
+<body class="outline-page">
+  <a class="skip" href="#outline-content">Skip to the outline</a>
+  <header class="outline-header">
+    <a class="brand outline-brand" href="/331"><span>Midterm Lab<small>CS 331 / Fall 2026</small></span></a>
+    <div class="actions"><button class="text-button outline-print" type="button">Print outline</button><a class="secondary" href="/331">Back to the game</a></div>
+  </header>
+  <main class="outline-main">
+    <div class="outline-heading">
+      <p class="course-line">The full study outline</p>
+      <h1>The whole course,<br>connected.</h1>
+      <p>A beginner-friendly map of Modules 1–5. Read it once to get your bearings; come back whenever a concept needs another look.</p>
+      <span class="outline-reading-time">About 13 minutes · five modules and a starting plan</span>
+    </div>
+    <div class="outline-layout">
+      <aside class="outline-sidebar" id="contents">
+        <nav class="outline-toc" aria-label="Outline contents">
+          <p>Jump to a module</p>
+          <a href="#agents"><span>1</span>Agents &amp; environments</a>
+          <a href="#search"><span>2</span>Problem solving &amp; search</a>
+          <a href="#local-search"><span>3</span>Complex environments</a>
+          <a href="#games"><span>4</span>Adversarial search</a>
+          <a href="#csps"><span>5</span>Constraint satisfaction</a>
+          <a href="#study-plan" class="outline-plan-link">Your starting plan</a>
+        </nav>
+        <a class="outline-back" href="/331">Return to practice</a>
+      </aside>
+      <article class="outline-article" id="outline-content" tabindex="-1" aria-label="Complete midterm study outline">
+        <p><strong>Read this once, then start the review game one module at a time.</strong> You don’t need to master the outline before playing. Its job is to make the questions feel like parts of a coherent subject.</p>
+<p>The course revolves around a question you already deal with constantly: <strong>How should an agent decide what to do next?</strong> Imagine building an assistant that can plan work, handle missing information, anticipate opposition, and obey constraints. Each module adds another piece of that ability.</p>
+<p>I checked Canvas: <strong>Modules 1–5 are the midterm scope.</strong> Module 6 is available for working ahead and is explicitly excluded. <a href="https://canvas.oregonstate.edu/courses/2079176/discussion_topics/11708227">Instructor announcement</a></p>
+<section class="outline-section" id="agents" style="--topic:#2d6588"><h2><span class="outline-number">Module 1</span>Understand the world before choosing the agent.</h2><p>An <strong>agent</strong> observes its environment and takes actions. A robot’s observations come through sensors; a software agent might observe files, messages, or test results. An observation is called a <strong>percept</strong>.</p>
+<p>A <strong>rational agent</strong> chooses an action expected to produce the best outcome given its information. It can still lose or make an unsuccessful move: good decisions don’t guarantee good luck.</p>
+<p>The introductory <strong>PEAS</strong> framework describes the job: <strong>Performance measure, Environment, Actuators, Sensors</strong>—what counts as success, where the agent operates, how it acts, and what it can observe. That’s useful orientation; the first two Module 1 explorations are excluded from the exam.</p>
+<p>The examinable material starts with <strong>what kind of environment the agent faces</strong>:</p>
+<div class="outline-table" tabindex="0" role="region" aria-label="Task environment dimensions"><table><caption>Task environment dimensions</caption>
+<thead>
+<tr>
+<th scope="col">Dimension</th>
+<th scope="col">The actual question</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row">Fully / partially observable</th><td data-label="The actual question">Can I see everything relevant to my decision? Poker hides opponents’ cards.</td></tr>
+<tr><th scope="row">Single / multiple agents</th><td data-label="The actual question">Are other decision-makers affecting the outcome? They may cooperate or compete.</td></tr>
+<tr><th scope="row">Deterministic / nondeterministic</th><td data-label="The actual question">Does the same state plus the same action always produce the same result?</td></tr>
+<tr><th scope="row">Episodic / sequential</th><td data-label="The actual question">Is each decision independent, or does it change later decisions? Independent image classification is episodic; a crossword is sequential.</td></tr>
+<tr><th scope="row">Static / dynamic</th><td data-label="The actual question">Can the world change while I’m thinking? In the course’s “semi-static” case, the world stays fixed while the performance measure changes, as with a running chess clock.</td></tr>
+<tr><th scope="row">Discrete / continuous</th><td data-label="The actual question">Am I choosing among distinct moves, or working with continuously varying quantities?</td></tr>
+<tr><th scope="row">Known / unknown</th><td data-label="The actual question">Do I understand the rules and effects of actions?</td></tr>
+</tbody></table></div>
+<p><strong>Known and observable are separate.</strong> You can know every rule of poker while being unable to see someone’s cards.</p>
+<p>The next question is <strong>what machinery the agent needs</strong>:</p>
+<ul>
+<li><strong>Simple reflex:</strong> follows a rule based on the current observation. “If dirty, clean.”</li>
+<li><strong>Model-based:</strong> maintains an internal picture of the world. It can remember information that isn’t currently visible. Its <strong>transition model</strong> describes how the world changes; its <strong>sensor model</strong> describes how world states produce observations.</li>
+<li><strong>Goal-based:</strong> considers future actions to reach a desired state. “How do I get both rooms clean?”</li>
+<li><strong>Utility-based:</strong> ranks outcomes so it can make tradeoffs. “How much cleanliness is worth this much time and energy?”</li>
+<li><strong>Learning:</strong> improves through experience. This can improve any of those agent types. The <strong>performance element</strong> acts, the <strong>learning element</strong> improves it, the <strong>critic</strong> supplies feedback, and the <strong>problem generator</strong> suggests informative exploration.</li>
+</ul>
+<p>Finally, the course distinguishes <strong>state representations</strong>:</p>
+<ul>
+<li><strong>Atomic:</strong> a state is one indivisible label.</li>
+<li><strong>Factored:</strong> a state contains variables and values.</li>
+<li><strong>Structured:</strong> a state contains objects and relationships.</li>
+</ul>
+<p>That distinction comes back in Module 5: exposing variables lets an algorithm reason directly about constraints.</p>
+<p><strong>What understanding looks like:</strong> you can classify a scenario and explain which agent design fits it. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/module-1-conclusion">Module 1 scope</a></p>
+<div class="outline-section-actions"><a class="secondary" href="/331?module=1">Go to Agents practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section" id="search" style="--topic:#7a5891"><h2><span class="outline-number">Module 2</span>Find a sequence of actions that reaches a goal.</h2><p>Suppose Pacman needs to reach some food. Before selecting an algorithm, define the problem:</p>
+<ul>
+<li><strong>State:</strong> the information needed to decide what can happen next. For navigation, position might suffice; collecting all food also requires tracking which food remains.</li>
+<li><strong>Initial state:</strong> where we start.</li>
+<li><strong>Actions and transition model:</strong> legal moves and their results.</li>
+<li><strong>Goal test:</strong> how we recognize success.</li>
+<li><strong>Action costs:</strong> how we compare different routes.</li>
+</ul>
+<p>A <strong>state</strong> is a situation. A <strong>search node</strong> represents reaching a situation along a particular path, including its parent and accumulated cost. Different paths can reach the same state.</p>
+<p>This explains a surprising fact: <strong>a finite world can produce an infinite search tree.</strong> Two rooms are a finite state space, but “left, right, left, right…” can continue forever.</p>
+<p>Search algorithms maintain a <strong>frontier</strong>: discovered possibilities waiting to be explored. <strong>Expanding</strong> a node means generating its successors. Much of this module reduces to choosing which frontier node to expand next.</p>
+<div class="outline-table" tabindex="0" role="region" aria-label="Search algorithms at a glance"><table><caption>Search algorithms at a glance</caption>
+<thead>
+<tr>
+<th scope="col">Algorithm</th>
+<th scope="col">What it explores next</th>
+<th scope="col">Main consequence</th>
+</tr>
+</thead>
+<tbody><tr><th scope="row"><strong>Breadth-first search—BFS</strong></th><td data-label="What it explores next">Shallowest nodes first; a queue</td><td data-label="Main consequence">Finds a solution with the fewest actions. That also means lowest cost when actions cost the same. Can use enormous memory.</td></tr>
+<tr><th scope="row"><strong>Depth-first search—DFS</strong></th><td data-label="What it explores next">Follows the current branch deeply; a stack</td><td data-label="Main consequence">Uses relatively little frontier memory, but can pursue a bad branch indefinitely and doesn’t guarantee lowest cost.</td></tr>
+<tr><th scope="row"><strong>Uniform-cost search—UCS</strong></th><td data-label="What it explores next">Lowest cost accumulated so far</td><td data-label="Main consequence">Finds the cheapest route under the standard positive-cost assumptions.</td></tr>
+<tr><th scope="row"><strong>Greedy best-first</strong></th><td data-label="What it explores next">Appears closest to the goal</td><td data-label="Main consequence">Can be fast, but an attractive-looking route can be expensive overall.</td></tr>
+<tr><th scope="row"><strong>A*</strong></th><td data-label="What it explores next">Lowest cost so far <strong>plus</strong> estimated remaining cost</td><td data-label="Main consequence">Combines what you’ve already spent with what you expect remains. Can preserve optimality with an appropriate heuristic and correct search handling.</td></tr>
+</tbody></table></div>
+<p>Two related methods:</p>
+<ul>
+<li><strong>Depth-limited search:</strong> DFS with a maximum depth. It avoids descending forever, but can miss a deeper solution.</li>
+<li><strong>Iterative deepening:</strong> repeatedly runs depth-limited search with increasing limits. It gets BFS’s shallowest-solution property with DFS-like memory, at the cost of repeating some work.</li>
+</ul>
+<p>You compare algorithms using four questions:</p>
+<ul>
+<li><strong>Complete?</strong> Will it find a solution if one exists?</li>
+<li><strong>Optimal?</strong> Will it find the least-cost solution?</li>
+<li><strong>Time?</strong> How much work does it perform?</li>
+<li><strong>Space?</strong> How much must it remember?</li>
+</ul>
+<p>Completeness depends on assumptions: finite branching, action costs, cycles, and duplicate handling matter. BFS, iterative deepening, UCS, and A* have completeness guarantees under their usual assumptions; unrestricted DFS and greedy search can get stuck.</p>
+<p>The central A* vocabulary is small:</p>
+<p><strong><code>g(n)</code> = cost so far. <code>h(n)</code> = estimated cost remaining. <code>f(n) = g(n) + h(n)</code>.</strong></p>
+<p>A <strong>heuristic</strong> is that estimate. An <strong>admissible heuristic never overestimates</strong> the cheapest remaining cost.</p>
+<ul>
+<li>Straight-line distance is a lower bound on a route’s geometric length.</li>
+<li>Manhattan distance counts horizontal plus vertical travel. It can overestimate when diagonal shortcuts are allowed.</li>
+<li>Zero is admissible for nonnegative costs, but gives no guidance. With <code>h = 0</code>, A* behaves like UCS.</li>
+</ul>
+<p>Another recurring skill is counting possibilities: 81 independent squares with two colors each give <strong><code>2^81</code> states</strong>. Restrictions defining the goal don’t remove all the non-goal states from the world.</p>
+<p><strong>What understanding looks like:</strong> you can trace the frontier, choose an algorithm for a requirement, and explain why a heuristic is safe. You don’t need to memorize complexity formulas. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/week-2-conclusion">Module 2 scope</a></p>
+<div class="outline-section-actions"><a class="secondary" href="/331?module=2">Go to Search practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section" id="local-search" style="--topic:#a15b2e"><h2><span class="outline-number">Module 3</span>Handle huge spaces, unpredictable actions, and missing information.</h2><p>This module contains three related complications.</p>
+<p><strong>First: sometimes only the final arrangement matters.</strong></p>
+<p>Imagine choosing locations for three fire stations to minimize the worst response time. You care about the final locations; the sequence of hypothetical layouts the algorithm considered has little value.</p>
+<p><strong>Local search</strong> keeps a current candidate and changes it, usually without retaining the full search history.</p>
+<ul>
+<li><strong>Hill climbing:</strong> repeatedly chooses an improving neighbor. For minimization, the same idea moves downhill.</li>
+<li><strong>Local optimum:</strong> better than nearby alternatives, but worse than something farther away.</li>
+<li><strong>Plateau:</strong> neighboring candidates have equal value.</li>
+<li><strong>Ridge:</strong> the landscape makes useful progress difficult with the available moves.</li>
+</ul>
+<p>Suppose a minimizing algorithm follows:</p>
+<p><strong>10 → 8 → 7 → 4 → 2</strong>, with the remaining landscape <strong>3 → 3 → 3 → 0</strong>.</p>
+<p>It stops at <strong>2</strong>. Reaching <strong>0</strong> requires temporarily accepting a worse value. Giving ordinary hill climbing more time doesn’t change its rule.</p>
+<p>The alternatives address that limitation:</p>
+<ul>
+<li><strong>Random restarts:</strong> try again from other starting points.</li>
+<li><strong>Sideways moves:</strong> permit some equal-valued moves to cross plateaus.</li>
+<li><strong>Stochastic hill climbing:</strong> randomly choose among improving moves.</li>
+<li><strong>Simulated annealing:</strong> sometimes accepts worse moves. As its “temperature” falls, it becomes less willing to do so.</li>
+<li><strong>Local beam search:</strong> maintains <code>k</code> candidates and chooses the best <code>k</code> from their combined successors. It uses more memory; with <code>k = 1</code>, the course treats it as hill climbing.</li>
+</ul>
+<p><strong>Second: an action can have multiple possible results.</strong></p>
+<p>A fixed sequence may be inadequate when you can’t control which result occurs. You need a <strong>conditional plan</strong>: “Do this; if outcome A occurs, continue this way; if B occurs, continue another way.”</p>
+<p><strong>AND–OR search</strong> represents this:</p>
+<ul>
+<li><strong>OR:</strong> the agent chooses one action.</li>
+<li><strong>AND:</strong> the plan must handle <strong>every possible outcome</strong> of that action.</li>
+<li>Every leaf in a finite, completed solution tree must reach a goal.</li>
+</ul>
+<p>The word <strong>AND</strong> expresses an obligation: planning for only the lucky outcome is insufficient. Some environments also require plans with loops, such as retrying until a useful outcome occurs.</p>
+<p><strong>Third: you might not know the current state.</strong></p>
+<p>A <strong>belief state</strong> is the set of physical states still possible given your information. Here, “belief” means a set of possibilities; it needn’t mean a probability distribution.</p>
+<p>Acting predicts where each possibility could lead. Observing removes possibilities incompatible with what you see.</p>
+<p>A sensorless vacuum can still clean two rooms using:</p>
+<p><strong>Left → Suck → Right → Suck.</strong></p>
+<p>Left puts it in the left room regardless of its starting location; the remaining actions clean both rooms. With observations, a plan can choose different continuations based on what it senses.</p>
+<p><strong>The distinction to keep:</strong> uncertainty about <strong>what an action will do</strong> differs from uncertainty about <strong>where you currently are</strong>. A perfectly deterministic world can still be partially observable. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/week-3-conclusion">Module 3 scope</a></p>
+<div class="outline-section-actions"><a class="secondary" href="/331?module=3">Go to Local search practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section" id="games" style="--topic:#277967"><h2><span class="outline-number">Module 4</span>Choose well when someone else is trying to beat you.</h2><p>Ordinary route planning doesn’t involve an opponent deliberately selecting your worst continuation. Games do.</p>
+<p>The main model is a <strong>deterministic, two-player, turn-taking, perfect-information, zero-sum game</strong>: both players see the position, and their interests oppose each other.</p>
+<p>A game specifies the position, whose turn it is, legal moves, resulting positions, when play ends, and <strong>utility</strong>—a numerical payoff.</p>
+<p>In <strong>minimax</strong>, utilities are measured from one player’s perspective:</p>
+<ul>
+<li><strong>MAX</strong> wants a larger number.</li>
+<li><strong>MIN</strong> wants a smaller number.</li>
+<li>At MAX nodes, take the largest child value.</li>
+<li>At MIN nodes, take the smallest.</li>
+</ul>
+<p>Work <strong>from the leaves upward</strong>.</p>
+<p>Suppose your first move lets the opponent choose between <strong>12 and 6</strong>. Its minimax value is <strong>6</strong>. Your second move lets them choose between <strong>4 and 7</strong>, so its value is <strong>4</strong>. You choose the first move because <strong>6 is the better result you can secure</strong> against optimal opposition.</p>
+<p><strong>Alpha-beta pruning</strong> saves work once a branch cannot change that decision.</p>
+<p>If you already have an option worth 6, and another branch lets your opponent force 4, you can stop examining that branch. Even more attractive leaves elsewhere in it won’t remove the opponent’s option to choose 4.</p>
+<ul>
+<li><strong>Alpha</strong> tracks the best bound already available to MAX.</li>
+<li><strong>Beta</strong> tracks the best bound already available to MIN.</li>
+<li>A cutoff occurs when the bounds meet or cross: <strong>alpha ≥ beta</strong>.</li>
+</ul>
+<p><strong>Ordering changes how much gets pruned; it doesn’t change the minimax answer.</strong></p>
+<p>Large games also require stopping before terminal states and using a <strong>heuristic evaluation function</strong> to estimate a position’s value. That introduces estimation error. Alpha-beta itself preserves the result of searching the same tree with the same evaluations.</p>
+<p>The lessons also introduce multiplayer extensions, where each player has a payoff; the central practice here is applying minimax and alpha-beta to small trees.</p>
+<p><strong>What understanding looks like:</strong> you can work backward through a tree and identify exactly which remaining branches can be skipped. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/week-4-conclusion">Module 4 scope</a></p>
+<div class="outline-section-actions"><a class="secondary" href="/331?module=4">Go to Games practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section" id="csps" style="--topic:#a44963"><h2><span class="outline-number">Module 5</span>Find choices that all fit together.</h2><p>Think of scheduling client work: each job needs a slot, certain jobs require particular people, and nobody can occupy two places at once.</p>
+<p>A <strong>constraint satisfaction problem—CSP—</strong> contains:</p>
+<ul>
+<li><strong>Variables:</strong> the choices to make.</li>
+<li><strong>Domains:</strong> the values each choice may take.</li>
+<li><strong>Constraints:</strong> the combinations allowed.</li>
+</ul>
+<p>A solution is a <strong>complete, consistent assignment</strong>: every variable has a value and every constraint holds.</p>
+<p>Constraints can involve one variable (<strong>unary</strong>), two (<strong>binary</strong>), or more. A global <strong>all-different</strong> constraint requires its participating variables to have different values.</p>
+<p>There are two main ways to make progress.</p>
+<p><strong>Inference removes choices that cannot work.</strong></p>
+<p>To revise the directed arc <strong><code>(X, Y)</code></strong>, inspect each value of <strong>X</strong>. Keep it only if at least one value of <strong>Y</strong> supports it.</p>
+<p>Example: <strong>X = {1, 2, 3}, Y = {2}, constraint X &lt; Y.</strong></p>
+<p>Only X = 1 has a supporting Y value. Revising <code>(X, Y)</code> therefore leaves <strong>X = {1}</strong>. That revision prunes the <strong>left-hand variable</strong>; revising the reverse arc is a separate operation.</p>
+<p><strong>AC-3</strong> repeatedly performs these revisions. If a domain shrinks, neighboring values may lose their support, so relevant arcs return to the queue.</p>
+<ul>
+<li>An <strong>empty domain proves failure</strong> for the current CSP.</li>
+<li><strong>Nonempty domains don’t prove success.</strong> Three pairwise-adjacent regions can each retain both available colors, even though coloring a triangle with only two colors is impossible.</li>
+</ul>
+<p>The broader lesson introduces node consistency for unary constraints and stronger consistency notions involving more variables. AC-3 establishes arc consistency.</p>
+<p><strong>Backtracking tries assignments and undoes choices when necessary.</strong></p>
+<p>Choose a variable, try a value, and continue if it fits the assignments already made. If it fails, try that variable’s next value. Return to an earlier variable only after exhausting the current one’s options.</p>
+<p>The course also covers ways to improve that search:</p>
+<ul>
+<li><strong>Minimum remaining values—MRV:</strong> choose the variable with the fewest legal choices.</li>
+<li><strong>Degree heuristic:</strong> prioritize a variable constraining many other unassigned variables.</li>
+<li><strong>Least-constraining value—LCV:</strong> choose a value leaving other variables the most flexibility.</li>
+<li><strong>Inference during search:</strong> propagate consequences after making an assignment; restore removed possibilities when undoing it.</li>
+<li><strong>Min-conflicts local search:</strong> start with a complete assignment and change values to reduce violated constraints.</li>
+</ul>
+<p><strong>What understanding looks like:</strong> you can prune domains with AC-3 and follow backtracking in the specified variable and value order. Those two algorithms are the instructor’s explicit exam focus. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/week-5-conclusion">Module 5 scope</a></p>
+<div class="outline-section-actions"><a class="secondary" href="/331?module=5">Go to CSPs practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section outline-study-plan" id="study-plan"><h2>How to use the review game</h2><ol>
+<li>Open <a href="/331">our Midterm Lab</a>, select <strong>Agents</strong>, then <strong>Start practice</strong>. Do one ten-question round.</li>
+<li>Before checking each answer, explain your reasoning in a sentence—even if it’s tentative. Read the explanation after correct answers too.</li>
+<li>Continue through <strong>Search → Local search → Games → CSPs</strong>, using <strong>Learn</strong> whenever a mechanism feels unclear. Bring those questions to our study chat and we’ll work through them.</li>
+<li>After that first pass, use <strong>All modules</strong> and <strong>The Canvas set</strong>. Move to <strong>Exam rehearsal</strong> once you can derive answers instead of recognizing familiar wording.</li>
+</ol>
+<p>The game has <strong>41 prompts based on the in-scope quizzes plus 64 variants</strong>. The variants matter because they help reveal whether you understand the operation when the numbers change.</p>
+<p>Your immediate starting point is <strong>one Agents round</strong>. The goal is to come away able to explain <em>why</em> an answer follows.</p>
+<p>For scheduling: the exam opens <strong>Friday, October 30 at 8 a.m. Pacific</strong>, and is due <strong>Tuesday, November 3 at 11:59 p.m.</strong> It’s approximately <strong>30 questions in 110 minutes</strong>, closed notes, with no scratch paper. Complete the required Proctorio practice beforehand if you haven’t already. <a href="https://canvas.oregonstate.edu/courses/2079176/discussion_topics/11702747">Exam announcement</a></p>
+<div class="outline-section-actions"><a class="primary" href="/331?module=1">Start with Agents</a><a href="#contents">Back to contents</a></div></section>
+
+      </article>
+    </div>
+  </main>
+  <footer class="outline-footer"><span>CS 331 · Modules 1–5</span><a href="/331">Back to the game</a></footer>
+  <script type="module">const links=Array.from(document.querySelectorAll('.outline-toc a'));
+const sections=Array.from(document.querySelectorAll('.outline-section'));
+const setCurrent=id=>links.forEach(link=>{
+  if(link.hash===`#${id}`)link.setAttribute('aria-current','true');
+  else link.removeAttribute('aria-current');
+});
+setCurrent(location.hash.slice(1)||'agents');
+if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>{
+    const current=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0];
+    if(current)setCurrent(current.target.id);
+  },{rootMargin:'-12% 0px -70% 0px',threshold:0});
+  sections.forEach(section=>observer.observe(section));
+}
+links.forEach(link=>link.addEventListener('click',()=>setCurrent(link.hash.slice(1))));
+document.querySelector('.outline-print').addEventListener('click',()=>window.print());
+</script>
+</body>
+</html>
