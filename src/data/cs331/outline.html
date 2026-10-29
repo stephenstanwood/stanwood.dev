@@ -119,6 +119,71 @@ header nav a:hover{background:#e2ebf8;color:#164d99}
   .outline-table thead,.outline-table tbody th{position:static}
   .outline-table tr{break-inside:avoid}
 }
+
+/* Practice keeps the whole problem together in a side-by-side study window. */
+.session-tools{display:flex;align-items:center;gap:22px}
+.practice-divider{height:1px;background:var(--line);margin-bottom:20px}
+.question-workspace{container-type:inline-size}
+.question-visual,.question-response{min-width:0}
+.practice-layout{grid-template-columns:minmax(0,1fr)}
+.practice-layout .question-actions .question-source{margin:0 0 0 auto;padding:0;border:0;font-size:.75rem;max-width:250px}
+.practice-layout .question-source p{font-size:.8rem}
+.practice-layout .question-actions{min-height:70px}
+@media(min-width:760px){
+  .practice-view header{min-height:66px;padding-block:10px;gap:20px}
+  .practice-view header .brand svg{width:28px;height:28px}
+  .practice-view header .brand>span{font-size:1.08rem}
+  .practice-view header nav{gap:2px}
+  .practice-view header nav button,.practice-view header nav a{padding-inline:10px;font-size:.85rem}
+  .practice-view .exam-link{display:none}
+  .practice-view main{min-height:0;max-width:1260px;margin:0 auto;padding:12px 28px 20px}
+  .practice-view footer{display:none}
+  .practice-view .session-top{margin-bottom:8px;font-size:.8rem}
+  .practice-view .session-top .text-button{min-height:32px;font-size:.8rem;padding-block:4px}
+  .practice-view .session-top .quiet{font-size:.78rem}
+  .practice-view .session-progress{height:4px;margin-bottom:14px}
+  .practice-view .practice-divider{margin-bottom:14px}
+  .practice-view .question-card{padding:22px 26px;border-radius:10px}
+  .practice-view .question-meta{margin-bottom:12px}
+  .practice-view .question-card h1{max-width:none;font-size:clamp(1.08rem,1rem + .25vw,1.3rem);line-height:1.45;margin-bottom:18px}
+  .question-workspace{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:24px;align-items:start}
+  .practice-view .problem-figure{margin:0;padding:8px 10px 12px}
+  .practice-view .problem-figure svg{min-width:0;max-height:260px}
+  .practice-view .problem-figure .leaf-text{font-size:22px}
+  .practice-view .problem-figure .leaf-label{font-size:14px}
+  .practice-view .problem-figure figcaption,.practice-view .text-alternative{font-size:.71rem;margin-top:6px}
+  .practice-view .answers{gap:8px}
+  .practice-view .answer{font-size:.9rem;min-height:48px;padding:11px 12px;gap:10px;line-height:1.45}
+  .practice-view legend{font-size:.75rem;margin-bottom:9px}
+  .practice-view .match-row{gap:14px;padding:7px 0;font-size:.86rem}
+  .practice-view .match-row select{min-height:40px;padding-block:6px;font-size:.85rem}
+  .practice-view .feedback{margin-top:18px;padding:14px 19px}
+  .practice-view .feedback h2{font-size:1.05rem;margin-bottom:6px}
+  .practice-view .feedback p,.practice-view .feedback li{font-size:.86rem;line-height:1.55}
+  .practice-view .feedback p{margin-bottom:6px}
+  .practice-view .feedback ol{margin:6px 0}
+  .practice-view .feedback li{margin:2px 0}
+  .practice-view .feedback>a{font-size:.74rem}
+  .practice-view .question-actions{margin-top:16px;padding-top:15px;min-height:61px;gap:16px}
+  .practice-view .question-actions .primary{font-size:.86rem;min-height:44px;padding:9px 17px}
+  .practice-view .key-help{font-size:.72rem}
+}
+@container(max-width:900px){
+  .question-workspace .desktop-game{display:none}
+  .question-workspace .mobile-game{display:block;padding:6px 5px 0}
+  .question-workspace .mobile-root{margin:0 auto 8px;background:#3064ac;color:white;font-size:.83rem;font-weight:650;line-height:1.2;max-width:125px;text-align:center;padding:7px 8px;border-radius:6px}
+  .question-workspace .mobile-branch{display:flex;align-items:center;gap:12px;padding:6px 0;border-top:1px solid #c4d3e5}
+  .question-workspace .mobile-min{background:#2b796d;color:white;border-radius:5px;text-align:center;padding:7px 5px;min-width:68px;font-size:.76rem;font-weight:600}
+  .question-workspace .mobile-leaves{display:flex;justify-content:space-around;gap:9px;flex:1;min-width:0}
+  .question-workspace .mobile-leaf{min-width:36px;flex:1;text-align:center}
+  .question-workspace .mobile-leaf strong{display:block;background:white;border:1px solid #9aafc9;border-radius:6px;font-size:1rem;line-height:1.15;padding:3px 2px}
+  .question-workspace .mobile-leaf small{display:block;color:#617792;font-size:.72rem;line-height:1.15;margin-top:2px}
+  .question-workspace .mobile-leaf.is-pruned strong{background:#f8e1e2;color:#a5353d;text-decoration:line-through;border-color:#bf7b80}
+}
+@media(max-width:759px){
+  .session-tools{gap:12px;flex-wrap:wrap}
+  .practice-layout .question-actions .question-source{margin-left:0;max-width:none;width:100%}
+}
 </style>
 </head>
 <body class="outline-page">
@@ -327,13 +392,13 @@ header nav a:hover{background:#e2ebf8;color:#164d99}
 </ul>
 <p><strong>What understanding looks like:</strong> you can prune domains with AC-3 and follow backtracking in the specified variable and value order. Those two algorithms are the instructor’s explicit exam focus. <a href="https://canvas.oregonstate.edu/courses/2079176/pages/week-5-conclusion">Module 5 scope</a></p>
 <div class="outline-section-actions"><a class="secondary" href="/331?module=5">Go to CSPs practice</a><a href="#contents">Back to contents</a></div></section><section class="outline-section outline-study-plan" id="study-plan"><h2>How to use the review game</h2><ol>
-<li>Open <a href="/331">our Midterm Lab</a>, select <strong>Agents</strong>, then <strong>Start practice</strong>. Do one ten-question round.</li>
+<li>Open <a href="/331">our Midterm Lab</a>, select <strong>Agents</strong>, then <strong>Start practice</strong>. Questions keep coming until you decide to stop.</li>
 <li>Before checking each answer, explain your reasoning in a sentence—even if it’s tentative. Read the explanation after correct answers too.</li>
 <li>Continue through <strong>Search → Local search → Games → CSPs</strong>, using <strong>Learn</strong> whenever a mechanism feels unclear. Bring those questions to our study chat and we’ll work through them.</li>
-<li>After that first pass, use <strong>All modules</strong> and <strong>The Canvas set</strong>. Move to <strong>Exam rehearsal</strong> once you can derive answers instead of recognizing familiar wording.</li>
+<li>After that first pass, use <strong>All modules</strong> and <strong>Quiz questions only</strong>. Move to <strong>Exam rehearsal</strong> once you can derive answers instead of recognizing familiar wording.</li>
 </ol>
 <p>The game has <strong>41 prompts based on the in-scope quizzes plus 64 variants</strong>. The variants matter because they help reveal whether you understand the operation when the numbers change.</p>
-<p>Your immediate starting point is <strong>one Agents round</strong>. The goal is to come away able to explain <em>why</em> an answer follows.</p>
+<p>Your immediate starting point is <strong>Agents practice</strong>. The goal is to come away able to explain <em>why</em> an answer follows.</p>
 <p>For scheduling: the exam opens <strong>Friday, October 30 at 8 a.m. Pacific</strong>, and is due <strong>Tuesday, November 3 at 11:59 p.m.</strong> It’s approximately <strong>30 questions in 110 minutes</strong>, closed notes, with no scratch paper. Complete the required Proctorio practice beforehand if you haven’t already. <a href="https://canvas.oregonstate.edu/courses/2079176/discussion_topics/11702747">Exam announcement</a></p>
 <div class="outline-section-actions"><a class="primary" href="/331?module=1">Start with Agents</a><a href="#contents">Back to contents</a></div></section>
 
