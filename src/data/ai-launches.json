@@ -1,5 +1,13 @@
 [
   {
+    "name": "Mistral Large 4",
+    "org": "Mistral",
+    "date": "2026-10-29",
+    "type": "model",
+    "summary": "Build coding agents and security-fix tools on an open-weight model that Mistral says tops open models for agentic coding. Download the weights from Hugging Face or call the API at about $1.36 per million input tokens.",
+    "url": "https://fortune.com/2026/10/29/mistral-releases-new-model-large-4-and-claims-top-open-model-for-agentic-coding-and-cyber-defense"
+  },
+  {
     "name": "Copilot Fusion",
     "org": "GitHub",
     "date": "2026-10-28",
@@ -14,6 +22,14 @@
     "type": "tool",
     "summary": "Turn plain-language ideas into clickable prototypes built from your own design system's components. Free and open source under MIT, with an optional self-hosted hub for sharing prototypes and collecting comments.",
     "url": "https://github.com/github/replica"
+  },
+  {
+    "name": "Nemotron 3.5 Transcribe",
+    "org": "NVIDIA",
+    "date": "2026-10-28",
+    "type": "model",
+    "summary": "Transcribe recordings in 40 languages, label up to eight speakers, and translate to or from English with one open-weight model. Download it free from Hugging Face and fine-tune it for your own audio.",
+    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B"
   },
   {
     "name": "WebAI",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Build playable games by describing an idea, then change them through conversation. Start free in your browser, with built-in multiplayer and shared editing so friends can help build and test the same game.",
     "url": "https://mypip.dev/"
-  },
-  {
-    "name": "Kimi K3.1 Pro",
-    "org": "Moonshot AI",
-    "date": "2026-10-23",
-    "type": "model",
-    "summary": "Build apps, fix bugs, and create 3D models from prompts or reference images. Use it in Kimi chat, Kimi Code, or through the API, with a faster version available on higher subscription plans.",
-    "url": "https://www.kimi.com/en/blog/kimi-k3-1-pro"
-  },
-  {
-    "name": "Resend Inboxes",
-    "org": "Resend",
-    "date": "2026-10-22",
-    "type": "tool",
-    "summary": "Give your AI agents an email address to receive tasks, track conversations, and draft replies. Connect through an API, CLI, or MCP, with up to three free inboxes and controls over what agents can do.",
-    "url": "https://resend.com/blog/announcing-inboxes"
   }
 ]
