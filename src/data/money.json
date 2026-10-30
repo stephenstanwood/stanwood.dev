@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-29T19:10:18.086Z",
+  "lastUpdated": "2026-10-30T01:11:51.713Z",
   "apiSpend": {
     "months": [
       {
@@ -437,22 +437,22 @@
       },
       {
         "month": "2026-10",
-        "collectedAt": "2026-10-29T19:10:18.086Z",
+        "collectedAt": "2026-10-30T01:11:51.713Z",
         "services": {
           "vercel": {
-            "totalCents": 3082,
+            "totalCents": 3164,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2224
+                "cents": 2253
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 393
+                "cents": 426
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 193
+                "cents": 211
               },
               {
                 "name": "Blob Storage Size",
@@ -460,14 +460,14 @@
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 52
-              },
-              {
-                "name": "Web Analytics Events",
-                "cents": 36
+                "cents": 53
               },
               {
                 "name": "Fluid Provisioned Memory",
+                "cents": 37
+              },
+              {
+                "name": "Web Analytics Events",
                 "cents": 36
               },
               {
@@ -506,15 +506,15 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 26976,
+            "totalCents": 27647,
             "breakdown": [
               {
                 "name": "claude-opus-5-5",
-                "cents": 19886
+                "cents": 20147
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 3083
+                "cents": 3196
               },
               {
                 "name": "claude-sonnet-5",
@@ -522,7 +522,7 @@
               },
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 1039
+                "cents": 1336
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
