@@ -35,6 +35,7 @@ RECEIPT_PATH = RUN_DIR / "latest-run.json"
 TARGET = "public/yt/broader.json"
 BUILD_TIMEOUT_SECONDS = 40 * 60
 MIN_PICKS = 8
+MAX_BUILD_AGE_SECONDS = 30 * 60
 PUSH_ATTEMPTS = 3
 MARK_SERVER = "http://127.0.0.1:8788/api/mark"
 POST_TO_TASKS = HOME / ".claude" / "scripts" / "post-to-tasks.sh"
@@ -57,7 +58,7 @@ def validate(path: Path) -> dict:
     """Refuse to publish a stale, thin, or non-English edition."""
     edition = json.loads(path.read_text())
     age = (datetime.now(timezone.utc) - datetime.fromisoformat(edition["built_at"])).total_seconds()
-    if age > 1800:
+    if age > MAX_BUILD_AGE_SECONDS:
         raise RuntimeError(f"stale build output ({age:.0f}s old)")
     queue, pool = edition.get("queue", []), edition.get("pool", [])
     if len(queue) < MIN_PICKS:
@@ -116,8 +117,8 @@ def run(receipt: dict) -> None:
                                cwd=checkout, env=env, capture_output=True, text=True,
                                timeout=BUILD_TIMEOUT_SECONDS, check=False)
         log((build.stdout + build.stderr).strip())
-        editor = [line for line in build.stderr.splitlines() if line.startswith(("editor:", "sponsorblock:"))]
-        receipt["builder"] = editor
+        receipt["builder"] = [line for line in build.stderr.splitlines()
+                              if line.startswith(("editor:", "sponsorblock:"))]
         if build.returncode != 0:
             tail = (build.stderr.strip().splitlines() or ["no output"])[-1]
             raise RuntimeError(f"builder exited {build.returncode}: {tail[:300]}")

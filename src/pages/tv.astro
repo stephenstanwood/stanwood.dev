@@ -9,7 +9,6 @@ import LiveSports from '../components/LiveSports.tsx';
 import TodaySports from '../components/TodaySports.tsx';
 import ReplaySports from '../components/ReplaySports.tsx';
 import { TV_TEAM_KEYS } from '../lib/tvReplays';
-import { daysSince } from '../lib/time';
 import { PACIFIC_TZ } from '../lib/dateFormat';
 import { isEnglishVideo } from '../lib/tvLanguage';
 import {
@@ -18,6 +17,7 @@ import {
 } from '../lib/tvInternet';
 import { jsonForScriptTag } from '../lib/htmlUtils';
 import { pluralize } from '../lib/text';
+import { compactAge, compactDuration } from '../lib/tvFormat';
 
 interface QueueVideo {
   id: string;
@@ -157,22 +157,9 @@ function fmtClock(seconds: number) {
 function listingNotes(v: BroaderVideo): string[] {
   const notes: string[] = [];
   if (v.start_at) notes.push(`starts at ${fmtClock(v.start_at)}`);
-  if ((v.ad_seconds ?? 0) >= 45) notes.push(`${Math.round((v.ad_seconds ?? 0) / 60)} min sponsor read`);
+  const adSeconds = v.ad_seconds ?? 0;
+  if (adSeconds >= 45) notes.push(`${Math.round(adSeconds / 60)} min sponsor read`);
   return notes;
-}
-
-function fmtDuration(seconds: number) {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
-}
-
-function fmtAgo(iso: string) {
-  const days = daysSince(iso);
-  if (days === 0) return 'today';
-  if (days < 7) return `${days}d ago`;
-  if (days < 30) return `${Math.floor(days / 7)}w ago`;
-  return `${Math.floor(days / 30)}mo ago`;
 }
 
 const topSeries = data.series?.[0] ?? null;
@@ -1142,7 +1129,7 @@ function seriesVideos(series: Series): QueueVideo[] {
                   {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
                 </span>
                 <span class="vmeta">
-                  {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                  {compactDuration(v.duration)} · {compactAge(v.published_at)}
                 </span>
                 <span class="row-btns">
                   <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
@@ -1183,7 +1170,7 @@ function seriesVideos(series: Series): QueueVideo[] {
                       {v.title.replace(/^Stanford\s+[A-Z]+\d+[A-Z]?\s*\|?\s*/i, '').replace(/^[^:|]+[:|]\s*/, '')}
                     </span>
                     <span class="vmeta">
-                      {fmtDuration(v.duration)} · {fmtAgo(v.published_at)}
+                      {compactDuration(v.duration)} · {compactAge(v.published_at)}
                     </span>
                     <span class="row-btns">
                       <button class="mark-btn" data-toggle-watched={v.id} title="toggle watched">✓</button>
@@ -1208,6 +1195,7 @@ function seriesVideos(series: Series): QueueVideo[] {
   <script>
     // @ts-nocheck -- existing page interaction code; the shared selection policy is typed and tested.
     import { canAddInternetVideo, formatRuntime, playAllUrl } from '../lib/tvInternet';
+    import { compactAge, compactDuration } from '../lib/tvFormat';
     // ---- Shared: id-set state in localStorage (watched / hidden / liked / …) ----
     function getSet(key) {
       try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); }
@@ -1393,19 +1381,6 @@ function seriesVideos(series: Series): QueueVideo[] {
     const getBannedSeries = () => getSet(BROADER_BANNED_SERIES_KEY);
     const saveBannedSeries = (s) => saveSet(BROADER_BANNED_SERIES_KEY, s);
 
-    // Followed-series rows share these with the Stanford list markup.
-    function fmtDurationJS(seconds) {
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      return h > 0 ? `${h}h${String(m).padStart(2, '0')}` : `${m}m`;
-    }
-    function fmtAgoJS(iso) {
-      const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
-      if (days === 0) return 'today';
-      if (days < 7) return `${days}d ago`;
-      if (days < 30) return `${Math.floor(days / 7)}w ago`;
-      return `${Math.floor(days / 30)}mo ago`;
-    }
     function escapeHTML(s) {
       return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
@@ -1591,7 +1566,7 @@ function seriesVideos(series: Series): QueueVideo[] {
           const ep = v.episode_number != null ? `#${v.episode_number} · ` : '';
           li.innerHTML = `
             <span class="vtitle">${ep}${escapeHTML(v.title)}</span>
-            <span class="vmeta">${fmtDurationJS(v.duration)} · ${fmtAgoJS(v.published_at)}</span>
+            <span class="vmeta">${compactDuration(v.duration)} · ${compactAge(v.published_at)}</span>
             <span class="row-btns">
               <button class="mark-btn" data-toggle-watched="${escapeHTML(v.id)}" title="toggle watched">✓</button>
               <button class="mark-btn" data-hide-stanford="${escapeHTML(v.id)}" title="hide everywhere">×</button>
