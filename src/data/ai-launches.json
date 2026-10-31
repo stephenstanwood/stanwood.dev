@@ -8,6 +8,14 @@
     "url": "https://fortune.com/2026/10/29/mistral-releases-new-model-large-4-and-claims-top-open-model-for-agentic-coding-and-cyber-defense"
   },
   {
+    "name": "Sound Effects v3",
+    "org": "ElevenLabs",
+    "date": "2026-10-29",
+    "type": "model",
+    "summary": "Generate sound effects for games, videos, and apps from a text prompt, including scenes with several sounds in sequence. Cleaner audio with fewer artifacts, available now in the ElevenLabs app and API.",
+    "url": "https://elevenlabs.io/blog/sound-effects-v3"
+  },
+  {
     "name": "Copilot Fusion",
     "org": "GitHub",
     "date": "2026-10-28",
@@ -32,14 +40,6 @@
     "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B"
   },
   {
-    "name": "WebAI",
-    "org": "Opera",
-    "date": "2026-10-27",
-    "type": "tool",
-    "summary": "Add AI features to websites and extensions that run on the visitor's own machine, with no API keys or per-request costs. Try the early preview free in Opera One by turning on the Web AI API in settings.",
-    "url": "https://blogs.opera.com/news/2026/10/webai-local-ai-for-the-web-now-in-opera/"
-  },
-  {
     "name": "LFM3",
     "org": "Liquid AI",
     "date": "2026-10-27",
@@ -56,11 +56,11 @@
     "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
   },
   {
-    "name": "myPip",
-    "org": "myPip",
-    "date": "2026-10-24",
+    "name": "TanStack AI 1.0",
+    "org": "TanStack",
+    "date": "2026-10-23",
     "type": "tool",
-    "summary": "Build playable games by describing an idea, then change them through conversation. Start free in your browser, with built-in multiplayer and shared editing so friends can help build and test the same game.",
-    "url": "https://mypip.dev/"
+    "summary": "Add chat, tool calling, MCP, and agent features to any JS app with stable, open-source APIs across 23 model providers. Bring your own key, no vendor lock-in, plus an experimental harness for building terminal coding agents.",
+    "url": "https://tanstack.com/blog/tanstack-ai-1-0"
   }
 ]
