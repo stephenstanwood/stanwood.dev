@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-01T01:10:17.425Z",
+  "lastUpdated": "2026-11-01T14:10:33.076Z",
   "apiSpend": {
     "months": [
       {
@@ -526,6 +526,64 @@
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
+          },
+          "openai": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
+          },
+          "neon": {
+            "totalCents": null,
+            "note": "manual from Neon usage recap email"
+          },
+          "recraft": {
+            "totalCents": null,
+            "note": "track manually at recraft.ai"
+          }
+        }
+      },
+      {
+        "month": "2026-11",
+        "collectedAt": "2026-11-01T14:10:33.076Z",
+        "services": {
+          "vercel": {
+            "totalCents": 111,
+            "breakdown": [
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 35
+              },
+              {
+                "name": "Build CPU Minutes",
+                "cents": 34
+              },
+              {
+                "name": "Blob Data Transfer",
+                "cents": 33
+              },
+              {
+                "name": "Web Analytics Events",
+                "cents": 3
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 3
+              },
+              {
+                "name": "Fluid Provisioned Memory",
+                "cents": 2
+              },
+              {
+                "name": "CDN Requests - Additional CPU Duration",
+                "cents": 1
+              }
+            ],
+            "note": null
+          },
+          "anthropic": {
+            "totalCents": 0,
+            "breakdown": [],
+            "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
             "totalCents": 0,
