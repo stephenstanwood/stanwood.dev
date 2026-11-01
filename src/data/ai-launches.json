@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini Computer Use",
+    "org": "Google",
+    "date": "2026-10-30",
+    "type": "tool",
+    "summary": "Build agents that test web apps, fill forms, and control desktop or mobile interfaces from screenshots. Now generally available through the Gemini API, with sample code for connecting it to your own browser automation.",
+    "url": "https://ai.google.dev/gemini-api/docs/computer-use"
+  },
+  {
     "name": "Mistral Large 4",
     "org": "Mistral",
     "date": "2026-10-29",
@@ -32,14 +40,6 @@
     "url": "https://github.com/github/replica"
   },
   {
-    "name": "Nemotron 3.5 Transcribe",
-    "org": "NVIDIA",
-    "date": "2026-10-28",
-    "type": "model",
-    "summary": "Transcribe recordings in 40 languages, label up to eight speakers, and translate to or from English with one open-weight model. Download it free from Hugging Face and fine-tune it for your own audio.",
-    "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Transcribe-30B-A4B"
-  },
-  {
     "name": "LFM3",
     "org": "Liquid AI",
     "date": "2026-10-27",
@@ -56,11 +56,11 @@
     "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
   },
   {
-    "name": "TanStack AI 1.0",
-    "org": "TanStack",
-    "date": "2026-10-23",
+    "name": "Riverside Agents",
+    "org": "Riverside",
+    "date": "2026-10-26",
     "type": "tool",
-    "summary": "Add chat, tool calling, MCP, and agent features to any JS app with stable, open-source APIs across 23 model providers. Bring your own key, no vendor lock-in, plus an experimental harness for building terminal coding agents.",
-    "url": "https://tanstack.com/blog/tanstack-ai-1-0"
+    "summary": "Turn recordings into edited episodes, social clips, captions, and scheduled posts with four AI agents. Available on web and iPhone across all Riverside plans, with a 14-day trial and your approval before anything is published.",
+    "url": "https://riverside.com/blog/first-team-of-ai-agents-built-for-video"
   }
 ]
