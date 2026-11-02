@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-01T20:10:13.650Z",
+  "lastUpdated": "2026-11-02T02:10:19.028Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-01T20:10:13.650Z",
+        "collectedAt": "2026-11-02T02:10:19.028Z",
         "services": {
           "vercel": {
-            "totalCents": 137,
+            "totalCents": 253,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 50
-              },
-              {
-                "name": "Fast Origin Transfer",
-                "cents": 38
+                "cents": 143
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 35
+                "cents": 53
+              },
+              {
+                "name": "Fast Origin Transfer",
+                "cents": 41
               },
               {
                 "name": "Web Analytics Events",
+                "cents": 5
+              },
+              {
+                "name": "Fluid Provisioned Memory",
                 "cents": 4
               },
               {
                 "name": "Fluid Active CPU",
                 "cents": 4
-              },
-              {
-                "name": "Fluid Provisioned Memory",
-                "cents": 3
               },
               {
                 "name": "Function Invocations",
@@ -589,8 +589,17 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 0,
-            "breakdown": [],
+            "totalCents": 302,
+            "breakdown": [
+              {
+                "name": "claude-sonnet-5-5",
+                "cents": 242
+              },
+              {
+                "name": "claude-fable-5-1",
+                "cents": 60
+              }
+            ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
           },
           "openai": {
