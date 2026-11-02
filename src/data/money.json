@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-02T02:10:19.028Z",
+  "lastUpdated": "2026-11-02T07:10:13.448Z",
   "apiSpend": {
     "months": [
       {
@@ -544,25 +544,29 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-02T02:10:19.028Z",
+        "collectedAt": "2026-11-02T07:10:13.448Z",
         "services": {
           "vercel": {
-            "totalCents": 253,
+            "totalCents": 265,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 143
+                "cents": 146
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 53
+                "cents": 58
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 41
+                "cents": 43
               },
               {
                 "name": "Web Analytics Events",
+                "cents": 5
+              },
+              {
+                "name": "Fluid Active CPU",
                 "cents": 5
               },
               {
@@ -570,15 +574,11 @@
                 "cents": 4
               },
               {
-                "name": "Fluid Active CPU",
-                "cents": 4
+                "name": "CDN Requests - Additional CPU Duration",
+                "cents": 2
               },
               {
                 "name": "Function Invocations",
-                "cents": 1
-              },
-              {
-                "name": "CDN Requests - Additional CPU Duration",
                 "cents": 1
               },
               {
@@ -734,10 +734,10 @@
     },
     {
       "name": "Google Workspace",
-      "cents": 1680,
+      "cents": 1734,
       "category": "infra",
       "url": "https://admin.google.com/ac/billing/subscriptions",
-      "note": "Mercury actual Oct 2026; 2 Mercury charges combined"
+      "note": "Mercury actual Nov 2026; 3 Mercury charges combined"
     },
     {
       "name": "Flickr Pro",
@@ -754,18 +754,18 @@
       "note": "email forwarding"
     },
     {
-      "name": "Brave",
-      "cents": 544,
-      "category": "tools",
-      "url": "https://brave.com",
-      "note": "Mercury actual Oct 2026"
-    },
-    {
       "name": "Momentum Plus",
       "cents": 333,
       "category": "tools",
       "url": "https://momentumdash.com",
       "note": null
+    },
+    {
+      "name": "Brave",
+      "cents": 260,
+      "category": "tools",
+      "url": "https://brave.com",
+      "note": "Mercury actual Nov 2026"
     }
   ],
   "domains": [
