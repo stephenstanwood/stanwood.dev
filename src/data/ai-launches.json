@@ -1,5 +1,13 @@
 [
   {
+    "name": "Claude Message Threads",
+    "org": "Anthropic",
+    "date": "2026-11-02",
+    "type": "tool",
+    "summary": "Make long-running Claude agents respond faster by sending only new messages each turn instead of the whole history. Public beta on the Claude API with a Python SDK helper, and on by default in most Claude Code sessions.",
+    "url": "https://platform.claude.com/docs/en/build-with-claude/message-threads"
+  },
+  {
     "name": "Gemini Computer Use",
     "org": "Google",
     "date": "2026-10-30",
@@ -22,14 +30,6 @@
     "type": "model",
     "summary": "Generate sound effects for games, videos, and apps from a text prompt, including scenes with several sounds in sequence. Cleaner audio with fewer artifacts, available now in the ElevenLabs app and API.",
     "url": "https://elevenlabs.io/blog/sound-effects-v3"
-  },
-  {
-    "name": "Copilot Fusion",
-    "org": "GitHub",
-    "date": "2026-10-28",
-    "type": "tool",
-    "summary": "Pick Fusion in the Copilot model picker and it routes each coding task to the right models for you, with Standard, High, or Max effort. Works on all Copilot plans in VS Code, JetBrains, the CLI, and the Copilot app.",
-    "url": "https://github.blog/changelog/2026-10-28-route-and-orchestrate-models-with-github-copilot-fusion"
   },
   {
     "name": "Replica",
