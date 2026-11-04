@@ -16,6 +16,14 @@
     "url": "https://ai.google.dev/gemini-api/docs/computer-use"
   },
   {
+    "name": "Local Code",
+    "org": "Draw Things",
+    "date": "2026-10-30",
+    "type": "tool",
+    "summary": "Run a private coding and office agent on your Mac that writes code and edits spreadsheets and docs with no sign-in or API key. Free and open source, using local Qwen or DeepSeek models downloaded inside the app.",
+    "url": "https://macrumors.com/2026/10/30/local-code-free-private-ai-tool-for-mac/"
+  },
+  {
     "name": "Mistral Large 4",
     "org": "Mistral",
     "date": "2026-10-29",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Run coding, computer-use, and visual tasks faster with a mid-tier model priced at $1 per million input tokens and $5 per million output. Use it via the API as gpt-6.1-terra, or in Codex and ChatGPT Work on paid plans.",
     "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
-  },
-  {
-    "name": "Riverside Agents",
-    "org": "Riverside",
-    "date": "2026-10-26",
-    "type": "tool",
-    "summary": "Turn recordings into edited episodes, social clips, captions, and scheduled posts with four AI agents. Available on web and iPhone across all Riverside plans, with a 14-day trial and your approval before anything is published.",
-    "url": "https://riverside.com/blog/first-team-of-ai-agents-built-for-video"
   }
 ]
