@@ -1,5 +1,13 @@
 [
   {
+    "name": "Images 2.6",
+    "org": "OpenAI",
+    "date": "2026-11-04",
+    "type": "model",
+    "summary": "Turn prompts, photos, or sketches into animated GIFs, export SVGs, and mark up exactly which parts of an image to change. About 50% faster, rolling out in ChatGPT and Codex, with Flare and Sunburst models in the API.",
+    "url": "https://the-decoder.com/chatgpt-can-now-turn-text-prompts-and-photos-into-animated-gifs-with-openais-images-2-6-model/"
+  },
+  {
     "name": "Claude Message Threads",
     "org": "Anthropic",
     "date": "2026-11-02",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Run small open-weight models for text, vision, and audio on a phone or laptop, then fine-tune them on a single GPU. Download from Hugging Face in GGUF or MLX, free for commercial use under $10M revenue.",
     "url": "https://huggingface.co/collections/LiquidAI/lfm3"
-  },
-  {
-    "name": "GPT-6.1 Terra",
-    "org": "OpenAI",
-    "date": "2026-10-26",
-    "type": "model",
-    "summary": "Run coding, computer-use, and visual tasks faster with a mid-tier model priced at $1 per million input tokens and $5 per million output. Use it via the API as gpt-6.1-terra, or in Codex and ChatGPT Work on paid plans.",
-    "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra"
   }
 ]
