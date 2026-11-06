@@ -1,11 +1,27 @@
 [
   {
+    "name": "Gemini Omni 1.2 Flash",
+    "org": "Google",
+    "date": "2026-11-05",
+    "type": "model",
+    "summary": "Create 15-second product videos with sound, then change backgrounds or lighting through follow-up prompts. Available in the Gemini API at $0.07 per second for 720p, with no-cost video generation also rolling out in Google Vids.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+  },
+  {
     "name": "Images 2.6",
     "org": "OpenAI",
     "date": "2026-11-04",
     "type": "model",
     "summary": "Turn prompts, photos, or sketches into animated GIFs, export SVGs, and mark up exactly which parts of an image to change. About 50% faster, rolling out in ChatGPT and Codex, with Flare and Sunburst models in the API.",
-    "url": "https://the-decoder.com/chatgpt-can-now-turn-text-prompts-and-photos-into-animated-gifs-with-openais-images-2-6-model/"
+    "url": "https://openai.com/index/introducing-images-2-6/"
+  },
+  {
+    "name": "Teammates",
+    "org": "Perplexity",
+    "date": "2026-11-04",
+    "type": "tool",
+    "summary": "Delegate ongoing market research, bug investigations, or marketing work to agents that remember project history and bring results back for review. Available on the web for individual Max subscribers, with connections to tools such as GitHub and Gmail.",
+    "url": "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
   },
   {
     "name": "Claude Message Threads",
@@ -32,12 +48,12 @@
     "url": "https://macrumors.com/2026/10/30/local-code-free-private-ai-tool-for-mac/"
   },
   {
-    "name": "Mistral Large 4",
-    "org": "Mistral",
+    "name": "Canva Brush",
+    "org": "Canva",
     "date": "2026-10-29",
     "type": "model",
-    "summary": "Build coding agents and security-fix tools on an open-weight model that Mistral says tops open models for agentic coding. Download the weights from Hugging Face or call the API at about $1.36 per million input tokens.",
-    "url": "https://fortune.com/2026/10/29/mistral-releases-new-model-large-4-and-claims-top-open-model-for-agentic-coding-and-cyber-defense"
+    "summary": "Restyle a design, update every slide in a deck, or turn a presentation into social graphics using plain-language requests. Available in Canva AI for Pro subscribers, with text, images, and layouts still editable by hand.",
+    "url": "https://www.canva.com/newsroom/news/canva-brush/"
   },
   {
     "name": "Sound Effects v3",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Generate sound effects for games, videos, and apps from a text prompt, including scenes with several sounds in sequence. Cleaner audio with fewer artifacts, available now in the ElevenLabs app and API.",
     "url": "https://elevenlabs.io/blog/sound-effects-v3"
-  },
-  {
-    "name": "Replica",
-    "org": "GitHub",
-    "date": "2026-10-28",
-    "type": "tool",
-    "summary": "Turn plain-language ideas into clickable prototypes built from your own design system's components. Free and open source under MIT, with an optional self-hosted hub for sharing prototypes and collecting comments.",
-    "url": "https://github.com/github/replica"
-  },
-  {
-    "name": "LFM3",
-    "org": "Liquid AI",
-    "date": "2026-10-27",
-    "type": "model",
-    "summary": "Run small open-weight models for text, vision, and audio on a phone or laptop, then fine-tune them on a single GPU. Download from Hugging Face in GGUF or MLX, free for commercial use under $10M revenue.",
-    "url": "https://huggingface.co/collections/LiquidAI/lfm3"
   }
 ]
