@@ -134,7 +134,8 @@ async function wnbaCards(now: Date): Promise<ReplayCard[]> {
     let recentStart = now;
     if (favorite) {
       const weekAgo = +now - 7 * MS_PER_DAY;
-      recentStart = new Date(Math.max(Date.parse(favorite.date), weekAgo));
+      const favoriteStart = +new Date(favorite.date);
+      recentStart = new Date(Math.max(favoriteStart, weekAgo));
     }
     events = await recentBasketball("basketball/wnba", recentStart);
   }
