@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-07T07:10:11.816Z",
+  "lastUpdated": "2026-11-07T14:10:15.296Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-07T07:10:11.816Z",
+        "collectedAt": "2026-11-07T14:10:15.296Z",
         "services": {
           "vercel": {
-            "totalCents": 2267,
+            "totalCents": 2329,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1809
+                "cents": 1844
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 220
+                "cents": 237
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 159
+                "cents": 166
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 25
+                "cents": 26
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 21
+                "cents": 22
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 20
+                "cents": 21
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -632,13 +632,6 @@
     ]
   },
   "subscriptions": [
-    {
-      "name": "Anthropic",
-      "cents": 50396,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Oct 2026; 13 Mercury charges combined"
-    },
     {
       "name": "Cursor",
       "cents": 20000,
@@ -701,6 +694,13 @@
       "category": "media",
       "url": "https://account.adobe.com/plans",
       "note": "PDF wrangling — AI Assistant tier cancelled"
+    },
+    {
+      "name": "Anthropic",
+      "cents": 2500,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Nov 2026"
     },
     {
       "name": "Neon via Vercel",
