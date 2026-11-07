@@ -2,6 +2,8 @@ import { fetchWithTimeout } from "./apiHelpers";
 import { MS_PER_MINUTE } from "./time";
 
 const CACHE_TTL_MS = 10 * MS_PER_MINUTE;
+// CLEANUP-FLAG: expired screenshots remain in this process-wide Map. A bounded
+// eviction policy is needed so unique user-supplied URLs cannot grow memory indefinitely.
 const cache = new Map<string, { base64: string; expiresAt: number }>();
 
 /**

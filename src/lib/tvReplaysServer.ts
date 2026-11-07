@@ -3,6 +3,7 @@ import { ESPN_SPORTS_BASE } from "./sportsCore";
 import { awayHomeOf, isoDateInPT, teamSideOf, watchRecordingUrl, type ESPNEvent } from "./wtwtwSports";
 import { bestReplay, latestFinal, nbaReplayReadyAt, nflReplayUrl, nflWeekendDates, type ReplayCard, type ReplayFeed, type ReplaySlot } from "./tvReplays";
 import { MS_PER_DAY } from "./time";
+import { wnbaScheduleUrl } from "./wnbaSchedule";
 
 // CLEANUP-FLAG: this feed relies on unchecked ESPN, WNBA, MLB, and NBA payload
 // shapes. Shared validation would touch every league and its fallback behavior.
@@ -89,13 +90,15 @@ async function nflCards(now: Date): Promise<ReplayCard[]> {
     weekend = await fetchScoreboards("football/nfl", nflWeekendDates(new Date(+now - 7 * MS_PER_DAY)));
   }
   const picks = [latestFinal(pit, now), latestFinal(sf, now), bestReplay(weekend, "football/nfl", ["PIT", "SF"], now)];
-  return (["steelers", "49ers", "nfl-best"] as const).map((slot, i) =>
-    buildReplayCard(slot, "football/nfl", picks[i], picks[i] ? nflReplayUrl(picks[i]!) : "", "NFL+ Premium", "Select Full Game Replay"),
-  );
+  return (["steelers", "49ers", "nfl-best"] as const).map((slot, index) => {
+    const event = picks[index];
+    const href = event ? nflReplayUrl(event) : "";
+    return buildReplayCard(slot, "football/nfl", event, href, "NFL+ Premium", "Select Full Game Replay");
+  });
 }
 
 async function fetchWnbaSchedule(season: number): Promise<any> {
-  return fetchSportsJson(`https://www.wnba.com/api/schedule?season=${season}&regionId=1`).catch(() => null);
+  return fetchSportsJson(wnbaScheduleUrl(season)).catch(() => null);
 }
 
 async function wnbaCards(now: Date): Promise<ReplayCard[]> {
@@ -117,14 +120,22 @@ async function wnbaCards(now: Date): Promise<ReplayCard[]> {
   }
   // Published schedule dates retain the latest league slate even after a
   // favorite is eliminated and throughout the off-season.
-  const dates = [...new Set([...gameIds.keys()].filter(code => !code.slice(9).includes("GSV")).map(code => code.slice(0, 8)))]
-    .filter(date => /^\d{8}$/.test(date) && date <= isoDateInPT(now).replaceAll("-", ""))
+  const otherGameDates = [...gameIds.keys()]
+    .filter(code => !code.slice(9).includes("GSV"))
+    .map(code => code.slice(0, 8));
+  const today = isoDateInPT(now).replaceAll("-", "");
+  const dates = [...new Set(otherGameDates)]
+    .filter(date => /^\d{8}$/.test(date) && date <= today)
     .sort().reverse().slice(0, 3);
   let events: ESPNEvent[];
   if (dates.length) {
     events = await fetchScoreboards("basketball/wnba", dates);
   } else {
-    const recentStart = favorite ? new Date(Math.max(+new Date(favorite.date), +now - 7 * MS_PER_DAY)) : now;
+    let recentStart = now;
+    if (favorite) {
+      const weekAgo = +now - 7 * MS_PER_DAY;
+      recentStart = new Date(Math.max(Date.parse(favorite.date), weekAgo));
+    }
     events = await recentBasketball("basketball/wnba", recentStart);
   }
   const picks = [favorite, bestReplay(events, "basketball/wnba", ["GS", "GSV"], now)];
@@ -143,7 +154,12 @@ async function cubsCard(now: Date): Promise<ReplayCard[]> {
   const official = await fetchSportsJson(`https://statsapi.mlb.com/api/v1/schedule?sportId=1&teamId=112&date=${date}`);
   // Doubleheaders: match the start time, not merely the two clubs.
   const games = (official.dates ?? []).flatMap((day: any) => day.games ?? []);
-  const game = games.sort((a: any, b: any) => Math.abs(Date.parse(a.gameDate) - Date.parse(event.date)) - Math.abs(Date.parse(b.gameDate) - Date.parse(event.date)))[0];
+  const eventStart = Date.parse(event.date);
+  const game = games.sort((a: any, b: any) => {
+    const distanceA = Math.abs(Date.parse(a.gameDate) - eventStart);
+    const distanceB = Math.abs(Date.parse(b.gameDate) - eventStart);
+    return distanceA - distanceB;
+  })[0];
   return [buildReplayCard("cubs", "baseball/mlb", event, game ? `https://www.mlb.com/tv/g${game.gamePk}` : `https://www.mlb.com/tv?date=${date}`, "MLB.tv", "Full game replay")];
 }
 

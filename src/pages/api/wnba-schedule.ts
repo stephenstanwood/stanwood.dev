@@ -5,16 +5,9 @@
 import type { APIRoute } from "astro";
 import { BROWSER_USER_AGENT, errJson, fetchWithTimeout, okJson } from "../../lib/apiHelpers";
 import { rateLimit, rateLimitResponse } from "../../lib/rateLimit";
+import { wnbaScheduleUrl } from "../../lib/wnbaSchedule";
 
 export const prerender = false;
-
-function currentWnbaSeason(): string {
-  return String(new Date().getUTCFullYear());
-}
-
-function wnbaScheduleUrl(season = currentWnbaSeason()): string {
-  return `https://www.wnba.com/api/schedule?season=${season}&regionId=1`;
-}
 
 interface RawGame {
   gameId?: string;
