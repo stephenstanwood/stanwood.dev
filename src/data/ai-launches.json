@@ -1,11 +1,27 @@
 [
   {
+    "name": "Kanana 2 V Decide",
+    "org": "Kakao",
+    "date": "2026-11-06",
+    "type": "model",
+    "summary": "Sort customer messages or image-based requests into categories and get a probability for each choice. The 3.67B-parameter model has downloadable weights and local serving code under the Kanana Open License.",
+    "url": "https://huggingface.co/kakaocorp/kanana-2-v-decide-3b-2611"
+  },
+  {
     "name": "Gemini Omni 1.2 Flash",
     "org": "Google",
     "date": "2026-11-05",
     "type": "model",
     "summary": "Create 15-second product videos with sound, then change backgrounds or lighting through follow-up prompts. Available in the Gemini API at $0.07 per second for 720p, with no-cost video generation also rolling out in Google Vids.",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
+  },
+  {
+    "name": "Inkling 2 Small",
+    "org": "Thinking Machines Lab",
+    "date": "2026-11-05",
+    "type": "model",
+    "summary": "Build websites, games, and visual prototypes with a model that uses image feedback to refine its work. Available in Tinker Playground and for fine-tuning today, with downloadable weights still pending.",
+    "url": "https://thinkingmachines.ai/news/inkling-2-small/"
   },
   {
     "name": "Images 2.6",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Run a private coding and office agent on your Mac that writes code and edits spreadsheets and docs with no sign-in or API key. Free and open source, using local Qwen or DeepSeek models downloaded inside the app.",
     "url": "https://macrumors.com/2026/10/30/local-code-free-private-ai-tool-for-mac/"
-  },
-  {
-    "name": "Canva Brush",
-    "org": "Canva",
-    "date": "2026-10-29",
-    "type": "model",
-    "summary": "Restyle a design, update every slide in a deck, or turn a presentation into social graphics using plain-language requests. Available in Canva AI for Pro subscribers, with text, images, and layouts still editable by hand.",
-    "url": "https://www.canva.com/newsroom/news/canva-brush/"
-  },
-  {
-    "name": "Sound Effects v3",
-    "org": "ElevenLabs",
-    "date": "2026-10-29",
-    "type": "model",
-    "summary": "Generate sound effects for games, videos, and apps from a text prompt, including scenes with several sounds in sequence. Cleaner audio with fewer artifacts, available now in the ElevenLabs app and API.",
-    "url": "https://elevenlabs.io/blog/sound-effects-v3"
   }
 ]
