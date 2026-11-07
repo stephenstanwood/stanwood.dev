@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-06T20:10:14.869Z",
+  "lastUpdated": "2026-11-07T02:10:14.581Z",
   "apiSpend": {
     "months": [
       {
@@ -544,38 +544,38 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-06T20:10:14.869Z",
+        "collectedAt": "2026-11-07T02:10:14.581Z",
         "services": {
           "vercel": {
-            "totalCents": 2106,
+            "totalCents": 2247,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1697
+                "cents": 1809
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 192
+                "cents": 213
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 145
+                "cents": 149
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 23
+                "cents": 24
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 20
+                "cents": 21
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 18
+                "cents": 19
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 6
+                "cents": 7
               },
               {
                 "name": "Function Invocations",
@@ -593,15 +593,15 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 1827,
+            "totalCents": 2190,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 1297
+                "cents": 1593
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 314
+                "cents": 381
               },
               {
                 "name": "claude-opus-5-5",
