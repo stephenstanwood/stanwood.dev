@@ -1,11 +1,11 @@
 [
   {
-    "name": "Kanana 2 V Decide",
-    "org": "Kakao",
+    "name": "Muse Spaces",
+    "org": "Meta",
     "date": "2026-11-06",
-    "type": "model",
-    "summary": "Sort customer messages or image-based requests into categories and get a probability for each choice. The 3.67B-parameter model has downloadable weights and local serving code under the Kanana Open License.",
-    "url": "https://huggingface.co/kakaocorp/kanana-2-v-decide-3b-2611"
+    "type": "tool",
+    "summary": "Build a client hub, order tracker, or simple game by describing it in Muse. These interactive spaces live inside the app, can update from connected services, and are available wherever Muse is offered.",
+    "url": "https://about.fb.com/news/2026/11/introducing-spaces-customize-muse-app/"
   },
   {
     "name": "Gemini Omni 1.2 Flash",
