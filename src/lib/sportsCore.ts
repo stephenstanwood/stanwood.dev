@@ -13,7 +13,7 @@ export { esc, escUrl };
 const REFRESH_MS = 30_000;
 /** Alias of the canonical Pacific timezone in dateFormat.ts. */
 export const TIMEZONE = PACIFIC_TZ;
-/** Base path for ESPN's public sports API; append `/{league}/scoreboard`. */
+/** Public ESPN API base (also used by server-only replay helpers); append `/{league}/scoreboard`. */
 export const ESPN_SPORTS_BASE = "https://site.api.espn.com/apis/site/v2/sports";
 
 // ── Shared ESPN types ──
@@ -306,9 +306,19 @@ export async function fetchEspnScoreboard<T = unknown>(
   yyyymmdd: string,
 ): Promise<{ events?: T[] }> {
   const url = `${ESPN_SPORTS_BASE}/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`ESPN ${leaguePath} ${yyyymmdd} failed (${res.status})`);
-  return res.json();
+  return fetchScoreboard<T>(url);
+}
+
+async function fetchScoreboard<T>(url: string): Promise<{ events: T[] }> {
+  // Browser scoreboards use our bounded route; server-only callers retain the public base.
+  const endpoint = url.replace(ESPN_SPORTS_BASE, "/api/espn");
+  const res = await fetch(endpoint, { signal: AbortSignal.timeout(12_000) });
+  if (!res.ok) throw new Error("Sports scores are unavailable. Please try again.");
+  const data = await res.json();
+  if (!data || !Array.isArray(data.events)) {
+    throw new Error("Sports scores are unavailable. Please try again.");
+  }
+  return data;
 }
 
 // ── DOM helpers ──
@@ -347,18 +357,22 @@ function createFetchLoop(
   opts: { errorBtnId?: string; retryBtnStyle?: string } = {},
 ) {
   const errorBtnId = opts.errorBtnId || "retryBtn";
+  let inFlight = false;
 
   async function fetchAndRender(): Promise<void> {
     const loading = document.getElementById("loading");
     const content = document.getElementById("content");
     const errorEl = document.getElementById("error");
-    if (!loading || !content || !errorEl) return;
+    if (!loading || !content || !errorEl || inFlight) return;
+    inFlight = true;
+    const retry = document.getElementById(errorBtnId) as HTMLButtonElement | null;
+    if (retry) {
+      retry.disabled = true;
+      retry.textContent = "RETRYING…";
+    }
 
     try {
-      const res = await fetch(apiUrl);
-      if (!res.ok) throw new Error(`ESPN returned ${res.status}`);
-      const data = await res.json();
-      const events: Game[] = data?.events || [];
+      const { events } = await fetchScoreboard<Game>(apiUrl);
 
       loading.style.display = "none";
       errorEl.style.display = "none";
@@ -380,6 +394,8 @@ function createFetchLoop(
         </div>
       `;
       document.getElementById(errorBtnId)?.addEventListener("click", fetchAndRender);
+    } finally {
+      inFlight = false;
     }
   }
 

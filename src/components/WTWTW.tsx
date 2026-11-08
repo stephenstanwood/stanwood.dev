@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   type TeamEntry,
   LEAGUES,
@@ -8,7 +8,6 @@ import {
 } from "../lib/teamRegistry";
 import { safeGet, safeSet } from "../lib/localStorage";
 import { fetchEspnScoreboard, formatYYYYMMDD } from "../lib/sportsCore";
-import { toErrMsg } from "../lib/apiHelpers";
 import { formatHourMinute, formatHourMinuteInTz, isoDateInTz } from "../lib/dateFormat";
 import { msSince } from "../lib/time";
 
@@ -671,6 +670,24 @@ function SettingsPanel({
   );
 }
 
+// Publish a week only when every requested league/day loaded. A failed request
+// must never become an empty day or a fresh "Updated" timestamp.
+export async function loadWeekSchedules(leaguePaths: string[], dates: string[]) {
+  const result = new Map<string, Array<{ leaguePath: string; event: ESPNEvent }>>();
+  for (const date of dates) {
+    const scoreboards = await Promise.all(
+      leaguePaths.map(async (leaguePath) => ({
+        leaguePath,
+        data: await fetchEspnScoreboard<ESPNEvent>(leaguePath, date),
+      })),
+    );
+    result.set(date, scoreboards.flatMap(({ leaguePath, data }) =>
+      (data.events || []).map((event) => ({ leaguePath, event })),
+    ));
+  }
+  return result;
+}
+
 // ── Main Component ─────────────────────────────────────────────────────────
 
 export default function WTWTW() {
@@ -683,6 +700,7 @@ export default function WTWTW() {
   >(new Map());
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const fetchVersion = useRef(0);
 
   useEffect(() => {
     savePrefs(prefs);
@@ -701,8 +719,15 @@ export default function WTWTW() {
   const teamKeys = prefs.teams.join(",");
 
   async function fetchData(currentTeams: TeamEntry[], currentDays: DayInfo[], isRefresh = false) {
-    if (currentTeams.length === 0) {
+    const version = ++fetchVersion.current;
+    if (!isRefresh) {
       setRawData(new Map());
+      setLastRefresh(null);
+    }
+    if (currentTeams.length === 0) {
+      setLoading(false);
+      setRefreshing(false);
+      setError(null);
       return;
     }
     const setBusy = isRefresh ? setRefreshing : setLoading;
@@ -710,28 +735,19 @@ export default function WTWTW() {
     setError(null);
     try {
       const leaguePaths = [...new Set(currentTeams.map((t) => t.league))];
-      const result = new Map<string, Array<{ leaguePath: string; event: ESPNEvent }>>();
-      for (const day of currentDays) {
-        const jsons = await Promise.all(
-          leaguePaths.map((lp) =>
-            fetchEspnScoreboard<ESPNEvent>(lp, day.yyyymmdd)
-              .then((j) => ({ lp, j }))
-              .catch(() => ({ lp, j: null as { events?: ESPNEvent[] } | null }))
-          )
-        );
-        const dayEvents: Array<{ leaguePath: string; event: ESPNEvent }> = [];
-        for (const { lp, j } of jsons) {
-          for (const ev of j?.events || [])
-            dayEvents.push({ leaguePath: lp, event: ev });
-        }
-        result.set(day.yyyymmdd, dayEvents);
-      }
+      const result = await loadWeekSchedules(leaguePaths, currentDays.map((day) => day.yyyymmdd));
+      if (version !== fetchVersion.current) return;
       setRawData(result);
       setLastRefresh(new Date());
-    } catch (err) {
-      setError(toErrMsg(err));
+    } catch {
+      if (version === fetchVersion.current) {
+        setError("Schedules are unavailable. Please try again.");
+      }
     } finally {
-      setBusy(false);
+      if (version === fetchVersion.current) {
+        setLoading(false);
+        setRefreshing(false);
+      }
     }
   }
 
@@ -742,9 +758,9 @@ export default function WTWTW() {
       await fetchData(teams, days);
     };
     run();
-    return () => { alive = false; };
+    return () => { alive = false; fetchVersion.current++; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [teamKeys]);
+  }, [teamKeys, days]);
 
   const picks = useMemo<DayPick[]>(() => {
     if (teams.length === 0 || rawData.size === 0) return [];
@@ -808,7 +824,7 @@ export default function WTWTW() {
               <path d="M23 4v6h-6" /><path d="M1 20v-6h6" />
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
-            {refreshing ? "Refreshing…" : `Updated ${formatRefreshTime(lastRefresh)}`}
+            {refreshing ? "Refreshing…" : (error ? "Last complete update " : "Updated ") + formatRefreshTime(lastRefresh)}
           </button>
         )}
         <div className="ml-auto">
@@ -892,6 +908,8 @@ export default function WTWTW() {
           )}
           {error && (
             <div
+              role="status"
+              aria-live="polite"
               className="rounded-2xl p-5 text-sm"
               style={{
                 background: "rgba(204, 52, 51, 0.15)",
@@ -899,7 +917,15 @@ export default function WTWTW() {
                 borderLeft: "4px solid #CC3433",
               }}
             >
-              {error}
+              <p>{error}{rawData.size > 0 && " Showing the last complete schedule; scores may be out of date."}</p>
+              <button
+                type="button"
+                onClick={() => fetchData(teams, days, rawData.size > 0)}
+                disabled={loading || refreshing}
+                className="mt-3 rounded-lg border border-current px-4 py-2 font-semibold"
+              >
+                {loading || refreshing ? "Retrying…" : "Retry"}
+              </button>
             </div>
           )}
           {picks.map(({ day, pick, others }, idx) => {

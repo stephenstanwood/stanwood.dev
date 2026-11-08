@@ -73,26 +73,28 @@ function readUrlParams() {
   return { duration, pace, unit, seed, focus, equipment };
 }
 
-function workoutToText(workout: Workout): string {
+export function workoutToText(workout: Workout): string {
   const unit = workout.unit === "meters" ? "m" : "y";
   const lines: string[] = [
     workout.name,
     `${workout.totalDistance.toLocaleString()}${unit}  ·  ~${workout.estimatedMinutes} min  ·  Pace: ${workout.pace}/100${unit}`,
     "",
   ];
-  // Grouped sets (e.g. rounds) flatten to their sub-items; both render identically.
-  const itemLine = (item: WorkoutItem): string => {
-    const reps = item.reps > 1 ? `${item.reps}× ` : "";
-    const timing = item.intervalDisplay ? `  @ ${item.intervalDisplay}` : "";
-    const equip = item.equipment ? ` [${item.equipment}]` : "";
-    return `  ${reps}${item.distance}${unit}  ${item.description}${equip}${timing}`;
+  const itemLines = (item: WorkoutItem, depth = 1): string[] => {
+    const indent = "  ".repeat(depth);
+    if (isSetGroup(item)) {
+      return [indent + item.description, ...item.items.flatMap((sub) => itemLines(sub, depth + 1))];
+    }
+    const reps = item.reps > 1 ? item.reps + "× " : "";
+    const timing = item.intervalDisplay ? "  @ " + item.intervalDisplay : "";
+    const equip = item.equipment ? " [" + item.equipment + "]" : "";
+    return [indent + reps + item.distance + unit + "  " + item.description + equip + timing];
   };
 
   for (const section of workout.sections) {
     lines.push(`─── ${section.name} (${section.distance}${unit}) ───`);
     for (const item of section.items) {
-      const rendered = isSetGroup(item) ? item.items.map(itemLine) : [itemLine(item)];
-      lines.push(...rendered);
+      lines.push(...itemLines(item));
     }
     lines.push("");
   }
@@ -206,6 +208,7 @@ function SetItem({ item, unit }: { item: WorkoutItem; unit: string }) {
   if (isSetGroup(item)) {
     return (
       <div className="pl-3 border-l-2 border-teal-300/50 space-y-2 my-2">
+        <p className="text-sm font-semibold text-teal-800">{item.description}</p>
         {item.items.map((sub, i) => (
           <SetItem key={i} item={sub} unit={unit} />
         ))}
@@ -313,18 +316,9 @@ function PrintWorkout({ workout }: { workout: Workout | null }) {
             </span>
             <span className="text-xs text-gray-400 font-mono">{section.distance} {unit}</span>
           </div>
-          {section.items.map((item, j) => {
-            if (isSetGroup(item)) {
-              return (
-                <div key={j} className="pl-4 mb-1">
-                  {item.items.map((sub, k) => (
-                    <PrintSetLine key={k} item={sub} unit={unit} />
-                  ))}
-                </div>
-              );
-            }
-            return <PrintSetLine key={j} item={item} unit={unit} />;
-          })}
+          {section.items.map((item, j) => (
+            <PrintSetLine key={j} item={item} unit={unit} />
+          ))}
         </div>
       ))}
 
@@ -336,6 +330,16 @@ function PrintWorkout({ workout }: { workout: Workout | null }) {
 }
 
 function PrintSetLine({ item, unit }: { item: WorkoutItem; unit: string }) {
+  if (isSetGroup(item)) {
+    return (
+      <div className="pl-4 mb-1 break-inside-avoid">
+        <p className="text-sm font-semibold">{item.description}</p>
+        {item.items.map((sub, index) => (
+          <PrintSetLine key={index} item={sub} unit={unit} />
+        ))}
+      </div>
+    );
+  }
   const reps = item.reps > 1 ? `${item.reps} × ` : "";
   const dist = `${item.distance}${unit}`;
   const timing = item.intervalDisplay ? `@ ${item.intervalDisplay}` : "";
