@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-08T20:10:10.546Z",
+  "lastUpdated": "2026-11-09T02:10:11.806Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-08T20:10:10.546Z",
+        "collectedAt": "2026-11-09T02:10:11.806Z",
         "services": {
           "vercel": {
-            "totalCents": 2512,
+            "totalCents": 2573,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 1959
+                "cents": 1996
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 268
+                "cents": 283
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 192
+                "cents": 197
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 29
+                "cents": 30
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 26
+                "cents": 27
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 23
+                "cents": 24
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -592,20 +592,24 @@
               {
                 "name": "ISR Reads",
                 "cents": 1
+              },
+              {
+                "name": "Blob Advanced Operations",
+                "cents": 1
               }
             ],
             "note": null
           },
           "anthropic": {
-            "totalCents": 2547,
+            "totalCents": 2771,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 1883
+                "cents": 2040
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 448
+                "cents": 515
               },
               {
                 "name": "claude-opus-5-5",
