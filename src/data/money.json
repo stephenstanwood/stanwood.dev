@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-09T20:10:15.234Z",
+  "lastUpdated": "2026-11-10T02:10:14.876Z",
   "apiSpend": {
     "months": [
       {
@@ -544,26 +544,26 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-09T20:10:15.234Z",
+        "collectedAt": "2026-11-10T02:10:14.876Z",
         "services": {
           "vercel": {
-            "totalCents": 3226,
+            "totalCents": 3330,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2587
+                "cents": 2673
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 321
+                "cents": 329
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 208
+                "cents": 216
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 33
+                "cents": 34
               },
               {
                 "name": "Web Analytics Events",
@@ -571,7 +571,7 @@
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 26
+                "cents": 27
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -605,19 +605,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 2771,
+            "totalCents": 3067,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 2040
+                "cents": 2273
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 515
+                "cents": 572
               },
               {
                 "name": "claude-opus-5-5",
-                "cents": 216
+                "cents": 222
               }
             ],
             "note": "computed from API key token usage (excludes Claude Code on Max)"
