@@ -1,5 +1,21 @@
 [
   {
+    "name": "Claude Fable 5.2",
+    "org": "Anthropic",
+    "date": "2026-11-09",
+    "type": "model",
+    "summary": "Hand off big coding jobs like migrations, full app builds, or multi-agent projects to a top-tier model that's up to 30% faster than Fable 5.1. Live now in Claude apps, Claude Code, and the API at $8/$40 per million tokens.",
+    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2"
+  },
+  {
+    "name": "Muse Ember",
+    "org": "Meta",
+    "date": "2026-11-09",
+    "type": "model",
+    "summary": "Run cheap, high-volume agent chores like tool calls, data extraction, test fixes, and screenshot reading for $0.10 per million input tokens. Available now through the Meta Model API and Muse Code with a 1M-token context window.",
+    "url": "https://research.meta.ai/blog/muse-ember"
+  },
+  {
     "name": "Muse Spaces",
     "org": "Meta",
     "date": "2026-11-06",
@@ -40,27 +56,11 @@
     "url": "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
   },
   {
-    "name": "Gemini Computer Use",
-    "org": "Google",
-    "date": "2026-10-30",
-    "type": "tool",
-    "summary": "Build agents that test web apps, fill forms, and control desktop or mobile interfaces from screenshots. Now generally available through the Gemini API, with sample code for connecting it to your own browser automation.",
-    "url": "https://ai.google.dev/gemini-api/docs/computer-use"
-  },
-  {
     "name": "Local Code",
     "org": "Draw Things",
     "date": "2026-10-30",
     "type": "tool",
     "summary": "Run a private coding and office agent on your Mac that writes code and edits spreadsheets and docs with no sign-in or API key. Free and open source, using local Qwen or DeepSeek models downloaded inside the app.",
     "url": "https://macrumors.com/2026/10/30/local-code-free-private-ai-tool-for-mac/"
-  },
-  {
-    "name": "H3 Flex",
-    "org": "Pika",
-    "date": "2026-10-29",
-    "type": "model",
-    "summary": "Generate short videos with synced stereo sound from text, images, or reference clips in about six steps. Open weights on Hugging Face run locally at up to 768p, with 1080p and 4K through Pika's API.",
-    "url": "https://huggingface.co/Pika-Labs/Pika-H3-Flex"
   }
 ]
