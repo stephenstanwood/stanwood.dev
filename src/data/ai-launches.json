@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini 4 Carbon",
+    "org": "Google",
+    "date": "2026-11-10",
+    "type": "model",
+    "summary": "Hand long coding sessions, agent runs, and security reviews to a stronger Gemini through the paid Gemini API in AI Studio, at introductory pricing of $2/$10 per million tokens. AI Ultra subscribers also get it in the Gemini app and Antigravity.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/"
+  },
+  {
     "name": "Claude Fable 5.2",
     "org": "Anthropic",
     "date": "2026-11-09",
@@ -30,14 +38,6 @@
     "type": "model",
     "summary": "Create 15-second product videos with sound, then change backgrounds or lighting through follow-up prompts. Available in the Gemini API at $0.07 per second for 720p, with no-cost video generation also rolling out in Google Vids.",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
-  },
-  {
-    "name": "Inkling 2 Small",
-    "org": "Thinking Machines Lab",
-    "date": "2026-11-05",
-    "type": "model",
-    "summary": "Build websites, games, and visual prototypes with a model that uses image feedback to refine its work. Available in Tinker Playground and for fine-tuning today, with downloadable weights still pending.",
-    "url": "https://thinkingmachines.ai/news/inkling-2-small/"
   },
   {
     "name": "Images 2.6",
