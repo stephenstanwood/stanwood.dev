@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-11T07:10:12.728Z",
+  "lastUpdated": "2026-11-11T14:10:15.361Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-11T07:10:12.728Z",
+        "collectedAt": "2026-11-11T14:10:15.361Z",
         "services": {
           "vercel": {
-            "totalCents": 3551,
+            "totalCents": 3616,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2834
+                "cents": 2885
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 354
+                "cents": 361
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 236
+                "cents": 238
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 39
+                "cents": 40
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 33
+                "cents": 36
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 30
+                "cents": 31
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -716,10 +716,10 @@
     },
     {
       "name": "Neon via Vercel",
-      "cents": 2105,
+      "cents": 2212,
       "category": "infra",
       "url": "https://vercel.com/marketplace/neon",
-      "note": "Mercury actual Oct 2026"
+      "note": "Mercury actual Nov 2026"
     },
     {
       "name": "Vercel Pro",
