@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-12T07:10:08.493Z",
+  "lastUpdated": "2026-11-12T14:10:16.896Z",
   "apiSpend": {
     "months": [
       {
@@ -544,10 +544,10 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-12T07:10:08.493Z",
+        "collectedAt": "2026-11-12T14:10:16.896Z",
         "services": {
           "vercel": {
-            "totalCents": 3832,
+            "totalCents": 3834,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -567,7 +567,7 @@
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 38
+                "cents": 39
               },
               {
                 "name": "Fluid Active CPU",
@@ -588,6 +588,10 @@
               {
                 "name": "Blob Simple Operations",
                 "cents": 3
+              },
+              {
+                "name": "Image Optimization Cache Writes",
+                "cents": 1
               },
               {
                 "name": "Image Optimization Transformation",
