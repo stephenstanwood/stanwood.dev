@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-11T20:10:19.140Z",
+  "lastUpdated": "2026-11-12T02:10:09.920Z",
   "apiSpend": {
     "months": [
       {
@@ -544,18 +544,18 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-11T20:10:19.140Z",
+        "collectedAt": "2026-11-12T02:10:09.920Z",
         "services": {
           "vercel": {
-            "totalCents": 3756,
+            "totalCents": 3816,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 2972
+                "cents": 3028
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 408
+                "cents": 410
               },
               {
                 "name": "Fast Origin Transfer",
@@ -563,11 +563,11 @@
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 40
+                "cents": 41
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 37
+                "cents": 38
               },
               {
                 "name": "Fluid Active CPU",
@@ -609,11 +609,11 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 3312,
+            "totalCents": 3557,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 2518
+                "cents": 2763
               },
               {
                 "name": "claude-fable-5-1",
