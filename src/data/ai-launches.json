@@ -1,11 +1,27 @@
 [
   {
+    "name": "H3-Image",
+    "org": "MiniMax",
+    "date": "2026-11-11",
+    "type": "model",
+    "summary": "Generate or edit 4K product shots and mockups in under 10 seconds, guided by up to 16 reference images. Open weights are on Hugging Face under a community license, or use it cheaply through the MiniMax API and Hailuo AI.",
+    "url": "https://www.minimax.io/blog/minimax-h3-image"
+  },
+  {
     "name": "Gemini 4 Carbon",
     "org": "Google",
     "date": "2026-11-10",
     "type": "model",
     "summary": "Hand long coding sessions, agent runs, and security reviews to a stronger Gemini through the paid Gemini API in AI Studio, at introductory pricing of $2/$10 per million tokens. AI Ultra subscribers also get it in the Gemini app and Antigravity.",
     "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/"
+  },
+  {
+    "name": "Claude Sheets",
+    "org": "Anthropic",
+    "date": "2026-11-10",
+    "type": "tool",
+    "summary": "Describe a budget, tracker, or client list and get a working multi-tab workbook with formulas, formatting, and dropdowns, then keep editing it alongside Claude. In beta on paid Claude plans across web, desktop, and mobile.",
+    "url": "https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors"
   },
   {
     "name": "Claude Fable 5.2",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Turn prompts, photos, or sketches into animated GIFs, export SVGs, and mark up exactly which parts of an image to change. About 50% faster, rolling out in ChatGPT and Codex, with Flare and Sunburst models in the API.",
     "url": "https://openai.com/index/introducing-images-2-6/"
-  },
-  {
-    "name": "Teammates",
-    "org": "Perplexity",
-    "date": "2026-11-04",
-    "type": "tool",
-    "summary": "Delegate ongoing market research, bug investigations, or marketing work to agents that remember project history and bring results back for review. Available on the web for individual Max subscribers, with connections to tools such as GitHub and Gmail.",
-    "url": "https://www.perplexity.ai/en-GB/hub/blog/teammates-are-agents-for-complex-ongoing-work"
-  },
-  {
-    "name": "Local Code",
-    "org": "Draw Things",
-    "date": "2026-10-30",
-    "type": "tool",
-    "summary": "Run a private coding and office agent on your Mac that writes code and edits spreadsheets and docs with no sign-in or API key. Free and open source, using local Qwen or DeepSeek models downloaded inside the app.",
-    "url": "https://macrumors.com/2026/10/30/local-code-free-private-ai-tool-for-mac/"
   }
 ]
