@@ -1,14 +1,8 @@
 import { describe, expect, it } from "vitest";
-import {
-  parseClubLgChildcare,
-  parseCourtsideChildcare,
-  parseDaySpec,
-  parseRanges,
-  rangeLabel,
-} from "./childcare";
 import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass } from "./clean";
 import { clockLabel, pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, parseFlightRows, resolveRefs } from "./flight";
+import { modalityOf } from "./modality";
 import { buildDays, inWindow, mergeVirtualTwins, upcomingWeekdays } from "./schedule";
 import { extractClubLgClasses, normalizeClubLg, normalizeCourtside } from "./sources";
 import type { WorkoutClass } from "./types";
@@ -21,6 +15,7 @@ function workout(overrides: Partial<WorkoutClass>): WorkoutClass {
     startMin: 990,
     endMin: 1040,
     title: "Barre",
+    modality: "pilates",
     instructor: "Michelle Roberts",
     substitute: false,
     room: "Studio A",
@@ -215,57 +210,18 @@ describe("Club LG feed", () => {
   });
 });
 
-describe("childcare hours", () => {
-  it("reads day specs and time ranges", () => {
-    expect(parseDaySpec("Monday-Friday: 8:00 am -1:00 pm")?.days).toEqual([1, 2, 3, 4, 5]);
-    expect(parseDaySpec("Saturday & Sunday: 8:00 am – 1:00 pm")?.days).toEqual([6, 0]);
-    expect(parseDaySpec("Monthly fees")).toBeNull();
-    expect(parseRanges("7:45 AM - 1:30 PM & 3 PM - 7:45 PM")).toEqual([
-      { start: 465, end: 810 },
-      { start: 900, end: 1185 },
-    ]);
-    expect(rangeLabel({ start: 900, end: 1140 })).toBe("3–7 PM");
-    expect(rangeLabel({ start: 465, end: 810 })).toBe("7:45 AM–1:30 PM");
-  });
-
-  it("reads the Courtside tab of the Bay Club childcare page", () => {
-    const html = `
-      <div data-w-tab="Courtside" class="childcare_tabs_link">Courtside</div>
-      <div data-w-tab="Redwood Shores" class="childcare_tabs_content w-tab-pane"><p>Monday-Friday: 9:00 am -1:00 pm</p></div>
-      <div data-w-tab="Courtside" class="childcare_tabs_content w-tab-pane"><div class="w-richtext">
-        <h2>Courtside</h2><p><strong>Weekly Childcare Schedule<br/></strong>Single-day booking now available*</p>
-        <p><strong><em>Age range: 6 months – 12 years.</em></strong></p>
-        <p>Monday-Friday: 8:00 am -1:00 pm and 3:00 pm-7:00 pm</p>
-        <p>Saturday &amp; Sunday: 8:00 am – 1:00 pm</p>
-        <p>*<em>Only available reservation times will be visible.</em></p></div></div>
-      <div data-w-tab="Carmel Valley" class="childcare_tabs_content w-tab-pane"><p>Monday-Friday: 8:30 am -1:00 pm</p></div>`;
-    const hours = parseCourtsideChildcare(html);
-    expect(hours?.[3]).toEqual([
-      { start: 480, end: 780 },
-      { start: 900, end: 1140 },
-    ]);
-    expect(hours?.[0]).toEqual([{ start: 480, end: 780 }]);
-  });
-
-  it("reads Club LG's Kid's Club hours, one line per day", () => {
-    const html = `<p><strong>Kid’s Club Hours</strong></p>
-      <p>Monday </p><ul><li><p>7:45 AM - 1:30 PM &amp; 3 PM - 7:45 PM</p></li></ul>
-      <p>Tuesday</p><ul><li><p>8 AM - 1 PM &amp; 3 PM - 7:15 PM</p></li></ul>
-      <p>Wednesday</p><ul><li><p>8 AM - 1 PM &amp; 3 PM - 7:45 PM</p></li></ul>
-      <p>Thursday</p><ul><li><p>8 AM - 1 PM &amp; 3 PM - 7:15 PM </p></li></ul>
-      <p>Friday</p><ul><li><p>8 AM - 1 PM &amp; 3 PM - 7 PM </p></li></ul>
-      <p>Saturday: 7:45 AM - 1:30 PM </p><p>Sunday: 8 AM - 1 PM</p>
-      <p>Included Planned daily crafts</p><p>Monday: 1 AM - 2 AM</p>`;
-    const hours = parseClubLgChildcare(html);
-    expect(hours?.[2]).toEqual([
-      { start: 480, end: 780 },
-      { start: 900, end: 1155 },
-    ]);
-    expect(hours?.[1]).toHaveLength(2);
-    expect(hours?.[6]).toEqual([{ start: 465, end: 810 }]);
-  });
-
-  it("refuses a page without a full weekday schedule", () => {
-    expect(parseClubLgChildcare("<p>Kid’s Club Hours</p><p>Monday</p><p>8 AM - 1 PM</p>")).toBeNull();
+describe("modality colors", () => {
+  it("sorts this week's classes into plate colors", () => {
+    expect(modalityOf("Boxing + Strength")).toBe("strength");
+    expect(modalityOf("Barbell WOD")).toBe("strength");
+    expect(modalityOf("STRONG HIIT")).toBe("strength");
+    expect(modalityOf("Hot Barre Fusion")).toBe("pilates");
+    expect(modalityOf("Pilates Reformer: Mixed Level")).toBe("pilates");
+    expect(modalityOf("Yoga Sculpt")).toBe("yoga");
+    expect(modalityOf("Deep Stretch & Meditation")).toBe("yoga");
+    expect(modalityOf("MixxedFit Dance")).toBe("cardio");
+    expect(modalityOf("Beginner Pickleball Mixer", "Pickleball")).toBe("court");
+    expect(modalityOf("Santa Clara Masters Swim", "Aquatics")).toBe("swim");
+    expect(modalityOf("Mystery Hour")).toBe("other");
   });
 });

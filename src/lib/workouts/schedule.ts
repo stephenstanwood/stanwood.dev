@@ -6,17 +6,9 @@
  */
 
 import { createTtlCache } from "../ttlCache";
-import { fetchChildcare } from "./childcare";
 import { addDaysIso, isWeekday, monthDayLabel, pacificClock, shortDateLabel, weekdayName } from "./clock";
 import { fetchClubLg, fetchCourtside } from "./sources";
-import type {
-  AfternoonSchedule,
-  ClubChildcare,
-  ClubKey,
-  ScheduleDay,
-  SourceStatus,
-  WorkoutClass,
-} from "./types";
+import type { AfternoonSchedule, ClubKey, ScheduleDay, SourceStatus, WorkoutClass } from "./types";
 
 /** 3:00 PM. */
 export const WINDOW_START_MIN = 15 * 60;
@@ -113,16 +105,6 @@ function settledStatus(result: PromiseSettledResult<unknown>, club: ClubKey): So
 }
 
 const scheduleCache = createTtlCache<AfternoonSchedule>(4 * 60_000);
-const childcareCache = createTtlCache<ClubChildcare[]>(6 * 60 * 60_000);
-
-async function childcareHours(): Promise<ClubChildcare[]> {
-  const cached = childcareCache.get();
-  if (cached) return cached;
-  const fresh = await fetchChildcare();
-  // Only a complete read is worth keeping for hours; a miss retries on the next request.
-  if (fresh.every((club) => club.hours)) childcareCache.set(fresh);
-  return fresh;
-}
 
 export async function getAfternoonSchedule(now = new Date()): Promise<AfternoonSchedule> {
   const todayIso = pacificClock(now).date;
@@ -130,11 +112,7 @@ export async function getAfternoonSchedule(now = new Date()): Promise<AfternoonS
   if (cached && cached.todayIso === todayIso) return cached;
 
   const dates = upcomingWeekdays(todayIso, WEEKDAYS_SHOWN + 1);
-  const [courtside, clublg, childcare] = await Promise.allSettled([
-    fetchCourtside(dates),
-    fetchClubLg(now),
-    childcareHours(),
-  ]);
+  const [courtside, clublg] = await Promise.allSettled([fetchCourtside(dates), fetchClubLg(now)]);
 
   const classes = [
     ...(courtside.status === "fulfilled" ? courtside.value : []),
@@ -148,7 +126,6 @@ export async function getAfternoonSchedule(now = new Date()): Promise<AfternoonS
       courtside: settledStatus(courtside, "courtside"),
       clublg: settledStatus(clublg, "clublg"),
     },
-    childcare: childcare.status === "fulfilled" ? childcare.value : [],
   };
   if (schedule.sources.courtside.ok && schedule.sources.clublg.ok) scheduleCache.set(schedule);
   return schedule;

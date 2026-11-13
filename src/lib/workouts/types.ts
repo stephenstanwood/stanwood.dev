@@ -1,5 +1,7 @@
 /** Shared shapes for /workouts — weekday late-afternoon classes at two clubs. */
 
+import type { Modality } from "./modality";
+
 export type ClubKey = "courtside" | "clublg";
 
 export type TagKind =
@@ -27,6 +29,7 @@ export interface WorkoutClass {
   startMin: number;
   endMin: number;
   title: string;
+  modality: Modality;
   /** Full instructor name, or null when the club doesn't list one. */
   instructor: string | null;
   substitute: boolean;
@@ -57,28 +60,9 @@ export interface ScheduleDay {
   cancelled: WorkoutClass[];
 }
 
-export interface TimeRange {
-  start: number;
-  end: number;
-}
-
-/** Ranges keyed by weekday, 0 = Sunday … 6 = Saturday. */
-export type WeekHours = Partial<Record<number, TimeRange[]>>;
-
-export interface ClubChildcare {
-  club: ClubKey;
-  /** Null when the club's page couldn't be read. */
-  hours: WeekHours | null;
-  /** The club page that lists the hours. */
-  sourceUrl: string;
-  reserveUrl: string;
-  reserveLabel: string;
-}
-
 export interface AfternoonSchedule {
   generatedAt: string;
   todayIso: string;
   days: ScheduleDay[];
   sources: Record<ClubKey, SourceStatus>;
-  childcare: ClubChildcare[];
 }

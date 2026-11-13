@@ -12,6 +12,7 @@ import { BROWSER_USER_AGENT, fetchWithTimeout, isRecord } from "../apiHelpers";
 import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass } from "./clean";
 import { pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, findKey, parseFlightRows, resolveRefs } from "./flight";
+import { modalityOf } from "./modality";
 import type { ClassTag, WorkoutClass } from "./types";
 
 export const COURTSIDE_SCHEDULE_URL = "https://www.bayclubs.com/classes?c2=courtside";
@@ -57,6 +58,7 @@ export function normalizeCourtside(items: unknown[], requestedDate: string): Wor
       startMin,
       endMin,
       title,
+      modality: modalityOf(title, text(item.category)),
       instructor: displayName(text(item.instructor)),
       substitute: item.substitute === true,
       room: text(item.location) || null,
@@ -147,13 +149,15 @@ export function normalizeClubLg(items: Record<string, unknown>[], now: Date): Wo
     }
 
     const staff = Array.isArray(item.staff) && isRecord(item.staff[0]) ? item.staff[0] : null;
+    const displayTitle = virtual ? title.replace(/^virtual\s+/i, "") : title;
     classes.push({
       club: "clublg",
       id: text(item.id) || `${startClock.date}-${startClock.minutes}-${title}`,
       date: startClock.date,
       startMin: startClock.minutes,
       endMin: endClock.minutes,
-      title: virtual ? title.replace(/^virtual\s+/i, "") : title,
+      title: displayTitle,
+      modality: modalityOf(displayTitle),
       instructor: item.isTbd === true ? null : displayName(text(staff?.displayLabel)),
       substitute: false,
       room: virtual ? null : room,

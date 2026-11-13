@@ -12,9 +12,10 @@
   person rows here; source and ingestion stay in the private `stoa.works` repo.
 
 - `/workouts` (noindex, out of the sitemap): Stephen's weekday 3:00–5:30 PM class board for
-  Bay Club Courtside + The Club at Los Gatos, plus both clubs' childcare hours. Rendered per
-  request from the clubs' own live sources (`src/lib/workouts/`) and CDN-cached 5 minutes;
-  no cron, no stored data. `?at=16:40` previews today's live states.
+  Bay Club Courtside + The Club at Los Gatos, with a live countdown to the next class and a
+  "Childcare 3–7" reminder. Rendered per request from the clubs' own live sources
+  (`src/lib/workouts/`) and CDN-cached 5 minutes; no cron, no stored data. `?at=16:40`
+  previews today's live states.
 
 - Private ScatosSwip house browsing: `/lg`, signed household profiles with
   `SCATOS_PASSWORD`, state in `SCATOS_DATABASE_URL` (`scatosswip` schema).
