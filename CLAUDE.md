@@ -16,8 +16,8 @@
   wired to the Samsung Q80C), `/money`, `/li`, `/lg`, `/workouts`. `/office` 301s to `/tv`.
 
 - `/workouts`: Stephen's weekday 3:00–5:30 PM class board for Bay Club Courtside +
-  The Club at Los Gatos, with a live gym-clock countdown to the next class and a
-  "Childcare 3–7" reminder (his call: treat both clubs as 3–7). Rendered per request from
+  The Club at Los Gatos, today first, in a deliberately calm design (he found a loud
+  countdown version stressful) with a "Childcare 3–7" note (his call: treat both clubs as 3–7). Rendered per request from
   the clubs' own live sources (`src/lib/workouts/`; Bay Club's classes JSON, Club LG's
   Mindbody widget payload) and CDN-cached 5 minutes; no cron, no stored data. Filtering
   rules match the `/workouts` chat skill. `?at=16:40` previews today's live states.

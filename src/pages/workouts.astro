@@ -3,14 +3,13 @@
 // Rendered per request from both clubs' live schedules; the CDN keeps a copy for five minutes.
 export const prerender = false;
 
-import "@fontsource-variable/big-shoulders/opsz.css";
-import "@fontsource/dseg7-classic/latin-700.css";
+import "@fontsource/young-serif/latin-400.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { clockLabel } from "../lib/workouts/clock";
 import { MODALITY_LABELS, type Modality } from "../lib/workouts/modality";
 import { CLUB_NAMES, CUTOFF_MIN, getAfternoonSchedule } from "../lib/workouts/schedule";
 import { CLUBLG_SCHEDULE_URL, COURTSIDE_SCHEDULE_URL } from "../lib/workouts/sources";
-import type { ClubKey } from "../lib/workouts/types";
+import type { ClubKey, WorkoutClass } from "../lib/workouts/types";
 import { PACIFIC_TZ, formatHourMinuteInTz } from "../lib/dateFormat";
 
 const schedule = await getAfternoonSchedule();
@@ -30,12 +29,19 @@ const MODALITY_ORDER: Modality[] = ["strength", "pilates", "yoga", "cardio", "co
 const onScreen = schedule.days.filter((day) => !day.extra).flatMap((day) => day.classes);
 const legend = MODALITY_ORDER.filter((modality) => onScreen.some((item) => item.modality === modality));
 
-// First paint for the clock: the earliest class on the first day that has one. The script
-// below takes over at once with a live countdown and drops anything already started.
-const firstDay = schedule.days.find((day) => !day.extra && day.classes.length > 0);
-const firstStart = firstDay?.classes[0]?.startMin;
-const firstGroup = firstDay?.classes.filter((item) => item.startMin === firstStart) ?? [];
-const firstWhen = !firstDay ? "" : firstDay.isToday ? "today" : firstDay.heading === "Tomorrow" ? "tomorrow" : firstDay.heading;
+const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
+
+// Today's one-line summary (first paint; the script keeps it current through the afternoon).
+function summaryFor(classes: WorkoutClass[]): string {
+  if (classes.length === 0) return "Nothing between 3 and 5:30 today.";
+  const first = classes[0];
+  if (classes.length === 1) return `One class: ${first.title} at ${clockLabel(first.startMin)}.`;
+  const sameTime = classes.every((item) => item.startMin === first.startMin);
+  return sameTime
+    ? `${countWord(classes.length)} classes, all at ${clockLabel(first.startMin)}.`
+    : `${countWord(classes.length)} classes, the first at ${clockLabel(first.startMin)}.`;
+}
 
 const rowId = (id: string) => `c-${id.replace(/[^a-zA-Z0-9_-]/g, "")}`;
 const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
@@ -46,7 +52,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
   description="Weekday classes at Bay Club Courtside and The Club at Los Gatos that finish by 5:30 PM, today first."
   slug="workouts"
   favicon="/favicon-workouts.svg"
-  themeColor="#f2f4f6"
+  themeColor="#e7f2f4"
   schemaCategory="HealthApplication"
   schemaName="Workouts"
   fontsUrl="data:text/css,"
@@ -54,145 +60,118 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
   <meta slot="head" name="robots" content="noindex, nofollow" />
 
   <div class="wo" data-workouts data-today={schedule.todayIso} data-generated={schedule.generatedAt}>
-    <div class="side">
-      <div class="topbar">
-        <a href="/" class="retro-back">← stanwood.dev</a>
-        <span class="updated">Updated {updated}</span>
-      </div>
+    <a href="/" class="retro-back">← stanwood.dev</a>
 
-      <section class="clock" aria-labelledby="clock-title">
-        <div class="clock-face">
-          <h1 class="clock-title" id="clock-title">Workouts</h1>
-          <p class="clock-clubs">Courtside and Club LG, weekdays, done by 5:30</p>
-          <p class="clock-label" data-clock-label>
-            {firstGroup.length ? `Next class ${firstWhen} at` : "No classes on the board"}
-          </p>
-          <div class="led" aria-hidden="true">
-            <span class="led-ghost" data-led-ghost>{firstStart ? clockLabel(firstStart).replace(/\d/g, "8") : "88:88"}</span>
-            <span class="led-digits" data-led>{firstStart ? clockLabel(firstStart) : "--:--"}</span>
-          </div>
-          <p class="sr-only" data-clock-sr>
-            {firstGroup.length ? `Next class ${firstWhen} at ${clockLabel(firstStart ?? 0)} PM.` : "No classes on the board."}
-          </p>
-          <p class="clock-next" data-clock-next>
-            {firstGroup.length > 1 ? `${firstGroup.length} classes to pick from` : firstGroup[0] ? `${firstGroup[0].title}, ${CLUB_NAMES[firstGroup[0].club]}` : ""}
-          </p>
-          <ul class="clock-picks" data-clock-picks>
-            {firstGroup.map((item) => (
-              <li><a class:list={["pick", `m-${item.modality}`]} href={`#${rowId(item.id)}`}>{item.title}</a></li>
-            ))}
-          </ul>
-        </div>
-      </section>
+    <header class="head">
+      <h1>Workouts</h1>
+      <p>Weekday classes at Courtside and Club LG that end by 5:30.</p>
+    </header>
 
-      <p class="care">
-        <strong>Childcare 3–7</strong> at both clubs. Reserve at
-        <a href={CHILDCARE.courtside} target="_blank" rel="noopener">Courtside</a> or
-        <a href={CHILDCARE.clublg} target="_blank" rel="noopener">Club LG</a>.
+    <p class="care">
+      <strong>Childcare</strong> runs 3–7 at both clubs. Reserve at
+      <a href={CHILDCARE.courtside} target="_blank" rel="noopener">Courtside</a> or
+      <a href={CHILDCARE.clublg} target="_blank" rel="noopener">Club LG</a>.
+    </p>
+
+    {failed.map((club) => (
+      <p class="alert" role="status">
+        {CLUB_NAMES[club]}’s schedule didn’t load, so its classes are missing.
+        <a href={SCHEDULE_URLS[club]} target="_blank" rel="noopener">Open the {CLUB_NAMES[club]} schedule</a>
       </p>
-    </div>
+    ))}
 
-    <div class="board">
-      {failed.map((club) => (
-        <p class="alert" role="status">
-          {CLUB_NAMES[club]}’s schedule didn’t load, so its classes are missing.
-          <a href={SCHEDULE_URLS[club]} target="_blank" rel="noopener">Open the {CLUB_NAMES[club]} schedule</a>
-        </p>
-      ))}
+    {schedule.days.map((day) => (
+      <section
+        class:list={["day", { "is-today": day.isToday }]}
+        aria-labelledby={`day-${day.date}`}
+        data-date={day.date}
+        data-heading={day.heading}
+        data-extra={day.extra ? "" : undefined}
+        hidden={day.extra}
+      >
+        <h2 class="day-head" id={`day-${day.date}`}>
+          {day.heading}
+          <span class="day-date">{day.dateLabel}</span>
+        </h2>
+        {day.isToday && <p class="day-summary" data-day-summary>{summaryFor(day.classes)}</p>}
 
-      {schedule.days.map((day) => (
-        <section
-          class:list={["day", { "is-today": day.isToday }]}
-          aria-labelledby={`day-${day.date}`}
-          data-date={day.date}
-          data-heading={day.heading}
-          data-extra={day.extra ? "" : undefined}
-          hidden={day.extra}
-        >
-          <h2 class="day-head" id={`day-${day.date}`}>
-            <span class="day-name">{day.heading}</span>
-            <span class="day-date">{day.dateLabel}</span>
-          </h2>
-          {day.isToday && <p class="day-done" data-day-done hidden>Done for today.</p>}
-
-          {day.classes.length > 0 ? (
-            <ol class="tickets">
-              {day.classes.map((item) => (
-                <li
-                  class:list={["ticket", `m-${item.modality}`]}
-                  id={rowId(item.id)}
-                  data-start={item.startMin}
-                  data-end={item.endMin}
-                  data-name={item.title}
-                  data-club={CLUB_NAMES[item.club]}
-                  data-modality={item.modality}
-                >
-                  <a href={item.url} target="_blank" rel="noopener">
-                    <span class="t-time">
-                      <span class="t-start">{clockLabel(item.startMin)}</span>
-                      <span class="t-end">{item.endMin === CUTOFF_MIN ? "ends 5:30" : `to ${clockLabel(item.endMin)}`}</span>
+        {day.classes.length > 0 ? (
+          <ol class="classes">
+            {day.classes.map((item) => (
+              <li
+                class:list={["cls", `m-${item.modality}`]}
+                id={rowId(item.id)}
+                data-start={item.startMin}
+                data-end={item.endMin}
+                data-name={item.title}
+                data-club={CLUB_NAMES[item.club]}
+                data-modality={item.modality}
+              >
+                <a href={item.url} target="_blank" rel="noopener">
+                  <span class="time">
+                    <span class="start">{clockLabel(item.startMin)}</span>
+                    <span class="end">{item.endMin === CUTOFF_MIN ? "to 5:30" : `to ${clockLabel(item.endMin)}`}</span>
+                  </span>
+                  <span class="info">
+                    <span class="name">{item.title}</span>
+                    <span class="who">
+                      {item.instructor ?? "Instructor not listed"}
+                      {item.substitute && <span class="sub"> (sub)</span>}
                     </span>
-                    <span class="t-body">
-                      <span class="t-top">
-                        <span class="t-name">{item.title}</span>
-                        <span class:list={["club", item.club]}>{CLUB_NAMES[item.club]}</span>
-                      </span>
-                      <span class="t-who">
-                        {item.instructor ?? "Instructor not listed"}
-                        {item.substitute && <span class="t-sub"> (sub)</span>}
-                      </span>
-                      {item.room && <span class="t-where">{item.room}</span>}
-                      {item.tags.length > 0 && (
-                        <span class="t-tags">
-                          {item.tags.map((tag) => <span class:list={["tag", tag.kind]}>{tag.label}</span>)}
-                        </span>
-                      )}
-                      <span class="t-live" data-live hidden></span>
+                    <span class="where">
+                      <span class="club">{CLUB_NAMES[item.club]}</span>{item.room && `, ${item.room}`}
                     </span>
-                    <span class="sr-only"> Opens the {CLUB_NAMES[item.club]} schedule.</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          ) : (
-            <p class="empty">{failed.length === 2 ? "No schedule to show." : "Nothing between 3 and 5:30."}</p>
-          )}
-
-          {day.cancelled.length > 0 && (
-            <p class="cancelled">
-              Cancelled:{" "}
-              {day.cancelled
-                .map((item) => `${item.title} at ${clockLabel(item.startMin)} (${CLUB_NAMES[item.club]})`)
-                .join("; ")}
-            </p>
-          )}
-        </section>
-      ))}
-
-      <footer class="foot">
-        {legend.length > 0 && (
-          <ul class="legend" aria-label="Color key">
-            {legend.map((modality) => (
-              <li><span class:list={["swatch", `m-${modality}`]} aria-hidden="true"></span>{MODALITY_LABELS[modality]}</li>
+                    {item.tags.length > 0 && (
+                      <span class="tags">
+                        {item.tags.map((tag) => <span class:list={["tag", tag.kind]}>{tag.label}</span>)}
+                      </span>
+                    )}
+                    <span class="state" data-state hidden></span>
+                  </span>
+                  <span class="sr-only"> Opens the {CLUB_NAMES[item.club]} schedule.</span>
+                </a>
+              </li>
             ))}
-          </ul>
+          </ol>
+        ) : (
+          <p class="empty">{failed.length === 2 ? "No schedule to show." : "Nothing between 3 and 5:30."}</p>
         )}
-        <p>
-          Read live from each club’s own schedule. Full listings:{" "}
-          <a href={COURTSIDE_SCHEDULE_URL} target="_blank" rel="noopener">Courtside</a>,{" "}
-          <a href={CLUBLG_SCHEDULE_URL} target="_blank" rel="noopener">Club LG</a>.
-        </p>
-      </footer>
-    </div>
+
+        {day.cancelled.length > 0 && (
+          <p class="cancelled">
+            Cancelled:{" "}
+            {day.cancelled
+              .map((item) => `${item.title} at ${clockLabel(item.startMin)} (${CLUB_NAMES[item.club]})`)
+              .join("; ")}
+          </p>
+        )}
+      </section>
+    ))}
+
+    <footer class="foot">
+      {legend.length > 0 && (
+        <ul class="legend" aria-label="Color key">
+          {legend.map((modality) => (
+            <li class:list={["legend-item", `m-${modality}`]}>{MODALITY_LABELS[modality]}</li>
+          ))}
+        </ul>
+      )}
+      <p>
+        Updated {updated} from the clubs’ own schedules. Full listings:{" "}
+        <a href={COURTSIDE_SCHEDULE_URL} target="_blank" rel="noopener">Courtside</a>,{" "}
+        <a href={CLUBLG_SCHEDULE_URL} target="_blank" rel="noopener">Club LG</a>.
+      </p>
+    </footer>
   </div>
 </BaseLayout>
 
 <script>
-  // The clock counts down to the next class; today's board drops finished classes, flags the
-  // next start, and hands over to the next weekday once today is over.
+  // Keeps today current without pressure: classes that have ended drop away, the one under way
+  // is marked, and the summary moves to the next weekday once today is over. Updates each minute.
   const TZ = "America/Los_Angeles";
   const CUTOFF = 17 * 60 + 30;
   const STALE_MS = 15 * 60_000;
+  const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: TZ,
     year: "numeric",
@@ -200,56 +179,41 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     hourCycle: "h23",
   });
 
-  // ?at=16:40 previews the board at another time of day.
+  // ?at=16:40 previews the page at another time of day.
   const at = /^(\d{1,2}):(\d{2})$/.exec(new URLSearchParams(location.search).get("at") ?? "");
 
   function pacificNow() {
     const p: Record<string, string> = {};
     for (const part of parts.formatToParts(new Date())) p[part.type] = part.value;
-    const seconds = at
-      ? Number(at[1]) * 3600 + Number(at[2]) * 60
-      : Number(p.hour) * 3600 + Number(p.minute) * 60 + Number(p.second);
-    return { date: `${p.year}-${p.month}-${p.day}`, seconds, minutes: Math.floor(seconds / 60) };
+    const minutes = at ? Number(at[1]) * 60 + Number(at[2]) : Number(p.hour) * 60 + Number(p.minute);
+    return { date: `${p.year}-${p.month}-${p.day}`, minutes };
   }
 
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const clock = (minutes: number) => `${Math.floor(minutes / 60) % 12 || 12}:${pad(minutes % 60)}`;
-  function countdown(seconds: number) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    return h ? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
-  }
-  function inWords(minutes: number) {
-    if (minutes < 60) return `${minutes} min`;
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return m ? `${h} hr ${m} min` : `${h} hr`;
-  }
+  const clock = (minutes: number) => `${Math.floor(minutes / 60) % 12 || 12}:${String(minutes % 60).padStart(2, "0")}`;
+  const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
 
   const root = document.querySelector<HTMLElement>("[data-workouts]");
-  const q = <T extends Element = HTMLElement>(selector: string) => root?.querySelector<T>(selector) ?? null;
-  const led = q("[data-led]");
-  const ghost = q("[data-led-ghost]");
-  const label = q("[data-clock-label]");
-  const next = q("[data-clock-next]");
-  const picks = q("[data-clock-picks]");
-  const sr = q("[data-clock-sr]");
-  let lastGroupKey = "";
 
-  function setLed(text: string) {
-    if (led && led.textContent !== text) led.textContent = text;
-    const blank = text.replace(/\d/g, "8").replace(/-/g, "8");
-    if (ghost && ghost.textContent !== blank) ghost.textContent = blank;
-    if (led) led.dataset.len = String(text.length);
-    if (ghost) ghost.dataset.len = String(text.length);
+  function describe(upcoming: HTMLElement[], started: number) {
+    if (!upcoming.length) return started ? "Nothing else starts today." : "That’s it for today.";
+    const first = Number(upcoming[0].dataset.start);
+    const name = upcoming[0].dataset.name;
+    if (started) {
+      return upcoming.length === 1
+        ? `One more: ${name} at ${clock(first)}.`
+        : `${countWord(upcoming.length)} more, the next at ${clock(first)}.`;
+    }
+    if (upcoming.length === 1) return `One class: ${name} at ${clock(first)}.`;
+    const sameTime = upcoming.every((row) => Number(row.dataset.start) === first);
+    return sameTime
+      ? `${countWord(upcoming.length)} classes, all at ${clock(first)}.`
+      : `${countWord(upcoming.length)} classes, the first at ${clock(first)}.`;
   }
 
-  function tick() {
+  function update() {
     if (!root) return;
     const now = pacificNow();
     if (now.date !== root.dataset.today) {
@@ -262,156 +226,74 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
       return;
     }
 
-    // Today's board.
     const today = root.querySelector<HTMLElement>(".day.is-today");
-    let todayDone = false;
-    if (today) {
-      const rows = [...today.querySelectorAll<HTMLElement>(".ticket")];
-      for (const row of rows) {
-        const start = Number(row.dataset.start);
-        const end = Number(row.dataset.end);
-        const over = end <= now.minutes;
-        const running = start <= now.minutes && !over;
-        row.classList.toggle("is-over", over);
-        row.classList.toggle("is-running", running);
-        const live = row.querySelector<HTMLElement>("[data-live]");
-        if (!live) continue;
-        const wait = start - now.minutes;
-        live.hidden = !(running || (!over && wait <= 60));
-        live.classList.toggle("soon", !running && wait <= 20);
-        if (running) live.textContent = `Started ${inWords(now.minutes - start)} ago`;
-        else if (!over && wait <= 60) live.textContent = wait <= 0 ? "Starting now" : `Starts in ${inWords(wait)}`;
+    if (!today) return;
+    const rows = [...today.querySelectorAll<HTMLElement>(".cls")];
+    let underwayCount = 0;
+    for (const row of rows) {
+      const start = Number(row.dataset.start);
+      const end = Number(row.dataset.end);
+      const over = end <= now.minutes;
+      const underway = start <= now.minutes && !over;
+      if (underway) underwayCount++;
+      row.classList.toggle("is-over", over);
+      row.classList.toggle("is-underway", underway);
+      const state = row.querySelector<HTMLElement>("[data-state]");
+      if (state) {
+        state.hidden = !underway;
+        state.textContent = underway ? "Under way now" : "";
       }
-      todayDone = now.minutes >= CUTOFF || (rows.length > 0 && rows.every((row) => row.classList.contains("is-over")));
-      today.classList.toggle("is-done", todayDone);
-      const done = today.querySelector<HTMLElement>("[data-day-done]");
-      if (done) done.hidden = !todayDone;
     }
+    const upcoming = rows.filter((row) => Number(row.dataset.start) > now.minutes);
+    const started = rows.length - upcoming.length;
+    const over = now.minutes >= CUTOFF || (rows.length > 0 && upcoming.length === 0 && underwayCount === 0);
+    today.classList.toggle("is-done", over);
+
+    const summary = today.querySelector<HTMLElement>("[data-day-summary]");
+    if (summary && rows.length) summary.textContent = over ? "That’s it for today." : describe(upcoming, started);
+
+    // Once today is over, the reserve weekday keeps five days on the page.
     root.querySelectorAll<HTMLElement>("[data-extra]").forEach((section) => {
-      section.hidden = !todayDone;
+      section.hidden = !over;
     });
-
-    // The clock: the next class that hasn't started, today first.
-    let group: HTMLElement[] = [];
-    let groupDay: HTMLElement | null = null;
-    for (const day of root.querySelectorAll<HTMLElement>("section.day:not([hidden])")) {
-      const isToday = day.classList.contains("is-today");
-      const upcoming = [...day.querySelectorAll<HTMLElement>(".ticket")].filter(
-        (row) => !isToday || Number(row.dataset.start) * 60 > now.seconds,
-      );
-      if (upcoming.length) {
-        const start = upcoming[0].dataset.start;
-        group = upcoming.filter((row) => row.dataset.start === start);
-        groupDay = day;
-        break;
-      }
-    }
-    root.querySelectorAll(".ticket.is-next").forEach((row) => row.classList.remove("is-next"));
-    group.forEach((row) => row.classList.add("is-next"));
-
-    if (!group.length || !groupDay) {
-      setLed("--:--");
-      if (label) label.textContent = "No classes on the board";
-      if (next) next.textContent = "";
-      if (sr) sr.textContent = "No classes on the board.";
-      if (picks) picks.replaceChildren();
-      return;
-    }
-
-    const startMin = Number(group[0].dataset.start);
-    const heading = groupDay.dataset.heading ?? "";
-    const isToday = groupDay.classList.contains("is-today");
-    const when = isToday ? "today" : heading === "Tomorrow" ? "tomorrow" : heading;
-    if (isToday) {
-      const wait = startMin * 60 - now.seconds;
-      setLed(countdown(wait));
-      if (label) label.textContent = "Next class starts in";
-      if (sr) sr.textContent = `Next class today at ${clock(startMin)} PM, in ${inWords(Math.ceil(wait / 60))}.`;
-    } else {
-      setLed(clock(startMin));
-      if (label) label.textContent = `Next class ${when} at`;
-      if (sr) sr.textContent = `Next class ${when} at ${clock(startMin)} PM.`;
-    }
-
-    const key = group.map((row) => row.id).join("|");
-    if (key !== lastGroupKey) {
-      lastGroupKey = key;
-      if (next) {
-        next.textContent =
-          group.length > 1
-            ? `${isToday ? `${clock(startMin)} PM, ` : ""}${group.length} classes to pick from`
-            : `${isToday ? `${clock(startMin)} PM, ` : ""}${group[0].dataset.name}, ${group[0].dataset.club}`;
-      }
-      if (picks) {
-        picks.replaceChildren(
-          ...group.map((row) => {
-            const item = document.createElement("li");
-            const link = document.createElement("a");
-            link.className = `pick m-${row.dataset.modality}`;
-            link.href = `#${row.id}`;
-            link.textContent = row.dataset.name ?? "";
-            item.append(link);
-            return item;
-          }),
-        );
-      }
-    }
   }
 
-  tick();
-  setInterval(tick, 1000);
+  update();
+  setInterval(update, 60_000);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden || !root) return;
     if (Date.now() - Date.parse(root.dataset.generated ?? "") > STALE_MS) location.reload();
-    else tick();
+    else update();
   });
 </script>
 
 <style is:global>
   :root {
-    --wo-canvas: #f2f4f6;
-    --wo-ink: #15181c;
-    --wo-muted: #57606a;
-    --wo-panel: #121417;
-    --wo-led: #ff3b2f;
-    --wo-courtside: #1d325c;
-    --m-strength: #d22a22;
-    --m-pilates: #2360d0;
-    --m-yoga: #0d8452;
-    --m-cardio: #f4b400;
-    --m-court: #c6e03a;
-    --m-swim: #0a7f99;
-    --m-other: #3a4048;
+    --wo-canvas: #fbfcfc;
+    --wo-sky: #e7f2f4;
+    --wo-ink: #1f2a33;
+    --wo-muted: #63707a;
+    --wo-line: #e4eaed;
+    --wo-card: #ffffff;
+    --wo-accent: #2c7c87;
   }
   html {
-    scroll-padding-top: 64px;
+    scroll-padding-top: 24px;
   }
   body {
-    background: var(--wo-canvas);
-    color: var(--wo-ink);
-    font-family: "Cabin Variable", "Cabin", system-ui, sans-serif;
     margin: 0;
+    color: var(--wo-ink);
+    background: linear-gradient(180deg, var(--wo-sky) 0, var(--wo-canvas) 420px) no-repeat, var(--wo-canvas);
+    font-family: "Cabin Variable", "Cabin", system-ui, sans-serif;
   }
-  /* Modality colors and clock picks are global: the script rebuilds the picks. */
-  .m-strength { --m-color: var(--m-strength); --m-text: #fff; }
-  .m-pilates { --m-color: var(--m-pilates); --m-text: #fff; }
-  .m-yoga { --m-color: var(--m-yoga); --m-text: #fff; }
-  .m-cardio { --m-color: var(--m-cardio); --m-text: var(--wo-ink); }
-  .m-court { --m-color: var(--m-court); --m-text: var(--wo-ink); }
-  .m-swim { --m-color: var(--m-swim); --m-text: #fff; }
-  .m-other { --m-color: var(--m-other); --m-text: #fff; }
-  .pick {
-    display: inline-flex;
-    align-items: center;
-    min-height: 30px;
-    padding: 0 11px;
-    border-radius: 999px;
-    font-size: 13.5px;
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--m-text);
-    background: var(--m-color);
-  }
+  /* Class-type tints: a soft fill and a deeper shade for text on it. */
+  .m-strength { --tint: #fbe3da; --deep: #a2462e; }
+  .m-pilates { --tint: #e2e7fb; --deep: #3d4e9f; }
+  .m-yoga { --tint: #dcefe2; --deep: #2c6b48; }
+  .m-cardio { --tint: #fbefc8; --deep: #7a590c; }
+  .m-court { --tint: #e7f1cc; --deep: #4f6419; }
+  .m-swim { --tint: #d7eef2; --deep: #1d6676; }
+  .m-other { --tint: #eceff1; --deep: #4a5560; }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -427,367 +309,221 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
 <style>
   .wo {
-    --display: "Big Shoulders Variable", "Arial Narrow", sans-serif;
-    width: min(100% - 28px, 1120px);
+    --serif: "Young Serif", Georgia, serif;
+    width: min(100% - 32px, 640px);
     margin: 0 auto;
-    padding: 10px 0 48px;
+    padding: 18px 0 56px;
   }
 
-  /* ── Left column: clock, childcare ───────────────────────────── */
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    min-height: 40px;
+  .head {
+    margin: 30px 0 22px;
   }
-  .updated {
-    font-size: 13px;
+  .head h1 {
+    margin: 0;
+    font: 400 clamp(40px, 10vw, 54px) / 1.05 var(--serif);
+    letter-spacing: -0.01em;
+  }
+  .head p {
+    margin: 10px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
     color: var(--wo-muted);
   }
 
-  .clock {
-    margin-top: 6px;
-    padding: 9px;
-    border-radius: 26px;
-    background: linear-gradient(160deg, #2b2f35, #0d0f11);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 18px 36px -22px rgba(21, 24, 28, 0.7);
-  }
-  .clock-face {
-    container-type: inline-size;
-    border-radius: 18px;
-    background: var(--wo-panel);
-    padding: 18px 18px 16px;
-    color: #f4f5f6;
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-  }
-  .clock-title {
-    font: 850 clamp(40px, 11vw, 54px) / 0.9 var(--display);
-    font-variation-settings: "opsz" 72;
-    letter-spacing: -0.005em;
-    margin: 0;
-    color: #fff;
-  }
-  .clock-clubs {
-    margin: 6px 0 0;
-    font-size: 14px;
-    color: #a3abb3;
-  }
-  .clock-label {
-    margin: 16px 0 0;
-    font: 700 19px/1.2 var(--display);
-    font-variation-settings: "opsz" 24;
-    letter-spacing: 0.02em;
-    color: #d7dbdf;
-  }
-  .led {
-    position: relative;
-    font-family: "DSEG7 Classic", monospace;
-    font-weight: 700;
-    font-size: min(25cqi, 128px);
-    line-height: 1.12;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-  }
-  .led-ghost {
-    position: absolute;
-    inset: 0 auto auto 0;
-    color: rgba(255, 59, 47, 0.1);
-  }
-  .led-digits {
-    position: relative;
-    color: var(--wo-led);
-    text-shadow: 0 0 18px rgba(255, 59, 47, 0.55), 0 0 2px rgba(255, 120, 100, 0.9);
-  }
-  .led-ghost[data-len="7"],
-  .led-digits[data-len="7"] {
-    font-size: 0.74em;
-  }
-  .clock-next {
-    margin: 6px 0 0;
-    font-size: 17px;
-    font-weight: 650;
-    line-height: 1.35;
-  }
-  .clock-picks {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 10px 0 0;
-    padding: 0;
-  }
+  /* A quiet reminder, not a card. */
   .care {
-    margin: 14px 0 0;
-    padding: 12px 16px;
-    border: 2px solid var(--wo-ink);
+    margin: 0;
+    padding: 11px 15px;
     border-radius: 14px;
-    background: #fff3c4;
-    box-shadow: 3px 3px 0 var(--wo-ink);
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid var(--wo-line);
     font-size: 15px;
-    line-height: 1.45;
+    line-height: 1.5;
+    color: var(--wo-muted);
   }
   .care strong {
-    font: 800 20px/1 var(--display);
-    font-variation-settings: "opsz" 40;
-    margin-right: 2px;
+    color: var(--wo-ink);
+    font-weight: 650;
   }
   .care a {
-    color: inherit;
-    font-weight: 700;
+    color: var(--wo-accent);
+    font-weight: 650;
     text-underline-offset: 2px;
   }
 
-  /* ── Board: day sections of class tickets ─────────────────────── */
-  .board {
-    margin-top: 26px;
-  }
   .alert {
-    margin: 0 0 18px;
-    padding: 12px 14px;
-    border: 2px solid var(--m-strength);
-    border-radius: 12px;
-    background: #fff;
+    margin: 18px 0 0;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: #fff4e5;
     font-size: 15px;
     line-height: 1.45;
   }
   .alert a {
     display: block;
     margin-top: 4px;
-    font-weight: 700;
-    color: var(--m-strength);
+    font-weight: 650;
+    color: var(--wo-accent);
   }
+
+  /* Days */
   .day {
-    margin: 0 0 28px;
+    margin-top: 32px;
   }
   .day[hidden] {
     display: none;
   }
   .day-head {
-    position: sticky;
-    top: 0;
-    z-index: 3;
     display: flex;
     align-items: baseline;
-    gap: 10px;
-    margin: 0 0 10px;
-    padding: 10px 0 8px;
-    background: var(--wo-canvas);
-  }
-  .day-name {
-    font: 850 36px/1 var(--display);
-    font-variation-settings: "opsz" 60;
-  }
-  .is-today .day-name {
-    font-size: 44px;
+    flex-wrap: wrap;
+    gap: 2px 10px;
+    margin: 0 0 12px 4px;
+    font: 400 27px/1.15 var(--serif);
   }
   .day-date {
-    font-size: 15px;
-    font-weight: 700;
+    font: 600 15px/1 "Cabin Variable", "Cabin", sans-serif;
     color: var(--wo-muted);
   }
-  .day-done {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 650;
-  }
-  .day-done[hidden] {
-    display: none;
+  .day-summary {
+    margin: -4px 0 12px 4px;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--wo-muted);
   }
 
-  .tickets {
+  .classes {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 12px;
-  }
-  .ticket a {
-    display: grid;
-    grid-template-columns: 84px 1fr;
-    min-height: 96px;
-    border: 2px solid var(--wo-ink);
-    border-radius: 16px;
+    background: var(--wo-card);
+    border: 1px solid var(--wo-line);
+    border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(31, 42, 51, 0.04);
     overflow: hidden;
-    background: #fff;
-    color: var(--wo-ink);
+  }
+  .cls + .cls a {
+    border-top: 1px solid var(--wo-line);
+  }
+  .cls a {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 14px;
+    padding: 14px 16px;
+    color: inherit;
     text-decoration: none;
-    box-shadow: 4px 4px 0 var(--wo-ink);
-    transition: transform 80ms ease, box-shadow 80ms ease;
   }
-  .ticket a:active {
-    transform: translate(3px, 3px);
-    box-shadow: 1px 1px 0 var(--wo-ink);
+  .cls a:hover {
+    background: #f6f9fa;
   }
-  .t-time {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-    padding: 10px 4px;
-    background: var(--m-color);
-    color: var(--m-text);
-    border-right: 2px solid var(--wo-ink);
-    font-variant-numeric: tabular-nums;
-  }
-  .t-start {
-    font: 850 36px/0.95 var(--display);
-    font-variation-settings: "opsz" 60;
-  }
-  .t-end {
-    font-size: 13px;
-    font-weight: 700;
-    opacity: 0.92;
-    white-space: nowrap;
-  }
-  .t-body {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 12px 14px 13px;
-    min-width: 0;
-  }
-  .t-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .t-name {
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.2;
-    overflow-wrap: anywhere;
-    text-wrap: balance;
-  }
-  .ticket a:hover .t-name {
+  .cls a:hover .name {
     text-decoration: underline;
-    text-decoration-thickness: 2px;
+    text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
-  .club {
-    flex-shrink: 0;
-    margin-top: 1px;
-    padding: 3px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 800;
-    line-height: 1.2;
-    border: 2px solid var(--wo-ink);
+
+  .time {
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 9px 4px 8px;
+    border-radius: 14px;
+    background: var(--tint);
+    color: var(--deep);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
   }
-  .club.courtside {
-    background: var(--wo-courtside);
-    border-color: var(--wo-courtside);
-    color: #fff;
+  .start {
+    font-size: 19px;
+    font-weight: 700;
   }
-  .club.clublg {
-    background: #fff;
-    color: var(--wo-ink);
-  }
-  .t-who {
-    font-size: 15px;
+  .end {
+    font-size: 12.5px;
     font-weight: 600;
+    opacity: 0.85;
   }
-  .t-sub {
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-top: 2px;
+  }
+  .name {
+    font-size: 17.5px;
+    font-weight: 650;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .who {
+    font-size: 15px;
+  }
+  .sub {
     color: var(--wo-muted);
-    font-weight: 500;
   }
-  .t-where {
+  .where {
     font-size: 14px;
     color: var(--wo-muted);
   }
-  .t-tags {
+  .club {
+    font-weight: 650;
+    color: var(--wo-ink);
+  }
+  .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     margin-top: 6px;
   }
   .tag {
-    font-size: 12px;
-    font-weight: 700;
+    font-size: 12.5px;
+    font-weight: 600;
     line-height: 1;
-    padding: 5px 8px;
-    border-radius: 6px;
-    background: #eef0f2;
-    color: #3d464f;
+    padding: 5px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--wo-line);
+    color: var(--wo-muted);
+    background: #fff;
   }
-  .tag.fee,
-  .tag.booking,
-  .tag.prereq {
-    background: #fff1cc;
-    color: #774700;
-  }
-  .tag.heated {
-    background: #ffe5dc;
-    color: #a3301a;
-  }
-  .tag.popup,
-  .tag.free {
-    background: #ece6fb;
-    color: #5130a0;
-  }
-  .tag.spots {
-    background: #ddf3e7;
-    color: #0a6a40;
-  }
-  .tag.full {
-    background: #fde2df;
-    color: #a3241a;
-  }
-  .t-live {
-    margin-top: 6px;
+  .state {
+    margin-top: 4px;
     font-size: 14px;
-    font-weight: 800;
+    font-weight: 650;
+    color: var(--wo-accent);
   }
-  .t-live.soon {
-    color: var(--m-strength);
-  }
-  .t-live[hidden] {
+  .state[hidden] {
     display: none;
   }
 
-  /* Live states. The next start wears the clock's red. */
-  .ticket.is-next a {
-    border-color: var(--wo-led);
-    box-shadow: 4px 4px 0 var(--wo-led);
-  }
-  .ticket.is-next .t-time {
-    border-right-color: var(--wo-led);
-  }
-  .ticket.is-over,
-  .is-done .tickets,
-  .is-done .cancelled {
+  /* Live states */
+  .cls.is-over,
+  .is-done .classes,
+  .is-done .cancelled,
+  .is-done .empty {
     display: none;
   }
-  .ticket.is-running .t-time {
-    filter: saturate(0.25);
-  }
-  .ticket.is-running :is(.t-name, .t-who, .t-where, .t-tags) {
+  .cls.is-underway :is(.time, .name, .who, .where, .tags) {
     opacity: 0.55;
   }
 
   .empty,
   .cancelled {
-    margin: 6px 0 0;
+    margin: 10px 0 0 4px;
     font-size: 15px;
     line-height: 1.45;
     color: var(--wo-muted);
   }
-  .cancelled {
-    margin-top: 12px;
-  }
 
   .foot {
-    margin-top: 8px;
-    padding-top: 16px;
-    border-top: 2px solid var(--wo-ink);
-    font-size: 13px;
-    line-height: 1.5;
+    margin-top: 40px;
+    font-size: 13.5px;
+    line-height: 1.55;
     color: var(--wo-muted);
   }
   .foot p {
-    margin: 10px 0 0;
+    margin: 12px 0 0;
   }
   .foot a {
     color: inherit;
@@ -796,57 +532,27 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 14px;
+    gap: 6px;
     margin: 0;
     padding: 0;
-    font-weight: 600;
-    color: var(--wo-ink);
   }
-  .legend li {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .swatch {
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
-    border: 2px solid var(--wo-ink);
-    background: var(--m-color);
+  .legend-item {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--tint);
+    color: var(--deep);
+    font-size: 12.5px;
+    font-weight: 650;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .ticket a {
-      transition: none;
+  @media (min-width: 720px) {
+    .head {
+      margin-top: 44px;
     }
-  }
-
-  /* ── Desktop: the clock stays put beside the board ───────────── */
-  @media (min-width: 980px) {
-    .wo {
-      display: grid;
-      grid-template-columns: minmax(330px, 400px) minmax(0, 640px);
-      justify-content: center;
-      gap: 52px;
-      padding-top: 18px;
-    }
-    .side {
-      position: sticky;
-      top: 18px;
-      align-self: start;
-    }
-    .board {
-      margin-top: 40px;
-    }
-    .day-head {
-      padding-top: 18px;
-    }
-    .ticket a:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 5px 5px 0 var(--wo-ink);
-    }
-    .ticket.is-next a:hover {
-      box-shadow: 5px 5px 0 var(--wo-led);
+    .cls a {
+      grid-template-columns: 76px 1fr;
+      gap: 18px;
+      padding: 16px 20px;
     }
   }
 </style>
