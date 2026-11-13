@@ -1,38 +1,40 @@
 /**
- * /workouts: weekday classes at Courtside and Club LG that start at 3 PM or later and finish by
- * 5:30 PM, today first. Same rules as Stephen's /workouts chat skill: the next five weekdays
- * (today included on a weekday), cancelled classes out of the options, a streamed copy folded
- * into its in-person class as "Also virtual".
+ * /workouts: the coming week of classes at Courtside and Club LG, today first. Weekday classes
+ * start at 3 PM or later and finish by 5:30 PM; Saturday and Sunday classes start at 8 AM or later
+ * and finish by noon. Same rules as Stephen's /workouts chat skill: cancelled classes are left
+ * out, and a streamed copy folds into its in-person class as "Also virtual".
  */
 
 import { createTtlCache } from "../ttlCache";
 import { addDaysIso, isWeekday, monthDayLabel, pacificClock, shortDateLabel, weekdayName } from "./clock";
 import { fetchClubLg, fetchCourtside } from "./sources";
-import type { AfternoonSchedule, ClubKey, ScheduleDay, SourceStatus, WorkoutClass } from "./types";
+import type { ClubKey, DayWindow, ScheduleDay, SourceStatus, WorkoutClass, WorkoutSchedule } from "./types";
 
-/** 3:00 PM. */
-export const WINDOW_START_MIN = 15 * 60;
-/** 5:30 PM: a class may end at 5:30, but not start then. */
-export const CUTOFF_MIN = 17 * 60 + 30;
-const WEEKDAYS_SHOWN = 5;
+/** Weekdays, 3:00 to 5:30 PM. */
+export const WEEKDAY_WINDOW: DayWindow = { startMin: 15 * 60, endMin: 17 * 60 + 30 };
+/** Saturday and Sunday, 8:00 AM to noon. */
+export const WEEKEND_WINDOW: DayWindow = { startMin: 8 * 60, endMin: 12 * 60 };
+/** Today and the six days after it; one more day waits in reserve. */
+const DAYS_SHOWN = 7;
 
 export const CLUB_NAMES: Record<ClubKey, string> = {
   courtside: "Courtside",
   clublg: "Club LG",
 };
 
-/** The next `count` weekdays starting at (and including) `todayIso`. */
-export function upcomingWeekdays(todayIso: string, count: number): string[] {
-  const days: string[] = [];
-  for (let offset = 0; days.length < count && offset < 14; offset++) {
-    const date = addDaysIso(todayIso, offset);
-    if (isWeekday(date)) days.push(date);
-  }
-  return days;
+export function windowFor(date: string): DayWindow {
+  return isWeekday(date) ? WEEKDAY_WINDOW : WEEKEND_WINDOW;
 }
 
-export function inWindow(item: Pick<WorkoutClass, "startMin" | "endMin">): boolean {
-  return item.startMin >= WINDOW_START_MIN && item.endMin <= CUTOFF_MIN && item.endMin > item.startMin;
+/** `count` consecutive dates starting with `todayIso`. */
+export function upcomingDates(todayIso: string, count: number): string[] {
+  return Array.from({ length: count }, (_, offset) => addDaysIso(todayIso, offset));
+}
+
+/** The class fits entirely inside its day's window. */
+export function inWindow(item: Pick<WorkoutClass, "date" | "startMin" | "endMin">): boolean {
+  const { startMin, endMin } = windowFor(item.date);
+  return item.startMin >= startMin && item.endMin <= endMin && item.endMin > item.startMin;
 }
 
 /**
@@ -77,23 +79,27 @@ function dayHeading(date: string, todayIso: string): string {
   return weekdayName(date);
 }
 
-/** Group classes into day sections. On a weekday a sixth day waits in reserve (`extra`). */
+/**
+ * Group classes into day sections, today first. The reserve day (`extra`, the same weekday next
+ * week) shows once today's window has passed, so a full week stays on screen.
+ */
 export function buildDays(todayIso: string, classes: WorkoutClass[]): ScheduleDay[] {
-  const todayIsWeekday = isWeekday(todayIso);
-  const dates = upcomingWeekdays(todayIso, WEEKDAYS_SHOWN + (todayIsWeekday ? 1 : 0));
-  const eligible = mergeVirtualTwins(classes.filter((item) => dates.includes(item.date) && inWindow(item)));
+  const dates = upcomingDates(todayIso, DAYS_SHOWN + 1);
+  // Cancellations go first, so a stream whose in-person twin was cancelled still shows.
+  const eligible = mergeVirtualTwins(
+    classes.filter((item) => !item.cancelled && dates.includes(item.date) && inWindow(item)),
+  );
   return dates.map((date, index) => {
-    const onDay = eligible.filter((item) => item.date === date).sort(byTime);
     const heading = dayHeading(date, todayIso);
     return {
       date,
-      isToday: date === todayIso,
+      isToday: index === 0,
       heading,
       // A weekday heading already names the day; "Today"/"Tomorrow" need it spelled out.
       dateLabel: heading === weekdayName(date) ? monthDayLabel(date) : shortDateLabel(date),
-      extra: todayIsWeekday && index === dates.length - 1,
-      classes: onDay.filter((item) => !item.cancelled),
-      cancelled: onDay.filter((item) => item.cancelled),
+      window: windowFor(date),
+      extra: index === DAYS_SHOWN,
+      classes: eligible.filter((item) => item.date === date).sort(byTime),
     };
   });
 }
@@ -104,21 +110,21 @@ function settledStatus(result: PromiseSettledResult<unknown>, club: ClubKey): So
   return { ok: false, error: result.reason instanceof Error ? result.reason.message : String(result.reason) };
 }
 
-const scheduleCache = createTtlCache<AfternoonSchedule>(4 * 60_000);
+const scheduleCache = createTtlCache<WorkoutSchedule>(4 * 60_000);
 
-export async function getAfternoonSchedule(now = new Date()): Promise<AfternoonSchedule> {
+export async function getWorkoutSchedule(now = new Date()): Promise<WorkoutSchedule> {
   const todayIso = pacificClock(now).date;
   const cached = scheduleCache.get();
   if (cached && cached.todayIso === todayIso) return cached;
 
-  const dates = upcomingWeekdays(todayIso, WEEKDAYS_SHOWN + 1);
+  const dates = upcomingDates(todayIso, DAYS_SHOWN + 1);
   const [courtside, clublg] = await Promise.allSettled([fetchCourtside(dates), fetchClubLg(now)]);
 
   const classes = [
     ...(courtside.status === "fulfilled" ? courtside.value : []),
     ...(clublg.status === "fulfilled" ? clublg.value : []),
   ];
-  const schedule: AfternoonSchedule = {
+  const schedule: WorkoutSchedule = {
     generatedAt: now.toISOString(),
     todayIso,
     days: buildDays(todayIso, classes),

@@ -19,12 +19,15 @@ const RULES: [Modality, RegExp][] = [
   ["swim", /\b(swim|aqua|water)/i],
   ["court", /\b(pickleball|tennis|padel|paddle|racquet)/i],
   ["pilates", /\b(pilates|reformer|barre|powerhouse|lagree)/i],
-  ["yoga", /\b(yoga|vinyasa|yin|restorative|stretch|meditation|recovery|mobility|tai chi|postural|breath)/i],
+  [
+    "yoga",
+    /\b(yoga|vinyasa|yin|flow|hot ?26|hot power|restorative|stretch|meditation|recovery|unwind|rolling|mobility|tai chi|postural|breath)/i,
+  ],
   [
     "strength",
-    /\b(strength|strong|hiit|boxing|barbell|wod|sculpt|core|burner|body shop|bootcamp|circuit|trx|kettlebell|power|lift|conditioning|training)/i,
+    /\b(strength|strong|hiit|boxing|knockout|barbell|wod|bodypump|sculpt|toned|core|burner|body shop|bootcamp|circuit|trx|kettlebell|power|lift|conditioning|training)/i,
   ],
-  ["cardio", /\b(dance|zumba|mixxed|cycle|spin|cardio|step|sweat|kickbox|rhythm)/i],
+  ["cardio", /\b(dance|zumba|mixxed|latin|cycle|spin|rpm|cardio|step|sweat|kickbox|bodycombat|rhythm|walk)/i],
 ];
 
 export function modalityOf(title: string, category = ""): Modality {

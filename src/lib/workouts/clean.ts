@@ -55,23 +55,26 @@ export function cleanCourtsideTitle(raw: string): { title: string; tags: ClassTa
   return { title, tags };
 }
 
+/** Prerequisites Stephen already meets (he has done Elements, Club LG's Barbell WOD intro), so no tag. */
+const MET_PREREQUISITES = /\belements\b/i;
+
 /**
  * Mindbody names at Club LG mix decoration into the name, e.g. "Hot Barre Fusion (heated) 🔥🔥",
  * "Barbell WOD *Elements Required*", "… Pop Up- A COMPLIMENTARY Trial!".
  */
 export function cleanClubLgName(raw: string, room: string | null): { title: string; tags: ClassTag[] } {
   const tags: ClassTag[] = [];
-  const heated = /🔥|\(heated\)|\bheated\b/i.test(raw) || /heated/i.test(room ?? "");
+  const unheated = /\bnon-?heated\b/i.test(raw);
+  const heated = !unheated && (/🔥|\bheated\b/i.test(raw) || /heated/i.test(room ?? ""));
   let title = squish(raw.replace(EMOJI, " "));
 
   title = title.replace(/\*([^*]+)\*/g, (_, aside: string) => {
-    addTag(tags, { kind: "prereq", label: sentenceCase(aside) });
+    if (!MET_PREREQUISITES.test(aside)) addTag(tags, { kind: "prereq", label: sentenceCase(aside) });
     return " ";
   });
-  if (heated) {
-    addTag(tags, { kind: "heated", label: "Heated" });
-    title = title.replace(/\s*\(heated\)\s*/gi, " ");
-  }
+  // "(heated)", "(heated 75 min)", "(non-heated)": the tag and the times already say it.
+  title = title.replace(/\s*\([^)]*\bheated\b[^)]*\)\s*/gi, " ");
+  if (heated) addTag(tags, { kind: "heated", label: "Heated" });
   // "Body Shop- Total Body Burner" → "Body Shop: Total Body Burner"
   title = squish(title.replace(/(\S)-\s+/g, "$1: "));
 
@@ -85,9 +88,14 @@ export function cleanClubLgName(raw: string, room: string | null): { title: stri
   return { title, tags };
 }
 
-/** Kids' programs, team practices, private sessions and open play aren't classes for this chart. */
+/** Kids' programs, team practices, private sessions, open play and parties aren't classes for this chart. */
 const NOT_A_CLASS =
-  /\b(kids?|youth|junior|jr\.?|teens?|tots?|toddlers?|child(ren)?|camps?|swim team|panthers|private|personal training|appointment|open (gym|play|swim))\b/i;
+  /\b(kids?|youth|junior|jr\.?|teens?|tots?|toddlers?|child(ren)?|camps?|swim team|panthers|private|personal training|appointment|open (gym|play|swim)|part(y|ies))\b/i;
+
+/** Club LG marks a called-off session in its name, e.g. "POSTPONED: Annual Harvest Party". */
+export function isCalledOff(raw: string): boolean {
+  return /^\W*(postponed|cancell?ed)\b/i.test(raw);
+}
 
 export function isAdultGroupClass(title: string, category = ""): boolean {
   if (/^safety$/i.test(category.trim())) return false;

@@ -74,9 +74,3 @@ export function shortDateLabel(iso: string): string {
 export function monthDayLabel(iso: string): string {
   return MONTH_DAY.format(isoToUtcNoon(iso));
 }
-
-/** 990 → "4:30". Every class here is in the afternoon, so the page states PM once. */
-export function clockLabel(minutes: number): string {
-  const hour = Math.floor(minutes / 60) % 12 || 12;
-  return `${hour}:${String(minutes % 60).padStart(2, "0")}`;
-}

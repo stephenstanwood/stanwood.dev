@@ -1,4 +1,4 @@
-/** Shared shapes for /workouts — weekday late-afternoon classes at two clubs. */
+/** Shared shapes for /workouts — weekday afternoon and weekend morning classes at two clubs. */
 
 import type { Modality } from "./modality";
 
@@ -47,6 +47,12 @@ export interface SourceStatus {
   error?: string;
 }
 
+/** A day's class window in minutes after Pacific midnight. A class may end at `endMin`, not start then. */
+export interface DayWindow {
+  startMin: number;
+  endMin: number;
+}
+
 export interface ScheduleDay {
   date: string;
   isToday: boolean;
@@ -54,13 +60,15 @@ export interface ScheduleDay {
   heading: string;
   /** e.g. "Fri, Nov 13" */
   dateLabel: string;
-  /** Rendered only once today's window has passed (keeps five weekdays on screen). */
+  /** Weekday afternoon or weekend morning. */
+  window: DayWindow;
+  /** Rendered only once today's window has passed (keeps a full week on screen). */
   extra: boolean;
+  /** Cancelled classes are already left out. */
   classes: WorkoutClass[];
-  cancelled: WorkoutClass[];
 }
 
-export interface AfternoonSchedule {
+export interface WorkoutSchedule {
   generatedAt: string;
   todayIso: string;
   days: ScheduleDay[];
