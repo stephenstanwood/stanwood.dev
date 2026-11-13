@@ -1,5 +1,13 @@
 [
   {
+    "name": "Gemini 4 Hydrogen",
+    "org": "Google",
+    "date": "2026-11-12",
+    "type": "model",
+    "summary": "Run everyday coding and agent tasks on a fast, cheaper Gemini with a 1M-token context at $1.50/$7.50 per million tokens. Available now in Google AI Studio, the Gemini API, Android Studio, and the Gemini app.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-hydrogen/"
+  },
+  {
     "name": "H3-Image",
     "org": "MiniMax",
     "date": "2026-11-11",
@@ -38,14 +46,6 @@
     "type": "model",
     "summary": "Run cheap, high-volume agent chores like tool calls, data extraction, test fixes, and screenshot reading for $0.10 per million input tokens. Available now through the Meta Model API and Muse Code with a 1M-token context window.",
     "url": "https://research.meta.ai/blog/muse-ember"
-  },
-  {
-    "name": "Muse Spaces",
-    "org": "Meta",
-    "date": "2026-11-06",
-    "type": "tool",
-    "summary": "Build a client hub, order tracker, or simple game by describing it in Muse. These interactive spaces live inside the app, can update from connected services, and are available wherever Muse is offered.",
-    "url": "https://about.fb.com/news/2026/11/introducing-spaces-customize-muse-app/"
   },
   {
     "name": "Gemini Omni 1.2 Flash",
