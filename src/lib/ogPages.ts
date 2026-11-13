@@ -77,6 +77,14 @@ export const PAGES: Record<string, PageConfig> = {
     bg2: "#1e2330",
     accent: "#fb923c",
   },
+  workouts: {
+    emoji: "\u{1F560}",
+    title: "Done by 5:30",
+    tagline: "Weekday afternoon classes at Courtside and Club LG.",
+    bg: "#1b2430",
+    bg2: "#24344a",
+    accent: "#d8382a",
+  },
   swim: {
     emoji: "\u{1F3CA}",
     title: "Lap Lab",

@@ -13,7 +13,13 @@
 - Private pages (noindex + excluded from the sitemap in `astro.config.mjs`):
   `/tv` (personal dashboard — sports rails and the around-the-internet
   listings; the Stanford queue is hidden), `/familyroom` (family room TV homepage, runs fullscreen on the Mac Mini
-  wired to the Samsung Q80C), `/money`, `/li`, `/lg`. `/office` 301s to `/tv`.
+  wired to the Samsung Q80C), `/money`, `/li`, `/lg`, `/workouts`. `/office` 301s to `/tv`.
+
+- `/workouts`: Stephen's weekday 3:00–5:30 PM class board for Bay Club Courtside +
+  The Club at Los Gatos, plus both clubs' childcare hours. Rendered per request from the
+  clubs' own live sources (`src/lib/workouts/`; Bay Club's classes JSON, Club LG's Mindbody
+  widget payload, both childcare pages) and CDN-cached 5 minutes; no cron, no stored data.
+  Filtering rules match the `/workouts` chat skill. `?at=16:40` previews today's live states.
 
 - Private ScatosSwip house browsing: `/lg`, signed household profiles with
   `SCATOS_PASSWORD`, state in `SCATOS_DATABASE_URL` (`scatosswip` schema).
