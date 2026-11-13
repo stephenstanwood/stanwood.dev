@@ -54,7 +54,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 >
   <meta slot="head" name="robots" content="noindex, nofollow" />
 
-  <div class="wo" data-workouts data-today={schedule.todayIso} data-generated={schedule.generatedAt}>
+  <div class="wo" data-workouts data-today={schedule.todayIso} data-generated={schedule.generatedAt} data-unavailable={failed.join(",")}>
     <a href="/" class="retro-back">← stanwood.dev</a>
 
     <header class="head">
@@ -71,8 +71,26 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
       <a href={CHILDCARE.clublg} target="_blank" rel="noopener">Club LG</a>.
     </p>
 
+    <search class="club-filter" aria-label="Filter classes by club" data-club-filter hidden>
+      <fieldset>
+        <legend class="sr-only">Show classes at</legend>
+        <div class="club-options">
+          {[
+            ["both", "Both"],
+            ["courtside", "Courtside"],
+            ["clublg", "Club LG"],
+          ].map(([value, label]) => (
+            <div class="club-option">
+              <input class="sr-only" type="radio" name="club" id={`club-${value}`} value={value} checked={value === "both"} />
+              <label for={`club-${value}`}>{label}</label>
+            </div>
+          ))}
+        </div>
+      </fieldset>
+    </search>
+
     {failed.map((club) => (
-      <p class="alert" role="status">
+      <p class="alert" role="status" data-source-club={club}>
         {CLUB_NAMES[club]}’s schedule didn’t load, so its classes are missing.
         <a href={SCHEDULE_URLS[club]} target="_blank" rel="noopener">Open the {CLUB_NAMES[club]} schedule</a>
       </p>
@@ -85,6 +103,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
         data-date={day.date}
         data-heading={day.heading}
         data-window-end={day.window.endMin}
+        data-window-label={between(day)}
         data-extra={day.extra ? "" : undefined}
         hidden={day.extra}
       >
@@ -92,7 +111,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
           {day.heading}
           <span class="day-date">{day.dateLabel}</span>
         </h2>
-        {day.isToday && <p class="day-summary" data-day-summary>{summaryFor(day)}</p>}
+        {day.isToday && <p class="day-summary" data-day-summary aria-live="polite" aria-atomic="true">{summaryFor(day)}</p>}
 
         {day.classes.length > 0 ? (
           <ol class="classes">
@@ -103,7 +122,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
                 data-start={item.startMin}
                 data-end={item.endMin}
                 data-name={item.title}
-                data-club={CLUB_NAMES[item.club]}
+                data-club={item.club}
                 data-modality={item.modality}
               >
                 <a href={item.url} target="_blank" rel="noopener">
@@ -132,9 +151,10 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
               </li>
             ))}
           </ol>
-        ) : (
-          <p class="empty">{failed.length === 2 ? "No schedule to show." : `Nothing between ${between(day)}.`}</p>
-        )}
+        ) : null}
+        <p class="empty" data-day-empty hidden={day.classes.length > 0 || day.isToday}>
+          {failed.length === 2 ? "No schedule to show." : `Nothing between ${between(day)}.`}
+        </p>
       </section>
     ))}
 
@@ -184,9 +204,41 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
   }
 
   const root = document.querySelector<HTMLElement>("[data-workouts]");
+  type ClubFilter = "both" | "courtside" | "clublg";
+  const CLUB_NAMES = { courtside: "Courtside", clublg: "Club LG" };
+  const STORAGE_KEY = "workouts-club";
+  let selectedClub: ClubFilter = "both";
+
+  function emptyMessage(day: HTMLElement) {
+    const unavailable = (root?.dataset.unavailable ?? "").split(",").filter(Boolean);
+    if (selectedClub === "both" ? unavailable.length === 2 : unavailable.includes(selectedClub)) {
+      return "No schedule to show.";
+    }
+    return selectedClub === "both"
+      ? `Nothing between ${day.dataset.windowLabel}.`
+      : `No ${CLUB_NAMES[selectedClub]} classes between ${day.dataset.windowLabel}.`;
+  }
 
   function update() {
     if (!root) return;
+    root.querySelectorAll<HTMLElement>(".day").forEach((day) => {
+      const rows = [...day.querySelectorAll<HTMLElement>(".cls")];
+      rows.forEach((row) => {
+        row.hidden = selectedClub !== "both" && row.dataset.club !== selectedClub;
+      });
+      const hasClasses = rows.some((row) => !row.hidden);
+      const list = day.querySelector<HTMLElement>(".classes");
+      if (list) list.hidden = !hasClasses;
+      const empty = day.querySelector<HTMLElement>("[data-day-empty]");
+      if (empty) {
+        empty.hidden = hasClasses || day.classList.contains("is-today");
+        empty.textContent = emptyMessage(day);
+      }
+    });
+    root.querySelectorAll<HTMLElement>("[data-source-club]").forEach((alert) => {
+      alert.hidden = selectedClub !== "both" && alert.dataset.sourceClub !== selectedClub;
+    });
+
     const now = pacificNow();
     if (now.date !== root.dataset.today) {
       // Rendered on an earlier day: fetch a fresh copy (the query string skips the CDN copy).
@@ -201,9 +253,9 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     const today = root.querySelector<HTMLElement>(".day.is-today");
     if (!today) return;
     const windowEnd = Number(today.dataset.windowEnd);
-    const rows = [...today.querySelectorAll<HTMLElement>(".cls")];
+    const allRows = [...today.querySelectorAll<HTMLElement>(".cls")];
     let underwayCount = 0;
-    for (const row of rows) {
+    for (const row of allRows) {
       const start = Number(row.dataset.start);
       const end = Number(row.dataset.end);
       const over = end <= now.minutes;
@@ -217,19 +269,27 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
         state.textContent = underway ? "Under way now" : "";
       }
     }
+    const rows = allRows.filter((row) => !row.hidden);
+    const selectedOver = rows.length > 0 && rows.every((row) => Number(row.dataset.end) <= now.minutes);
+    const list = today.querySelector<HTMLElement>(".classes");
+    if (list) list.hidden = !rows.length || selectedOver;
     const upcoming = rows.filter((row) => Number(row.dataset.start) > now.minutes);
     const started = rows.length - upcoming.length;
-    const over = now.minutes >= windowEnd || (rows.length > 0 && upcoming.length === 0 && underwayCount === 0);
+    const over = now.minutes >= windowEnd || (
+      allRows.length > 0 && allRows.every((row) => Number(row.dataset.start) <= now.minutes) && underwayCount === 0
+    );
     today.classList.toggle("is-done", over);
 
     const summary = today.querySelector<HTMLElement>("[data-day-summary]");
-    if (summary && rows.length) {
-      summary.textContent = over
-        ? "That’s it for today."
-        : daySummary(
-            upcoming.map((row) => ({ start: Number(row.dataset.start), name: row.dataset.name ?? "" })),
-            started,
-          );
+    if (summary) {
+      summary.textContent = !rows.length
+        ? emptyMessage(today)
+        : over || selectedOver
+          ? "That’s it for today."
+          : daySummary(
+              upcoming.map((row) => ({ start: Number(row.dataset.start), name: row.dataset.name ?? "" })),
+              started,
+            );
     }
 
     // Once today is over, the reserve day keeps a full week on the page.
@@ -238,7 +298,28 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     });
   }
 
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "both" || saved === "courtside" || saved === "clublg") selectedClub = saved;
+  } catch {
+    // Filtering still works when the browser doesn't allow saved preferences.
+  }
+  root?.querySelectorAll<HTMLInputElement>('input[name="club"]').forEach((input) => {
+    input.checked = input.value === selectedClub;
+    input.addEventListener("change", () => {
+      if (!input.checked) return;
+      selectedClub = input.value as ClubFilter;
+      try {
+        localStorage.setItem(STORAGE_KEY, selectedClub);
+      } catch {
+        // Keep the current selection for this visit.
+      }
+      update();
+    });
+  });
   update();
+  const filter = root?.querySelector<HTMLElement>("[data-club-filter]");
+  if (filter) filter.hidden = false;
   setInterval(update, 60_000);
   document.addEventListener("visibilitychange", () => {
     if (document.hidden || !root) return;
@@ -282,6 +363,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     margin: -1px;
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
     white-space: nowrap;
     border: 0;
   }
@@ -308,6 +390,52 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     font-size: 16px;
     line-height: 1.5;
     color: var(--wo-muted);
+  }
+
+  .wo [hidden] {
+    display: none;
+  }
+  .club-filter {
+    margin-top: 22px;
+  }
+  .club-filter fieldset {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .club-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--wo-line);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+  }
+  .club-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: 48px;
+    padding-inline: 6px;
+    border-radius: 11px;
+    color: var(--wo-muted);
+    font-size: 1rem;
+    font-weight: 650;
+    cursor: pointer;
+  }
+  .club-option label:hover {
+    background: var(--wo-sky);
+  }
+  .club-option input:checked + label {
+    color: #fff;
+    background: var(--wo-accent);
+    box-shadow: 0 1px 3px rgba(31, 42, 51, 0.12);
+  }
+  .club-option input:focus-visible + label {
+    outline: 2px solid var(--wo-ink);
+    outline-offset: 2px;
   }
 
   /* A quiet reminder, not a card. */
@@ -382,7 +510,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     box-shadow: 0 1px 2px rgba(31, 42, 51, 0.04);
     overflow: hidden;
   }
-  .cls + .cls a {
+  .cls:not([hidden]):not(.is-over) ~ .cls:not([hidden]):not(.is-over) a {
     border-top: 1px solid var(--wo-line);
   }
   .cls a {
