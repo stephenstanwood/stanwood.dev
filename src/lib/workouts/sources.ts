@@ -9,7 +9,7 @@
  */
 
 import { BROWSER_USER_AGENT, fetchWithTimeout, isRecord } from "../apiHelpers";
-import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass } from "./clean";
+import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass, isCalledOff } from "./clean";
 import { pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, findKey, parseFlightRows, resolveRefs } from "./flight";
 import { modalityOf } from "./modality";
@@ -138,7 +138,7 @@ export function normalizeClubLg(items: Record<string, unknown>[], now: Date): Wo
     const room = text(item.roomName) || null;
     const { title, tags } = cleanClubLgName(rawName, room);
     const virtual = /^virtual$/i.test(room ?? "") || /^virtual\b/i.test(rawName);
-    const cancelled = item.cancelled === true;
+    const cancelled = item.cancelled === true || isCalledOff(rawName);
 
     if (virtual) tags.push({ kind: "virtual", label: "Virtual" });
     if (!cancelled) {

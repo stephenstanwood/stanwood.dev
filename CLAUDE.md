@@ -15,9 +15,13 @@
   listings; the Stanford queue is hidden), `/familyroom` (family room TV homepage, runs fullscreen on the Mac Mini
   wired to the Samsung Q80C), `/money`, `/li`, `/lg`, `/workouts`. `/office` 301s to `/tv`.
 
-- `/workouts`: Stephen's weekday 3:00–5:30 PM class board for Bay Club Courtside +
-  The Club at Los Gatos, today first, in a deliberately calm design (he found a loud
-  countdown version stressful) with a "Childcare 3–7" note (his call: treat both clubs as 3–7). Rendered per request from
+- `/workouts`: Stephen's class board for Bay Club Courtside + The Club at Los Gatos over
+  the coming week, today first: weekdays 3:00–5:30 PM and Saturday/Sunday 8:00 AM–noon
+  (a class must fit inside its day's window). Deliberately calm design (he found a loud
+  countdown version stressful) with a childcare note: 3–7 weekdays (his call: treat both
+  clubs as 3–7) and 8–1 weekends. Cancelled classes are simply left out, with no
+  "Cancelled:" note, and Club LG's "*Elements Required*" gets no tag (he has met it); both
+  were his calls on 2026-11-13. Rendered per request from
   the clubs' own live sources (`src/lib/workouts/`; Bay Club's classes JSON, Club LG's
   Mindbody widget payload) and CDN-cached 5 minutes; no cron, no stored data. Filtering
   rules match the `/workouts` chat skill. `?at=16:40` previews today's live states.

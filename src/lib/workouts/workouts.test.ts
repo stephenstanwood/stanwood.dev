@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass } from "./clean";
-import { clockLabel, pacificClock, parseInstant } from "./clock";
+import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass, isCalledOff } from "./clean";
+import { pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, parseFlightRows, resolveRefs } from "./flight";
+import { clockLabel, countWord, daySummary, endLabel, windowWords } from "./labels";
 import { modalityOf } from "./modality";
-import { buildDays, inWindow, mergeVirtualTwins, upcomingWeekdays } from "./schedule";
+import { WEEKDAY_WINDOW, WEEKEND_WINDOW, buildDays, inWindow, mergeVirtualTwins, upcomingDates } from "./schedule";
 import { extractClubLgClasses, normalizeClubLg, normalizeCourtside } from "./sources";
 import type { WorkoutClass } from "./types";
 
@@ -52,10 +53,20 @@ describe("names and titles", () => {
       title: "Hot Barre Fusion",
       tags: [{ kind: "heated", label: "Heated" }],
     });
+    // Stephen has done Elements, so that prerequisite gets no tag; any other one still does.
     expect(cleanClubLgName("Barbell WOD *Elements Required*", "Training Ground")).toEqual({
       title: "Barbell WOD",
-      tags: [{ kind: "prereq", label: "Elements required" }],
+      tags: [],
     });
+    expect(cleanClubLgName("Olympic Lifting *Coach Approval Required*", "Training Ground")).toEqual({
+      title: "Olympic Lifting",
+      tags: [{ kind: "prereq", label: "Coach approval required" }],
+    });
+    expect(cleanClubLgName("Hot 26 (heated 75 min) 🔥🔥", "Heated Studio")).toEqual({
+      title: "Hot 26",
+      tags: [{ kind: "heated", label: "Heated" }],
+    });
+    expect(cleanClubLgName("Toned (non-heated)", "Heated Studio")).toEqual({ title: "Toned", tags: [] });
     const popUp = cleanClubLgName(
       "Community Class Intro to Mega Powerhouse Pop Up- A COMPLIMENTARY Trial!",
       "Pilates Reformer Studio",
@@ -67,41 +78,81 @@ describe("names and titles", () => {
     );
   });
 
-  it("keeps kids' programs and private sessions out", () => {
+  it("keeps kids' programs, private sessions and parties out", () => {
     expect(isAdultGroupClass("$ Panthers Swim Team - Cubs $", "Aquatics")).toBe(false);
     expect(isAdultGroupClass("Youth Pilates Reformer")).toBe(false);
     expect(isAdultGroupClass("CPR Certification", "Safety")).toBe(false);
+    expect(isAdultGroupClass("Annual Harvest Party")).toBe(false);
     expect(isAdultGroupClass("Beginner Pickleball Mixer", "Pickleball")).toBe(true);
     expect(isAdultGroupClass("Santa Clara Masters Swim", "Aquatics")).toBe(true);
   });
+
+  it("reads a called-off session from its name", () => {
+    expect(isCalledOff("POSTPONED: Annual Harvest Party🍎🍂")).toBe(true);
+    expect(isCalledOff("Cancelled - Yin Yoga")).toBe(true);
+    expect(isCalledOff("Pilates Mega Classic")).toBe(false);
+  });
 });
 
-describe("clock", () => {
+describe("clock and labels", () => {
   it("reads Pacific wall-clock time from UTC instants", () => {
     const start = parseInstant("2026-11-13T00:30:00.0000000Z");
     expect(start && pacificClock(start)).toEqual({ date: "2026-11-12", minutes: 16 * 60 + 30 });
-    expect(clockLabel(990)).toBe("4:30");
-    expect(clockLabel(1050)).toBe("5:30");
   });
 
-  it("lists five weekdays from today, skipping weekends", () => {
-    expect(upcomingWeekdays("2026-11-13", 5)).toEqual([
-      "2026-11-13",
-      "2026-11-16",
-      "2026-11-17",
-      "2026-11-18",
-      "2026-11-19",
-    ]);
-    expect(upcomingWeekdays("2026-11-14", 2)).toEqual(["2026-11-16", "2026-11-17"]);
+  it("labels times without AM/PM, and noon as noon", () => {
+    expect(clockLabel(990)).toBe("4:30");
+    expect(clockLabel(480)).toBe("8:00");
+    expect(endLabel(1050)).toBe("5:30");
+    expect(endLabel(12 * 60)).toBe("noon");
+    expect(windowWords(WEEKDAY_WINDOW.startMin, WEEKDAY_WINDOW.endMin)).toBe("3 and 5:30");
+    expect(windowWords(WEEKEND_WINDOW.startMin, WEEKEND_WINDOW.endMin)).toBe("8 and noon");
+  });
+
+  it("spells out counts that open a sentence", () => {
+    expect(countWord(0)).toBe("No");
+    expect(countWord(4)).toBe("Four");
+    expect(countWord(19)).toBe("Nineteen");
+    expect(countWord(20)).toBe("Twenty");
+    expect(countWord(23)).toBe("Twenty-three");
+    expect(countWord(75)).toBe("75");
+  });
+
+  it("summarizes what's left today", () => {
+    const at = (start: number, name = "Barre") => ({ start, name });
+    expect(daySummary([at(990), at(990)], 0)).toBe("Two classes, all at 4:30.");
+    expect(daySummary([at(480), at(510), ...Array(21).fill(at(600))], 0)).toBe(
+      "Twenty-three classes, the first at 8:00.",
+    );
+    expect(daySummary([at(600, "Sweat60")], 2)).toBe("One more: Sweat60 at 10:00.");
+    expect(daySummary([], 3)).toBe("Nothing else starts today.");
+  });
+
+  it("lists a week of dates from today", () => {
+    expect(upcomingDates("2026-11-13", 4)).toEqual(["2026-11-13", "2026-11-14", "2026-11-15", "2026-11-16"]);
+    expect(upcomingDates("2026-12-30", 3)).toEqual(["2026-12-30", "2026-12-31", "2027-01-01"]);
   });
 });
 
 describe("window and grouping", () => {
-  it("allows a 5:30 finish but not a later one, and nothing before 3", () => {
-    expect(inWindow({ startMin: 990, endMin: 1050 })).toBe(true);
-    expect(inWindow({ startMin: 1005, endMin: 1080 })).toBe(false);
-    expect(inWindow({ startMin: 885, endMin: 935 })).toBe(false);
-    expect(inWindow({ startMin: 900, endMin: 950 })).toBe(true);
+  it("weekdays: allows a 5:30 finish but not a later one, and nothing before 3", () => {
+    const monday = "2026-11-16";
+    expect(inWindow({ date: monday, startMin: 990, endMin: 1050 })).toBe(true);
+    expect(inWindow({ date: monday, startMin: 1005, endMin: 1080 })).toBe(false);
+    expect(inWindow({ date: monday, startMin: 885, endMin: 935 })).toBe(false);
+    expect(inWindow({ date: monday, startMin: 900, endMin: 950 })).toBe(true);
+    expect(inWindow({ date: monday, startMin: 540, endMin: 590 })).toBe(false);
+  });
+
+  it("weekends: 8 AM to noon, with a noon finish but no noon start", () => {
+    for (const date of ["2026-11-14", "2026-11-15"]) {
+      expect(inWindow({ date, startMin: 480, endMin: 530 })).toBe(true);
+      expect(inWindow({ date, startMin: 660, endMin: 720 })).toBe(true);
+      expect(inWindow({ date, startMin: 470, endMin: 520 })).toBe(false);
+      expect(inWindow({ date, startMin: 690, endMin: 750 })).toBe(false);
+      expect(inWindow({ date, startMin: 720, endMin: 770 })).toBe(false);
+      expect(inWindow({ date, startMin: 990, endMin: 1040 })).toBe(false);
+    }
   });
 
   it("folds a stream into its in-person twin", () => {
@@ -114,30 +165,56 @@ describe("window and grouping", () => {
     expect(merged[0].tags).toContainEqual({ kind: "virtual", label: "Also virtual" });
   });
 
-  it("puts today first, keeps a reserve day, and splits out cancellations", () => {
+  it("covers the week from today, weekends included, with a reserve day and no cancellations", () => {
     const days = buildDays("2026-11-13", [
       workout({ id: "late", date: "2026-11-13", startMin: 1005, endMin: 1080 }),
       workout({ id: "b", date: "2026-11-13", startMin: 990, endMin: 1040 }),
       workout({ id: "a", date: "2026-11-13", startMin: 930, endMin: 980 }),
+      workout({ id: "sat-am", date: "2026-11-14", startMin: 540, endMin: 590 }),
+      workout({ id: "sat-pm", date: "2026-11-14", startMin: 990, endMin: 1040 }),
+      workout({ id: "sun-noon", date: "2026-11-15", startMin: 660, endMin: 720 }),
       workout({ id: "gone", date: "2026-11-18", cancelled: true }),
     ]);
-    expect(days.map((day) => [day.heading, day.extra])).toEqual([
-      ["Today", false],
-      ["Monday", false],
-      ["Tuesday", false],
-      ["Wednesday", false],
-      ["Thursday", false],
-      ["Friday", true],
+    expect(days.map((day) => [day.heading, day.dateLabel, day.extra])).toEqual([
+      ["Today", "Fri, Nov 13", false],
+      ["Tomorrow", "Sat, Nov 14", false],
+      ["Sunday", "Nov 15", false],
+      ["Monday", "Nov 16", false],
+      ["Tuesday", "Nov 17", false],
+      ["Wednesday", "Nov 18", false],
+      ["Thursday", "Nov 19", false],
+      ["Friday", "Nov 20", true],
     ]);
     expect(days[0].classes.map((item) => item.id)).toEqual(["a", "b"]);
-    expect(days[3].classes).toEqual([]);
-    expect(days[3].cancelled.map((item) => item.id)).toEqual(["gone"]);
+    expect(days[1].classes.map((item) => item.id)).toEqual(["sat-am"]);
+    expect(days[1].window).toEqual(WEEKEND_WINDOW);
+    expect(days[2].classes.map((item) => item.id)).toEqual(["sun-noon"]);
+    expect(days[3].window).toEqual(WEEKDAY_WINDOW);
+    expect(days[5].classes).toEqual([]);
   });
 
-  it("starts on Monday at the weekend, with no reserve day", () => {
-    const days = buildDays("2026-11-15", []);
-    expect(days.map((day) => day.heading)).toEqual(["Tomorrow", "Tuesday", "Wednesday", "Thursday", "Friday"]);
-    expect(days.some((day) => day.extra)).toBe(false);
+  it("starts with today's morning on a Saturday", () => {
+    const days = buildDays("2026-11-14", []);
+    expect(days.map((day) => day.heading)).toEqual([
+      "Today",
+      "Tomorrow",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ]);
+    expect(days.map((day) => day.extra)).toEqual([false, false, false, false, false, false, false, true]);
+    expect(days[0].window).toEqual(WEEKEND_WINDOW);
+  });
+
+  it("keeps a stream whose in-person twin was cancelled", () => {
+    const [day] = buildDays("2026-11-16", [
+      workout({ club: "clublg", id: "room", title: "Vinyasa", instructor: "Iris Gu", cancelled: true }),
+      workout({ club: "clublg", id: "stream", title: "Vinyasa Yoga", instructor: "Iris Gu", virtual: true }),
+    ]);
+    expect(day.classes.map((item) => item.id)).toEqual(["stream"]);
   });
 });
 
@@ -202,10 +279,7 @@ describe("Club LG feed", () => {
       room: "Training Ground",
       virtual: false,
     });
-    expect(barbell.tags).toEqual([
-      { kind: "prereq", label: "Elements required" },
-      { kind: "spots", label: "3 spots left" },
-    ]);
+    expect(barbell.tags).toEqual([{ kind: "spots", label: "3 spots left" }]);
     expect(stream).toMatchObject({ title: "Vinyasa Yoga", virtual: true, room: null });
   });
 });
@@ -223,5 +297,23 @@ describe("modality colors", () => {
     expect(modalityOf("Beginner Pickleball Mixer", "Pickleball")).toBe("court");
     expect(modalityOf("Santa Clara Masters Swim", "Aquatics")).toBe("swim");
     expect(modalityOf("Mystery Hour")).toBe("other");
+  });
+
+  it("sorts weekend-morning classes too", () => {
+    expect(modalityOf("BODYPUMP")).toBe("strength");
+    expect(modalityOf("KnockOut")).toBe("strength");
+    expect(modalityOf("Toned")).toBe("strength");
+    expect(modalityOf("BODYCOMBAT")).toBe("cardio");
+    expect(modalityOf("RPM")).toBe("cardio");
+    expect(modalityOf("Latin Fusion")).toBe("cardio");
+    expect(modalityOf("Walking Club")).toBe("cardio");
+    expect(modalityOf("Hot 26")).toBe("yoga");
+    expect(modalityOf("Hot26")).toBe("yoga");
+    expect(modalityOf("Hot Power Fusion")).toBe("yoga");
+    expect(modalityOf("Candle Lit Warm Flow")).toBe("yoga");
+    expect(modalityOf("Mat Unwind")).toBe("yoga");
+    expect(modalityOf("Rolling")).toBe("yoga");
+    expect(modalityOf("Pilates Advanced Flow")).toBe("pilates");
+    expect(modalityOf("Power Yoga 75")).toBe("yoga");
   });
 });

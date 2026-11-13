@@ -1,18 +1,19 @@
 ---
-// Personal, unlisted: weekday classes at Courtside and Club LG that finish by 5:30 PM.
-// Rendered per request from both clubs' live schedules; the CDN keeps a copy for five minutes.
+// Personal, unlisted: classes at Courtside and Club LG that finish by 5:30 PM on weekdays and by
+// noon on weekends. Rendered per request from both clubs' live schedules; the CDN keeps a copy for
+// five minutes.
 export const prerender = false;
 
 import "@fontsource/young-serif/latin-400.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { clockLabel } from "../lib/workouts/clock";
+import { clockLabel, daySummary, endLabel, windowWords } from "../lib/workouts/labels";
 import { MODALITY_LABELS, type Modality } from "../lib/workouts/modality";
-import { CLUB_NAMES, CUTOFF_MIN, getAfternoonSchedule } from "../lib/workouts/schedule";
+import { CLUB_NAMES, WEEKDAY_WINDOW, WEEKEND_WINDOW, getWorkoutSchedule } from "../lib/workouts/schedule";
 import { CLUBLG_SCHEDULE_URL, COURTSIDE_SCHEDULE_URL } from "../lib/workouts/sources";
-import type { ClubKey, WorkoutClass } from "../lib/workouts/types";
+import type { ClubKey, ScheduleDay } from "../lib/workouts/types";
 import { PACIFIC_TZ, formatHourMinuteInTz } from "../lib/dateFormat";
 
-const schedule = await getAfternoonSchedule();
+const schedule = await getWorkoutSchedule();
 Astro.response.headers.set("Cache-Control", "public, max-age=0, s-maxage=300, stale-while-revalidate=600");
 
 const SCHEDULE_URLS: Record<ClubKey, string> = {
@@ -29,18 +30,12 @@ const MODALITY_ORDER: Modality[] = ["strength", "pilates", "yoga", "cardio", "co
 const onScreen = schedule.days.filter((day) => !day.extra).flatMap((day) => day.classes);
 const legend = MODALITY_ORDER.filter((modality) => onScreen.some((item) => item.modality === modality));
 
-const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
+const between = (day: ScheduleDay) => windowWords(day.window.startMin, day.window.endMin);
 
-// Today's one-line summary (first paint; the script keeps it current through the afternoon).
-function summaryFor(classes: WorkoutClass[]): string {
-  if (classes.length === 0) return "Nothing between 3 and 5:30 today.";
-  const first = classes[0];
-  if (classes.length === 1) return `One class: ${first.title} at ${clockLabel(first.startMin)}.`;
-  const sameTime = classes.every((item) => item.startMin === first.startMin);
-  return sameTime
-    ? `${countWord(classes.length)} classes, all at ${clockLabel(first.startMin)}.`
-    : `${countWord(classes.length)} classes, the first at ${clockLabel(first.startMin)}.`;
+// Today's one-line summary (first paint; the script keeps it current through the day).
+function summaryFor(day: ScheduleDay): string {
+  if (day.classes.length === 0) return `Nothing between ${between(day)} today.`;
+  return daySummary(day.classes.map((item) => ({ start: item.startMin, name: item.title })), 0);
 }
 
 const rowId = (id: string) => `c-${id.replace(/[^a-zA-Z0-9_-]/g, "")}`;
@@ -49,7 +44,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
 <BaseLayout
   title="Workouts — stanwood.dev"
-  description="Weekday classes at Bay Club Courtside and The Club at Los Gatos that finish by 5:30 PM, today first."
+  description="Classes at Bay Club Courtside and The Club at Los Gatos that finish by 5:30 PM on weekdays and by noon on weekends, today first."
   slug="workouts"
   favicon="/favicon-workouts.svg"
   themeColor="#e7f2f4"
@@ -64,11 +59,14 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
     <header class="head">
       <h1>Workouts</h1>
-      <p>Weekday classes at Courtside and Club LG that end by 5:30.</p>
+      <p>
+        Classes at Courtside and Club LG that end by {endLabel(WEEKDAY_WINDOW.endMin)} on weekdays and by
+        {endLabel(WEEKEND_WINDOW.endMin)} on weekends.
+      </p>
     </header>
 
     <p class="care">
-      <strong>Childcare</strong> runs 3–7 at both clubs. Reserve at
+      <strong>Childcare</strong> runs 3–7 weekdays and 8–1 weekends at both clubs. Reserve at
       <a href={CHILDCARE.courtside} target="_blank" rel="noopener">Courtside</a> or
       <a href={CHILDCARE.clublg} target="_blank" rel="noopener">Club LG</a>.
     </p>
@@ -86,6 +84,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
         aria-labelledby={`day-${day.date}`}
         data-date={day.date}
         data-heading={day.heading}
+        data-window-end={day.window.endMin}
         data-extra={day.extra ? "" : undefined}
         hidden={day.extra}
       >
@@ -93,7 +92,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
           {day.heading}
           <span class="day-date">{day.dateLabel}</span>
         </h2>
-        {day.isToday && <p class="day-summary" data-day-summary>{summaryFor(day.classes)}</p>}
+        {day.isToday && <p class="day-summary" data-day-summary>{summaryFor(day)}</p>}
 
         {day.classes.length > 0 ? (
           <ol class="classes">
@@ -110,7 +109,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
                 <a href={item.url} target="_blank" rel="noopener">
                   <span class="time">
                     <span class="start">{clockLabel(item.startMin)}</span>
-                    <span class="end">{item.endMin === CUTOFF_MIN ? "to 5:30" : `to ${clockLabel(item.endMin)}`}</span>
+                    <span class="end">to {endLabel(item.endMin)}</span>
                   </span>
                   <span class="info">
                     <span class="name">{item.title}</span>
@@ -134,16 +133,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
             ))}
           </ol>
         ) : (
-          <p class="empty">{failed.length === 2 ? "No schedule to show." : "Nothing between 3 and 5:30."}</p>
-        )}
-
-        {day.cancelled.length > 0 && (
-          <p class="cancelled">
-            Cancelled:{" "}
-            {day.cancelled
-              .map((item) => `${item.title} at ${clockLabel(item.startMin)} (${CLUB_NAMES[item.club]})`)
-              .join("; ")}
-          </p>
+          <p class="empty">{failed.length === 2 ? "No schedule to show." : `Nothing between ${between(day)}.`}</p>
         )}
       </section>
     ))}
@@ -167,11 +157,12 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
 <script>
   // Keeps today current without pressure: classes that have ended drop away, the one under way
-  // is marked, and the summary moves to the next weekday once today is over. Updates each minute.
+  // is marked, and once today's window closes the reserve day keeps a full week on screen.
+  // Updates each minute.
+  import { daySummary } from "../lib/workouts/labels";
+
   const TZ = "America/Los_Angeles";
-  const CUTOFF = 17 * 60 + 30;
   const STALE_MS = 15 * 60_000;
-  const NUMBER_WORDS = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: TZ,
     year: "numeric",
@@ -192,26 +183,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     return { date: `${p.year}-${p.month}-${p.day}`, minutes };
   }
 
-  const clock = (minutes: number) => `${Math.floor(minutes / 60) % 12 || 12}:${String(minutes % 60).padStart(2, "0")}`;
-  const countWord = (n: number) => NUMBER_WORDS[n] ?? String(n);
-
   const root = document.querySelector<HTMLElement>("[data-workouts]");
-
-  function describe(upcoming: HTMLElement[], started: number) {
-    if (!upcoming.length) return started ? "Nothing else starts today." : "That’s it for today.";
-    const first = Number(upcoming[0].dataset.start);
-    const name = upcoming[0].dataset.name;
-    if (started) {
-      return upcoming.length === 1
-        ? `One more: ${name} at ${clock(first)}.`
-        : `${countWord(upcoming.length)} more, the next at ${clock(first)}.`;
-    }
-    if (upcoming.length === 1) return `One class: ${name} at ${clock(first)}.`;
-    const sameTime = upcoming.every((row) => Number(row.dataset.start) === first);
-    return sameTime
-      ? `${countWord(upcoming.length)} classes, all at ${clock(first)}.`
-      : `${countWord(upcoming.length)} classes, the first at ${clock(first)}.`;
-  }
 
   function update() {
     if (!root) return;
@@ -228,6 +200,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
     const today = root.querySelector<HTMLElement>(".day.is-today");
     if (!today) return;
+    const windowEnd = Number(today.dataset.windowEnd);
     const rows = [...today.querySelectorAll<HTMLElement>(".cls")];
     let underwayCount = 0;
     for (const row of rows) {
@@ -246,13 +219,20 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     }
     const upcoming = rows.filter((row) => Number(row.dataset.start) > now.minutes);
     const started = rows.length - upcoming.length;
-    const over = now.minutes >= CUTOFF || (rows.length > 0 && upcoming.length === 0 && underwayCount === 0);
+    const over = now.minutes >= windowEnd || (rows.length > 0 && upcoming.length === 0 && underwayCount === 0);
     today.classList.toggle("is-done", over);
 
     const summary = today.querySelector<HTMLElement>("[data-day-summary]");
-    if (summary && rows.length) summary.textContent = over ? "That’s it for today." : describe(upcoming, started);
+    if (summary && rows.length) {
+      summary.textContent = over
+        ? "That’s it for today."
+        : daySummary(
+            upcoming.map((row) => ({ start: Number(row.dataset.start), name: row.dataset.name ?? "" })),
+            started,
+          );
+    }
 
-    // Once today is over, the reserve weekday keeps five days on the page.
+    // Once today is over, the reserve day keeps a full week on the page.
     root.querySelectorAll<HTMLElement>("[data-extra]").forEach((section) => {
       section.hidden = !over;
     });
@@ -500,7 +480,6 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
   /* Live states */
   .cls.is-over,
   .is-done .classes,
-  .is-done .cancelled,
   .is-done .empty {
     display: none;
   }
@@ -508,8 +487,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
     opacity: 0.55;
   }
 
-  .empty,
-  .cancelled {
+  .empty {
     margin: 10px 0 0 4px;
     font-size: 15px;
     line-height: 1.45;
