@@ -42,13 +42,13 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 ---
 
 <BaseLayout
-  title="Afternoon classes — stanwood.dev"
+  title="Workouts — stanwood.dev"
   description="Weekday classes at Bay Club Courtside and The Club at Los Gatos that finish by 5:30 PM, today first."
   slug="workouts"
   favicon="/favicon-workouts.svg"
   themeColor="#f2f4f6"
   schemaCategory="HealthApplication"
-  schemaName="Afternoon classes"
+  schemaName="Workouts"
   fontsUrl="data:text/css,"
 >
   <meta slot="head" name="robots" content="noindex, nofollow" />
@@ -62,8 +62,8 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
       <section class="clock" aria-labelledby="clock-title">
         <div class="clock-face">
-          <h1 class="clock-title" id="clock-title">Done by 5:30</h1>
-          <p class="clock-clubs">Courtside and Club LG, weekdays</p>
+          <h1 class="clock-title" id="clock-title">Workouts</h1>
+          <p class="clock-clubs">Courtside and Club LG, weekdays, done by 5:30</p>
           <p class="clock-label" data-clock-label>
             {firstGroup.length ? `Next class ${firstWhen} at` : "No classes on the board"}
           </p>

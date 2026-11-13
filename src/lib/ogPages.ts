@@ -79,8 +79,8 @@ export const PAGES: Record<string, PageConfig> = {
   },
   workouts: {
     emoji: "\u{1F560}",
-    title: "Done by 5:30",
-    tagline: "Weekday afternoon classes at Courtside and Club LG.",
+    title: "Workouts",
+    tagline: "Weekday classes at Courtside and Club LG, done by 5:30.",
     bg: "#1b2430",
     bg2: "#24344a",
     accent: "#d8382a",
