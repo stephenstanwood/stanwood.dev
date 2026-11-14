@@ -6,9 +6,9 @@ export const prerender = false;
 
 import "@fontsource/young-serif/latin-400.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { clockLabel, daySummary, endLabel, windowWords } from "../lib/workouts/labels";
+import { CLUB_NAMES, clockLabel, daySummary, endLabel, windowWords } from "../lib/workouts/labels";
 import { MODALITY_LABELS, type Modality } from "../lib/workouts/modality";
-import { CLUB_NAMES, WEEKDAY_WINDOW, WEEKEND_WINDOW, getWorkoutSchedule } from "../lib/workouts/schedule";
+import { WEEKDAY_WINDOW, WEEKEND_WINDOW, getWorkoutSchedule } from "../lib/workouts/schedule";
 import { CLUBLG_SCHEDULE_URL, COURTSIDE_SCHEDULE_URL } from "../lib/workouts/sources";
 import type { ClubKey, ScheduleDay } from "../lib/workouts/types";
 import { PACIFIC_TZ, formatHourMinuteInTz } from "../lib/dateFormat";
@@ -77,8 +77,8 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
         <div class="club-options">
           {[
             ["both", "Both"],
-            ["courtside", "Courtside"],
-            ["clublg", "Club LG"],
+            ["courtside", CLUB_NAMES.courtside],
+            ["clublg", CLUB_NAMES.clublg],
           ].map(([value, label]) => (
             <div class="club-option">
               <input class="sr-only" type="radio" name="club" id={`club-${value}`} value={value} checked={value === "both"} />
@@ -179,7 +179,7 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
   // Keeps today current without pressure: classes that have ended drop away, the one under way
   // is marked, and once today's window closes the reserve day keeps a full week on screen.
   // Updates each minute.
-  import { daySummary } from "../lib/workouts/labels";
+  import { CLUB_NAMES, daySummary } from "../lib/workouts/labels";
 
   const TZ = "America/Los_Angeles";
   const STALE_MS = 15 * 60_000;
@@ -205,7 +205,6 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
   const root = document.querySelector<HTMLElement>("[data-workouts]");
   type ClubFilter = "both" | "courtside" | "clublg";
-  const CLUB_NAMES = { courtside: "Courtside", clublg: "Club LG" };
   const STORAGE_KEY = "workouts-club";
   let selectedClub: ClubFilter = "both";
 
@@ -282,14 +281,14 @@ const updated = formatHourMinuteInTz(schedule.generatedAt, PACIFIC_TZ);
 
     const summary = today.querySelector<HTMLElement>("[data-day-summary]");
     if (summary) {
-      summary.textContent = !rows.length
-        ? emptyMessage(today)
-        : over || selectedOver
-          ? "That’s it for today."
-          : daySummary(
-              upcoming.map((row) => ({ start: Number(row.dataset.start), name: row.dataset.name ?? "" })),
-              started,
-            );
+      if (!rows.length) {
+        summary.textContent = emptyMessage(today);
+      } else if (over || selectedOver) {
+        summary.textContent = "That’s it for today.";
+      } else {
+        const next = upcoming.map((row) => ({ start: Number(row.dataset.start), name: row.dataset.name ?? "" }));
+        summary.textContent = daySummary(next, started);
+      }
     }
 
     // Once today is over, the reserve day keeps a full week on the page.

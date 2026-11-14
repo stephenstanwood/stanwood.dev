@@ -57,13 +57,12 @@ const DATE_LABEL = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   timeZone: "UTC",
 });
+const MONTH_DAY = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
 /** "Monday" */
 export function weekdayName(iso: string): string {
   return WEEKDAY_LONG.format(isoToUtcNoon(iso));
 }
-
-const MONTH_DAY = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
 /** "Fri, Nov 13" */
 export function shortDateLabel(iso: string): string {

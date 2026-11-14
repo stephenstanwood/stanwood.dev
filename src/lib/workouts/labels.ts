@@ -1,9 +1,16 @@
 /**
- * Wording shared by the /workouts page and its live script. No imports, so the script bundle stays
- * tiny. Times skip AM/PM: the page says weekdays are afternoons and weekends are mornings.
+ * Wording shared by the /workouts page and its live script. Type-only imports, so the script bundle
+ * stays tiny. Times skip AM/PM: the page says weekdays are afternoons and weekends are mornings.
  */
 
+import type { ClubKey } from "./types";
+
 const NOON = 12 * 60;
+
+export const CLUB_NAMES: Record<ClubKey, string> = {
+  courtside: "Courtside",
+  clublg: "Club LG",
+};
 
 /** 990 → "4:30", 480 → "8:00". */
 export function clockLabel(minutes: number): string {

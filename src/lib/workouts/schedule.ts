@@ -17,11 +17,6 @@ export const WEEKEND_WINDOW: DayWindow = { startMin: 8 * 60, endMin: 12 * 60 };
 /** Today and the six days after it; one more day waits in reserve. */
 const DAYS_SHOWN = 7;
 
-export const CLUB_NAMES: Record<ClubKey, string> = {
-  courtside: "Courtside",
-  clublg: "Club LG",
-};
-
 export function windowFor(date: string): DayWindow {
   return isWeekday(date) ? WEEKDAY_WINDOW : WEEKEND_WINDOW;
 }
