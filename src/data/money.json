@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-14T02:10:13.307Z",
+  "lastUpdated": "2026-11-14T14:10:15.489Z",
   "apiSpend": {
     "months": [
       {
@@ -544,7 +544,7 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-14T02:10:13.307Z",
+        "collectedAt": "2026-11-14T14:10:15.489Z",
         "services": {
           "vercel": {
             "totalCents": 3834,
@@ -649,6 +649,13 @@
   },
   "subscriptions": [
     {
+      "name": "Anthropic",
+      "cents": 24500,
+      "category": "ai",
+      "url": "https://console.anthropic.com/settings/billing",
+      "note": "Mercury actual Nov 2026; 3 Mercury charges combined"
+    },
+    {
       "name": "Cursor",
       "cents": 20000,
       "category": "ai",
@@ -696,13 +703,6 @@
       "category": "infra",
       "url": "https://console.cloud.google.com/billing",
       "note": "Mercury actual Jun 2026"
-    },
-    {
-      "name": "Anthropic",
-      "cents": 4500,
-      "category": "ai",
-      "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Nov 2026; 2 Mercury charges combined"
     },
     {
       "name": "Ideogram",
