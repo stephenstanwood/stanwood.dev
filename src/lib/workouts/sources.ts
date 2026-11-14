@@ -9,6 +9,7 @@
  */
 
 import { BROWSER_USER_AGENT, fetchWithTimeout, isRecord } from "../apiHelpers";
+import { PACIFIC_TZ } from "../dateFormat";
 import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass, isCalledOff } from "./clean";
 import { pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, findKey, parseFlightRows, resolveRefs } from "./flight";
@@ -117,7 +118,7 @@ const OPENS_LABEL = new Intl.DateTimeFormat("en-US", {
   weekday: "short",
   hour: "numeric",
   minute: "2-digit",
-  timeZone: "America/Los_Angeles",
+  timeZone: PACIFIC_TZ,
 });
 
 export function normalizeClubLg(items: Record<string, unknown>[], now: Date): WorkoutClass[] {
