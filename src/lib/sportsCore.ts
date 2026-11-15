@@ -304,15 +304,23 @@ export function formatYYYYMMDD(d: Date = new Date()): string {
 export async function fetchEspnScoreboard<T = unknown>(
   leaguePath: string,
   yyyymmdd: string,
-): Promise<{ events?: T[] }> {
+  options?: { retryTemporaryFailure?: boolean },
+): Promise<{ events: T[] }> {
   const url = `${ESPN_SPORTS_BASE}/${leaguePath}/scoreboard?dates=${yyyymmdd}`;
-  return fetchScoreboard<T>(url);
+  return fetchScoreboard<T>(url, options?.retryTemporaryFailure);
 }
 
-async function fetchScoreboard<T>(url: string): Promise<{ events: T[] }> {
-  // Browser scoreboards use our bounded route; server-only callers retain the public base.
+async function fetchScoreboard<T>(url: string, retryTemporaryFailure = false): Promise<{ events: T[] }> {
   const endpoint = url.replace(ESPN_SPORTS_BASE, "/api/espn");
-  const res = await fetch(endpoint, { signal: AbortSignal.timeout(12_000) });
+  const request = () => fetch(endpoint, { signal: AbortSignal.timeout(12_000) });
+  let res = await request();
+  if (retryTemporaryFailure && res.status === 502) {
+    const seconds = Number(res.headers.get("Retry-After"));
+    if (Number.isInteger(seconds) && seconds >= 1 && seconds <= 2) {
+      await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+      res = await request();
+    }
+  }
   if (!res.ok) throw new Error("Sports scores are unavailable. Please try again.");
   const data = await res.json();
   if (!data || !Array.isArray(data.events)) {

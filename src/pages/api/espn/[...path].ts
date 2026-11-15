@@ -14,6 +14,13 @@ function failure(message: string, status: number): Response {
   return jsonResponse({ error: message }, status, { "Cache-Control": "no-store" });
 }
 
+function unavailable(retryAfter?: string): Response {
+  return jsonResponse({ error: "Sports scores are unavailable. Please try again." }, 502, {
+    "Cache-Control": "no-store",
+    ...(retryAfter ? { "Retry-After": retryAfter } : {}),
+  });
+}
+
 function validDate(value: string): boolean {
   if (!/^\d{8}$/.test(value)) return false;
   const iso = value.slice(0, 4) + "-" + value.slice(4, 6) + "-" + value.slice(6, 8);
@@ -34,20 +41,27 @@ export const GET: APIRoute = async ({ params, url, clientAddress }) => {
 
   const upstream = new URL(params.path, UPSTREAM);
   if (dates) upstream.searchParams.set("dates", dates);
+  let res: Response;
   try {
-    const res = await fetchWithTimeout(upstream.href, {
+    res = await fetchWithTimeout(upstream.href, {
       headers: { Accept: "application/json" },
       redirect: "error",
     }, 8000);
-    if (!res.ok) return failure("Sports scores are unavailable. Please try again.", 502);
+  } catch (error) {
+    // A timeout can be temporary. Leave other failures, such as a refused redirect, alone.
+    return unavailable(error instanceof Error && error.name === "TimeoutError" ? "1" : undefined);
+  }
+  // Upstream denial or throttling must not trigger an automatic retry.
+  if (!res.ok) {
+    return unavailable(res.status >= 500 ? res.headers.get("Retry-After") ?? "1" : undefined);
+  }
+  try {
     const data: unknown = await res.json();
-    if (!isRecord(data) || !Array.isArray(data.events)) {
-      return failure("Sports scores are unavailable. Please try again.", 502);
-    }
+    if (!isRecord(data) || !Array.isArray(data.events)) return unavailable();
     return okJson({ events: data.events }, {
       "Cache-Control": "public, max-age=0, s-maxage=15",
     });
   } catch {
-    return failure("Sports scores are unavailable. Please try again.", 502);
+    return unavailable();
   }
 };
