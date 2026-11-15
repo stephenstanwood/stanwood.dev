@@ -1,5 +1,13 @@
 [
   {
+    "name": "llama.cpp 1.0",
+    "org": "ggml",
+    "date": "2026-11-13",
+    "type": "tool",
+    "summary": "Run open models like Kimi K3.1 Pro on your own machine, now with a stable 1.0 API, a redesigned local chat UI, and an OpenAI-compatible text-to-speech endpoint. Free and open source.",
+    "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1"
+  },
+  {
     "name": "Gemini 4 Hydrogen",
     "org": "Google",
     "date": "2026-11-12",
@@ -14,14 +22,6 @@
     "type": "model",
     "summary": "Generate or edit 4K product shots and mockups in under 10 seconds, guided by up to 16 reference images. Open weights are on Hugging Face under a community license, or use it cheaply through the MiniMax API and Hailuo AI.",
     "url": "https://www.minimax.io/blog/minimax-h3-image"
-  },
-  {
-    "name": "Gemini 4 Carbon",
-    "org": "Google",
-    "date": "2026-11-10",
-    "type": "model",
-    "summary": "Hand long coding sessions, agent runs, and security reviews to a stronger Gemini through the paid Gemini API in AI Studio, at introductory pricing of $2/$10 per million tokens. AI Ultra subscribers also get it in the Gemini app and Antigravity.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon/"
   },
   {
     "name": "Claude Sheets",
