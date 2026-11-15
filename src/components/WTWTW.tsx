@@ -678,11 +678,11 @@ export async function loadWeekSchedules(leaguePaths: string[], dates: string[]) 
     const scoreboards = await Promise.all(
       leaguePaths.map(async (leaguePath) => ({
         leaguePath,
-        data: await fetchEspnScoreboard<ESPNEvent>(leaguePath, date),
+        data: await fetchEspnScoreboard<ESPNEvent>(leaguePath, date, { retryTemporaryFailure: true }),
       })),
     );
     result.set(date, scoreboards.flatMap(({ leaguePath, data }) =>
-      (data.events || []).map((event) => ({ leaguePath, event })),
+      data.events.map((event) => ({ leaguePath, event })),
     ));
   }
   return result;

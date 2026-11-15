@@ -58,21 +58,33 @@ describe("bounded ESPN scoreboard endpoint", () => {
   it.each([() => new Response("Denied", { status: 403 }),
     () => new Response("Rate limited", { status: 429 }),
     () => new Response(JSON.stringify({ message: "upstream failed" })),
-    () => new Response("<html>Unavailable</html>")])(
+    () => new Response("<html>Unavailable</html>"),
+    () => { throw new TypeError("Redirect refused"); }])(
     "keeps upstream failures distinct from empty games", async (upstream) => {
       vi.stubGlobal("fetch", vi.fn(async () => upstream()));
       const response = await request();
       expect(response.status).toBe(502);
       expect(response.headers.get("cache-control")).toBe("no-store");
+      expect(response.headers.has("retry-after")).toBe(false);
       expect(await response.json()).toHaveProperty("error");
     },
   );
 
-  it("keeps network failures uncacheable", async () => {
-    vi.stubGlobal("fetch", vi.fn(async () => { throw new DOMException("Timed out", "TimeoutError"); }));
+  it.each([
+    async () => { throw new DOMException("Timed out", "TimeoutError"); },
+    async () => new Response("Upstream unavailable", { status: 503 }),
+  ])("marks a temporary scoreboard failure for retry without caching it", async (upstream) => {
+    vi.stubGlobal("fetch", vi.fn(upstream));
     const response = await request();
     expect(response.status).toBe(502);
     expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(response.headers.get("retry-after")).toBe("1");
+  });
+
+  it("preserves the upstream wait when the service asks for longer", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () =>
+      new Response("Upstream unavailable", { status: 503, headers: { "Retry-After": "30" } })));
+    expect((await request()).headers.get("retry-after")).toBe("30");
   });
 
   it("honors the existing request limiter", async () => {
