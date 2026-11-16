@@ -16,6 +16,14 @@
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-hydrogen/"
   },
   {
+    "name": "SOV-Transcribe-1",
+    "org": "Salesforce",
+    "date": "2026-11-12",
+    "type": "model",
+    "summary": "Transcribe podcasts, interviews, and client calls up to 30 minutes long on your own hardware with the top-ranked open-weight speech model. Free under Apache 2.0, with weights on Hugging Face and seven languages supported.",
+    "url": "https://alphasignal.ai/news/salesforce-s-sov-transcribe-1-beats-every-open-weight-speech-model-at-2-3-error"
+  },
+  {
     "name": "H3-Image",
     "org": "MiniMax",
     "date": "2026-11-11",
@@ -54,13 +62,5 @@
     "type": "model",
     "summary": "Create 15-second product videos with sound, then change backgrounds or lighting through follow-up prompts. Available in the Gemini API at $0.07 per second for 720p, with no-cost video generation also rolling out in Google Vids.",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash/"
-  },
-  {
-    "name": "Images 2.6",
-    "org": "OpenAI",
-    "date": "2026-11-04",
-    "type": "model",
-    "summary": "Turn prompts, photos, or sketches into animated GIFs, export SVGs, and mark up exactly which parts of an image to change. About 50% faster, rolling out in ChatGPT and Codex, with Flare and Sunburst models in the API.",
-    "url": "https://openai.com/index/introducing-images-2-6/"
   }
 ]
