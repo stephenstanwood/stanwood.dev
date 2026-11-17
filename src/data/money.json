@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-17T02:11:10.868Z",
+  "lastUpdated": "2026-11-17T07:10:12.544Z",
   "apiSpend": {
     "months": [
       {
@@ -544,7 +544,7 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-17T02:11:10.868Z",
+        "collectedAt": "2026-11-17T07:10:12.544Z",
         "services": {
           "vercel": {
             "totalCents": 3834,
@@ -631,8 +631,9 @@
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
           },
           "openai": {
-            "totalCents": null,
-            "note": "OpenAI API 504: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
+            "totalCents": 0,
+            "breakdown": [],
+            "note": null
           },
           "neon": {
             "totalCents": null,
