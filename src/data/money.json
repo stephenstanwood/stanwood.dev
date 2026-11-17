@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-16T02:10:19.303Z",
+  "lastUpdated": "2026-11-17T02:11:10.868Z",
   "apiSpend": {
     "months": [
       {
@@ -544,7 +544,7 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-16T02:10:19.303Z",
+        "collectedAt": "2026-11-17T02:11:10.868Z",
         "services": {
           "vercel": {
             "totalCents": 3834,
@@ -613,27 +613,26 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 4883,
+            "totalCents": 5195,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 3842
+                "cents": 4089
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 799
+                "cents": 856
               },
               {
                 "name": "claude-opus-5-5",
-                "cents": 242
+                "cents": 250
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
           },
           "openai": {
-            "totalCents": 0,
-            "breakdown": [],
-            "note": null
+            "totalCents": null,
+            "note": "OpenAI API 504: <!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class=\"no-js ie7 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 8]>    <html class=\"no-"
           },
           "neon": {
             "totalCents": null,
