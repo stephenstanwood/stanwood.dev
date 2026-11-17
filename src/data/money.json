@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-17T07:10:12.544Z",
+  "lastUpdated": "2026-11-17T20:10:13.998Z",
   "apiSpend": {
     "months": [
       {
@@ -544,38 +544,38 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-17T07:10:12.544Z",
+        "collectedAt": "2026-11-17T20:10:13.998Z",
         "services": {
           "vercel": {
-            "totalCents": 3834,
+            "totalCents": 4106,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 3037
+                "cents": 3262
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 412
+                "cents": 427
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 243
+                "cents": 257
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 42
+                "cents": 51
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 39
+                "cents": 40
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 33
+                "cents": 35
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 11
+                "cents": 13
               },
               {
                 "name": "Function Invocations",
@@ -586,16 +586,16 @@
                 "cents": 4
               },
               {
+                "name": "Image Optimization Transformation",
+                "cents": 4
+              },
+              {
                 "name": "Blob Simple Operations",
                 "cents": 3
               },
               {
                 "name": "Image Optimization Cache Writes",
-                "cents": 1
-              },
-              {
-                "name": "Image Optimization Transformation",
-                "cents": 1
+                "cents": 2
               },
               {
                 "name": "Image Optimization Cache Reads",
