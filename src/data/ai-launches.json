@@ -1,5 +1,21 @@
 [
   {
+    "name": "GPT-6.2 Sol and Astra",
+    "org": "OpenAI",
+    "date": "2026-11-17",
+    "type": "model",
+    "summary": "Run everyday coding and agent work on Sol, which nearly matches Astra on coding at about a fifth of the cost ($2/$10 per million tokens). Live now in Codex, ChatGPT Plus and Pro, and the API, with Astra 20% cheaper.",
+    "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
+  },
+  {
+    "name": "MAI Code 2 Flash",
+    "org": "Microsoft",
+    "date": "2026-11-17",
+    "type": "model",
+    "summary": "Get quick explanations, targeted edits, and routine fixes from a new coding model that's included even on the free GitHub Copilot plan. Pick it in VS Code, Copilot CLI, Xcode, JetBrains, or github.com.",
+    "url": "https://github.blog/changelog/2026-11-17-mai-code-2-and-mai-code-2-flash-in-github-copilot"
+  },
+  {
     "name": "Gemini Notebook interactive sites",
     "org": "Google",
     "date": "2026-11-16",
@@ -24,14 +40,6 @@
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-hydrogen/"
   },
   {
-    "name": "SOV-Transcribe-1",
-    "org": "Salesforce",
-    "date": "2026-11-12",
-    "type": "model",
-    "summary": "Transcribe podcasts, interviews, and client calls up to 30 minutes long on your own hardware with the top-ranked open-weight speech model. Free under Apache 2.0, with weights on Hugging Face and seven languages supported.",
-    "url": "https://alphasignal.ai/news/salesforce-s-sov-transcribe-1-beats-every-open-weight-speech-model-at-2-3-error"
-  },
-  {
     "name": "Atlas",
     "org": "World Labs",
     "date": "2026-11-12",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Describe a budget, tracker, or client list and get a working multi-tab workbook with formulas, formatting, and dropdowns, then keep editing it alongside Claude. In beta on paid Claude plans across web, desktop, and mobile.",
     "url": "https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors"
-  },
-  {
-    "name": "Claude Fable 5.2",
-    "org": "Anthropic",
-    "date": "2026-11-09",
-    "type": "model",
-    "summary": "Hand off big coding jobs like migrations, full app builds, or multi-agent projects to a top-tier model that's up to 30% faster than Fable 5.1. Live now in Claude apps, Claude Code, and the API at $8/$40 per million tokens.",
-    "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2"
   }
 ]
