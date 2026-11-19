@@ -1,7 +1,7 @@
-/** Availability checked against https://waymo.com/rides/ on 2026-10-09.
+/** Availability checked against https://waymo.com/rides/ on 2026-11-01.
  * Safety figures: https://waymo.com/safety/impact/, through June 2026.
  * Scope is Waymo rider-only driving, not all autonomous vehicles. */
-export const CHECKED = "October 9, 2026";
+export const CHECKED = "November 2026";
 export const RIDE_CITIES = [
   { city: "Atlanta", state: "GA", uber: true },
   { city: "Austin", state: "TX", uber: true },
