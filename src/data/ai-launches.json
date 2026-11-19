@@ -1,5 +1,21 @@
 [
   {
+    "name": "Gemini 4 Neon",
+    "org": "Google",
+    "date": "2026-11-18",
+    "type": "model",
+    "summary": "Run long, tool-heavy coding agents and multi-file refactors on a frontier Gemini with a 1M-token context and adjustable thinking levels. Rolling out now in the Gemini API and AI Studio at $3/$15 per million tokens.",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
+  },
+  {
+    "name": "Clairic and Clairic-flash",
+    "org": "Cloudflare",
+    "date": "2026-11-18",
+    "type": "model",
+    "summary": "Pull structured data out of PDFs, images, and messy text, with confidence scores for every field. Open weights are on Hugging Face, or call them on Workers AI for $0.10 per million input tokens with output free.",
+    "url": "https://blog.cloudflare.com/open-clairic/"
+  },
+  {
     "name": "GPT-6.2 Sol and Astra",
     "org": "OpenAI",
     "date": "2026-11-17",
@@ -46,21 +62,5 @@
     "type": "model",
     "summary": "Turn one photo, or up to 64, into an explorable 3D world, then block out and restyle sets with simple shapes. Viewfinder, Chisel, and the developer API are now open to everyone in the browser.",
     "url": "https://www.worldlabs.ai/atlas"
-  },
-  {
-    "name": "H3-Image",
-    "org": "MiniMax",
-    "date": "2026-11-11",
-    "type": "model",
-    "summary": "Generate or edit 4K product shots and mockups in under 10 seconds, guided by up to 16 reference images. Open weights are on Hugging Face under a community license, or use it cheaply through the MiniMax API and Hailuo AI.",
-    "url": "https://www.minimax.io/blog/minimax-h3-image"
-  },
-  {
-    "name": "Claude Sheets",
-    "org": "Anthropic",
-    "date": "2026-11-10",
-    "type": "tool",
-    "summary": "Describe a budget, tracker, or client list and get a working multi-tab workbook with formulas, formatting, and dropdowns, then keep editing it alongside Claude. In beta on paid Claude plans across web, desktop, and mobile.",
-    "url": "https://claude.com/resources/articles/more-ways-to-work-with-claude-sheets-whiteboards-and-interactive-connectors"
   }
 ]
