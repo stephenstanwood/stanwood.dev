@@ -1,5 +1,29 @@
 [
   {
+    "name": "Ideogram 4.6",
+    "org": "Ideogram",
+    "date": "2026-11-19",
+    "type": "model",
+    "summary": "Recolor a product to match your brand or touch up one part of a photo, with output up to 4K. Try it in the app or use the API, where edits start at $0.008.",
+    "url": "https://ideogram.ai/models/4.6/"
+  },
+  {
+    "name": "TestSprite 4.0",
+    "org": "TestSprite",
+    "date": "2026-11-19",
+    "type": "tool",
+    "summary": "Describe how your web app should work and get browser tests you can rerun on each code change. Start free and review recordings of failed steps.",
+    "url": "https://www.testsprite.com/"
+  },
+  {
+    "name": "Genie 4 API",
+    "org": "Google",
+    "date": "2026-11-19",
+    "type": "model",
+    "summary": "Turn a prompt or reference image into a world you can explore and change as you go, with live sound. Try it in Google AI Studio or build it into your own prototype with the paid Gemini API.",
+    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
+  },
+  {
     "name": "Gemini 4 Neon",
     "org": "Google",
     "date": "2026-11-18",
@@ -16,28 +40,20 @@
     "url": "https://blog.cloudflare.com/open-clairic/"
   },
   {
+    "name": "Rumble-2-Flash",
+    "org": "Reson8",
+    "date": "2026-11-18",
+    "type": "model",
+    "summary": "Transcribe interviews or add captions in over 40 languages on your own machine. The downloadable model is free under Apache 2.0 and runs with Hugging Face Transformers.",
+    "url": "https://huggingface.co/blog/rumble-2-flash"
+  },
+  {
     "name": "GPT-6.2 Sol and Astra",
     "org": "OpenAI",
     "date": "2026-11-17",
     "type": "model",
-    "summary": "Run everyday coding and agent work on Sol, which nearly matches Astra on coding at about a fifth of the cost ($2/$10 per million tokens). Live now in Codex, ChatGPT Plus and Pro, and the API, with Astra 20% cheaper.",
+    "summary": "Use Sol for everyday coding and Astra for longer projects that span code, documents, and research. Both are in Codex and ChatGPT Work on Plus and Pro, with Sol at one-quarter of Astra's API price per token.",
     "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
-  },
-  {
-    "name": "MAI Code 2 Flash",
-    "org": "Microsoft",
-    "date": "2026-11-17",
-    "type": "model",
-    "summary": "Get quick explanations, targeted edits, and routine fixes from a new coding model that's included even on the free GitHub Copilot plan. Pick it in VS Code, Copilot CLI, Xcode, JetBrains, or github.com.",
-    "url": "https://github.blog/changelog/2026-11-17-mai-code-2-and-mai-code-2-flash-in-github-copilot"
-  },
-  {
-    "name": "Gemini Notebook interactive sites",
-    "org": "Google",
-    "date": "2026-11-16",
-    "type": "tool",
-    "summary": "Type \"make me a site\" and turn your notes and sources into a shareable interactive page, like a dashboard, project tracker, or visual explainer. Rolling out globally on the web now, with mobile coming soon.",
-    "url": "https://blog.google/innovation-and-ai/products/gemini-notebook/interactive-sites/"
   },
   {
     "name": "llama.cpp 1.0",
@@ -46,21 +62,5 @@
     "type": "tool",
     "summary": "Run open models like Kimi K3.1 Pro on your own machine, now with a stable 1.0 API, a redesigned local chat UI, and an OpenAI-compatible text-to-speech endpoint. Free and open source.",
     "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1"
-  },
-  {
-    "name": "Gemini 4 Hydrogen",
-    "org": "Google",
-    "date": "2026-11-12",
-    "type": "model",
-    "summary": "Run everyday coding and agent tasks on a fast, cheaper Gemini with a 1M-token context at $1.50/$7.50 per million tokens. Available now in Google AI Studio, the Gemini API, Android Studio, and the Gemini app.",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/build-with-gemini-4-hydrogen/"
-  },
-  {
-    "name": "Atlas",
-    "org": "World Labs",
-    "date": "2026-11-12",
-    "type": "model",
-    "summary": "Turn one photo, or up to 64, into an explorable 3D world, then block out and restyle sets with simple shapes. Viewfinder, Chisel, and the developer API are now open to everyone in the browser.",
-    "url": "https://www.worldlabs.ai/atlas"
   }
 ]
