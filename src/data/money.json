@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-21T07:10:08.427Z",
+  "lastUpdated": "2026-11-21T14:10:10.370Z",
   "apiSpend": {
     "months": [
       {
@@ -544,38 +544,38 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-21T07:10:08.427Z",
+        "collectedAt": "2026-11-21T14:10:10.370Z",
         "services": {
           "vercel": {
-            "totalCents": 5730,
+            "totalCents": 5832,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 4708
+                "cents": 4798
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 499
+                "cents": 503
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 299
+                "cents": 302
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 75
+                "cents": 76
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 54
+                "cents": 55
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 52
+                "cents": 53
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 17
+                "cents": 18
               },
               {
                 "name": "Function Invocations",
@@ -591,7 +591,7 @@
               },
               {
                 "name": "Blob Simple Operations",
-                "cents": 3
+                "cents": 4
               },
               {
                 "name": "Image Optimization Cache Writes",
@@ -650,10 +650,10 @@
   "subscriptions": [
     {
       "name": "Anthropic",
-      "cents": 27003,
+      "cents": 29536,
       "category": "ai",
       "url": "https://console.anthropic.com/settings/billing",
-      "note": "Mercury actual Nov 2026; 4 Mercury charges combined"
+      "note": "Mercury actual Nov 2026; 5 Mercury charges combined"
     },
     {
       "name": "Cursor",
