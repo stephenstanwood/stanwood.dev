@@ -1,5 +1,29 @@
 [
   {
+    "name": "Inkling 2 Mini",
+    "org": "Thinking Machines Lab",
+    "date": "2026-11-20",
+    "type": "model",
+    "summary": "Build a web prototype or get help debugging from a screenshot, even offline. Run the model with Ollama on a Mac with at least 32 GB of memory, or try it in the Tinker Playground.",
+    "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
+  },
+  {
+    "name": "WeMM-Video-2B",
+    "org": "Tencent",
+    "date": "2026-11-20",
+    "type": "model",
+    "summary": "Ask questions about a video in English or Chinese, from what happened on screen to what someone said. The downloadable model analyzes the footage and its original soundtrack together.",
+    "url": "https://huggingface.co/tencent/WeMM-Video-2B"
+  },
+  {
+    "name": "GPT-Live-1.1 API",
+    "org": "OpenAI",
+    "date": "2026-11-19",
+    "type": "model",
+    "summary": "Build a multilingual voice tutor or support assistant that can listen while it speaks. The API costs 5¢ per active minute, with separate charges for any tools or models it calls.",
+    "url": "https://developers.openai.com/api/docs/models/gpt-live-1.1"
+  },
+  {
     "name": "Ideogram 4.6",
     "org": "Ideogram",
     "date": "2026-11-19",
@@ -13,7 +37,7 @@
     "date": "2026-11-19",
     "type": "tool",
     "summary": "Describe how your web app should work and get browser tests you can rerun on each code change. Start free and review recordings of failed steps.",
-    "url": "https://www.testsprite.com/"
+    "url": "https://www.testsprite.com/blog/introducing-testsprite-4-0"
   },
   {
     "name": "Genie 4 API",
@@ -24,14 +48,6 @@
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
   },
   {
-    "name": "Gemini 4 Neon",
-    "org": "Google",
-    "date": "2026-11-18",
-    "type": "model",
-    "summary": "Run long, tool-heavy coding agents and multi-file refactors on a frontier Gemini with a 1M-token context and adjustable thinking levels. Rolling out now in the Gemini API and AI Studio at $3/$15 per million tokens.",
-    "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/"
-  },
-  {
     "name": "Clairic and Clairic-flash",
     "org": "Cloudflare",
     "date": "2026-11-18",
@@ -40,27 +56,11 @@
     "url": "https://blog.cloudflare.com/open-clairic/"
   },
   {
-    "name": "Rumble-2-Flash",
-    "org": "Reson8",
-    "date": "2026-11-18",
-    "type": "model",
-    "summary": "Transcribe interviews or add captions in over 40 languages on your own machine. The downloadable model is free under Apache 2.0 and runs with Hugging Face Transformers.",
-    "url": "https://huggingface.co/blog/rumble-2-flash"
-  },
-  {
     "name": "GPT-6.2 Sol and Astra",
     "org": "OpenAI",
     "date": "2026-11-17",
     "type": "model",
     "summary": "Use Sol for everyday coding and Astra for longer projects that span code, documents, and research. Both are in Codex and ChatGPT Work on Plus and Pro, with Sol at one-quarter of Astra's API price per token.",
     "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
-  },
-  {
-    "name": "llama.cpp 1.0",
-    "org": "ggml",
-    "date": "2026-11-13",
-    "type": "tool",
-    "summary": "Run open models like Kimi K3.1 Pro on your own machine, now with a stable 1.0 API, a redesigned local chat UI, and an OpenAI-compatible text-to-speech endpoint. Free and open source.",
-    "url": "https://huggingface.co/blog/ggml-org/llama-cpp-v1"
   }
 ]
