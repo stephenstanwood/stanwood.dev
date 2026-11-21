@@ -103,12 +103,14 @@ export function buildFallbackSchedule(): BigInningSchedule {
   };
 }
 
-function stripTags(html: string): string {
+function tableCellText(html: string): string {
   return decodeEntities(html.replace(/<[^>]+>/g, ""))
     .replace(/\s+/g, " ")
     .trim();
 }
 
+// CLEANUP-FLAG: this live parser and the Mini's nightly publisher validate dates and
+// times separately. Agreeing on valid rows requires a shared contract across both runtimes.
 export function parseScheduleFromHtml(html: string): BigInningSchedule | null {
   const windows: BigInningWindow[] = [];
   const rowPattern = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
@@ -116,15 +118,10 @@ export function parseScheduleFromHtml(html: string): BigInningSchedule | null {
   while ((row = rowPattern.exec(html)) !== null) {
     const cells = Array.from(
       row[1].matchAll(/<t[dh][^>]*>([\s\S]*?)<\/t[dh]>/gi)
-    ).map((cellMatch) => stripTags(cellMatch[1]));
+    ).map((cellMatch) => tableCellText(cellMatch[1]));
     if (cells.length < 4) continue;
-    const dateCell = cells[1];
-    const startCell = cells[2];
-    const endCell = cells[3];
-    if (!/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(dateCell)) continue;
-    if (!/^\d{1,2}:\d{2}\s*(AM|PM)$/i.test(startCell)) continue;
-    if (!/^\d{1,2}:\d{2}\s*(AM|PM)$/i.test(endCell)) continue;
-    const window = buildWindow(dateCell, startCell, endCell);
+    const [, date, startTime, endTime] = cells;
+    const window = buildWindow(date, startTime, endTime);
     if (window) windows.push(window);
   }
   if (windows.length === 0) return null;
