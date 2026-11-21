@@ -8,12 +8,12 @@ import type { ClassTag } from "./types";
 const EMOJI = /\p{Extended_Pictographic}️?/gu;
 const EDGE_PUNCTUATION = /^[\s:|\-–—]+|[\s:|\-–—]+$/g;
 
-function squish(text: string): string {
+export function normalizeClassWhitespace(text: string): string {
   return text.replace(/\s+/g, " ").trim();
 }
 
 function sentenceCase(text: string): string {
-  const lower = squish(text).toLowerCase();
+  const lower = normalizeClassWhitespace(text).toLowerCase();
   return lower.charAt(0).toUpperCase() + lower.slice(1);
 }
 
@@ -23,7 +23,7 @@ function addTag(tags: ClassTag[], tag: ClassTag): void {
 
 /** "SARAH MCGRATH" → "Sarah McGrath". Mixed-case names are already right and stay as given. */
 export function displayName(raw: string | null | undefined): string | null {
-  const name = squish(raw ?? "");
+  const name = normalizeClassWhitespace(raw ?? "");
   if (!name) return null;
   if (name !== name.toUpperCase()) return name;
   return name
@@ -38,7 +38,7 @@ export function displayName(raw: string | null | undefined): string | null {
  */
 export function cleanCourtsideTitle(raw: string): { title: string; tags: ClassTag[] } {
   const tags: ClassTag[] = [];
-  let title = squish(raw);
+  let title = normalizeClassWhitespace(raw);
   if (title.includes("$")) {
     addTag(tags, { kind: "fee", label: "Extra fee" });
     title = title.replace(/\$/g, " ");
@@ -51,7 +51,7 @@ export function cleanCourtsideTitle(raw: string): { title: string; tags: ClassTa
     .replace(/[™®©]/g, "")
     .replace(/\s*\|\s*/g, ": ")
     .replace(/\s+-\s+/g, ": ");
-  title = squish(title).replace(EDGE_PUNCTUATION, "");
+  title = normalizeClassWhitespace(title).replace(EDGE_PUNCTUATION, "");
   return { title, tags };
 }
 
@@ -66,7 +66,7 @@ export function cleanClubLgName(raw: string, room: string | null): { title: stri
   const tags: ClassTag[] = [];
   const unheated = /\bnon-?heated\b/i.test(raw);
   const heated = !unheated && (/🔥|\bheated\b/i.test(raw) || /heated/i.test(room ?? ""));
-  let title = squish(raw.replace(EMOJI, " "));
+  let title = normalizeClassWhitespace(raw.replace(EMOJI, " "));
 
   title = title.replace(/\*([^*]+)\*/g, (_, aside: string) => {
     if (!MET_PREREQUISITES.test(aside)) addTag(tags, { kind: "prereq", label: sentenceCase(aside) });
@@ -76,7 +76,7 @@ export function cleanClubLgName(raw: string, room: string | null): { title: stri
   title = title.replace(/\s*\([^)]*\bheated\b[^)]*\)\s*/gi, " ");
   if (heated) addTag(tags, { kind: "heated", label: "Heated" });
   // "Body Shop- Total Body Burner" → "Body Shop: Total Body Burner"
-  title = squish(title.replace(/(\S)-\s+/g, "$1: "));
+  title = normalizeClassWhitespace(title.replace(/(\S)-\s+/g, "$1: "));
 
   if (/pop[\s-]?up/i.test(title)) addTag(tags, { kind: "popup", label: "Pop-up" });
   if (/complimentary|\bfree\b/i.test(title)) {
@@ -84,7 +84,7 @@ export function cleanClubLgName(raw: string, room: string | null): { title: stri
     // The tag says it; drop a trailing "…: A COMPLIMENTARY Trial!" clause.
     title = title.replace(/:\s*[^:]*\bcomplimentary\b[^:]*$/i, "");
   }
-  title = squish(title).replace(EDGE_PUNCTUATION, "");
+  title = normalizeClassWhitespace(title).replace(EDGE_PUNCTUATION, "");
   return { title, tags };
 }
 

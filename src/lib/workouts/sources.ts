@@ -10,7 +10,15 @@
 
 import { BROWSER_USER_AGENT, fetchWithTimeout, isRecord } from "../apiHelpers";
 import { PACIFIC_TZ } from "../dateFormat";
-import { cleanClubLgName, cleanCourtsideTitle, displayName, isAdultGroupClass, isCalledOff } from "./clean";
+import { MS_PER_MINUTE } from "../time";
+import {
+  cleanClubLgName,
+  cleanCourtsideTitle,
+  displayName,
+  isAdultGroupClass,
+  isCalledOff,
+  normalizeClassWhitespace,
+} from "./clean";
 import { pacificClock, parseInstant } from "./clock";
 import { extractFlightPayload, findKey, parseFlightRows, resolveRefs } from "./flight";
 import { modalityOf } from "./modality";
@@ -29,11 +37,11 @@ export function courtsideListingUrl(date: string): string {
   return `${COURTSIDE_SCHEDULE_URL}&d=${date}`;
 }
 
-function text(value: unknown): string {
-  return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
+function readClassText(value: unknown): string {
+  return typeof value === "string" ? normalizeClassWhitespace(value) : "";
 }
 
-function minutes(value: unknown): number | null {
+function readFiniteNumber(value: unknown): number | null {
   return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
@@ -43,28 +51,29 @@ export function normalizeCourtside(items: unknown[], requestedDate: string): Wor
   const classes: WorkoutClass[] = [];
   for (const item of items) {
     if (!isRecord(item)) continue;
-    const startMin = minutes(item.timeFromInMinutes);
-    const endMin = minutes(item.timeToInMinutes);
-    const rawTitle = text(item.title);
+    const startMin = readFiniteNumber(item.timeFromInMinutes);
+    const endMin = readFiniteNumber(item.timeToInMinutes);
+    const rawTitle = readClassText(item.title);
     if (startMin === null || endMin === null || !rawTitle) continue;
-    if (!isAdultGroupClass(rawTitle, text(item.category))) continue;
+    const category = readClassText(item.category);
+    if (!isAdultGroupClass(rawTitle, category)) continue;
 
-    const classDate = text(item.classDate);
+    const classDate = readClassText(item.classDate);
     const date = /^\d{4}-\d{2}-\d{2}$/.test(classDate) ? classDate : requestedDate;
     const { title, tags } = cleanCourtsideTitle(rawTitle);
     classes.push({
       club: "courtside",
-      id: text(item.id) || `${date}-${startMin}-${title}`,
+      id: readClassText(item.id) || `${date}-${startMin}-${title}`,
       date,
       startMin,
       endMin,
       title,
-      modality: modalityOf(title, text(item.category)),
-      instructor: displayName(text(item.instructor)),
+      modality: modalityOf(title, category),
+      instructor: displayName(readClassText(item.instructor)),
       substitute: item.substitute === true,
-      room: text(item.location) || null,
+      room: readClassText(item.location) || null,
       tags,
-      cancelled: text(item.status).toLowerCase() === "cancelled",
+      cancelled: readClassText(item.status).toLowerCase() === "cancelled",
       virtual: false,
       url: courtsideListingUrl(date),
     });
@@ -106,7 +115,7 @@ export function extractClubLgClasses(html: string): Record<string, unknown>[] {
 }
 
 function availabilityTag(item: Record<string, unknown>): ClassTag | null {
-  const open = minutes(item.availableOnlineBookings);
+  const open = readFiniteNumber(item.availableOnlineBookings);
   if (open === 0 || (item.bookable === false && item.waitlistable === true)) {
     return { kind: "full", label: item.waitlistable === true ? "Full, waitlist open" : "Full" };
   }
@@ -125,18 +134,21 @@ export function normalizeClubLg(items: Record<string, unknown>[], now: Date): Wo
   const classes: WorkoutClass[] = [];
   for (const item of items) {
     const start = parseInstant(item.startDateTime);
-    const durationMin = minutes(item.duration);
-    const end =
-      parseInstant(item.endDateTime) ??
-      (start && durationMin !== null ? new Date(start.getTime() + durationMin * 60_000) : null);
-    const rawName = text(item.name);
-    if (!start || !end || !rawName || !isAdultGroupClass(rawName)) continue;
+    const rawName = readClassText(item.name);
+    if (!start || !rawName || !isAdultGroupClass(rawName)) continue;
+
+    const durationMin = readFiniteNumber(item.duration);
+    let end = parseInstant(item.endDateTime);
+    if (end === null && durationMin !== null) {
+      end = new Date(start.getTime() + durationMin * MS_PER_MINUTE);
+    }
+    if (end === null) continue;
 
     const startClock = pacificClock(start);
     const endClock = pacificClock(end);
     if (endClock.date !== startClock.date) continue;
 
-    const room = text(item.roomName) || null;
+    const room = readClassText(item.roomName) || null;
     const { title, tags } = cleanClubLgName(rawName, room);
     const virtual = /^virtual$/i.test(room ?? "") || /^virtual\b/i.test(rawName);
     const cancelled = item.cancelled === true || isCalledOff(rawName);
@@ -153,13 +165,13 @@ export function normalizeClubLg(items: Record<string, unknown>[], now: Date): Wo
     const displayTitle = virtual ? title.replace(/^virtual\s+/i, "") : title;
     classes.push({
       club: "clublg",
-      id: text(item.id) || `${startClock.date}-${startClock.minutes}-${title}`,
+      id: readClassText(item.id) || `${startClock.date}-${startClock.minutes}-${title}`,
       date: startClock.date,
       startMin: startClock.minutes,
       endMin: endClock.minutes,
       title: displayTitle,
       modality: modalityOf(displayTitle),
-      instructor: item.isTbd === true ? null : displayName(text(staff?.displayLabel)),
+      instructor: item.isTbd === true ? null : displayName(readClassText(staff?.displayLabel)),
       substitute: false,
       room: virtual ? null : room,
       tags,

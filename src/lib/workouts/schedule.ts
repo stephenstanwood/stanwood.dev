@@ -5,6 +5,7 @@
  * out, and a streamed copy folds into its in-person class as "Also virtual".
  */
 
+import { toErrMsg } from "../apiHelpers";
 import { createTtlCache } from "../ttlCache";
 import { addDaysIso, isWeekday, monthDayLabel, pacificClock, shortDateLabel, weekdayName } from "./clock";
 import { fetchClubLg, fetchCourtside } from "./sources";
@@ -102,7 +103,7 @@ export function buildDays(todayIso: string, classes: WorkoutClass[]): ScheduleDa
 function settledStatus(result: PromiseSettledResult<unknown>, club: ClubKey): SourceStatus {
   if (result.status === "fulfilled") return { ok: true };
   console.warn(`[workouts] ${club} schedule unavailable`, result.reason);
-  return { ok: false, error: result.reason instanceof Error ? result.reason.message : String(result.reason) };
+  return { ok: false, error: toErrMsg(result.reason) };
 }
 
 const scheduleCache = createTtlCache<WorkoutSchedule>(4 * 60_000);
