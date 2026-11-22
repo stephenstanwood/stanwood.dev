@@ -8,14 +8,6 @@
     "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
   },
   {
-    "name": "WeMM-Video-2B",
-    "org": "Tencent",
-    "date": "2026-11-20",
-    "type": "model",
-    "summary": "Ask questions about a video in English or Chinese, from what happened on screen to what someone said. The downloadable model analyzes the footage and its original soundtrack together.",
-    "url": "https://huggingface.co/tencent/WeMM-Video-2B"
-  },
-  {
     "name": "GPT-Live-1.1 API",
     "org": "OpenAI",
     "date": "2026-11-19",
@@ -46,6 +38,14 @@
     "type": "model",
     "summary": "Turn a prompt or reference image into a world you can explore and change as you go, with live sound. Try it in Google AI Studio or build it into your own prototype with the paid Gemini API.",
     "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
+  },
+  {
+    "name": "Gemini computer use for Mac",
+    "org": "Google",
+    "date": "2026-11-19",
+    "type": "tool",
+    "summary": "Hand off repetitive Mac chores like filling forms, renaming files, or working across apps and sites while you keep using your screen. Gemini runs in a background window, and you approve key steps. Requires a Google AI Plus, Pro, or Ultra plan (US).",
+    "url": "https://blog.google/innovation-and-ai/products/gemini-app/computer-use-mac/"
   },
   {
     "name": "Clairic and Clairic-flash",
