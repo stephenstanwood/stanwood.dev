@@ -1,5 +1,13 @@
 [
   {
+    "name": "OCRia-nano-1",
+    "org": "LlamaIndex",
+    "date": "2026-11-23",
+    "type": "model",
+    "summary": "Turn scanned PDFs into Markdown with tables intact, right on your laptop with no GPU or API key. It installs through the open-source LiteParse tool and is free for personal use and businesses under $2M in revenue and funding.",
+    "url": "https://www.llamaindex.ai/blog/introducing-ocria-nano-1"
+  },
+  {
     "name": "Inkling 2 Mini",
     "org": "Thinking Machines Lab",
     "date": "2026-11-20",
@@ -46,14 +54,6 @@
     "type": "tool",
     "summary": "Hand off repetitive Mac chores like filling forms, renaming files, or working across apps and sites while you keep using your screen. Gemini runs in a background window, and you approve key steps. Requires a Google AI Plus, Pro, or Ultra plan (US).",
     "url": "https://blog.google/innovation-and-ai/products/gemini-app/computer-use-mac/"
-  },
-  {
-    "name": "Clairic and Clairic-flash",
-    "org": "Cloudflare",
-    "date": "2026-11-18",
-    "type": "model",
-    "summary": "Pull structured data out of PDFs, images, and messy text, with confidence scores for every field. Open weights are on Hugging Face, or call them on Workers AI for $0.10 per million input tokens with output free.",
-    "url": "https://blog.cloudflare.com/open-clairic/"
   },
   {
     "name": "GPT-6.2 Sol and Astra",
