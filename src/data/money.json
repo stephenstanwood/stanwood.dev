@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-24T02:10:08.523Z",
+  "lastUpdated": "2026-11-24T07:10:11.355Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-24T02:10:08.523Z",
+        "collectedAt": "2026-11-24T07:10:11.355Z",
         "services": {
           "vercel": {
-            "totalCents": 6820,
+            "totalCents": 6999,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 5524
+                "cents": 5687
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 640
+                "cents": 644
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 384
+                "cents": 389
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 91
+                "cents": 92
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 65
+                "cents": 67
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 64
+                "cents": 65
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -579,7 +579,11 @@
               },
               {
                 "name": "Function Invocations",
-                "cents": 10
+                "cents": 11
+              },
+              {
+                "name": "Blob Simple Operations",
+                "cents": 5
               },
               {
                 "name": "Blob Storage Size",
@@ -590,16 +594,12 @@
                 "cents": 4
               },
               {
-                "name": "Blob Simple Operations",
-                "cents": 4
+                "name": "Image Optimization Cache Writes",
+                "cents": 3
               },
               {
                 "name": "Blob Advanced Operations",
                 "cents": 3
-              },
-              {
-                "name": "Image Optimization Cache Writes",
-                "cents": 2
               },
               {
                 "name": "ISR Reads",
