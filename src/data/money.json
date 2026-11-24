@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-23T20:10:12.733Z",
+  "lastUpdated": "2026-11-24T02:10:08.523Z",
   "apiSpend": {
     "months": [
       {
@@ -544,38 +544,38 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-23T20:10:12.733Z",
+        "collectedAt": "2026-11-24T02:10:08.523Z",
         "services": {
           "vercel": {
-            "totalCents": 6600,
+            "totalCents": 6820,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 5326
+                "cents": 5524
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 629
+                "cents": 640
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 377
+                "cents": 384
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 89
+                "cents": 91
+              },
+              {
+                "name": "Fluid Active CPU",
+                "cents": 65
               },
               {
                 "name": "Web Analytics Events",
                 "cents": 64
               },
               {
-                "name": "Fluid Active CPU",
-                "cents": 64
-              },
-              {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 21
+                "cents": 22
               },
               {
                 "name": "Function Invocations",
@@ -613,15 +613,15 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 8520,
+            "totalCents": 8801,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 6066
+                "cents": 6345
               },
               {
                 "name": "claude-opus-5-5",
-                "cents": 1405
+                "cents": 1407
               },
               {
                 "name": "claude-fable-5-1",
