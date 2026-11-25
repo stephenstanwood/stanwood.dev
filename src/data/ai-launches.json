@@ -1,5 +1,21 @@
 [
   {
+    "name": "MAGI-2",
+    "org": "Sand.ai",
+    "date": "2026-11-24",
+    "type": "model",
+    "summary": "Make a video of up to 30 seconds in 1080p with matching sound in one pass, guided by your own images, clips, or audio. Use it now on Higgsfield, where the API runs $0.08 per second.",
+    "url": "https://sand.ai/blog/magi-2"
+  },
+  {
+    "name": "GLM-5.4",
+    "org": "Z.ai",
+    "date": "2026-11-23",
+    "type": "model",
+    "summary": "Hand your coding agent a screenshot, screen recording, or big codebase and have it build from there. It works inside Claude Code, Codex, and OpenCode on every GLM Coding Plan, starting at $18 a month.",
+    "url": "https://docs.z.ai/guides/llm/glm-5.4"
+  },
+  {
     "name": "OCRia-nano-1",
     "org": "LlamaIndex",
     "date": "2026-11-23",
@@ -30,22 +46,6 @@
     "type": "model",
     "summary": "Recolor a product to match your brand or touch up one part of a photo, with output up to 4K. Try it in the app or use the API, where edits start at $0.008.",
     "url": "https://ideogram.ai/models/4.6/"
-  },
-  {
-    "name": "TestSprite 4.0",
-    "org": "TestSprite",
-    "date": "2026-11-19",
-    "type": "tool",
-    "summary": "Describe how your web app should work and get browser tests you can rerun on each code change. Start free and review recordings of failed steps.",
-    "url": "https://www.testsprite.com/blog/introducing-testsprite-4-0"
-  },
-  {
-    "name": "Genie 4 API",
-    "org": "Google",
-    "date": "2026-11-19",
-    "type": "model",
-    "summary": "Turn a prompt or reference image into a world you can explore and change as you go, with live sound. Try it in Google AI Studio or build it into your own prototype with the paid Gemini API.",
-    "url": "https://blog.google/innovation-and-ai/technology/developers-tools/genie-4-in-gemini-api/"
   },
   {
     "name": "Gemini computer use for Mac",
