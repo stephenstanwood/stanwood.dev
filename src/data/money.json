@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-24T20:10:11.238Z",
+  "lastUpdated": "2026-11-25T02:10:11.343Z",
   "apiSpend": {
     "months": [
       {
@@ -544,10 +544,10 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-24T20:10:11.238Z",
+        "collectedAt": "2026-11-25T02:10:11.343Z",
         "services": {
           "vercel": {
-            "totalCents": 7104,
+            "totalCents": 7122,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
@@ -555,27 +555,27 @@
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 663
+                "cents": 669
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 404
+                "cents": 411
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 95
+                "cents": 97
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 69
+                "cents": 70
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 66
+                "cents": 67
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
-                "cents": 23
+                "cents": 24
               },
               {
                 "name": "Function Invocations",
@@ -613,19 +613,19 @@
             "note": null
           },
           "anthropic": {
-            "totalCents": 8801,
+            "totalCents": 9266,
             "breakdown": [
               {
                 "name": "claude-sonnet-5-5",
-                "cents": 6345
+                "cents": 6696
               },
               {
                 "name": "claude-opus-5-5",
-                "cents": 1407
+                "cents": 1455
               },
               {
                 "name": "claude-fable-5-1",
-                "cents": 1049
+                "cents": 1115
               }
             ],
             "note": "computed from API key token usage; skipped unpriced Anthropic tokens"
