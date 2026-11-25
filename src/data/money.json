@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-25T02:10:11.343Z",
+  "lastUpdated": "2026-11-25T07:10:10.996Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-25T02:10:11.343Z",
+        "collectedAt": "2026-11-25T07:10:10.996Z",
         "services": {
           "vercel": {
-            "totalCents": 7122,
+            "totalCents": 7443,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 5751
+                "cents": 6054
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 669
+                "cents": 674
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 411
+                "cents": 417
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 97
+                "cents": 99
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 70
+                "cents": 72
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 67
+                "cents": 68
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -579,7 +579,7 @@
               },
               {
                 "name": "Function Invocations",
-                "cents": 11
+                "cents": 12
               },
               {
                 "name": "Blob Simple Operations",
@@ -602,12 +602,12 @@
                 "cents": 3
               },
               {
-                "name": "ISR Reads",
+                "name": "Image Optimization Cache Reads",
                 "cents": 2
               },
               {
-                "name": "Image Optimization Cache Reads",
-                "cents": 1
+                "name": "ISR Reads",
+                "cents": 2
               }
             ],
             "note": null
