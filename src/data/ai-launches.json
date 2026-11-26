@@ -1,5 +1,21 @@
 [
   {
+    "name": "Install artifacts as apps",
+    "org": "Anthropic",
+    "date": "2026-11-24",
+    "type": "tool",
+    "summary": "Turn a Claude artifact into a desktop app on Mac or Windows, with menu bar or tray access, notifications, and keyboard shortcuts. It's a beta on Claude plans and uses your existing account, so no API key is needed.",
+    "url": "https://www.eweek.com/news/claude-artifacts-install-as-app-mac-windows/"
+  },
+  {
+    "name": "Ternary Bonsai 2.5 27B",
+    "org": "PrismML",
+    "date": "2026-11-24",
+    "type": "model",
+    "summary": "Run a coding and tool-using agent on your own machine in about 6 GB, with no cloud calls. The Apache 2.0 weights are on Hugging Face and run via llama.cpp or MLX on Macs, iPhones, and iPads.",
+    "url": "https://prismml.com/news/bonsai-2-5-27b"
+  },
+  {
     "name": "MAGI-2",
     "org": "Sand.ai",
     "date": "2026-11-24",
@@ -32,14 +48,6 @@
     "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
   },
   {
-    "name": "GPT-Live-1.1 API",
-    "org": "OpenAI",
-    "date": "2026-11-19",
-    "type": "model",
-    "summary": "Build a multilingual voice tutor or support assistant that can listen while it speaks. The API costs 5¢ per active minute, with separate charges for any tools or models it calls.",
-    "url": "https://developers.openai.com/api/docs/models/gpt-live-1.1"
-  },
-  {
     "name": "Ideogram 4.6",
     "org": "Ideogram",
     "date": "2026-11-19",
@@ -54,13 +62,5 @@
     "type": "tool",
     "summary": "Hand off repetitive Mac chores like filling forms, renaming files, or working across apps and sites while you keep using your screen. Gemini runs in a background window, and you approve key steps. Requires a Google AI Plus, Pro, or Ultra plan (US).",
     "url": "https://blog.google/innovation-and-ai/products/gemini-app/computer-use-mac/"
-  },
-  {
-    "name": "GPT-6.2 Sol and Astra",
-    "org": "OpenAI",
-    "date": "2026-11-17",
-    "type": "model",
-    "summary": "Use Sol for everyday coding and Astra for longer projects that span code, documents, and research. Both are in Codex and ChatGPT Work on Plus and Pro, with Sol at one-quarter of Astra's API price per token.",
-    "url": "https://openai.com/index/introducing-gpt-6-2-astra-sol/"
   }
 ]
