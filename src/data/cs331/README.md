@@ -26,5 +26,6 @@ available in the game when moving between the two origins.
 `noindex,nofollow`. The editable source is in
 `/Users/stephenstanwood/Projects/cs331/final-prep`. Run `npm test` and
 `npm run build` there, then copy `dist/index.html` here as `final.html`.
-It contains original exercises aligned to the Canvas module conclusions and
-uses a separate browser progress key.
+It contains the 61 adapted Canvas self-check questions from Modules 6–10
+and 94 additional exercises. The quiz mode includes source links and worked
+explanations. Canvas captures and student history stay outside publication.
