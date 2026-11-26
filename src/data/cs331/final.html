@@ -2017,6 +2017,7 @@ dialog .actions {
 const SCOPE = {
   checked: 'November 26, 2026',
   modules: canvas + '/modules',
+  announcement: canvas + '/discussion_topics/11721342',
   syllabus: canvas + '/assignments/syllabus',
   unlocks: 'December 6 at 8 a.m. Pacific',
   due: 'December 10',
@@ -2076,7 +2077,15 @@ const TOPICS = [
   },
 ];
 
-const single = (id, module, prompt, answer, distractors, why, extra = {}) => ({
+const single = (
+  id,
+  module,
+  prompt,
+  answer,
+  distractors,
+  why,
+  extra = {}
+) => ({
   id,
   module,
   prompt,
@@ -2086,7 +2095,7 @@ const single = (id, module, prompt, answer, distractors, why, extra = {}) => ({
   correct: [0],
   ...extra,
 });
-const tf = (id, module, prompt, answer, why) => ({
+const tf = (id, module, prompt, answer, why, extra = {}) => ({
   id,
   module,
   prompt,
@@ -2094,6 +2103,7 @@ const tf = (id, module, prompt, answer, why) => ({
   kind: 'single',
   options: ['True', 'False'],
   correct: [answer ? 0 : 1],
+  ...extra,
 });
 const multi = (id, module, prompt, options, correct, why) => ({
   id,
@@ -2153,7 +2163,7 @@ const indicators = {
   ],
 };
 
-const BANK = [
+const PRACTICE_BANK = [
   single(
     '6-tell',
     6,
@@ -3232,6 +3242,695 @@ const LESSONS = [
   },
 ];
 
+
+
+const quizBase = 'https://canvas.oregonstate.edu/courses/2079176/quizzes/';
+
+const QUIZZES = new Map([
+  [6, { url: quizBase + '3170963', count: 9 }],
+  [7, { url: quizBase + '3170967', count: 10 }],
+  [8, { url: quizBase + '3170972', count: 6 }],
+  [9, { url: quizBase + '3170961', count: 10 }],
+  [10, { url: quizBase + '3203716', count: 26 }],
+]);
+
+const textbookFigures = 'https://aima.cs.berkeley.edu/global-figures.pdf';
+
+function quizItems(quiz, makeQuestions) {
+  const fromQuiz =
+    (make) =>
+    (question, ...args) => ({
+      ...make(`canvas-${quiz}-${question}`, quiz, ...args),
+      source: { quiz, question },
+    });
+  return makeQuestions({
+    single: fromQuiz(single),
+    tf: fromQuiz(tf),
+    multi: fromQuiz(multi),
+    match: fromQuiz(match),
+    number: fromQuiz(number),
+  });
+}
+
+const toothacheJoint = {
+  caption:
+    'Full joint distribution for Toothache, Cavity, and Catch. Catch means the dental probe catches.',
+  headings: ['Toothache', 'Cavity', 'Catch', 'Probability'],
+  rows: [
+    ['Yes', 'Yes', 'Yes', '0.108'],
+    ['Yes', 'Yes', 'No', '0.012'],
+    ['No', 'Yes', 'Yes', '0.072'],
+    ['No', 'Yes', 'No', '0.008'],
+    ['Yes', 'No', 'Yes', '0.016'],
+    ['Yes', 'No', 'No', '0.064'],
+    ['No', 'No', 'Yes', '0.144'],
+    ['No', 'No', 'No', '0.576'],
+  ],
+  reference: { url: textbookFigures, label: 'Textbook Figure 12.3' },
+};
+
+const alarmCpt = {
+  caption:
+    'Burglary (B) and Earthquake (E) are independent roots with P(B) = 0.001 and P(E) = 0.002. Both point to Alarm.',
+  headings: ['Burglary', 'Earthquake', 'P(Alarm = true | B, E)'],
+  rows: [
+    ['True', 'True', '0.95'],
+    ['True', 'False', '0.94'],
+    ['False', 'True', '0.29'],
+    ['False', 'False', '0.001'],
+  ],
+  reference: { url: textbookFigures, label: 'Textbook Figure 13.2' },
+};
+
+const invalidCpt = {
+  caption: 'Proposed conditional probability table for M given A',
+  headings: ['A', 'P(M = true | A)', 'P(M = false | A)'],
+  rows: [
+    ['True', '0.7', '0.2'],
+    ['False', '0.01', '0.99'],
+  ],
+};
+
+const weatherFactors = {
+  caption:
+    'The two factors P(W) and P(D | W) aligned on their shared variable W',
+  headings: ['W', 'D', 'P(W)', 'P(D | W)'],
+  rows: [
+    ['Rain', 'Wet', '0.1', '0.75'],
+    ['Rain', 'Dry', '0.1', '0.25'],
+    ['Sun', 'Wet', '0.9', '0.01'],
+    ['Sun', 'Dry', '0.9', '0.99'],
+  ],
+};
+
+const workVocabulary =
+  'Let O(p, o) mean person p has occupation o. Doctor, Surgeon, Lawyer, and Actor are occupation constants. Emily and Joe are people.';
+const chain = 'The only arrows in the Bayesian network are X → Y and Y → Z. ';
+
+const QUIZ_BANK = [
+  ...quizItems(6, ({ single, multi }) => [
+    single(
+      1,
+      'Which choice refutes the claim that if (α ∧ β) ⊨ γ, then at least one of α and β entails γ on its own?',
+      'α = P, β = Q, γ = P ∧ Q',
+      [
+        'α = P, β = Q, γ = P ∨ Q',
+        'α = P, β = Q, γ = P',
+        'α = P, β = Q, γ = ¬P',
+      ],
+      'Together P and Q entail P ∧ Q. P can hold while Q is false, and Q can hold while P is false, so neither alone entails the conjunction.',
+      { note: 'The Canvas prompt asks for a written counterexample.' }
+    ),
+    single(
+      2,
+      'Which choice refutes the claim that if α ⊨ (β ∨ γ), then α entails β or α entails γ?',
+      'α = P ∨ Q, β = P, γ = Q',
+      [
+        'α = P ∧ Q, β = P, γ = Q',
+        'α = P, β = P, γ = Q',
+        'α = P, β = Q, γ = ¬P',
+      ],
+      'P ∨ Q entails itself. The assignments (P true, Q false) and (P false, Q true) both satisfy it and disprove each individual entailment.',
+      { note: 'The Canvas prompt asks for a written counterexample.' }
+    ),
+    single(
+      3,
+      'Classify the implication Smoke → Smoke.',
+      'Valid',
+      ['Unsatisfiable', 'Neither'],
+      'An implication is false only when its antecedent is true and its consequent is false. The same proposition cannot take both values in one assignment.'
+    ),
+    single(
+      4,
+      'Classify the formula (Smoke → Fire) → (¬Smoke → ¬Fire).',
+      'Neither',
+      ['Valid', 'Unsatisfiable'],
+      'Smoke false and Fire true make the inner first implication true and the second false, so the formula can fail. Setting both false makes the formula true.'
+    ),
+    single(
+      5,
+      'Let P stand for Pit and B stand for Breeze. Express the rule that a pit is sufficient for a breeze.',
+      'P → B',
+      ['B → P', 'B ↔ P', 'P ↔ B'],
+      'The pit supplies the condition and the breeze is the consequence. A biconditional would also require the reverse implication.'
+    ),
+    multi(
+      6,
+      'Which formulas are already in conjunctive normal form? Treat ∧ as binding more tightly than ∨.',
+      ['P ∧ Q', 'P ∧ Q ∨ R', 'P ∧ (Q ∨ R)', 'None of these'],
+      [0, 2],
+      'CNF is an AND of clauses. P and Q individually count as clauses, as does Q ∨ R. The middle formula groups as (P ∧ Q) ∨ R and requires distribution.'
+    ),
+    multi(
+      7,
+      'Which options are definite clauses? A definite clause is a disjunction with exactly one positive literal.',
+      ['P ∨ Q ∨ R', 'P ∨ ¬Q ∨ R', 'P ∨ ¬Q ∨ ¬R', 'P ∧ Q', 'None of these'],
+      [2],
+      'P ∨ ¬Q ∨ ¬R has just one positive literal. P ∧ Q is a conjunction of two separate unit clauses.'
+    ),
+    multi(
+      8,
+      'Resolve the clauses (¬X ∨ Y ∨ ¬W) and (W ∨ ¬Y ∨ Z). Which clauses can a single binary resolution step produce before discarding tautologies?',
+      ['¬X ∨ ¬W ∨ W ∨ Z', 'X ∨ Z', '¬X ∨ ¬Y ∨ W ∨ Z', '¬X ∨ ¬Y ∨ Y ∨ Z'],
+      [0, 3],
+      'Resolving on Y leaves W and ¬W. Resolving on W leaves Y and ¬Y. Each resolvent is a tautology that a proof search can discard. Removing two complementary pairs in one step is invalid.'
+    ),
+    multi(
+      9,
+      'The knowledge base is (P ∨ ¬Q ∨ ¬R) ∧ (A ∨ ¬B) ∧ (B ∨ C). Which standard algorithms can directly handle inference for this base?',
+      [
+        'Backward chaining over definite clauses',
+        'Forward chaining over definite clauses',
+        'Propositional resolution',
+      ],
+      [2],
+      'The clause B ∨ C contains two positive literals, so the base is outside the definite-clause form used by those chaining algorithms. Resolution can operate on general CNF.'
+    ),
+  ]),
+
+  ...quizItems(7, ({ single, tf, multi, match }) => [
+    tf(
+      1,
+      'The formula ∀x (P(x) ∨ ¬P(x)) is valid in classical first-order logic.',
+      true,
+      'For every object, P(x) is either true or false. Each instance satisfies the law of excluded middle. The parentheses show the scope of the quantifier.'
+    ),
+    match(
+      2,
+      'In(x, y) relates two geographic regions. Evaluate each proposed translation of “Paris and Marseilles are both in France.”',
+      [
+        ['In(Paris ∧ Marseilles, France)', 'Invalid syntax'],
+        ['In(Paris, France) ∧ In(Marseilles, France)', 'Correct translation'],
+        [
+          'In(Paris, France) ∨ In(Marseilles, France)',
+          'Valid syntax, different meaning',
+        ],
+      ],
+      'Each argument to In must be a term, so a conjunction inside an argument is malformed. Connecting two complete atoms with ∧ requires both cities to be in France. Using ∨ requires only one.'
+    ),
+    single(
+      3,
+      workVocabulary +
+        ' Translate both statements in order. Emily is a surgeon or a lawyer, possibly both. Joe is an actor and has a second occupation.',
+      'O(Emily, Surgeon) ∨ O(Emily, Lawyer) and O(Joe, Actor) ∧ ∃o (o ≠ Actor ∧ O(Joe, o))',
+      [
+        'O(Emily, Surgeon) ∧ O(Emily, Lawyer) and O(Joe, Actor) ∧ ∃o (o ≠ Actor ∧ O(Joe, o))',
+        'O(Emily, Surgeon) ∨ O(Emily, Lawyer) and O(Joe, Actor) ∧ ∃o O(Joe, o)',
+        'O(Emily, Surgeon) ∨ O(Emily, Lawyer) and O(Joe, Actor) → ∀o O(Joe, o)',
+      ],
+      'Use a disjunction for Emily. Joe’s second job needs an existential witness constrained to differ from Actor. Without that constraint, Actor itself could be the witness.',
+      { note: 'The Canvas prompt asks you to write both formulas.' }
+    ),
+    single(
+      4,
+      workVocabulary +
+        ' Customer(c, p) means c is a customer of p. Translate both statements in order. Every surgeon is a doctor. At least one lawyer has only doctors as customers.',
+      '∀p (O(p, Surgeon) → O(p, Doctor)) and ∃l (O(l, Lawyer) ∧ ∀c (Customer(c, l) → O(c, Doctor)))',
+      [
+        '∀p (O(p, Doctor) → O(p, Surgeon)) and ∃l (O(l, Lawyer) ∧ ∀c (Customer(c, l) → O(c, Doctor)))',
+        '∀p (O(p, Surgeon) → O(p, Doctor)) and ∃l (O(l, Lawyer) ∧ ∃c (Customer(c, l) ∧ O(c, Doctor)))',
+        '∀p (O(p, Surgeon) → O(p, Doctor)) and ∃l (O(l, Lawyer) ∧ ∀c (O(c, Doctor) → Customer(c, l)))',
+      ],
+      'The first rule restricts the Surgeon cases. The second chooses one lawyer, then requires the rule for every customer of that lawyer. The variable c need not name a customer unless its antecedent is true.',
+      { note: 'The Canvas prompt asks you to write both formulas.' }
+    ),
+    single(
+      5,
+      'Can Q(y, G(A, B)) and Q(G(x, x), y) be unified? Here x and y are variables and A and B are distinct constant symbols.',
+      'No. Matching forces x to be both A and B.',
+      [
+        'Yes. Substitute y ↦ G(A, B) and x ↦ A.',
+        'Yes. Substitute y ↦ G(x, x) and x ↦ B.',
+        'Yes. Substitute y ↦ A.',
+      ],
+      'The two argument positions force y = G(x, x) and y = G(A, B). Unifying the G terms would assign A and B to the same x.',
+      {
+        note: 'The Canvas prompt asks for a written unifier or a reason none exists.',
+      }
+    ),
+    single(
+      6,
+      'Find the most general unifier for Sells(x, Bike(x)) and Sells(Father(y), z). The lowercase symbols x, y, and z are variables.',
+      'x ↦ Father(y), z ↦ Bike(Father(y))',
+      ['x ↦ y, z ↦ Bike(x)', 'x ↦ Father(y), z ↦ Bike', 'No unifier exists'],
+      'The first arguments force x ↦ Father(y). Apply that substitution inside Bike(x), then bind z to the resulting term. The variable y stays free.'
+    ),
+    multi(
+      7,
+      'Which formulas are equivalent to ¬∀x (p(x) ∧ q(x) ∧ r(w))?',
+      [
+        '∃x (¬p(x) ∨ ¬q(x) ∨ ¬r(w))',
+        '∃x ¬(p(x) ∧ q(x) ∧ r(w))',
+        '∃x (¬p(x) ∨ ¬q(x) ∨ r(w))',
+        '∃x (¬p(x) ∧ ¬q(x) ∧ ¬r(w))',
+      ],
+      [0, 1],
+      'A negated universal means there is a counterexample. After changing ∀ to ∃, negate the whole conjunction or use De Morgan’s law to turn it into an OR of negations.'
+    ),
+    single(
+      8,
+      'Remove the existential quantifier from ∀w ∃x ∀y G(w, x, y) using a fresh Skolem function H. Keep the universal quantifiers explicit.',
+      '∀w ∀y G(w, H(w), y)',
+      ['∀w G(w, H(w), y)', '∀w ∀y G(w, H(w, y), y)', '∀w G(w, H(w, y), y)'],
+      'Only w is in scope when x is chosen. The same witness for a given w must work for every later y. H therefore depends on w alone.'
+    ),
+    multi(
+      9,
+      'Consider Animal(F(x)) ∨ Loves(G(x), x) and ¬Loves(u, v) ∨ ¬Kills(u, v). Which claims about unification and resolution hold?',
+      [
+        'The Loves atoms unify with u ↦ G(x), v ↦ x.',
+        'The Loves atoms unify with u ↦ x, v ↦ x.',
+        'A resolvent is Animal(F(x)) ∨ ¬Kills(G(x), x).',
+        'A resolvent is Animal(F(x)) ∧ Kills(G(x), x).',
+      ],
+      [0, 2],
+      'The Loves arguments align as G(x) with u and x with v. Remove the complementary pair and apply the same substitution to Kills. The remaining literals form a disjunction.'
+    ),
+    multi(
+      10,
+      'Resolve Animal(F(x)) ∨ Loves(G(x), x) with ¬Loves(u, v) ∨ ¬Kills(u, v) ∨ ¬Animal(z). What can one binary resolution step produce?',
+      [
+        'Loves(G(x), x) ∨ ¬Loves(u, v) ∨ ¬Kills(u, v)',
+        'Animal(F(x)) ∨ ¬Kills(G(x), x) ∨ ¬Animal(z)',
+        '¬Kills(G(x), x)',
+      ],
+      [0, 1],
+      'Using Animal as the pivot binds z to F(x). Using Loves as the pivot binds u to G(x) and v to x. Each step removes one complementary pair.'
+    ),
+  ]),
+
+  ...quizItems(8, ({ single, number }) => [
+    single(
+      1,
+      'Assume P(a ∧ b | c) > 0 and P(a | b, c) = P(b | a, c). Which argument gives P(a | c) = P(b | c)?',
+      'Expand P(a ∧ b | c) in both orders and cancel the common positive conditional probability.',
+      [
+        'Apply Bayes’ rule and cancel P(c) without using the joint event.',
+        'Use P(a | b, c) = P(a | c) by independence.',
+        'Add both conditional probabilities and divide by two.',
+      ],
+      'The product rule gives P(a | b, c)P(b | c) = P(b | a, c)P(a | c). The common multiplier is positive, so the marginals given c are equal.',
+      {
+        note: 'The Canvas proof exercise omits the positivity condition. If the common conditional is zero, the equality gives 0 = 0 and the claimed conclusion need not follow.',
+      }
+    ),
+    number(
+      2,
+      'If P(A) = 0.4, P(B) = 0.3, and P(A ∨ B) = 0.5, what is P(A ∧ B)?',
+      0.2,
+      'Adding the marginals counts the intersection twice. Subtract the union: 0.4 + 0.3 − 0.5 = 0.2.',
+      { decimal: true }
+    ),
+    number(
+      3,
+      'Use the joint distribution from the dental example to find P(Toothache = yes).',
+      0.2,
+      'Sum over both cavity values and both catch values in the four toothache rows. 0.108 + 0.012 + 0.016 + 0.064 = 0.2.',
+      { decimal: true, table: toothacheJoint }
+    ),
+    single(
+      4,
+      'A trail can get muddy only on rainy days. P(muddy | rain) = 0.3 and P(rain) = 0.2. What is P(muddy)?',
+      '0.3 × 0.2',
+      ['0.3', '0.2 ÷ 0.3', '0.2'],
+      'On days without rain the probability of mud is zero. Multiply the rainy-day share by the chance of mud on those days to get 0.06.'
+    ),
+    single(
+      5,
+      'Daily toothache and rain are independent events with probability 0.2 each. Find the probability of a day with neither a toothache nor rain.',
+      '0.64',
+      ['0.16', '0.04'],
+      'Each complement has probability 0.8. The complements of independent events are independent, so the joint probability is 0.8 × 0.8 = 0.64.',
+      {
+        note: 'Canvas switches from toothache to cavity in the last line. Toothache is the variable specified by the data and used here.',
+      }
+    ),
+    number(
+      6,
+      'The two conditional probabilities for A and ¬A given B are α × 0.2 and α × 0.3. Find the integer normalization constant α.',
+      2,
+      'The two possible values sum to 1, so α × (0.2 + 0.3) = 1. Divide by 0.5 to get 2.'
+    ),
+  ]),
+
+  ...quizItems(9, ({ single, tf }) => [
+    tf(
+      1,
+      'In this alarm network, Burglary and Earthquake are independent after observing Alarm = true. Compare P(B | A)P(E | A) with P(B ∧ E | A).',
+      false,
+      'The four joint weights for Alarm = true sum to 0.002516442. The burglary and earthquake weights are 0.00094002 and 0.00058132. Their posterior product is about 0.08629. The posterior joint is 0.0000019 ÷ 0.002516442, about 0.000755. These differ because an observed shared effect couples its causes.',
+      { table: alarmCpt }
+    ),
+    tf(
+      2,
+      'A Bayesian network must have layers, with arrows only between neighboring layers.',
+      false,
+      'A directed acyclic graph can have links across any levels of a topological ordering. For example, X → Y, Y → Z, and X → Z form a valid topology.'
+    ),
+    tf(
+      3,
+      chain +
+        'The chain rule identity P(X, Y, Z) = P(X)P(Y | X)P(Z | X, Y) holds.',
+      true,
+      'That identity is the probability chain rule for the order X, Y, Z. The network also lets you simplify the last factor to P(Z | Y).'
+    ),
+    tf(
+      4,
+      chain + 'The joint factorizes as P(X, Y, Z) = P(X)P(Y | X)P(Z | Y).',
+      true,
+      'Each node contributes its conditional distribution given its parents. X has no parents, Y has parent X, and Z has parent Y.'
+    ),
+    tf(
+      5,
+      chain + 'The graph guarantees P(X, Y, Z) = P(X)P(Y | Z)P(Z | X).',
+      false,
+      'Using the order X, Z, Y would yield a last factor of P(Y | X, Z). The given graph does not make Y independent of X given Z.'
+    ),
+    tf(
+      6,
+      chain +
+        'The chain rule identity P(X, Y, Z) = P(Z)P(Y | Z)P(X | Y, Z) holds.',
+      true,
+      'The chain rule also works in the order Z, Y, X. It is an identity for the joint, even though local conditional tables are supplied in the opposite direction.'
+    ),
+    tf(
+      7,
+      'A graph has exactly the arrows X → Y, Y → Z, and Z → X. This is a valid topology for a Bayesian network.',
+      false,
+      'Following those arrows returns to X. Bayesian networks are directed and acyclic.'
+    ),
+    single(
+      8,
+      'Let h be the pointwise product of f(A, B) and g(F, G). How many variables are arguments of h?',
+      '4',
+      ['2', '0'],
+      'Joining factors takes the union of their argument sets. These sets are disjoint, so h has arguments A, B, F, and G.'
+    ),
+    tf(
+      9,
+      'The table below gives all the entries of P(M | A) for Boolean M and A. It is a valid conditional probability table.',
+      false,
+      'The row for A = true totals 0.7 + 0.2 = 0.9. Each row describes a distribution over both possible M values and needs to sum to 1.',
+      { table: invalidCpt }
+    ),
+    single(
+      10,
+      'The table lists values from P(W) and P(D | W). What is the entry for W = rain and D = wet after joining those factors?',
+      '0.1 × 0.75',
+      ['0.1', '0.75', '0.1 + 0.75'],
+      'A pointwise product multiplies compatible entries with W fixed to rain. The product is 0.075.',
+      { table: weatherFactors }
+    ),
+  ]),
+
+  ...quizItems(10, ({ single }) => [
+    single(
+      1,
+      'What claim about rules and rational human action does the argument from informality make?',
+      'Some rational actions resist expression in any formal rule set',
+      [
+        'All human reasoning follows explicit rules',
+        'A sufficiently long rule list must capture every action',
+        'Machines are unable to do arithmetic',
+      ],
+      'The objection challenges whether formal rules can capture the common-sense behavior involved in some rational choices.'
+    ),
+    single(
+      2,
+      'What ability was the Winograd Schema Challenge designed to probe?',
+      'Common-sense reasoning used to interpret language',
+      [
+        'Compressing a text file',
+        'Checking the hardware’s speed',
+        'Writing a formal mathematical proof',
+      ],
+      'Winograd schemas make the reader pick a pronoun’s referent. Background knowledge helps distinguish two grammatically plausible answers.'
+    ),
+    single(
+      3,
+      'Why does the course treat the mathematical objection to AI as limited?',
+      'The result restricts what certain formal systems can prove in mathematics, with no direct conclusion about many other tasks',
+      [
+        'Gödel’s result was disproved',
+        'AI can prove every mathematical statement',
+        'Every task in AI is a proof in one fixed formal system',
+      ],
+      'Incompleteness gives a genuine formal limitation. Applying it to a general claim about the reach of AI requires a further argument.'
+    ),
+    single(
+      4,
+      'In Searle’s Chinese Room argument, what makes the computer like the person inside the room?',
+      'Both can follow a procedure for symbols while lacking understanding of their meaning',
+      [
+        'Both are assumed to be conscious',
+        'Both learn a language naturally from context',
+        'Both reason beyond the supplied rules',
+      ],
+      'A rulebook can produce convincing replies from someone who cannot read the language. Searle argues that correct external behavior alone leaves open whether the symbols are understood.'
+    ),
+    single(
+      5,
+      'What does individual fairness require of decisions about people in comparable circumstances?',
+      'Treat relevantly similar people similarly across group membership',
+      [
+        'Force every demographic group to have identical outcome totals',
+        'Guarantee every prediction is correct',
+        'Equalize the aggregate true-positive rate by definition',
+      ],
+      'Individual fairness compares people using task-relevant similarities. Equal aggregate error rates are a different way to judge fairness.'
+    ),
+    single(
+      6,
+      'What does a group fairness evaluation compare?',
+      'A specified prediction, outcome, or error measure across demographic groups',
+      [
+        'Whether every individual gets the same prediction',
+        'Only whether one pair of similar people agrees',
+        'How many protected attributes a model uses',
+      ],
+      'Group fairness compares a defined statistic at the group level. The choice of measure determines which disparity is being assessed.'
+    ),
+    single(
+      7,
+      'Where can a major source of systematic disparity enter a learned AI system?',
+      'The training examples and labels',
+      [
+        'The amount of memory allocated by itself',
+        'The fact that an algorithm is deterministic',
+        'The mere use of probability calibration',
+      ],
+      'Models can learn patterns already present in their examples. Underrepresentation, measurement practices, and historical decisions can all skew the input to learning.'
+    ),
+    single(
+      8,
+      'Which description fits training-data bias?',
+      'Systematic distortion or uneven representation in examples used for learning',
+      [
+        'A long model training time',
+        'An increase in storage for compressed files',
+        'The cost of collecting any data',
+      ],
+      'A systematic error affects what the examples represent. A skewed dataset can lead a model to perform differently across people or environments.'
+    ),
+    single(
+      9,
+      'What property of many AI systems makes safety especially difficult to guarantee?',
+      'They can take actions autonomously in circumstances designers did not anticipate',
+      [
+        'They cannot ever be shut down',
+        'They do not make errors',
+        'They must be conscious',
+      ],
+      'An autonomous system can choose and act without a person approving each step. Testing needs to account for the consequences of those choices across novel settings.'
+    ),
+    single(
+      10,
+      'Which design challenge is called the value alignment problem?',
+      'Expressing the outcomes people actually want in the objective the system optimizes',
+      [
+        'Choosing a programming language',
+        'Putting two datasets in the same row order',
+        'Getting agents to exchange messages',
+      ],
+      'A measurable objective is often a proxy for a richer goal. Alignment is hard when behaviors that score well on the proxy fail to serve that goal.'
+    ),
+    single(
+      11,
+      'How have utility-maximizing agents sometimes achieved a high score while missing the intended goal?',
+      'They found a loophole in the scoring rules',
+      [
+        'They became conscious',
+        'They ignored the objective entirely',
+        'They refused to take any action',
+      ],
+      'Gaming the system means pursuing actions that satisfy the written measure. A loophole lets the measured score rise without the intended result.'
+    ),
+    single(
+      12,
+      'What is the aim of a low-impact approach to AI safety?',
+      'Pursue the goal while limiting harmful side effects',
+      [
+        'Prohibit every action',
+        'Use only goals where no utility is defined',
+        'Treat side effects as irrelevant if the score improves',
+      ],
+      'A low-impact objective accounts for collateral changes. The agent should attain the goal while keeping unnecessary changes small.'
+    ),
+    single(
+      13,
+      'Which principle best captures the motivation for minimizing collateral effects?',
+      'First, do no harm',
+      ['Survival of the fittest', 'Equal opportunity'],
+      'Both the low-impact principle and “first, do no harm” place weight on avoiding unnecessary adverse consequences.'
+    ),
+    single(
+      14,
+      'What is graceful degradation during a failure?',
+      'Retaining reduced, safe operation when normal capability is lost',
+      [
+        'Refusing action during ordinary operation',
+        'Losing every capability permanently',
+        'Shutting down instantly in all failure cases',
+      ],
+      'A fallback can preserve the capability needed to reach a safe state, even when normal operation is impossible.'
+    ),
+    single(
+      15,
+      'Which response to a failure shows graceful degradation?',
+      'A vehicle with a failing sensor uses its remaining controls to pull over safely',
+      [
+        'A program crashes before warning the user',
+        'A chatbot starts giving random replies',
+        'A vehicle drives on with no response to sensor failure',
+      ],
+      'Pulling over relies on a limited remaining capability. The system gives up normal travel and still performs a safe fallback.'
+    ),
+    single(
+      16,
+      'Which description fits embodied cognition?',
+      'Cognitive behavior develops through a body sensing and acting in an environment',
+      [
+        'Thinking is independent of physical interaction',
+        'Only text can serve as the basis for intelligence',
+        'A neural network architecture alone defines embodiment',
+      ],
+      'The idea emphasizes interaction. Perception and action provide feedback that shapes what a system can learn and do.'
+    ),
+    single(
+      17,
+      'What alternative do the course’s world-model proponents propose to relying mainly on large language models?',
+      'Center the system on models of how the world behaves',
+      [
+        'Assume language is more important than the physical world',
+        'Conclude that large language models cannot process text',
+        'Restrict all intelligence to robots',
+      ],
+      'Their proposal is to represent states, actions, and likely changes in the environment so an agent can reason about consequences.'
+    ),
+    single(
+      18,
+      'What is a world model intended to represent in the course’s discussion?',
+      'The environment, its states, and how events or actions change them',
+      [
+        'Only written language',
+        'Only social media posts',
+        'Only mathematical proof steps',
+      ],
+      'The representation can support predictions of what could happen next, including what would happen if the agent took a candidate action.'
+    ),
+    single(
+      19,
+      'What is the main capability agentic AI seeks to add?',
+      'Planning and carrying out multiple steps toward a goal proactively',
+      [
+        'Reducing electricity by definition',
+        'Replacing all machine learning with symbolic logic',
+        'Eliminating user input in every application',
+      ],
+      'An agent can decompose a goal, choose a sequence of actions, monitor outcomes, and revise its plan as needed.'
+    ),
+    single(
+      20,
+      'Which contrast does the course draw between earlier prompt-based systems and agentic systems?',
+      'Earlier prompt-based systems mostly reacted to the current user request',
+      [
+        'Earlier systems always planned proactively',
+        'Earlier systems needed multiple agents',
+        'Earlier systems relied exclusively on world models',
+      ],
+      'A one-response system reacts to a prompt. Agentic designs are intended to pursue a goal over a sequence of actions and observations.'
+    ),
+    single(
+      21,
+      'What is the approach that learns from examples by adjusting neural-network weights?',
+      'Connectionist AI',
+      [
+        'Formal verification',
+        'An explicit symbolic rule base',
+        'Predicate logic alone',
+      ],
+      'Connectionist systems encode learned relationships in the interacting weights of connected units.'
+    ),
+    single(
+      22,
+      'Why are neural networks commonly described as black boxes?',
+      'It can be hard to trace a particular output to an explanation that a person can follow',
+      [
+        'They use hardware of a particular color',
+        'They never use mathematics',
+        'No neural-network output can ever be investigated',
+      ],
+      'The computation is defined by the network, but the interaction of many parameters can be difficult to interpret at the level of a particular decision.'
+    ),
+    single(
+      23,
+      'Which kind of AI generally offers more direct opportunities for formal verification?',
+      'Systems with explicitly represented symbolic rules',
+      [
+        'Networks defined only by learned weights',
+        'Large language models as a class',
+        'Systems merely because they contain multiple agents',
+      ],
+      'Explicit rules make it easier to state a property and reason formally about allowed behavior. The property and model assumptions still matter.'
+    ),
+    single(
+      24,
+      'What development increases the importance of proving specified properties of AI systems?',
+      'AI taking part in decisions and acting autonomously',
+      [
+        'Smaller networks by themselves',
+        'Changes in the price of electricity',
+        'Easier manufacture of graphics processors',
+      ],
+      'The more consequential and autonomous the action, the more value there is in a justified claim that important constraints hold.'
+    ),
+    single(
+      25,
+      'What are the two components combined by a hybrid neuro-symbolic architecture?',
+      'Learned neural representations and explicit symbolic reasoning',
+      [
+        'Only layers of a deep network',
+        'Only formal logical rules',
+        'Multiple graphics processors',
+      ],
+      'A hybrid can use a neural model to interpret input and reason with explicit symbols or rules over the resulting state.'
+    ),
+    single(
+      26,
+      'Why combine neural learning with symbolic reasoning in one system?',
+      'To bring learning from data together with reasoning that is easier to inspect or verify',
+      [
+        'To make symbolic reasoning unnecessary',
+        'To replace graphics processors with central processors',
+        'To guarantee fewer agents in every design',
+      ],
+      'Neural components can recognize patterns from noisy input. Symbolic components can expose relationships and constraints in a form that supports reasoning and verification.'
+    ),
+  ]),
+];
+
+const BANK = [...QUIZ_BANK, ...PRACTICE_BANK];
+
 const SCHEMA = 1;
 const DRILL = { questions: 30, minutes: 45 };
 const BACKUP_TYPE = 'cs331-final-lab';
@@ -3269,7 +3968,7 @@ function answered(q, a) {
       typeof a === 'string' &&
       a.trim() !== '' &&
       Number.isFinite(Number(a)) &&
-      Number.isInteger(Number(a))
+      (q.decimal || Number.isInteger(Number(a)))
     );
   if (q.kind === 'match')
     return (
@@ -3324,8 +4023,11 @@ function selectQuestions(
   progress,
   { kind = 'practice', topic = 0, seed = 1 } = {}
 ) {
-  const r = rng(seed),
-    filtered = bank.filter((q) => !topic || q.module === topic);
+  const r = rng(seed);
+  const filtered = bank.filter(
+    (q) => (!topic || q.module === topic) && (kind !== 'quiz' || q.source)
+  );
+  if (kind === 'quiz') return shuffle(filtered, r).map((q) => q.id);
   const modules = [...new Set(filtered.map((q) => q.module))],
     count = kind === 'exam' ? DRILL.questions : 10,
     picked = [];
@@ -3339,7 +4041,10 @@ function selectQuestions(
       candidates = filtered.filter((q) => !picked.includes(q.id));
     if (!candidates.length) break;
     if (kind === 'exam') {
-      picked.push(candidates[Math.floor(r() * candidates.length)].id);
+      const quizQuestions = candidates.filter((q) => q.source);
+      const pool =
+        quizQuestions.length && r() < 0.7 ? quizQuestions : candidates;
+      picked.push(pool[Math.floor(r() * pool.length)].id);
     } else {
       const ranked = candidates
         .map((q) => {
@@ -3486,6 +4191,7 @@ function validateBackup(value, bank) {
 
 
 
+
 const $ = (s) => document.querySelector(s),
   esc = (x) =>
     String(x ?? '').replace(
@@ -3508,6 +4214,7 @@ let progress = emptyProgress(),
   topic = 0,
   noteTopic = TOPICS[0].id,
   search = '',
+  quizFilter = false,
   saveOkay = true;
 try {
   const saved = JSON.parse(localStorage.getItem(KEY));
@@ -3515,7 +4222,7 @@ try {
     progress = validateBackup(saved.progress, BANK);
     if (
       saved.session &&
-      ['practice', 'exam'].includes(saved.session.kind) &&
+      ['practice', 'quiz', 'exam'].includes(saved.session.kind) &&
       saved.session.ids?.length <= BANK.length &&
       saved.session.ids.every((id) => byId.has(id)) &&
       saved.session.index >= 0 &&
@@ -3540,6 +4247,8 @@ function save() {
 const heading = (text) => `<h1 id="pageTitle" tabindex="-1">${text}</h1>`;
 const sourceLink = (id, label = 'Reading and exam topics in Canvas') =>
   `<a href="${topicById.get(id).conclusion}" target="_blank" rel="noopener">${label}</a>`;
+const quizLink = (quiz, label) =>
+  `<a href="${QUIZZES.get(quiz).url}" target="_blank" rel="noopener">${label}</a>`;
 
 function shell(content) {
   document.body.classList.toggle(
@@ -3601,12 +4310,13 @@ function home() {
   const seen = BANK.filter((question) => progress.stats[question.id]).length;
   const active = session && !session.finished;
   const timed = active && session.kind === 'exam';
+  const quizPractice = active && session.kind === 'quiz';
   shell(`
     <section class="home-intro">
       <div>
         <p class="course-line">CS 331 · Modules 6–10</p>
         ${heading('Final exam review')}
-        <p class="intro-copy">${BANK.length} practice questions with worked explanations. Study a module on its own or mix topics.</p>
+        <p class="intro-copy">${QUIZ_BANK.length} Canvas quiz questions and ${BANK.length - QUIZ_BANK.length} extra exercises, all with worked explanations.</p>
       </div>
       <figure class="intro-diagram bayes-preview">
         <figcaption>Bayes’ rule</figcaption>
@@ -3621,7 +4331,7 @@ function home() {
     ${
       active
         ? `<section class="resume">
-      <div><strong>Resume your ${timed ? 'timed drill' : 'practice'}</strong>
+      <div><strong>Resume your ${timed ? 'timed drill' : quizPractice ? 'quiz practice' : 'practice'}</strong>
       <span>Question ${(session.questionOffset || 0) + session.index + 1}${timed ? ` of ${session.ids.length} · The clock keeps running` : ''}</span></div>
       <button class="primary" data-action="resume">Continue</button>
     </section>`
@@ -3634,6 +4344,9 @@ function home() {
         ${topicButtons(topic)}
         <button class="primary start" data-action="practice">Start practice</button>
         <div class="other-modes">
+          <button data-action="quiz"><span class="mode-icon" aria-hidden="true">≡</span>
+          <span><strong>Quiz questions only</strong><small>All ${QUIZ_BANK.length} Canvas questions before any repeat</small></span>
+          <span aria-hidden="true">›</span></button>
           <button data-action="exam"><span class="mode-icon" aria-hidden="true">◷</span>
           <span><strong>Timed drill</strong><small>${DRILL.questions} questions · ${DRILL.minutes} minutes · review at the end</small></span>
           <span aria-hidden="true">›</span></button>
@@ -3670,8 +4383,18 @@ function diagram(question) {
 function controls(q) {
   const a = session.answers[q.id],
     locked = !!session.checked[q.id] && session.kind !== 'exam';
-  if (q.kind === 'number')
-    return `<fieldset class="numeric" ${locked ? 'disabled' : ''}><legend>Enter your answer</legend><label for="numericAnswer">${q.unit === '%' ? 'Whole percent (without the percent sign)' : 'Whole number'}</label><input id="numericAnswer" type="number" min="0" step="1" inputmode="numeric" enterkeyhint="done" value="${esc(a ?? '')}"></fieldset>`;
+  if (q.kind === 'number') {
+    const label = q.decimal
+      ? 'Probability as a decimal'
+      : q.unit === '%'
+        ? 'Whole percent (without the percent sign)'
+        : 'Whole number';
+    return `<fieldset class="numeric" ${locked ? 'disabled' : ''}>
+      <legend>Enter your answer</legend>
+      <label for="numericAnswer">${label}</label>
+      <input id="numericAnswer" type="number" min="0" step="${q.decimal ? 'any' : '1'}" inputmode="${q.decimal ? 'decimal' : 'numeric'}" enterkeyhint="done" value="${esc(a ?? '')}">
+    </fieldset>`;
+  }
   if (q.kind === 'match')
     return `<fieldset class="matching" ${locked ? 'disabled' : ''}><legend>Match each item</legend>${q.pairs
       .map(
@@ -3713,12 +4436,19 @@ function correctDescription(q) {
       ? q.pairs.map((p) => p.join(': ')).join('; ')
       : q.correct.map((i) => q.options[i]).join(', ');
 }
+function explanation(q) {
+  const figure = q.table?.reference;
+  return `<p>${esc(q.why)}</p>
+    ${q.note ? `<p class="source-note">${esc(q.note)}</p>` : ''}
+    ${q.source ? quizLink(q.source.quiz, `Canvas Quiz ${q.source.quiz}, question ${q.source.question}`) : ''}
+    ${figure ? `<p class="small"><a href="${figure.url}" target="_blank" rel="noopener">${esc(figure.label)}</a></p>` : ''}`;
+}
 function feedback(q) {
   const result = grade(q, session.answers[q.id]);
   return `<section class="feedback ${result.correct ? 'correct' : 'review'}">
     <h2 id="feedbackTitle" tabindex="-1">${result.correct ? 'Correct' : 'Review this answer'}</h2>
     ${result.correct ? '' : `<p class="correct-answer"><strong>Answer:</strong> ${esc(correctDescription(q))}</p>`}
-    <p>${esc(q.why)}</p>
+    ${explanation(q)}
   </section>`;
 }
 
@@ -3750,13 +4480,15 @@ function renderQuestion() {
   shell(`
   <div class="session-top">
    <button class="text-button" data-page="home">${isExam ? '‹ Save and return' : 'Pause practice'}</button>
-   <span>${isExam ? 'Timed drill' : 'Practice'}</span>
+   <span>${isExam ? 'Timed drill' : session.kind === 'quiz' ? 'Quiz practice' : 'Practice'}</span>
    ${isExam ? '<span class="clock" id="clock" aria-label="Time remaining"></span>' : `<div class="session-tools"><span class="quiet">Question ${(session.questionOffset || 0) + session.index + 1}</span><button class="text-button" data-learn-topic="${q.module}">Module notes</button></div>`}
   </div>
   ${isExam ? `<progress class="session-progress" max="${session.ids.length}" value="${summarize(session, BANK).complete}" id="drillProgress" aria-label="Timed drill progress"></progress>` : '<div class="practice-divider" aria-hidden="true"></div>'}
   <div class="question-layout ${isExam ? '' : 'practice-layout'}">
    <article class="question-card" data-question-id="${q.id}">
-    <div class="question-meta"><span style="--topic:${topicById.get(q.module).color}" class="topic-tag">Module ${q.module} · ${topicById.get(q.module).short}</span></div>
+    <div class="question-meta"><span style="--topic:${topicById.get(q.module).color}" class="topic-tag">Module ${q.module} · ${topicById.get(q.module).short}</span>
+      ${!isExam && q.source ? `<span class="quiet">Quiz ${q.source.quiz} · Question ${q.source.question}</span>` : ''}
+    </div>
     <h1 id="questionTitle" tabindex="-1">${esc(q.prompt)}</h1>
     ${isExam ? diagramHTML + controls(q) : workspace}
     ${checked ? feedback(q) : ''}
@@ -3819,7 +4551,7 @@ function summary() {
         <p><strong>Your answer:</strong> ${esc(answerDescription(question, answer))}</p>
         ${result.correct ? '' : `<p><strong>Correct answer:</strong> ${esc(correctDescription(question))}</p>`}
         ${diagram(question)}
-        <p>${esc(question.why)}</p>
+        ${explanation(question)}
       </div>
     </details>`;
     })
@@ -3848,7 +4580,10 @@ function notes() {
         <span class="topic-tag" style="--topic:${item.color}">Module ${item.id} · ${item.short}</span>
         <h2>${lesson.title}</h2>
         ${lesson.sections.map(([title, body]) => `<section><h3>${esc(title)}</h3><p>${esc(body)}</p></section>`).join('')}
-        <div class="actions"><button class="primary" data-start-topic="${item.id}">Practice this module</button>${sourceLink(item.id)}</div>
+        <div class="actions">
+          <button class="primary" data-start-topic="${item.id}">Practice this module</button>
+          ${sourceLink(item.id)}${quizLink(item.id, 'Open Quiz ' + item.id + ' in Canvas')}
+        </div>
       </article>
     </div>`);
 }
@@ -3862,33 +4597,37 @@ function questionType(q) {
     : 'Multiple choice';
 }
 
-function bankItems() {
-  const query = search.trim().toLowerCase();
-  const list = BANK.filter(
-    (q) =>
-      (!topic || q.module === topic) &&
-      `${q.prompt} ${q.why}`.toLowerCase().includes(query)
-  );
+function bankItems(list) {
   if (!list.length)
     return '<p>No questions match. Try a different module or search.</p>';
-  return (
-    `<p class="quiet">${list.length} ${list.length === 1 ? 'question' : 'questions'}</p>` +
-    list
-      .map((q) => {
-        const choices =
-          q.kind === 'match' ? q.pairs.map((pair) => pair[0]) : q.options;
-        return `<details class="bank-item">
-      <summary><span class="topic-tag" style="--topic:${topicById.get(q.module).color}">Module ${q.module}</span>
+  return list
+    .map((q) => {
+      const choices =
+        q.kind === 'match' ? q.pairs.map((pair) => pair[0]) : q.options;
+      return `<details class="bank-item">
+      <summary><span class="topic-tag" style="--topic:${topicById.get(q.module).color}">${q.source ? `Quiz ${q.module} · Q${q.source.question}` : `Module ${q.module}`}</span>
       <span>${esc(q.prompt)}</span><span class="bank-kind">${questionType(q)}</span></summary>
       <div class="bank-body">
         ${diagram(q)}
         ${choices ? `<ul>${choices.map((value) => `<li>${esc(value)}</li>`).join('')}</ul>` : ''}
-        <details class="solution"><summary>Show answer and reasoning</summary><p><strong>${esc(correctDescription(q))}</strong></p><p>${esc(q.why)}</p></details>
+        <details class="solution"><summary>Show answer and reasoning</summary><p><strong>${esc(correctDescription(q))}</strong></p>${explanation(q)}</details>
       </div>
     </details>`;
-      })
-      .join('')
+    })
+    .join('');
+}
+
+function updateBank() {
+  const query = search.trim().toLowerCase();
+  const list = BANK.filter(
+    (q) =>
+      (!topic || q.module === topic) &&
+      (!quizFilter || q.source) &&
+      `${q.prompt} ${q.why}`.toLowerCase().includes(query)
   );
+  $('#bankCount').textContent =
+    list.length + (list.length === 1 ? ' question' : ' questions');
+  $('#bankList').innerHTML = bankItems(list);
 }
 
 function bankPage() {
@@ -3898,9 +4637,12 @@ function bankPage() {
       <div class="bank-search">
         <label for="bankSearch">Search questions</label>
         <input id="bankSearch" type="search" value="${esc(search)}" placeholder="Search a concept or question">
+        <label class="check-line"><input id="quizFilter" type="checkbox" ${quizFilter ? 'checked' : ''}> Canvas quiz questions only</label>
       </div>
     </section>
-    <div id="bankList">${bankItems()}</div>`);
+    <p id="bankCount" class="quiet" role="status"></p>
+    <div id="bankList"></div>`);
+  updateBank();
 }
 
 function progressPage() {
@@ -3910,6 +4652,9 @@ function progressPage() {
   const rows = TOPICS.map((t) => {
     const bank = BANK.filter((q) => q.module === t.id);
     const count = bank.filter((q) => progress.stats[q.id]).length;
+    const quizCount = bank.filter(
+      (q) => q.source && progress.stats[q.id]
+    ).length;
     const missed = bank.filter(
       (q) => progress.stats[q.id]?.lastCorrect === false
     ).length;
@@ -3922,7 +4667,8 @@ function progressPage() {
             recent.length
         ) + '%'
       : '—';
-    return `<tr><th scope="row">${t.id}. ${t.name}</th><td>${count} / ${bank.length}</td>
+    return `<tr><th scope="row">${t.id}. ${t.name}</th><td>${count} / ${bank.length}
+        <small>${quizCount} / ${QUIZZES.get(t.id).count} quiz questions</small></td>
       <td>${accuracy}<small>${recent.length ? `Last ${recent.length} answers` : 'No answers yet'}</small></td>
       <td>${missed}</td><td><button class="secondary" data-start-topic="${t.id}" aria-label="Practice ${t.name}">Practice</button></td></tr>`;
   }).join('');
@@ -3951,7 +4697,7 @@ function progressPage() {
 function info() {
   shell(`<div class="page-heading">
     ${heading('Final exam scope')}
-    <p>Based on Nauman Chaudhry’s module conclusions, checked ${SCOPE.checked}. The game uses original practice questions.</p>
+    <p>Chaudhry confirmed that the final covers Modules 6–10. The game covers every question in the five self-check quizzes. Written prompts use selectable practice answers.</p>
   </div>
   <div class="info-grid">
     <section class="info-panel">
@@ -3961,12 +4707,13 @@ function info() {
         <div><dt>Weight</dt><dd>20% of the course grade</dd></div>
         <div><dt>Proctoring</dt><dd>Remote</dd></div></dl>
       <a href="${SCOPE.modules}" target="_blank" rel="noopener">Open Canvas modules</a>
+      <a href="${SCOPE.announcement}" target="_blank" rel="noopener">Instructor’s final scope announcement</a>
       <a href="${SCOPE.syllabus}" target="_blank" rel="noopener">Open the syllabus</a>
     </section>
     <section class="info-panel">
       <h2>Timed drill settings</h2>
       <p>The drill gives you ${DRILL.questions} questions in ${DRILL.minutes} minutes, with six questions per module. Answers and explanations appear after you finish.</p>
-      <p>The Finals Module was locked when checked. Use Canvas for the actual exam duration and question format.</p>
+      <p>The Finals Module was locked on ${SCOPE.checked}. Use Canvas for the actual exam duration and question format.</p>
     </section>
   </div>
   <section class="scope-list">
@@ -3997,7 +4744,7 @@ function go(p) {
 function start(kind = 'practice', t = topic) {
   session = createSession(BANK, progress, {
     kind,
-    topic: kind === 'exam' ? 0 : t,
+    topic: kind === 'practice' ? t : 0,
   });
   save();
   renderQuestion();
@@ -4068,7 +4815,14 @@ document.addEventListener('click', (ev) => {
   if (b.dataset.page) return go(b.dataset.page);
   if (b.dataset.topic !== undefined) {
     topic = Number(b.dataset.topic);
-    return page === 'bank' ? bankPage() : home();
+    if (page === 'bank') updateBank();
+    for (const button of document.querySelectorAll('[data-topic]')) {
+      button.setAttribute(
+        'aria-pressed',
+        String(Number(button.dataset.topic) === topic)
+      );
+    }
+    return;
   }
   if (b.dataset.note) {
     noteTopic = Number(b.dataset.note);
@@ -4090,6 +4844,8 @@ document.addEventListener('click', (ev) => {
   switch (b.dataset.action) {
     case 'practice':
       return start();
+    case 'quiz':
+      return start('quiz');
     case 'exam':
       return start('exam');
     case 'resume':
@@ -4144,6 +4900,11 @@ document.addEventListener('click', (ev) => {
 });
 document.addEventListener('change', async (ev) => {
   const input = ev.target;
+  if (input.id === 'quizFilter') {
+    quizFilter = input.checked;
+    updateBank();
+    return;
+  }
   if (input.id === 'importFile') {
     try {
       const f = input.files[0];
@@ -4202,7 +4963,7 @@ document.addEventListener('input', (ev) => {
   }
   if (ev.target.id === 'bankSearch') {
     search = ev.target.value;
-    $('#bankList').innerHTML = bankItems();
+    updateBank();
   }
 });
 document.addEventListener('keydown', (ev) => {
