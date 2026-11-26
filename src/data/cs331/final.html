@@ -1,0 +1,4271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1b2b43">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="Practice logical agents, first-order logic, probability, Bayesian networks, and AI ethics for the CS 331 final.">
+    <title>CS 331 · Final Lab</title>
+    <style>:root {
+  font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
+  color: #1b2b43;
+  background: #f1f5fa;
+  font-size: 16px;
+  line-height: 1.55;
+  --blue: #245fb7;
+  --ink: #1b2b43;
+  --muted: #59677b;
+  --line: #d8e1ec;
+  --paper: #fff;
+  --green: #17684a;
+  --red: #a13c41;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+select,
+input {
+  touch-action: manipulation;
+}
+button,
+.button {
+  cursor: pointer;
+  min-height: 44px;
+}
+button {
+  border: 0;
+  background: none;
+  color: inherit;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+a {
+  color: #1858a7;
+  text-underline-offset: 3px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex='0']:focus-visible {
+  outline: 3px solid #e99d26;
+  outline-offset: 4px;
+}
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+h1 {
+  font-size: clamp(2rem, 4.7vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  font-weight: 650;
+  margin-bottom: 22px;
+}
+h2 {
+  font-size: 1.35rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+h3 {
+  font-size: 1.12rem;
+}
+p {
+  margin-bottom: 18px;
+}
+small,
+.small {
+  font-size: 0.85rem;
+}
+.quiet {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.skip {
+  position: fixed;
+  top: -80px;
+  left: 20px;
+  z-index: 20;
+  padding: 12px 20px;
+  background: #fff;
+}
+.skip:focus {
+  top: 12px;
+}
+header {
+  max-width: 1260px;
+  margin: auto;
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding: 16px 38px;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-align: left;
+  padding: 0;
+}
+.brand svg {
+  width: 35px;
+  height: 35px;
+  color: var(--blue);
+}
+.brand > span {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0;
+  font-size: 0.73rem;
+  margin-top: 1px;
+}
+header nav {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+header nav button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.93rem;
+  color: var(--muted);
+}
+header nav button[aria-current] {
+  background: #e2ebf8;
+  color: #164d99;
+  font-weight: 650;
+}
+.exam-link {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.exam-link span {
+  font-size: 1.3rem;
+  color: var(--blue);
+}
+main {
+  max-width: 1184px;
+  margin: auto;
+  padding: 36px 0 80px;
+  min-height: calc(100vh - 190px);
+}
+main:focus {
+  outline: none;
+}
+footer {
+  max-width: 1184px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  border-top: 1px solid var(--line);
+  padding: 20px 0 28px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+.course-line {
+  color: #486078;
+  font-size: 0.93rem;
+  margin-bottom: 18px;
+}
+.home-intro {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 48px;
+  padding: 24px 0 36px;
+}
+.intro-copy {
+  font-size: 1.1rem;
+  max-width: 46ch;
+  color: #52647c;
+  margin-bottom: 0;
+}
+.intro-diagram {
+  background: #e6eef8;
+  border-radius: 50% 10px 10px 10px;
+  padding: 30px 26px 0;
+}
+.diagram-heading {
+  display: block;
+  text-align: right;
+  padding-right: 28px;
+  color: #44617f;
+  font-size: 0.88rem;
+}
+.intro-diagram svg {
+  width: 100%;
+  display: block;
+  opacity: 0.85;
+}
+.home-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 28px;
+  margin-bottom: 48px;
+}
+.practice-panel {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 16px;
+  padding: 28px 32px 14px;
+}
+.panel-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+}
+.panel-heading h2 {
+  margin-bottom: 9px;
+}
+.practice-panel .quiet {
+  color: #c1cde0;
+}
+.practice-panel > p {
+  color: #c7d3e5;
+  font-size: 0.95rem;
+}
+.topic-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0 24px;
+}
+.topic-buttons button {
+  font-size: 0.85rem;
+  padding: 8px 13px;
+  border: 1px solid #3f526e;
+  border-radius: 7px;
+  min-height: 40px;
+  color: #d6e1f2;
+}
+.topic-buttons button[aria-pressed='true'] {
+  background: white;
+  color: #1a375e;
+  border-color: white;
+  font-weight: 650;
+}
+.primary,
+.secondary,
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  min-height: 46px;
+  padding: 11px 19px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+.primary {
+  background: var(--blue);
+  color: #fff;
+  border: 1px solid var(--blue);
+}
+.primary:hover:not(:disabled) {
+  background: #164d99;
+}
+.secondary {
+  background: #fff;
+  border: 1px solid #bfccdc;
+  color: var(--ink);
+}
+.secondary:hover:not(:disabled) {
+  background: #edf2f8;
+}
+.start {
+  background: #f2b45a;
+  color: #172c48;
+  border-color: #f2b45a;
+  justify-content: space-between;
+  min-width: 235px;
+  margin-bottom: 20px;
+}
+.start:hover:not(:disabled) {
+  background: #f6c77d;
+}
+.start span {
+  font-size: 1.3rem;
+}
+.other-modes {
+  border-top: 1px solid #3a4b63;
+}
+.other-modes > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  text-align: left;
+  padding: 19px 0;
+  border-bottom: 1px solid #3a4b63;
+}
+.other-modes > button:last-child {
+  border: 0;
+}
+.other-modes small {
+  display: block;
+  color: #b9c8dd;
+  font-weight: 400;
+  font-size: 0.81rem;
+}
+.other-modes strong {
+  font-size: 0.97rem;
+}
+.mode-icon {
+  font-size: 1.5rem;
+  color: #b7cce8;
+  width: 20px;
+}
+.other-modes > button > span:last-child {
+  margin-left: auto;
+  font-size: 1.4rem;
+}
+.exam-brief {
+  padding: 27px 32px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.exam-brief h2 {
+  font-size: 1.07rem;
+}
+.date {
+  font-size: 2rem;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+dl {
+  margin: 0 0 18px;
+}
+dl > div {
+  display: grid;
+  grid-template-columns: 85px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+}
+dt {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+dd {
+  margin: 0;
+  font-size: 0.93rem;
+  font-weight: 550;
+}
+.exam-brief > p:not(.date) {
+  font-size: 0.86rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.text-button {
+  color: #1858a7;
+  text-align: left;
+  font-size: 0.88rem;
+  padding: 6px 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.module-list {
+  margin-top: 17px;
+  border-top: 1px solid var(--line);
+}
+.module-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  text-align: left;
+  padding: 20px 4px;
+  border-bottom: 1px solid var(--line);
+}
+.module-row:hover {
+  background: #e9f0f9;
+}
+.module-dot {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--topic) 12%, white);
+  color: var(--topic);
+  font-weight: 700;
+}
+.module-title strong {
+  font-size: 1rem;
+  font-weight: 650;
+}
+.module-title small {
+  display: block;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.module-coverage {
+  margin-left: auto;
+  min-width: 132px;
+  font-size: 0.77rem;
+  color: var(--muted);
+}
+progress {
+  accent-color: var(--blue);
+  height: 6px;
+  border: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #dce4ee;
+}
+progress::-webkit-progress-bar {
+  background: #dce4ee;
+}
+progress::-webkit-progress-value {
+  background: var(--blue);
+  border-radius: 4px;
+}
+progress::-moz-progress-bar {
+  background: var(--blue);
+}
+.module-coverage progress {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+.chevron {
+  font-size: 1.7rem;
+  color: #6b7f99;
+}
+.resume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #e0ebf9;
+  border: 1px solid #c8d9ee;
+  padding: 17px 22px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+.resume span {
+  display: block;
+  font-size: 0.88rem;
+  color: #486078;
+}
+.session-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 17px;
+  font-size: 0.9rem;
+}
+.session-progress {
+  display: block;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.clock {
+  font-variant-numeric: tabular-nums;
+  background: #e2ebf8;
+  color: #194e94;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-weight: 650;
+}
+.clock.urgent {
+  background: #f9dfe1;
+  color: #912c34;
+}
+.question-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 225px;
+  gap: 40px;
+  align-items: start;
+}
+.question-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 32px 36px;
+}
+.question-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
+}
+.topic-tag {
+  font-size: 0.77rem;
+  font-weight: 650;
+  color: var(--topic, #245fb7);
+  display: inline-block;
+}
+.question-card h1 {
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  line-height: 1.5;
+  font-weight: 600;
+  margin-bottom: 26px;
+  max-width: 70ch;
+}
+.question-card h1:focus,
+.feedback h2:focus {
+  outline: none;
+}
+.question-meta .quiet {
+  font-size: 0.77rem;
+}
+.problem-figure {
+  margin: 0 0 27px;
+  padding: 8px 10px 15px;
+  background: #f5f8fc;
+  border: 1px solid #dfe7f1;
+  border-radius: 8px;
+}
+.problem-figure svg {
+  display: block;
+  width: 100%;
+  min-width: 480px;
+  max-height: 390px;
+}
+.diagram-scroll {
+  overflow-x: auto;
+}
+.problem-figure figcaption {
+  font-size: 0.78rem;
+  color: #52647a;
+  margin: 8px 8px 0;
+}
+.text-alternative {
+  font-size: 0.77rem;
+  color: #52647a;
+  margin: 8px 8px 0;
+}
+.text-alternative p {
+  margin: 10px 0 0;
+}
+.edge {
+  fill: none;
+  stroke: #839bb8;
+  stroke-width: 2;
+}
+.max-node {
+  fill: #3064ac;
+}
+.min-node {
+  fill: #2b796d;
+}
+.node-text {
+  font-size: 16px;
+  text-anchor: middle;
+  fill: white;
+  font-weight: 600;
+}
+.leaf {
+  fill: white;
+  stroke: #9aafc9;
+  stroke-width: 1.5;
+}
+.leaf-text {
+  font-size: 17px;
+  text-anchor: middle;
+  fill: #243e61;
+  font-weight: 600;
+}
+.leaf-label {
+  font-size: 12px;
+  fill: #617792;
+  text-anchor: middle;
+}
+.pruned .leaf {
+  fill: #f9e4e4;
+  stroke: #c56f72;
+}
+.pruned .edge {
+  stroke-dasharray: 5 4;
+}
+.prune-mark {
+  stroke: #a5353d;
+  stroke-width: 3;
+}
+.axis {
+  stroke: #b9c8da;
+  stroke-width: 1;
+}
+.land-line {
+  stroke: #3064ac;
+  stroke-width: 3;
+}
+fieldset {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+}
+fieldset:disabled {
+  opacity: 1;
+}
+legend {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #617188;
+  margin-bottom: 12px;
+  padding: 0;
+}
+.answers {
+  display: grid;
+  gap: 10px;
+}
+.answer {
+  border: 1px solid #cbd7e5;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.96rem;
+  line-height: 1.5;
+  position: relative;
+  min-height: 58px;
+}
+.answer input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.answer:has(input:focus-visible) {
+  outline: 3px solid #e99d26;
+  outline-offset: 3px;
+}
+.answer-letter {
+  border: 1px solid #c7d4e4;
+  min-width: 27px;
+  height: 28px;
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  font-size: 0.76rem;
+  color: #52677f;
+}
+.answer.selected {
+  background: #edf3fd;
+  border-color: #4f7ebc;
+  box-shadow: inset 0 0 0 1px #4f7ebc;
+}
+.answer.selected .answer-letter {
+  background: #245fb7;
+  color: #fff;
+  border-color: #245fb7;
+}
+.answer-correct {
+  background: #ecf6ef !important;
+  border-color: #5b9274 !important;
+  box-shadow: none !important;
+}
+.answer-wrong {
+  background: #fcf0f0 !important;
+  border-color: #bc777a !important;
+  box-shadow: none !important;
+}
+.answer-mark {
+  margin-left: auto;
+  color: #17684a;
+  font-weight: 700;
+}
+.match-row {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
+  font-size: 0.91rem;
+}
+.match-row label {
+  font-weight: 550;
+}
+.match-row select {
+  width: 100%;
+  border: 1px solid #c1cfe0;
+  min-height: 46px;
+  border-radius: 7px;
+  background: white;
+  color: var(--ink);
+  padding: 9px 30px 9px 12px;
+  font-size: 0.9rem;
+}
+.match-row select:disabled {
+  opacity: 1;
+  color: #455870;
+}
+.question-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.key-help {
+  font-size: 0.75rem;
+  color: #65758a;
+}
+.session-aside {
+  padding-top: 20px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.session-aside h2 {
+  color: #243e61;
+  font-size: 1.05rem;
+}
+.session-aside p {
+  line-height: 1.65;
+}
+.question-source {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 0.8rem;
+}
+.question-source p {
+  margin: 12px 0;
+}
+.feedback {
+  margin-top: 27px;
+  padding: 22px 24px;
+  background: #f0f6f1;
+  border-left: 4px solid #538568;
+  border-radius: 0 8px 8px 0;
+}
+.feedback.review {
+  background: #f9f2e8;
+  border-color: #bb832f;
+}
+.feedback h2 {
+  font-size: 1.15rem;
+}
+.feedback p,
+.feedback li {
+  font-size: 0.94rem;
+}
+.feedback p:last-child {
+  margin-bottom: 0;
+}
+.feedback a {
+  font-size: 0.8rem;
+}
+.feedback ol {
+  padding-left: 22px;
+}
+.source-note {
+  font-size: 0.8rem !important;
+  color: #66758a;
+}
+.question-map {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.question-map button {
+  border: 1px solid #bfcde0;
+  background: white;
+  min-height: 36px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  position: relative;
+}
+.question-map .done {
+  background: #dce9f8;
+  color: #224f8d;
+}
+.question-map .current {
+  outline: 2px solid #3064ac;
+  outline-offset: 1px;
+}
+.question-map button span {
+  position: absolute;
+  right: 3px;
+  top: -2px;
+  color: #a15b2e;
+}
+.wide {
+  width: 100%;
+}
+.page-heading {
+  max-width: 800px;
+  padding: 18px 0 27px;
+}
+.page-heading h1 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+}
+.page-heading > p:last-child {
+  font-size: 1.02rem;
+  color: var(--muted);
+}
+.learn-layout {
+  display: grid;
+  grid-template-columns: 235px minmax(0, 1fr);
+  gap: 48px;
+}
+.lesson-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.lesson-nav button {
+  display: flex;
+  gap: 12px;
+  text-align: left;
+  border-radius: 8px;
+  padding: 13px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.lesson-nav button span {
+  font-size: 0.78rem;
+  min-width: 23px;
+  margin-top: 2px;
+}
+.lesson-nav [aria-current] {
+  color: #174d98;
+  background: #e0eafa;
+  font-weight: 650;
+}
+.lesson {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 35px 40px;
+  border-radius: 12px;
+  max-width: 840px;
+}
+.lesson h2 {
+  font-size: 1.85rem;
+  margin: 13px 0 24px;
+  line-height: 1.3;
+}
+.lesson p {
+  line-height: 1.8;
+  font-size: 0.98rem;
+}
+.scope-note {
+  color: #566a82;
+  font-size: 0.85rem !important;
+  background: #eef3f9;
+  padding: 15px 18px;
+  border-radius: 6px;
+}
+.lesson table {
+  font-size: 0.83rem;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+}
+.lesson th,
+.lesson td {
+  text-align: left;
+  vertical-align: top;
+  padding: 11px;
+  border-bottom: 1px solid var(--line);
+}
+.lesson th {
+  font-weight: 650;
+}
+.lesson caption {
+  text-align: left;
+  font-weight: 650;
+  font-size: 0.93rem;
+  padding-bottom: 10px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.lesson .actions {
+  margin-top: 30px;
+}
+.lesson .actions a {
+  font-size: 0.83rem;
+}
+.bank-toolbar {
+  background: #e6edf7;
+  border-radius: 10px;
+  padding: 1px 22px 21px;
+  margin-bottom: 25px;
+}
+.bank-toolbar .topic-buttons button {
+  color: #455b76;
+  border-color: #acbdd4;
+}
+.bank-toolbar .topic-buttons [aria-pressed='true'] {
+  color: #fff;
+  background: #245fb7;
+  border-color: #245fb7;
+}
+.bank-search {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.bank-search > label:first-child {
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.bank-search input[type='search'] {
+  min-height: 42px;
+  max-width: 350px;
+  flex: 1;
+  min-width: 160px;
+  border: 1px solid #b6c7db;
+  border-radius: 7px;
+  padding: 9px 12px;
+  background: #fff;
+}
+.check-line {
+  font-size: 0.83rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+}
+.check-line input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+.bank-item {
+  border-bottom: 1px solid var(--line);
+  background: white;
+}
+.bank-item:first-of-type {
+  border-radius: 9px 9px 0 0;
+}
+.bank-item > summary {
+  display: grid;
+  grid-template-columns: 85px minmax(0, 1fr) 110px;
+  gap: 18px;
+  align-items: start;
+  padding: 23px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+.bank-kind {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: right;
+}
+.bank-body {
+  padding: 0 30px 28px 125px;
+  font-size: 0.9rem;
+  max-width: 950px;
+}
+.bank-body li {
+  margin: 8px 0;
+}
+.bank-body .solution {
+  background: #edf3f9;
+  border-radius: 7px;
+  padding: 13px 18px;
+  margin: 20px 0;
+}
+.solution summary {
+  font-weight: 650;
+  cursor: pointer;
+}
+.solution p {
+  margin-top: 13px;
+}
+.bank-body .problem-figure svg {
+  max-height: 300px;
+}
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 8px 0 35px;
+}
+.stat-strip > div {
+  border-left: 3px solid #8eafd6;
+  padding-left: 22px;
+}
+.stat-strip strong {
+  font-size: 2.6rem;
+  display: block;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+.stat-strip strong span {
+  font-size: 1.1rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+.stat-strip > div > span {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.progress-table-wrap {
+  overflow-x: auto;
+  background: white;
+  padding: 22px 28px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.progress-table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+  font-size: 0.9rem;
+  min-width: 680px;
+}
+.progress-table caption {
+  text-align: left;
+  font-weight: 650;
+  font-size: 1.2rem;
+  padding: 0 0 20px;
+}
+.progress-table th,
+.progress-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.progress-table thead th {
+  font-size: 0.77rem;
+  color: var(--muted);
+  font-weight: 550;
+}
+.progress-table tbody th {
+  font-weight: 550;
+}
+.progress-table small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+.progress-table button {
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  min-height: 36px;
+}
+.backup-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 35px;
+  background: #e4edf8;
+  padding: 28px;
+  border-radius: 10px;
+}
+.backup-panel p {
+  margin-bottom: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  max-width: 55ch;
+}
+.backup-panel .actions {
+  flex: none;
+  max-width: 340px;
+}
+.backup-panel .actions p {
+  width: 100%;
+}
+.file-input {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+}
+.button:has(+ .file-input:focus-visible) {
+  outline: 3px solid #e99d26;
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.info-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 30px;
+}
+.info-panel dl > div {
+  grid-template-columns: 95px 1fr;
+}
+.info-panel p {
+  font-size: 0.92rem;
+}
+.info-panel a {
+  font-size: 0.86rem;
+}
+.scope-list {
+  margin-top: 40px;
+}
+.scope-list article {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+  max-width: 80ch;
+}
+.scope-list article h3 {
+  margin-bottom: 8px;
+}
+.scope-list article p {
+  margin-bottom: 10px;
+  font-size: 0.94rem;
+}
+.scope-list article a {
+  font-size: 0.82rem;
+}
+.research-note {
+  max-width: 80ch;
+  background: #e4edf8;
+  padding: 28px 30px;
+  border-radius: 9px;
+  margin-top: 35px;
+  font-size: 0.9rem;
+}
+.summary-head {
+  padding: 25px 0 40px;
+}
+.summary-head h1 {
+  font-size: 3.6rem;
+}
+.summary-head > p {
+  color: var(--muted);
+}
+.summary-head .actions {
+  margin-top: 25px;
+}
+.review-list h2 {
+  margin-bottom: 24px;
+}
+.review-item {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.review-item > summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  cursor: pointer;
+  font-size: 0.91rem;
+}
+.review-item > summary strong {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.result-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.result-icon.good {
+  background: #e6f2e8;
+  color: #17684a;
+}
+.result-icon.miss {
+  background: #f8e9d6;
+  color: #98631f;
+}
+.review-body {
+  padding: 5px 28px 25px 63px;
+  max-width: 900px;
+  font-size: 0.95rem;
+}
+.review-body a {
+  font-size: 0.8rem;
+}
+.review-body .problem-figure {
+  margin-top: 20px;
+}
+.review-body .problem-figure svg {
+  max-height: 290px;
+}
+summary {
+  cursor: pointer;
+}
+dialog {
+  color: var(--ink);
+  background: #fff;
+  max-width: 500px;
+  width: calc(100% - 36px);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 24px 90px #14284244;
+}
+dialog::backdrop {
+  background: #152b4866;
+}
+dialog p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+dialog .actions {
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+@media (max-width: 1260px) {
+  main,
+  footer {
+    margin-left: 38px;
+    margin-right: 38px;
+  }
+}
+@media (max-width: 900px) {
+  header {
+    gap: 16px;
+    padding: 15px 24px;
+  }
+  .exam-link {
+    display: none;
+  }
+  header nav {
+    gap: 0;
+  }
+  header nav button {
+    padding: 8px 11px;
+  }
+  .home-intro {
+    gap: 20px;
+  }
+  .intro-diagram {
+    padding: 20px 8px 0;
+  }
+  .home-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 20px;
+  }
+  .practice-panel,
+  .exam-brief {
+    padding: 24px;
+  }
+  .question-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .session-aside {
+    display: none;
+  }
+  .question-layout:has(.question-map) .session-aside {
+    display: block;
+  }
+  .question-map {
+    grid-template-columns: repeat(10, 1fr);
+  }
+  .question-card {
+    padding: 28px;
+  }
+  .learn-layout {
+    grid-template-columns: 180px 1fr;
+    gap: 22px;
+  }
+  .lesson {
+    padding: 28px;
+  }
+  .module-coverage {
+    min-width: 100px;
+  }
+  .module-title small {
+    max-width: 40ch;
+  }
+  .backup-panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .backup-panel .actions {
+    max-width: none;
+  }
+}
+@media (max-width: 650px) {
+  header {
+    min-height: 100px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 18px 9px;
+  }
+  .brand {
+    margin-right: auto;
+  }
+  .brand > span {
+    font-size: 1.1rem;
+  }
+  .brand small {
+    font-size: 0.68rem;
+  }
+  header nav {
+    margin: 0;
+    width: 100%;
+    justify-content: space-between;
+  }
+  header nav button {
+    font-size: 0.85rem;
+    flex: 1;
+    min-height: 39px;
+  }
+  main {
+    margin: 0;
+    padding: 20px 18px 55px;
+  }
+  footer {
+    margin: 0 18px;
+    display: block;
+    font-size: 0.7rem;
+  }
+  footer > span {
+    display: block;
+    margin-bottom: 8px;
+  }
+  .home-intro {
+    grid-template-columns: 1fr;
+    padding: 15px 0 30px;
+  }
+  .home-intro h1 {
+    font-size: 2.6rem;
+  }
+  .course-line {
+    font-size: 0.82rem;
+    margin-bottom: 14px;
+  }
+  .intro-copy {
+    font-size: 1rem;
+  }
+  .intro-diagram {
+    display: none;
+  }
+  .home-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .practice-panel {
+    padding: 24px 22px 10px;
+  }
+  .panel-heading h2 {
+    font-size: 1.18rem;
+  }
+  .panel-heading .quiet {
+    font-size: 0.75rem;
+  }
+  .topic-buttons {
+    gap: 7px;
+  }
+  .topic-buttons button {
+    font-size: 0.78rem;
+    padding: 8px 10px;
+    min-height: 40px;
+  }
+  .start {
+    width: 100%;
+    min-width: 0;
+  }
+  .exam-brief {
+    padding: 24px;
+  }
+  .exam-brief dl > div {
+    padding: 6px 0;
+  }
+  .module-row {
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 17px 0;
+    position: relative;
+  }
+  .module-title {
+    width: calc(100% - 65px);
+  }
+  .module-title strong {
+    font-size: 0.9rem;
+  }
+  .module-title small {
+    font-size: 0.76rem;
+  }
+  .module-dot {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  .module-coverage {
+    margin-left: 42px;
+    width: calc(100% - 80px);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 0.7rem;
+  }
+  .module-coverage progress {
+    flex: 1;
+    width: 80px;
+    margin: 0;
+  }
+  .chevron {
+    position: absolute;
+    right: 0;
+    top: 18px;
+  }
+  .resume {
+    padding: 15px;
+    gap: 12px;
+  }
+  .resume strong {
+    font-size: 0.86rem;
+  }
+  .resume span {
+    font-size: 0.76rem;
+  }
+  .resume .primary {
+    font-size: 0.82rem;
+    padding: 10px 13px;
+  }
+  .session-top {
+    gap: 10px;
+    font-size: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .session-top .text-button {
+    font-size: 0.75rem;
+  }
+  .session-top .quiet {
+    font-size: 0.75rem;
+  }
+  .session-progress {
+    margin-bottom: 18px;
+  }
+  .question-card {
+    padding: 23px 18px;
+    border-radius: 10px;
+  }
+  .question-card h1 {
+    font-size: 1.18rem;
+    line-height: 1.55;
+    margin-bottom: 22px;
+  }
+  .question-meta {
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+  .question-meta .quiet,
+  .topic-tag {
+    font-size: 0.67rem;
+  }
+  .answer {
+    padding: 13px 12px;
+    font-size: 0.9rem;
+    gap: 11px;
+    min-height: 58px;
+  }
+  .answer-letter {
+    min-width: 25px;
+    height: 26px;
+  }
+  .question-actions {
+    margin-top: 23px;
+    padding-top: 20px;
+    gap: 12px;
+  }
+  .question-actions > .primary {
+    flex: 1;
+    font-size: 0.86rem;
+  }
+  .key-help {
+    width: 100%;
+    font-size: 0.7rem;
+  }
+  .match-row {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    padding: 13px 0;
+  }
+  .match-row label {
+    font-size: 0.86rem;
+  }
+  .match-row select {
+    font-size: 0.85rem;
+  }
+  .problem-figure {
+    padding: 4px 0 12px;
+    margin-bottom: 23px;
+  }
+  .problem-figure svg {
+    min-width: 460px;
+    max-height: 300px;
+  }
+  .feedback {
+    margin-top: 22px;
+    padding: 18px 16px;
+  }
+  .feedback p,
+  .feedback li {
+    font-size: 0.88rem;
+  }
+  .feedback h2 {
+    font-size: 1.08rem;
+  }
+  .question-map {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .page-heading {
+    padding: 12px 0 18px;
+  }
+  .page-heading h1 {
+    font-size: 2.2rem;
+  }
+  .page-heading > p:last-child {
+    font-size: 0.92rem;
+  }
+  .learn-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .lesson-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 2px 2px 8px;
+    gap: 7px;
+  }
+  .lesson-nav button {
+    flex: none;
+    max-width: 145px;
+    font-size: 0.76rem;
+    padding: 10px;
+    border: 1px solid #d1dceb;
+    gap: 6px;
+  }
+  .lesson-nav button span {
+    min-width: 15px;
+  }
+  .lesson {
+    padding: 24px 18px;
+  }
+  .lesson h2 {
+    font-size: 1.5rem;
+  }
+  .lesson p {
+    font-size: 0.91rem;
+    line-height: 1.75;
+  }
+  .lesson table {
+    font-size: 0.72rem;
+    display: block;
+    overflow-x: auto;
+  }
+  .lesson td,
+  .lesson th {
+    padding: 8px;
+  }
+  .lesson .actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .bank-toolbar {
+    padding: 1px 14px 18px;
+  }
+  .bank-search {
+    gap: 10px;
+  }
+  .bank-search > label:first-child {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  .bank-search input[type='search'] {
+    max-width: none;
+    width: 100%;
+  }
+  .check-line {
+    width: 100%;
+    font-size: 0.77rem;
+  }
+  .bank-item > summary {
+    grid-template-columns: 1fr;
+    gap: 7px;
+    padding: 18px;
+    font-size: 0.9rem;
+  }
+  .bank-kind {
+    text-align: left;
+    font-size: 0.67rem;
+  }
+  .bank-body {
+    padding: 0 18px 22px;
+    font-size: 0.86rem;
+  }
+  .stat-strip {
+    gap: 12px;
+  }
+  .stat-strip > div {
+    padding-left: 11px;
+  }
+  .stat-strip strong {
+    font-size: 2rem;
+  }
+  .stat-strip strong span {
+    font-size: 0.8rem;
+  }
+  .stat-strip > div > span {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    display: block;
+  }
+  .progress-table-wrap {
+    padding: 16px;
+  }
+  .backup-panel {
+    padding: 22px 18px;
+  }
+  .backup-panel h2 {
+    font-size: 1.15rem;
+  }
+  .backup-panel p {
+    font-size: 0.82rem;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .info-panel {
+    padding: 24px 20px;
+  }
+  .info-panel dl > div {
+    grid-template-columns: 85px 1fr;
+  }
+  .info-panel dd {
+    font-size: 0.85rem;
+  }
+  .info-panel p {
+    font-size: 0.86rem;
+  }
+  .scope-list article p {
+    font-size: 0.88rem;
+  }
+  .research-note {
+    padding: 23px 20px;
+    font-size: 0.86rem;
+  }
+  .summary-head {
+    padding: 15px 0 32px;
+  }
+  .summary-head h1 {
+    font-size: 2.8rem;
+  }
+  .summary-head > p {
+    font-size: 0.92rem;
+  }
+  .review-item > summary {
+    padding: 16px;
+    gap: 11px;
+    font-size: 0.85rem;
+  }
+  .review-body {
+    padding: 0 18px 20px;
+    font-size: 0.88rem;
+  }
+  .review-body .problem-figure svg {
+    min-width: 460px;
+  }
+  .actions .primary,
+  .actions .secondary {
+    font-size: 0.85rem;
+  }
+  .question-actions .flag {
+    font-size: 0.75rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.numeric label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.numeric input {
+  width: 180px;
+  max-width: 100%;
+  font-size: 1.1rem;
+  min-height: 50px;
+  border: 1px solid #b7c7db;
+  border-radius: 7px;
+  padding: 10px 13px;
+}
+@media (max-width: 650px) {
+  .match-row select,
+  .bank-search input[type='search'] {
+    font-size: 16px;
+  }
+}
+
+/* Practice keeps the whole problem together in a side-by-side study window. */
+.session-tools {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.practice-divider {
+  height: 1px;
+  background: var(--line);
+  margin-bottom: 20px;
+}
+.question-workspace {
+  container-type: inline-size;
+}
+.question-visual,
+.question-response {
+  min-width: 0;
+}
+.practice-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.practice-layout .question-actions {
+  min-height: 70px;
+}
+@media (min-width: 760px) {
+  .practice-view header {
+    min-height: 66px;
+    padding-block: 10px;
+    gap: 20px;
+  }
+  .practice-view header .brand > span {
+    font-size: 1.08rem;
+  }
+  .practice-view header nav {
+    gap: 2px;
+  }
+  .practice-view header nav button,
+  .practice-view header nav a {
+    padding-inline: 10px;
+    font-size: 0.85rem;
+  }
+  .practice-view main {
+    min-height: 0;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 12px 28px 20px;
+  }
+  .practice-view footer {
+    display: none;
+  }
+  .practice-view .session-top {
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+  }
+  .practice-view .session-top .text-button {
+    min-height: 32px;
+    font-size: 0.8rem;
+    padding-block: 4px;
+  }
+  .practice-view .session-top .quiet {
+    font-size: 0.78rem;
+  }
+  .practice-view .session-progress {
+    height: 4px;
+    margin-bottom: 14px;
+  }
+  .practice-view .practice-divider {
+    margin-bottom: 14px;
+  }
+  .practice-view .question-card {
+    padding: 22px 26px;
+    border-radius: 10px;
+  }
+  .practice-view .question-meta {
+    margin-bottom: 12px;
+  }
+  .practice-view .question-card h1 {
+    max-width: none;
+    font-size: clamp(1.08rem, 1rem + 0.25vw, 1.3rem);
+    line-height: 1.45;
+    margin-bottom: 18px;
+  }
+  .question-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .practice-view .answers {
+    gap: 8px;
+  }
+  .practice-view .answer {
+    font-size: 0.9rem;
+    min-height: 48px;
+    padding: 11px 12px;
+    gap: 10px;
+    line-height: 1.45;
+  }
+  .practice-view legend {
+    font-size: 0.75rem;
+    margin-bottom: 9px;
+  }
+  .practice-view .match-row {
+    gap: 14px;
+    padding: 7px 0;
+    font-size: 0.86rem;
+  }
+  .practice-view .match-row select {
+    min-height: 40px;
+    padding-block: 6px;
+    font-size: 0.85rem;
+  }
+  .practice-view .feedback {
+    margin-top: 18px;
+    padding: 14px 19px;
+  }
+  .practice-view .feedback h2 {
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+  }
+  .practice-view .feedback p,
+  .practice-view .feedback li {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+  .practice-view .feedback p {
+    margin-bottom: 6px;
+  }
+  .practice-view .feedback ol {
+    margin: 6px 0;
+  }
+  .practice-view .feedback li {
+    margin: 2px 0;
+  }
+  .practice-view .feedback > a {
+    font-size: 0.74rem;
+  }
+  .practice-view .question-actions {
+    margin-top: 16px;
+    padding-top: 15px;
+    min-height: 61px;
+    gap: 16px;
+  }
+  .practice-view .question-actions .primary {
+    font-size: 0.86rem;
+    min-height: 44px;
+    padding: 9px 17px;
+  }
+  .practice-view .key-help {
+    font-size: 0.72rem;
+  }
+}
+
+.bayes-preview {
+  margin: 0;
+  padding: clamp(20px, 4vw, 42px);
+  background: #e2edf9;
+  border: 1px solid #c6d9ee;
+  color: var(--ink);
+}
+.bayes-preview figcaption {
+  font-weight: 650;
+  color: #365977;
+}
+.bayes-preview p {
+  color: #405a74;
+  margin: 16px 0 0;
+  font-size: 0.92rem;
+}
+.equation {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  margin-top: 12px;
+  font-weight: 600;
+}
+.fraction {
+  display: inline-grid;
+  text-align: center;
+}
+.fraction > span {
+  padding: 3px 6px;
+}
+.fraction > :first-child {
+  border-bottom: 1px solid currentColor;
+}
+.probability {
+  margin: 0 0 1rem;
+  background: #f2f6fb;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.probability table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.probability caption {
+  padding: 12px;
+  text-align: left;
+  font-weight: 650;
+  color: var(--ink);
+}
+.probability th,
+.probability td {
+  text-align: left;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.probability th {
+  background: #e6eef8;
+  overflow-wrap: anywhere;
+}
+.probability tbody tr:nth-child(2n) {
+  background: #fff;
+}
+.info-panel > a {
+  display: block;
+  margin-top: 0.6rem;
+}
+.lesson section {
+  margin-block: 1.1rem;
+}
+@media (max-width: 700px) {
+  header nav {
+    gap: 2px;
+    min-width: 0;
+  }
+  header nav button {
+    flex: 1 1 auto;
+    font-size: 0.8rem;
+    min-width: 0;
+    padding-inline: 5px;
+  }
+  .session-tools {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+</style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>Enable JavaScript to answer questions and save your progress.</noscript>
+    <script type="module">const canvas = 'https://canvas.oregonstate.edu/courses/2079176';
+
+const SCOPE = {
+  checked: 'November 26, 2026',
+  modules: canvas + '/modules',
+  syllabus: canvas + '/assignments/syllabus',
+  unlocks: 'December 6 at 8 a.m. Pacific',
+  due: 'December 10',
+};
+
+const TOPICS = [
+  {
+    id: 6,
+    name: 'Logical agents',
+    short: 'Logic',
+    color: '#2d6588',
+    description: 'Read propositions and apply resolution.',
+    conclusion: canvas + '/pages/week-6-conclusion?module_item_id=27019484',
+    scope:
+      'Quiz 6 concepts. Apply propositional resolution and know when forward and backward chaining are useful.',
+  },
+  {
+    id: 7,
+    name: 'First-order logic',
+    short: 'First-order logic',
+    color: '#7a5891',
+    description: 'Translate quantifiers, unify terms, and infer facts.',
+    conclusion: canvas + '/pages/week-7-conclusion?module_item_id=27019492',
+    scope:
+      'Quiz 7 concepts. Practice representation, inference, unification, and first-order resolution.',
+  },
+  {
+    id: 8,
+    name: 'Quantifying uncertainty',
+    short: 'Probability',
+    color: '#9a542b',
+    description: 'Read joint distributions and compute posteriors.',
+    conclusion: canvas + '/pages/week-8-conclusion?module_item_id=27019498',
+    scope:
+      'Answer queries from a full joint distribution. Use the product rule, conditional probability, Bayes’ rule, normalization, and independence.',
+  },
+  {
+    id: 9,
+    name: 'Bayesian networks',
+    short: 'Bayes nets',
+    color: '#277967',
+    description: 'Read networks, join factors, and sum out variables.',
+    conclusion: canvas + '/pages/week-9-conclusion?module_item_id=27019507',
+    scope:
+      'Quiz 9 concepts. Practice network structure, conditional independence, exact inference, and variable elimination.',
+  },
+  {
+    id: 10,
+    name: 'Limits, ethics, and the future of AI',
+    short: 'Limits & ethics',
+    color: '#a44963',
+    description:
+      'Apply the course’s arguments, fairness concepts, and safety ideas.',
+    conclusion: canvas + '/pages/week-10-conclusion?module_item_id=27019512',
+    scope:
+      'Quiz 10 concepts. Review arguments about AI’s limits, fairness and safety, and emerging approaches to building AI systems.',
+  },
+];
+
+const single = (id, module, prompt, answer, distractors, why, extra = {}) => ({
+  id,
+  module,
+  prompt,
+  why,
+  kind: 'single',
+  options: [answer, ...distractors],
+  correct: [0],
+  ...extra,
+});
+const tf = (id, module, prompt, answer, why) => ({
+  id,
+  module,
+  prompt,
+  why,
+  kind: 'single',
+  options: ['True', 'False'],
+  correct: [answer ? 0 : 1],
+});
+const multi = (id, module, prompt, options, correct, why) => ({
+  id,
+  module,
+  prompt,
+  why,
+  kind: 'multi',
+  options,
+  correct,
+});
+const match = (id, module, prompt, pairs, why) => ({
+  id,
+  module,
+  prompt,
+  why,
+  kind: 'match',
+  pairs,
+  choices: [...new Set(pairs.map((pair) => pair[1]))],
+});
+const number = (id, module, prompt, answer, why, extra = {}) => ({
+  id,
+  module,
+  prompt,
+  why,
+  kind: 'number',
+  number: answer,
+  ...extra,
+});
+
+const weather = {
+  caption: 'Full joint distribution for rain and strong wind',
+  headings: ['Rain', 'Strong wind', 'Probability'],
+  rows: [
+    ['Yes', 'Yes', '30%'],
+    ['Yes', 'No', '10%'],
+    ['No', 'Yes', '20%'],
+    ['No', 'No', '40%'],
+  ],
+};
+const sensors = {
+  caption: 'Full joint distribution for a fault and an alert',
+  headings: ['Fault', 'Alert', 'Probability'],
+  rows: [
+    ['Yes', 'Yes', '6%'],
+    ['Yes', 'No', '4%'],
+    ['No', 'Yes', '9%'],
+    ['No', 'No', '81%'],
+  ],
+};
+const indicators = {
+  caption:
+    'Bayes net D → A and D → B. D is true with probability 20%. A and B are independent given D’s value.',
+  headings: ['D', 'P(A = true | D)', 'P(B = true | D)'],
+  rows: [
+    ['True', '75%', '80%'],
+    ['False', '25%', '40%'],
+  ],
+};
+
+const BANK = [
+  single(
+    '6-tell',
+    6,
+    'A robot learns that a corridor is blocked and stores that fact. Which knowledge-base operation does this illustrate?',
+    'TELL',
+    ['ASK', 'Resolution', 'Backward chaining'],
+    'TELL adds a sentence to the knowledge base. ASK queries what follows from the sentences the agent has stored.'
+  ),
+  single(
+    '6-ask',
+    6,
+    'An agent has stored rules about which routes are safe. It needs to choose a route using those rules. What is the role of ASK?',
+    'Query what action follows from the stored facts and rules',
+    [
+      'Add a new observation to the knowledge base',
+      'Replace the rules with the agent’s action',
+      'Make every unspecified route safe',
+    ],
+    'ASK uses inference to answer a query from the existing knowledge base. A typical agent first records its percept and then asks what action it should take.'
+  ),
+  single(
+    '6-breeze',
+    6,
+    'In a grid world, a cell is breezy exactly when a horizontally or vertically adjacent cell contains a pit. The current cell has no breeze. What follows?',
+    'Every horizontally or vertically adjacent cell is pit-free',
+    [
+      'At least one adjacent cell is pit-free',
+      'The entire grid is pit-free',
+      'A diagonally adjacent cell is pit-free',
+    ],
+    'A pit in any adjacent cell would make this cell breezy. Observing no breeze rules out each adjacent pit separately.'
+  ),
+  single(
+    '6-breeze-possible',
+    6,
+    'In a grid world, a cell is breezy exactly when at least one adjacent cell contains a pit. There are two adjacent cells, X and Y. All you know is that you sense a breeze. What follows?',
+    'X or Y has a pit, possibly both',
+    ['Only X has a pit', 'Both cells have pits', 'Exactly one cell has a pit'],
+    'The breeze gives the inclusive disjunction Pit(X) ∨ Pit(Y). Each cell is a possible location, and this observation alone allows both to have pits.'
+  ),
+  match(
+    '6-semantics',
+    6,
+    'Match each term in propositional logic with its meaning.',
+    [
+      ['Valid sentence', 'True in every interpretation'],
+      ['Satisfiable sentence', 'True in at least one interpretation'],
+      [
+        'Entailment KB ⊨ Q',
+        'Q is true in every interpretation that makes KB true',
+      ],
+    ],
+    'Validity ranges over all interpretations. Satisfiability needs one witness. Entailment restricts attention to interpretations where the knowledge base is true.'
+  ),
+  tf(
+    '6-entailment',
+    6,
+    'If a knowledge base contains B ∨ C and no other facts, it entails B.',
+    false,
+    'The interpretation B = false, C = true makes B ∨ C true while B is false. A single countermodel disproves entailment.'
+  ),
+  single(
+    '6-implication',
+    6,
+    'For a material implication P → Q, which assignment makes it false?',
+    'P is true and Q is false',
+    [
+      'Both P and Q are true',
+      'P is false and Q is true',
+      'Both P and Q are false',
+    ],
+    'P → Q is equivalent to ¬P ∨ Q. That disjunction is false exactly when P is true and Q is false.'
+  ),
+  single(
+    '6-contrapositive',
+    6,
+    'Given “if the valve is open then the lamp is on” and “the lamp is off,” what follows in propositional logic?',
+    'The valve is closed',
+    [
+      'The valve is open',
+      'Every closed valve turns the lamp off',
+      'Nothing follows about this valve',
+    ],
+    'If Open were true, the rule would make On true. Because On is false, Open must be false. This is the contrapositive.'
+  ),
+  single(
+    '6-demorgan',
+    6,
+    'Which formula is equivalent to ¬(A ∨ B)?',
+    '¬A ∧ ¬B',
+    ['¬A ∨ ¬B', 'A ∧ B', 'A ∨ ¬B'],
+    'For an “or” to be false, both operands must be false. De Morgan’s law changes the connective as it moves negation inward.'
+  ),
+  single(
+    '6-cnf',
+    6,
+    'Which sentence is in conjunctive normal form, a conjunction of clauses where each clause is a disjunction of literals?',
+    '(A ∨ ¬B) ∧ C',
+    ['(A ∧ B) ∨ C', '¬(A ∨ B)', 'A → (B ∨ C)'],
+    'A and ¬B are literals. Their disjunction is one clause, and a single literal C is another clause. Conjoining the two clauses gives CNF.'
+  ),
+  single(
+    '6-distribute',
+    6,
+    'Convert P ∨ (Q ∧ R) to conjunctive normal form.',
+    '(P ∨ Q) ∧ (P ∨ R)',
+    ['(P ∧ Q) ∨ (P ∧ R)', 'P ∧ (Q ∨ R)', '(P ∨ Q) ∧ R'],
+    'If P holds, both new clauses hold. If P is false, the clauses require both Q and R. This is exactly the original condition.'
+  ),
+  single(
+    '6-resolve',
+    6,
+    'In propositional resolution, what clause follows by resolving (A ∨ B) with (¬B ∨ C) on B?',
+    'A ∨ C',
+    ['A ∧ C', 'B ∨ ¬B', 'A ∨ B ∨ C'],
+    'If B is false, the first clause requires A. If B is true, the second requires C. Drop the complementary B and ¬B and keep the disjunction of the remaining literals.'
+  ),
+  single(
+    '6-resolve-chain',
+    6,
+    'The knowledge base contains ¬P ∨ Q, ¬Q ∨ R, and P. Resolve first on P and next on Q. What unit clause results?',
+    'R',
+    ['¬R', '¬Q', 'P ∨ R'],
+    'Resolve P against ¬P ∨ Q to get Q. Then resolve Q against ¬Q ∨ R to get R.'
+  ),
+  single(
+    '6-refutation',
+    6,
+    'You want to prove KB ⊨ Goal by resolution refutation. Which sentence do you add before converting the combined sentences to clauses?',
+    '¬Goal',
+    ['Goal', 'Goal ∨ ¬Goal', 'Any clause from KB'],
+    'If KB together with ¬Goal leads to the empty clause, that combination has no model. Every model of KB must therefore satisfy Goal.'
+  ),
+  tf(
+    '6-empty',
+    6,
+    'Deriving the empty clause using sound resolution shows that the starting set of clauses is inconsistent.',
+    true,
+    'The empty disjunction is false in every model. Sound inference could only derive it from premises that have no common model.'
+  ),
+  single(
+    '6-definite',
+    6,
+    'Which clause is definite, with exactly one positive literal?',
+    '¬Wet ∨ ¬Cold ∨ Icy',
+    ['Wet ∨ Cold ∨ Icy', '¬Wet ∨ ¬Cold', 'Wet ∨ ¬Cold ∨ Icy'],
+    'Icy is the only positive literal. The clause can be read as the rule Wet ∧ Cold → Icy.'
+  ),
+  match(
+    '6-chaining',
+    6,
+    'Match each inference direction to the task it suits.',
+    [
+      [
+        'Forward chaining',
+        'Start with new facts and derive consequences as rules become applicable',
+      ],
+      [
+        'Backward chaining',
+        'Start with one query and look for rules and facts that could prove it',
+      ],
+    ],
+    'Forward chaining is data-driven. Backward chaining is goal-driven. Both can answer entailment questions over definite clauses.'
+  ),
+
+  match(
+    '7-language',
+    7,
+    'Given the first-order sentence Borrowed(Ada, OwnerOf(Book7)), match the expressions to their roles.',
+    [
+      ['Ada', 'Constant naming an object'],
+      ['OwnerOf(Book7)', 'Function term denoting an object'],
+      ['Borrowed', 'Predicate expressing a relation'],
+    ],
+    'A constant denotes an object. A function returns an object from its arguments. A predicate applied to arguments forms a sentence that can be true or false.'
+  ),
+  single(
+    '7-representation',
+    7,
+    'Why is first-order logic convenient for stating that every bike has an owner?',
+    'One quantified rule can express a relation over objects',
+    [
+      'A proposition can have infinitely many truth values',
+      'It assumes every named object has a different name',
+      'An existential quantifier creates a specific named owner for each bike',
+    ],
+    'Quantified variables range over objects. Predicates describe their properties and relationships. You can express the pattern once without listing bikes individually.'
+  ),
+  single(
+    '7-all',
+    7,
+    'Let Finch(x) mean x is a finch and Bird(x) mean x is a bird. Which sentence says every finch is a bird?',
+    '∀x (Finch(x) → Bird(x))',
+    [
+      '∀x (Finch(x) ∧ Bird(x))',
+      '∃x (Finch(x) → Bird(x))',
+      '∀x (Bird(x) → Finch(x))',
+    ],
+    'The implication imposes the Bird requirement when Finch is true. Conjoining the predicates under a universal quantifier would also claim that everything is a finch.'
+  ),
+  single(
+    '7-some',
+    7,
+    'Let Finch(x) mean x is a finch and Tagged(x) mean x has a tag. Which sentence says at least one finch is tagged?',
+    '∃x (Finch(x) ∧ Tagged(x))',
+    [
+      '∃x (Finch(x) → Tagged(x))',
+      '∀x (Finch(x) → Tagged(x))',
+      '∃x Finch(x) ∧ ∃x Tagged(x)',
+    ],
+    'One witness must satisfy both predicates. Separate existential clauses allow two different witnesses, and an implication could be true for a non-finch.'
+  ),
+  single(
+    '7-order',
+    7,
+    'The domain is students. What does ∀x ∃y Mentors(y, x) allow?',
+    'Each student has a mentor, and the mentor may differ by student',
+    [
+      'A single student must mentor everyone',
+      'Each student mentors everyone',
+      'At least one student has no mentor',
+    ],
+    'The existential witness y is chosen inside the scope of ∀x, so the witness can depend on x. Reversing the quantifiers would make one y work for every x.'
+  ),
+  single(
+    '7-negation',
+    7,
+    'Which sentence is equivalent to ¬∀x Checked(x), where Checked(x) means item x was checked?',
+    '∃x ¬Checked(x)',
+    ['∀x ¬Checked(x)', '¬∃x Checked(x)', '∃x Checked(x)'],
+    'A universal claim fails if at least one object is a counterexample. Move negation in and switch ∀ to ∃.'
+  ),
+  single(
+    '7-none',
+    7,
+    'Let Locked(x) and Open(x) be predicates. Which formula says no locked box is open?',
+    '¬∃x (Locked(x) ∧ Open(x))',
+    [
+      '∃x (Locked(x) ∧ ¬Open(x))',
+      '∀x (Locked(x) ∧ ¬Open(x))',
+      '¬∀x (Locked(x) → Open(x))',
+    ],
+    'There must be no witness that is both locked and open. Equivalently, every locked box must be not open.'
+  ),
+  tf(
+    '7-vacuous',
+    7,
+    'The sentence ∀x (Unicorn(x) → HasHorn(x)) can be true in a model with no unicorns.',
+    true,
+    'Each instance of the implication is true when its premise is false. The sentence places a condition on unicorns without asserting that one exists.'
+  ),
+  single(
+    '7-grounding',
+    7,
+    'A first-order domain consists of exactly A and B. Which propositional expansion is equivalent to ∃x Connected(A, x)?',
+    'Connected(A, A) ∨ Connected(A, B)',
+    [
+      'Connected(A, A) ∧ Connected(A, B)',
+      'Connected(A, A) only',
+      'Connected(A, B) ∨ Connected(B, A)',
+    ],
+    'An existential statement asks for at least one successful instance. Substitute each domain member for x and take the disjunction.'
+  ),
+  single(
+    '7-universal-instantiation',
+    7,
+    'The knowledge base contains ∀x (Ticket(x) → Admits(x)). Which instance follows by substituting T7 for x?',
+    'Ticket(T7) → Admits(T7)',
+    ['Admits(T7)', 'Ticket(T7)', 'Admits(x) → Ticket(x)'],
+    'Instantiation replaces x throughout the formula. The conclusion Admits(T7) would still need the premise Ticket(T7).'
+  ),
+  single(
+    '7-existential-instantiation',
+    7,
+    'You know ∃x Broken(x). To represent a witness as a constant for inference, which choice is sound?',
+    'Introduce a fresh constant K and use Broken(K)',
+    [
+      'Choose the existing constant Ada and assert Broken(Ada)',
+      'Assert that every named object is broken',
+      'Drop the predicate and retain x alone',
+    ],
+    'The existential sentence guarantees a witness, but says nothing about which previously named object it is. A new symbol can stand for that witness.'
+  ),
+  single(
+    '7-unify',
+    7,
+    'Here x and y are variables, and Ada and Book7 are constants. Which substitution unifies Loan(x, Book7) and Loan(Ada, y)?',
+    'x ↦ Ada, y ↦ Book7',
+    ['x ↦ Book7, y ↦ Ada', 'x ↦ y only', 'No unifier exists'],
+    'The predicates match and the corresponding arguments must agree. Match position one to Ada and position two to Book7.'
+  ),
+  single(
+    '7-unify-function',
+    7,
+    'Here x is a variable, Ada is a constant, and F is a function. What unifies Stored(F(x), x) and Stored(F(Ada), Ada)?',
+    'x ↦ Ada',
+    ['x ↦ F(Ada)', 'F ↦ Ada', 'No unifier exists'],
+    'Both positions require the same substitution. Replacing x with Ada yields Stored(F(Ada), Ada) on both sides.'
+  ),
+  single(
+    '7-repeat',
+    7,
+    'Here x is a variable and A and B are distinct constant symbols. Can Pair(x, x) and Pair(A, B) be syntactically unified?',
+    'No. The same x would have to become both A and B.',
+    [
+      'Yes. Use x ↦ A in the first position and x ↦ B in the second.',
+      'Yes. Rename A to B.',
+      'Yes. Any terms with the same predicate unify.',
+    ],
+    'A substitution is applied consistently throughout the sentence. It cannot replace two occurrences of the same variable with different terms.'
+  ),
+  tf(
+    '7-occurs',
+    7,
+    'In standard first-order unification with finite terms, the variable x can be unified with ParentOf(x).',
+    false,
+    'The occurs check rules this out. Replacing x with a term containing x would require an infinite nesting of ParentOf calls.'
+  ),
+  single(
+    '7-gmp',
+    7,
+    'A rule says Bird(x) ∧ Tagged(x) → Track(x). You know Bird(Ada), Tagged(Ada), and Bird(Bea). What follows by generalized modus ponens?',
+    'Track(Ada)',
+    ['Track(Bea)', 'Track(x) for every x', 'Tagged(Bea)'],
+    'The substitution x ↦ Ada makes both premises match facts. Bea matches only Bird, which is insufficient for this rule.'
+  ),
+  single(
+    '7-gmp-binding',
+    7,
+    'A rule says Ready(x) ∧ Signed(x) → Ship(x). The only facts are Ready(A) and Signed(B), with distinct constants A and B. Can the rule fire using these facts?',
+    'No. Both premises must match under the same substitution.',
+    [
+      'Yes. It yields Ship(A).',
+      'Yes. It yields Ship(B).',
+      'Yes. It yields Ship(A) and Ship(B).',
+    ],
+    'The first fact would bind x to A and the second to B. One application needs a single consistent substitution for the shared variable.'
+  ),
+  single(
+    '7-fol-resolution',
+    7,
+    'Resolve ¬Bird(x) ∨ Flies(x) with Bird(Ada), where x is a variable and Ada a constant. What clause follows?',
+    'Flies(Ada)',
+    ['Flies(x) for every x', '¬Flies(Ada)', 'Bird(Ada) ∨ Flies(Ada)'],
+    'Unify the complementary literals with x ↦ Ada. Remove them and apply that substitution to the remaining Flies(x).'
+  ),
+  single(
+    '7-skolem',
+    7,
+    'For ∀x ∃y HasKey(x, y), which replacement for y preserves the ability to choose a witness that depends on x during Skolemization?',
+    'A fresh function K(x)',
+    [
+      'A fresh constant K',
+      'The variable x itself',
+      'The negated predicate ¬HasKey',
+    ],
+    'The witness y is chosen after x, so a Skolem function of x records that dependency. A constant would force the same witness for every x.'
+  ),
+
+  number(
+    '8-rain-marginal',
+    8,
+    'What is the probability of rain? Use the full joint distribution below.',
+    40,
+    'Sum the rows with rain: 30% when there is strong wind plus 10% when there is no strong wind. The marginal is 40%.',
+    { table: weather, unit: '%' }
+  ),
+  number(
+    '8-rain-given-wind',
+    8,
+    'Given strong wind, what is the probability of rain?',
+    60,
+    'Strong wind accounts for 30% + 20% = 50% of all cases. Rain and strong wind account for 30%. Divide 30 by 50 to get 60%.',
+    { table: weather, unit: '%' }
+  ),
+  number(
+    '8-wind-given-rain',
+    8,
+    'Given rain, what is the probability of strong wind?',
+    75,
+    'The evidence is rain, so the denominator is 30% + 10% = 40%. The overlap is 30%. Divide 30 by 40 to get 75%.',
+    { table: weather, unit: '%' }
+  ),
+  number(
+    '8-union',
+    8,
+    'What is the probability of rain or strong wind, including cases with both?',
+    60,
+    'The only excluded row has neither rain nor strong wind. Subtract its 40% from 100%, or sum the other three rows.',
+    { table: weather, unit: '%' }
+  ),
+  number(
+    '8-fault-posterior',
+    8,
+    'Given an alert, what is the probability of a fault?',
+    40,
+    'Alerts have total probability 6% + 9% = 15%. A fault and an alert have probability 6%. Divide 6 by 15 to get 40%.',
+    { table: sensors, unit: '%' }
+  ),
+  number(
+    '8-alert-likelihood',
+    8,
+    'Given a fault, what is the probability of an alert?',
+    60,
+    'The fault rows sum to 10%. The row with both a fault and an alert is 6%. Divide 6 by 10 to get 60%.',
+    { table: sensors, unit: '%' }
+  ),
+  single(
+    '8-product-rule',
+    8,
+    'A device has a 20% chance of running hot, and 30% of hot devices trigger a warning. What is the probability of running hot and triggering a warning?',
+    '6%',
+    ['30%', '50%', '15%'],
+    'Multiply P(hot) by P(warning | hot): 0.20 × 0.30 = 0.06. The second probability narrows the hot cases to those with a warning.'
+  ),
+  single(
+    '8-total-probability',
+    8,
+    'Orders come from region X with probability 25% and region Y otherwise. A delay occurs for 40% of X orders and 20% of Y orders. What is P(delay)?',
+    '25%',
+    ['30%', '60%', '10%'],
+    'Add the two disjoint paths to a delay: 0.25 × 0.40 + 0.75 × 0.20 = 0.10 + 0.15 = 0.25.'
+  ),
+  number(
+    '8-bayes',
+    8,
+    'A batch has 20% defective parts. A scan flags 80% of defective parts and 20% of good parts. Given a flag, what percentage of parts are defective?',
+    50,
+    'Of 100 parts, 16 defective and 16 good parts are flagged. The flagged pool has 32 parts, so 16 ÷ 32 = 50%.',
+    { unit: '%' }
+  ),
+  number(
+    '8-base-rate',
+    8,
+    'A shipment contains 100 boxes, 10 with a damaged item. A scanner flags 9 damaged boxes and 9 undamaged boxes. What percentage of flagged boxes contain a damaged item?',
+    50,
+    'The evidence restricts the pool to 18 flagged boxes. Nine of them are damaged, so the posterior is 9 ÷ 18 = 50%. The 90% detection rate uses a different denominator.',
+    { unit: '%' }
+  ),
+  single(
+    '8-normalizer',
+    8,
+    'After fixing evidence E, the joint weights for two exhaustive hypotheses are P(H₁, E) = 0.12 and P(H₂, E) = 0.08. What constant α turns those weights into posterior probabilities?',
+    '5',
+    ['0.20', '2', '0.60'],
+    'The weights sum to P(E) = 0.20. Multiply by the reciprocal, 1 ÷ 0.20 = 5, so the normalized probabilities sum to 1.'
+  ),
+  number(
+    '8-normalized-posterior',
+    8,
+    'Three exhaustive possibilities have joint weights 0.06, 0.09, and 0.15 with the same evidence. What is the posterior percentage of the third possibility?',
+    50,
+    'The evidence weights sum to 0.30. Normalize the third weight by dividing 0.15 by 0.30. The result is 0.50, or 50%.',
+    { unit: '%' }
+  ),
+  single(
+    '8-independent',
+    8,
+    'P(A) = 40%, P(B) = 50%, and P(A ∧ B) = 20%. What does this tell you about A and B?',
+    'A and B are independent',
+    [
+      'A and B are mutually exclusive',
+      'A always implies B',
+      'Their relationship cannot be determined',
+    ],
+    'The joint equals the product of the marginals: 0.40 × 0.50 = 0.20. That equality is the definition of independence for two events.'
+  ),
+  number(
+    '8-independent-joint',
+    8,
+    'Two independent sensors detect a signal with probabilities 50% and 80%. What percentage of signals are detected by both?',
+    40,
+    'Independence lets you multiply the marginal probabilities. 0.50 × 0.80 = 0.40.',
+    { unit: '%' }
+  ),
+  tf(
+    '8-exclusive',
+    8,
+    'Two events with positive probabilities can be both mutually exclusive and independent.',
+    false,
+    'Mutually exclusive events have a zero joint probability. Independent events with positive probabilities must have a positive joint probability equal to the product.'
+  ),
+  single(
+    '8-conditional-independence',
+    8,
+    'Two exams are graded independently when the identity of the grader is known. A strict grader tends to give low marks on both. What can happen when you do not know the grader?',
+    'The two marks can be dependent across the mixed group of graders',
+    [
+      'The marks must still be independent',
+      'The marks must be mutually exclusive',
+      'Conditioning on the grader always makes marks equal',
+    ],
+    'The same unknown grader influences both outcomes. One mark can reveal information about the grader and change the chance of the other mark.'
+  ),
+  single(
+    '8-naive-assumption',
+    8,
+    'What independence assumption does a naive Bayes classifier make about the observed features?',
+    'The features are conditionally independent given the class',
+    [
+      'Features are independent of the class',
+      'The class is independent of all observed features',
+      'Features are necessarily marginally independent',
+    ],
+    'Given a class value, naive Bayes multiplies the feature likelihoods. Different classes can still make the features correlated when the class is unknown.'
+  ),
+  single(
+    '8-naive-compare',
+    8,
+    'An equal-prior naive Bayes model uses two present features. Class A has feature probabilities 0.8 and 0.5. Class B has 0.6 and 0.4. Which class has the higher posterior?',
+    'Class A',
+    [
+      'Class B',
+      'They tie',
+      'The model needs the evidence denominator to compare them',
+    ],
+    'With equal priors, compare likelihood products: 0.8 × 0.5 = 0.40 versus 0.6 × 0.4 = 0.24. The same positive evidence denominator divides both scores.'
+  ),
+  single(
+    '8-zero-conditional',
+    8,
+    'In a discrete model, what is P(A | B) as computed by the product rule when P(B) = 0?',
+    'Undefined by the ratio P(A ∧ B) ÷ P(B)',
+    ['Always zero', 'Always one', 'Equal to P(A)'],
+    'The ratio would divide by zero. Being able to write the symbol P(A | B) does not make the conditional probability defined by that ratio.'
+  ),
+
+  single(
+    '9-structure',
+    9,
+    'Which structure represents a Bayesian network?',
+    'A directed acyclic graph and one conditional distribution per node given its parents',
+    [
+      'An undirected graph with one probability per edge',
+      'A directed graph that requires a cycle',
+      'A decision tree with a score only at each leaf',
+    ],
+    'Each node represents a variable and supplies its local distribution. Directed cycles would make the parent-based factorization ill-defined as a Bayesian network.'
+  ),
+  single(
+    '9-factorization',
+    9,
+    'For the Bayes net A → B and A → C, which product gives the joint P(A, B, C)?',
+    'P(A) × P(B | A) × P(C | A)',
+    [
+      'P(A) × P(B) × P(C)',
+      'P(A | B) × P(B | C) × P(C)',
+      'P(A | B, C) × P(B | A) × P(C | A)',
+    ],
+    'Each variable contributes one term conditioned on its own parents. A has none. Both B and C have A as their sole parent.'
+  ),
+  single(
+    '9-cpt-size',
+    9,
+    'A Boolean node has three Boolean parents. How many distinct parent assignments need a row in its conditional probability table?',
+    '8',
+    ['3', '6', '16'],
+    'There are 2 × 2 × 2 = 8 parent assignments. Each row is a distribution over the two values of the child; one probability per row determines the other.'
+  ),
+  tf(
+    '9-rows',
+    9,
+    'For a Boolean node X, each row for a fixed parent assignment satisfies P(X = true | parents) + P(X = false | parents) = 1.',
+    true,
+    'The parent assignment fixes the evidence and the two child values exhaust the possibilities. Each row is its own conditional distribution.'
+  ),
+  single(
+    '9-chain',
+    9,
+    'A network has only the arrows Switch → Power → Lamp. Once Power is observed, what does the graph imply about Switch and Lamp?',
+    'Switch and Lamp are conditionally independent given Power',
+    [
+      'Switch and Lamp must be marginally independent',
+      'Switch and Lamp become the same variable',
+      'Lamp must be true whenever Switch is true',
+    ],
+    'Lamp’s conditional distribution already uses Power, its only parent. Once Power is known, learning Switch adds no information about Lamp in this network.'
+  ),
+  single(
+    '9-local-independence',
+    9,
+    'A Bayes net node X has known parent values. The local Markov property guarantees X is independent of which other variables given those parents?',
+    'Its non-descendants other than its parents',
+    [
+      'All of its children',
+      'All other nodes, including its descendants',
+      'Its parents before they are observed',
+    ],
+    'A node’s parents screen off upstream and other non-descendant information. Its descendants can still provide evidence about X.'
+  ),
+  match(
+    '9-blanket',
+    9,
+    'The only arrows are P → X, X → C, Q → C, and C → Z. Classify the nodes relative to X’s Markov blanket.',
+    [
+      ['P', 'In the blanket'],
+      ['C', 'In the blanket'],
+      ['Q', 'In the blanket'],
+      ['Z', 'Outside the blanket'],
+    ],
+    'The blanket contains parents, children, and other parents of the children. P is a parent, C is a child, and Q shares the child C. Z is a grandchild.'
+  ),
+  single(
+    '9-common-cause',
+    9,
+    'The arrows are Season → HeaterUse and Season → CoatSales, with no others. Why can the two effects be dependent when Season is unknown?',
+    'One effect provides evidence about Season, which changes the probability of the other',
+    [
+      'A fork graph means the effects cannot be independent given Season',
+      'HeaterUse must cause CoatSales directly',
+      'The effects share an observed child',
+    ],
+    'A common unobserved cause can correlate its effects. Conditioning on Season fixes the cause and makes the local effect distributions independent in this graph.'
+  ),
+  single(
+    '9-explaining-away',
+    9,
+    'Smoke and dust independently can trigger an alarm. It rang. Which extra observation can reduce the inferred probability of smoke?',
+    'A confirmed large amount of dust that could explain the alarm',
+    [
+      'Learning that no dust was present',
+      'Learning nothing about either cause',
+      'Hiding whether the alarm rang',
+    ],
+    'When a shared effect is observed, evidence for one plausible cause can explain the effect and reduce how much evidence remains for the other cause.'
+  ),
+  number(
+    '9-joint',
+    9,
+    'What is the probability that D, A, and B are all true?',
+    12,
+    'Use one factor per node: 0.20 × 0.75 × 0.80 = 0.12. The two indicators are independent given D.',
+    { table: indicators, unit: '%' }
+  ),
+  number(
+    '9-enumeration',
+    9,
+    'What is the probability that A and B are both true, allowing either D value?',
+    20,
+    'Sum the D = true joint weight 0.20 × 0.75 × 0.80 = 0.12 and the D = false weight 0.80 × 0.25 × 0.40 = 0.08. Total: 0.20.',
+    { table: indicators, unit: '%' }
+  ),
+  single(
+    '9-conditional-query',
+    9,
+    'What is P(B = true | A = true) in the table and network below?',
+    '4/7',
+    ['1/5', '7/20', '4/5'],
+    'P(A, B) = 0.12 + 0.08 = 0.20. P(A) = 0.20 × 0.75 + 0.80 × 0.25 = 0.35. The ratio 0.20 ÷ 0.35 is 4/7.',
+    { table: indicators }
+  ),
+  single(
+    '9-join',
+    9,
+    'Join factors f(A, B) and g(B, C). For one assignment, f(a, b) = 0.4 and g(b, c) = 0.5. What is the joined factor’s scope and value at (a, b, c)?',
+    'Scope {A, B, C}, value 0.20',
+    [
+      'Scope {B}, value 0.20',
+      'Scope {A, C}, value 0.90',
+      'Scope {A, B, C}, value 0.90',
+    ],
+    'A join keeps the union of the scopes. For the shared value b, multiply the two compatible entries: 0.4 × 0.5 = 0.20.'
+  ),
+  single(
+    '9-sum-out',
+    9,
+    'For A = a, a factor has f(a, B = true) = 0.18 and f(a, B = false) = 0.12. What value does summing out B give at A = a?',
+    '0.30',
+    ['0.18', '0.15', '0.0216'],
+    'Both B assignments correspond to the same remaining assignment A = a. Marginalization adds them: 0.18 + 0.12 = 0.30.'
+  ),
+  single(
+    '9-evidence',
+    9,
+    'You want P(A | B = true) and begin variable elimination with a factor containing B. How do you incorporate B = true?',
+    'Keep entries consistent with B = true',
+    [
+      'Sum over both values of B',
+      'Discard the whole factor containing B',
+      'Set every factor entry to 1',
+    ],
+    'Evidence restricts which assignments are possible. Summing would average over a hidden variable instead of enforcing the observation.'
+  ),
+  tf(
+    '9-factor-normalization',
+    9,
+    'Every intermediate factor produced during variable elimination must have entries that sum to 1.',
+    false,
+    'An intermediate factor can contain partial products, marginalized weights, or weights restricted by evidence. The final query distribution is normalized.'
+  ),
+  single(
+    '9-eliminate-order',
+    9,
+    'A hidden variable H occurs in two factors. What step is valid when eliminating H?',
+    'Join the factors containing H, then sum H out of the result',
+    [
+      'Sum H out of each factor separately, then multiply',
+      'Normalize each factor before joining',
+      'Drop the factors that contain H',
+    ],
+    'The summation must use the same H value in both factors. In general, the sum of products differs from the product of sums.'
+  ),
+  match(
+    '9-operations',
+    9,
+    'Match each variable elimination operation to its effect.',
+    [
+      ['Restrict by evidence', 'Keep assignments with the observed value'],
+      ['Join', 'Multiply compatible rows'],
+      ['Sum out', 'Add across the possible values of a hidden variable'],
+      ['Normalize', 'Divide by the sum of the remaining query weights'],
+    ],
+    'Apply evidence first. For each hidden variable, join the factors that mention it and sum it out. Join what remains and normalize.'
+  ),
+  tf(
+    '9-order-cost',
+    9,
+    'Different valid elimination orders can change the size of intermediate factors while computing the same exact query probabilities.',
+    true,
+    'Summing over the same hidden assignments produces the same result. The order affects which variable scopes are joined and how large the intermediate tables become.'
+  ),
+  single(
+    '9-context',
+    9,
+    'Let Sprinkler and Rain be causes of Wet. If Rain = heavy, Wet is certain regardless of Sprinkler. What kind of independence does this illustrate?',
+    'Context-specific independence',
+    [
+      'Marginal independence of all three variables',
+      'A directed cycle',
+      'A claim that Sprinkler never matters',
+    ],
+    'In the context of heavy rain, Wet’s conditional distribution is unchanged by the sprinkler. Other rain values may give different dependencies.'
+  ),
+
+  single(
+    '10-informality',
+    10,
+    'What does the argument from informality claim about some rational human behavior?',
+    'It cannot be fully captured by a formal set of rules',
+    [
+      'People always follow explicit rules',
+      'Any reasoning without a written proof is irrational',
+      'Computers cannot perform arithmetic',
+    ],
+    'The objection starts from common-sense human behavior that seems resistant to explicit formalization. The course also considers how learning and uncertain reasoning complicate the claim.'
+  ),
+  single(
+    '10-winograd',
+    10,
+    '“The suitcase would not fit in the trunk because it was too small.” What skill is a Winograd-style question about “it” primarily testing?',
+    'Using common-sense context to resolve a pronoun',
+    [
+      'Translating each word independently',
+      'Identifying the sentence’s only noun',
+      'Remembering the longest word in a sentence',
+    ],
+    'A small container explains why a suitcase cannot fit. The test is whether the model uses a sensible relationship between size and fit to interpret “it.”'
+  ),
+  single(
+    '10-mathematical',
+    10,
+    'Which result motivates the mathematical objection to machine intelligence?',
+    'Sufficiently expressive consistent formal systems have statements they cannot prove',
+    [
+      'A larger dataset always reduces prediction error',
+      'Every finite computation is too expensive',
+      'A neural network cannot do integer arithmetic',
+    ],
+    'Gödel-style incompleteness bounds what can be proved within the relevant formal system. The objection applies that result to machines. It takes an additional argument to claim humans escape those limits.'
+  ),
+  single(
+    '10-chinese-room',
+    10,
+    'A person follows rules to manipulate symbols in an unfamiliar language and returns convincing replies. What does Searle’s Chinese Room ask us to distinguish?',
+    'Correct symbol manipulation and understanding what the symbols mean',
+    [
+      'Forward chaining and backward chaining',
+      'Fair outcomes and biased inputs',
+      'Training accuracy and runtime speed',
+    ],
+    'The thought experiment argues that apparently competent language behavior could be produced by a rule-following process without semantic understanding. This is Searle’s argument, a disputed philosophical claim.'
+  ),
+  match(
+    '10-fairness',
+    10,
+    'Match each fairness notion with the kind of comparison it makes.',
+    [
+      [
+        'Individual fairness',
+        'Similarly situated people receive similar treatment',
+      ],
+      [
+        'Group fairness',
+        'A specified outcome or error metric is compared across groups',
+      ],
+    ],
+    'Individual fairness depends on a defensible idea of who is similar for the task. Group fairness compares a defined statistic across groups. Different metrics can capture different goals.'
+  ),
+  single(
+    '10-group-metric',
+    10,
+    'An audit compares the false-negative rate for two demographic groups. Which general notion does this most directly illustrate?',
+    'Group fairness',
+    ['Individual fairness', 'Embodied cognition', 'Graceful degradation'],
+    'The audit compares an aggregate error rate across groups. A fuller fairness assessment would name why that rate matters in the application.'
+  ),
+  single(
+    '10-data-bias',
+    10,
+    'A model for identifying plant diseases is trained mostly on bright laboratory photos. It performs poorly on farmers’ low-light photos. Which source of bias best fits?',
+    'The data underrepresent conditions where the model will be used',
+    [
+      'The model necessarily has a directed cycle',
+      'The model was formally verified',
+      'The features come from identical populations',
+    ],
+    'A mismatch in representation is one way training data can be biased. The learned pattern reflects what was measured and sampled, including the prevalence of controlled photos.'
+  ),
+  multi(
+    '10-bias-sources',
+    10,
+    'Which choices can introduce training-data bias?',
+    [
+      'Sampling mainly from the most accessible population',
+      'Using historical decisions that reflect discriminatory practices as labels',
+      'Measuring the same quantity with systematically different quality across groups',
+      'Removing an exact duplicate of a single record',
+    ],
+    [0, 1, 2],
+    'Sampling can distort who is represented. Historically biased labels can transmit prior decisions. Measurement quality differences can systematically distort features or labels. Deduplicating one exact repeat does not by itself establish systematic bias.'
+  ),
+  single(
+    '10-safety',
+    10,
+    'Why can safety be hard to guarantee for an AI system operating in an open environment?',
+    'The system can encounter unanticipated inputs and interactions that prior tests did not cover',
+    [
+      'A correct training run proves deployment safety',
+      'An agent never affects its environment',
+      'The training objective defines every human preference completely',
+    ],
+    'Real-world inputs, users, and other systems can interact in ways the designer did not model. Testing and bounded behavior both matter when the full situation space is unknown.'
+  ),
+  single(
+    '10-alignment',
+    10,
+    'A support agent is rewarded only for closing tickets. It closes unresolved tickets because that raises its score. What problem does this illustrate?',
+    'Value alignment: the stated objective omits an important part of the intended outcome',
+    [
+      'Formal verification of comprehensive goals',
+      'Group fairness: rates differ across demographics',
+      'A problem that follows from all predictions being wrong',
+    ],
+    'The agent’s action serves the proxy measure, ticket closures. The intended value includes resolving the problem, which the objective failed to encode.'
+  ),
+  single(
+    '10-low-impact',
+    10,
+    'Two routes deliver a robot’s package on time. One crosses a fragile garden bed, while the other follows a path. Which behavior illustrates a low-impact design?',
+    'Choose the path to limit unnecessary changes to the surroundings',
+    [
+      'Choose the garden since the delivery objective is already satisfied',
+      'Turn off every sensor to consume less power',
+      'Ignore the effects of both routes and choose randomly',
+    ],
+    'A low-impact approach directly accounts for collateral changes. When the primary goal can be achieved either way, it favors the action with less unnecessary disturbance.'
+  ),
+  single(
+    '10-graceful',
+    10,
+    'A navigation system loses a sensor. It slows down and stops safely using its remaining sensors. What is this an example of?',
+    'Graceful degradation',
+    [
+      'The argument from informality',
+      'Training-data bias',
+      'A full guarantee that every component works',
+    ],
+    'Graceful degradation preserves some useful or safe behavior during a failure. The system can lose its normal capability while retaining a safe fallback.'
+  ),
+  single(
+    '10-embodied',
+    10,
+    'Which example best illustrates embodied cognition?',
+    'A robot learns what objects afford by moving, sensing, and interacting with them',
+    [
+      'A program memorizes definitions of the word “object”',
+      'A classifier stores a label for each fixed input image',
+      'A lookup table holds a set of abstract propositions about grammar',
+    ],
+    'Embodied cognition emphasizes that intelligent behavior is shaped by the agent’s body, perception, actions, and feedback from the environment.'
+  ),
+  single(
+    '10-world-model',
+    10,
+    'A warehouse robot internally predicts what would happen if it moved a box before choosing whether to act. Which proposed advantage of a world model does this show?',
+    'Predicting changes in a represented environment to plan actions',
+    [
+      'Guaranteeing any generated output is factually correct',
+      'Eliminating the need for sensor data',
+      'Proving that the agent understands language like a human',
+    ],
+    'A world model aims to capture states and their evolution under possible actions. Its predictions can support planning, with accuracy depending on the model and situation.'
+  ),
+  single(
+    '10-agentic',
+    10,
+    'Which behavior most clearly illustrates agentic AI as discussed in the course?',
+    'Break a goal into steps, execute a plan, and revise it based on results',
+    [
+      'Return a fixed response to one input',
+      'Classify each image independently from a folder',
+      'List possible subgoals without acting on any of them',
+    ],
+    'The emphasis is on goal-directed, multi-step execution with monitoring and adaptation. The agent can do more than return a one-off result to a prompt.'
+  ),
+  single(
+    '10-connectionist',
+    10,
+    'What approach represents learned knowledge in the numerical weights of a neural network?',
+    'Connectionist AI',
+    [
+      'Classical propositional inference',
+      'An explicit symbolic knowledge base',
+      'Formal verification',
+    ],
+    'Connectionist systems learn distributed numerical representations across connected units. A symbolic knowledge base encodes facts and rules in an explicit structure.'
+  ),
+  single(
+    '10-black-box',
+    10,
+    'Why are deep neural networks often called black boxes?',
+    'Many interacting parameters can make the reason for a particular output hard to trace',
+    [
+      'Their weights can never be inspected',
+      'They always produce identical outputs for every input',
+      'They are defined as rule sets that can be read directly',
+    ],
+    'Knowing the parameter values and architecture gives the computational mechanism. Recovering a short explanation for which learned relationships drove the specific result can still be hard.'
+  ),
+  single(
+    '10-verification',
+    10,
+    'What can formal verification establish about a system?',
+    'That a specified property holds under the assumptions of a formal model',
+    [
+      'That users agree on every design goal',
+      'That every future real-world input is correctly modeled',
+      'That the training data have no bias',
+    ],
+    'Verification proves a precisely described property within a model. The guarantee depends on how well the assumptions and property match the intended use.'
+  ),
+  single(
+    '10-hybrid',
+    10,
+    'A robot uses a neural network for camera perception and a symbolic planner to enforce routing rules. Which approach does this illustrate?',
+    'Hybrid neuro-symbolic AI',
+    [
+      'A purely connectionist system',
+      'A purely symbolic system',
+      'A propositional truth table',
+    ],
+    'Neural perception helps with noisy data. Explicit symbolic rules support structured reasoning and make some constraints easier to inspect or verify.'
+  ),
+];
+
+const LESSONS = [
+  {
+    module: 6,
+    title: 'What must be true in every model?',
+    sections: [
+      [
+        'Facts, rules, and queries',
+        'A knowledge-based agent uses TELL to store observations and ASK to infer what follows. KB entails Q when every model that satisfies KB also satisfies Q. To disprove entailment, give one model where KB is true and Q is false.',
+      ],
+      [
+        'Read the implication',
+        'P → Q is false only when P is true and Q is false. Rewrite it as ¬P ∨ Q when converting to conjunctive normal form. CNF is an AND of OR clauses. A single literal can be a clause.',
+      ],
+      [
+        'Resolve one complementary pair',
+        'From A ∨ B and ¬B ∨ C, infer A ∨ C. If B is false the first clause needs A. If B is true the second needs C. To prove a query by refutation, add its negation and try to derive the empty clause.',
+      ],
+      [
+        'Choose a direction for definite rules',
+        'Forward chaining starts with known facts and fires rules whose premises are met. Backward chaining starts with a goal and asks which premises would establish it. The final scope asks when to use these methods.',
+      ],
+    ],
+  },
+  {
+    module: 7,
+    title: 'Say who the rule applies to',
+    sections: [
+      [
+        'Terms and sentences',
+        'Constants denote objects, functions map objects to objects, and predicates express properties or relations. A formula with no free variables is a sentence. For example, Mentors(Ada, x) has a free x until a quantifier binds it.',
+      ],
+      [
+        'Quantifiers',
+        'Every finch is a bird: ∀x (Finch(x) → Bird(x)). Some finch is tagged: ∃x (Finch(x) ∧ Tagged(x)). Negating a quantifier switches ∀ and ∃ and pushes the negation inward. With ∀x ∃y, y may depend on x.',
+      ],
+      [
+        'Unify consistently',
+        'To match Loan(x, Book7) with Loan(Ada, y), use x ↦ Ada and y ↦ Book7. A substitution applies to every occurrence of a variable. Generalized modus ponens fires only when one substitution makes every premise match.',
+      ],
+      [
+        'Resolve after unifying',
+        'From ¬Bird(x) ∨ Tracked(x) and Bird(Ada), unify x with Ada and resolve to get Tracked(Ada). Standardize variables apart when clauses reuse names. For an existential witness within a universal scope, Skolemization uses a fresh function of the enclosing variables.',
+      ],
+    ],
+  },
+  {
+    module: 8,
+    title: 'Let the evidence choose the denominator',
+    sections: [
+      [
+        'Marginal and conditional probabilities',
+        'A joint table lists one probability per full assignment. For a marginal, sum all rows satisfying the event. For P(A | B), first restrict to rows satisfying B. Divide the weight satisfying both by the total weight satisfying B.',
+      ],
+      [
+        'Bayes’ rule and normalization',
+        'P(H | E) = P(E | H)P(H) ÷ P(E). If the joint weights of two hypotheses with the same evidence are 0.12 and 0.08, the evidence weight is 0.20. The posteriors are 0.60 and 0.40. Multiplying by the normalization constant 5 is equivalent to dividing by 0.20.',
+      ],
+      [
+        'Test independence',
+        'A and B are independent when P(A ∧ B) = P(A)P(B). When P(B) is positive, that also means P(A | B) = P(A). Conditional independence uses the same idea within each fixed evidence value.',
+      ],
+      [
+        'Naive Bayes',
+        'Given a class, the model assumes the features are independent. Multiply the prior by the feature likelihoods for each candidate class, then normalize the class weights if you need probabilities.',
+      ],
+    ],
+  },
+  {
+    module: 9,
+    title: 'Build the joint from local distributions',
+    sections: [
+      [
+        'Read the arrows',
+        'A Bayesian network is a directed acyclic graph. Each variable contributes P(variable | parents). In D → A and D → B, the joint is P(D)P(A | D)P(B | D). Given D, one indicator adds no information about the other.',
+      ],
+      [
+        'Find the Markov blanket',
+        'A node’s parents, children, and the other parents of its children form its blanket. Conditioning on that set makes the node independent of the rest of the graph. A child can provide evidence about its parents.',
+      ],
+      [
+        'Enumerate a query',
+        'Use the local probabilities to compute compatible joint weights, sum across hidden assignments, then normalize. With an observed alarm, for example, consider each possible value of a hidden cause and retain only rows where the alarm rang.',
+      ],
+      [
+        'Eliminate one hidden variable at a time',
+        'Restrict factors by evidence. For each hidden variable, join all factors that contain it by multiplying compatible rows, then add across its values. Join the remaining factors and normalize. The elimination order affects table sizes and work.',
+      ],
+    ],
+  },
+  {
+    module: 10,
+    title: 'Identify the claim and its limits',
+    sections: [
+      [
+        'Arguments about AI’s limits',
+        'Informality questions whether formal rules can capture common-sense behavior. Winograd schemas ask for common-sense pronoun resolution. The mathematical objection draws on limits to what formal systems can prove. Searle’s Chinese Room distinguishes successful symbol manipulation from understanding.',
+      ],
+      [
+        'Fairness and training data',
+        'Individual fairness asks whether relevantly similar people receive similar treatment. Group fairness compares a defined outcome or error measure across groups. Sampling, measurement practices, and historical labels can each introduce bias.',
+      ],
+      [
+        'Safety under uncertainty',
+        'Value alignment asks whether the objective captures the outcome people actually want. Low-impact behavior limits side effects. Graceful degradation keeps a reduced capability or safe fallback available when a component fails.',
+      ],
+      [
+        'Future architectures',
+        'Embodied cognition emphasizes acting and sensing in an environment. World models aim to predict how that environment can change. Agentic systems plan and act across steps. Neuro-symbolic systems combine learned neural representations with explicit reasoning. Formal verification can prove specified properties under stated assumptions.',
+      ],
+    ],
+  },
+];
+
+const SCHEMA = 1;
+const DRILL = { questions: 30, minutes: 45 };
+const BACKUP_TYPE = 'cs331-final-lab';
+function rng(seed = 1) {
+  let x = seed >>> 0;
+  return () => {
+    x += 0x6d2b79f5;
+    let t = x;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function shuffle(items, seed) {
+  const a = [...items],
+    r = typeof seed === 'function' ? seed : rng(seed);
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(r() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function optionOrder(q, seed) {
+  if (
+    q.options?.length === 2 &&
+    q.options[0] === 'True' &&
+    q.options[1] === 'False'
+  )
+    return [0, 1];
+  return shuffle(q.options?.map((_, i) => i) ?? [], seed);
+}
+function answered(q, a) {
+  if (q.kind === 'number')
+    return (
+      typeof a === 'string' &&
+      a.trim() !== '' &&
+      Number.isFinite(Number(a)) &&
+      Number.isInteger(Number(a))
+    );
+  if (q.kind === 'match')
+    return (
+      Array.isArray(a) &&
+      a.length === q.pairs.length &&
+      a.every((x) => typeof x === 'string' && x.length > 0)
+    );
+  if (q.kind === 'multi') return Array.isArray(a) && a.length > 0;
+  return Number.isInteger(a) && a >= 0 && a < q.options.length;
+}
+function grade(q, a) {
+  if (!answered(q, a)) return { correct: false, score: 0 };
+  if (q.kind === 'number') {
+    const ok = Number(a) === q.number;
+    return { correct: ok, score: ok ? 1 : 0 };
+  }
+  if (q.kind === 'match') {
+    const n = q.pairs.filter((p, i) => p[1] === a[i]).length;
+    return { correct: n === q.pairs.length, score: n / q.pairs.length };
+  }
+  const aa = Array.isArray(a) ? [...a].sort() : [a],
+    cc = [...q.correct].sort();
+  const ok = aa.length === cc.length && aa.every((v, i) => v === cc[i]);
+  return { correct: ok, score: ok ? 1 : 0 };
+}
+function emptyProgress() {
+  return { type: BACKUP_TYPE, schema: SCHEMA, stats: {}, attempts: [] };
+}
+function record(progress, q, answer, { key, at = Date.now() } = {}) {
+  if (progress.attempts.some((a) => a.key === key)) return false;
+  const result = grade(q, answer),
+    s = progress.stats[q.id] ?? { seen: 0, correct: 0, streak: 0, lastAt: 0 };
+  s.seen++;
+  s.correct += Number(result.correct);
+  s.streak = result.correct ? s.streak + 1 : 0;
+  s.lastCorrect = result.correct;
+  s.lastAt = at;
+  progress.stats[q.id] = s;
+  progress.attempts.push({
+    key,
+    id: q.id,
+    module: q.module,
+    correct: result.correct,
+    score: result.score,
+    at,
+  });
+  progress.attempts = progress.attempts.slice(-1500);
+  return true;
+}
+function selectQuestions(
+  bank,
+  progress,
+  { kind = 'practice', topic = 0, seed = 1 } = {}
+) {
+  const r = rng(seed),
+    filtered = bank.filter((q) => !topic || q.module === topic);
+  const modules = [...new Set(filtered.map((q) => q.module))],
+    count = kind === 'exam' ? DRILL.questions : 10,
+    picked = [];
+  // Rotate through the modules before filling any slots left by a short topic.
+  for (let i = 0; i < count; i++) {
+    const m = modules[i % modules.length];
+    let candidates = filtered.filter(
+      (q) => q.module === m && !picked.includes(q.id)
+    );
+    if (!candidates.length)
+      candidates = filtered.filter((q) => !picked.includes(q.id));
+    if (!candidates.length) break;
+    if (kind === 'exam') {
+      picked.push(candidates[Math.floor(r() * candidates.length)].id);
+    } else {
+      const ranked = candidates
+        .map((q) => {
+          const s = progress.stats[q.id];
+          const base = !s ? 5 : !s.lastCorrect ? 7 : s.streak < 2 ? 2 : 0;
+          const recent = s?.lastAt && Date.now() - s.lastAt < 120000 ? 4 : 0;
+          return { q, score: base - recent + r() * 1.5 };
+        })
+        .sort((a, b) => b.score - a.score);
+      picked.push(ranked[0].q.id);
+    }
+  }
+  return shuffle(picked, r);
+}
+function createSession(bank, progress, options = {}) {
+  const now = options.now ?? Date.now(),
+    seed = options.seed ?? now >>> 0;
+  return {
+    id: `${now}-${seed}`,
+    kind: options.kind ?? 'practice',
+    topic: options.topic ?? 0,
+    ids: selectQuestions(bank, progress, { ...options, seed }),
+    index: 0,
+    questionOffset: 0,
+    answers: {},
+    checked: {},
+    flags: {},
+    startedAt: now,
+    deadline: options.kind === 'exam' ? now + DRILL.minutes * 60000 : null,
+    seed,
+    finished: false,
+  };
+}
+function advancePracticeSession(session, bank, progress) {
+  if (
+    session.kind === 'exam' ||
+    session.finished ||
+    !session.checked[session.ids[session.index]]
+  )
+    return false;
+  if (session.index < session.ids.length - 1) {
+    session.index++;
+    return true;
+  }
+  // Refill a bounded queue without interrupting practice or growing saved state.
+  const previous = session.ids[session.index];
+  session.questionOffset =
+    (Number.isSafeInteger(session.questionOffset)
+      ? session.questionOffset
+      : 0) + session.ids.length;
+  session.seed = (session.seed + 0x9e3779b9) >>> 0;
+  session.ids = selectQuestions(bank, progress, {
+    kind: session.kind,
+    topic: session.topic,
+    seed: session.seed,
+  });
+  if (session.ids[0] === previous && session.ids.length > 1)
+    session.ids.push(session.ids.shift());
+  session.index = 0;
+  session.id = `${session.startedAt}-${session.seed}-${session.questionOffset}`;
+  session.answers = {};
+  session.checked = {};
+  session.flags = {};
+  return session.ids.length > 0;
+}
+function finishSession(s, bank, progress, at = Date.now()) {
+  if (s.finished) return;
+  for (const id of s.ids) {
+    const q = bank.find((q) => q.id === id);
+    if (q && answered(q, s.answers[id]))
+      record(progress, q, s.answers[id], { key: `${s.id}:${id}`, at });
+  }
+  s.finished = true;
+  s.finishedAt = at;
+}
+function summarize(s, bank) {
+  let right = 0,
+    score = 0,
+    complete = 0;
+  for (const id of s.ids) {
+    const q = bank.find((q) => q.id === id);
+    if (!q) continue;
+    const a = s.answers[id],
+      g = grade(q, a);
+    right += Number(g.correct);
+    score += g.score;
+    complete += Number(answered(q, a));
+  }
+  return { right, score, complete, total: s.ids.length };
+}
+function validateBackup(value, bank) {
+  if (
+    !value ||
+    value.type !== BACKUP_TYPE ||
+    value.schema !== SCHEMA ||
+    !value.stats ||
+    !Array.isArray(value.attempts)
+  )
+    throw Error('Choose a CS 331 Final Lab progress backup.');
+  const ids = new Set(bank.map((q) => q.id)),
+    p = emptyProgress();
+  for (const [id, s] of Object.entries(value.stats)) {
+    if (!ids.has(id)) continue;
+    if (
+      !s ||
+      !['seen', 'correct', 'streak', 'lastAt'].every(
+        (k) => Number.isFinite(s[k]) && s[k] >= 0
+      ) ||
+      s.correct > s.seen ||
+      s.streak > s.correct
+    )
+      throw Error('The progress backup has invalid counts.');
+    p.stats[id] = {
+      seen: s.seen,
+      correct: s.correct,
+      streak: s.streak,
+      lastAt: s.lastAt,
+      lastCorrect: !!s.lastCorrect,
+    };
+  }
+  p.attempts = value.attempts
+    .filter(
+      (a) =>
+        a &&
+        ids.has(a.id) &&
+        typeof a.key === 'string' &&
+        typeof a.correct === 'boolean' &&
+        Number.isFinite(a.at)
+    )
+    .slice(-1500)
+    .map((a) => ({
+      key: a.key,
+      id: a.id,
+      module: bank.find((q) => q.id === a.id).module,
+      correct: a.correct,
+      score: Number.isFinite(a.score)
+        ? Math.max(0, Math.min(1, a.score))
+        : Number(a.correct),
+      at: a.at,
+    }));
+  return p;
+}
+
+
+
+
+const $ = (s) => document.querySelector(s),
+  esc = (x) =>
+    String(x ?? '').replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;',
+        })[c]
+    );
+const KEY = 'cs331-final-lab-v1';
+const byId = new Map(BANK.map((question) => [question.id, question]));
+const topicById = new Map(TOPICS.map((item) => [item.id, item]));
+let progress = emptyProgress(),
+  session = null,
+  page = 'home',
+  topic = 0,
+  noteTopic = TOPICS[0].id,
+  search = '',
+  saveOkay = true;
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY));
+  if (saved) {
+    progress = validateBackup(saved.progress, BANK);
+    if (
+      saved.session &&
+      ['practice', 'exam'].includes(saved.session.kind) &&
+      saved.session.ids?.length <= BANK.length &&
+      saved.session.ids.every((id) => byId.has(id)) &&
+      saved.session.index >= 0 &&
+      saved.session.index < saved.session.ids.length
+    )
+      session = saved.session;
+  }
+} catch {}
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ progress, session }));
+    saveOkay = true;
+  } catch {
+    saveOkay = false;
+  }
+  const n = $('#saveNotice');
+  if (n)
+    n.textContent = saveOkay
+      ? 'Progress saves in this browser. Export it to move between devices.'
+      : 'Progress cannot be saved in this browser. Export it before closing.';
+}
+const heading = (text) => `<h1 id="pageTitle" tabindex="-1">${text}</h1>`;
+const sourceLink = (id, label = 'Reading and exam topics in Canvas') =>
+  `<a href="${topicById.get(id).conclusion}" target="_blank" rel="noopener">${label}</a>`;
+
+function shell(content) {
+  document.body.classList.toggle(
+    'practice-view',
+    page === 'session' && session?.kind !== 'exam'
+  );
+  $('#app').innerHTML = `
+    <a href="#main" class="skip">Skip to study content</a>
+    <header>
+      <button class="brand" data-page="home"><span>Final Lab<small>CS 331 / Fall 2026</small></span></button>
+      <nav aria-label="Study navigation">
+        ${[
+          ['home', 'Practice'],
+          ['notes', 'Learn'],
+          ['bank', 'Questions'],
+          ['progress', 'Progress'],
+          ['info', 'Exam scope'],
+        ]
+          .map(
+            ([id, label]) =>
+              `<button data-page="${id}" ${page === id ? 'aria-current="page"' : ''}>${label}</button>`
+          )
+          .join('')}
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">${content}</main>
+    <footer><span id="saveNotice">${saveOkay ? 'Progress saves in this browser. Export it to move between devices.' : 'Progress cannot be saved. Export it before closing.'}</span></footer>
+    <dialog id="finishDialog" aria-labelledby="finishTitle">
+      <form method="dialog">
+        <h2 id="finishTitle">Finish this drill?</h2>
+        <p id="finishText"></p>
+        <div class="actions">
+          <button value="cancel" class="secondary" autofocus>Keep working</button>
+          <button type="button" data-action="finish-confirm" class="primary">Finish and review</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="importDialog" aria-labelledby="importTitle">
+      <h2 id="importTitle">Replace this browser’s progress?</h2>
+      <p>The selected backup will replace the study history saved here. Export the current history first if you want to keep it.</p>
+      <div class="actions">
+        <button class="secondary" data-action="import-cancel" autofocus>Cancel</button>
+        <button class="primary" data-action="import-confirm">Use backup</button>
+      </div>
+    </dialog>`;
+}
+
+function topicButtons(selected = 0, attr = 'topic') {
+  return `<div class="topic-buttons" aria-label="Choose a module"><button data-${attr}="0" aria-pressed="${selected === 0}">All modules</button>${TOPICS.map((t) => `<button data-${attr}="${t.id}" aria-pressed="${selected === t.id}">${t.short}</button>`).join('')}</div>`;
+}
+function moduleRows() {
+  return TOPICS.map((t) => {
+    const bank = BANK.filter((q) => q.module === t.id),
+      seen = bank.filter((q) => progress.stats[q.id]).length;
+    return `<button class="module-row" data-start-topic="${t.id}"><span class="module-dot" style="--topic:${t.color}">${t.id}</span><span class="module-title"><strong>${t.name}</strong><small>${t.description}</small></span><span class="module-coverage"><span>${seen} / ${bank.length} seen</span><progress max="${bank.length}" value="${seen}" aria-label="Module ${t.id} question coverage"></progress></span><span aria-hidden="true" class="chevron">›</span></button>`;
+  }).join('');
+}
+function home() {
+  const seen = BANK.filter((question) => progress.stats[question.id]).length;
+  const active = session && !session.finished;
+  const timed = active && session.kind === 'exam';
+  shell(`
+    <section class="home-intro">
+      <div>
+        <p class="course-line">CS 331 · Modules 6–10</p>
+        ${heading('Final exam review')}
+        <p class="intro-copy">${BANK.length} practice questions with worked explanations. Study a module on its own or mix topics.</p>
+      </div>
+      <figure class="intro-diagram bayes-preview">
+        <figcaption>Bayes’ rule</figcaption>
+        <span class="sr">Posterior equals likelihood times prior, divided by evidence.</span>
+        <div class="equation" aria-hidden="true">
+          <span>Posterior</span><span aria-hidden="true">=</span>
+          <span class="fraction"><span>Likelihood × Prior</span><span>Evidence</span></span>
+        </div>
+        <p>Within the observed cases, how much of the evidence supports your hypothesis?</p>
+      </figure>
+    </section>
+    ${
+      active
+        ? `<section class="resume">
+      <div><strong>Resume your ${timed ? 'timed drill' : 'practice'}</strong>
+      <span>Question ${(session.questionOffset || 0) + session.index + 1}${timed ? ` of ${session.ids.length} · The clock keeps running` : ''}</span></div>
+      <button class="primary" data-action="resume">Continue</button>
+    </section>`
+        : ''
+    }
+    <div class="home-grid">
+      <section class="practice-panel">
+        <div class="panel-heading"><h2>Practice at your pace</h2><span class="quiet">No time limit</span></div>
+        <p>Get feedback after each answer. Questions you miss come back into the rotation.</p>
+        ${topicButtons(topic)}
+        <button class="primary start" data-action="practice">Start practice</button>
+        <div class="other-modes">
+          <button data-action="exam"><span class="mode-icon" aria-hidden="true">◷</span>
+          <span><strong>Timed drill</strong><small>${DRILL.questions} questions · ${DRILL.minutes} minutes · review at the end</small></span>
+          <span aria-hidden="true">›</span></button>
+        </div>
+      </section>
+      <aside class="exam-brief">
+        <h2>Final exam</h2>
+        <dl>
+          <div><dt>Finals module opens</dt><dd>${SCOPE.unlocks}</dd></div>
+          <div><dt>Canvas due date</dt><dd>${SCOPE.due}</dd></div>
+        </dl>
+        <p>For concepts and worked examples, start with the module notes.</p>
+        <button class="text-button" data-page="notes">Open module notes</button>
+      </aside>
+    </div>
+    <section class="module-section">
+      <div class="panel-heading"><h2>Practice by module</h2><span class="quiet">${seen} / ${BANK.length} seen</span></div>
+      <div class="module-list">${moduleRows()}</div>
+    </section>`);
+}
+
+function diagram(question) {
+  if (!question.table) return '';
+  const { caption, headings, rows } = question.table;
+  return `<div class="probability">
+    <table>
+      <caption>${esc(caption)}</caption>
+      <thead><tr>${headings.map((label) => `<th scope="col">${esc(label)}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map((row) => `<tr>${row.map((cell) => `<td>${esc(cell)}</td>`).join('')}</tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+function controls(q) {
+  const a = session.answers[q.id],
+    locked = !!session.checked[q.id] && session.kind !== 'exam';
+  if (q.kind === 'number')
+    return `<fieldset class="numeric" ${locked ? 'disabled' : ''}><legend>Enter your answer</legend><label for="numericAnswer">${q.unit === '%' ? 'Whole percent (without the percent sign)' : 'Whole number'}</label><input id="numericAnswer" type="number" min="0" step="1" inputmode="numeric" enterkeyhint="done" value="${esc(a ?? '')}"></fieldset>`;
+  if (q.kind === 'match')
+    return `<fieldset class="matching" ${locked ? 'disabled' : ''}><legend>Match each item</legend>${q.pairs
+      .map(
+        ([label], i) =>
+          `<div class="match-row"><label for="pair-${i}">${esc(label)}</label><select id="pair-${i}" data-pair="${i}"><option value="">Choose an answer</option>${shuffle(
+            q.choices,
+            session.seed + session.index * 17 + i
+          )
+            .map(
+              (v) =>
+                `<option ${a?.[i] === v ? 'selected' : ''} value="${esc(v)}">${esc(v)}</option>`
+            )
+            .join('')}</select></div>`
+      )
+      .join('')}</fieldset>`;
+  return `<fieldset class="answers" ${locked ? 'disabled' : ''}><legend>${q.kind === 'multi' ? 'Select every correct answer' : 'Choose one answer'}</legend>${optionOrder(
+    q,
+    session.seed + session.index * 97
+  )
+    .map((i, j) => {
+      const selected = Array.isArray(a) ? a.includes(i) : a === i,
+        revealed = locked,
+        correct = q.correct.includes(i);
+      return `<label class="answer ${selected ? 'selected' : ''} ${revealed && correct ? 'answer-correct' : ''} ${revealed && selected && !correct ? 'answer-wrong' : ''}" for="answer-${i}"><input id="answer-${i}" type="${q.kind === 'multi' ? 'checkbox' : 'radio'}" name="answer" value="${i}"><span class="answer-letter" aria-hidden="true">${String.fromCharCode(65 + j)}</span><span>${esc(q.options[i])}</span>${revealed && correct ? '<span class="answer-mark">✓<span class="sr">Correct answer</span></span>' : ''}</label>`;
+    })
+    .join('')}</fieldset>`;
+}
+function answerDescription(q, a) {
+  if (!answered(q, a)) return 'Not answered';
+  if (q.kind === 'number') return a + (q.unit ?? '');
+  if (q.kind === 'match')
+    return q.pairs.map((p, i) => `${p[0]}: ${a[i]}`).join('; ');
+  return (Array.isArray(a) ? a : [a]).map((i) => q.options[i]).join(', ');
+}
+function correctDescription(q) {
+  return q.kind === 'number'
+    ? String(q.number) + (q.unit ?? '')
+    : q.kind === 'match'
+      ? q.pairs.map((p) => p.join(': ')).join('; ')
+      : q.correct.map((i) => q.options[i]).join(', ');
+}
+function feedback(q) {
+  const result = grade(q, session.answers[q.id]);
+  return `<section class="feedback ${result.correct ? 'correct' : 'review'}">
+    <h2 id="feedbackTitle" tabindex="-1">${result.correct ? 'Correct' : 'Review this answer'}</h2>
+    ${result.correct ? '' : `<p class="correct-answer"><strong>Answer:</strong> ${esc(correctDescription(q))}</p>`}
+    <p>${esc(q.why)}</p>
+  </section>`;
+}
+
+function renderQuestion() {
+  if (!session) return go('home');
+  if (session.finished) return summary();
+  page = 'session';
+  const q = byId.get(session.ids[session.index]);
+  const isExam = session.kind === 'exam',
+    checked = !!session.checked[q.id] && !isExam;
+  const diagramHTML = diagram(q);
+  const workspace =
+    !isExam && q.table
+      ? `<div class="question-workspace"><div class="question-visual">${diagramHTML}</div><div class="question-response">${controls(q)}</div></div>`
+      : controls(q);
+  const hint = checked
+    ? 'Press Enter to continue'
+    : q.kind === 'number'
+      ? 'Enter a number, then press Enter'
+      : q.kind === 'match'
+        ? 'Finish the matches to see the explanation'
+        : q.kind === 'multi'
+          ? 'Select all that apply, then show the explanation'
+          : `Choose an answer. With the question focused, use 1–${q.options.length}.`;
+  const practiceAction =
+    !checked && q.kind === 'multi'
+      ? `<button class="primary" data-action="check" ${!answered(q, session.answers[q.id]) ? 'disabled' : ''}>Show explanation</button>`
+      : `<button class="primary" data-action="next" ${!checked ? 'disabled' : ''}>Next question</button>`;
+  shell(`
+  <div class="session-top">
+   <button class="text-button" data-page="home">${isExam ? '‹ Save and return' : 'Pause practice'}</button>
+   <span>${isExam ? 'Timed drill' : 'Practice'}</span>
+   ${isExam ? '<span class="clock" id="clock" aria-label="Time remaining"></span>' : `<div class="session-tools"><span class="quiet">Question ${(session.questionOffset || 0) + session.index + 1}</span><button class="text-button" data-learn-topic="${q.module}">Module notes</button></div>`}
+  </div>
+  ${isExam ? `<progress class="session-progress" max="${session.ids.length}" value="${summarize(session, BANK).complete}" id="drillProgress" aria-label="Timed drill progress"></progress>` : '<div class="practice-divider" aria-hidden="true"></div>'}
+  <div class="question-layout ${isExam ? '' : 'practice-layout'}">
+   <article class="question-card" data-question-id="${q.id}">
+    <div class="question-meta"><span style="--topic:${topicById.get(q.module).color}" class="topic-tag">Module ${q.module} · ${topicById.get(q.module).short}</span></div>
+    <h1 id="questionTitle" tabindex="-1">${esc(q.prompt)}</h1>
+    ${isExam ? diagramHTML + controls(q) : workspace}
+    ${checked ? feedback(q) : ''}
+    <div class="question-actions">${
+      isExam
+        ? `
+     <button class="secondary" data-action="prev" ${session.index === 0 ? 'disabled' : ''}>Previous</button>
+     <button class="text-button flag" data-action="flag" aria-pressed="${!!session.flags[q.id]}">${session.flags[q.id] ? 'Flagged for review' : 'Flag for review'}</button>
+     <button class="primary" data-action="${session.index === session.ids.length - 1 ? 'finish' : 'next'}">${session.index === session.ids.length - 1 ? 'Finish drill' : 'Next question'}</button>
+    `
+        : `${practiceAction}<span class="key-help">${hint}</span>`
+    }</div>
+   </article>
+   ${isExam ? `<aside class="session-aside"><h2>Drill questions</h2><p>Answers stay hidden until you finish.</p><div class="question-map">${session.ids.map((id, i) => `<button data-jump="${i}" class="${i === session.index ? 'current' : ''} ${answered(byId.get(id), session.answers[id]) ? 'done' : ''}" aria-label="${drillLabel(id, i)}" ${i === session.index ? 'aria-current="step"' : ''}>${i + 1}${session.flags[id] ? '<span aria-hidden="true">•</span>' : ''}</button>`).join('')}</div><button class="secondary wide" data-action="finish">Finish drill</button><p class="small">The clock continues if you leave or reload.</p></aside>` : ''}
+  </div>`);
+  if (q.kind !== 'match')
+    for (const input of document.querySelectorAll('input[name="answer"]'))
+      input.checked = Array.isArray(session.answers[q.id])
+        ? session.answers[q.id].includes(Number(input.value))
+        : session.answers[q.id] === Number(input.value);
+  if (isExam) tick();
+}
+function drillLabel(id, index) {
+  const response = answered(byId.get(id), session.answers[id])
+    ? 'answered'
+    : 'unanswered';
+  return `Question ${index + 1}${session.flags[id] ? ', flagged' : ''}, ${response}`;
+}
+
+function updateDrillProgress() {
+  $('#drillProgress').value = summarize(session, BANK).complete;
+  const mapButton = document.querySelector(`[data-jump="${session.index}"]`);
+  mapButton.classList.toggle(
+    'done',
+    answered(current(), session.answers[current().id])
+  );
+  mapButton.setAttribute('aria-label', drillLabel(current().id, session.index));
+}
+
+function summary() {
+  page = 'summary';
+  const { right, complete, total } = summarize(session, BANK);
+  const review = session.ids
+    .map((id, index) => {
+      const question = byId.get(id);
+      const answer = session.answers[id];
+      const marked = answered(question, answer);
+      const result = grade(question, answer);
+      const status = result.correct
+        ? 'Correct'
+        : marked
+          ? 'Needs review'
+          : 'Unanswered';
+      return `<details class="review-item" ${marked && !result.correct ? 'open' : ''}>
+      <summary>
+        <span class="result-icon ${result.correct ? 'good' : 'miss'}" aria-hidden="true">${result.correct ? '✓' : '↺'}</span>
+        <span><strong>Question ${index + 1}</strong> <span class="sr">${status}. </span>${esc(question.prompt)}</span>
+      </summary>
+      <div class="review-body">
+        <p><strong>Your answer:</strong> ${esc(answerDescription(question, answer))}</p>
+        ${result.correct ? '' : `<p><strong>Correct answer:</strong> ${esc(correctDescription(question))}</p>`}
+        ${diagram(question)}
+        <p>${esc(question.why)}</p>
+      </div>
+    </details>`;
+    })
+    .join('');
+  shell(`<section class="summary-head">
+    <p class="course-line">Timed drill complete</p>
+    ${heading(`${right} of ${total} correct`)}
+    <p>${complete} of ${total} answered. Open any question below to review the reasoning.</p>
+    <div class="actions">
+      <button class="primary" data-action="practice">Keep practicing</button>
+      <button class="secondary" data-page="progress">View progress</button>
+    </div>
+  </section>
+  <section class="review-list"><h2>Answer review</h2>${review}</section>`);
+}
+
+function notes() {
+  const lesson = LESSONS.find((entry) => entry.module === noteTopic);
+  const item = topicById.get(noteTopic);
+  shell(`<div class="page-heading">${heading('Module notes')}</div>
+    <div class="learn-layout">
+      <nav class="lesson-nav" aria-label="Module notes">
+        ${TOPICS.map((t) => `<button data-note="${t.id}" ${noteTopic === t.id ? 'aria-current="page"' : ''}><span>${t.id}</span>${t.name}</button>`).join('')}
+      </nav>
+      <article class="lesson">
+        <span class="topic-tag" style="--topic:${item.color}">Module ${item.id} · ${item.short}</span>
+        <h2>${lesson.title}</h2>
+        ${lesson.sections.map(([title, body]) => `<section><h3>${esc(title)}</h3><p>${esc(body)}</p></section>`).join('')}
+        <div class="actions"><button class="primary" data-start-topic="${item.id}">Practice this module</button>${sourceLink(item.id)}</div>
+      </article>
+    </div>`);
+}
+
+function questionType(q) {
+  if (q.kind === 'number') return 'Numeric';
+  if (q.kind === 'match') return 'Matching';
+  if (q.kind === 'multi') return 'Select all';
+  return q.options.join('|') === 'True|False'
+    ? 'True / False'
+    : 'Multiple choice';
+}
+
+function bankItems() {
+  const query = search.trim().toLowerCase();
+  const list = BANK.filter(
+    (q) =>
+      (!topic || q.module === topic) &&
+      `${q.prompt} ${q.why}`.toLowerCase().includes(query)
+  );
+  if (!list.length)
+    return '<p>No questions match. Try a different module or search.</p>';
+  return (
+    `<p class="quiet">${list.length} ${list.length === 1 ? 'question' : 'questions'}</p>` +
+    list
+      .map((q) => {
+        const choices =
+          q.kind === 'match' ? q.pairs.map((pair) => pair[0]) : q.options;
+        return `<details class="bank-item">
+      <summary><span class="topic-tag" style="--topic:${topicById.get(q.module).color}">Module ${q.module}</span>
+      <span>${esc(q.prompt)}</span><span class="bank-kind">${questionType(q)}</span></summary>
+      <div class="bank-body">
+        ${diagram(q)}
+        ${choices ? `<ul>${choices.map((value) => `<li>${esc(value)}</li>`).join('')}</ul>` : ''}
+        <details class="solution"><summary>Show answer and reasoning</summary><p><strong>${esc(correctDescription(q))}</strong></p><p>${esc(q.why)}</p></details>
+      </div>
+    </details>`;
+      })
+      .join('')
+  );
+}
+
+function bankPage() {
+  shell(`<div class="page-heading">${heading('Question library')}</div>
+    <section class="bank-toolbar">
+      ${topicButtons(topic)}
+      <div class="bank-search">
+        <label for="bankSearch">Search questions</label>
+        <input id="bankSearch" type="search" value="${esc(search)}" placeholder="Search a concept or question">
+      </div>
+    </section>
+    <div id="bankList">${bankItems()}</div>`);
+}
+
+function progressPage() {
+  const attempts = progress.attempts;
+  const seen = BANK.filter((q) => progress.stats[q.id]).length;
+  const right = attempts.filter((attempt) => attempt.correct).length;
+  const rows = TOPICS.map((t) => {
+    const bank = BANK.filter((q) => q.module === t.id);
+    const count = bank.filter((q) => progress.stats[q.id]).length;
+    const missed = bank.filter(
+      (q) => progress.stats[q.id]?.lastCorrect === false
+    ).length;
+    const recent = attempts
+      .filter((attempt) => attempt.module === t.id)
+      .slice(-20);
+    const accuracy = recent.length
+      ? Math.round(
+          (100 * recent.filter((attempt) => attempt.correct).length) /
+            recent.length
+        ) + '%'
+      : '—';
+    return `<tr><th scope="row">${t.id}. ${t.name}</th><td>${count} / ${bank.length}</td>
+      <td>${accuracy}<small>${recent.length ? `Last ${recent.length} answers` : 'No answers yet'}</small></td>
+      <td>${missed}</td><td><button class="secondary" data-start-topic="${t.id}" aria-label="Practice ${t.name}">Practice</button></td></tr>`;
+  }).join('');
+  shell(`<div class="page-heading">${heading('Study progress')}</div>
+    <section class="stat-strip">
+      <div><strong>${seen}<span> / ${BANK.length}</span></strong><span>Questions answered</span></div>
+      <div><strong>${attempts.length}</strong><span>Recorded answers</span></div>
+      <div><strong>${attempts.length ? Math.round((right / attempts.length) * 100) + '%' : '—'}</strong><span>Answer accuracy</span></div>
+    </section>
+    <section class="progress-table-wrap"><table class="progress-table">
+      <caption>Progress by module</caption>
+      <thead><tr><th scope="col">Module</th><th scope="col">Coverage</th><th scope="col">Recent accuracy</th><th scope="col">Needs review</th><th scope="col">Practice</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></section>
+    <section class="backup-panel">
+      <div><h2>Move progress between browsers</h2><p>Importing replaces the study history in this browser.</p></div>
+      <div class="actions">
+        <button class="secondary" data-action="export">Export progress</button>
+        <button class="secondary" data-action="import">Import progress</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+        <p id="importStatus" class="small" role="status"></p>
+      </div>
+    </section>`);
+}
+
+function info() {
+  shell(`<div class="page-heading">
+    ${heading('Final exam scope')}
+    <p>Based on Nauman Chaudhry’s module conclusions, checked ${SCOPE.checked}. The game uses original practice questions.</p>
+  </div>
+  <div class="info-grid">
+    <section class="info-panel">
+      <h2>Canvas schedule</h2>
+      <dl><div><dt>Finals module opens</dt><dd>${SCOPE.unlocks}</dd></div>
+        <div><dt>Due date shown</dt><dd>${SCOPE.due}</dd></div>
+        <div><dt>Weight</dt><dd>20% of the course grade</dd></div>
+        <div><dt>Proctoring</dt><dd>Remote</dd></div></dl>
+      <a href="${SCOPE.modules}" target="_blank" rel="noopener">Open Canvas modules</a>
+      <a href="${SCOPE.syllabus}" target="_blank" rel="noopener">Open the syllabus</a>
+    </section>
+    <section class="info-panel">
+      <h2>Timed drill settings</h2>
+      <p>The drill gives you ${DRILL.questions} questions in ${DRILL.minutes} minutes, with six questions per module. Answers and explanations appear after you finish.</p>
+      <p>The Finals Module was locked when checked. Use Canvas for the actual exam duration and question format.</p>
+    </section>
+  </div>
+  <section class="scope-list">
+    <h2>What to review</h2>
+    ${TOPICS.map(
+      (t) => `<article><h3>Module ${t.id} · ${t.name}</h3><p>${t.scope}</p>
+      ${sourceLink(t.id, 'Module ' + t.id + ' conclusion')}</article>`
+    ).join('')}
+  </section>`);
+}
+
+function go(p) {
+  page = p;
+  (
+    ({
+      home,
+      notes,
+      bank: bankPage,
+      progress: progressPage,
+      info,
+      session: renderQuestion,
+      summary,
+    })[p] ?? home
+  )();
+  window.scrollTo({ top: 0, behavior: 'auto' });
+  $('#main h1')?.focus({ preventScroll: true });
+}
+function start(kind = 'practice', t = topic) {
+  session = createSession(BANK, progress, {
+    kind,
+    topic: kind === 'exam' ? 0 : t,
+  });
+  save();
+  renderQuestion();
+  $('#questionTitle')?.focus({ preventScroll: true });
+  window.scrollTo(0, 0);
+}
+function current() {
+  return byId.get(session.ids[session.index]);
+}
+function check() {
+  if (!session || session.finished || session.kind === 'exam') return;
+  const q = current();
+  if (!answered(q, session.answers[q.id]) || session.checked[q.id]) return;
+  session.checked[q.id] = true;
+  record(progress, q, session.answers[q.id], { key: `${session.id}:${q.id}` });
+  save();
+  renderQuestion();
+  $('#feedbackTitle')?.focus();
+}
+function next() {
+  if (!session) return;
+  if (session.kind !== 'exam') {
+    if (!advancePracticeSession(session, BANK, progress)) return;
+    save();
+    renderQuestion();
+    $('#questionTitle')?.focus({ preventScroll: true });
+  } else if (session.index === session.ids.length - 1) askFinish();
+  else {
+    session.index++;
+    save();
+    renderQuestion();
+    $('#questionTitle')?.focus({ preventScroll: true });
+  }
+  window.scrollTo(0, 0);
+}
+function askFinish() {
+  const s = summarize(session, BANK);
+  $('#finishText').textContent =
+    `${s.complete} of ${s.total} questions answered.${s.complete < s.total ? ` ${s.total - s.complete} unanswered questions will count as incorrect.` : ''} You can review every explanation afterward.`;
+  $('#finishDialog').showModal();
+}
+function finish() {
+  finishSession(session, BANK, progress);
+  save();
+  summary();
+  window.scrollTo(0, 0);
+  $('#main h1')?.focus();
+}
+function tick() {
+  if (!session || session.finished || session.kind !== 'exam') return;
+  const left = Math.max(0, session.deadline - Date.now());
+  if (left === 0) {
+    finish();
+    return;
+  }
+  const n = $('#clock');
+  if (n) {
+    const sec = Math.ceil(left / 1000);
+    n.textContent = `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')} left`;
+    n.classList.toggle('urgent', left < 300000);
+  }
+}
+setInterval(tick, 1000);
+let pendingImport = null;
+document.addEventListener('click', (ev) => {
+  const b = ev.target.closest('button');
+  if (!b) return;
+  if (b.dataset.page) return go(b.dataset.page);
+  if (b.dataset.topic !== undefined) {
+    topic = Number(b.dataset.topic);
+    return page === 'bank' ? bankPage() : home();
+  }
+  if (b.dataset.note) {
+    noteTopic = Number(b.dataset.note);
+    notes();
+    return document.querySelector(`[data-note='${noteTopic}']`)?.focus();
+  }
+  if (b.dataset.learnTopic) {
+    noteTopic = Number(b.dataset.learnTopic);
+    return go('notes');
+  }
+  if (b.dataset.startTopic)
+    return start('practice', Number(b.dataset.startTopic));
+  if (b.dataset.jump !== undefined) {
+    session.index = Number(b.dataset.jump);
+    save();
+    renderQuestion();
+    return $('#questionTitle')?.focus();
+  }
+  switch (b.dataset.action) {
+    case 'practice':
+      return start();
+    case 'exam':
+      return start('exam');
+    case 'resume':
+      return go('session');
+    case 'check':
+      return check();
+    case 'next':
+      return next();
+    case 'prev':
+      session.index = Math.max(0, session.index - 1);
+      save();
+      renderQuestion();
+      return $('#questionTitle')?.focus();
+    case 'flag':
+      session.flags[current().id] = !session.flags[current().id];
+      save();
+      renderQuestion();
+      return $('.flag')?.focus();
+    case 'finish':
+      return askFinish();
+    case 'finish-confirm':
+      $('#finishDialog').close();
+      return finish();
+    case 'import':
+      return $('#importFile').click();
+    case 'export': {
+      const blob = new Blob([JSON.stringify(progress, null, 2)], {
+          type: 'application/json',
+        }),
+        url = URL.createObjectURL(blob),
+        a = document.createElement('a');
+      a.href = url;
+      a.download = `cs331-final-progress-${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      return;
+    }
+    case 'import-cancel':
+      pendingImport = null;
+      $('#importDialog').close();
+      return;
+    case 'import-confirm':
+      progress = pendingImport;
+      pendingImport = null;
+      session = null;
+      save();
+      $('#importDialog').close();
+      progressPage();
+      $('#importStatus').textContent = 'Progress imported.';
+      return;
+  }
+});
+document.addEventListener('change', async (ev) => {
+  const input = ev.target;
+  if (input.id === 'importFile') {
+    try {
+      const f = input.files[0];
+      if (!f) return;
+      input.value = '';
+      if (f.size > 5000000)
+        throw Error('Choose a progress backup smaller than 5 MB.');
+      pendingImport = validateBackup(JSON.parse(await f.text()), BANK);
+      $('#importDialog').showModal();
+    } catch (e) {
+      $('#importStatus').textContent =
+        e.message || 'The backup could not be read.';
+    }
+    return;
+  }
+  if (page !== 'session' || session.finished) return;
+  const q = current();
+  if (session.checked[q.id] && session.kind !== 'exam') return;
+  if (input.dataset.pair !== undefined) {
+    const a = session.answers[q.id] ?? Array(q.pairs.length).fill('');
+    a[Number(input.dataset.pair)] = input.value;
+    session.answers[q.id] = a;
+  } else if (input.id === 'numericAnswer') {
+    session.answers[q.id] = input.value;
+  } else if (input.name === 'answer') {
+    if (q.kind === 'multi') {
+      session.answers[q.id] = Array.from(
+        document.querySelectorAll('input[name="answer"]:checked')
+      ).map((i) => Number(i.value));
+    } else session.answers[q.id] = Number(input.value);
+    for (const label of document.querySelectorAll('.answer'))
+      label.classList.toggle('selected', label.querySelector('input').checked);
+  } else return;
+  save();
+  if (session.kind === 'exam') updateDrillProgress();
+  if (
+    session.kind !== 'exam' &&
+    q.kind !== 'multi' &&
+    answered(q, session.answers[q.id])
+  )
+    return check();
+  const checkButton = $('[data-action="check"]');
+  if (checkButton) checkButton.disabled = !answered(q, session.answers[q.id]);
+});
+document.addEventListener('input', (ev) => {
+  if (
+    ev.target.id === 'numericAnswer' &&
+    session &&
+    !session.finished &&
+    !session.checked[current().id]
+  ) {
+    session.answers[current().id] = ev.target.value;
+    save();
+    const b = $('[data-action="check"]');
+    if (b) b.disabled = !answered(current(), ev.target.value);
+  }
+  if (ev.target.id === 'bankSearch') {
+    search = ev.target.value;
+    $('#bankList').innerHTML = bankItems();
+  }
+});
+document.addEventListener('keydown', (ev) => {
+  if (
+    ev.key === 'Enter' &&
+    ev.target.id === 'numericAnswer' &&
+    page === 'session' &&
+    session &&
+    !session.finished &&
+    session.kind !== 'exam' &&
+    !ev.isComposing &&
+    !ev.repeat &&
+    !ev.ctrlKey &&
+    !ev.metaKey &&
+    !ev.altKey
+  ) {
+    ev.preventDefault();
+    return check();
+  }
+  if (
+    page !== 'session' ||
+    !session ||
+    session.finished ||
+    ev.isComposing ||
+    ev.repeat ||
+    ev.ctrlKey ||
+    ev.metaKey ||
+    ev.altKey ||
+    ev.target.closest(
+      'input,select,textarea,button,a,[contenteditable="true"]'
+    ) ||
+    document.querySelector('dialog[open]')
+  )
+    return;
+  const q = current();
+  if (
+    ev.target.id === 'questionTitle' &&
+    /^[1-9]$/.test(ev.key) &&
+    q.kind !== 'match' &&
+    q.kind !== 'number' &&
+    !session.checked[q.id]
+  ) {
+    const order = optionOrder(q, session.seed + session.index * 97),
+      i = order[Number(ev.key) - 1],
+      input = $(`#answer-${i}`);
+    if (input) {
+      input.checked = !input.checked || q.kind === 'single';
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      ev.preventDefault();
+    }
+  }
+  if (ev.key === 'Enter' && session.kind !== 'exam') {
+    ev.preventDefault();
+    session.checked[q.id] ? next() : check();
+  }
+});
+const requestedTopic = Number(
+  new URLSearchParams(location.search).get('module')
+);
+if (Number.isInteger(requestedTopic) && topicById.has(requestedTopic))
+  topic = requestedTopic;
+save();
+home();
+</script>
+  </body>
+</html>
