@@ -19,3 +19,12 @@ project's ignored private directories.
 The separate Sites publication continues using the source build without
 `--base`, preserving its existing private audience. Progress export/import is
 available in the game when moving between the two origins.
+
+## Final Lab
+
+`/331/final` uses `final.html`. It is unlisted and also carries
+`noindex,nofollow`. The editable source is in
+`/Users/stephenstanwood/Projects/cs331/final-prep`. Run `npm test` and
+`npm run build` there, then copy `dist/index.html` here as `final.html`.
+It contains original exercises aligned to the Canvas module conclusions and
+uses a separate browser progress key.
