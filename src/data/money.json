@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-27T02:10:11.468Z",
+  "lastUpdated": "2026-11-27T07:10:11.438Z",
   "apiSpend": {
     "months": [
       {
@@ -544,34 +544,34 @@
       },
       {
         "month": "2026-11",
-        "collectedAt": "2026-11-27T02:10:11.468Z",
+        "collectedAt": "2026-11-27T07:10:11.438Z",
         "services": {
           "vercel": {
-            "totalCents": 8413,
+            "totalCents": 8523,
             "breakdown": [
               {
                 "name": "Build CPU Minutes",
-                "cents": 6726
+                "cents": 6814
               },
               {
                 "name": "Blob Data Transfer",
-                "cents": 828
+                "cents": 838
               },
               {
                 "name": "Fast Origin Transfer",
-                "cents": 527
+                "cents": 534
               },
               {
                 "name": "Fluid Provisioned Memory",
-                "cents": 111
+                "cents": 112
               },
               {
                 "name": "Fluid Active CPU",
-                "cents": 82
+                "cents": 83
               },
               {
                 "name": "Web Analytics Events",
-                "cents": 74
+                "cents": 76
               },
               {
                 "name": "CDN Requests - Additional CPU Duration",
@@ -579,7 +579,7 @@
               },
               {
                 "name": "Function Invocations",
-                "cents": 14
+                "cents": 15
               },
               {
                 "name": "Blob Simple Operations",
