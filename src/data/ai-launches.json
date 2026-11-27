@@ -1,11 +1,35 @@
 [
   {
+    "name": "Ming-Image-0.2-Design",
+    "org": "inclusionAI",
+    "date": "2026-11-26",
+    "type": "model",
+    "summary": "Generate storefront banners or interface mockups with text in the image. Download the MIT-licensed weights, including a compressed version for ComfyUI.",
+    "url": "https://huggingface.co/inclusionAI/Ming-Image-0.2-Design"
+  },
+  {
+    "name": "Pax",
+    "org": "Pydantic",
+    "date": "2026-11-25",
+    "type": "tool",
+    "summary": "Resume a Claude Code or Codex session in a terminal coding agent that lets you switch models. Install the open-source beta and connect an API key, a ChatGPT subscription, or GitHub Copilot.",
+    "url": "https://pydantic.dev/articles/pax-harness-beta"
+  },
+  {
+    "name": "Kandinsky ImageSR 2.0",
+    "org": "Kandinsky Lab",
+    "date": "2026-11-25",
+    "type": "model",
+    "summary": "Enlarge a small image to twice or four times its original dimensions for a product page or print layout. Try the browser demo on Hugging Face or run the model on an NVIDIA GPU.",
+    "url": "https://huggingface.co/kandinskylab/Kandinsky-ImageSR-2.0"
+  },
+  {
     "name": "Install artifacts as apps",
     "org": "Anthropic",
     "date": "2026-11-24",
     "type": "tool",
-    "summary": "Turn a Claude artifact into a desktop app on Mac or Windows, with menu bar or tray access, notifications, and keyboard shortcuts. It's a beta on Claude plans and uses your existing account, so no API key is needed.",
-    "url": "https://www.eweek.com/news/claude-artifacts-install-as-app-mac-windows/"
+    "summary": "Turn a Claude artifact into a desktop app on Mac or Windows with notifications and keyboard shortcuts. The beta is rolling out across Claude plans and requires you to be online and signed in.",
+    "url": "https://claude.com/resources/articles/install-as-app"
   },
   {
     "name": "Ternary Bonsai 2.5 27B",
@@ -24,12 +48,12 @@
     "url": "https://sand.ai/blog/magi-2"
   },
   {
-    "name": "GLM-5.4",
-    "org": "Z.ai",
-    "date": "2026-11-23",
+    "name": "Niji 8",
+    "org": "Midjourney and Spellbrush",
+    "date": "2026-11-24",
     "type": "model",
-    "summary": "Hand your coding agent a screenshot, screen recording, or big codebase and have it build from there. It works inside Claude Code, Codex, and OpenCode on every GLM Coding Plan, starting at $18 a month.",
-    "url": "https://docs.z.ai/guides/llm/glm-5.4"
+    "summary": "Keep a character recognizable across comic panels by giving the editor a character sheet and a new background. Select Niji 8 in the web app’s Version menu.",
+    "url": "https://nijijourney.com/blog/niji-8"
   },
   {
     "name": "OCRia-nano-1",
@@ -38,29 +62,5 @@
     "type": "model",
     "summary": "Turn scanned PDFs into Markdown with tables intact, right on your laptop with no GPU or API key. It installs through the open-source LiteParse tool and is free for personal use and businesses under $2M in revenue and funding.",
     "url": "https://www.llamaindex.ai/blog/introducing-ocria-nano-1"
-  },
-  {
-    "name": "Inkling 2 Mini",
-    "org": "Thinking Machines Lab",
-    "date": "2026-11-20",
-    "type": "model",
-    "summary": "Build a web prototype or get help debugging from a screenshot, even offline. Run the model with Ollama on a Mac with at least 32 GB of memory, or try it in the Tinker Playground.",
-    "url": "https://thinkingmachines.ai/news/inkling-2-mini/"
-  },
-  {
-    "name": "Ideogram 4.6",
-    "org": "Ideogram",
-    "date": "2026-11-19",
-    "type": "model",
-    "summary": "Recolor a product to match your brand or touch up one part of a photo, with output up to 4K. Try it in the app or use the API, where edits start at $0.008.",
-    "url": "https://ideogram.ai/models/4.6/"
-  },
-  {
-    "name": "Gemini computer use for Mac",
-    "org": "Google",
-    "date": "2026-11-19",
-    "type": "tool",
-    "summary": "Hand off repetitive Mac chores like filling forms, renaming files, or working across apps and sites while you keep using your screen. Gemini runs in a background window, and you approve key steps. Requires a Google AI Plus, Pro, or Ultra plan (US).",
-    "url": "https://blog.google/innovation-and-ai/products/gemini-app/computer-use-mac/"
   }
 ]
