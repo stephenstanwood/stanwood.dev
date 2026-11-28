@@ -2,6 +2,7 @@
 import json
 import re
 from datetime import timedelta
+from pathlib import Path
 
 # Ten searches per run (one per lane), each lane rotating through three angles.
 # The lanes span the whole interest map so no single genre can take over the
@@ -131,7 +132,7 @@ def similar(a, b):
     aa, bb = title_tokens(a), title_tokens(b)
     return bool(aa and bb) and len(aa & bb) / min(len(aa), len(bb)) >= 0.7
 
-def load_history(path):
+def load_json_state(path: Path) -> dict:
     try:
         value = json.loads(path.read_text())
         return value if isinstance(value, dict) else {}

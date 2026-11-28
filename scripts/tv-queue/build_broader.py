@@ -48,11 +48,13 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections.abc import Iterator
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from selection import TOPICS, choose_edit, discovery_searches, load_json_state, save_history, topic_key
+
 HERE = Path(os.environ.get("TV_QUEUE_STATE_DIR", Path.home() / ".claude/scheduled-tasks/stanford-queue"))
-from selection import TOPICS, choose_edit, discovery_searches, load_history, save_history, topic_key
 
 EPISODE_PATTERNS = [
     re.compile(r"^\s*(\d+)\s*[:\.\-–—]"),
@@ -273,16 +275,20 @@ INTEREST_WEIGHTS: dict[str, tuple[int, list[str]]] = {
 
 
 # --- API helpers ---------------------------------------------------------
-def load_env() -> None:
-    env_path = HERE / ".env"
-    if not env_path.exists():
+def env_file_entries(path: Path) -> Iterator[tuple[str, str]]:
+    if not path.exists():
         return
-    for line in env_path.read_text().splitlines():
-        line = line.strip()
+    for raw in path.read_text().splitlines():
+        line = raw.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue
-        k, v = line.split("=", 1)
-        os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+        key, value = line.split("=", 1)
+        yield key.strip(), value.strip().strip('"').strip("'")
+
+
+def load_env() -> None:
+    for key, value in env_file_entries(HERE / ".env"):
+        os.environ.setdefault(key, value)
 
 
 def load_hidden_ids(kind: str) -> set[str]:
@@ -490,28 +496,6 @@ def apply_channel_weight(base_score: int, channel_weight: float) -> float:
     return base_score * w
 
 
-def load_env_values(path: Path) -> dict[str, str]:
-    """Read a simple KEY=VALUE env file without mutating this process."""
-    values: dict[str, str] = {}
-    if not path.exists():
-        return values
-    for raw in path.read_text().splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        values[key.strip()] = value.strip().strip('"').strip("'")
-    return values
-
-
-def load_json_state(path: Path) -> dict:
-    try:
-        value = json.loads(path.read_text())
-        return value if isinstance(value, dict) else {}
-    except (OSError, ValueError):
-        return {}
-
-
 def save_json_state(path: Path, value: dict) -> None:
     temp = path.with_suffix(".tmp")
     temp.write_text(json.dumps(value, indent=1, ensure_ascii=False) + "\n")
@@ -572,7 +556,7 @@ CANDIDATES_JSON:
 
 
 def claude_cli() -> tuple[str, str] | None:
-    proxy_env = load_env_values(Path.home() / "Projects" / "mini-claude-proxy" / ".env")
+    proxy_env = dict(env_file_entries(Path.home() / "Projects" / "mini-claude-proxy" / ".env"))
     claude_bin = proxy_env.get("CLAUDE_BIN")
     oauth_token = proxy_env.get("CLAUDE_CODE_OAUTH_TOKEN")
     if not claude_bin or not oauth_token or not Path(claude_bin).exists():
@@ -580,20 +564,24 @@ def claude_cli() -> tuple[str, str] | None:
     return claude_bin, oauth_token
 
 
-def editorial_payload(v: dict) -> dict:
-    fb = v.get("feedback_mult", 1.0)
-    history = "liked before" if fb > 1.02 else "passed before" if fb < 0.98 else "none"
+def editorial_payload(video: dict) -> dict:
+    feedback_multiplier = video.get("feedback_mult", 1.0)
+    creator_history = "none"
+    if feedback_multiplier > 1.02:
+        creator_history = "liked before"
+    elif feedback_multiplier < 0.98:
+        creator_history = "passed before"
     return {
-        "id": v["id"],
-        "title": v["title"],
-        "channel": v["channel_title"],
-        "source": "trusted creator" if v.get("source") == "trusted" else "open search",
-        "creator_history": history,
-        "minutes": round(v.get("duration", 0) / 60),
-        "age_days": round(v.get("age_days", 0), 1),
-        "views_per_day": v.get("views_per_day"),
-        "likes_per_100_views": round(v.get("engagement_rate", 0) * 100, 2),
-        "description": v.get("description", "")[:300],
+        "id": video["id"],
+        "title": video["title"],
+        "channel": video["channel_title"],
+        "source": "trusted creator" if video.get("source") == "trusted" else "open search",
+        "creator_history": creator_history,
+        "minutes": round(video.get("duration", 0) / 60),
+        "age_days": round(video.get("age_days", 0), 1),
+        "views_per_day": video.get("views_per_day"),
+        "likes_per_100_views": round(video.get("engagement_rate", 0) * 100, 2),
+        "description": video.get("description", "")[:300],
     }
 
 
@@ -906,7 +894,7 @@ def build() -> None:
 
     now = datetime.now(timezone.utc)
     searches = discovery_searches(now)
-    history = load_history(HERE / "selection_history.json")
+    history = load_json_state(HERE / "selection_history.json")
     cutoff = now - timedelta(days=LOOKBACK_DAYS)
 
     # 1) Pull the trusted-channel baseline.
@@ -1237,6 +1225,8 @@ def build() -> None:
     temp_path = out_path.with_suffix(".tmp")
     temp_path.write_text(json.dumps(output, indent=2))
     temp_path.replace(out_path)
+    # CLEANUP-FLAG: nightly.py validates and publishes after history is saved.
+    # A rejected or failed publish can still count these picks toward repeat limits.
     save_history(HERE / "selection_history.json", history, queue, now)
     print(f"wrote {out_path} — {len(queue)} videos ({len(queue)} core + 0 exploration; "
           f"{queue_discovery_count} open-discovery; {len(pool)} in reserve)", file=sys.stderr)

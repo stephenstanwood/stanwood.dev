@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
-from selection import (TOPICS, choose_edit, discovery_searches, load_history, save_history,
+from selection import (TOPICS, choose_edit, discovery_searches, load_json_state, save_history,
                        theme_key, topic_key)
 
 NOW = datetime(2026, 9, 28, tzinfo=timezone.utc)
@@ -60,7 +60,7 @@ class SelectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "history.json"
             save_history(path, {"2026-01-01": []}, [candidate], NOW)
-            history = load_history(path)
+            history = load_json_state(path)
             self.assertEqual(list(history), ["2026-09-28"])
             self.assertEqual(choose_edit([candidate], history, NOW)[0], [candidate])
 
