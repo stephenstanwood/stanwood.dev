@@ -1,5 +1,21 @@
 [
   {
+    "name": "v2.video",
+    "org": "Agent Native",
+    "date": "2026-11-27",
+    "type": "tool",
+    "summary": "Compare and restore cuts of a video you’re making with Claude Code or Codex. This open-source Mac and Linux tool saves the prompts behind each edit and lets you leave notes at specific moments.",
+    "url": "https://github.com/agentnativeinc/v2"
+  },
+  {
+    "name": "GigaEdge Enhance",
+    "org": "Sber",
+    "date": "2026-11-27",
+    "type": "tool",
+    "summary": "Cut background noise in your app’s calls and recordings as people speak. The open-source kit runs in browsers and on iOS and Android, so audio can stay on the device.",
+    "url": "https://github.com/salute-developers/giga-edge-enhance"
+  },
+  {
     "name": "Ming-Image-0.2-Design",
     "org": "inclusionAI",
     "date": "2026-11-26",
@@ -14,14 +30,6 @@
     "type": "tool",
     "summary": "Resume a Claude Code or Codex session in a terminal coding agent that lets you switch models. Install the open-source beta and connect an API key, a ChatGPT subscription, or GitHub Copilot.",
     "url": "https://pydantic.dev/articles/pax-harness-beta"
-  },
-  {
-    "name": "Kandinsky ImageSR 2.0",
-    "org": "Kandinsky Lab",
-    "date": "2026-11-25",
-    "type": "model",
-    "summary": "Enlarge a small image to twice or four times its original dimensions for a product page or print layout. Try the browser demo on Hugging Face or run the model on an NVIDIA GPU.",
-    "url": "https://huggingface.co/kandinskylab/Kandinsky-ImageSR-2.0"
   },
   {
     "name": "Install artifacts as apps",
@@ -46,14 +54,6 @@
     "type": "model",
     "summary": "Make a video of up to 30 seconds in 1080p with matching sound in one pass, guided by your own images, clips, or audio. Use it now on Higgsfield, where the API runs $0.08 per second.",
     "url": "https://sand.ai/blog/magi-2"
-  },
-  {
-    "name": "Niji 8",
-    "org": "Midjourney and Spellbrush",
-    "date": "2026-11-24",
-    "type": "model",
-    "summary": "Keep a character recognizable across comic panels by giving the editor a character sheet and a new background. Select Niji 8 in the web app’s Version menu.",
-    "url": "https://nijijourney.com/blog/niji-8"
   },
   {
     "name": "OCRia-nano-1",
